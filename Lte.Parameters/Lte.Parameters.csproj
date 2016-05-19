@@ -31,6 +31,10 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -295,10 +299,6 @@
     <ProjectReference Include="..\AutoMapper\AutoMapper.csproj">
       <Project>{75c9d4b5-2117-4b06-a6b1-70afcd6b3bfc}</Project>
       <Name>AutoMapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Castle.Windsor\Castle.Windsor.csproj">
-      <Project>{73fb5b0b-5796-41dc-a5a6-743d585f6b5b}</Project>
-      <Name>Castle.Windsor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lte.Domain\Lte.Domain.csproj">
       <Project>{adeef82d-6389-47c4-8f7c-d7f85c01d64e}</Project>

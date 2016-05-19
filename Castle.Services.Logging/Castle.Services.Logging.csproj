@@ -34,7 +34,8 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>CastleKey.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NLog">
@@ -53,14 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NLogIntegration\ExtendedNLogFactory.cs" />
-    <Compile Include="NLogIntegration\ExtendedNLogLogger.cs" />
-    <Compile Include="NLogIntegration\GlobalContextProperties.cs" />
-    <Compile Include="NLogIntegration\NLogFactory.cs" />
-    <Compile Include="NLogIntegration\NLogLogger.cs" />
-    <Compile Include="NLogIntegration\ThreadContextProperties.cs" />
-    <Compile Include="NLogIntegration\ThreadContextStack.cs" />
-    <Compile Include="NLogIntegration\ThreadContextStacks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -68,9 +61,6 @@
       <Project>{7caa6d18-6d6f-4786-ac4f-e575ce1e100e}</Project>
       <Name>Castle.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CastleKey.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
