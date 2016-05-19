@@ -37,7 +37,7 @@ namespace Lte.Evaluations.DataService.Mr
         {
             var cell = _cellRepository.GetBySectorId(eNodebId, sectorId);
             var pci = cell?.Pci ?? 0;
-            return _repository.GetList(eNodebId, pci, date);
+            return _repository.GetList(eNodebId, pci, date).OrderBy(x=>x.CurrentDate).ToList();
         }
 
         private List<ICellStastic> QueryDateSpanStatList(int eNodebId, short pci, DateTime begin, DateTime end)

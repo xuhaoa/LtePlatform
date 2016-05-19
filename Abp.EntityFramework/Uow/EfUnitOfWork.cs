@@ -56,7 +56,8 @@ namespace Abp.EntityFramework.Uow
 
         public override void SaveChanges()
         {
-            ActiveDbContexts.Values.ForEach(SaveChangesInDbContext);
+            foreach (var value in ActiveDbContexts.Values)
+                SaveChangesInDbContext(value);
         }
 
         public override async Task SaveChangesAsync()
@@ -70,19 +71,13 @@ namespace Abp.EntityFramework.Uow
         protected override void CompleteUow()
         {
             SaveChanges();
-            if (CurrentTransaction != null)
-            {
-                CurrentTransaction.Complete();
-            }
+            CurrentTransaction?.Complete();
         }
 
         protected override async Task CompleteUowAsync()
         {
             await SaveChangesAsync();
-            if (CurrentTransaction != null)
-            {
-                CurrentTransaction.Complete();
-            }
+            CurrentTransaction?.Complete();
         }
 
         protected override void ApplyDisableFilter(string filterName)
@@ -156,12 +151,10 @@ namespace Abp.EntityFramework.Uow
 
         protected override void DisposeUow()
         {
-            ActiveDbContexts.Values.ForEach(Release);
+            foreach(var value in ActiveDbContexts.Values)
+                Release(value);
 
-            if (CurrentTransaction != null)
-            {
-                CurrentTransaction.Dispose();
-            }
+            CurrentTransaction?.Dispose();
         }
 
         protected virtual void SaveChangesInDbContext(DbContext dbContext)
