@@ -861,6 +861,7 @@
     <Content Include="Scripts\qunit\qunit-1.20.0.js" />
     <Content Include="Scripts\rutrace\cell.trend.js" />
     <Content Include="Scripts\rutrace\coverage\controller.js" />
+    <Content Include="Scripts\rutrace\coverage\details.dialog.js" />
     <Content Include="Scripts\rutrace\dump\cell.mongo.js" />
     <Content Include="Scripts\rutrace\index.controller.js" />
     <Content Include="Scripts\rutrace\interference\source.db.chart.js" />

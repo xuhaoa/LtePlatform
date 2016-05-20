@@ -1,4 +1,4 @@
-﻿app.controller("rutrace.coverage", function($scope, $timeout, $routeParams, topPreciseService) {
+﻿app.controller("rutrace.coverage", function($scope, $timeout, $routeParams, $uibModal, $log, topPreciseService) {
     $scope.currentCellName = $routeParams.name + "-" + $routeParams.sectorId;
     $scope.page.title = "TOP指标覆盖分析: " + $scope.currentCellName;
     var lastWeek = new Date();
@@ -18,8 +18,31 @@
         });
     };
     $scope.showDetails = function(date) {
-        topPreciseService.queryOneDayCellStastic($routeParams.cellId, $routeParams.sectorId, date).then(function(result) {
-            console.log(result);
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '/appViews/Rutrace/Coverage/DetailsChartDialog.html',
+            controller: 'coverage.details.dialog',
+            size: 'lg',
+            resolve: {
+                dialogTitle: function () {
+                    return $routeParams.name + "-" + $routeParams.sectorId + "详细小区统计";
+                },
+                cellId: function () {
+                    return $routeParams.cellId;
+                },
+                sectorId: function () {
+                    return $routeParams.sectorId;
+                },
+                date: function() {
+                    return date;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (info) {
+            console.log(info);
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
         });
     };
     $scope.showCoverage();
