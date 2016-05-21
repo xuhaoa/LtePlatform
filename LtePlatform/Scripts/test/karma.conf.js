@@ -15,8 +15,15 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-        'jasmineTest.js',
-        'example.js'
+        //'jasmineTest.js',
+        //'example.js',
+        '../angular.min.js',
+        '../angular-mocks.js',
+        '../highcharts/highcharts.js',
+        '../highcharts/themes/*.js',
+        '../mycharts/*.js',
+        '../service/*.js',
+        'kpi/*.js'
     ],
 
 
