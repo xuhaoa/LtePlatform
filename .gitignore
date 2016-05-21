@@ -122,3 +122,4 @@ uploads/
 /Lte.Parameters.Test/bin/Release
 /LtePlatform/bin
 /LtePlatform.Tests/bin/Release
+/LtePlatform/Scripts/test/node_modules/karma/node_modules/chokidar/node_modules/anymatch/node_modules/micromatch/node_modules/braces/node_modules/expand-range/node_modules/fill-range/node_modules/isobject/node_modules/isarray/package.json
