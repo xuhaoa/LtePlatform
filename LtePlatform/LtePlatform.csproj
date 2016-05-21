@@ -895,6 +895,9 @@
     <Content Include="Scripts\service\topic\college.js" />
     <Content Include="Scripts\service\topic\college.map.service.js" />
     <Content Include="Scripts\service\workitem.service.js" />
+    <Content Include="Scripts\test\example.js" />
+    <Content Include="Scripts\test\jasmineTest.js" />
+    <Content Include="Scripts\test\karma.conf.js" />
     <Content Include="template\accordion\accordion-group.html" />
     <Content Include="template\accordion\accordion.html" />
     <Content Include="template\alert\alert.html" />
