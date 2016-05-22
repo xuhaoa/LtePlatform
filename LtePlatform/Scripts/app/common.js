@@ -19,6 +19,7 @@
     'ngRoute',
     'parametersMap',
     'parameters.chart',
+    'rutrace.module',
     "ui.bootstrap",
     'ui.router'
 ]);

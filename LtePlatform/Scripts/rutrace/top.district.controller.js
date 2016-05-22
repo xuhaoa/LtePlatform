@@ -51,16 +51,7 @@
             }
         }
     };
-    $scope.createWorkitem = function (cell) {
-        workitemService.constructPreciseItem(cell, $scope.beginDate.value, $scope.endDate.value).then(function (result) {
-            if (result) {
-                $scope.updateMessages.push({
-                    cellName: result
-                });
-                cell.hasWorkItems = true;
-            }
-        });
-    };
+    
     $scope.closeAlert = function (index) {
         $scope.updateMessages.splice(index, 1);
     };

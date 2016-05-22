@@ -497,7 +497,6 @@
     <Content Include="appViews\Rutrace\Interference\Victim.html" />
     <Content Include="appViews\Rutrace\Map\Index.html" />
     <Content Include="appViews\Rutrace\Top.html" />
-    <Content Include="appViews\Rutrace\TopTable.html" />
     <Content Include="appViews\Rutrace\Trend.html" />
     <Content Include="appViews\Rutrace\TrendChart.html" />
     <Content Include="appViews\Rutrace\WorkItem\AnalyticDetails.html" />
@@ -578,6 +577,7 @@
     <Content Include="Areas\TestPage\Scripts\qunit\route.js" />
     <Content Include="Content\themes\qunit.css" />
     <Content Include="Content\themes\ui-bootstrap.css" />
+    <Content Include="directives\rutrace\rutrace.module.js" />
     <Content Include="Scripts\angular-ui\uib\alert.js" />
     <Content Include="Areas\TestPage\Scripts\angular\chap10.viewmodel.js" />
     <Content Include="Areas\TestPage\Scripts\angular\datetime.test.controller.js" />
@@ -1057,9 +1057,7 @@
     <Content Include="Scripts\highcharts\adapters\standalone-framework.js" />
     <Content Include="Scripts\highcharts\adapters\standalone-framework.src.js" />
     <Content Include="Scripts\highcharts\highcharts-ng.js" />
-    <Content Include="Scripts\highcharts\highstock-all.js" />
     <Content Include="Scripts\highcharts\highstock.js" />
-    <Content Include="Scripts\highcharts\highstock.src.js" />
     <Content Include="Scripts\highcharts\themes\dark-blue.js" />
     <Content Include="Scripts\highcharts\themes\dark-green.js" />
     <Content Include="Scripts\highcharts\themes\dark-unica.js" />
@@ -1067,9 +1065,7 @@
     <Content Include="Scripts\highcharts\themes\grid-light.js" />
     <Content Include="Scripts\highcharts\themes\grid.js" />
     <Content Include="Scripts\highcharts\highcharts-3d.js" />
-    <Content Include="Scripts\highcharts\highcharts-3d.src.js" />
     <Content Include="Scripts\highcharts\highcharts-more.js" />
-    <Content Include="Scripts\highcharts\highcharts-more.src.js" />
     <Content Include="Scripts\highcharts\highcharts.js" />
     <Content Include="Scripts\highcharts\modules\boost.js" />
     <Content Include="Scripts\highcharts\modules\boost.src.js" />
@@ -1323,6 +1319,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="directives\rutrace\TopCell.Tpl.html" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
