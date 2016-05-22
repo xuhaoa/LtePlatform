@@ -19,8 +19,7 @@ module.exports = function(config) {
         //'example.js',
         '../angular.min.js',
         '../angular-mocks.js',
-        '../highcharts/highcharts.js',
-        '../highcharts/themes/*.js',
+        'mock/*.js',
         '../mycharts/*.js',
         '../service/*.js',
         'kpi/*.js'

@@ -609,14 +609,13 @@
                 var firstNeighbors = [];
                 var secondNeighbors = [];
                 var thirdNeighbors = [];
-                for (var i = 0; i < stats.length; i++) {
-                    var stat = stats[i];
+                angular.forEach(stats, function(stat) {
                     statDates.push(stat.dateString);
                     mrStats.push(stat.totalMrs);
                     firstNeighbors.push(stat.firstNeighbors);
                     secondNeighbors.push(stat.secondNeighbors);
                     thirdNeighbors.push(stat.thirdNeighbors);
-                }
+                });
                 chart.xAxis[0].categories = statDates;
                 chart.yAxis[0].title.text = "MR数量";
                 chart.xAxis[0].title.text = '日期';
