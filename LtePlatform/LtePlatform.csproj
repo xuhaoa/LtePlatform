@@ -727,6 +727,7 @@
     <Content Include="Scripts\angular-ui\customize\directive.datetimepicker.js" />
     <Content Include="Scripts\angular-ui\customize\directive.public.js" />
     <Content Include="Scripts\angular-ui\customize\directive.panel.js" />
+    <Content Include="Scripts\mycharts\gaugeMeter.js" />
     <Content Include="Scripts\service\dump.progress.factory.js" />
     <Content Include="Scripts\angular-ui\local\bootstrap-datetimepicker.ar.js" />
     <Content Include="Scripts\angular-ui\local\bootstrap-datetimepicker.bg.js" />
@@ -933,7 +934,6 @@
     <Content Include="Scripts\angular-ui\ui-utils-ieshiv.min.js" />
     <Content Include="Scripts\angular-ui\ui-utils.js" />
     <Content Include="Scripts\angular-ui\ui-utils.min.js" />
-    <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\base64-string.js" />
     <Content Include="Scripts\app\html5csv.js" />
