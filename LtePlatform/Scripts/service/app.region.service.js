@@ -122,6 +122,11 @@
                     function (a) { return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
                 return date;
             },
+            getUTCTime: function(strDate) {
+                var date = eval('new Date(' + strDate.replace(/\d+(?=-[^-]+$)/,
+                    function (a) { return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
+                return Date.UTC(date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), 0, 0);
+            },
             getDateString: function(dateTime, fmt) {
                 var o = {
                     "M+": dateTime.getMonth() + 1, //月份 

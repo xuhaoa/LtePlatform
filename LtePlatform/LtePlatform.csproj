@@ -728,6 +728,7 @@
     <Content Include="Scripts\angular-ui\customize\directive.public.js" />
     <Content Include="Scripts\angular-ui\customize\directive.panel.js" />
     <Content Include="Scripts\mycharts\gaugeMeter.js" />
+    <Content Include="Scripts\mycharts\timeSeriesLine.js" />
     <Content Include="Scripts\service\dump.progress.factory.js" />
     <Content Include="Scripts\angular-ui\local\bootstrap-datetimepicker.ar.js" />
     <Content Include="Scripts\angular-ui\local\bootstrap-datetimepicker.bg.js" />
@@ -1070,7 +1071,6 @@
     <Content Include="Scripts\highcharts\highcharts-more.js" />
     <Content Include="Scripts\highcharts\highcharts-more.src.js" />
     <Content Include="Scripts\highcharts\highcharts.js" />
-    <Content Include="Scripts\highcharts\highcharts.src.js" />
     <Content Include="Scripts\highcharts\modules\boost.js" />
     <Content Include="Scripts\highcharts\modules\boost.src.js" />
     <Content Include="Scripts\highcharts\modules\broken-axis.js" />
@@ -1080,9 +1080,7 @@
     <Content Include="Scripts\highcharts\modules\data.js" />
     <Content Include="Scripts\highcharts\modules\data.src.js" />
     <Content Include="Scripts\highcharts\modules\drilldown.js" />
-    <Content Include="Scripts\highcharts\modules\drilldown.src.js" />
     <Content Include="Scripts\highcharts\modules\exporting.js" />
-    <Content Include="Scripts\highcharts\modules\exporting.src.js" />
     <Content Include="Scripts\highcharts\modules\funnel.js" />
     <Content Include="Scripts\highcharts\modules\funnel.src.js" />
     <Content Include="Scripts\highcharts\modules\heatmap.js" />

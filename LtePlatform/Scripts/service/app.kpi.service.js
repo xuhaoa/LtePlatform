@@ -1,4 +1,4 @@
-﻿angular.module('myApp.kpi', ['myApp.url'])
+﻿angular.module('myApp.kpi', ['myApp.url', 'myApp.region'])
     .factory('appKpiService', function ($q, $http, appUrlService) {
         var accumulatePreciseStat = function (source, accumulate) {
             source.totalMrs += accumulate.totalMrs;
@@ -563,7 +563,7 @@
             }
         };
     })
-    .factory('cellPreciseService', function($q, $http, appUrlService) {
+    .factory('cellPreciseService', function($q, $http, appUrlService, appFormatService) {
         return{
             queryDataSpanKpi: function (begin, end, cellId, sectorId) {
                 var deferred = $q.defer();
@@ -648,13 +648,12 @@
                 var firstRate = [];
                 var secondRate = [];
                 var thirdRate = [];
-                for (var i = 0; i < stats.length; i++) {
-                    var stat = stats[i];
+                angular.forEach(stats, function(stat) {
                     statDates.push(stat.dateString);
                     firstRate.push(100 - parseFloat(stat.firstRate));
                     secondRate.push(100 - parseFloat(stat.secondRate));
                     thirdRate.push(100 - parseFloat(stat.thirdRate));
-                }
+                });
                 chart.xAxis[0].categories = statDates;
                 chart.xAxis[0].title.text = '日期';
                 chart.yAxis[0].title.text = "精确覆盖率";
@@ -672,6 +671,34 @@
                     type: "spline",
                     name: "第三邻区精确覆盖率",
                     data: thirdRate
+                });
+                return chart.options;
+            },
+            getCoverageOptions: function(stats, title) {
+                var chart = new TimeSeriesLine();
+                chart.title.text = title;
+                var weakCoverageRates = [];
+                var overCoverageRates = [];
+                angular.forEach(stats, function (stat) {
+                    weakCoverageRates.push([
+                        appFormatService.getUTCTime(stat.currentDate),
+                        stat.mrCount === 0 ? null : stat.weakCoverCount / stat.mrCount * 100
+                    ]);
+                    overCoverageRates.push([
+                        appFormatService.getUTCTime(stat.currentDate),
+                        stat.mrCount === 0 ? null : stat.overCoverCount / stat.mrCount * 100
+                    ]);
+                });
+                chart.yAxis.title.text = '弱覆盖率/过覆盖率（%）';
+                chart.series.push({
+                    type: 'area',
+                    name: '弱覆盖率',
+                    data: weakCoverageRates
+                });
+                chart.series.push({
+                    type: 'area',
+                    name: '过覆盖率',
+                    data: overCoverageRates
                 });
                 return chart.options;
             }

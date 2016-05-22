@@ -49,14 +49,6 @@ namespace LtePlatform
                 "~/Scripts/angular-ui/uib/tabs.js",
                 "~/Scripts/angular-ui/uib/timepicker.js",
                 "~/Scripts/angular-ui/uib/typeahead.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/highcharts").Include(
-                "~/Scripts/Highcharts/highcharts.src.js",
-                "~/Scripts/Highcharts/highcharts-3d.js",
-                "~/Scripts/Highcharts/highcharts-more.js",
-                "~/Scripts/Highcharts/modules/exporting.js",
-                "~/Scripts/Highcharts/modules/data.js",
-                "~/Scripts/Highcharts/modules/drilldown.js"));
             
             bundles.Add(new ScriptBundle("~/bundles/dtList").Include(
                 "~/Scripts/sammy-{version}.js",
