@@ -65,9 +65,9 @@
                     firstRate: 0,
                     preciseRate: 0
                 };
-                for (var i = 0; i < districtStats.length; i++) {
-                    accumulatePreciseStat(stat, districtStats[i]);
-                }
+                angular.forEach(districtStats, function(districtStat) {
+                    accumulatePreciseStat(stat, districtStat);
+                });
                 return calculateDistrictRates(stat);
             },
             calculatePreciseRating: function(precise) {
@@ -92,17 +92,17 @@
                 chart.series[0].data = [];
                 chart.drilldown.series = [];
                 chart.series[0].name = "区域";
-                for (var i = 0; i < districtStats.length; i++) {
+                angular.forEach(districtStats, function(districtStat) {
                     var subData = [];
-                    var district = districtStats[i].district;
-                    var districtMr = districtStats[i].totalMrs;
-                    for (var j = 0; j < townStats.length; j++) {
-                        if (townStats[j].district === district) {
-                            subData.push([townStats[j].town, townStats[j].totalMrs]);
+                    var district = districtStat.district;
+                    var districtMr = districtStat.totalMrs;
+                    angular.forEach(townStats, function(townStat) {
+                        if (townStat.district === district) {
+                            subData.push([townStat.town, townStat.totalMrs]);
                         }
-                    }
+                    });
                     chart.addOneSeries(district, districtMr, subData);
-                }
+                });
                 return chart.options;
             },
             getPreciseRateOptions: function (districtStats, townStats) {

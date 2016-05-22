@@ -898,6 +898,7 @@
     <Content Include="Scripts\test\example.js" />
     <Content Include="Scripts\test\jasmineTest.js" />
     <Content Include="Scripts\test\karma.conf.js" />
+    <Content Include="Scripts\test\kpi\app.kpi.service.js" />
     <Content Include="Scripts\test\mock\highcharts.mock.js" />
     <Content Include="template\accordion\accordion-group.html" />
     <Content Include="template\accordion\accordion.html" />
