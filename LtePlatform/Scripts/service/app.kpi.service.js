@@ -701,6 +701,34 @@
                     data: overCoverageRates
                 });
                 return chart.options;
+            },
+            getCoverageInterferenceOptions: function (stats, title) {
+                var chart = new TimeSeriesLine();
+                chart.title.text = title;
+                var mod3Rates = [];
+                var mod6Rates = [];
+                angular.forEach(stats, function (stat) {
+                    mod3Rates.push([
+                        appFormatService.getUTCTime(stat.currentDate),
+                        stat.mrCount === 0 ? null : stat.mod3Count / stat.mrCount * 100
+                    ]);
+                    mod6Rates.push([
+                        appFormatService.getUTCTime(stat.currentDate),
+                        stat.mrCount === 0 ? null : stat.mod6Count / stat.mrCount * 100
+                    ]);
+                });
+                chart.yAxis.title.text = '同模干扰比例（%）';
+                chart.series.push({
+                    type: 'area',
+                    name: 'MOD3干扰比例',
+                    data: mod3Rates
+                });
+                chart.series.push({
+                    type: 'area',
+                    name: 'MOD6干扰比例',
+                    data: mod6Rates
+                });
+                return chart.options;
             }
         };
     });
