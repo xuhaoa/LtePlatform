@@ -579,6 +579,7 @@
     <Content Include="Content\themes\qunit.css" />
     <Content Include="Content\themes\ui-bootstrap.css" />
     <Content Include="directives\rutrace\CoverageTable.Tpl.html" />
+    <Content Include="directives\rutrace\DistrictStatTable.Tpl.html" />
     <Content Include="directives\rutrace\rutrace.module.js" />
     <Content Include="Scripts\angular-ui\uib\alert.js" />
     <Content Include="Areas\TestPage\Scripts\angular\chap10.viewmodel.js" />

@@ -26,7 +26,7 @@
             }
         };
     })
-    .directive('coverageTable', function ($uibModal, $log, htmlRoot) {
+    .directive('coverageTable', function($uibModal, $log, htmlRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -68,4 +68,15 @@
                 }
             }
         }
+    })
+    .directive('districtStatTable', function(htmlRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                overallStat: '=',
+                rootPath: '='
+            },
+            templateUrl: htmlRoot + 'DistrictStatTable.Tpl.html'
+        };
     });

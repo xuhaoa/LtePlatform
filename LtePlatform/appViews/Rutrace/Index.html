@@ -30,58 +30,7 @@
     分区指标统计
 </h4>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>城市</th>
-            <th>区</th>
-            <th>MR总数</th>
-            <th>精确覆盖率</th>
-            <th>本区目标值</th>
-            <th>第一邻区精确覆盖率</th>
-            <th>第三邻区精确覆盖率</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="stat in overallStat.districtStats">
-            <td>{{stat.city}}</td>
-            <td>
-                <button class="btn btn-sm btn-default" ng-click="overallStat.currentDistrict = stat.district">
-                    {{stat.district}}
-                </button>
-            </td>
-            <td>{{stat.totalMrs}}</td>
-            <td ng-style="{color: stat.preciseRate < stat.objectRate ? 'red' : 'green'}">
-                {{stat.preciseRate | number: 2}}
-            </td>
-            <td>{{stat.objectRate | number: 2}}</td>
-            <td>{{stat.firstRate | number: 2}}</td>
-            <td>{{stat.thirdRate | number: 2}}</td>
-            <td>
-                <div class="btn-group-sm">
-                    <a class="btn btn-sm btn-primary" ng-href="{{rootPath}}workitemDistrict/{{stat.district}}">工单处理</a>
-                    <a class="btn btn-sm btn-default" ng-href="{{rootPath}}topDistrict/{{stat.district}}">TOP指标</a>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>{{overallStat.cityStat.city}}</td>
-            <td>{{overallStat.cityStat.district}}</td>
-            <td>{{overallStat.cityStat.totalMrs}}</td>
-            <td ng-style="{color: overallStat.preciseRate < overallStat.objectRate ? 'red' : 'green'}">
-                {{overallStat.cityStat.preciseRate | number: 2}}
-            </td>
-            <td>{{overallStat.cityStat.objectRate | number: 2}}</td>
-            <td>{{overallStat.cityStat.firstRate | number: 2}}</td>
-            <td>{{overallStat.cityStat.thirdRate | number: 2}}</td>
-            <td>
-                <a class="btn btn-sm btn-primary" ng-href="{{rootPath}}workitemCity">工单处理</a>
-                <a class="btn btn-sm btn-default" ng-href="{{rootPath}}top">TOP指标</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div district-stat-table overall-stat="overallStat" root-path="rootPath"></div>
 
 <h4 class="text-primary text-center">
     {{overallStat.currentDistrict}}镇区统计信息
