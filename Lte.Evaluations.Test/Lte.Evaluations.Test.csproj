@@ -124,6 +124,7 @@
     <Compile Include="DataService\Switch\IntraFreqHoServiceTests.cs" />
     <Compile Include="DataService\TopDrop2GServiceTest.cs" />
     <Compile Include="DataService\TopDrop2GTestQueries.cs" />
+    <Compile Include="MapperService\CellDistanceTransformTest.cs" />
     <Compile Include="MapperService\MapFromENodebContainerServiceTest.cs" />
     <Compile Include="MapperService\PciCellPairListTest.cs" />
     <Compile Include="MapperService\QuerySectorsTest.cs" />
