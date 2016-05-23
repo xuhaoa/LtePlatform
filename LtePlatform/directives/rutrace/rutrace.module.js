@@ -79,4 +79,14 @@
             },
             templateUrl: htmlRoot + 'DistrictStatTable.Tpl.html'
         };
+    })
+    .directive('townStatTable', function(htmlRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                overallStat: '='
+            },
+            templateUrl: htmlRoot + 'TownStatTable.Tpl.html'
+        };
     });
