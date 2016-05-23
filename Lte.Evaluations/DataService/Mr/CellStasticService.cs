@@ -9,6 +9,7 @@ using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Mr;
 
 namespace Lte.Evaluations.DataService.Mr

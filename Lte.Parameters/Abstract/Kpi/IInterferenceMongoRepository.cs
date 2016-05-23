@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Lte.Parameters.Entities.Mr;
 using MongoDB.Bson;
 
-namespace Lte.Parameters.Abstract
+namespace Lte.Parameters.Abstract.Kpi
 {
     public interface IInterferenceMongoRepository : IRepository<InterferenceMatrixMongo, ObjectId>
     {
@@ -27,5 +25,16 @@ namespace Lte.Parameters.Abstract
         List<CellStastic> GetList(int eNodebId, short pci);
 
         List<CellStastic> GetList(int eNodebId, short pci, DateTime date);
+    }
+
+    public interface ICellDistanceRepository : IRepository<CellDistance, ObjectId>
+    {
+        List<CellDistance> GetTotalList(int eNodebId, short pci, DateTime date);
+
+        List<CellDistance> GetRsrpList(int eNodebId, short pci, DateTime date);
+
+        List<CellDistance> Get110List(int eNodebId, short pci, DateTime date);
+
+        List<CellDistance> Get105List(int eNodebId, short pci, DateTime date);
     }
 }

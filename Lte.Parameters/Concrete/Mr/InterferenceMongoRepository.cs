@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Abp.MongoDb;
 using Abp.MongoDb.Repositories;
 using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Mr;
 using MongoDB.Bson;
 

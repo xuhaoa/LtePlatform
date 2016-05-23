@@ -133,6 +133,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<ICellStatMysqlRepository>().To<CellStatMysqlRepository>();
 
+            ninjectKernel.Bind<ICellDistanceRepository>().To<CellDistanceRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();
