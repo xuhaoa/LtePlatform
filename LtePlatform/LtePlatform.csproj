@@ -491,7 +491,7 @@
     <Content Include="appViews\Rutrace\Interference\DumpCellMongoDialog.html" />
     <Content Include="appViews\Rutrace\Interference\DumpCells.html" />
     <Content Include="appViews\Rutrace\Interference\Index.html" />
-    <Content Include="appViews\Rutrace\Interference\MongoNeighbors.html" />
+    <Content Include="directives\rutrace\interference\MongoNeighbors.html" />
     <Content Include="appViews\Rutrace\Interference\Source.html" />
     <Content Include="appViews\Rutrace\Interference\SourceDbChartDialog.html" />
     <Content Include="appViews\Rutrace\Interference\SourceDialog.html" />

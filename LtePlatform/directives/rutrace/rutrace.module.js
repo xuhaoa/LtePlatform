@@ -1,10 +1,10 @@
 ﻿angular.module('rutrace.module', [
-    'kpi.workitem',
-    'myApp.dumpInterference',
-    'myApp.parameters',
-    'neighbor.mongo',
-    "ui.bootstrap"
-])
+        'kpi.workitem',
+        'myApp.dumpInterference',
+        'myApp.parameters',
+        'neighbor.mongo',
+        "ui.bootstrap"
+    ])
     .constant('htmlRoot', 'directives/rutrace/')
     .directive('topCell', function(workitemService, htmlRoot) {
         return {
@@ -125,7 +125,7 @@
             templateUrl: htmlRoot + 'TownStatTable.Tpl.html'
         };
     })
-    .directive('dumpForwardNeighbors', function (htmlRoot, neighborMongoService) {
+    .directive('dumpForwardNeighbors', function(htmlRoot, neighborMongoService) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -136,7 +136,7 @@
             },
             templateUrl: htmlRoot + 'import/ForwardNeighbors.html',
             link: function(scope, element, attrs) {
-                scope.dumpMongo = function (cell) {
+                scope.dumpMongo = function(cell) {
                     neighborMongoService.dumpMongoDialog({
                         eNodebId: cell.nearestCellId,
                         sectorId: cell.nearestSectorId,
@@ -147,7 +147,7 @@
             }
         };
     })
-    .directive('dumpBackwardNeighbors', function (htmlRoot, networkElementService, dumpPreciseService) {
+    .directive('dumpBackwardNeighbors', function(htmlRoot, networkElementService, dumpPreciseService) {
         var dumpSingleCell = function(cell, begin, end) {
             networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function(info) {
                 dumpPreciseService.dumpDateSpanSingleNeighborRecords(cell.cellId, cell.sectorId, info.pci, cell.neighborCellId,
@@ -164,12 +164,12 @@
             },
             templateUrl: htmlRoot + 'import/BackwardNeighbors.html',
             link: function(scope, element, attrs) {
-                scope.dumpReverseMongo = function (cell) {
+                scope.dumpReverseMongo = function(cell) {
                     var begin = new Date(scope.beginDate.value);
                     var end = new Date(scope.endDate.value);
                     dumpSingleCell(cell, begin, end);
                 };
-                scope.dumpAll = function () {
+                scope.dumpAll = function() {
                     var begin = new Date(scope.beginDate.value);
                     var end = new Date(scope.endDate.value);
                     angular.forEach(scope.neighborCells, function(cell) {
@@ -177,5 +177,15 @@
                     });
                 };
             }
+        };
+    })
+    .directive('mongoNeighborList', function(htmlRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                mongoNeighbors: '='
+            },
+            templateUrl: htmlRoot + 'interference/MongoNeighbors.html'
         };
     });

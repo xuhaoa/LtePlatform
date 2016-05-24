@@ -48,7 +48,7 @@
 </div>
 <div uib-tabset active="active">
     <div uib-tab index="0" heading="系统邻区({{mongoNeighbors.length}})">
-        <div ng-include="'/appViews/Rutrace/Interference/MongoNeighbors.html'"></div>
+        <div mongo-neighbor-list mongo-neighbors="mongoNeighbors"></div>
     </div>
     <div uib-tab index="1" heading="干扰源分析({{interferenceCells.length}})">
         <div ng-include="'/appViews/Rutrace/Interference/Source.html'" ng-controller="rutrace.interference.neighbors"></div>
