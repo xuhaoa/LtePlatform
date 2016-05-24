@@ -54,7 +54,7 @@
         <div interference-source-list interference-cells="interferenceCells" order-policy="orderPolicy" top-stat="topStat"></div>
     </div>
     <div uib-tab index="2" heading="被干扰小区({{victimCells.length}})">
-        <div ng-include="'/appViews/Rutrace/Interference/Victim.html'"></div>
+        <div interference-victim-list victim-cells="victimCells"></div>
     </div>
     <div uib-tab index="3" heading="干扰份额分析">
         <div id="interference-over6db"></div>

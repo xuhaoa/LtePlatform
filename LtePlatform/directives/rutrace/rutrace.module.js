@@ -238,4 +238,14 @@
                 };
             }
         };
+    })
+    .directive('interferenceVictimList', function (htmlRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                victimCells: '='
+            },
+            templateUrl: htmlRoot + 'interference/VictimList.html'
+        };
     });
