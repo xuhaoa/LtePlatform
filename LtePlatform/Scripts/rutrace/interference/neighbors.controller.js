@@ -1,44 +1,5 @@
-﻿app.controller("rutrace.interference.neighbors", function ($scope, $uibModal, $log, neighborService) {
-    $scope.match = function (candidate) {
-        var center = $scope.topStat.current;
-        neighborService.queryNearestCells(center.cellId, center.sectorId, candidate.destPci).then(function(result) {
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: '/appViews/Rutrace/Interference/MatchCellDialog.html',
-                controller: 'ModalInstanceCtrl',
-                size: 'lg',
-                resolve: {
-                    dialogTitle: function() {
-                        return center.eNodebName + "-" + center.sectorId + "的邻区PCI=" + candidate.destPci + "的可能小区";
-                    },
-                    candidateNeighbors: function () {
-                        return result;
-                    },
-                    currentCell: function() {
-                        return center;
-                    }
-                }
-            });
-
-            modalInstance.result.then(function (nearestCell) {
-                $scope.matchNearest(nearestCell, candidate, center);
-            }, function() {
-                $log.info('Modal dismissed at: ' + new Date());
-            });
-
-            
-        });
-    };
-
-    $scope.matchNearest = function (nearestCell, currentNeighbor, center) {
-        neighborService.updateNeighbors(center.cellId, center.sectorId, currentNeighbor.destPci, 
-            nearestCell.eNodebId, nearestCell.sectorId).then(function() {
-            currentNeighbor.neighborCellName = nearestCell.eNodebName + "-" + nearestCell.sectorId;
-        });
-    };
-});
-
-app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, geometryService,
+﻿
+app.controller('neighbors.dialog', function ($scope, $uibModalInstance, geometryService,
     dialogTitle, candidateNeighbors, currentCell) {
     $scope.pciNeighbors = [];
     $scope.indoorConsidered = false;

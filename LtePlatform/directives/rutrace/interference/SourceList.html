@@ -13,7 +13,7 @@
             <th>操作</th>
         </tr>
     </thead>
-    <tbody ng-controller="rutrace.interference.neighbors">
+    <tbody>
         <tr ng-repeat="cell in interferenceCells | orderBy: orderPolicy.selected: true">
             <td>{{cell.neighborCellName}}</td>
             <td>{{cell.destPci}}</td>

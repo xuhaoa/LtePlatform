@@ -188,4 +188,54 @@
             },
             templateUrl: htmlRoot + 'interference/MongoNeighbors.html'
         };
+    })
+    .directive('interferenceSourceList', function (htmlRoot, $uibModal, $log, neighborService) {
+        var matchNearest = function(nearestCell, currentNeighbor, center) {
+            neighborService.updateNeighbors(center.cellId, center.sectorId, currentNeighbor.destPci,
+                nearestCell.eNodebId, nearestCell.sectorId).then(function() {
+                currentNeighbor.neighborCellName = nearestCell.eNodebName + "-" + nearestCell.sectorId;
+            });
+        };
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                interferenceCells: '=',
+                orderPolicy: '=',
+                topStat: '='
+            },
+            templateUrl: htmlRoot + 'interference/SourceList.html',
+            link: function(scope, element, attrs) {
+                scope.match = function(candidate) {
+                    var center = scope.topStat.current;
+                    neighborService.queryNearestCells(center.cellId, center.sectorId, candidate.destPci).then(function(result) {
+                        var modalInstance = $uibModal.open({
+                            animation: true,
+                            templateUrl: '/appViews/Rutrace/Interference/MatchCellDialog.html',
+                            controller: 'neighbors.dialog',
+                            size: 'lg',
+                            resolve: {
+                                dialogTitle: function() {
+                                    return center.eNodebName + "-" + center.sectorId + "的邻区PCI=" + candidate.destPci + "的可能小区";
+                                },
+                                candidateNeighbors: function() {
+                                    return result;
+                                },
+                                currentCell: function() {
+                                    return center;
+                                }
+                            }
+                        });
+
+                        modalInstance.result.then(function(nearestCell) {
+                            matchNearest(nearestCell, candidate, center);
+                        }, function() {
+                            $log.info('Modal dismissed at: ' + new Date());
+                        });
+
+
+                    });
+                };
+            }
+        };
     });

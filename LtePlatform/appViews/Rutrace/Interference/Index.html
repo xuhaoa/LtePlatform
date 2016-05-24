@@ -51,7 +51,7 @@
         <div mongo-neighbor-list mongo-neighbors="mongoNeighbors"></div>
     </div>
     <div uib-tab index="1" heading="干扰源分析({{interferenceCells.length}})">
-        <div ng-include="'/appViews/Rutrace/Interference/Source.html'" ng-controller="rutrace.interference.neighbors"></div>
+        <div interference-source-list interference-cells="interferenceCells" order-policy="orderPolicy" top-stat="topStat"></div>
     </div>
     <div uib-tab index="2" heading="被干扰小区({{victimCells.length}})">
         <div ng-include="'/appViews/Rutrace/Interference/Victim.html'"></div>
