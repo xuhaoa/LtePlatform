@@ -1,4 +1,5 @@
 ﻿var app = angular.module('myApp', [
+    'basic.filters',
     'cell.filters',
     'college',
     'college.map',

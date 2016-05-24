@@ -435,6 +435,7 @@
     <Content Include="appViews\College\Table\CollegeCellBasicInfo.html" />
     <Content Include="appViews\College\Table\CollegeCellInfoBox.html" />
     <Content Include="appViews\College\Test\GenerateReport.html" />
+    <Content Include="appViews\Evaluation\Dialog\BuildingInfoBox.html" />
     <Content Include="appViews\Evaluation\Home.html" />
     <Content Include="appViews\HeaderMenu.html" />
     <Content Include="appViews\Home\Kpi2G.html" />
@@ -732,6 +733,7 @@
     <Content Include="Scripts\angular-ui\customize\directive.datetimepicker.js" />
     <Content Include="Scripts\angular-ui\customize\directive.public.js" />
     <Content Include="Scripts\angular-ui\customize\directive.panel.js" />
+    <Content Include="Scripts\app\evaluation\map.building.dialog.js" />
     <Content Include="Scripts\mycharts\areaChart.js" />
     <Content Include="Scripts\mycharts\gaugeMeter.js" />
     <Content Include="Scripts\mycharts\timeSeriesLine.js" />
@@ -891,6 +893,7 @@
     <Content Include="Scripts\service\app.kpi.service.js" />
     <Content Include="Scripts\service\app.parameters.service.js" />
     <Content Include="Scripts\service\app.url.service.js" />
+    <Content Include="Scripts\service\filters\basic.js" />
     <Content Include="Scripts\service\filters\cell.js" />
     <Content Include="Scripts\service\filters\handoff.js" />
     <Content Include="Scripts\service\kpi.basic.service.js" />

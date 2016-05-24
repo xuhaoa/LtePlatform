@@ -249,6 +249,27 @@
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
+            },
+            showBuildingInfo: function(building) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Evaluation/Dialog/BuildingInfoBox.html',
+                    controller: 'map.building.dialog',
+                    size: 'sm',
+                    resolve: {
+                        dialogTitle: function () {
+                            return building.name + "楼宇信息";
+                        },
+                        building: function () {
+                            return building;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (info) {
+                    console.log(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
             }
         };
     });
