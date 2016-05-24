@@ -10,7 +10,7 @@ namespace LtePlatform.Controllers.Mr
 {
     public class AverageRsrpTaController : ApiController
     {
-        public readonly CellDistanceService _service;
+        private readonly CellDistanceService _service;
 
         public AverageRsrpTaController(CellDistanceService service)
         {
@@ -25,7 +25,7 @@ namespace LtePlatform.Controllers.Mr
 
     public class Above110TaRateController : ApiController
     {
-        public readonly CellDistanceService _service;
+        private readonly CellDistanceService _service;
 
         public Above110TaRateController(CellDistanceService service)
         {
@@ -40,7 +40,7 @@ namespace LtePlatform.Controllers.Mr
 
     public class Above105TaRateController : ApiController
     {
-        public readonly CellDistanceService _service;
+        private readonly CellDistanceService _service;
 
         public Above105TaRateController(CellDistanceService service)
         {

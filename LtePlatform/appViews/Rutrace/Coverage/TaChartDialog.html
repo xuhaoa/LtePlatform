@@ -1,0 +1,16 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-hidden="true">
+        &times;
+    </button>
+    <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
+</div>
+<div class="modal-body">
+    <label>选择图表视图：</label>
+    <select class="form-control" ng-model="chartView.selected" ng-options="p as p for p in chartView.options"></select>
+    <div ng-show="chartView.selected === '平均RSRP'" id="average-rsrp"></div>
+    <div ng-show="chartView.selected === '覆盖率'" id="coverage-rate"></div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="ok()">反馈结果</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>

@@ -65,7 +65,36 @@
                     }, function() {
                         $log.info('Modal dismissed at: ' + new Date());
                     });
-                }
+                };
+
+                scope.analyzeTa = function (date) {
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: '/appViews/Rutrace/Coverage/TaChartDialog.html',
+                        controller: 'coverage.ta.dialog',
+                        size: 'lg',
+                        resolve: {
+                            dialogTitle: function () {
+                                return scope.dialogTitle;
+                            },
+                            cellId: function () {
+                                return scope.cellId;
+                            },
+                            sectorId: function () {
+                                return scope.sectorId;
+                            },
+                            date: function () {
+                                return date;
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function (info) {
+                        console.log(info);
+                    }, function () {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
+                };
             }
         }
     })

@@ -500,6 +500,60 @@
                     });
                 return deferred.promise;
             },
+            queryAverageRsrpTaStastic: function (cellId, sectorId, date) {
+                var deferred = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: appUrlService.getApiUrl('AverageRsrpTa'),
+                    params: {
+                        eNodebId: cellId,
+                        sectorId: sectorId,
+                        date: date
+                    }
+                }).success(function (result) {
+                    deferred.resolve(result);
+                })
+                    .error(function (reason) {
+                        deferred.reject(reason);
+                    });
+                return deferred.promise;
+            },
+            queryAbove110TaRate: function (cellId, sectorId, date) {
+                var deferred = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: appUrlService.getApiUrl('Above110TaRate'),
+                    params: {
+                        eNodebId: cellId,
+                        sectorId: sectorId,
+                        date: date
+                    }
+                }).success(function (result) {
+                    deferred.resolve(result);
+                })
+                    .error(function (reason) {
+                        deferred.reject(reason);
+                    });
+                return deferred.promise;
+            },
+            queryAbove105TaRate: function (cellId, sectorId, date) {
+                var deferred = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: appUrlService.getApiUrl('Above105TaRate'),
+                    params: {
+                        eNodebId: cellId,
+                        sectorId: sectorId,
+                        date: date
+                    }
+                }).success(function (result) {
+                    deferred.resolve(result);
+                })
+                    .error(function (reason) {
+                        deferred.reject(reason);
+                    });
+                return deferred.promise;
+            },
             getInterferencePieOptions: function(interferenceCells, currentCellName) {
                 var over6DbPie = new GradientPie();
                 var over10DbPie = new GradientPie();
@@ -560,10 +614,43 @@
                     over6DbOption: over6DbColumn.options,
                     over10DbOption: over10DbColumn.options
                 };
-            }
+            } 
         };
     })
-    .factory('cellPreciseService', function($q, $http, appUrlService, appFormatService) {
+    .constant('taDivision', [
+        '0-100m',
+        '100-200m',
+        '200-300m',
+        '300-400m',
+        '400-500m',
+        '500-600m',
+        '600-700m',
+        '700-800m',
+        '800-900m',
+        '900-1000m',
+        '1000-1100m',
+        '1100-1200m',
+        '1200-1300m',
+        '1300-1400m',
+        '1400-1500m',
+        '1500-1600m',
+        '1600-1700m',
+        '1700-1800m',
+        '1800-1900m',
+        '1900-2000m',
+        '2000-2100m',
+        '2100-2200m',
+        '2200-2300m',
+        '2300-2400m',
+        '2400-2500m',
+        '2500-2600m',
+        '2600-2700m',
+        '2700-2800m',
+        '2800-2900m',
+        '2900-3000m',
+        '3000-3100m'
+    ])
+    .factory('cellPreciseService', function ($q, $http, appUrlService, appFormatService, taDivision) {
         return{
             queryDataSpanKpi: function (begin, end, cellId, sectorId) {
                 var deferred = $q.defer();
@@ -727,6 +814,34 @@
                     type: 'area',
                     name: 'MOD6干扰比例',
                     data: mod6Rates
+                });
+                return chart.options;
+            },
+            getAverageRsrpTaOptions: function(stats, title) {
+                var chart = new AreaChart();
+                chart.title.text = title;
+                chart.xAxis.categories = taDivision;
+                chart.xAxis.title.text = 'TA区间';
+                chart.yAxis.title.text = '平均RSRP按TA分布（dBm）';
+                chart.series.push({
+                    name: '平均RSRP',
+                    data: stats
+                });
+                return chart.options;
+            },
+            getAboveRateTaOptions: function(above110Stats, above105Stats, title) {
+                var chart = new AreaChart();
+                chart.title.text = title;
+                chart.xAxis.categories = taDivision;
+                chart.xAxis.title.text = 'TA区间';
+                chart.yAxis.title.text = 'TA分布覆盖率（%）';
+                chart.series.push({
+                    name: '-110dBm以上覆盖率',
+                    data: above110Stats
+                });
+                chart.series.push({
+                    name: '-105dBm以上覆盖率',
+                    data: above105Stats
                 });
                 return chart.options;
             }
