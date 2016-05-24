@@ -148,6 +148,12 @@
         };
     })
     .directive('dumpBackwardNeighbors', function (htmlRoot, networkElementService, dumpPreciseService) {
+        var dumpSingleCell = function(cell, begin, end) {
+            networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function(info) {
+                dumpPreciseService.dumpDateSpanSingleNeighborRecords(cell.cellId, cell.sectorId, info.pci, cell.neighborCellId,
+                    cell.neighborSectorId, cell.neighborPci, begin, end);
+            });
+        };
         return {
             restrict: 'ECMA',
             replace: true,
@@ -161,11 +167,14 @@
                 scope.dumpReverseMongo = function (cell) {
                     var begin = new Date(scope.beginDate.value);
                     var end = new Date(scope.endDate.value);
-                    networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function (info) {
-                        dumpPreciseService.dumpDateSpanSingleNeighborRecords(cell.cellId, cell.sectorId, info.pci, cell.neighborCellId,
-                            cell.neighborSectorId, cell.neighborPci, begin, end);
+                    dumpSingleCell(cell, begin, end);
+                };
+                scope.dumpAll = function () {
+                    var begin = new Date(scope.beginDate.value);
+                    var end = new Date(scope.endDate.value);
+                    angular.forEach(scope.neighborCells, function(cell) {
+                        dumpSingleCell(cell, begin, end);
                     });
-
                 };
             }
         };

@@ -23,8 +23,9 @@
                 <span ng-if="neighbor.isMonitored">已监控</span>
                 <span ng-if="!neighbor.isMonitored" style="color: red">未监控</span>
             </td>
-            <td>
+            <td style="min-width:200px">
                 <button class="btn btn-sm btn-default" ng-click="dumpReverseMongo(neighbor)">导入数据</button>
+                <button class="btn btn-sm btn-primary" ng-show="$index===0" ng-click="dumpAll()">导入所有</button>
             </td>
         </tr>
     </tbody>
