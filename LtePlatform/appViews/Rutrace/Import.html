@@ -13,6 +13,9 @@
                         <i class="glyphicon glyphicon-calendar"></i>
                     </button>
                     <button class="btn btn-warning" ng-click="reset()">重置</button>
+                    <button class="btn btn-default" ng-if="neighborCells.length" ng-click="updatePci()">
+                        更新PCI
+                    </button>
                 </span>
             </div>
         </div>
@@ -28,34 +31,31 @@
                         <i class="glyphicon glyphicon-calendar"></i>
                     </button>
                     <button class="btn btn-primary" ng-click="dump()">导入</button>
+                    <a class="btn btn-default" ng-href="{{rootPath}}top">返回</a>
                 </span>
             </div>
         </div>
     </div>
 </div>
 <p>
-    <div class="btn-group" style="float: right">
-        <button class="btn btn-default" ng-if="neighborCells.length" ng-click="updatePci()">
-            更新PCI
-        </button>
-        <button class="btn btn-default" ng-click="synchronizeNeighbors()">
+    <div class="btn-group-sm" style="float: right">
+        <button class="btn btn-sm btn-default" ng-click="synchronizeNeighbors()">
             同步邻区
         </button>
-        <button class="btn btn-warning" ng-if="!cellMonitored" ng-click="addMonitor()">
+        <button class="btn btn-sm btn-warning" ng-if="!cellMonitored" ng-click="addMonitor()">
             加入监控
         </button>
-        <button class="btn btn-info" ng-if="neighborCells.length" ng-click="monitorNeighbors()">
+        <button class="btn btn-sm btn-info" ng-if="neighborCells.length" ng-click="monitorNeighbors()">
             监控邻区
         </button>
-        <a class="btn btn-default" ng-href="{{rootPath}}top">返回</a>
     </div>
 </p>
 <div uib-tabset active="active">
     <div uib-tab index="0" heading="正向邻区">
-        <div ng-include="'/appViews/Rutrace/Import/ForwardNeighbors.html'"></div>
+        <div dump-forward-neighbors neighbor-cells="neighborCells"></div>
     </div>
     <div uib-tab index="1" heading="反向邻区">
-        <div ng-include="'/appViews/Rutrace/Import/BackwardNeighbors.html'"></div>
+        <div dump-backward-neighbors neighbor-cells="reverseCells"></div>
     </div>
 </div>
 

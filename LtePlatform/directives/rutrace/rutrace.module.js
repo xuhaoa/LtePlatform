@@ -67,31 +67,31 @@
                     });
                 };
 
-                scope.analyzeTa = function (date) {
+                scope.analyzeTa = function(date) {
                     var modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: '/appViews/Rutrace/Coverage/TaChartDialog.html',
                         controller: 'coverage.ta.dialog',
                         size: 'lg',
                         resolve: {
-                            dialogTitle: function () {
+                            dialogTitle: function() {
                                 return scope.dialogTitle;
                             },
-                            cellId: function () {
+                            cellId: function() {
                                 return scope.cellId;
                             },
-                            sectorId: function () {
+                            sectorId: function() {
                                 return scope.sectorId;
                             },
-                            date: function () {
+                            date: function() {
                                 return date;
                             }
                         }
                     });
 
-                    modalInstance.result.then(function (info) {
+                    modalInstance.result.then(function(info) {
                         console.log(info);
-                    }, function () {
+                    }, function() {
                         $log.info('Modal dismissed at: ' + new Date());
                     });
                 };
@@ -117,5 +117,25 @@
                 overallStat: '='
             },
             templateUrl: htmlRoot + 'TownStatTable.Tpl.html'
+        };
+    })
+    .directive('dumpForwardNeighbors', function(htmlRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                neighborCells: '='
+            },
+            templateUrl: htmlRoot + 'import/ForwardNeighbors.html'
+        };
+    })
+    .directive('dumpBackwardNeighbors', function (htmlRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                neighborCells: '='
+            },
+            templateUrl: htmlRoot + 'import/BackwardNeighbors.html'
         };
     });

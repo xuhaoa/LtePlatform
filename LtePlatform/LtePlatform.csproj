@@ -485,8 +485,8 @@
     <Content Include="appViews\Rutrace\Coverage\DetailsChartDialog.html" />
     <Content Include="appViews\Rutrace\Coverage\Index.html" />
     <Content Include="appViews\Rutrace\Coverage\TaChartDialog.html" />
-    <Content Include="appViews\Rutrace\Import\BackwardNeighbors.html" />
-    <Content Include="appViews\Rutrace\Import\ForwardNeighbors.html" />
+    <Content Include="directives\rutrace\import\BackwardNeighbors.html" />
+    <Content Include="directives\rutrace\import\ForwardNeighbors.html" />
     <Content Include="appViews\Rutrace\Index.html" />
     <Content Include="appViews\Rutrace\Interference\DumpCellMongoDialog.html" />
     <Content Include="appViews\Rutrace\Interference\DumpCells.html" />
