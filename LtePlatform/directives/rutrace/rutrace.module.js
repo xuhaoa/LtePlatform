@@ -1,4 +1,10 @@
-﻿angular.module('rutrace.module', ['kpi.workitem', "ui.bootstrap"])
+﻿angular.module('rutrace.module', [
+    'kpi.workitem',
+    'myApp.dumpInterference',
+    'myApp.parameters',
+    'neighbor.mongo',
+    "ui.bootstrap"
+])
     .constant('htmlRoot', 'directives/rutrace/')
     .directive('topCell', function(workitemService, htmlRoot) {
         return {
@@ -119,23 +125,48 @@
             templateUrl: htmlRoot + 'TownStatTable.Tpl.html'
         };
     })
-    .directive('dumpForwardNeighbors', function(htmlRoot) {
+    .directive('dumpForwardNeighbors', function (htmlRoot, neighborMongoService) {
         return {
             restrict: 'ECMA',
             replace: true,
             scope: {
-                neighborCells: '='
+                neighborCells: '=',
+                beginDate: '=',
+                endDate: '='
             },
-            templateUrl: htmlRoot + 'import/ForwardNeighbors.html'
+            templateUrl: htmlRoot + 'import/ForwardNeighbors.html',
+            link: function(scope, element, attrs) {
+                scope.dumpMongo = function (cell) {
+                    neighborMongoService.dumpMongoDialog({
+                        eNodebId: cell.nearestCellId,
+                        sectorId: cell.nearestSectorId,
+                        pci: cell.pci,
+                        name: cell.nearestENodebName
+                    }, scope.beginDate.value, scope.endDate.value);
+                };
+            }
         };
     })
-    .directive('dumpBackwardNeighbors', function (htmlRoot) {
+    .directive('dumpBackwardNeighbors', function (htmlRoot, networkElementService, dumpPreciseService) {
         return {
             restrict: 'ECMA',
             replace: true,
             scope: {
-                neighborCells: '='
+                neighborCells: '=',
+                beginDate: '=',
+                endDate: '='
             },
-            templateUrl: htmlRoot + 'import/BackwardNeighbors.html'
+            templateUrl: htmlRoot + 'import/BackwardNeighbors.html',
+            link: function(scope, element, attrs) {
+                scope.dumpReverseMongo = function (cell) {
+                    var begin = new Date(scope.beginDate.value);
+                    var end = new Date(scope.endDate.value);
+                    networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function (info) {
+                        dumpPreciseService.dumpDateSpanSingleNeighborRecords(cell.cellId, cell.sectorId, info.pci, cell.neighborCellId,
+                            cell.neighborSectorId, cell.neighborPci, begin, end);
+                    });
+
+                };
+            }
         };
     });
