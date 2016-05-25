@@ -479,7 +479,7 @@
     <Content Include="appViews\Parameters\Region\CellInfo.html" />
     <Content Include="directives\parameters\CityInfrastructure.Tpl.html" />
     <Content Include="directives\parameters\DistrictInfrastructure.Tpl.html" />
-    <Content Include="appViews\Parameters\Region\ENodebDetails.html" />
+    <Content Include="directives\parameters\eNodeb\ENodebDetailsTable.html" />
     <Content Include="appViews\Parameters\Region\ENodebInfo.html" />
     <Content Include="appViews\Rutrace\Chart.html" />
     <Content Include="appViews\Rutrace\Coverage\DetailsChartDialog.html" />

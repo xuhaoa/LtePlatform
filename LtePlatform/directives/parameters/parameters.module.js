@@ -42,4 +42,14 @@
             },
             templateUrl: parametersRoot + 'kpi/AlarmTable.html'
         }
+    })
+    .directive('eNodebDetailsTable', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                eNodebDetails: '='
+            },
+            templateUrl: parametersRoot + 'eNodeb/ENodebDetailsTable.html'
+        }
     });
