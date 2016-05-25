@@ -5,7 +5,7 @@
         'neighbor.mongo',
         "ui.bootstrap"
     ])
-    .constant('htmlRoot', 'directives/rutrace/')
+    .constant('htmlRoot', '/directives/rutrace/')
     .directive('topCell', function(workitemService, htmlRoot) {
         return {
             restrict: 'ECMA',
