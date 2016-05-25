@@ -72,4 +72,14 @@
             },
             templateUrl: parametersRoot + 'eNodeb/ENodebIntraFreq.html'
         }
+    })
+    .directive('eNodebInterFreq', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                interFreqHo: '='
+            },
+            templateUrl: parametersRoot + 'eNodeb/ENodebInterFreq.html'
+        }
     });
