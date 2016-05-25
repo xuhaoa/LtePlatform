@@ -38,6 +38,30 @@ namespace Lte.Evaluations.DataService
             return Mapper.Map<IEnumerable<AlarmStat>, IEnumerable<AlarmView>>(stats);
         }
 
+        public IEnumerable<AlarmView> Get(int eNodebId, DateTime begin, DateTime end, string levelDescription)
+        {
+            var stats = _repository.GetAllList(begin, end, eNodebId);
+            IEnumerable<AlarmStat> refinedStats;
+            switch (levelDescription)
+            {
+                case "严重告警":
+                    refinedStats =
+                        stats.Where(x => x.AlarmLevel == AlarmLevel.Serious || x.AlarmLevel == AlarmLevel.Urgent);
+                    break;
+                case "重要以上告警":
+                    refinedStats =
+                        stats.Where(
+                            x =>
+                                x.AlarmLevel == AlarmLevel.Serious || x.AlarmLevel == AlarmLevel.Urgent ||
+                                x.AlarmLevel == AlarmLevel.Primary || x.AlarmLevel == AlarmLevel.Important);
+                    break;
+                default:
+                    refinedStats = stats;
+                    break;
+            }
+            return Mapper.Map<IEnumerable<AlarmStat>, IEnumerable<AlarmView>>(refinedStats);
+        }
+
         public int GetCounts(int eNodebId, DateTime begin, DateTime end)
         {
             return _repository.Count(begin, end, eNodebId);
