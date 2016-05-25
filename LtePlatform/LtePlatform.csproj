@@ -485,6 +485,7 @@
     <Content Include="appViews\Rutrace\Coverage\DetailsChartDialog.html" />
     <Content Include="appViews\Rutrace\Coverage\Index.html" />
     <Content Include="appViews\Rutrace\Coverage\TaChartDialog.html" />
+    <Content Include="directives\parameters\kpi\AlarmTable.html" />
     <Content Include="directives\parameters\parameters.module.js" />
     <Content Include="directives\rutrace\import\BackwardNeighbors.html" />
     <Content Include="directives\rutrace\import\ForwardNeighbors.html" />

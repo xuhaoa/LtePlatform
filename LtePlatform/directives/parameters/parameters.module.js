@@ -32,4 +32,14 @@
             },
             templateUrl: parametersRoot + 'DistrictInfrastructure.Tpl.html'
         }
+    })
+    .directive('alarmTable', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                alarms: '='
+            },
+            templateUrl: parametersRoot + 'kpi/AlarmTable.html'
+        }
     });

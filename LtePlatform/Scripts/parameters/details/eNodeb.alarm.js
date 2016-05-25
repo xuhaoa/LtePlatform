@@ -14,11 +14,14 @@
         options: ["严重告警", "重要以上告警", "所有告警"],
         selected: "重要以上告警"
     };
+    $scope.alarms = [];
 
     $scope.searchAlarms = function() {
         alarmsService.queryENodebAlarmsByDateSpanAndLevel($stateParams.eNodebId,
             $scope.beginDate.value, $scope.endDate.value, $scope.alarmLevel.selected).then(function(result) {
-            console.log(result);
+                $scope.alarms = result;
         });
     };
+
+    $scope.searchAlarms();
 });
