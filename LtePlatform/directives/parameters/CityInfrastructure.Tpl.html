@@ -6,21 +6,20 @@
         <th>4G小区数</th>
         <th>3G基站数</th>
         <th>3G小区数</th>
-        <th>查询</th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="stat in districtStats">
-        <td>{{stat.district}}</td>
+        <td>
+            <button class="btn btn-sm btn-default" ng-click="showDistrictDetails(stat.district)" ng-show="stat.district!=='佛山'">
+                {{stat.district}}
+            </button>
+            <span ng-show="stat.district==='佛山'">佛山</span>
+        </td>
         <td>{{stat.totalLteENodebs}}</td>
         <td>{{stat.totalLteCells}}</td>
         <td>{{stat.totalCdmaBts}}</td>
         <td>{{stat.totalCdmaCells}}</td>
-        <td>
-            <button class="btn btn-default" ng-click="showDistrictDetails(stat.district)" ng-show="stat.district!=='佛山'">
-                详细
-            </button>
-        </td>
     </tr>
     </tbody>
 </table>

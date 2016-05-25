@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <div ng-include="'/appViews/Parameters/Region/DistrictInfrastructureTable.html'"></div>
+                <div district-infrastructure town-stats="townStats" root-path="rootPath" city="city" current-district="currentDistrict"></div>
                 <div style="min-height: 300px" id="districtLteENodebConfig"></div>
                 <div style="min-height: 300px" id="districtLteCellConfig"></div>
                 <div style="min-height: 300px" id="districtCdmaENodebConfig"></div>
