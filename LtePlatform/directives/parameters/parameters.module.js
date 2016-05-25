@@ -62,4 +62,14 @@
             },
             templateUrl: parametersRoot + 'eNodeb/LteCellTable.html'
         }
+    })
+    .directive('eNodebIntraFreq', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                intraFreqHo: '='
+            },
+            templateUrl: parametersRoot + 'eNodeb/ENodebIntraFreq.html'
+        }
     });
