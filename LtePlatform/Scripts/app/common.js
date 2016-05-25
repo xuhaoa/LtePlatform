@@ -1,4 +1,5 @@
 ﻿var app = angular.module('myApp', [
+    'baidu.map',
     'basic.filters',
     'cell.filters',
     'college',
