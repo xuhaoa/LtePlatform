@@ -798,7 +798,30 @@
             }
         }
     })
-    .factory('alarmImportService',function($q, $http, appUrlService) {
+    .factory('alarmsService', function($q, $http, appUrlService) {
+        return {
+            queryENodebAlarmsByDateSpanAndLevel: function(eNodebId, begin, end, level) {
+                var deferred = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: appUrlService.getApiUrl('Alarms'),
+                    params: {
+                        eNodebId: eNodebId,
+                        begin: begin,
+                        end: end,
+                        level: level
+                    }
+                }).success(function (result) {
+                    deferred.resolve(result);
+                })
+                    .error(function (reason) {
+                        deferred.reject(reason);
+                    });
+                return deferred.promise;
+            }
+        };
+    })
+        .factory('alarmImportService',function($q, $http, appUrlService) {
         return {
             queryDumpHistory: function(begin, end) {
                 var deferred = $q.defer();
