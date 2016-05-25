@@ -52,4 +52,14 @@
             },
             templateUrl: parametersRoot + 'eNodeb/ENodebDetailsTable.html'
         }
+    })
+    .directive('lteCellTable', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                cellList: '='
+            },
+            templateUrl: parametersRoot + 'eNodeb/LteCellTable.html'
+        }
     });
