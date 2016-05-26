@@ -452,6 +452,8 @@
     <Content Include="appViews\Parameters\Channel\Power.html" />
     <Content Include="appViews\Parameters\Ho\CellInterFreq.html" />
     <Content Include="appViews\Parameters\Ho\CellIntraFreq.html" />
+    <Content Include="directives\app\app.module.js" />
+    <Content Include="directives\app\DateSpan.Tpl.html" />
     <Content Include="directives\parameters\eNodeb\ENodebInterFreq.html" />
     <Content Include="directives\parameters\eNodeb\ENodebIntraFreq.html" />
     <Content Include="appViews\Parameters\Import\BtsInfos.html" />
