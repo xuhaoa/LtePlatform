@@ -1,4 +1,4 @@
-﻿angular.module('baidu.map', ['myApp.url'])
+﻿angular.module('baidu.map', ['myApp.url', 'myApp.parameters'])
     .factory('geometryService', function($http, $q, appUrlService) {
         var getDistanceFunc = function(p1Lat, p1Lng, p2Lat, p2Lng) {
             var earthRadiusKm = 6378.137;
@@ -33,16 +33,16 @@
             var rSector = 0.2;
             switch (zoom) {
             case 15:
-                rSector = rSector * 0.75;
-                rSation = rSation * 0.75;
+                rSector*= 0.75;
+                rSation*= 0.75;
                 break;
             case 16:
-                rSector = rSector / 2.5;
-                rSation = rSation / 2.5;
+                rSector/= 2.5;
+                rSation/= 2.5;
                 break;
             case 17:
-                rSector = rSector / 5;
-                rSation = rSation / 5;
+                rSector/= 5;
+                rSation/= 5;
                 break;
             default:
                 break;
@@ -61,6 +61,16 @@
             },
             getPosition: function(centre, r, angle) {
                 return getPositionFunc(centre, r, angle);
+            },
+            getPositionLonLat: function (centre, r, angle) {
+            	var x = r * Math.cos(angle * Math.PI / 180);
+            	var y = r * Math.sin(angle * Math.PI / 180);
+            	var lat = centre.lattitute + y / getDistanceFunc(centre.lattitute, centre.longtitute, centre.lattitute + 1, centre.longtitute);
+            	var lng = centre.longtitute + x / getDistanceFunc(centre.lattitute, centre.longtitute, centre.lattitute, centre.longtitute + 1);
+                return {
+                    longtitute: lng,
+                    lattitute: lat
+                };
             },
             generateSectorPolygonPoints: function(centre, irotation, iangle, zoom, scalor) {
                 var assemble = [];
@@ -104,17 +114,17 @@
 				var rad = Math.atan2(y2 - y1, x2 - x1);
 			    var centre = {
 			        lng: x2,
-			        lat: x1
+			        lat: y2
 			    };
-			    var point1 = getPositionRadius(centre, r, rad - 0.2);
-			    var point2 = getPositionRadius(centre, r, rad + 0.2);
+			    var point1 = getPositionRadius(centre, -r, rad - 0.2);
+			    var point2 = getPositionRadius(centre, -r, rad + 0.2);
 			    return new BMap.Polyline([
 			        new BMap.Point(x2, y2),
 			        point1,
 			        point2,
 			        new BMap.Point(x2, y2),
 			        new BMap.Point(x1, y1)
-			    ], { strokeColor: "blue" });
+			    ], { strokeColor: "blue", strokeWeight: 1 });
 			},
             transformToBaidu: function(longtitute, lattitute) {
                 var deferred = $q.defer();
@@ -153,8 +163,11 @@
             }
         };
     })
-    .factory('baiduMapService', function(geometryService) {
-        var map = {};
+    .factory('baiduMapService', function (geometryService, networkElementService) {
+    	var map = {};
+        var getCellCenter = function(cell, rCell) {
+            return geometryService.getPositionLonLat(cell, rCell, cell.azimuth);
+        };
         return {
             initializeMap: function(tag, zoomLevel) {
                 map = new BMap.Map(tag);
@@ -197,21 +210,26 @@
                     map.removeOverlay(overlay);
                 });
             },
-			addOveralays: function(overlays) {
-			    angular.forEach(overlays, function(overlay) {
-			        map.addOverlay(overlay);
-			    });
+			addOverlays: function(overlays) {
+				angular.forEach(overlays, function (overlay) {
+					map.addOverlay(overlay);
+				});
 			},
             clearOverlays: function() {
                 map.clearOverlays();
             },
-			generateNeighborLines: function(cell, neighbors, xOffset, yOffset) {
-				var lines = [];
-			    angular.forEach(neighbors, function(neighbor) {
-			    	lines.push(geometryService.getArrowLine(cell.longtitute + xOffset, cell.lattitute + yOffset,
-						neighbor.longtitute + xOffset, neighbor.lattitute + yOffset, 8));
+			generateNeighborLines: function(lines, cell, neighbors, xOffset, yOffset) {
+				var zoom = map.getZoom();
+				var rSector = geometryService.getRadius(zoom).rSector;
+				var centerCell = getCellCenter(cell, rSector / 2);
+			    angular.forEach(neighbors, function (neighbor) {
+			    	networkElementService.queryCellInfo(neighbor.neighborCellId, neighbor.neighborSectorId).then(function (neighborCell) {
+			    		var neighborCenter = getCellCenter(neighborCell, rSector / 2);
+				        var line = geometryService.getArrowLine(centerCell.longtitute + xOffset, centerCell.lattitute + yOffset,
+				            neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, rSector/2);
+				        lines.push(line);
+				    });
 			    });
-			    return lines;
 			},
             addOneMarker: function(marker, html) {
                 map.addOverlay(marker);

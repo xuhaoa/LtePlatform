@@ -1,6 +1,8 @@
 ﻿app.controller("rutrace.map", function ($scope, $timeout, $routeParams, $location, $uibModal, $log,
     geometryService, baiduMapService, networkElementService, menuItemService, cellPreciseService, neighborMongoService) {
     $scope.page.title = "小区地理化分析" + ": " + $routeParams.name + "-" + $routeParams.sectorId;
+    $scope.neighborLines = [];
+    $scope.displayNeighbors = false;
     menuItemService.updateMenuItem($scope.menuItems, 1,
         $scope.page.title,
         $scope.rootPath + "baidumap/" + $routeParams.cellId + "/" + $routeParams.sectorId + "/" + $routeParams.name);
@@ -83,12 +85,19 @@
             var xOffset = coors.x - cell.longtitute;
             var yOffset = coors.y - cell.lattitute;
             neighborMongoService.queryNeighbors($routeParams.cellId, $routeParams.sectorId).then(function(neighbors) {
-                var lines = baiduMapService.generateNeighborLines(cell, neighbors, xOffset, yOffset);
-                console.log(neighbors);
+                baiduMapService.generateNeighborLines($scope.neighborLines, cell, neighbors, xOffset, yOffset);
             });
         });
     });
             
-    $scope.toggleNeighbors = function() {
+    $scope.toggleNeighbors = function () {
+        if ($scope.displayNeighbors) {
+            baiduMapService.removeOverlays($scope.neighborLines);
+            $scope.displayNeighbors = false;
+        } else {
+            baiduMapService.addOverlays($scope.neighborLines);
+            $scope.displayNeighbors = true;
+        }
+        
     };
 });
