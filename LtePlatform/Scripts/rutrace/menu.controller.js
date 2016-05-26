@@ -67,7 +67,7 @@
                     controller: "cell.trend"
                 })
                 .when('/mongo', {
-                    templateUrl: '/appViews/FromMongo.html',
+                    templateUrl: viewDir + 'FromMongo.html',
                     controller: 'interference.mongo'
                 })
                 .otherwise({

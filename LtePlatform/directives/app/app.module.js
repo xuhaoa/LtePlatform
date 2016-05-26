@@ -10,4 +10,15 @@
             },
             templateUrl: appRoot + 'DateSpan.Tpl.html'
         };
+    })
+    .directive('dateSpanRow', function (appRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                beginDate: '=',
+                endDate: '='
+            },
+            templateUrl: appRoot + 'DateSpanRow.Tpl.html'
+        };
     });
