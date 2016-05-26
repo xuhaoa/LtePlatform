@@ -450,8 +450,8 @@
     <Content Include="appViews\Manage\Roles.html" />
     <Content Include="appViews\Manage\RoleUser.html" />
     <Content Include="appViews\Parameters\Channel\Power.html" />
-    <Content Include="appViews\Parameters\Ho\CellInterFreq.html" />
-    <Content Include="appViews\Parameters\Ho\CellIntraFreq.html" />
+    <Content Include="directives\parameters\cell\CellInterFreq.html" />
+    <Content Include="directives\parameters\cell\CellIntraFreq.html" />
     <Content Include="directives\app\app.module.js" />
     <Content Include="directives\app\DateSpan.Tpl.html" />
     <Content Include="directives\app\DateSpanRow.Tpl.html" />
@@ -1056,7 +1056,6 @@
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-messages.min.js.map" />
     <Content Include="Scripts\college\menu.root.js" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\coffee-script.js" />
@@ -1110,8 +1109,6 @@
     <Content Include="Scripts\highcharts\themes\sand.png" />
     <Content Include="Scripts\highcharts\themes\skies.jpg" />
     <Content Include="Scripts\highcharts\themes\skies.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -1292,7 +1289,6 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201511010036147_AddHometown20151101.resx">

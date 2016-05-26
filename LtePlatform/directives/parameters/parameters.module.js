@@ -93,4 +93,24 @@
             },
             templateUrl: parametersRoot + 'cell/CellDetails.html'
         }
+    })
+    .directive('cellIntraFreq', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                intraFreqHo: '='
+            },
+            templateUrl: parametersRoot + 'cell/CellIntraFreq.html'
+        }
+    })
+    .directive('cellInterFreq', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                interFreqHo: '='
+            },
+            templateUrl: parametersRoot + 'cell/CellInterFreq.html'
+        }
     });
