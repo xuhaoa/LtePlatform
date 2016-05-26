@@ -478,7 +478,7 @@
     <Content Include="appViews\Parameters\Region\Alarm.html" />
     <Content Include="appViews\Parameters\Region\BtsInfo.html" />
     <Content Include="appViews\Parameters\Region\CdmaCellDetails.html" />
-    <Content Include="appViews\Parameters\Region\CellDetails.html" />
+    <Content Include="directives\parameters\cell\CellDetails.html" />
     <Content Include="appViews\Parameters\Region\CellInfo.html" />
     <Content Include="directives\parameters\CityInfrastructure.Tpl.html" />
     <Content Include="directives\parameters\DistrictInfrastructure.Tpl.html" />

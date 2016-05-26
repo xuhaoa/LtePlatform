@@ -82,4 +82,15 @@
             },
             templateUrl: parametersRoot + 'eNodeb/ENodebInterFreq.html'
         }
+    })
+    .directive('cellDetails', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                lteCellDetails: '=',
+                cellMongo: '='
+            },
+            templateUrl: parametersRoot + 'cell/CellDetails.html'
+        }
     });
