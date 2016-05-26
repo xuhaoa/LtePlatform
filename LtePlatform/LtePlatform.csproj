@@ -449,7 +449,7 @@
     <Content Include="appViews\Manage\ResetPassword.html" />
     <Content Include="appViews\Manage\Roles.html" />
     <Content Include="appViews\Manage\RoleUser.html" />
-    <Content Include="appViews\Parameters\Channel\Power.html" />
+    <Content Include="directives\parameters\cell\Power.html" />
     <Content Include="directives\parameters\cell\CellInterFreq.html" />
     <Content Include="directives\parameters\cell\CellIntraFreq.html" />
     <Content Include="directives\app\app.module.js" />

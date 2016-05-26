@@ -113,4 +113,14 @@
             },
             templateUrl: parametersRoot + 'cell/CellInterFreq.html'
         }
+    })
+    .directive('cellChannelPower', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                cellPower: '='
+            },
+            templateUrl: parametersRoot + 'cell/Power.html'
+        }
     });
