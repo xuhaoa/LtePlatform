@@ -5,6 +5,16 @@
     $scope.displayNeighbors = false;
     $scope.reverseNeighborLines = [];
     $scope.displayReverseNeighbors = false;
+    var lastWeek = new Date();
+    lastWeek.setDate(lastWeek.getDate() - 7);
+    $scope.beginDate = {
+        value: lastWeek,
+        opened: false
+    };
+    $scope.endDate = {
+        value: new Date(),
+        opened: false
+    };
     menuItemService.updateMenuItem($scope.menuItems, 1,
         $scope.page.title,
         $scope.rootPath + "baidumap/" + $routeParams.cellId + "/" + $routeParams.sectorId + "/" + $routeParams.name);
