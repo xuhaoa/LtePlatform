@@ -126,6 +126,13 @@
 			        new BMap.Point(x1, y1)
 			    ], { strokeColor: "blue", strokeWeight: 1 });
 			},
+			getLine: function (x1, y1, x2, y2, color) {
+			    color = color || "orange";
+				return new BMap.Polyline([
+			        new BMap.Point(x2, y2),
+			        new BMap.Point(x1, y1)
+				], { strokeColor: color, strokeWeight: 1 });
+			},
             transformToBaidu: function(longtitute, lattitute) {
                 var deferred = $q.defer();
                 $http.jsonp(baiduApiUrl + '&coords=' + longtitute + ',' + lattitute
@@ -230,6 +237,19 @@
 				        lines.push(line);
 				    });
 			    });
+			},
+			generateReverseNeighborLines: function (lines, cell, neighbors, xOffset, yOffset) {
+				var zoom = map.getZoom();
+				var rSector = geometryService.getRadius(zoom).rSector;
+				var centerCell = getCellCenter(cell, rSector / 2);
+				angular.forEach(neighbors, function (neighbor) {
+					networkElementService.queryCellInfo(neighbor.cellId, neighbor.sectorId).then(function (neighborCell) {
+						var neighborCenter = getCellCenter(neighborCell, rSector / 2);
+						var line = geometryService.getLine(centerCell.longtitute + xOffset, centerCell.lattitute + yOffset,
+				            neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, "red");
+						lines.push(line);
+					});
+				});
 			},
             addOneMarker: function(marker, html) {
                 map.addOverlay(marker);

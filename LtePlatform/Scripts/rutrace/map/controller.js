@@ -3,6 +3,8 @@
     $scope.page.title = "小区地理化分析" + ": " + $routeParams.name + "-" + $routeParams.sectorId;
     $scope.neighborLines = [];
     $scope.displayNeighbors = false;
+    $scope.reverseNeighborLines = [];
+    $scope.displayReverseNeighbors = false;
     menuItemService.updateMenuItem($scope.menuItems, 1,
         $scope.page.title,
         $scope.rootPath + "baidumap/" + $routeParams.cellId + "/" + $routeParams.sectorId + "/" + $routeParams.name);
@@ -87,6 +89,9 @@
             neighborMongoService.queryNeighbors($routeParams.cellId, $routeParams.sectorId).then(function(neighbors) {
                 baiduMapService.generateNeighborLines($scope.neighborLines, cell, neighbors, xOffset, yOffset);
             });
+            neighborMongoService.queryReverseNeighbors($routeParams.cellId, $routeParams.sectorId).then(function(neighbors) {
+                baiduMapService.generateReverseNeighborLines($scope.reverseNeighborLines, cell, neighbors, xOffset, yOffset);
+            });
         });
     });
             
@@ -98,6 +103,15 @@
             baiduMapService.addOverlays($scope.neighborLines);
             $scope.displayNeighbors = true;
         }
-        
+    };
+
+    $scope.toggleReverseNeighbers = function() {
+        if ($scope.displayReverseNeighbors) {
+            baiduMapService.removeOverlays($scope.reverseNeighborLines);
+            $scope.displayReverseNeighbors = false;
+        } else {
+            baiduMapService.addOverlays($scope.reverseNeighborLines);
+            $scope.displayReverseNeighbors = true;
+        }
     };
 });
