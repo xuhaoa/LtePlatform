@@ -23,6 +23,11 @@
             var y = r * Math.sin(angle * Math.PI / 180);
             return getLonLatFunc(centre, x, y);
         };
+        var getPositionRadius = function (centre, r, rad) {
+        	var x = r * Math.cos(rad);
+        	var y = r * Math.sin(rad);
+        	return getLonLatFunc(centre, x, y);
+        };
         var getRadiusFunc = function(zoom) {
             var rSation = 70;
             var rSector = 0.2;
@@ -95,6 +100,22 @@
                 }
                 return radius;
             },
+			getArrowLine: function(x1, y1, x2, y2, r) {
+				var rad = Math.atan2(y2 - y1, x2 - x1);
+			    var centre = {
+			        lng: x2,
+			        lat: x1
+			    };
+			    var point1 = getPositionRadius(centre, r, rad - 0.2);
+			    var point2 = getPositionRadius(centre, r, rad + 0.2);
+			    return new BMap.Polyline([
+			        new BMap.Point(x2, y2),
+			        point1,
+			        point2,
+			        new BMap.Point(x2, y2),
+			        new BMap.Point(x1, y1)
+			    ], { strokeColor: "blue" });
+			},
             transformToBaidu: function(longtitute, lattitute) {
                 var deferred = $q.defer();
                 $http.jsonp(baiduApiUrl + '&coords=' + longtitute + ',' + lattitute
@@ -172,13 +193,26 @@
                 map.removeOverlay(overlay);
             },
             removeOverlays: function(overlays) {
-                for (var i = 0; i < overlays.length; i++) {
-                    map.removeOverlay(overlays[i]);
-                }
+                angular.forEach(overlays, function(overlay) {
+                    map.removeOverlay(overlay);
+                });
             },
+			addOveralays: function(overlays) {
+			    angular.forEach(overlays, function(overlay) {
+			        map.addOverlay(overlay);
+			    });
+			},
             clearOverlays: function() {
                 map.clearOverlays();
             },
+			generateNeighborLines: function(cell, neighbors, xOffset, yOffset) {
+				var lines = [];
+			    angular.forEach(neighbors, function(neighbor) {
+			    	lines.push(geometryService.getArrowLine(cell.longtitute + xOffset, cell.lattitute + yOffset,
+						neighbor.longtitute + xOffset, neighbor.lattitute + yOffset, 8));
+			    });
+			    return lines;
+			},
             addOneMarker: function(marker, html) {
                 map.addOverlay(marker);
                 var infoBox = new BMapLib.InfoBox(map, html, {

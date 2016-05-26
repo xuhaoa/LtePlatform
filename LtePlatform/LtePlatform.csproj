@@ -881,9 +881,9 @@
     <Content Include="Scripts\rutrace\interference\source.dialog.js" />
     <Content Include="Scripts\rutrace\interference\source.mod.chart.js" />
     <Content Include="Scripts\rutrace\interference\source.strength.chart.js" />
-    <Content Include="Scripts\rutrace\map.controller.js" />
-    <Content Include="Scripts\rutrace\map.neighbor.dialog.js" />
-    <Content Include="Scripts\rutrace\map.precise.dialog.js" />
+    <Content Include="Scripts\rutrace\map\controller.js" />
+    <Content Include="Scripts\rutrace\map\neighbor.dialog.js" />
+    <Content Include="Scripts\rutrace\map\precise.dialog.js" />
     <Content Include="Scripts\rutrace\precise.chart.controller.js" />
     <Content Include="Scripts\rutrace\root.controller.js" />
     <Content Include="Scripts\rutrace\top.district.controller.js" />

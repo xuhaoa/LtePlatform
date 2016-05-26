@@ -1,5 +1,5 @@
 ﻿app.controller("rutrace.map", function ($scope, $timeout, $routeParams, $location, $uibModal, $log,
-    geometryService, baiduMapService, networkElementService, menuItemService, cellPreciseService) {
+    geometryService, baiduMapService, networkElementService, menuItemService, cellPreciseService, neighborMongoService) {
     $scope.page.title = "小区地理化分析" + ": " + $routeParams.name + "-" + $routeParams.sectorId;
     menuItemService.updateMenuItem($scope.menuItems, 1,
         $scope.page.title,
@@ -50,10 +50,10 @@
         });
     };
 
+    baiduMapService.initializeMap("all-map", 12);
     cellPreciseService.queryOneWeekKpi($routeParams.cellId, $routeParams.sectorId).then(function(cellView) {
         networkElementService.queryCellSectors([cellView]).then(function (result) {
             geometryService.transformToBaidu(result[0].longtitute, result[0].lattitute).then(function (coors) {
-                baiduMapService.initializeMap("all-map", 12);
                 var xOffset = coors.x - result[0].longtitute;
                 var yOffset = coors.y - result[0].lattitute;
                 result[0].longtitute = coors.x;
@@ -77,8 +77,17 @@
 
         });
     });
-    
 
+    networkElementService.queryCellInfo($routeParams.cellId, $routeParams.sectorId).then(function(cell) {
+        geometryService.transformToBaidu(cell.longtitute, cell.lattitute).then(function(coors) {
+            var xOffset = coors.x - cell.longtitute;
+            var yOffset = coors.y - cell.lattitute;
+            neighborMongoService.queryNeighbors($routeParams.cellId, $routeParams.sectorId).then(function(neighbors) {
+                var lines = baiduMapService.generateNeighborLines(cell, neighbors, xOffset, yOffset);
+                console.log(neighbors);
+            });
+        });
+    });
             
     $scope.toggleNeighbors = function() {
     };
