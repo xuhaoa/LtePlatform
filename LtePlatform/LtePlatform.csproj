@@ -588,6 +588,8 @@
     <Content Include="directives\rutrace\DistrictStatTable.Tpl.html" />
     <Content Include="directives\rutrace\rutrace.module.js" />
     <Content Include="directives\rutrace\TownStatTable.Tpl.html" />
+    <Content Include="directives\rutrace\trend\MrTable.html" />
+    <Content Include="directives\rutrace\trend\PreciseTable.html" />
     <Content Include="Scripts\angular-ui\uib\alert.js" />
     <Content Include="Areas\TestPage\Scripts\angular\chap10.viewmodel.js" />
     <Content Include="Areas\TestPage\Scripts\angular\datetime.test.controller.js" />

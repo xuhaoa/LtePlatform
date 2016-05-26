@@ -248,4 +248,26 @@
             },
             templateUrl: htmlRoot + 'interference/VictimList.html'
         };
+    })
+    .directive('trendMrTable', function (htmlRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                trendStat: '=',
+                city: '='
+            },
+            templateUrl: htmlRoot + 'trend/MrTable.html'
+        };
+    })
+    .directive('trendPreciseTable', function (htmlRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                trendStat: '=',
+                city: '='
+            },
+            templateUrl: htmlRoot + 'trend/PreciseTable.html'
+        };
     });

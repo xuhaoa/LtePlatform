@@ -1,0 +1,15 @@
+﻿<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>日期</th>
+            <th ng-repeat="district in trendStat.districts">{{district}}</th>
+            <th>{{city.selected}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="stat in trendStat.stats">
+            <td>{{stat.statDate | date: 'yyyy-MM-dd'}}</td>
+            <td ng-repeat="value in stat.values">{{value.precise | number: 2}}</td>
+        </tr>
+    </tbody>
+</table>

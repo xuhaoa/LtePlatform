@@ -14,62 +14,15 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div>
-            <label>开始日期：</label>
-            <div class="input-group">
-                <input type="text" class="form-control" uib-datepicker-popup ng-model="beginDate.value" 
-                       is-open="beginDate.opened" ng-required="true" close-text="Close"/>
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="beginDate.opened = true">
-                        <i class="glyphicon glyphicon-calendar"></i>
-                    </button>
-                </span>
-            </div>
-        </div>
-
-        <div>
-            <label>结束日期：</label>
-            <div class="input-group">
-                <input type="text" class="form-control" uib-datepicker-popup ng-model="endDate.value" 
-                       is-open="endDate.opened" ng-required="true" close-text="Close"/>
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="endDate.opened = true">
-                        <i class="glyphicon glyphicon-calendar"></i>
-                    </button>
-                </span>
-            </div>
-        </div>
+        <div date-span-column begin-date="beginDate" end-date="endDate"></div>
     </div>
 </div>
-<h4 class="text-center text-primary">测量报告数统计</h4>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>日期</th>
-            <th ng-repeat="district in trendStat.districts">{{district}}</th>
-            <th>{{city.selected}}</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="stat in trendStat.stats">
-            <td>{{stat.statDate | date: 'yyyy-MM-dd'}}</td>
-            <td ng-repeat="value in stat.values">{{value.mr | number: 0}}</td>
-        </tr>
-    </tbody>
-</table>
-<h4 class="text-center text-primary">精确覆盖率统计</h4>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>日期</th>
-            <th ng-repeat="district in trendStat.districts">{{district}}</th>
-            <th>{{city.selected}}</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="stat in trendStat.stats">
-            <td>{{stat.statDate | date: 'yyyy-MM-dd'}}</td>
-            <td ng-repeat="value in stat.values">{{value.precise | number: 2}}</td>
-        </tr>
-    </tbody>
-</table>
+<div uib-tabset active="active">
+    <div uib-tab index="0" heading="精确覆盖率统计">
+        <div trend-precise-table trend-stat="trendStat" city="city"></div>
+    </div>
+    <div uib-tab index="1" heading="测量报告数统计">
+        <div trend-mr-table trend-stat="trendStat" city="city"></div>
+    </div>
+</div>
+    
