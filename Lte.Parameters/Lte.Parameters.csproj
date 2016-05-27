@@ -182,6 +182,7 @@
     <Compile Include="Entities\Basic\EUtranCellFDDZte.cs" />
     <Compile Include="Entities\Basic\PrachFDDZte.cs" />
     <Compile Include="Entities\Channel\CellDlpcPdschPa.cs" />
+    <Compile Include="Entities\Channel\ECellEquipmentFunctionZte.cs" />
     <Compile Include="Entities\Channel\PDSCHCfg.cs" />
     <Compile Include="Entities\Channel\PowerControlDLZte.cs" />
     <Compile Include="Entities\Mr\CellDistance.cs" />
