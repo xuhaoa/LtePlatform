@@ -5,6 +5,12 @@
     $scope.displayNeighbors = false;
     $scope.reverseNeighborLines = [];
     $scope.displayReverseNeighbors = false;
+    $scope.interferenceLines = [];
+    $scope.interferenceCircles = [];
+    $scope.displayInterference = false;
+    $scope.victimLines = [];
+    $scope.victimCircles = [];
+    $scope.displayVictims = false;
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 7);
     $scope.beginDate = {
@@ -19,51 +25,6 @@
         $scope.page.title,
         $scope.rootPath + "baidumap/" + $routeParams.cellId + "/" + $routeParams.sectorId + "/" + $routeParams.name);
 
-    $scope.showPrecise = function (precise) {
-        var modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: '/appViews/Rutrace/Map/PreciseSectorMapInfoBox.html',
-            controller: 'map.precise.dialog',
-            size: 'sm',
-            resolve: {
-                dialogTitle: function () {
-                    return precise.eNodebName + "-" + precise.sectorId + "精确覆盖率指标";
-                },
-                precise: function () {
-                    return precise;
-                }
-            }
-        });
-        modalInstance.result.then(function (sector) {
-            console.log(sector);
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-
-    };
-
-    $scope.showNeighbor = function (neighbor) {
-        var modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: '/appViews/Rutrace/Map/NeighborMapInfoBox.html',
-            controller: 'map.neighbor.dialog',
-            size: 'sm',
-            resolve: {
-                dialogTitle: function () {
-                    return neighbor.cellName + "小区信息";
-                },
-                neighbor: function () {
-                    return neighbor;
-                }
-            }
-        });
-        modalInstance.result.then(function (nei) {
-            console.log(nei);
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-    };
-
     baiduMapService.initializeMap("all-map", 12);
     cellPreciseService.queryOneWeekKpi($routeParams.cellId, $routeParams.sectorId).then(function(cellView) {
         networkElementService.queryCellSectors([cellView]).then(function (result) {
@@ -74,7 +35,7 @@
                 result[0].lattitute = coors.y;
 
                 var sectorTriangle = baiduMapService.generateSector(result[0], "blue", 1.25);
-                baiduMapService.addOneSectorToScope(sectorTriangle, $scope.showPrecise, result[0]);
+                baiduMapService.addOneSectorToScope(sectorTriangle, neighborMongoService.showPreciseDialog, result[0]);
 
                 baiduMapService.setCellFocus(result[0].longtitute, result[0].lattitute, 15);
                 var range = baiduMapService.getCurrentMapRange(-xOffset, -yOffset);
@@ -84,7 +45,7 @@
                         sector.longtitute += xOffset;
                         sector.lattitute += yOffset;
                         baiduMapService.addOneSectorToScope(baiduMapService.generateSector(sector, "green"),
-                            $scope.showNeighbor, sector);
+                            neighborMongoService.showNeighborDialog, sector);
                     });
                 });
             });

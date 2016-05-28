@@ -68,6 +68,49 @@
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
+            },
+            showPreciseDialog: function(precise) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Map/PreciseSectorMapInfoBox.html',
+                    controller: 'map.precise.dialog',
+                    size: 'sm',
+                    resolve: {
+                        dialogTitle: function() {
+                            return precise.eNodebName + "-" + precise.sectorId + "精确覆盖率指标";
+                        },
+                        precise: function() {
+                            return precise;
+                        }
+                    }
+                });
+                modalInstance.result.then(function(sector) {
+                    console.log(sector);
+                }, function() {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+
+            },
+            showNeighborDialog: function (neighbor) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Map/NeighborMapInfoBox.html',
+                    controller: 'map.neighbor.dialog',
+                    size: 'sm',
+                    resolve: {
+                        dialogTitle: function () {
+                            return neighbor.cellName + "小区信息";
+                        },
+                        neighbor: function () {
+                            return neighbor;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (nei) {
+                    console.log(nei);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
             }
         };
     });
