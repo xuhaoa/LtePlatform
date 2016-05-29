@@ -19,6 +19,7 @@
                 beginDate: '=',
                 endDate: '='
             },
-            templateUrl: appRoot + 'DateSpanRow.Tpl.html'
+            templateUrl: appRoot + 'DateSpanRow.Tpl.html',
+            transclude: true
         };
     });

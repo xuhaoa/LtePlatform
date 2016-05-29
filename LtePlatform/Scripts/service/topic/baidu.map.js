@@ -260,14 +260,16 @@
 			    var rSector = geometryService.getRadius(zoom).rSector;
 			    var centerCell = getCellCenter(cell, rSector / 2);
 			    angular.forEach(neighbors, function (neighbor) {
-			        networkElementService.queryCellInfo(neighbor.destENodebId, neighbor.destSectorId).then(function (neighborCell) {
-			            var neighborCenter = getCellCenter(neighborCell, rSector / 2);
-			            var line = geometryService.getLine(centerCell.longtitute + xOffset, centerCell.lattitute + yOffset,
-				            neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, color);
-			            lines.push(line);
-			            var circle = geometryService.getCircle(neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, 50, color);
-			            circles.push(circle);
-			        });
+			        if (neighbor.destENodebId > 0) {
+			            networkElementService.queryCellInfo(neighbor.destENodebId, neighbor.destSectorId).then(function(neighborCell) {
+			                var neighborCenter = getCellCenter(neighborCell, rSector / 2);
+			                var line = geometryService.getLine(centerCell.longtitute + xOffset, centerCell.lattitute + yOffset,
+			                    neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, color);
+			                lines.push(line);
+			                var circle = geometryService.getCircle(neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, 50, color);
+			                circles.push(circle);
+			            });
+			        }
 			    });
 			},
 			generateVictimComponents: function (lines, circles, cell, neighbors, xOffset, yOffset, color) {
@@ -275,14 +277,16 @@
 			    var rSector = geometryService.getRadius(zoom).rSector;
 			    var centerCell = getCellCenter(cell, rSector / 2);
 			    angular.forEach(neighbors, function (neighbor) {
-			        networkElementService.queryCellInfo(neighbor.victimENodebId, neighbor.victimSectorId).then(function (neighborCell) {
-			            var neighborCenter = getCellCenter(neighborCell, rSector / 2);
-			            var line = geometryService.getLine(centerCell.longtitute + xOffset, centerCell.lattitute + yOffset,
-				            neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, color);
-			            lines.push(line);
-			            var circle = geometryService.getCircle(neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, 50, color);
-			            circles.push(circle);
-			        });
+			        if (neighbor.victimENodebId > 0) {
+			            networkElementService.queryCellInfo(neighbor.victimENodebId, neighbor.victimSectorId).then(function(neighborCell) {
+			                var neighborCenter = getCellCenter(neighborCell, rSector / 2);
+			                var line = geometryService.getLine(centerCell.longtitute + xOffset, centerCell.lattitute + yOffset,
+			                    neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, color);
+			                lines.push(line);
+			                var circle = geometryService.getCircle(neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, 50, color);
+			                circles.push(circle);
+			            });
+			        }
 			    });
 			},
             addOneMarker: function(marker, html) {
