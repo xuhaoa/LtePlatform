@@ -66,11 +66,12 @@
             topPreciseService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
                 $routeParams.cellId, $routeParams.sectorId).then(function (interference) {
                     baiduMapService.generateInterferenceComponents($scope.interferenceLines, $scope.interferenceCircles, cell,
-                        interference, xOffset, yOffset);
+                        interference, xOffset, yOffset, "orange");
                 });
             topPreciseService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
                 $routeParams.cellId, $routeParams.sectorId).then(function(victims) {
-                    console.log(victims);
+                    baiduMapService.generateVictimComponents($scope.victimLines, $scope.victimCircles, cell,
+                        victims, xOffset, yOffset, "green");
             });
         });
     });
@@ -104,6 +105,18 @@
             baiduMapService.addOverlays($scope.interferenceLines);
             baiduMapService.addOverlays($scope.interferenceCircles);
             $scope.displayInterference = true;
+        }
+    };
+
+    $scope.toggleVictims = function() {
+        if ($scope.displayVictims) {
+            baiduMapService.removeOverlays($scope.victimLines);
+            baiduMapService.removeOverlays($scope.victimCircles);
+            $scope.displayVictims = false;
+        } else {
+            baiduMapService.addOverlays($scope.victimLines);
+            baiduMapService.addOverlays($scope.victimCircles);
+            $scope.displayVictims = true;
         }
     };
 });
