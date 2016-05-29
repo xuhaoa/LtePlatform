@@ -67,6 +67,10 @@
                 $routeParams.cellId, $routeParams.sectorId).then(function (interference) {
                     baiduMapService.generateInterferenceComponents($scope.interferenceLines, $scope.interferenceCircles, cell,
                         interference, xOffset, yOffset);
+                });
+            topPreciseService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
+                $routeParams.cellId, $routeParams.sectorId).then(function(victims) {
+                    console.log(victims);
             });
         });
     });
