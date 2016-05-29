@@ -133,6 +133,10 @@
 			        new BMap.Point(x1, y1)
 				], { strokeColor: color, strokeWeight: 1 });
 			},
+            getCircle: function(x, y, r, color) {
+                color = color || "orange";
+                return new BMap.Circle(new BMap.Point(x, y), r, { strokeColor: color, fillColor: color });
+            },
             transformToBaidu: function(longtitute, lattitute) {
                 var deferred = $q.defer();
                 $http.jsonp(baiduApiUrl + '&coords=' + longtitute + ',' + lattitute
@@ -250,6 +254,21 @@
 						lines.push(line);
 					});
 				});
+			},
+			generateInterferenceComponents: function (lines, circles, cell, neighbors, xOffset, yOffset) {
+			    var zoom = map.getZoom();
+			    var rSector = geometryService.getRadius(zoom).rSector;
+			    var centerCell = getCellCenter(cell, rSector / 2);
+			    angular.forEach(neighbors, function (neighbor) {
+			        networkElementService.queryCellInfo(neighbor.destENodebId, neighbor.destSectorId).then(function (neighborCell) {
+			            var neighborCenter = getCellCenter(neighborCell, rSector / 2);
+			            var line = geometryService.getLine(centerCell.longtitute + xOffset, centerCell.lattitute + yOffset,
+				            neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, "blue");
+			            lines.push(line);
+			            var circle = geometryService.getCircle(neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, 50, "blue");
+			            circles.push(circle);
+			        });
+			    });
 			},
             addOneMarker: function(marker, html) {
                 map.addOverlay(marker);

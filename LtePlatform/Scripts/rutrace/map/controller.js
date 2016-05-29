@@ -1,5 +1,5 @@
 ﻿app.controller("rutrace.map", function ($scope, $timeout, $routeParams, $location, $uibModal, $log,
-    geometryService, baiduMapService, networkElementService, menuItemService, cellPreciseService, neighborMongoService) {
+    geometryService, baiduMapService, networkElementService, menuItemService, cellPreciseService, neighborMongoService, topPreciseService) {
     $scope.page.title = "小区地理化分析" + ": " + $routeParams.name + "-" + $routeParams.sectorId;
     $scope.neighborLines = [];
     $scope.displayNeighbors = false;
@@ -63,6 +63,11 @@
             neighborMongoService.queryReverseNeighbors($routeParams.cellId, $routeParams.sectorId).then(function(neighbors) {
                 baiduMapService.generateReverseNeighborLines($scope.reverseNeighborLines, cell, neighbors, xOffset, yOffset);
             });
+            topPreciseService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
+                $routeParams.cellId, $routeParams.sectorId).then(function (interference) {
+                    baiduMapService.generateInterferenceComponents($scope.interferenceLines, $scope.interferenceCircles, cell,
+                        interference, xOffset, yOffset);
+            });
         });
     });
             
@@ -83,6 +88,18 @@
         } else {
             baiduMapService.addOverlays($scope.reverseNeighborLines);
             $scope.displayReverseNeighbors = true;
+        }
+    };
+
+    $scope.toggleInterference = function () {
+        if ($scope.displayInterference) {
+            baiduMapService.removeOverlays($scope.interferenceLines);
+            baiduMapService.removeOverlays($scope.interferenceCircles);
+            $scope.displayInterference = false;
+        } else {
+            baiduMapService.addOverlays($scope.interferenceLines);
+            baiduMapService.addOverlays($scope.interferenceCircles);
+            $scope.displayInterference = true;
         }
     };
 });
