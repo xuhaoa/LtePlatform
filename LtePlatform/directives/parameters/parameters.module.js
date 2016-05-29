@@ -63,6 +63,16 @@
             templateUrl: parametersRoot + 'eNodeb/LteCellTable.html'
         }
     })
+    .directive('cdmaCellTable', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                cdmaCellList: '='
+            },
+            templateUrl: parametersRoot + 'cdma/CellTable.html'
+        }
+    })
     .directive('eNodebIntraFreq', function (parametersRoot) {
         return {
             restrict: 'ECMA',
