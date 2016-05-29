@@ -104,6 +104,16 @@
             templateUrl: parametersRoot + 'cell/CellDetails.html'
         }
     })
+    .directive('lteCellBasicInfo', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                neighbor: '='
+            },
+            templateUrl: parametersRoot + 'cell/BasicInfo.html'
+        }
+    })
     .directive('cellIntraFreq', function (parametersRoot) {
         return {
             restrict: 'ECMA',
@@ -112,6 +122,56 @@
                 intraFreqHo: '='
             },
             templateUrl: parametersRoot + 'cell/CellIntraFreq.html'
+        }
+    })
+    .directive('a1InterFreq', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                interFreqHo: '='
+            },
+            templateUrl: parametersRoot + 'cell/A1InterFreq.html'
+        }
+    })
+    .directive('a2InterFreq', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                interFreqHo: '='
+            },
+            templateUrl: parametersRoot + 'cell/A2InterFreq.html'
+        }
+    })
+    .directive('a3InterFreq', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                interFreqHo: '='
+            },
+            templateUrl: parametersRoot + 'cell/A3InterFreq.html'
+        }
+    })
+    .directive('a4InterFreq', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                interFreqHo: '='
+            },
+            templateUrl: parametersRoot + 'cell/A4InterFreq.html'
+        }
+    })
+    .directive('a5InterFreq', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                interFreqHo: '='
+            },
+            templateUrl: parametersRoot + 'cell/A5InterFreq.html'
         }
     })
     .directive('cellInterFreq', function (parametersRoot) {
