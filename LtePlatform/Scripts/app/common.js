@@ -25,7 +25,8 @@
     'parameters.module',
     'rutrace.module',
     "ui.bootstrap",
-    'ui.router'
+    'ui.router',
+    'workitem.module'
 ]);
 
 app.run(function($rootScope) {

@@ -547,7 +547,7 @@
     <Content Include="appViews\WorkItem\DistrictList.html" />
     <Content Include="appViews\WorkItem\ENodebInfo.html" />
     <Content Include="appViews\WorkItem\FeedbackDialog.html" />
-    <Content Include="appViews\WorkItem\WorkItemTable.html" />
+    <Content Include="directives\workitem\WorkItem.Tpl.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Areas\HelpPage\Scripts\api.details.js" />
     <Content Include="Areas\HelpPage\Scripts\api.group.js" />
@@ -590,6 +590,7 @@
     <Content Include="directives\rutrace\TownStatTable.Tpl.html" />
     <Content Include="directives\rutrace\trend\MrTable.html" />
     <Content Include="directives\rutrace\trend\PreciseTable.html" />
+    <Content Include="directives\workitem\workitem.module.js" />
     <Content Include="Scripts\angular-ui\uib\alert.js" />
     <Content Include="Areas\TestPage\Scripts\angular\chap10.viewmodel.js" />
     <Content Include="Areas\TestPage\Scripts\angular\datetime.test.controller.js" />
@@ -1124,7 +1125,6 @@
     <Content Include="Scripts\kpi\interference.import.controller.js" />
     <Content Include="Scripts\rutrace\interference\mongo.controller.js" />
     <Content Include="Scripts\kpi\top.drop2G.viewmodel.js" />
-    <Content Include="Scripts\kpi\workitem\service.js" />
     <Content Include="Scripts\kpi\workitem\details.controller.js" />
     <Content Include="Scripts\kpi\workitem\index.controller.js" />
     <Content Include="Scripts\manage\index.viewmodel.js" />
