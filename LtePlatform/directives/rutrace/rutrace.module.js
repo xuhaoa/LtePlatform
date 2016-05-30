@@ -282,4 +282,150 @@
             },
             templateUrl: htmlRoot + 'trend/PreciseTable.html'
         };
+    })
+    .directive('analyzeTable', function (htmlRoot, $uibModal, $log) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                currentView: '='
+            },
+            templateUrl: htmlRoot + 'AnalyzeTable.Tpl.html',
+            link: function (scope, element, attrs) {
+                scope.analyzeInterferenceSource = function () {
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: '/appViews/Rutrace/Interference/SourceDialog.html',
+                        controller: 'interference.source.dialog',
+                        size: 'lg',
+                        resolve: {
+                            dialogTitle: function () {
+                                return scope.currentView.eNodebName + "-" + scope.currentView.sectorId + "干扰源分析";
+                            },
+                            eNodebId: function () {
+                                return scope.currentView.eNodebId;
+                            },
+                            sectorId: function () {
+                                return scope.currentView.sectorId;
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function (info) {
+                        scope.interferenceSourceComments = info;
+                    }, function () {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
+                };
+                scope.showSourceDbChart = function () {
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: '/appViews/Rutrace/Interference/SourceDbChartDialog.html',
+                        controller: 'interference.source.db.chart',
+                        size: 'lg',
+                        resolve: {
+                            dialogTitle: function () {
+                                return scope.currentView.eNodebName + "-" + scope.currentView.sectorId + "干扰源图表";
+                            },
+                            eNodebId: function () {
+                                return scope.currentView.eNodebId;
+                            },
+                            sectorId: function () {
+                                return scope.currentView.sectorId;
+                            },
+                            name: function () {
+                                return scope.currentView.eNodebName;
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function (info) {
+                        scope.interferenceSourceComments = info;
+                    }, function () {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
+                };
+                scope.showSourceModChart = function () {
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: '/appViews/Rutrace/Interference/SourceModChartDialog.html',
+                        controller: 'interference.source.mod.chart',
+                        size: 'lg',
+                        resolve: {
+                            dialogTitle: function () {
+                                return scope.currentView.eNodebName + "-" + scope.currentView.sectorId + "MOD3/MOD6干扰图表";
+                            },
+                            eNodebId: function () {
+                                return scope.currentView.eNodebId;
+                            },
+                            sectorId: function () {
+                                return scope.currentView.sectorId;
+                            },
+                            name: function () {
+                                return scope.currentView.eNodebName;
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function (info) {
+                        scope.interferenceSourceComments = info;
+                    }, function () {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
+                };
+                scope.showSourceStrengthChart = function () {
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: '/appViews/Rutrace/Interference/SourceStrengthChartDialog.html',
+                        controller: 'interference.source.strength.chart',
+                        size: 'lg',
+                        resolve: {
+                            dialogTitle: function () {
+                                return scope.currentView.eNodebName + "-" + scope.currentView.sectorId + "干扰强度图表";
+                            },
+                            eNodebId: function () {
+                                return scope.currentView.eNodebId;
+                            },
+                            sectorId: function () {
+                                return scope.currentView.sectorId;
+                            },
+                            name: function () {
+                                return scope.currentView.eNodebName;
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function (info) {
+                        scope.interferenceSourceComments = info;
+                    }, function () {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
+                };
+                scope.analyzeInterferenceVictim = function () {
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: '/appViews/Rutrace/Interference/VictimDialog.html',
+                        controller: 'interference.victim.dialog',
+                        size: 'lg',
+                        resolve: {
+                            dialogTitle: function () {
+                                return scope.currentView.eNodebName + "-" + scope.currentView.sectorId + "干扰小区分析";
+                            },
+                            eNodebId: function () {
+                                return scope.currentView.eNodebId;
+                            },
+                            sectorId: function () {
+                                return scope.currentView.sectorId;
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function (info) {
+                        scope.interferenceVictimComments = info;
+                    }, function () {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
+                };
+            }
+        };
     });
