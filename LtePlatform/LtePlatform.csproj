@@ -449,6 +449,7 @@
     <Content Include="appViews\Manage\ResetPassword.html" />
     <Content Include="appViews\Manage\Roles.html" />
     <Content Include="appViews\Manage\RoleUser.html" />
+    <Content Include="appViews\Rutrace\Interference\VictimDialog.html" />
     <Content Include="directives\parameters\cell\Power.html" />
     <Content Include="directives\parameters\cell\CellInterFreq.html" />
     <Content Include="directives\parameters\cell\CellIntraFreq.html" />
@@ -746,6 +747,7 @@
     <Content Include="Scripts\mycharts\gaugeMeter.js" />
     <Content Include="Scripts\mycharts\timeSeriesLine.js" />
     <Content Include="Scripts\rutrace\coverage\ta.dialog.js" />
+    <Content Include="Scripts\rutrace\interference\victim.dialog.js" />
     <Content Include="Scripts\service\dump.progress.factory.js" />
     <Content Include="Scripts\angular-ui\local\bootstrap-datetimepicker.ar.js" />
     <Content Include="Scripts\angular-ui\local\bootstrap-datetimepicker.bg.js" />

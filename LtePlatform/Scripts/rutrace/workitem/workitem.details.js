@@ -143,5 +143,30 @@
             $log.info('Modal dismissed at: ' + new Date());
         });
     };
+    $scope.analyzeInterferenceVictim = function () {
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '/appViews/Rutrace/Interference/VictimDialog.html',
+            controller: 'interference.victim.dialog',
+            size: 'lg',
+            resolve: {
+                dialogTitle: function () {
+                    return $scope.currentView.eNodebName + "-" + $scope.currentView.sectorId + "干扰小区分析";
+                },
+                eNodebId: function () {
+                    return $scope.currentView.eNodebId;
+                },
+                sectorId: function () {
+                    return $scope.currentView.sectorId;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (info) {
+            $scope.interferenceVictimComments = info;
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    };
     $scope.queryWorkItems();
 });
