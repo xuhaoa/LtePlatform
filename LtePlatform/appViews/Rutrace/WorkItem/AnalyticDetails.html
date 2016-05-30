@@ -78,7 +78,13 @@
         <div ng-include="'/appViews/Rutrace/WorkItem/PlatformAndFeedbackInfo.html'"></div>
     </div>
     <div uib-tab index="1" heading="指标变化趋势">
-        <div ng-include="'/appViews/Rutrace/WorkItem/CellTrend.html'"></div>
+        <div date-span-row begin-date="beginDate" end-date="endDate">
+            <button type="button" class="btn btn-success" ng-click="showTrend()">
+                <i class="glyphicon glyphicon-search" title="统计数据"></i>
+            </button>
+        </div>
+        <div highchart config="mrsConfig"></div>
+        <div highchart config="preciseConfig"></div>
     </div>
     <div uib-tab index="2" heading="工单处理">
         <table class="table table-hover">
