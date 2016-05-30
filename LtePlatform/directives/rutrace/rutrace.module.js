@@ -189,6 +189,18 @@
             templateUrl: htmlRoot + 'interference/MongoNeighbors.html'
         };
     })
+    .directive('interferenceSourceDialogList', function (htmlRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                interferenceCells: '=',
+                orderPolicy: '=',
+                displayItems: '='
+            },
+            templateUrl: htmlRoot + 'interference/SourceDialogList.html'
+        };
+    })
     .directive('interferenceSourceList', function (htmlRoot, $uibModal, $log, neighborService) {
         var matchNearest = function(nearestCell, currentNeighbor, center) {
             neighborService.updateNeighbors(center.cellId, center.sectorId, currentNeighbor.destPci,
