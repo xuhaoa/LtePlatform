@@ -18,6 +18,10 @@
         topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
             $routeParams.cellId, $routeParams.sectorId).then(function(result) {
             $scope.coverageList = result;
+            });
+        topPreciseService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
+            $routeParams.cellId, $routeParams.sectorId).then(function(result) {
+            $scope.interferenceCells = result;
         });
     };
     $scope.showCoverage();

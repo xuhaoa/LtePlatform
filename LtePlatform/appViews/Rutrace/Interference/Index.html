@@ -2,33 +2,7 @@
     {{message.cellName}}更新{{message.topic}}小区信息{{message.counts}}条
 </div>
 <div class="row">
-    <div class="col-md-6">
-        <div>
-            <label>开始日期：</label>
-            <div class="input-group">
-                <input type="text" class="form-control" uib-datepicker-popup ng-model="beginDate.value"
-                       is-open="beginDate.opened" ng-required="true" close-text="Close"/>
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="beginDate.opened = true">
-                        <i class="glyphicon glyphicon-calendar"></i>
-                    </button>
-                </span>
-            </div>
-        </div>
-
-        <div>
-            <label>结束日期：</label>
-            <div class="input-group">
-                <input type="text" class="form-control" uib-datepicker-popup ng-model="endDate.value"
-                       is-open="endDate.opened" ng-required="true" close-text="Close"/>
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="endDate.opened = true">
-                        <i class="glyphicon glyphicon-calendar"></i>
-                    </button>
-                </span>
-            </div>
-        </div>
-    </div>
+    <div class="col-md-6" date-span-column begin-date="beginDate" end-date="endDate"></div>
     <div class="col-md-6">
         <label>排序依据：</label>
         <div class="input-group">

@@ -3,4 +3,13 @@
         <i class="glyphicon glyphicon-search" title="统计覆盖"></i>
     </button>
 </div>
-<div coverage-table coverage-list="coverageList" dialog-title="detailsDialogTitle" cell-id="cellId" sector-id="sectorId"></div>
+<div uib-tabset active="active">
+    <div uib-tab index="0" heading="总体覆盖情况">
+        <div coverage-table coverage-list="coverageList" dialog-title="detailsDialogTitle" cell-id="cellId" sector-id="sectorId"></div>
+    </div>
+    <div uib-tab index="1" heading="干扰源覆盖分析">
+        <div interference-source-coverage-list interference-cells="interferenceCells"></div>
+    </div>
+    <div uib-tab index="2" heading="被干扰小区覆盖分析">
+    </div>
+</div>
