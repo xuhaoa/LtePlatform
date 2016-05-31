@@ -492,6 +492,7 @@
     <Content Include="directives\parameters\parameters.module.js" />
     <Content Include="directives\rutrace\AnalyzeTable.Tpl.html" />
     <Content Include="directives\rutrace\coverage\InterferenceSourceList.html" />
+    <Content Include="directives\rutrace\coverage\InterferenceVictimList.html" />
     <Content Include="directives\rutrace\import\BackwardNeighbors.html" />
     <Content Include="directives\rutrace\import\ForwardNeighbors.html" />
     <Content Include="appViews\Rutrace\Index.html" />

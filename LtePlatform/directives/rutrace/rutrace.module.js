@@ -295,6 +295,16 @@
             templateUrl: htmlRoot + 'interference/VictimList.html'
         };
     })
+    .directive('interferenceVictimCoverageList', function (htmlRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                victimCells: '='
+            },
+            templateUrl: htmlRoot + 'coverage/InterferenceVictimList.html'
+        };
+    })
     .directive('trendMrTable', function (htmlRoot) {
         return {
             restrict: 'ECMA',

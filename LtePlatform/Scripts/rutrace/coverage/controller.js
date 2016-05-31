@@ -20,18 +20,22 @@
             $scope.coverageList = result;
             });
         topPreciseService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
-            $routeParams.cellId, $routeParams.sectorId).then(function (result) {
-                $scope.interferenceCells = result;
-                angular.forEach($scope.interferenceCells, function (neighbor) {
-                    if (neighbor.destENodebId > 0) {
-                        topPreciseService.queryCellStastic(neighbor.destENodebId, neighbor.destPci,
-                            $scope.beginDate.value, $scope.endDate.value).then(function(coverage) {
-                            neighbor.mrCount = coverage.mrCount;
-                            neighbor.weakCoverCount = coverage.weakCoverCount;
-                            neighbor.overCoverCount = coverage.overCoverCount;
-                        });
-                    }
+            $routeParams.cellId, $routeParams.sectorId).then(function(result) {
+            $scope.interferenceCells = result;
+            angular.forEach($scope.interferenceCells, function(neighbor) {
+                if (neighbor.destENodebId > 0) {
+                    topPreciseService.queryCellStastic(neighbor.destENodebId, neighbor.destPci,
+                        $scope.beginDate.value, $scope.endDate.value).then(function(coverage) {
+                        neighbor.mrCount = coverage.mrCount;
+                        neighbor.weakCoverCount = coverage.weakCoverCount;
+                        neighbor.overCoverCount = coverage.overCoverCount;
+                    });
+                }
             });
+        });
+        topPreciseService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
+            $routeParams.cellId, $routeParams.sectorId).then(function(result) {
+            $scope.interferenceVictims = result;
         });
     };
     $scope.showCoverage();
