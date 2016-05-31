@@ -35,7 +35,17 @@
         });
         topPreciseService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
             $routeParams.cellId, $routeParams.sectorId).then(function(result) {
-            $scope.interferenceVictims = result;
+                $scope.interferenceVictims = result;
+                angular.forEach($scope.interferenceVictims,function(victim) {
+                    if (victim.victimENodebId > 0) {
+                        topPreciseService.queryCellStastic(victim.victimENodebId, victim.victimPci,
+                        $scope.beginDate.value, $scope.endDate.value).then(function (coverage) {
+                            victim.mrCount = coverage.mrCount;
+                            victim.weakCoverCount = coverage.weakCoverCount;
+                            victim.overCoverCount = coverage.overCoverCount;
+                        });
+                    }
+                })
         });
     };
     $scope.showCoverage();

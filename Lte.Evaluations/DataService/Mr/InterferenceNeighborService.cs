@@ -14,13 +14,16 @@ namespace Lte.Evaluations.DataService.Mr
         private readonly IInterferenceMatrixRepository _repository;
         private readonly INearestPciCellRepository _neighborRepository;
         private readonly IENodebRepository _eNodebRepository;
+        private readonly ICellRepository _cellRepository;
 
         public InterferenceNeighborService(IInterferenceMatrixRepository repository,
-            INearestPciCellRepository neighboRepository, IENodebRepository eNodebRepository)
+            INearestPciCellRepository neighboRepository, IENodebRepository eNodebRepository,
+            ICellRepository cellRepository)
         {
             _repository = repository;
             _neighborRepository = neighboRepository;
             _eNodebRepository = eNodebRepository;
+            _cellRepository = cellRepository;
         }
 
         public async Task<int> UpdateNeighbors(int cellId, byte sectorId)
@@ -84,6 +87,8 @@ namespace Lte.Evaluations.DataService.Mr
             {
                 var eNodeb = _eNodebRepository.GetByENodebId(victim.VictimENodebId);
                 victim.VictimCellName = eNodeb?.Name + "-" + victim.VictimSectorId;
+                var cell = _cellRepository.GetBySectorId(victim.VictimENodebId, victim.VictimSectorId);
+                victim.VictimPci = cell?.Pci ?? 0;
             }
             return victims;
         }

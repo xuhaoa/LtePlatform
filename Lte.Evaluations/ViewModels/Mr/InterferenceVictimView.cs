@@ -11,6 +11,8 @@ namespace Lte.Evaluations.ViewModels.Mr
         [MemberDoc("被干扰小区扇区编号")]
         public byte VictimSectorId { get; set; }
 
+        public short VictimPci { get; set; }
+
         [MemberDoc("被干扰小区名称")]
         public string VictimCellName { get; set; }
 
