@@ -10,4 +10,9 @@ namespace Lte.Evaluations.DataService.Switch
     {
         T Query();
     }
+
+    public interface IDateSpanQuery<out T>
+    {
+        T Query(DateTime begin, DateTime end);
+    }
 }
