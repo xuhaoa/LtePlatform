@@ -36,7 +36,7 @@ namespace Lte.Evaluations.MapperSerive
 
             KpiMapperService.MapCdmaRegionStat();
             KpiMapperService.MapCellPrecise();
-            KpiMapperService.MapTownPrecise();
+            KpiMapperService.MapFlow();
             KpiMapperService.MapAlarmStat();
             KpiMapperService.MapTopKpi();
             KpiMapperService.MapTopKpiTrend();

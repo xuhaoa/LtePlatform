@@ -28,7 +28,7 @@ namespace Lte.Evaluations.Test.DataService
         {
             _statRepository.MockOperation();
             _townRepository.MockOpertion();
-            KpiMapperService.MapTownPrecise();
+            KpiMapperService.MapPreciseStat();
             AutoMapperHelper.CreateMap(typeof(DistrictPreciseView));
         }
 

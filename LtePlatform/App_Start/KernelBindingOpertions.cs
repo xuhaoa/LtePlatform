@@ -226,6 +226,8 @@ namespace LtePlatform
             ninjectKernel.Bind<FlowService>().ToSelf();
 
             ninjectKernel.Bind<CellDistanceService>().ToSelf();
+
+            ninjectKernel.Bind<FlowQueryService>().ToSelf();
         }
     }
 }

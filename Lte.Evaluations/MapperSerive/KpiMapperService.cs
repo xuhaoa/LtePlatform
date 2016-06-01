@@ -5,6 +5,7 @@ using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.Evaluations.ViewModels.RegionKpi;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Kpi;
@@ -19,16 +20,22 @@ namespace Lte.Evaluations.MapperSerive
             Mapper.CreateMap<CdmaRegionStat, CdmaRegionStatView>();
         }
 
-        public static void MapTownPrecise()
+        public static void MapFlow()
         {
-            Mapper.CreateMap<TownPreciseCoverage4GStat, TownPreciseView>();
-            Mapper.CreateMap<TownPreciseView, TownPreciseCoverage4GStat>();
+            Mapper.CreateMap<FlowHuawei, FlowView>();
+            Mapper.CreateMap<FlowZte, FlowView>()
+                .ForMember(d => d.PdcpDownlinkFlow, opt => opt.MapFrom(s => s.DownlinkPdcpFlow))
+                .ForMember(d => d.PdcpUplinkFlow, opt => opt.MapFrom(s => s.UplindPdcpFlow))
+                .ForMember(d => d.AverageUsers, opt => opt.MapFrom(s => s.AverageRrcUsers))
+                .ForMember(d => d.MaxUsers, opt => opt.MapFrom(s => s.MaxRrcUsers));
         }
 
         public static void MapPreciseStat()
         {
             Mapper.CreateMap<PreciseCoverage4G, Precise4GView>();
             Mapper.CreateMap<Precise4GView, Precise4GSector>();
+            Mapper.CreateMap<TownPreciseCoverage4GStat, TownPreciseView>();
+            Mapper.CreateMap<TownPreciseView, TownPreciseCoverage4GStat>();
         }
 
         public static void MapCellPrecise()
