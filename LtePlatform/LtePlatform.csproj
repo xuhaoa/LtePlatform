@@ -449,6 +449,7 @@
     <Content Include="appViews\Manage\ResetPassword.html" />
     <Content Include="appViews\Manage\Roles.html" />
     <Content Include="appViews\Manage\RoleUser.html" />
+    <Content Include="appViews\Parameters\Region\ENodebFlow.html" />
     <Content Include="appViews\Rutrace\Interference\VictimDialog.html" />
     <Content Include="directives\parameters\cell\Power.html" />
     <Content Include="directives\parameters\cell\CellInterFreq.html" />
@@ -748,6 +749,7 @@
     <Content Include="Scripts\mycharts\areaChart.js" />
     <Content Include="Scripts\mycharts\gaugeMeter.js" />
     <Content Include="Scripts\mycharts\timeSeriesLine.js" />
+    <Content Include="Scripts\parameters\details\eNodeb.flow.js" />
     <Content Include="Scripts\rutrace\coverage\ta.dialog.js" />
     <Content Include="Scripts\rutrace\interference\victim.dialog.js" />
     <Content Include="Scripts\service\dump.progress.factory.js" />

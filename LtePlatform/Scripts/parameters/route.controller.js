@@ -79,6 +79,19 @@
                 },
                 url: "/alarm/:eNodebId/:name"
             })
+            .state('Flow', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/GeneralMenu.html",
+                        controller: "menu.lte"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Region/ENodebFlow.html",
+                        controller: "eNodeb.flow"
+                    }
+                },
+                url: "/flow/:eNodebId/:name"
+            })
             .state('btsInfo', {
                 views: {
                     'menu': {

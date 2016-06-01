@@ -1,0 +1,11 @@
+﻿<h4>{{eNodebName}}流量查询</h4>
+<div date-span-row begin-date="beginDate" end-date="endDate">
+    <button class="btn btn-success" ng-click="queryFlow()">
+        <i class="glyphicon glyphicon-search"></i>
+        查询
+    </button>
+</div>
+<div uib-tabset active="active">
+    <div ng-repeat="cell in cellList" uib-tab index="$index" heading="{{eNodebName}}-{{cell.sectorId}}">
+    </div>
+</div>

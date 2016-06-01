@@ -37,6 +37,10 @@
                             <a ng-href="{{rootPath}}alarm/{{eNodeb.eNodebId}}/{{eNodeb.name}}" ng-show="eNodeb.isInUse"
                                class="btn btn-sm btn-default">告警查询</a>
                         </li>
+                        <li role="menuitem">
+                            <a ng-href="{{rootPath}}flow/{{eNodeb.eNodebId}}/{{eNodeb.name}}"
+                               class="btn btn-sm btn-default">流量查询</a>
+                        </li>
                     </ul>
                 </div>
             </td>
