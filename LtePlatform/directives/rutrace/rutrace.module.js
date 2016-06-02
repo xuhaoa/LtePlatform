@@ -201,7 +201,7 @@
             templateUrl: htmlRoot + 'interference/SourceDialogList.html'
         };
     })
-    .directive('interferenceSourceCoverageList', function (htmlRoot, topPreciseService) {
+    .directive('interferenceSourceCoverageList', function (htmlRoot, $uibModal, $log) {
         var options = [
             {
                 name: "模3干扰数",
@@ -227,10 +227,35 @@
                 interferenceCells: '='
             },
             templateUrl: htmlRoot + 'coverage/InterferenceSourceList.html',
-            link: function(scope, element, attrs) {
+            link: function (scope, element, attrs) {
                 scope.orderPolicy = {
                     options: options,
                     selected: options[4].value
+                };
+                scope.analyzeTa = function(cell) {
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: '/appViews/Rutrace/Coverage/TaQueryChartDialog.html',
+                        controller: 'coverage.ta.query.dialog',
+                        size: 'lg',
+                        resolve: {
+                            dialogTitle: function () {
+                                return cell.neighborCellName + 'TA分布';
+                            },
+                            cellId: function () {
+                                return cell.destENodebId;
+                            },
+                            sectorId: function () {
+                                return cell.destSectorId;
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function (info) {
+                        console.log(info);
+                    }, function () {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
                 };
             }
         };

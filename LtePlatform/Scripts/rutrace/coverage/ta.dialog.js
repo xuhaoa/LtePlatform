@@ -24,3 +24,30 @@
         $uibModalInstance.dismiss('cancel');
     };
 });
+
+app.controller('coverage.ta.query.dialog', function ($scope, $uibModalInstance, dialogTitle, cellId, sectorId,
+    topPreciseService, cellPreciseService) {
+    $scope.dialogTitle = dialogTitle;
+    $scope.chartView = {
+        options: ['平均RSRP', '覆盖率'],
+        selected: '平均RSRP'
+    };
+    var lastWeek = new Date();
+    lastWeek.setDate(lastWeek.getDate() - 7);
+    $scope.beginDate = {
+        value: lastWeek,
+        opened: false
+    };
+    $scope.endDate = {
+        value: new Date(),
+        opened: false
+    };
+
+    $scope.ok = function () {
+        $uibModalInstance.close('已处理');
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
