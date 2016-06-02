@@ -43,6 +43,16 @@
             templateUrl: parametersRoot + 'kpi/AlarmTable.html'
         }
     })
+    .directive('flowTable', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                flowList: '='
+            },
+            templateUrl: parametersRoot + 'kpi/FlowTable.html'
+        }
+    })
     .directive('eNodebDetailsTable', function (parametersRoot) {
         return {
             restrict: 'ECMA',
