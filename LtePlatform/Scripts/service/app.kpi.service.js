@@ -518,6 +518,25 @@
                     });
                 return deferred.promise;
             },
+            queryAverageRsrpTaDateSpan: function (cellId, sectorId, begin, end) {
+                var deferred = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: appUrlService.getApiUrl('AverageRsrpTa'),
+                    params: {
+                        eNodebId: cellId,
+                        sectorId: sectorId,
+                        begin: begin,
+                        end: end
+                    }
+                }).success(function (result) {
+                    deferred.resolve(result);
+                })
+                    .error(function (reason) {
+                        deferred.reject(reason);
+                    });
+                return deferred.promise;
+            },
             queryAbove110TaRate: function (cellId, sectorId, date) {
                 var deferred = $q.defer();
                 $http({
@@ -536,6 +555,25 @@
                     });
                 return deferred.promise;
             },
+            queryAbove110TaDateSpan: function (cellId, sectorId, begin, end) {
+                var deferred = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: appUrlService.getApiUrl('Above110TaRate'),
+                    params: {
+                        eNodebId: cellId,
+                        sectorId: sectorId,
+                        begin: begin,
+                        end: end
+                    }
+                }).success(function (result) {
+                    deferred.resolve(result);
+                })
+                    .error(function (reason) {
+                        deferred.reject(reason);
+                    });
+                return deferred.promise;
+            },
             queryAbove105TaRate: function (cellId, sectorId, date) {
                 var deferred = $q.defer();
                 $http({
@@ -545,6 +583,25 @@
                         eNodebId: cellId,
                         sectorId: sectorId,
                         date: date
+                    }
+                }).success(function (result) {
+                    deferred.resolve(result);
+                })
+                    .error(function (reason) {
+                        deferred.reject(reason);
+                    });
+                return deferred.promise;
+            },
+            queryAbove105TaDateSpan: function (cellId, sectorId, begin, end) {
+                var deferred = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: appUrlService.getApiUrl('Above105TaRate'),
+                    params: {
+                        eNodebId: cellId,
+                        sectorId: sectorId,
+                        begin: begin,
+                        end: end
                     }
                 }).success(function (result) {
                     deferred.resolve(result);

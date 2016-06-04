@@ -42,6 +42,18 @@ app.controller('coverage.ta.query.dialog', function ($scope, $uibModalInstance, 
         value: new Date(),
         opened: false
     };
+    $scope.query = function() {
+        topPreciseService.queryAverageRsrpTaStastic(cellId, sectorId, $scope.beginDate.value, $scope.endDate.value).then(function (result) {
+            var options = cellPreciseService.getAverageRsrpTaOptions(result, cellId + '-' + sectorId + '平均RSRP统计');
+            $("#average-rsrp").highcharts(options);
+        });
+        topPreciseService.queryAbove110TaRate(cellId, sectorId, $scope.beginDate.value, $scope.endDate.value).then(function (above110Stat) {
+            topPreciseService.queryAbove105TaRate(cellId, sectorId, $scope.beginDate.value, $scope.endDate.value).then(function (above105Stat) {
+                var options = cellPreciseService.getAboveRateTaOptions(above110Stat, above105Stat, cellId + '-' + sectorId + '覆盖率统计');
+                $("#coverage-rate").highcharts(options);
+            });
+        });
+    };
 
     $scope.ok = function () {
         $uibModalInstance.close('已处理');
