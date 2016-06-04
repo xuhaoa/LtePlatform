@@ -30,6 +30,16 @@ namespace Lte.Evaluations.DataService.Mr
             return QueryAverageRsrp(totalList, rsrpList);
         }
 
+        public List<double> QueryAverageRsrpTaStatList(int eNodebId, byte sectorId, DateTime begin, DateTime end)
+        {
+            var cell = _cellRepository.GetBySectorId(eNodebId, sectorId);
+            var pci = cell?.Pci ?? 0;
+            var totalList = _repository.GetTotalList(eNodebId, pci, begin, end);
+            var rsrpList = _repository.GetRsrpList(eNodebId, pci, begin, end);
+            if (!(totalList.Any() && rsrpList.Any())) return null;
+            return QueryAverageRsrp(totalList, rsrpList);
+        }
+
         public static List<double> QueryAverageRsrp(List<CellDistance> totalList, List<CellDistance> rsrpList)
         {
             var result = new List<double>();
@@ -54,6 +64,16 @@ namespace Lte.Evaluations.DataService.Mr
             return QueryTaRate(totalList, above110List);
         }
 
+        public List<double> QueryAbove110TaRateList(int eNodebId, byte sectorId, DateTime begin, DateTime end)
+        {
+            var cell = _cellRepository.GetBySectorId(eNodebId, sectorId);
+            var pci = cell?.Pci ?? 0;
+            var totalList = _repository.GetTotalList(eNodebId, pci, begin, end);
+            var above110List = _repository.Get110List(eNodebId, pci, begin, end);
+            if (!(totalList.Any() && above110List.Any())) return null;
+            return QueryTaRate(totalList, above110List);
+        }
+
         private static List<double> QueryTaRate(List<CellDistance> totalList, List<CellDistance> aboveList)
         {
             var result = new List<double>();
@@ -74,6 +94,16 @@ namespace Lte.Evaluations.DataService.Mr
             var pci = cell?.Pci ?? 0;
             var totalList = _repository.GetTotalList(eNodebId, pci, date);
             var above105List = _repository.Get105List(eNodebId, pci, date);
+            if (!(totalList.Any() && above105List.Any())) return null;
+            return QueryTaRate(totalList, above105List);
+        }
+
+        public List<double> QueryAbove105TaRateList(int eNodebId, byte sectorId, DateTime begin, DateTime end)
+        {
+            var cell = _cellRepository.GetBySectorId(eNodebId, sectorId);
+            var pci = cell?.Pci ?? 0;
+            var totalList = _repository.GetTotalList(eNodebId, pci, begin, end);
+            var above105List = _repository.Get105List(eNodebId, pci, begin, end);
             if (!(totalList.Any() && above105List.Any())) return null;
             return QueryTaRate(totalList, above105List);
         }

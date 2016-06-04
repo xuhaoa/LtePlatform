@@ -17,7 +17,7 @@
         return {
             restrict: 'ECMA',
             controller: 'FormDateController',
-            template: '<div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd"\
+            template: '<div class="input-group begin form_date" data-begin="" data-begin-format="yyyy-mm-dd"\
                                  data-link-format="yyyy-mm-dd">\
                                 <input class="form-control" size="16" type="text" ng-model="ngModel" readonly>\
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>\

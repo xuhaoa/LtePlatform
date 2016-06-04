@@ -29,12 +29,20 @@ namespace Lte.Parameters.Abstract.Kpi
 
     public interface ICellDistanceRepository : IRepository<CellDistance, ObjectId>
     {
-        List<CellDistance> GetTotalList(int eNodebId, short pci, DateTime date);
+        List<CellDistance> GetTotalList(int eNodebId, short pci, DateTime begin);
+
+        List<CellDistance> GetTotalList(int eNodebId, short pci, DateTime begin, DateTime end);
 
         List<CellDistance> GetRsrpList(int eNodebId, short pci, DateTime date);
 
+        List<CellDistance> GetRsrpList(int eNodebId, short pci, DateTime begin, DateTime end);
+
         List<CellDistance> Get110List(int eNodebId, short pci, DateTime date);
 
+        List<CellDistance> Get110List(int eNodebId, short pci, DateTime begin, DateTime end);
+
         List<CellDistance> Get105List(int eNodebId, short pci, DateTime date);
+
+        List<CellDistance> Get105List(int eNodebId, short pci, DateTime begin, DateTime end);
     }
 }

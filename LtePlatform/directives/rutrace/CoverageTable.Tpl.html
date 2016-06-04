@@ -13,7 +13,7 @@
     </thead>
     <tbody>
         <tr ng-repeat="cell in coverageList">
-            <td>{{cell.currentDate | date: 'yyyy-MM-dd'}}</td>
+            <td>{{cell.currentDate | begin: 'yyyy-MM-dd'}}</td>
             <td>{{cell.mrCount}}</td>
             <td>{{cell.mod3Count * 100 / cell.mrCount | number: 2}}%</td>
             <td>{{cell.mod6Count * 100 / cell.mrCount | number: 2}}%</td>

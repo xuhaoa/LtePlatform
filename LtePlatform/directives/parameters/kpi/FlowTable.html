@@ -12,7 +12,7 @@
     </thead>
     <tbody>
         <tr ng-repeat="flow in flowList | orderBy: 'statTime'">
-            <td>{{flow.statTime | date: 'yyyy-MM-dd'}}</td>
+            <td>{{flow.statTime | begin: 'yyyy-MM-dd'}}</td>
             <td>{{(flow.pdcpDownlinkFlow / 8) | number: 2}}</td>
             <td>{{(flow.pdcpUplinkFlow / 8) | number: 2}}</td>
             <td>{{flow.averageUsers}}</td>

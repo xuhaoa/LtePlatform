@@ -62,11 +62,11 @@
 		// when page switch the datetimepicker div will be removed also.
 		this.container = options.container || 'body';
 
-		this.language = options.language || this.element.data('date-language') || "en";
+		this.language = options.language || this.element.data('begin-language') || "en";
 		this.language = this.language in dates ? this.language : "en";
 		this.isRTL = dates[this.language].rtl || false;
 		this.formatType = options.formatType || this.element.data('format-type') || 'standard';
-		this.format = DPGlobal.parseFormat(options.format || this.element.data('date-format') || dates[this.language].format || DPGlobal.getDefaultFormat(this.formatType, 'input'), this.formatType);
+		this.format = DPGlobal.parseFormat(options.format || this.element.data('begin-format') || dates[this.language].format || DPGlobal.getDefaultFormat(this.formatType, 'input'), this.formatType);
 		this.isInline = false;
 		this.isVisible = false;
 		this.isInput = this.element.is('input');
@@ -74,8 +74,8 @@
 
 		this.bootcssVer = options.bootcssVer || (this.isInput ? (this.element.is('.form-control') ? 3 : 2) : ( this.bootcssVer = this.element.is('.input-group') ? 3 : 2 ));
 
-		this.component = this.element.is('.date') ? ( this.bootcssVer == 3 ? this.element.find('.input-group-addon .glyphicon-th, .input-group-addon .glyphicon-time, .input-group-addon .glyphicon-calendar, .input-group-addon .glyphicon-calendar, .input-group-addon .fa-calendar, .input-group-addon .fa-clock-o').parent() : this.element.find('.add-on .icon-th, .add-on .icon-time, .add-on .icon-calendar .fa-calendar .fa-clock-o').parent()) : false;
-		this.componentReset = this.element.is('.date') ? ( this.bootcssVer == 3 ? this.element.find(".input-group-addon .glyphicon-remove, .input-group-addon .fa-times").parent():this.element.find(".add-on .icon-remove, .add-on .fa-times").parent()) : false;
+		this.component = this.element.is('.begin') ? ( this.bootcssVer == 3 ? this.element.find('.input-group-addon .glyphicon-th, .input-group-addon .glyphicon-time, .input-group-addon .glyphicon-calendar, .input-group-addon .glyphicon-calendar, .input-group-addon .fa-calendar, .input-group-addon .fa-clock-o').parent() : this.element.find('.add-on .icon-th, .add-on .icon-time, .add-on .icon-calendar .fa-calendar .fa-clock-o').parent()) : false;
+		this.componentReset = this.element.is('.begin') ? ( this.bootcssVer == 3 ? this.element.find(".input-group-addon .glyphicon-remove, .input-group-addon .fa-times").parent():this.element.find(".add-on .icon-remove, .add-on .fa-times").parent()) : false;
 		this.hasInput = this.component && this.element.find('input').length;
 		if (this.component && this.component.length === 0) {
 			this.component = false;
@@ -162,7 +162,7 @@
 		if ('forceParse' in options) {
 			this.forceParse = options.forceParse;
 		} else if ('dateForceParse' in this.element.data()) {
-			this.forceParse = this.element.data('date-force-parse');
+			this.forceParse = this.element.data('begin-force-parse');
 		}
 		var template = this.bootcssVer === 3 ? DPGlobal.templateV3 : DPGlobal.template;
 		while (template.indexOf('{iconType}') !== -1) {
@@ -210,29 +210,29 @@
 		if ('autoclose' in options) {
 			this.autoclose = options.autoclose;
 		} else if ('dateAutoclose' in this.element.data()) {
-			this.autoclose = this.element.data('date-autoclose');
+			this.autoclose = this.element.data('begin-autoclose');
 		}
 
 		this.keyboardNavigation = true;
 		if ('keyboardNavigation' in options) {
 			this.keyboardNavigation = options.keyboardNavigation;
 		} else if ('dateKeyboardNavigation' in this.element.data()) {
-			this.keyboardNavigation = this.element.data('date-keyboard-navigation');
+			this.keyboardNavigation = this.element.data('begin-keyboard-navigation');
 		}
 
-		this.todayBtn = (options.todayBtn || this.element.data('date-today-btn') || false);
-		this.todayHighlight = (options.todayHighlight || this.element.data('date-today-highlight') || false);
+		this.todayBtn = (options.todayBtn || this.element.data('begin-today-btn') || false);
+		this.todayHighlight = (options.todayHighlight || this.element.data('begin-today-highlight') || false);
 
-		this.weekStart = ((options.weekStart || this.element.data('date-weekstart') || dates[this.language].weekStart || 0) % 7);
+		this.weekStart = ((options.weekStart || this.element.data('begin-weekstart') || dates[this.language].weekStart || 0) % 7);
 		this.weekEnd = ((this.weekStart + 6) % 7);
 		this.startDate = -Infinity;
 		this.endDate = Infinity;
 		this.daysOfWeekDisabled = [];
-		this.setStartDate(options.startDate || this.element.data('date-startdate'));
-		this.setEndDate(options.endDate || this.element.data('date-enddate'));
-		this.setDaysOfWeekDisabled(options.daysOfWeekDisabled || this.element.data('date-days-of-week-disabled'));
-		this.setMinutesDisabled(options.minutesDisabled || this.element.data('date-minute-disabled'));
-		this.setHoursDisabled(options.hoursDisabled || this.element.data('date-hour-disabled'));
+		this.setStartDate(options.startDate || this.element.data('begin-startdate'));
+		this.setEndDate(options.endDate || this.element.data('begin-enddate'));
+		this.setDaysOfWeekDisabled(options.daysOfWeekDisabled || this.element.data('begin-days-of-week-disabled'));
+		this.setMinutesDisabled(options.minutesDisabled || this.element.data('begin-minute-disabled'));
+		this.setHoursDisabled(options.hoursDisabled || this.element.data('begin-hour-disabled'));
 		this.fillDow();
 		this.fillMonths();
 		this.update();
@@ -403,7 +403,7 @@
 				if (this.component) {
 					this.element.find('input').val(formatted);
 				}
-				this.element.data('date', formatted);
+				this.element.data('begin', formatted);
 			} else {
 				this.element.val(formatted);
 			}
@@ -533,7 +533,7 @@
 				date = arguments[0];
 				fromArgs = true;
 			} else {
-				date = (this.isInput ? this.element.val() : this.element.find('input').val()) || this.element.data('date') || this.initialDate;
+				date = (this.isInput ? this.element.val() : this.element.find('input').val()) || this.element.data('begin') || this.initialDate;
 				if (typeof date == 'string' || date instanceof String) {
 				  date = date.replace(/^\s+|\s+$/g,'');
 				}
@@ -631,7 +631,7 @@
 				} else if (prevMonth.getUTCFullYear() > year || (prevMonth.getUTCFullYear() == year && prevMonth.getUTCMonth() > month)) {
 					clsName += ' new';
 				}
-				// Compare internal UTC date with local today, not UTC today
+				// Compare internal UTC begin with local today, not UTC today
 				if (this.todayHighlight &&
 					prevMonth.getUTCFullYear() == today.getFullYear() &&
 					prevMonth.getUTCMonth() == today.getMonth() &&
@@ -1049,7 +1049,7 @@
 		},
 
 		_setDate: function (date, which) {
-			if (!which || which == 'date')
+			if (!which || which == 'begin')
 				this.date = date;
 			if (!which || which == 'view')
 				this.viewDate = date;
@@ -1063,7 +1063,7 @@
 			}
 			if (element) {
 				element.change();
-				if (this.autoclose && (!which || which == 'date')) {
+				if (this.autoclose && (!which || which == 'begin')) {
 					//this.hide();
 				}
 			}
@@ -1121,7 +1121,7 @@
 				};
 				new_month = month + dir;
 				new_date.setUTCMonth(new_month);
-				// Dec -> Jan (12) or Jan -> Dec (-1) -- limit expected date to 0-11
+				// Dec -> Jan (12) or Jan -> Dec (-1) -- limit expected begin to 0-11
 				if (new_month < 0 || new_month > 11)
 					new_month = (new_month + 12) % 12;
 			} else {
@@ -1136,7 +1136,7 @@
 					return new_month != new_date.getUTCMonth();
 				};
 			}
-			// Common date-resetting loop -- if date is beyond end of month, make it
+			// Common begin-resetting loop -- if begin is beyond end of month, make it
 			// end of month
 			while (test()) {
 				new_date.setUTCDate(--day);
@@ -1308,7 +1308,7 @@
 		},
 
 		reset: function (e) {
-			this._setDate(null, 'date');
+			this._setDate(null, 'begin');
 		},
 
 		convertViewModeText:  function (viewMode) {
@@ -1433,7 +1433,7 @@
 			var separators = format.replace(this.validParts(type), '\0').split('\0'),
 				parts = format.match(this.validParts(type));
 			if (!separators || !separators.length || !parts || parts.length == 0) {
-				throw new Error("Invalid date format.");
+				throw new Error("Invalid begin format.");
 			}
 			return {separators: separators, parts: parts};
 		},

@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * jQuery JavaScript Library v2.1.1
  * http://jquery.com/
  *
@@ -9846,7 +9846,7 @@ function isNumber(value) {return typeof value === 'number';}
  * @kind function
  *
  * @description
- * Determines if a value is a date.
+ * Determines if a value is a begin.
  *
  * @param {*} value Reference to check.
  * @returns {boolean} True if `value` is a `Date`.
@@ -20458,7 +20458,7 @@ function $IntervalProvider() {
       *         function($interval, dateFilter) {
       *           // return the directive link function. (compile function not needed)
       *           return function(scope, element, attrs) {
-      *             var format,  // date format
+      *             var format,  // begin format
       *                 stopTime; // so that we can cancel the time updates
       *
       *             // used to update the UI
@@ -27500,7 +27500,7 @@ function $FilterProvider($provide) {
   */
 
   register('currency', currencyFilter);
-  register('date', dateFilter);
+  register('begin', dateFilter);
   register('filter', filterFilter);
   register('json', jsonFilter);
   register('limitTo', limitToFilter);
@@ -28115,11 +28115,11 @@ var DATE_FORMATS_SPLIT = /((?:[^yMdHhmsaZEwG']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|
 
 /**
  * @ngdoc filter
- * @name date
+ * @name begin
  * @kind function
  *
  * @description
- *   Formats `date` to a string based on the requested `format`.
+ *   Formats `begin` to a string based on the requested `format`.
  *
  *   `format` string can be composed of the following elements:
  *
@@ -28168,7 +28168,7 @@ var DATE_FORMATS_SPLIT = /((?:[^yMdHhmsaZEwG']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|
  *   `"h 'in the morning'"`). In order to output a single quote, escape it - i.e., two single quotes in a sequence
  *   (e.g. `"h 'o''clock'"`).
  *
- * @param {(Date|number|string)} date Date to format either as Date object, milliseconds (string or
+ * @param {(Date|number|string)} begin Date to format either as Date object, milliseconds (string or
  *    number) or various ISO 8601 datetime string formats (e.g. yyyy-MM-ddTHH:mm:ss.sssZ and its
  *    shorter versions like yyyy-MM-ddTHH:mmZ, yyyy-MM-dd or yyyyMMddTHHmmssZ). If no timezone is
  *    specified in the string input, the time is considered to be in the local timezone.
@@ -28178,29 +28178,29 @@ var DATE_FORMATS_SPLIT = /((?:[^yMdHhmsaZEwG']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|
  *    continental US time zone abbreviations, but for general use, use a time zone offset, for
  *    example, `'+0430'` (4 hours, 30 minutes east of the Greenwich meridian)
  *    If not specified, the timezone of the browser will be used.
- * @returns {string} Formatted string or the input if input is not recognized as date/millis.
+ * @returns {string} Formatted string or the input if input is not recognized as begin/millis.
  *
  * @example
    <example>
      <file name="index.html">
-       <span ng-non-bindable>{{1288323623006 | date:'medium'}}</span>:
-           <span>{{1288323623006 | date:'medium'}}</span><br>
-       <span ng-non-bindable>{{1288323623006 | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>:
-          <span>{{1288323623006 | date:'yyyy-MM-dd HH:mm:ss Z'}}</span><br>
-       <span ng-non-bindable>{{1288323623006 | date:'MM/dd/yyyy @ h:mma'}}</span>:
-          <span>{{'1288323623006' | date:'MM/dd/yyyy @ h:mma'}}</span><br>
-       <span ng-non-bindable>{{1288323623006 | date:"MM/dd/yyyy 'at' h:mma"}}</span>:
-          <span>{{'1288323623006' | date:"MM/dd/yyyy 'at' h:mma"}}</span><br>
+       <span ng-non-bindable>{{1288323623006 | begin:'medium'}}</span>:
+           <span>{{1288323623006 | begin:'medium'}}</span><br>
+       <span ng-non-bindable>{{1288323623006 | begin:'yyyy-MM-dd HH:mm:ss Z'}}</span>:
+          <span>{{1288323623006 | begin:'yyyy-MM-dd HH:mm:ss Z'}}</span><br>
+       <span ng-non-bindable>{{1288323623006 | begin:'MM/dd/yyyy @ h:mma'}}</span>:
+          <span>{{'1288323623006' | begin:'MM/dd/yyyy @ h:mma'}}</span><br>
+       <span ng-non-bindable>{{1288323623006 | begin:"MM/dd/yyyy 'at' h:mma"}}</span>:
+          <span>{{'1288323623006' | begin:"MM/dd/yyyy 'at' h:mma"}}</span><br>
      </file>
      <file name="protractor.js" type="protractor">
-       it('should format date', function() {
-         expect(element(by.binding("1288323623006 | date:'medium'")).getText()).
+       it('should format begin', function() {
+         expect(element(by.binding("1288323623006 | begin:'medium'")).getText()).
             toMatch(/Oct 2\d, 2010 \d{1,2}:\d{2}:\d{2} (AM|PM)/);
-         expect(element(by.binding("1288323623006 | date:'yyyy-MM-dd HH:mm:ss Z'")).getText()).
+         expect(element(by.binding("1288323623006 | begin:'yyyy-MM-dd HH:mm:ss Z'")).getText()).
             toMatch(/2010\-10\-2\d \d{2}:\d{2}:\d{2} (\-|\+)?\d{4}/);
-         expect(element(by.binding("'1288323623006' | date:'MM/dd/yyyy @ h:mma'")).getText()).
+         expect(element(by.binding("'1288323623006' | begin:'MM/dd/yyyy @ h:mma'")).getText()).
             toMatch(/10\/2\d\/2010 @ \d{1,2}:\d{2}(AM|PM)/);
-         expect(element(by.binding("'1288323623006' | date:\"MM/dd/yyyy 'at' h:mma\"")).getText()).
+         expect(element(by.binding("'1288323623006' | begin:\"MM/dd/yyyy 'at' h:mma\"")).getText()).
             toMatch(/10\/2\d\/2010 at \d{1,2}:\d{2}(AM|PM)/);
        });
      </file>
@@ -29298,7 +29298,7 @@ function nullFormRenameControl(control, name) {
  *  - `pattern`
  *  - `required`
  *  - `url`
- *  - `date`
+ *  - `begin`
  *  - `datetimelocal`
  *  - `time`
  *  - `week`
@@ -29926,12 +29926,12 @@ var inputType = {
 
     /**
      * @ngdoc input
-     * @name input[date]
+     * @name input[begin]
      *
      * @description
-     * Input with date validation and transformation. In browsers that do not yet support
-     * the HTML5 date input, a text element will be used. In that case, text must be entered in a valid ISO-8601
-     * date format (yyyy-MM-dd), for example: `2009-01-06`. Since many
+     * Input with begin validation and transformation. In browsers that do not yet support
+     * the HTML5 begin input, a text element will be used. In that case, text must be entered in a valid ISO-8601
+     * begin format (yyyy-MM-dd), for example: `2009-01-06`. Since many
      * modern browsers do not yet support this input type, it is important to provide cues to users on the
      * expected input format via a placeholder or label.
      *
@@ -29944,16 +29944,16 @@ var inputType = {
      * @param {string} ngModel Assignable angular expression to data-bind to.
      * @param {string=} name Property name of the form under which the control is published.
      * @param {string=} min Sets the `min` validation error key if the value entered is less than `min`. This must be a
-     *   valid ISO date string (yyyy-MM-dd). You can also use interpolation inside this attribute
-     *   (e.g. `min="{{minDate | date:'yyyy-MM-dd'}}"`). Note that `min` will also add native HTML5
+     *   valid ISO begin string (yyyy-MM-dd). You can also use interpolation inside this attribute
+     *   (e.g. `min="{{minDate | begin:'yyyy-MM-dd'}}"`). Note that `min` will also add native HTML5
      *   constraint validation.
      * @param {string=} max Sets the `max` validation error key if the value entered is greater than `max`. This must be
-     *   a valid ISO date string (yyyy-MM-dd). You can also use interpolation inside this attribute
-     *   (e.g. `max="{{maxDate | date:'yyyy-MM-dd'}}"`). Note that `max` will also add native HTML5
+     *   a valid ISO begin string (yyyy-MM-dd). You can also use interpolation inside this attribute
+     *   (e.g. `max="{{maxDate | begin:'yyyy-MM-dd'}}"`). Note that `max` will also add native HTML5
      *   constraint validation.
-     * @param {(date|string)=} ngMin Sets the `min` validation constraint to the Date / ISO date string
+     * @param {(begin|string)=} ngMin Sets the `min` validation constraint to the Date / ISO begin string
      *   the `ngMin` expression evaluates to. Note that it does not set the `min` attribute.
-     * @param {(date|string)=} ngMax Sets the `max` validation constraint to the Date / ISO date string
+     * @param {(begin|string)=} ngMax Sets the `max` validation constraint to the Date / ISO begin string
      *   the `ngMax` expression evaluates to. Note that it does not set the `max` attribute.
      * @param {string=} required Sets `required` validation error key if the value is not entered.
      * @param {string=} ngRequired Adds `required` attribute and `required` validation constraint to
@@ -29963,7 +29963,7 @@ var inputType = {
      *    interaction with the input element.
      *
      * @example
-     <example name="date-input-directive" module="dateInputExample">
+     <example name="begin-input-directive" module="dateInputExample">
      <file name="index.html">
        <script>
           angular.module('dateInputExample', [])
@@ -29974,16 +29974,16 @@ var inputType = {
             }]);
        </script>
        <form name="myForm" ng-controller="DateController as dateCtrl">
-          <label for="exampleInput">Pick a date in 2013:</label>
-          <input type="date" id="exampleInput" name="input" ng-model="example.value"
+          <label for="exampleInput">Pick a begin in 2013:</label>
+          <input type="begin" id="exampleInput" name="input" ng-model="example.value"
               placeholder="yyyy-MM-dd" min="2013-01-01" max="2013-12-31" required />
           <div role="alert">
             <span class="error" ng-show="myForm.input.$error.required">
                 Required!</span>
-            <span class="error" ng-show="myForm.input.$error.date">
-                Not a valid date!</span>
+            <span class="error" ng-show="myForm.input.$error.begin">
+                Not a valid begin!</span>
            </div>
-           <tt>value = {{example.value | date: "yyyy-MM-dd"}}</tt><br/>
+           <tt>value = {{example.value | begin: "yyyy-MM-dd"}}</tt><br/>
            <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
            <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
            <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
@@ -29991,7 +29991,7 @@ var inputType = {
        </form>
      </file>
      <file name="protractor.js" type="protractor">
-        var value = element(by.binding('example.value | date: "yyyy-MM-dd"'));
+        var value = element(by.binding('example.value | begin: "yyyy-MM-dd"'));
         var valid = element(by.binding('myForm.input.$valid'));
         var input = element(by.model('example.value'));
 
@@ -30025,7 +30025,7 @@ var inputType = {
      </file>
      </example>
      */
-  'date': createDateInputType('date', DATE_REGEXP,
+  'date': createDateInputType('begin', DATE_REGEXP,
          createDateParser(DATE_REGEXP, ['yyyy', 'MM', 'dd']),
          'yyyy-MM-dd'),
 
@@ -30035,7 +30035,7 @@ var inputType = {
     *
     * @description
     * Input with datetime validation and transformation. In browsers that do not yet support
-    * the HTML5 date input, a text element will be used. In that case, the text must be entered in a valid ISO-8601
+    * the HTML5 begin input, a text element will be used. In that case, the text must be entered in a valid ISO-8601
     * local datetime format (yyyy-MM-ddTHH:mm:ss), for example: `2010-12-28T14:57:00`.
     *
     * The model must always be a Date object, otherwise Angular will throw an error.
@@ -30048,15 +30048,15 @@ var inputType = {
     * @param {string=} name Property name of the form under which the control is published.
     * @param {string=} min Sets the `min` validation error key if the value entered is less than `min`.
     *   This must be a valid ISO datetime format (yyyy-MM-ddTHH:mm:ss). You can also use interpolation
-    *   inside this attribute (e.g. `min="{{minDatetimeLocal | date:'yyyy-MM-ddTHH:mm:ss'}}"`).
+    *   inside this attribute (e.g. `min="{{minDatetimeLocal | begin:'yyyy-MM-ddTHH:mm:ss'}}"`).
     *   Note that `min` will also add native HTML5 constraint validation.
     * @param {string=} max Sets the `max` validation error key if the value entered is greater than `max`.
     *   This must be a valid ISO datetime format (yyyy-MM-ddTHH:mm:ss). You can also use interpolation
-    *   inside this attribute (e.g. `max="{{maxDatetimeLocal | date:'yyyy-MM-ddTHH:mm:ss'}}"`).
+    *   inside this attribute (e.g. `max="{{maxDatetimeLocal | begin:'yyyy-MM-ddTHH:mm:ss'}}"`).
     *   Note that `max` will also add native HTML5 constraint validation.
-    * @param {(date|string)=} ngMin Sets the `min` validation error key to the Date / ISO datetime string
+    * @param {(begin|string)=} ngMin Sets the `min` validation error key to the Date / ISO datetime string
     *   the `ngMin` expression evaluates to. Note that it does not set the `min` attribute.
-    * @param {(date|string)=} ngMax Sets the `max` validation error key to the Date / ISO datetime string
+    * @param {(begin|string)=} ngMax Sets the `max` validation error key to the Date / ISO datetime string
     *   the `ngMax` expression evaluates to. Note that it does not set the `max` attribute.
     * @param {string=} required Sets `required` validation error key if the value is not entered.
     * @param {string=} ngRequired Adds `required` attribute and `required` validation constraint to
@@ -30077,16 +30077,16 @@ var inputType = {
           }]);
       </script>
       <form name="myForm" ng-controller="DateController as dateCtrl">
-        <label for="exampleInput">Pick a date between in 2013:</label>
+        <label for="exampleInput">Pick a begin between in 2013:</label>
         <input type="datetime-local" id="exampleInput" name="input" ng-model="example.value"
             placeholder="yyyy-MM-ddTHH:mm:ss" min="2001-01-01T00:00:00" max="2013-12-31T00:00:00" required />
         <div role="alert">
           <span class="error" ng-show="myForm.input.$error.required">
               Required!</span>
           <span class="error" ng-show="myForm.input.$error.datetimelocal">
-              Not a valid date!</span>
+              Not a valid begin!</span>
         </div>
-        <tt>value = {{example.value | date: "yyyy-MM-ddTHH:mm:ss"}}</tt><br/>
+        <tt>value = {{example.value | begin: "yyyy-MM-ddTHH:mm:ss"}}</tt><br/>
         <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
         <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
         <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
@@ -30094,7 +30094,7 @@ var inputType = {
       </form>
     </file>
     <file name="protractor.js" type="protractor">
-      var value = element(by.binding('example.value | date: "yyyy-MM-ddTHH:mm:ss"'));
+      var value = element(by.binding('example.value | begin: "yyyy-MM-ddTHH:mm:ss"'));
       var valid = element(by.binding('myForm.input.$valid'));
       var input = element(by.model('example.value'));
 
@@ -30138,9 +30138,9 @@ var inputType = {
    *
    * @description
    * Input with time validation and transformation. In browsers that do not yet support
-   * the HTML5 date input, a text element will be used. In that case, the text must be entered in a valid ISO-8601
+   * the HTML5 begin input, a text element will be used. In that case, the text must be entered in a valid ISO-8601
    * local time format (HH:mm:ss), for example: `14:57:00`. Model must be a Date object. This binding will always output a
-   * Date object to the model of January 1, 1970, or local date `new Date(1970, 0, 1, HH, mm, ss)`.
+   * Date object to the model of January 1, 1970, or local begin `new Date(1970, 0, 1, HH, mm, ss)`.
    *
    * The model must always be a Date object, otherwise Angular will throw an error.
    * Invalid `Date` objects (dates whose `getTime()` is `NaN`) will be rendered as an empty string.
@@ -30152,15 +30152,15 @@ var inputType = {
    * @param {string=} name Property name of the form under which the control is published.
    * @param {string=} min Sets the `min` validation error key if the value entered is less than `min`.
    *   This must be a valid ISO time format (HH:mm:ss). You can also use interpolation inside this
-   *   attribute (e.g. `min="{{minTime | date:'HH:mm:ss'}}"`). Note that `min` will also add
+   *   attribute (e.g. `min="{{minTime | begin:'HH:mm:ss'}}"`). Note that `min` will also add
    *   native HTML5 constraint validation.
    * @param {string=} max Sets the `max` validation error key if the value entered is greater than `max`.
    *   This must be a valid ISO time format (HH:mm:ss). You can also use interpolation inside this
-   *   attribute (e.g. `max="{{maxTime | date:'HH:mm:ss'}}"`). Note that `max` will also add
+   *   attribute (e.g. `max="{{maxTime | begin:'HH:mm:ss'}}"`). Note that `max` will also add
    *   native HTML5 constraint validation.
-   * @param {(date|string)=} ngMin Sets the `min` validation constraint to the Date / ISO time string the
+   * @param {(begin|string)=} ngMin Sets the `min` validation constraint to the Date / ISO time string the
    *   `ngMin` expression evaluates to. Note that it does not set the `min` attribute.
-   * @param {(date|string)=} ngMax Sets the `max` validation constraint to the Date / ISO time string the
+   * @param {(begin|string)=} ngMax Sets the `max` validation constraint to the Date / ISO time string the
    *   `ngMax` expression evaluates to. Note that it does not set the `max` attribute.
    * @param {string=} required Sets `required` validation error key if the value is not entered.
    * @param {string=} ngRequired Adds `required` attribute and `required` validation constraint to
@@ -30188,9 +30188,9 @@ var inputType = {
           <span class="error" ng-show="myForm.input.$error.required">
               Required!</span>
           <span class="error" ng-show="myForm.input.$error.time">
-              Not a valid date!</span>
+              Not a valid begin!</span>
         </div>
-        <tt>value = {{example.value | date: "HH:mm:ss"}}</tt><br/>
+        <tt>value = {{example.value | begin: "HH:mm:ss"}}</tt><br/>
         <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
         <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
         <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
@@ -30198,7 +30198,7 @@ var inputType = {
      </form>
    </file>
    <file name="protractor.js" type="protractor">
-      var value = element(by.binding('example.value | date: "HH:mm:ss"'));
+      var value = element(by.binding('example.value | begin: "HH:mm:ss"'));
       var valid = element(by.binding('myForm.input.$valid'));
       var input = element(by.model('example.value'));
 
@@ -30255,15 +30255,15 @@ var inputType = {
     * @param {string=} name Property name of the form under which the control is published.
     * @param {string=} min Sets the `min` validation error key if the value entered is less than `min`.
     *   This must be a valid ISO week format (yyyy-W##). You can also use interpolation inside this
-    *   attribute (e.g. `min="{{minWeek | date:'yyyy-Www'}}"`). Note that `min` will also add
+    *   attribute (e.g. `min="{{minWeek | begin:'yyyy-Www'}}"`). Note that `min` will also add
     *   native HTML5 constraint validation.
     * @param {string=} max Sets the `max` validation error key if the value entered is greater than `max`.
     *   This must be a valid ISO week format (yyyy-W##). You can also use interpolation inside this
-    *   attribute (e.g. `max="{{maxWeek | date:'yyyy-Www'}}"`). Note that `max` will also add
+    *   attribute (e.g. `max="{{maxWeek | begin:'yyyy-Www'}}"`). Note that `max` will also add
     *   native HTML5 constraint validation.
-    * @param {(date|string)=} ngMin Sets the `min` validation constraint to the Date / ISO week string
+    * @param {(begin|string)=} ngMin Sets the `min` validation constraint to the Date / ISO week string
     *   the `ngMin` expression evaluates to. Note that it does not set the `min` attribute.
-    * @param {(date|string)=} ngMax Sets the `max` validation constraint to the Date / ISO week string
+    * @param {(begin|string)=} ngMax Sets the `max` validation constraint to the Date / ISO week string
     *   the `ngMax` expression evaluates to. Note that it does not set the `max` attribute.
     * @param {string=} required Sets `required` validation error key if the value is not entered.
     * @param {string=} ngRequired Adds `required` attribute and `required` validation constraint to
@@ -30284,7 +30284,7 @@ var inputType = {
         }]);
       </script>
       <form name="myForm" ng-controller="DateController as dateCtrl">
-        <label>Pick a date between in 2013:
+        <label>Pick a begin between in 2013:
           <input id="exampleInput" type="week" name="input" ng-model="example.value"
                  placeholder="YYYY-W##" min="2012-W32"
                  max="2013-W52" required />
@@ -30293,9 +30293,9 @@ var inputType = {
           <span class="error" ng-show="myForm.input.$error.required">
               Required!</span>
           <span class="error" ng-show="myForm.input.$error.week">
-              Not a valid date!</span>
+              Not a valid begin!</span>
         </div>
-        <tt>value = {{example.value | date: "yyyy-Www"}}</tt><br/>
+        <tt>value = {{example.value | begin: "yyyy-Www"}}</tt><br/>
         <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
         <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
         <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
@@ -30303,7 +30303,7 @@ var inputType = {
       </form>
     </file>
     <file name="protractor.js" type="protractor">
-      var value = element(by.binding('example.value | date: "yyyy-Www"'));
+      var value = element(by.binding('example.value | begin: "yyyy-Www"'));
       var valid = element(by.binding('myForm.input.$valid'));
       var input = element(by.model('example.value'));
 
@@ -30360,15 +30360,15 @@ var inputType = {
    * @param {string=} name Property name of the form under which the control is published.
    * @param {string=} min Sets the `min` validation error key if the value entered is less than `min`.
    *   This must be a valid ISO month format (yyyy-MM). You can also use interpolation inside this
-   *   attribute (e.g. `min="{{minMonth | date:'yyyy-MM'}}"`). Note that `min` will also add
+   *   attribute (e.g. `min="{{minMonth | begin:'yyyy-MM'}}"`). Note that `min` will also add
    *   native HTML5 constraint validation.
    * @param {string=} max Sets the `max` validation error key if the value entered is greater than `max`.
    *   This must be a valid ISO month format (yyyy-MM). You can also use interpolation inside this
-   *   attribute (e.g. `max="{{maxMonth | date:'yyyy-MM'}}"`). Note that `max` will also add
+   *   attribute (e.g. `max="{{maxMonth | begin:'yyyy-MM'}}"`). Note that `max` will also add
    *   native HTML5 constraint validation.
-   * @param {(date|string)=} ngMin Sets the `min` validation constraint to the Date / ISO week string
+   * @param {(begin|string)=} ngMin Sets the `min` validation constraint to the Date / ISO week string
    *   the `ngMin` expression evaluates to. Note that it does not set the `min` attribute.
-   * @param {(date|string)=} ngMax Sets the `max` validation constraint to the Date / ISO week string
+   * @param {(begin|string)=} ngMax Sets the `max` validation constraint to the Date / ISO week string
    *   the `ngMax` expression evaluates to. Note that it does not set the `max` attribute.
 
    * @param {string=} required Sets `required` validation error key if the value is not entered.
@@ -30399,7 +30399,7 @@ var inputType = {
          <span class="error" ng-show="myForm.input.$error.month">
             Not a valid month!</span>
        </div>
-       <tt>value = {{example.value | date: "yyyy-MM"}}</tt><br/>
+       <tt>value = {{example.value | begin: "yyyy-MM"}}</tt><br/>
        <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
        <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
        <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
@@ -30407,7 +30407,7 @@ var inputType = {
      </form>
    </file>
    <file name="protractor.js" type="protractor">
-      var value = element(by.binding('example.value | date: "yyyy-MM"'));
+      var value = element(by.binding('example.value | begin: "yyyy-MM"'));
       var valid = element(by.binding('myForm.input.$valid'));
       var input = element(by.model('example.value'));
 
@@ -31024,9 +31024,9 @@ function createDateParser(regexp, mapping) {
     }
 
     if (isString(iso)) {
-      // When a date is JSON'ified to wraps itself inside of an extra
-      // set of double quotes. This makes the date parsing code unable
-      // to match the date string and parse it as a date.
+      // When a begin is JSON'ified to wraps itself inside of an extra
+      // set of double quotes. This makes the begin parsing code unable
+      // to match the begin string and parse it as a begin.
       if (iso.charAt(0) == '"' && iso.charAt(iso.length - 1) == '"') {
         iso = iso.substring(1, iso.length - 1);
       }
@@ -31090,14 +31090,14 @@ function createDateInputType(type, regexp, parseDate, format) {
 
     ctrl.$formatters.push(function(value) {
       if (value && !isDate(value)) {
-        throw ngModelMinErr('datefmt', 'Expected `{0}` to be a date', value);
+        throw ngModelMinErr('datefmt', 'Expected `{0}` to be a begin', value);
       }
       if (isValidDate(value)) {
         previousDate = value;
         if (previousDate && timezone) {
           previousDate = convertTimezoneToLocal(previousDate, timezone, true);
         }
-        return $filter('date')(value, format, timezone);
+        return $filter('begin')(value, format, timezone);
       } else {
         previousDate = null;
         return '';
@@ -34535,7 +34535,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
       writeToModelIfNeeded();
     }
 
-    // Pass the $$lastCommittedViewValue here, because the cached viewValue might be out of date.
+    // Pass the $$lastCommittedViewValue here, because the cached viewValue might be out of begin.
     // This can happen if e.g. $setViewValue is called from inside a parser
     ctrl.$$runValidators(modelValue, ctrl.$$lastCommittedViewValue, function(allValid) {
       if (!allowInvalid) {
@@ -34593,7 +34593,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * is specified, once the timer runs out.
    *
    * When used with standard inputs, the view value will always be a string (which is in some cases
-   * parsed into another type, such as a `Date` object for `input[date]`.)
+   * parsed into another type, such as a `Date` object for `input[begin]`.)
    * However, custom controls might also pass objects to this method. In this case, we should make
    * a copy of the object before passing it to `$setViewValue`. This is because `ngModel` does not
    * perform a deep watch of objects, it only looks for a change of identity. If you only change
@@ -34731,7 +34731,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
  *    - {@link input[number] number}
  *    - {@link input[email] email}
  *    - {@link input[url] url}
- *    - {@link input[date] date}
+ *    - {@link input[begin] begin}
  *    - {@link input[datetime-local] datetime-local}
  *    - {@link input[time] time}
  *    - {@link input[month] month}
@@ -34956,7 +34956,7 @@ var DEFAULT_REGEXP = /(\s+|^)default(\s+|$)/;
  *   - `getterSetter`: boolean value which determines whether or not to treat functions bound to
        `ngModel` as getters/setters.
  *   - `timezone`: Defines the timezone to be used to read/write the `Date` instance in the model for
- *     `<input type="date">`, `<input type="time">`, ... . It understands UTC/GMT and the
+ *     `<input type="begin">`, `<input type="time">`, ... . It understands UTC/GMT and the
  *     continental US time zone abbreviations, but for general use, use a time zone offset, for
  *     example, `'+0430'` (4 hours, 30 minutes east of the Greenwich meridian)
  *     If not specified, the timezone of the browser will be used.

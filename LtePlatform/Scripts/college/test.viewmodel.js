@@ -17,7 +17,7 @@
     
     Sammy(function () {
         this.get('#test', function () {
-            $("#date").datepicker({ dateFormat: 'yy-mm-dd' });
+            $("#begin").datepicker({ dateFormat: 'yy-mm-dd' });
 
             initializeCollegeList(self);
 

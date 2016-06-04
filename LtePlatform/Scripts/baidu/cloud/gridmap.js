@@ -679,7 +679,7 @@ function markStation() {
         a = t.getMonth() + 1; s = t.getDate(); n = t.getHours();
         r = t.getMinutes(); n = 10 > n ? "0" + n : n; r = 10 > r ? "0" + r : r;
 
-        this.$el.find(".time-panel-date").text(i + "." + a + "." + s);
+        this.$el.find(".time-panel-begin").text(i + "." + a + "." + s);
 
         if (isWeeks) {
             this.$el.find(".time-panel-time").empty();

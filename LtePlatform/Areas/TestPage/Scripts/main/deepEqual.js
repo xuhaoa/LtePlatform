@@ -1,4 +1,4 @@
-/* globals Set:false, Map:false, Symbol:false */
+﻿/* globals Set:false, Map:false, Symbol:false */
 
 QUnit.module( "equiv" );
 
@@ -415,25 +415,25 @@ QUnit.test( "Functions", function( assert ) {
 QUnit.test( "Date instances", function( assert ) {
 
 	// Date, we don't need to test Date.parse() because it returns a number.
-	// Only test the Date instances by setting them a fix date.
-	// The date use is midnight January 1, 1970
+	// Only test the Date instances by setting them a fix begin.
+	// The begin use is midnight January 1, 1970
 	var d1, d2, d3;
 
 	d1 = new Date();
-	d1.setTime( 0 ); // fix the date
+	d1.setTime( 0 ); // fix the begin
 
 	d2 = new Date();
-	d2.setTime( 0 ); // fix the date
+	d2.setTime( 0 ); // fix the begin
 
 	d3 = new Date(); // The very now
 
-	// Anyway their types differs, just in case the code fails in the order in which it deals with date
+	// Anyway their types differs, just in case the code fails in the order in which it deals with begin
 	assert.equal( QUnit.equiv( d1, 0 ), false ); // d1.valueOf() returns 0, but d1 and 0 are different
 
-	// test same values date and different instances equality
+	// test same values begin and different instances equality
 	assert.equal( QUnit.equiv( d1, d2 ), true );
 
-	// test different date and different instances difference
+	// test different begin and different instances difference
 	assert.equal( QUnit.equiv( d1, d3 ), false );
 });
 

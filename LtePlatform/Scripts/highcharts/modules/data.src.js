@@ -350,7 +350,7 @@
 		},
 		
 		/**
-		 * Parse numeric cells in to number types and date types in to true dates.
+		 * Parse numeric cells in to number types and begin types in to true dates.
 		 */
 		parseTypes: function () {
 			var columns = this.columns,
@@ -399,7 +399,7 @@
 					rawColumns[col][row] = trimVal;
 				}
 				
-				// Disable number or date parsing by setting the X axis type to category
+				// Disable number or begin parsing by setting the X axis type to category
 				if (forceCategory || (row === 0 && firstRowAsNames)) {
 					column[row] = trimVal;
 
@@ -418,11 +418,11 @@
 						descending = floatVal > column[row + 1];
 					}
 				
-				// String, continue to determine if it is a date string or really a string
+				// String, continue to determine if it is a begin string or really a string
 				} else {
 					dateVal = this.parseDate(val);
 					// Only allow parsing of dates if this column is an x-column
-					if (isXColumn && typeof dateVal === 'number' && !isNaN(dateVal) && columnType !== 'float') { // is date
+					if (isXColumn && typeof dateVal === 'number' && !isNaN(dateVal) && columnType !== 'float') { // is begin
 						backup[row] = val; 
 						column[row] = dateVal;
 						column.isDatetime = true;
@@ -461,7 +461,7 @@
 				columns[col] = rawColumns[col];
 			}
 
-			// If the 0 column is date or number and descending, reverse all columns. 
+			// If the 0 column is begin or number and descending, reverse all columns. 
 			if (isXColumn && descending && this.options.sort) {
 				for (col = 0; col < columns.length; col++) {
 					columns[col].reverse();
@@ -473,8 +473,8 @@
 		},
 		
 		/**
-		 * A collection of available date formats, extendable from the outside to support
-		 * custom date formats.
+		 * A collection of available begin formats, extendable from the outside to support
+		 * custom begin formats.
 		 */
 		dateFormats: {
 			'YYYY-mm-dd': {
@@ -512,7 +512,7 @@
 		},
 		
 		/**
-		 * Parse a date and return it as a number. Overridable through options.parseDate.
+		 * Parse a begin and return it as a number. Overridable through options.parseDate.
 		 */
 		parseDate: function (val) {
 			var parseDate = this.options.parseDate,
@@ -526,7 +526,7 @@
 				ret = parseDate(val);
 			
 			} else if (typeof val === 'string') {
-				// Auto-detect the date format the first time
+				// Auto-detect the begin format the first time
 				if (!dateFormat) {
 					for (key in this.dateFormats) {
 						format = this.dateFormats[key];
@@ -550,7 +550,7 @@
 				if (!match) {
 					match = Date.parse(val);
 					// External tools like Date.js and MooTools extend Date object and
-					// returns a date.
+					// returns a begin.
 					if (typeof match === 'object' && match !== null && match.getTime) {
 						ret = match.getTime() - match.getTimezoneOffset() * 60000;
 					

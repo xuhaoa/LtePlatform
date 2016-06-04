@@ -709,8 +709,8 @@ var $$UMFP; // reference to $UrlMatcherFactoryProvider
  * * `'/files/{path:.*}'` - Matches any URL starting with '/files/' and captures the rest of the
  *   path into the parameter 'path'.
  * * `'/files/*path'` - ditto.
- * * `'/calendar/{start:date}'` - Matches "/calendar/2014-11-12" (because the pattern defined
- *   in the built-in  `date` Type matches `2014-11-12`) and provides a Date object in $stateParams.start
+ * * `'/calendar/{start:begin}'` - Matches "/calendar/2014-11-12" (because the pattern defined
+ *   in the built-in  `begin` Type matches `2014-11-12`) and provides a Date object in $stateParams.start
  *
  * @param {string} pattern  The pattern to compile into a matcher.
  * @param {Object} config  A configuration object hash:
@@ -851,8 +851,8 @@ function UrlMatcher(pattern, config, parentMatcher) {
  * @example
  * The following two matchers are equivalent:
  * <pre>
- * new UrlMatcher('/user/{id}?q').concat('/details?date');
- * new UrlMatcher('/user/{id}/details?q&date');
+ * new UrlMatcher('/user/{id}?q').concat('/details?begin');
+ * new UrlMatcher('/user/{id}/details?q&begin');
  * </pre>
  *
  * @param {string} pattern  The pattern to append.
@@ -2642,8 +2642,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * url: "/books/{categoryid:int}"
    * url: "/books/{publishername:string}/{categoryid:int}"
    * url: "/messages?before&after"
-   * url: "/messages?{before:date}&{after:date}"
-   * url: "/messages/:mailboxid?{before:date}&{after:date}"
+   * url: "/messages?{before:begin}&{after:begin}"
+   * url: "/messages/:mailboxid?{before:begin}&{after:begin}"
    * </pre>
    *
    * @param {object=} stateConfig.views

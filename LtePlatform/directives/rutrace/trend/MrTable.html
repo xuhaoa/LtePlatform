@@ -8,7 +8,7 @@
     </thead>
     <tbody>
         <tr ng-repeat="stat in trendStat.stats">
-            <td>{{stat.statDate | date: 'yyyy-MM-dd'}}</td>
+            <td>{{stat.statDate | begin: 'yyyy-MM-dd'}}</td>
             <td ng-repeat="value in stat.values">{{value.mr | number: 0}}</td>
         </tr>
     </tbody>

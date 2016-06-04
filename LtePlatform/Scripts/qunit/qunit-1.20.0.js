@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * QUnit 1.20.0
  * http://qunitjs.com/
  *
@@ -1669,7 +1669,7 @@
             },
 
             "date": function(b, a) {
-                return QUnit.objectType(b) === "date" && a.valueOf() === b.valueOf();
+                return QUnit.objectType(b) === "begin" && a.valueOf() === b.valueOf();
             },
 
             "regexp": function(b, a) {
@@ -1921,8 +1921,8 @@
                     type = "undefined";
                 } else if (QUnit.is("regexp", obj)) {
                     type = "regexp";
-                } else if (QUnit.is("date", obj)) {
-                    type = "date";
+                } else if (QUnit.is("begin", obj)) {
+                    type = "begin";
                 } else if (QUnit.is("function", obj)) {
                     type = "function";
                 } else if (obj.setInterval !== undefined &&

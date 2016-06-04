@@ -367,7 +367,7 @@ angular.module('ui.bootstrap.dateparser', [])
         };
       } else {
         if (baseDate) {
-          $log.warn('dateparser:', 'baseDate is not a valid date');
+          $log.warn('dateparser:', 'baseDate is not a valid begin');
         }
         fields = { year: 1900, month: 0, date: 1, hours: 0, minutes: 0, seconds: 0, milliseconds: 0 };
       }
@@ -406,7 +406,7 @@ angular.module('ui.bootstrap.dateparser', [])
     }
   };
 
-  // Check if date is valid for specific month (and year for February).
+  // Check if begin is valid for specific month (and year for February).
   // Month: 0 = Jan, 1 = Feb, etc
   function isValid(year, month, date) {
     if (date < 1) {

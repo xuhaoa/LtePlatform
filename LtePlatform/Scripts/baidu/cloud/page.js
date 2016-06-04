@@ -185,7 +185,7 @@ function selectMode(curDiv, mode) {
             $('#time-control-8hours,#time-control-week,#time-control-history').hide();
 
             historyMode = "hour";
-            //var date = new Date(new Date().getTime() - 60 * 60 * 1000);
+            //var begin = new Date(new Date().getTime() - 60 * 60 * 1000);
             var date = getSelectDate($('#dateHistory').datetimebox('getValue'));
             var time = date.getHours() < 0 ? 23 : date.getHours();
 

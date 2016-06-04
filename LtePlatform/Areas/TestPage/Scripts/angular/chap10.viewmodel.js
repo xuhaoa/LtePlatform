@@ -6,7 +6,7 @@
                 templateUrl: viewDir + "Links.html",
                 controller: "LinksController"
             })
-            .when('/date', {
+            .when('/begin', {
                 templateUrl: viewDir + "DateTimeTest.html",
                 controller: "DateController"
             })
@@ -100,7 +100,7 @@ app.controller("chap10.root", function ($scope) {
         displayName: "日期控件",
         items: [
         {
-            url: rootPath + "/date",
+            url: rootPath + "/begin",
             displayName: "自定义"
         }, {
             url: rootPath + "/dateparser",

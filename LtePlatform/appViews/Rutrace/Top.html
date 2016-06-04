@@ -1,9 +1,9 @@
-﻿<div uib-alert ng-repeat="message in updateMessages" type="success" dismiss-on-timeout="2000" close="closeAlert($index)">
+﻿<div uib-alert ng-repeat="message in upbeginMessages" type="success" dismiss-on-timeout="2000" close="closeAlert($index)">
     {{message.cellName}}编号的工单已生成！
 </div>
 <div class="row">
     <div class="col-md-6">
-        <div date-span-column begin-date="beginDate" end-date="endDate"></div>
+        <div begin-span-column begin-begin="beginDate" end-begin="endDate"></div>
     </div>
     <div class="col-md-6">
         <label>排序依据：</label>
@@ -26,4 +26,4 @@
         </div>
     </div>
 </div>
-<div top-cell current-cells="topCells" root-path="rootPath" begin-date="beginDate" end-date="endDate" update-messages="updateMessages"></div>
+<div top-cell current-cells="topCells" root-path="rootPath" begin-begin="beginDate" end-begin="endDate" upbegin-messages="upbeginMessages"></div>

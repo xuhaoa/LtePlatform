@@ -11,7 +11,7 @@
 
     Sammy(function () {
         this.get('#kpi', function () {
-            $("#date").datepicker({ dateFormat: 'yy-mm-dd' });
+            $("#begin").datepicker({ dateFormat: 'yy-mm-dd' });
 
             initializeCollegeList(self);
 

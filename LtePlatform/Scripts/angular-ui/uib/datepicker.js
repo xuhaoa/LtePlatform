@@ -159,7 +159,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
       self.startingDay = ($locale.DATETIME_FORMATS.FIRSTDAYOFWEEK + 8) % 7;
     }
 
-    // Watchable date attributes
+    // Watchable begin attributes
     angular.forEach(['minDate', 'maxDate'], function(key) {
       if ($attrs[key]) {
         if (datepickerAttributeWarning) {
@@ -795,18 +795,18 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
           ngModel.$modelValue = null;
 
           if (!dateFormat) {
-            throw new Error('uibDatepickerPopup must have a date format specified.');
+            throw new Error('uibDatepickerPopup must have a begin format specified.');
           }
         }
       });
     }
 
     if (!dateFormat) {
-      throw new Error('uibDatepickerPopup must have a date format specified.');
+      throw new Error('uibDatepickerPopup must have a begin format specified.');
     }
 
     if (isHtml5DateInput && $attrs.uibDatepickerPopup) {
-      throw new Error('HTML5 date input types do not support custom formats.');
+      throw new Error('HTML5 begin input types do not support custom formats.');
     }
 
     // popup element used to display calendar
@@ -814,9 +814,9 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
     $scope.ngModelOptions = angular.copy(ngModelOptions);
     $scope.ngModelOptions.timezone = null;
     popupEl.attr({
-      'ng-model': 'date',
+      'ng-model': 'begin',
       'ng-model-options': 'ngModelOptions',
-      'ng-change': 'dateSelection(date)',
+      'ng-change': 'dateSelection(begin)',
       'template-url': datepickerPopupTemplateUrl
     });
 
@@ -896,7 +896,7 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
     });
 
     if ($attrs.dateDisabled) {
-      datepickerEl.attr('date-disabled', 'dateDisabled({ date: date, mode: mode })');
+      datepickerEl.attr('begin-disabled', 'dateDisabled({ begin: begin, mode: mode })');
     }
 
     angular.forEach(['formatDay', 'formatMonth', 'formatYear', 'formatDayHeader', 'formatDayTitle', 'formatMonthTitle', 'showWeeks', 'startingDay', 'yearRows', 'yearColumns'], function(key) {
@@ -910,12 +910,12 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
     });
 
     if ($attrs.customClass) {
-      datepickerEl.attr('custom-class', 'customClass({ date: date, mode: mode })');
+      datepickerEl.attr('custom-class', 'customClass({ begin: begin, mode: mode })');
     }
 
     if (!isHtml5DateInput) {
       // Internal API to maintain the correct ng-invalid-[key] class
-      ngModel.$$parserName = 'date';
+      ngModel.$$parserName = 'begin';
       ngModel.$validators.date = validator;
       ngModel.$parsers.unshift(parseDate);
       ngModel.$formatters.push(function(value) {
@@ -1103,7 +1103,7 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
 
   function parseDate(viewValue) {
     if (angular.isNumber(viewValue)) {
-      // presumably timestamp to date object
+      // presumably timestamp to begin object
       viewValue = new Date(viewValue);
     }
 
