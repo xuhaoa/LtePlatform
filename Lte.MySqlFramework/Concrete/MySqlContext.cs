@@ -19,5 +19,7 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<FlowZte> FlowZtes { get; set; }
 
         public DbSet<CellStatMysql> CellStatMysqls { get; set; }
+
+        public DbSet<PreciseWorkItemCell> PreciseWorkItemCells { get; set; }
     }
 }
