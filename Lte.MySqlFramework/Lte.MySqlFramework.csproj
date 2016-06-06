@@ -68,6 +68,7 @@
     <Compile Include="Concrete\FlowHuaweiRepository.cs" />
     <Compile Include="Concrete\FlowZteRepository.cs" />
     <Compile Include="Concrete\MySqlContext.cs" />
+    <Compile Include="Concrete\PreciseWorkItemCellRepositroy.cs" />
     <Compile Include="Entities\CellStatMysql.cs" />
     <Compile Include="Entities\FlowHuawei.cs" />
     <Compile Include="Entities\FlowHuaweiCsv.cs" />

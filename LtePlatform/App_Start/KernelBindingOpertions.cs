@@ -135,6 +135,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<ICellDistanceRepository>().To<CellDistanceRepository>();
 
+            ninjectKernel.Bind<IPreciseWorkItemCellRepository>().To<PreciseWorkItemCellRepositroy>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();

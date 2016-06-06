@@ -17,6 +17,12 @@ namespace Lte.MySqlFramework.Abstract
         int SaveChanges();
     }
 
-    public interface IPreciseWorkItemCellRepository: IRepository<PreciseWorkItemCell>
-    { }
+    public interface IPreciseWorkItemCellRepository : IRepository<PreciseWorkItemCell>
+    {
+        List<PreciseWorkItemCell> GetAllList(string serialNumber);
+
+        PreciseWorkItemCell Get(string serialNumber, int eNodebId, byte sectorId);
+
+        int SaveChanges();
+    }
 }
