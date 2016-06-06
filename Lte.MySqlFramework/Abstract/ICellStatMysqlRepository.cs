@@ -16,4 +16,7 @@ namespace Lte.MySqlFramework.Abstract
 
         int SaveChanges();
     }
+
+    public interface IPreciseWorkItemCellRepository: IRepository<PreciseWorkItemCell>
+    { }
 }

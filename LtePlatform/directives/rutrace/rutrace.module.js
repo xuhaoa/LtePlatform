@@ -320,14 +320,41 @@
             templateUrl: htmlRoot + 'interference/VictimList.html'
         };
     })
-    .directive('interferenceVictimCoverageList', function (htmlRoot) {
+    .directive('interferenceVictimCoverageList', function (htmlRoot, $uibModal, $log) {
         return {
             restrict: 'ECMA',
             replace: true,
             scope: {
                 victimCells: '='
             },
-            templateUrl: htmlRoot + 'coverage/InterferenceVictimList.html'
+            templateUrl: htmlRoot + 'coverage/InterferenceVictimList.html',
+            link: function (scope, element, attrs) {
+                scope.analyzeTa = function (cell) {
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: '/appViews/Rutrace/Coverage/TaQueryChartDialog.html',
+                        controller: 'coverage.ta.query.dialog',
+                        size: 'lg',
+                        resolve: {
+                            dialogTitle: function () {
+                                return cell.neighborCellName + 'TA分布';
+                            },
+                            cellId: function () {
+                                return cell.destENodebId;
+                            },
+                            sectorId: function () {
+                                return cell.destSectorId;
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function (info) {
+                        console.log(info);
+                    }, function () {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
+                };
+            }
         };
     })
     .directive('trendMrTable', function (htmlRoot) {

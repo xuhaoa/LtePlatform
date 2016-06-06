@@ -13,6 +13,8 @@ namespace Lte.MySqlFramework.Entities
 
         public byte SectorId { get; set; }
 
+        public string WorkItemNumber { get; set; }
+
         public double Db6Share { get; set; }
 
         public double Db10Share { get; set; }

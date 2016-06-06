@@ -62,4 +62,6 @@ app.controller('coverage.ta.query.dialog', function ($scope, $uibModalInstance, 
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+    $scope.query();
 });
