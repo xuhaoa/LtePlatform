@@ -170,10 +170,8 @@
                     dumpSingleCell(cell, begin, end);
                 };
                 scope.dumpAll = function() {
-                    var begin = new Date(scope.beginDate.value);
-                    var end = new Date(scope.endDate.value);
                     angular.forEach(scope.neighborCells, function(cell) {
-                        dumpSingleCell(cell, begin, end);
+                        dumpSingleCell(cell, new Date(scope.beginDate.value), new Date(scope.endDate.value));
                     });
                 };
             }
