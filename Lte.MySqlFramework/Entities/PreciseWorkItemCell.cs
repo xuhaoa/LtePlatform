@@ -19,9 +19,21 @@ namespace Lte.MySqlFramework.Entities
 
         public double Db10Share { get; set; }
 
+        public double BackwardDb6Share { get; set; }
+
+        public double BackwardDb10Share { get; set; }
+
         public double Mod3Share { get; set; }
 
+        public double Mod6Share { get; set; }
+
+        public double BackwardMod3Share { get; set; }
+
+        public double BackwardMod6Share { get; set; }
+
         public double WeakCoverageRate { get; set; }
+
+        public double OverCoverageRate { get; set; }
 
         public double OriginalDownTilt { get; set; }
 

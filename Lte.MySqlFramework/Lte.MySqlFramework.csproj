@@ -75,30 +75,6 @@
     <Compile Include="Entities\FlowZte.cs" />
     <Compile Include="Entities\FlowZteCsv.cs" />
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
-    <Compile Include="Migrations\201605040638276_Initialize_MySql_20160504.cs" />
-    <Compile Include="Migrations\201605040638276_Initialize_MySql_20160504.Designer.cs">
-      <DependentUpon>201605040638276_Initialize_MySql_20160504.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605040857589_Initialize_MySql_201605041.cs" />
-    <Compile Include="Migrations\201605040857589_Initialize_MySql_201605041.Designer.cs">
-      <DependentUpon>201605040857589_Initialize_MySql_201605041.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605040929003_Initialize_MySql_201605042.cs" />
-    <Compile Include="Migrations\201605040929003_Initialize_MySql_201605042.Designer.cs">
-      <DependentUpon>201605040929003_Initialize_MySql_201605042.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605101113102_Add_FlowZte_20160510.cs" />
-    <Compile Include="Migrations\201605101113102_Add_FlowZte_20160510.Designer.cs">
-      <DependentUpon>201605101113102_Add_FlowZte_20160510.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605111236177_Add_CellStatMysql_20160511.cs" />
-    <Compile Include="Migrations\201605111236177_Add_CellStatMysql_20160511.Designer.cs">
-      <DependentUpon>201605111236177_Add_CellStatMysql_20160511.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605111304438_CellStatMysql_20160511.cs" />
-    <Compile Include="Migrations\201605111304438_CellStatMysql_20160511.Designer.cs">
-      <DependentUpon>201605111304438_CellStatMysql_20160511.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201605111320562_CellStatMysql_201605111.cs" />
     <Compile Include="Migrations\201605111320562_CellStatMysql_201605111.Designer.cs">
       <DependentUpon>201605111320562_CellStatMysql_201605111.cs</DependentUpon>
@@ -110,6 +86,10 @@
     <Compile Include="Migrations\201606061304294_Update_Precise_WorkItem_20160606.cs" />
     <Compile Include="Migrations\201606061304294_Update_Precise_WorkItem_20160606.Designer.cs">
       <DependentUpon>201606061304294_Update_Precise_WorkItem_20160606.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606070908049_Update_Precise_WorkItem_Cell.cs" />
+    <Compile Include="Migrations\201606070908049_Update_Precise_WorkItem_Cell.Designer.cs">
+      <DependentUpon>201606070908049_Update_Precise_WorkItem_Cell.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -137,24 +117,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605040638276_Initialize_MySql_20160504.resx">
-      <DependentUpon>201605040638276_Initialize_MySql_20160504.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605040857589_Initialize_MySql_201605041.resx">
-      <DependentUpon>201605040857589_Initialize_MySql_201605041.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605040929003_Initialize_MySql_201605042.resx">
-      <DependentUpon>201605040929003_Initialize_MySql_201605042.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605101113102_Add_FlowZte_20160510.resx">
-      <DependentUpon>201605101113102_Add_FlowZte_20160510.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605111236177_Add_CellStatMysql_20160511.resx">
-      <DependentUpon>201605111236177_Add_CellStatMysql_20160511.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605111304438_CellStatMysql_20160511.resx">
-      <DependentUpon>201605111304438_CellStatMysql_20160511.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605111320562_CellStatMysql_201605111.resx">
       <DependentUpon>201605111320562_CellStatMysql_201605111.cs</DependentUpon>
     </EmbeddedResource>
@@ -163,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606061304294_Update_Precise_WorkItem_20160606.resx">
       <DependentUpon>201606061304294_Update_Precise_WorkItem_20160606.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606070908049_Update_Precise_WorkItem_Cell.resx">
+      <DependentUpon>201606070908049_Update_Precise_WorkItem_Cell.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
