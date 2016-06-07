@@ -14,10 +14,6 @@
 */
 
 using System;
-using System.Diagnostics;
-using MongoDB.Bson;
-using MongoDB.Driver.Core.Configuration;
-using MongoDB.Driver.Core.Events.Diagnostics;
 
 namespace MongoDB.Driver.Tests
 {
@@ -27,9 +23,7 @@ namespace MongoDB.Driver.Tests
     public static class DriverTestConfiguration
     {
         // private static fields
-        private static Lazy<MongoClient> __client;
-        private static CollectionNamespace __collectionNamespace;
-        private static DatabaseNamespace __databaseNamespace;
+        private static readonly Lazy<MongoClient> __client;
 
         // static constructor
         static DriverTestConfiguration()
@@ -46,18 +40,15 @@ namespace MongoDB.Driver.Tests
             clientSettings.ClusterConfigurator = cb => CoreTestConfiguration.ConfigureLogging(cb);
 
             __client = new Lazy<MongoClient>(() => new MongoClient(clientSettings), true);
-            __databaseNamespace = CoreTestConfiguration.DatabaseNamespace;
-            __collectionNamespace = new CollectionNamespace(__databaseNamespace, "testcollection");
+            DatabaseNamespace = CoreTestConfiguration.DatabaseNamespace;
+            CollectionNamespace = new CollectionNamespace(DatabaseNamespace, "testcollection");
         }
 
         // public static properties
         /// <summary>
         /// Gets the test client.
         /// </summary>
-        public static MongoClient Client
-        {
-            get { return __client.Value; }
-        }
+        public static MongoClient Client => __client.Value;
 
         /// <summary>
         /// Gets the collection namespace.
@@ -65,10 +56,7 @@ namespace MongoDB.Driver.Tests
         /// <value>
         /// The collection namespace.
         /// </value>
-        public static CollectionNamespace CollectionNamespace
-        {
-            get { return __collectionNamespace; }
-        }
+        public static CollectionNamespace CollectionNamespace { get; }
 
         /// <summary>
         /// Gets the database namespace.
@@ -76,9 +64,6 @@ namespace MongoDB.Driver.Tests
         /// <value>
         /// The database namespace.
         /// </value>
-        public static DatabaseNamespace DatabaseNamespace
-        {
-            get { return __databaseNamespace; }
-        }
+        public static DatabaseNamespace DatabaseNamespace { get; }
     }
 }
