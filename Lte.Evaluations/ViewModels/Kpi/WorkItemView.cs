@@ -4,7 +4,7 @@ using Lte.Domain.Regular.Attributes;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 
-namespace Lte.Evaluations.ViewModels
+namespace Lte.Evaluations.ViewModels.Kpi
 {
     [TypeDoc("工单信息视图")]
     public class WorkItemView

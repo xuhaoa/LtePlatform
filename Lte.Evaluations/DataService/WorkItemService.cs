@@ -7,6 +7,7 @@ using AutoMapper;
 using Lte.Domain.LinqToExcel;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels;
+using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
