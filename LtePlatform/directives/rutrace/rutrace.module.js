@@ -318,6 +318,18 @@
             templateUrl: htmlRoot + 'interference/VictimList.html'
         };
     })
+    .directive('interferenceVictimDialogList', function (htmlRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                victimCells: '=',
+                orderPolicy: '=',
+                displayItems: '='
+            },
+            templateUrl: htmlRoot + 'interference/VictimDialogList.html'
+        };
+    })
     .directive('interferenceVictimCoverageList', function (htmlRoot, $uibModal, $log) {
         return {
             restrict: 'ECMA',

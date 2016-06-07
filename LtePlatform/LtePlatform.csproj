@@ -510,6 +510,7 @@
     <Content Include="appViews\Rutrace\Interference\SourceDialog.html" />
     <Content Include="appViews\Rutrace\Interference\SourceModChartDialog.html" />
     <Content Include="appViews\Rutrace\Interference\SourceStrengthChartDialog.html" />
+    <Content Include="directives\rutrace\interference\VictimDialogList.html" />
     <Content Include="directives\rutrace\interference\VictimList.html" />
     <Content Include="appViews\Rutrace\Map\Index.html" />
     <Content Include="appViews\Rutrace\Top.html" />

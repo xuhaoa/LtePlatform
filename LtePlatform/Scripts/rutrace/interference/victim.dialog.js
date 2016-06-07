@@ -11,6 +11,32 @@
         value: new Date(),
         opened: false
     };
+    var options = [
+        {
+            name: "模3干扰数",
+            value: "mod3Interferences"
+        }, {
+            name: "模6干扰数",
+            value: "mod6Interferences"
+        }, {
+            name: "6dB干扰数",
+            value: "overInterferences6Db"
+        }, {
+            name: "10dB干扰数",
+            value: "overInterferences10Db"
+        }, {
+            name: "总干扰水平",
+            value: "interferenceLevel"
+        }
+    ];
+    $scope.orderPolicy = {
+        options: options,
+        selected: options[4].value
+    };
+    $scope.displayItems = {
+        options: [5, 10, 15, 20, 30],
+        selected: 10
+    };
 
     $scope.showVictim = function () {
         $scope.victimCells = [];
