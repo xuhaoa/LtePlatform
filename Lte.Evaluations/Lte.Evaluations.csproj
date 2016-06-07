@@ -110,6 +110,7 @@
     <Compile Include="DataService\Mr\InterferenceMatrixService.cs" />
     <Compile Include="DataService\Kpi\TopConnection3GService.cs" />
     <Compile Include="DataService\Mr\NeighborCellMongoService.cs" />
+    <Compile Include="DataService\Mr\PreciseWorkItemService.cs" />
     <Compile Include="DataService\Switch\IMongoQuery.cs" />
     <Compile Include="DataService\Switch\InterFreqHoService.cs" />
     <Compile Include="DataService\Switch\IntraFreqHoService.cs" />
