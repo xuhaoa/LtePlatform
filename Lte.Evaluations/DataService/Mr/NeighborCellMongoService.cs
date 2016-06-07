@@ -142,7 +142,7 @@ namespace Lte.Evaluations.DataService.Mr
             var neighborPci = neighborCell?.Pci;
             var neighborENodeb = _eNodebRepository.GetByENodebId(_destENodebId);
             var neighborCellName = neighborENodeb?.Name ?? "未知基站" + "-" + _destSectorId;
-            var huaweiNeighbors = _huaweiNeighborRepository.GetReverseList(_destENodebId, _destSectorId);
+            var huaweiNeighbors = _huaweiNeighborRepository.GetAllReverseList(_destENodebId, _destSectorId);
             return huaweiNeighbors.Select(x =>
             {
                 var result = Mapper.Map<EutranIntraFreqNCell, NeighborCellMongo>(x);

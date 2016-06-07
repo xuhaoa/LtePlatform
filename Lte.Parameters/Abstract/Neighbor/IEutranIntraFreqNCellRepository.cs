@@ -14,5 +14,7 @@ namespace Lte.Parameters.Abstract.Neighbor
         List<EutranIntraFreqNCell> GetRecentList(int eNodebId, byte localCellId);
 
         List<EutranIntraFreqNCell> GetReverseList(int destENodebId, byte destSectorId);
+
+        List<EutranIntraFreqNCell> GetAllReverseList(int destENodebId, byte destSectorId);
     }
 }

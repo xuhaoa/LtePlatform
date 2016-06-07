@@ -42,5 +42,33 @@ namespace Lte.Parameters.Concrete.Neighbor
             var recentDate = list.Max(x => x.iDate);
             return list.Where(x => x.iDate == recentDate).ToList();
         }
+
+        public List<EutranIntraFreqNCell> GetAllReverseList(int destENodebId, byte destSectorId)
+        {
+            var query =
+                MongoDB.Driver.Builders.Query<EutranIntraFreqNCell>.Where(
+                    e => e.eNodeBId == destENodebId && e.CellId == destSectorId);
+            var list = Collection.Find(query).AsQueryable().ToList();
+            return (from item in list
+                group item by new
+                {
+                    item.eNodeB_Id,
+                    item.LocalCellId,
+                    item.eNodeBId,
+                    item.CellId
+                }
+                into g
+                select new EutranIntraFreqNCell
+                {
+                    eNodeB_Id = g.Key.eNodeB_Id,
+                    LocalCellId = g.Key.LocalCellId,
+                    eNodeBId = g.Key.eNodeBId,
+                    CellId = g.Key.CellId,
+                    NoHoFlag = g.First().NoHoFlag,
+                    NoRmvFlag = g.First().NoRmvFlag,
+                    AnrFlag = g.First().AnrFlag,
+                    NCellClassLabel = g.First().NCellClassLabel
+                }).ToList();
+        }
     }
 }
