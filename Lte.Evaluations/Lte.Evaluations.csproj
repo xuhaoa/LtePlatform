@@ -134,7 +134,7 @@
     <Compile Include="DataService\Kpi\PreciseStatService.cs" />
     <Compile Include="DataService\RasterInfoService.cs" />
     <Compile Include="DataService\Kpi\TopDrop2GService.cs" />
-    <Compile Include="DataService\TownQueryService.cs" />
+    <Compile Include="DataService\Basic\TownQueryService.cs" />
     <Compile Include="DataService\WorkItemService.cs" />
     <Compile Include="MapperSerive\BaiduMapperService.cs" />
     <Compile Include="MapperSerive\BtsExcelWithTownIdContainer.cs" />
