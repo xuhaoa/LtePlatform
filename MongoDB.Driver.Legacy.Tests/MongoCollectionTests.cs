@@ -3320,7 +3320,7 @@ namespace MongoDB.Driver.Tests
             {
                 Assert.AreEqual(expectedResult.LastErrorMessage, result.LastErrorMessage);
             }
-            Assert.AreEqual(expectedResult.Upserted, result.Upserted);
+            Assert.AreEqual((decimal) expectedResult.Upserted, (decimal)result.Upserted);
             Assert.AreEqual(expectedResult.UpdatedExisting ?? false, result.UpdatedExisting);
         }
 

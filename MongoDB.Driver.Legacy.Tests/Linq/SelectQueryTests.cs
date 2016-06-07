@@ -153,9 +153,9 @@ namespace MongoDB.Driver.Tests.Linq
             // documents inserted deliberately out of order to test sorting
             _collection.Drop();
             _collection.Insert(new C { Id = _id2, X = 2, LX = 2, Y = 11, D = new D { Z = 22 }, A = new[] { 2, 3, 4 }, DA = new List<D> { new D { Z = 111 }, new D { Z = 222 } }, L = new List<int> { 2, 3, 4 } });
-            _collection.Insert(new C { Id = _id1, X = 1, LX = 1, Y = 11, D = new D { Z = 11 }, S = "abc", SA = new string[] { "Tom", "Dick", "Harry" } });
-            _collection.Insert(new C { Id = _id3, X = 3, LX = 3, Y = 33, D = new D { Z = 33 }, B = true, BA = new bool[] { true }, E = E.A, EA = new E[] { E.A, E.B } });
-            _collection.Insert(new C { Id = _id5, X = 5, LX = 5, Y = 44, D = new D { Z = 55 }, DBRef = new MongoDBRef("db", "c", 1) });
+            _collection.Insert(new C { Id = _id1, X = 1, LX = 1, Y = 11, D = new D { Z = 11 }, S = "abc", SA = new[] { "Tom", "Dick", "Harry" } });
+            _collection.Insert(new C { Id = _id3, X = 3, LX = 3, Y = 33, D = new D { Z = 33 }, B = true, BA = new[] { true }, E = E.A, EA = new[] { E.A, E.B } });
+            _collection.Insert(new C { Id = _id5, X = 5, LX = 5, Y = 44, D = new D { Z = 55 }, DBRef = new MongoDBRef("db", "c", (BsonValue)1) });
             _collection.Insert(new C { Id = _id4, X = 4, LX = 4, Y = 44, D = new D { Z = 44 }, S = "   xyz   ", DA = new List<D> { new D { Z = 333 }, new D { Z = 444 } } });
         }
 
@@ -163,7 +163,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The Aggregate query operator is not supported.")]
         public void TestAggregate()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c).Aggregate((a, b) => null);
         }
 
@@ -171,7 +171,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The Aggregate query operator is not supported.")]
         public void TestAggregateWithAccumulator()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c).Aggregate<C, int>(0, (a, c) => 0);
         }
 
@@ -179,7 +179,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The Aggregate query operator is not supported.")]
         public void TestAggregateWithAccumulatorAndSelector()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c).Aggregate<C, int, int>(0, (a, c) => 0, a => a);
         }
 
@@ -187,14 +187,14 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The All query operator is not supported.")]
         public void TestAll()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c).All(c => true);
         }
 
         [Test]
         public void TestAny()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).Any();
             Assert.IsTrue(result);
         }
@@ -202,7 +202,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestAnyWhereXEquals1()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 1
                           select c).Any();
             Assert.IsTrue(result);
@@ -211,7 +211,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestAnyWhereXEquals9()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 9
                           select c).Any();
             Assert.IsFalse(result);
@@ -221,34 +221,34 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "Any with predicate after a projection is not supported.")]
         public void TestAnyWithPredicateAfterProjection()
         {
-            _collection.AsQueryable<C>().Select(c => c.Y).Any(y => y == 11);
+            _collection.AsQueryable().Select(c => c.Y).Any(y => y == 11);
         }
 
         [Test]
         public void TestAnyWithPredicateAfterWhere()
         {
-            var result = _collection.AsQueryable<C>().Where(c => c.X == 1).Any(c => c.Y == 11);
+            var result = _collection.AsQueryable().Where(c => c.X == 1).Any(c => c.Y == 11);
             Assert.IsTrue(result);
         }
 
         [Test]
         public void TestAnyWithPredicateFalse()
         {
-            var result = _collection.AsQueryable<C>().Any(c => c.X == 9);
+            var result = _collection.AsQueryable().Any(c => c.X == 9);
             Assert.IsFalse(result);
         }
 
         [Test]
         public void TestAnyWithPredicateTrue()
         {
-            var result = _collection.AsQueryable<C>().Any(c => c.X == 1);
+            var result = _collection.AsQueryable().Any(c => c.X == 1);
             Assert.IsTrue(result);
         }
 
         [Test]
         public void TestAsQueryableWithNothingElse()
         {
-            var query = _collection.AsQueryable<C>();
+            var query = _collection.AsQueryable();
             var result = query.ToList();
             Assert.AreEqual(5, result.Count);
         }
@@ -257,7 +257,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The Average query operator is not supported.")]
         public void TestAverage()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select 1.0).Average();
         }
 
@@ -265,7 +265,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The Average query operator is not supported.")]
         public void TestAverageNullable()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select (double?)1.0).Average();
         }
 
@@ -273,7 +273,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The Average query operator is not supported.")]
         public void TestAverageWithSelector()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c).Average(c => 1.0);
         }
 
@@ -281,7 +281,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The Average query operator is not supported.")]
         public void TestAverageWithSelectorNullable()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c).Average(c => (double?)1.0);
         }
 
@@ -289,7 +289,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The Cast query operator is not supported.")]
         public void TestCast()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).Cast<C>();
             query.ToList(); // execute query
         }
@@ -299,7 +299,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestConcat()
         {
             var source2 = new C[0];
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).Concat(source2);
             query.ToList(); // execute query
         }
@@ -309,7 +309,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestContains()
         {
             var item = new C();
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c).Contains(item);
         }
 
@@ -318,14 +318,14 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestContainsWithEqualityComparer()
         {
             var item = new C();
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c).Contains(item, new CEqualityComparer());
         }
 
         [Test]
         public void TestCountEquals2()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.Y == 11
                           select c).Count();
 
@@ -335,7 +335,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestCountEquals5()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).Count();
 
             Assert.AreEqual(5, result);
@@ -344,7 +344,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestCountWithPredicate()
         {
-            var result = _collection.AsQueryable<C>().Count(c => c.Y == 11);
+            var result = _collection.AsQueryable().Count(c => c.Y == 11);
 
             Assert.AreEqual(2, result);
         }
@@ -353,13 +353,13 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "Count with predicate after a projection is not supported.")]
         public void TestCountWithPredicateAfterProjection()
         {
-            _collection.AsQueryable<C>().Select(c => c.Y).Count(y => y == 11);
+            _collection.AsQueryable().Select(c => c.Y).Count(y => y == 11);
         }
 
         [Test]
         public void TestCountWithPredicateAfterWhere()
         {
-            var result = _collection.AsQueryable<C>().Where(c => c.X == 1).Count(c => c.Y == 11);
+            var result = _collection.AsQueryable().Where(c => c.X == 1).Count(c => c.Y == 11);
 
             Assert.AreEqual(1, result);
         }
@@ -367,7 +367,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestCountWithSkipAndTake()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).Skip(2).Take(2).Count();
 
             Assert.AreEqual(2, result);
@@ -377,7 +377,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The DefaultIfEmpty query operator is not supported.")]
         public void TestDefaultIfEmpty()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).DefaultIfEmpty();
             query.ToList(); // execute query
         }
@@ -386,7 +386,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The DefaultIfEmpty query operator is not supported.")]
         public void TestDefaultIfEmptyWithDefaultValue()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).DefaultIfEmpty(null);
             query.ToList(); // execute query
         }
@@ -396,7 +396,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
-                var query = (from c in _collection.AsQueryable<C>()
+                var query = (from c in _collection.AsQueryable()
                              select c.A[0]).Distinct();
                 var results = query.ToList();
                 Assert.AreEqual(1, results.Count);
@@ -407,7 +407,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestDistinctB()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c.B).Distinct();
             var results = query.ToList();
             Assert.AreEqual(2, results.Count);
@@ -420,7 +420,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
-                var query = (from c in _collection.AsQueryable<C>()
+                var query = (from c in _collection.AsQueryable()
                              select c.BA[0]).Distinct();
                 var results = query.ToList();
                 Assert.AreEqual(1, results.Count);
@@ -431,7 +431,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestDistinctD()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c.D).Distinct();
             var results = query.ToList(); // execute query
             Assert.AreEqual(5, results.Count);
@@ -445,17 +445,17 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestDistinctDBRef()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c.DBRef).Distinct();
             var results = query.ToList();
             Assert.AreEqual(1, results.Count);
-            Assert.IsTrue(results.Contains(new MongoDBRef("db", "c", 1)));
+            Assert.IsTrue(results.Contains(new MongoDBRef("db", "c", (BsonValue)1)));
         }
 
         [Test]
         public void TestDistinctDBRefDatabase()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c.DBRef.DatabaseName).Distinct();
             var results = query.ToList();
             Assert.AreEqual(1, results.Count);
@@ -465,7 +465,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestDistinctDZ()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c.D.Z).Distinct();
             var results = query.ToList();
             Assert.AreEqual(5, results.Count);
@@ -479,7 +479,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestDistinctE()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c.E).Distinct();
             var results = query.ToList();
             Assert.AreEqual(1, results.Count);
@@ -491,7 +491,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
-                var query = (from c in _collection.AsQueryable<C>()
+                var query = (from c in _collection.AsQueryable()
                              select c.EA[0]).Distinct();
                 var results = query.ToList();
                 Assert.AreEqual(1, results.Count);
@@ -502,7 +502,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestDistinctId()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c.Id).Distinct();
             var results = query.ToList();
             Assert.AreEqual(5, results.Count);
@@ -518,7 +518,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
-                var query = (from c in _collection.AsQueryable<C>()
+                var query = (from c in _collection.AsQueryable()
                              select c.L[0]).Distinct();
                 var results = query.ToList();
                 Assert.AreEqual(1, results.Count);
@@ -529,7 +529,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestDistinctS()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c.S).Distinct();
             var results = query.ToList();
             Assert.AreEqual(2, results.Count);
@@ -542,7 +542,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
-                var query = (from c in _collection.AsQueryable<C>()
+                var query = (from c in _collection.AsQueryable()
                              select c.SA[0]).Distinct();
                 var results = query.ToList();
                 Assert.AreEqual(1, results.Count);
@@ -553,7 +553,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestDistinctX()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c.X).Distinct();
             var results = query.ToList();
             Assert.AreEqual(5, results.Count);
@@ -567,7 +567,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestDistinctXWithQuery()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          where c.X > 3
                          select c.X).Distinct();
             var results = query.ToList();
@@ -579,7 +579,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestDistinctY()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c.Y).Distinct();
             var results = query.ToList();
             Assert.AreEqual(3, results.Count);
@@ -592,14 +592,14 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The version of the Distinct query operator with an equality comparer is not supported.")]
         public void TestDistinctWithEqualityComparer()
         {
-            var query = _collection.AsQueryable<C>().Distinct(new CEqualityComparer());
+            var query = _collection.AsQueryable().Distinct(new CEqualityComparer());
             query.ToList(); // execute query
         }
 
         [Test]
         public void TestElementAtOrDefaultWithManyMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).ElementAtOrDefault(2);
 
             Assert.AreEqual(3, result.X);
@@ -609,7 +609,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestElementAtOrDefaultWithNoMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 9
                           select c).ElementAtOrDefault(0);
             Assert.IsNull(result);
@@ -618,7 +618,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestElementAtOrDefaultWithOneMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 3
                           select c).ElementAtOrDefault(0);
 
@@ -629,7 +629,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestElementAtOrDefaultWithTwoMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.Y == 11
                           select c).ElementAtOrDefault(1);
 
@@ -640,7 +640,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestElementAtWithManyMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).ElementAt(2);
 
             Assert.AreEqual(3, result.X);
@@ -651,7 +651,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestElementAtWithNoMatch()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              where c.X == 9
              select c).ElementAt(0);
         }
@@ -659,7 +659,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestElementAtWithOneMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 3
                           select c).ElementAt(0);
 
@@ -670,7 +670,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestElementAtWithTwoMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.Y == 11
                           select c).ElementAt(1);
 
@@ -683,7 +683,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestExcept()
         {
             var source2 = new C[0];
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).Except(source2);
             query.ToList(); // execute query
         }
@@ -693,7 +693,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestExceptWithEqualityComparer()
         {
             var source2 = new C[0];
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).Except(source2, new CEqualityComparer());
             query.ToList(); // execute query
         }
@@ -701,7 +701,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestFirstOrDefaultWithManyMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).FirstOrDefault();
 
             Assert.AreEqual(2, result.X);
@@ -711,7 +711,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestFirstOrDefaultWithNoMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 9
                           select c).FirstOrDefault();
             Assert.IsNull(result);
@@ -720,7 +720,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestFirstOrDefaultWithNoMatchAndProjectionToStruct()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 9
                           select c.X).FirstOrDefault();
             Assert.AreEqual(0, result);
@@ -729,7 +729,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestFirstOrDefaultWithOneMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 3
                           select c).FirstOrDefault();
 
@@ -741,13 +741,13 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "FirstOrDefault with predicate after a projection is not supported.")]
         public void TestFirstOrDefaultWithPredicateAfterProjection()
         {
-            _collection.AsQueryable<C>().Select(c => c.Y).FirstOrDefault(y => y == 11);
+            _collection.AsQueryable().Select(c => c.Y).FirstOrDefault(y => y == 11);
         }
 
         [Test]
         public void TestFirstOrDefaultWithPredicateAfterWhere()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 1
                           select c).FirstOrDefault(c => c.Y == 11);
             Assert.AreEqual(1, result.X);
@@ -757,7 +757,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestFirstOrDefaultWithPredicateNoMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).FirstOrDefault(c => c.X == 9);
             Assert.IsNull(result);
         }
@@ -765,7 +765,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestFirstOrDefaultWithPredicateOneMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).FirstOrDefault(c => c.X == 3);
             Assert.AreEqual(3, result.X);
             Assert.AreEqual(33, result.Y);
@@ -774,7 +774,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestFirstOrDefaultWithPredicateTwoMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).FirstOrDefault(c => c.Y == 11);
             Assert.AreEqual(2, result.X);
             Assert.AreEqual(11, result.Y);
@@ -783,7 +783,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestFirstOrDefaultWithTwoMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.Y == 11
                           select c).FirstOrDefault();
 
@@ -794,7 +794,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestFirstWithManyMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).First();
 
             Assert.AreEqual(2, result.X);
@@ -805,7 +805,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestFirstWithNoMatch()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              where c.X == 9
              select c).First();
         }
@@ -813,7 +813,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestFirstWithOneMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 3
                           select c).First();
 
@@ -825,13 +825,13 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "First with predicate after a projection is not supported.")]
         public void TestFirstWithPredicateAfterProjection()
         {
-            _collection.AsQueryable<C>().Select(c => c.Y).First(y => y == 11);
+            _collection.AsQueryable().Select(c => c.Y).First(y => y == 11);
         }
 
         [Test]
         public void TestFirstWithPredicateAfterWhere()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 1
                           select c).First(c => c.Y == 11);
             Assert.AreEqual(1, result.X);
@@ -843,7 +843,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             var ex = Assert.Throws<InvalidOperationException>(() =>
             {
-                (from c in _collection.AsQueryable<C>()
+                (from c in _collection.AsQueryable()
                  select c).First(c => c.X == 9);
             });
             Assert.AreEqual(ExpectedErrorMessage.FirstEmptySequence, ex.Message);
@@ -852,7 +852,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestFirstWithPredicateOneMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).First(c => c.X == 3);
             Assert.AreEqual(3, result.X);
             Assert.AreEqual(33, result.Y);
@@ -861,7 +861,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestFirstWithPredicateTwoMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).First(c => c.Y == 11);
             Assert.AreEqual(2, result.X);
             Assert.AreEqual(11, result.Y);
@@ -870,7 +870,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestFirstWithTwoMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.Y == 11
                           select c).First();
 
@@ -882,7 +882,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The GroupBy query operator is not supported.")]
         public void TestGroupByWithKeySelector()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).GroupBy(c => c);
             query.ToList(); // execute query
         }
@@ -891,7 +891,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The GroupBy query operator is not supported.")]
         public void TestGroupByWithKeySelectorAndElementSelector()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).GroupBy(c => c, c => c);
             query.ToList(); // execute query
         }
@@ -900,7 +900,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The GroupBy query operator is not supported.")]
         public void TestGroupByWithKeySelectorAndElementSelectorAndEqualityComparer()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).GroupBy(c => c, c => c, new CEqualityComparer());
             query.ToList(); // execute query
         }
@@ -909,7 +909,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The GroupBy query operator is not supported.")]
         public void TestGroupByWithKeySelectorAndElementSelectorAndResultSelector()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).GroupBy(c => c, c => c, (c, e) => 1.0);
             query.ToList(); // execute query
         }
@@ -918,7 +918,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The GroupBy query operator is not supported.")]
         public void TestGroupByWithKeySelectorAndElementSelectorAndResultSelectorAndEqualityComparer()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).GroupBy(c => c, c => c, (c, e) => e.First(), new CEqualityComparer());
             query.ToList(); // execute query
         }
@@ -927,7 +927,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The GroupBy query operator is not supported.")]
         public void TestGroupByWithKeySelectorAndEqualityComparer()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).GroupBy(c => c, new CEqualityComparer());
             query.ToList(); // execute query
         }
@@ -936,7 +936,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The GroupBy query operator is not supported.")]
         public void TestGroupByWithKeySelectorAndResultSelector()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).GroupBy(c => c, (k, e) => 1.0);
             query.ToList(); // execute query
         }
@@ -945,7 +945,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The GroupBy query operator is not supported.")]
         public void TestGroupByWithKeySelectorAndResultSelectorAndEqualityComparer()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).GroupBy(c => c, (k, e) => e.First(), new CEqualityComparer());
             query.ToList(); // execute query
         }
@@ -955,7 +955,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestGroupJoin()
         {
             var inner = new C[0];
-            var query = _collection.AsQueryable<C>().GroupJoin(inner, c => c, c => c, (c, e) => c);
+            var query = _collection.AsQueryable().GroupJoin(inner, c => c, c => c, (c, e) => c);
             query.ToList(); // execute query
         }
 
@@ -964,7 +964,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestGroupJoinWithEqualityComparer()
         {
             var inner = new C[0];
-            var query = _collection.AsQueryable<C>().GroupJoin(inner, c => c, c => c, (c, e) => c, new CEqualityComparer());
+            var query = _collection.AsQueryable().GroupJoin(inner, c => c, c => c, (c, e) => c, new CEqualityComparer());
             query.ToList(); // execute query
         }
 
@@ -973,7 +973,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestIntersect()
         {
             var source2 = new C[0];
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).Intersect(source2);
             query.ToList(); // execute query
         }
@@ -983,7 +983,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestIntersectWithEqualityComparer()
         {
             var source2 = new C[0];
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).Intersect(source2, new CEqualityComparer());
             query.ToList(); // execute query
         }
@@ -992,7 +992,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The Join query operator is not supported.")]
         public void TestJoin()
         {
-            var query = _collection.AsQueryable<C>().Join(_collection.AsQueryable<C>(), c => c.X, c => c.X, (x, y) => x);
+            var query = _collection.AsQueryable().Join(_collection.AsQueryable(), c => c.X, c => c.X, (x, y) => x);
             query.ToList(); // execute query
         }
 
@@ -1000,14 +1000,14 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The Join query operator is not supported.")]
         public void TestJoinWithEqualityComparer()
         {
-            var query = _collection.AsQueryable<C>().Join(_collection.AsQueryable<C>(), c => c.X, c => c.X, (x, y) => x, new Int32EqualityComparer());
+            var query = _collection.AsQueryable().Join(_collection.AsQueryable(), c => c.X, c => c.X, (x, y) => x, new Int32EqualityComparer());
             query.ToList(); // execute query
         }
 
         [Test]
         public void TestLastOrDefaultWithManyMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).LastOrDefault();
 
             Assert.AreEqual(4, result.X);
@@ -1017,7 +1017,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLastOrDefaultWithNoMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 9
                           select c).LastOrDefault();
             Assert.IsNull(result);
@@ -1026,7 +1026,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLastOrDefaultWithOneMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 3
                           select c).LastOrDefault();
 
@@ -1037,7 +1037,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLastOrDefaultWithOrderBy()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           orderby c.X
                           select c).LastOrDefault();
 
@@ -1049,13 +1049,13 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "LastOrDefault with predicate after a projection is not supported.")]
         public void TestLastOrDefaultWithPredicateAfterProjection()
         {
-            _collection.AsQueryable<C>().Select(c => c.Y).LastOrDefault(y => y == 11);
+            _collection.AsQueryable().Select(c => c.Y).LastOrDefault(y => y == 11);
         }
 
         [Test]
         public void TestLastOrDefaultWithPredicateAfterWhere()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 1
                           select c).LastOrDefault(c => c.Y == 11);
             Assert.AreEqual(1, result.X);
@@ -1065,7 +1065,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLastOrDefaultWithPredicateNoMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).LastOrDefault(c => c.X == 9);
             Assert.IsNull(result);
         }
@@ -1073,7 +1073,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLastOrDefaultWithPredicateOneMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).LastOrDefault(c => c.X == 3);
             Assert.AreEqual(3, result.X);
             Assert.AreEqual(33, result.Y);
@@ -1082,7 +1082,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLastOrDefaultWithPredicateTwoMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).LastOrDefault(c => c.Y == 11);
             Assert.AreEqual(1, result.X);
             Assert.AreEqual(11, result.Y);
@@ -1091,7 +1091,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLastOrDefaultWithTwoMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.Y == 11
                           select c).LastOrDefault();
 
@@ -1102,7 +1102,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLastWithManyMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).Last();
 
             Assert.AreEqual(4, result.X);
@@ -1113,7 +1113,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestLastWithNoMatch()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              where c.X == 9
              select c).Last();
         }
@@ -1121,7 +1121,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLastWithOneMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 3
                           select c).Last();
 
@@ -1133,13 +1133,13 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "Last with predicate after a projection is not supported.")]
         public void TestLastWithPredicateAfterProjection()
         {
-            _collection.AsQueryable<C>().Select(c => c.Y).Last(y => y == 11);
+            _collection.AsQueryable().Select(c => c.Y).Last(y => y == 11);
         }
 
         [Test]
         public void TestLastWithPredicateAfterWhere()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 1
                           select c).Last(c => c.Y == 11);
             Assert.AreEqual(1, result.X);
@@ -1151,7 +1151,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             Assert.Throws<InvalidOperationException>(() =>
             {
-                (from c in _collection.AsQueryable<C>()
+                (from c in _collection.AsQueryable()
                  select c).Last(c => c.X == 9);
             });
         }
@@ -1159,7 +1159,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLastWithPredicateOneMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).Last(c => c.X == 3);
             Assert.AreEqual(3, result.X);
             Assert.AreEqual(33, result.Y);
@@ -1168,7 +1168,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLastWithPredicateTwoMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).Last(c => c.Y == 11);
             Assert.AreEqual(1, result.X);
             Assert.AreEqual(11, result.Y);
@@ -1177,7 +1177,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLastWithOrderBy()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           orderby c.X
                           select c).Last();
 
@@ -1188,7 +1188,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLastWithTwoMatches()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.Y == 11
                           select c).Last();
 
@@ -1199,7 +1199,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLongCountEquals2()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.Y == 11
                           select c).LongCount();
 
@@ -1209,7 +1209,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLongCountEquals5()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).LongCount();
 
             Assert.AreEqual(5L, result);
@@ -1218,7 +1218,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestLongCountWithSkipAndTake()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).Skip(2).Take(2).LongCount();
 
             Assert.AreEqual(2L, result);
@@ -1227,7 +1227,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestMaxDZWithProjection()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c.D.Z).Max();
             Assert.AreEqual(55, result);
         }
@@ -1235,7 +1235,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestMaxDZWithSelector()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).Max(c => c.D.Z);
             Assert.AreEqual(55, result);
         }
@@ -1244,14 +1244,14 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "Max must be used with either Select or a selector argument, but not both.")]
         public void TestMaxWithProjectionAndSelector()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c.D).Max(d => d.Z);
         }
 
         [Test]
         public void TestMaxXWithProjection()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c.X).Max();
             Assert.AreEqual(5, result);
         }
@@ -1259,7 +1259,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestMaxXWithSelector()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).Max(c => c.X);
             Assert.AreEqual(5, result);
         }
@@ -1267,7 +1267,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestMaxXYWithProjection()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select new { c.X, c.Y }).Max();
             Assert.AreEqual(5, result.X);
             Assert.AreEqual(44, result.Y);
@@ -1276,7 +1276,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestMaxXYWithSelector()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).Max(c => new { c.X, c.Y });
             Assert.AreEqual(5, result.X);
             Assert.AreEqual(44, result.Y);
@@ -1285,7 +1285,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestMinDZWithProjection()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c.D.Z).Min();
             Assert.AreEqual(11, result);
         }
@@ -1293,7 +1293,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestMinDZWithSelector()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).Min(c => c.D.Z);
             Assert.AreEqual(11, result);
         }
@@ -1302,14 +1302,14 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "Min must be used with either Select or a selector argument, but not both.")]
         public void TestMinWithProjectionAndSelector()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c.D).Min(d => d.Z);
         }
 
         [Test]
         public void TestMinXWithProjection()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c.X).Min();
             Assert.AreEqual(1, result);
         }
@@ -1317,7 +1317,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestMinXWithSelector()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).Min(c => c.X);
             Assert.AreEqual(1, result);
         }
@@ -1325,7 +1325,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestMinXYWithProjection()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select new { c.X, c.Y }).Min();
             Assert.AreEqual(1, result.X);
             Assert.AreEqual(11, result.Y);
@@ -1334,7 +1334,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestMinXYWithSelector()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).Min(c => new { c.X, c.Y });
             Assert.AreEqual(1, result.X);
             Assert.AreEqual(11, result.Y);
@@ -1344,7 +1344,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestOrderByValueTypeWithObjectReturnType()
         {
             Expression<Func<C, object>> orderByClause = c => c.LX;
-            var query = _collection.AsQueryable<C>().OrderBy(orderByClause);
+            var query = _collection.AsQueryable().OrderBy(orderByClause);
 
             RunTestOrderByValueTypeWithMismatchingType(query, "(C c) => (Object)c.LX");
         }
@@ -1353,7 +1353,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestOrderByValueTypeWithIComparableReturnType()
         {
             Expression<Func<C, IComparable>> orderByClause = c => c.LX;
-            var query = _collection.AsQueryable<C>().OrderBy(orderByClause);
+            var query = _collection.AsQueryable().OrderBy(orderByClause);
 
             RunTestOrderByValueTypeWithMismatchingType(query, "(C c) => (IComparable)c.LX");
         }
@@ -1369,7 +1369,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestOrderByAscending()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         orderby c.X
                         select c;
 
@@ -1397,7 +1397,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestOrderByAscendingThenByAscending()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         orderby c.Y, c.X
                         select c;
 
@@ -1427,7 +1427,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestOrderByAscendingThenByDescending()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         orderby c.Y, c.X descending
                         select c;
 
@@ -1457,7 +1457,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestOrderByDescending()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         orderby c.X descending
                         select c;
 
@@ -1485,7 +1485,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestOrderByDescendingThenByAscending()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         orderby c.Y descending, c.X
                         select c;
 
@@ -1515,7 +1515,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestOrderByDescendingThenByDescending()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         orderby c.Y descending, c.X descending
                         select c;
 
@@ -1546,7 +1546,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "Only one OrderBy or OrderByDescending clause is allowed (use ThenBy or ThenByDescending for multiple order by clauses).")]
         public void TestOrderByDuplicate()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         orderby c.X
                         orderby c.Y
                         select c;
@@ -1557,7 +1557,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestProjection()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         select c.X;
 
             var translatedQuery = MongoQueryTranslator.Translate(query);
@@ -1584,7 +1584,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The Reverse query operator is not supported.")]
         public void TestReverse()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).Reverse();
             query.ToList(); // execute query
         }
@@ -1592,7 +1592,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestSelect()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         select c;
 
             var translatedQuery = MongoQueryTranslator.Translate(query);
@@ -1615,7 +1615,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The SelectMany query operator is not supported.")]
         public void TestSelectMany()
         {
-            var query = _collection.AsQueryable<C>().SelectMany(c => new C[] { c });
+            var query = _collection.AsQueryable().SelectMany(c => new[] { c });
             query.ToList(); // execute query
         }
 
@@ -1623,7 +1623,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The SelectMany query operator is not supported.")]
         public void TestSelectManyWithIndex()
         {
-            var query = _collection.AsQueryable<C>().SelectMany((c, index) => new C[] { c });
+            var query = _collection.AsQueryable().SelectMany((c, index) => new[] { c });
             query.ToList(); // execute query
         }
 
@@ -1631,7 +1631,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The SelectMany query operator is not supported.")]
         public void TestSelectManyWithIntermediateResults()
         {
-            var query = _collection.AsQueryable<C>().SelectMany(c => new C[] { c }, (c, i) => i);
+            var query = _collection.AsQueryable().SelectMany(c => new[] { c }, (c, i) => i);
             query.ToList(); // execute query
         }
 
@@ -1639,7 +1639,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The SelectMany query operator is not supported.")]
         public void TestSelectManyWithIndexAndIntermediateResults()
         {
-            var query = _collection.AsQueryable<C>().SelectMany((c, index) => new C[] { c }, (c, i) => i);
+            var query = _collection.AsQueryable().SelectMany((c, index) => new[] { c }, (c, i) => i);
             query.ToList(); // execute query
         }
 
@@ -1647,14 +1647,14 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The indexed version of the Select query operator is not supported.")]
         public void TestSelectWithIndex()
         {
-            var query = _collection.AsQueryable<C>().Select((c, index) => c);
+            var query = _collection.AsQueryable().Select((c, index) => c);
             query.ToList(); // execute query
         }
 
         [Test]
         public void TestSelectWithNothingElse()
         {
-            var query = from c in _collection.AsQueryable<C>() select c;
+            var query = from c in _collection.AsQueryable() select c;
             var result = query.ToList();
             Assert.AreEqual(5, result.Count);
         }
@@ -1664,7 +1664,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestSequenceEqual()
         {
             var source2 = new C[0];
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c).SequenceEqual(source2);
         }
 
@@ -1673,7 +1673,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestSequenceEqualtWithEqualityComparer()
         {
             var source2 = new C[0];
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c).SequenceEqual(source2, new CEqualityComparer());
         }
 
@@ -1681,14 +1681,14 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestSingleOrDefaultWithManyMatches()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c).SingleOrDefault();
         }
 
         [Test]
         public void TestSingleOrDefaultWithNoMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 9
                           select c).SingleOrDefault();
             Assert.IsNull(result);
@@ -1697,7 +1697,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestSingleOrDefaultWithOneMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 3
                           select c).SingleOrDefault();
 
@@ -1709,13 +1709,13 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "SingleOrDefault with predicate after a projection is not supported.")]
         public void TestSingleOrDefaultWithPredicateAfterProjection()
         {
-            _collection.AsQueryable<C>().Select(c => c.Y).SingleOrDefault(y => y == 11);
+            _collection.AsQueryable().Select(c => c.Y).SingleOrDefault(y => y == 11);
         }
 
         [Test]
         public void TestSingleOrDefaultWithPredicateAfterWhere()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 1
                           select c).SingleOrDefault(c => c.Y == 11);
             Assert.AreEqual(1, result.X);
@@ -1725,7 +1725,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestSingleOrDefaultWithPredicateNoMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).SingleOrDefault(c => c.X == 9);
             Assert.IsNull(result);
         }
@@ -1733,7 +1733,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestSingleOrDefaultWithPredicateOneMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).SingleOrDefault(c => c.X == 3);
             Assert.AreEqual(3, result.X);
             Assert.AreEqual(33, result.Y);
@@ -1744,7 +1744,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             var ex = Assert.Throws<InvalidOperationException>(() =>
             {
-                (from c in _collection.AsQueryable<C>()
+                (from c in _collection.AsQueryable()
                  select c).SingleOrDefault(c => c.Y == 11);
             });
             Assert.AreEqual(ExpectedErrorMessage.SingleLongSequence, ex.Message);
@@ -1754,7 +1754,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestSingleOrDefaultWithTwoMatches()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              where c.Y == 11
              select c).SingleOrDefault();
         }
@@ -1763,7 +1763,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestSingleWithManyMatches()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c).Single();
         }
 
@@ -1771,7 +1771,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestSingleWithNoMatch()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              where c.X == 9
              select c).Single();
         }
@@ -1779,7 +1779,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestSingleWithOneMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 3
                           select c).Single();
 
@@ -1791,13 +1791,13 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "Single with predicate after a projection is not supported.")]
         public void TestSingleWithPredicateAfterProjection()
         {
-            _collection.AsQueryable<C>().Select(c => c.Y).Single(y => y == 11);
+            _collection.AsQueryable().Select(c => c.Y).Single(y => y == 11);
         }
 
         [Test]
         public void TestSingleWithPredicateAfterWhere()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           where c.X == 1
                           select c).Single(c => c.Y == 11);
             Assert.AreEqual(1, result.X);
@@ -1809,7 +1809,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             var ex = Assert.Throws<InvalidOperationException>(() =>
             {
-                (from c in _collection.AsQueryable<C>()
+                (from c in _collection.AsQueryable()
                  select c).Single(c => c.X == 9);
             });
             Assert.AreEqual(ExpectedErrorMessage.SingleEmptySequence, ex.Message);
@@ -1818,7 +1818,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestSingleWithPredicateOneMatch()
         {
-            var result = (from c in _collection.AsQueryable<C>()
+            var result = (from c in _collection.AsQueryable()
                           select c).Single(c => c.X == 3);
             Assert.AreEqual(3, result.X);
             Assert.AreEqual(33, result.Y);
@@ -1829,7 +1829,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             var ex = Assert.Throws<InvalidOperationException>(() =>
             {
-                (from c in _collection.AsQueryable<C>()
+                (from c in _collection.AsQueryable()
                  select c).Single(c => c.Y == 11);
             });
             Assert.AreEqual(ExpectedErrorMessage.SingleLongSequence, ex.Message);
@@ -1839,7 +1839,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestSingleWithTwoMatches()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              where c.Y == 11
              select c).Single();
         }
@@ -1847,7 +1847,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestSkip2()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).Skip(2);
 
             var translatedQuery = MongoQueryTranslator.Translate(query);
@@ -1870,7 +1870,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The SkipWhile query operator is not supported.")]
         public void TestSkipWhile()
         {
-            var query = _collection.AsQueryable<C>().SkipWhile(c => true);
+            var query = _collection.AsQueryable().SkipWhile(c => true);
             query.ToList(); // execute query
         }
 
@@ -1878,7 +1878,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The Sum query operator is not supported.")]
         public void TestSum()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select 1.0).Sum();
         }
 
@@ -1886,7 +1886,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The Sum query operator is not supported.")]
         public void TestSumNullable()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select (double?)1.0).Sum();
         }
 
@@ -1894,7 +1894,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The Sum query operator is not supported.")]
         public void TestSumWithSelector()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c).Sum(c => 1.0);
         }
 
@@ -1902,14 +1902,14 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The Sum query operator is not supported.")]
         public void TestSumWithSelectorNullable()
         {
-            (from c in _collection.AsQueryable<C>()
+            (from c in _collection.AsQueryable()
              select c).Sum(c => (double?)1.0);
         }
 
         [Test]
         public void TestTake2()
         {
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).Take(2);
 
             var translatedQuery = MongoQueryTranslator.Translate(query);
@@ -1932,7 +1932,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The TakeWhile query operator is not supported.")]
         public void TestTakeWhile()
         {
-            var query = _collection.AsQueryable<C>().TakeWhile(c => true);
+            var query = _collection.AsQueryable().TakeWhile(c => true);
             query.ToList(); // execute query
         }
 
@@ -1941,7 +1941,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestThenByWithMissingOrderBy()
         {
             // not sure this could ever happen in real life without deliberate sabotaging like with this cast
-            var query = ((IOrderedQueryable<C>)_collection.AsQueryable<C>())
+            var query = ((IOrderedQueryable<C>)_collection.AsQueryable())
                 .ThenBy(c => c.X);
 
             MongoQueryTranslator.Translate(query);
@@ -1952,7 +1952,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestUnion()
         {
             var source2 = new C[0];
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).Union(source2);
             query.ToList(); // execute query
         }
@@ -1962,7 +1962,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestUnionWithEqualityComparer()
         {
             var source2 = new C[0];
-            var query = (from c in _collection.AsQueryable<C>()
+            var query = (from c in _collection.AsQueryable()
                          select c).Union(source2, new CEqualityComparer());
             query.ToList(); // execute query
         }
@@ -1970,7 +1970,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereAAny()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.A.Any()
                         select c;
 
@@ -1994,7 +1994,7 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "Any is only support for items that serialize into documents. The current serializer is Int32Serializer and must implement IBsonDocumentSerializer for participation in Any queries.")]
         public void TestWhereAAnyWithPredicate()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.A.Any(a => a > 3)
                         select c;
 
@@ -2019,7 +2019,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             var local = new List<int> { 1, 2, 3 };
 
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where local.Contains(c.X)
                         select c;
 
@@ -2044,7 +2044,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             var local = new[] { 1, 2, 3 };
 
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where local.Contains(c.X)
                         select c;
 
@@ -2070,7 +2070,7 @@ namespace MongoDB.Driver.Tests.Linq
             // this will generate a non-list, non-array.
             IList<int> local = new[] { 1, 2, 3 };
 
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where local.Contains(c.X)
                         select c;
 
@@ -2093,7 +2093,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereAContains2()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.A.Contains(2)
                         select c;
 
@@ -2116,7 +2116,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereAContains2Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.A.Contains(2)
                         select c;
 
@@ -2139,7 +2139,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereAContainsAll()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.A.ContainsAll(new[] { 2, 3 })
                         select c;
 
@@ -2162,7 +2162,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereAContainsAllNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.A.ContainsAll(new[] { 2, 3 })
                         select c;
 
@@ -2185,7 +2185,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereAContainsAny()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.A.ContainsAny(new[] { 2, 3 })
                         select c;
 
@@ -2208,7 +2208,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereAContainsAnyNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.A.ContainsAny(new[] { 1, 2 })
                         select c;
 
@@ -2231,7 +2231,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereAExistsFalse()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where Query.NotExists("a").Inject()
                         select c;
 
@@ -2254,7 +2254,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereAExistsTrue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where Query.Exists("a").Inject()
                         select c;
 
@@ -2277,7 +2277,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereAExistsTrueNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !Query.Exists("a").Inject()
                         select c;
 
@@ -2300,7 +2300,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereALengthEquals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.A.Length == 3
                         select c;
 
@@ -2323,7 +2323,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereALengthEquals3Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.A.Length == 3)
                         select c;
 
@@ -2346,7 +2346,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereALengthEquals3Reversed()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where 3 == c.A.Length
                         select c;
 
@@ -2369,7 +2369,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereALengthNotEquals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.A.Length != 3
                         select c;
 
@@ -2392,7 +2392,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereALengthNotEquals3Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.A.Length != 3)
                         select c;
 
@@ -2415,7 +2415,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereASub1Equals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.A[1] == 3
                         select c;
 
@@ -2438,7 +2438,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereASub1Equals3Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.A[1] == 3)
                         select c;
 
@@ -2461,7 +2461,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereASub1ModTwoEquals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.A[1] % 2 == 1
                         select c;
 
@@ -2484,7 +2484,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereASub1ModTwoEquals1Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.A[1] % 2 == 1)
                         select c;
 
@@ -2507,7 +2507,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereASub1ModTwoNotEquals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.A[1] % 2 != 1
                         select c;
 
@@ -2530,7 +2530,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereASub1ModTwoNotEquals1Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.A[1] % 2 != 1)
                         select c;
 
@@ -2553,7 +2553,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereASub1NotEquals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.A[1] != 3
                         select c;
 
@@ -2576,7 +2576,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereASub1NotEquals3Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.A[1] != 3)
                         select c;
 
@@ -2599,7 +2599,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereB()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.B
                         select c;
 
@@ -2622,7 +2622,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereBASub0()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.BA[0]
                         select c;
 
@@ -2645,7 +2645,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereBASub0EqualsFalse()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.BA[0] == false
                         select c;
 
@@ -2668,7 +2668,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereBASub0EqualsFalseNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.BA[0] == false)
                         select c;
 
@@ -2691,7 +2691,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereBASub0EqualsTrue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.BA[0] == true
                         select c;
 
@@ -2714,7 +2714,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereBASub0EqualsTrueNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.BA[0] == true)
                         select c;
 
@@ -2737,7 +2737,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereBASub0Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.BA[0]
                         select c;
 
@@ -2760,7 +2760,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereBEqualsFalse()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.B == false
                         select c;
 
@@ -2783,7 +2783,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereBEqualsFalseNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.B == false)
                         select c;
 
@@ -2806,7 +2806,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereBEqualsTrue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.B == true
                         select c;
 
@@ -2829,7 +2829,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereBEqualsTrueNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.B == true)
                         select c;
 
@@ -2852,7 +2852,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereBNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.B
                         select c;
 
@@ -2875,7 +2875,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereDBRefCollectionNameEqualsC()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.DBRef.CollectionName == "c"
                         select c;
 
@@ -2898,7 +2898,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereDBRefDatabaseNameEqualsDb()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.DBRef.DatabaseName == "db"
                         select c;
 
@@ -2921,8 +2921,8 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereDBRefEquals()
         {
-            var query = from c in _collection.AsQueryable<C>()
-                        where c.DBRef == new MongoDBRef("db", "c", 1)
+            var query = from c in _collection.AsQueryable()
+                        where c.DBRef == new MongoDBRef("db", "c", (BsonValue)1)
                         select c;
 
             var translatedQuery = MongoQueryTranslator.Translate(query);
@@ -2944,8 +2944,8 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereDBRefEqualsNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
-                        where !(c.DBRef == new MongoDBRef("db", "c", 1))
+            var query = from c in _collection.AsQueryable()
+                        where !(c.DBRef == new MongoDBRef("db", "c", (BsonValue)1))
                         select c;
 
             var translatedQuery = MongoQueryTranslator.Translate(query);
@@ -2967,8 +2967,8 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereDBRefNotEquals()
         {
-            var query = from c in _collection.AsQueryable<C>()
-                        where c.DBRef != new MongoDBRef("db", "c", 1)
+            var query = from c in _collection.AsQueryable()
+                        where c.DBRef != new MongoDBRef("db", "c", (BsonValue)1)
                         select c;
 
             var translatedQuery = MongoQueryTranslator.Translate(query);
@@ -2990,8 +2990,8 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereDBRefNotEqualsNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
-                        where !(c.DBRef != new MongoDBRef("db", "c", 1))
+            var query = from c in _collection.AsQueryable()
+                        where !(c.DBRef != new MongoDBRef("db", "c", (BsonValue)1))
                         select c;
 
             var translatedQuery = MongoQueryTranslator.Translate(query);
@@ -3013,7 +3013,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereDBRefIdEquals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.DBRef.Id == 1
                         select c;
 
@@ -3036,7 +3036,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereDEquals11()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.D == new D { Z = 11 }
                         select c;
 
@@ -3059,7 +3059,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereDEquals11Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.D == new D { Z = 11 })
                         select c;
 
@@ -3082,7 +3082,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereDNotEquals11()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.D != new D { Z = 11 }
                         select c;
 
@@ -3105,7 +3105,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereDNotEquals11Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.D != new D { Z = 11 })
                         select c;
 
@@ -3128,7 +3128,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereDAAnyWithPredicate()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.DA.Any(d => d.Z == 333)
                         select c;
 
@@ -3151,8 +3151,8 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereEAContainsAll()
         {
-            var query = from c in _collection.AsQueryable<C>()
-                        where c.EA.ContainsAll(new E[] { E.A, E.B })
+            var query = from c in _collection.AsQueryable()
+                        where c.EA.ContainsAll(new[] { E.A, E.B })
                         select c;
 
             var translatedQuery = MongoQueryTranslator.Translate(query);
@@ -3174,8 +3174,8 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereEAContainsAllNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
-                        where !c.EA.ContainsAll(new E[] { E.A, E.B })
+            var query = from c in _collection.AsQueryable()
+                        where !c.EA.ContainsAll(new[] { E.A, E.B })
                         select c;
 
             var translatedQuery = MongoQueryTranslator.Translate(query);
@@ -3197,7 +3197,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereEAContainsAny()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.EA.ContainsAny(new[] { E.A, E.B })
                         select c;
 
@@ -3220,7 +3220,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereEAContainsAnyNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.EA.ContainsAny(new[] { E.A, E.B })
                         select c;
 
@@ -3243,7 +3243,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereEAContainsB()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.EA.Contains(E.B)
                         select c;
 
@@ -3266,7 +3266,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereEAContainsBNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.EA.Contains(E.B)
                         select c;
 
@@ -3289,7 +3289,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereEASub0EqualsA()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.EA[0] == E.A
                         select c;
 
@@ -3312,7 +3312,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereEASub0EqualsANot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.EA[0] == E.A)
                         select c;
 
@@ -3335,7 +3335,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereEASub0NotEqualsA()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.EA[0] != E.A
                         select c;
 
@@ -3358,7 +3358,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereEASub0NotEqualsANot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.EA[0] != E.A)
                         select c;
 
@@ -3381,7 +3381,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereEEqualsA()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.E == E.A
                         select c;
 
@@ -3404,7 +3404,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereEEqualsANot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.E == E.A)
                         select c;
 
@@ -3427,7 +3427,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereEEqualsAReversed()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where E.A == c.E
                         select c;
 
@@ -3450,7 +3450,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereEInAOrB()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.E.In(new[] { E.A, E.B })
                         select c;
 
@@ -3473,7 +3473,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereEInAOrBNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.E.In(new[] { E.A, E.B })
                         select c;
 
@@ -3496,7 +3496,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereENotEqualsA()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.E != E.A
                         select c;
 
@@ -3519,7 +3519,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereENotEqualsANot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.E != E.A)
                         select c;
 
@@ -3542,7 +3542,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLContains2()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.L.Contains(2)
                         select c;
 
@@ -3565,7 +3565,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLContains2Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.L.Contains(2)
                         select c;
 
@@ -3588,7 +3588,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLContainsAll()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.L.ContainsAll(new[] { 2, 3 })
                         select c;
 
@@ -3611,7 +3611,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLContainsAllNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.L.ContainsAll(new[] { 2, 3 })
                         select c;
 
@@ -3634,7 +3634,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLContainsAny()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.L.ContainsAny(new[] { 2, 3 })
                         select c;
 
@@ -3657,7 +3657,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLContainsAnyNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.L.ContainsAny(new[] { 1, 2 })
                         select c;
 
@@ -3680,7 +3680,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLExistsFalse()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where Query.NotExists("l").Inject()
                         select c;
 
@@ -3703,7 +3703,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLExistsTrue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where Query.Exists("l").Inject()
                         select c;
 
@@ -3726,7 +3726,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLExistsTrueNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !Query.Exists("l").Inject()
                         select c;
 
@@ -3749,7 +3749,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLCountMethodEquals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.L.Count() == 3
                         select c;
 
@@ -3772,7 +3772,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLCountMethodEquals3Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.L.Count() == 3)
                         select c;
 
@@ -3795,7 +3795,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLCountMethodEquals3Reversed()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where 3 == c.L.Count()
                         select c;
 
@@ -3818,7 +3818,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLCountPropertyEquals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.L.Count == 3
                         select c;
 
@@ -3841,7 +3841,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLCountPropertyEquals3Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.L.Count == 3)
                         select c;
 
@@ -3864,7 +3864,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLCountPropertyEquals3Reversed()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where 3 == c.L.Count
                         select c;
 
@@ -3887,7 +3887,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLCountPropertyNotEquals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.L.Count != 3
                         select c;
 
@@ -3910,7 +3910,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLCountPropertyNotEquals3Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.L.Count != 3)
                         select c;
 
@@ -3933,7 +3933,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLSub1Equals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.L[1] == 3
                         select c;
 
@@ -3956,7 +3956,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLSub1Equals3Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.L[1] == 3)
                         select c;
 
@@ -3979,7 +3979,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLSub1ModTwoEquals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.L[1] % 2 == 1
                         select c;
 
@@ -4002,7 +4002,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLSub1ModTwoEquals1Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.L[1] % 2 == 1)
                         select c;
 
@@ -4025,7 +4025,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLSub1ModTwoNotEquals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.L[1] % 2 != 1
                         select c;
 
@@ -4048,7 +4048,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLSub1ModTwoNotEquals1Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.L[1] % 2 != 1)
                         select c;
 
@@ -4071,7 +4071,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLSub1NotEquals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.L[1] != 3
                         select c;
 
@@ -4094,7 +4094,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLSub1NotEquals3Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.L[1] != 3)
                         select c;
 
@@ -4117,7 +4117,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLXModTwoEquals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.LX % 2 == 1
                         select c;
 
@@ -4140,7 +4140,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLXModTwoEquals1Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.LX % 2 == 1)
                         select c;
 
@@ -4163,7 +4163,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLXModTwoEquals1Reversed()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where 1 == c.LX % 2
                         select c;
 
@@ -4186,7 +4186,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLXModTwoNotEquals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.LX % 2 != 1
                         select c;
 
@@ -4209,7 +4209,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereLXModTwoNotEquals1Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.LX % 2 != 1)
                         select c;
 
@@ -4234,7 +4234,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
-                var query = from c in _collection.AsQueryable<C>()
+                var query = from c in _collection.AsQueryable()
                             where c.SA[0].Contains("o")
                             select c;
 
@@ -4260,7 +4260,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
-                var query = from c in _collection.AsQueryable<C>()
+                var query = from c in _collection.AsQueryable()
                             where !c.SA[0].Contains("o")
                             select c;
 
@@ -4286,7 +4286,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
-                var query = from c in _collection.AsQueryable<C>()
+                var query = from c in _collection.AsQueryable()
                             where c.SA[0].EndsWith("m")
                             select c;
 
@@ -4312,7 +4312,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
-                var query = from c in _collection.AsQueryable<C>()
+                var query = from c in _collection.AsQueryable()
                             where !c.SA[0].EndsWith("m")
                             select c;
 
@@ -4339,7 +4339,7 @@ namespace MongoDB.Driver.Tests.Linq
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
                 var regex = new Regex(@"^T");
-                var query = from c in _collection.AsQueryable<C>()
+                var query = from c in _collection.AsQueryable()
                             where regex.IsMatch(c.SA[0])
                             select c;
 
@@ -4366,7 +4366,7 @@ namespace MongoDB.Driver.Tests.Linq
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
                 var regex = new Regex(@"^T");
-                var query = from c in _collection.AsQueryable<C>()
+                var query = from c in _collection.AsQueryable()
                             where !regex.IsMatch(c.SA[0])
                             select c;
 
@@ -4392,7 +4392,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
-                var query = from c in _collection.AsQueryable<C>()
+                var query = from c in _collection.AsQueryable()
                             where Regex.IsMatch(c.SA[0], "^T")
                             select c;
 
@@ -4418,7 +4418,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
-                var query = from c in _collection.AsQueryable<C>()
+                var query = from c in _collection.AsQueryable()
                             where !Regex.IsMatch(c.SA[0], "^T")
                             select c;
 
@@ -4444,7 +4444,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
-                var query = from c in _collection.AsQueryable<C>()
+                var query = from c in _collection.AsQueryable()
                             where Regex.IsMatch(c.SA[0], "^t", RegexOptions.IgnoreCase)
                             select c;
 
@@ -4470,7 +4470,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
-                var query = from c in _collection.AsQueryable<C>()
+                var query = from c in _collection.AsQueryable()
                             where c.SA[0].StartsWith("T")
                             select c;
 
@@ -4496,7 +4496,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(1, 8, 0))
             {
-                var query = from c in _collection.AsQueryable<C>()
+                var query = from c in _collection.AsQueryable()
                             where !c.SA[0].StartsWith("T")
                             select c;
 
@@ -4520,7 +4520,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSContainsAbc()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.Contains("abc")
                         select c;
 
@@ -4543,7 +4543,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSContainsAbcNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.S.Contains("abc")
                         select c;
 
@@ -4566,7 +4566,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSContainsDot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.Contains(".")
                         select c;
 
@@ -4589,7 +4589,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSCountEquals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.Count() == 3
                         select c;
 
@@ -4612,7 +4612,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSEqualsAbc()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S == "abc"
                         select c;
 
@@ -4635,7 +4635,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSEqualsAbcNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.S == "abc")
                         select c;
 
@@ -4658,7 +4658,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSEqualsMethodAbc()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.Equals("abc")
                         select c;
 
@@ -4681,7 +4681,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSEqualsMethodAbcNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.S.Equals("abc"))
                         select c;
 
@@ -4704,7 +4704,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSEqualsStaticMethodAbc()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where string.Equals(c.S, "abc")
                         select c;
 
@@ -4727,7 +4727,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSEqualsStaticMethodAbcNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !string.Equals(c.S, "abc")
                         select c;
 
@@ -4750,7 +4750,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSEndsWithAbc()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.EndsWith("abc")
                         select c;
 
@@ -4773,7 +4773,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSEndsWithAbcNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.S.EndsWith("abc")
                         select c;
 
@@ -4808,25 +4808,25 @@ namespace MongoDB.Driver.Tests.Linq
 
             var query1 =
                 from c in tempCollection.AsQueryable<C>()
-                where c.S.IndexOfAny(new char[] { 'b', 'c' }) == 2
+                where c.S.IndexOfAny(new[] { 'b', 'c' }) == 2
                 select c;
             Assert.AreEqual(2, Consume(query1));
 
             var query2 =
                 from c in tempCollection.AsQueryable<C>()
-                where c.S.IndexOfAny(new char[] { 'b', 'c' }, 1) == 2
+                where c.S.IndexOfAny(new[] { 'b', 'c' }, 1) == 2
                 select c;
             Assert.AreEqual(3, Consume(query2));
 
             var query3 =
                 from c in tempCollection.AsQueryable<C>()
-                where c.S.IndexOfAny(new char[] { 'b', 'c' }, 1, 1) == 2
+                where c.S.IndexOfAny(new[] { 'b', 'c' }, 1, 1) == 2
                 select c;
             Assert.AreEqual(0, Consume(query3));
 
             var query4 =
                 from c in tempCollection.AsQueryable<C>()
-                where c.S.IndexOfAny(new char[] { 'b', 'c' }, 1, 2) == 2
+                where c.S.IndexOfAny(new[] { 'b', 'c' }, 1, 2) == 2
                 select c;
             Assert.AreEqual(3, Consume(query4));
         }
@@ -4834,8 +4834,8 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSIndexOfAnyBDashCEquals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
-                        where c.S.IndexOfAny(new char[] { 'b', '-', 'c' }) == 1
+            var query = from c in _collection.AsQueryable()
+                        where c.S.IndexOfAny(new[] { 'b', '-', 'c' }) == 1
                         select c;
 
             var translatedQuery = MongoQueryTranslator.Translate(query);
@@ -4857,8 +4857,8 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSIndexOfAnyBCStartIndex1Equals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
-                        where c.S.IndexOfAny(new char[] { 'b', '-', 'c' }, 1) == 1
+            var query = from c in _collection.AsQueryable()
+                        where c.S.IndexOfAny(new[] { 'b', '-', 'c' }, 1) == 1
                         select c;
 
             var translatedQuery = MongoQueryTranslator.Translate(query);
@@ -4880,8 +4880,8 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSIndexOfAnyBCStartIndex1Count2Equals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
-                        where c.S.IndexOfAny(new char[] { 'b', '-', 'c' }, 1, 2) == 1
+            var query = from c in _collection.AsQueryable()
+                        where c.S.IndexOfAny(new[] { 'b', '-', 'c' }, 1, 2) == 1
                         select c;
 
             var translatedQuery = MongoQueryTranslator.Translate(query);
@@ -4941,7 +4941,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSIndexOfBEquals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.IndexOf('b') == 1
                         select c;
 
@@ -4964,7 +4964,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSIndexOfBStartIndex1Equals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.IndexOf('b', 1) == 1
                         select c;
 
@@ -4987,7 +4987,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSIndexOfBStartIndex1Count2Equals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.IndexOf('b', 1, 2) == 1
                         select c;
 
@@ -5047,7 +5047,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSIndexOfXyzEquals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.IndexOf("xyz") == 3
                         select c;
 
@@ -5070,7 +5070,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSIndexOfXyzStartIndex1Equals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.IndexOf("xyz", 1) == 3
                         select c;
 
@@ -5093,7 +5093,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSIndexOfXyzStartIndex1Count5Equals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.IndexOf("xyz", 1, 5) == 3
                         select c;
 
@@ -5117,7 +5117,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestWhereSIsMatch()
         {
             var regex = new Regex(@"^abc");
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where regex.IsMatch(c.S)
                         select c;
 
@@ -5141,7 +5141,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestWhereSIsMatchNot()
         {
             var regex = new Regex(@"^abc");
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !regex.IsMatch(c.S)
                         select c;
 
@@ -5164,7 +5164,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSIsMatchStatic()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where Regex.IsMatch(c.S, "^abc")
                         select c;
 
@@ -5187,7 +5187,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSIsMatchStaticNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !Regex.IsMatch(c.S, "^abc")
                         select c;
 
@@ -5210,7 +5210,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSIsMatchStaticWithOptions()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where Regex.IsMatch(c.S, "^abc", RegexOptions.IgnoreCase)
                         select c;
 
@@ -5263,7 +5263,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSLengthEquals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.Length == 3
                         select c;
 
@@ -5286,7 +5286,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSLengthEquals3Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.S.Length == 3)
                         select c;
 
@@ -5309,7 +5309,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSLengthGreaterThan3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.Length > 3
                         select c;
 
@@ -5332,7 +5332,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSLengthGreaterThanOrEquals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.Length >= 3
                         select c;
 
@@ -5355,7 +5355,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSLengthLessThan3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.Length < 3
                         select c;
 
@@ -5378,7 +5378,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSLengthLessThanOrEquals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.Length <= 3
                         select c;
 
@@ -5401,7 +5401,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSLengthNotEquals3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.Length != 3
                         select c;
 
@@ -5424,7 +5424,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSLengthNotEquals3Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.S.Length != 3)
                         select c;
 
@@ -5447,7 +5447,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSNotEqualsAbc()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S != "abc"
                         select c;
 
@@ -5470,7 +5470,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSNotEqualsAbcNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.S != "abc")
                         select c;
 
@@ -5493,7 +5493,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSStartsWithAbc()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.StartsWith("abc")
                         select c;
 
@@ -5516,7 +5516,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSStartsWithAbcNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.S.StartsWith("abc")
                         select c;
 
@@ -5539,7 +5539,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSSub1EqualsB()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S[1] == 'b'
                         select c;
 
@@ -5562,7 +5562,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSSub1EqualsBNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.S[1] == 'b')
                         select c;
 
@@ -5585,7 +5585,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSSub1NotEqualsB()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S[1] != 'b'
                         select c;
 
@@ -5608,7 +5608,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSSub1NotEqualsBNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.S[1] != 'b')
                         select c;
 
@@ -5631,7 +5631,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSTrimContainsXyz()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.Trim().Contains("xyz")
                         select c;
 
@@ -5654,7 +5654,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSTrimContainsXyzNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.S.Trim().Contains("xyz")
                         select c;
 
@@ -5677,7 +5677,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSTrimEndsWithXyz()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.Trim().EndsWith("xyz")
                         select c;
 
@@ -5700,7 +5700,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSTrimEndsWithXyzNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.S.Trim().EndsWith("xyz")
                         select c;
 
@@ -5723,7 +5723,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSTrimStartsWithXyz()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.Trim().StartsWith("xyz")
                         select c;
 
@@ -5746,7 +5746,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSTrimStartsWithXyzNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.S.Trim().StartsWith("xyz")
                         select c;
 
@@ -5769,7 +5769,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSTrimStartTrimEndToLowerContainsXyz()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.TrimStart(' ', '.', '-', '\t').TrimEnd().ToLower().Contains("xyz")
                         select c;
 
@@ -5792,7 +5792,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToLowerEqualsConstantLowerCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToLower() == "abc"
                         select c;
 
@@ -5815,7 +5815,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToLowerDoesNotEqualConstantLowerCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToLower() != "abc"
                         select c;
 
@@ -5838,7 +5838,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToLowerEqualsConstantMixedCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToLower() == "Abc"
                         select c;
 
@@ -5861,7 +5861,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToLowerDoesNotEqualConstantMixedCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToLower() != "Abc"
                         select c;
 
@@ -5884,7 +5884,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToLowerEqualsNullValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToLower() == null
                         select c;
 
@@ -5907,7 +5907,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToLowerDoesNotEqualNullValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToLower() != null
                         select c;
 
@@ -5930,7 +5930,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToUpperEqualsConstantLowerCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToUpper() == "abc"
                         select c;
 
@@ -5953,7 +5953,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToUpperDoesNotEqualConstantLowerCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToUpper() != "abc"
                         select c;
 
@@ -5976,7 +5976,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToUpperEqualsConstantMixedCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToUpper() == "Abc"
                         select c;
 
@@ -5999,7 +5999,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToUpperDoesNotEqualConstantMixedCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToUpper() != "Abc"
                         select c;
 
@@ -6022,7 +6022,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToUpperEqualsNullValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToUpper() == null
                         select c;
 
@@ -6045,7 +6045,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToUpperDoesNotEqualNullValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToUpper() != null
                         select c;
 
@@ -6068,7 +6068,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSTrimStartTrimEndToLowerInvariantContainsXyz()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.TrimStart(' ', '.', '-', '\t').TrimEnd().ToLowerInvariant().Contains("xyz")
                         select c;
 
@@ -6091,7 +6091,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToLowerInvariantEqualsConstantLowerCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToLowerInvariant() == "abc"
                         select c;
 
@@ -6114,7 +6114,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToLowerInvariantDoesNotEqualConstantLowerCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToLowerInvariant() != "abc"
                         select c;
 
@@ -6137,7 +6137,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToLowerInvariantEqualsConstantMixedCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToLowerInvariant() == "Abc"
                         select c;
 
@@ -6160,7 +6160,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToLowerInvariantDoesNotEqualConstantMixedCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToLowerInvariant() != "Abc"
                         select c;
 
@@ -6183,7 +6183,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToLowerInvariantEqualsNullValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToLowerInvariant() == null
                         select c;
 
@@ -6206,7 +6206,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToLowerInvariantDoesNotEqualNullValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToLowerInvariant() != null
                         select c;
 
@@ -6229,7 +6229,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToUpperInvariantEqualsConstantLowerCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToUpperInvariant() == "abc"
                         select c;
 
@@ -6252,7 +6252,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToUpperInvariantDoesNotEqualConstantLowerCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToUpperInvariant() != "abc"
                         select c;
 
@@ -6275,7 +6275,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToUpperInvariantEqualsConstantMixedCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToUpperInvariant() == "Abc"
                         select c;
 
@@ -6298,7 +6298,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToUpperInvariantDoesNotEqualConstantMixedCaseValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToUpperInvariant() != "Abc"
                         select c;
 
@@ -6321,7 +6321,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToUpperInvariantEqualsNullValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToUpperInvariant() == null
                         select c;
 
@@ -6344,7 +6344,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSToUpperInvariantDoesNotEqualNullValue()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.S.ToUpperInvariant() != null
                         select c;
 
@@ -6367,7 +6367,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSystemProfileInfoDurationGreatherThan10Seconds()
         {
-            var query = from pi in _systemProfileCollection.AsQueryable<SystemProfileInfo>()
+            var query = from pi in _systemProfileCollection.AsQueryable()
                         where pi.Duration > TimeSpan.FromSeconds(10)
                         select pi;
 
@@ -6389,7 +6389,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSystemProfileInfoNamespaceEqualsNs()
         {
-            var query = from pi in _systemProfileCollection.AsQueryable<SystemProfileInfo>()
+            var query = from pi in _systemProfileCollection.AsQueryable()
                         where pi.Namespace == "ns"
                         select pi;
 
@@ -6411,7 +6411,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSystemProfileInfoNumberScannedGreaterThan1000()
         {
-            var query = from pi in _systemProfileCollection.AsQueryable<SystemProfileInfo>()
+            var query = from pi in _systemProfileCollection.AsQueryable()
                         where pi.NumberScanned > 1000
                         select pi;
 
@@ -6433,7 +6433,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereSystemProfileInfoTimeStampGreatherThanJan12012()
         {
-            var query = from pi in _systemProfileCollection.AsQueryable<SystemProfileInfo>()
+            var query = from pi in _systemProfileCollection.AsQueryable()
                         where pi.Timestamp > new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                         select pi;
 
@@ -6458,7 +6458,7 @@ namespace MongoDB.Driver.Tests.Linq
             if (_server.BuildInfo.Version >= new Version(2, 0, 0))
             {
                 // the query is a bit odd in order to force the built query to be promoted to $and form
-                var query = from c in _collection.AsQueryable<C>()
+                var query = from c in _collection.AsQueryable()
                             where c.X >= 0 && c.X >= 1 && c.Y == 11
                             select c;
 
@@ -6482,7 +6482,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereTripleOr()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X == 1 || c.Y == 33 || c.S == "x is 1"
                         select c;
 
@@ -6506,14 +6506,14 @@ namespace MongoDB.Driver.Tests.Linq
         [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The indexed version of the Where query operator is not supported.")]
         public void TestWhereWithIndex()
         {
-            var query = _collection.AsQueryable<C>().Where((c, i) => true);
+            var query = _collection.AsQueryable().Where((c, i) => true);
             query.ToList(); // execute query
         }
 
         [Test]
         public void TestWhereXEquals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X == 1
                         select c;
 
@@ -6536,7 +6536,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXEquals1AndYEquals11()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X == 1 & c.Y == 11
                         select c;
 
@@ -6559,7 +6559,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXEquals1AndAlsoYEquals11()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X == 1 && c.Y == 11
                         select c;
 
@@ -6583,7 +6583,7 @@ namespace MongoDB.Driver.Tests.Linq
         public void TestWhereXEquals1AndYEquals11UsingTwoWhereClauses()
         {
             // note: using different variable names in the two where clauses to test parameter replacement when combining predicates
-            var query = _collection.AsQueryable<C>().Where(c => c.X == 1).Where(d => d.Y == 11);
+            var query = _collection.AsQueryable().Where(c => c.X == 1).Where(d => d.Y == 11);
 
             var translatedQuery = MongoQueryTranslator.Translate(query);
             Assert.IsInstanceOf<SelectQuery>(translatedQuery);
@@ -6604,7 +6604,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXEquals1AndYEquals11Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.X == 1 && c.Y == 11)
                         select c;
 
@@ -6627,7 +6627,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXEquals1AndYEquals11AndZEquals11()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X == 1 && c.Y == 11 && c.D.Z == 11
                         select c;
 
@@ -6650,7 +6650,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXEquals1Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.X == 1)
                         select c;
 
@@ -6673,7 +6673,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXEquals1OrYEquals33()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X == 1 | c.Y == 33
                         select c;
 
@@ -6696,7 +6696,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXEquals1OrElseYEquals33()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X == 1 || c.Y == 33
                         select c;
 
@@ -6719,7 +6719,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXEquals1OrYEquals33Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.X == 1 || c.Y == 33)
                         select c;
 
@@ -6742,7 +6742,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXEquals1OrYEquals33NotNot()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !!(c.X == 1 || c.Y == 33)
                         select c;
 
@@ -6765,7 +6765,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXEquals1UsingJavaScript()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X == 1 && Query.Where("this.x < 9").Inject()
                         select c;
 
@@ -6788,7 +6788,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXGreaterThan1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X > 1
                         select c;
 
@@ -6811,7 +6811,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXGreaterThan1AndLessThan3()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X > 1 && c.X < 3
                         select c;
 
@@ -6834,7 +6834,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXGreaterThan1AndLessThan3Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.X > 1 && c.X < 3)
                         select c;
 
@@ -6857,7 +6857,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXGreaterThan1Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.X > 1)
                         select c;
 
@@ -6880,7 +6880,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXGreaterThan1Reversed()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where 1 < c.X
                         select c;
 
@@ -6903,7 +6903,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXGreaterThanOrEquals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X >= 1
                         select c;
 
@@ -6926,7 +6926,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXGreaterThanOrEquals1Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.X >= 1)
                         select c;
 
@@ -6949,7 +6949,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXGreaterThanOrEquals1Reversed()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where 1 <= c.X
                         select c;
 
@@ -6972,7 +6972,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXIn1Or9()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X.In(new[] { 1, 9 })
                         select c;
 
@@ -6995,7 +6995,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXIn1Or9Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !c.X.In(new[] { 1, 9 })
                         select c;
 
@@ -7018,7 +7018,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXIsTypeInt32()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where Query.Type("x", BsonType.Int32).Inject()
                         select c;
 
@@ -7041,7 +7041,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXIsTypeInt32Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !Query.Type("x", BsonType.Int32).Inject()
                         select c;
 
@@ -7064,7 +7064,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXLessThan1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X < 1
                         select c;
 
@@ -7087,7 +7087,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXLessThan1Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.X < 1)
                         select c;
 
@@ -7110,7 +7110,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXLessThan1Reversed()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where 1 > c.X
                         select c;
 
@@ -7133,7 +7133,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXLessThanOrEquals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X <= 1
                         select c;
 
@@ -7156,7 +7156,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXLessThanOrEquals1Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.X <= 1)
                         select c;
 
@@ -7179,7 +7179,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXLessThanOrEquals1Reversed()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where 1 >= c.X
                         select c;
 
@@ -7204,7 +7204,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(2, 0, 0))
             {
-                var query = from c in _collection.AsQueryable<C>()
+                var query = from c in _collection.AsQueryable()
                             where (c.X % 1 == 0) && (c.X % 2 == 0)
                             select c;
 
@@ -7230,7 +7230,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(2, 0, 0))
             {
-                var query = from c in _collection.AsQueryable<C>()
+                var query = from c in _collection.AsQueryable()
                             where !((c.X % 1 == 0) && (c.X % 2 == 0))
                             select c;
 
@@ -7256,7 +7256,7 @@ namespace MongoDB.Driver.Tests.Linq
         {
             if (_server.BuildInfo.Version >= new Version(2, 0, 0))
             {
-                var query = from c in _collection.AsQueryable<C>()
+                var query = from c in _collection.AsQueryable()
                             where !!((c.X % 1 == 0) && (c.X % 2 == 0))
                             select c;
 
@@ -7280,7 +7280,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXModTwoEquals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X % 2 == 1
                         select c;
 
@@ -7303,7 +7303,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXModTwoEquals1Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.X % 2 == 1)
                         select c;
 
@@ -7326,7 +7326,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXModTwoEquals1Reversed()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where 1 == c.X % 2
                         select c;
 
@@ -7349,7 +7349,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXModTwoNotEquals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X % 2 != 1
                         select c;
 
@@ -7372,7 +7372,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXModTwoNotEquals1Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.X % 2 != 1)
                         select c;
 
@@ -7395,7 +7395,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXNotEquals1()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where c.X != 1
                         select c;
 
@@ -7418,7 +7418,7 @@ namespace MongoDB.Driver.Tests.Linq
         [Test]
         public void TestWhereXNotEquals1Not()
         {
-            var query = from c in _collection.AsQueryable<C>()
+            var query = from c in _collection.AsQueryable()
                         where !(c.X != 1)
                         select c;
 

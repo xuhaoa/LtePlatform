@@ -119,23 +119,11 @@ namespace MongoDB.Driver.Core
                 _parent = parent;
             }
 
-            public void Handle(CommandStartedEvent @event)
-            {
-                @event = new CommandStartedEvent(
-                    @event.CommandName,
-                    (BsonDocument)@event.Command.DeepClone(),
-                    @event.DatabaseNamespace,
-                    @event.OperationId,
-                    @event.RequestId,
-                    @event.ConnectionId);
-                _parent.Capture(@event);
-            }
-
             public void Handle(CommandSucceededEvent @event)
             {
                 @event = new CommandSucceededEvent(
                     @event.CommandName,
-                    @event.Reply == null ? null : (BsonDocument)@event.Reply.DeepClone(),
+                    (BsonDocument) @event.Reply?.DeepClone(),
                     @event.OperationId,
                     @event.RequestId,
                     @event.ConnectionId,

@@ -123,7 +123,7 @@ namespace MongoDB.Driver.Tests
         {
             _collection.Drop();
             _collection.Insert(new BsonDocument { { "_id", 1 }, { "x", 2 } });
-            var dbRef = new MongoDBRef(_database.Name, _collection.Name, 1);
+            var dbRef = new MongoDBRef(_database.Name, _collection.Name, (BsonValue)1);
             var document = _server.FetchDBRef(dbRef);
             Assert.AreEqual(2, document.ElementCount);
             Assert.AreEqual(1, document["_id"].AsInt32);
