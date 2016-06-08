@@ -140,6 +140,16 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lte.Domain\Lte.Domain.csproj">
+      <Project>{adeef82d-6389-47c4-8f7c-d7f85c01d64e}</Project>
+      <Name>Lte.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LtePlatform\LtePlatform.csproj">
+      <Project>{a8bdc65f-5637-4c4e-8530-fcb7b97cde48}</Project>
+      <Name>LtePlatform</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

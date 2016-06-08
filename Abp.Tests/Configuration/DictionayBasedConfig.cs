@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Abp.Collections.Extensions;
+using Abp.Configuration;
 
-namespace Abp.Configuration
+namespace Abp.Tests.Configuration
 {
     /// <summary>
     /// Used to set/get custom configuration.

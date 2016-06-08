@@ -168,6 +168,22 @@
     <Compile Include="ViewModel\MapTopDrop2GTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Abp.EntityFramework\Abp.EntityFramework.csproj">
+      <Project>{8e0c8a21-369e-4d30-8e1d-a51ec5ca934f}</Project>
+      <Name>Abp.EntityFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoMapper\AutoMapper.csproj">
+      <Project>{75c9d4b5-2117-4b06-a6b1-70afcd6b3bfc}</Project>
+      <Name>AutoMapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lte.Domain\Lte.Domain.csproj">
+      <Project>{adeef82d-6389-47c4-8f7c-d7f85c01d64e}</Project>
+      <Name>Lte.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lte.Evaluations\Lte.Evaluations.csproj">
+      <Project>{c166940a-6bd2-4f42-8156-8024d9e320c9}</Project>
+      <Name>Lte.Evaluations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lte.MySqlFramework\Lte.MySqlFramework.csproj">
       <Project>{8ccf960a-1969-4df2-b81b-d3e46f0cd3d7}</Project>
       <Name>Lte.MySqlFramework</Name>
