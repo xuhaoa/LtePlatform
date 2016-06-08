@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Lte.Evaluations.DataService.College;
 using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Test.DataService.College;
 using Lte.Evaluations.Test.MockItems;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
@@ -11,7 +12,7 @@ using Lte.Parameters.Entities.Kpi;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.DataService.College
+namespace Lte.Evaluations.DataService.College
 {
     [TestFixture]
     public class CollegePreciseServiceTest

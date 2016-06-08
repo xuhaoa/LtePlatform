@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Lte.Evaluations.DataService;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Test.MockItems;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.MapperService
+namespace Lte.Evaluations.MapperService
 {
     [TestFixture]
     public class QuerySectorsTest

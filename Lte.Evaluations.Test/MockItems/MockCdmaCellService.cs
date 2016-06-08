@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 using Moq;
 
-namespace Lte.Evaluations.Test.MockItems
+namespace Lte.Evaluations.MockItems
 {
     public static class MockCdmaCellService
     {

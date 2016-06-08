@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Parameters.Abstract;
+﻿using Lte.Parameters.Abstract;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.MockItems.Validation
+namespace Lte.Evaluations.MockItems.Validation
 {
     [TestFixture]
     public class MockTwonServiceTest

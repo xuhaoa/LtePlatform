@@ -4,7 +4,7 @@ using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using Moq;
 
-namespace Lte.Evaluations.Test.MockItems
+namespace Lte.Evaluations.MockItems
 {
     public static class MockCellService
     {

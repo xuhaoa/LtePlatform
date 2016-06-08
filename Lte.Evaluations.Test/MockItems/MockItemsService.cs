@@ -9,7 +9,7 @@ using Lte.Parameters.Entities.Kpi;
 using Lte.Parameters.MockOperations;
 using Moq;
 
-namespace Lte.Evaluations.Test.MockItems
+namespace Lte.Evaluations.MockItems
 {
     public static class MockItemsService
     {

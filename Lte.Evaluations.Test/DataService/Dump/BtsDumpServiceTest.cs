@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Abp.EntityFramework.AutoMapper;
-using Lte.Evaluations.DataService.Dump;
 using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Test.DataService.Queries;
 using Lte.Evaluations.Test.MockItems;
 using Lte.Parameters.Abstract;
@@ -13,7 +13,7 @@ using Moq;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Lte.Evaluations.Test.DataService.Dump
+namespace Lte.Evaluations.DataService.Dump
 {
     [TestFixture]
     public class BtsDumpServiceTest

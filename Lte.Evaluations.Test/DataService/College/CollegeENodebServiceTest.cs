@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
-using Lte.Evaluations.DataService.College;
+using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Test.MockItems;
 using Lte.Evaluations.Test.TestService;
 using Lte.Evaluations.ViewModels.Basic;
@@ -12,7 +12,7 @@ using Moq;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Lte.Evaluations.Test.DataService.College
+namespace Lte.Evaluations.DataService.College
 {
     [TestFixture]
     public class CollegeENodebServiceTest

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Lte.Evaluations.DataService.Kpi;
-using Lte.Evaluations.Test.MockItems;
+using Lte.Evaluations.MockItems;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Basic;
 using Moq;
 
-namespace Lte.Evaluations.Test.TestService
+namespace Lte.Evaluations.TestService
 {
     public class CdmaRegionStatTestService
     {

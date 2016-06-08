@@ -1,12 +1,12 @@
 ﻿using Lte.Evaluations.MapperSerive;
-using Lte.Evaluations.Test.MockItems;
+using Lte.Evaluations.MockItems;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.ViewModel
+namespace Lte.Evaluations.ViewModel
 {
     [TestFixture]
     public class CellPreciseKpiViewTest
