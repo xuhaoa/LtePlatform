@@ -1,4 +1,8 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using Abp.Localization;
 using Abp.Modules;
 using Abp.Reflection;
@@ -67,4 +71,5 @@ namespace Abp.EntityFramework.AutoMapper
             Mapper.CreateMap<LocalizableString, string>().ConvertUsing(ls => localizationManager.GetString(ls));
         }
     }
+    
 }

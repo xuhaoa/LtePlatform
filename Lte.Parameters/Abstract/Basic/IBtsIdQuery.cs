@@ -4,4 +4,11 @@
     {
         int BtsId { get; }
     }
+
+    public interface ILteCellQuery
+    {
+        int ENodebId { get; set; }
+
+        byte SectorId { get; set; }
+    }
 }

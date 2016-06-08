@@ -3,10 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Abp.EntityFramework.AutoMapper;
+using Lte.MySqlFramework.Entities;
+using Lte.Parameters.Abstract.Basic;
 
 namespace Lte.Evaluations.ViewModels.Precise
 {
-    public class PreciseInterferenceNeighborDto
+    public interface IPreciseWorkItemDto<TLteCellId>
+        where TLteCellId : class, ILteCellQuery, new()
+    {
+        List<TLteCellId> Items { get; set; }
+
+        string WorkItemNumber { get; set; }
+    }
+
+    [AutoMapTo(typeof(PreciseWorkItemCell))]
+    public class PreciseInterferenceNeighborDto : ILteCellQuery
     {
         public int ENodebId { get; set; }
 
@@ -21,14 +33,15 @@ namespace Lte.Evaluations.ViewModels.Precise
         public double Mod6Share { get; set; }
     }
 
-    public class PreciseInterferenceNeighborsContainer
+    public class PreciseInterferenceNeighborsContainer : IPreciseWorkItemDto<PreciseInterferenceNeighborDto>
     {
-        public List<PreciseInterferenceNeighborDto> PreciseInterferenceNeighbors { get; set; }
+        public List<PreciseInterferenceNeighborDto> Items { get; set; }
 
         public string WorkItemNumber { get; set; }
     }
 
-    public class PreciseInterferenceVictimDto
+    [AutoMapTo(typeof(PreciseWorkItemCell))]
+    public class PreciseInterferenceVictimDto : ILteCellQuery
     {
         public int ENodebId { get; set; }
 
@@ -43,14 +56,15 @@ namespace Lte.Evaluations.ViewModels.Precise
         public double BackwardMod6Share { get; set; }
     }
 
-    public class PreciseInterferenceVictimsContainer
+    public class PreciseInterferenceVictimsContainer : IPreciseWorkItemDto<PreciseInterferenceVictimDto>
     {
-        public List<PreciseInterferenceVictimDto> PreciseInterferenceVictims { get; set; }
+        public List<PreciseInterferenceVictimDto> Items { get; set; }
 
         public string WorkItemNumber { get; set; }
     }
 
-    public class PreciseCoverageDto
+    [AutoMapTo(typeof(PreciseWorkItemCell))]
+    public class PreciseCoverageDto : ILteCellQuery
     {
         public int ENodebId { get; set; }
 
@@ -59,5 +73,12 @@ namespace Lte.Evaluations.ViewModels.Precise
         public double WeakCoverageRate { get; set; }
 
         public double OverCoverageRate { get; set; }
+    }
+
+    public class PreciseCoveragesContainer : IPreciseWorkItemDto<PreciseCoverageDto>
+    {
+        public List<PreciseCoverageDto> Items { get; set; }
+
+        public string WorkItemNumber { get; set; }
     }
 }

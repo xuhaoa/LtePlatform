@@ -4,6 +4,7 @@ using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Evaluations.ViewModels.College;
 using Lte.Evaluations.ViewModels.Kpi;
+using Lte.Evaluations.ViewModels.Precise;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Entities;
@@ -63,6 +64,9 @@ namespace Lte.Evaluations.MapperSerive
             AutoMapperHelper.CreateMap(typeof(InterferenceMatrixStat));
             AutoMapperHelper.CreateMap(typeof (DistrictPreciseView));
             AutoMapperHelper.CreateMap(typeof(WorkItemChartView));
+            AutoMapperHelper.CreateMap(typeof(PreciseInterferenceNeighborDto));
+            AutoMapperHelper.CreateMap(typeof (PreciseInterferenceVictimDto));
+            AutoMapperHelper.CreateMap(typeof (PreciseCoverageDto));
         }
     }
 }
