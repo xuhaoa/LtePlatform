@@ -10,7 +10,12 @@ using Lte.Parameters.Abstract.Neighbor;
 
 namespace Lte.Evaluations.DataService.Basic
 {
-    public class CellPowerService
+    public interface ICellPowerService
+    {
+        CellPower Query(int eNodebId, byte sectorId);
+    }
+
+    public class CellPowerService : ICellPowerService
     {
         private readonly IEUtranCellFDDZteRepository _ztePbRepository;
         private readonly IPowerControlDLZteRepository _ztePaRepository;

@@ -13,9 +13,9 @@ namespace LtePlatform.Controllers.Mongo
     [ApiControl("查询小区功率参数控制器")]
     public class CellPowerController : ApiController
     {
-        private readonly CellPowerService _service;
+        private readonly ICellPowerService _service;
 
-        public CellPowerController(CellPowerService service)
+        public CellPowerController(ICellPowerService service)
         {
             _service = service;
         }

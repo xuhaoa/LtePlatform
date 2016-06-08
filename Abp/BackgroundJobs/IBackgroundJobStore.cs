@@ -16,7 +16,7 @@ namespace Abp.BackgroundJobs
 
         /// <summary>
         /// Gets waiting jobs. It should get jobs based on these:
-        /// Conditions: !IsAbandoned && NextTryTime &lt;= Clock.Now.
+        /// Conditions: !IsAbandoned AND NextTryTime &lt;= Clock.Now.
         /// Order by: Priority DESC, TryCount ASC, NextTryTime ASC.
         /// Maximum result: <see cref="maxResultCount"/>.
         /// </summary>

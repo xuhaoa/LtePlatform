@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using Abp.Dependency;
+using System.Linq;
 
 namespace Abp.Application.Features
 {
@@ -42,7 +43,7 @@ namespace Abp.Application.Features
 
         public IReadOnlyList<Feature> GetAll()
         {
-            return Features.Values.ToImmutableList();
+            return Features.Values.ToImmutableList<Feature>();
         }
 
         private FeatureProvider CreateProvider(Type providerType)

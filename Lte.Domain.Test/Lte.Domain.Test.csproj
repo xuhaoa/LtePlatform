@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -114,16 +116,6 @@
     <Compile Include="Regular\DateTimeRegexTest.cs" />
     <Compile Include="Regular\EmailAndUrlTest.cs" />
     <Compile Include="Regular\SecureConversionTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AutoMapper\AutoMapper.csproj">
-      <Project>{75c9d4b5-2117-4b06-a6b1-70afcd6b3bfc}</Project>
-      <Name>AutoMapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lte.Domain\Lte.Domain.csproj">
-      <Project>{adeef82d-6389-47c4-8f7c-d7f85c01d64e}</Project>
-      <Name>Lte.Domain</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

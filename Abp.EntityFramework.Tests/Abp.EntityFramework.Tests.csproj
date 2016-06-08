@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
@@ -97,17 +99,9 @@
     <Compile Include="Repositories\SimpleRegister_Test.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Abp.EntityFramework\Abp.EntityFramework.csproj">
-      <Project>{8e0c8a21-369e-4d30-8e1d-a51ec5ca934f}</Project>
-      <Name>Abp.EntityFramework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Abp.Tests\Abp.Tests.csproj">
       <Project>{b936abc7-71cc-433f-a67a-f9ec3218bf20}</Project>
       <Name>Abp.Tests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Abp\Abp.csproj">
-      <Project>{2c221d3b-5f54-4c5b-8082-318636415132}</Project>
-      <Name>Abp</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lte.Domain\Lte.Domain.csproj">
       <Project>{adeef82d-6389-47c4-8f7c-d7f85c01d64e}</Project>

@@ -137,6 +137,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IPreciseWorkItemCellRepository>().To<PreciseWorkItemCellRepositroy>();
 
+            ninjectKernel.Bind<ICellPowerService>().To<CellPowerService>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();
@@ -222,8 +224,6 @@ namespace LtePlatform
             ninjectKernel.Bind<NeighborCellMongoService>().ToSelf();
 
             ninjectKernel.Bind<CellStasticService>().ToSelf();
-
-            ninjectKernel.Bind<CellPowerService>().ToSelf();
 
             ninjectKernel.Bind<FlowService>().ToSelf();
 

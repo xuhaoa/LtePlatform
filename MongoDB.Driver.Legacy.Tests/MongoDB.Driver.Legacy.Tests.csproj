@@ -21,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
@@ -182,30 +184,6 @@
     <Compile Include="SystemProfileInfoTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Abp\Abp.csproj">
-      <Project>{2c221d3b-5f54-4c5b-8082-318636415132}</Project>
-      <Name>Abp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lte.Parameters\Lte.Parameters.csproj">
-      <Project>{25b6ccb6-4b12-4df2-b4c9-2d30ae6bd254}</Project>
-      <Name>Lte.Parameters</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MongoDB.Bson.TestHelpers\MongoDB.Bson.TestHelpers.csproj">
-      <Project>{6ac4638e-ec69-46aa-b6aa-c5cf227d14ae}</Project>
-      <Name>MongoDB.Bson.TestHelpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MongoDB.Driver.Core.TestHelpers\MongoDB.Driver.Core.TestHelpers.csproj">
-      <Project>{26c8e1f2-d859-4ed0-a1a7-de0b32f81084}</Project>
-      <Name>MongoDB.Driver.Core.TestHelpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MongoDB.Driver.Legacy.TestHelpers\MongoDB.Driver.Legacy.TestHelpers.csproj">
-      <Project>{02ab2e44-785a-4d39-99c0-29f93a02ef84}</Project>
-      <Name>MongoDB.Driver.Legacy.TestHelpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MongoDB.Driver.Legacy\MongoDB.Driver.Legacy.csproj">
-      <Project>{97962946-aa1e-4308-b7a7-6ad92bdbc358}</Project>
-      <Name>MongoDB.Driver.Legacy</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MongoDB.Driver.TestHelpers\MongoDB.Driver.TestHelpers.csproj">
       <Project>{89b92fff-4126-4d9a-93c8-2bd7e0cd82ff}</Project>
       <Name>MongoDB.Driver.TestHelpers</Name>

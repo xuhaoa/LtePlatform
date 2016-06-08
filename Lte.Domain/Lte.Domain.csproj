@@ -21,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -148,12 +150,6 @@
     <Compile Include="Regular\SecureConversion.cs" />
     <Compile Include="Regular\SecureValue.cs" />
     <Compile Include="Regular\Attributes\TypeDocAttribute.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AutoMapper\AutoMapper.csproj">
-      <Project>{75c9d4b5-2117-4b06-a6b1-70afcd6b3bfc}</Project>
-      <Name>AutoMapper</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
