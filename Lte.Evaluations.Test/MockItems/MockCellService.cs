@@ -8,20 +8,6 @@ namespace Lte.Evaluations.MockItems
 {
     public static class MockCellService
     {
-        public static void MockOperations(this Mock<ICellRepository> repository)
-        {
-            repository.Setup(x => x.Get(It.IsAny<int>()))
-                .Returns<int>(id => repository.Object.GetAll().FirstOrDefault(x => x.Id == id));
-
-            repository.Setup(x => x.GetBySectorId(It.IsAny<int>(), It.IsAny<byte>()))
-                .Returns<int, byte>(
-                    (eNodebId, sectorId) =>
-                        repository.Object.GetAll().FirstOrDefault(x => x.ENodebId == eNodebId && x.SectorId == sectorId));
-
-            repository.Setup(x => x.GetAllInUseList())
-                .Returns(repository.Object.GetAll().Where(x => x.IsInUse).ToList());
-        }
-
         public static void MockSixCells(this Mock<ICellRepository> repository, double lon = 113.01, double lat = 23.01,
             short pci = 111, bool isInUse = true)
         {

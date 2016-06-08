@@ -140,10 +140,9 @@
     <Compile Include="MapperService\PciCellPairListTest.cs" />
     <Compile Include="MapperService\QuerySectorsTest.cs" />
     <Compile Include="MapperService\TopCellQueriesServiceTest.cs" />
-    <Compile Include="MockItems\MockAlarmRepository.cs" />
+    <Compile Include="MockItems\MockItemsOperations.cs" />
     <Compile Include="MockItems\MockBtsService.cs" />
     <Compile Include="MockItems\MockCdmaCellService.cs" />
-    <Compile Include="MockItems\MockCdmaRegionStatService.cs" />
     <Compile Include="MockItems\MockCellService.cs" />
     <Compile Include="MockItems\MockCollegeService.cs" />
     <Compile Include="MockItems\MockENodebService.cs" />

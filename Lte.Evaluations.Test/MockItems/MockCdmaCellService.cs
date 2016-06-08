@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using Moq;
@@ -8,17 +7,6 @@ namespace Lte.Evaluations.MockItems
 {
     public static class MockCdmaCellService
     {
-        public static void MockOperations(this Mock<ICdmaCellRepository> repository)
-        {
-            repository.Setup(x => x.Get(It.IsAny<int>()))
-                .Returns<int>(id => repository.Object.GetAll().FirstOrDefault(x => x.Id == id));
-
-            repository.Setup(x => x.GetBySectorId(It.IsAny<int>(), It.IsAny<byte>()))
-                .Returns<int, byte>(
-                    (btsId, sectorId) =>
-                        repository.Object.GetAll().FirstOrDefault(x => x.BtsId == btsId && x.SectorId == sectorId));
-        }
-
         public static void MockSixCells(this Mock<ICdmaCellRepository> repository, double lon = 113.01, double lat = 23.01)
         {
             repository.MockCdmaCells(new List<CdmaCell>

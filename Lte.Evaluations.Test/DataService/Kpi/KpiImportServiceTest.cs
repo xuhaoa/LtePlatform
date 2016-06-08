@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using Abp.EntityFramework.AutoMapper;
-using Lte.Evaluations.DataService.Kpi;
+using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Test.MockItems;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.DataService
+namespace Lte.Evaluations.DataService.Kpi
 {
     [TestFixture]
     public class KpiImportServiceTest

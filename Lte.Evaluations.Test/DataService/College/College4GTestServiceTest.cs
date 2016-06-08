@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
-using Lte.Evaluations.DataService.College;
-using Lte.Evaluations.Test.MockItems;
+using Lte.Evaluations.MockItems;
 using Lte.Evaluations.ViewModels.College;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Entities.College;
@@ -13,7 +11,7 @@ using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.DataService.College
+namespace Lte.Evaluations.DataService.College
 {
     [TestFixture]
     public class College4GTestServiceTest

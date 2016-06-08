@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Lte.Evaluations.MockItems;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using Moq;
 
-namespace Lte.Evaluations.Test.MockItems
+namespace Lte.Evaluations.MockItems
 {
     public static class MockBtsService
     {
@@ -40,15 +38,6 @@ namespace Lte.Evaluations.Test.MockItems
                 new CdmaBts {Id = 5, BtsId = 5, Name = "Bts-5", ENodebId = 5},
                 new CdmaBts {Id = 6, BtsId = 6, Name = "Bts-6", ENodebId = 6}
             });
-        }
-
-        public static void MockOperation(this Mock<IBtsRepository> repository)
-        {
-            repository.Setup(x => x.GetByBtsId(It.IsAny<int>()))
-                .Returns<int>(btsId => repository.Object.GetAll().FirstOrDefault(x => x.BtsId == btsId));
-
-            repository.Setup(x => x.Get(It.IsAny<int>()))
-                .Returns<int>(id => repository.Object.GetAll().FirstOrDefault(x => x.Id == id));
         }
     }
 }
