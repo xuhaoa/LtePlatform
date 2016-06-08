@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.Test.DataService;
 using Lte.Evaluations.Test.MockItems;
 using Lte.Evaluations.Test.TestService;
 using Lte.Parameters.Abstract.Basic;
@@ -10,7 +10,7 @@ using Moq;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Lte.Evaluations.Test.DataService
+namespace Lte.Evaluations.DataService.Kpi
 {
     [TestFixture]
     public class TopDrop2GServiceTest

@@ -4,7 +4,7 @@ using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Parameters.Entities.Kpi;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.ViewModel
+namespace Lte.Evaluations.ViewModel
 {
     [TestFixture]
     public class MapTopDrop2GTest

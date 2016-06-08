@@ -6,7 +6,7 @@ using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.ViewModel
+namespace Lte.Evaluations.ViewModel
 {
     [TestFixture]
     public class CellViewTest

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.Test.MockItems;
@@ -13,7 +12,7 @@ using Moq;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Lte.Evaluations.Test.DataService
+namespace Lte.Evaluations.DataService.Kpi
 {
     [TestFixture]
     public class PreciseStatServiceTest

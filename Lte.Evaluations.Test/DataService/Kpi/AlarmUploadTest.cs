@@ -9,7 +9,7 @@ using Lte.Parameters.Entities;
 using Lte.Parameters.MockOperations;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.DataService
+namespace Lte.Evaluations.DataService.Kpi
 {
     [TestFixture]
     public class AlarmUploadTest
