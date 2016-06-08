@@ -135,9 +135,37 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Abp.EntityFramework\Abp.EntityFramework.csproj">
+      <Project>{8e0c8a21-369e-4d30-8e1d-a51ec5ca934f}</Project>
+      <Name>Abp.EntityFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abp\Abp.csproj">
+      <Project>{2c221d3b-5f54-4c5b-8082-318636415132}</Project>
+      <Name>Abp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoMapper\AutoMapper.csproj">
+      <Project>{75c9d4b5-2117-4b06-a6b1-70afcd6b3bfc}</Project>
+      <Name>AutoMapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lte.Domain.Test\Lte.Domain.Test.csproj">
+      <Project>{d9c3ee9a-14ef-4964-a731-12cebbdfb693}</Project>
+      <Name>Lte.Domain.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lte.Domain\Lte.Domain.csproj">
+      <Project>{adeef82d-6389-47c4-8f7c-d7f85c01d64e}</Project>
+      <Name>Lte.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lte.Parameters\Lte.Parameters.csproj">
+      <Project>{25b6ccb6-4b12-4df2-b4c9-2d30ae6bd254}</Project>
+      <Name>Lte.Parameters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MongoDB.Driver.Legacy\MongoDB.Driver.Legacy.csproj">
       <Project>{97962946-aa1e-4308-b7a7-6ad92bdbc358}</Project>
       <Name>MongoDB.Driver.Legacy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Moq\Moq.csproj">
+      <Project>{6f20d7bc-4870-465f-a10a-b3100b4a0254}</Project>
+      <Name>Moq</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
