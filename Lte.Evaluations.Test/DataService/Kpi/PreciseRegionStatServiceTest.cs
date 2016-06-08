@@ -14,7 +14,7 @@ using Lte.Parameters.Entities;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.DataService
+namespace Lte.Evaluations.DataService.Kpi
 {
     [TestFixture]
     public class PreciseRegionStatServiceTest

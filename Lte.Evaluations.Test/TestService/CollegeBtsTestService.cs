@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using Lte.Evaluations.MockItems;
-using Lte.Evaluations.Test.MockItems;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities;
 using Moq;
 
-namespace Lte.Evaluations.Test.TestService
+namespace Lte.Evaluations.TestService
 {
     public class CollegeBtsTestService
     {

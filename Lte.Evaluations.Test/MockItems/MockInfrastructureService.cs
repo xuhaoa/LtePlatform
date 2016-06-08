@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Evaluations.MockItems;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Entities;
 using Moq;
 
-namespace Lte.Evaluations.Test.MockItems
+namespace Lte.Evaluations.MockItems
 {
     public static class MockInfrastructureService
     {
