@@ -10,6 +10,7 @@ using Lte.Evaluations.ViewModels.Precise;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;
 
@@ -30,12 +31,12 @@ namespace Lte.Evaluations.DataService.Mr
             AutoMapperHelper.CreateMap(typeof(PreciseCoverageDto));
 
             repository.Setup(x => x.Get(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<byte>()))
-                .Returns<string, int, byte>((number, eNodebId, sectorId) => null);
-            repository.Setup(x => x.Get("001", 1, 2)).Returns(new PreciseWorkItemCell
-            {
-                ENodebId = 1,
-                SectorId = 2
-            });
+                .Returns<string, int, byte>(
+                    (number, eNodebId, sectorId) =>
+                        repository.Object.GetAll()
+                            .FirstOrDefault(
+                                x => x.WorkItemNumber == number && x.ENodebId == eNodebId && x.SectorId == sectorId));
+            repository.MockRepositorySaveItems<PreciseWorkItemCell, IPreciseWorkItemCellRepository>();
         }
     }
 }
