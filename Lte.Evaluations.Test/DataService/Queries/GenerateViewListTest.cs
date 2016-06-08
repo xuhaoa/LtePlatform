@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.Test.DataService.Queries;
 using Lte.Parameters.Entities.Basic;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.DataService
+namespace Lte.Evaluations.DataService.Queries
 {
     [TestFixture]
     public class GenerateViewListTest
@@ -104,6 +105,17 @@ namespace Lte.Evaluations.Test.DataService
             Assert.IsNotNull(viewList[0]);
             Assert.AreEqual(viewList[0].Count(), dates.Length);
             Assert.AreEqual(viewList[1].Count(), dates.Length);
+        }
+
+        [Test]
+        public void Test_GetAssmebly()
+        {
+            var asm = Assembly.Load("Lte.Evaluations");
+            Assert.IsNotNull(asm);
+            Assert.AreEqual(asm.FullName, "Lte.Evaluations, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            asm = Assembly.Load("Lte.Parameters");
+            Assert.IsNotNull(asm);
+            Assert.AreEqual(asm.FullName, "Lte.Parameters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
         }
     }
 }

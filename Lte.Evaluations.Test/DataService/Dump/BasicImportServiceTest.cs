@@ -9,7 +9,7 @@ using Moq;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Lte.Evaluations.DataService
+namespace Lte.Evaluations.DataService.Dump
 {
     [TestFixture]
     public class BasicImportServiceTest

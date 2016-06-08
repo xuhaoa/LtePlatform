@@ -101,17 +101,17 @@
   <ItemGroup>
     <Compile Include="DataService\Kpi\AlarmsServiceTest.cs" />
     <Compile Include="DataService\Kpi\AlarmUploadTest.cs" />
-    <Compile Include="DataService\BtsQueryServiceTest.cs" />
+    <Compile Include="DataService\Queries\BtsQueryServiceTest.cs" />
     <Compile Include="DataService\Dump\BtsDumpServiceTest.cs" />
     <Compile Include="DataService\Dump\CdmaCellDumpServiceTest.cs" />
     <Compile Include="DataService\Dump\CellDumpServiceTest.cs" />
     <Compile Include="DataService\Dump\CellDumpServiceTestBase.cs" />
     <Compile Include="DataService\Dump\FlowServiceTest.cs" />
     <Compile Include="DataService\Dump\PciCellDumpServiceTest.cs" />
-    <Compile Include="DataService\ENodebQueryServiceTest.cs" />
+    <Compile Include="DataService\Queries\ENodebQueryServiceTest.cs" />
     <Compile Include="DataService\Mr\PreciseWorkItemTest.cs" />
     <Compile Include="DataService\Queries\AlarmsServiceTestQueries.cs" />
-    <Compile Include="DataService\BasicImportServiceTest.cs" />
+    <Compile Include="DataService\Dump\BasicImportServiceTest.cs" />
     <Compile Include="DataService\College\CdmaRegionStatServiceTest.cs" />
     <Compile Include="DataService\Queries\CdmaRegionViewQueries.cs" />
     <Compile Include="DataService\College\College3GTestQueries.cs" />
@@ -127,7 +127,7 @@
     <Compile Include="DataService\College\CollegePreciseServiceTest.cs" />
     <Compile Include="DataService\College\CollegePreciseServiceTestQueries.cs" />
     <Compile Include="DataService\Dump\ENodebDumpServiceTest.cs" />
-    <Compile Include="DataService\GenerateViewListTest.cs" />
+    <Compile Include="DataService\Queries\GenerateViewListTest.cs" />
     <Compile Include="DataService\Kpi\KpiImportServiceTest.cs" />
     <Compile Include="DataService\Kpi\PreciseRegionStatServiceTest.cs" />
     <Compile Include="DataService\Kpi\PreciseStatServiceTest.cs" />

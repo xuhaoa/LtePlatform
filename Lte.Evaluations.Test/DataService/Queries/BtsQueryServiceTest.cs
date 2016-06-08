@@ -10,7 +10,7 @@ using Lte.Parameters.Abstract.Basic;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.DataService
+namespace Lte.Evaluations.DataService.Queries
 {
     [TestFixture]
     public class BtsQueryServiceTest

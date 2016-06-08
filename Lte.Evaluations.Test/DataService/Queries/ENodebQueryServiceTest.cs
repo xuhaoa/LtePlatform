@@ -3,14 +3,13 @@ using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.MockItems;
-using Lte.Evaluations.Test.MockItems;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.DataService
+namespace Lte.Evaluations.DataService.Queries
 {
     [TestFixture]
     public class ENodebQueryServiceTest

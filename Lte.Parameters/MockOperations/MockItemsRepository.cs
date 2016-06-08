@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
@@ -81,6 +82,11 @@ namespace Lte.Parameters.MockOperations
                         SynchronizeValues<T, TRepository>(repository);
                     });
             }
+        }
+
+        public static Assembly GetAssembly(string assemblyName)
+        {
+            return Assembly.Load(assemblyName);
         }
     }
 }
