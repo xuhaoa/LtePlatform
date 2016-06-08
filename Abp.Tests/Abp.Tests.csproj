@@ -179,6 +179,12 @@
     <Content Include="Localization\Json\XmlSources\Lang-zh-CN.xml" />
     <Content Include="Localization\Json\XmlSources\Lang.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Abp\Abp.csproj">
+      <Project>{2c221d3b-5f54-4c5b-8082-318636415132}</Project>
+      <Name>Abp</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

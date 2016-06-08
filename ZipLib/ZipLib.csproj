@@ -116,6 +116,12 @@
     <Compile Include="Zip\ZipNameTransform.cs" />
     <Compile Include="Zip\ZipOutputStream.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lte.Domain\Lte.Domain.csproj">
+      <Project>{adeef82d-6389-47c4-8f7c-d7f85c01d64e}</Project>
+      <Name>Lte.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
