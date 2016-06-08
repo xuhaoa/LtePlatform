@@ -148,13 +148,8 @@
     <Compile Include="MockItems\MockENodebService.cs" />
     <Compile Include="MockItems\MockIndoorDistributionService.cs" />
     <Compile Include="MockItems\MockInfrastructureService.cs" />
-    <Compile Include="MockItems\MockInfrastructureServiceTest.cs" />
+    <Compile Include="MockItems\Validation\MockInfrastructureServiceTest.cs" />
     <Compile Include="MockItems\MockItemsService.cs" />
-    <Compile Include="MockItems\MockPreciseRegionStatService.cs" />
-    <Compile Include="MockItems\MockPreciseStatService.cs" />
-    <Compile Include="MockItems\MockRegionService.cs" />
-    <Compile Include="MockItems\MockTop2GDropService.cs" />
-    <Compile Include="MockItems\MockTop3GConnectionService.cs" />
     <Compile Include="MockItems\MockTownService.cs" />
     <Compile Include="MockItems\Validation\MockBtsServiceTest.cs" />
     <Compile Include="MockItems\Validation\MockCellServiceTest.cs" />

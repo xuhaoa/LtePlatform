@@ -8,12 +8,6 @@ namespace Lte.Evaluations.MockItems
 {
     public static class MockIndoorDistributionService
     {
-        public static void MockOperations(this Mock<IIndoorDistributioinRepository> repository)
-        {
-            repository.Setup(x => x.Get(It.IsAny<int>()))
-                .Returns<int>(id => repository.Object.GetAll().FirstOrDefault(x => x.Id == id));
-        }
-
         public static void MockThreeDistributions(this Mock<IIndoorDistributioinRepository> repository)
         {
             repository.MockDistributions(new List<IndoorDistribution>

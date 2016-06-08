@@ -1,10 +1,9 @@
 ﻿using System.Linq;
-using Lte.Evaluations.Test.MockItems;
 using Lte.Parameters.Abstract;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.MockItems
+namespace Lte.Evaluations.MockItems.Validation
 {
     [TestFixture]
     public class MockInfrastructureServiceTest

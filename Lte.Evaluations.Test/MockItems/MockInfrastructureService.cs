@@ -8,39 +8,6 @@ namespace Lte.Evaluations.MockItems
 {
     public static class MockInfrastructureService
     {
-        public static void MockOperations(this Mock<IInfrastructureRepository> repository)
-        {
-            repository.Setup(x => x.GetENodebIds(It.IsAny<string>()))
-                .Returns<string>(collegeName => repository.Object.GetAll().Where(x =>
-                    x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.ENodeb)
-                    .Select(x => x.InfrastructureId).ToList());
-
-            repository.Setup(x => x.GetBtsIds(It.IsAny<string>()))
-                .Returns<string>(collegeName => repository.Object.GetAll().Where(x =>
-                    x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.CdmaBts)
-                    .Select(x => x.InfrastructureId).ToList());
-
-            repository.Setup(x => x.GetCellIds(It.IsAny<string>()))
-                .Returns<string>(collegeName => repository.Object.GetAll().Where(x =>
-                    x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.Cell
-                    ).Select(x => x.InfrastructureId).ToList());
-
-            repository.Setup(x => x.GetCdmaCellIds(It.IsAny<string>()))
-                .Returns<string>(collegeName => repository.Object.GetAll().Where(x =>
-                    x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.CdmaCell
-                    ).Select(x => x.InfrastructureId).ToList());
-
-            repository.Setup(x => x.GetLteDistributionIds(It.IsAny<string>()))
-                .Returns<string>(collegeName => repository.Object.GetAll().Where(x =>
-                    x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.LteIndoor
-                    ).Select(x => x.InfrastructureId).ToList());
-
-            repository.Setup(x => x.GetCdmaDistributionIds(It.IsAny<string>()))
-                .Returns<string>(collegeName => repository.Object.GetAll().Where(x =>
-                    x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.CdmaIndoor
-                    ).Select(x => x.InfrastructureId).ToList());
-        }
-
         public static void MockThreeCollegeENodebs(this Mock<IInfrastructureRepository> repository)
         {
             repository.MockInfrastructures(new List<InfrastructureInfo>

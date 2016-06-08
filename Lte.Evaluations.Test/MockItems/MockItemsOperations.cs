@@ -106,5 +106,119 @@ namespace Lte.Evaluations.MockItems
                 .Returns<DateTime>(time => repository.Object.GetAll().Where(x => x.TestTime == time).ToList());
         }
 
+        public static void MockOperations(this Mock<IENodebRepository> repository)
+        {
+            repository.Setup(x => x.GetByENodebId(It.IsAny<int>()))
+                .Returns<int>(eNodebId => repository.Object.GetAll().FirstOrDefault(x => x.ENodebId == eNodebId));
+
+            repository.Setup(x => x.Get(It.IsAny<int>()))
+                .Returns<int>(id => repository.Object.GetAll().FirstOrDefault(x => x.Id == id));
+
+            repository.Setup(x => x.GetByName(It.IsAny<string>()))
+                .Returns<string>(name => repository.Object.GetAll().FirstOrDefault(x => x.Name == name));
+
+            repository.Setup(x => x.GetAllInUseList())
+                .Returns(repository.Object.GetAll().Where(x => x.IsInUse).ToList());
+        }
+
+        public static void MockOperations(this Mock<IIndoorDistributioinRepository> repository)
+        {
+            repository.Setup(x => x.Get(It.IsAny<int>()))
+                .Returns<int>(id => repository.Object.GetAll().FirstOrDefault(x => x.Id == id));
+        }
+
+        public static void MockOperations(this Mock<IInfrastructureRepository> repository)
+        {
+            repository.Setup(x => x.GetENodebIds(It.IsAny<string>()))
+                .Returns<string>(collegeName => repository.Object.GetAll().Where(x =>
+                    x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.ENodeb)
+                    .Select(x => x.InfrastructureId).ToList());
+
+            repository.Setup(x => x.GetBtsIds(It.IsAny<string>()))
+                .Returns<string>(collegeName => repository.Object.GetAll().Where(x =>
+                    x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.CdmaBts)
+                    .Select(x => x.InfrastructureId).ToList());
+
+            repository.Setup(x => x.GetCellIds(It.IsAny<string>()))
+                .Returns<string>(collegeName => repository.Object.GetAll().Where(x =>
+                    x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.Cell
+                    ).Select(x => x.InfrastructureId).ToList());
+
+            repository.Setup(x => x.GetCdmaCellIds(It.IsAny<string>()))
+                .Returns<string>(collegeName => repository.Object.GetAll().Where(x =>
+                    x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.CdmaCell
+                    ).Select(x => x.InfrastructureId).ToList());
+
+            repository.Setup(x => x.GetLteDistributionIds(It.IsAny<string>()))
+                .Returns<string>(collegeName => repository.Object.GetAll().Where(x =>
+                    x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.LteIndoor
+                    ).Select(x => x.InfrastructureId).ToList());
+
+            repository.Setup(x => x.GetCdmaDistributionIds(It.IsAny<string>()))
+                .Returns<string>(collegeName => repository.Object.GetAll().Where(x =>
+                    x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.CdmaIndoor
+                    ).Select(x => x.InfrastructureId).ToList());
+        }
+
+        public static void MockOperation(this Mock<ITownPreciseCoverage4GStatRepository> repository)
+        {
+            repository.Setup(x => x.GetAllList(It.IsAny<DateTime>(), It.IsAny<DateTime>()))
+                .Returns<DateTime, DateTime>(
+                    (begin, end) =>
+                        repository.Object.GetAll().Where(x => x.StatTime >= begin && x.StatTime < end).ToList());
+        }
+
+        public static void MockOperations(this Mock<IPreciseCoverage4GRepository> repository)
+        {
+            repository.Setup(
+                x => x.GetAllList(It.IsAny<int>(), It.IsAny<byte>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
+                .Returns<int, int, DateTime, DateTime>(
+                    (cellId, sectorId, begin, end) =>
+                        repository.Object.GetAll()
+                            .Where(
+                                x =>
+                                    x.CellId == cellId && x.SectorId == sectorId && x.StatTime >= begin &&
+                                    x.StatTime < end)
+                            .ToList());
+        }
+
+        public static void MockOperation(this Mock<IRegionRepository> repository)
+        {
+            repository.Setup(x => x.GetAllList(It.IsAny<string>()))
+                .Returns<string>(city => repository.Object.GetAll().Where(x => x.City == city).ToList());
+
+            repository.Setup(x => x.GetAllListAsync(It.IsAny<string>()))
+                .Returns<string>(city => Task.Run(() =>
+                    repository.Object.GetAll().Where(x => x.City == city).ToList()));
+        }
+
+        public static void MockOperation(this Mock<ITopDrop2GCellRepository> repository)
+        {
+            repository.Setup(x => x.Import(It.IsAny<IEnumerable<TopDrop2GCellExcel>>()))
+                .Returns<IEnumerable<TopDrop2GCellExcel>>(stats => stats.Count());
+
+            repository.Setup(x => x.GetAllList(It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
+                .Returns<string, DateTime, DateTime>((city, begin, end) =>
+                    repository.Object.GetAll().Where(x => x.City == city && x.StatTime >= begin && x.StatTime < end).ToList());
+        }
+
+        public static void MockOperation(this Mock<ITopConnection3GRepository> repository)
+        {
+            repository.Setup(x => x.Import(It.IsAny<IEnumerable<TopConnection3GCellExcel>>()))
+                .Returns<IEnumerable<TopConnection3GCellExcel>>(stats => stats.Count());
+        }
+
+        public static void MockOpertion(this Mock<ITownRepository> repository)
+        {
+            repository.Setup(x => x.Get(It.IsAny<int>()))
+                .Returns<int>(id => repository.Object.GetAll().FirstOrDefault(x => x.Id == id));
+            repository.Setup(x => x.GetAll(It.IsAny<string>()))
+                .Returns<string>(city => repository.Object.GetAll().Where(x => x.CityName == city).ToList());
+            repository.Setup(x => x.QueryTown(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Returns<string, string, string>(
+                    (city, district, town) =>
+                        repository.Object.GetAll()
+                            .FirstOrDefault(x => x.CityName == city && x.DistrictName == district && x.TownName == town));
+        }
     }
 }
