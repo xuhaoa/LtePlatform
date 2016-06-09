@@ -143,7 +143,6 @@
     <Compile Include="MockItems\MockItemsOperations.cs" />
     <Compile Include="MockItems\MockInstanceService.cs" />
     <Compile Include="MockItems\Validation\MockInfrastructureServiceTest.cs" />
-    <Compile Include="MockItems\MockItemsService.cs" />
     <Compile Include="MockItems\Validation\MockBtsServiceTest.cs" />
     <Compile Include="MockItems\Validation\MockCellServiceTest.cs" />
     <Compile Include="MockItems\Validation\MockTwonServiceTest.cs" />

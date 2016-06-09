@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.DataService.Queries;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.ViewModels;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Entities;
+using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;
+using Shouldly;
 
 namespace Lte.Evaluations.DataService.Kpi
 {
@@ -21,9 +25,35 @@ namespace Lte.Evaluations.DataService.Kpi
         [TestFixtureSetUp]
         public void FixtureSetup()
         {
-            _service = new AlarmsService(_repository.Object);
             _repository.MockOperations();
             KpiMapperService.MapAlarmStat();
+            _service = new AlarmsService(_repository.Object);
+        }
+
+        [TestCase(1, "aaieqwigiowi", "2015-1-1 12:33", "2015-1-1 0:05", "2015-1-1 13:45", true)]
+        [TestCase(2, "aai33igiowi", "2015-1-1 16:33", "2015-1-1 0:05", "2015-1-1 13:45", false)]
+        [TestCase(1, "aaieqqgiowi", "2015-1-1 12:33", "2014-12-31 10:05", "2015-1-1 13:45", true)]
+        [TestCase(13, "aaierweigiowi", "2015-1-1 12:33", "2015-1-1 0:05", "2015-1-2 13:45", true)]
+        [TestCase(111, "aaieqwigiowi", "2015-1-1 12:33", "2015-1-1 14:05", "2015-1-1 17:45", false)]
+        public void Test_GetAllList(int eNodebId, string details,
+            string happenedTime, string begin, string end, bool matched)
+        {
+            _repository.MockQueryItems(new List<AlarmStat>
+            {
+                new AlarmStat
+                {
+                    ENodebId = eNodebId,
+                    Details = details,
+                    HappenTime = DateTime.Parse(happenedTime)
+                }
+            }.AsQueryable());
+            var items = _repository.Object.GetAllList(DateTime.Parse(begin), DateTime.Parse(end), eNodebId);
+            items.ShouldNotBeNull();
+            items.Count.ShouldBe(matched ? 1 : 0);
+            var results = Mapper.Map<IEnumerable<AlarmStat>, IEnumerable<AlarmView>>(items);
+            results.Count().ShouldBe(matched ? 1 : 0);
+            var views = _service.Get(eNodebId, DateTime.Parse(begin), DateTime.Parse(end));
+            views.Count().ShouldBe(matched ? 1 : 0);
         }
 
         [TestCase(1, "aaieqwigiowi", "2015-1-1 12:33", "2015-1-1 0:05", "2015-1-1 13:45", true)]
@@ -34,7 +64,7 @@ namespace Lte.Evaluations.DataService.Kpi
         public void Test_Get_SingleAlarms_BasicParameters(int eNodebId, string details,
             string happenedTime, string begin, string end, bool matched)
         {
-            _repository.MockAlarms(new List<AlarmStat>
+            _repository.MockQueryItems(new List<AlarmStat>
             {
                 new AlarmStat
                 {
@@ -42,19 +72,14 @@ namespace Lte.Evaluations.DataService.Kpi
                     Details = details,
                     HappenTime = DateTime.Parse(happenedTime)
                 }
-            });
+            }.AsQueryable());
             var views = _service.Get(eNodebId, DateTime.Parse(begin), DateTime.Parse(end));
+            views.Count().ShouldBe(matched ? 1 : 0);
             var count = _service.GetCounts(eNodebId, DateTime.Parse(begin), DateTime.Parse(end));
+            count.ShouldBe(matched ? 1 : 0);
             if (matched)
             {
-                Assert.AreEqual(views.Count(), 1);
-                Assert.AreEqual(count, 1);
                 views.ElementAt(0).AssertBasicParameters(eNodebId, details);
-            }
-            else
-            {
-                Assert.AreEqual(views.Count(), 0);
-                Assert.AreEqual(count, 0);
             }
         }
 
@@ -71,7 +96,7 @@ namespace Lte.Evaluations.DataService.Kpi
         public void Test_Get_SingleAlarms_Position(int eNodebId, byte sectorId, byte alarmCategory,
             string happenedTime, string recoveryTime, string begin, string end, bool matched, string position, double duration)
         {
-            _repository.MockAlarms(new List<AlarmStat>
+            _repository.MockQueryItems(new List<AlarmStat>
             {
                 new AlarmStat
                 {
@@ -81,7 +106,7 @@ namespace Lte.Evaluations.DataService.Kpi
                     AlarmCategory = (AlarmCategory)alarmCategory,
                     RecoverTime = DateTime.Parse(recoveryTime)
                 }
-            });
+            }.AsQueryable());
             var views = _service.Get(eNodebId, DateTime.Parse(begin), DateTime.Parse(end));
             var count = _service.GetCounts(eNodebId, DateTime.Parse(begin), DateTime.Parse(end));
             if (matched)
@@ -112,7 +137,7 @@ namespace Lte.Evaluations.DataService.Kpi
         public void Test_Get_SingleAlarms_Types(int eNodebId, byte level, byte category, short type,
             string happenedTime, string begin, string end, bool matched, string typeDescription)
         {
-            _repository.MockAlarms(new List<AlarmStat>
+            _repository.MockQueryItems(new List<AlarmStat>
             {
                 new AlarmStat
                 {
@@ -122,7 +147,7 @@ namespace Lte.Evaluations.DataService.Kpi
                     AlarmType = (AlarmType)type,
                     HappenTime = DateTime.Parse(happenedTime)
                 }
-            });
+            }.AsQueryable());
             var views = _service.Get(eNodebId, DateTime.Parse(begin), DateTime.Parse(end));
             var count = _service.GetCounts(eNodebId, DateTime.Parse(begin), DateTime.Parse(end));
             if (matched)

@@ -42,10 +42,10 @@ namespace Lte.Evaluations.TestService
 
         public void MockOneAlarm(string dateString)
         {
-            _alarmRepository.MockAlarms(new List<AlarmStat>
+            _alarmRepository.MockQueryItems(new List<AlarmStat>
             {
                 new AlarmStat {HappenTime = DateTime.Parse(dateString), Details = "Single"}
-            });
+            }.AsQueryable());
         }
 
         public void MockManyENodebInfrastructure(Dictionary<string, IEnumerable<int>> definitions)

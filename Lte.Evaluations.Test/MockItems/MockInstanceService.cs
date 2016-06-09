@@ -16,27 +16,27 @@ namespace Lte.Evaluations.MockItems
     {
         public static void MockThreeBtss(this Mock<IBtsRepository> repository)
         {
-            repository.MockBtss(new List<CdmaBts>
+            repository.MockQueryItems(new List<CdmaBts>
             {
                 new CdmaBts {Id = 1, BtsId = 1, Name = "Bts-1", Address = "Address-1", TownId = 1 },
                 new CdmaBts {Id = 2, BtsId = 2, Name = "Bts-2", Address = "Address-2", TownId = 2 },
                 new CdmaBts {Id = 3, BtsId = 3, Name = "Bts-3", Address = "Address-3", TownId = 3 }
-            });
+            }.AsQueryable());
         }
 
         public static void MockThreeBtss(this Mock<IBtsRepository> repository, int[] townIds)
         {
-            repository.MockBtss(new List<CdmaBts>
+            repository.MockQueryItems(new List<CdmaBts>
             {
                 new CdmaBts {Id = 1, BtsId = 1, Name = "Bts-1", TownId = townIds[0] },
                 new CdmaBts {Id = 2, BtsId = 2, Name = "Bts-2", TownId = townIds[1] },
                 new CdmaBts {Id = 3, BtsId = 3, Name = "Bts-3", TownId = townIds[2] }
-            });
+            }.AsQueryable());
         }
 
         public static void MockSixBtssWithENodebId(this Mock<IBtsRepository> repository)
         {
-            repository.MockBtss(new List<CdmaBts>
+            repository.MockQueryItems(new List<CdmaBts>
             {
                 new CdmaBts {Id = 1, BtsId = 1, Name = "Bts-1", ENodebId = 1},
                 new CdmaBts {Id = 2, BtsId = 2, Name = "Bts-2", ENodebId = 2},
@@ -44,12 +44,12 @@ namespace Lte.Evaluations.MockItems
                 new CdmaBts {Id = 4, BtsId = 4, Name = "Bts-4", ENodebId = 4},
                 new CdmaBts {Id = 5, BtsId = 5, Name = "Bts-5", ENodebId = 5},
                 new CdmaBts {Id = 6, BtsId = 6, Name = "Bts-6", ENodebId = 6}
-            });
+            }.AsQueryable());
         }
 
         public static void MockSixCells(this Mock<ICdmaCellRepository> repository, double lon = 113.01, double lat = 23.01)
         {
-            repository.MockCdmaCells(new List<CdmaCell>
+            repository.MockQueryItems(new List<CdmaCell>
             {
                 new CdmaCell
                 {
@@ -135,13 +135,13 @@ namespace Lte.Evaluations.MockItems
                     Longtitute = lon,
                     Lattitute = lat
                 }
-            });
+            }.AsQueryable());
         }
 
         public static void MockSixCells(this Mock<ICellRepository> repository, double lon = 113.01, double lat = 23.01,
             short pci = 111, bool isInUse = true)
         {
-            repository.MockCells(GenerateCells(lon, lat, pci, isInUse));
+            repository.MockQueryItems(GenerateCells(lon, lat, pci, isInUse).AsQueryable());
         }
 
         public static void MockRangeCells(this Mock<ICellRepository> repository)
@@ -277,12 +277,12 @@ namespace Lte.Evaluations.MockItems
 
         public static void MockThreeENodebs(this Mock<IENodebRepository> repository)
         {
-            repository.MockENodebs(new List<ENodeb>
+            repository.MockQueryItems(new List<ENodeb>
             {
                 new ENodeb {Id = 1, ENodebId = 1, Name = "ENodeb-1", TownId = 1, Address = "Address-1", PlanNum = "FSL-1"},
                 new ENodeb {Id = 2, ENodebId = 2, Name = "ENodeb-2", TownId = 2, Address = "Address-2", PlanNum = "FSL-2"},
                 new ENodeb {Id = 3, ENodebId = 3, Name = "ENodeb-3", TownId = 3, Address = "Address-3", PlanNum = "FSL-3"}
-            });
+            }.AsQueryable());
         }
 
         public static void MockThreeDistributions(this Mock<IIndoorDistributionRepository> repository)
@@ -464,13 +464,13 @@ namespace Lte.Evaluations.MockItems
         public static void MockSixTowns(this Mock<ITownRepository> repository)
         {
             var ids = new[] { 1, 2, 3, 4, 5, 6 };
-            repository.MockTowns(ids.Select(x => new Town
+            repository.MockQueryItems(ids.Select(x => new Town
             {
                 Id = x,
                 CityName = "city-" + x,
                 DistrictName = "district-" + x,
                 TownName = "town-" + x
-            }).ToList());
+            }).AsQueryable());
         }
     }
 }

@@ -37,6 +37,10 @@ namespace Lte.Evaluations.MockItems
                     (begin, end, eNodebId) =>
                         repository.Object.GetAll()
                             .Where(x => x.HappenTime >= begin && x.HappenTime < end && x.ENodebId == eNodebId).ToList());
+
+            repository.Setup(x => x.Count(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>()))
+                .Returns<DateTime, DateTime, int>(
+                    (begin, end, eNodebId) => repository.Object.GetAllList(begin, end, eNodebId).Count);
         }
 
         public static void MockOperations(this Mock<ICdmaCellRepository> repository)

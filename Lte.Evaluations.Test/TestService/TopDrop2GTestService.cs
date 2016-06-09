@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Lte.Evaluations.MockItems;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Kpi;
+using Lte.Parameters.MockOperations;
 using Moq;
 
 namespace Lte.Evaluations.TestService
@@ -24,7 +26,7 @@ namespace Lte.Evaluations.TestService
 
         public void ImportOneStat(int btsId, byte sectorId, int drops, int assignmentSuccess)
         {
-            _repository.MockTopDrop2GCells(new List<TopDrop2GCell>
+            _repository.MockQueryItems(new List<TopDrop2GCell>
             {
                 new TopDrop2GCell
                 {
@@ -35,7 +37,7 @@ namespace Lte.Evaluations.TestService
                     City = "Foshan",
                     StatTime = DateTime.Parse("2015-1-1")
                 }
-            });
+            }.AsQueryable());
         }
     }
 }
