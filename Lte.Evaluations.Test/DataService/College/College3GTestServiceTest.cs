@@ -5,6 +5,7 @@ using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Test.DataService.College;
 using Lte.Evaluations.ViewModels.College;
 using Lte.Parameters.Abstract.College;
+using Lte.Parameters.Entities.College;
 using Moq;
 using NUnit.Framework;
 
@@ -23,6 +24,7 @@ namespace Lte.Evaluations.DataService.College
             _service = new College3GTestService(_repository.Object, _collegeRepository.Object);
             _collegeRepository.MockThreeColleges();
             _collegeRepository.MockOpertions();
+            _collegeRepository.MockGetId<ICollegeRepository, CollegeInfo>();
             _repository.MockOperations();
             AutoMapperHelper.CreateMap(typeof(College3GTestView));
         }

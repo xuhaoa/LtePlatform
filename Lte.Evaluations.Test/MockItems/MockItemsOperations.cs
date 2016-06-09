@@ -16,8 +16,8 @@ namespace Lte.Evaluations.MockItems
     public static class MockItemsOperations
     {
         public static void MockGetId<TRepository, TEntity>(this Mock<TRepository> repository)
-            where TRepository : class, IRepository<TEntity>
-            where TEntity: Entity
+            where TRepository : class, IRepository<TEntity, int>
+            where TEntity: class, IEntity<int>
         {
             repository.Setup(x => x.Get(It.IsAny<int>()))
                 .Returns<int>(id => repository.Object.GetAll().FirstOrDefault(x => x.Id == id));
@@ -82,9 +82,6 @@ namespace Lte.Evaluations.MockItems
 
         public static void MockOpertions(this Mock<ICollegeRepository> repository)
         {
-            repository.Setup(x => x.Get(It.IsAny<int>())).Returns<int>(
-                id => repository.Object.GetAll().FirstOrDefault(
-                    x => x.Id == id));
             repository.Setup(x => x.GetByName(It.IsAny<string>())).Returns<string>(
                 name => repository.Object.GetAll().FirstOrDefault(
                     x => x.Name == name));
