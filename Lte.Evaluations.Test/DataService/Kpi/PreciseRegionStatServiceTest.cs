@@ -10,6 +10,7 @@ using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities;
+using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;
 
@@ -37,12 +38,12 @@ namespace Lte.Evaluations.DataService.Kpi
         [SetUp]
         public void SetUp()
         {
-            _townRepository.MockQueryTowns(new List<Town>
+            _townRepository.MockQueryItems(new List<Town>
             {
                 new Town {Id = 1, CityName = "city", DistrictName = "district1", TownName = "town1"},
                 new Town {Id = 2, CityName = "city", DistrictName = "district2", TownName = "town2"},
                 new Town {Id = 3, CityName = "city", DistrictName = "district2", TownName = "town3"}
-            });
+            }.AsQueryable());
             _testService = new PreciseRegionStatTestService(_townRepository, _statRepository);
         }
 

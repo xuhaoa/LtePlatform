@@ -14,24 +14,6 @@ namespace Lte.Evaluations.MockItems
 {
     public static class MockItemsService
     {
-        public static void MockQueryRegions(this Mock<IRegionRepository> repository,
-            List<OptimizeRegion> regions)
-        {
-            repository.MockQueryItems(regions.AsQueryable());
-        }
-
-        public static void MockCdmaRegionStats(this Mock<ICdmaRegionStatRepository> repository,
-            List<CdmaRegionStat> stats)
-        {
-            repository.MockQueryItems(stats.AsQueryable());
-        }
-
-        public static void MockQueryTowns(this Mock<ITownRepository> repository,
-            List<Town> towns)
-        {
-            repository.MockQueryItems(towns.AsQueryable());
-        }
-
         public static void MockInfrastructures(this Mock<IInfrastructureRepository> repository,
             List<InfrastructureInfo> infos)
         {

@@ -8,6 +8,7 @@ using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Basic;
+using Lte.Parameters.MockOperations;
 using Moq;
 
 namespace Lte.Evaluations.TestService
@@ -26,7 +27,7 @@ namespace Lte.Evaluations.TestService
 
         public void ImportElangRecord(string region, string recordDate, double erlang)
         {
-            _statRepository.MockCdmaRegionStats(new List<CdmaRegionStat>
+            _statRepository.MockQueryItems(new List<CdmaRegionStat>
             {
                 new CdmaRegionStat
                 {
@@ -34,7 +35,7 @@ namespace Lte.Evaluations.TestService
                     StatDate = DateTime.Parse(recordDate),
                     ErlangIncludingSwitch = erlang
                 }
-            });
+            }.AsQueryable());
         }
 
         public void ImportElangRecords(string region, string[] recordDates, double[] erlangs)
@@ -45,7 +46,7 @@ namespace Lte.Evaluations.TestService
                 StatDate = DateTime.Parse(t),
                 ErlangIncludingSwitch = erlangs[i]
             }).ToList();
-            _statRepository.MockCdmaRegionStats(statList);
+            _statRepository.MockQueryItems(statList.AsQueryable());
         }
 
         public void ImportElangRecords(string[] regions, string recordDate, double[] erlangs)
@@ -56,7 +57,7 @@ namespace Lte.Evaluations.TestService
                 StatDate = DateTime.Parse(recordDate),
                 ErlangIncludingSwitch = erlangs[i]
             }).ToList();
-            _statRepository.MockCdmaRegionStats(statList);
+            _statRepository.MockQueryItems(statList.AsQueryable());
         }
 
         public void ImportElangRecords(string[] regions, string[] recordDates, double[] erlangs)
@@ -67,7 +68,7 @@ namespace Lte.Evaluations.TestService
                 StatDate = DateTime.Parse(recordDates[i]),
                 ErlangIncludingSwitch = erlangs[i]
             }).ToList();
-            _statRepository.MockCdmaRegionStats(statList);
+            _statRepository.MockQueryItems(statList.AsQueryable());
         }
 
         public void ImportDrop2Gs(string[] regions, string recordDate, int[] drop2GNums, int[] drop2GDems)
@@ -79,7 +80,7 @@ namespace Lte.Evaluations.TestService
                 Drop2GNum = drop2GNums[i],
                 Drop2GDem = drop2GDems[i]
             }).ToList();
-            _statRepository.MockCdmaRegionStats(statList);
+            _statRepository.MockQueryItems(statList.AsQueryable());
         }
 
         public async Task<CdmaRegionDateView> QueryLastDateStat(string initialDate, string city)

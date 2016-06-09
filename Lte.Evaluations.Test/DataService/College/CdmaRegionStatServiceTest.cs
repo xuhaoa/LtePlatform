@@ -11,6 +11,7 @@ using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
+using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;
 
@@ -37,12 +38,12 @@ namespace Lte.Evaluations.DataService.College
         [SetUp]
         public void SetUp()
         {
-            _regionRepository.MockQueryRegions(new List<OptimizeRegion>
+            _regionRepository.MockQueryItems(new List<OptimizeRegion>
             {
                 new OptimizeRegion { City = "city", Region = "region1" },
                 new OptimizeRegion { City = "city", Region = "region2" },
                 new OptimizeRegion { City = "city", Region = "region3" }
-            });
+            }.AsQueryable());
             _testService = new CdmaRegionStatTestService(_regionRepository, _statRepository);
         }
         
