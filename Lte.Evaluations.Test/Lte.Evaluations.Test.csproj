@@ -141,16 +141,9 @@
     <Compile Include="MapperService\QuerySectorsTest.cs" />
     <Compile Include="MapperService\TopCellQueriesServiceTest.cs" />
     <Compile Include="MockItems\MockItemsOperations.cs" />
-    <Compile Include="MockItems\MockBtsService.cs" />
-    <Compile Include="MockItems\MockCdmaCellService.cs" />
-    <Compile Include="MockItems\MockCellService.cs" />
-    <Compile Include="MockItems\MockCollegeService.cs" />
-    <Compile Include="MockItems\MockENodebService.cs" />
-    <Compile Include="MockItems\MockIndoorDistributionService.cs" />
-    <Compile Include="MockItems\MockInfrastructureService.cs" />
+    <Compile Include="MockItems\MockInstanceService.cs" />
     <Compile Include="MockItems\Validation\MockInfrastructureServiceTest.cs" />
     <Compile Include="MockItems\MockItemsService.cs" />
-    <Compile Include="MockItems\MockTownService.cs" />
     <Compile Include="MockItems\Validation\MockBtsServiceTest.cs" />
     <Compile Include="MockItems\Validation\MockCellServiceTest.cs" />
     <Compile Include="MockItems\Validation\MockTwonServiceTest.cs" />
