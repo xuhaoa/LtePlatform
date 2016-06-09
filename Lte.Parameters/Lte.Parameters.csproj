@@ -143,7 +143,6 @@
     <Compile Include="Abstract\College\ICollegeRepository.cs" />
     <Compile Include="Abstract\Kpi\ICsvFileInfoRepository.cs" />
     <Compile Include="Abstract\Basic\IENodebRepository.cs" />
-    <Compile Include="Abstract\Infrastructure\IIndoorDistributioinRepository.cs" />
     <Compile Include="Abstract\Infrastructure\IInfrastructureRepository.cs" />
     <Compile Include="Abstract\IInterferenceMatrixRepository.cs" />
     <Compile Include="Abstract\Kpi\IInterferenceMongoRepository.cs" />

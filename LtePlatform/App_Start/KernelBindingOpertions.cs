@@ -11,6 +11,7 @@ using Lte.MySqlFramework.Concrete;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.College;
+using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Abstract.Neighbor;
 using Lte.Parameters.Abstract.Switch;
@@ -18,6 +19,7 @@ using Lte.Parameters.Concrete;
 using Lte.Parameters.Concrete.Basic;
 using Lte.Parameters.Concrete.Channel;
 using Lte.Parameters.Concrete.College;
+using Lte.Parameters.Concrete.Infrastructure;
 using Lte.Parameters.Concrete.Kpi;
 using Lte.Parameters.Concrete.Mr;
 using Lte.Parameters.Concrete.Neighbor;
@@ -65,7 +67,7 @@ namespace LtePlatform
 
             ninjectKernel.Bind<ICdmaCellRepository>().To<EFCdmaCellRepository>();
 
-            ninjectKernel.Bind<IIndoorDistributioinRepository>().To<EFIndoorDistributionRepository>();
+            ninjectKernel.Bind<IIndoorDistributionRepository>().To<EFIndoorDistributionRepository>();
 
             ninjectKernel.Bind<IPreciseCoverage4GRepository>().To<EFPreciseCoverage4GRepository>();
 

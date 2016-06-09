@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
 
 namespace Lte.Evaluations.DataService.College
@@ -8,10 +9,10 @@ namespace Lte.Evaluations.DataService.College
     public class CollegeDistributionService
     {
         private readonly IInfrastructureRepository _repository;
-        private readonly IIndoorDistributioinRepository _indoorRepository;
+        private readonly IIndoorDistributionRepository _indoorRepository;
 
         public CollegeDistributionService(IInfrastructureRepository repository,
-            IIndoorDistributioinRepository indoorRepository)
+            IIndoorDistributionRepository indoorRepository)
         {
             _repository = repository;
             _indoorRepository = indoorRepository;

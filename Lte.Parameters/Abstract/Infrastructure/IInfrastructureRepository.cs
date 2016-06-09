@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Abp.Domain.Repositories;
 using Lte.Parameters.Entities;
 
-namespace Lte.Parameters.Abstract
+namespace Lte.Parameters.Abstract.Infrastructure
 {
     public interface IInfrastructureRepository : IRepository<InfrastructureInfo>
     {
@@ -27,5 +23,9 @@ namespace Lte.Parameters.Abstract
         List<InfrastructureInfo> GetAllPreciseMonitor(); 
 
         int SaveChanges();
+    }
+
+    public interface IIndoorDistributionRepository : IRepository<IndoorDistribution>
+    {
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.College;
+using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.College;
@@ -284,7 +285,7 @@ namespace Lte.Evaluations.MockItems
             });
         }
 
-        public static void MockThreeDistributions(this Mock<IIndoorDistributioinRepository> repository)
+        public static void MockThreeDistributions(this Mock<IIndoorDistributionRepository> repository)
         {
             repository.MockDistributions(new List<IndoorDistribution>
             {

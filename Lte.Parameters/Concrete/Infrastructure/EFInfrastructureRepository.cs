@@ -3,6 +3,7 @@ using System.Linq;
 using Abp.EntityFramework;
 using Abp.EntityFramework.Repositories;
 using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
 
 namespace Lte.Parameters.Concrete

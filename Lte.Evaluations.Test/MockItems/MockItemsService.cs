@@ -2,6 +2,7 @@
 using System.Linq;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
@@ -37,7 +38,7 @@ namespace Lte.Evaluations.MockItems
             repository.MockQueryItems(infos.AsQueryable());
         }
 
-        public static void MockDistributions(this Mock<IIndoorDistributioinRepository> repository,
+        public static void MockDistributions(this Mock<IIndoorDistributionRepository> repository,
             List<IndoorDistribution> distributions)
         {
             repository.MockQueryItems(distributions.AsQueryable());

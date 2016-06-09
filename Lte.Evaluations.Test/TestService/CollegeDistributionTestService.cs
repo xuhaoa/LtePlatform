@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Lte.Evaluations.MockItems;
 using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
 using Moq;
 
@@ -9,10 +10,10 @@ namespace Lte.Evaluations.TestService
     public class CollegeDistributionTestService
     {
         private readonly Mock<IInfrastructureRepository> _repository;
-        private readonly Mock<IIndoorDistributioinRepository> _indoorRepository;
+        private readonly Mock<IIndoorDistributionRepository> _indoorRepository;
 
         public CollegeDistributionTestService(Mock<IInfrastructureRepository> repository,
-            Mock<IIndoorDistributioinRepository> indoorRepository)
+            Mock<IIndoorDistributionRepository> indoorRepository)
         {
             _repository = repository;
             _indoorRepository = indoorRepository;

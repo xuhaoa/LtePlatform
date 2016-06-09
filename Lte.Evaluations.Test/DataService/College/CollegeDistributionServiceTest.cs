@@ -2,6 +2,8 @@
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.TestService;
 using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Infrastructure;
+using Lte.Parameters.Entities;
 using Moq;
 using NUnit.Framework;
 
@@ -11,8 +13,8 @@ namespace Lte.Evaluations.DataService.College
     {
         private readonly Mock<IInfrastructureRepository> _repository = new Mock<IInfrastructureRepository>();
 
-        private readonly Mock<IIndoorDistributioinRepository> _indoorRepository =
-            new Mock<IIndoorDistributioinRepository>();
+        private readonly Mock<IIndoorDistributionRepository> _indoorRepository =
+            new Mock<IIndoorDistributionRepository>();
 
         private CollegeDistributionService _service;
         private CollegeDistributionTestService _testService;
@@ -21,7 +23,7 @@ namespace Lte.Evaluations.DataService.College
         public void TestFixtureSetup()
         {
             _repository.MockOperations();
-            _indoorRepository.MockOperations();
+            _indoorRepository.MockGetId<IIndoorDistributionRepository, IndoorDistribution>();
             _indoorRepository.MockThreeDistributions();
             _service = new CollegeDistributionService(_repository.Object, _indoorRepository.Object);
             _testService = new CollegeDistributionTestService(_repository, _indoorRepository);

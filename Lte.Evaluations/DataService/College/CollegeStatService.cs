@@ -3,6 +3,7 @@ using System.Linq;
 using Lte.Evaluations.ViewModels.College;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.College;
+using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities.College;
 
 namespace Lte.Evaluations.DataService.College

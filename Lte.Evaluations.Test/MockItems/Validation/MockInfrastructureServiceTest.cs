@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Infrastructure;
 using Moq;
 using NUnit.Framework;
 

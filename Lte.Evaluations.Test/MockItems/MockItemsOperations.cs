@@ -7,6 +7,7 @@ using Abp.Domain.Repositories;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.College;
+using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities;
 using Moq;
@@ -115,13 +116,7 @@ namespace Lte.Evaluations.MockItems
             repository.Setup(x => x.GetAllInUseList())
                 .Returns(repository.Object.GetAll().Where(x => x.IsInUse).ToList());
         }
-
-        public static void MockOperations(this Mock<IIndoorDistributioinRepository> repository)
-        {
-            repository.Setup(x => x.Get(It.IsAny<int>()))
-                .Returns<int>(id => repository.Object.GetAll().FirstOrDefault(x => x.Id == id));
-        }
-
+        
         public static void MockOperations(this Mock<IInfrastructureRepository> repository)
         {
             repository.Setup(x => x.GetENodebIds(It.IsAny<string>()))
