@@ -36,5 +36,7 @@ namespace Lte.Evaluations.ViewModels.Channel
             Pb = cfg.Pb;
             Pa = paCfg.PaPcOff;
         }
+
+        public CellPower() { }
     }
 }

@@ -28,7 +28,7 @@ namespace Lte.Evaluations.DataService.Mr
             _cellRepository = cellRepository;
         }
 
-        public async Task Update<TLteCellId>(IPreciseWorkItemDto<TLteCellId> container)
+        public async Task UpdateAsync<TLteCellId>(IPreciseWorkItemDto<TLteCellId> container)
             where TLteCellId : class, ILteCellQuery, new()
         {
             foreach (var neighbor in container.Items)
@@ -50,6 +50,36 @@ namespace Lte.Evaluations.DataService.Mr
                 }
                 _repository.SaveChanges();
             }
+        }
+
+        public void Update<TLteCellId>(IPreciseWorkItemDto<TLteCellId> container)
+            where TLteCellId : class, ILteCellQuery, new()
+        {
+            foreach (var neighbor in container.Items)
+            {
+                var item = _repository.Get(container.WorkItemNumber, neighbor.ENodebId, neighbor.SectorId);
+                if (item == null)
+                {
+                    item = neighbor.MapTo<PreciseWorkItemCell>();
+                    item.WorkItemNumber = container.WorkItemNumber;
+                    var cell = _cellRepository.GetBySectorId(neighbor.ENodebId, neighbor.SectorId);
+                    if (cell != null) item.OriginalDownTilt = cell.MTilt + cell.ETilt;
+                    var power = _powerService.Query(neighbor.ENodebId, neighbor.SectorId);
+                    if (power != null) item.OriginalRsPower = power.RsPower;
+                    _repository.Insert(item);
+                }
+                else
+                {
+                    neighbor.CloneProperties(item);
+                    _repository.Update(item);
+                }
+                _repository.SaveChanges();
+            }
+        }
+
+        public PreciseWorkItemCell Query(string number, int eNodebId, byte sectorId)
+        {
+            return _repository.Get(number, eNodebId, sectorId);
         }
     }
 }
