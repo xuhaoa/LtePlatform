@@ -27,6 +27,7 @@ namespace Lte.Evaluations.DataService.Dump
         {
             _service = new BtsDumpService(_btsRepository.Object, _townRepository.Object);
             _btsRepository.MockOperation();
+            _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
             _btsRepository.MockRepositorySaveItems<CdmaBts, IBtsRepository>();
             _townRepository.MockOpertion();
             _townRepository.MockSixTowns();

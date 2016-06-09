@@ -1,15 +1,12 @@
-﻿using Lte.Evaluations.DataService.Dump;
-using Lte.Evaluations.MapperSerive;
+﻿using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
-using Lte.Evaluations.Test.MockItems;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.DataService.Dump
+namespace Lte.Evaluations.DataService.Dump
 {
     public abstract class CellDumpServiceTestBase
     {
@@ -22,6 +19,7 @@ namespace Lte.Evaluations.Test.DataService.Dump
         {
             Service = new CellDumpService(BtsRepository.Object, CellRepository.Object);
             BtsRepository.MockOperation();
+            BtsRepository.MockGetId<IBtsRepository, CdmaBts>();
             BtsRepository.MockThreeBtss();
             CellRepository.MockRepositorySaveItems<Cell, ICellRepository>();
             CoreMapperService.MapCell();

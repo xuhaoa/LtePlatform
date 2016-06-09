@@ -1,14 +1,12 @@
 ﻿using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
-using Lte.Evaluations.Test.MockItems;
 using Lte.Evaluations.ViewModels.Basic;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.ViewModel
+namespace Lte.Evaluations.ViewModel
 {
     [TestFixture]
     public class CdmaCellViewTest
@@ -20,6 +18,7 @@ namespace Lte.Evaluations.Test.ViewModel
         {
             InfrastructureMapperService.MapCdmaCell();
             _repository.MockOperation();
+            _repository.MockGetId<IBtsRepository, CdmaBts>();
             _repository.MockThreeBtss();
         }
 

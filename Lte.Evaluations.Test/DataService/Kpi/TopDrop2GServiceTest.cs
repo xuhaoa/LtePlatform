@@ -7,6 +7,7 @@ using Lte.Evaluations.Test.MockItems;
 using Lte.Evaluations.Test.TestService;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Kpi;
+using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
@@ -31,6 +32,7 @@ namespace Lte.Evaluations.DataService.Kpi
             _testService = new TopDrop2GTestService(_repository, _btsRepository, _eNodebRepository);
             _repository.MockOperation();
             _btsRepository.MockOperation();
+            _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
             _eNodebRepository.MockOperations();
             _eNodebRepository.MockThreeENodebs();
             _btsRepository.MockSixBtssWithENodebId();

@@ -6,6 +6,7 @@ using Lte.Evaluations.TestService;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 
@@ -24,6 +25,7 @@ namespace Lte.Evaluations.DataService.College
         {
             AutoMapperHelper.CreateMap(typeof(CdmaBtsView));
             _btsRepository.MockOperation();
+            _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
             _btsRepository.MockThreeBtss();
             _repository.MockOperations();
             _service = new CollegeBtssService(_repository.Object, _btsRepository.Object);

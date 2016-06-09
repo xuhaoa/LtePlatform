@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using Lte.Evaluations.MockItems;
-using Shouldly;
-using Lte.Evaluations.Test.MockItems;
 using Lte.Parameters.Entities;
 using NUnit.Framework;
+using Shouldly;
 
-namespace Lte.Evaluations.Test.DataService.Dump
+namespace Lte.Evaluations.DataService.Dump
 {
     [TestFixture]
     public class PciCellDumpServiceTest : CellDumpServiceTestBase

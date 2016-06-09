@@ -1,9 +1,9 @@
-﻿using Lte.Evaluations.MockItems;
-using Lte.Parameters.Abstract.Basic;
+﻿using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.MockItems.Validation
+namespace Lte.Evaluations.MockItems.Validation
 {
     [TestFixture]
     public class MockBtsServiceTest
@@ -14,6 +14,7 @@ namespace Lte.Evaluations.Test.MockItems.Validation
         public void TestFixtureSetup()
         {
             _btsRepository.MockOperation();
+            _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
         }
 
         [SetUp]

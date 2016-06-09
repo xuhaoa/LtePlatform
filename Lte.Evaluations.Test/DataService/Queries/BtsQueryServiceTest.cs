@@ -7,6 +7,7 @@ using Lte.Evaluations.Test.MockItems;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 
@@ -39,6 +40,7 @@ namespace Lte.Evaluations.DataService.Queries
         {
             _btsRepository.MockThreeBtss();
             _btsRepository.MockOperation();
+            _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
             var btsList = _service.GetByTownNames("city-" + townId, "district-" + townId, "town-" + townId) ?? new List<CdmaBtsView>();
             Assert.AreEqual(btsList.Count(), count);
         }
@@ -56,6 +58,7 @@ namespace Lte.Evaluations.DataService.Queries
         {
             _btsRepository.MockThreeBtss(assighedTownIds);
             _btsRepository.MockOperation();
+            _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
             var btsList = _service.GetByTownNames("city-" + townId, "district-" + townId, "town-" + townId) ?? new List<CdmaBtsView>();
             Assert.AreEqual(btsList.Count(), count);
         }
@@ -69,6 +72,7 @@ namespace Lte.Evaluations.DataService.Queries
         {
             _btsRepository.MockThreeBtss();
             _btsRepository.MockOperation();
+            _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
             var btsList = _service.GetByGeneralName(queryString);
             Assert.AreEqual(btsList.Count(), count);
         }
@@ -80,6 +84,7 @@ namespace Lte.Evaluations.DataService.Queries
         {
             _btsRepository.MockThreeBtss();
             _btsRepository.MockOperation();
+            _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
             var bts = _service.GetByBtsId(id);
             Assert.AreEqual(bts.Name, "Bts-" + id);
         }

@@ -30,6 +30,7 @@ namespace Lte.Evaluations.DataService.College
             _cellRepository.MockGetId<ICdmaCellRepository, CdmaCell>();
             _cellRepository.MockOperations();
             _btsRepository.MockOperation();
+            _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
             _btsRepository.MockThreeBtss();
         }
 
