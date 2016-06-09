@@ -1,8 +1,7 @@
 ﻿using System;
 using Abp.Domain.Entities;
 using AutoMapper;
-using Lte.Parameters.Abstract;
-using Lte.Parameters.Abstract.Basic;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.Parameters.Entities.Kpi
 {

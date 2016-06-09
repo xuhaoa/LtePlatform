@@ -1,4 +1,5 @@
-﻿using Lte.Parameters.Abstract.Basic;
+﻿using Lte.Domain.Common.Wireless;
+using Lte.Parameters.Abstract.Basic;
 
 namespace Lte.Evaluations.ViewModels.Kpi
 {

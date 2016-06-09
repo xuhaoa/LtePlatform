@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
+using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.College;
@@ -207,6 +208,16 @@ namespace Lte.Evaluations.MockItems
                     (city, district, town) =>
                         repository.Object.GetAll()
                             .FirstOrDefault(x => x.CityName == city && x.DistrictName == district && x.TownName == town));
+        }
+
+        public static void MockOperation(this Mock<IPreciseWorkItemCellRepository> repository)
+        {
+            repository.Setup(x => x.Get(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<byte>()))
+                .Returns<string, int, byte>(
+                    (number, eNodebId, sectorId) =>
+                        repository.Object.GetAll()
+                            .FirstOrDefault(
+                                x => x.WorkItemNumber == number && x.ENodebId == eNodebId && x.SectorId == sectorId));
         }
     }
 }

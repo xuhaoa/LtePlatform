@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
+using Lte.Domain.Common.Wireless;
+using Lte.Domain.Regular;
 using Moq;
 
 namespace Lte.Parameters.MockOperations
@@ -46,6 +48,26 @@ namespace Lte.Parameters.MockOperations
                     SynchronizeValues<T, TRepository>(repository);
                 }).Returns<T>(e => e);
             repository.Setup(x => x.InsertAsync(It.IsAny<T>())).Callback<T>(e => repository.Object.Insert(e));
+        }
+
+        public static void MockRepositoryUpdateWorkItemCell<T, TRepository>(this Mock<TRepository> repository)
+            where T : Entity, IWorkItemCell, new()
+            where TRepository : class, IRepository<T>
+        {
+            repository.Setup(x => x.Update(It.IsAny<T>())).Callback<T>(
+                e =>
+                {
+                    var items = repository.Object.GetAll();
+                    var item =
+                        items.FirstOrDefault(
+                            x =>
+                                x.ENodebId == e.ENodebId && x.SectorId == e.SectorId &&
+                                x.WorkItemNumber == e.WorkItemNumber);
+                    if (item != null)
+                        e.CloneProperties(item);
+                    SynchronizeValues<T, TRepository>(repository);
+                }).Returns<T>(e => e);
+            repository.Setup(x => x.UpdateAsync(It.IsAny<T>())).Callback<T>(e => repository.Object.Update(e));
         }
 
         public static void MockRepositoryDeleteItems<T, TRepository>(

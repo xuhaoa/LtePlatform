@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;

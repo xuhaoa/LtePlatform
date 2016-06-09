@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Abp.EntityFramework.AutoMapper;
+using Lte.Domain.Common.Wireless;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Abstract.Basic;
 
 namespace Lte.Evaluations.ViewModels.Precise
 {

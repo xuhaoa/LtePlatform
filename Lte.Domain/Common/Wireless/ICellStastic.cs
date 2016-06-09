@@ -20,4 +20,21 @@ namespace Lte.Domain.Common.Wireless
 
         int MrCount { get; set; }
     }
+
+    public interface IBtsIdQuery
+    {
+        int BtsId { get; }
+    }
+
+    public interface ILteCellQuery
+    {
+        int ENodebId { get; set; }
+
+        byte SectorId { get; set; }
+    }
+
+    public interface IWorkItemCell : ILteCellQuery
+    {
+        string WorkItemNumber { get; set; }
+    }
 }

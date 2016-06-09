@@ -1,6 +1,7 @@
 ﻿using System;
 using Abp.Domain.Entities;
 using AutoMapper;
+using Lte.Domain.Common.Wireless;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 

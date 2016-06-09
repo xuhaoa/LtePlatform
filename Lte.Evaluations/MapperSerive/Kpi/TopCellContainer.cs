@@ -1,4 +1,4 @@
-﻿using Lte.Parameters.Abstract.Basic;
+﻿using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.MapperSerive.Kpi
 {
