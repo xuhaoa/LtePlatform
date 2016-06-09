@@ -287,7 +287,7 @@ namespace Lte.Evaluations.MockItems
 
         public static void MockThreeDistributions(this Mock<IIndoorDistributionRepository> repository)
         {
-            repository.MockDistributions(new List<IndoorDistribution>
+            repository.MockQueryItems(new List<IndoorDistribution>
             {
                 new IndoorDistribution
                 {
@@ -316,7 +316,7 @@ namespace Lte.Evaluations.MockItems
                     Range = "Building",
                     SourceType = "RRU"
                 }
-            });
+            }.AsQueryable());
         }
 
         public static void MockThreeCollegeENodebs(this Mock<IInfrastructureRepository> repository)

@@ -10,6 +10,7 @@ using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Kpi;
+using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
@@ -47,7 +48,7 @@ namespace Lte.Evaluations.DataService.Kpi
         [TestCase(-3)]
         public void Test_GetTopCountViews_IllegalTopCounts(int topCount)
         {
-            _repository.MockPreciseStats(new List<PreciseCoverage4G>
+            _repository.MockQueryItems(new List<PreciseCoverage4G>
             {
                 new PreciseCoverage4G
                 {
@@ -55,7 +56,7 @@ namespace Lte.Evaluations.DataService.Kpi
                     SectorId = 1,
                     StatTime = DateTime.Parse("2015-1-1")
                 }
-            });
+            }.AsQueryable());
             var views = _service.GetTopCountViews(DateTime.Parse("2014-12-30"), DateTime.Parse("2015-1-4"), topCount, 
                 OrderPreciseStatService.OrderPreciseStatPolicy.OrderBySecondRate);
             Assert.AreEqual(views.Count(), 0);
@@ -66,7 +67,7 @@ namespace Lte.Evaluations.DataService.Kpi
         [TestCase(3)]
         public void Test_GetTopCountViews_LegalTopCounts(int topCount)
         {
-            _repository.MockPreciseStats(new List<PreciseCoverage4G>
+            _repository.MockQueryItems(new List<PreciseCoverage4G>
             {
                 new PreciseCoverage4G
                 {
@@ -75,7 +76,7 @@ namespace Lte.Evaluations.DataService.Kpi
                     StatTime = DateTime.Parse("2015-1-1"),
                     TotalMrs = 5000
                 }
-            });
+            }.AsQueryable());
             var views = _service.GetTopCountViews(DateTime.Parse("2014-12-30"), DateTime.Parse("2015-1-4"), topCount,
                 OrderPreciseStatService.OrderPreciseStatPolicy.OrderBySecondRate);
             Assert.AreEqual(views.Count(), 1);
@@ -86,7 +87,7 @@ namespace Lte.Evaluations.DataService.Kpi
         [TestCase(3)]
         public void Test_GetTopCountStats(int topCount)
         {
-            _repository.MockPreciseStats(new List<PreciseCoverage4G>
+            _repository.MockQueryItems(new List<PreciseCoverage4G>
             {
                 new PreciseCoverage4G
                 {
@@ -95,7 +96,7 @@ namespace Lte.Evaluations.DataService.Kpi
                     StatTime = DateTime.Parse("2015-1-1"),
                     TotalMrs = 5000
                 }
-            });
+            }.AsQueryable());
             var stats = _service.GetTopCountViews(DateTime.Parse("2014-12-30"), DateTime.Parse("2015-1-4"), topCount,
                 OrderPreciseStatService.OrderPreciseStatPolicy.OrderBySecondRate);
             Assert.AreEqual(stats.Count(), 1);
@@ -104,7 +105,7 @@ namespace Lte.Evaluations.DataService.Kpi
         [Test]
         public void Test_GetStats()
         {
-            _repository.MockPreciseStats(new List<PreciseCoverage4G>
+            _repository.MockQueryItems(new List<PreciseCoverage4G>
             {
                 new PreciseCoverage4G
                 {
@@ -113,7 +114,7 @@ namespace Lte.Evaluations.DataService.Kpi
                     StatTime = DateTime.Parse("2015-1-1"),
                     TotalMrs = 5000
                 }
-            });
+            }.AsQueryable());
             var query =
                 _repository.Object.GetAll()
                     .Where(
@@ -127,12 +128,12 @@ namespace Lte.Evaluations.DataService.Kpi
         [TestCase(new[] { "2015-2-2", "2015-2-1" }, new[] { "2015-2-1", "2015-2-2" }, "2015-1-31", "2015-2-3")]
         public void Test_GetTimeSpanStats(string[] soureDates, string[] resultDates, string beginDate, string endDate)
         {
-            _repository.MockPreciseStats(soureDates.Select(x=>new PreciseCoverage4G
+            _repository.MockQueryItems(soureDates.Select(x=>new PreciseCoverage4G
             {
                 CellId = 1,
                 SectorId = 1,
                 StatTime = DateTime.Parse(x)
-            }).ToList());
+            }).AsQueryable());
             var stats = _service.GetTimeSpanStats(1, 1, DateTime.Parse(beginDate), DateTime.Parse(endDate));
             stats.Select(x => x.StatTime).ShouldBe(resultDates.Select(DateTime.Parse));
         }

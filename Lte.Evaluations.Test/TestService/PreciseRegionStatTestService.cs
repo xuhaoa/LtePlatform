@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Lte.Evaluations.DataService.Kpi;
-using Lte.Evaluations.MockItems;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Kpi;
+using Lte.Parameters.MockOperations;
 using Moq;
 
 namespace Lte.Evaluations.TestService
@@ -26,7 +26,7 @@ namespace Lte.Evaluations.TestService
         public void ImportPreciseRecord(int townId, string statDate, int totalMrs, int firstNeighbors,
             int secondNeighbors, int thirdNeighbors)
         {
-            _statRepository.MockPreciseRegionStats(new List<TownPreciseCoverage4GStat>
+            _statRepository.MockQueryItems(new List<TownPreciseCoverage4GStat>
             {
                 new TownPreciseCoverage4GStat
                 {
@@ -37,7 +37,7 @@ namespace Lte.Evaluations.TestService
                     SecondNeighbors = secondNeighbors,
                     ThirdNeighbors = thirdNeighbors
                 }
-            });
+            }.AsQueryable());
         }
 
         public void ImportPreciseRecord(int townId, string[] statDates, int[] totalMrs, int[] firstNeighbors,
@@ -52,7 +52,7 @@ namespace Lte.Evaluations.TestService
                 SecondNeighbors = secondNeighbors[i],
                 ThirdNeighbors = thirdNeighbors[i]
             }).ToList();
-            _statRepository.MockPreciseRegionStats(statList);
+            _statRepository.MockQueryItems(statList.AsQueryable());
         }
 
         public void ImportPreciseRecord(int[] townIds, string[] statDates, int[] totalMrs, int[] firstNeighbors,
@@ -67,7 +67,7 @@ namespace Lte.Evaluations.TestService
                 SecondNeighbors = secondNeighbors[i],
                 ThirdNeighbors = thirdNeighbors[i]
             }).ToList();
-            _statRepository.MockPreciseRegionStats(statList);
+            _statRepository.MockQueryItems(statList.AsQueryable());
         }
 
         public PreciseRegionDateView QueryLastDateStat(string initialDate, string city)

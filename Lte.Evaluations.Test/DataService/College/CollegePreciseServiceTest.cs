@@ -9,6 +9,7 @@ using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Kpi;
+using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;
 
@@ -60,7 +61,7 @@ namespace Lte.Evaluations.DataService.College
                     SecondNeighbors = secondNeighbors
                 }
             };
-            _kpiRepository.MockPreciseStats(kpis);
+            _kpiRepository.MockQueryItems(kpis.AsQueryable());
             var views = _service.GetViews("College-" + collegeId, DateTime.Parse(begin), DateTime.Parse(end));
             if (cellMatched)
             {
