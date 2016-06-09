@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Abp.Domain.Entities;
+using Abp.Domain.Repositories;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.College;
@@ -13,6 +15,14 @@ namespace Lte.Evaluations.MockItems
 {
     public static class MockItemsOperations
     {
+        public static void MockGetId<TRepository, TEntity>(this Mock<TRepository> repository)
+            where TRepository : class, IRepository<TEntity>
+            where TEntity: Entity
+        {
+            repository.Setup(x => x.Get(It.IsAny<int>()))
+                .Returns<int>(id => repository.Object.GetAll().FirstOrDefault(x => x.Id == id));
+        }
+
         public static void MockOperations(this Mock<IAlarmRepository> repository)
         {
             repository.Setup(x => x.GetAllList(It.IsAny<DateTime>(), It.IsAny<DateTime>()))
@@ -29,9 +39,6 @@ namespace Lte.Evaluations.MockItems
 
         public static void MockOperations(this Mock<ICdmaCellRepository> repository)
         {
-            repository.Setup(x => x.Get(It.IsAny<int>()))
-                .Returns<int>(id => repository.Object.GetAll().FirstOrDefault(x => x.Id == id));
-
             repository.Setup(x => x.GetBySectorId(It.IsAny<int>(), It.IsAny<byte>()))
                 .Returns<int, byte>(
                     (btsId, sectorId) =>

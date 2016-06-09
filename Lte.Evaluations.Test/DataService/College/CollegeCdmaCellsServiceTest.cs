@@ -6,6 +6,7 @@ using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 
@@ -26,6 +27,7 @@ namespace Lte.Evaluations.DataService.College
             InfrastructureMapperService.MapCdmaCell();
             _repository.MockOperations();
             _repository.MockSixCollegeCdmaCells();
+            _cellRepository.MockGetId<ICdmaCellRepository, CdmaCell>();
             _cellRepository.MockOperations();
             _btsRepository.MockOperation();
             _btsRepository.MockThreeBtss();

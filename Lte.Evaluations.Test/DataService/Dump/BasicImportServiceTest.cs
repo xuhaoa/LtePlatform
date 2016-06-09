@@ -4,6 +4,7 @@ using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Test.MockItems;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.ExcelCsv;
 using Moq;
 using NUnit.Framework;
@@ -34,6 +35,7 @@ namespace Lte.Evaluations.DataService.Dump
             _eNodebRepository.MockOperations();
             _btsRepository.MockOperation();
             _cellRepository.MockOperations();
+            _cdmaCellRepository.MockGetId<ICdmaCellRepository, CdmaCell>();
             _cdmaCellRepository.MockOperations();
         }
 
