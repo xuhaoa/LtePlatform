@@ -2,24 +2,14 @@
 using Abp.Reflection;
 using AutoMapper;
 using Lte.Evaluations.Policy;
-using Lte.Evaluations.ViewModels;
-using Lte.Evaluations.ViewModels.Basic;
-using Lte.Evaluations.ViewModels.College;
-using Lte.Evaluations.ViewModels.Kpi;
-using Lte.Evaluations.ViewModels.Precise;
-using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Abstract;
-using Lte.Parameters.Entities;
-using Lte.Parameters.Entities.Basic;
-using Lte.Parameters.Entities.ExcelCsv;
-using Lte.Parameters.Entities.Mr;
 using Lte.Parameters.MockOperations;
 
 namespace Lte.Evaluations.MapperSerive
 {
     public class EvalutaionMapperProfile : Profile
     {
-        private ITypeFinder typeFinder = new TypeFinder
+        private readonly ITypeFinder _typeFinder = new TypeFinder
         {
             AssemblyFinder = new MyAssemblyFinder()
         };
@@ -58,7 +48,7 @@ namespace Lte.Evaluations.MapperSerive
 
             MySqlMapperService.MapFlow();
 
-            var module = new AbpAutoMapperModule(typeFinder);
+            var module = new AbpAutoMapperModule(_typeFinder);
             module.PostInitialize();
         }
     }

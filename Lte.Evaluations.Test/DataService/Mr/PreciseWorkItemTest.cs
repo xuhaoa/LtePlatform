@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
@@ -19,10 +21,14 @@ namespace Lte.Evaluations.DataService.Mr
     [TestFixture]
     public class PreciseWorkItemTest
     {
-        private readonly Mock<IPreciseWorkItemCellRepository> repository = new Mock<IPreciseWorkItemCellRepository>();
-        private Mock<ICellPowerService> powerRepository = new Mock<ICellPowerService>();
-        private Mock<ICellRepository> cellRepository = new Mock<ICellRepository>();
-            
+        private readonly Mock<IPreciseWorkItemCellRepository> _repository = new Mock<IPreciseWorkItemCellRepository>();
+        private Mock<ICellPowerService> _powerRepository = new Mock<ICellPowerService>();
+        private Mock<ICellRepository> _cellRepository = new Mock<ICellRepository>();
+        private readonly ITypeFinder _typeFinder = new TypeFinder
+        {
+            AssemblyFinder = new MyAssemblyFinder()
+        };
+
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
@@ -30,13 +36,15 @@ namespace Lte.Evaluations.DataService.Mr
             AutoMapperHelper.CreateMap(typeof(PreciseInterferenceVictimDto));
             AutoMapperHelper.CreateMap(typeof(PreciseCoverageDto));
 
-            repository.Setup(x => x.Get(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<byte>()))
+            _repository.Setup(x => x.Get(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<byte>()))
                 .Returns<string, int, byte>(
                     (number, eNodebId, sectorId) =>
-                        repository.Object.GetAll()
+                        _repository.Object.GetAll()
                             .FirstOrDefault(
                                 x => x.WorkItemNumber == number && x.ENodebId == eNodebId && x.SectorId == sectorId));
-            repository.MockRepositorySaveItems<PreciseWorkItemCell, IPreciseWorkItemCellRepository>();
+            _repository.MockRepositorySaveItems<PreciseWorkItemCell, IPreciseWorkItemCellRepository>();
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
         }
     }
 }
