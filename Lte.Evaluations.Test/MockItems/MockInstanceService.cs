@@ -147,7 +147,7 @@ namespace Lte.Evaluations.MockItems
         public static void MockRangeCells(this Mock<ICellRepository> repository)
         {
             repository.Setup(
-                x => x.GetAllList(It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>())).Returns((List<Cell>) GenerateCells(113, 23, 111));
+                x => x.GetAllList(It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>())).Returns(GenerateCells(113, 23, 111));
         }
 
         private static List<Cell> GenerateCells(double lon, double lat, short pci, bool isInUse = true)
@@ -321,7 +321,7 @@ namespace Lte.Evaluations.MockItems
 
         public static void MockThreeCollegeENodebs(this Mock<IInfrastructureRepository> repository)
         {
-            repository.MockInfrastructures(new List<InfrastructureInfo>
+            repository.MockQueryItems(new List<InfrastructureInfo>
             {
                 new InfrastructureInfo
                 {
@@ -347,12 +347,12 @@ namespace Lte.Evaluations.MockItems
                     InfrastructureType = InfrastructureType.ENodeb,
                     InfrastructureId = 3
                 }
-            });
+            }.AsQueryable());
         }
 
         public static void MockSixCollegeCells(this Mock<IInfrastructureRepository> repository)
         {
-            repository.MockInfrastructures(new List<InfrastructureInfo>
+            repository.MockQueryItems(new List<InfrastructureInfo>
             {
                 new InfrastructureInfo
                 {
@@ -402,12 +402,12 @@ namespace Lte.Evaluations.MockItems
                     InfrastructureType = InfrastructureType.Cell,
                     InfrastructureId = 6
                 }
-            });
+            }.AsQueryable());
         }
 
         public static void MockSixCollegeCdmaCells(this Mock<IInfrastructureRepository> repository)
         {
-            repository.MockInfrastructures(new List<InfrastructureInfo>
+            repository.MockQueryItems(new List<InfrastructureInfo>
             {
                 new InfrastructureInfo
                 {
@@ -457,7 +457,7 @@ namespace Lte.Evaluations.MockItems
                     InfrastructureType = InfrastructureType.CdmaCell,
                     InfrastructureId = 6
                 }
-            });
+            }.AsQueryable());
         }
 
 

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Lte.Evaluations.MockItems;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
+using Lte.Parameters.MockOperations;
 using Moq;
 
 namespace Lte.Evaluations.TestService
@@ -31,7 +33,7 @@ namespace Lte.Evaluations.TestService
                     InfrastructureId = id
                 }
             };
-            _repository.MockInfrastructures(infrastructures);
+            _repository.MockQueryItems(infrastructures.AsQueryable());
         }
     }
 }

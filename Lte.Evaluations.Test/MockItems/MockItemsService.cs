@@ -14,12 +14,6 @@ namespace Lte.Evaluations.MockItems
 {
     public static class MockItemsService
     {
-        public static void MockInfrastructures(this Mock<IInfrastructureRepository> repository,
-            List<InfrastructureInfo> infos)
-        {
-            repository.MockQueryItems(infos.AsQueryable());
-        }
-
         public static void MockDistributions(this Mock<IIndoorDistributionRepository> repository,
             List<IndoorDistribution> distributions)
         {
