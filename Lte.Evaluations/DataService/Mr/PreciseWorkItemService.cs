@@ -81,5 +81,10 @@ namespace Lte.Evaluations.DataService.Mr
         {
             return _repository.Get(number, eNodebId, sectorId);
         }
+
+        public List<PreciseWorkItemCell> Query(string number)
+        {
+            return _repository.GetAllList(number);
+        }
     }
 }

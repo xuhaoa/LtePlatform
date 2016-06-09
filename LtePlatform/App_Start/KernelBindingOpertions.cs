@@ -232,6 +232,8 @@ namespace LtePlatform
             ninjectKernel.Bind<CellDistanceService>().ToSelf();
 
             ninjectKernel.Bind<FlowQueryService>().ToSelf();
+
+            ninjectKernel.Bind<PreciseWorkItemService>().ToSelf();
         }
     }
 }

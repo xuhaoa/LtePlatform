@@ -366,6 +366,7 @@
     <Compile Include="Controllers\Mr\InterferenceMatrixController.cs" />
     <Compile Include="Controllers\Mr\InterferenceNeighborController.cs" />
     <Compile Include="Controllers\Mr\NeighborMonitorController.cs" />
+    <Compile Include="Controllers\Mr\PreciseWorkItemController.cs" />
     <Compile Include="Controllers\ParametersController.cs" />
     <Compile Include="Controllers\Parameters\BtsController.cs" />
     <Compile Include="Controllers\Parameters\CdmaCellController.cs" />

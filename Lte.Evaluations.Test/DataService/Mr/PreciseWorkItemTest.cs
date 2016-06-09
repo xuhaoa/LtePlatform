@@ -303,6 +303,61 @@ namespace Lte.Evaluations.DataService.Mr
         }
 
         [Test]
+        public void Test_Insert_PreciseInterferenceNeighbor_Async()
+        {
+            var container = new PreciseInterferenceNeighborsContainer
+            {
+                WorkItemNumber = "007",
+                Items = new List<PreciseInterferenceNeighborDto>
+                {
+                    new PreciseInterferenceNeighborDto
+                    {
+                        ENodebId = 3,
+                        SectorId = 4,
+                        Db10Share = 3.1,
+                        Db6Share = 3.2,
+                        Mod3Share = 4.1,
+                        Mod6Share = 4.2
+                    }
+                }
+            };
+            _serivice.UpdateAsync(container);
+            var item = _serivice.Query("007", 3, 4);
+            item.ShouldNotBeNull();
+            item.ENodebId.ShouldBe(3);
+            item.SectorId.ShouldBe((byte)4);
+            item.Db10Share.ShouldBe(3.1);
+            item.Db6Share.ShouldBe(3.2);
+            item.Mod3Share.ShouldBe(4.1);
+            item.Mod6Share.ShouldBe(4.2);
+            item.OriginalDownTilt.ShouldBe(7.1);
+        }
+
+        [Test]
+        public void Test_Insert_PreciseInterFerenceVictim()
+        {
+            var container = new PreciseInterferenceVictimsContainer
+            {
+                WorkItemNumber = "007",
+                Items = new List<PreciseInterferenceVictimDto>
+                {
+                    new PreciseInterferenceVictimDto
+                    {
+                        ENodebId = 3,
+                        SectorId = 4,
+                        BackwardDb10Share = 3.3,
+                        BackwardDb6Share = 3.4,
+                        BackwardMod3Share = 4.3,
+                        BackwardMod6Share =4.4
+                    }
+                }
+            };
+            _serivice.Update(container);
+            var item = _serivice.Query("007", 3, 4);
+            item.ShouldNotBeNull();
+        }
+
+        [Test]
         public void Test_Insert_PreciseInterFerenceVictim_Async()
         {
             var container = new PreciseInterferenceVictimsContainer
