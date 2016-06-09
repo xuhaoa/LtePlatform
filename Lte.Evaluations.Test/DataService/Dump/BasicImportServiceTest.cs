@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.MockItems;
-using Lte.Evaluations.Test.MockItems;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
@@ -36,6 +35,7 @@ namespace Lte.Evaluations.DataService.Dump
             _btsRepository.MockOperation();
             _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
             _cellRepository.MockOperations();
+            _cellRepository.MockGetId<ICellRepository, Cell>();
             _cdmaCellRepository.MockGetId<ICdmaCellRepository, CdmaCell>();
             _cdmaCellRepository.MockOperations();
         }

@@ -1,10 +1,8 @@
-﻿using Lte.Domain.Common;
-using Lte.Domain.Common.Wireless;
-using Lte.Domain.Regular;
+﻿using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.ViewModels;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.DataService.Queries
+namespace Lte.Evaluations.DataService.Queries
 {
     public static class AlarmsServiceTestQueries
     {

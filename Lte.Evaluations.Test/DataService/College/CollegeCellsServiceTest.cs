@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
-using Lte.Evaluations.Test.MockItems;
 using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 
@@ -27,6 +27,7 @@ namespace Lte.Evaluations.DataService.College
             InfrastructureMapperService.MapCell();
             _repository.MockOperations();
             _repository.MockSixCollegeCells();
+            _cellRepository.MockGetId<ICellRepository, Cell>();
             _cellRepository.MockOperations();
             _eNodebRepository.MockOperations();
             _eNodebRepository.MockThreeENodebs();

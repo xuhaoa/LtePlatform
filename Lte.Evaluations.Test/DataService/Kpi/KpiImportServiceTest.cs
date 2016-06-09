@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Evaluations.MockItems;
-using Lte.Evaluations.Test.MockItems;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.MockOperations;

@@ -1,7 +1,7 @@
 ﻿using Lte.Parameters.Entities.Basic;
 using Shouldly;
 
-namespace Lte.Evaluations.Test.DataService.Queries
+namespace Lte.Evaluations.DataService.Queries
 {
     public static class DumpServiceTestQueries
     {

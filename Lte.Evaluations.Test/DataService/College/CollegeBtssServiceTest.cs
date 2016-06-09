@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Evaluations.MockItems;
-using Lte.Evaluations.Test.MockItems;
 using Lte.Evaluations.TestService;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;

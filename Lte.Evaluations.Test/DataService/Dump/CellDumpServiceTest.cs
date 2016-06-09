@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Lte.Evaluations.MockItems;
+using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Basic;
 using NUnit.Framework;
 using Shouldly;
 
@@ -13,6 +15,7 @@ namespace Lte.Evaluations.DataService.Dump
         public void Setup()
         {
             CellRepository.MockSixCells();
+            CellRepository.MockGetId<ICellRepository, Cell>();
             CellRepository.MockOperations();
         }
 

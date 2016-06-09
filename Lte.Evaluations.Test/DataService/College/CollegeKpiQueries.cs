@@ -8,7 +8,7 @@ using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.DataService.College
+namespace Lte.Evaluations.DataService.College
 {
     public static class CollegeKpiQueries
     {

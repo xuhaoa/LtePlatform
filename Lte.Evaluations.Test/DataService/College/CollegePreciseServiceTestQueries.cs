@@ -1,7 +1,7 @@
 ﻿using Lte.Evaluations.ViewModels.Precise;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.DataService.College
+namespace Lte.Evaluations.DataService.College
 {
     public static class CollegePreciseServiceTestQueries
     {

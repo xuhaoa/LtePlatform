@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Lte.Domain.LinqToCsv.Context;
-using Lte.Domain.LinqToCsv.Description;
 using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Entities;
 using NUnit.Framework;
 
 namespace Lte.Evaluations.DataService.Dump

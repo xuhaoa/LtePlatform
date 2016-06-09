@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper.Should;
-using Lte.Evaluations.ViewModels;
-using Lte.Evaluations.ViewModels.Kpi;
+﻿using Lte.Evaluations.ViewModels.Kpi;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Lte.Evaluations.Test.DataService
+namespace Lte.Evaluations.DataService.Kpi
 {
     public static class TopDrop2GTestQueries
     {

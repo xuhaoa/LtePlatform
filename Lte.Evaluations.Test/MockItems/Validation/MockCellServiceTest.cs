@@ -1,10 +1,10 @@
-﻿using Lte.Evaluations.MockItems;
-using Lte.Parameters.Abstract.Basic;
+﻿using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Lte.Evaluations.Test.MockItems.Validation
+namespace Lte.Evaluations.MockItems.Validation
 {
     [TestFixture]
     public class MockCellServiceTest
@@ -21,6 +21,7 @@ namespace Lte.Evaluations.Test.MockItems.Validation
         public void Setup()
         {
             _cellRepository.MockOperations();
+            _cellRepository.MockGetId<ICellRepository, Cell>();
         }
 
         [Test]

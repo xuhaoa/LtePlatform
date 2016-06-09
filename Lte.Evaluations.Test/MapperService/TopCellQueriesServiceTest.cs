@@ -6,7 +6,7 @@ using Lte.Parameters.Entities.Kpi;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Lte.Evaluations.Test.MapperService
+namespace Lte.Evaluations.MapperService
 {
     [TestFixture]
     public class TopCellQueriesServiceTest

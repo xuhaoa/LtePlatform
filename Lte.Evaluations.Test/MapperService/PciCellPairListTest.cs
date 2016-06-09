@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Evaluations.MapperSerive;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Lte.Evaluations.Test.MapperService
+namespace Lte.Evaluations.MapperService
 {
     [TestFixture]
     public class PciCellPairListTest

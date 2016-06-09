@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Lte.Evaluations.MockItems;
+using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Basic;
 using NUnit.Framework;
 using Shouldly;
 
@@ -18,6 +20,7 @@ namespace Lte.Evaluations.DataService.Dump
         public void Test_DumpNewCellExcels_SingleItem(int eNodebId, byte sectorId, short originPci, int index, short modifiedPci)
         {
             CellRepository.MockSixCells(pci: originPci);
+            CellRepository.MockGetId<ICellRepository, Cell>();
             CellRepository.MockOperations();
             var cellExcels = new List<CellExcel>
             {
@@ -47,6 +50,7 @@ namespace Lte.Evaluations.DataService.Dump
             int index, short modifiedPci)
         {
             CellRepository.MockSixCells(pci: originPci, isInUse: false);
+            CellRepository.MockGetId<ICellRepository, Cell>();
             CellRepository.MockOperations();
             var cellExcels = new List<CellExcel>
             {
@@ -84,6 +88,7 @@ namespace Lte.Evaluations.DataService.Dump
         public void Test_DumpSingleCell(int eNodebId, byte sectorId, short originPci, int index, short modifiedPci)
         {
             CellRepository.MockSixCells(pci: originPci);
+            CellRepository.MockGetId<ICellRepository, Cell>();
             CellRepository.MockOperations();
             var cellExcel = new CellExcel
             {

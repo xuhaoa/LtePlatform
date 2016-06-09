@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using Lte.Domain.Regular;
+using Lte.Evaluations.DataService.Queries;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
-using Lte.Evaluations.Test.DataService.Queries;
-using Lte.Evaluations.Test.MockItems;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities;
@@ -40,10 +39,10 @@ namespace Lte.Evaluations.DataService.Dump
             _eNodebRepository.MockThreeENodebs();
         }
 
-        [TestCase("abc", "ieowue", 1, 2, "10.17.165.0", "10.17.165.100")]
-        [TestCase("arebc", "ieo--wue", 3, 4, "219.128.254.0", "219.128.254.41")]
+        [TestCase("abc", "ieowue", 1, 2, "10.17.165.0", "10.17.165.100", true)]
+        [TestCase("arebc", "ieo--wue", 3, 4, "219.128.254.0", "219.128.254.41", false)]
         public void Test_SingleItem(string name, string address, int townId, int eNodebId, string gatewayAddress,
-            string ipAddress)
+            string ipAddress, bool existed)
         {
             var infos = new List<ENodebExcel>
             {
@@ -60,8 +59,16 @@ namespace Lte.Evaluations.DataService.Dump
                 }
             };
             _service.DumpNewEnodebExcels(infos);
-            _eNodebRepository.Object.Count().ShouldBe(4);
-            _eNodebRepository.Object.GetAllList()[3].ShouldBe(name,address,townId,eNodebId,gatewayAddress,ipAddress);
+            if (existed)
+            {
+                _eNodebRepository.Object.Count().ShouldBe(3);
+            }
+            else
+            {
+                _eNodebRepository.Object.Count().ShouldBe(4);
+                _eNodebRepository.Object.GetAllList()[3].ShouldBe(name,address,townId,eNodebId,gatewayAddress,ipAddress);
+            }
+            
         }
     }
 }

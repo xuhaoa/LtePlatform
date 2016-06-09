@@ -2,9 +2,7 @@
 using System.Linq;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
-using Lte.Evaluations.Test.DataService;
-using Lte.Evaluations.Test.MockItems;
-using Lte.Evaluations.Test.TestService;
+using Lte.Evaluations.TestService;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Basic;

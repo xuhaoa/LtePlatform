@@ -6,7 +6,6 @@ using Abp.EntityFramework.AutoMapper;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Test.DataService.Queries;
-using Lte.Evaluations.Test.MockItems;
 using Lte.Evaluations.TestService;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Kpi;

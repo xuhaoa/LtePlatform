@@ -71,9 +71,6 @@ namespace Lte.Evaluations.MockItems
 
         public static void MockOperations(this Mock<ICellRepository> repository)
         {
-            repository.Setup(x => x.Get(It.IsAny<int>()))
-                .Returns<int>(id => repository.Object.GetAll().FirstOrDefault(x => x.Id == id));
-
             repository.Setup(x => x.GetBySectorId(It.IsAny<int>(), It.IsAny<byte>()))
                 .Returns<int, byte>(
                     (eNodebId, sectorId) =>
