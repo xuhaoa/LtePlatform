@@ -7,6 +7,7 @@ using Lte.Evaluations.TestService;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
@@ -28,6 +29,7 @@ namespace Lte.Evaluations.DataService.College
             _service = new CollegeENodebService(_repository.Object, _eNodebRepository.Object, _alarmRepository.Object);
             AutoMapperHelper.CreateMap(typeof(ENodebView));
             _eNodebRepository.MockOperations();
+            _eNodebRepository.MockGetId<IENodebRepository, ENodeb>();
             _eNodebRepository.MockThreeENodebs();
             _repository.MockOperations();
             _alarmRepository.MockOperations();

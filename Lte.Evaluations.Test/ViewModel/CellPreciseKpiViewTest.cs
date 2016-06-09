@@ -17,6 +17,7 @@ namespace Lte.Evaluations.ViewModel
         public void TestFixtureSetup()
         {
             _eNodebRepository.MockOperations();
+            _eNodebRepository.MockGetId<IENodebRepository, ENodeb>();
             _eNodebRepository.MockThreeENodebs();
             KpiMapperService.MapCellPrecise();
         }

@@ -30,6 +30,7 @@ namespace Lte.Evaluations.DataService.College
             _cellRepository.MockGetId<ICellRepository, Cell>();
             _cellRepository.MockOperations();
             _eNodebRepository.MockOperations();
+            _eNodebRepository.MockGetId<IENodebRepository, ENodeb>();
             _eNodebRepository.MockThreeENodebs();
         }
 

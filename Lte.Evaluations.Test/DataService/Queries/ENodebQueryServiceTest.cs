@@ -6,6 +6,7 @@ using Lte.Evaluations.MockItems;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 
@@ -38,6 +39,7 @@ namespace Lte.Evaluations.DataService.Queries
         {
             _eNodebRepository.MockThreeENodebs();
             _eNodebRepository.MockOperations();
+            _eNodebRepository.MockGetId<IENodebRepository, ENodeb>();
             var eNodebList = _service.GetByTownNames("city-" + townId, "district-" + townId, "town-" + townId) ?? new List<ENodebView>();
             Assert.AreEqual(eNodebList.Count(), count);
         }
@@ -52,6 +54,7 @@ namespace Lte.Evaluations.DataService.Queries
         {
             _eNodebRepository.MockThreeENodebs();
             _eNodebRepository.MockOperations();
+            _eNodebRepository.MockGetId<IENodebRepository, ENodeb>();
             var eNodebList = _service.GetByGeneralName(queryString);
             Assert.AreEqual(eNodebList.Count(), count);
         }
@@ -63,6 +66,7 @@ namespace Lte.Evaluations.DataService.Queries
         {
             _eNodebRepository.MockThreeENodebs();
             _eNodebRepository.MockOperations();
+            _eNodebRepository.MockGetId<IENodebRepository, ENodeb>();
             var eNodeb = _service.GetByENodebId(id);
             Assert.AreEqual(eNodeb.Name, "ENodeb-" + id);
         }

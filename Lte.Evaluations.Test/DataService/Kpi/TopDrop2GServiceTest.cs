@@ -32,6 +32,7 @@ namespace Lte.Evaluations.DataService.Kpi
             _btsRepository.MockOperation();
             _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
             _eNodebRepository.MockOperations();
+            _eNodebRepository.MockGetId<IENodebRepository, ENodeb>();
             _eNodebRepository.MockThreeENodebs();
             _btsRepository.MockSixBtssWithENodebId();
         }

@@ -18,6 +18,7 @@ namespace Lte.Evaluations.ViewModel
         {
             InfrastructureMapperService.MapCell();
             _repository.MockOperations();
+            _repository.MockGetId<IENodebRepository, ENodeb>();
             _repository.MockThreeENodebs();
         }
 

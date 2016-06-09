@@ -26,6 +26,7 @@ namespace Lte.Evaluations.DataService.Dump
         {
             _service = new ENodebDumpService(_eNodebRepository.Object, _townRepository.Object);
             _eNodebRepository.MockOperations();
+            _eNodebRepository.MockGetId<IENodebRepository, ENodeb>();
             _eNodebRepository.MockRepositorySaveItems<ENodeb, IENodebRepository>();
             _townRepository.MockOpertion();
             _townRepository.MockSixTowns();

@@ -31,6 +31,7 @@ namespace Lte.Evaluations.DataService.College
                 _kpiRepository.Object);
             _repository.MockOperations();
             _eNodebRepository.MockOperations();
+            _eNodebRepository.MockGetId<IENodebRepository, ENodeb>();
             _cellRepository.MockGetId<ICellRepository, Cell>();
             _cellRepository.MockOperations();
             _repository.MockSixCollegeCells();

@@ -31,6 +31,7 @@ namespace Lte.Evaluations.DataService.Kpi
             _service = new PreciseStatService(_repository.Object, _eNodebRepository.Object);
             _repository.MockOperations();
             _eNodebRepository.MockOperations();
+            _eNodebRepository.MockGetId<IENodebRepository, ENodeb>();
             _eNodebRepository.MockThreeENodebs();
             _cellRepository.MockGetId<ICellRepository, Cell>();
             _cellRepository.MockOperations();

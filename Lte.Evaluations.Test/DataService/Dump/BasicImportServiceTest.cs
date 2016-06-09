@@ -32,6 +32,7 @@ namespace Lte.Evaluations.DataService.Dump
             _cdmaCellRepository.MockSixCells();
 
             _eNodebRepository.MockOperations();
+            _eNodebRepository.MockGetId<IENodebRepository, ENodeb>();
             _btsRepository.MockOperation();
             _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
             _cellRepository.MockOperations();
