@@ -1,5 +1,7 @@
 ﻿using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using AutoMapper;
+using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Evaluations.ViewModels.College;
@@ -17,6 +19,11 @@ namespace Lte.Evaluations.MapperSerive
 {
     public class EvalutaionMapperProfile : Profile
     {
+        private ITypeFinder typeFinder = new TypeFinder
+        {
+            AssemblyFinder = new MyAssemblyFinder()
+        };
+
         protected override void Configure()
         {
             CoreMapperService.MapCell();
@@ -51,22 +58,8 @@ namespace Lte.Evaluations.MapperSerive
 
             MySqlMapperService.MapFlow();
 
-            AutoMapperHelper.CreateMap(typeof (ENodebView));
-            AutoMapperHelper.CreateMap(typeof (CdmaBtsView));
-            AutoMapperHelper.CreateMap(typeof (College3GTestView));
-            AutoMapperHelper.CreateMap(typeof (College4GTestView));
-            AutoMapperHelper.CreateMap(typeof (CollegeKpiView));
-            AutoMapperHelper.CreateMap(typeof(IndoorDistributionExcel));
-            AutoMapperHelper.CreateMap(typeof(BtsExcel));
-            AutoMapperHelper.CreateMap(typeof(CellSectorIdPair));
-            AutoMapperHelper.CreateMap(typeof(PciCellPair));
-            AutoMapperHelper.CreateMap(typeof(CdmaRegionStat));
-            AutoMapperHelper.CreateMap(typeof(InterferenceMatrixStat));
-            AutoMapperHelper.CreateMap(typeof (DistrictPreciseView));
-            AutoMapperHelper.CreateMap(typeof(WorkItemChartView));
-            AutoMapperHelper.CreateMap(typeof(PreciseInterferenceNeighborDto));
-            AutoMapperHelper.CreateMap(typeof (PreciseInterferenceVictimDto));
-            AutoMapperHelper.CreateMap(typeof (PreciseCoverageDto));
+            var module = new AbpAutoMapperModule(typeFinder);
+            module.PostInitialize();
         }
     }
 }

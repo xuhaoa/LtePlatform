@@ -67,6 +67,7 @@ namespace Abp.EntityFramework.AutoMapper
 
         private void CreateOtherMappings()
         {
+            if (IocManager == null) return;
             var localizationManager = IocManager.Resolve<ILocalizationManager>();
             Mapper.CreateMap<LocalizableString, string>().ConvertUsing(ls => localizationManager.GetString(ls));
         }

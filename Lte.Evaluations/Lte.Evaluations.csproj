@@ -129,6 +129,7 @@
     <Compile Include="DataService\Switch\IntraFreqHoService.cs" />
     <Compile Include="MapperSerive\Kpi\TopConnection3GCellViewContainer.cs" />
     <Compile Include="MapperSerive\Kpi\TopConnection3GTrendViewContainer.cs" />
+    <Compile Include="Policy\MyAssemblyFinder.cs" />
     <Compile Include="Policy\OrderTopConnection3GService.cs" />
     <Compile Include="ViewModels\Basic\RegionStat.cs" />
     <Compile Include="ViewModels\Channel\CellPower.cs" />
