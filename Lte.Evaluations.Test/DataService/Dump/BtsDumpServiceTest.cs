@@ -6,6 +6,7 @@ using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Test.DataService.Queries;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.MockOperations;
@@ -30,6 +31,7 @@ namespace Lte.Evaluations.DataService.Dump
             _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
             _btsRepository.MockRepositorySaveItems<CdmaBts, IBtsRepository>();
             _townRepository.MockOpertion();
+            _townRepository.MockGetId<ITownRepository, Town>();
             _townRepository.MockSixTowns();
             ParametersDumpMapperService.MapFromBtsContainerService();
             AutoMapperHelper.CreateMap(typeof(BtsExcel));

@@ -6,6 +6,7 @@ using Lte.Evaluations.MockItems;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
@@ -24,6 +25,7 @@ namespace Lte.Evaluations.DataService.Queries
         {
             _service = new BtsQueryService(_townRepository.Object, _btsRepository.Object);
             _townRepository.MockSixTowns();
+            _townRepository.MockGetId<ITownRepository, Town>();
             _townRepository.MockOpertion();
             AutoMapperHelper.CreateMap(typeof(CdmaBtsView));
         }

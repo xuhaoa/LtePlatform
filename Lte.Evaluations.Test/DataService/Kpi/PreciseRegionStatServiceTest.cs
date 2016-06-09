@@ -28,6 +28,7 @@ namespace Lte.Evaluations.DataService.Kpi
         public void FixtureSetup()
         {
             _statRepository.MockOperation();
+            _townRepository.MockGetId<ITownRepository, Town>();
             _townRepository.MockOpertion();
             KpiMapperService.MapPreciseStat();
             AutoMapperHelper.CreateMap(typeof(DistrictPreciseView));

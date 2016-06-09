@@ -1,4 +1,5 @@
 ﻿using Lte.Parameters.Abstract;
+using Lte.Parameters.Entities;
 using Moq;
 using NUnit.Framework;
 
@@ -13,6 +14,7 @@ namespace Lte.Evaluations.MockItems.Validation
         public void TestFixtureSetup()
         {
             _townRepository.MockSixTowns();
+            _townRepository.MockGetId<ITownRepository, Town>();
             _townRepository.MockOpertion();
         }
 
