@@ -361,43 +361,54 @@
         };
     })
     .factory('preciseChartService', function () {
-        var generateCompoundStats = function(views) {
-            var stats = [];
-            var i;
-            for (i = 0; i < views.length; i++) {
-                var type = views[i].workItemType;
-                var subType = views[i].workItemSubType;
-                var j;
-                for (j = 0; j < stats.length; j++) {
-                    if (stats[j].type === type) {
-                        stats[j].total++;
-                        var subData = stats[j].subData;
-                        var k;
-                        for (k = 0; k < subData.length; k++) {
-                            if (subData[k][0] === subType) {
-                                subData[k][1]++;
-                                break;
-                            }
+        var updateCpmpoundStats = function(stats, type, subType) {
+            var j;
+            for (j = 0; j < stats.length; j++) {
+                if (stats[j].type === type) {
+                    stats[j].total++;
+                    var subData = stats[j].subData;
+                    var k;
+                    for (k = 0; k < subData.length; k++) {
+                        if (subData[k][0] === subType) {
+                            subData[k][1]++;
+                            break;
                         }
-                        if (k === subData.length) {
-                            subData.push([subType, 1]);
-                        }
-                        break;
                     }
-                }
-                if (j === stats.length) {
-                    stats.push({
-                        type: type,
-                        total: 1,
-                        subData: [[subType, 1]]
-                    });
+                    if (k === subData.length) {
+                        subData.push([subType, 1]);
+                    }
+                    break;
                 }
             }
+            if (j === stats.length) {
+                stats.push({
+                    type: type,
+                    total: 1,
+                    subData: [[subType, 1]]
+                });
+            }
+        };
+        var generateCompoundStatsForType = function(views) {
+            var stats = [];
+            angular.forEach(views, function(view) {
+                var type = view.workItemType;
+                var subType = view.workItemSubType;
+                updateCpmpoundStats(stats, type, subType);
+            });
+            return stats;
+        };
+        var generateCompoundStatsForState = function (views) {
+            var stats = [];
+            angular.forEach(views, function (view) {
+                var type = view.workItemState;
+                var subType = view.workItemSubType;
+                updateCpmpoundStats(stats, type, subType);
+            });
             return stats;
         };
         return {
             getTypeOption: function (views) {
-                var stats = generateCompoundStats(views);
+                var stats = generateCompoundStatsForType(views);
 
                 var chart = new DrilldownPie();
                 chart.title.text = "工单类型分布图";
@@ -411,7 +422,7 @@
             },
 
             getStateOption: function (views) {
-                var stats = generateCompoundStats(views);
+                var stats = generateCompoundStatsForState(views);
 
                 var chart = new DrilldownPie();
                 chart.title.text = "工单状态分布图";
