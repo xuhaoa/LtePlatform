@@ -19,9 +19,5 @@
             });
     };
 
-    $scope.feedback = function (view) {
-        workItemDialog.feedback(view, $scope.query);
-    };
-
     $scope.updateWorkItemTable();
 });

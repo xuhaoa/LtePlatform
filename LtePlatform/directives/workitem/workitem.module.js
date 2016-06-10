@@ -6,7 +6,7 @@
             replace: true,
             scope: {
                 viewItems: '=',
-                queryWorkItems: '='
+                queryWorkItems: '&'
             },
             templateUrl: workitemRoot + 'WorkItem.Tpl.html',
             link: function(scope, element, attrs) {

@@ -29,10 +29,6 @@
         });
     };
 
-    $scope.feedback = function(view) {
-        workItemDialog.feedback(view, $scope.query);
-    };
-
     if ($scope.viewData.items.length === 0) {
         $scope.updateWorkItemTable();
     } else {
