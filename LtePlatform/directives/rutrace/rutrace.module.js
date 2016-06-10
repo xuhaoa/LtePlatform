@@ -394,7 +394,8 @@
             restrict: 'ECMA',
             replace: true,
             scope: {
-                currentView: '='
+                currentView: '=',
+                serialNumber: '='
             },
             templateUrl: htmlRoot + 'AnalyzeTable.Tpl.html',
             link: function (scope, element, attrs) {
@@ -413,6 +414,9 @@
                             },
                             sectorId: function () {
                                 return scope.currentView.sectorId;
+                            },
+                            serialNumber: function() {
+                                return scope.serialNumber;
                             }
                         }
                     });
@@ -522,6 +526,9 @@
                             },
                             sectorId: function () {
                                 return scope.currentView.sectorId;
+                            },
+                            serialNumber: function () {
+                                return scope.serialNumber;
                             }
                         }
                     });

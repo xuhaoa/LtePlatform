@@ -1,15 +1,15 @@
-﻿app.controller("kpi.workitem.chart", function ($scope, $timeout, showPieChart, workitemService) {
+﻿app.controller("kpi.workitem.chart", function ($scope, $timeout, preciseChartService, workitemService) {
     $scope.page.title = "统计图表";
     if ($scope.viewData.chartData === undefined) {
         workitemService.queryChartData().then(function(result) {
             $scope.viewData.chartData = result;
-            showPieChart.type(result, "#type-chart");
-            showPieChart.state(result, "#state-chart");
+            $("#type-chart").highcharts(preciseChartService.getTypeOption(result));
+            $("#state-chart").highcharts(preciseChartService.getStateOption(result));
         });
     } else {
-        $timeout(function() {
-            showPieChart.type($scope.viewData.chartData, "#type-chart");
-            showPieChart.state($scope.viewData.chartData, "#state-chart");
+        $timeout(function () {
+            $("#type-chart").highcharts(preciseChartService.getTypeOption($scope.viewData.chartData));
+            $("#state-chart").highcharts(preciseChartService.getStateOption($scope.viewData.chartData));
         }, 1000);
     }
 

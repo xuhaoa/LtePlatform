@@ -938,9 +938,11 @@
     <Content Include="Scripts\service\workitem.service.js" />
     <Content Include="Scripts\test\example.js" />
     <Content Include="Scripts\test\jasmineTest.js" />
-    <Content Include="Scripts\test\karma.conf.js" />
+    <Content Include="Scripts\test\kpi.conf.js" />
     <Content Include="Scripts\test\kpi\app.kpi.service.js" />
     <Content Include="Scripts\test\mock\highcharts.mock.js" />
+    <Content Include="Scripts\test\workitem.conf.js" />
+    <Content Include="Scripts\test\workitem\precise.chart.service.js" />
     <Content Include="template\accordion\accordion-group.html" />
     <Content Include="template\accordion\accordion.html" />
     <Content Include="template\alert\alert.html" />
