@@ -404,9 +404,9 @@
                 chart.series[0].data = [];
                 chart.drilldown.series = [];
                 chart.series[0].name = "工单类型";
-                for (i = 0; i < stats.length; i++) {
-                    chart.addOneSeries(stats[i].type, stats[i].total, stats[i].subData);
-                }
+                angular.forEach(stats, function(stat) {
+                    chart.addOneSeries(stat.type, stat.total, stat.subData);
+                });
                 return chart.options;
             },
 
@@ -418,9 +418,9 @@
                 chart.series[0].data = [];
                 chart.drilldown.series = [];
                 chart.series[0].name = "工单状态";
-                for (i = 0; i < stats.length; i++) {
-                    chart.addOneSeries(stats[i].state, stats[i].total, stats[i].subData);
-                }
+                angular.forEach(stats, function (stat) {
+                    chart.addOneSeries(stat.type, stat.total, stat.subData);
+                });
                 return chart.options;
             }
         }

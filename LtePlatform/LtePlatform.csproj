@@ -941,6 +941,7 @@
     <Content Include="Scripts\test\kpi.conf.js" />
     <Content Include="Scripts\test\kpi\app.kpi.service.js" />
     <Content Include="Scripts\test\mock\highcharts.mock.js" />
+    <Content Include="Scripts\test\mock\ui.bootstrap.mock.js" />
     <Content Include="Scripts\test\workitem.conf.js" />
     <Content Include="Scripts\test\workitem\precise.chart.service.js" />
     <Content Include="template\accordion\accordion-group.html" />
