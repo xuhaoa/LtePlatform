@@ -5,7 +5,7 @@
     workitemService.querySingleItem($routeParams.number).then(function (result) {
         $scope.currentView = result;
         $scope.platformInfos = workItemDialog.calculatePlatformInfo($scope.currentView.comments);
-        $scope.feedbackInfos = workItemDialog.calculateFeedbackInfo($scope.currentView.feedbackContents);
+        $scope.feedbackInfos = workItemDialog.calculatePlatformInfo($scope.currentView.feedbackContents);
     });
 
 });
@@ -17,6 +17,6 @@ app.controller("kpi.workitem.details.district", function($scope, $routeParams, w
     workitemService.querySingleItem($routeParams.number).then(function (result) {
         $scope.currentView = result;
         $scope.platformInfos = workItemDialog.calculatePlatformInfo($scope.currentView.comments);
-        $scope.feedbackInfos = workItemDialog.calculateFeedbackInfo($scope.currentView.feedbackContents);
+        $scope.feedbackInfos = workItemDialog.calculatePlatformInfo($scope.currentView.feedbackContents);
     });
 })
