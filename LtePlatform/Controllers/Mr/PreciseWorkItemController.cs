@@ -63,6 +63,7 @@ namespace LtePlatform.Controllers.Mr
         }
     }
 
+    [Authorize]
     public class InterferenceNeighborWorkItemController : ApiController
     {
         private readonly PreciseWorkItemService _service;
@@ -79,6 +80,7 @@ namespace LtePlatform.Controllers.Mr
         }
     }
 
+    [Authorize]
     public class InterferenceVictimWorkItemController : ApiController
     {
         private readonly PreciseWorkItemService _service;
@@ -95,6 +97,7 @@ namespace LtePlatform.Controllers.Mr
         }
     }
 
+    [Authorize]
     public class CoverageWorkItemController : ApiController
     {
         private readonly PreciseWorkItemService _service;
