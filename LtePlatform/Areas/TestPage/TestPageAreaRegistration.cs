@@ -4,13 +4,7 @@ namespace LtePlatform.Areas.TestPage
 {
     public class TestPageAreaRegistration : AreaRegistration 
     {
-        public override string AreaName 
-        {
-            get 
-            {
-                return "TestPage";
-            }
-        }
+        public override string AreaName => "TestPage";
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
