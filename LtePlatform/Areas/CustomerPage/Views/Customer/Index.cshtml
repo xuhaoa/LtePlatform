@@ -1,1 +1,12 @@
-﻿test customer
+﻿<div class="row" ng-controller="customer.index">
+    <div class="col-md-3" ng-show="sideBarShown">
+        <div ng-include="'/appViews/GeneralMenu.html'"></div>
+    </div>
+    <div ng-class="{'col-md-9': sideBarShown, 'col-md-12': !sideBarShown}">
+        <div ng-include="'/appViews/Customer/Index.html'"></div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/customer/index.controller.js"></script>
+}
