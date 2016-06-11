@@ -1,6 +1,7 @@
 ﻿app.controller("workitem.details", function ($scope, $routeParams, $uibModal, $log,
     workitemService, workItemDialog, appFormatService, cellPreciseService) {
     $scope.page.title = "工单编号" + $routeParams.number + "信息";
+    $scope.serialNumber = $routeParams.number;
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 7);
     $scope.beginDate = {

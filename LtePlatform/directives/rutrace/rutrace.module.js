@@ -389,7 +389,7 @@
             templateUrl: htmlRoot + 'trend/PreciseTable.html'
         };
     })
-    .directive('analyzeTable', function (htmlRoot, preciseWorkItemGenerator, $uibModal, $log) {
+    .directive('analyzeTable', function (htmlRoot, preciseWorkItemGenerator, preciseWorkItemService, $uibModal, $log) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -424,8 +424,9 @@
                     modalInstance.result.then(function (info) {
                         scope.interferenceSourceComments = '已完成干扰源分析';
                         var dtos = preciseWorkItemGenerator.generatePreciseInterferenceNeighborDtos(info);
-                        console.log(info);
-                        console.log(dtos);
+                        preciseWorkItemService.updateInterferenceNeighbor(scope.serialNumber, dtos).then(function(result) {
+                            scope.interferenceSourceComments += ";已导入干扰源分析结果";
+                        });
                     }, function () {
                         $log.info('Modal dismissed at: ' + new Date());
                     });
