@@ -1,7 +1,7 @@
 ﻿app.controller("customer.index", function ($scope, appUrlService, appRegionService) {
     $scope.menuItems = [
         {
-            displayName: "覆盖优化",
+            displayName: "日常支撑",
             isActive: true,
             subItems: [
             {
@@ -20,7 +20,7 @@
                 url: appUrlService.getDtUrlHost() + 'admin'
             }]
         }, {
-            displayName: "容量优化",
+            displayName: "专项支撑",
             isActive: false,
             subItems: [{
                 displayName: "网络分析",
@@ -31,7 +31,7 @@
                 url: "/Kpi/Flow"
             }]
         }, {
-            displayName: "质量分析",
+            displayName: "统计分析",
             isActive: false,
             subItems: [{
                 displayName: "传统指标",
