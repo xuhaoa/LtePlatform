@@ -389,7 +389,7 @@
             templateUrl: htmlRoot + 'trend/PreciseTable.html'
         };
     })
-    .directive('analyzeTable', function (htmlRoot, $uibModal, $log) {
+    .directive('analyzeTable', function (htmlRoot, preciseWorkItemGenerator, $uibModal, $log) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -422,7 +422,10 @@
                     });
 
                     modalInstance.result.then(function (info) {
-                        scope.interferenceSourceComments = info;
+                        scope.interferenceSourceComments = '已完成干扰源分析';
+                        var dtos = preciseWorkItemGenerator.generatePreciseInterferenceNeighborDtos(info);
+                        console.log(info);
+                        console.log(dtos);
                     }, function () {
                         $log.info('Modal dismissed at: ' + new Date());
                     });
