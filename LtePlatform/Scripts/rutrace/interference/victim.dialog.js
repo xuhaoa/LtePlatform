@@ -61,7 +61,7 @@
     };
 
     $scope.ok = function () {
-        $uibModalInstance.close('已处理');
+        $uibModalInstance.close($scope.victimCells);
     };
 
     $scope.cancel = function () {

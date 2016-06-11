@@ -37,6 +37,7 @@ namespace Lte.Evaluations.DataService.Mr
                 if (item == null)
                 {
                     item = neighbor.MapTo<PreciseWorkItemCell>();
+                    item.WorkItemNumber = container.WorkItemNumber;
                     var cell = _cellRepository.GetBySectorId(neighbor.ENodebId, neighbor.SectorId);
                     if (cell != null) item.OriginalDownTilt = cell.MTilt + cell.ETilt;
                     var power = _powerService.Query(neighbor.ENodebId, neighbor.SectorId);

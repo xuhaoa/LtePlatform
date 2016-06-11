@@ -454,7 +454,7 @@
                     });
 
                     modalInstance.result.then(function (info) {
-                        scope.interferenceSourceComments = info;
+                        console.log(info);
                     }, function () {
                         $log.info('Modal dismissed at: ' + new Date());
                     });
@@ -538,7 +538,11 @@
                     });
 
                     modalInstance.result.then(function (info) {
-                        scope.interferenceVictimComments = info;
+                        scope.interferenceVictimComments = '已完成被干扰小区分析';
+                        var dtos = preciseWorkItemGenerator.generatePreciseInterferenceVictimDtos(info);
+                        preciseWorkItemService.updateInterferenceVictim(scope.serialNumber, dtos).then(function (result) {
+                            scope.interferenceVictimComments += ";已导入被干扰小区分析结果";
+                        });
                     }, function () {
                         $log.info('Modal dismissed at: ' + new Date());
                     });
