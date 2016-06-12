@@ -615,6 +615,10 @@
     <Content Include="directives\rutrace\trend\MrTable.html" />
     <Content Include="directives\rutrace\trend\PreciseTable.html" />
     <Content Include="directives\workitem\workitem.module.js" />
+    <Content Include="Scripts\angular-messages.js" />
+    <Content Include="Scripts\angular-messages.min.js" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-scenario.js" />
     <Content Include="Scripts\angular-ui\uib\alert.js" />
     <Content Include="Areas\TestPage\Scripts\angular\chap10.viewmodel.js" />
     <Content Include="Areas\TestPage\Scripts\angular\datetime.test.controller.js" />
@@ -749,8 +753,6 @@
     <Content Include="Scripts\angular-cookies.min.js" />
     <Content Include="Scripts\angular-loader.min.js" />
     <Content Include="Scripts\angular-message-format.min.js" />
-    <Content Include="Scripts\angular-messages.min.js" />
-    <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-resource.min.js" />
     <Content Include="Scripts\angular-route.min.js" />
     <Content Include="Scripts\angular-sanitize.min.js" />
@@ -764,6 +766,8 @@
     <Content Include="Scripts\angular-ui\customize\directive.datetimepicker.js" />
     <Content Include="Scripts\angular-ui\customize\directive.public.js" />
     <Content Include="Scripts\angular-ui\customize\directive.panel.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\evaluation\map.building.dialog.js" />
     <Content Include="Scripts\customer\index.controller.js" />
     <Content Include="Scripts\mycharts\areaChart.js" />
@@ -982,7 +986,6 @@
     <Content Include="Scripts\angular-ui\ui-utils-ieshiv.min.js" />
     <Content Include="Scripts\angular-ui\ui-utils.js" />
     <Content Include="Scripts\angular-ui\ui-utils.min.js" />
-    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\base64-string.js" />
     <Content Include="Scripts\app\html5csv.js" />
     <Content Include="Scripts\app\lz-string.js" />
@@ -1088,8 +1091,6 @@
     <Content Include="Areas\TestPage\Views\WebApiTest\_BasicPost.cshtml" />
     <Content Include="Content\themes\datetimepicker.less" />
     <None Include="Properties\PublishProfiles\Lte2.pubxml" />
-    <Content Include="Scripts\angular.min.js.map" />
-    <Content Include="Scripts\angular-messages.min.js.map" />
     <Content Include="Scripts\college\menu.root.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -1144,6 +1145,8 @@
     <Content Include="Scripts\highcharts\themes\sand.png" />
     <Content Include="Scripts\highcharts\themes\skies.jpg" />
     <Content Include="Scripts\highcharts\themes\skies.js" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular-messages.min.js.map" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -1186,7 +1189,6 @@
     <Content Include="Scripts\angular-ui\angular-resource.js" />
     <Content Include="Scripts\angular-ui\angular-route.js" />
     <Content Include="Scripts\angular-ui\angular-sanitize.js" />
-    <Content Include="Scripts\angular-ui\angular-scenario.js" />
     <Content Include="Scripts\angular-ui\angular-touch.js" />
     <Content Include="Scripts\angular-ui\angular-ui-router.js" />
     <Content Include="Scripts\parameters\list.controller.js" />

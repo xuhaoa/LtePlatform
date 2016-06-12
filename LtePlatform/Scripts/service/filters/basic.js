@@ -4,14 +4,15 @@
             return angular.isNumber(input) ? input * 100 : parseFloat(input) * 100;
         };
     })
-    .constant('formErrorDefs',{
-            email: '不是有效的邮件地址',
-            required: '此项不能为空',
-            same: '此项必须与上一项相同',
-            minlength: '必须至少包含8 个字符'
-        })
+    .constant('formErrorDefs', {
+        email: '不是有效的邮件地址',
+        required: '此项不能为空',
+        same: '此项必须与上一项相同',
+        minlength: '必须至少包含8 个字符'
+    })
     .filter('formError', function(formErrorDefs) {
-        return function(name) {
-            return formErrorDefs[name] || name;
+        return function (name, customMessages) {
+            var errors = angular.extend({}, formErrorDefs, customMessages);
+            return errors[name] || name;
         };
     });

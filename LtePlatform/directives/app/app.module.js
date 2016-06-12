@@ -35,7 +35,11 @@
                 subScope.errors = function() {
                     return ngModel.$error;
                 };
-                var hint = $compile('<ul class="text-danger" ng-if="hasError()"><li ng-repeat="(name, wrong) in errors()" ng-if="wrong">{{name|formError}}</li></ul>')(subScope);
+                var hint = $compile(
+                    '<div class="text-danger" ng-if="hasErrors()">'
+                    + '<small ng-repeat="(name, wrong) in errors()" ng-if="wrong">{{name|formError:customMessages}}</small>'
+                    + '</div>'
+                )(subScope);
                 element.after(hint);
             }
         };
@@ -61,3 +65,4 @@
             }
         };
     });
+    

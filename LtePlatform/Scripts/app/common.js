@@ -12,6 +12,7 @@
     'kpi.basic',
     'kpi.import',
     'kpi.workitem',
+    'myApp.authorize',
     'myApp.dumpInterference',
     'myApp.kpi',
     'myApp.parameters',
