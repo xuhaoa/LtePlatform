@@ -18,4 +18,15 @@
                 };
             }
         };
-    });
+    })
+    .directive('workItemDetails', function (workitemRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                currentView: '=',
+            },
+            templateUrl: workitemRoot + 'WorkItem.Details.html',
+            transclude: true
+        };
+    })
