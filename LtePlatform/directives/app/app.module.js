@@ -32,13 +32,18 @@
                 subScope.hasErrors = function() {
                     return ngModel.$invalid && ngModel.$dirty;
                 };
-                subScope.errors = function() {
-                    return ngModel.$error;
+                subScope.errors = function () {
+                    var errors = ngModel.$error;
+                    if (errors.parse !== undefined) {
+                        errors.parse = false;
+                    }
+                    return errors;
                 };
+                subScope.customHints =  scope.$eval(attrs.formFieldError);
                 var hint = $compile(
-                    '<div class="text-danger" ng-if="hasErrors()">'
-                    + '<small ng-repeat="(name, wrong) in errors()" ng-if="wrong">{{name|formError:customMessages}}</small>'
-                    + '</div>'
+                    '<ul class="text-danger" ng-if="hasErrors()">'
+                    + '<small ng-repeat="(name, wrong) in errors()" ng-if="wrong">{{name | formError: customHints}}</small>'
+                    + '</ul>'
                 )(subScope);
                 element.after(hint);
             }
