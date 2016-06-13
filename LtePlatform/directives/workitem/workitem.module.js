@@ -19,6 +19,25 @@
             }
         };
     })
+    .directive('platformAndFeedbackInfo', function(workitemRoot, workItemDialog) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                currentView: '=',
+                queryWorkItems: '&'
+            },
+            templateUrl: workitemRoot + 'PlatformAndFeedbackInfo.html',
+            link: function(scope, element, attrs) {
+                scope.feedback = function () {
+                    workItemDialog.feedback(scope.currentView, scope.queryWorkItems);
+                };
+                scope.platformInfos = workItemDialog.calculatePlatformInfo(scope.currentView.comments);
+                scope.feedbackInfos = workItemDialog.calculatePlatformInfo(scope.currentView.feedbackContents);
+                console.log(scope.queryWorkItems);
+            }
+        };
+    })
     .directive('workItemDetails', function(workitemRoot) {
         return {
             restrict: 'ECMA',
