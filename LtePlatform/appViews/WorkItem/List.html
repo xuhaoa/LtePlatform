@@ -44,6 +44,6 @@
         </div>
         <div uib-pagination total-items="viewData.totalItems" ng-model="viewData.currentPage" items-per-page="{{viewData.itemsPerPage.value}}" 
               class="pagination-sm" boundary-link-numbers="true" rotate="false" ng-change="query()"  max-size="10"></div>
-        <div workitem-table view-items="viewItems" query-work-items="query"></div>
+        <div workitem-table view-items="viewItems" query-work-items="query()"></div>
     </div>
 </div>

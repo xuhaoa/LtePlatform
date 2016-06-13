@@ -459,7 +459,7 @@
 
                 modalInstance.result.then(function(output) {
                     workitemService.feedback(output, view.serialNumber).then(function(result) {
-                        if (result)
+                        if (result && callbackFunc)
                             callbackFunc();
                     });
                 }, function() {
