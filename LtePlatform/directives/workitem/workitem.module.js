@@ -19,13 +19,13 @@
             }
         };
     })
-    .directive('platformAndFeedbackInfo', function(workitemRoot, workItemDialog) {
+    .directive('platformAndFeedbackInfo', function (workitemRoot, workItemDialog, workitemService) {
         return {
             restrict: 'ECMA',
             replace: true,
             scope: {
                 currentView: '=',
-                queryWorkItems: '&'
+                serialNumber: '='
             },
             templateUrl: workitemRoot + 'PlatformAndFeedbackInfo.html',
             link: function(scope, element, attrs) {
@@ -34,7 +34,13 @@
                 };
                 scope.platformInfos = workItemDialog.calculatePlatformInfo(scope.currentView.comments);
                 scope.feedbackInfos = workItemDialog.calculatePlatformInfo(scope.currentView.feedbackContents);
-                console.log(scope.queryWorkItems);
+                scope.queryWorkItems = function () {
+                    workitemService.querySingleItem(scope.serialNumber).then(function (result) {
+                        scope.currentView = result;
+                        scope.platformInfos = workItemDialog.calculatePlatformInfo(scope.currentView.comments);
+                        scope.feedbackInfos = workItemDialog.calculatePlatformInfo(scope.currentView.feedbackContents);
+                    });
+                };
             }
         };
     })
