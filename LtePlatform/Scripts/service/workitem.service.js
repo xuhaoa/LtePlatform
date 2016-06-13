@@ -289,6 +289,9 @@
                         url: appUrlService.getApiUrl('PreciseWorkItem'),
                         params: {
                             number: number
+                        },
+                        headers: {
+                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
                         }
                     }).success(function(result) {
                         deferred.resolve(result);

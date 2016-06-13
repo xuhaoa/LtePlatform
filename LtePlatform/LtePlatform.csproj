@@ -571,6 +571,7 @@
     <Content Include="appViews\WorkItem\DistrictList.html" />
     <Content Include="appViews\WorkItem\ENodebInfo.html" />
     <Content Include="appViews\WorkItem\FeedbackDialog.html" />
+    <Content Include="directives\workitem\precise\Cell.html" />
     <Content Include="directives\workitem\WorkItem.Details.html" />
     <Content Include="directives\workitem\WorkItem.Tpl.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />

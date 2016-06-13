@@ -19,7 +19,7 @@
             }
         };
     })
-    .directive('workItemDetails', function (workitemRoot) {
+    .directive('workItemDetails', function(workitemRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -30,3 +30,14 @@
             transclude: true
         };
     })
+    .directive('preciseWorkItemCells', function(workitemRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                cells: '=',
+            },
+            templateUrl: workitemRoot + 'precise/Cell.html',
+            transclude: true
+        };
+    });
