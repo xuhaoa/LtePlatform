@@ -5,30 +5,12 @@
     <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
 <div class="modal-body">
-    <div class="col-md-6">
-        <div date-span-column begin-date="beginDate" end-date="endDate"></div>
-    </div>
-    <div class="col-md-6">
-        <label>排序依据：</label>
-        <div class="input-group">
-            <select class="form-control" ng-model="orderPolicy.selected">
-                <option ng-repeat="p in orderPolicy.options" label="{{p.name}}" value="{{p.value}}">{{p.name}}</option>
-            </select>
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-warning" ng-click="showVictim()">
-                    <i class="glyphicon glyphicon-search" title="统计干扰"></i>
-                </button>
-            </span>
-        </div>
-        <label>显示数目：</label>
-        <div class="input-group">
-            <select class="form-control" ng-model="displayItems.selected" ng-options="p as p for p in displayItems.options"></select>
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-warning" ng-click="showVictim()">
-                    <i class="glyphicon glyphicon-search" title="统计干扰"></i>
-                </button>
-            </span>
-        </div>
+    <div date-span-row begin-date="beginDate" end-date="endDate">
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-warning" ng-click="showCoverage()">
+                <i class="glyphicon glyphicon-search" title="统计干扰"></i>
+            </button>
+        </span>
     </div>
     <div interference-victim-dialog-list victim-cells="victimCells" order-policy="orderPolicy" display-items="displayItems"></div>
 </div>

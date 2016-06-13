@@ -396,7 +396,8 @@
             scope: {
                 currentView: '=',
                 serialNumber: '=',
-                queryPreciseCells: '&'
+                queryPreciseCells: '&',
+                preciseCells: '='
             },
             templateUrl: htmlRoot + 'AnalyzeTable.Tpl.html',
             link: function (scope, element, attrs) {
@@ -544,6 +545,32 @@
                         var dtos = preciseWorkItemGenerator.generatePreciseInterferenceVictimDtos(info);
                         preciseWorkItemService.updateInterferenceVictim(scope.serialNumber, dtos).then(function (result) {
                             scope.interferenceVictimComments += ";已导入被干扰小区分析结果";
+                            scope.queryPreciseCells();
+                        });
+                    }, function () {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
+                };
+                scope.analyzeCoverage = function () {
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: '/appViews/Rutrace/Interference/CoverageDialog.html',
+                        controller: 'interference.coverage.dialog',
+                        size: 'lg',
+                        resolve: {
+                            dialogTitle: function () {
+                                return scope.currentView.eNodebName + "-" + scope.currentView.sectorId + "覆盖分析";
+                            },
+                            preciseCells: function () {
+                                return scope.preciseCells;
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function (info) {
+                        scope.coverageComments = '已完成覆盖分析';
+                        preciseWorkItemService.updateCoverage(scope.serialNumber, info).then(function (result) {
+                            scope.coverageComments += ";已导入覆盖分析结果";
                             scope.queryPreciseCells();
                         });
                     }, function () {
