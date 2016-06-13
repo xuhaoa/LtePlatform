@@ -107,6 +107,7 @@
     <Compile Include="Concrete\MySqlContext.cs" />
     <Compile Include="Concrete\PreciseWorkItemCellRepositroy.cs" />
     <Compile Include="Entities\CellStatMysql.cs" />
+    <Compile Include="Entities\EmergencyCommunication.cs" />
     <Compile Include="Entities\FlowHuawei.cs" />
     <Compile Include="Entities\FlowHuaweiCsv.cs" />
     <Compile Include="Entities\FlowZte.cs" />
@@ -128,6 +129,10 @@
     <Compile Include="Migrations\201606070908049_Update_Precise_WorkItem_Cell.Designer.cs">
       <DependentUpon>201606070908049_Update_Precise_WorkItem_Cell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606130008403_EmergencyCommunications.cs" />
+    <Compile Include="Migrations\201606130008403_EmergencyCommunications.Designer.cs">
+      <DependentUpon>201606130008403_EmergencyCommunications.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -147,6 +152,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606070908049_Update_Precise_WorkItem_Cell.resx">
       <DependentUpon>201606070908049_Update_Precise_WorkItem_Cell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606130008403_EmergencyCommunications.resx">
+      <DependentUpon>201606130008403_EmergencyCommunications.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

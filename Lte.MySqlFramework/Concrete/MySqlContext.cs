@@ -21,5 +21,7 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<CellStatMysql> CellStatMysqls { get; set; }
 
         public DbSet<PreciseWorkItemCell> PreciseWorkItemCells { get; set; }
+
+        public DbSet<EmergencyCommunication> EmergencyCommunications { get; set; }
     }
 }
