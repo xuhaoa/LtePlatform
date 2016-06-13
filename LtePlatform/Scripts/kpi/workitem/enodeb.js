@@ -6,12 +6,6 @@
             $scope.viewItems = result;
         });
     };
-    $scope.feedback = function (view) {
-        workItemDialog.feedback(view, $scope.queryWorkItems);
-    };
-    $scope.showDetails=function(view) {
-        workItemDialog.showDetails(view);
-    };
     networkElementService.queryENodebInfo($routeParams.eNodebId).then(function (result) {
         $scope.eNodebDetails = result;
     });

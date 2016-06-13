@@ -16,7 +16,6 @@
                 scope.showDetails = function(view) {
                     workItemDialog.showDetails(view, scope.queryWorkItems);
                 };
-                console.log(scope.queryWorkItems);
             }
         };
     })
