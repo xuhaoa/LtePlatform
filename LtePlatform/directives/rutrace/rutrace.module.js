@@ -395,7 +395,8 @@
             replace: true,
             scope: {
                 currentView: '=',
-                serialNumber: '='
+                serialNumber: '=',
+                queryPreciseCells: '&'
             },
             templateUrl: htmlRoot + 'AnalyzeTable.Tpl.html',
             link: function (scope, element, attrs) {
@@ -426,6 +427,7 @@
                         var dtos = preciseWorkItemGenerator.generatePreciseInterferenceNeighborDtos(info);
                         preciseWorkItemService.updateInterferenceNeighbor(scope.serialNumber, dtos).then(function(result) {
                             scope.interferenceSourceComments += ";已导入干扰源分析结果";
+                            scope.queryPreciseCells();
                         });
                     }, function () {
                         $log.info('Modal dismissed at: ' + new Date());
@@ -542,6 +544,7 @@
                         var dtos = preciseWorkItemGenerator.generatePreciseInterferenceVictimDtos(info);
                         preciseWorkItemService.updateInterferenceVictim(scope.serialNumber, dtos).then(function (result) {
                             scope.interferenceVictimComments += ";已导入被干扰小区分析结果";
+                            scope.queryPreciseCells();
                         });
                     }, function () {
                         $log.info('Modal dismissed at: ' + new Date());
