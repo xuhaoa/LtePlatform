@@ -1,6 +1,7 @@
 ﻿app.controller('interference.coverage.dialog', function ($scope, $uibModalInstance, dialogTitle, preciseCells,
     topPreciseService) {
     $scope.dialogTitle = dialogTitle;
+    $scope.preciseCells = preciseCells;
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 7);
     $scope.beginDate = {
@@ -13,7 +14,7 @@
     };
     $scope.showCoverage = function () {
         $scope.coverageInfos = [];
-        angular.forEach(preciseCells, function(cell) {
+        angular.forEach($scope.preciseCells, function(cell) {
             topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
                 cell.eNodebId, cell.sectorId).then(function(result) {
                     cell.overCoverageRate = result.overCoverageRate;
