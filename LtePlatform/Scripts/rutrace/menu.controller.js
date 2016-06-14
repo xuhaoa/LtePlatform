@@ -51,7 +51,7 @@
                     controller: "workitem.details"
                 })
                 .when('/workItems/:cellId/:sectorId/:name', {
-                    templateUrl: '/appViews/WorkItem/WorkItemTable.html',
+                    templateUrl: viewDir + 'WorkItem/ForCell.html',
                     controller: "rutrace.workitems"
                 })
                 .when('/workitemDistrict/:district', {
