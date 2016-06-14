@@ -401,6 +401,7 @@
             },
             templateUrl: htmlRoot + 'AnalyzeTable.Tpl.html',
             link: function (scope, element, attrs) {
+                console.log(scope.preciseCells);
                 scope.analyzeInterferenceSource = function () {
                     var modalInstance = $uibModal.open({
                         animation: true,

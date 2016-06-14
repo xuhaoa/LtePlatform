@@ -19,7 +19,7 @@
             }
         };
     })
-    .directive('platformAndFeedbackInfo', function (workitemRoot, workItemDialog, workitemService) {
+    .directive('platformAndFeedbackInfo', function(workitemRoot, workItemDialog, workitemService) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -29,13 +29,13 @@
             },
             templateUrl: workitemRoot + 'PlatformAndFeedbackInfo.html',
             link: function(scope, element, attrs) {
-                scope.feedback = function () {
+                scope.feedback = function() {
                     workItemDialog.feedback(scope.currentView, scope.queryWorkItems);
                 };
                 scope.platformInfos = workItemDialog.calculatePlatformInfo(scope.currentView.comments);
                 scope.feedbackInfos = workItemDialog.calculatePlatformInfo(scope.currentView.feedbackContents);
-                scope.queryWorkItems = function () {
-                    workitemService.querySingleItem(scope.serialNumber).then(function (result) {
+                scope.queryWorkItems = function() {
+                    workitemService.querySingleItem(scope.serialNumber).then(function(result) {
                         scope.currentView = result;
                         scope.platformInfos = workItemDialog.calculatePlatformInfo(scope.currentView.comments);
                         scope.feedbackInfos = workItemDialog.calculatePlatformInfo(scope.currentView.feedbackContents);
@@ -63,6 +63,17 @@
                 cells: '=',
             },
             templateUrl: workitemRoot + 'precise/Cell.html',
+            transclude: true
+        };
+    })
+    .directive('coverageWorkItemDialogCells', function (workitemRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                cells: '=',
+            },
+            templateUrl: workitemRoot + 'precise/CoverageCell.html',
             transclude: true
         };
     });

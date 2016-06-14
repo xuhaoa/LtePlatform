@@ -571,6 +571,7 @@
     <Content Include="appViews\WorkItem\ENodebInfo.html" />
     <Content Include="appViews\WorkItem\FeedbackDialog.html" />
     <Content Include="directives\workitem\precise\Cell.html" />
+    <Content Include="directives\workitem\precise\CoverageCell.html" />
     <Content Include="directives\workitem\WorkItem.Details.html" />
     <Content Include="directives\workitem\WorkItem.Tpl.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -776,6 +777,7 @@
     <Content Include="Scripts\mycharts\timeSeriesLine.js" />
     <Content Include="Scripts\parameters\details\eNodeb.flow.js" />
     <Content Include="Scripts\rutrace\coverage\ta.dialog.js" />
+    <Content Include="Scripts\rutrace\interference\coverage.dialog.js" />
     <Content Include="Scripts\rutrace\interference\victim.dialog.js" />
     <Content Include="Scripts\service\dump.progress.factory.js" />
     <Content Include="Scripts\angular-ui\local\bootstrap-datetimepicker.ar.js" />
