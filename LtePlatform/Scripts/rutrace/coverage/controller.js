@@ -25,10 +25,12 @@
             angular.forEach($scope.interferenceCells, function(neighbor) {
                 if (neighbor.destENodebId > 0) {
                     topPreciseService.queryCellStastic(neighbor.destENodebId, neighbor.destPci,
-                        $scope.beginDate.value, $scope.endDate.value).then(function(coverage) {
-                        neighbor.mrCount = coverage.mrCount;
-                        neighbor.weakCoverCount = coverage.weakCoverCount;
-                        neighbor.overCoverCount = coverage.overCoverCount;
+                        $scope.beginDate.value, $scope.endDate.value).then(function (coverage) {
+                            if (coverage) {
+                                neighbor.mrCount = coverage.mrCount;
+                                neighbor.weakCoverCount = coverage.weakCoverCount;
+                                neighbor.overCoverCount = coverage.overCoverCount;
+                            }
                     });
                 }
             });
@@ -40,9 +42,11 @@
                     if (victim.victimENodebId > 0) {
                         topPreciseService.queryCellStastic(victim.victimENodebId, victim.victimPci,
                         $scope.beginDate.value, $scope.endDate.value).then(function (coverage) {
-                            victim.mrCount = coverage.mrCount;
-                            victim.weakCoverCount = coverage.weakCoverCount;
-                            victim.overCoverCount = coverage.overCoverCount;
+                            if (coverage) {
+                                victim.mrCount = coverage.mrCount;
+                                victim.weakCoverCount = coverage.weakCoverCount;
+                                victim.overCoverCount = coverage.overCoverCount;
+                            }
                         });
                     }
                 })

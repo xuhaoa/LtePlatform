@@ -347,13 +347,13 @@
                         size: 'lg',
                         resolve: {
                             dialogTitle: function () {
-                                return cell.neighborCellName + 'TA分布';
+                                return cell.victimCellName + 'TA分布';
                             },
                             cellId: function () {
-                                return cell.destENodebId;
+                                return cell.victimENodebId;
                             },
                             sectorId: function () {
-                                return cell.destSectorId;
+                                return cell.victimSectorId;
                             }
                         }
                     });
