@@ -1,5 +1,5 @@
 ﻿app.controller('interference.coverage.dialog', function ($scope, $uibModalInstance, dialogTitle, preciseCells,
-    topPreciseService) {
+    topPreciseService, networkElementService) {
     $scope.dialogTitle = dialogTitle;
     $scope.preciseCells = preciseCells;
     var lastWeek = new Date();
@@ -14,18 +14,20 @@
     };
     $scope.showCoverage = function () {
         $scope.coverageInfos = [];
-        angular.forEach($scope.preciseCells, function(cell) {
-            topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
-                cell.eNodebId, cell.sectorId).then(function(result) {
-                    cell.overCoverageRate = result.overCoverageRate;
-                    cell.weakCoverageRate = result.weakCoverageRate;
-                $scope.coverageInfos.push({
-                    eNodebId: result.eNodebId,
-                    sectorId: result.sectorId,
-                    overCoverageRate: result.overCoverageRate,
-                    weakCoverageRate: result.weakCoverageRate
+        angular.forEach($scope.preciseCells, function (cell) {
+            networkElementService.queryCellInfo(cell.eNodebId, cell.sectorId).then(function(info) {
+                topPreciseService.queryCellStastic(cell.eNodebId, info.pci, $scope.beginDate.value, $scope.endDate.value).then(function(result) {
+                    cell.overCoverageRate = result.overCoverCount * 100 / result.mrCount;
+                    cell.weakCoverageRate = result.weakCoverCount * 100 / result.mrCount;
+                    $scope.coverageInfos.push({
+                        eNodebId: cell.eNodebId,
+                        sectorId: cell.sectorId,
+                        overCoverageRate: cell.overCoverageRate,
+                        weakCoverageRate: cell.weakCoverageRate
+                    });
                 });
             });
+
         });
     };
 
