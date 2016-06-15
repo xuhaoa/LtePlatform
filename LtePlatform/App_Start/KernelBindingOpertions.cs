@@ -141,6 +141,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<ICellPowerService>().To<CellPowerService>();
 
+            ninjectKernel.Bind<IEmergencyCommunicationRepository>().To<EmergencyCommunicationRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();
