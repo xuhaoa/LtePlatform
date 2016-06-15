@@ -3,16 +3,16 @@ namespace Lte.MySqlFramework.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class CellStatMysql_201605111 : DbMigration
+    public partial class Update_Customer : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.CellStatMysqls", "Pci", c => c.Short(nullable: false));
+            AddColumn("dbo.EmergencyCommunications", "TownId", c => c.Int(nullable: false));
         }
         
         public override void Down()
         {
-            DropColumn("dbo.CellStatMysqls", "Pci");
+            DropColumn("dbo.EmergencyCommunications", "TownId");
         }
     }
 }

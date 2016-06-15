@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Precise_WorkItem_Cell_Mysql_20160606 : IMigrationMetadata
+    public sealed partial class Update_Customer : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Precise_WorkItem_Cell_Mysql_20160606));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Update_Customer));
         
         string IMigrationMetadata.Id
         {
-            get { return "201606060751035_Precise_WorkItem_Cell_Mysql_20160606"; }
+            get { return "201606150542576_Update_Customer"; }
         }
         
         string IMigrationMetadata.Source

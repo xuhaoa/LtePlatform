@@ -113,14 +113,6 @@
     <Compile Include="Entities\FlowZte.cs" />
     <Compile Include="Entities\FlowZteCsv.cs" />
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
-    <Compile Include="Migrations\201605111320562_CellStatMysql_201605111.cs" />
-    <Compile Include="Migrations\201605111320562_CellStatMysql_201605111.Designer.cs">
-      <DependentUpon>201605111320562_CellStatMysql_201605111.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606060751035_Precise_WorkItem_Cell_Mysql_20160606.cs" />
-    <Compile Include="Migrations\201606060751035_Precise_WorkItem_Cell_Mysql_20160606.Designer.cs">
-      <DependentUpon>201606060751035_Precise_WorkItem_Cell_Mysql_20160606.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201606061304294_Update_Precise_WorkItem_20160606.cs" />
     <Compile Include="Migrations\201606061304294_Update_Precise_WorkItem_20160606.Designer.cs">
       <DependentUpon>201606061304294_Update_Precise_WorkItem_20160606.cs</DependentUpon>
@@ -133,6 +125,10 @@
     <Compile Include="Migrations\201606130008403_EmergencyCommunications.Designer.cs">
       <DependentUpon>201606130008403_EmergencyCommunications.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606150542576_Update_Customer.cs" />
+    <Compile Include="Migrations\201606150542576_Update_Customer.Designer.cs">
+      <DependentUpon>201606150542576_Update_Customer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -141,12 +137,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605111320562_CellStatMysql_201605111.resx">
-      <DependentUpon>201605111320562_CellStatMysql_201605111.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606060751035_Precise_WorkItem_Cell_Mysql_20160606.resx">
-      <DependentUpon>201606060751035_Precise_WorkItem_Cell_Mysql_20160606.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606061304294_Update_Precise_WorkItem_20160606.resx">
       <DependentUpon>201606061304294_Update_Precise_WorkItem_20160606.cs</DependentUpon>
     </EmbeddedResource>
@@ -155,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606130008403_EmergencyCommunications.resx">
       <DependentUpon>201606130008403_EmergencyCommunications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606150542576_Update_Customer.resx">
+      <DependentUpon>201606150542576_Update_Customer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

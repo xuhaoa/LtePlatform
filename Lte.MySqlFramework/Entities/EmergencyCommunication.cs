@@ -12,6 +12,8 @@ namespace Lte.MySqlFramework.Entities
     {
         public DemandLevel DemandLevel { get; set; }
 
+        public int TownId { get; set; }
+
         public string ProjectName { get; set; }
 
         public int ExpectedPeople { get; set; }
