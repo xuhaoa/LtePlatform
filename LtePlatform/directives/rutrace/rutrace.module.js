@@ -313,7 +313,8 @@
             restrict: 'ECMA',
             replace: true,
             scope: {
-                victimCells: '='
+                victimCells: '=',
+                orderPolicy: '='
             },
             templateUrl: htmlRoot + 'interference/VictimList.html'
         };

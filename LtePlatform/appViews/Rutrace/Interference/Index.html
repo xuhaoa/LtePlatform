@@ -2,7 +2,7 @@
     {{message.cellName}}更新{{message.topic}}小区信息{{message.counts}}条
 </div>
 <div class="row">
-    <div class="col-md-6" begin-span-column begin-date="beginDate" end-date="endDate"></div>
+    <div class="col-md-6" date-span-column begin-date="beginDate" end-date="endDate"></div>
     <div class="col-md-6">
         <label>排序依据：</label>
         <div class="input-group">
@@ -28,7 +28,7 @@
         <div interference-source-list interference-cells="interferenceCells" order-policy="orderPolicy" top-stat="topStat"></div>
     </div>
     <div uib-tab index="2" heading="被干扰小区({{victimCells.length}})">
-        <div interference-victim-list victim-cells="victimCells"></div>
+        <div interference-victim-list victim-cells="victimCells" order-policy="orderPolicy"></div>
     </div>
     <div uib-tab index="3" heading="干扰份额分析">
         <div id="interference-over6db"></div>
