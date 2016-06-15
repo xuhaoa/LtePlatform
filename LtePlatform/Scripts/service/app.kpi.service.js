@@ -1,5 +1,5 @@
 ﻿angular.module('myApp.kpi', ['myApp.url', 'myApp.region'])
-    .factory('appKpiService', function (generalHttpService) {
+    .factory('appKpiService', function () {
         var accumulatePreciseStat = function (source, accumulate) {
             source.totalMrs += accumulate.totalMrs;
             source.firstNeighbors += accumulate.firstNeighbors;
@@ -283,27 +283,6 @@
                     options: options,
                     selected: options[4].value
                 };
-            },
-            getOrderSelection: function () {
-                return generalHttpService.getApiData('PreciseStat', {});
-            },
-            queryTopKpis: function (begin, end, topCount, orderSelection) {
-                return generalHttpService.getApiData('PreciseStat', {
-                    'begin': begin,
-                    'end': end,
-                    'topCount': topCount,
-                    'orderSelection': orderSelection
-                });
-            },
-            queryTopKpisInDistrict: function (begin, end, topCount, orderSelection, city, district) {
-                return generalHttpService.getApiData('PreciseStat', {
-                    'begin': begin,
-                    'end': end,
-                    'topCount': topCount,
-                    'orderSelection': orderSelection,
-                    city: city,
-                    district: district
-                });
             },
             addMonitor: function(cell) {
                 $http.post(appUrlService.getApiUrl('NeighborMonitor'), {

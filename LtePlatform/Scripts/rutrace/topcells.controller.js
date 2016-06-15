@@ -1,4 +1,4 @@
-﻿app.controller("rutrace.top", function ($scope, $http, appUrlService, topPreciseService, workitemService) {
+﻿app.controller("rutrace.top", function ($scope, $http, appUrlService, topPreciseService, kpiPreciseService, workitemService) {
     $scope.page.title = "TOP指标分析";
     $scope.topCells = [];
     var lastWeek = new Date();
@@ -23,7 +23,7 @@
 
     $scope.query = function () {
         $scope.topCells = [];
-        topPreciseService.queryTopKpis($scope.beginDate.value, $scope.endDate.value, $scope.topCount.selected,
+        kpiPreciseService.queryTopKpis($scope.beginDate.value, $scope.endDate.value, $scope.topCount.selected,
             $scope.orderPolicy.selected).then(function (result) {
                 $scope.topCells = result;
             angular.forEach(result, function(cell) {
@@ -56,7 +56,7 @@
     };
 
 
-    topPreciseService.getOrderSelection().then(function (result) {
+    kpiPreciseService.getOrderSelection().then(function (result) {
         $scope.orderPolicy.options = result;
         $scope.orderPolicy.selected = result[0];
         $scope.query();
