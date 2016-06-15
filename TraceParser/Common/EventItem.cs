@@ -4,6 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TraceParser.Eutra;
+using TraceParser.S1ap;
+using TraceParser.X2ap;
+using HandoverCommand = TraceParser.S1ap.HandoverCommand;
+using HandoverRequest = TraceParser.S1ap.HandoverRequest;
+using HandoverRequestAcknowledge = TraceParser.S1ap.HandoverRequestAcknowledge;
 
 namespace TraceParser.Common
 {
@@ -141,6 +146,132 @@ namespace TraceParser.Common
         public string RacUeRef { get; set; }
 
         public DateTime TraceTime { get; set; }
+    }
+
+    public class EventMeasurementReport
+    {
+        public EventHead eventhead { get; set; }
+
+        public MeasurementReport MeasurementReport { get; set; }
+    }
+
+    public class EventRRCConnectionReconfiguration
+    {
+        public EventHead eventhead { get; set; }
+
+        public RRCConnectionReconfiguration RRCConnectionReconfiguration { get; set; }
+    }
+
+    public class EventRRCConnectionReconfigurationComplete
+    {
+        public EventHead eventhead { get; set; }
+
+        public RRCConnectionReconfigurationComplete RRCConnectionReconfigurationComplete { get; set; }
+    }
+
+    public class EventRRCConnectionReject
+    {
+        public EventHead eventhead { get; set; }
+
+        public RRCConnectionReject RRCConnectionReject { get; set; }
+    }
+
+    public class EventRRCConnectionRelease
+    {
+        public EventHead eventhead { get; set; }
+
+        public RRCConnectionRelease RRCConnectionRelease { get; set; }
+    }
+
+    public class EventRRCConnectionRequest
+    {
+        public EventHead eventhead { get; set; }
+
+        public RRCConnectionRequest RRCConnectionRequest { get; set; }
+    }
+
+    public class EventRRCConnectionSetup
+    {
+        public EventHead eventhead { get; set; }
+
+        public RRCConnectionSetup RRCConnectionSetup { get; set; }
+    }
+
+    public class EventRRCConnectionSetupComplete
+    {
+        public EventHead eventhead { get; set; }
+
+        public RRCConnectionSetupComplete RRCConnectionSetupComplete { get; set; }
+    }
+
+    public class EventS1HandoverCommand
+    {
+        public EventHead eventhead { get; set; }
+
+        public HandoverCommand HandoverCommand { get; set; }
+    }
+
+    public class EventS1HandoverRequest
+    {
+        public EventHead eventhead { get; set; }
+
+        public HandoverRequest HandoverRequest { get; set; }
+    }
+
+    public class EventS1HandoverRequestAcknowledge
+    {
+        public EventHead eventhead { get; set; }
+
+        public HandoverRequestAcknowledge HandoverRequestAcknowledge { get; set; }
+    }
+
+    public class EventS1HandoverRequired
+    {
+        public EventHead eventhead { get; set; }
+
+        public HandoverRequired HandoverRequired { get; set; }
+    }
+
+    public class EventS1InitialContextSetupRequest
+    {
+        public EventHead eventhead { get; set; }
+
+        public InitialContextSetupRequest InitialContextSetupRequest { get; set; }
+    }
+
+    public class EventS1InitialUEMessage
+    {
+        public EventHead eventhead { get; set; }
+
+        public InitialUEMessage InitialUEMessage { get; set; }
+    }
+
+    public class EventS1UEContextReleaseCommand
+    {
+        public EventHead eventhead { get; set; }
+
+        public UEContextReleaseCommand UEContextReleaseCommand { get; set; }
+    }
+
+    public class EventX2HandoverRequest
+    {
+        public EventHead eventhead { get; set; }
+
+        public X2ap.HandoverRequest HandoverRequest { get; set; }
+    }
+
+    public class EventX2HandoverRequestAcknowledge
+    {
+        public EventHead eventhead { get; set; }
+
+        public X2ap.HandoverRequestAcknowledge HandoverRequestAcknowledge { get; set; }
+    }
+
+    public class EventX2UEContextRelease
+    {
+        public EventHead eventhead { get; set; }
+
+        public UEContextRelease UEContextRelease { get; set; }
     }
 
 }
