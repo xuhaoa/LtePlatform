@@ -1,5 +1,5 @@
 ﻿
-app.controller("rutrace.index", function ($scope, appRegionService, appKpiService, appFormatService) {
+app.controller("rutrace.index", function ($scope, appRegionService, appKpiService, kpiPreciseService, appFormatService) {
     $scope.page.title = "指标总体情况";
     var yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
@@ -12,7 +12,7 @@ app.controller("rutrace.index", function ($scope, appRegionService, appKpiServic
         options: []
     };
     $scope.showKpi = function() {
-        appKpiService.getRecentPreciseRegionKpi($scope.city.selected, $scope.statDate.value)
+        kpiPreciseService.getRecentPreciseRegionKpi($scope.city.selected, $scope.statDate.value)
             .then(function (result) {
                 $scope.statDate.value = appFormatService.getDate(result.statDate);
                 angular.forEach(result.districtPreciseViews, function(view) {

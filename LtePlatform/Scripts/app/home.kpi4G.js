@@ -1,11 +1,11 @@
-﻿app.controller("home.kpi4G", function ($scope, appKpiService, appFormatService, kpi4GDisplayService) {
+﻿app.controller("home.kpi4G", function ($scope, kpiPreciseService, appKpiService, appFormatService, kpi4GDisplayService) {
     var yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     $scope.statDate = {
         value: yesterday,
         opened: false
     };
-    appKpiService.getRecentPreciseRegionKpi($scope.city.selected || '佛山', $scope.statDate.value || new Date())
+    kpiPreciseService.getRecentPreciseRegionKpi($scope.city.selected || '佛山', $scope.statDate.value || new Date())
         .then(function(result) {
             $scope.statDate.value = appFormatService.getDate(result.statDate);
             $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, $scope.city.selected);

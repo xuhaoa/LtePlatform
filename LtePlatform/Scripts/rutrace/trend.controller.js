@@ -1,5 +1,5 @@
 ﻿
-app.controller("rutrace.trend", function ($scope, appRegionService, appKpiService, appFormatService) {
+app.controller("rutrace.trend", function ($scope, appRegionService, appKpiService, kpiPreciseService, appFormatService) {
     $scope.page.title = "指标变化趋势";
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 7);
@@ -13,7 +13,7 @@ app.controller("rutrace.trend", function ($scope, appRegionService, appKpiServic
     };
 
     $scope.showTrend = function () {
-        appKpiService.getDateSpanPreciseRegionKpi($scope.city.selected, $scope.beginDate.value, $scope.endDate.value)
+        kpiPreciseService.getDateSpanPreciseRegionKpi($scope.city.selected, $scope.beginDate.value, $scope.endDate.value)
             .then(function (result) {
                 $scope.trendStat.stats = appKpiService.generateDistrictStats($scope.trendStat.districts, result);
                 if (result.length > 0) {

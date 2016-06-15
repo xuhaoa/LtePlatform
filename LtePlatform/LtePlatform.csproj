@@ -939,8 +939,9 @@
     <Content Include="Scripts\service\filters\basic.js" />
     <Content Include="Scripts\service\filters\cell.js" />
     <Content Include="Scripts\service\filters\handoff.js" />
-    <Content Include="Scripts\service\kpi.basic.service.js" />
-    <Content Include="Scripts\service\kpi.import.service.js" />
+    <Content Include="Scripts\service\kpi\basic.service.js" />
+    <Content Include="Scripts\service\kpi\import.service.js" />
+    <Content Include="Scripts\service\kpi\precise.js" />
     <Content Include="Scripts\service\mongo\cell.huawei.js" />
     <Content Include="Scripts\service\mongo\handoff.js" />
     <Content Include="Scripts\service\mongo\neighbor.js" />
@@ -949,7 +950,7 @@
     <Content Include="Scripts\service\parameters.map.service.js" />
     <Content Include="Scripts\service\topic\college.js" />
     <Content Include="Scripts\service\topic\college.map.service.js" />
-    <Content Include="Scripts\service\workitem.service.js" />
+    <Content Include="Scripts\service\kpi\workitem.service.js" />
     <Content Include="Scripts\test\example.js" />
     <Content Include="Scripts\test\jasmineTest.js" />
     <Content Include="Scripts\test\kpi.conf.js" />

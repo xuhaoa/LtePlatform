@@ -19,19 +19,7 @@
         };
 
         return {
-            getRecentPreciseRegionKpi: function (city, initialDate) {
-                return generalHttpService.getApiData('PreciseRegion', {
-                    city: city,
-                    statDate: initialDate
-                });
-            },
-            getDateSpanPreciseRegionKpi: function (city, beginDate, endDate) {
-                return generalHttpService.getApiData('PreciseRegion', {
-                    city: city,
-                    begin: beginDate,
-                    end: endDate
-                });
-            },
+            
             getCityStat: function (districtStats, currentCity) {
                 var stat = {
                     city: currentCity,

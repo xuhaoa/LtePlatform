@@ -11,6 +11,7 @@
     'huawei.mongo.parameters',
     'kpi.basic',
     'kpi.import',
+    'kpi.precise',
     'kpi.workitem',
     'myApp.authorize',
     'myApp.dumpInterference',
