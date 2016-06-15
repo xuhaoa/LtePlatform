@@ -14,10 +14,10 @@
                     end: endDate
                 });
             },
-            getOrderSelection: function () {
+            getOrderSelection: function() {
                 return generalHttpService.getApiData('PreciseStat', {});
             },
-            queryTopKpis: function (begin, end, topCount, orderSelection) {
+            queryTopKpis: function(begin, end, topCount, orderSelection) {
                 return generalHttpService.getApiData('PreciseStat', {
                     'begin': begin,
                     'end': end,
@@ -25,7 +25,7 @@
                     'orderSelection': orderSelection
                 });
             },
-            queryTopKpisInDistrict: function (begin, end, topCount, orderSelection, city, district) {
+            queryTopKpisInDistrict: function(begin, end, topCount, orderSelection, city, district) {
                 return generalHttpService.getApiData('PreciseStat', {
                     'begin': begin,
                     'end': end,
@@ -33,6 +33,44 @@
                     'orderSelection': orderSelection,
                     city: city,
                     district: district
+                });
+            }
+        };
+    })
+    .factory('preciseInterferenceService', function(generalHttpService, appUrlService, $http) {
+        return {
+            addMonitor: function(cell) {
+                $http.post(appUrlService.getApiUrl('NeighborMonitor'), {
+                    cellId: cell.cellId,
+                    sectorId: cell.sectorId
+                }).success(function() {
+                    cell.isMonitored = true;
+                });
+            },
+            queryMonitor: function(cellId, sectorId) {
+                return generalHttpService.getApiData('NeighborMonitor', {
+                    'cellId': cellId,
+                    'sectorId': sectorId
+                });
+            },
+            updateInterferenceNeighbor: function(cellId, sectorId) {
+                return generalHttpService.getApiData('InterferenceNeighbor', {
+                    'cellId': cellId,
+                    'sectorId': sectorId
+                });
+            },
+            queryInterferenceNeighbor: function(begin, end, cellId, sectorId) {
+                return generalHttpService.getApiData('InterferenceNeighbor', {
+                    'begin': begin,
+                    'end': end,
+                    'cellId': cellId,
+                    'sectorId': sectorId
+                });
+            },
+            updateInterferenceVictim: function(cellId, sectorId) {
+                return generalHttpService.getApiData('InterferenceNeighbor', {
+                    neighborCellId: cellId,
+                    neighborSectorId: sectorId
                 });
             }
         };

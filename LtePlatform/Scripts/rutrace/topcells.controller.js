@@ -1,4 +1,4 @@
-﻿app.controller("rutrace.top", function ($scope, $http, appUrlService, topPreciseService, kpiPreciseService, workitemService) {
+﻿app.controller("rutrace.top", function ($scope, $http, preciseInterferenceService, kpiPreciseService, workitemService) {
     $scope.page.title = "TOP指标分析";
     $scope.topCells = [];
     var lastWeek = new Date();
@@ -37,7 +37,7 @@
                         }
                     }
                 });
-                topPreciseService.queryMonitor(cell.cellId, cell.sectorId).then(function(monitored) {
+                preciseInterferenceService.queryMonitor(cell.cellId, cell.sectorId).then(function (monitored) {
                     cell.isMonitored = monitored;
                 });
             });
@@ -46,7 +46,7 @@
     $scope.monitorAll = function () {
         angular.forEach($scope.topCells, function(cell) {
             if (cell.isMonitored === false) {
-                topPreciseService.addMonitor(cell);
+                preciseInterferenceService.addMonitor(cell);
             }
         });
     };

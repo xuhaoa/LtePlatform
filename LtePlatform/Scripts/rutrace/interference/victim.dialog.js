@@ -1,5 +1,5 @@
 ﻿app.controller('interference.victim.dialog', function ($scope, $uibModalInstance, dialogTitle, eNodebId, sectorId,
-    topPreciseService) {
+    topPreciseService, preciseInterferenceService) {
     $scope.dialogTitle = dialogTitle;
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 7);
@@ -43,7 +43,7 @@
 
         topPreciseService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
             eNodebId, sectorId).then(function(victims) {
-            topPreciseService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
+                preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
                 eNodebId, sectorId).then(function(result) {
                 angular.forEach(victims, function(victim) {
                     for (var j = 0; j < result.length; j++) {

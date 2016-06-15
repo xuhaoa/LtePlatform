@@ -1,4 +1,4 @@
-﻿app.controller("rutrace.coverage", function($scope, $routeParams, $uibModal, topPreciseService) {
+﻿app.controller("rutrace.coverage", function ($scope, $routeParams, $uibModal, topPreciseService, preciseInterferenceService) {
     $scope.currentCellName = $routeParams.name + "-" + $routeParams.sectorId;
     $scope.page.title = "TOP指标覆盖分析: " + $scope.currentCellName;
     var lastWeek = new Date();
@@ -20,7 +20,7 @@
             $routeParams.cellId, $routeParams.sectorId).then(function(result) {
             $scope.coverageList = result;
             });
-        topPreciseService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
+        preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
             $routeParams.cellId, $routeParams.sectorId).then(function(result) {
             $scope.interferenceCells = result;
             angular.forEach($scope.interferenceCells, function(neighbor) {

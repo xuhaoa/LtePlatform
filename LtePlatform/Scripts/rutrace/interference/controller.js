@@ -1,5 +1,5 @@
 ﻿app.controller("rutrace.interference", function ($scope, $timeout, $routeParams,
-    networkElementService, topPreciseService, menuItemService, neighborMongoService) {
+    networkElementService, topPreciseService, preciseInterferenceService, menuItemService, neighborMongoService) {
     $scope.currentCellName = $routeParams.name + "-" + $routeParams.sectorId;
     $scope.page.title = "TOP指标干扰分析: " + $scope.currentCellName;
     menuItemService.updateMenuItem($scope.menuItems, 1, $scope.page.title,
@@ -22,7 +22,7 @@
         $scope.interferenceCells = [];
         $scope.victimCells = [];
 
-        topPreciseService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
+        preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
             $routeParams.cellId, $routeParams.sectorId).then(function(result) {
             angular.forEach(result, function(cell) {
                 for (var i = 0; i < $scope.mongoNeighbors.length; i++) {
@@ -72,7 +72,7 @@
     $scope.updateNeighborInfos=function() {
         if ($scope.topStat.updateInteferenceProgress[$scope.currentCellName] !== true) {
             $scope.topStat.updateInteferenceProgress[$scope.currentCellName] = true;
-            topPreciseService.updateInterferenceNeighbor($routeParams.cellId, $routeParams.sectorId).then(function (result) {
+            preciseInterferenceService.updateInterferenceNeighbor($routeParams.cellId, $routeParams.sectorId).then(function (result) {
                 $scope.updateMessages.push({
                     cellName: $scope.currentCellName,
                     counts: result,
@@ -84,7 +84,7 @@
 
         if ($scope.topStat.updateVictimProgress[$scope.currentCellName] !== true) {
             $scope.topStat.updateVictimProgress[$scope.currentCellName] = true;
-            topPreciseService.updateInterferenceVictim($routeParams.cellId, $routeParams.sectorId).then(function (result) {
+            preciseInterferenceService.updateInterferenceVictim($routeParams.cellId, $routeParams.sectorId).then(function (result) {
                 $scope.updateMessages.push({
                     cellName: $scope.currentCellName,
                     counts: result,

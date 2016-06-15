@@ -1,5 +1,5 @@
 ﻿app.controller('interference.source.dialog', function ($scope, $uibModalInstance, dialogTitle, eNodebId, sectorId,
-    topPreciseService, neighborMongoService) {
+    preciseInterferenceService, neighborMongoService) {
     $scope.dialogTitle = dialogTitle;
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 7);
@@ -41,7 +41,7 @@
     $scope.showInterference = function () {
         $scope.interferenceCells = [];
 
-        topPreciseService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
+        preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
             eNodebId, sectorId).then(function (result) {
                 angular.forEach(result, function (cell) {
                     for (var i = 0; i < $scope.mongoNeighbors.length; i++) {

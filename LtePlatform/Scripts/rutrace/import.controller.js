@@ -1,5 +1,5 @@
 ﻿app.controller("rutrace.import", function ($scope, $http, $routeParams,
-    menuItemService, neighborService, neighborMongoService, topPreciseService, networkElementService) {
+    menuItemService, neighborService, neighborMongoService, preciseInterferenceService, networkElementService) {
     $scope.currentCellName = $routeParams.name + "-" + $routeParams.sectorId;
     $scope.page.title = "TOP指标邻区监控: " + $scope.currentCellName;
     menuItemService.updateMenuItem($scope.menuItems, 1, $scope.page.title,
@@ -18,7 +18,7 @@
     $scope.currentPage = 1;
     $scope.neighborCells = [];
     $scope.updateMessages = [];
-    topPreciseService.queryMonitor($routeParams.cellId, $routeParams.sectorId).then(function(result) {
+    preciseInterferenceService.queryMonitor($routeParams.cellId, $routeParams.sectorId).then(function (result) {
         $scope.cellMonitored = result;
     });
 
@@ -27,7 +27,7 @@
         neighborService.queryCellNeighbors($routeParams.cellId, $routeParams.sectorId).then(function (result) {
             $scope.neighborCells = result;
             angular.forEach(result, function(neighbor) {
-                topPreciseService.queryMonitor(neighbor.cellId, neighbor.sectorId).then(function(monitored) {
+                preciseInterferenceService.queryMonitor(neighbor.cellId, neighbor.sectorId).then(function(monitored) {
                     neighbor.isMonitored = monitored;
                 });
             });
@@ -41,7 +41,7 @@
                 networkElementService.queryENodebInfo(neighbor.cellId).then(function(info) {
                     neighbor.eNodebName = info.name;
                 });
-                topPreciseService.queryMonitor(neighbor.cellId, neighbor.sectorId).then(function (monitored) {
+                preciseInterferenceService.queryMonitor(neighbor.cellId, neighbor.sectorId).then(function (monitored) {
                     neighbor.isMonitored = monitored;
                 });
             });
@@ -90,7 +90,7 @@
         $scope.updateMessages.splice(index, 1);
     }
     $scope.addMonitor = function() {
-        topPreciseService.addMonitor({
+        preciseInterferenceService.addMonitor({
             cellId: $routeParams.cellId,
             sectorId: $routeParams.sectorId
         });

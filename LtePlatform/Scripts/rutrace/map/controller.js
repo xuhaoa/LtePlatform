@@ -1,5 +1,5 @@
 ﻿app.controller("rutrace.map", function ($scope, $timeout, $routeParams, $location, $uibModal, $log,
-    geometryService, baiduMapService, networkElementService, menuItemService, cellPreciseService, neighborMongoService, topPreciseService) {
+    geometryService, baiduMapService, networkElementService, menuItemService, cellPreciseService, neighborMongoService, topPreciseService, preciseInterferenceService) {
     $scope.page.title = "小区地理化分析" + ": " + $routeParams.name + "-" + $routeParams.sectorId;
     $scope.neighborLines = [];
     $scope.displayNeighbors = false;
@@ -63,7 +63,7 @@
             neighborMongoService.queryReverseNeighbors($routeParams.cellId, $routeParams.sectorId).then(function(neighbors) {
                 baiduMapService.generateReverseNeighborLines($scope.reverseNeighborLines, cell, neighbors, xOffset, yOffset);
             });
-            topPreciseService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
+            preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
                 $routeParams.cellId, $routeParams.sectorId).then(function (interference) {
                     baiduMapService.generateInterferenceComponents($scope.interferenceLines, $scope.interferenceCircles, cell,
                         interference, xOffset, yOffset, "orange");
