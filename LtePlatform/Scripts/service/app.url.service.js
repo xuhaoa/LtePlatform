@@ -76,6 +76,24 @@
             }
         };
     })
+    .factory('generalHttpService', function ($q, $http, appUrlService) {
+        return {
+            getApiData: function(topic, params) {
+                var deferred = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: appUrlService.getApiUrl(topic),
+                    params: params
+                }).success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (reason) {
+                    deferred.reject(reason);
+                });
+                return deferred.promise;
+            }
+        };
+    })
     .factory('menuItemService', function() {
         return {
             updateMenuItem: function (items, index, title, url, masterName) {

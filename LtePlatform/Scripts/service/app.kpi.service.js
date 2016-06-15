@@ -1,5 +1,5 @@
 ﻿angular.module('myApp.kpi', ['myApp.url', 'myApp.region'])
-    .factory('appKpiService', function ($q, $http, appUrlService) {
+    .factory('appKpiService', function (generalHttpService) {
         var accumulatePreciseStat = function (source, accumulate) {
             source.totalMrs += accumulate.totalMrs;
             source.firstNeighbors += accumulate.firstNeighbors;
@@ -20,39 +20,17 @@
 
         return {
             getRecentPreciseRegionKpi: function (city, initialDate) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('PreciseRegion'),
-                    params: {
-                        city: city,
-                        statDate: initialDate
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
+                return generalHttpService.getApiData('PreciseRegion', {
+                    city: city,
+                    statDate: initialDate
                 });
-                return deferred.promise;
             },
             getDateSpanPreciseRegionKpi: function (city, beginDate, endDate) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('PreciseRegion'),
-                    params: {
-                        city: city,
-                        begin: beginDate,
-                        end: endDate
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
+                return generalHttpService.getApiData('PreciseRegion', {
+                    city: city,
+                    begin: beginDate,
+                    end: endDate
                 });
-                return deferred.promise;
             },
             getCityStat: function (districtStats, currentCity) {
                 var stat = {
