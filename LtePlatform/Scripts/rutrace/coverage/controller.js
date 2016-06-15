@@ -11,6 +11,7 @@
         value: new Date(),
         opened: false
     };
+    $scope.orderPolicy = topPreciseService.getOrderPolicySelection();
     $scope.detailsDialogTitle = $routeParams.name + "-" + $routeParams.sectorId + "详细小区统计";
     $scope.cellId = $routeParams.cellId;
     $scope.sectorId = $routeParams.sectorId;

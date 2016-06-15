@@ -1,16 +1,27 @@
-﻿<div date-span-row begin-date="beginDate" end-date="endDate">
-    <button type="button" class="btn btn-warning" ng-click="showCoverage()">
-        <i class="glyphicon glyphicon-search" title="统计覆盖"></i>
-    </button>
+﻿<div class="row">
+    <div class="col-md-6" date-span-column begin-date="beginDate" end-date="endDate"></div>
+    <div class="col-md-6">
+        <label>排序依据：</label>
+        <div class="input-group">
+            <select class="form-control" ng-model="orderPolicy.selected">
+                <option ng-repeat="p in orderPolicy.options" label="{{p.name}}" value="{{p.value}}">{{p.name}}</option>
+            </select>
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-warning" ng-click="showCoverage()">
+                    <i class="glyphicon glyphicon-search" title="统计覆盖"></i>
+                </button>
+            </span>
+        </div>
+    </div>
 </div>
 <div uib-tabset active="active">
     <div uib-tab index="0" heading="总体覆盖情况">
         <div coverage-table coverage-list="coverageList" dialog-title="detailsDialogTitle" cell-id="cellId" sector-id="sectorId"></div>
     </div>
     <div uib-tab index="1" heading="干扰源覆盖分析">
-        <div interference-source-coverage-list interference-cells="interferenceCells"></div>
+        <div interference-source-coverage-list interference-cells="interferenceCells" order-policy="orderPolicy"></div>
     </div>
     <div uib-tab index="2" heading="被干扰小区覆盖分析">
-        <div interference-victim-coverage-list victim-cells="interferenceVictims"></div>
+        <div interference-victim-coverage-list victim-cells="interferenceVictims" order-policy="orderPolicy"></div>
     </div>
 </div>

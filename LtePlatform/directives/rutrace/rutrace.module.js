@@ -200,36 +200,15 @@
         };
     })
     .directive('interferenceSourceCoverageList', function (htmlRoot, $uibModal, $log) {
-        var options = [
-            {
-                name: "模3干扰数",
-                value: "mod3Interferences"
-            }, {
-                name: "模6干扰数",
-                value: "mod6Interferences"
-            }, {
-                name: "6dB干扰数",
-                value: "overInterferences6Db"
-            }, {
-                name: "10dB干扰数",
-                value: "overInterferences10Db"
-            }, {
-                name: "总干扰水平",
-                value: "interferenceLevel"
-            }
-        ];
         return {
             restrict: 'ECMA',
             replace: true,
             scope: {
-                interferenceCells: '='
+                interferenceCells: '=',
+                orderPolicy: '='
             },
             templateUrl: htmlRoot + 'coverage/InterferenceSourceList.html',
             link: function (scope, element, attrs) {
-                scope.orderPolicy = {
-                    options: options,
-                    selected: options[4].value
-                };
                 scope.analyzeTa = function(cell) {
                     var modalInstance = $uibModal.open({
                         animation: true,
@@ -336,7 +315,8 @@
             restrict: 'ECMA',
             replace: true,
             scope: {
-                victimCells: '='
+                victimCells: '=',
+                orderPolicy: '='
             },
             templateUrl: htmlRoot + 'coverage/InterferenceVictimList.html',
             link: function (scope, element, attrs) {

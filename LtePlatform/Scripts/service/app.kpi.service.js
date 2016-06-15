@@ -272,6 +272,30 @@
     })
     .factory('topPreciseService', function ($q, $http, appUrlService) {
         return {
+            getOrderPolicySelection: function() {
+                var options = [
+                    {
+                        name: "模3干扰数",
+                        value: "mod3Interferences"
+                    }, {
+                        name: "模6干扰数",
+                        value: "mod6Interferences"
+                    }, {
+                        name: "6dB干扰数",
+                        value: "overInterferences6Db"
+                    }, {
+                        name: "10dB干扰数",
+                        value: "overInterferences10Db"
+                    }, {
+                        name: "总干扰水平",
+                        value: "interferenceLevel"
+                    }
+                ];
+                return {
+                    options: options,
+                    selected: options[4].value
+                };
+            },
             getOrderSelection: function() {
                 var deferred = $q.defer();
                 $http({
