@@ -467,6 +467,7 @@
     <Content Include="appViews\Parameters\Region\ENodebFlow.html" />
     <Content Include="appViews\Rutrace\Coverage\TaQueryChartDialog.html" />
     <Content Include="appViews\Rutrace\Interference\VictimDialog.html" />
+    <Content Include="appViews\Rutrace\WorkItem\CellTrend.html" />
     <Content Include="appViews\Rutrace\WorkItem\ForCell.html" />
     <Content Include="directives\parameters\cell\Power.html" />
     <Content Include="directives\parameters\cell\CellInterFreq.html" />
