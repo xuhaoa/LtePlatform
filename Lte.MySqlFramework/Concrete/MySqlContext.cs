@@ -23,5 +23,7 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<PreciseWorkItemCell> PreciseWorkItemCells { get; set; }
 
         public DbSet<EmergencyCommunication> EmergencyCommunications { get; set; }
+
+        public DbSet<DownSwitchFlow> DownSwitchFlows { get; set; }
     }
 }

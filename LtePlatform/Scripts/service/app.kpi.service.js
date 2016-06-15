@@ -270,7 +270,7 @@
             }
         }
     })
-    .factory('topPreciseService', function ($q, $http, appUrlService) {
+    .factory('topPreciseService', function (generalHttpService, $http, appUrlService) {
         return {
             getOrderPolicySelection: function() {
                 var options = [
@@ -296,58 +296,26 @@
                     selected: options[4].value
                 };
             },
-            getOrderSelection: function() {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('PreciseStat'),
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            getOrderSelection: function () {
+                return generalHttpService.getApiData('PreciseStat', {});
             },
-            queryTopKpis: function(begin, end, topCount, orderSelection) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('PreciseStat'),
-                        params: {
-                            'begin': begin,
-                            'end': end,
-                            'topCount': topCount,
-                            'orderSelection': orderSelection
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryTopKpis: function (begin, end, topCount, orderSelection) {
+                return generalHttpService.getApiData('PreciseStat', {
+                    'begin': begin,
+                    'end': end,
+                    'topCount': topCount,
+                    'orderSelection': orderSelection
+                });
             },
-            queryTopKpisInDistrict: function(begin, end, topCount, orderSelection, city, district) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('PreciseStat'),
-                        params: {
-                            'begin': begin,
-                            'end': end,
-                            'topCount': topCount,
-                            'orderSelection': orderSelection,
-                            city: city,
-                            district: district
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryTopKpisInDistrict: function (begin, end, topCount, orderSelection, city, district) {
+                return generalHttpService.getApiData('PreciseStat', {
+                    'begin': begin,
+                    'end': end,
+                    'topCount': topCount,
+                    'orderSelection': orderSelection,
+                    city: city,
+                    district: district
+                });
             },
             addMonitor: function(cell) {
                 $http.post(appUrlService.getApiUrl('NeighborMonitor'), {
@@ -357,261 +325,107 @@
                     cell.isMonitored = true;
                 });
             },
-            queryMonitor: function(cellId, sectorId) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('NeighborMonitor'),
-                        params: {
-                            'cellId': cellId,
-                            'sectorId': sectorId
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryMonitor: function (cellId, sectorId) {
+                return generalHttpService.getApiData('NeighborMonitor', {
+                    'cellId': cellId,
+                    'sectorId': sectorId
+                });
             },
-            updateInterferenceNeighbor: function(cellId, sectorId) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('InterferenceNeighbor'),
-                        params: {
-                            'cellId': cellId,
-                            'sectorId': sectorId
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            updateInterferenceNeighbor: function (cellId, sectorId) {
+                return generalHttpService.getApiData('InterferenceNeighbor', {
+                    'cellId': cellId,
+                    'sectorId': sectorId
+                });
             },
-            queryInterferenceNeighbor: function(begin, end, cellId, sectorId) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('InterferenceNeighbor'),
-                        params: {
-                            'begin': begin,
-                            'end': end,
-                            'cellId': cellId,
-                            'sectorId': sectorId
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryInterferenceNeighbor: function (begin, end, cellId, sectorId) {
+                return generalHttpService.getApiData('InterferenceNeighbor', {
+                    'begin': begin,
+                    'end': end,
+                    'cellId': cellId,
+                    'sectorId': sectorId
+                });
             },
-            updateInterferenceVictim: function(cellId, sectorId) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('InterferenceNeighbor'),
-                        params: {
-                            neighborCellId: cellId,
-                            neighborSectorId: sectorId
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            updateInterferenceVictim: function (cellId, sectorId) {
+                return generalHttpService.getApiData('InterferenceNeighbor', {
+                    neighborCellId: cellId,
+                    neighborSectorId: sectorId
+                });
             },
-            queryInterferenceVictim: function(begin, end, cellId, sectorId) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('InterferenceVictim'),
-                        params: {
-                            'begin': begin,
-                            'end': end,
-                            'cellId': cellId,
-                            'sectorId': sectorId
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryInterferenceVictim: function (begin, end, cellId, sectorId) {
+                return generalHttpService.getApiData('InterferenceVictim', {
+                    'begin': begin,
+                    'end': end,
+                    'cellId': cellId,
+                    'sectorId': sectorId
+                });
             },
             queryCoverage: function (begin, end, cellId, sectorId) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('CellStastic'),
-                    params: {
-                        'begin': begin,
-                        'end': end,
-                        'eNodebId': cellId,
-                        'sectorId': sectorId
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+                return generalHttpService.getApiData('CellStastic', {
+                    'begin': begin,
+                    'end': end,
+                    'eNodebId': cellId,
+                    'sectorId': sectorId
+                });
             },
-            queryCellStastic: function(cellId, pci, begin, end){
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('CellStastic'),
-                    params: {
-                        eNodebId: cellId,
-                        pci: pci,
-                        begin: begin,
-                        end: end
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryCellStastic: function (cellId, pci, begin, end) {
+                return generalHttpService.getApiData('CellStastic', {
+                    eNodebId: cellId,
+                    pci: pci,
+                    begin: begin,
+                    end: end
+                });
             },
             queryOneDayCellStastic: function (cellId, sectorId, date) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('CellStastic'),
-                    params: {
-                        eNodebId: cellId,
-                        sectorId: sectorId,
-                        date: date
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+                return generalHttpService.getApiData('CellStastic', {
+                    eNodebId: cellId,
+                    sectorId: sectorId,
+                    date: date
+                });
             },
             queryAverageRsrpTaStastic: function (cellId, sectorId, date) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('AverageRsrpTa'),
-                    params: {
-                        eNodebId: cellId,
-                        sectorId: sectorId,
-                        date: date
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+                return generalHttpService.getApiData('AverageRsrpTa', {
+                    eNodebId: cellId,
+                    sectorId: sectorId,
+                    date: date
+                });
             },
             queryAverageRsrpTaDateSpan: function (cellId, sectorId, begin, end) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('AverageRsrpTa'),
-                    params: {
-                        eNodebId: cellId,
-                        sectorId: sectorId,
-                        begin: begin,
-                        end: end
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+                return generalHttpService.getApiData('AverageRsrpTa', {
+                    eNodebId: cellId,
+                    sectorId: sectorId,
+                    begin: begin,
+                    end: end
+                });
             },
             queryAbove110TaRate: function (cellId, sectorId, date) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('Above110TaRate'),
-                    params: {
-                        eNodebId: cellId,
-                        sectorId: sectorId,
-                        date: date
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+                return generalHttpService.getApiData('Above110TaRate', {
+                    eNodebId: cellId,
+                    sectorId: sectorId,
+                    date: date
+                });
             },
             queryAbove110TaDateSpan: function (cellId, sectorId, begin, end) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('Above110TaRate'),
-                    params: {
-                        eNodebId: cellId,
-                        sectorId: sectorId,
-                        begin: begin,
-                        end: end
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+                return generalHttpService.getApiData('Above110TaRate', {
+                    eNodebId: cellId,
+                    sectorId: sectorId,
+                    begin: begin,
+                    end: end
+                });
             },
             queryAbove105TaRate: function (cellId, sectorId, date) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('Above105TaRate'),
-                    params: {
-                        eNodebId: cellId,
-                        sectorId: sectorId,
-                        date: date
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+                return generalHttpService.getApiData('Above105TaRate', {
+                    eNodebId: cellId,
+                    sectorId: sectorId,
+                    date: date
+                });
             },
             queryAbove105TaDateSpan: function (cellId, sectorId, begin, end) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('Above105TaRate'),
-                    params: {
-                        eNodebId: cellId,
-                        sectorId: sectorId,
-                        begin: begin,
-                        end: end
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+                return generalHttpService.getApiData('Above105TaRate', {
+                    eNodebId: cellId,
+                    sectorId: sectorId,
+                    begin: begin,
+                    end: end
+                });
             },
             getInterferencePieOptions: function(interferenceCells, currentCellName) {
                 var over6DbPie = new GradientPie();
