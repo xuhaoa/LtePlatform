@@ -56,6 +56,7 @@
     <Compile Include="Common\LAC.cs" />
     <Compile Include="Common\MME_Code.cs" />
     <Compile Include="Common\MME_Group_ID.cs" />
+    <Compile Include="Common\TraceConfigBase.cs" />
     <Compile Include="Common\TraceResultList.cs" />
     <Compile Include="Eric\EricEvent.cs" />
     <Compile Include="Eric\EricEventTypeList.cs" />

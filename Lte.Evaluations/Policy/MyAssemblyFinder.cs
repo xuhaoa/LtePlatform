@@ -15,7 +15,8 @@ namespace Lte.Evaluations.Policy
             return new List<Assembly>
             {
                 Assembly.Load("Lte.Parameters"),
-                Assembly.Load("Lte.Evaluations")
+                Assembly.Load("Lte.Evaluations"),
+                Assembly.Load("Lte.MySqlFramework")
             };
         }
     }

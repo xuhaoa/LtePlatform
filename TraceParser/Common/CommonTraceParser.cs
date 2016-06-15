@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Domain.Common;
+﻿using Lte.Domain.Common;
 using Lte.Domain.Regular;
 using TraceParser.Eutra;
 using TraceParser.S1ap;
@@ -60,4 +55,5 @@ namespace TraceParser.Common
             }
         }
     }
+
 }

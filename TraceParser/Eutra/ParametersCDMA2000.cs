@@ -71,7 +71,7 @@ namespace TraceParser.Eutra
                     }
                     if (stream.Read())
                     {
-                        type.ac_BarringConfig1XRTT_r11 = AC_BarringConfig1XRTT_r9.PerDecoder.Decode(input);
+                        type.ac_BarringConfig1XRTT_r11 = AC_BarringConfig1XRTT_r9.PerDecoder.Instance.Decode(input);
                     }
                     if (stream.Read())
                     {

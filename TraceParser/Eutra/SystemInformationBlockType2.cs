@@ -56,11 +56,11 @@ namespace TraceParser.Eutra
                     type.ac_BarringForEmergency = input.readBit() == 1;
                     if (stream.Read())
                     {
-                        type.ac_BarringForMO_Signalling = AC_BarringConfig.PerDecoder.Decode(input);
+                        type.ac_BarringForMO_Signalling = AC_BarringConfig.PerDecoder.Instance.Decode(input);
                     }
                     if (stream.Read())
                     {
-                        type.ac_BarringForMO_Data = AC_BarringConfig.PerDecoder.Decode(input);
+                        type.ac_BarringForMO_Data = AC_BarringConfig.PerDecoder.Instance.Decode(input);
                     }
                     return type;
                 }
@@ -157,11 +157,11 @@ namespace TraceParser.Eutra
                     stream2 = new BitMaskStream(input, 2);
                     if (stream2.Read())
                     {
-                        type.ssac_BarringForMMTEL_Voice_r9 = AC_BarringConfig.PerDecoder.Decode(input);
+                        type.ssac_BarringForMMTEL_Voice_r9 = AC_BarringConfig.PerDecoder.Instance.Decode(input);
                     }
                     if (stream2.Read())
                     {
-                        type.ssac_BarringForMMTEL_Video_r9 = AC_BarringConfig.PerDecoder.Decode(input);
+                        type.ssac_BarringForMMTEL_Video_r9 = AC_BarringConfig.PerDecoder.Instance.Decode(input);
                     }
                 }
                 if (flag)
@@ -169,7 +169,7 @@ namespace TraceParser.Eutra
                     stream2 = new BitMaskStream(input, 1);
                     if (stream2.Read())
                     {
-                        type.ac_BarringForCSFB_r10 = AC_BarringConfig.PerDecoder.Decode(input);
+                        type.ac_BarringForCSFB_r10 = AC_BarringConfig.PerDecoder.Instance.Decode(input);
                     }
                 }
                 return type;
