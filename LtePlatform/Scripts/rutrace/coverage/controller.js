@@ -36,7 +36,7 @@
                 }
             });
         });
-        topPreciseService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
+        preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
             $routeParams.cellId, $routeParams.sectorId).then(function(result) {
                 $scope.interferenceVictims = result;
                 angular.forEach($scope.interferenceVictims,function(victim) {

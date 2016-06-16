@@ -35,7 +35,7 @@
             });
             $scope.interferenceCells = result;
             $scope.topStat.interference[$scope.currentCellName] = result;
-            topPreciseService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
+                preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
                 $routeParams.cellId, $routeParams.sectorId).then(function (victims) {
                     angular.forEach(victims, function (victim) {
                         for (var j = 0; j < result.length; j++) {

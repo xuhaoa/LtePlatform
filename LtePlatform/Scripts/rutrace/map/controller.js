@@ -68,7 +68,7 @@
                     baiduMapService.generateInterferenceComponents($scope.interferenceLines, $scope.interferenceCircles, cell,
                         interference, xOffset, yOffset, "orange");
                 });
-            topPreciseService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
+            preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
                 $routeParams.cellId, $routeParams.sectorId).then(function(victims) {
                     baiduMapService.generateVictimComponents($scope.victimLines, $scope.victimCircles, cell,
                         victims, xOffset, yOffset, "green");

@@ -41,7 +41,7 @@
     $scope.showVictim = function () {
         $scope.victimCells = [];
 
-        topPreciseService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
+        preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
             eNodebId, sectorId).then(function(victims) {
                 preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
                 eNodebId, sectorId).then(function(result) {

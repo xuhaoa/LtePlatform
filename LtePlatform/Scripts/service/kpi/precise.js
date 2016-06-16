@@ -72,6 +72,14 @@
                     neighborCellId: cellId,
                     neighborSectorId: sectorId
                 });
+            },
+            queryInterferenceVictim: function (begin, end, cellId, sectorId) {
+                return generalHttpService.getApiData('InterferenceVictim', {
+                    'begin': begin,
+                    'end': end,
+                    'cellId': cellId,
+                    'sectorId': sectorId
+                });
             }
         };
     })

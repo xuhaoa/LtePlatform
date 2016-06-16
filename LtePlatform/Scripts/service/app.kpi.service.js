@@ -300,14 +300,6 @@
                     selected: options[4].value
                 };
             },
-            queryInterferenceVictim: function (begin, end, cellId, sectorId) {
-                return generalHttpService.getApiData('InterferenceVictim', {
-                    'begin': begin,
-                    'end': end,
-                    'cellId': cellId,
-                    'sectorId': sectorId
-                });
-            },
             queryCoverage: function (begin, end, cellId, sectorId) {
                 return generalHttpService.getApiData('CellStastic', {
                     'begin': begin,
