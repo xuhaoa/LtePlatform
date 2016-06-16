@@ -74,4 +74,14 @@
                 });
             }
         };
+    })
+    .factory('downSwitchService', function(generalHttpService) {
+        return {
+            getRecentKpi: function(city, initialDate) {
+                return generalHttpService.getApiData('DownSwitchFlow', {
+                    city: city,
+                    statDate: initialDate
+                });
+            }
+        };
     });

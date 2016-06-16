@@ -19,7 +19,15 @@
         };
 
         return {
-            
+            getDownSwitchRate: function (stats) {
+                var flow3G = 0;
+                var flow4G = 0;
+                angular.forEach(stats, function(stat) {
+                    flow3G += stat.downSwitchFlow3G;
+                    flow4G += stat.flow4G;
+                });
+                return 100 * flow3G / flow4G;
+            },
             getCityStat: function (districtStats, currentCity) {
                 var stat = {
                     city: currentCity,

@@ -11,7 +11,7 @@
         <div class="col-md-6">
             <p>统计日期：{{flowDate.value | date: "yyyy年MM月dd日"}}</p>
             <p>
-                4G用户3G流量比：{{cityStat.downSwitchFlow | number: 2}}%
+                4G用户3G流量比：{{flowStat | number: 2}}%
                 <div uib-rating aria-labelledby="default-rating" ng-model="downRate" max="max" read-only="isReadonly"
                      uib-tooltip-template="'downTooltipTemplate.html'" tooltip-class="customClass" tooltip-placement="bottom"></div>
             </p>
