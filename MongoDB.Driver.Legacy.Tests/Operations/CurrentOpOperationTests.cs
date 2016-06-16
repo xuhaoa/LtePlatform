@@ -14,16 +14,16 @@
 */
 
 using System;
-using System.Threading.Tasks;
 using FluentAssertions;
 using MongoDB.Driver.Core;
 using MongoDB.Driver.Core.Bindings;
 using MongoDB.Driver.Core.Misc;
 using MongoDB.Driver.Core.WireProtocol.Messages.Encoders;
+using MongoDB.Driver.Legacy.TestHelpers.CoreHelper;
 using MongoDB.Driver.Operations;
 using NUnit.Framework;
 
-namespace MongoDB.Driver.Tests.Operations
+namespace MongoDB.Driver.Legacy.Tests.Operations
 {
     [TestFixture]
     public class CurrentOpOperationTests

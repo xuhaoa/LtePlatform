@@ -19,6 +19,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using MongoDB.Driver.Legacy.TestHelpers;
 using NUnit.Framework;
 
 namespace MongoDB.Driver.Tests.Jira.CSharp714

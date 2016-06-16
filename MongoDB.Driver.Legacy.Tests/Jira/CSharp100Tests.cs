@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver.Legacy.TestHelpers;
 using NUnit.Framework;
 
 namespace MongoDB.Driver.Tests.Jira.CSharp100

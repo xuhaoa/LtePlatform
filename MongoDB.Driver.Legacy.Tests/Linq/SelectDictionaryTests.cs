@@ -21,6 +21,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Options;
 using MongoDB.Driver;
+using MongoDB.Driver.Legacy.TestHelpers;
 using MongoDB.Driver.Linq;
 using NUnit.Framework;
 

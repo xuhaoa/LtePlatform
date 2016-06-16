@@ -21,6 +21,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 using NUnit.Framework;
 using MongoDB.Driver.Builders;
+using MongoDB.Driver.Legacy.TestHelpers;
 
 namespace MongoDB.Driver.Tests.Jira.CSharp269
 {

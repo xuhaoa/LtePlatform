@@ -15,8 +15,10 @@
 
 using System;
 using MongoDB.Bson;
+using MongoDB.Driver.Legacy.TestHelpers.CoreHelper;
+using MongoDB.Driver.Tests;
 
-namespace MongoDB.Driver.Tests
+namespace MongoDB.Driver.Legacy.TestHelpers
 {
     /// <summary>
     /// A static class to handle online test configuration.

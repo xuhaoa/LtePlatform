@@ -20,6 +20,7 @@ using System.Reflection;
 using MongoDB.Driver.Core.Clusters;
 using MongoDB.Driver.Core.Misc;
 using MongoDB.Driver.Core.Servers;
+using MongoDB.Driver.Legacy.TestHelpers.CoreHelper;
 using NUnit.Framework;
 
 namespace MongoDB.Driver.Core

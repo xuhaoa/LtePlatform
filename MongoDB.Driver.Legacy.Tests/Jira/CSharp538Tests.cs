@@ -15,6 +15,7 @@
 
 using System.Linq;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver.Legacy.TestHelpers;
 using MongoDB.Driver.Linq;
 using NUnit.Framework;
 

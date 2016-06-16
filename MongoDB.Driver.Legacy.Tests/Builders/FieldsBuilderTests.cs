@@ -16,6 +16,7 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using MongoDB.Driver.Legacy.TestHelpers;
 using NUnit.Framework;
 
 namespace MongoDB.Driver.Tests.Builders

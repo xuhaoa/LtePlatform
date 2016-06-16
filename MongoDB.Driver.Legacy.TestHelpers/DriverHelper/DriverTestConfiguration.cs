@@ -14,6 +14,7 @@
 */
 
 using System;
+using MongoDB.Driver.Legacy.TestHelpers.CoreHelper;
 
 namespace MongoDB.Driver.Tests
 {

@@ -18,6 +18,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using MongoDB.Driver.Legacy.TestHelpers;
 using NUnit.Framework;
 
 namespace MongoDB.Driver.Tests

@@ -20,6 +20,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
+using MongoDB.Driver.Legacy.TestHelpers;
 using NUnit.Framework;
 
 namespace MongoDB.Driver.Tests.Jira.CSharp378

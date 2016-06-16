@@ -16,10 +16,12 @@
 using System;
 using System.Linq;
 using MongoDB.Bson;
-using MongoDB.Driver;
+using MongoDB.Driver.Legacy.TestHelpers;
+using MongoDB.Driver.Legacy.TestHelpers.CoreHelper;
+using MongoDB.Driver.Tests;
 using NUnit.Framework;
 
-namespace MongoDB.Driver.Tests
+namespace MongoDB.Driver.Legacy.Tests
 {
     [TestFixture]
     public class MongoServerTests

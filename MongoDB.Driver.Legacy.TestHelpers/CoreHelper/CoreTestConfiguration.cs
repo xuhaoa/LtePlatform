@@ -32,7 +32,7 @@ using MongoDB.Driver.Core.Servers;
 using MongoDB.Driver.Core.WireProtocol.Messages.Encoders;
 using NUnit.Framework;
 
-namespace MongoDB.Driver
+namespace MongoDB.Driver.Legacy.TestHelpers.CoreHelper
 {
     public static class CoreTestConfiguration
     {
