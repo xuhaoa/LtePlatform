@@ -1,11 +1,24 @@
 ﻿<div ng-controller="home.kpi4G" ng-init="max = 5; isReadonly = true">
-    <p>统计日期：{{statDate.value | begin: "yyyy年MM月dd日"}}</p>
-    <p>
-        今日指标值：{{cityStat.preciseRate | number: 2}}%
-        <div uib-rating aria-labelledby="default-rating" ng-model="rate" max="max" read-only="isReadonly"
-             uib-tooltip-template="'rateTooltipTemplate.html'" tooltip-class="customClass" tooltip-placement="bottom"></div>
-    </p>
+    <div class="row">
+        <div class="col-md-6">
+            <p>统计日期：{{statDate.value | date: "yyyy年MM月dd日"}}</p>
+            <p>
+                精确覆盖率：{{cityStat.preciseRate | number: 2}}%
+                <div uib-rating aria-labelledby="default-rating" ng-model="rate" max="max" read-only="isReadonly"
+                     uib-tooltip-template="'rateTooltipTemplate.html'" tooltip-class="customClass" tooltip-placement="bottom"></div>
+            </p>
+        </div>
+        <div class="col-md-6">
+            <p>统计日期：{{flowDate.value | date: "yyyy年MM月dd日"}}</p>
+            <p>
+                4G用户3G流量比：{{cityStat.downSwitchFlow | number: 2}}%
+                <div uib-rating aria-labelledby="default-rating" ng-model="downRate" max="max" read-only="isReadonly"
+                     uib-tooltip-template="'downTooltipTemplate.html'" tooltip-class="customClass" tooltip-placement="bottom"></div>
+            </p>
+        </div>
+    </div>
     <div id="preciseConfig"></div>
+
     <script type="text/ng-template" id="rateTooltipTemplate.html">
         <h6>精确覆盖率星级定义</h6>
         <ul>
@@ -15,6 +28,17 @@
             <li><strong>2星：</strong>精确覆盖率大于91.6%且小于等于92.6%</li>
             <li><strong>1星：</strong>精确覆盖率大于90%且小于等于91.6%</li>
             <li><strong>0星：</strong>精确覆盖率小于等于90%</li>
+        </ul>
+    </script>
+    <script type="text/ng-template" id="downTooltipTemplate.html">
+        <h6>4G用户3G流量比星级定义</h6>
+        <ul>
+            <li><strong>5星：</strong>4G用户3G流量比小于3%</li>
+            <li><strong>4星：</strong>4G用户3G流量比大于3%且小于等于5%</li>
+            <li><strong>3星：</strong>4G用户3G流量比大于5%且小于等于8%</li>
+            <li><strong>2星：</strong>4G用户3G流量比大于8%且小于等于10%</li>
+            <li><strong>1星：</strong>4G用户3G流量比大于10%且小于等于15%</li>
+            <li><strong>0星：</strong>4G用户3G流量比大于等于15%</li>
         </ul>
     </script>
 </div>
