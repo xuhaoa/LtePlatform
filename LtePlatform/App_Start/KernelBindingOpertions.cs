@@ -143,6 +143,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IEmergencyCommunicationRepository>().To<EmergencyCommunicationRepository>();
 
+            ninjectKernel.Bind<IDownSwitchFlowRepository>().To<DownSwitchFlowRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Repositories;
+using Lte.Domain.LinqToCsv.Context;
+using Lte.Domain.LinqToCsv.Description;
 using Lte.Domain.LinqToExcel;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
@@ -52,15 +55,14 @@ namespace Lte.Evaluations.DataService.Kpi
             return message;
         }
 
-        public string ImportDownSwitch(string path)
+        public string ImportDownSwitch(StreamReader reader)
         {
-            var factory = new ExcelQueryFactory { FileName = path };
-            var stats = (from c in factory.Worksheet<DownSwitchFlowExcel>("4G考核_片区")
-                where c.StatDate > DateTime.Today.AddDays(-30) && c.StatDate <= DateTime.Today
-                select c).ToList();
-            var count =
-                _downSwitchRepository.Import<IDownSwitchFlowRepository, DownSwitchFlow, DownSwitchFlowExcel>(stats);
-            return "完成4G用户3G流量比记录导入" + count + "个";
+            var items = CsvContext.Read<DownSwitchFlowCsv>(reader, CsvFileDescription.CommaDescription).ToList();
+            var stats = items.Where(c => c.StatDate > DateTime.Today.AddDays(-30) && c.StatDate <= DateTime.Today);
+            //var count =
+            //    _downSwitchRepository.Import<IDownSwitchFlowRepository, DownSwitchFlow, DownSwitchFlowCsv>(stats);
+            //return "完成4G用户3G流量比记录导入" + count + "个";
+            return stats.ElementAt(0).City;
         }
     }
 }

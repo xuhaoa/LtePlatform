@@ -76,6 +76,23 @@ namespace LtePlatform.Controllers
             return View("Import");
         }
 
+        [HttpPost]
+        [Authorize]
+        public ViewResult SwitchImport()
+        {
+            var httpPostedFileBase = Request.Files["downSwitch"];
+            if (httpPostedFileBase == null || httpPostedFileBase.FileName == "")
+            {
+                ViewBag.ErrorMessage = "上传文件为空！请先上传文件。";
+            }
+            else
+            {
+                var reader = new StreamReader(httpPostedFileBase.InputStream, Encoding.GetEncoding("GB2312"));
+                ViewBag.Message = _importService.ImportDownSwitch(reader);
+            }
+            return View("Import");
+        }
+
         [Authorize]
         public ActionResult PreciseImport()
         {
