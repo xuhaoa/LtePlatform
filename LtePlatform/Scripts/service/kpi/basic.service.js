@@ -1,161 +1,65 @@
 ﻿angular.module('kpi.basic', ['myApp.url', 'myApp.url'])
-    .factory('kpi2GService', function($q, $http, appUrlService) {
+    .factory('kpi2GService', function (generalHttpService) {
         return {
-            queryDayStats: function(city, initialDate) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('KpiDataList'),
-                        params: {
-                            city: city,
-                            statDate: initialDate
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryDayStats: function (city, initialDate) {
+                return generalHttpService.getApiData('KpiDataList', {
+                    city: city,
+                    statDate: initialDate
+                });
             },
-            queryKpiOptions: function() {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('KpiDataList')
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryKpiOptions: function () {
+                return generalHttpService.getApiData('KpiDataList', {});
             },
-            queryKpiTrend: function(city, begin, end) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('KpiDataList'),
-                        params: {
-                            city: city,
-                            beginDate: begin,
-                            endDate: end
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryKpiTrend: function (city, begin, end) {
+                return generalHttpService.getApiData('KpiDataList', {
+                    city: city,
+                    beginDate: begin,
+                    endDate: end
+                });
             }
         };
     })
-    .factory('drop2GService', function($q, $http, appUrlService) {
+    .factory('drop2GService', function (generalHttpService) {
         return {
             queryDayStats: function (city, initialDate) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('TopDrop2G'),
-                    params: {
-                        city: city,
-                        statDate: initialDate
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+                return generalHttpService.getApiData('TopDrop2G', {
+                    city: city,
+                    statDate: initialDate
+                });
             },
-            queryOrderPolicy: function() {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('TopDrop2G')
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryOrderPolicy: function () {
+                return generalHttpService.getApiData('TopDrop2G', {});
             },
-            queryCellTrend: function(begin, end, city, policy, topCount) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('TopDrop2G'),
-                    params: {
-                        begin: begin,
-                        end: end,
-                        city: city,
-                        policy: policy,
-                        topCount: topCount
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryCellTrend: function (begin, end, city, policy, topCount) {
+                return generalHttpService.getApiData('TopDrop2G', {
+                    begin: begin,
+                    end: end,
+                    city: city,
+                    policy: policy,
+                    topCount: topCount
+                });
             }
         }
     })
-    .factory('connection3GService', function ($q, $http, appUrlService) {
+    .factory('connection3GService', function (generalHttpService) {
         return {
             queryDayStats: function (city, initialDate) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('TopConnection3G'),
-                    params: {
-                        city: city,
-                        statDate: initialDate
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+                return generalHttpService.getApiData('TopConnection3G', {
+                    city: city,
+                    statDate: initialDate
+                });
             },
             queryOrderPolicy: function () {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('TopConnection3G')
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+                return generalHttpService.getApiData('TopConnection3G', {});
             },
             queryCellTrend: function (begin, end, city, policy, topCount) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('TopConnection3G'),
-                    params: {
-                        begin: begin,
-                        end: end,
-                        city: city,
-                        policy: policy,
-                        topCount: topCount
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+                return generalHttpService.getApiData('TopConnection3G', {
+                    begin: begin,
+                    end: end,
+                    city: city,
+                    policy: policy,
+                    topCount: topCount
+                });
             }
         }
     });
