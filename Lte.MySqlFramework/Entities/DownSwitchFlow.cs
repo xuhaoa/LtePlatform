@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
-using Lte.Domain.LinqToCsv;
 using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
@@ -24,21 +23,21 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [AutoMapTo(typeof(DownSwitchFlow))]
-    public class DownSwitchFlowCsv
+    public class DownSwitchFlowExcel
     {
-        [CsvColumn(Name = "日期")]
+        [ExcelColumn("日期")]
         public DateTime StatDate { get; set; }
 
-        [CsvColumn(Name = "地市")]
+        [ExcelColumn("地市")]
         public string City { get; set; }
 
-        [CsvColumn(Name = "片区")]
+        [ExcelColumn("片区")]
         public string Region { get; set; }
 
-        [CsvColumn(Name = "4G用户3G流量比分母")]
+        [ExcelColumn("4G用户3G流量比分母")]
         public double Flow4G { get; set; }
 
-        [CsvColumn(Name = "4G用户3G流量比分子")]
+        [ExcelColumn("4G用户3G流量比分子")]
         public double DownSwitchFlow3G { get; set; }
     }
 }

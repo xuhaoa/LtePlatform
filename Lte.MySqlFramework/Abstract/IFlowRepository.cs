@@ -36,7 +36,7 @@ namespace Lte.MySqlFramework.Abstract
     }
 
     public interface IDownSwitchFlowRepository : IRepository<DownSwitchFlow>,
-        IMatchRepository<DownSwitchFlow, DownSwitchFlowCsv>, ISaveChanges
+        IMatchRepository<DownSwitchFlow, DownSwitchFlowExcel>, ISaveChanges
     {
         IEnumerable<DownSwitchFlow> GetAllList(DateTime begin, DateTime end);
     }

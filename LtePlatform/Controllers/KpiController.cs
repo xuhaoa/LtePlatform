@@ -87,8 +87,8 @@ namespace LtePlatform.Controllers
             }
             else
             {
-                var reader = new StreamReader(httpPostedFileBase.InputStream, Encoding.GetEncoding("GB2312"));
-                ViewBag.Message = _importService.ImportDownSwitch(reader);
+                var path = httpPostedFileBase.UploadKpiFile();
+                ViewBag.Message = _importService.ImportDownSwitch(path);
             }
             return View("Import");
         }

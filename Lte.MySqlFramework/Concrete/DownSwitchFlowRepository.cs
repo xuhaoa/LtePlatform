@@ -16,7 +16,7 @@ namespace Lte.MySqlFramework.Concrete
         {
         }
 
-        public DownSwitchFlow Match(DownSwitchFlowCsv stat)
+        public DownSwitchFlow Match(DownSwitchFlowExcel stat)
         {
             return FirstOrDefault(x => x.City == stat.City && x.Region == stat.Region && x.StatDate == stat.StatDate);
         }
