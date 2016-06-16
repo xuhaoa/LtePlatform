@@ -26,6 +26,7 @@ namespace TraceParser.Common
         public TConfig Decode(BitArrayInputStream input)
         {
             var config = new TConfig();
+            ProcessConfig(config, input);
             return config;
         }
 

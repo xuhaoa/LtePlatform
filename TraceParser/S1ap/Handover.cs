@@ -1,69 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lte.Domain.Common;
+using TraceParser.Common;
 
 namespace TraceParser.S1ap
 {
     [Serializable]
-    public class HandoverCancel
+    public class HandoverCancel : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public List<ProtocolIE_Field> protocolIEs { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<HandoverCancel>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public HandoverCancel Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(HandoverCancel config, BitArrayInputStream input)
             {
-                HandoverCancel cancel = new HandoverCancel();
-                cancel.InitDefaults();
+                InitDefaults();
                 input.readBit();
                 input.skipUnreadedBits();
-                cancel.protocolIEs = new List<ProtocolIE_Field>();
+                config.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
-                for (int i = 0; i < num5; i++)
+                var num5 = input.readBits(nBits);
+                for (var i = 0; i < num5; i++)
                 {
-                    ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
-                    cancel.protocolIEs.Add(item);
+                    var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
+                    config.protocolIEs.Add(item);
                 }
-                return cancel;
             }
         }
     }
 
     [Serializable]
-    public class HandoverCancelAcknowledge
+    public class HandoverCancelAcknowledge : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public List<ProtocolIE_Field> protocolIEs { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<HandoverCancelAcknowledge>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
 
-            public HandoverCancelAcknowledge Decode(BitArrayInputStream input)
+            protected override void ProcessConfig(HandoverCancelAcknowledge config, BitArrayInputStream input)
             {
-                HandoverCancelAcknowledge acknowledge = new HandoverCancelAcknowledge();
-                acknowledge.InitDefaults();
+                InitDefaults();
                 input.readBit();
                 input.skipUnreadedBits();
-                acknowledge.protocolIEs = new List<ProtocolIE_Field>();
+                config.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
-                for (int i = 0; i < num5; i++)
+                var num5 = input.readBits(nBits);
+                for (var i = 0; i < num5; i++)
                 {
-                    ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
-                    acknowledge.protocolIEs.Add(item);
+                    var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
+                    config.protocolIEs.Add(item);
                 }
-                return acknowledge;
             }
         }
     }
@@ -83,16 +72,16 @@ namespace TraceParser.S1ap
 
             public HandoverCommand Decode(BitArrayInputStream input)
             {
-                HandoverCommand command = new HandoverCommand();
+                var command = new HandoverCommand();
                 command.InitDefaults();
                 input.readBit();
                 input.skipUnreadedBits();
                 command.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
-                for (int i = 0; i < num5; i++)
+                var num5 = input.readBits(nBits);
+                for (var i = 0; i < num5; i++)
                 {
-                    ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
+                    var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
                     command.protocolIEs.Add(item);
                 }
                 return command;
@@ -115,16 +104,16 @@ namespace TraceParser.S1ap
 
             public HandoverFailure Decode(BitArrayInputStream input)
             {
-                HandoverFailure failure = new HandoverFailure();
+                var failure = new HandoverFailure();
                 failure.InitDefaults();
                 input.readBit();
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
-                for (int i = 0; i < num5; i++)
+                var num5 = input.readBits(nBits);
+                for (var i = 0; i < num5; i++)
                 {
-                    ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
+                    var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
                     failure.protocolIEs.Add(item);
                 }
                 return failure;
@@ -147,16 +136,16 @@ namespace TraceParser.S1ap
 
             public HandoverNotify Decode(BitArrayInputStream input)
             {
-                HandoverNotify notify = new HandoverNotify();
+                var notify = new HandoverNotify();
                 notify.InitDefaults();
                 input.readBit();
                 input.skipUnreadedBits();
                 notify.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
-                for (int i = 0; i < num5; i++)
+                var num5 = input.readBits(nBits);
+                for (var i = 0; i < num5; i++)
                 {
-                    ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
+                    var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
                     notify.protocolIEs.Add(item);
                 }
                 return notify;
@@ -179,16 +168,16 @@ namespace TraceParser.S1ap
 
             public HandoverPreparationFailure Decode(BitArrayInputStream input)
             {
-                HandoverPreparationFailure failure = new HandoverPreparationFailure();
+                var failure = new HandoverPreparationFailure();
                 failure.InitDefaults();
                 input.readBit();
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
-                for (int i = 0; i < num5; i++)
+                var num5 = input.readBits(nBits);
+                for (var i = 0; i < num5; i++)
                 {
-                    ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
+                    var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
                     failure.protocolIEs.Add(item);
                 }
                 return failure;
@@ -211,16 +200,16 @@ namespace TraceParser.S1ap
 
             public HandoverRequest Decode(BitArrayInputStream input)
             {
-                HandoverRequest request = new HandoverRequest();
+                var request = new HandoverRequest();
                 request.InitDefaults();
                 input.readBit();
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
-                for (int i = 0; i < num5; i++)
+                var num5 = input.readBits(nBits);
+                for (var i = 0; i < num5; i++)
                 {
-                    ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
+                    var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
                     request.protocolIEs.Add(item);
                 }
                 return request;
@@ -243,16 +232,16 @@ namespace TraceParser.S1ap
 
             public HandoverRequestAcknowledge Decode(BitArrayInputStream input)
             {
-                HandoverRequestAcknowledge acknowledge = new HandoverRequestAcknowledge();
+                var acknowledge = new HandoverRequestAcknowledge();
                 acknowledge.InitDefaults();
                 input.readBit();
                 input.skipUnreadedBits();
                 acknowledge.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
-                for (int i = 0; i < num5; i++)
+                var num5 = input.readBits(nBits);
+                for (var i = 0; i < num5; i++)
                 {
-                    ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
+                    var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
                     acknowledge.protocolIEs.Add(item);
                 }
                 return acknowledge;
@@ -275,16 +264,16 @@ namespace TraceParser.S1ap
 
             public HandoverRequired Decode(BitArrayInputStream input)
             {
-                HandoverRequired required = new HandoverRequired();
+                var required = new HandoverRequired();
                 required.InitDefaults();
                 input.readBit();
                 input.skipUnreadedBits();
                 required.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
-                for (int i = 0; i < num5; i++)
+                var num5 = input.readBits(nBits);
+                for (var i = 0; i < num5; i++)
                 {
-                    ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
+                    var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
                     required.protocolIEs.Add(item);
                 }
                 return required;
@@ -318,20 +307,20 @@ namespace TraceParser.S1ap
             public HandoverRestrictionList Decode(BitArrayInputStream input)
             {
                 int num4;
-                HandoverRestrictionList list = new HandoverRestrictionList();
+                var list = new HandoverRestrictionList();
                 list.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
+                var stream = (input.readBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
                 input.skipUnreadedBits();
                 list.servingPLMN = input.readOctetString(3);
                 if (stream.Read())
                 {
                     list.equivalentPLMNs = new List<string>();
                     num4 = 4;
-                    int num5 = input.readBits(num4) + 1;
-                    for (int i = 0; i < num5; i++)
+                    var num5 = input.readBits(num4) + 1;
+                    for (var i = 0; i < num5; i++)
                     {
                         input.skipUnreadedBits();
-                        string str = input.readOctetString(3);
+                        var str = input.readOctetString(3);
                         list.equivalentPLMNs.Add(str);
                     }
                 }
@@ -339,10 +328,10 @@ namespace TraceParser.S1ap
                 {
                     list.forbiddenTAs = new List<ForbiddenTAs_Item>();
                     num4 = 4;
-                    int num7 = input.readBits(num4) + 1;
-                    for (int j = 0; j < num7; j++)
+                    var num7 = input.readBits(num4) + 1;
+                    for (var j = 0; j < num7; j++)
                     {
-                        ForbiddenTAs_Item item = ForbiddenTAs_Item.PerDecoder.Instance.Decode(input);
+                        var item = ForbiddenTAs_Item.PerDecoder.Instance.Decode(input);
                         list.forbiddenTAs.Add(item);
                     }
                 }
@@ -350,10 +339,10 @@ namespace TraceParser.S1ap
                 {
                     list.forbiddenLAs = new List<ForbiddenLAs_Item>();
                     num4 = 4;
-                    int num9 = input.readBits(num4) + 1;
-                    for (int k = 0; k < num9; k++)
+                    var num9 = input.readBits(num4) + 1;
+                    for (var k = 0; k < num9; k++)
                     {
-                        ForbiddenLAs_Item item2 = ForbiddenLAs_Item.PerDecoder.Instance.Decode(input);
+                        var item2 = ForbiddenLAs_Item.PerDecoder.Instance.Decode(input);
                         list.forbiddenLAs.Add(item2);
                     }
                 }
@@ -367,10 +356,10 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     list.iE_Extensions = new List<ProtocolExtensionField>();
                     num4 = 0x10;
-                    int num11 = input.readBits(num4) + 1;
-                    for (int m = 0; m < num11; m++)
+                    var num11 = input.readBits(num4) + 1;
+                    for (var m = 0; m < num11; m++)
                     {
-                        ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
+                        var field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
                         list.iE_Extensions.Add(field);
                     }
                 }

@@ -12,7 +12,7 @@ namespace ZipLib.Bzip
         private byte[] block;
         private uint blockCRC;
         private bool blockRandomised;
-        private int blockSize100k;
+        private readonly int blockSize100k;
         private int bsBuff;
         private int bsLive;
         private int bytesOut;
@@ -22,24 +22,24 @@ namespace ZipLib.Bzip
         private bool firstAttempt;
         private int[] ftab;
         private readonly int[] increments;
-        private bool[] inUse;
+        private readonly bool[] inUse;
         private bool isStreamOwner;
         private int last;
-        private IChecksum mCrc;
-        private int[] mtfFreq;
+        private readonly IChecksum mCrc;
+        private readonly int[] mtfFreq;
         private int nBlocksRandomised;
         private int nInUse;
         private int nMTF;
         private int origPtr;
         private int[] quadrant;
         private int runLength;
-        private char[] selector;
-        private char[] selectorMtf;
-        private char[] seqToUnseq;
+        private readonly char[] selector;
+        private readonly char[] selectorMtf;
+        private readonly char[] seqToUnseq;
         private short[] szptr;
-        private char[] unseqToSeq;
+        private readonly char[] unseqToSeq;
         private int workDone;
-        private int workFactor;
+        private readonly int workFactor;
         private int workLimit;
         private int[] zptr;
 
@@ -79,7 +79,7 @@ namespace ZipLib.Bzip
 
         private void AllocateCompressStructures()
         {
-            int num = BZip2Constants.BaseBlockSize * blockSize100k;
+            var num = BZip2Constants.BaseBlockSize * blockSize100k;
             block = new byte[(num + 1) + 20];
             quadrant = new int[num + 20];
             zptr = new int[num];
@@ -91,7 +91,7 @@ namespace ZipLib.Bzip
         {
             while (bsLive > 0)
             {
-                int num = bsBuff >> 0x18;
+                var num = bsBuff >> 0x18;
                 baseStream.WriteByte((byte)num);
                 bsBuff = bsBuff << 8;
                 bsLive -= 8;
@@ -129,7 +129,7 @@ namespace ZipLib.Bzip
         {
             while (bsLive >= 8)
             {
-                int num = bsBuff >> 0x18;
+                var num = bsBuff >> 0x18;
                 baseStream.WriteByte((byte)num);
                 bsBuff = bsBuff << 8;
                 bsLive -= 8;
@@ -188,7 +188,7 @@ namespace ZipLib.Bzip
                 MainSort();
             }
             origPtr = -1;
-            for (int i = 0; i <= last; i++)
+            for (var i = 0; i <= last; i++)
             {
                 if (zptr[i] == 0)
                 {
@@ -254,8 +254,8 @@ namespace ZipLib.Bzip
 
         private bool FullGtU(int i1, int i2)
         {
-            byte num2 = block[i1 + 1];
-            byte num3 = block[i2 + 1];
+            var num2 = block[i1 + 1];
+            var num3 = block[i2 + 1];
             if (num2 != num3)
             {
                 return (num2 > num3);
@@ -302,7 +302,7 @@ namespace ZipLib.Bzip
             }
             i1++;
             i2++;
-            int num = last + 1;
+            var num = last + 1;
             do
             {
                 num2 = block[i1 + 1];
@@ -311,8 +311,8 @@ namespace ZipLib.Bzip
                 {
                     return (num2 > num3);
                 }
-                int num4 = quadrant[i1];
-                int num5 = quadrant[i2];
+                var num4 = quadrant[i1];
+                var num5 = quadrant[i2];
                 if (num4 != num5)
                 {
                     return (num4 > num5);
@@ -381,27 +381,27 @@ namespace ZipLib.Bzip
         private void GenerateMTFValues()
         {
             int num;
-            char[] chArray = new char[0x100];
+            var chArray = new char[0x100];
             MakeMaps();
-            int index = nInUse + 1;
+            var index = nInUse + 1;
             for (num = 0; num <= index; num++)
             {
                 mtfFreq[num] = 0;
             }
-            int num4 = 0;
-            int num3 = 0;
+            var num4 = 0;
+            var num3 = 0;
             for (num = 0; num < nInUse; num++)
             {
                 chArray[num] = (char)num;
             }
             for (num = 0; num <= last; num++)
             {
-                int num2 = 0;
-                char ch = chArray[num2];
+                var num2 = 0;
+                var ch = chArray[num2];
                 while (unseqToSeq[block[zptr[num]]] != ch)
                 {
                     num2++;
-                    char ch2 = ch;
+                    var ch2 = ch;
                     ch = chArray[num2];
                     chArray[num2] = ch2;
                 }
@@ -476,10 +476,10 @@ namespace ZipLib.Bzip
 
         private static void HbAssignCodes(int[] code, char[] length, int minLen, int maxLen, int alphaSize)
         {
-            int num = 0;
-            for (int i = minLen; i <= maxLen; i++)
+            var num = 0;
+            for (var i = minLen; i <= maxLen; i++)
             {
-                for (int j = 0; j < alphaSize; j++)
+                for (var j = 0; j < alphaSize; j++)
                 {
                     if (length[j] == i)
                     {
@@ -493,28 +493,28 @@ namespace ZipLib.Bzip
 
         private static void HbMakeCodeLengths(char[] len, int[] freq, int alphaSize, int maxLen)
         {
-            int[] numArray = new int[260];
-            int[] numArray2 = new int[0x204];
-            int[] numArray3 = new int[0x204];
-            for (int i = 0; i < alphaSize; i++)
+            var numArray = new int[260];
+            var numArray2 = new int[0x204];
+            var numArray3 = new int[0x204];
+            for (var i = 0; i < alphaSize; i++)
             {
                 numArray2[i + 1] = ((freq[i] == 0) ? 1 : freq[i]) << 8;
             }
             while (true)
             {
                 int num5;
-                int index = alphaSize;
-                int num2 = 0;
+                var index = alphaSize;
+                var num2 = 0;
                 numArray[0] = 0;
                 numArray2[0] = 0;
                 numArray3[0] = -2;
-                for (int j = 1; j <= alphaSize; j++)
+                for (var j = 1; j <= alphaSize; j++)
                 {
                     numArray3[j] = -1;
                     num2++;
                     numArray[num2] = j;
-                    int num9 = num2;
-                    int num10 = numArray[num9];
+                    var num9 = num2;
+                    var num10 = numArray[num9];
                     while (numArray2[num10] < numArray2[numArray[num9 >> 1]])
                     {
                         numArray[num9] = numArray[num9 >> 1];
@@ -528,13 +528,13 @@ namespace ZipLib.Bzip
                 }
                 while (num2 > 1)
                 {
-                    int num3 = numArray[1];
+                    var num3 = numArray[1];
                     numArray[1] = numArray[num2];
                     num2--;
-                    int num11 = 1;
-                    int num13 = numArray[num11];
+                    var num11 = 1;
+                    var num13 = numArray[num11];
                 Label_00E7:
-                    int num12 = num11 << 1;
+                    var num12 = num11 << 1;
                     if (num12 <= num2)
                     {
                         if ((num12 < num2) && (numArray2[numArray[num12 + 1]] < numArray2[numArray[num12]]))
@@ -549,7 +549,7 @@ namespace ZipLib.Bzip
                         }
                     }
                     numArray[num11] = num13;
-                    int num4 = numArray[1];
+                    var num4 = numArray[1];
                     numArray[1] = numArray[num2];
                     num2--;
                     num11 = 1;
@@ -589,11 +589,11 @@ namespace ZipLib.Bzip
                 {
                     Panic();
                 }
-                bool flag = false;
-                for (int k = 1; k <= alphaSize; k++)
+                var flag = false;
+                for (var k = 1; k <= alphaSize; k++)
                 {
                     num5 = 0;
-                    int num6 = k;
+                    var num6 = k;
                     while (numArray3[num6] >= 0)
                     {
                         num6 = numArray3[num6];
@@ -609,7 +609,7 @@ namespace ZipLib.Bzip
                 {
                     return;
                 }
-                for (int m = 1; m < alphaSize; m++)
+                for (var m = 1; m < alphaSize; m++)
                 {
                     num5 = numArray2[m] >> 8;
                     num5 = 1 + (num5 / 2);
@@ -643,9 +643,9 @@ namespace ZipLib.Bzip
         private void MainSort()
         {
             int num;
-            int[] numArray = new int[0x100];
-            int[] numArray2 = new int[0x100];
-            bool[] flagArray = new bool[0x100];
+            var numArray = new int[0x100];
+            var numArray2 = new int[0x100];
+            var flagArray = new bool[0x100];
             for (num = 0; num < 20; num++)
             {
                 block[(last + num) + 2] = block[(num % (last + 1)) + 1];
@@ -706,7 +706,7 @@ namespace ZipLib.Bzip
                     numArray[num] = num;
                     num++;
                 }
-                int num9 = 1;
+                var num9 = 1;
                 do
                 {
                     num9 = (3 * num9) + 1;
@@ -718,7 +718,7 @@ namespace ZipLib.Bzip
                     num = num9;
                     while (num <= 0xff)
                     {
-                        int num8 = numArray[num];
+                        var num8 = numArray[num];
                         num2 = num;
                         while ((ftab[(numArray[num2 - num9] + 1) << 8] - ftab[numArray[num2 - num9] << 8]) > (ftab[(num8 + 1) << 8] - ftab[num8 << 8]))
                         {
@@ -736,15 +736,15 @@ namespace ZipLib.Bzip
                 while (num9 != 1);
                 for (num = 0; num <= 0xff; num++)
                 {
-                    int num3 = numArray[num];
+                    var num3 = numArray[num];
                     num2 = 0;
                     while (num2 <= 0xff)
                     {
-                        int num4 = (num3 << 8) + num2;
+                        var num4 = (num3 << 8) + num2;
                         if ((ftab[num4] & 0x200000) != 0x200000)
                         {
-                            int loSt = ftab[num4] & -2097153;
-                            int hiSt = (ftab[num4 + 1] & -2097153) - 1;
+                            var loSt = ftab[num4] & -2097153;
+                            var hiSt = (ftab[num4 + 1] & -2097153) - 1;
                             if (hiSt > loSt)
                             {
                                 QSort3(loSt, hiSt, 2);
@@ -760,9 +760,9 @@ namespace ZipLib.Bzip
                     flagArray[num3] = true;
                     if (num < 0xff)
                     {
-                        int num12 = ftab[num3 << 8] & -2097153;
-                        int num13 = (ftab[(num3 + 1) << 8] & -2097153) - num12;
-                        int num14 = 0;
+                        var num12 = ftab[num3 << 8] & -2097153;
+                        var num13 = (ftab[(num3 + 1) << 8] & -2097153) - num12;
+                        var num14 = 0;
                         while ((num13 >> num14) > 0xfffe)
                         {
                             num14++;
@@ -770,8 +770,8 @@ namespace ZipLib.Bzip
                         num2 = 0;
                         while (num2 < num13)
                         {
-                            int num15 = zptr[num12 + num2];
-                            int num16 = num2 >> num14;
+                            var num15 = zptr[num12 + num2];
+                            var num16 = num2 >> num14;
                             quadrant[num15] = num16;
                             if (num15 < 20)
                             {
@@ -812,7 +812,7 @@ namespace ZipLib.Bzip
         private void MakeMaps()
         {
             nInUse = 0;
-            for (int i = 0; i < 0x100; i++)
+            for (var i = 0; i < 0x100; i++)
             {
                 if (inUse[i])
                 {
@@ -857,8 +857,8 @@ namespace ZipLib.Bzip
 
         private void QSort3(int loSt, int hiSt, int dSt)
         {
-            StackElement[] elementArray = new StackElement[0x3e8];
-            int index = 0;
+            var elementArray = new StackElement[0x3e8];
+            var index = 0;
             elementArray[index].ll = loSt;
             elementArray[index].hh = hiSt;
             elementArray[index].dd = dSt;
@@ -873,9 +873,9 @@ namespace ZipLib.Bzip
                     Panic();
                 }
                 index--;
-                int ll = elementArray[index].ll;
-                int hh = elementArray[index].hh;
-                int dd = elementArray[index].dd;
+                var ll = elementArray[index].ll;
+                var hh = elementArray[index].hh;
+                var dd = elementArray[index].dd;
                 if (((hh - ll) < 20) || (dd > 10))
                 {
                     SimpleSort(ll, hh, dd);
@@ -886,15 +886,15 @@ namespace ZipLib.Bzip
                     continue;
                 }
                 int num5 = Med3(block[(zptr[ll] + dd) + 1], block[(zptr[hh] + dd) + 1], block[(zptr[(ll + hh) >> 1] + dd) + 1]);
-                int num = num3 = ll;
-                int num2 = num4 = hh;
+                var num = num3 = ll;
+                var num2 = num4 = hh;
             Label_0118:
                 if (num <= num2)
                 {
                     num6 = block[(zptr[num] + dd) + 1] - num5;
                     if (num6 == 0)
                     {
-                        int num12 = zptr[num];
+                        var num12 = zptr[num];
                         zptr[num] = zptr[num3];
                         zptr[num3] = num12;
                         num3++;
@@ -913,7 +913,7 @@ namespace ZipLib.Bzip
                     num6 = block[(zptr[num2] + dd) + 1] - num5;
                     if (num6 == 0)
                     {
-                        int num13 = zptr[num2];
+                        var num13 = zptr[num2];
                         zptr[num2] = zptr[num4];
                         zptr[num4] = num13;
                         num4--;
@@ -928,7 +928,7 @@ namespace ZipLib.Bzip
                 }
                 if (num <= num2)
                 {
-                    int num14 = zptr[num];
+                    var num14 = zptr[num];
                     zptr[num] = zptr[num2];
                     zptr[num2] = num14;
                     num++;
@@ -946,7 +946,7 @@ namespace ZipLib.Bzip
                 {
                     num6 = ((num3 - ll) < (num - num3)) ? (num3 - ll) : (num - num3);
                     Vswap(ll, num - num6, num6);
-                    int n = ((hh - num4) < (num4 - num2)) ? (hh - num4) : (num4 - num2);
+                    var n = ((hh - num4) < (num4 - num2)) ? (hh - num4) : (num4 - num2);
                     Vswap(num, (hh - n) + 1, n);
                     num6 = ((ll + num) - num3) - 1;
                     n = (hh - (num4 - num2)) + 1;
@@ -969,8 +969,8 @@ namespace ZipLib.Bzip
         private void RandomiseBlock()
         {
             int num;
-            int num2 = 0;
-            int index = 0;
+            var num2 = 0;
+            var index = 0;
             for (num = 0; num < 0x100; num++)
             {
                 inUse[num] = false;
@@ -1012,16 +1012,16 @@ namespace ZipLib.Bzip
         {
             int num3;
             int num13;
-            char[][] chArray = new char[6][];
-            for (int i = 0; i < 6; i++)
+            var chArray = new char[6][];
+            for (var i = 0; i < 6; i++)
             {
                 chArray[i] = new char[0x102];
             }
-            int index = 0;
-            int alphaSize = nInUse + 2;
-            for (int j = 0; j < 6; j++)
+            var index = 0;
+            var alphaSize = nInUse + 2;
+            for (var j = 0; j < 6; j++)
             {
-                for (int num15 = 0; num15 < alphaSize; num15++)
+                for (var num15 = 0; num15 < alphaSize; num15++)
                 {
                     chArray[j][num15] = '\x000f';
                 }
@@ -1050,12 +1050,12 @@ namespace ZipLib.Bzip
             {
                 num13 = 6;
             }
-            int num16 = num13;
-            int num2 = 0;
+            var num16 = num13;
+            var num2 = 0;
             while (num16 > 0)
             {
-                int num18 = nMTF / num16;
-                int num19 = 0;
+                var num18 = nMTF / num16;
+                var num19 = 0;
                 num3 = num2 - 1;
                 while ((num19 < num18) && (num3 < (alphaSize - 1)))
                 {
@@ -1067,7 +1067,7 @@ namespace ZipLib.Bzip
                     num19 -= mtfFreq[num3];
                     num3--;
                 }
-                for (int num20 = 0; num20 < alphaSize; num20++)
+                for (var num20 = 0; num20 < alphaSize; num20++)
                 {
                     if ((num20 >= num2) && (num20 <= num3))
                     {
@@ -1082,22 +1082,22 @@ namespace ZipLib.Bzip
                 num2 = num3 + 1;
                 nMTF -= num19;
             }
-            int[][] numArray = new int[6][];
-            for (int k = 0; k < 6; k++)
+            var numArray = new int[6][];
+            for (var k = 0; k < 6; k++)
             {
                 numArray[k] = new int[0x102];
             }
-            int[] numArray2 = new int[6];
-            short[] numArray3 = new short[6];
-            for (int m = 0; m < 4; m++)
+            var numArray2 = new int[6];
+            var numArray3 = new short[6];
+            for (var m = 0; m < 4; m++)
             {
-                for (int num22 = 0; num22 < num13; num22++)
+                for (var num22 = 0; num22 < num13; num22++)
                 {
                     numArray2[num22] = 0;
                 }
-                for (int num23 = 0; num23 < num13; num23++)
+                for (var num23 = 0; num23 < num13; num23++)
                 {
-                    for (int num24 = 0; num24 < alphaSize; num24++)
+                    for (var num24 = 0; num24 < alphaSize; num24++)
                     {
                         numArray[num23][num24] = 0;
                     }
@@ -1115,7 +1115,7 @@ namespace ZipLib.Bzip
                     {
                         num3 = nMTF - 1;
                     }
-                    for (int num25 = 0; num25 < num13; num25++)
+                    for (var num25 = 0; num25 < num13; num25++)
                     {
                         numArray3[num25] = 0;
                     }
@@ -1126,10 +1126,10 @@ namespace ZipLib.Bzip
                         short num29;
                         short num30;
                         short num31;
-                        short num26 = num27 = num28 = num29 = num30 = num31 = 0;
-                        for (int num32 = num2; num32 <= num3; num32++)
+                        var num26 = num27 = num28 = num29 = num30 = num31 = 0;
+                        for (var num32 = num2; num32 <= num3; num32++)
                         {
-                            short num33 = szptr[num32];
+                            var num33 = szptr[num32];
                             num26 = (short)(num26 + ((short)chArray[0][num33]));
                             num27 = (short)(num27 + ((short)chArray[1][num33]));
                             num28 = (short)(num28 + ((short)chArray[2][num33]));
@@ -1146,18 +1146,18 @@ namespace ZipLib.Bzip
                     }
                     else
                     {
-                        for (int num34 = num2; num34 <= num3; num34++)
+                        for (var num34 = num2; num34 <= num3; num34++)
                         {
-                            short num35 = szptr[num34];
-                            for (int num36 = 0; num36 < num13; num36++)
+                            var num35 = szptr[num34];
+                            for (var num36 = 0; num36 < num13; num36++)
                             {
                                 numArray3[num36] = (short)(numArray3[num36] + ((short)chArray[num36][num35]));
                             }
                         }
                     }
-                    int num6 = 0x3b9ac9ff;
-                    int num5 = -1;
-                    for (int num37 = 0; num37 < num13; num37++)
+                    var num6 = 0x3b9ac9ff;
+                    var num5 = -1;
+                    for (var num37 = 0; num37 < num13; num37++)
                     {
                         if (numArray3[num37] < num6)
                         {
@@ -1168,13 +1168,13 @@ namespace ZipLib.Bzip
                     numArray2[num5]++;
                     selector[index] = (char)num5;
                     index++;
-                    for (int num38 = num2; num38 <= num3; num38++)
+                    for (var num38 = num2; num38 <= num3; num38++)
                     {
                         numArray[num5][szptr[num38]]++;
                     }
                     num2 = num3 + 1;
                 }
-                for (int num39 = 0; num39 < num13; num39++)
+                for (var num39 = 0; num39 < num13; num39++)
                 {
                     HbMakeCodeLengths(chArray[num39], numArray[num39], alphaSize, 20);
                 }
@@ -1187,35 +1187,35 @@ namespace ZipLib.Bzip
             {
                 Panic();
             }
-            char[] chArray2 = new char[6];
-            for (int n = 0; n < num13; n++)
+            var chArray2 = new char[6];
+            for (var n = 0; n < num13; n++)
             {
                 chArray2[n] = (char)n;
             }
-            for (int num41 = 0; num41 < index; num41++)
+            for (var num41 = 0; num41 < index; num41++)
             {
-                int num42 = 0;
-                char ch3 = chArray2[num42];
+                var num42 = 0;
+                var ch3 = chArray2[num42];
                 while (selector[num41] != ch3)
                 {
                     num42++;
-                    char ch2 = ch3;
+                    var ch2 = ch3;
                     ch3 = chArray2[num42];
                     chArray2[num42] = ch2;
                 }
                 chArray2[0] = ch3;
                 selectorMtf[num41] = (char)num42;
             }
-            int[][] numArray4 = new int[6][];
-            for (int num43 = 0; num43 < 6; num43++)
+            var numArray4 = new int[6][];
+            for (var num43 = 0; num43 < 6; num43++)
             {
                 numArray4[num43] = new int[0x102];
             }
-            for (int num44 = 0; num44 < num13; num44++)
+            for (var num44 = 0; num44 < num13; num44++)
             {
-                int minLen = 0x20;
-                int maxLen = 0;
-                for (int num45 = 0; num45 < alphaSize; num45++)
+                var minLen = 0x20;
+                var maxLen = 0;
+                for (var num45 = 0; num45 < alphaSize; num45++)
                 {
                     if (chArray[num44][num45] > maxLen)
                     {
@@ -1236,11 +1236,11 @@ namespace ZipLib.Bzip
                 }
                 HbAssignCodes(numArray4[num44], chArray[num44], minLen, maxLen, alphaSize);
             }
-            bool[] flagArray = new bool[0x10];
-            for (int num46 = 0; num46 < 0x10; num46++)
+            var flagArray = new bool[0x10];
+            for (var num46 = 0; num46 < 0x10; num46++)
             {
                 flagArray[num46] = false;
-                for (int num47 = 0; num47 < 0x10; num47++)
+                for (var num47 = 0; num47 < 0x10; num47++)
                 {
                     if (inUse[(num46 * 0x10) + num47])
                     {
@@ -1248,7 +1248,7 @@ namespace ZipLib.Bzip
                     }
                 }
             }
-            for (int num48 = 0; num48 < 0x10; num48++)
+            for (var num48 = 0; num48 < 0x10; num48++)
             {
                 if (flagArray[num48])
                 {
@@ -1259,11 +1259,11 @@ namespace ZipLib.Bzip
                     BsW(1, 0);
                 }
             }
-            for (int num49 = 0; num49 < 0x10; num49++)
+            for (var num49 = 0; num49 < 0x10; num49++)
             {
                 if (flagArray[num49])
                 {
-                    for (int num50 = 0; num50 < 0x10; num50++)
+                    for (var num50 = 0; num50 < 0x10; num50++)
                     {
                         if (inUse[(num49 * 0x10) + num50])
                         {
@@ -1278,19 +1278,19 @@ namespace ZipLib.Bzip
             }
             BsW(3, num13);
             BsW(15, index);
-            for (int num51 = 0; num51 < index; num51++)
+            for (var num51 = 0; num51 < index; num51++)
             {
-                for (int num52 = 0; num52 < selectorMtf[num51]; num52++)
+                for (var num52 = 0; num52 < selectorMtf[num51]; num52++)
                 {
                     BsW(1, 1);
                 }
                 BsW(1, 0);
             }
-            for (int num53 = 0; num53 < num13; num53++)
+            for (var num53 = 0; num53 < num13; num53++)
             {
                 int v = chArray[num53][0];
                 BsW(5, v);
-                int num55 = 0;
+                var num55 = 0;
                 goto Label_0691;
             Label_064F:
                 BsW(2, 2);
@@ -1313,7 +1313,7 @@ namespace ZipLib.Bzip
                     goto Label_065D;
                 }
             }
-            int num12 = 0;
+            var num12 = 0;
             num2 = 0;
             while (true)
             {
@@ -1326,7 +1326,7 @@ namespace ZipLib.Bzip
                 {
                     num3 = nMTF - 1;
                 }
-                for (int num56 = num2; num56 <= num3; num56++)
+                for (var num56 = num2; num56 <= num3; num56++)
                 {
                     BsW(chArray[selector[num12]][szptr[num56]], numArray4[selector[num12]][szptr[num56]]);
                 }
@@ -1346,10 +1346,10 @@ namespace ZipLib.Bzip
 
         private void SimpleSort(int lo, int hi, int d)
         {
-            int num4 = (hi - lo) + 1;
+            var num4 = (hi - lo) + 1;
             if (num4 >= 2)
             {
-                int index = 0;
+                var index = 0;
                 while (increments[index] < num4)
                 {
                     index++;
@@ -1357,16 +1357,16 @@ namespace ZipLib.Bzip
                 index--;
                 while (index >= 0)
                 {
-                    int num3 = increments[index];
-                    int num = lo + num3;
+                    var num3 = increments[index];
+                    var num = lo + num3;
                     do
                     {
                         if (num > hi)
                         {
                             goto Label_0160;
                         }
-                        int num6 = zptr[num];
-                        int num2 = num;
+                        var num6 = zptr[num];
+                        var num2 = num;
                         while (FullGtU(zptr[num2 - num3] + d, num6 + d))
                         {
                             zptr[num2] = zptr[num2 - num3];
@@ -1425,7 +1425,7 @@ namespace ZipLib.Bzip
         {
             while (n > 0)
             {
-                int num = zptr[p1];
+                var num = zptr[p1];
                 zptr[p1] = zptr[p2];
                 zptr[p2] = num;
                 p1++;
@@ -1452,7 +1452,7 @@ namespace ZipLib.Bzip
             {
                 throw new ArgumentException("Offset/count out of range");
             }
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 WriteByte(buffer[offset + i]);
             }
@@ -1460,7 +1460,7 @@ namespace ZipLib.Bzip
 
         public override void WriteByte(byte value)
         {
-            int num = (0x100 + value) % 0x100;
+            var num = (0x100 + value) % 0x100;
             if (currentChar != -1)
             {
                 if (currentChar != num)
@@ -1492,7 +1492,7 @@ namespace ZipLib.Bzip
             if (last < allowableBlockSize)
             {
                 inUse[currentChar] = true;
-                for (int i = 0; i < runLength; i++)
+                for (var i = 0; i < runLength; i++)
                 {
                     mCrc.Update(currentChar);
                 }
