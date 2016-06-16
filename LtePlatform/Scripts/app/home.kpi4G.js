@@ -21,5 +21,6 @@
         .then(function (result) {
             $scope.flowDate.value = appFormatService.getDate(result.statDate);
             $scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
+            $scope.downRate = appKpiService.calculateDownSwitchRating($scope.flowStat);
         });
 });

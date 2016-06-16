@@ -52,6 +52,14 @@
                 else if (precise > 90) return 1;
                 else return 0;
             },
+            calculateDownSwitchRating: function (rate) {
+                if (rate < 3) return 5;
+                else if (rate < 5) return 4;
+                else if (rate < 8) return 3;
+                else if (rate < 10) return 2;
+                else if (rate < 15) return 1;
+                else return 0;
+            },
             calculateDropStar: function (drop) {
                 if (drop < 0.2) return 5;
                 else if (drop < 0.3) return 4;
