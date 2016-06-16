@@ -37,7 +37,7 @@ namespace Lte.Evaluations.DataService.Kpi
             _regionRepository.MockOperation();
             _dropRepository.MockOperation();
             _service = new KpiImportService(_regionRepository.Object, _dropRepository.Object,
-                _connectionRepository.Object);
+                _connectionRepository.Object, null);
             AutoMapperHelper.CreateMap(typeof(CdmaRegionStat));
             StatMapperService.MapTopConnection3G();
             StatMapperService.MapTopDrop2G();

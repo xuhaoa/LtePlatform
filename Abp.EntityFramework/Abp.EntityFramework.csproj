@@ -125,6 +125,7 @@
     <Compile Include="Repositories\AutoRepositoryTypesAttribute.cs" />
     <Compile Include="Repositories\EfRepositoryBaseOfTEntity.cs" />
     <Compile Include="Repositories\EntityFrameworkGenericRepositoryRegistrar.cs" />
+    <Compile Include="Repositories\IMatchRepository.cs" />
     <Compile Include="Repositories\MongoDbRepositoryBase.cs" />
     <Compile Include="SimpleDbContextProvider.cs" />
   </ItemGroup>

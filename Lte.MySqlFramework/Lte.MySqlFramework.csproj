@@ -104,6 +104,7 @@
     <Compile Include="Abstract\MySqlMapperService.cs" />
     <Compile Include="Concrete\CellStatMysqlRepository.cs" />
     <Compile Include="Concrete\CustomerRepositories.cs" />
+    <Compile Include="Concrete\DownSwitchFlowRepository.cs" />
     <Compile Include="Concrete\FlowHuaweiRepository.cs" />
     <Compile Include="Concrete\FlowZteRepository.cs" />
     <Compile Include="Concrete\MySqlContext.cs" />

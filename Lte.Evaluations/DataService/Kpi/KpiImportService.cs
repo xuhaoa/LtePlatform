@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
+using Abp.EntityFramework.Repositories;
 using Lte.Domain.LinqToExcel;
+using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Kpi;
@@ -17,55 +19,17 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly ICdmaRegionStatRepository _regionStatRepository;
         private readonly ITopDrop2GCellRepository _top2GRepository;
         private readonly ITopConnection3GRepository _top3GRepository;
+        private readonly IDownSwitchFlowRepository _downSwitchRepository;
 
         public KpiImportService(ICdmaRegionStatRepository regionStatRepository,
-            ITopDrop2GCellRepository top2GRepository, ITopConnection3GRepository top3GRepository)
+            ITopDrop2GCellRepository top2GRepository, ITopConnection3GRepository top3GRepository,
+            IDownSwitchFlowRepository downSwitchRepository)
         {
             _regionStatRepository = regionStatRepository;
             _top2GRepository = top2GRepository;
             _top3GRepository = top3GRepository;
+            _downSwitchRepository = downSwitchRepository;
         }
-
-        private int Import(IEnumerable<CdmaRegionStatExcel> stats)
-        {
-            foreach (var stat in from stat in stats
-                                 let info = _regionStatRepository.FirstOrDefault(x => x.Region == stat.Region && x.StatDate == stat.StatDate)
-                                 where info == null
-                                 select stat)
-            {
-                _regionStatRepository.Insert(stat.MapTo<CdmaRegionStat>());
-            }
-            return _regionStatRepository.SaveChanges();
-        }
-
-        private int Import(IEnumerable<TopDrop2GCellExcel> stats)
-        {
-            foreach (var stat in from stat in stats
-                                 let time = stat.StatDate.AddHours(stat.StatHour)
-                                 let info =
-                                     _top2GRepository.FirstOrDefault(x => x.BtsId == stat.BtsId && x.SectorId == stat.SectorId && x.StatTime == time)
-                                 where info == null
-                                 select stat)
-            {
-                _top2GRepository.Insert(TopDrop2GCell.ConstructStat(stat));
-            }
-            return _top2GRepository.SaveChanges();
-        }
-
-        private int Import(IEnumerable<TopConnection3GCellExcel> stats)
-        {
-            foreach (var stat in from stat in stats
-                                 let time = stat.StatDate.AddHours(stat.StatHour)
-                                 let info =
-                                     _top3GRepository.FirstOrDefault(x => x.BtsId == stat.BtsId && x.SectorId == stat.SectorId && x.StatTime == time)
-                                 where info == null
-                                 select stat)
-            {
-                _top3GRepository.Insert(TopConnection3GCell.ConstructStat(stat));
-            }
-            return _top3GRepository.SaveChanges();
-        }
-
         public List<string> Import(string path, IEnumerable<string> regions)
         {
             var factory = new ExcelQueryFactory {FileName = path};
@@ -73,15 +37,17 @@ namespace Lte.Evaluations.DataService.Kpi
                 let stats = (from c in factory.Worksheet<CdmaRegionStatExcel>(region)
                     where c.StatDate > DateTime.Today.AddDays(-30) && c.StatDate <= DateTime.Today
                     select c).ToList()
-                let count = Import(stats)
+                let count = _regionStatRepository.Import<ICdmaRegionStatRepository, CdmaRegionStat, CdmaRegionStatExcel>(stats)
                 select "完成导入区域：'" + region + "'的日常指标导入" + count + "条").ToList();
             var topDrops = (from c in factory.Worksheet<TopDrop2GCellExcel>(TopDrop2GCellExcel.SheetName)
                             select c).ToList();
-            var drops = Import(topDrops);
+            var drops = _top2GRepository.Import<ITopDrop2GCellRepository, TopDrop2GCell, TopDrop2GCellExcel>(topDrops);
             message.Add("完成TOP掉话小区导入" + drops + "个");
             var topConnections = (from c in factory.Worksheet<TopConnection3GCellExcel>(TopConnection3GCellExcel.SheetName)
                                   select c).ToList();
-            var connections = Import(topConnections);
+            var connections =
+                _top3GRepository.Import<ITopConnection3GRepository, TopConnection3GCell, TopConnection3GCellExcel>(
+                    topConnections);
             message.Add("完成TOP连接小区导入" + connections + "个");
             return message;
         }
@@ -92,6 +58,9 @@ namespace Lte.Evaluations.DataService.Kpi
             var stats = (from c in factory.Worksheet<DownSwitchFlowExcel>("4G考核_片区")
                 where c.StatDate > DateTime.Today.AddDays(-30) && c.StatDate <= DateTime.Today
                 select c).ToList();
+            var count =
+                _downSwitchRepository.Import<IDownSwitchFlowRepository, DownSwitchFlow, DownSwitchFlowExcel>(stats);
+            return "完成4G用户3G流量比记录导入" + count + "个";
         }
     }
 }

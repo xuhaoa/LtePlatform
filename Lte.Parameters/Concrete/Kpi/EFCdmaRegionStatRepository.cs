@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Abp.EntityFramework;
 using Abp.EntityFramework.Repositories;
 using Lte.Parameters.Abstract.Kpi;
+using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Kpi;
 
@@ -30,6 +31,11 @@ namespace Lte.Parameters.Concrete.Kpi
         public EFCdmaRegionStatRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
         {
         }
+
+        public CdmaRegionStat Match(CdmaRegionStatExcel stat)
+        {
+            return FirstOrDefault(x => x.Region == stat.Region && x.StatDate == stat.StatDate);
+        }
     }
 
     public class EFTopDrop2GCellRepository : EfRepositoryBase<EFParametersContext, TopDrop2GCell>, ITopDrop2GCellRepository
@@ -47,6 +53,12 @@ namespace Lte.Parameters.Concrete.Kpi
         public EFTopDrop2GCellRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
         {
         }
+
+        public TopDrop2GCell Match(TopDrop2GCellExcel stat)
+        {
+            var time = stat.StatDate.AddHours(stat.StatHour);
+            return FirstOrDefault(x => x.BtsId == stat.BtsId && x.SectorId == stat.SectorId && x.StatTime == time);
+        }
     }
 
     public class EFTopConnection3GRepository : EfRepositoryBase<EFParametersContext, TopConnection3GCell>, ITopConnection3GRepository
@@ -63,6 +75,12 @@ namespace Lte.Parameters.Concrete.Kpi
 
         public EFTopConnection3GRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
         {
+        }
+
+        public TopConnection3GCell Match(TopConnection3GCellExcel stat)
+        {
+            var time = stat.StatDate.AddHours(stat.StatHour);
+            return FirstOrDefault(x => x.BtsId == stat.BtsId && x.SectorId == stat.SectorId && x.StatTime == time);
         }
     }
 }

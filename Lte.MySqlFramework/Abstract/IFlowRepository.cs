@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
+using Abp.EntityFramework.Repositories;
 using Lte.MySqlFramework.Entities;
 
 namespace Lte.MySqlFramework.Abstract
@@ -32,5 +33,11 @@ namespace Lte.MySqlFramework.Abstract
         List<FlowZte> GetAllList(DateTime begin, DateTime end, int eNodebId, byte sectorId);
 
         int SaveChanges();
+    }
+
+    public interface IDownSwitchFlowRepository : IRepository<DownSwitchFlow>,
+        IMatchRepository<DownSwitchFlow, DownSwitchFlowExcel>, ISaveChanges
+    {
+        IEnumerable<DownSwitchFlow> GetAllList(DateTime begin, DateTime end);
     }
 }
