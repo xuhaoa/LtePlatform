@@ -79,7 +79,7 @@ namespace ZipLib.Bzip
 
         private void AllocateCompressStructures()
         {
-            int num = 0x186a0 * blockSize100k;
+            int num = BZip2Constants.BaseBlockSize * blockSize100k;
             block = new byte[(num + 1) + 20];
             quadrant = new int[num + 20];
             zptr = new int[num];
@@ -622,11 +622,11 @@ namespace ZipLib.Bzip
         {
             mCrc.Reset();
             last = -1;
-            for (int i = 0; i < 0x100; i++)
+            for (var i = 0; i < 0x100; i++)
             {
                 inUse[i] = false;
             }
-            allowableBlockSize = (0x186a0 * blockSize100k) - 20;
+            allowableBlockSize = (BZip2Constants.BaseBlockSize * blockSize100k) - 20;
         }
 
         private void Initialize()

@@ -12,7 +12,7 @@ namespace Lte.Domain.Lz4Net
         public static unsafe int Compress(byte[] data, int offset, int length, ref byte[] buffer, Lz4Mode mode)
         {
             int num;
-            int num2 = LZ4_compressBound(length) + 8;
+            var num2 = LZ4_compressBound(length) + 8;
             if ((buffer == null) || (buffer.Length < num2))
             {
                 buffer = new byte[num2];
@@ -22,7 +22,7 @@ namespace Lte.Domain.Lz4Net
                 fixed (byte* numRef2 = &(buffer[8]))
                 {
                     num = (mode == Lz4Mode.Fast) ? LZ4_compress(numRef, numRef2, length) : LZ4_compressHC(numRef, numRef2, length);
-                    byte* numPtr = (byte*)&length;
+                    var numPtr = (byte*)&length;
                     buffer[0] = numPtr[0];
                     buffer[1] = numPtr[1];
                     buffer[2] = numPtr[2];
@@ -37,11 +37,6 @@ namespace Lte.Domain.Lz4Net
             return (num + 8);
         }
 
-        public static byte[] CompressBytes(byte[] data, Lz4Mode mode = 0)
-        {
-            return CompressBytes(data, 0, data.Length, mode);
-        }
-
         public static byte[] CompressBytes(byte[] data, int offset, int length, Lz4Mode mode)
         {
             if (length > data.Length)
@@ -49,16 +44,10 @@ namespace Lte.Domain.Lz4Net
                 throw new ArgumentOutOfRangeException("length");
             }
             byte[] buffer = null;
-            int count = Compress(data, 0, length, ref buffer, mode);
-            byte[] dst = new byte[count];
+            var count = Compress(data, 0, length, ref buffer, mode);
+            var dst = new byte[count];
             Buffer.BlockCopy(buffer, 0, dst, 0, count);
             return dst;
-        }
-
-        public static string CompressString(string text, Lz4Mode mode = 0)
-        {
-            byte[] bytes = Encoding.UTF8.GetBytes(text);
-            return Convert.ToBase64String(CompressBytes(bytes, 0, bytes.Length, mode));
         }
 
         public static unsafe int Decompress(byte[] data, int offset, ref byte[] buffer)
@@ -92,7 +81,7 @@ namespace Lte.Domain.Lz4Net
 
         public static string DecompressString(string compressedText)
         {
-            byte[] bytes = DecompressBytes(Convert.FromBase64String(compressedText));
+            var bytes = DecompressBytes(Convert.FromBase64String(compressedText));
             return Encoding.UTF8.GetString(bytes);
         }
 
@@ -103,18 +92,6 @@ namespace Lte.Domain.Lz4Net
                 return 0;
             }
             fixed (byte* numRef = &(data[4]))
-            {
-                return *(((int*)numRef));
-            }
-        }
-
-        public static unsafe int GetUncompressedSize(byte[] data)
-        {
-            if ((data == null) || (data.Length < 8))
-            {
-                return 0;
-            }
-            fixed (byte* numRef = data)
             {
                 return *(((int*)numRef));
             }
@@ -157,11 +134,7 @@ namespace Lte.Domain.Lz4Net
 
         public static unsafe int LZ4_uncompress(byte* source, byte* destination, int originalSize)
         {
-            if (IntPtr.Size != 4)
-            {
-                return LZ4_uncompress_x64(source, destination, originalSize);
-            }
-            return LZ4_uncompress_x86(source, destination, originalSize);
+            return IntPtr.Size != 4 ? LZ4_uncompress_x64(source, destination, originalSize) : LZ4_uncompress_x86(source, destination, originalSize);
         }
 
         [DllImport(@"x64\lz4X64.dll", EntryPoint = "dll_LZ4_uncompress", CallingConvention = CallingConvention.Cdecl)]

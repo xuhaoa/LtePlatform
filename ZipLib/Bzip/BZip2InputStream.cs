@@ -174,7 +174,7 @@ namespace ZipLib.Bzip
         {
             int num11;
             byte[] buffer = new byte[0x100];
-            int num2 = 0x186a0 * _blockSize100K;
+            int num2 = BZip2Constants.BaseBlockSize * _blockSize100K;
             _origPtr = BsGetIntVs(0x18);
             RecvDecodingTables();
             int num3 = _nInUse + 1;
@@ -583,7 +583,7 @@ namespace ZipLib.Bzip
             _blockSize100K = newSize100K;
             if (newSize100K != 0)
             {
-                int num = 0x186a0 * newSize100K;
+                int num = BZip2Constants.BaseBlockSize * newSize100K;
                 _ll8 = new byte[num];
                 _tt = new int[num];
             }
