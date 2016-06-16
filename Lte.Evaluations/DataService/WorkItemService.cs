@@ -6,7 +6,6 @@ using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Domain.LinqToExcel;
 using Lte.Evaluations.Policy;
-using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Abstract;
@@ -44,7 +43,6 @@ namespace Lte.Evaluations.DataService
         public int UpdateLteSectorIds()
         {
             var items = _repository.GetAllList(x => x.ENodebId > 10000);
-            int count = 0;
             foreach (var item in items)
             {
                 var cell = _cellRepository.GetBySectorId(item.ENodebId, item.SectorId);
@@ -54,10 +52,9 @@ namespace Lte.Evaluations.DataService
                 {
                     item.SectorId += 48;
                     _repository.Update(item);
-                    count++;
                 }
             }
-            return count;
+            return _repository.SaveChanges();
         }
 
         public string ImportExcelFiles(string path)
@@ -75,11 +72,11 @@ namespace Lte.Evaluations.DataService
             {
                 _repository.Import(oldInfo);
             }
-            var count = 0;
             foreach (var item in newItems)
             {
-                if (_repository.Insert(item) != null) count++;
+                _repository.Insert(item);
             }
+            var count = _repository.SaveChanges();
             return "完成工单导入：" + count + "条";
         }
 
@@ -180,7 +177,9 @@ namespace Lte.Evaluations.DataService
             var now = DateTime.Now;
             item.FeedbackContents += "[" + now + "]" + userName + ":" + message;
             item.FeedbackTime = now;
-            return _repository.Update(item) != null;
+            var result = _repository.Update(item) != null;
+            _repository.SaveChanges();
+            return result;
         }
 
         public async Task<string> ConstructPreciseWorkItem(Precise4GView view, DateTime begin, DateTime end, string userName)
@@ -208,6 +207,7 @@ namespace Lte.Evaluations.DataService
                     ";MR总数=" + view.TotalMrs + ";TOP天数=" + view.TopDates
             };
             var result = await _repository.InsertAsync(item);
+            _repository.SaveChanges();
             return result?.SerialNumber;
         }
 
@@ -221,6 +221,7 @@ namespace Lte.Evaluations.DataService
             var result = await _repository.UpdateAsync(existedItem);
             var view = result == null ? null : Mapper.Map<WorkItem, WorkItemView>(result);
             view?.UpdateTown(_eNodebRepository, _btsRepository, _townRepository);
+            _repository.SaveChanges();
             return view;
         }
     }

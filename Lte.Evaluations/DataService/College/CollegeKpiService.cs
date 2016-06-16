@@ -159,14 +159,17 @@ namespace Lte.Evaluations.DataService.College
             return query.GroupBy(x => x.Name).ToDictionary(s => s.Key, t => t.Average(x => x.Drop3G));
         }
 
-        public Task<CollegeKpi> Post(CollegeKpi stat)
+        public async Task<CollegeKpi> Post(CollegeKpi stat)
         {
-            return _repository.InsertOrUpdateAsync(stat);
+            var item = await _repository.InsertOrUpdateAsync(stat);
+            _repository.SaveChanges();
+            return item;
         }
 
-        public Task Delete(CollegeKpi stat)
+        public async Task<int> Delete(CollegeKpi stat)
         {
-            return _repository.DeleteAsync(stat);
+            await _repository.DeleteAsync(stat);
+            return _repository.SaveChanges();
         }
 
         public CollegeKpi GetRecordResult(CollegeKpiView view)

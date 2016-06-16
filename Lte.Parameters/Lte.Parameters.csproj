@@ -152,10 +152,8 @@
     <Compile Include="Abstract\Kpi\IPreciseCoverage4GRepository.cs" />
     <Compile Include="Abstract\IRasterInfoRepository.cs" />
     <Compile Include="Abstract\Infrastructure\IRegionRepository.cs" />
-    <Compile Include="Abstract\Kpi\ITownPreciseCoverage4GStatRepository.cs" />
     <Compile Include="Abstract\Infrastructure\ITownRepository.cs" />
     <Compile Include="Abstract\IWorkItemRepository.cs" />
-    <Compile Include="Abstract\LightWeightRepositroyBase.cs" />
     <Compile Include="Abstract\PagingRepositoryBase.cs" />
     <Compile Include="Abstract\Switch\ICellMeasGroupZteRepository.cs" />
     <Compile Include="Abstract\Switch\IInterFreqHoGroupRepository.cs" />
@@ -179,7 +177,6 @@
     <Compile Include="Concrete\College\EFCollegeKpiRepository.cs" />
     <Compile Include="Concrete\College\EFCollegeRepository.cs" />
     <Compile Include="Concrete\Basic\EFENodebRepository.cs" />
-    <Compile Include="Concrete\Infrastructure\EFIndoorDistributionRepository.cs" />
     <Compile Include="Concrete\Infrastructure\EFInfrastructureRepository.cs" />
     <Compile Include="Concrete\Mr\CellDistanceRepository.cs" />
     <Compile Include="Concrete\Mr\CellStasticRepository.cs" />
@@ -188,7 +185,6 @@
     <Compile Include="Concrete\EFParametersContext.cs" />
     <Compile Include="Concrete\Kpi\EFPreciseCoverage4GRepository.cs" />
     <Compile Include="Concrete\Kpi\EFRegionRepository.cs" />
-    <Compile Include="Concrete\Kpi\EFTownPreciseCoverage4GStatRepository.cs" />
     <Compile Include="Concrete\Infrastructure\EFTownRepository.cs" />
     <Compile Include="Concrete\EFWorkItemRepository.cs" />
     <Compile Include="Concrete\MasterAreaTestDateDateRepository.cs" />

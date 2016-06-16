@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Threading.Tasks;
+using Abp.EntityFramework;
 using AutoMapper;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Entities.Work;
@@ -10,8 +10,6 @@ namespace Lte.Parameters.Concrete
 {
     public class EFWorkItemRepository : PagingRepositoryBase<WorkItem>, IWorkItemRepository
     {
-        protected override DbSet<WorkItem> Entities => context.WorkItems;
-
         public async Task<List<WorkItem>> GetAllListAsync(int eNodebId)
         {
             return await GetAllListAsync(x => x.ENodebId == eNodebId);
@@ -51,6 +49,11 @@ namespace Lte.Parameters.Concrete
                             x.State != WorkItemState.Finished);
         }
 
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+
         public async Task<List<WorkItem>> GetAllListAsync(int eNodebId, byte sectorId)
         {
             return await GetAllListAsync(x => x.ENodebId == eNodebId && x.SectorId == sectorId);
@@ -75,5 +78,8 @@ namespace Lte.Parameters.Concrete
         }
 
 
+        public EFWorkItemRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
     }
 }

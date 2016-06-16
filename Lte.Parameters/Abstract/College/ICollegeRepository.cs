@@ -14,5 +14,7 @@ namespace Lte.Parameters.Abstract.College
         RectangleRange GetRange(string name);
 
         List<CollegeInfo> GetAllList(int year);
+
+        int SaveChanges();
     }
 }

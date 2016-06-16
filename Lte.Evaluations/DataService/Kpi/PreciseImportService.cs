@@ -109,6 +109,7 @@ namespace Lte.Evaluations.DataService.Kpi
             {
                 _regionRepository.Insert(stat);
             }
+            _regionRepository.SaveChanges();
         }
 
         public bool DumpOneStat()
@@ -122,6 +123,7 @@ namespace Lte.Evaluations.DataService.Kpi
             if (item == null)
             {
                 _repository.Insert(stat);
+                _repository.SaveChanges();
             }
             return true;
         }

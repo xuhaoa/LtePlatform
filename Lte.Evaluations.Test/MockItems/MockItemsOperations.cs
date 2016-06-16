@@ -71,9 +71,6 @@ namespace Lte.Evaluations.MockItems
                         Task.Run(
                             () =>
                                 repository.Object.GetAll().Where(x => x.StatDate >= begin && x.StatDate < end).ToList()));
-
-            repository.Setup(x => x.Import(It.IsAny<IEnumerable<CdmaRegionStatExcel>>()))
-                .Returns<IEnumerable<CdmaRegionStatExcel>>(stats => stats.Count());
         }
 
         public static void MockOperations(this Mock<ICellRepository> repository)
@@ -190,18 +187,9 @@ namespace Lte.Evaluations.MockItems
 
         public static void MockOperation(this Mock<ITopDrop2GCellRepository> repository)
         {
-            repository.Setup(x => x.Import(It.IsAny<IEnumerable<TopDrop2GCellExcel>>()))
-                .Returns<IEnumerable<TopDrop2GCellExcel>>(stats => stats.Count());
-
             repository.Setup(x => x.GetAllList(It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()))
                 .Returns<string, DateTime, DateTime>((city, begin, end) =>
                     repository.Object.GetAll().Where(x => x.City == city && x.StatTime >= begin && x.StatTime < end).ToList());
-        }
-
-        public static void MockOperation(this Mock<ITopConnection3GRepository> repository)
-        {
-            repository.Setup(x => x.Import(It.IsAny<IEnumerable<TopConnection3GCellExcel>>()))
-                .Returns<IEnumerable<TopConnection3GCellExcel>>(stats => stats.Count());
         }
 
         public static void MockOpertion(this Mock<ITownRepository> repository)

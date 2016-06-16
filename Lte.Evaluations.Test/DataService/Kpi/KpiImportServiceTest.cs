@@ -36,7 +36,6 @@ namespace Lte.Evaluations.DataService.Kpi
             _excelFileName = Path.Combine(excelFilesDirectory, "佛山.xls");
             _regionRepository.MockOperation();
             _dropRepository.MockOperation();
-            _connectionRepository.MockOperation();
             _service = new KpiImportService(_regionRepository.Object, _dropRepository.Object,
                 _connectionRepository.Object);
             AutoMapperHelper.CreateMap(typeof(CdmaRegionStat));

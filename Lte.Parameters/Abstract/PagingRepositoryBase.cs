@@ -2,11 +2,14 @@
 using System.Linq;
 using System.Linq.Expressions;
 using Abp.Domain.Entities;
+using Abp.EntityFramework;
+using Abp.EntityFramework.Repositories;
+using Lte.Parameters.Concrete;
 using Microsoft.Practices.Unity.Utility;
 
 namespace Lte.Parameters.Abstract
 {
-    public abstract class PagingRepositoryBase<TEntity> : LightWeightRepositroyBase<TEntity>, IPagingRepository<TEntity> 
+    public abstract class PagingRepositoryBase<TEntity> : EfRepositoryBase<EFParametersContext, TEntity>, IPagingRepository<TEntity> 
         where TEntity : class, IEntity<int>, new()
     {
         public IQueryable<TEntity> Get<TKey>(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize, 
@@ -15,12 +18,12 @@ namespace Lte.Parameters.Abstract
             Guard.ArgumentNotNull(predicate, "predicate");
             Guard.ArgumentNotNull(sortKeySelector, "sortKeySelector");
             return isAsc
-                ? Entities.Where(predicate)
+                ? GetAll().Where(predicate)
                     .OrderBy(sortKeySelector)
                     .Skip(pageSize*(pageIndex - 1))
                     .Take(pageSize)
                     .AsQueryable()
-                : Entities.Where(predicate)
+                : GetAll().Where(predicate)
                     .OrderByDescending(sortKeySelector)
                     .Skip(pageSize*(pageIndex - 1))
                     .Take(pageSize)
@@ -32,14 +35,18 @@ namespace Lte.Parameters.Abstract
         {
             Guard.ArgumentNotNull(sortKeySelector, "sortKeySelector");
             return isAsc
-                ? Entities.OrderBy(sortKeySelector)
+                ? GetAll().OrderBy(sortKeySelector)
                     .Skip(pageSize*(pageIndex - 1))
                     .Take(pageSize)
                     .AsQueryable()
-                : Entities.OrderByDescending(sortKeySelector)
+                : GetAll().OrderByDescending(sortKeySelector)
                     .Skip(pageSize*(pageIndex - 1))
                     .Take(pageSize)
                     .AsQueryable();
+        }
+
+        protected PagingRepositoryBase(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
+        {
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using Abp.EntityFramework;
+using Abp.EntityFramework.Repositories;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Entities;
@@ -8,14 +10,11 @@ using Lte.Parameters.Entities.College;
 
 namespace Lte.Parameters.Concrete.College
 {
-    public class EFCollegeRepository : LightWeightRepositroyBase<CollegeInfo>, ICollegeRepository
+    public class EFCollegeRepository : EfRepositoryBase<EFParametersContext, CollegeInfo>, ICollegeRepository
     {
-        protected override DbSet<CollegeInfo> Entities => context.CollegeInfos;
-
         public CollegeRegion GetRegion(int id)
         {
-            var query = Entities.Where(x => x.Id == id).Select(x => x.CollegeRegion);
-            return query.Any() ? query.First() : null;
+            return Get(id)?.CollegeRegion;
         }
 
         public CollegeInfo GetByName(string name)
@@ -32,6 +31,15 @@ namespace Lte.Parameters.Concrete.College
         public List<CollegeInfo> GetAllList(int year)
         {
             return GetAll().Where(x => x.OldOpenDate.Year == year).ToList();
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+
+        public EFCollegeRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
+        {
         }
     }
 }

@@ -27,5 +27,6 @@ namespace Lte.Parameters.Abstract.Infrastructure
 
     public interface IIndoorDistributionRepository : IRepository<IndoorDistribution>
     {
+        int SaveChanges();
     }
 }

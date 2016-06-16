@@ -2,11 +2,10 @@
 using System.Linq;
 using Abp.EntityFramework;
 using Abp.EntityFramework.Repositories;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
 
-namespace Lte.Parameters.Concrete
+namespace Lte.Parameters.Concrete.Infrastructure
 {
     public class EFInfrastructureRepository : EfRepositoryBase<EFParametersContext, InfrastructureInfo>, IInfrastructureRepository
     {
@@ -70,6 +69,19 @@ namespace Lte.Parameters.Concrete
 
         public EFInfrastructureRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
         {
+        }
+    }
+
+    public class EFIndoorDistributionRepository
+        : EfRepositoryBase<EFParametersContext, IndoorDistribution>, IIndoorDistributionRepository
+    {
+        public EFIndoorDistributionRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
         }
     }
 }

@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFramework;
-using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Repositories;
 using Lte.Parameters.Abstract.Kpi;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Kpi;
 

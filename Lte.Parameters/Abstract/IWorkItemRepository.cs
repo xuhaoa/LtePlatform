@@ -23,5 +23,7 @@ namespace Lte.Parameters.Abstract
         Task<List<WorkItem>> GetUnfinishedPreciseListAsync(DateTime begin, DateTime end);
 
         Task<WorkItem> GetPreciseExistedAsync(int eNodebId, byte sectorId);
+
+        int SaveChanges();
     }
 }
