@@ -57,7 +57,7 @@ namespace Lte.Evaluations.DataService.Kpi
             var factory = new ExcelQueryFactory { FileName = path };
             var stats = (from c in factory.Worksheet<DownSwitchFlowExcel>("4G考核_片区")
                 where c.StatDate > DateTime.Today.AddDays(-30) && c.StatDate <= DateTime.Today
-                select c).ToList();
+                select c).ToList().Where(x => x.DownSwitchFlow3G > 0 && x.Flow4G > 0);
             var count =
                 _downSwitchRepository.Import<IDownSwitchFlowRepository, DownSwitchFlow, DownSwitchFlowExcel>(stats);
             return "完成4G用户3G流量比记录导入" + count + "个";

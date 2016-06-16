@@ -26,7 +26,7 @@ namespace Lte.MySqlFramework.Concrete
             return Context.SaveChanges();
         }
 
-        public IEnumerable<DownSwitchFlow> GetAllList(DateTime begin, DateTime end)
+        public List<DownSwitchFlow> GetAllList(DateTime begin, DateTime end)
         {
             return GetAllList(x => x.StatDate >= begin && x.StatDate < end);
         }

@@ -116,6 +116,7 @@
     <Compile Include="DataService\Dump\NewCellListContainer.cs" />
     <Compile Include="DataService\Dump\NewENodebListContainer.cs" />
     <Compile Include="DataService\Basic\ENodebQueryService.cs" />
+    <Compile Include="DataService\Kpi\DownSwitchFlowService.cs" />
     <Compile Include="DataService\Kpi\FlowQueryService.cs" />
     <Compile Include="DataService\Kpi\FlowService.cs" />
     <Compile Include="DataService\Mr\CellDistanceService.cs" />
