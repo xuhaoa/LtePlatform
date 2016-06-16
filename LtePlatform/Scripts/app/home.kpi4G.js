@@ -1,4 +1,4 @@
-﻿app.controller("home.kpi4G", function ($scope, kpiPreciseService, appKpiService, appFormatService, kpi4GDisplayService) {
+﻿app.controller("home.kpi4G", function ($scope, kpiPreciseService, appKpiService, appFormatService, kpiDisplayService) {
     var yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     $scope.statDate = {
@@ -10,7 +10,7 @@
             $scope.statDate.value = appFormatService.getDate(result.statDate);
             $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, $scope.city.selected);
             $scope.rate = appKpiService.calculatePreciseRating($scope.cityStat.preciseRate);
-            $("#preciseConfig").highcharts(kpi4GDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
+            $("#preciseConfig").highcharts(kpiDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
                 $scope.cityStat));
         });
 });

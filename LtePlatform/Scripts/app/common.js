@@ -10,6 +10,7 @@
     "highcharts-ng",
     'huawei.mongo.parameters',
     'kpi.basic',
+    'kpi.display',
     'kpi.import',
     'kpi.precise',
     'kpi.workitem',
