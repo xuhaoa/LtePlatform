@@ -18,18 +18,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using FluentAssertions;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver.Core;
 using MongoDB.Driver.GeoJsonObjectModel;
-using FluentAssertions;
 using MongoDB.Driver.Legacy.TestHelpers;
+using MongoDB.Driver.Tests;
 using NUnit.Framework;
 
-namespace MongoDB.Driver.Tests
+namespace MongoDB.Driver.Legacy.Tests
 {
     [TestFixture]
     public class MongoCollectionTests

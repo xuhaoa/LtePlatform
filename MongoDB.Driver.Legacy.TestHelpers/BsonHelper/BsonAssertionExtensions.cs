@@ -15,6 +15,7 @@
 
 using MongoDB.Bson;
 using MongoDB.Bson.TestHelpers;
+using MongoDB.Driver.Legacy.TestHelpers.BsonHelper;
 
 namespace FluentAssertions // use FluentAssertions namespace so that these extension methods are automatically available
 {

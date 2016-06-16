@@ -18,9 +18,10 @@ using FluentAssertions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 
-namespace MongoDB.Bson.TestHelpers
+namespace MongoDB.Driver.Legacy.TestHelpers.BsonHelper
 {
     [DebuggerStepThrough]
     public class BsonArrayAssertions : ReferenceTypeAssertions<BsonArray, BsonArrayAssertions>
