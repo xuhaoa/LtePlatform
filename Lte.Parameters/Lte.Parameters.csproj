@@ -152,8 +152,6 @@
     <Compile Include="Abstract\Kpi\IPreciseCoverage4GRepository.cs" />
     <Compile Include="Abstract\IRasterInfoRepository.cs" />
     <Compile Include="Abstract\Infrastructure\IRegionRepository.cs" />
-    <Compile Include="Abstract\Kpi\ITopConnection3GRepository.cs" />
-    <Compile Include="Abstract\Kpi\ITopDrop2GCellRepository.cs" />
     <Compile Include="Abstract\Kpi\ITownPreciseCoverage4GStatRepository.cs" />
     <Compile Include="Abstract\Infrastructure\ITownRepository.cs" />
     <Compile Include="Abstract\IWorkItemRepository.cs" />
@@ -190,8 +188,6 @@
     <Compile Include="Concrete\EFParametersContext.cs" />
     <Compile Include="Concrete\Kpi\EFPreciseCoverage4GRepository.cs" />
     <Compile Include="Concrete\Kpi\EFRegionRepository.cs" />
-    <Compile Include="Concrete\Kpi\EFTopConnection3GRepository.cs" />
-    <Compile Include="Concrete\Kpi\EFTopDrop2GCellRepository.cs" />
     <Compile Include="Concrete\Kpi\EFTownPreciseCoverage4GStatRepository.cs" />
     <Compile Include="Concrete\Infrastructure\EFTownRepository.cs" />
     <Compile Include="Concrete\EFWorkItemRepository.cs" />
