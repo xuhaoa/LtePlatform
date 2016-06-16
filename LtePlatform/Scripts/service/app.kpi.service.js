@@ -189,7 +189,6 @@
                                 precise: 0
                             });
                         }
-
                     });
                     values.push({
                         mr: totalMrs,
@@ -417,7 +416,7 @@
                 over10DbColumn.series[0].name = '10dB干扰强度';
                 over6DbColumn.title.text = currentCellName + ': 6dB干扰干扰强度';
                 over10DbColumn.title.text = currentCellName + ': 10dB干扰干扰强度';
-                
+
                 angular.forEach(interferenceCells, function(cell) {
                     over6DbColumn.series[0].data.push(cell.overInterferences6Db / mrCount * 100);
                     over10DbColumn.series[0].data.push(cell.overInterferences10Db / mrCount * 100);
@@ -428,7 +427,7 @@
                     over6DbOption: over6DbColumn.options,
                     over10DbOption: over10DbColumn.options
                 };
-            } 
+            }
         };
     })
     .constant('taDivision', [

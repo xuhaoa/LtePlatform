@@ -1,23 +1,23 @@
 ﻿angular.module('kpi.precise', ['myApp.url', 'myApp.region'])
-    .factory('kpiPreciseService', function(generalHttpService) {
+    .factory('kpiPreciseService', function (generalHttpService) {
         return {
-            getRecentPreciseRegionKpi: function(city, initialDate) {
+            getRecentPreciseRegionKpi: function (city, initialDate) {
                 return generalHttpService.getApiData('PreciseRegion', {
                     city: city,
                     statDate: initialDate
                 });
             },
-            getDateSpanPreciseRegionKpi: function(city, beginDate, endDate) {
+            getDateSpanPreciseRegionKpi: function (city, beginDate, endDate) {
                 return generalHttpService.getApiData('PreciseRegion', {
                     city: city,
                     begin: beginDate,
                     end: endDate
                 });
             },
-            getOrderSelection: function() {
+            getOrderSelection: function () {
                 return generalHttpService.getApiData('PreciseStat', {});
             },
-            queryTopKpis: function(begin, end, topCount, orderSelection) {
+            queryTopKpis: function (begin, end, topCount, orderSelection) {
                 return generalHttpService.getApiData('PreciseStat', {
                     'begin': begin,
                     'end': end,
@@ -25,7 +25,7 @@
                     'orderSelection': orderSelection
                 });
             },
-            queryTopKpisInDistrict: function(begin, end, topCount, orderSelection, city, district) {
+            queryTopKpisInDistrict: function (begin, end, topCount, orderSelection, city, district) {
                 return generalHttpService.getApiData('PreciseStat', {
                     'begin': begin,
                     'end': end,
@@ -37,29 +37,29 @@
             }
         };
     })
-    .factory('preciseInterferenceService', function(generalHttpService, appUrlService, $http) {
+    .factory('preciseInterferenceService', function (generalHttpService, appUrlService, $http) {
         return {
-            addMonitor: function(cell) {
+            addMonitor: function (cell) {
                 $http.post(appUrlService.getApiUrl('NeighborMonitor'), {
                     cellId: cell.cellId,
                     sectorId: cell.sectorId
-                }).success(function() {
+                }).success(function () {
                     cell.isMonitored = true;
                 });
             },
-            queryMonitor: function(cellId, sectorId) {
+            queryMonitor: function (cellId, sectorId) {
                 return generalHttpService.getApiData('NeighborMonitor', {
                     'cellId': cellId,
                     'sectorId': sectorId
                 });
             },
-            updateInterferenceNeighbor: function(cellId, sectorId) {
+            updateInterferenceNeighbor: function (cellId, sectorId) {
                 return generalHttpService.getApiData('InterferenceNeighbor', {
                     'cellId': cellId,
                     'sectorId': sectorId
                 });
             },
-            queryInterferenceNeighbor: function(begin, end, cellId, sectorId) {
+            queryInterferenceNeighbor: function (begin, end, cellId, sectorId) {
                 return generalHttpService.getApiData('InterferenceNeighbor', {
                     'begin': begin,
                     'end': end,
@@ -67,7 +67,7 @@
                     'sectorId': sectorId
                 });
             },
-            updateInterferenceVictim: function(cellId, sectorId) {
+            updateInterferenceVictim: function (cellId, sectorId) {
                 return generalHttpService.getApiData('InterferenceNeighbor', {
                     neighborCellId: cellId,
                     neighborSectorId: sectorId
@@ -83,9 +83,9 @@
             }
         };
     })
-    .factory('downSwitchService', function(generalHttpService) {
+    .factory('downSwitchService', function (generalHttpService) {
         return {
-            getRecentKpi: function(city, initialDate) {
+            getRecentKpi: function (city, initialDate) {
                 return generalHttpService.getApiData('DownSwitchFlow', {
                     city: city,
                     statDate: initialDate

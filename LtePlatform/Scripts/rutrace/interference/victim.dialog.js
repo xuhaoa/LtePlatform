@@ -42,22 +42,22 @@
         $scope.victimCells = [];
 
         preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
-            eNodebId, sectorId).then(function(victims) {
+            eNodebId, sectorId).then(function (victims) {
                 preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
-                eNodebId, sectorId).then(function(result) {
-                angular.forEach(victims, function(victim) {
-                    for (var j = 0; j < result.length; j++) {
-                        if (result[j].destENodebId === victim.victimENodebId
-                            && result[j].destSectorId === victim.victimSectorId) {
-                            victim.forwardInterferences6Db = result[j].overInterferences6Db;
-                            victim.forwardInterferences10Db = result[j].overInterferences10Db;
-                            break;
+                eNodebId, sectorId).then(function (result) {
+                    angular.forEach(victims, function (victim) {
+                        for (var j = 0; j < result.length; j++) {
+                            if (result[j].destENodebId === victim.victimENodebId
+                                && result[j].destSectorId === victim.victimSectorId) {
+                                victim.forwardInterferences6Db = result[j].overInterferences6Db;
+                                victim.forwardInterferences10Db = result[j].overInterferences10Db;
+                                break;
+                            }
                         }
-                    }
+                    });
+                    $scope.victimCells = victims;
                 });
-                $scope.victimCells = victims;
             });
-        });
     };
 
     $scope.ok = function () {

@@ -10,7 +10,7 @@
         opened: false
     };
     kpiPreciseService.getRecentPreciseRegionKpi($scope.city.selected || '佛山', $scope.statDate.value || new Date())
-        .then(function(result) {
+        .then(function (result) {
             $scope.statDate.value = appFormatService.getDate(result.statDate);
             $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, $scope.city.selected);
             $scope.rate = appKpiService.calculatePreciseRating($scope.cityStat.preciseRate);

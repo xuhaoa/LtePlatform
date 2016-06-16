@@ -93,7 +93,6 @@
                 $scope.topStat.updateVictimProgress[$scope.currentCellName] = false;
             });
         }
-
     }
 
     $scope.closeAlert = function(index) {
