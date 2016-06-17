@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lte.Domain.Common.Wireless
 {
+    [EnumTypeDescription(typeof(DemandLevel), LevelB)]
     public enum DemandLevel : byte
     {
         LevelA,
@@ -13,6 +14,7 @@ namespace Lte.Domain.Common.Wireless
         LevelC
     }
 
+    [EnumTypeDescription(typeof(VehicleType), CPlusL)]
     public enum VehicleType : short
     {
         CdmaHuawei,
@@ -31,6 +33,7 @@ namespace Lte.Domain.Common.Wireless
         LittleMicrowave,
         MarineVstat,
         EmergencyVstat,
-        Broadcast
+        Broadcast,
+        CPlusL
     }
 }

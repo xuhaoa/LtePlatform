@@ -94,6 +94,37 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(AntennaPortsConfigure.Antenna2T8R, "2T8R"),
                     new Tuple<object, string>(AntennaPortsConfigure.Antenna4T4R, "4T4R")
                 }
+            },
+            {
+                "DemandLevel", new[]
+                {
+                    new Tuple<object, string>(DemandLevel.LevelA, "A级"),
+                    new Tuple<object, string>(DemandLevel.LevelB, "B级"),
+                    new Tuple<object, string>(DemandLevel.LevelC, "C级"),
+                }
+            },
+            {
+                "VehicleType", new[]
+                {
+                    new Tuple<object, string>(VehicleType.CdmaHuawei, "C网华为"),
+                    new Tuple<object, string>(VehicleType.CdmaZte, "C网中兴"),
+                    new Tuple<object, string>(VehicleType.CdmaAl, "C网阿朗"),
+                    new Tuple<object, string>(VehicleType.PhsUt, "PHS UTStarcom"),
+                    new Tuple<object, string>(VehicleType.PhsZte, "PHS中兴"),
+                    new Tuple<object, string>(VehicleType.SatelliteC, "PHS中兴"),
+                    new Tuple<object, string>(VehicleType.SatelliteKu, "Ku频段卫星车"),
+                    new Tuple<object, string>(VehicleType.Flyaway, "Flyaway"),
+                    new Tuple<object, string>(VehicleType.Electirc1000Kw, "1000KW电源车"),
+                    new Tuple<object, string>(VehicleType.Electirc200Kw, "200KW电源车"),
+                    new Tuple<object, string>(VehicleType.Electric60Kw, "60KW电源车"),
+                    new Tuple<object, string>(VehicleType.SoftSwitch, "软交换应急车"),
+                    new Tuple<object, string>(VehicleType.LittleYouji, "小油机"),
+                    new Tuple<object, string>(VehicleType.LittleMicrowave, "小微波"),
+                    new Tuple<object, string>(VehicleType.MarineVstat, "海事卫星电话"),
+                    new Tuple<object, string>(VehicleType.EmergencyVstat, "应急VSAT"),
+                    new Tuple<object, string>(VehicleType.Broadcast, "电台"),
+                    new Tuple<object, string>(VehicleType.CPlusL, "C+L")
+                }
             }
         };
     }

@@ -183,7 +183,14 @@ namespace Lte.Evaluations.MapperSerive
 
         public static void MapCustomerEntities()
         {
-            Mapper.CreateMap<EmergencyCommnunicationDto, EmergencyCommunication>();
+            Mapper.CreateMap<EmergencyCommnunicationDto, EmergencyCommunication>()
+                .ForMember(d => d.DemandLevel,
+                    opt => opt.MapFrom(s => s.DemandLevelDescription.GetEnumType<DemandLevel>()))
+                .ForMember(d => d.VehicleType,
+                    opt => opt.MapFrom(s => s.VehicularTypeDescription.GetEnumType<VehicleType>()))
+                .ForMember(d => d.ContactPerson, opt => opt.MapFrom(s => s.Person + "(" + s.Phone + ")"))
+                .ForMember(d => d.Description,
+                    opt => opt.MapFrom(s => "[" + s.VehicleLocation + "]" + s.OtherDescription));
         }
     }
 }
