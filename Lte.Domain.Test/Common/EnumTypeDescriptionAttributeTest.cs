@@ -42,6 +42,8 @@ namespace Lte.Domain.Test.Common
             Assert.AreEqual(alarmLevel, AlarmLevel.Warning);
             var alarmCategory = "处理错误告警".GetEnumType<AlarmCategory>();
             Assert.AreEqual(alarmCategory, AlarmCategory.ProcessError);
+            var antennaPort = "2T2R".GetEnumType<AntennaPortsConfigure>();
+            Assert.AreEqual(antennaPort, AntennaPortsConfigure.Antenna2T2R);
         }
 
         [Test]
@@ -64,6 +66,8 @@ namespace Lte.Domain.Test.Common
             Assert.AreEqual(levelDescription, "严重");
             var categoryDescription = AlarmCategory.ProcessError.GetEnumDescription();
             Assert.AreEqual(categoryDescription, "处理错误告警");
+            var portDescription = AntennaPortsConfigure.Antenna4T4R.GetEnumDescription();
+            Assert.AreEqual(portDescription, "4T4R");
         }
 
         [Test]

@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using Lte.Evaluations.ViewModels.Basic;
@@ -59,7 +60,7 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.RemovedAllowed, opt => opt.MapFrom(s => s.NoRmvFlag == 0))
                 .ForMember(d => d.CellPriority, opt => opt.MapFrom(s => s.CellMeasPriority));
             Mapper.CreateMap<CellExcel, Cell>()
-                .ForMember(d => d.AntennaPorts, opt => opt.MapFrom(s => s.TransmitReceive.GetAntennaPortsConfig()))
+                .ForMember(d => d.AntennaPorts, opt => opt.MapFrom(s => s.TransmitReceive.ToUpper().GetEnumType<AntennaPortsConfigure>()))
                 .ForMember(d => d.IsOutdoor, opt => opt.MapFrom(s => s.IsIndoor.Trim() == "否"));
             Mapper.CreateMap<CdmaCellExcel, CdmaCell>()
                 .ForMember(d => d.Frequency, opt => opt.Ignore())

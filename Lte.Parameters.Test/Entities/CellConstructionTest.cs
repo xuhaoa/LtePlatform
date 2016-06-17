@@ -1,4 +1,5 @@
-﻿using Lte.Domain.Common.Wireless;
+﻿using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.MapperSerive;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
@@ -46,7 +47,7 @@ namespace Lte.Parameters.Test.Entities
             Assert.AreEqual(cell.IsOutdoor, isIndoor.Trim() == "否");
             Assert.AreEqual(cell.AntennaGain, 12.8);
             Assert.AreEqual(cell.Azimuth, azimuth, "azimuth");
-            Assert.AreEqual(cell.AntennaPorts, antConfig.GetAntennaPortsConfig());
+            Assert.AreEqual(cell.AntennaPorts, antConfig.GetEnumType<AntennaPortsConfigure>());
         }
     }
 }

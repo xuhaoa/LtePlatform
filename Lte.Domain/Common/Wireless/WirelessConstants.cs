@@ -84,6 +84,16 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(AlarmCategory.Apparatus, "设备告警"),
                     new Tuple<object, string>(AlarmCategory.Huawei, "华为告警")
                 }
+            },
+            {
+                "AntennaPortsConfigure", new[]
+                {
+                    new Tuple<object, string>(AntennaPortsConfigure.Antenna1T1R, "1T1R"),
+                    new Tuple<object, string>(AntennaPortsConfigure.Antenna2T2R, "2T2R"),
+                    new Tuple<object, string>(AntennaPortsConfigure.Antenna2T4R, "2T4R"),
+                    new Tuple<object, string>(AntennaPortsConfigure.Antenna2T8R, "2T8R"),
+                    new Tuple<object, string>(AntennaPortsConfigure.Antenna4T4R, "4T4R")
+                }
             }
         };
     }

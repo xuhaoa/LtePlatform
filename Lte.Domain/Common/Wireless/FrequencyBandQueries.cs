@@ -43,23 +43,23 @@ namespace Lte.Domain.Common.Wireless
 
         public static FrequencyBandType GetBandFromFrequency(this double frequency)
         {
-            FrequencyBandDef def = frequencyBands.FirstOrDefault(
+            var def = frequencyBands.FirstOrDefault(
                 x => frequency >= x.FrequencyStart && frequency <= x.FrequencyEnd);
 
-            return (def != null) ? def.FrequencyBandType : FrequencyBandType.Undefined;
+            return def?.FrequencyBandType ?? FrequencyBandType.Undefined;
         }
 
         public static FrequencyBandType GetBandFromFcn(this int fcn)
         {
-            FrequencyBandDef def = frequencyBands.FirstOrDefault(
+            var def = frequencyBands.FirstOrDefault(
                 x => fcn >= x.FcnStart && fcn <= x.FcnEnd);
 
-            return (def != null) ? def.FrequencyBandType : FrequencyBandType.Undefined;
+            return def?.FrequencyBandType ?? FrequencyBandType.Undefined;
         }
 
         public static int GetEarfcn(this double frequency)
         {
-            FrequencyBandDef def = frequencyBands.FirstOrDefault(
+            var def = frequencyBands.FirstOrDefault(
                 x => x.FrequencyBandType == frequency.GetBandFromFrequency());
             return (def != null) ?
                 (int)(def.FcnStart + 10 * (frequency - def.FrequencyStart)) :
@@ -68,11 +68,9 @@ namespace Lte.Domain.Common.Wireless
 
         public static double GetFrequency(this int fcn)
         {
-            FrequencyBandDef def = frequencyBands.FirstOrDefault(
+            var def = frequencyBands.FirstOrDefault(
                 x => x.FrequencyBandType == fcn.GetBandFromFcn());
-            return (def != null) ?
-                def.FrequencyStart + 0.1 * (fcn - def.FcnStart) :
-                double.MinValue;
+            return def?.FrequencyStart + 0.1 * (fcn - def?.FcnStart ?? 0) ?? double.MinValue;
         }
 
         public static bool IsCdmaFrequency(this short frequency)
