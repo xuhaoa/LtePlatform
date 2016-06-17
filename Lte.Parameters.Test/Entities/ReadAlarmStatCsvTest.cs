@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
+using Lte.Evaluations.MapperSerive;
 using Lte.Parameters.Entities;
-using Lte.Parameters.Entities.ExcelCsv;
-using Lte.Parameters.MockOperations;
 using NUnit.Framework;
 
 namespace Lte.Parameters.Test.Entities
@@ -20,7 +17,7 @@ namespace Lte.Parameters.Test.Entities
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            CoreMapperService.MapAlarms();
+            KpiMapperService.MapAlarmStat();
         }
         
         [Test]

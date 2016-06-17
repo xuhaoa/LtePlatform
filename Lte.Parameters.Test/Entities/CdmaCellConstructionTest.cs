@@ -1,7 +1,7 @@
 ﻿using Lte.Domain.Common.Wireless;
+using Lte.Evaluations.MapperSerive;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
-using Lte.Parameters.MockOperations;
 using NUnit.Framework;
 
 namespace Lte.Parameters.Test.Entities
@@ -12,7 +12,7 @@ namespace Lte.Parameters.Test.Entities
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            CoreMapperService.MapCell();
+            InfrastructureMapperService.MapCell();
         }
 
         [TestCase(1233, 23, 1234, 37, "DO", 1, true)]

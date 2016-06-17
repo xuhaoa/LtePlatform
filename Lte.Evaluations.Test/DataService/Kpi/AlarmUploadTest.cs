@@ -5,8 +5,8 @@ using System.Text;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
 using Lte.Domain.Regular;
+using Lte.Evaluations.MapperSerive;
 using Lte.Parameters.Entities;
-using Lte.Parameters.MockOperations;
 using NUnit.Framework;
 
 namespace Lte.Evaluations.DataService.Kpi
@@ -19,7 +19,7 @@ namespace Lte.Evaluations.DataService.Kpi
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            CoreMapperService.MapAlarms();
+            KpiMapperService.MapAlarmStat();
         }
 
         [SetUp]

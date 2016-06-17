@@ -27,22 +27,18 @@ namespace Lte.Parameters.MockOperations
             Mapper.CreateMap<PreciseCoverage4G, TownPreciseCoverage4GStat>();
         }
 
-        public static void MapTopConnection3G()
+        public static void MapTopKpi()
         {
             Mapper.CreateMap<TopConnection3GCellExcel, TopConnection3GCell>()
                 .ForMember(d => d.StatTime, opt => opt.MapFrom(s => s.StatDate.AddHours(s.StatHour)))
                 .ForMember(d => d.CellId,
                     opt => opt.MapFrom(s => s.CellName.GetSubStringInFirstPairOfChars('[', ']').ConvertToInt(1)));
-        }
-
-        public static void MapTopDrop2G()
-        {
             Mapper.CreateMap<TopDrop2GCellExcel, TopDrop2GCell>()
                 .ForMember(d => d.StatTime, opt => opt.MapFrom(s => s.StatDate.AddHours(s.StatHour)))
                 .ForMember(d => d.CellId,
                     opt => opt.MapFrom(s => s.CellName.GetSubStringInFirstPairOfChars('[', ']').ConvertToInt(1)));
         }
-
+        
         public static void MapWorkItem()
         {
             Mapper.CreateMap<WorkItemExcel, WorkItem>()

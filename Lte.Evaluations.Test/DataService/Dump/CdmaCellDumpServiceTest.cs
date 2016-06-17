@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities;
@@ -23,7 +24,7 @@ namespace Lte.Evaluations.DataService.Dump
             _cellRepository.MockGetId<ICdmaCellRepository, CdmaCell>();
             _cellRepository.MockOperations();
             _cellRepository.MockRepositorySaveItems<CdmaCell, ICdmaCellRepository>();
-            CoreMapperService.MapCell();
+            InfrastructureMapperService.MapCell();
         }
 
         [SetUp]

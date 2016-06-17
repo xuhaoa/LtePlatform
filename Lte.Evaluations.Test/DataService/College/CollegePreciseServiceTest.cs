@@ -28,7 +28,7 @@ namespace Lte.Evaluations.DataService.College
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            KpiMapperService.MapCellPrecise();
+            KpiMapperService.MapPreciseStat();
             _service = new CollegePreciseService(_repository.Object, _cellRepository.Object, _eNodebRepository.Object,
                 _kpiRepository.Object);
             _repository.MockOperations();

@@ -19,7 +19,7 @@ namespace Lte.Evaluations.ViewModel
             _eNodebRepository.MockOperations();
             _eNodebRepository.MockGetId<IENodebRepository, ENodeb>();
             _eNodebRepository.MockThreeENodebs();
-            KpiMapperService.MapCellPrecise();
+            KpiMapperService.MapPreciseStat();
         }
 
         [TestCase(1, 2, 3, 1.1, 2.2, 12.3, true, 11.2, 22.34, 17.2)]

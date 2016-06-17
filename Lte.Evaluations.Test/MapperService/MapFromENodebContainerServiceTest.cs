@@ -16,7 +16,7 @@ namespace Lte.Evaluations.MapperService
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            CoreMapperService.MapCell();
+            InfrastructureMapperService.MapCell();
             ParametersDumpMapperService.MapFromENodebContainerService();
         }
 

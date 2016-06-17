@@ -1,7 +1,10 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
+using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Evaluations.ViewModels.Mr;
 using Lte.Evaluations.ViewModels.Switch;
+using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Neighbor;
 using Lte.Parameters.Entities.Switch;
@@ -51,6 +54,17 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.HandoffAllowed, opt => opt.MapFrom(s => s.NoHoFlag == 0))
                 .ForMember(d => d.RemovedAllowed, opt => opt.MapFrom(s => s.NoRmvFlag == 0))
                 .ForMember(d => d.CellPriority, opt => opt.MapFrom(s => s.CellMeasPriority));
+            Mapper.CreateMap<CellExcel, Cell>()
+                .ForMember(d => d.AntennaPorts, opt => opt.MapFrom(s => s.TransmitReceive.GetAntennaPortsConfig()))
+                .ForMember(d => d.IsOutdoor, opt => opt.MapFrom(s => s.IsIndoor.Trim() == "否"));
+            Mapper.CreateMap<CdmaCellExcel, CdmaCell>()
+                .ForMember(d => d.Frequency, opt => opt.Ignore())
+                .ForMember(d => d.IsOutdoor, opt => opt.MapFrom(s => s.IsIndoor.Trim() == "否"));
+            Mapper.CreateMap<ENodebExcel, ENodeb>()
+                .ForMember(d => d.IsFdd,
+                    opt => opt.MapFrom(s => s.DivisionDuplex.IndexOf("FDD", StringComparison.Ordinal) >= 0))
+                .ForMember(d => d.Gateway, opt => opt.MapFrom(s => s.Gateway.AddressValue))
+                .ForMember(d => d.SubIp, opt => opt.MapFrom(s => s.Ip.IpByte4));
         }
 
         public static void MapHoParametersService()

@@ -1,5 +1,7 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Lte.Domain.Common.Wireless;
+using Lte.Domain.Regular;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Kpi;
@@ -36,10 +38,6 @@ namespace Lte.Evaluations.MapperSerive
             Mapper.CreateMap<Precise4GView, Precise4GSector>();
             Mapper.CreateMap<TownPreciseCoverage4GStat, TownPreciseView>();
             Mapper.CreateMap<TownPreciseView, TownPreciseCoverage4GStat>();
-        }
-
-        public static void MapCellPrecise()
-        {
             Mapper.CreateMap<Cell, CellPreciseKpiView>()
                 .ForMember(d => d.Indoor, opt => opt.MapFrom(s => s.IsOutdoor ? "室外" : "室内"))
                 .ForMember(d => d.DownTilt, opt => opt.MapFrom(s => s.ETilt + s.MTilt))
@@ -62,6 +60,24 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.AlarmCategoryDescription,
                     opt => opt.MapFrom(s => s.AlarmCategory.GetAlarmCategoryDescription()))
                 .ForMember(d => d.AlarmTypeDescription, opt => opt.MapFrom(s => s.AlarmType.GetAlarmTypeDescription()));
+            Mapper.CreateMap<AlarmStatCsv, AlarmStat>()
+                .ForMember(d => d.AlarmLevel, opt => opt.MapFrom(s => s.AlarmLevelDescription.GetAlarmLevel()))
+                .ForMember(d => d.AlarmCategory, opt => opt.MapFrom(s => s.AlarmCategoryDescription.GetCategory()))
+                .ForMember(d => d.AlarmType, opt => opt.MapFrom(s => s.AlarmCodeDescription.GetAlarmType()))
+                .ForMember(d => d.SectorId, opt => opt.MapFrom(s => s.ObjectId > 255 ? (byte)255 : (byte)s.ObjectId))
+                .ForMember(d => d.RecoverTime,
+                    opt =>
+                        opt.MapFrom(
+                            s => s.RecoverTime < new DateTime(2000, 1, 1) ? new DateTime(2200, 1, 1) : s.RecoverTime))
+                .ForMember(d => d.AlarmId, opt => opt.MapFrom(s => s.AlarmId.ConvertToInt(0)));
+
+            Mapper.CreateMap<AlarmStatHuawei, AlarmStat>()
+                .ForMember(d => d.AlarmLevel, opt => opt.MapFrom(s => s.AlarmLevelDescription.GetAlarmLevel()))
+                .ForMember(d => d.AlarmCategory, opt => opt.MapFrom(s => AlarmCategory.Huawei))
+                .ForMember(d => d.AlarmType, opt => opt.MapFrom(s => s.AlarmCodeDescription.GetAlarmHuawei()))
+                .ForMember(d => d.ENodebId, opt => opt.MapFrom(s => s.ENodebIdString.ConvertToInt(0)))
+                .ForMember(d => d.RecoverTime,
+                    opt => opt.MapFrom(s => s.RecoverTime.ConvertToDateTime(new DateTime(2200, 1, 1))));
         }
 
         public static void MapTopKpi()
@@ -74,10 +90,6 @@ namespace Lte.Evaluations.MapperSerive
             Mapper.CreateMap<TopCellContainer<TopConnection3GCell>, TopConnection3GCellViewContainer>()
                 .ForMember(d => d.TopConnection3GCellView,
                     opt => opt.MapFrom(s => Mapper.Map<TopConnection3GCell, TopConnection3GCellView>(s.TopCell)));
-        }
-
-        public static void MapTopKpiTrend()
-        {
             Mapper.CreateMap<TopDrop2GTrend, TopDrop2GTrendView>();
             Mapper.CreateMap<TopCellContainer<TopDrop2GTrend>, TopDrop2GTrendViewContainer>()
                 .ForMember(d => d.TopDrop2GTrendView,

@@ -32,7 +32,7 @@ namespace Lte.Evaluations.DataService.Dump
             _townRepository.MockOpertion();
             _townRepository.MockSixTowns();
             ParametersDumpMapperService.MapFromENodebContainerService();
-            CoreMapperService.MapCell();
+            InfrastructureMapperService.MapCell();
         }
 
         [SetUp]

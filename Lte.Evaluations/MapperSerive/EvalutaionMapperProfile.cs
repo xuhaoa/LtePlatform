@@ -16,12 +16,10 @@ namespace Lte.Evaluations.MapperSerive
 
         protected override void Configure()
         {
-            CoreMapperService.MapCell();
+            InfrastructureMapperService.MapCell();
             CoreMapperService.MapDtItems();
-            CoreMapperService.MapAlarms();
             StatMapperService.MapPreciseCoverage();
-            StatMapperService.MapTopConnection3G();
-            StatMapperService.MapTopDrop2G();
+            StatMapperService.MapTopKpi();
             StatMapperService.MapWorkItem();
             StatMapperService.MapInterferenceMatrix();
 
@@ -34,11 +32,9 @@ namespace Lte.Evaluations.MapperSerive
             InfrastructureMapperService.MapHoParametersService();
 
             KpiMapperService.MapCdmaRegionStat();
-            KpiMapperService.MapCellPrecise();
             KpiMapperService.MapFlow();
             KpiMapperService.MapAlarmStat();
             KpiMapperService.MapTopKpi();
-            KpiMapperService.MapTopKpiTrend();
             KpiMapperService.MapPreciseStat();
             KpiMapperService.MapWorkItem();
 
