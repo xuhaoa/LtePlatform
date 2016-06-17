@@ -84,6 +84,7 @@ namespace Lte.Domain.Common.Wireless
         Tips
     }
 
+    [EnumTypeDescription(typeof(AlarmCategory), Qos)]
     public enum AlarmCategory : byte
     {
         Communication,

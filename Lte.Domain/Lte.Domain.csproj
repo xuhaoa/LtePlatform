@@ -99,7 +99,6 @@
     <Compile Include="LinqToExcel\Service\ExcelAttributesService.cs" />
     <Compile Include="Lz4Net\Lz4CompressionStreamBase.cs" />
     <Compile Include="Lz4Net\Lz4DecompressionStreamBase.cs" />
-    <Compile Include="Common\Wireless\AlarmTypeQueries.cs" />
     <Compile Include="Regular\DateTimeRegex.cs" />
     <Compile Include="Regular\IpAddress.cs" />
     <Compile Include="Regular\MapperOperations.cs" />

@@ -61,6 +61,29 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(AlarmType.Others, "其他告警"),
                     new Tuple<object, string>(AlarmType.DatabaseDelay, "性能数据入库延迟(15010001)")
                 }
+            },
+            {
+                "AlarmLevel", new[]
+                {
+                    new Tuple<object, string>(AlarmLevel.Serious, "严重"),
+                    new Tuple<object, string>(AlarmLevel.Primary, "主要"),
+                    new Tuple<object, string>(AlarmLevel.Secondary, "次要"),
+                    new Tuple<object, string>(AlarmLevel.Warning, "警告"),
+                    new Tuple<object, string>(AlarmLevel.Urgent, "紧急"),
+                    new Tuple<object, string>(AlarmLevel.Important, "重要"),
+                    new Tuple<object, string>(AlarmLevel.Tips, "提示")
+                }
+            },
+            {
+                "AlarmCategory", new[]
+                {
+                    new Tuple<object, string>(AlarmCategory.Communication, "通信告警"),
+                    new Tuple<object, string>(AlarmCategory.Qos, "服务质量告警"),
+                    new Tuple<object, string>(AlarmCategory.ProcessError, "处理错误告警"),
+                    new Tuple<object, string>(AlarmCategory.Environment, "环境告警"),
+                    new Tuple<object, string>(AlarmCategory.Apparatus, "设备告警"),
+                    new Tuple<object, string>(AlarmCategory.Huawei, "华为告警")
+                }
             }
         };
     }

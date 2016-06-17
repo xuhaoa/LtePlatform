@@ -1,4 +1,5 @@
-﻿using Lte.Domain.Common.Wireless;
+﻿using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.ViewModels;
 using NUnit.Framework;
 
@@ -22,8 +23,8 @@ namespace Lte.Evaluations.DataService.Queries
             string typeDescription)
         {
             Assert.AreEqual(view.AlarmTypeDescription, typeDescription);
-            Assert.AreEqual(view.AlarmCategoryDescription, category.GetAlarmCategoryDescription());
-            Assert.AreEqual(view.AlarmLevelDescription, level.GetAlarmLevelDescription());
+            Assert.AreEqual(view.AlarmCategoryDescription, category.GetEnumDescription());
+            Assert.AreEqual(view.AlarmLevelDescription, level.GetEnumDescription());
         }
     }
 }

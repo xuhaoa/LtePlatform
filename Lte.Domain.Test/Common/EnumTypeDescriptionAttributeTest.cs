@@ -36,6 +36,12 @@ namespace Lte.Domain.Test.Common
         {
             var alarmType = "天馈驻波比异常(198098465)".GetEnumType<AlarmType>();
             Assert.AreEqual(alarmType, AlarmType.VswrLte);
+            var alarmLevel = "主要".GetEnumType<AlarmLevel>();
+            Assert.AreEqual(alarmLevel, AlarmLevel.Primary);
+            alarmLevel = "警告".GetEnumType<AlarmLevel>();
+            Assert.AreEqual(alarmLevel, AlarmLevel.Warning);
+            var alarmCategory = "处理错误告警".GetEnumType<AlarmCategory>();
+            Assert.AreEqual(alarmCategory, AlarmCategory.ProcessError);
         }
 
         [Test]
@@ -50,10 +56,14 @@ namespace Lte.Domain.Test.Common
         [Test]
         public void TestGetEnumDescription()
         {
-            var alarmDecription = AlarmType.VswrLte.GetEnumDescription();
-            Assert.AreEqual(alarmDecription, "天馈驻波比异常(198098465)");
-            alarmDecription = AlarmType.BbuCpriLost.GetEnumDescription();
-            Assert.AreEqual(alarmDecription, null);
+            var alarmDescription = AlarmType.VswrLte.GetEnumDescription();
+            Assert.AreEqual(alarmDescription, "天馈驻波比异常(198098465)");
+            alarmDescription = AlarmType.BbuCpriLost.GetEnumDescription();
+            Assert.AreEqual(alarmDescription, null);
+            var levelDescription = AlarmLevel.Serious.GetEnumDescription();
+            Assert.AreEqual(levelDescription, "严重");
+            var categoryDescription = AlarmCategory.ProcessError.GetEnumDescription();
+            Assert.AreEqual(categoryDescription, "处理错误告警");
         }
 
         [Test]

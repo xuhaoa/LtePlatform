@@ -145,14 +145,14 @@ namespace Lte.Evaluations.MapperSerive
                                     : "Cell-" + s.SectorId))
                 .ForMember(d => d.Duration, opt => opt.MapFrom(s => (s.RecoverTime - s.HappenTime).TotalMinutes))
                 .ForMember(d => d.AlarmLevelDescription,
-                    opt => opt.MapFrom(s => s.AlarmLevel.GetAlarmLevelDescription()))
+                    opt => opt.MapFrom(s => s.AlarmLevel.GetEnumDescription()))
                 .ForMember(d => d.AlarmCategoryDescription,
-                    opt => opt.MapFrom(s => s.AlarmCategory.GetAlarmCategoryDescription()))
-                .ForMember(d => d.AlarmTypeDescription, opt => opt.MapFrom(s => s.AlarmType.GetAlarmTypeDescription()));
+                    opt => opt.MapFrom(s => s.AlarmCategory.GetEnumDescription()))
+                .ForMember(d => d.AlarmTypeDescription, opt => opt.MapFrom(s => s.AlarmType.GetEnumDescription(WirelessPublic.AlarmTypeHuaweiList)));
             Mapper.CreateMap<AlarmStatCsv, AlarmStat>()
-                .ForMember(d => d.AlarmLevel, opt => opt.MapFrom(s => s.AlarmLevelDescription.GetAlarmLevel()))
-                .ForMember(d => d.AlarmCategory, opt => opt.MapFrom(s => s.AlarmCategoryDescription.GetCategory()))
-                .ForMember(d => d.AlarmType, opt => opt.MapFrom(s => s.AlarmCodeDescription.GetAlarmType()))
+                .ForMember(d => d.AlarmLevel, opt => opt.MapFrom(s => s.AlarmLevelDescription.GetEnumType<AlarmLevel>()))
+                .ForMember(d => d.AlarmCategory, opt => opt.MapFrom(s => s.AlarmCategoryDescription.GetEnumType<AlarmCategory>()))
+                .ForMember(d => d.AlarmType, opt => opt.MapFrom(s => s.AlarmCodeDescription.GetEnumType<AlarmType>()))
                 .ForMember(d => d.SectorId, opt => opt.MapFrom(s => s.ObjectId > 255 ? (byte)255 : (byte)s.ObjectId))
                 .ForMember(d => d.RecoverTime,
                     opt =>
@@ -161,7 +161,7 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.AlarmId, opt => opt.MapFrom(s => s.AlarmId.ConvertToInt(0)));
 
             Mapper.CreateMap<AlarmStatHuawei, AlarmStat>()
-                .ForMember(d => d.AlarmLevel, opt => opt.MapFrom(s => s.AlarmLevelDescription.GetAlarmLevel()))
+                .ForMember(d => d.AlarmLevel, opt => opt.MapFrom(s => s.AlarmLevelDescription.GetEnumType<AlarmLevel>()))
                 .ForMember(d => d.AlarmCategory, opt => opt.MapFrom(s => AlarmCategory.Huawei))
                 .ForMember(d => d.AlarmType, opt => opt.MapFrom(s => s.AlarmCodeDescription.GetEnumType(WirelessPublic.AlarmTypeHuaweiList)))
                 .ForMember(d => d.ENodebId, opt => opt.MapFrom(s => s.ENodebIdString.ConvertToInt(0)))
