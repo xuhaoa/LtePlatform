@@ -6,23 +6,15 @@ using System.Threading.Tasks;
 
 namespace Lte.Domain.Common
 {
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Parameter)]
     internal sealed class AssertionConditionAttribute : Attribute
     {
-        private readonly AssertionConditionType myConditionType;
-
         public AssertionConditionAttribute(AssertionConditionType conditionType)
         {
-            myConditionType = conditionType;
+            ConditionType = conditionType;
         }
 
-        public AssertionConditionType ConditionType
-        {
-            get
-            {
-                return myConditionType;
-            }
-        }
+        public AssertionConditionType ConditionType { get; }
     }
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]

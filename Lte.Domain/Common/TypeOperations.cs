@@ -15,24 +15,24 @@ namespace Lte.Domain.Common
         public static MethodInfo GetParseNumberMethod(this Type t)
         {
             return t.GetMethod("Parse",
-                new[] { typeof(String), typeof(NumberStyles), typeof(IFormatProvider) });
+                new[] {typeof (string), typeof (NumberStyles), typeof (IFormatProvider)});
         }
 
-        public static MethodInfo GetParseMethod(this Type t)
+        private static MethodInfo GetParseMethod(this Type t)
         {
-            return t.GetMethod("Parse", new[] { typeof(String) });
+            return t.GetMethod("Parse", new[] {typeof (string)});
         }
 
         public static MethodInfo GetParseExactMethod(this Type t)
         {
             return t.GetMethod("ParseExact",
-                new[] { typeof(string), typeof(string), typeof(IFormatProvider) });
+                new[] {typeof (string), typeof (string), typeof (IFormatProvider)});
         }
 
-        public static Dictionary<string, string> GetFieldTextList<T>(this string line) where T : class
+        private static Dictionary<string, string> GetFieldTextList<T>(this string line) where T : class
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
-            RowAttribute attribute = Attribute.GetCustomAttribute((typeof(T)), typeof(RowAttribute))
+            RowAttribute attribute = Attribute.GetCustomAttribute((typeof (T)), typeof (RowAttribute))
                 as RowAttribute;
             if (attribute != null)
             {
@@ -51,12 +51,12 @@ namespace Lte.Domain.Common
         public static T GenerateOneRowFromText<T>(this string line) where T : class, new()
         {
             Dictionary<string, string> fieldTextList = line.GetFieldTextList<T>();
-            PropertyInfo[] properties = (typeof(T)).GetProperties();
+            PropertyInfo[] properties = (typeof (T)).GetProperties();
             T result = new T();
             foreach (PropertyInfo property in properties)
             {
                 ColumnAttribute columnAttribute =
-                    Attribute.GetCustomAttribute(property, typeof(ColumnAttribute)) as ColumnAttribute;
+                    Attribute.GetCustomAttribute(property, typeof (ColumnAttribute)) as ColumnAttribute;
                 if (columnAttribute != null)
                 {
                     string propertyName
@@ -68,23 +68,56 @@ namespace Lte.Domain.Common
             return result;
         }
 
-        public static void SetValueByText<T>(this T result, PropertyInfo property, string valueText)
+        private static void SetValueByText<T>(this T result, PropertyInfo property, string valueText)
             where T : class, new()
         {
             Type propertyType = property.PropertyType;
-            ColumnAttribute columnAttribute = Attribute.GetCustomAttribute(property, typeof(ColumnAttribute))
+            ColumnAttribute columnAttribute = Attribute.GetCustomAttribute(property, typeof (ColumnAttribute))
                 as ColumnAttribute;
             if (columnAttribute != null)
             {
                 string dateTimeFormat = columnAttribute.DateTimeFormat;
                 property.SetValue(result,
-                    (propertyType == typeof(string) ? valueText
-                        : (propertyType == typeof(DateTime) && !string.IsNullOrEmpty(dateTimeFormat) ?
-                            DateTime.ParseExact(valueText, dateTimeFormat, CultureInfo.CurrentCulture, DateTimeStyles.None)
+                    (propertyType == typeof (string)
+                        ? valueText
+                        : (propertyType == typeof (DateTime) && !string.IsNullOrEmpty(dateTimeFormat)
+                            ? DateTime.ParseExact(valueText, dateTimeFormat, CultureInfo.CurrentCulture,
+                                DateTimeStyles.None)
                             : propertyType.GetParseMethod().Invoke(propertyType,
-                                new object[] { valueText }))),
+                                new object[] {valueText}))),
                     null);
             }
+        }
+
+        public static TEnum GetEnumType<TEnum>(this string description, Tuple<TEnum, string>[] list, TEnum defaultValue)
+            where TEnum : struct
+        {
+            var tuple = list.FirstOrDefault(x => x.Item2 == description);
+            return tuple?.Item1 ?? defaultValue;
+        }
+
+        public static string GetEnumDescription<TEnum>(this TEnum type, Tuple<TEnum, string>[] list,
+            string defaultDescription)
+            where TEnum : struct
+        {
+            var tuple = list.FirstOrDefault(x => x.Item1.Equals(type));
+            return (tuple != null) ? tuple.Item2 : defaultDescription;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Enum)]
+    public class EnumTypeDescriptionAttribute : Attribute
+    {
+        public Type TupleType { get; private set; }
+
+        public object TupleList { get; private set; }
+
+        public EnumTypeDescriptionAttribute(Type tupleType, object tupleList)
+        {
+            if (tupleList.GetType() != tupleType)
+                throw new ArgumentException("Bad tupleList type");
+            TupleType = tupleType;
+            TupleList = tupleList;
         }
     }
 }

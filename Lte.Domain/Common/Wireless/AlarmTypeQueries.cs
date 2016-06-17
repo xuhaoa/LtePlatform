@@ -64,10 +64,10 @@ namespace Lte.Domain.Common.Wireless
         public static AlarmType GetAlarmType(this string description)
         {
             var tuple = AlarmTypeDescriptionList.FirstOrDefault(x => x.Item2 == description);
-            return (tuple != null) ? tuple.Item1 : AlarmType.Others;
+            return tuple?.Item1 ?? AlarmType.Others;
         }
 
-        private static readonly Tuple<AlarmType, string>[] AlarmTypeHuaweiList =
+        public static readonly Tuple<AlarmType, string>[] AlarmTypeHuaweiList =
         {
             new Tuple<AlarmType, string>(AlarmType.PciCrack, "小区PCI冲突告警"),
             new Tuple<AlarmType, string>(AlarmType.FiberModule, "BBU光模块收发异常告警"),
@@ -114,17 +114,15 @@ namespace Lte.Domain.Common.Wireless
 
         public static string GetAlarmTypeHuawei(this AlarmType type)
         {
-            var tuple = AlarmTypeHuaweiList.FirstOrDefault(x => x.Item1 == type);
-            return (tuple != null) ? tuple.Item2 : "其他告警";
+            return type.GetEnumDescription(AlarmTypeHuaweiList, "其他告警");
         }
 
         public static AlarmType GetAlarmHuawei(this string description)
         {
-            var tuple = AlarmTypeHuaweiList.FirstOrDefault(x => x.Item2 == description);
-            return (tuple != null) ? tuple.Item1 : AlarmType.Others;
+            return description.GetEnumType(AlarmTypeHuaweiList, AlarmType.Others);
         }
 
-        private static readonly Tuple<AlarmLevel, string>[] AlarmLevelDescriptionList =
+        public static readonly Tuple<AlarmLevel, string>[] AlarmLevelDescriptionList =
         {
             new Tuple<AlarmLevel, string>(AlarmLevel.Serious, "严重"),
             new Tuple<AlarmLevel, string>(AlarmLevel.Primary, "主要"),

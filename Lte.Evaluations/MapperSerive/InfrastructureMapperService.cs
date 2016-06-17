@@ -3,8 +3,10 @@ using AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using Lte.Evaluations.ViewModels.Basic;
+using Lte.Evaluations.ViewModels.Customer;
 using Lte.Evaluations.ViewModels.Mr;
 using Lte.Evaluations.ViewModels.Switch;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.ExcelCsv;
@@ -176,6 +178,11 @@ namespace Lte.Evaluations.MapperSerive
             Mapper.CreateMap<CellExcel, ENodebBtsIdPair>()
                 .ForMember(d => d.BtsId, opt => opt.MapFrom(s =>
                     s.ShareCdmaInfo.Split('_').Length > 2 ? s.ShareCdmaInfo.Split('_')[1].ConvertToInt(-1) : -1));
+        }
+
+        public static void MapCustomerEntities()
+        {
+            Mapper.CreateMap<EmergencyCommnunicationDto, EmergencyCommunication>();
         }
     }
 }
