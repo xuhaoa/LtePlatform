@@ -163,7 +163,7 @@ namespace Lte.Evaluations.MapperSerive
             Mapper.CreateMap<AlarmStatHuawei, AlarmStat>()
                 .ForMember(d => d.AlarmLevel, opt => opt.MapFrom(s => s.AlarmLevelDescription.GetAlarmLevel()))
                 .ForMember(d => d.AlarmCategory, opt => opt.MapFrom(s => AlarmCategory.Huawei))
-                .ForMember(d => d.AlarmType, opt => opt.MapFrom(s => s.AlarmCodeDescription.GetAlarmHuawei()))
+                .ForMember(d => d.AlarmType, opt => opt.MapFrom(s => s.AlarmCodeDescription.GetEnumType(WirelessPublic.AlarmTypeHuaweiList)))
                 .ForMember(d => d.ENodebId, opt => opt.MapFrom(s => s.ENodebIdString.ConvertToInt(0)))
                 .ForMember(d => d.RecoverTime,
                     opt => opt.MapFrom(s => s.RecoverTime.ConvertToDateTime(new DateTime(2200, 1, 1))));

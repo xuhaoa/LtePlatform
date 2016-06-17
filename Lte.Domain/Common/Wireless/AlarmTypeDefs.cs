@@ -2,6 +2,7 @@
 
 namespace Lte.Domain.Common.Wireless
 {
+    [EnumTypeDescription(typeof(AlarmType), Others)]
     public enum AlarmType : short
     {
         CeNotEnough,//0
@@ -71,7 +72,7 @@ namespace Lte.Domain.Common.Wireless
         AnalogLoad
     }
 
-    [EnumTypeDescription(typeof(Tuple<AlarmLevel, string>[]), "AlarmLevelDescription")]
+    [EnumTypeDescription(typeof(AlarmLevel), Secondary)]
     public enum AlarmLevel : byte
     {
         Serious,

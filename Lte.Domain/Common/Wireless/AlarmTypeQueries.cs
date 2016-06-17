@@ -66,62 +66,12 @@ namespace Lte.Domain.Common.Wireless
             var tuple = AlarmTypeDescriptionList.FirstOrDefault(x => x.Item2 == description);
             return tuple?.Item1 ?? AlarmType.Others;
         }
-
-        public static readonly Tuple<AlarmType, string>[] AlarmTypeHuaweiList =
-        {
-            new Tuple<AlarmType, string>(AlarmType.PciCrack, "小区PCI冲突告警"),
-            new Tuple<AlarmType, string>(AlarmType.FiberModule, "BBU光模块收发异常告警"),
-            new Tuple<AlarmType, string>(AlarmType.RruBroken, "射频单元硬件故障告警"),
-            new Tuple<AlarmType, string>(AlarmType.RruRtwp, "射频单元接收通道RTWP/RSSI过低告警"),
-            new Tuple<AlarmType, string>(AlarmType.BadPerformance, "小区服务能力下降告警"),
-            new Tuple<AlarmType, string>(AlarmType.BbuCpriLost, "BBU CPRI光模块/电接口不在位告警"),
-            new Tuple<AlarmType, string>(AlarmType.BbuCpriInterface, "BBU CPRI光模块/电接口不在位告警"),
-            new Tuple<AlarmType, string>(AlarmType.RssiProblem, "RSSI值过高告警"),
-            new Tuple<AlarmType, string>(AlarmType.S1UserPlane, "S1接口故障告警"),
-            new Tuple<AlarmType, string>(AlarmType.S1Broken, "SCTP链路故障告警"),
-            new Tuple<AlarmType, string>(AlarmType.X2UserPlane, "X2接口故障告警"),
-            new Tuple<AlarmType, string>(AlarmType.FiberReceiver, "传输光接口异常告警"),
-            new Tuple<AlarmType, string>(AlarmType.EletricAntenna, "电调天线未校准告警"),
-            new Tuple<AlarmType, string>(AlarmType.S1Broken, "基站控制面传输中断告警"),
-            new Tuple<AlarmType, string>(AlarmType.SoftwareAbnormal, "配置数据不一致告警"),
-            new Tuple<AlarmType, string>(AlarmType.InnerError, "任务执行失败告警"),
-            new Tuple<AlarmType, string>(AlarmType.RfAld, "射频单元ALD电流异常告警"),
-            new Tuple<AlarmType, string>(AlarmType.RruCpriInterface, "射频单元CPRI接口异常告警"),
-            new Tuple<AlarmType, string>(AlarmType.RruInterfacePerformance, "射频单元光接口性能恶化告警"),
-            new Tuple<AlarmType, string>(AlarmType.RruPowerDown, "射频单元交流掉电告警"),
-            new Tuple<AlarmType, string>(AlarmType.RruRtwpUnbalance, "射频单元接收通道RTWP/RSSI不平衡告警"),
-            new Tuple<AlarmType, string>(AlarmType.RruClock, "射频单元时钟异常告警"),
-            new Tuple<AlarmType, string>(AlarmType.RruOmcLink, "射频单元维护链路异常告警"),
-            new Tuple<AlarmType, string>(AlarmType.VswrProblem, "射频单元驻波告警"),
-            new Tuple<AlarmType, string>(AlarmType.SntpFail, "时间同步失败告警"),
-            new Tuple<AlarmType, string>(AlarmType.ClockReference, "时钟参考源异常告警"),
-            new Tuple<AlarmType, string>(AlarmType.Database, "数据库占用率过高告警(提示)"),
-            new Tuple<AlarmType, string>(AlarmType.Database, "数据库占用率过高告警(次要)"),
-            new Tuple<AlarmType, string>(AlarmType.AntennaLink, "天线设备维护链路异常告警"),
-            new Tuple<AlarmType, string>(AlarmType.LinkBroken, "网元连接中断"),
-            new Tuple<AlarmType, string>(AlarmType.NoClock, "系统时钟不可用告警"),
-            new Tuple<AlarmType, string>(AlarmType.CellDown, "小区不可用告警"),
-            new Tuple<AlarmType, string>(AlarmType.StarUnlocked, "星卡天线故障告警"),
-            new Tuple<AlarmType, string>(AlarmType.DatabaseDelay, "性能数据库剩余空间不足"),
-            new Tuple<AlarmType, string>(AlarmType.EthernetBroken, "以太网链路故障告警"),
-            new Tuple<AlarmType, string>(AlarmType.TrunkProblem, "用户面承载链路故障告警"),
-            new Tuple<AlarmType, string>(AlarmType.UserPlane, "用户面承载链路故障告警"),
-            new Tuple<AlarmType, string>(AlarmType.RemoteOmc, "远程维护通道故障告警"),
-            new Tuple<AlarmType, string>(AlarmType.LoginError, "登录尝试次数达到最大值告警"),
-            new Tuple<AlarmType, string>(AlarmType.OuterApparatus, "网管服务异常退出告警"),
-            new Tuple<AlarmType, string>(AlarmType.AnalogLoad, "小区模拟负载启动告警"),
-        };
-
+        
         public static string GetAlarmTypeHuawei(this AlarmType type)
         {
-            return type.GetEnumDescription(AlarmTypeHuaweiList, "其他告警");
+            return type.GetEnumDescription();
         }
-
-        public static AlarmType GetAlarmHuawei(this string description)
-        {
-            return description.GetEnumType(AlarmTypeHuaweiList, AlarmType.Others);
-        }
-
+        
         public static readonly Tuple<AlarmLevel, string>[] AlarmLevelDescriptionList =
         {
             new Tuple<AlarmLevel, string>(AlarmLevel.Serious, "严重"),

@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\EnumTypeDescriptionAttributeTest.cs" />
     <Compile Include="LinqToCsv\CsvContextWriteTests.cs" />
     <Compile Include="LinqToCsv\IAssertable.cs" />
     <Compile Include="LinqToCsv\Product\Person.cs" />
