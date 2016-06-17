@@ -1,11 +1,13 @@
 ﻿using System;
 using AutoMapper;
 using Lte.Domain.Common.Wireless;
+using Lte.Domain.Regular;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Evaluations.ViewModels.Mr;
 using Lte.Evaluations.ViewModels.Switch;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
+using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.Entities.Neighbor;
 using Lte.Parameters.Entities.Switch;
 
@@ -163,6 +165,17 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.Threshold2OfRsrp, opt => opt.MapFrom(s => s.InterFreqHoA5Thd1Rsrp))
                 .ForMember(d => d.Threshold2OfRsrq, opt => opt.MapFrom(s => s.InterFreqHoA5Thd1Rsrq));
             
+        }
+
+        public static void MapDumpConatainers()
+        {
+            Mapper.CreateMap<ENodebExcelWithTownIdContainer, ENodebWithTownIdContainer>()
+                .ForMember(d => d.ENodeb, opt => opt.MapFrom(s => Mapper.Map<ENodebExcel, ENodeb>(s.ENodebExcel)));
+            Mapper.CreateMap<BtsExcelWithTownIdContainer, BtsWithTownIdContainer>()
+                .ForMember(d => d.CdmaBts, opt => opt.MapFrom(s => Mapper.Map<BtsExcel, CdmaBts>(s.BtsExcel)));
+            Mapper.CreateMap<CellExcel, ENodebBtsIdPair>()
+                .ForMember(d => d.BtsId, opt => opt.MapFrom(s =>
+                    s.ShareCdmaInfo.Split('_').Length > 2 ? s.ShareCdmaInfo.Split('_')[1].ConvertToInt(-1) : -1));
         }
     }
 }

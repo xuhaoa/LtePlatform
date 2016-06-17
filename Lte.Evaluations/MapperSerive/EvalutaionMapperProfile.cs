@@ -16,17 +16,13 @@ namespace Lte.Evaluations.MapperSerive
 
         protected override void Configure()
         {
-            KpiMapperService.MapDtItems();
-
-            ParametersDumpMapperService.MapFromENodebContainerService();
-            ParametersDumpMapperService.MapFromBtsContainerService();
-            ParametersDumpMapperService.MapENodebBtsIdService();
-            
             InfrastructureMapperService.MapCdmaCell();
             InfrastructureMapperService.MapCell();
             InfrastructureMapperService.MapHoParametersService();
+            InfrastructureMapperService.MapDumpConatainers();
 
             KpiMapperService.MapCdmaRegionStat();
+            KpiMapperService.MapDtItems();
             KpiMapperService.MapFlow();
             KpiMapperService.MapAlarmStat();
             KpiMapperService.MapTopKpi();

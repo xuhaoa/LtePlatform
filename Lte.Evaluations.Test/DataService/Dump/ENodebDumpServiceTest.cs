@@ -31,7 +31,7 @@ namespace Lte.Evaluations.DataService.Dump
             _townRepository.MockGetId<ITownRepository, Town>();
             _townRepository.MockOpertion();
             _townRepository.MockSixTowns();
-            ParametersDumpMapperService.MapFromENodebContainerService();
+            InfrastructureMapperService.MapDumpConatainers();
             InfrastructureMapperService.MapCell();
         }
 

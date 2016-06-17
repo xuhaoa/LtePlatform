@@ -17,7 +17,7 @@ namespace Lte.Evaluations.MapperService
         public void TestFixtureSetup()
         {
             InfrastructureMapperService.MapCell();
-            ParametersDumpMapperService.MapFromENodebContainerService();
+            InfrastructureMapperService.MapDumpConatainers();
         }
 
         [TestCase("abc", "ieowue", 1, 2, "10.17.165.0", "10.17.165.100")]

@@ -160,7 +160,6 @@
     <Compile Include="MapperSerive\EvalutaionMapperProfile.cs" />
     <Compile Include="MapperSerive\InfrastructureMapperService.cs" />
     <Compile Include="MapperSerive\KpiMapperService.cs" />
-    <Compile Include="MapperSerive\ParametersDumpMapperService.cs" />
     <Compile Include="MapperSerive\PciCell.cs" />
     <Compile Include="MapperSerive\SectorRangeContainer.cs" />
     <Compile Include="MapperSerive\Kpi\TopCellContainer.cs" />

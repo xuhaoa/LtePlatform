@@ -33,7 +33,7 @@ namespace Lte.Evaluations.DataService.Dump
             _townRepository.MockOpertion();
             _townRepository.MockGetId<ITownRepository, Town>();
             _townRepository.MockSixTowns();
-            ParametersDumpMapperService.MapFromBtsContainerService();
+            InfrastructureMapperService.MapDumpConatainers();
             AutoMapperHelper.CreateMap(typeof(BtsExcel));
         }
 

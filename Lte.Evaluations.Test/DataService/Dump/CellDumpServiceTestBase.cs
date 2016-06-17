@@ -23,7 +23,7 @@ namespace Lte.Evaluations.DataService.Dump
             BtsRepository.MockThreeBtss();
             CellRepository.MockRepositorySaveItems<Cell, ICellRepository>();
             InfrastructureMapperService.MapCell();
-            ParametersDumpMapperService.MapENodebBtsIdService();
+            InfrastructureMapperService.MapDumpConatainers();
         }
 
     }
