@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Abp.EntityFramework.AutoMapper;
+using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Basic;
@@ -39,7 +40,7 @@ namespace Lte.Evaluations.DataService.Kpi
             _service = new KpiImportService(_regionRepository.Object, _dropRepository.Object,
                 _connectionRepository.Object, null);
             AutoMapperHelper.CreateMap(typeof(CdmaRegionStat));
-            StatMapperService.MapTopKpi();
+            KpiMapperService.MapTopKpi();
         }
         
         [Test]

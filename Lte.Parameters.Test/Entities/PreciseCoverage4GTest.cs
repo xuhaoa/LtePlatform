@@ -1,7 +1,6 @@
 ﻿using System;
-using Lte.Parameters.Entities;
+using Lte.Evaluations.MapperSerive;
 using Lte.Parameters.Entities.Kpi;
-using Lte.Parameters.MockOperations;
 using NUnit.Framework;
 
 namespace Lte.Parameters.Test.Entities
@@ -12,7 +11,7 @@ namespace Lte.Parameters.Test.Entities
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            StatMapperService.MapPreciseCoverage();
+            KpiMapperService.MapPreciseStat();
         }
 
         [TestCase("2015-2-2", 1, 2, 100, 0.33, 0.27, 0.19)]

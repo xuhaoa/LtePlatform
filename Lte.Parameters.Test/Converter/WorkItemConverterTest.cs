@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
+using Lte.Evaluations.MapperSerive;
 using Lte.Parameters.Entities.Work;
-using Lte.Parameters.MockOperations;
 using NUnit.Framework;
 using Shouldly;
 
@@ -17,7 +13,7 @@ namespace Lte.Parameters.Test.Converter
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            StatMapperService.MapWorkItem();
+            KpiMapperService.MapWorkItem();
         }
 
         [Test]

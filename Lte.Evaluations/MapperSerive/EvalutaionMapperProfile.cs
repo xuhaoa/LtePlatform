@@ -16,12 +16,7 @@ namespace Lte.Evaluations.MapperSerive
 
         protected override void Configure()
         {
-            InfrastructureMapperService.MapCell();
-            CoreMapperService.MapDtItems();
-            StatMapperService.MapPreciseCoverage();
-            StatMapperService.MapTopKpi();
-            StatMapperService.MapWorkItem();
-            StatMapperService.MapInterferenceMatrix();
+            KpiMapperService.MapDtItems();
 
             ParametersDumpMapperService.MapFromENodebContainerService();
             ParametersDumpMapperService.MapFromBtsContainerService();
@@ -41,9 +36,7 @@ namespace Lte.Evaluations.MapperSerive
             BaiduMapperService.MapCdmaCellView();
             BaiduMapperService.MapCellView();
             BaiduMapperService.MapDtViews();
-
-            MySqlMapperService.MapFlow();
-
+            
             var module = new AbpAutoMapperModule(_typeFinder);
             module.PostInitialize();
         }

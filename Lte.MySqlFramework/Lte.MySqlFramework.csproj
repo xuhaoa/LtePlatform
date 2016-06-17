@@ -101,7 +101,6 @@
     <Compile Include="Abstract\CustomerInterfaces.cs" />
     <Compile Include="Abstract\ICellStatMysqlRepository.cs" />
     <Compile Include="Abstract\IFlowRepository.cs" />
-    <Compile Include="Abstract\MySqlMapperService.cs" />
     <Compile Include="Concrete\CellStatMysqlRepository.cs" />
     <Compile Include="Concrete\CustomerRepositories.cs" />
     <Compile Include="Concrete\DownSwitchFlowRepository.cs" />

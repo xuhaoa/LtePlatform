@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.Kpi;
-using Lte.MySqlFramework.Abstract;
+using Lte.Evaluations.MapperSerive;
 using Lte.MySqlFramework.Entities;
 using NUnit.Framework;
 
@@ -18,7 +18,7 @@ namespace Lte.Evaluations.DataService.Dump
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            MySqlMapperService.MapFlow();
+            KpiMapperService.MapFlow();
         }
 
         [SetUp]

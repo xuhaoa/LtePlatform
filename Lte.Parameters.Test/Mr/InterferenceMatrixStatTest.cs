@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
+using Lte.Evaluations.MapperSerive;
 using Lte.Parameters.Entities.Mr;
-using Lte.Parameters.MockOperations;
 using NUnit.Framework;
 
 namespace Lte.Parameters.Test.Mr
@@ -16,7 +12,7 @@ namespace Lte.Parameters.Test.Mr
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            StatMapperService.MapInterferenceMatrix();
+            KpiMapperService.MapPreciseStat();
         }
 
         [Test]
