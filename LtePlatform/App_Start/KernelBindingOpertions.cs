@@ -245,6 +245,8 @@ namespace LtePlatform
             ninjectKernel.Bind<PreciseWorkItemService>().ToSelf();
 
             ninjectKernel.Bind<DownSwitchFlowService>().ToSelf();
+
+            ninjectKernel.Bind<EmergencyCommunicationService>().ToSelf();
         }
     }
 }

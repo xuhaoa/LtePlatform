@@ -333,6 +333,7 @@
     <Compile Include="Controllers\College\CollegeQueryController.cs" />
     <Compile Include="Controllers\College\CollegeRegionController.cs" />
     <Compile Include="Controllers\College\CollegeStatController.cs" />
+    <Compile Include="Controllers\College\EmergencyCommunicationController.cs" />
     <Compile Include="Controllers\DtController.cs" />
     <Compile Include="Controllers\Dt\AreaTestDateController.cs" />
     <Compile Include="Controllers\Dt\CsvFileInfoController.cs" />
