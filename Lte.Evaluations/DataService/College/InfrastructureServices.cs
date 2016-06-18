@@ -109,7 +109,7 @@ namespace Lte.Evaluations.DataService.College
         }
     }
 
-    public class CollegeCdmaCellsService
+    public class CollegeCdmaCellsService : ICollegeInfrastructure<SectorView>
     {
         private readonly IInfrastructureRepository _repository;
         private readonly ICdmaCellRepository _cellRepository;
@@ -123,16 +123,7 @@ namespace Lte.Evaluations.DataService.College
             _btsRepository = btsRepository;
         }
 
-        public IEnumerable<CdmaCellView> GetViews(string collegeName)
-        {
-            var ids = _repository.GetCdmaCellIds(collegeName);
-            var query = ids.Select(_cellRepository.Get).Where(cell => cell != null).ToList();
-            return query.Any()
-                ? query.Select(x => CdmaCellView.ConstructView(x, _btsRepository))
-                : null;
-        }
-
-        public IEnumerable<SectorView> QuerySectors(string collegeName)
+        public IEnumerable<SectorView> Query(string collegeName)
         {
             var ids = _repository.GetCdmaCellIds(collegeName);
             var query = ids.Select(_cellRepository.Get).Where(cell => cell != null).ToList();
@@ -142,7 +133,7 @@ namespace Lte.Evaluations.DataService.College
                 : null;
         }
 
-        public IEnumerable<SectorView> QuerySectors(IEnumerable<string> collegeNames)
+        public IEnumerable<SectorView> Query(IEnumerable<string> collegeNames)
         {
             var ids =
                 collegeNames.Select(x => _repository.GetCdmaCellIds(x)).Aggregate((x, y) => x.Concat(y)).Distinct();
@@ -154,7 +145,7 @@ namespace Lte.Evaluations.DataService.College
         }
     }
 
-    public class CollegeLteDistributionService
+    public class CollegeLteDistributionService : ICollegeInfrastructure<IndoorDistribution>
     {
         private readonly IInfrastructureRepository _repository;
         private readonly IIndoorDistributionRepository _indoorRepository;
@@ -166,14 +157,14 @@ namespace Lte.Evaluations.DataService.College
             _indoorRepository = indoorRepository;
         }
 
-        public IEnumerable<IndoorDistribution> QueryLteDistributions(string collegeName)
+        public IEnumerable<IndoorDistribution> Query(string collegeName)
         {
             var ids = _repository.GetLteDistributionIds(collegeName);
             var distributions = ids.Select(_indoorRepository.Get).Where(distribution => distribution != null).ToList();
             return distributions;
         }
 
-        public IEnumerable<IndoorDistribution> QueryLteDistributions(IEnumerable<string> collegeNames)
+        public IEnumerable<IndoorDistribution> Query(IEnumerable<string> collegeNames)
         {
             var ids =
                 collegeNames.Select(x => _repository.GetLteDistributionIds(x))
@@ -185,7 +176,7 @@ namespace Lte.Evaluations.DataService.College
 
     }
 
-    public class CollegeCdmaDistributionService
+    public class CollegeCdmaDistributionService : ICollegeInfrastructure<IndoorDistribution>
     {
         private readonly IInfrastructureRepository _repository;
         private readonly IIndoorDistributionRepository _indoorRepository;
@@ -197,14 +188,14 @@ namespace Lte.Evaluations.DataService.College
             _indoorRepository = indoorRepository;
         }
 
-        public IEnumerable<IndoorDistribution> QueryCdmaDistributions(string collegeName)
+        public IEnumerable<IndoorDistribution> Query(string collegeName)
         {
             var ids = _repository.GetCdmaDistributionIds(collegeName);
             var distributions = ids.Select(_indoorRepository.Get).Where(distribution => distribution != null).ToList();
             return distributions;
         }
 
-        public IEnumerable<IndoorDistribution> QueryCdmaDistributions(IEnumerable<string> collegeNames)
+        public IEnumerable<IndoorDistribution> Query(IEnumerable<string> collegeNames)
         {
             var ids =
                 collegeNames.Select(x => _repository.GetCdmaDistributionIds(x))

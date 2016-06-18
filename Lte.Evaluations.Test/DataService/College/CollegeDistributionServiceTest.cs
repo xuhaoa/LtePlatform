@@ -39,7 +39,7 @@ namespace Lte.Evaluations.DataService.College
         public void Test_QueryLteDistributions_SingleInfrastructure(int id)
         {
             _testService.MockOneLteDistribution(id);
-            var views = _service.QueryLteDistributions("College-" + id);
+            var views = _service.Query("College-" + id);
             Assert.IsNotNull(views);
 
             if (id > 0 && id <= 3)
@@ -60,7 +60,7 @@ namespace Lte.Evaluations.DataService.College
         public void Test_QueryCdmaDistributions_SingleInfrastructure(int id)
         {
             _testService.MockOneCdmaDistribution(id);
-            var views = _cdmaService.QueryCdmaDistributions("College-" + id);
+            var views = _cdmaService.Query("College-" + id);
             Assert.IsNotNull(views);
 
             if (id > 0 && id <= 3)

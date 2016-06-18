@@ -78,4 +78,29 @@ namespace Lte.Evaluations.DataService.College
         }
 
     }
+
+    public class CollegeCdmaCellViewService
+    {
+        private readonly IInfrastructureRepository _repository;
+        private readonly ICdmaCellRepository _cellRepository;
+        private readonly IBtsRepository _btsRepository;
+
+        public CollegeCdmaCellViewService(IInfrastructureRepository repository, ICdmaCellRepository cellRepository,
+            IBtsRepository btsRepository)
+        {
+            _repository = repository;
+            _cellRepository = cellRepository;
+            _btsRepository = btsRepository;
+        }
+
+        public IEnumerable<CdmaCellView> GetViews(string collegeName)
+        {
+            var ids = _repository.GetCdmaCellIds(collegeName);
+            var query = ids.Select(_cellRepository.Get).Where(cell => cell != null).ToList();
+            return query.Any()
+                ? query.Select(x => CdmaCellView.ConstructView(x, _btsRepository))
+                : null;
+        }
+
+    }
 }

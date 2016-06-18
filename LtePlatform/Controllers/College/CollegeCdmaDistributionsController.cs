@@ -25,7 +25,7 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("校园网CDMA室内分布列表")]
         public IEnumerable<IndoorDistribution> Get(string collegeName)
         {
-            return _cdmaService.QueryCdmaDistributions(collegeName);
+            return _cdmaService.Query(collegeName);
         }
 
         [HttpPost]
@@ -34,7 +34,7 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("LTE室内分布列表（可用于地理化显示）")]
         public IEnumerable<IndoorDistribution> Post(CollegeNamesContainer collegeNames)
         {
-            return _service.QueryLteDistributions(collegeNames.Names);
+            return _service.Query(collegeNames.Names);
         }
     }
 }

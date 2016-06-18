@@ -174,6 +174,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<CollegeCdmaCellsService>().ToSelf();
 
+            ninjectKernel.Bind<CollegeCdmaCellViewService>().ToSelf();
+
             ninjectKernel.Bind<CollegeCellsService>().ToSelf();
 
             ninjectKernel.Bind<CollegeCellViewService>().ToSelf();

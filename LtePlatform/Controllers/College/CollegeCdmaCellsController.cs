@@ -11,10 +11,12 @@ namespace LtePlatform.Controllers.College
     public class CollegeCdmaCellsController : ApiController
     {
         private readonly CollegeCdmaCellsService _service;
+        private readonly CollegeCdmaCellViewService _viewService;
 
-        public CollegeCdmaCellsController(CollegeCdmaCellsService service)
+        public CollegeCdmaCellsController(CollegeCdmaCellsService service, CollegeCdmaCellViewService viewService)
         {
             _service = service;
+            _viewService = viewService;
         }
 
         [HttpGet]
@@ -23,7 +25,7 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("校园网CDMA小区列表")]
         public IEnumerable<CdmaCellView> Get(string collegeName)
         {
-            return _service.GetViews(collegeName);
+            return _viewService.GetViews(collegeName);
         }
 
         [HttpPost]
@@ -32,7 +34,7 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("CDMA小区扇区列表（可用于地理化显示）")]
         public IEnumerable<SectorView> Post(CollegeNamesContainer collegeNames)
         {
-            return _service.QuerySectors(collegeNames.Names);
+            return _service.Query(collegeNames.Names);
         }
     }
 }

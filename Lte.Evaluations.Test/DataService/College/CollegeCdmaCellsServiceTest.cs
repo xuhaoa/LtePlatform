@@ -18,11 +18,14 @@ namespace Lte.Evaluations.DataService.College
         private readonly Mock<ICdmaCellRepository> _cellRepository = new Mock<ICdmaCellRepository>();
         private readonly Mock<IBtsRepository> _btsRepository = new Mock<IBtsRepository>();
         private CollegeCdmaCellsService _service;
+        private CollegeCdmaCellViewService _viewService;
 
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
             _service = new CollegeCdmaCellsService(_repository.Object, _cellRepository.Object, _btsRepository.Object);
+            _viewService = new CollegeCdmaCellViewService(_repository.Object, _cellRepository.Object,
+                _btsRepository.Object);
             BaiduMapperService.MapCdmaCellView();
             InfrastructureMapperService.MapCdmaCell();
             _repository.MockOperations();
@@ -46,7 +49,7 @@ namespace Lte.Evaluations.DataService.College
             double lattitute, double azimuth, string indoor)
         {
             _cellRepository.MockSixCells(lontitute, lattitute);
-            var views = _service.GetViews("College-" + id);
+            var views = _viewService.GetViews("College-" + id);
             if (matched)
             {
                 Assert.IsNotNull(views);
@@ -67,7 +70,7 @@ namespace Lte.Evaluations.DataService.College
             double lattitute, double azimuth, string indoor)
         {
             _cellRepository.MockSixCells(lontitute, lattitute);
-            var views = _service.QuerySectors("College-" + id);
+            var views = _service.Query("College-" + id);
             if (matched)
             {
                 Assert.IsNotNull(views);
