@@ -11,10 +11,12 @@ namespace LtePlatform.Controllers.College
     public class CollegeCellsController : ApiController
     {
         private readonly CollegeCellsService _service;
+        private readonly CollegeCellViewService _viewService;
 
-        public CollegeCellsController(CollegeCellsService service)
+        public CollegeCellsController(CollegeCellsService service, CollegeCellViewService viewService)
         {
             _service = service;
+            _viewService = viewService;
         }
 
         [HttpGet]
@@ -23,7 +25,7 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("校园网LTE小区列表")]
         public IEnumerable<CellView> Get(string collegeName)
         {
-            return _service.GetViews(collegeName);
+            return _viewService.GetViews(collegeName);
         }
 
         [HttpPost]
@@ -32,7 +34,7 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("LTE小区扇区列表（可用于地理化显示）")]
         public IEnumerable<SectorView> Post(CollegeNamesContainer collegeNames)
         {
-            return _service.QuerySectors(collegeNames.Names);
+            return _service.Query(collegeNames.Names);
         }
     }
 }

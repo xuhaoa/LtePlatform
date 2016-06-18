@@ -40,7 +40,7 @@ namespace Lte.Evaluations.DataService.College
         public void Test_QueryCollegeBtss_SingleInfrastructure(int id)
         {
             _testService.MockOneBtsInfrastructure(id);
-            var views = _service.QueryCollegeBtss("College-" + id);
+            var views = _service.Query("College-" + id);
             Assert.IsNotNull(views);
 
             if (id > 0 && id <= 3)

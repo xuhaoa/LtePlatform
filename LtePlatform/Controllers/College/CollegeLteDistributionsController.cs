@@ -9,9 +9,9 @@ namespace LtePlatform.Controllers.College
     [ApiControl("查询校园网LTE室内分布的控制器")]
     public class CollegeLteDistributionsController : ApiController
     {
-        private readonly CollegeDistributionService _service;
+        private readonly CollegeLteDistributionService _service;
 
-        public CollegeLteDistributionsController(CollegeDistributionService service)
+        public CollegeLteDistributionsController(CollegeLteDistributionService service)
         {
             _service = service;
         }

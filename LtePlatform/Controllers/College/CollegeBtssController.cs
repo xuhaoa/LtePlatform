@@ -9,7 +9,7 @@ namespace LtePlatform.Controllers.College
     [ApiControl("校园网CDMA基站查询控制器")]
     public class CollegeBtssController : ApiController
     {
-        private readonly CollegeBtssService _service;
+        private readonly ICollegeInfrastructure<CdmaBtsView> _service;
 
         public CollegeBtssController(CollegeBtssService service)
         {
@@ -22,7 +22,7 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("CDMA基站视图列表")]
         public IEnumerable<CdmaBtsView> Get(string collegeName)
         {
-            return _service.QueryCollegeBtss(collegeName);
+            return _service.Query(collegeName);
         }
 
         [HttpPost]
@@ -31,7 +31,7 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("CDMA基站视图列表")]
         public IEnumerable<CdmaBtsView> Post(CollegeNamesContainer collegeNames)
         {
-            return _service.QueryCollegeBtss(collegeNames.Names);
+            return _service.Query(collegeNames.Names);
         }
     }
 }

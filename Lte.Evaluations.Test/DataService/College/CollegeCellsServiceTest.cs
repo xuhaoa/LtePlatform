@@ -3,7 +3,6 @@ using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities.Basic;
@@ -19,11 +18,14 @@ namespace Lte.Evaluations.DataService.College
         private readonly Mock<ICellRepository> _cellRepository = new Mock<ICellRepository>();
         private readonly Mock<IENodebRepository> _eNodebRepository = new Mock<IENodebRepository>();
         private CollegeCellsService _service;
+        private CollegeCellViewService _viewService;
 
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
             _service = new CollegeCellsService(_repository.Object, _cellRepository.Object, _eNodebRepository.Object);
+            _viewService = new CollegeCellViewService(_repository.Object, _cellRepository.Object,
+                _eNodebRepository.Object);
             BaiduMapperService.MapCellView();
             InfrastructureMapperService.MapCell();
             _repository.MockOperations();
@@ -47,7 +49,7 @@ namespace Lte.Evaluations.DataService.College
             double lattitute, double azimuth, string indoor)
         {
             _cellRepository.MockSixCells(lontitute, lattitute);
-            var views = _service.GetViews("College-" + id);
+            var views = _viewService.GetViews("College-" + id);
             if (matched)
             {
                 Assert.IsNotNull(views);
@@ -68,7 +70,7 @@ namespace Lte.Evaluations.DataService.College
             double lattitute, double azimuth, string indoor)
         {
             _cellRepository.MockSixCells(lontitute, lattitute);
-            var views = _service.QuerySectors("College-" + id);
+            var views = _service.Query("College-" + id);
             if (matched)
             {
                 Assert.IsNotNull(views);

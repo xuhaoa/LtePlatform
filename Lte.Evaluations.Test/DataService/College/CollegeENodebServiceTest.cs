@@ -27,7 +27,7 @@ namespace Lte.Evaluations.DataService.College
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            _service = new CollegeENodebService(_repository.Object, _eNodebRepository.Object, _alarmRepository.Object);
+            _service = new CollegeENodebService(_repository.Object, _eNodebRepository.Object);
             AutoMapperHelper.CreateMap(typeof(ENodebView));
             _eNodebRepository.MockOperations();
             _eNodebRepository.MockGetId<IENodebRepository, ENodeb>();
@@ -36,59 +36,7 @@ namespace Lte.Evaluations.DataService.College
             _alarmRepository.MockOperations();
             _testService = new CollegeENodebTestService(_repository, _eNodebRepository, _alarmRepository);
         }
-
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        [TestCase(5)]
-        public void Test_QueryCollegeENodebs_SingleInfrastructure(int id)
-        {
-            _testService.MockOneENodebInfrastructure(id);
-            _testService.MockOneAlarm("2015-1-1");
-            var views = _service.QueryCollegeENodebs("College-" + id, DateTime.Parse("2014-12-30"),
-                DateTime.Parse("2015-1-3"));
-            Assert.IsNotNull(views);
-            
-            if (id > 0 && id <= 3)
-            {
-                Assert.AreEqual(views.Count(), 1);
-            }
-            else
-            {
-                Assert.AreEqual(views.Count(), 0);
-            }
-        }
         
-        [TestCase(1, "2015-12-30", "2015-1-2")]
-        [TestCase(2, "2015-12-11", "2015-12-20")]
-        [TestCase(3, "2015-12-30", "2015-1-2")]
-        [TestCase(4, "2015-12-30", "2015-1-2")]
-        [TestCase(5, "2015-12-11", "2015-12-20")]
-        public void Test_QueryCollegeENodebs_SingleInfrastructure_DateConsidered(int id, 
-            string beginDate, string endDate)
-        {
-            _testService.MockOneENodebInfrastructure(id);
-            _testService.MockOneAlarm("2015-1-1");
-            var views = _service.QueryCollegeENodebs("College-" + id, DateTime.Parse(beginDate),
-                DateTime.Parse(endDate));
-            Assert.IsNotNull(views);
-
-            if (id > 0 && id <= 3)
-            {
-                Assert.AreEqual(views.Count(), 1, "normal case");
-                Assert.AreEqual(views.ElementAt(0).AlarmTimes,
-                    DateTime.Parse("2015-1-1") >= DateTime.Parse(beginDate) &&
-                    DateTime.Parse("2015-1-1") < DateTime.Parse(endDate)
-                        ? 1
-                        : 0);
-            }
-            else
-            {
-                Assert.AreEqual(views.Count(), 0, "abnormal case");
-            }
-        }
-
         [TestCase("aaa", new[] {1}, 1)]
         [TestCase("aab", new[] { 1, 2 }, 2)]
         [TestCase("acb", new[] { 1, 2, 3 }, 3)]
@@ -100,7 +48,7 @@ namespace Lte.Evaluations.DataService.College
             {
                 {collegeName, eNodebIds }
             });
-            var views = _service.QueryCollegeENodebs(new List<string> {collegeName});
+            var views = _service.Query(new List<string> {collegeName});
             views.Count().ShouldBe(resultCounts);
         }
 
@@ -118,7 +66,7 @@ namespace Lte.Evaluations.DataService.College
                 {collegeName1, eNodebIds1 },
                 {collegeName2, eNodebIds2 }
             });
-            var views = _service.QueryCollegeENodebs(new List<string>
+            var views = _service.Query(new List<string>
             {
                 collegeName1,
                 collegeName2
@@ -137,7 +85,7 @@ namespace Lte.Evaluations.DataService.College
                 {collegeName2, eNodebIds2 },
                 {collegeName3, eNodebIds3 }
             });
-            var views = _service.QueryCollegeENodebs(new List<string>
+            var views = _service.Query(new List<string>
             {
                 collegeName1,
                 collegeName2,

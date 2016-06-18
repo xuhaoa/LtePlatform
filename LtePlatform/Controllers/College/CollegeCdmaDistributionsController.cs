@@ -9,11 +9,14 @@ namespace LtePlatform.Controllers.College
     [ApiControl("查询校园网CDMA室内分布的控制器")]
     public class CollegeCdmaDistributionsController : ApiController
     {
-        private readonly CollegeDistributionService _service;
+        private readonly CollegeLteDistributionService _service;
+        private readonly CollegeCdmaDistributionService _cdmaService;
 
-        public CollegeCdmaDistributionsController(CollegeDistributionService service)
+        public CollegeCdmaDistributionsController(CollegeLteDistributionService service,
+            CollegeCdmaDistributionService cdmaService)
         {
             _service = service;
+            _cdmaService = cdmaService;
         }
 
         [HttpGet]
@@ -22,7 +25,7 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("校园网CDMA室内分布列表")]
         public IEnumerable<IndoorDistribution> Get(string collegeName)
         {
-            return _service.QueryCdmaDistributions(collegeName);
+            return _cdmaService.QueryCdmaDistributions(collegeName);
         }
 
         [HttpPost]

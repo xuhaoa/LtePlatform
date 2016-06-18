@@ -16,7 +16,8 @@ namespace Lte.Evaluations.DataService.College
         private readonly Mock<IIndoorDistributionRepository> _indoorRepository =
             new Mock<IIndoorDistributionRepository>();
 
-        private CollegeDistributionService _service;
+        private CollegeLteDistributionService _service;
+        private CollegeCdmaDistributionService _cdmaService;
         private CollegeDistributionTestService _testService;
 
         [TestFixtureSetUp]
@@ -25,7 +26,8 @@ namespace Lte.Evaluations.DataService.College
             _repository.MockOperations();
             _indoorRepository.MockGetId<IIndoorDistributionRepository, IndoorDistribution>();
             _indoorRepository.MockThreeDistributions();
-            _service = new CollegeDistributionService(_repository.Object, _indoorRepository.Object);
+            _service = new CollegeLteDistributionService(_repository.Object, _indoorRepository.Object);
+            _cdmaService = new CollegeCdmaDistributionService(_repository.Object, _indoorRepository.Object);
             _testService = new CollegeDistributionTestService(_repository, _indoorRepository);
         }
 
@@ -58,7 +60,7 @@ namespace Lte.Evaluations.DataService.College
         public void Test_QueryCdmaDistributions_SingleInfrastructure(int id)
         {
             _testService.MockOneCdmaDistribution(id);
-            var views = _service.QueryCdmaDistributions("College-" + id);
+            var views = _cdmaService.QueryCdmaDistributions("College-" + id);
             Assert.IsNotNull(views);
 
             if (id > 0 && id <= 3)

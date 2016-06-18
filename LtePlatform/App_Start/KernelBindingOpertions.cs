@@ -6,6 +6,7 @@ using Lte.Evaluations.DataService.Dump;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.DataService.Mr;
 using Lte.Evaluations.DataService.Switch;
+using Lte.Evaluations.ViewModels.Basic;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Concrete;
 using Lte.Parameters.Abstract;
@@ -153,9 +154,9 @@ namespace LtePlatform
 
             ninjectKernel.Bind<BtsQueryService>().ToSelf();
 
-            ninjectKernel.Bind<CollegeENodebService>().ToSelf();
+            ninjectKernel.Bind<ICollegeInfrastructure<ENodebView>>().To<CollegeENodebService>();
 
-            ninjectKernel.Bind<CollegeBtssService>().ToSelf();
+            ninjectKernel.Bind<ICollegeInfrastructure<CdmaBtsView>>().To<CollegeBtssService>();
 
             ninjectKernel.Bind<CellService>().ToSelf();
 
@@ -165,7 +166,7 @@ namespace LtePlatform
 
             ninjectKernel.Bind<College4GTestService>().ToSelf();
 
-            ninjectKernel.Bind<CollegeDistributionService>().ToSelf();
+            ninjectKernel.Bind<CollegeLteDistributionService>().ToSelf();
 
             ninjectKernel.Bind<CollegeKpiService>().ToSelf();
 
@@ -174,6 +175,8 @@ namespace LtePlatform
             ninjectKernel.Bind<CollegeCdmaCellsService>().ToSelf();
 
             ninjectKernel.Bind<CollegeCellsService>().ToSelf();
+
+            ninjectKernel.Bind<CollegeCellViewService>().ToSelf();
 
             ninjectKernel.Bind<CollegeAlarmService>().ToSelf();
             
