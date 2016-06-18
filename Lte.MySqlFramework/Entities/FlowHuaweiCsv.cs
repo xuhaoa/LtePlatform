@@ -102,6 +102,12 @@ namespace Lte.MySqlFramework.Entities
         [CsvColumn(Name = "扣除使下行缓存为空的最后一个TTI之后的数传时长 (毫秒)")]
         public int ButLastDownlinkDurationInMs { get; set; }
 
+        [CsvColumn(Name = "RANK1的上报次数 (无)")]
+        public int SchedulingRank1 { get; set; }
+
+        [CsvColumn(Name = "RANK2的上报次数 (无)")]
+        public int SchedulingRank2 { get; set; }
+
         public static List<FlowHuaweiCsv> ReadFlowHuaweiCsvs(StreamReader reader)
         {
             return CsvContext.Read<FlowHuaweiCsv>(reader, CsvFileDescription.CommaDescription).ToList();

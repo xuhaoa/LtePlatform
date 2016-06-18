@@ -87,6 +87,12 @@ namespace Lte.MySqlFramework.Entities
         [CsvColumn(Name = "QCI9小区下行IP Throughput数据传输时间(毫秒)")]
         public string Qci9DownlinkIpThroughputDuration { get; set; }
 
+        [CsvColumn(Name = "下行PDSCH信道上模式3调度次数")]
+        public int SchedulingTm3 { get; set; }
+
+        [CsvColumn(Name = "下行PDSCH信道上模式3 RI=2调度次数")]
+        public int SchedulingTm3Rank2 { get; set; }
+
         public static IEnumerable<FlowZteCsv> ReadFlowZteCsvs(StreamReader reader)
         {
             return

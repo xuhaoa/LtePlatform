@@ -64,5 +64,9 @@ namespace Lte.MySqlFramework.Entities
         public double LastTtiDownlinkFlow { get; set; }
 
         public double ButLastDownlinkDuration { get; set; }
+
+        public int SchedulingRank1 { get; set; }
+
+        public int SchedulingRank2 { get; set; }
     }
 }

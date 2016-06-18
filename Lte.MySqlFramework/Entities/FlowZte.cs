@@ -50,5 +50,9 @@ namespace Lte.MySqlFramework.Entities
         public double Qci9DownlinkIpThroughput { get; set; }
 
         public double Qci9DownlinkIpDuration { get; set; }
+
+        public int SchedulingTm3 { get; set; }
+
+        public int SchedulingTm3Rank2 { get; set; }
     }
 }

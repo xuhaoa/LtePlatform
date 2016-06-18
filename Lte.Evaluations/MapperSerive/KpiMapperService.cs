@@ -43,24 +43,24 @@ namespace Lte.Evaluations.MapperSerive
                         opt.MapFrom(
                             s => s.CellInfo.GetSplittedFields(", ")[1].GetSplittedFields('=')[1].ConvertToByte(0)))
                 .ForMember(d => d.PdcpDownlinkFlow,
-                    opt => opt.MapFrom(s => (double)s.PdcpDownlinkFlowInByte / (1024 * 1024)))
-                .ForMember(d => d.PdcpUplinkFlow, opt => opt.MapFrom(s => (double)s.PdcpUplinkFlowInByte / (1024 * 1024)))
-                .ForMember(d => d.DownlinkDuration, opt => opt.MapFrom(s => (double)s.DownlinkDurationInMs / 1000))
-                .ForMember(d => d.UplinkDuration, opt => opt.MapFrom(s => (double)s.UplinkDurationInMs / 1000))
+                    opt => opt.MapFrom(s => (double) s.PdcpDownlinkFlowInByte/(1024*1024)))
+                .ForMember(d => d.PdcpUplinkFlow, opt => opt.MapFrom(s => (double) s.PdcpUplinkFlowInByte/(1024*1024)))
+                .ForMember(d => d.DownlinkDuration, opt => opt.MapFrom(s => (double) s.DownlinkDurationInMs/1000))
+                .ForMember(d => d.UplinkDuration, opt => opt.MapFrom(s => (double) s.UplinkDurationInMs/1000))
                 .ForMember(d => d.PagingUsers, opt => opt.MapFrom(s => s.PagingUsersString.ConvertToInt(0)))
                 .ForMember(d => d.UplinkDciCceRate,
-                    opt => opt.MapFrom(s => s.TotalCces == 0 ? 0 : (double)s.UplinkDciCces / s.TotalCces))
+                    opt => opt.MapFrom(s => s.TotalCces == 0 ? 0 : (double) s.UplinkDciCces/s.TotalCces))
                 .ForMember(d => d.DownlinkDciCceRate,
-                    opt => opt.MapFrom(s => s.TotalCces == 0 ? 0 : (double)s.DownlinkDciCces / s.TotalCces))
+                    opt => opt.MapFrom(s => s.TotalCces == 0 ? 0 : (double) s.DownlinkDciCces/s.TotalCces))
                 .ForMember(d => d.PucchPrbs, opt => opt.MapFrom(s => s.PucchPrbsString.ConvertToDouble(0)))
                 .ForMember(d => d.LastTtiUplinkFlow,
-                    opt => opt.MapFrom(s => (double)s.LastTtiUplinkFlowInByte / (1024 * 1024)))
+                    opt => opt.MapFrom(s => (double) s.LastTtiUplinkFlowInByte/(1024*1024)))
                 .ForMember(d => d.ButLastUplinkDuration,
-                    opt => opt.MapFrom(s => (double)s.ButLastUplinkDurationInMs / 1000))
+                    opt => opt.MapFrom(s => (double) s.ButLastUplinkDurationInMs/1000))
                 .ForMember(d => d.LastTtiDownlinkFlow,
-                    opt => opt.MapFrom(s => (double)s.LastTtiDownlinkFlowInByte / (1024 * 1024)))
+                    opt => opt.MapFrom(s => (double) s.LastTtiDownlinkFlowInByte/(1024*1024)))
                 .ForMember(d => d.ButLastDownlinkDuration,
-                    opt => opt.MapFrom(s => (double)s.ButLastDownlinkDurationInMs / 1000));
+                    opt => opt.MapFrom(s => (double) s.ButLastDownlinkDurationInMs/1000));
 
             Mapper.CreateMap<FlowZteCsv, FlowZte>()
                 .ForMember(d => d.UplindPdcpFlow, opt => opt.MapFrom(s => s.UplindPdcpFlowInMByte * 8))
