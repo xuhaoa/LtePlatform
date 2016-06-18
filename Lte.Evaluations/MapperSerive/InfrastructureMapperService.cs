@@ -190,6 +190,16 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.ContactPerson, opt => opt.MapFrom(s => s.Person + "(" + s.Phone + ")"))
                 .ForMember(d => d.Description,
                     opt => opt.MapFrom(s => "[" + s.VehicleLocation + "]" + s.OtherDescription));
+            Mapper.CreateMap<EmergencyCommunication, EmergencyCommunicationDto>()
+                .ForMember(d => d.DemandLevelDescription, opt => opt.MapFrom(s => s.DemandLevel.GetEnumDescription()))
+                .ForMember(d => d.VehicularTypeDescription, opt => opt.MapFrom(s => s.VehicleType.GetEnumDescription()))
+                .ForMember(d => d.Person,
+                    opt => opt.MapFrom(s => s.ContactPerson.GetSplittedFields(new[] {'(', ')'})[0]))
+                .ForMember(d => d.Phone, opt => opt.MapFrom(s => s.ContactPerson.GetSplittedFields(new[] {'(', ')'})[1]))
+                .ForMember(d => d.VehicleLocation,
+                    opt => opt.MapFrom(s => s.Description.GetSplittedFields(new[] {'(', ')'})[0]))
+                .ForMember(d => d.OtherDescription,
+                    opt => opt.MapFrom(s => s.Description.GetSplittedFields(new[] {'(', ')'})[1]));
         }
     }
 }
