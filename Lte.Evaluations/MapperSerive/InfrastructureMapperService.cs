@@ -4,7 +4,6 @@ using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using Lte.Evaluations.ViewModels.Basic;
-using Lte.Evaluations.ViewModels.Customer;
 using Lte.Evaluations.ViewModels.Mr;
 using Lte.Evaluations.ViewModels.Switch;
 using Lte.MySqlFramework.Entities;
@@ -183,7 +182,7 @@ namespace Lte.Evaluations.MapperSerive
 
         public static void MapCustomerEntities()
         {
-            Mapper.CreateMap<EmergencyCommnunicationDto, EmergencyCommunication>()
+            Mapper.CreateMap<EmergencyCommunicationDto, EmergencyCommunication>()
                 .ForMember(d => d.DemandLevel,
                     opt => opt.MapFrom(s => s.DemandLevelDescription.GetEnumType<DemandLevel>()))
                 .ForMember(d => d.VehicleType,

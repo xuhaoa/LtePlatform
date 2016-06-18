@@ -31,5 +31,10 @@ namespace Lte.MySqlFramework.Concrete
         {
             return Context.SaveChanges();
         }
+
+        public EmergencyCommunication Match(EmergencyCommunicationDto stat)
+        {
+            return FirstOrDefault(x => x.ProjectName == stat.ProjectName && x.BeginDate == stat.BeginDate);
+        }
     }
 }

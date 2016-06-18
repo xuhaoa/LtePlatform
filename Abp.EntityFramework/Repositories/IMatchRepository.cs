@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
 using Abp.EntityFramework.AutoMapper;
@@ -33,6 +29,18 @@ namespace Abp.EntityFramework.Repositories
                 {
                     repository.Insert(stat.MapTo<TEntity>());
                 }
+            }
+            return repository.SaveChanges();
+        }
+
+        public static int ImportOne<TRepository, TEntity, TDto>(this TRepository repository, TDto stat)
+            where TRepository : IRepository<TEntity>, IMatchRepository<TEntity, TDto>, ISaveChanges
+            where TEntity : Entity
+        {
+            var info = repository.Match(stat);
+            if (info == null)
+            {
+                repository.Insert(stat.MapTo<TEntity>());
             }
             return repository.SaveChanges();
         }

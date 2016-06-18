@@ -93,6 +93,7 @@
     <Compile Include="DataService\Basic\CdmaCellService.cs" />
     <Compile Include="DataService\Basic\CellHuaweiMongoService.cs" />
     <Compile Include="DataService\Basic\CellPowerService.cs" />
+    <Compile Include="DataService\College\EmergencyCommunicationService.cs" />
     <Compile Include="DataService\Kpi\CdmaRegionStatService.cs" />
     <Compile Include="DataService\Basic\CellService.cs" />
     <Compile Include="DataService\College\College3GTestService.cs" />
@@ -131,7 +132,6 @@
     <Compile Include="ViewModels\Basic\RegionStat.cs" />
     <Compile Include="ViewModels\Channel\CellPower.cs" />
     <Compile Include="ViewModels\College\CollegeStat.cs" />
-    <Compile Include="ViewModels\Customer\EmergencyCommnunicationDto.cs" />
     <Compile Include="ViewModels\Kpi\FlowView.cs" />
     <Compile Include="ViewModels\Kpi\TopConnection3GTrendView.cs" />
     <Compile Include="ViewModels\Mr\CellStasticView.cs" />
