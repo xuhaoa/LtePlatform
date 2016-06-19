@@ -776,6 +776,7 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\evaluation\map.building.dialog.js" />
     <Content Include="Scripts\customer\index.controller.js" />
+    <Content Include="Scripts\customer\route.controller.js" />
     <Content Include="Scripts\mycharts\areaChart.js" />
     <Content Include="Scripts\mycharts\gaugeMeter.js" />
     <Content Include="Scripts\mycharts\timeSeriesLine.js" />

@@ -21,9 +21,11 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="mr\final.py" />
     <Compile Include="mr_script.py" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="mr\" />
     <Folder Include="phpApi\" />
   </ItemGroup>
   <ItemGroup>

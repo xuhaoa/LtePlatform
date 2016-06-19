@@ -1,4 +1,5 @@
-﻿app.controller("customer.index", function ($scope, appUrlService, appRegionService) {
+﻿app.controller("customer.index", function ($scope, appUrlService) {
+    var rootUrl = "/Customer#";
     $scope.menuItems = [
         {
             displayName: "日常支撑",
@@ -15,20 +16,21 @@
             }, {
                 displayName: "规划辅助",
                 url: appUrlService.getPlanUrlHost() + 'guihuafuzhu/index.php'
-            }, {
-                displayName: "路测管理",
-                url: appUrlService.getDtUrlHost() + 'admin'
             }]
         }, {
             displayName: "专项支撑",
             isActive: false,
             subItems: [{
-                displayName: "网络分析",
-                url: "/Parameters/List",
-                tooltip: "全网LTE和CDMA基站、小区列表和地理化显示、对全网的基站按照基站名称、地址等信息进行查询，并进行个别基站小区的增删、修改信息的操作"
+                displayName: "应急需求",
+                url: rootUrl + "/emergency",
+                tooltip: "应急需求（围绕应急通信车）的申请和查询"
             }, {
                 displayName: "小区流量分析",
                 url: "/Kpi/Flow"
+            }, {
+                displayName: "校园网专题优化",
+                url: "/College/Map",
+                tooltip: "校园网专项优化，包括数据管理、指标分析、支撑工作管理和校园网覆盖呈现"
             }]
         }, {
             displayName: "统计分析",
@@ -41,10 +43,6 @@
                 displayName: "工单管控",
                 url: "/Kpi/WorkItem",
                 tooltip: "对接本部优化部4G网优平台，结合日常优化，实现对日常工单的监控和分析"
-            }, {
-                displayName: "校园网专题优化",
-                url: "/College/Map",
-                tooltip: "校园网专项优化，包括数据管理、指标分析、支撑工作管理和校园网覆盖呈现"
             }]
         }, {
             displayName: "基础信息",
