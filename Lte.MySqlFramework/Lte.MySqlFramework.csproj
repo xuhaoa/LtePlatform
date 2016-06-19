@@ -116,10 +116,6 @@
     <Compile Include="Entities\FlowZte.cs" />
     <Compile Include="Entities\FlowZteCsv.cs" />
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
-    <Compile Include="Migrations\201606130008403_EmergencyCommunications.cs" />
-    <Compile Include="Migrations\201606130008403_EmergencyCommunications.Designer.cs">
-      <DependentUpon>201606130008403_EmergencyCommunications.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201606150542576_Update_Customer.cs" />
     <Compile Include="Migrations\201606150542576_Update_Customer.Designer.cs">
       <DependentUpon>201606150542576_Update_Customer.cs</DependentUpon>
@@ -127,6 +123,10 @@
     <Compile Include="Migrations\201606150920331_Update_Customer1.cs" />
     <Compile Include="Migrations\201606150920331_Update_Customer1.Designer.cs">
       <DependentUpon>201606150920331_Update_Customer1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606190032469_Update_Flow.cs" />
+    <Compile Include="Migrations\201606190032469_Update_Flow.Designer.cs">
+      <DependentUpon>201606190032469_Update_Flow.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -136,14 +136,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606130008403_EmergencyCommunications.resx">
-      <DependentUpon>201606130008403_EmergencyCommunications.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606150542576_Update_Customer.resx">
       <DependentUpon>201606150542576_Update_Customer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606150920331_Update_Customer1.resx">
       <DependentUpon>201606150920331_Update_Customer1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606190032469_Update_Flow.resx">
+      <DependentUpon>201606190032469_Update_Flow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
