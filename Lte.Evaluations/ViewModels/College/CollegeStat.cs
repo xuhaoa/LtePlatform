@@ -58,8 +58,8 @@ namespace Lte.Evaluations.ViewModels.College
             CollegeRegion region = repository.GetRegion(info.Id);
             Name = info.Name;
             ExpectedSubscribers = info.ExpectedSubscribers;
-            Area = region.Area;
-            Id = region.AreaId;
+            Area = region?.Area??0;
+            Id = region?.AreaId??2;
             UpdateStats(infrastructureRepository);
         }
 
