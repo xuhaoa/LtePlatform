@@ -15,7 +15,6 @@
     $scope.queryWorkItems = function () {
         workitemService.querySingleItem($routeParams.number).then(function (result) {
             $scope.currentView = result;
-            
             $scope.beginDate.value = appFormatService.getDate($scope.currentView.beginTime);
             $scope.showTrend();
         });

@@ -30,15 +30,18 @@
             templateUrl: workitemRoot + 'PlatformAndFeedbackInfo.html',
             link: function(scope, element, attrs) {
                 scope.feedback = function() {
-                    workItemDialog.feedback(scope.currentView, scope.queryWorkItems);
+                    workItemDialog.feedback(scope.currentView, scope.updateWorkItems);
                 };
-                scope.platformInfos = workItemDialog.calculatePlatformInfo(scope.currentView.comments);
-                scope.feedbackInfos = workItemDialog.calculatePlatformInfo(scope.currentView.feedbackContents);
-                scope.queryWorkItems = function() {
+                scope.$watch('currentView', function (view) {
+                    if (view) {
+                        scope.platformInfos = workItemDialog.calculatePlatformInfo(view.comments);
+                        scope.feedbackInfos = workItemDialog.calculatePlatformInfo(view.feedbackContents);
+                    }
+                });
+                
+                scope.updateWorkItems = function() {
                     workitemService.querySingleItem(scope.serialNumber).then(function(result) {
                         scope.currentView = result;
-                        scope.platformInfos = workItemDialog.calculatePlatformInfo(scope.currentView.comments);
-                        scope.feedbackInfos = workItemDialog.calculatePlatformInfo(scope.currentView.feedbackContents);
                     });
                 };
             }
