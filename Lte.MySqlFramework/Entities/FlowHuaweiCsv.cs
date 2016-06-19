@@ -103,10 +103,10 @@ namespace Lte.MySqlFramework.Entities
         public int ButLastDownlinkDurationInMs { get; set; }
 
         [CsvColumn(Name = "RANK1的上报次数 (无)")]
-        public int SchedulingRank1 { get; set; }
+        public string SchedulingRank1String { get; set; }
 
         [CsvColumn(Name = "RANK2的上报次数 (无)")]
-        public int SchedulingRank2 { get; set; }
+        public string SchedulingRank2String { get; set; }
 
         public static List<FlowHuaweiCsv> ReadFlowHuaweiCsvs(StreamReader reader)
         {

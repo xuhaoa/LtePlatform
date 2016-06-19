@@ -60,7 +60,9 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.LastTtiDownlinkFlow,
                     opt => opt.MapFrom(s => (double) s.LastTtiDownlinkFlowInByte/(1024*1024)))
                 .ForMember(d => d.ButLastDownlinkDuration,
-                    opt => opt.MapFrom(s => (double) s.ButLastDownlinkDurationInMs/1000));
+                    opt => opt.MapFrom(s => (double) s.ButLastDownlinkDurationInMs/1000))
+                .ForMember(d => d.SchedulingRank1, opt => opt.MapFrom(s => s.SchedulingRank1String.ConvertToInt(0)))
+                .ForMember(d => d.SchedulingRank2, opt => opt.MapFrom(s => s.SchedulingRank2String.ConvertToInt(0)));
 
             Mapper.CreateMap<FlowZteCsv, FlowZte>()
                 .ForMember(d => d.UplindPdcpFlow, opt => opt.MapFrom(s => s.UplindPdcpFlowInMByte * 8))
