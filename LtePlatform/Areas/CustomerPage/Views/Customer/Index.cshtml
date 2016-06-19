@@ -3,10 +3,11 @@
         <div ng-include="'/appViews/GeneralMenu.html'"></div>
     </div>
     <div ng-class="{'col-md-9': sideBarShown, 'col-md-12': !sideBarShown}">
-        <div ng-include="'/appViews/Customer/Index.html'"></div>
+        <div ng-view></div>
     </div>
 </div>
 
 @section Scripts{
+    <script src="~/Scripts/customer/route.controller.js"></script>
     <script src="~/Scripts/customer/index.controller.js"></script>
 }
