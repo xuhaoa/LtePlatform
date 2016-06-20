@@ -46,6 +46,24 @@
                 chart.addOneSeries(district, districtData, subData);
             });
         };
+        var generateDateDistrictStats = function(stats, districts, queryFunction) {
+            var statDates = [];
+            var districtStats = [];
+            angular.forEach(stats, function(stat, index) {
+                statDates.push(stat.statDate);
+                for (var j = 0; j < districts.length; j++) {
+                    if (index === 0) {
+                        districtStats.push([queryFunction(stat.values[j])]);
+                    } else {
+                        districtStats[j].push(queryFunction(stat.values[j]));
+                    }
+                }
+            });
+            return{
+                statDates: statDates,
+                districtStats: districtStats
+            };
+        };
 
         return {
             getDownSwitchRate: function (stats) {
@@ -112,57 +130,39 @@
             getMrsDistrictOptions: function(stats, districts){
                 var chart = new ComboChart();
                 chart.title.text = "MR总数变化趋势图";
-                var statDates = [];
-                var districtStats = [];
-                for (var i = 0; i < stats.length; i++) {
-                    var stat = stats[i];
-                    statDates.push(stat.statDate);
-                    for (var j = 0; j < districts.length ; j++) {
-                        if (i === 0) {
-                            districtStats.push([stat.values[j].mr]);
-                        } else {
-                            districtStats[j].push(stat.values[j].mr);
-                        }
-                    }
-                }
-                chart.xAxis[0].categories = statDates;
+                var queryFunction = function (stat) {
+                    return stat.mr;
+                };
+                var result = generateDateDistrictStats(stats, districts, queryFunction); 
+                chart.xAxis[0].categories = result.statDates;
                 chart.yAxis[0].title.text = "MR总数";
                 chart.xAxis[0].title.text = '日期';
-                for (j = 0; j < districts.length; j++) {
+                angular.forEach(districts, function(district, index) {
                     chart.series.push({
-                        type: j === districts.length - 1 ? "spline" : "column",
-                        name: districts[j],
-                        data: districtStats[j]
+                        type: index === districts.length - 1 ? "spline" : "column",
+                        name: district,
+                        data: result.districtStats[index]
                     });
-                }
+                });
                 return chart.options;
             },
             getPreciseDistrictOptions: function(stats, districts){
                 var chart = new ComboChart();
                 chart.title.text = "精确覆盖率变化趋势图";
-                var statDates = [];
-                var districtStats = [];
-                for (var i = 0; i < stats.length; i++) {
-                    var stat = stats[i];
-                    statDates.push(stat.statDate);
-                    for (var j = 0; j < districts.length ; j++) {
-                        if (i === 0) {
-                            districtStats.push([stat.values[j].precise]);
-                        } else {
-                            districtStats[j].push(stat.values[j].precise);
-                        }
-                    }
-                }
-                chart.xAxis[0].categories = statDates;
+                var queryFunction = function (stat) {
+                    return stat.precise;
+                };
+                var result = generateDateDistrictStats(stats, districts, queryFunction);
+                chart.xAxis[0].categories = result.statDates;
                 chart.yAxis[0].title.text = "精确覆盖率";
                 chart.xAxis[0].title.text = '日期';
-                for (j = 0; j < districts.length; j++) {
+                angular.forEach(districts, function (district, index) {
                     chart.series.push({
-                        type: j === districts.length - 1 ? "spline" : "line",
-                        name: districts[j],
-                        data: districtStats[j]
+                        type: index === districts.length - 1 ? "spline" : "column",
+                        name: district,
+                        data: result.districtStats[index]
                     });
-                }
+                });
                 return chart.options;
             },
             generateDistrictStats: function (districts, stats) {
