@@ -91,6 +91,38 @@
                     deferred.reject(reason);
                 });
                 return deferred.promise;
+            },
+            postApiData: function(topic, data) {
+                var deferred = $q.defer();
+                $http.post(appUrlService.getApiUrl(topic), data)
+                    .success(function (result) {
+                        deferred.resolve(result);
+                    })
+                    .error(function (reason) {
+                        deferred.reject(reason);
+                    });
+                return deferred.promise;
+            },
+            putApiData: function (topic, data) {
+                var deferred = $q.defer();
+                $http.put(appUrlService.getApiUrl(topic), data)
+                    .success(function (result) {
+                        deferred.resolve(result);
+                    })
+                    .error(function (reason) {
+                        deferred.reject(reason);
+                    });
+                return deferred.promise;
+            },
+            deleteApiData: function(topic) {
+                var deferred = $q.defer();
+                $http.delete(appUrlService.getApiUrl(topic)).success(function (result) {
+                    deferred.resolve(result);
+                })
+                    .error(function (reason) {
+                        deferred.reject(reason);
+                    });
+                return deferred.promise;
             }
         };
     })
