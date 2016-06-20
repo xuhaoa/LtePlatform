@@ -231,33 +231,35 @@
                 trendStat.districtStats = result[0].districtPreciseViews;
                 trendStat.townStats = result[0].townPreciseViews;
                 for (var i = 1; i < result.length; i++) {
-                    for (var j = 0; j < result[i].districtPreciseViews.length; j++) {
-                        var currentDistrictStat = result[i].districtPreciseViews[j];
+                    angular.forEach(result[i].districtPreciseViews, function (currentDistrictStat) {
+                        var found = false;
                         for (var k = 0; k < trendStat.districtStats.length; k++) {
                             if (trendStat.districtStats[k].city === currentDistrictStat.city
                                 && trendStat.districtStats[k].district === currentDistrictStat.district) {
                                 accumulatePreciseStat(trendStat.districtStats[k], currentDistrictStat);
+                                found = true;
                                 break;
                             }
                         }
-                        if (k === trendStat.districtStats.length) {
+                        if (!found) {
                             trendStat.districtStats.push(currentDistrictStat);
                         }
-                    }
-                    for (j = 0; j < result[i].townPreciseViews.length; j++) {
-                        var currentTownStat = result[i].townPreciseViews[j];
-                        for (k = 0; k < trendStat.townStats.length; k++) {
+                    });
+                    angular.forEach(result[i].townPreciseView, function(currentTownStat) {
+                        var found = false;
+                        for (var k = 0; k < trendStat.townStats.length; k++) {
                             if (trendStat.townStats[k].city === currentTownStat.city
                                 && trendStat.townStats[k].district === currentTownStat.district
                                 && trendStat.townStats[k].town === currentTownStat.town) {
                                 accumulatePreciseStat(trendStat.townStats[k], currentTownStat);
+                                found = true;
                                 break;
                             }
                         }
-                        if (k === trendStat.townStats.length) {
+                        if (!found) {
                             trendStat.townStats.push(currentTownStat);
                         }
-                    }
+                    });
                 }
                 angular.forEach(trendStat.districtStats, function(stat) {
                     calculateDistrictRates(stat);
