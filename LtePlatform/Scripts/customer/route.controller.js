@@ -6,9 +6,9 @@
                     templateUrl: viewDir + "Index.html",
                     controller: "customer.index"
                 })
-                .when('/trend', {
-                    templateUrl: viewDir + "Trend.html",
-                    controller: "rutrace.trend"
+                .when('/emergency', {
+                    templateUrl: viewDir + "EmergencyList.html",
+                    controller: "emergency.list"
                 })
                 .when('/top', {
                     templateUrl: viewDir + "Top.html",
@@ -126,4 +126,10 @@
             }
         ];
         $rootScope.rootPath = rootUrl + "/";
+        $rootScope.closeAlert = function (index) {
+            $scope.alerts.splice(index, 1);
+        };
+        $rootScope.page = {
+            messages: []
+        };
     });
