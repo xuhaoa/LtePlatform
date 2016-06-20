@@ -83,12 +83,116 @@
             }
         };
     })
-    .factory('downSwitchService', function (generalHttpService) {
+    .factory('cellPreciseService', function (generalHttpService) {
         return {
-            getRecentKpi: function (city, initialDate) {
-                return generalHttpService.getApiData('DownSwitchFlow', {
-                    city: city,
-                    statDate: initialDate
+            queryDataSpanKpi: function (begin, end, cellId, sectorId) {
+                return generalHttpService.getApiData('PreciseStat', {
+                    'begin': begin,
+                    'end': end,
+                    'cellId': cellId,
+                    'sectorId': sectorId
+                });
+            },
+            queryOneWeekKpi: function (cellId, sectorId) {
+                return generalHttpService.getApiData('PreciseStat', {
+                    'cellId': cellId,
+                    'sectorId': sectorId
+                });
+            }
+        };
+    })
+    .factory('topPreciseService', function (generalHttpService) {
+        return {
+            getOrderPolicySelection: function () {
+                var options = [
+                    {
+                        name: "模3干扰数",
+                        value: "mod3Interferences"
+                    }, {
+                        name: "模6干扰数",
+                        value: "mod6Interferences"
+                    }, {
+                        name: "6dB干扰数",
+                        value: "overInterferences6Db"
+                    }, {
+                        name: "10dB干扰数",
+                        value: "overInterferences10Db"
+                    }, {
+                        name: "总干扰水平",
+                        value: "interferenceLevel"
+                    }
+                ];
+                return {
+                    options: options,
+                    selected: options[4].value
+                };
+            },
+            queryCoverage: function (begin, end, cellId, sectorId) {
+                return generalHttpService.getApiData('CellStastic', {
+                    'begin': begin,
+                    'end': end,
+                    'eNodebId': cellId,
+                    'sectorId': sectorId
+                });
+            },
+            queryCellStastic: function (cellId, pci, begin, end) {
+                return generalHttpService.getApiData('CellStastic', {
+                    eNodebId: cellId,
+                    pci: pci,
+                    begin: begin,
+                    end: end
+                });
+            },
+            queryOneDayCellStastic: function (cellId, sectorId, date) {
+                return generalHttpService.getApiData('CellStastic', {
+                    eNodebId: cellId,
+                    sectorId: sectorId,
+                    date: date
+                });
+            },
+            queryAverageRsrpTaStastic: function (cellId, sectorId, date) {
+                return generalHttpService.getApiData('AverageRsrpTa', {
+                    eNodebId: cellId,
+                    sectorId: sectorId,
+                    date: date
+                });
+            },
+            queryAverageRsrpTaDateSpan: function (cellId, sectorId, begin, end) {
+                return generalHttpService.getApiData('AverageRsrpTa', {
+                    eNodebId: cellId,
+                    sectorId: sectorId,
+                    begin: begin,
+                    end: end
+                });
+            },
+            queryAbove110TaRate: function (cellId, sectorId, date) {
+                return generalHttpService.getApiData('Above110TaRate', {
+                    eNodebId: cellId,
+                    sectorId: sectorId,
+                    date: date
+                });
+            },
+            queryAbove110TaDateSpan: function (cellId, sectorId, begin, end) {
+                return generalHttpService.getApiData('Above110TaRate', {
+                    eNodebId: cellId,
+                    sectorId: sectorId,
+                    begin: begin,
+                    end: end
+                });
+            },
+            queryAbove105TaRate: function (cellId, sectorId, date) {
+                return generalHttpService.getApiData('Above105TaRate', {
+                    eNodebId: cellId,
+                    sectorId: sectorId,
+                    date: date
+                });
+            },
+            queryAbove105TaDateSpan: function (cellId, sectorId, begin, end) {
+                return generalHttpService.getApiData('Above105TaRate', {
+                    eNodebId: cellId,
+                    sectorId: sectorId,
+                    begin: begin,
+                    end: end
                 });
             }
         };
