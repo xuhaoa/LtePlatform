@@ -1,4 +1,5 @@
-﻿app.controller("home.kpi4G", function ($scope, kpiPreciseService, downSwitchService, appKpiService, appFormatService, kpiDisplayService) {
+﻿app.controller("home.kpi4G", function ($scope, kpiPreciseService, downSwitchService, appKpiService, appFormatService,
+    kpiDisplayService) {
     var yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     $scope.statDate = {

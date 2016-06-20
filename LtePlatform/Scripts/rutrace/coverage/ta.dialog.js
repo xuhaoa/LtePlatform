@@ -1,17 +1,17 @@
 ﻿app.controller('coverage.ta.dialog', function ($scope, $uibModalInstance, dialogTitle, cellId, sectorId, date,
-    topPreciseService, cellPreciseService) {
+    topPreciseService, cellPreciseService, kpiDisplayService) {
     $scope.dialogTitle = dialogTitle;
     $scope.chartView = {
         options: ['平均RSRP', '覆盖率'],
         selected: '平均RSRP'
     };
     topPreciseService.queryAverageRsrpTaStastic(cellId, sectorId, date).then(function (result) {
-        var options = cellPreciseService.getAverageRsrpTaOptions(result, cellId + '-' + sectorId + '平均RSRP统计');
+        var options = kpiDisplayService.getAverageRsrpTaOptions(result, cellId + '-' + sectorId + '平均RSRP统计');
         $("#average-rsrp").highcharts(options);
     });
     topPreciseService.queryAbove110TaRate(cellId, sectorId, date).then(function (above110Stat) {
         topPreciseService.queryAbove105TaRate(cellId, sectorId, date).then(function (above105Stat) {
-            var options = cellPreciseService.getAboveRateTaOptions(above110Stat, above105Stat, cellId + '-' + sectorId + '覆盖率统计');
+            var options = kpiDisplayService.getAboveRateTaOptions(above110Stat, above105Stat, cellId + '-' + sectorId + '覆盖率统计');
             $("#coverage-rate").highcharts(options);
         });
     });
@@ -26,7 +26,7 @@
 });
 
 app.controller('coverage.ta.query.dialog', function ($scope, $uibModalInstance, dialogTitle, cellId, sectorId,
-    topPreciseService, cellPreciseService) {
+    topPreciseService, cellPreciseService, kpiDisplayService) {
     $scope.dialogTitle = dialogTitle;
     $scope.chartView = {
         options: ['平均RSRP', '覆盖率'],
@@ -44,12 +44,12 @@ app.controller('coverage.ta.query.dialog', function ($scope, $uibModalInstance, 
     };
     $scope.query = function() {
         topPreciseService.queryAverageRsrpTaStastic(cellId, sectorId, $scope.beginDate.value, $scope.endDate.value).then(function (result) {
-            var options = cellPreciseService.getAverageRsrpTaOptions(result, cellId + '-' + sectorId + '平均RSRP统计');
+            var options = kpiDisplayService.getAverageRsrpTaOptions(result, cellId + '-' + sectorId + '平均RSRP统计');
             $("#average-rsrp").highcharts(options);
         });
         topPreciseService.queryAbove110TaRate(cellId, sectorId, $scope.beginDate.value, $scope.endDate.value).then(function (above110Stat) {
             topPreciseService.queryAbove105TaRate(cellId, sectorId, $scope.beginDate.value, $scope.endDate.value).then(function (above105Stat) {
-                var options = cellPreciseService.getAboveRateTaOptions(above110Stat, above105Stat, cellId + '-' + sectorId + '覆盖率统计');
+                var options = kpiDisplayService.getAboveRateTaOptions(above110Stat, above105Stat, cellId + '-' + sectorId + '覆盖率统计');
                 $("#coverage-rate").highcharts(options);
             });
         });

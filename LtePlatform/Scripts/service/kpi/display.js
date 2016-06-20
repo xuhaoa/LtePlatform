@@ -1,12 +1,45 @@
 ﻿angular.module('kpi.display', ['myApp.region'])
-    .factory('kpiDisplayService', function (appFormatService) {
+    .constant('taDivision', [
+        '0-100m',
+        '100-200m',
+        '200-300m',
+        '300-400m',
+        '400-500m',
+        '500-600m',
+        '600-700m',
+        '700-800m',
+        '800-900m',
+        '900-1000m',
+        '1000-1100m',
+        '1100-1200m',
+        '1200-1300m',
+        '1300-1400m',
+        '1400-1500m',
+        '1500-1600m',
+        '1600-1700m',
+        '1700-1800m',
+        '1800-1900m',
+        '1900-2000m',
+        '2000-2100m',
+        '2100-2200m',
+        '2200-2300m',
+        '2300-2400m',
+        '2400-2500m',
+        '2500-2600m',
+        '2600-2700m',
+        '2700-2800m',
+        '2800-2900m',
+        '2900-3000m',
+        '3000-3100m'
+    ])
+    .factory('kpiDisplayService', function(appFormatService, taDivision) {
         return {
-            generatePreciseBarOptions: function (districtStats, cityStat) {
+            generatePreciseBarOptions: function(districtStats, cityStat) {
                 var chart = new BarChart();
                 chart.title.text = cityStat.city + "精确覆盖率统计";
                 var category = [];
                 var precise = [];
-                angular.forEach(districtStats, function (stat) {
+                angular.forEach(districtStats, function(stat) {
                     category.push(stat.district);
                     precise.push(stat.preciseRate);
                 });
@@ -24,7 +57,7 @@
                 });
                 return chart.options;
             },
-            generateComboChartOptions: function (data, name, city) {
+            generateComboChartOptions: function(data, name, city) {
                 var chart = new ComboChart();
                 chart.title.text = name;
                 var kpiOption = appFormatService.lowerFirstLetter(name);
@@ -50,7 +83,7 @@
                 });
                 return chart.options;
             },
-            getMrsOptions: function (stats, title) {
+            getMrsOptions: function(stats, title) {
                 var chart = new ComboChart();
                 chart.title.text = title;
                 var statDates = [];
@@ -58,7 +91,7 @@
                 var firstNeighbors = [];
                 var secondNeighbors = [];
                 var thirdNeighbors = [];
-                angular.forEach(stats, function (stat) {
+                angular.forEach(stats, function(stat) {
                     statDates.push(stat.dateString);
                     mrStats.push(stat.totalMrs);
                     firstNeighbors.push(stat.firstNeighbors);
@@ -90,14 +123,14 @@
                 });
                 return chart.options;
             },
-            getPreciseOptions: function (stats, title) {
+            getPreciseOptions: function(stats, title) {
                 var chart = new ComboChart();
                 chart.title.text = title;
                 var statDates = [];
                 var firstRate = [];
                 var secondRate = [];
                 var thirdRate = [];
-                angular.forEach(stats, function (stat) {
+                angular.forEach(stats, function(stat) {
                     statDates.push(stat.dateString);
                     firstRate.push(100 - parseFloat(stat.firstRate));
                     secondRate.push(100 - parseFloat(stat.secondRate));
@@ -120,6 +153,90 @@
                     type: "spline",
                     name: "第三邻区精确覆盖率",
                     data: thirdRate
+                });
+                return chart.options;
+            },
+            getCoverageOptions: function(stats, title) {
+                var chart = new TimeSeriesLine();
+                chart.title.text = title;
+                var weakCoverageRates = [];
+                var overCoverageRates = [];
+                angular.forEach(stats, function(stat) {
+                    weakCoverageRates.push([
+                        appFormatService.getUTCTime(stat.currentDate),
+                        stat.mrCount === 0 ? null : stat.weakCoverCount / stat.mrCount * 100
+                    ]);
+                    overCoverageRates.push([
+                        appFormatService.getUTCTime(stat.currentDate),
+                        stat.mrCount === 0 ? null : stat.overCoverCount / stat.mrCount * 100
+                    ]);
+                });
+                chart.yAxis.title.text = '弱覆盖率/过覆盖率（%）';
+                chart.series.push({
+                    type: 'area',
+                    name: '弱覆盖率',
+                    data: weakCoverageRates
+                });
+                chart.series.push({
+                    type: 'area',
+                    name: '过覆盖率',
+                    data: overCoverageRates
+                });
+                return chart.options;
+            },
+            getCoverageInterferenceOptions: function(stats, title) {
+                var chart = new TimeSeriesLine();
+                chart.title.text = title;
+                var mod3Rates = [];
+                var mod6Rates = [];
+                angular.forEach(stats, function(stat) {
+                    mod3Rates.push([
+                        appFormatService.getUTCTime(stat.currentDate),
+                        stat.mrCount === 0 ? null : stat.mod3Count / stat.mrCount * 100
+                    ]);
+                    mod6Rates.push([
+                        appFormatService.getUTCTime(stat.currentDate),
+                        stat.mrCount === 0 ? null : stat.mod6Count / stat.mrCount * 100
+                    ]);
+                });
+                chart.yAxis.title.text = '同模干扰比例（%）';
+                chart.series.push({
+                    type: 'area',
+                    name: 'MOD3干扰比例',
+                    data: mod3Rates
+                });
+                chart.series.push({
+                    type: 'area',
+                    name: 'MOD6干扰比例',
+                    data: mod6Rates
+                });
+                return chart.options;
+            },
+            getAverageRsrpTaOptions: function(stats, title) {
+                var chart = new AreaChart();
+                chart.title.text = title;
+                chart.xAxis.categories = taDivision;
+                chart.xAxis.title.text = 'TA区间';
+                chart.yAxis.title.text = '平均RSRP按TA分布（dBm）';
+                chart.series.push({
+                    name: '平均RSRP',
+                    data: stats
+                });
+                return chart.options;
+            },
+            getAboveRateTaOptions: function(above110Stats, above105Stats, title) {
+                var chart = new AreaChart();
+                chart.title.text = title;
+                chart.xAxis.categories = taDivision;
+                chart.xAxis.title.text = 'TA区间';
+                chart.yAxis.title.text = 'TA分布覆盖率（%）';
+                chart.series.push({
+                    name: '-110dBm以上覆盖率',
+                    data: above110Stats
+                });
+                chart.series.push({
+                    name: '-105dBm以上覆盖率',
+                    data: above105Stats
                 });
                 return chart.options;
             }
