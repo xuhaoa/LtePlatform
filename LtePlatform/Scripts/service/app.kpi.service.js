@@ -17,6 +17,35 @@
             townStat.preciseRate = 100 - 100 * townStat.secondNeighbors / townStat.totalMrs;
             townStat.thirdRate = 100 - 100 * townStat.thirdNeighbors / townStat.totalMrs;
         };
+        var getValueFromDivisionAbove = function(division, value) {
+            for (var i = 0; i < division.length; i++) {
+                if (value > division[i]) {
+                    return 5 - i;
+                }
+            }
+            return 0;
+        };
+        var getValueFromDivisionBelow = function (division, value) {
+            for (var i = 0; i < division.length; i++) {
+                if (value < division[i]) {
+                    return 5 - i;
+                }
+            }
+            return 0;
+        };
+        var generateDrillDownData = function(chart, districtStats, townStats, queryFunction) {
+            angular.forEach(districtStats, function(districtStat) {
+                var subData = [];
+                var district = districtStat.district;
+                var districtData = queryFunction(districtStat);
+                angular.forEach(townStats, function(townStat) {
+                    if (townStat.district === district) {
+                        subData.push([townStat.town, queryFunction(townStat)]);
+                    }
+                });
+                chart.addOneSeries(district, districtData, subData);
+            });
+        };
 
         return {
             getDownSwitchRate: function (stats) {
@@ -44,29 +73,17 @@
                 });
                 return calculateDistrictRates(stat);
             },
-            calculatePreciseRating: function(precise) {
-                if (precise > 94.6) return 5;
-                else if (precise > 93.6) return 4;
-                else if (precise > 92.6) return 3;
-                else if (precise > 91.6) return 2;
-                else if (precise > 90) return 1;
-                else return 0;
+            calculatePreciseRating: function (precise) {
+                var division = [94.6, 93.6, 92.6, 91.6, 90];
+                return getValueFromDivisionAbove(division, precise);
             },
             calculateDownSwitchRating: function (rate) {
-                if (rate < 3) return 5;
-                else if (rate < 5) return 4;
-                else if (rate < 8) return 3;
-                else if (rate < 10) return 2;
-                else if (rate < 15) return 1;
-                else return 0;
+                var division = [3, 5, 8, 10, 15];
+                return getValueFromDivisionBelow(division, rate);
             },
             calculateDropStar: function (drop) {
-                if (drop < 0.2) return 5;
-                else if (drop < 0.3) return 4;
-                else if (drop < 0.35) return 3;
-                else if (drop < 0.4) return 2;
-                else if (drop < 0.5) return 1;
-                else return 0;
+                var division = [0.2, 0.3, 0.35, 0.4, 0.5];
+                return getValueFromDivisionBelow(division, drop);
             },
             getMrPieOptions: function (districtStats, townStats) {
                 var chart = new DrilldownPie();
@@ -74,17 +91,10 @@
                 chart.series[0].data = [];
                 chart.drilldown.series = [];
                 chart.series[0].name = "区域";
-                angular.forEach(districtStats, function(districtStat) {
-                    var subData = [];
-                    var district = districtStat.district;
-                    var districtMr = districtStat.totalMrs;
-                    angular.forEach(townStats, function(townStat) {
-                        if (townStat.district === district) {
-                            subData.push([townStat.town, townStat.totalMrs]);
-                        }
-                    });
-                    chart.addOneSeries(district, districtMr, subData);
-                });
+                var queryFunction = function(stat) {
+                    return stat.totalMrs;
+                };
+                generateDrillDownData(chart, districtStats, townStats, queryFunction);
                 return chart.options;
             },
             getPreciseRateOptions: function (districtStats, townStats) {
@@ -93,17 +103,10 @@
                 chart.series[0].data = [];
                 chart.drilldown.series = [];
                 chart.series[0].name = "区域";
-                for (var i = 0; i < districtStats.length; i++) {
-                    var subData = [];
-                    var district = districtStats[i].district;
-                    var districtRate = districtStats[i].preciseRate;
-                    for (var j = 0; j < townStats.length; j++) {
-                        if (townStats[j].district === district) {
-                            subData.push([townStats[j].town, townStats[j].preciseRate]);
-                        }
-                    }
-                    chart.addOneSeries(district, districtRate, subData);
-                }
+                var queryFunction = function(stat) {
+                    return stat.preciseRate;
+                };
+                generateDrillDownData(chart, districtStats, townStats, queryFunction);
                 return chart.options;
             },
             getMrsDistrictOptions: function(stats, districts){
