@@ -1,5 +1,5 @@
 ﻿app.controller("workitem.details", function ($scope, $routeParams, $uibModal, $log,
-    workitemService, appFormatService, cellPreciseService, preciseWorkItemService, networkElementService) {
+    workitemService, appFormatService, cellPreciseService, kpiDisplayService, preciseWorkItemService, networkElementService) {
     $scope.page.title = "工单编号" + $routeParams.number + "信息";
     $scope.serialNumber = $routeParams.number;
     var lastWeek = new Date();
@@ -35,9 +35,9 @@
         $scope.endDateString = appFormatService.getDateString($scope.endDate.value, "yyyy年MM月dd日");
         cellPreciseService.queryDataSpanKpi($scope.beginDate.value, $scope.endDate.value, $scope.currentView.eNodebId,
             $scope.currentView.sectorId).then(function (result) {
-                $scope.mrsConfig = cellPreciseService.getMrsOptions(result,
+                $scope.mrsConfig = kpiDisplayService.getMrsOptions(result,
                     $scope.beginDateString + "-" + $scope.endDateString + "MR数变化趋势");
-                $scope.preciseConfig = cellPreciseService.getPreciseOptions(result,
+                $scope.preciseConfig = kpiDisplayService.getPreciseOptions(result,
                     $scope.beginDateString + "-" + $scope.endDateString + "精确覆盖率变化趋势");
             });
     };

@@ -1,9 +1,9 @@
 ﻿describe('cell precise service test', function() {
-	var cellPreciseService;
+    var kpiDisplayService;
 	beforeEach(module('myApp.kpi'));
 
-    beforeEach(inject(function(_cellPreciseService_) {
-        cellPreciseService = _cellPreciseService_;
+	beforeEach(inject(function (_kpiDisplayService_) {
+	    kpiDisplayService = _kpiDisplayService_;
     }));
 
     it('should be able to get MR options', function() {
@@ -28,7 +28,7 @@
         	thirdNeighbors: 4
         }];
         var title = 'My title';
-        var options = cellPreciseService.getMrsOptions(stats, title);
+        var options = kpiDisplayService.getMrsOptions(stats, title);
 
         expect(options.title.text).toEqual('My title');
         expect(options.yAxis[0].title.text).toEqual("MR数量");
@@ -60,7 +60,7 @@
             }
         ];
         var title = 'My title';
-        var options = cellPreciseService.getPreciseOptions(stats, title);
+        var options = kpiDisplayService.getPreciseOptions(stats, title);
 
         expect(options.title.text).toEqual('My title');
         expect(options.yAxis[0].title.text).toEqual("精确覆盖率");
