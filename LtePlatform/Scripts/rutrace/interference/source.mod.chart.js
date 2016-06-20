@@ -1,5 +1,5 @@
 ﻿app.controller('interference.source.mod.chart', function($scope, $uibModalInstance, dialogTitle, eNodebId, sectorId, name,
-    topPreciseService, preciseInterferenceService) {
+    topPreciseService, kpiDisplayService, preciseInterferenceService) {
     $scope.dialogTitle = dialogTitle;
     $scope.currentCellName =name + "-" + sectorId;
     var lastWeek = new Date();
@@ -15,7 +15,7 @@
     $scope.showChart = function() {
         preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
             eNodebId, sectorId).then(function(result) {
-                var pieOptions = topPreciseService.getInterferencePieOptions(result, $scope.currentCellName);
+                var pieOptions = kpiDisplayService.getInterferencePieOptions(result, $scope.currentCellName);
                 $("#interference-mod3").highcharts(pieOptions.mod3Option);
                 $("#interference-mod6").highcharts(pieOptions.mod6Option);
         });

@@ -1,5 +1,5 @@
 ﻿app.controller("rutrace.interference", function ($scope, $timeout, $routeParams,
-    networkElementService, topPreciseService, preciseInterferenceService, menuItemService, neighborMongoService) {
+    networkElementService, topPreciseService, kpiDisplayService, preciseInterferenceService, menuItemService, neighborMongoService) {
     $scope.currentCellName = $routeParams.name + "-" + $routeParams.sectorId;
     $scope.page.title = "TOP指标干扰分析: " + $scope.currentCellName;
     menuItemService.updateMenuItem($scope.menuItems, 1, $scope.page.title,
@@ -50,7 +50,7 @@
                 $scope.victimCells = victims;
                 $scope.topStat.victims[$scope.currentCellName] = victims;
                 });
-            var pieOptions = topPreciseService.getInterferencePieOptions(result, $scope.currentCellName);
+            var pieOptions = kpiDisplayService.getInterferencePieOptions(result, $scope.currentCellName);
             $scope.topStat.pieOptions[$scope.currentCellName] = pieOptions;
             $("#interference-over6db").highcharts(pieOptions.over6DbOption);
             $("#interference-over10db").highcharts(pieOptions.over10DbOption);
@@ -59,7 +59,7 @@
             networkElementService.queryCellInfo($routeParams.cellId, $routeParams.sectorId).then(function (info) {
                 topPreciseService.queryCellStastic($routeParams.cellId, info.pci,
                     $scope.beginDate.value, $scope.endDate.value).then(function (stastic) {
-                        var columnOptions = topPreciseService.getStrengthColumnOptions(result, stastic.mrCount,
+                        var columnOptions = kpiDisplayService.getStrengthColumnOptions(result, stastic.mrCount,
                             $scope.currentCellName);
                         $scope.topStat.columnOptions[$scope.currentCellName] = columnOptions;
                         $("#strength-over6db").highcharts(columnOptions.over6DbOption);

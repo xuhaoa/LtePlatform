@@ -1,5 +1,5 @@
 ﻿app.controller('interference.source.strength.chart', function($scope, $uibModalInstance, dialogTitle, eNodebId, sectorId, name,
-    topPreciseService, preciseInterferenceService, neighborMongoService, networkElementService) {
+    topPreciseService, kpiDisplayService, preciseInterferenceService, neighborMongoService, networkElementService) {
     $scope.dialogTitle = dialogTitle;
     $scope.currentCellName =name + "-" + sectorId;
     var lastWeek = new Date();
@@ -18,7 +18,7 @@
                 networkElementService.queryCellInfo(eNodebId, sectorId).then(function (info) {
                     topPreciseService.queryCellStastic(eNodebId, info.pci,
                         $scope.beginDate.value, $scope.endDate.value).then(function (stastic) {
-                            var columnOptions = topPreciseService.getStrengthColumnOptions(result, stastic.mrCount,
+                            var columnOptions = kpiDisplayService.getStrengthColumnOptions(result, stastic.mrCount,
                                 $scope.currentCellName);
                             $("#strength-over6db").highcharts(columnOptions.over6DbOption);
                             $("#strength-over10db").highcharts(columnOptions.over10DbOption);
