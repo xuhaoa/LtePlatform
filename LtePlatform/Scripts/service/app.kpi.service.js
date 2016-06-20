@@ -49,7 +49,7 @@
         var generateDateDistrictStats = function(stats, districts, queryFunction) {
             var statDates = [];
             var districtStats = [];
-            angular.forEach(stats, function(stat, index) {
+            angular.forEach(stats, function (stat, index) {
                 statDates.push(stat.statDate);
                 for (var j = 0; j < districts.length; j++) {
                     if (index === 0) {
@@ -127,13 +127,14 @@
                 generateDrillDownData(chart, districtStats, townStats, queryFunction);
                 return chart.options;
             },
-            getMrsDistrictOptions: function(stats, districts){
+            getMrsDistrictOptions: function(stats, inputDistricts){
                 var chart = new ComboChart();
                 chart.title.text = "MR总数变化趋势图";
                 var queryFunction = function (stat) {
                     return stat.mr;
                 };
-                var result = generateDateDistrictStats(stats, districts, queryFunction); 
+                var districts = inputDistricts.concat("全网");
+                var result = generateDateDistrictStats(stats, districts, queryFunction);
                 chart.xAxis[0].categories = result.statDates;
                 chart.yAxis[0].title.text = "MR总数";
                 chart.xAxis[0].title.text = '日期';
@@ -146,12 +147,13 @@
                 });
                 return chart.options;
             },
-            getPreciseDistrictOptions: function(stats, districts){
+            getPreciseDistrictOptions: function(stats, inputDistricts){
                 var chart = new ComboChart();
                 chart.title.text = "精确覆盖率变化趋势图";
                 var queryFunction = function (stat) {
                     return stat.precise;
                 };
+                var districts = inputDistricts.concat("全网");
                 var result = generateDateDistrictStats(stats, districts, queryFunction);
                 chart.xAxis[0].categories = result.statDates;
                 chart.yAxis[0].title.text = "精确覆盖率";

@@ -6,12 +6,12 @@ app.controller("rutrace.trendchart", function ($scope, $location, $timeout, appK
             $scope.trendStat.townStats));
         $("#precise").highcharts(appKpiService.getPreciseRateOptions($scope.trendStat.districtStats,
             $scope.trendStat.townStats));
+        $("#time-mr").highcharts(appKpiService.getMrsDistrictOptions($scope.trendStat.stats,
+            $scope.trendStat.districts));
+        $("#time-precise").highcharts(appKpiService.getPreciseDistrictOptions($scope.trendStat.stats,
+            $scope.trendStat.districts));
     };
-    $scope.timeMrConfig = appKpiService.getMrsDistrictOptions($scope.trendStat.stats,
-        $scope.trendStat.districts);
-    $scope.timePreciseConfig = appKpiService.getPreciseDistrictOptions($scope.trendStat.stats,
-        $scope.trendStat.districts);
     $timeout(function() {
         $scope.showCharts();
-    }, 1000);
+    }, 500);
 });
