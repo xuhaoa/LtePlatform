@@ -1,100 +1,35 @@
 ﻿angular.module('myApp.region', ['myApp.url'])
-    .factory('appRegionService', function ($q, $http, appUrlService) {
+    .factory('appRegionService', function (generalHttpService) {
         return {
             initializeCities: function () {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('CityList')
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-                return deferred.promise;
+                return generalHttpService.getApiData('CityList', {});
             },
             queryDistricts: function (cityName) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('CityList'),
-                    params: {
-                        city: cityName
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
+                return generalHttpService.getApiData('CityList', {
+                    city: cityName
                 });
-                return deferred.promise;
             },
             queryDistrictInfrastructures: function (cityName) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('RegionStats'),
-                    params: {
-                        city: cityName
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
+                return generalHttpService.getApiData('RegionStats', {
+                    city: cityName
                 });
-                return deferred.promise;
             },
             queryTowns: function (cityName, districtName) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('CityList'),
-                    params: {
-                        city: cityName,
-                        district: districtName
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
+                return generalHttpService.getApiData('CityList', {
+                    city: cityName,
+                    district: districtName
                 });
-                return deferred.promise;
             },
             queryTownInfrastructures: function (cityName, districtName) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('RegionStats'),
-                    params: {
-                        city: cityName,
-                        district: districtName
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
+                return generalHttpService.getApiData('RegionStats', {
+                    city: cityName,
+                    district: districtName
                 });
-                return deferred.promise;
             },
             queryENodebTown: function (eNodebId) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('Town'),
-                    params: {
-                        eNodebId: eNodebId
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
+                return generalHttpService.getApiData('Town', {
+                    eNodebId: eNodebId
                 });
-                return deferred.promise;
             },
             accumulateCityStat: function (stats, cityName) {
                 var cityStat = {
