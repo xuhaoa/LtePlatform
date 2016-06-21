@@ -127,7 +127,9 @@
                 });
             },
             queryCellSectors: function (cells) {
-                return generalHttpService.postApiData('Cell', cells);
+                return generalHttpService.postApiData('Cell', {
+                    views: cells
+                });
             },
             queryRangeSectors: function (range, excludedIds) {
                 return generalHttpService.postApiData('SectorView', {

@@ -17,7 +17,7 @@
         $scope.rootPath + "baidumap/" + $routeParams.cellId + "/" + $routeParams.sectorId + "/" + $routeParams.name);
 
     baiduMapService.initializeMap("all-map", 12);
-    cellPreciseService.queryOneWeekKpi($routeParams.cellId, $routeParams.sectorId).then(function(cellView) {
+    cellPreciseService.queryOneWeekKpi($routeParams.cellId, $routeParams.sectorId).then(function (cellView) {
         networkElementService.queryCellSectors([cellView]).then(function (result) {
             geometryService.transformToBaidu(result[0].longtitute, result[0].lattitute).then(function (coors) {
                 var xOffset = coors.x - result[0].longtitute;
@@ -45,13 +45,19 @@
     });
 
     networkElementService.queryCellInfo($routeParams.cellId, $routeParams.sectorId).then(function(cell) {
-        geometryService.transformToBaidu(cell.longtitute, cell.lattitute).then(function(coors) {
+        if (cell) {
+            $scope.generateComponents(cell);
+        }
+    });
+
+    $scope.generateComponents = function(cell) {
+        geometryService.transformToBaidu(cell.longtitute, cell.lattitute).then(function (coors) {
             var xOffset = coors.x - cell.longtitute;
             var yOffset = coors.y - cell.lattitute;
-            neighborMongoService.queryNeighbors($routeParams.cellId, $routeParams.sectorId).then(function(neighbors) {
+            neighborMongoService.queryNeighbors($routeParams.cellId, $routeParams.sectorId).then(function (neighbors) {
                 baiduMapService.generateNeighborLines($scope.neighborLines, cell, neighbors, xOffset, yOffset);
             });
-            neighborMongoService.queryReverseNeighbors($routeParams.cellId, $routeParams.sectorId).then(function(neighbors) {
+            neighborMongoService.queryReverseNeighbors($routeParams.cellId, $routeParams.sectorId).then(function (neighbors) {
                 baiduMapService.generateReverseNeighborLines($scope.reverseNeighborLines, cell, neighbors, xOffset, yOffset);
             });
             preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
@@ -60,12 +66,12 @@
                         interference, xOffset, yOffset, "orange");
                 });
             preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
-                $routeParams.cellId, $routeParams.sectorId).then(function(victims) {
+                $routeParams.cellId, $routeParams.sectorId).then(function (victims) {
                     baiduMapService.generateVictimComponents($scope.victimLines, $scope.victimCircles, cell,
                         victims, xOffset, yOffset, "green");
-            });
+                });
         });
-    });
+    };
             
     $scope.toggleNeighbors = function () {
         if ($scope.displayNeighbors) {
