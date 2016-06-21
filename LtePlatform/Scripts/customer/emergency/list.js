@@ -1,5 +1,5 @@
-﻿app.controller("emergency.list", function ($scope, appUrlService) {
+﻿app.controller("emergency.list", function ($scope, customerDiloagService) {
     $scope.construct = function() {
-        console.log("test");
+        customerDiloagService.constructEmergencyCommunication($scope.beginDate.value, $scope.endDate.value);
     };
 });

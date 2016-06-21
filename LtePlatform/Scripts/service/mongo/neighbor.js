@@ -1,39 +1,17 @@
 ﻿angular.module('neighbor.mongo', ['myApp.url'])
-    .factory('neighborMongoService', function($q, $http, $uibModal, $log, appUrlService) {
+    .factory('neighborMongoService', function (generalHttpService, $uibModal, $log) {
         return {
             queryNeighbors: function (eNodebId, sectorId) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('NeighborCellMongo'),
-                    params: {
-                        eNodebId: eNodebId,
-                        sectorId: sectorId
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+                return generalHttpService.getApiData('NeighborCellMongo', {
+                    eNodebId: eNodebId,
+                    sectorId: sectorId
+                });
             },
-            queryReverseNeighbors: function(destENodebId, destSectorId) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('NeighborCellMongo'),
-                    params: {
-                        destENodebId: destENodebId,
-                        destSectorId: destSectorId
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryReverseNeighbors: function (destENodebId, destSectorId) {
+                return generalHttpService.getApiData('NeighborCellMongo', {
+                    destENodebId: destENodebId,
+                    destSectorId: destSectorId
+                });
             },
             dumpMongoDialog: function(cell, beginDate, endDate) {
                 var modalInstance = $uibModal.open({
