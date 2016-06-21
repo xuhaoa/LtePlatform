@@ -1,4 +1,4 @@
-﻿app.controller('emergency.new.dialog', function($scope, $uibModalInstance) {
+﻿app.controller('emergency.new.dialog', function($scope, $uibModalInstance, dialogTitle) {
     $scope.dialogTitle = dialogTitle;
     $scope.message = "";
 
