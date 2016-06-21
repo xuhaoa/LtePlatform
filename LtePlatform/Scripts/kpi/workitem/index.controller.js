@@ -35,7 +35,7 @@
         $scope.viewItems = $scope.viewData.items;
     }
     appRegionService.initializeCities().then(function (result) {
-        appRegionService.queryDistricts(result.selected).then(function (districts) {
+        appRegionService.queryDistricts(result[0]).then(function (districts) {
             angular.forEach(districts, function(district) {
                 menuItemService.updateMenuItem($scope.menuItems, 1,
                     "工单统计-" + district,

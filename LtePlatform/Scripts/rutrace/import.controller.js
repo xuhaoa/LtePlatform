@@ -4,17 +4,6 @@
     $scope.page.title = "TOP指标邻区监控: " + $scope.currentCellName;
     menuItemService.updateMenuItem($scope.menuItems, 1, $scope.page.title,
         $scope.rootPath + "import/" + $routeParams.cellId + "/" + $routeParams.sectorId + "/" + $routeParams.name);
-    var lastWeek = new Date();
-    lastWeek.setDate(lastWeek.getDate() - 7);
-    $scope.beginDate = {
-        value: new Date(lastWeek.getFullYear(), lastWeek.getMonth(), lastWeek.getDate(), 8),
-        opened: false
-    };
-    var today = new Date();
-    $scope.endDate = {
-        value: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8),
-        opened: false
-    };
     $scope.currentPage = 1;
     $scope.neighborCells = [];
     $scope.updateMessages = [];

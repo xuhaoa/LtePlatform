@@ -21,7 +21,8 @@
         });
     };
     appRegionService.initializeCities().then(function (result) {
-        $scope.city = result;
+        $scope.city.options = result;
+        $scope.city.selected = result[0];
         $scope.showKpi();
     });
 });

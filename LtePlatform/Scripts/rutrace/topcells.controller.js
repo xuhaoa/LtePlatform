@@ -1,16 +1,6 @@
 ﻿app.controller("rutrace.top", function ($scope, $http, preciseInterferenceService, kpiPreciseService, workitemService) {
     $scope.page.title = "TOP指标分析";
     $scope.topCells = [];
-    var lastWeek = new Date();
-    lastWeek.setDate(lastWeek.getDate() - 7);
-    $scope.beginDate = {
-        value: lastWeek,
-        opened: false
-    };
-    $scope.endDate = {
-        value: new Date(),
-        opened: false
-    };
     $scope.orderPolicy = {
         options: [],
         selected: ""

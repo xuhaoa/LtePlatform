@@ -7,10 +7,7 @@
                     method: 'GET',
                     url: appUrlService.getApiUrl('CityList')
                 }).success(function (result) {
-                    deferred.resolve({
-                        options: result,
-                        selected: result[0]
-                    });
+                    deferred.resolve(result);
                 })
                 .error(function (reason) {
                     deferred.reject(reason);

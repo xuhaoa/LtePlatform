@@ -1,16 +1,6 @@
 ﻿
 app.controller("rutrace.trend", function ($scope, appRegionService, appKpiService, kpiPreciseService, appFormatService) {
     $scope.page.title = "指标变化趋势";
-    var lastWeek = new Date();
-    lastWeek.setDate(lastWeek.getDate() - 7);
-    $scope.beginDate = {
-        value: lastWeek,
-        opened: false
-    };
-    $scope.endDate = {
-        value: new Date(),
-        opened: false
-    };
 
     $scope.showTrend = function () {
         kpiPreciseService.getDateSpanPreciseRegionKpi($scope.city.selected, $scope.beginDate.value, $scope.endDate.value)
@@ -24,14 +14,9 @@ app.controller("rutrace.trend", function ($scope, appRegionService, appKpiServic
                 $scope.trendStat.endDateString = appFormatService.getDateString($scope.endDate.value, "yyyy年MM月dd日");
             });
     };
-    appRegionService.initializeCities()
-        .then(function (result) {
-            $scope.city = result;
-            var city = $scope.city.selected;
-            appRegionService.queryDistricts(city)
-                .then(function (districts) {
-                    $scope.trendStat.districts = districts;
-                    $scope.showTrend();
-            });
+    appRegionService.queryDistricts($scope.city.selected)
+        .then(function(districts) {
+            $scope.trendStat.districts = districts;
+            $scope.showTrend();
         });
 })

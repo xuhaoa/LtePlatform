@@ -2,14 +2,7 @@
     $scope.page.title = "精确覆盖优化工单一览";
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 100);
-    $scope.beginDate = {
-        value: lastWeek,
-        opened: false
-    };
-    $scope.endDate = {
-        value: new Date(),
-        opened: false
-    };
+    $scope.beginDate.value = lastWeek;
     $scope.queryWorkItems = function () {
         preciseWorkItemService.queryByDateSpan($scope.beginDate.value, $scope.endDate.value).then(function (views) {
             angular.forEach(views, function(view) {
@@ -28,14 +21,7 @@ app.controller("workitem.district", function ($scope, $routeParams, preciseWorkI
     $scope.page.title = $routeParams.district + "精确覆盖优化工单一览";
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 100);
-    $scope.beginDate = {
-        value: lastWeek,
-        opened: false
-    };
-    $scope.endDate = {
-        value: new Date(),
-        opened: false
-    };
+    $scope.beginDate.value = lastWeek;
     $scope.queryWorkItems = function () {
         preciseWorkItemService.queryByDateSpanDistrict($scope.beginDate.value, $scope.endDate.value, $routeParams.district).then(function (views) {
             angular.forEach(views, function (view) {

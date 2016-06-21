@@ -8,17 +8,6 @@ app.controller('interference.mongo', function ($scope, neighborMongoService,
         cellInfo: ""
     };
     $scope.page.title = "从MongoDB导入";
-    var lastWeek = new Date();
-    lastWeek.setDate(lastWeek.getDate() - 7);
-    $scope.beginDate = {
-        value: new Date(lastWeek.getFullYear(), lastWeek.getMonth(), lastWeek.getDate(), 8),
-        opened: false
-    };
-    var today = new Date();
-    $scope.endDate = {
-        value: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8),
-        opened: false
-    };
     $scope.currentPage = 1;
 
     $scope.reset = function () {

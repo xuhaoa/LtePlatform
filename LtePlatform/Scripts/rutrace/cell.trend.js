@@ -1,16 +1,6 @@
 ﻿app.controller("cell.trend", function ($scope, $routeParams, appKpiService, cellPreciseService,
     kpiDisplayService, appFormatService) {
     $scope.page.title = "小区指标变化趋势分析" + "-" + $routeParams.name;
-    var lastWeek = new Date();
-    lastWeek.setDate(lastWeek.getDate() - 7);
-    $scope.beginDate = {
-        value: lastWeek,
-        opened: false
-    };
-    $scope.endDate = {
-        value: new Date(),
-        opened: false
-    };
     $scope.showTrend = function() {
         $scope.beginDateString = appFormatService.getDateString($scope.beginDate.value, "yyyy年MM月dd日");
         $scope.endDateString = appFormatService.getDateString($scope.endDate.value, "yyyy年MM月dd日");

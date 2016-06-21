@@ -1,5 +1,9 @@
 ﻿app.controller("parameters.list", function ($scope, appRegionService, parametersChartService) {
     $scope.page.title = "基础数据总揽";
+    $scope.city = {
+        selected: "",
+        options: []
+    };
     $scope.showCityStats = function() {
         appRegionService.queryDistrictInfrastructures($scope.city.selected).then(function(result) {
             $scope.districtStats = result;
@@ -26,7 +30,8 @@
     });
 
     appRegionService.initializeCities().then(function(result) {
-        $scope.city = result;
+        $scope.city.options = result;
+        $scope.city.selected = result[0];
         $scope.showCityStats();
     });
 });

@@ -80,7 +80,7 @@
 
         appRegionService.initializeCities()
             .then(function (result) {
-                angular.forEach(result.options, function(district) {
+                angular.forEach(result, function(district) {
                     menuItemService.updateMenuItem($rootScope.menuItems, 0,
                         "指标变化趋势-" + district,
                         $rootScope.rootPath + "trend/" + district);

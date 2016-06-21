@@ -7,10 +7,6 @@ app.controller("rutrace.index", function ($scope, appRegionService, appKpiServic
         value: yesterday,
         opened: false
     };
-    $scope.city = {
-        selected: "",
-        options: []
-    };
     $scope.showKpi = function() {
         kpiPreciseService.getRecentPreciseRegionKpi($scope.city.selected, $scope.statDate.value)
             .then(function (result) {
@@ -27,9 +23,5 @@ app.controller("rutrace.index", function ($scope, appRegionService, appKpiServic
                 $scope.overallStat.dateString = appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
             });
     };
-    appRegionService.initializeCities()
-        .then(function(result) {
-            $scope.city = result;
-            $scope.showKpi();
-        });
+    $scope.showKpi();
 });

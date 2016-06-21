@@ -5,6 +5,10 @@
         options: ["LTE", "CDMA"],
         selected: "LTE"
     };
+    $scope.city = {
+        selected: "",
+        options: []
+    };
     $scope.queryText = "";
     
     $scope.updateDistricts = function() {
@@ -40,7 +44,8 @@
     };
 
     appRegionService.initializeCities().then(function(result) {
-        $scope.city = result;
+        $scope.city.options = result;
+        $scope.city.selected = result[0];
         baiduMapService.initializeMap("map", 12);
         appRegionService.queryDistricts($scope.city.selected).then(function (districts) {
             $scope.district = {
