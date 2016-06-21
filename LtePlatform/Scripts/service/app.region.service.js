@@ -39,20 +39,6 @@
                         city: cityName
                     }
                 }).success(function (result) {
-                        var cityStat = {
-                            district: cityName,
-                            totalLteENodebs: 0,
-                            totalLteCells: 0,
-                            totalCdmaBts: 0,
-                            totalCdmaCells: 0
-                        };
-                        for (var i = 0; i < result.length; i++) {
-                            cityStat.totalLteENodebs += result[i].totalLteENodebs;
-                            cityStat.totalLteCells += result[i].totalLteCells;
-                            cityStat.totalCdmaBts += result[i].totalCdmaBts;
-                            cityStat.totalCdmaCells += result[i].totalCdmaCells;
-                        }
-                        result.push(cityStat);
                     deferred.resolve(result);
                 })
                 .error(function (reason) {
@@ -109,6 +95,22 @@
                     deferred.reject(reason);
                 });
                 return deferred.promise;
+            },
+            accumulateCityStat: function (stats, cityName) {
+                var cityStat = {
+                    district: cityName,
+                    totalLteENodebs: 0,
+                    totalLteCells: 0,
+                    totalCdmaBts: 0,
+                    totalCdmaCells: 0
+                };
+                angular.forEach(stats, function(stat) {
+                    cityStat.totalLteENodebs += stat.totalLteENodebs;
+                    cityStat.totalLteCells += stat.totalLteCells;
+                    cityStat.totalCdmaBts += stat.totalCdmaBts;
+                    cityStat.totalCdmaCells += stat.totalCdmaCells;
+                });
+                stats.push(cityStat);
             }
         };
     })

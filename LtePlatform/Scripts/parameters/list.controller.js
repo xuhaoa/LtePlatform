@@ -5,7 +5,8 @@
         options: []
     };
     $scope.showCityStats = function() {
-        appRegionService.queryDistrictInfrastructures($scope.city.selected).then(function(result) {
+        appRegionService.queryDistrictInfrastructures($scope.city.selected).then(function (result) {
+            appRegionService.accumulateCityStat(result, $scope.city.selected);
             $scope.districtStats = result;
             
             $("#cityLteENodebConfig").highcharts(parametersChartService.getDistrictLteENodebPieOptions(result.slice(0, result.length - 1),
