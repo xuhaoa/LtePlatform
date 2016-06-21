@@ -786,7 +786,7 @@
     <Content Include="Scripts\rutrace\coverage\ta.dialog.js" />
     <Content Include="Scripts\rutrace\interference\coverage.dialog.js" />
     <Content Include="Scripts\rutrace\interference\victim.dialog.js" />
-    <Content Include="Scripts\service\dump.progress.factory.js" />
+    <Content Include="Scripts\service\kpi\dump.progress.js" />
     <Content Include="Scripts\angular-ui\local\bootstrap-datetimepicker.ar.js" />
     <Content Include="Scripts\angular-ui\local\bootstrap-datetimepicker.bg.js" />
     <Content Include="Scripts\angular-ui\local\bootstrap-datetimepicker.ca.js" />
