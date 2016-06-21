@@ -17,25 +17,25 @@
         angular.forEach($scope.dateRecords, function (record) {
             dumpProgress.queryExistedItems(eNodebId, sectorId, record.date).then(function (result) {
                 for (var i = 0; i < $scope.dateRecords.length; i++) {
-                    if ($scope.dateRecords[i].date === result.date) {
-                        $scope.dateRecords[i].existedRecords = result.value.item1;
-                        $scope.dateRecords[i].existedStat = result.value.item2;
+                    if ($scope.dateRecords[i].date === record.date) {
+                        $scope.dateRecords[i].existedRecords = result.item1;
+                        $scope.dateRecords[i].existedStat = result.item2;
                         break;
                     }
                 }
             });
             dumpProgress.queryMongoItems(eNodebId, pci, record.date).then(function (result) {
                 for (var i = 0; i < $scope.dateRecords.length; i++) {
-                    if ($scope.dateRecords[i].date === result.date) {
-                        $scope.dateRecords[i].mongoRecords = result.value;
+                    if ($scope.dateRecords[i].date === record.date) {
+                        $scope.dateRecords[i].mongoRecords = result;
                         break;
                     }
                 }
             });
             dumpProgress.queryMongoCellStat(eNodebId, pci, record.date).then(function (result) {
                 for (var i = 0; i < $scope.dateRecords.length; i++) {
-                    if ($scope.dateRecords[i].date === result.date) {
-                        $scope.dateRecords[i].mongoStat = result.value;
+                    if ($scope.dateRecords[i].date === record.date) {
+                        $scope.dateRecords[i].mongoStat = result;
                         break;
                     }
                 }

@@ -35,11 +35,11 @@ app.controller('interference.mongo', function ($scope, neighborMongoService,
         }
         var date = new Date(startDate);
         dumpProgress.queryExistedItems(eNodebId, sectorId, date).then(function (existed) {
-            dumpProgress.queryMongoItems(eNodebId, pci, existed.date).then(function (records) {
+            dumpProgress.queryMongoItems(eNodebId, pci, date).then(function (records) {
                 dumpRecords.push({
-                    date: records.date,
-                    existedRecords: existed.value,
-                    mongoRecords: records.value
+                    date: date,
+                    existedRecords: existed,
+                    mongoRecords: records
                 });
                 startDate.setDate(date.getDate() + 1);
                 $scope.generateDumpRecords(dumpRecords, startDate, endDate, eNodebId, sectorId, pci);

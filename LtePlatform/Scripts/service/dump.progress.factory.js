@@ -1,9 +1,9 @@
 ﻿angular.module('myApp.dumpInterference', ['myApp.url', 'myApp.parameters'])
-    .factory('dumpProgress', function ($http, $q, appUrlService, appFormatService) {
+    .factory('dumpProgress', function (generalHttpService, appFormatService) {
         var serviceInstance = {};
 
         serviceInstance.clear = function(progressInfo) {
-            $http.delete(appUrlService.getApiUrl('DumpInterference')).success(function () {
+            generalHttpService.deleteApiData('DumpInterference').then(function () {
                 progressInfo.totalDumpItems = 0;
                 progressInfo.totalSuccessItems = 0;
                 progressInfo.totalFailItems = 0;
@@ -12,7 +12,7 @@
         
         serviceInstance.dump = function (actionUrl, progressInfo) {
             var self = serviceInstance;
-            $http.put(actionUrl).success(function(result) {
+            generalHttpService.putApiData(actionUrl, {}).then(function (result) {
                 if (result === true) {
                     progressInfo.totalSuccessItems = progressInfo.totalSuccessItems + 1;
                 } else {
@@ -23,7 +23,7 @@
                 } else {
                     self.clear(actionUrl, progressInfo);
                 }
-            }).error(function() {
+            }, function() {
                 progressInfo.totalFailItems = progressInfo.totalFailItems + 1;
                 if (progressInfo.totalSuccessItems + progressInfo.totalFailItems < progressInfo.totalDumpItems) {
                     self.dump(actionUrl, progressInfo);
@@ -34,122 +34,51 @@
         };
 
         serviceInstance.dumpMongo = function (stat) {
-            var deferred = $q.defer();
-            $http.post(appUrlService.getApiUrl('DumpInterference'), stat)
-                .success(function (result) {
-                deferred.resolve(result);
-            })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-            return deferred.promise;
+            return generalHttpService.postApiData('DumpInterference', stat);
         };
 
         serviceInstance.dumpCellStat = function (stat) {
-            var deferred = $q.defer();
-            $http.post(appUrlService.getApiUrl('DumpCellStat'), stat)
-                .success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-            return deferred.promise;
+            return generalHttpService.postApiData('DumpCellStat', stat);
         };
 
         serviceInstance.resetProgress = function (begin, end) {
-            var deferred = $q.defer();
-            $http({
-                method: 'GET',
-                url: appUrlService.getApiUrl('DumpInterference'),
-                params: {
-                    'begin': begin,
-                    'end': end
-                }
-            }).success(function (result) {
-                deferred.resolve(result);
-            })
-            .error(function (reason) {
-                deferred.reject(reason);
+            return generalHttpService.getApiData('DumpInterference', {
+                'begin': begin,
+                'end': end
             });
-            return deferred.promise;
         };
 
-        serviceInstance.queryExistedItems = function(eNodebId, sectorId, date) {
-            var deferred = $q.defer();
-            $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('DumpInterference'),
-                    params: {
-                        eNodebId: eNodebId,
-                        sectorId: sectorId,
-                        date: appFormatService.getDateString(date, 'yyyy-MM-dd')
-                    }
-                }).success(function(result) {
-                    deferred.resolve({ date: date, value: result });
-                })
-                .error(function(reason) {
-                    deferred.reject(reason);
-                });
-            return deferred.promise;
+        serviceInstance.queryExistedItems = function (eNodebId, sectorId, date) {
+            return generalHttpService.getApiData('DumpInterference', {
+                eNodebId: eNodebId,
+                sectorId: sectorId,
+                date: appFormatService.getDateString(date, 'yyyy-MM-dd')
+            });
         };
         
         serviceInstance.queryMongoItems = function (eNodebId, pci, date) {
-            var deferred = $q.defer();
-            $http({
-                method: 'GET',
-                url: appUrlService.getApiUrl('DumpInterference'),
-                params: {
-                    eNodebId: eNodebId,
-                    pci: pci,
-                    date: date
-                }
-            }).success(function (result) {
-                deferred.resolve({date: date, value: result});
-            })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-            return deferred.promise;
+            return generalHttpService.getApiData('DumpInterference', {
+                eNodebId: eNodebId,
+                pci: pci,
+                date: date
+            });
         };
 
         serviceInstance.queryMongoCellStat = function (eNodebId, pci, date) {
-            var deferred = $q.defer();
-            $http({
-                method: 'GET',
-                url: appUrlService.getApiUrl('DumpCellStat'),
-                params: {
-                    eNodebId: eNodebId,
-                    pci: pci,
-                    date: date
-                }
-            }).success(function (result) {
-                deferred.resolve({ date: date, value: result });
-            })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-            return deferred.promise;
+            return generalHttpService.getApiData('DumpCellStat', {
+                eNodebId: eNodebId,
+                pci: pci,
+                date: date
+            });
         };
 
         serviceInstance.queryNeighborMongoItem = function (eNodebId, pci, neighborPci, date) {
-            var deferred = $q.defer();
-            $http({
-                method: 'GET',
-                url: appUrlService.getApiUrl('DumpInterference'),
-                params: {
-                    eNodebId: eNodebId,
-                    pci: pci,
-                    neighborPci: neighborPci,
-                    date: date
-                }
-            }).success(function (result) {
-                deferred.resolve({date: date, value: result});
-            })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-            return deferred.promise;
+            return generalHttpService.getApiData('DumpInterference', {
+                eNodebId: eNodebId,
+                pci: pci,
+                neighborPci: neighborPci,
+                date: date
+            });
         };
 
         return serviceInstance;
@@ -199,8 +128,8 @@
         serviceInstance.dumpDateSpanSingleNeighborRecords = function(eNodebId, sectorId, pci, destENodebId, destSectorId, destPci, date, end) {
             if (date < end) {
                 dumpProgress.queryNeighborMongoItem(eNodebId, pci, destPci, date).then(function (result) {
-                    var stat = result.value;
-                    var nextDate = result.date;
+                    var stat = result;
+                    var nextDate = date;
                     nextDate.setDate(nextDate.getDate() + 1);
                     if (stat) {
                         stat.sectorId = sectorId;
