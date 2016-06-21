@@ -39,17 +39,6 @@ app.controller("rutrace.root", function ($scope, appRegionService, menuItemServi
         selected: "",
         options: []
     };
-    var lastWeek = new Date();
-    lastWeek.setDate(lastWeek.getDate() - 7);
-    $scope.beginDate = {
-        value: new Date(lastWeek.getFullYear(), lastWeek.getMonth(), lastWeek.getDate(), 8),
-        opened: false
-    };
-    var today = new Date();
-    $scope.endDate = {
-        value: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8),
-        opened: false
-    };
 
     appRegionService.initializeCities().then(function(result) {
         $scope.overallStat.city = result[0];
