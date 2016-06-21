@@ -1,15 +1,12 @@
 ﻿using System;
 using Lte.Domain.Common;
+using TraceParser.Common;
 
 namespace TraceParser.Eutra
 {
     [Serializable]
-    public class AntennaInfoCommon
+    public class AntennaInfoCommon : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public antennaPortsCount_Enum antennaPortsCount { get; set; }
 
         public enum antennaPortsCount_Enum
@@ -20,28 +17,21 @@ namespace TraceParser.Eutra
             spare1
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<AntennaInfoCommon>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
 
-            public AntennaInfoCommon Decode(BitArrayInputStream input)
+            protected override void ProcessConfig(AntennaInfoCommon config, BitArrayInputStream input)
             {
-                AntennaInfoCommon common = new AntennaInfoCommon();
-                common.InitDefaults();
-                int nBits = 2;
-                common.antennaPortsCount = (antennaPortsCount_Enum)input.readBits(nBits);
-                return common;
+                InitDefaults();
+                config.antennaPortsCount = (antennaPortsCount_Enum)input.readBits(2);
             }
         }
     }
 
     [Serializable]
-    public class AntennaInfoDedicated
+    public class AntennaInfoDedicated : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public codebookSubsetRestriction_Type codebookSubsetRestriction { get; set; }
 
         public transmissionMode_Enum transmissionMode { get; set; }
@@ -49,12 +39,8 @@ namespace TraceParser.Eutra
         public ue_TransmitAntennaSelection_Type ue_TransmitAntennaSelection { get; set; }
 
         [Serializable]
-        public class codebookSubsetRestriction_Type
+        public class codebookSubsetRestriction_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public string n2TxAntenna_tm3 { get; set; }
 
             public string n2TxAntenna_tm4 { get; set; }
@@ -71,70 +57,59 @@ namespace TraceParser.Eutra
 
             public string n4TxAntenna_tm6 { get; set; }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<codebookSubsetRestriction_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public codebookSubsetRestriction_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(codebookSubsetRestriction_Type config, BitArrayInputStream input)
                 {
-                    codebookSubsetRestriction_Type type = new codebookSubsetRestriction_Type();
-                    type.InitDefaults();
+                    InitDefaults();
                     switch (input.readBits(3))
                     {
                         case 0:
-                            type.n2TxAntenna_tm3 = input.readBitString(2);
-                            return type;
-
+                            config.n2TxAntenna_tm3 = input.readBitString(2);
+                            return;
                         case 1:
-                            type.n4TxAntenna_tm3 = input.readBitString(4);
-                            return type;
-
+                            config.n4TxAntenna_tm3 = input.readBitString(4);
+                            return;
                         case 2:
-                            type.n2TxAntenna_tm4 = input.readBitString(6);
-                            return type;
-
+                            config.n2TxAntenna_tm4 = input.readBitString(6);
+                            return;
                         case 3:
-                            type.n4TxAntenna_tm4 = input.readBitString(0x40);
-                            return type;
-
+                            config.n4TxAntenna_tm4 = input.readBitString(0x40);
+                            return;
                         case 4:
-                            type.n2TxAntenna_tm5 = input.readBitString(4);
-                            return type;
-
+                            config.n2TxAntenna_tm5 = input.readBitString(4);
+                            return;
                         case 5:
-                            type.n4TxAntenna_tm5 = input.readBitString(0x10);
-                            return type;
-
+                            config.n4TxAntenna_tm5 = input.readBitString(0x10);
+                            return;
                         case 6:
-                            type.n2TxAntenna_tm6 = input.readBitString(4);
-                            return type;
-
+                            config.n2TxAntenna_tm6 = input.readBitString(4);
+                            return;
                         case 7:
-                            type.n4TxAntenna_tm6 = input.readBitString(0x10);
-                            return type;
+                            config.n4TxAntenna_tm6 = input.readBitString(0x10);
+                            return;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
                 }
             }
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<AntennaInfoDedicated>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public AntennaInfoDedicated Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(AntennaInfoDedicated config, BitArrayInputStream input)
             {
-                AntennaInfoDedicated dedicated = new AntennaInfoDedicated();
-                dedicated.InitDefaults();
+                InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                const int nBits = 3;
-                dedicated.transmissionMode = (transmissionMode_Enum)input.readBits(nBits);
+                config.transmissionMode = (transmissionMode_Enum)input.readBits(3);
                 if (stream.Read())
                 {
-                    dedicated.codebookSubsetRestriction = codebookSubsetRestriction_Type.PerDecoder.Instance.Decode(input);
+                    config.codebookSubsetRestriction = codebookSubsetRestriction_Type.PerDecoder.Instance.Decode(input);
                 }
-                dedicated.ue_TransmitAntennaSelection = ue_TransmitAntennaSelection_Type.PerDecoder.Instance.Decode(input);
-                return dedicated;
+                config.ue_TransmitAntennaSelection = ue_TransmitAntennaSelection_Type.PerDecoder.Instance.Decode(input);
             }
         }
 
@@ -151,36 +126,27 @@ namespace TraceParser.Eutra
         }
 
         [Serializable]
-        public class ue_TransmitAntennaSelection_Type
+        public class ue_TransmitAntennaSelection_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public object release { get; set; }
 
             public setup_Enum setup { get; set; }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<ue_TransmitAntennaSelection_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public ue_TransmitAntennaSelection_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(ue_TransmitAntennaSelection_Type config, BitArrayInputStream input)
                 {
-                    ue_TransmitAntennaSelection_Type type = new ue_TransmitAntennaSelection_Type();
-                    type.InitDefaults();
+                    InitDefaults();
                     switch (input.readBits(1))
                     {
                         case 0:
-                            type.release = new object();
-                            return type;
-
+                            config.release = new object();
+                            return;
                         case 1:
-                            {
-                                const int nBits = 1;
-                                type.setup = (setup_Enum)input.readBits(nBits);
-                                return type;
-                            }
+                            config.setup = (setup_Enum)input.readBits(1);
+                            return;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
                 }
@@ -195,36 +161,29 @@ namespace TraceParser.Eutra
     }
 
     [Serializable]
-    public class AntennaInfoDedicated_r10
+    public class AntennaInfoDedicated_r10 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public string codebookSubsetRestriction_r10 { get; set; }
 
         public transmissionMode_r10_Enum transmissionMode_r10 { get; set; }
 
         public ue_TransmitAntennaSelection_Type ue_TransmitAntennaSelection { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<AntennaInfoDedicated_r10>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public AntennaInfoDedicated_r10 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(AntennaInfoDedicated_r10 config, BitArrayInputStream input)
             {
-                AntennaInfoDedicated_r10 _r = new AntennaInfoDedicated_r10();
-                _r.InitDefaults();
+                InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                int num2 = 4;
-                _r.transmissionMode_r10 = (transmissionMode_r10_Enum)input.readBits(num2);
+                config.transmissionMode_r10 = (transmissionMode_r10_Enum)input.readBits(4);
                 if (stream.Read())
                 {
                     int nBits = input.readBits(8);
-                    _r.codebookSubsetRestriction_r10 = input.readBitString(nBits);
+                    config.codebookSubsetRestriction_r10 = input.readBitString(nBits);
                 }
-                _r.ue_TransmitAntennaSelection = ue_TransmitAntennaSelection_Type.PerDecoder.Instance.Decode(input);
-                return _r;
+                config.ue_TransmitAntennaSelection = ue_TransmitAntennaSelection_Type.PerDecoder.Instance.Decode(input);
             }
         }
 
@@ -249,35 +208,26 @@ namespace TraceParser.Eutra
         }
 
         [Serializable]
-        public class ue_TransmitAntennaSelection_Type
+        public class ue_TransmitAntennaSelection_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public object release { get; set; }
 
             public setup_Enum setup { get; set; }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<ue_TransmitAntennaSelection_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public ue_TransmitAntennaSelection_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(ue_TransmitAntennaSelection_Type config, BitArrayInputStream input)
                 {
-                    ue_TransmitAntennaSelection_Type type = new ue_TransmitAntennaSelection_Type();
-                    type.InitDefaults();
+                    InitDefaults();
                     switch (input.readBits(1))
                     {
                         case 0:
-                            return type;
-
+                            return;
                         case 1:
-                            {
-                                int nBits = 1;
-                                type.setup = (setup_Enum)input.readBits(nBits);
-                                return type;
-                            }
+                            config.setup = (setup_Enum)input.readBits(1);
+                            return;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
                 }
@@ -292,12 +242,8 @@ namespace TraceParser.Eutra
     }
 
     [Serializable]
-    public class AntennaInfoDedicated_v12xx
+    public class AntennaInfoDedicated_v12xx : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public alternativeCodebookEnabledFor4TX_r12_Enum? alternativeCodebookEnabledFor4TX_r12 { get; set; }
 
         public enum alternativeCodebookEnabledFor4TX_r12_Enum
@@ -305,93 +251,76 @@ namespace TraceParser.Eutra
             _true
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<AntennaInfoDedicated_v12xx>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public AntennaInfoDedicated_v12xx Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(AntennaInfoDedicated_v12xx config, BitArrayInputStream input)
             {
-                AntennaInfoDedicated_v12xx _vxx = new AntennaInfoDedicated_v12xx();
-                _vxx.InitDefaults();
-                BitMaskStream stream = new BitMaskStream(input, 1);
+                InitDefaults();
+                var stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    int nBits = 1;
-                    _vxx.alternativeCodebookEnabledFor4TX_r12 = (alternativeCodebookEnabledFor4TX_r12_Enum)input.readBits(nBits);
+                    config.alternativeCodebookEnabledFor4TX_r12 
+                        = (alternativeCodebookEnabledFor4TX_r12_Enum)input.readBits(1);
                 }
-                return _vxx;
             }
         }
     }
 
     [Serializable]
-    public class AntennaInfoDedicated_v920
+    public class AntennaInfoDedicated_v920 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public codebookSubsetRestriction_v920_Type codebookSubsetRestriction_v920 { get; set; }
 
         [Serializable]
-        public class codebookSubsetRestriction_v920_Type
+        public class codebookSubsetRestriction_v920_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public string n2TxAntenna_tm8_r9 { get; set; }
 
             public string n4TxAntenna_tm8_r9 { get; set; }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<codebookSubsetRestriction_v920_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public codebookSubsetRestriction_v920_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(codebookSubsetRestriction_v920_Type config, BitArrayInputStream input)
                 {
-                    codebookSubsetRestriction_v920_Type type = new codebookSubsetRestriction_v920_Type();
-                    type.InitDefaults();
+                    InitDefaults();
                     switch (input.readBits(1))
                     {
                         case 0:
-                            type.n2TxAntenna_tm8_r9 = input.readBitString(6);
-                            return type;
-
+                            config.n2TxAntenna_tm8_r9 = input.readBitString(6);
+                            return;
                         case 1:
-                            type.n4TxAntenna_tm8_r9 = input.readBitString(0x20);
-                            return type;
+                            config.n4TxAntenna_tm8_r9 = input.readBitString(0x20);
+                            return;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
                 }
             }
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<AntennaInfoDedicated_v920>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public AntennaInfoDedicated_v920 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(AntennaInfoDedicated_v920 config, BitArrayInputStream input)
             {
-                AntennaInfoDedicated_v920 _v = new AntennaInfoDedicated_v920();
-                _v.InitDefaults();
-                BitMaskStream stream = new BitMaskStream(input, 1);
+                InitDefaults();
+                var stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    _v.codebookSubsetRestriction_v920 = codebookSubsetRestriction_v920_Type.PerDecoder.Instance.Decode(input);
+                    config.codebookSubsetRestriction_v920 
+                        = codebookSubsetRestriction_v920_Type.PerDecoder.Instance.Decode(input);
                 }
-                return _v;
             }
         }
     }
 
     [Serializable]
-    public class AntennaInfoUL_r10
+    public class AntennaInfoUL_r10 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public fourAntennaPortActivated_r10_Enum? fourAntennaPortActivated_r10 { get; set; }
 
         public transmissionModeUL_r10_Enum? transmissionModeUL_r10 { get; set; }
@@ -401,27 +330,22 @@ namespace TraceParser.Eutra
             setup
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<AntennaInfoUL_r10>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public AntennaInfoUL_r10 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(AntennaInfoUL_r10 config, BitArrayInputStream input)
             {
-                int num2;
-                AntennaInfoUL_r10 _r = new AntennaInfoUL_r10();
-                _r.InitDefaults();
-                BitMaskStream stream = new BitMaskStream(input, 2);
+                InitDefaults();
+                var stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    num2 = 3;
-                    _r.transmissionModeUL_r10 = (transmissionModeUL_r10_Enum)input.readBits(num2);
+                    config.transmissionModeUL_r10 = (transmissionModeUL_r10_Enum)input.readBits(3);
                 }
                 if (stream.Read())
                 {
-                    num2 = 1;
-                    _r.fourAntennaPortActivated_r10 = (fourAntennaPortActivated_r10_Enum)input.readBits(num2);
+                    config.fourAntennaPortActivated_r10 = (fourAntennaPortActivated_r10_Enum)input.readBits(1);
                 }
-                return _r;
             }
         }
 
