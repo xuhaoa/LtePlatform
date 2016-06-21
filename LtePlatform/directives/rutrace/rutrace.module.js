@@ -32,7 +32,7 @@
             }
         };
     })
-    .directive('coverageTable', function($uibModal, $log, htmlRoot) {
+    .directive('coverageTable', function (htmlRoot, coverageDialogService) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -44,62 +44,12 @@
             },
             templateUrl: htmlRoot + 'CoverageTable.Tpl.html',
             link: function(scope, element, attrs) {
-                scope.showDetails = function(date) {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: '/appViews/Rutrace/Coverage/DetailsChartDialog.html',
-                        controller: 'coverage.details.dialog',
-                        size: 'lg',
-                        resolve: {
-                            dialogTitle: function() {
-                                return scope.dialogTitle;
-                            },
-                            cellId: function() {
-                                return scope.cellId;
-                            },
-                            sectorId: function() {
-                                return scope.sectorId;
-                            },
-                            date: function() {
-                                return date;
-                            }
-                        }
-                    });
-
-                    modalInstance.result.then(function(info) {
-                        console.log(info);
-                    }, function() {
-                        $log.info('Modal dismissed at: ' + new Date());
-                    });
+                scope.showDetails = function (date) {
+                    coverageDialogService.showDetails(scope.dialogTitle, scope.cellId, scope.sectorId, date);
                 };
 
-                scope.analyzeTa = function(date) {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: '/appViews/Rutrace/Coverage/TaChartDialog.html',
-                        controller: 'coverage.ta.dialog',
-                        size: 'lg',
-                        resolve: {
-                            dialogTitle: function() {
-                                return scope.dialogTitle;
-                            },
-                            cellId: function() {
-                                return scope.cellId;
-                            },
-                            sectorId: function() {
-                                return scope.sectorId;
-                            },
-                            date: function() {
-                                return date;
-                            }
-                        }
-                    });
-
-                    modalInstance.result.then(function(info) {
-                        console.log(info);
-                    }, function() {
-                        $log.info('Modal dismissed at: ' + new Date());
-                    });
+                scope.analyzeTa = function (date) {
+                    coverageDialogService.showTa(scope.dialogTitle, scope.cellId, scope.sectorId, date);
                 };
             }
         }
@@ -199,7 +149,7 @@
             templateUrl: htmlRoot + 'interference/SourceDialogList.html'
         };
     })
-    .directive('interferenceSourceCoverageList', function (htmlRoot, $uibModal, $log) {
+    .directive('interferenceSourceCoverageList', function (htmlRoot, coverageDialogService) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -210,40 +160,12 @@
             templateUrl: htmlRoot + 'coverage/InterferenceSourceList.html',
             link: function (scope, element, attrs) {
                 scope.analyzeTa = function(cell) {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: '/appViews/Rutrace/Coverage/TaQueryChartDialog.html',
-                        controller: 'coverage.ta.query.dialog',
-                        size: 'lg',
-                        resolve: {
-                            dialogTitle: function () {
-                                return cell.neighborCellName + 'TA分布';
-                            },
-                            cellId: function () {
-                                return cell.destENodebId;
-                            },
-                            sectorId: function () {
-                                return cell.destSectorId;
-                            }
-                        }
-                    });
-
-                    modalInstance.result.then(function (info) {
-                        console.log(info);
-                    }, function () {
-                        $log.info('Modal dismissed at: ' + new Date());
-                    });
+                    coverageDialogService.showTaDistribution(cell.neighborCellName, cell.destENodebId, cell.destSectorId);
                 };
             }
         };
     })
-    .directive('interferenceSourceList', function (htmlRoot, $uibModal, $log, neighborService) {
-        var matchNearest = function(nearestCell, currentNeighbor, center) {
-            neighborService.updateNeighbors(center.cellId, center.sectorId, currentNeighbor.destPci,
-                nearestCell.eNodebId, nearestCell.sectorId).then(function() {
-                currentNeighbor.neighborCellName = nearestCell.eNodebName + "-" + nearestCell.sectorId;
-            });
-        };
+    .directive('interferenceSourceList', function (htmlRoot, neighborDialogService, neighborService) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -256,32 +178,8 @@
             link: function(scope, element, attrs) {
                 scope.match = function(candidate) {
                     var center = scope.topStat.current;
-                    neighborService.queryNearestCells(center.cellId, center.sectorId, candidate.destPci).then(function(result) {
-                        var modalInstance = $uibModal.open({
-                            animation: true,
-                            templateUrl: '/appViews/Rutrace/Interference/MatchCellDialog.html',
-                            controller: 'neighbors.dialog',
-                            size: 'lg',
-                            resolve: {
-                                dialogTitle: function() {
-                                    return center.eNodebName + "-" + center.sectorId + "的邻区PCI=" + candidate.destPci + "的可能小区";
-                                },
-                                candidateNeighbors: function() {
-                                    return result;
-                                },
-                                currentCell: function() {
-                                    return center;
-                                }
-                            }
-                        });
-
-                        modalInstance.result.then(function(nearestCell) {
-                            matchNearest(nearestCell, candidate, center);
-                        }, function() {
-                            $log.info('Modal dismissed at: ' + new Date());
-                        });
-
-
+                    neighborService.queryNearestCells(center.cellId, center.sectorId, candidate.destPci).then(function(neighbors) {
+                        neighborDialogService.matchNeighbor(center, candidate, neighbors);
                     });
                 };
             }
@@ -310,7 +208,7 @@
             templateUrl: htmlRoot + 'interference/VictimDialogList.html'
         };
     })
-    .directive('interferenceVictimCoverageList', function (htmlRoot, $uibModal, $log) {
+    .directive('interferenceVictimCoverageList', function (htmlRoot, coverageDialogService) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -321,29 +219,7 @@
             templateUrl: htmlRoot + 'coverage/InterferenceVictimList.html',
             link: function (scope, element, attrs) {
                 scope.analyzeTa = function (cell) {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: '/appViews/Rutrace/Coverage/TaQueryChartDialog.html',
-                        controller: 'coverage.ta.query.dialog',
-                        size: 'lg',
-                        resolve: {
-                            dialogTitle: function () {
-                                return cell.victimCellName + 'TA分布';
-                            },
-                            cellId: function () {
-                                return cell.victimENodebId;
-                            },
-                            sectorId: function () {
-                                return cell.victimSectorId;
-                            }
-                        }
-                    });
-
-                    modalInstance.result.then(function (info) {
-                        console.log(info);
-                    }, function () {
-                        $log.info('Modal dismissed at: ' + new Date());
-                    });
+                    coverageDialogService.showTaDistribution(cell.victimCellName, cell.victimENodebId, cell.victimSectorId);
                 };
             }
         };
@@ -370,7 +246,7 @@
             templateUrl: htmlRoot + 'trend/PreciseTable.html'
         };
     })
-    .directive('analyzeTable', function (htmlRoot, preciseWorkItemGenerator, preciseWorkItemService, $uibModal, $log) {
+    .directive('analyzeTable', function (htmlRoot, preciseWorkItemGenerator, preciseWorkItemService, coverageDialogService) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -383,179 +259,45 @@
             templateUrl: htmlRoot + 'AnalyzeTable.Tpl.html',
             link: function (scope, element, attrs) {
                 scope.analyzeInterferenceSource = function () {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: '/appViews/Rutrace/Interference/SourceDialog.html',
-                        controller: 'interference.source.dialog',
-                        size: 'lg',
-                        resolve: {
-                            dialogTitle: function () {
-                                return scope.currentView.eNodebName + "-" + scope.currentView.sectorId + "干扰源分析";
-                            },
-                            eNodebId: function () {
-                                return scope.currentView.eNodebId;
-                            },
-                            sectorId: function () {
-                                return scope.currentView.sectorId;
-                            },
-                            serialNumber: function() {
-                                return scope.serialNumber;
-                            }
-                        }
-                    });
-
-                    modalInstance.result.then(function (info) {
+                    coverageDialogService.showSource(scope.currentView, scope.serialNumber, function(info) {
                         scope.interferenceSourceComments = '已完成干扰源分析';
                         var dtos = preciseWorkItemGenerator.generatePreciseInterferenceNeighborDtos(info);
                         preciseWorkItemService.updateInterferenceNeighbor(scope.serialNumber, dtos).then(function(result) {
                             scope.interferenceSourceComments += ";已导入干扰源分析结果";
                             scope.queryPreciseCells();
                         });
-                    }, function () {
-                        $log.info('Modal dismissed at: ' + new Date());
                     });
                 };
                 scope.showSourceDbChart = function () {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: '/appViews/Rutrace/Interference/SourceDbChartDialog.html',
-                        controller: 'interference.source.db.chart',
-                        size: 'lg',
-                        resolve: {
-                            dialogTitle: function () {
-                                return scope.currentView.eNodebName + "-" + scope.currentView.sectorId + "干扰源图表";
-                            },
-                            eNodebId: function () {
-                                return scope.currentView.eNodebId;
-                            },
-                            sectorId: function () {
-                                return scope.currentView.sectorId;
-                            },
-                            name: function () {
-                                return scope.currentView.eNodebName;
-                            }
-                        }
-                    });
-
-                    modalInstance.result.then(function (info) {
-                        console.log(info);
-                    }, function () {
-                        $log.info('Modal dismissed at: ' + new Date());
-                    });
+                    coverageDialogService.showSourceDbChart(scope.currentView);
                 };
                 scope.showSourceModChart = function () {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: '/appViews/Rutrace/Interference/SourceModChartDialog.html',
-                        controller: 'interference.source.mod.chart',
-                        size: 'lg',
-                        resolve: {
-                            dialogTitle: function () {
-                                return scope.currentView.eNodebName + "-" + scope.currentView.sectorId + "MOD3/MOD6干扰图表";
-                            },
-                            eNodebId: function () {
-                                return scope.currentView.eNodebId;
-                            },
-                            sectorId: function () {
-                                return scope.currentView.sectorId;
-                            },
-                            name: function () {
-                                return scope.currentView.eNodebName;
-                            }
-                        }
-                    });
-
-                    modalInstance.result.then(function (info) {
+                    coverageDialogService.showSourceModChart(scope.currentView, function(info) {
                         scope.interferenceSourceComments = info;
-                    }, function () {
-                        $log.info('Modal dismissed at: ' + new Date());
                     });
                 };
                 scope.showSourceStrengthChart = function () {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: '/appViews/Rutrace/Interference/SourceStrengthChartDialog.html',
-                        controller: 'interference.source.strength.chart',
-                        size: 'lg',
-                        resolve: {
-                            dialogTitle: function () {
-                                return scope.currentView.eNodebName + "-" + scope.currentView.sectorId + "干扰强度图表";
-                            },
-                            eNodebId: function () {
-                                return scope.currentView.eNodebId;
-                            },
-                            sectorId: function () {
-                                return scope.currentView.sectorId;
-                            },
-                            name: function () {
-                                return scope.currentView.eNodebName;
-                            }
-                        }
-                    });
-
-                    modalInstance.result.then(function (info) {
+                    coverageDialogService.showSourceStrengthChart(scope.currentView, function(info) {
                         scope.interferenceSourceComments = info;
-                    }, function () {
-                        $log.info('Modal dismissed at: ' + new Date());
                     });
                 };
                 scope.analyzeInterferenceVictim = function () {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: '/appViews/Rutrace/Interference/VictimDialog.html',
-                        controller: 'interference.victim.dialog',
-                        size: 'lg',
-                        resolve: {
-                            dialogTitle: function () {
-                                return scope.currentView.eNodebName + "-" + scope.currentView.sectorId + "干扰小区分析";
-                            },
-                            eNodebId: function () {
-                                return scope.currentView.eNodebId;
-                            },
-                            sectorId: function () {
-                                return scope.currentView.sectorId;
-                            },
-                            serialNumber: function () {
-                                return scope.serialNumber;
-                            }
-                        }
-                    });
-
-                    modalInstance.result.then(function (info) {
+                    coverageDialogService.showInterferenceVictim(scope.currentView, scope.serialNumber, function(info) {
                         scope.interferenceVictimComments = '已完成被干扰小区分析';
                         var dtos = preciseWorkItemGenerator.generatePreciseInterferenceVictimDtos(info);
-                        preciseWorkItemService.updateInterferenceVictim(scope.serialNumber, dtos).then(function (result) {
+                        preciseWorkItemService.updateInterferenceVictim(scope.serialNumber, dtos).then(function(result) {
                             scope.interferenceVictimComments += ";已导入被干扰小区分析结果";
                             scope.queryPreciseCells();
                         });
-                    }, function () {
-                        $log.info('Modal dismissed at: ' + new Date());
                     });
                 };
                 scope.analyzeCoverage = function () {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: '/appViews/Rutrace/Interference/CoverageDialog.html',
-                        controller: 'interference.coverage.dialog',
-                        size: 'lg',
-                        resolve: {
-                            dialogTitle: function () {
-                                return scope.currentView.eNodebName + "-" + scope.currentView.sectorId + "覆盖分析";
-                            },
-                            preciseCells: function () {
-                                return scope.preciseCells;
-                            }
-                        }
-                    });
-
-                    modalInstance.result.then(function (info) {
+                    coverageDialogService.showCoverage(scope.currentView, scope.preciseCells, function(info) {
                         scope.coverageComments = '已完成覆盖分析';
-                        preciseWorkItemService.updateCoverage(scope.serialNumber, info).then(function (result) {
+                        preciseWorkItemService.updateCoverage(scope.serialNumber, info).then(function(result) {
                             scope.coverageComments += ";已导入覆盖分析结果";
                             scope.queryPreciseCells();
                         });
-                    }, function () {
-                        $log.info('Modal dismissed at: ' + new Date());
                     });
                 };
             }
