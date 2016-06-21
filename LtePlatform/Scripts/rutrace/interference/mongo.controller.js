@@ -1,5 +1,5 @@
 ﻿
-app.controller('interference.mongo', function ($scope, neighborMongoService,
+app.controller('interference.mongo', function ($scope, neighborMongoService, neighborDialogService,
     dumpProgress, networkElementService, dumpPreciseService) {
     $scope.progressInfo = {
         dumpCells: [],
@@ -25,7 +25,7 @@ app.controller('interference.mongo', function ($scope, neighborMongoService,
     };
 
     $scope.dumpMongo = function (cell) {
-        neighborMongoService.dumpMongoDialog(cell, $scope.beginDate.value, $scope.endDate.value);
+        neighborDialogService.dumpMongo(cell, $scope.beginDate.value, $scope.endDate.value);
     };
 
     $scope.generateDumpRecords = function (dumpRecords, startDate, endDate, eNodebId, sectorId, pci) {

@@ -1,5 +1,6 @@
-﻿app.controller("rutrace.map", function ($scope, $timeout, $routeParams, $location, $uibModal, $log,
-    geometryService, baiduMapService, networkElementService, menuItemService, cellPreciseService, neighborMongoService, topPreciseService, preciseInterferenceService) {
+﻿app.controller("rutrace.map", function ($scope, $timeout, $routeParams,
+    geometryService, baiduMapService, networkElementService, neighborDialogService,
+    menuItemService, cellPreciseService, neighborMongoService, preciseInterferenceService) {
     $scope.page.title = "小区地理化分析" + ": " + $routeParams.name + "-" + $routeParams.sectorId;
     $scope.neighborLines = [];
     $scope.displayNeighbors = false;
@@ -25,7 +26,7 @@
                 result[0].lattitute = coors.y;
 
                 var sectorTriangle = baiduMapService.generateSector(result[0], "blue", 1.25);
-                baiduMapService.addOneSectorToScope(sectorTriangle, neighborMongoService.showPreciseDialog, result[0]);
+                baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showPrecise, result[0]);
 
                 baiduMapService.setCellFocus(result[0].longtitute, result[0].lattitute, 15);
                 var range = baiduMapService.getCurrentMapRange(-xOffset, -yOffset);
@@ -35,7 +36,7 @@
                         sector.longtitute += xOffset;
                         sector.lattitute += yOffset;
                         baiduMapService.addOneSectorToScope(baiduMapService.generateSector(sector, "green"),
-                            neighborMongoService.showNeighborDialog, sector);
+                            neighborDialogService.showNeighbor, sector);
                     });
                 });
             });

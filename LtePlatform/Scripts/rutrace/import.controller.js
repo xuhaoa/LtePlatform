@@ -1,5 +1,6 @@
 ﻿app.controller("rutrace.import", function ($scope, $http, $routeParams,
-    menuItemService, neighborService, neighborMongoService, preciseInterferenceService, networkElementService) {
+    menuItemService, neighborService, neighborMongoService, neighborDialogService,
+    preciseInterferenceService, networkElementService) {
     $scope.currentCellName = $routeParams.name + "-" + $routeParams.sectorId;
     $scope.page.title = "TOP指标邻区监控: " + $scope.currentCellName;
     menuItemService.updateMenuItem($scope.menuItems, 1, $scope.page.title,
@@ -106,7 +107,7 @@
 
     $scope.dump = function() {
         networkElementService.queryCellInfo($routeParams.cellId, $routeParams.sectorId).then(function (info) {
-            neighborMongoService.dumpMongoDialog({
+            neighborDialogService.dumpMongo({
                 eNodebId: $routeParams.cellId,
                 sectorId: $routeParams.sectorId,
                 pci: info.pci,

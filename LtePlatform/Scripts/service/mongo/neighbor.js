@@ -1,19 +1,23 @@
 ﻿angular.module('neighbor.mongo', ['myApp.url'])
-    .factory('neighborMongoService', function (generalHttpService, $uibModal, $log) {
+    .factory('neighborMongoService', function(generalHttpService) {
         return {
-            queryNeighbors: function (eNodebId, sectorId) {
+            queryNeighbors: function(eNodebId, sectorId) {
                 return generalHttpService.getApiData('NeighborCellMongo', {
                     eNodebId: eNodebId,
                     sectorId: sectorId
                 });
             },
-            queryReverseNeighbors: function (destENodebId, destSectorId) {
+            queryReverseNeighbors: function(destENodebId, destSectorId) {
                 return generalHttpService.getApiData('NeighborCellMongo', {
                     destENodebId: destENodebId,
                     destSectorId: destSectorId
                 });
-            },
-            dumpMongoDialog: function(cell, beginDate, endDate) {
+            }
+        };
+    })
+    .factory('neighborDialogService', function($uibModal, $log) {
+        return {
+            dumpMongo: function (cell, beginDate, endDate) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '/appViews/Rutrace/Interference/DumpCellMongoDialog.html',
@@ -40,36 +44,35 @@
                         }
                     }
                 });
-
                 modalInstance.result.then(function (info) {
                     console.log(info);
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
-            showPreciseDialog: function(precise) {
+            showPrecise: function (precise) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '/appViews/Rutrace/Map/PreciseSectorMapInfoBox.html',
                     controller: 'map.precise.dialog',
                     size: 'sm',
                     resolve: {
-                        dialogTitle: function() {
+                        dialogTitle: function () {
                             return precise.eNodebName + "-" + precise.sectorId + "精确覆盖率指标";
                         },
-                        precise: function() {
+                        precise: function () {
                             return precise;
                         }
                     }
                 });
-                modalInstance.result.then(function(sector) {
+                modalInstance.result.then(function (sector) {
                     console.log(sector);
-                }, function() {
+                }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
 
             },
-            showNeighborDialog: function (neighbor) {
+            showNeighbor: function (neighbor) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '/appViews/Rutrace/Map/NeighborMapInfoBox.html',
@@ -90,5 +93,5 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             }
-        };
+        }
     });

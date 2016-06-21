@@ -125,7 +125,7 @@
             templateUrl: htmlRoot + 'TownStatTable.Tpl.html'
         };
     })
-    .directive('dumpForwardNeighbors', function(htmlRoot, neighborMongoService) {
+    .directive('dumpForwardNeighbors', function (htmlRoot, neighborDialogService) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -137,7 +137,7 @@
             templateUrl: htmlRoot + 'import/ForwardNeighbors.html',
             link: function(scope, element, attrs) {
                 scope.dumpMongo = function(cell) {
-                    neighborMongoService.dumpMongoDialog({
+                    neighborDialogService.dumpMongo({
                         eNodebId: cell.nearestCellId,
                         sectorId: cell.nearestSectorId,
                         pci: cell.pci,
