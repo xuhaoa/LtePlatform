@@ -202,6 +202,7 @@ namespace MongoDB.Driver.Builders
     public class SortByBuilder<TDocument> : BuilderBase, IMongoSortBy
     {
         // private fields
+        [NonSerialized]
         private readonly BsonSerializationInfoHelper _serializationInfoHelper;
         private SortByBuilder _sortByBuilder;
 

@@ -675,7 +675,7 @@ namespace MongoDB.Driver
         {
             if (sortBy == null)
             {
-                throw new ArgumentNullException("sortBy");
+                throw new ArgumentNullException(nameof(sortBy));
             }
             if (_isFrozen) { ThrowFrozen(); }
             SetOption("$orderby", BsonDocumentWrapper.Create(sortBy));
@@ -729,7 +729,7 @@ namespace MongoDB.Driver
         /// Gets the non-generic enumerator.
         /// </summary>
         /// <returns>The enumerator.</returns>
-        protected abstract IEnumerator IEnumerableGetEnumerator();
+        protected abstract IEnumerator EnumerableGetEnumerator();
 
         // private methods
         // funnel exceptions through this method so we can have a single error message
@@ -741,7 +741,7 @@ namespace MongoDB.Driver
         // explicit interface implementations
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return IEnumerableGetEnumerator();
+            return EnumerableGetEnumerator();
         }
     }
 
@@ -1059,7 +1059,7 @@ namespace MongoDB.Driver
         /// Gets the non-generic enumerator.
         /// </summary>
         /// <returns>The enumerator.</returns>
-        protected override IEnumerator IEnumerableGetEnumerator()
+        protected override IEnumerator EnumerableGetEnumerator()
         {
             return GetEnumerator();
         }

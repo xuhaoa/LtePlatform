@@ -198,9 +198,9 @@ namespace Lte.Evaluations.DataService.Mr
         }
 
         [Test]
-        public void Test_Update_PreciseInterferenceNeighborAsync()
+        public async Task Test_Update_PreciseInterferenceNeighborAsync()
         {
-            _serivice.UpdateAsync(new PreciseInterferenceNeighborsContainer
+            await _serivice.UpdateAsync(new PreciseInterferenceNeighborsContainer
             {
                 WorkItemNumber = "007",
                 Items = new List<PreciseInterferenceNeighborDto>
@@ -303,7 +303,7 @@ namespace Lte.Evaluations.DataService.Mr
         }
 
         [Test]
-        public void Test_Insert_PreciseInterferenceNeighbor_Async()
+        public async Task Test_Insert_PreciseInterferenceNeighbor_Async()
         {
             var container = new PreciseInterferenceNeighborsContainer
             {
@@ -321,7 +321,7 @@ namespace Lte.Evaluations.DataService.Mr
                     }
                 }
             };
-            _serivice.UpdateAsync(container);
+            await _serivice.UpdateAsync(container);
             var item = _serivice.Query("007", 3, 4);
             item.ShouldNotBeNull();
             item.ENodebId.ShouldBe(3);
@@ -358,7 +358,7 @@ namespace Lte.Evaluations.DataService.Mr
         }
 
         [Test]
-        public void Test_Insert_PreciseInterFerenceVictim_Async()
+        public async Task Test_Insert_PreciseInterFerenceVictim_Async()
         {
             var container = new PreciseInterferenceVictimsContainer
             {
@@ -376,7 +376,7 @@ namespace Lte.Evaluations.DataService.Mr
                     }
                 }
             };
-            _serivice.UpdateAsync(container);
+            await _serivice.UpdateAsync(container);
             var item = _serivice.Query("007", 3, 4);
             item.ShouldNotBeNull();
         }

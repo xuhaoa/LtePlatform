@@ -10438,7 +10438,7 @@
             </summary>
             <returns>The size of the result set.</returns>
         </member>
-        <member name="M:MongoDB.Driver.MongoCursor.IEnumerableGetEnumerator">
+        <member name="M:MongoDB.Driver.MongoCursor.EnumerableGetEnumerator">
             <summary>
             Gets the non-generic enumerator.
             </summary>
@@ -10630,7 +10630,7 @@
             <param name="keys">The names of the fields to sort by.</param>
             <returns>The cursor (so you can chain method calls to it).</returns>
         </member>
-        <member name="M:MongoDB.Driver.MongoCursor`1.IEnumerableGetEnumerator">
+        <member name="M:MongoDB.Driver.MongoCursor`1.EnumerableGetEnumerator">
             <summary>
             Gets the non-generic enumerator.
             </summary>

@@ -60,8 +60,10 @@ namespace Abp.Tests.Application.Navigation
         private static IPermissionChecker CreateMockPermissionChecker()
         {
             var permissionChecker = Substitute.For<IPermissionChecker>();
-            permissionChecker.IsGrantedAsync(1, "Abp.Zero.UserManagement").Returns(Task.FromResult(true));
-            permissionChecker.IsGrantedAsync(1, "Abp.Zero.RoleManagement").Returns(Task.FromResult(false));
+            permissionChecker.IsGrantedAsync(new UserIdentifier(0, 1), "Abp.Zero.UserManagement")
+                .Returns(Task.FromResult(true));
+            permissionChecker.IsGrantedAsync(new UserIdentifier(0, 1), "Abp.Zero.RoleManagement")
+                .Returns(Task.FromResult(false));
             return permissionChecker;
         }
 

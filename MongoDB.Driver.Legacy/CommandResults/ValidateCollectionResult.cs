@@ -32,6 +32,8 @@ namespace MongoDB.Driver
     {
         // private fields
         private string[] _errors;
+
+        [NonSerialized]
         private ExtentDetails _firstExtentDetails;
         private Dictionary<string, long> _keysPerIndex;
 

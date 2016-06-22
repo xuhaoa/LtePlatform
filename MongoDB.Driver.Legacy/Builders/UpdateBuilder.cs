@@ -2270,6 +2270,7 @@ namespace MongoDB.Driver.Builders
     public class UpdateBuilder<TDocument> : BuilderBase, IMongoUpdate
     {
         // private fields
+        [NonSerialized]
         private readonly BsonSerializationInfoHelper _serializationInfoHelper;
         private UpdateBuilder _updateBuilder;
 

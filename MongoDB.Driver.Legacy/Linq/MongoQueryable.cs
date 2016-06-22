@@ -29,8 +29,8 @@ namespace MongoDB.Driver.Linq
     public class MongoQueryable<T> : IOrderedQueryable<T>
     {
         // private fields
-        private MongoQueryProvider _provider;
-        private Expression _expression;
+        private readonly MongoQueryProvider _provider;
+        private readonly Expression _expression;
 
         // constructors
         /// <summary>
@@ -41,7 +41,7 @@ namespace MongoDB.Driver.Linq
         {
             if (provider == null)
             {
-                throw new ArgumentNullException("provider");
+                throw new ArgumentNullException(nameof(provider));
             }
             _provider = provider;
             _expression = Expression.Constant(this);
@@ -56,15 +56,15 @@ namespace MongoDB.Driver.Linq
         {
             if (provider == null)
             {
-                throw new ArgumentNullException("provider");
+                throw new ArgumentNullException(nameof(provider));
             }
             if (expression == null)
             {
-                throw new ArgumentNullException("expression");
+                throw new ArgumentNullException(nameof(expression));
             }
             if (!typeof(IQueryable<T>).IsAssignableFrom(expression.Type))
             {
-                throw new ArgumentOutOfRangeException("expression");
+                throw new ArgumentOutOfRangeException(nameof(expression));
             }
             _provider = provider;
             _expression = expression;
@@ -96,19 +96,10 @@ namespace MongoDB.Driver.Linq
         }
 
         // explicit implementation of IQueryable
-        Type IQueryable.ElementType
-        {
-            get { return typeof(T); }
-        }
+        Type IQueryable.ElementType => typeof(T);
 
-        Expression IQueryable.Expression
-        {
-            get { return _expression; }
-        }
+        Expression IQueryable.Expression => _expression;
 
-        IQueryProvider IQueryable.Provider
-        {
-            get { return _provider; }
-        }
+        IQueryProvider IQueryable.Provider => _provider;
     }
 }
