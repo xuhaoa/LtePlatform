@@ -351,6 +351,7 @@
     <Compile Include="Controllers\Kpi\DumpInterferenceController.cs" />
     <Compile Include="Controllers\Kpi\FlowQueryController.cs" />
     <Compile Include="Controllers\Kpi\KpiDataListController.cs" />
+    <Compile Include="Controllers\Kpi\KpiOptionsController.cs" />
     <Compile Include="Controllers\Kpi\PreciseImportController.cs" />
     <Compile Include="Controllers\Kpi\PreciseRegionController.cs" />
     <Compile Include="Controllers\Kpi\PreciseStatController.cs" />

@@ -85,7 +85,7 @@ namespace Lte.Domain.Common
         {
             EnumType = enumType;
             DefaultValue = defaultValue;
-            TupleList = WirelessConstants.enumDictionary[EnumType.Name];
+            TupleList = WirelessConstants.EnumDictionary[EnumType.Name];
         }
     }
 }

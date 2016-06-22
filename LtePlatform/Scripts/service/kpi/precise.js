@@ -15,7 +15,9 @@
                 });
             },
             getOrderSelection: function () {
-                return generalHttpService.getApiData('PreciseStat', {});
+                return generalHttpService.getApiData('KpiOptions', {
+                    key: "OrderPreciseStatPolicy"
+                });
             },
             queryTopKpis: function (begin, end, topCount, orderSelection) {
                 return generalHttpService.getApiData('PreciseStat', {

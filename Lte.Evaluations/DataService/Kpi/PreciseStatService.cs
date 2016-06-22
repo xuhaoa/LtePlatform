@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Precise;
@@ -25,7 +26,7 @@ namespace Lte.Evaluations.DataService.Kpi
         }
 
         public IEnumerable<Precise4GView> GetTopCountViews(DateTime begin, DateTime end, int topCount,
-            OrderPreciseStatService.OrderPreciseStatPolicy policy)
+            OrderPreciseStatPolicy policy)
         {
             if (topCount <= 0)
                 return new List<Precise4GView>();
@@ -39,7 +40,7 @@ namespace Lte.Evaluations.DataService.Kpi
         }
 
         public IEnumerable<Precise4GView> GetTopCountViews(DateTime begin, DateTime end, int topCount,
-            OrderPreciseStatService.OrderPreciseStatPolicy policy, IEnumerable<ENodeb> eNodebs)
+            OrderPreciseStatPolicy policy, IEnumerable<ENodeb> eNodebs)
         {
             if (topCount <= 0)
                 return new List<Precise4GView>();
@@ -53,7 +54,7 @@ namespace Lte.Evaluations.DataService.Kpi
         }
 
         public List<TopPrecise4GContainer> GetTopCountStats(DateTime begin, DateTime end, int topCount,
-            OrderPreciseStatService.OrderPreciseStatPolicy policy)
+            OrderPreciseStatPolicy policy)
         {
             var query =
                 _repository.GetAll()
@@ -85,7 +86,7 @@ namespace Lte.Evaluations.DataService.Kpi
         }
 
         public List<TopPrecise4GContainer> GetTopCountStats(DateTime begin, DateTime end, int topCount,
-            OrderPreciseStatService.OrderPreciseStatPolicy policy, IEnumerable<ENodeb> eNodebs)
+            OrderPreciseStatPolicy policy, IEnumerable<ENodeb> eNodebs)
         {
             var query =
                 _repository.GetAll()

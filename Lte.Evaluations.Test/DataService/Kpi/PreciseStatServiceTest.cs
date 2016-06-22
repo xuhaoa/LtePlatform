@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
-using Lte.Evaluations.Policy;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
@@ -58,7 +57,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 }
             }.AsQueryable());
             var views = _service.GetTopCountViews(DateTime.Parse("2014-12-30"), DateTime.Parse("2015-1-4"), topCount, 
-                OrderPreciseStatService.OrderPreciseStatPolicy.OrderBySecondRate);
+                OrderPreciseStatPolicy.OrderBySecondRate);
             Assert.AreEqual(views.Count(), 0);
         }
 
@@ -78,7 +77,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 }
             }.AsQueryable());
             var views = _service.GetTopCountViews(DateTime.Parse("2014-12-30"), DateTime.Parse("2015-1-4"), topCount,
-                OrderPreciseStatService.OrderPreciseStatPolicy.OrderBySecondRate);
+                OrderPreciseStatPolicy.OrderBySecondRate);
             Assert.AreEqual(views.Count(), 1);
         }
 
@@ -98,7 +97,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 }
             }.AsQueryable());
             var stats = _service.GetTopCountViews(DateTime.Parse("2014-12-30"), DateTime.Parse("2015-1-4"), topCount,
-                OrderPreciseStatService.OrderPreciseStatPolicy.OrderBySecondRate);
+                OrderPreciseStatPolicy.OrderBySecondRate);
             Assert.AreEqual(stats.Count(), 1);
         }
 

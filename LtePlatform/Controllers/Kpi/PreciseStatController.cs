@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
+using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.DataService.Kpi;
-using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Precise;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Kpi;
 using LtePlatform.Models;
 
@@ -23,15 +22,7 @@ namespace LtePlatform.Controllers.Kpi
             _service = service;
             _eNodebQueryService = eNodebQueryService;
         }
-
-        [HttpGet]
-        [ApiDoc("获得TOP精确覆盖率排序的标准")]
-        [ApiResponse("精确TOP覆盖率排序的标准")]
-        public IEnumerable<string> Get()
-        {
-            return OrderPreciseStatService.OrderSelectionList.Select(x => x.Key);
-        }
-
+        
         [HttpGet]
         [ApiDoc("指定日期范围、TOP个数和排序标准，获得TOP精确覆盖率TOP列表")]
         [ApiParameterDoc("begin","开始日期")]
@@ -41,7 +32,7 @@ namespace LtePlatform.Controllers.Kpi
         [ApiResponse("TOP精确覆盖率TOP列表")]
         public IEnumerable<Precise4GView> Get(DateTime begin, DateTime end, int topCount, string orderSelection)
         {
-            return _service.GetTopCountViews(begin, end, topCount, orderSelection.GetPrecisePolicy());
+            return _service.GetTopCountViews(begin, end, topCount, orderSelection.GetEnumType<OrderPreciseStatPolicy>());
         }
 
         [HttpGet]
@@ -56,7 +47,7 @@ namespace LtePlatform.Controllers.Kpi
         public IEnumerable<Precise4GView> Get(DateTime begin, DateTime end, int topCount, string orderSelection, string city, string district)
         {
             var eNodebs = _eNodebQueryService.GetENodebsByDistrict(city, district);
-            return _service.GetTopCountViews(begin, end, topCount, orderSelection.GetPrecisePolicy(), eNodebs);
+            return _service.GetTopCountViews(begin, end, topCount, orderSelection.GetEnumType<OrderPreciseStatPolicy>(), eNodebs);
         }
 
         [HttpGet]

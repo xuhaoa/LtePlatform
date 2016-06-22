@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lte.Domain.Common.Wireless
 {
-    internal class WirelessConstants
+    public static class WirelessConstants
     {
-        public static readonly Dictionary<string, Tuple<object, string>[]> enumDictionary = new Dictionary
+        public static readonly Dictionary<string, Tuple<object, string>[]> EnumDictionary = new Dictionary
             <string, Tuple<object, string>[]>
         {
             {
@@ -124,6 +124,17 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(VehicleType.EmergencyVstat, "应急VSAT"),
                     new Tuple<object, string>(VehicleType.Broadcast, "电台"),
                     new Tuple<object, string>(VehicleType.CPlusL, "C+L")
+                }
+            },
+            {
+                "OrderPreciseStatPolicy", new []
+                {
+                    new Tuple<object, string>(OrderPreciseStatPolicy.OrderBySecondRate, "按照精确覆盖率升序"),
+                    new Tuple<object, string>(OrderPreciseStatPolicy.OrderBySecondNeighborsDescending, "按照第二邻区数量降序"),
+                    new Tuple<object, string>(OrderPreciseStatPolicy.OrderByFirstRate, "按照第一邻区精确覆盖率升序"),
+                    new Tuple<object, string>(OrderPreciseStatPolicy.OrderByFirstNeighborsDescending, "按照第一邻区数量降序"),
+                    new Tuple<object, string>(OrderPreciseStatPolicy.OrderByTotalMrsDescending, "按照总测量报告数降序"),
+                    new Tuple<object, string>(OrderPreciseStatPolicy.OrderByTopDatesDescending, "按照TOP天数排序")
                 }
             }
         };
