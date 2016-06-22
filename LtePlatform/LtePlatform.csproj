@@ -475,6 +475,7 @@
     <Content Include="appViews\Rutrace\WorkItem\CellTrend.html" />
     <Content Include="appViews\Rutrace\WorkItem\ForCell.html" />
     <Content Include="directives\app\CityDistrictSelection.Tpl.html" />
+    <Content Include="directives\app\DistrictTownSelection.Tpl.html" />
     <Content Include="directives\parameters\cell\Power.html" />
     <Content Include="directives\parameters\cell\CellInterFreq.html" />
     <Content Include="directives\parameters\cell\CellIntraFreq.html" />

@@ -50,6 +50,30 @@
             }
         };
     })
+    .directive('districtTownSelection', function (appRoot, appRegionService) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                city: '=',
+                district: '=',
+                town: '='
+            },
+            templateUrl: appRoot + 'DistrictTownSelection.Tpl.html',
+            link: function (scope) {
+                scope.$watch("district.selected", function (district) {
+                    if (district) {
+                        appRegionService.queryTowns(scope.city.selected, district).then(function (towns) {
+                            scope.town = {
+                                options: towns,
+                                selected: towns[0]
+                            };
+                        });
+                    }
+                });
+            }
+        };
+    })
     .directive('formFieldError', function($compile) {
         return{
             restrict: 'A',

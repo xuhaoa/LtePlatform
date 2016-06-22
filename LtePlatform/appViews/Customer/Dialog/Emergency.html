@@ -6,16 +6,7 @@
 </div>
 <div class="modal-body form-horizontal">
     <div date-span-row begin-date="itemBeginDate" end-date="itemEndDate"></div>
-    <div class="form-group">
-        <label class="col-sm-2 control-label">区域</label>
-        <div class="col-sm-4">
-            <input ng-model="dto.district" class="form-control"/>
-        </div>
-        <label class="col-sm-2 control-label">镇区</label>
-        <div class="col-sm-4">
-            <input ng-model="dto.town" class="form-control"/>
-        </div>
-    </div>
+    <div district-town-selection city="city" district="district" town="town"></div>
     <div class="form-group">
         <label class="col-sm-2 control-label">项目级别</label>
         <div class="col-sm-4">
