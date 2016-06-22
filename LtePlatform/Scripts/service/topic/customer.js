@@ -24,9 +24,14 @@
     })
     .factory('customerQueryService', function(generalHttpService) {
         return {
-            queryVehicleTypeService: function() {
+            queryVehicleTypeOptions: function() {
                 return generalHttpService.getApiData('KpiOptions', {
                     key: "VehicleType"
+                });
+            },
+            queryDemandLevelOptions: function() {
+                return generalHttpService.getApiData('KpiOptions', {
+                    key: "DemandLevel"
                 });
             }
         }

@@ -3,7 +3,7 @@
         customerDiloagService.constructEmergencyCommunication($scope.beginDate.value, $scope.endDate.value);
     };
 
-    customerQueryService.queryVehicleTypeService().then(function(options) {
+    customerQueryService.queryVehicleTypeOptions().then(function(options) {
         $scope.type = {
             options: options,
             selected: options[0]
