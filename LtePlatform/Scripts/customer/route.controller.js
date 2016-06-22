@@ -136,6 +136,10 @@
             selected: "",
             options: []
         };
+        $rootScope.district = {
+            options: "",
+            selected: []
+        };
         var lastWeek = new Date();
         lastWeek.setDate(lastWeek.getDate() - 7);
         $rootScope.beginDate = {

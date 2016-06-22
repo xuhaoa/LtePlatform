@@ -1,4 +1,4 @@
-﻿angular.module('app.module', ["ui.bootstrap"])
+﻿angular.module('app.module', ["ui.bootstrap", 'myApp.region'])
     .value('appRoot', '/directives/app/')
     .directive('dateSpanColumn', function(appRoot) {
         return {
@@ -21,6 +21,33 @@
             },
             templateUrl: appRoot + 'DateSpanRow.Tpl.html',
             transclude: true
+        };
+    })
+    .directive('cityDistrictSelection', function (appRoot, appRegionService) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                city: '=',
+                district: '='
+            },
+            templateUrl: appRoot + 'CityDistrictSelection.Tpl.html',
+            link: function(scope) {
+                appRegionService.initializeCities().then(function(cities) {
+                    scope.city.options = cities;
+                    scope.city.selected = cities[0];
+                });
+                scope.$watch("city.selected", function (city) {
+                    if (city) {
+                        appRegionService.queryDistricts(city).then(function (districts) {
+                            scope.district = {
+                                options: districts,
+                                selected: districts[0]
+                            };
+                        });
+                    }
+                });
+            }
         };
     })
     .directive('formFieldError', function($compile) {
