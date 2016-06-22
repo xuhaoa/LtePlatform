@@ -88,7 +88,7 @@
                         "TOP掉话变化趋势-" + district,
                         $rootScope.rootPath + "topDrop2GTrend/" + district);
                     menuItemService.updateMenuItem($rootScope.menuItems, 1,
-                        "TOP掉话变化趋势-" + district,
+                        "TOP连接成功率变化趋势-" + district,
                         $rootScope.rootPath + "topConnection3GTrend/" + district);
                 });
             });
