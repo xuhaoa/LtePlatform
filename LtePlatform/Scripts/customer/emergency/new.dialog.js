@@ -1,5 +1,5 @@
-﻿app.controller('emergency.new.dialog', function ($scope, $uibModalInstance, dialogTitle,
-    city, district, vehicularType) {
+﻿app.controller('emergency.new.dialog', function ($scope, $uibModalInstance, customerQueryService,
+    dialogTitle, city, district, vehicularType) {
     $scope.dialogTitle = dialogTitle;
     $scope.message = "";
     $scope.city = city;
@@ -18,6 +18,12 @@
         value: nextDay,
         opened: false
     };
+    customerQueryService.queryDemandLevelOptions().then(function(options) {
+        $scope.demandLevel = {
+            options: options,
+            selected: options[0]
+        };
+    });
 
     $scope.ok = function() {
         $uibModalInstance.close($scope.message);

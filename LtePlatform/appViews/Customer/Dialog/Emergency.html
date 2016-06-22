@@ -10,7 +10,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">项目级别</label>
         <div class="col-sm-4">
-            <input ng-model="dto.demandLevelDescription" class="form-control"/>
+            <select class="form-control" ng-model="demandLevel.selected" ng-options="c as c for c in demandLevel.options"></select>
         </div>
         <label class="col-sm-2 control-label">通信车类型</label>
         <div class="col-sm-4">
