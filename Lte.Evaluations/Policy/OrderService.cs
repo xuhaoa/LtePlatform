@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MapperSerive.Kpi;
+using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Parameters.Entities;
 
 namespace Lte.Evaluations.Policy
@@ -34,6 +35,21 @@ namespace Lte.Evaluations.Policy
                 default:
                     return result.OrderByDescending(x => x.PreciseCoverage4G.TotalMrs)
                         .Take(topCount).ToList();
+            }
+        }
+
+        public static IEnumerable<TopConnection3GTrendView> Order(this IEnumerable<TopConnection3GTrendView> stats,
+            OrderTopConnection3GPolicy policy,
+            int topCount)
+        {
+            switch (policy)
+            {
+                case OrderTopConnection3GPolicy.OrderByConnectionFailsDescending:
+                    return stats.OrderByDescending(x => x.ConnectionFails).Take(topCount);
+                case OrderTopConnection3GPolicy.OrderByConnectionRate:
+                    return stats.OrderBy(x => x.ConnectionRate).Take(topCount);
+                default:
+                    return stats.OrderByDescending(x => x.TopDates).Take(topCount);
             }
         }
     }

@@ -128,7 +128,6 @@
     <Compile Include="MapperSerive\Kpi\TopConnection3GCellViewContainer.cs" />
     <Compile Include="MapperSerive\Kpi\TopConnection3GTrendViewContainer.cs" />
     <Compile Include="Policy\MyAssemblyFinder.cs" />
-    <Compile Include="Policy\OrderTopConnection3GService.cs" />
     <Compile Include="ViewModels\Basic\RegionStat.cs" />
     <Compile Include="ViewModels\Channel\CellPower.cs" />
     <Compile Include="ViewModels\College\CollegeStat.cs" />
@@ -166,7 +165,7 @@
     <Compile Include="MapperSerive\Kpi\TopPreciseViewContainer.cs" />
     <Compile Include="MapperSerive\Kpi\TownPreciseViewContainer.cs" />
     <Compile Include="Policy\FilterWorkItemService.cs" />
-    <Compile Include="Policy\OrderPreciseStatService.cs" />
+    <Compile Include="Policy\OrderService.cs" />
     <Compile Include="Policy\OrderTopDrop2GService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AlarmView.cs" />

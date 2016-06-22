@@ -136,6 +136,14 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(OrderPreciseStatPolicy.OrderByTotalMrsDescending, "按照总测量报告数降序"),
                     new Tuple<object, string>(OrderPreciseStatPolicy.OrderByTopDatesDescending, "按照TOP天数排序")
                 }
+            },
+            {
+                "OrderTopConnection3GPolicy", new []
+                {
+                    new Tuple<object, string>(OrderTopConnection3GPolicy.OrderByConnectionFailsDescending, "按照连接失败次数降序排列"),
+                    new Tuple<object, string>(OrderTopConnection3GPolicy.OrderByConnectionRate, "按照连接成功率升序排列"),
+                    new Tuple<object, string>(OrderTopConnection3GPolicy.OrderByTopDatesDescending, "按照出现次数降序排列")
+                }
             }
         };
     }

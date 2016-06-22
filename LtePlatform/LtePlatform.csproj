@@ -1179,7 +1179,6 @@
     <Content Include="Scripts\kpi\workitem\eNodeb.js" />
     <Content Include="Scripts\kpi\interference.import.controller.js" />
     <Content Include="Scripts\rutrace\interference\mongo.controller.js" />
-    <Content Include="Scripts\kpi\top.drop2G.viewmodel.js" />
     <Content Include="Scripts\kpi\workitem\details.controller.js" />
     <Content Include="Scripts\kpi\workitem\index.controller.js" />
     <Content Include="Scripts\manage\index.viewmodel.js" />

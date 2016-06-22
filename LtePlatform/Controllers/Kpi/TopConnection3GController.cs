@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Kpi;
@@ -51,15 +53,7 @@ namespace LtePlatform.Controllers.Kpi
         public IEnumerable<TopConnection3GTrendView> Get(DateTime begin, DateTime end, string city,
             string policy, int topCount)
         {
-            return _service.GetTrendViews(begin, end, city).Order(policy.GetTopConnection3GPolicy(), topCount);
-        }
-
-        [HttpGet]
-        [ApiDoc("获取TOP连接失败排序标准的所有选项列表")]
-        [ApiResponse("TOP连接失败排序标准的所有选项列表")]
-        public IEnumerable<string> Get()
-        {
-            return OrderTopConnection3GService.OrderSelectionList.Select(x => x.Key);
+            return _service.GetTrendViews(begin, end, city).Order(policy.GetEnumType<OrderTopConnection3GPolicy>(), topCount);
         }
     }
 }

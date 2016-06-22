@@ -50,7 +50,9 @@
                 });
             },
             queryOrderPolicy: function () {
-                return generalHttpService.getApiData('TopConnection3G', {});
+                return generalHttpService.getApiData('KpiOptions', {
+                    key: "OrderTopConnection3GPolicy"
+                });
             },
             queryCellTrend: function (begin, end, city, policy, topCount) {
                 return generalHttpService.getApiData('TopConnection3G', {

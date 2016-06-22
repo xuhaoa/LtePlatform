@@ -16,4 +16,13 @@ namespace Lte.Domain.Common.Wireless
         OrderByTotalMrsDescending,
         OrderByTopDatesDescending
     }
+
+    [EnumTypeDescription(typeof(OrderTopConnection3GPolicy), OrderByConnectionRate)]
+    public enum OrderTopConnection3GPolicy
+    {
+        OrderByConnectionFailsDescending,
+        OrderByConnectionRate,
+        OrderByTopDatesDescending
+    }
+
 }
