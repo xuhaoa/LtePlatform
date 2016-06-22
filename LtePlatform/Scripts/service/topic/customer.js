@@ -21,4 +21,13 @@
                 });
             }
         };
+    })
+    .factory('customerQueryService', function(generalHttpService) {
+        return {
+            queryVehicleTypeService: function() {
+                return generalHttpService.getApiData('KpiOptions', {
+                    key: "VehicleType"
+                });
+            }
+        }
     });
