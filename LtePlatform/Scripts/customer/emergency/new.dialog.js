@@ -1,8 +1,10 @@
-﻿app.controller('emergency.new.dialog', function($scope, $uibModalInstance, dialogTitle, city, district) {
+﻿app.controller('emergency.new.dialog', function ($scope, $uibModalInstance, dialogTitle,
+    city, district, vehicularType) {
     $scope.dialogTitle = dialogTitle;
     $scope.message = "";
     $scope.city = city;
     $scope.district = district;
+    $scope.vehicularType = vehicularType;
 
     var firstDay = new Date();
     firstDay.setDate(firstDay.getDate() + 7);

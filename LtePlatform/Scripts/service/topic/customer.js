@@ -1,7 +1,7 @@
 ﻿angular.module('customer.service', ['myApp.url'])
     .factory('customerDiloagService', function($uibModal, $log) {
         return {
-            constructEmergencyCommunication: function(city, district) {
+            constructEmergencyCommunication: function(city, district, type) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '/appViews/Customer/Dialog/Emergency.html',
@@ -16,6 +16,9 @@
                         },
                         district: function() {
                             return district;
+                        },
+                        vehicularType: function() {
+                            return type;
                         }
                     }
                 });
