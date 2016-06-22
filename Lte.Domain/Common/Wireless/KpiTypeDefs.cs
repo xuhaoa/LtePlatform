@@ -25,4 +25,12 @@ namespace Lte.Domain.Common.Wireless
         OrderByTopDatesDescending
     }
 
+    [EnumTypeDescription(typeof(OrderTopDrop2GPolicy), OrderByDropRateDescending)]
+    public enum OrderTopDrop2GPolicy
+    {
+        OrderByDropsDescending,
+        OrderByDropRateDescending,
+        OrderByTopDatesDescending
+    }
+
 }

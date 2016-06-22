@@ -166,7 +166,6 @@
     <Compile Include="MapperSerive\Kpi\TownPreciseViewContainer.cs" />
     <Compile Include="Policy\FilterWorkItemService.cs" />
     <Compile Include="Policy\OrderService.cs" />
-    <Compile Include="Policy\OrderTopDrop2GService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AlarmView.cs" />
     <Compile Include="ViewModels\Basic\CdmaBtsView.cs" />

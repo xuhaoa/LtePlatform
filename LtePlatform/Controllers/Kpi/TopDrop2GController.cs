@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Kpi;
@@ -51,15 +53,7 @@ namespace LtePlatform.Controllers.Kpi
         public IEnumerable<TopDrop2GTrendView> Get(DateTime begin, DateTime end, string city,
             string policy, int topCount)
         {
-            return _service.GetTrendViews(begin, end, city).Order(policy.GetTopDrop2GPolicy(), topCount);
-        }
-
-        [HttpGet]
-        [ApiDoc("获取TOP掉话排序标准的所有选项列表")]
-        [ApiResponse("TOP掉话排序标准的所有选项列表")]
-        public IEnumerable<string> Get()
-        {
-            return OrderTopDrop2GService.OrderSelectionList.Select(x => x.Key);
+            return _service.GetTrendViews(begin, end, city).Order(policy.GetEnumType<OrderTopDrop2GPolicy>(), topCount);
         }
     }
 }

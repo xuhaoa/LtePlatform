@@ -28,7 +28,9 @@
                 });
             },
             queryOrderPolicy: function () {
-                return generalHttpService.getApiData('TopDrop2G', {});
+                return generalHttpService.getApiData('KpiOptions', {
+                    key: "OrderTopDrop2GPolicy"
+                });
             },
             queryCellTrend: function (begin, end, city, policy, topCount) {
                 return generalHttpService.getApiData('TopDrop2G', {

@@ -52,5 +52,21 @@ namespace Lte.Evaluations.Policy
                     return stats.OrderByDescending(x => x.TopDates).Take(topCount);
             }
         }
+
+        public static IEnumerable<TopDrop2GTrendView> Order(this IEnumerable<TopDrop2GTrendView> stats,
+            OrderTopDrop2GPolicy policy,
+            int topCount)
+        {
+            switch (policy)
+            {
+                case OrderTopDrop2GPolicy.OrderByDropRateDescending:
+                    return stats.OrderByDescending(x => x.DropRate).Take(topCount);
+                case OrderTopDrop2GPolicy.OrderByDropsDescending:
+                    return stats.OrderByDescending(x => x.TotalDrops).Take(topCount);
+                default:
+                    return stats.OrderByDescending(x => x.TopDates).Take(topCount);
+            }
+        }
+
     }
 }
