@@ -92,7 +92,7 @@
                 ]
             }, {
                 displayName: "专项支撑",
-                isActive: false,
+                isActive: true,
                 subItems: [{
                     displayName: "应急需求",
                     url: rootUrl + "/emergency",

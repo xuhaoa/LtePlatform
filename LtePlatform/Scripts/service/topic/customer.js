@@ -1,7 +1,7 @@
 ﻿angular.module('customer.service', ['myApp.url'])
     .factory('customerDiloagService', function ($uibModal, $log, customerQueryService) {
         return {
-            constructEmergencyCommunication: function(city, district, type, messages) {
+            constructEmergencyCommunication: function(city, district, type, messages, callback) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '/appViews/Customer/Dialog/Emergency.html',
@@ -30,6 +30,7 @@
                                 type: 'success',
                                 contents: '完成应急通信需求：' + dto.projectName + '的导入'
                             });
+                            callback();
                         } else {
                             messages.push({
                                 type: 'warning',
