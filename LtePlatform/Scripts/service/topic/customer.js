@@ -42,6 +42,12 @@
                 return generalHttpService.getApiData('KpiOptions', {
                     key: "DemandLevel"
                 });
+            },
+            queryTransmitFunctionOptions: function() {
+                return ['光纤', '微波', '卫星'];
+            },
+            queryElectricSupplyOptions: function() {
+                return ['市电', '市电供电', '远供', '油机'];
             }
         }
     });

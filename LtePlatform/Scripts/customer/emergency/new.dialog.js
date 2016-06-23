@@ -24,6 +24,16 @@
             selected: options[0]
         };
     });
+    var transmitOptions = customerQueryService.queryTransmitFunctionOptions();
+    $scope.transmitFunction = {
+        options: transmitOptions,
+        selected: transmitOptions[0]
+    };
+    var electrictOptions = customerQueryService.queryElectricSupplyOptions();
+    $scope.electricSupply = {
+        options: electrictOptions,
+        selected: electrictOptions[0]
+    };
 
     $scope.ok = function() {
         $uibModalInstance.close($scope.message);
