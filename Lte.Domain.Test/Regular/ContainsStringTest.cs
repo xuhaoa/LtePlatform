@@ -20,7 +20,7 @@ namespace Lte.Domain.Test.Regular
         [TestCase("abcd123x456", "123")]
         public void Test_GetFirstNumber(string source, string number)
         {
-            Assert.AreEqual(TouTouRegex.GetFirstNumberByString(source), number);
+            Assert.AreEqual(RegexService.GetFirstNumberByString(source), number);
         }
 
         [TestCase("12", "12")]
@@ -28,7 +28,7 @@ namespace Lte.Domain.Test.Regular
         [TestCase("12x34a56", "56")]
         public void Test_GetLastNumber(string source, string number)
         {
-            Assert.AreEqual(TouTouRegex.GetLastNumberByString(source), number);
+            Assert.AreEqual(RegexService.GetLastNumberByString(source), number);
         }
 
         [TestCase("1234", 1)]
@@ -36,7 +36,7 @@ namespace Lte.Domain.Test.Regular
         [TestCase("12x34y55", 3)]
         public void Test_GetAllNumber(string source, int count)
         {
-            var results = TouTouRegex.GetAllNumberByString(source);
+            var results = RegexService.GetAllNumberByString(source);
             Assert.AreEqual(results.Count, count);
         }
 
@@ -46,7 +46,7 @@ namespace Lte.Domain.Test.Regular
         [TestCase("#*wqio90")]
         public void Test_CheckNumber_True(string source)
         {
-            Assert.IsTrue(TouTouRegex.CheckNumberByString(source));
+            Assert.IsTrue(RegexService.CheckNumberByString(source));
         }
 
         [TestCase("Abb")]
@@ -54,20 +54,20 @@ namespace Lte.Domain.Test.Regular
         [TestCase("^%UYnk")]
         public void Test_CheckNumber_False(string source)
         {
-            Assert.IsFalse(TouTouRegex.CheckNumberByString(source));
+            Assert.IsFalse(RegexService.CheckNumberByString(source));
         }
 
         [TestCase("123", 3)]
         [TestCase("493745723", 9)]
         public void Test_CheckLength(string source, int length)
         {
-            Assert.IsTrue(TouTouRegex.CheckLengthByString(source, length));
+            Assert.IsTrue(RegexService.CheckLengthByString(source, length));
         }
 
         [TestCase("maaat", "m", "t", "maaa")]
         public void Test_Substring(string source, string startStr, string endStr, string result)
         {
-            Assert.AreEqual(TouTouRegex.Substring(source, startStr, endStr), result);
+            Assert.AreEqual(RegexService.Substring(source, startStr, endStr), result);
         }
 
         [Test]

@@ -200,6 +200,11 @@ namespace Lte.Evaluations.MapperSerive
                     opt => opt.MapFrom(s => s.Description.GetSplittedFields(new[] {'[', ']'})[0]))
                 .ForMember(d => d.OtherDescription,
                     opt => opt.MapFrom(s => s.Description.GetSplittedFields(new[] {'[', ']'})[1]));
+            Mapper.CreateMap<VipDemandExcel, VipDemand>()
+                .ForMember(d => d.DemandLevel,
+                    opt => opt.MapFrom(s => s.DemandLevelDescription.GetEnumType<DemandLevel>()))
+                .ForMember(d => d.NetworkType,
+                    opt => opt.MapFrom(s => s.NetworkTypeDescription.GetEnumType<NetworkType>()));
         }
     }
 }

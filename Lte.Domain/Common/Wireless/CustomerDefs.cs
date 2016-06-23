@@ -36,4 +36,26 @@ namespace Lte.Domain.Common.Wireless
         Broadcast,
         CPlusL
     }
+
+    [EnumTypeDescription(typeof(NetworkType), With2G3G4G)]
+    public enum NetworkType : byte
+    {
+        With4G,
+        With2G3G4G,
+        With2G3G,
+        With2G,
+        With3G,
+        With2G3G4G4GPlus
+    }
+
+    [EnumTypeDescription(typeof(MarketTheme), OpenChannel)]
+    public enum MarketTheme : byte
+    {
+        ElectricGauge,
+        OpenChannel,
+        HappyNewYear,
+        CollegeSpring,
+        CollegeAutumn,
+        Others
+    }
 }
