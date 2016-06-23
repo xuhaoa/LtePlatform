@@ -4,7 +4,7 @@
     };
     $scope.query = function() {
         customerQueryService.queryAll($scope.beginDate.value, $scope.endDate.value).then(function(items) {
-            console.log(items);
+            $scope.items = items;
         });
     };
 

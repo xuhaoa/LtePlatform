@@ -5,6 +5,7 @@
     'cell.filters',
     'college',
     'college.map',
+    'customer.module',
     'customer.service',
     'handoff.parameters',
     'handoff.filters',
