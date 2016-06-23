@@ -1,7 +1,7 @@
 ﻿angular.module('customer.service', ['myApp.url'])
     .factory('customerDiloagService', function ($uibModal, $log, customerQueryService) {
         return {
-            constructEmergencyCommunication: function(city, district, type) {
+            constructEmergencyCommunication: function(city, district, type, messages) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '/appViews/Customer/Dialog/Emergency.html',
@@ -24,8 +24,18 @@
                 });
 
                 modalInstance.result.then(function(dto) {
-                    customerQueryService.postDto(dto).then(function () {
-                        console.log(dto);
+                    customerQueryService.postDto(dto).then(function (result) {
+                        if (result > 0) {
+                            messages.push({
+                                type: 'success',
+                                contents: '完成应急通信需求：' + dto.projectName + '的导入'
+                            });
+                        } else {
+                            messages.push({
+                                type: 'warning',
+                                contents: '最近已经有该需求，请不要重复导入'
+                            });
+                        }
                     });
                 }, function() {
                     $log.info('Modal dismissed at: ' + new Date());
