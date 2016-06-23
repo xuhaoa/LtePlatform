@@ -946,7 +946,7 @@
     <Content Include="Scripts\rutrace\workitem\workitems.controller.js" />
     <Content Include="Scripts\service\app.authorize.service.js" />
     <Content Include="Scripts\service\app.kpi.service.js" />
-    <Content Include="Scripts\service\app.parameters.service.js" />
+    <Content Include="Scripts\service\parameters\service.js" />
     <Content Include="Scripts\service\app.url.service.js" />
     <Content Include="Scripts\service\filters\basic.js" />
     <Content Include="Scripts\service\filters\cell.js" />
@@ -959,8 +959,8 @@
     <Content Include="Scripts\service\mongo\handoff.js" />
     <Content Include="Scripts\service\mongo\neighbor.js" />
     <Content Include="Scripts\service\ne.geometry.service.js" />
-    <Content Include="Scripts\service\parameters.chart.js" />
-    <Content Include="Scripts\service\parameters.map.service.js" />
+    <Content Include="Scripts\service\parameters\chart.js" />
+    <Content Include="Scripts\service\parameters\map.service.js" />
     <Content Include="Scripts\service\topic\college.js" />
     <Content Include="Scripts\service\topic\college.map.service.js" />
     <Content Include="Scripts\service\kpi\workitem.service.js" />
