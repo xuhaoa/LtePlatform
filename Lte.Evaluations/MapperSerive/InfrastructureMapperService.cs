@@ -197,9 +197,9 @@ namespace Lte.Evaluations.MapperSerive
                     opt => opt.MapFrom(s => s.ContactPerson.GetSplittedFields(new[] {'(', ')'})[0]))
                 .ForMember(d => d.Phone, opt => opt.MapFrom(s => s.ContactPerson.GetSplittedFields(new[] {'(', ')'})[1]))
                 .ForMember(d => d.VehicleLocation,
-                    opt => opt.MapFrom(s => s.Description.GetSplittedFields(new[] {'(', ')'})[0]))
+                    opt => opt.MapFrom(s => s.Description.GetSplittedFields(new[] {'[', ']'})[0]))
                 .ForMember(d => d.OtherDescription,
-                    opt => opt.MapFrom(s => s.Description.GetSplittedFields(new[] {'(', ')'})[1]));
+                    opt => opt.MapFrom(s => s.Description.GetSplittedFields(new[] {'[', ']'})[1]));
         }
     }
 }

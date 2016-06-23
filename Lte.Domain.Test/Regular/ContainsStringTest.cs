@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lte.Domain.Common;
 using Lte.Domain.Regular;
 using NUnit.Framework;
 
@@ -67,6 +68,14 @@ namespace Lte.Domain.Test.Regular
         public void Test_Substring(string source, string startStr, string endStr, string result)
         {
             Assert.AreEqual(TouTouRegex.Substring(source, startStr, endStr), result);
+        }
+
+        [Test]
+        public void Test_GetBrackets()
+        {
+            var source = "[门口东边100米处]此次活动为佛山市南海区政府组织的一次大型文化活动，是宣传天翼品牌的重要场合。";
+            var dest = source.GetSplittedFields(new[] {'[', ']'})[0];
+            Assert.AreEqual(dest, "门口东边100米处");
         }
     }
 }

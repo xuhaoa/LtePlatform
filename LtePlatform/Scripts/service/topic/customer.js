@@ -63,6 +63,12 @@
             },
             postDto: function(dto) {
                 return generalHttpService.postApiData("EmergencyCommunication", dto);
+            },
+            queryAll: function(begin, end) {
+                return generalHttpService.getApiData("EmergencyCommunication", {
+                    begin: begin,
+                    end: end
+                });
             }
         }
     });
