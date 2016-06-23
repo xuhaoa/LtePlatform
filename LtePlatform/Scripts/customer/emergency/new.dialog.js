@@ -46,7 +46,14 @@
         otherDescription: "此次活动为佛山市南海区政府组织的一次大型文化活动，是宣传天翼品牌的重要场合。"
     };
 
-    $scope.ok = function() {
+    $scope.ok = function () {
+        $scope.dto.demandLevelDescription = $scope.demandLevel.selected;
+        $scope.dto.beginDate = $scope.itemBeginDate.value;
+        $scope.dto.endDate = $scope.itemEndDate.value;
+        $scope.dto.vehicleTypeDescription = $scope.vehicularType.selected;
+        $scope.dto.transmitFunction = $scope.transmitFunction.selected;
+        $scope.dto.district = $scope.district.selected;
+        $scope.dto.town = $scope.town.selected;
         $uibModalInstance.close($scope.dto);
     };
     $scope.cancel = function() {
