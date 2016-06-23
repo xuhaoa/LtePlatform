@@ -141,26 +141,6 @@ namespace LtePlatform.Controllers
             }
             return View("WorkItemImport");
         }
-
-        [Authorize]
-        public ActionResult InterferenceImport()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult InterferencePost(HttpPostedFileBase[] files)
-        {
-            if (files == null || files.Length <= 0 || string.IsNullOrEmpty(files[0]?.FileName))
-                return View("InterferenceImport");
-            ViewBag.Message = "共上传干扰矩阵信息文件" + files.Length + "个！";
-            foreach (var file in files)
-            {
-                _interferenceMatrix.UploadInterferenceStats(
-                    new StreamReader(file.InputStream, Encoding.GetEncoding("GB2312")), file.FileName);
-            }
-            return View("InterferenceImport");
-        }
+        
     }
 }

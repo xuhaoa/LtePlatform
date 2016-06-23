@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Lte.Parameters.Entities.ExcelCsv;
+using Lte.Parameters.Entities.Mr;
 
 namespace Lte.Parameters.MockOperations
 {

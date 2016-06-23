@@ -1297,7 +1297,6 @@
     <Content Include="Scripts\rutrace\interference\neighbors.controller.js" />
     <Content Include="Scripts\service\app.region.service.js" />
     <None Include="Views\College\_Edit.cshtml" />
-    <Content Include="Views\Kpi\InterferenceImport.cshtml" />
     <None Include="Views\Kpi\PreciseImport.cshtml" />
     <Content Include="appViews\Import\Precise\Import.html" />
     <Content Include="appViews\Import\Precise\HistoryTable.html" />

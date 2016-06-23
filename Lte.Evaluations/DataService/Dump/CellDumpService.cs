@@ -69,7 +69,7 @@ namespace Lte.Evaluations.DataService.Dump
             var cell = _cellRepository.GetBySectorId(info.ENodebId, info.SectorId);
             if (cell == null)
             {
-                cell = Cell.ConstructItem(info);
+                cell = Mapper.Map<CellExcel, Cell>(info);
                 var fields = info.ShareCdmaInfo.GetSplittedFields('_');
                 var btsId = (fields.Length > 2) ? fields[1].ConvertToInt(-1) : -1;
                 if (btsId > 0)

@@ -1,4 +1,5 @@
-﻿using Lte.Domain.Common;
+﻿using AutoMapper;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.MapperSerive;
 using Lte.Parameters.Entities;
@@ -39,7 +40,7 @@ namespace Lte.Parameters.Test.Entities
                 Azimuth = azimuth,
                 TransmitReceive = antConfig
             };
-            var cell = Cell.ConstructItem(cellExcelInfo);
+            var cell = Mapper.Map<CellExcel, Cell>(cellExcelInfo);
             Assert.IsNotNull(cell);
             Assert.AreEqual(cell.ENodebId, eNodebId);
             Assert.AreEqual(cell.SectorId, sectorId);

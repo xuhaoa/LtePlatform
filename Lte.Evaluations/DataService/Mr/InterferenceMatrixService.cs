@@ -193,39 +193,6 @@ namespace Lte.Evaluations.DataService.Mr
                     }).ToList();
         }
 
-        public void UploadInterferenceStats(StreamReader reader, string path)
-        {
-            var container = InterferenceMatrixCsv.ReadInterferenceMatrixCsvs(reader, path);
-            if (container == null) return;
-            var time = container.RecordTime;
-            var pcis = from info in
-                Mapper.Map<List<InterferenceMatrixCsv>, List<InterferenceMatrixPci>>(container.InterferenceMatrixCsvs)
-                join cell in PciCellList on new
-                {
-                    info.ENodebId,
-                    Pci = info.SourcePci,
-                    info.Frequency
-                }
-                    equals new
-                    {
-                        cell.ENodebId,
-                        cell.Pci,
-                        cell.Frequency
-                    }
-                select new
-                {
-                    Info = info,
-                    cell.SectorId
-                };
-            foreach (var matrixPci in pcis)
-            {
-                var stat = matrixPci.Info.MapTo<InterferenceMatrixStat>();
-                stat.RecordTime = time;
-                stat.SectorId = matrixPci.SectorId;
-                InterferenceMatrixStats.Push(stat);
-            }
-        }
-
         public async Task<bool> DumpOneStat()
         {
             var stat = InterferenceMatrixStats.Pop();
