@@ -1,5 +1,5 @@
 ﻿angular.module('customer.service', ['myApp.url'])
-    .factory('customerDiloagService', function($uibModal, $log) {
+    .factory('customerDiloagService', function ($uibModal, $log, customerQueryService) {
         return {
             constructEmergencyCommunication: function(city, district, type) {
                 var modalInstance = $uibModal.open({
@@ -23,8 +23,10 @@
                     }
                 });
 
-                modalInstance.result.then(function(info) {
-                    console.log(info);
+                modalInstance.result.then(function(dto) {
+                    customerQueryService.postDto(dto).then(function () {
+                        console.log(dto);
+                    });
                 }, function() {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
@@ -48,6 +50,9 @@
             },
             queryElectricSupplyOptions: function() {
                 return ['市电', '市电供电', '远供', '油机'];
+            },
+            postDto: function(dto) {
+                return generalHttpService.postApiData("EmergencyCommunication", dto);
             }
         }
     });

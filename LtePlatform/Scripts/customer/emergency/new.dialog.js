@@ -43,17 +43,19 @@
         person: "刘文清",
         phone: "13392293722",
         vehicleLocation: "门口东边100米处",
-        otherDescription: "此次活动为佛山市南海区政府组织的一次大型文化活动，是宣传天翼品牌的重要场合。"
+        otherDescription: "此次活动为佛山市南海区政府组织的一次大型文化活动，是宣传天翼品牌的重要场合。",
+        townId: 1
     };
 
     $scope.ok = function () {
         $scope.dto.demandLevelDescription = $scope.demandLevel.selected;
         $scope.dto.beginDate = $scope.itemBeginDate.value;
         $scope.dto.endDate = $scope.itemEndDate.value;
-        $scope.dto.vehicleTypeDescription = $scope.vehicularType.selected;
+        $scope.dto.vehicularTypeDescription = $scope.vehicularType.selected;
         $scope.dto.transmitFunction = $scope.transmitFunction.selected;
         $scope.dto.district = $scope.district.selected;
         $scope.dto.town = $scope.town.selected;
+        $scope.dto.electricSupply = $scope.electricSupply.selected;
         $uibModalInstance.close($scope.dto);
     };
     $scope.cancel = function() {
