@@ -34,9 +34,20 @@
         options: electrictOptions,
         selected: electrictOptions[0]
     };
+    $scope.dto = {
+        projectName: "和顺梦里水乡百合花文化节",
+        expectedPeople: 500000,
+        vehicles: 1,
+        area: "万顷洋园艺世界",
+        department: "南海区分公司客响维护部",
+        person: "刘文清",
+        phone: "13392293722",
+        vehicleLocation: "门口东边100米处",
+        otherDescription: "此次活动为佛山市南海区政府组织的一次大型文化活动，是宣传天翼品牌的重要场合。"
+    };
 
     $scope.ok = function() {
-        $uibModalInstance.close($scope.message);
+        $uibModalInstance.close($scope.dto);
     };
     $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel');
