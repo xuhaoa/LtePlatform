@@ -93,6 +93,23 @@ namespace LtePlatform.Controllers
             return View("Import");
         }
 
+        [HttpPost]
+        [Authorize]
+        public ViewResult VipDemandImport()
+        {
+            var httpPostedFileBase = Request.Files["vipDemand"];
+            if (httpPostedFileBase == null || httpPostedFileBase.FileName == "")
+            {
+                ViewBag.ErrorMessage = "上传文件为空！请先上传文件。";
+            }
+            else
+            {
+                var path = httpPostedFileBase.UploadKpiFile();
+                ViewBag.Message = _importService.ImportVipDemand(path);
+            }
+            return View("Import");
+        }
+
         [Authorize]
         public ActionResult PreciseImport()
         {

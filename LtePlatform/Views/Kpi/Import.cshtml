@@ -15,36 +15,17 @@
                 @using (Html.BeginForm("KpiImport", "Kpi",
                     FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal", role = "form"}))
                 {
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">每日KPI Excel文件选择：</label>
-                        <div class="col-md-6">
-                            <input name="dailyKpi" class="form-control" type="file" accept=".xls, .xlsx"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <button type="submit" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-save"></span>导入文件
-                            </button>
-                        </div>
-                    </div>
+                    <div dump-file-selector file-title="每日KPI Excel文件选择：" tag="dailyKpi"></div>
                 }
                 @using (Html.BeginForm("SwitchImport", "Kpi",
-                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                    FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
                 {
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">4G用户3G流量比文件选择：</label>
-                        <div class="col-md-6">
-                            <input name="downSwitch" class="form-control" type="file" accept=".xls, .xlsx" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <button type="submit" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-save"></span>导入文件
-                            </button>
-                        </div>
-                    </div>
+                    <div dump-file-selector file-title="4G用户3G流量比文件选择：" tag="downSwitch"></div>
+                }
+                @using (Html.BeginForm("VipDemandImport", "Kpi",
+                    FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                {
+                    <div dump-file-selector file-title="政企客户需求文件选择：" tag="vipDemand"></div>
                 }
             </div>
             <div class="col-md-5">

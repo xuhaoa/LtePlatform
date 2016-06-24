@@ -23,6 +23,18 @@
             transclude: true
         };
     })
+    .directive('dumpFileSelector', function (appRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                fileTitle: '@',
+                tag: '@'
+            },
+            templateUrl: appRoot + 'dump/FileSelector.html',
+            transclude: true
+        };
+    })
     .directive('cityDistrictSelection', function (appRoot, appRegionService) {
         return {
             restrict: 'ECMA',
