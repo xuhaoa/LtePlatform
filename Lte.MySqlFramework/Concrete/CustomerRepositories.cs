@@ -39,4 +39,31 @@ namespace Lte.MySqlFramework.Concrete
             return FirstOrDefault(x => x.ProjectName == stat.ProjectName && x.BeginDate >= begin && x.EndDate < end);
         }
     }
+
+    public class VipDemandRepository : EfRepositoryBase<MySqlContext, VipDemand>, IVipDemandRepository
+    {
+        public VipDemandRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public VipDemand Match(VipDemandExcel stat)
+        {
+            return FirstOrDefault(x => x.SerialNumber == stat.SerialNumber);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+
+        public IEnumerable<VipDemand> GetAllList(DateTime begin, DateTime end)
+        {
+            return GetAllList(x => x.BeginDate >= begin && x.BeginDate <= end);
+        }
+
+        public IEnumerable<VipDemand> GetAllList(int townId, DateTime begin, DateTime end)
+        {
+            return GetAllList(x => x.BeginDate >= begin && x.BeginDate <= end && x.TownId == townId);
+        }
+    }
 }

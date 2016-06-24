@@ -82,6 +82,33 @@
             lowerFirstLetter: function(str) {
                 return str.substring(0, 1).toLowerCase() +
                     str.substring(1);
+            },
+            getId: function(name) {
+                return window.document !== undefined && document.getElementById && document.getElementById(name);
+            },
+            queryEscapeText: function(s) {
+                if (!s) {
+                    return "";
+                }
+                s = s + "";
+
+                // Both single quotes and double quotes (for attributes)
+                return s.replace(/['"<>&]/g, function (ss) {
+                    switch (ss) {
+                        case "'":
+                            return "&#039;";
+                        case "\"":
+                            return "&quot;";
+                        case "<":
+                            return "&lt;";
+                        case ">":
+                            return "&gt;";
+                        case "&":
+                            return "&amp;";
+                        default:
+                            return "";
+                    }
+                });
             }
         }
     });
