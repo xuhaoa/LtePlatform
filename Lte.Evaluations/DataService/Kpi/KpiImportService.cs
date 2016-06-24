@@ -20,15 +20,17 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly ITopDrop2GCellRepository _top2GRepository;
         private readonly ITopConnection3GRepository _top3GRepository;
         private readonly IDownSwitchFlowRepository _downSwitchRepository;
+        private readonly IVipDemandRepository _vipDemandRepository;
 
         public KpiImportService(ICdmaRegionStatRepository regionStatRepository,
             ITopDrop2GCellRepository top2GRepository, ITopConnection3GRepository top3GRepository,
-            IDownSwitchFlowRepository downSwitchRepository)
+            IDownSwitchFlowRepository downSwitchRepository, IVipDemandRepository vipDemandRepository)
         {
             _regionStatRepository = regionStatRepository;
             _top2GRepository = top2GRepository;
             _top3GRepository = top3GRepository;
             _downSwitchRepository = downSwitchRepository;
+            _vipDemandRepository = vipDemandRepository;
         }
         public List<string> Import(string path, IEnumerable<string> regions)
         {
@@ -61,6 +63,16 @@ namespace Lte.Evaluations.DataService.Kpi
             var count =
                 _downSwitchRepository.Import<IDownSwitchFlowRepository, DownSwitchFlow, DownSwitchFlowExcel>(stats);
             return "完成4G用户3G流量比记录导入" + count + "个";
+        }
+
+        public string ImportVipDemand(string path)
+        {
+            var factory = new ExcelQueryFactory {FileName = path};
+            var stats = (from c in factory.Worksheet<VipDemandExcel>("2016年支撑保障详情表")
+                select c).ToList();
+            var count =
+                _vipDemandRepository.Import<IVipDemandRepository, VipDemand, VipDemandExcel>(stats);
+            return "完成政企客户支撑信息导入" + count + "条";
         }
     }
 }
