@@ -966,6 +966,7 @@
     <Content Include="Scripts\service\topic\college.map.service.js" />
     <Content Include="Scripts\service\kpi\workitem.service.js" />
     <Content Include="Scripts\service\topic\customer.js" />
+    <Content Include="Scripts\service\topic\qunit.my.js" />
     <Content Include="Scripts\test\example.js" />
     <Content Include="Scripts\test\jasmineTest.js" />
     <Content Include="Scripts\test\kpi.conf.js" />

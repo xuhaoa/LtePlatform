@@ -9,19 +9,19 @@ namespace Lte.Domain.Lz4Net.Core
         {
             if (source == null)
             {
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             }
             if (destination == null)
             {
-                throw new ArgumentNullException("destination");
+                throw new ArgumentNullException(nameof(destination));
             }
             if (buffer == null)
             {
-                throw new ArgumentNullException("buffer");
+                throw new ArgumentNullException(nameof(buffer));
             }
             if (buffer.Length < 0x80)
             {
-                throw new ArgumentException("Buffer is too small", "buffer");
+                throw new ArgumentException("Buffer is too small", nameof(buffer));
             }
             bool flag = true;
             while (flag)
@@ -45,23 +45,23 @@ namespace Lte.Domain.Lz4Net.Core
         {
             if (source == null)
             {
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             }
             if (destination == null)
             {
-                throw new ArgumentNullException("destination");
+                throw new ArgumentNullException(nameof(destination));
             }
             if (buffer == null)
             {
-                throw new ArgumentNullException("buffer");
+                throw new ArgumentNullException(nameof(buffer));
             }
             if (buffer.Length < 0x80)
             {
-                throw new ArgumentException("Buffer is too small", "buffer");
+                throw new ArgumentException("Buffer is too small", nameof(buffer));
             }
             if (progressHandler == null)
             {
-                throw new ArgumentNullException("progressHandler");
+                throw new ArgumentNullException(nameof(progressHandler));
             }
             bool continueRunning = true;
             DateTime now = DateTime.Now;
@@ -117,19 +117,19 @@ namespace Lte.Domain.Lz4Net.Core
         {
             if (stream == null)
             {
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
             }
             if (buffer == null)
             {
-                throw new ArgumentNullException("buffer");
+                throw new ArgumentNullException(nameof(buffer));
             }
             if ((offset < 0) || (offset > buffer.Length))
             {
-                throw new ArgumentOutOfRangeException("offset");
+                throw new ArgumentOutOfRangeException(nameof(offset));
             }
             if ((count < 0) || ((offset + count) > buffer.Length))
             {
-                throw new ArgumentOutOfRangeException("count");
+                throw new ArgumentOutOfRangeException(nameof(count));
             }
             while (count > 0)
             {

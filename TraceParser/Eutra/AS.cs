@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lte.Domain.Common;
+using TraceParser.Common;
 
 namespace TraceParser.Eutra
 {
     [Serializable]
-    public class AS_Config
+    public class AS_Config : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public AntennaInfoCommon antennaInfoCommon { get; set; }
 
         public long sourceDl_CarrierFreq { get; set; }
@@ -35,16 +32,15 @@ namespace TraceParser.Eutra
 
         public string sourceUE_Identity { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<AS_Config>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
 
-            public AS_Config Decode(BitArrayInputStream input)
+            protected override void ProcessConfig(AS_Config config, BitArrayInputStream input)
             {
                 BitMaskStream stream;
-                AS_Config config = new AS_Config();
-                config.InitDefaults();
-                bool flag = input.readBit() != 0;
+                InitDefaults();
+                var flag = input.readBit() != 0;
                 config.sourceMeasConfig = MeasConfig.PerDecoder.Instance.Decode(input);
                 config.sourceRadioResourceConfig = RadioResourceConfigDedicated.PerDecoder.Instance.Decode(input);
                 config.sourceSecurityAlgorithmConfig = SecurityAlgorithmConfig.PerDecoder.Instance.Decode(input);
@@ -59,7 +55,7 @@ namespace TraceParser.Eutra
                     stream = new BitMaskStream(input, 1);
                     if (stream.Read())
                     {
-                        int nBits = input.readBits(8);
+                        var nBits = input.readBits(8);
                         config.sourceSystemInformationBlockType1Ext = input.readOctetString(nBits);
                     }
                     config.sourceOtherConfig_r9 = OtherConfig_r9.PerDecoder.Instance.Decode(input);
@@ -67,113 +63,86 @@ namespace TraceParser.Eutra
                 if (flag)
                 {
                     stream = new BitMaskStream(input, 1);
-                    if (!stream.Read())
-                    {
-                        return config;
-                    }
+                    if (!stream.Read()) return;
                     config.sourceSCellConfigList_r10 = new List<SCellToAddMod_r10>();
-                    int num2 = 2;
-                    int num3 = input.readBits(num2) + 1;
-                    for (int i = 0; i < num3; i++)
+                    var num3 = input.readBits(2) + 1;
+                    for (var i = 0; i < num3; i++)
                     {
-                        SCellToAddMod_r10 item = SCellToAddMod_r10.PerDecoder.Instance.Decode(input);
+                        var item = SCellToAddMod_r10.PerDecoder.Instance.Decode(input);
                         config.sourceSCellConfigList_r10.Add(item);
                     }
                 }
-                return config;
             }
         }
     }
 
     [Serializable]
-    public class AS_Config_v9e0
+    public class AS_Config_v9e0 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long sourceDl_CarrierFreq_v9e0 { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<AS_Config_v9e0>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public AS_Config_v9e0 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(AS_Config_v9e0 config, BitArrayInputStream input)
             {
-                AS_Config_v9e0 _ve = new AS_Config_v9e0();
-                _ve.InitDefaults();
-                _ve.sourceDl_CarrierFreq_v9e0 = input.readBits(0x12) + 0x10000;
-                return _ve;
+                InitDefaults();
+                config.sourceDl_CarrierFreq_v9e0 = input.readBits(0x12) + 0x10000;
             }
         }
     }
 
     [Serializable]
-    public class AS_Context
+    public class AS_Context : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public ReestablishmentInfo reestablishmentInfo { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<AS_Context>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public AS_Context Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(AS_Context config, BitArrayInputStream input)
             {
-                AS_Context context = new AS_Context();
-                context.InitDefaults();
-                BitMaskStream stream = new BitMaskStream(input, 1);
+                InitDefaults();
+                var stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    context.reestablishmentInfo = ReestablishmentInfo.PerDecoder.Instance.Decode(input);
+                    config.reestablishmentInfo = ReestablishmentInfo.PerDecoder.Instance.Decode(input);
                 }
-                return context;
             }
         }
     }
 
     [Serializable]
-    public class AS_Context_v1130
+    public class AS_Context_v1130 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public string idc_Indication_r11 { get; set; }
 
         public string mbmsInterestIndication_r11 { get; set; }
 
         public string powerPrefIndication_r11 { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<AS_Context_v1130>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public AS_Context_v1130 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(AS_Context_v1130 config, BitArrayInputStream input)
             {
-                int nBits;
-                AS_Context_v1130 _v = new AS_Context_v1130();
-                _v.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
+                InitDefaults();
+                var stream = (input.readBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
-                    nBits = input.readBits(8);
-                    _v.idc_Indication_r11 = input.readOctetString(nBits);
+                    config.idc_Indication_r11 = input.readOctetString(input.readBits(8));
                 }
                 if (stream.Read())
                 {
-                    nBits = input.readBits(8);
-                    _v.mbmsInterestIndication_r11 = input.readOctetString(nBits);
+                    config.mbmsInterestIndication_r11 = input.readOctetString(input.readBits(8));
                 }
                 if (stream.Read())
                 {
-                    nBits = input.readBits(8);
-                    _v.powerPrefIndication_r11 = input.readOctetString(nBits);
+                    config.powerPrefIndication_r11 = input.readOctetString(input.readBits(8));
                 }
-                return _v;
             }
         }
     }

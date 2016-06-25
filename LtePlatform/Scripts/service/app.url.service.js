@@ -1,5 +1,5 @@
 ﻿angular.module('myApp.url', [])
-    .factory('appUrlService', function() {
+    .factory('appUrlService', function(config, appFormatService) {
         var parseQueryString = function(queryString) {
             var data = {}, pair, separatorIndex, escapedKey, escapedValue, key, value;
 
