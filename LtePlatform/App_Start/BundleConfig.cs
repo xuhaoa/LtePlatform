@@ -46,6 +46,7 @@ namespace LtePlatform
                 "~/Scripts/angular-ui/uib/rating.js",
                 "~/Scripts/angular-ui/uib/stackedMap.js",
                 "~/Scripts/angular-ui/uib/tooltip.js",
+                "~/Scripts/angular-ui/uib/tabindex.js",
                 "~/Scripts/angular-ui/uib/tabs.js",
                 "~/Scripts/angular-ui/uib/timepicker.js",
                 "~/Scripts/angular-ui/uib/typeahead.js"));

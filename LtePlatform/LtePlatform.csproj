@@ -780,6 +780,7 @@
     <Content Include="Scripts\angular-ui\customize\directive.datetimepicker.js" />
     <Content Include="Scripts\angular-ui\customize\directive.public.js" />
     <Content Include="Scripts\angular-ui\customize\directive.panel.js" />
+    <Content Include="Scripts\angular-ui\uib\tabindex.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\evaluation\map.building.dialog.js" />
@@ -973,6 +974,7 @@
     <Content Include="Scripts\test\kpi\app.kpi.service.js" />
     <Content Include="Scripts\test\mock\highcharts.mock.js" />
     <Content Include="Scripts\test\mock\ui.bootstrap.mock.js" />
+    <Content Include="Scripts\test\uib\accordion.spec.js" />
     <Content Include="Scripts\test\workitem.conf.js" />
     <Content Include="Scripts\test\workitem\precise.chart.service.js" />
     <Content Include="template\accordion\accordion-group.html" />
@@ -1206,7 +1208,6 @@
     <Content Include="Scripts\angular-ui\angular-aria.js" />
     <Content Include="Scripts\angular-ui\angular-cookies.js" />
     <Content Include="Scripts\angular-ui\angular-loader.js" />
-    <Content Include="Scripts\angular-ui\angular-message-format.js" />
     <Content Include="Scripts\angular-ui\angular-resource.js" />
     <Content Include="Scripts\angular-ui\angular-route.js" />
     <Content Include="Scripts\angular-ui\angular-sanitize.js" />

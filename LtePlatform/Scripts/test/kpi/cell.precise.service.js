@@ -1,6 +1,6 @@
 ﻿describe('cell precise service test', function() {
     var kpiDisplayService;
-	beforeEach(module('myApp.kpi'));
+    beforeEach(module('kpi.display'));
 
 	beforeEach(inject(function (_kpiDisplayService_) {
 	    kpiDisplayService = _kpiDisplayService_;
@@ -33,8 +33,10 @@
         expect(options.title.text).toEqual('My title');
         expect(options.yAxis[0].title.text).toEqual("MR数量");
         expect(options.xAxis[0].title.text).toEqual('日期');
+        expect(options.xAxis[0].categories).toContain('2016-1-2');
         expect(options.series[0].name).toEqual("MR总数");
         expect(options.series[0].data.length).toEqual(3);
+        expect(options.series[0].data).toContain(3);
         expect(options.series[1].name).toEqual("第一邻区MR数");
         expect(options.series[2].name).toEqual("第二邻区MR数");
         expect(options.series[3].name).toEqual("第三邻区MR数");

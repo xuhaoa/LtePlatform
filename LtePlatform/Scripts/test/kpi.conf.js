@@ -22,6 +22,7 @@ module.exports = function(config) {
         'mock/*.js',
         '../mycharts/*.js',
         '../service/*.js',
+        '../service/kpi/*.js',
         'kpi/*.js'
     ],
 
