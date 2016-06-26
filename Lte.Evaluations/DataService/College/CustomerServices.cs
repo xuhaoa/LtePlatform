@@ -7,6 +7,7 @@ using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Abp.EntityFramework.Repositories;
 using AutoMapper;
+using Lte.Domain.Common;
 using Lte.Parameters.Abstract;
 
 namespace Lte.Evaluations.DataService.College
@@ -56,6 +57,33 @@ namespace Lte.Evaluations.DataService.College
                 x.Town = town;
             });
             return results;
+        }
+    }
+
+    public class VipDemandService
+    {
+        private readonly IVipDemandRepository _repository;
+        private readonly ITownRepository _townRepository;
+
+        public VipDemandService(IVipDemandRepository repository, ITownRepository townRepository)
+        {
+            _repository = repository;
+            _townRepository = townRepository;
+        }
+
+        public IEnumerable<VipDemandDto> Query(DateTime begin, DateTime end)
+        {
+            var views = Mapper.Map<List<VipDemand>, List<VipDemandDto>>(_repository.GetAllList(begin, end));
+            views.ForEach(x =>
+            {
+                var town = _townRepository.Get(x.TownId);
+                if (town != null)
+                {
+                    x.District = town.DistrictName;
+                    x.Town = town.TownName;
+                }
+            });
+            return views;
         }
     }
 }

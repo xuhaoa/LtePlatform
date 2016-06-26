@@ -36,4 +36,14 @@ namespace LtePlatform.Controllers.College
             return _service.Query(district, town, begin, end);
         }
     }
+
+    public class VipDemandController : ApiController
+    {
+        private readonly VipDemandService _service;
+
+        public VipDemandController(VipDemandService service)
+        {
+            _service = service;
+        }
+    }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 
@@ -20,6 +21,45 @@ namespace Lte.MySqlFramework.Entities
         public string ProjectName { get; set; }
 
         public NetworkType NetworkType { get; set; }
+
+        public string Department { get; set; }
+
+        public string ContactPerson { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public string Area { get; set; }
+
+        public DateTime BeginDate { get; set; }
+
+        public DateTime PlanDate { get; set; }
+
+        public string ProjectContents { get; set; }
+
+        public string SustainPerson { get; set; }
+
+        public DateTime FinishTime { get; set; }
+
+        public int SubscriberGotten { get; set; }
+
+        public string FinishResults { get; set; }
+    }
+    
+    public class VipDemandDto
+    {
+        public string SerialNumber { get; set; }
+        
+        public string DemandLevelDescription { get; set; }
+
+        public int TownId { get; set; }
+
+        public string District { get; set; }
+
+        public string Town { get; set; }
+
+        public string ProjectName { get; set; }
+        
+        public string NetworkTypeDescription { get; set; }
 
         public string Department { get; set; }
 

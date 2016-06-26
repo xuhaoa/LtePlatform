@@ -249,6 +249,8 @@ namespace LtePlatform
             ninjectKernel.Bind<DownSwitchFlowService>().ToSelf();
 
             ninjectKernel.Bind<EmergencyCommunicationService>().ToSelf();
+
+            ninjectKernel.Bind<VipDemandService>().ToSelf();
         }
     }
 }

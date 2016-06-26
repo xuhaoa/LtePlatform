@@ -16,11 +16,11 @@ namespace Lte.MySqlFramework.Abstract
         IEnumerable<EmergencyCommunication> GetAllList(int townId, DateTime begin, DateTime end);
     }
 
-    public interface IVipDemandRepository : IRepository<VipDemand>, IMatchRepository<VipDemand, VipDemandExcel>,
+    public interface IVipDemandRepository : IRepository<VipDemand>, IMatchRepository<VipDemand, VipDemandExcel>, IMatchRepository<VipDemand, VipDemandDto>,
         ISaveChanges
     {
-        IEnumerable<VipDemand> GetAllList(DateTime begin, DateTime end);
+        List<VipDemand> GetAllList(DateTime begin, DateTime end);
 
-        IEnumerable<VipDemand> GetAllList(int townId, DateTime begin, DateTime end);
+        List<VipDemand> GetAllList(int townId, DateTime begin, DateTime end);
     }
 }

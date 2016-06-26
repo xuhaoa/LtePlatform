@@ -56,14 +56,19 @@ namespace Lte.MySqlFramework.Concrete
             return Context.SaveChanges();
         }
 
-        public IEnumerable<VipDemand> GetAllList(DateTime begin, DateTime end)
+        public List<VipDemand> GetAllList(DateTime begin, DateTime end)
         {
             return GetAllList(x => x.BeginDate >= begin && x.BeginDate <= end);
         }
 
-        public IEnumerable<VipDemand> GetAllList(int townId, DateTime begin, DateTime end)
+        public List<VipDemand> GetAllList(int townId, DateTime begin, DateTime end)
         {
             return GetAllList(x => x.BeginDate >= begin && x.BeginDate <= end && x.TownId == townId);
+        }
+
+        public VipDemand Match(VipDemandDto stat)
+        {
+            return FirstOrDefault(x => x.SerialNumber == stat.SerialNumber);
         }
     }
 }
