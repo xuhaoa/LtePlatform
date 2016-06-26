@@ -1,5 +1,5 @@
 ﻿angular.module('customer.service', ['myApp.url'])
-    .factory('customerDiloagService', function ($uibModal, $log, customerQueryService) {
+    .factory('customerDialogService', function ($uibModal, $log, customerQueryService) {
         return {
             constructEmergencyCommunication: function(city, district, type, messages, callback) {
                 var modalInstance = $uibModal.open({
@@ -67,6 +67,12 @@
             },
             queryAll: function(begin, end) {
                 return generalHttpService.getApiData("EmergencyCommunication", {
+                    begin: begin,
+                    end: end
+                });
+            },
+            queryAllVip: function (begin, end) {
+                return generalHttpService.getApiData("VipDemand", {
                     begin: begin,
                     end: end
                 });

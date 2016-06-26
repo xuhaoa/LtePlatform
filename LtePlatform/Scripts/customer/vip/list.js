@@ -1,11 +1,11 @@
-﻿app.controller("vip.list", function ($scope, customerDiloagService, customerQueryService) {
+﻿app.controller("vip.list", function ($scope, customerDialogService, customerQueryService) {
     $scope.construct = function() {
-        customerDiloagService.constructEmergencyCommunication(
+        customerDialogService.constructEmergencyCommunication(
             $scope.city, $scope.district, $scope.type, $scope.page.messages, $scope.query);
     };
     $scope.query = function() {
-        customerQueryService.queryAll($scope.beginDate.value, $scope.endDate.value).then(function(items) {
-            $scope.items = items;
+        customerQueryService.queryAllVip($scope.beginDate.value, $scope.endDate.value).then(function(items) {
+            console.log(items);
         });
     };
 

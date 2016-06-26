@@ -1,6 +1,6 @@
-﻿app.controller("emergency.list", function ($scope, customerDiloagService, customerQueryService) {
+﻿app.controller("emergency.list", function ($scope, customerDialogService, customerQueryService) {
     $scope.construct = function() {
-        customerDiloagService.constructEmergencyCommunication(
+        customerDialogService.constructEmergencyCommunication(
             $scope.city, $scope.district, $scope.type, $scope.page.messages, $scope.query);
     };
     $scope.query = function() {
