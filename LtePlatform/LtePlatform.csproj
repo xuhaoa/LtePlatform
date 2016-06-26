@@ -480,6 +480,7 @@
     <Content Include="directives\app\dump\FileSelector.html" />
     <Content Include="directives\customer\customer.module.js" />
     <Content Include="directives\customer\emergency\CommunicationList.html" />
+    <Content Include="directives\customer\vip\DemandList.html" />
     <Content Include="directives\parameters\cell\Power.html" />
     <Content Include="directives\parameters\cell\CellInterFreq.html" />
     <Content Include="directives\parameters\cell\CellIntraFreq.html" />
