@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
@@ -12,9 +13,25 @@ namespace Abp.EntityFramework.Repositories
         TEnitty Match(TExcel stat);
     }
 
+    public interface IDateSpanQuery<TEntity>
+    {
+        List<TEntity> GetAllList(DateTime begin, DateTime end);
+
+        List<TEntity> GetAllList(int townId, DateTime begin, DateTime end);
+    }
+
     public interface ISaveChanges
     {
         int SaveChanges();
+    }
+
+    public interface IDistrictTown
+    {
+        string District { get; set; }
+
+        string Town { get; set; }
+
+        int TownId { get; set; }
     }
 
     public static class MatchRepositoryOperation

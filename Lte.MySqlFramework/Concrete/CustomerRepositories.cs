@@ -17,12 +17,12 @@ namespace Lte.MySqlFramework.Concrete
         {
         }
 
-        public IEnumerable<EmergencyCommunication> GetAllList(DateTime begin, DateTime end)
+        public List<EmergencyCommunication> GetAllList(DateTime begin, DateTime end)
         {
             return GetAllList(x => x.BeginDate >= begin && x.BeginDate < end);
         }
 
-        public IEnumerable<EmergencyCommunication> GetAllList(int townId, DateTime begin, DateTime end)
+        public List<EmergencyCommunication> GetAllList(int townId, DateTime begin, DateTime end)
         {
             return GetAllList(x => x.BeginDate >= begin && x.BeginDate < end && x.TownId == townId);
         }

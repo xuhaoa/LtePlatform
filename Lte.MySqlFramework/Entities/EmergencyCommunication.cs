@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using Abp.EntityFramework.Repositories;
 using Lte.Domain.Common.Wireless;
 
 namespace Lte.MySqlFramework.Entities
@@ -40,7 +41,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
 
-    public class EmergencyCommunicationDto
+    public class EmergencyCommunicationDto : IDistrictTown
     {
         public string DemandLevelDescription { get; set; }
 
