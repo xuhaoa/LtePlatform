@@ -37,31 +37,7 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("各校园的单项指标")]
         public Dictionary<string, double> Get(DateTime begin, DateTime end, string kpiName)
         {
-            switch (kpiName)
-            {
-                case "users":
-                    return _service.GetAverageOnlineUsers(begin, end);
-                case "downloadFlow":
-                    return _service.GetAverageDownloadFlow(begin, end);
-                case "uploadFlow":
-                    return _service.GetAverageUploadFlow(begin, end);
-                case "rrcConnection":
-                    return _service.GetAverageRrcConnection(begin, end);
-                case "erabConnection":
-                    return _service.GetAverageErabConnection(begin, end);
-                case "erabDrop":
-                    return _service.GetAverageErabDrop(begin, end);
-                case "connection2G":
-                    return _service.GetAverageConnection2G(begin, end);
-                case "connection3G":
-                    return _service.GetAverageConnection3G(begin, end);
-                case "erlang3G":
-                    return _service.GetAverageErlang3G(begin, end);
-                case "flow3G":
-                    return _service.GetAverageFlow3G(begin, end);
-                default:
-                    return _service.GetAverageDrop3G(begin, end);
-            }
+            return _service.GetAverageKpi(begin, end, CollegeKpiService.GetKpiName(kpiName));
         }
 
         [HttpGet]

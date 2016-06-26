@@ -4,7 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Evaluations.ViewModels.College;
+using Lte.Evaluations.ViewModels.Precise;
+using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.College;
+using Lte.Parameters.Abstract.Infrastructure;
+using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.College;
 
 namespace Lte.Evaluations.DataService.College
@@ -59,106 +63,36 @@ namespace Lte.Evaluations.DataService.College
             };
         }
 
-        public Dictionary<string, double> GetAverageOnlineUsers(DateTime begin, DateTime end)
+        public Dictionary<string, double> GetAverageKpi(DateTime begin, DateTime end, string kpiName)
         {
+            var property = typeof (CollegeKpi).GetProperty(kpiName);
+            if (property == null) return null;
             var results = _repository.GetAllList(begin, end);
             var query = from r in results
                         join c in _collegeRepository.GetAllList() on r.CollegeId equals c.Id
-                        select new { c.Name, Users = (double)r.OnlineUsers };
-            return query.GroupBy(x => x.Name).ToDictionary(s => s.Key, t => t.Average(x => x.Users));
+                        select new { c.Name, Kpi = (double)property.GetValue(r) };
+            return query.GroupBy(x => x.Name).ToDictionary(s => s.Key, t => t.Average(x => x.Kpi));
         }
 
-        public Dictionary<string, double> GetAverageDownloadFlow(DateTime begin, DateTime end)
+        public static string GetKpiName(string tips)
         {
-            var results = _repository.GetAllList(begin, end);
-            var query = from r in results
-                        join c in _collegeRepository.GetAllList() on r.CollegeId equals c.Id
-                        select new { c.Name, r.DownloadFlow };
-            return query.GroupBy(x => x.Name).ToDictionary(s => s.Key, t => t.Average(x => x.DownloadFlow));
+            var dictionay = new Dictionary<string, string>
+            {
+                {"在线用户数", "OnlineUsers"},
+                {"下行速率", "DownloadFlow"},
+                {"上行速率", "UploadFlow" },
+                {"rRC连接成功率", "RrcConnection" },
+                {"e-RAB连接成功率", "ErabConnection" },
+                {"e-RAB掉线率", "ErabDrop" },
+                {"呼建成功率", "Connection2G" },
+                {"3G连接成功率", "Connection3G" },
+                {"3G话务量", "Erlang3G" },
+                {"3G流量", "Flow3G" },
+                {"3G掉线率", "Drop3G" }
+            };
+            return dictionay.ContainsKey(tips) ? dictionay[tips] : "OnlineUsers";
         }
-
-        public Dictionary<string, double> GetAverageUploadFlow(DateTime begin, DateTime end)
-        {
-            var results = _repository.GetAllList(begin, end);
-            var query = from r in results
-                        join c in _collegeRepository.GetAllList() on r.CollegeId equals c.Id
-                        select new { c.Name, r.UploadFlow };
-            return query.GroupBy(x => x.Name).ToDictionary(s => s.Key, t => t.Average(x => x.UploadFlow));
-        }
-
-        public Dictionary<string, double> GetAverageRrcConnection(DateTime begin, DateTime end)
-        {
-            var results = _repository.GetAllList(begin, end);
-            var query = from r in results
-                        join c in _collegeRepository.GetAllList() on r.CollegeId equals c.Id
-                        select new { c.Name, r.RrcConnection };
-            return query.GroupBy(x => x.Name).ToDictionary(s => s.Key, t => t.Average(x => x.RrcConnection));
-        }
-
-        public Dictionary<string, double> GetAverageErabConnection(DateTime begin, DateTime end)
-        {
-            var results = _repository.GetAllList(begin, end);
-            var query = from r in results
-                        join c in _collegeRepository.GetAllList() on r.CollegeId equals c.Id
-                        select new { c.Name, r.ErabConnection };
-            return query.GroupBy(x => x.Name).ToDictionary(s => s.Key, t => t.Average(x => x.ErabConnection));
-        }
-
-        public Dictionary<string, double> GetAverageErabDrop(DateTime begin, DateTime end)
-        {
-            var results = _repository.GetAllList(begin, end);
-            var query = from r in results
-                        join c in _collegeRepository.GetAllList() on r.CollegeId equals c.Id
-                        select new { c.Name, r.ErabDrop };
-            return query.GroupBy(x => x.Name).ToDictionary(s => s.Key, t => t.Average(x => x.ErabDrop));
-        }
-
-
-        public Dictionary<string, double> GetAverageConnection2G(DateTime begin, DateTime end)
-        {
-            var results = _repository.GetAllList(begin, end);
-            var query = from r in results
-                        join c in _collegeRepository.GetAllList() on r.CollegeId equals c.Id
-                        select new { c.Name, r.Connection2G };
-            return query.GroupBy(x => x.Name).ToDictionary(s => s.Key, t => t.Average(x => x.Connection2G));
-        }
-
-        public Dictionary<string, double> GetAverageConnection3G(DateTime begin, DateTime end)
-        {
-            var results = _repository.GetAllList(begin, end);
-            var query = from r in results
-                        join c in _collegeRepository.GetAllList() on r.CollegeId equals c.Id
-                        select new { c.Name, r.Connection3G };
-            return query.GroupBy(x => x.Name).ToDictionary(s => s.Key, t => t.Average(x => x.Connection3G));
-        }
-
-        public Dictionary<string, double> GetAverageErlang3G(DateTime begin, DateTime end)
-        {
-            var results = _repository.GetAllList(begin, end);
-            var query = from r in results
-                        join c in _collegeRepository.GetAllList() on r.CollegeId equals c.Id
-                        select new { c.Name, r.Erlang3G };
-            return query.GroupBy(x => x.Name).ToDictionary(s => s.Key, t => t.Average(x => x.Erlang3G));
-        }
-
-        public Dictionary<string, double> GetAverageFlow3G(DateTime begin, DateTime end)
-        {
-            var results = _repository.GetAllList(begin, end);
-            var query = from r in results
-                        join c in _collegeRepository.GetAllList() on r.CollegeId equals c.Id
-                        select new { c.Name, r.Flow3G };
-            return query.GroupBy(x => x.Name).ToDictionary(s => s.Key, t => t.Average(x => x.Flow3G));
-        }
-
-        public Dictionary<string, double> GetAverageDrop3G(DateTime begin, DateTime end)
-        {
-            var results = _repository.GetAllList(begin, end);
-            var query = from r in results
-                        join c in _collegeRepository.GetAllList() on r.CollegeId equals c.Id
-                        select new { c.Name, r.Drop3G };
-            return query.GroupBy(x => x.Name).ToDictionary(s => s.Key, t => t.Average(x => x.Drop3G));
-        }
-
+        
         public async Task<CollegeKpi> Post(CollegeKpi stat)
         {
             var item = await _repository.InsertOrUpdateAsync(stat);
@@ -178,6 +112,36 @@ namespace Lte.Evaluations.DataService.College
             if (college == null) return null;
             var time = view.TestTime;
             return _repository.GetByCollegeIdAndTime(college.Id, time);
+        }
+    }
+
+    public class CollegePreciseService
+    {
+        private readonly IInfrastructureRepository _repository;
+        private readonly ICellRepository _cellRepository;
+        private readonly IENodebRepository _eNodebRepository;
+        private readonly IPreciseCoverage4GRepository _kpiRepository;
+
+        public CollegePreciseService(IInfrastructureRepository repository, ICellRepository cellRepository,
+            IENodebRepository eNodebRepository, IPreciseCoverage4GRepository kpiRepository)
+        {
+            _repository = repository;
+            _cellRepository = cellRepository;
+            _eNodebRepository = eNodebRepository;
+            _kpiRepository = kpiRepository;
+        }
+
+        public IEnumerable<CellPreciseKpiView> GetViews(string collegeName, DateTime begin, DateTime end)
+        {
+            var ids = _repository.GetCellIds(collegeName);
+            var query =
+                ids.Select(_cellRepository.Get).Where(cell => cell != null)
+                    .Select(x => CellPreciseKpiView.ConstructView(x, _eNodebRepository)).ToList();
+            foreach (var view in query)
+            {
+                view.UpdateKpi(_kpiRepository, begin, end);
+            }
+            return query;
         }
     }
 }

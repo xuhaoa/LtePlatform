@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
 using Abp.EntityFramework.AutoMapper;
@@ -41,6 +42,22 @@ namespace Abp.EntityFramework.Repositories
             if (info == null)
             {
                 repository.Insert(stat.MapTo<TEntity>());
+            }
+            return repository.SaveChanges();
+        }
+
+        public async static Task<int> UpdateOne<TRepository, TEntity, TDto>(this TRepository repository, TDto stat)
+            where TRepository : IRepository<TEntity>, IMatchRepository<TEntity, TDto>, ISaveChanges
+            where TEntity : Entity
+        {
+            var info = repository.Match(stat);
+            if (info == null)
+            {
+                await repository.InsertAsync(stat.MapTo<TEntity>());
+            }
+            else
+            {
+                await repository.UpdateAsync(stat.MapTo<TEntity>());
             }
             return repository.SaveChanges();
         }
