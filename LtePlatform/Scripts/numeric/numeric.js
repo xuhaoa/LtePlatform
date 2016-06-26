@@ -65,9 +65,10 @@ numeric.prettyPrint = function prettyPrint(x) {
             return false;
         }
         if(x === null) { ret.push("null"); return false; }
+        var flag;
         if(typeof x === "function") { 
             ret.push(x.toString());
-            var flag = false;
+            flag = false;
             for(k in x) { if(x.hasOwnProperty(k)) { 
                 if(flag) ret.push(',\n');
                 else ret.push('\n{');
@@ -81,14 +82,14 @@ numeric.prettyPrint = function prettyPrint(x) {
         }
         if(x instanceof Array) {
             if(x.length > numeric.largeArray) { ret.push('...Large Array...'); return true; }
-            var flag = false;
+            flag = false;
             ret.push('[');
             for(k=0;k<x.length;k++) { if(k>0) { ret.push(','); if(flag) ret.push('\n '); } flag = foo(x[k]); }
             ret.push(']');
             return true;
         }
         ret.push('{');
-        var flag = false;
+        flag = false;
         for(k in x) { if(x.hasOwnProperty(k)) { if(flag) ret.push(',\n'); flag = true; ret.push(k); ret.push(': \n'); foo(x[k]); } }
         ret.push('}');
         return true;

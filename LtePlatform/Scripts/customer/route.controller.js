@@ -10,9 +10,9 @@
                     templateUrl: viewDir + "EmergencyList.html",
                     controller: "emergency.list"
                 })
-                .when('/top', {
-                    templateUrl: viewDir + "Top.html",
-                    controller: "rutrace.top"
+                .when('/vip', {
+                    templateUrl: viewDir + "VipList.html",
+                    controller: "vip.list"
                 })
                 .when('/topDistrict/:district', {
                     templateUrl: viewDir + "Top.html",
@@ -98,8 +98,9 @@
                     url: rootUrl + "/emergency",
                     tooltip: "应急需求（围绕应急通信车）的申请和查询"
                 }, {
-                    displayName: "小区流量分析",
-                    url: "/Kpi/Flow"
+                    displayName: "政企支撑",
+                    url: rootUrl + "/vip",
+                    tooltip: "政企客户支撑需求的管理"
                 }, {
                     displayName: "校园网专题优化",
                     url: "/College/Map",
