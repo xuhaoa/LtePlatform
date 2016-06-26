@@ -37,7 +37,7 @@ namespace Lte.Evaluations.DataService.College
             var results = Mapper.Map<List<TEntity>, List<TDto>>(repository.GetAllList(begin, end));
             results.ForEach(x =>
             {
-                var town = townRepository.Get(x.TownId);
+                var town = townRepository.Get(x.TownId > 0 ? x.TownId : 1);
                 if (town != null)
                 {
                     x.District = town.DistrictName;
