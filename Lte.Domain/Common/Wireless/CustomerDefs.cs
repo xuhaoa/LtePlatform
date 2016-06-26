@@ -34,7 +34,10 @@ namespace Lte.Domain.Common.Wireless
         MarineVstat,
         EmergencyVstat,
         Broadcast,
-        CPlusL
+        CPlusL,
+        LteHuawei,
+        LteZte,
+        LteEricsson
     }
 
     [EnumTypeDescription(typeof(NetworkType), With2G3G4G)]

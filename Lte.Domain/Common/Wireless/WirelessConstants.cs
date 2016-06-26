@@ -123,7 +123,10 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(VehicleType.MarineVstat, "海事卫星电话"),
                     new Tuple<object, string>(VehicleType.EmergencyVstat, "应急VSAT"),
                     new Tuple<object, string>(VehicleType.Broadcast, "电台"),
-                    new Tuple<object, string>(VehicleType.CPlusL, "C+L")
+                    new Tuple<object, string>(VehicleType.CPlusL, "C+L"),
+                    new Tuple<object, string>(VehicleType.LteHuawei, "L网华为"),
+                    new Tuple<object, string>(VehicleType.LteZte, "L网中兴"),
+                    new Tuple<object, string>(VehicleType.LteEricsson, "L网爱立信")
                 }
             },
             {
