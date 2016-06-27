@@ -17,6 +17,9 @@
             scope: {
                 items: '='
             },
-            templateUrl: customerRoot + 'vip/DemandList.html'
+            templateUrl: customerRoot + 'vip/DemandList.html',
+            link: function(scope, element, attrs) {
+                
+            }
         };
     });
