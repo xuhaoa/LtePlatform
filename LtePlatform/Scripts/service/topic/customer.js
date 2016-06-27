@@ -56,6 +56,11 @@
                     key: "DemandLevel"
                 });
             },
+            queryNetworkTypeOptions: function() {
+                return generalHttpService.getApiData('KpiOptions', {
+                    key: 'NetworkType'
+                });
+            },
             queryTransmitFunctionOptions: function() {
                 return ['光纤', '微波', '卫星'];
             },

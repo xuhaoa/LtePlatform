@@ -9,10 +9,10 @@
         });
     };
 
-    customerQueryService.queryVehicleTypeOptions().then(function(options) {
+    customerQueryService.queryNetworkTypeOptions().then(function(options) {
         $scope.type = {
             options: options,
-            selected: options[0]
+            selected: options[2]
         };
     });
     $scope.query();
