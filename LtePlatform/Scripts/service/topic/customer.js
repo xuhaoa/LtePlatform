@@ -41,6 +41,40 @@
                 }, function() {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
+            },
+            supplementVipDemandInfo: function(view, callback) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Customer/Dialog/VipSupplement.html',
+                    controller: 'vip.supplement.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "补充政企客户支撑需求信息";
+                        },
+                        view: function() {
+                            return view;
+                        },
+                        city: function () {
+                            return city;
+                        },
+                        district: function () {
+                            return district;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (dto) {
+                    customerQueryService.postDto(dto).then(function () {
+                        messages.push({
+                            type: 'success',
+                            contents: '完成政企客户支撑需求：' + dto.serialNumber + '的补充'
+                        });
+                        callback();
+                    });
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
             }
         };
     })
@@ -81,6 +115,9 @@
                     begin: begin,
                     end: end
                 });
+            },
+            updateVip: function(dto) {
+                return generalHttpService.putApiData("VipDemand", dto)
             }
         }
     });

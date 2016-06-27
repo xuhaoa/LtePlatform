@@ -3,6 +3,9 @@
         customerDialogService.constructEmergencyCommunication(
             $scope.city, $scope.district, $scope.type, $scope.page.messages, $scope.query);
     };
+    $scope.supplement = function(item) {
+        customerDialogService.supplementVipDemandInfo(item, $scope.query);
+    };
     $scope.query = function() {
         customerQueryService.queryAllVip($scope.beginDate.value, $scope.endDate.value).then(function(items) {
             $scope.items = items;
