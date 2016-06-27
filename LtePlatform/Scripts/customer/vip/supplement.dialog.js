@@ -4,4 +4,7 @@
     $scope.view = view;
     $scope.city = city;
     $scope.district = district;
+    $scope.cancel = function() {
+        $uibModalInstance.dismiss('cancel');
+    };
 });

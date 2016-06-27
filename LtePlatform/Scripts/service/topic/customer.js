@@ -42,7 +42,7 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
-            supplementVipDemandInfo: function(view, callback) {
+            supplementVipDemandInfo: function(view, city, district) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '/appViews/Customer/Dialog/VipSupplement.html',
@@ -70,7 +70,6 @@
                             type: 'success',
                             contents: '完成政企客户支撑需求：' + dto.serialNumber + '的补充'
                         });
-                        callback();
                     });
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
