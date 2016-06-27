@@ -65,7 +65,7 @@
                 });
 
                 modalInstance.result.then(function (dto) {
-                    customerQueryService.postDto(dto).then(function () {
+                    customerQueryService.updateVip(dto).then(function () {
                         messages.push({
                             type: 'success',
                             contents: '完成政企客户支撑需求：' + dto.serialNumber + '的补充'

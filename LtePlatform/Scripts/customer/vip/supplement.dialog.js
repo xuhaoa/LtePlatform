@@ -7,4 +7,9 @@
     $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel');
     };
+    $scope.ok = function () {
+        $scope.view.district=$scope.district.selected;
+        $scope.view.town=$scope.town.selected;
+        $uibModalInstance.close($scope.view);
+    };
 });

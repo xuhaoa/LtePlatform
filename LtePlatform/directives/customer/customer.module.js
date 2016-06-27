@@ -22,7 +22,7 @@
             templateUrl: customerRoot + 'vip/DemandList.html',
             link: function(scope, element, attrs) {
                 scope.supplement = function(view){
-                    customerDialogService.supplementVipDemandInfo(scope.items, scope.city, scope.district);
+                    customerDialogService.supplementVipDemandInfo(view, scope.city, scope.district);
                 };
             }
         };
