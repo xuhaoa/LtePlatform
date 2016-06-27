@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
 using Abp.EntityFramework.AutoMapper;
+using AutoMapper;
+using Lte.Domain.Regular;
 
 namespace Abp.EntityFramework.Repositories
 {
@@ -65,7 +67,7 @@ namespace Abp.EntityFramework.Repositories
 
         public async static Task<int> UpdateOne<TRepository, TEntity, TDto>(this TRepository repository, TDto stat)
             where TRepository : IRepository<TEntity>, IMatchRepository<TEntity, TDto>, ISaveChanges
-            where TEntity : Entity
+            where TEntity : Entity, new()
         {
             var info = repository.Match(stat);
             if (info == null)
@@ -74,7 +76,8 @@ namespace Abp.EntityFramework.Repositories
             }
             else
             {
-                await repository.UpdateAsync(stat.MapTo<TEntity>());
+                Mapper.Map<TDto, TEntity>(stat).CloneProperties(info, true);
+                await repository.UpdateAsync(info);
             }
             return repository.SaveChanges();
         }
