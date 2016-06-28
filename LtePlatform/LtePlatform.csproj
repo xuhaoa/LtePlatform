@@ -473,6 +473,7 @@
     <Content Include="appViews\Manage\RoleUser.html" />
     <Content Include="appViews\Parameters\Region\ENodebFlow.html" />
     <Content Include="appViews\Rutrace\Coverage\TaQueryChartDialog.html" />
+    <Content Include="appViews\Rutrace\Map\SourceMapInfoBox.html" />
     <Content Include="appViews\Rutrace\Interference\VictimDialog.html" />
     <Content Include="appViews\Rutrace\WorkItem\CellTrend.html" />
     <Content Include="appViews\Rutrace\WorkItem\ForCell.html" />

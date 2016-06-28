@@ -99,6 +99,27 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
+            showInterferenceSource: function (neighbor) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Map/SourceMapInfoBox.html',
+                    controller: 'map.source.dialog',
+                    size: 'sm',
+                    resolve: {
+                        dialogTitle: function () {
+                            return neighbor.neighborCellName + "干扰源信息";
+                        },
+                        neighbor: function () {
+                            return neighbor;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (nei) {
+                    console.log(nei);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
             matchNeighbor: function(center, candidate, neighbors) {
                 var modalInstance = $uibModal.open({
                     animation: true,

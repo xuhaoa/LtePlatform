@@ -35,7 +35,8 @@
                     angular.forEach(sectors, function(sector) {
                         sector.longtitute += xOffset;
                         sector.lattitute += yOffset;
-                        baiduMapService.addOneSectorToScope(baiduMapService.generateSector(sector, "green"),
+                        baiduMapService.addOneSectorToScope(
+                            baiduMapService.generateSector(sector, "green"),
                             neighborDialogService.showNeighbor, sector);
                     });
                 });
@@ -50,10 +51,6 @@
         }
     });
 
-    $scope.showInterferenceInfo = function(info) {
-        console.log(info);
-    };
-
     $scope.generateComponents = function(cell) {
         geometryService.transformToBaidu(cell.longtitute, cell.lattitute).then(function (coors) {
             var xOffset = coors.x - cell.longtitute;
@@ -66,8 +63,10 @@
             });
             preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
                 $routeParams.cellId, $routeParams.sectorId).then(function (interference) {
-                    baiduMapService.generateInterferenceComponents($scope.interferenceLines, $scope.interferenceCircles, cell,
-                        interference, xOffset, yOffset, "orange", $scope.showInterferenceInfo);
+                    baiduMapService.generateInterferenceComponents(
+                        $scope.interferenceLines, $scope.interferenceCircles, cell,
+                        interference, xOffset, yOffset, "orange",
+                        neighborDialogService.showInterferenceSource);
                 });
             preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
                 $routeParams.cellId, $routeParams.sectorId).then(function (victims) {
