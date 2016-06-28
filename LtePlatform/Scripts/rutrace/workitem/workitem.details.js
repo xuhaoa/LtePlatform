@@ -38,6 +38,9 @@
                 }
             });
     };
+    $scope.finishItem = function() {
+        console.log($scope.currentView);
+    };
     
     $scope.queryWorkItems();
     $scope.queryPreciseCells();
