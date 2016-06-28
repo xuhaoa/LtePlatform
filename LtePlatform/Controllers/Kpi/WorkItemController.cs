@@ -122,6 +122,12 @@ namespace LtePlatform.Controllers.Kpi
             return await _service.SignInWorkItem(signinNumber, User.Identity.Name);
         }
 
+        [HttpGet]
+        public async Task Finish(string finishNumber, string comments)
+        {
+            await _service.FinishWorkItem(finishNumber, User.Identity.Name, comments);
+        }
+
         [HttpPut]
         [AllowAnonymous]
         [ApiDoc("更新LTE扇区编号")]

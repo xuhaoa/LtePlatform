@@ -224,5 +224,16 @@ namespace Lte.Evaluations.DataService
             _repository.SaveChanges();
             return view;
         }
+
+        public async Task FinishWorkItem(string serialNumber, string userName, string comments)
+        {
+            var existedItem = await _repository.FirstOrDefaultAsync(x => x.SerialNumber == serialNumber);
+            if (existedItem == null) return;
+            existedItem.Comments += "[" + DateTime.Now + "]" + userName + ": " + comments;
+            existedItem.FinishTime = DateTime.Now;
+            existedItem.State = WorkItemState.Finished;
+            await _repository.UpdateAsync(existedItem);
+            _repository.SaveChanges();
+        }
     }
 }
