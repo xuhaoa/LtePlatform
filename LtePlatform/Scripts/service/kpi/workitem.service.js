@@ -1,365 +1,118 @@
 ﻿angular.module('kpi.workitem', ['myApp.url', "ui.bootstrap"])
-    .factory('workitemService', function($q, $http, appUrlService) {
+    .factory('workitemService', function (generalHttpService) {
         return {
-            queryWithPaging: function(state, type, itemsPerPage, page) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('WorkItem'),
-                        params: {
-                            'statCondition': state,
-                            'typeCondition': type,
-                            'itemsPerPage': itemsPerPage,
-                            'page': page
-                        },
-                        headers: {
-                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryWithPaging: function (state, type, itemsPerPage, page) {
+                return generalHttpService.getApiDataWithHeading('WorkItem', {
+                    'statCondition': state,
+                    'typeCondition': type,
+                    'itemsPerPage': itemsPerPage,
+                    'page': page
+                });
             },
-            queryWithPagingByDistrict: function(state, type, district, itemsPerPage, page) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('WorkItem'),
-                        params: {
-                            statCondition: state,
-                            typeCondition: type,
-                            district: district,
-                            itemsPerPage: itemsPerPage,
-                            page: page
-                        },
-                        headers: {
-                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryWithPagingByDistrict: function (state, type, district, itemsPerPage, page) {
+                return generalHttpService.getApiDataWithHeading('WorkItem', {
+                    statCondition: state,
+                    typeCondition: type,
+                    district: district,
+                    itemsPerPage: itemsPerPage,
+                    page: page
+                });
             },
-            queryTotalPages: function(state, type) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('WorkItem'),
-                        params: {
-                            'statCondition': state,
-                            'typeCondition': type
-                        },
-                        headers: {
-                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryTotalPages: function (state, type) {
+                return generalHttpService.getApiDataWithHeading('WorkItem', {
+                    'statCondition': state,
+                    'typeCondition': type
+                });
             },
-            queryTotalPagesByDistrict: function(state, type, district) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('WorkItem'),
-                        params: {
-                            statCondition: state,
-                            typeCondition: type,
-                            district: district
-                        },
-                        headers: {
-                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryTotalPagesByDistrict: function (state, type, district) {
+                return generalHttpService.getApiDataWithHeading('WorkItem', {
+                    statCondition: state,
+                    typeCondition: type,
+                    district: district
+                });
             },
-            querySingleItem: function(serialNumber) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('WorkItem'),
-                        params: {
-                            serialNumber: serialNumber
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            querySingleItem: function (serialNumber) {
+                return generalHttpService.getApiData('WorkItem', {
+                    serialNumber: serialNumber
+                });
             },
-            signIn: function(serialNumber) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('WorkItem'),
-                        params: {
-                            signinNumber: serialNumber
-                        },
-                        headers: {
-                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            signIn: function (serialNumber) {
+                return generalHttpService.getApiDataWithHeading('WorkItem', {
+                    signinNumber: serialNumber
+                });
             },
-            queryChartData: function() {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('WorkItem'),
-                        headers: {
-                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryChartData: function () {
+                return generalHttpService.getApiDataWithHeading('WorkItem', {});
             },
-            updateSectorIds: function() {
-                var deferred = $q.defer();
-                $http.put(appUrlService.getApiUrl('WorkItem')).success(function(result) {
-                        deferred.resolve(result);
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            updateSectorIds: function () {
+                return generalHttpService.putApiData('WorkItem', {});
             },
-            feedback: function(message, serialNumber) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'POST',
-                        url: appUrlService.getApiUrl('WorkItem'),
-                        data: {
-                            message: message,
-                            serialNumber: serialNumber
-                        },
-                        headers: {
-                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            feedback: function (message, serialNumber) {
+                return generalHttpService.postApiDataWithHeading('WorkItem', {
+                    message: message,
+                    serialNumber: serialNumber
+                });
             },
-            queryByENodebId: function(eNodebId) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('WorkItem'),
-                        params: {
-                            eNodebId: eNodebId
-                        },
-                        headers: {
-                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryByENodebId: function (eNodebId) {
+                return generalHttpService.getApiDataWithHeading('WorkItem', {
+                    eNodebId: eNodebId
+                });
             },
-            queryByCellId: function(eNodebId, sectorId) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('WorkItem'),
-                        params: {
-                            eNodebId: eNodebId,
-                            sectorId: sectorId
-                        },
-                        headers: {
-                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryByCellId: function (eNodebId, sectorId) {
+                return generalHttpService.getApiDataWithHeading('WorkItem', {
+                    eNodebId: eNodebId,
+                    sectorId: sectorId
+                });
             },
-            queryCurrentMonth: function() {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('WorkItemCurrentMonth')
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryCurrentMonth: function () {
+                return generalHttpService.getApiData('WorkItemCurrentMonth', {});
             },
-            constructPreciseItem: function(cell, begin, end) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'POST',
-                        url: appUrlService.getApiUrl('PreciseWorkItem'),
-                        data: {
-                            view: cell,
-                            begin: begin,
-                            end: end
-                        },
-                        headers: {
-                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            constructPreciseItem: function (cell, begin, end) {
+                return generalHttpService.postApiDataWithHeading('PreciseWorkItem', {
+                    view: cell,
+                    begin: begin,
+                    end: end
+                });
             }
         };
     })
-    .factory('preciseWorkItemService', function($q, $http, appUrlService) {
+    .factory('preciseWorkItemService', function (generalHttpService) {
         return {
-            queryByDateSpanDistrict: function(begin, end, district) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('PreciseWorkItem'),
-                        params: {
-                            begin: begin,
-                            end: end,
-                            district: district
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryByDateSpanDistrict: function (begin, end, district) {
+                return generalHttpService.getApiData('PreciseWorkItem', {
+                    begin: begin,
+                    end: end,
+                    district: district
+                });
             },
-            queryByDateSpan: function(begin, end) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('PreciseWorkItem'),
-                        params: {
-                            begin: begin,
-                            end: end
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryByDateSpan: function (begin, end) {
+                return generalHttpService.getApiData('PreciseWorkItem', {
+                    begin: begin,
+                    end: end
+                });
             },
-            queryBySerial: function(number) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('PreciseWorkItem'),
-                        params: {
-                            number: number
-                        },
-                        headers: {
-                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryBySerial: function (number) {
+                return generalHttpService.getApiDataWithHeading('PreciseWorkItem', {
+                    number: number
+                });
             },
-            updateInterferenceNeighbor: function(number, items) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'POST',
-                        url: appUrlService.getApiUrl('InterferenceNeighborWorkItem'),
-                        data: {
-                            workItemNumber: number,
-                            items: items
-                        },
-                        headers: {
-                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            updateInterferenceNeighbor: function (number, items) {
+                return generalHttpService.postApiDataWithHeading('InterferenceNeighborWorkItem', {
+                    workItemNumber: number,
+                    items: items
+                });
             },
-            updateInterferenceVictim: function(number, items) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'POST',
-                        url: appUrlService.getApiUrl('InterferenceVictimWorkItem'),
-                        data: {
-                            workItemNumber: number,
-                            items: items
-                        },
-                        headers: {
-                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            updateInterferenceVictim: function (number, items) {
+                return generalHttpService.postApiDataWithHeading('InterferenceVictimWorkItem', {
+                    workItemNumber: number,
+                    items: items
+                });
             },
-            updateCoverage: function(number, items) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'POST',
-                        url: appUrlService.getApiUrl('CoverageWorkItem'),
-                        data: {
-                            workItemNumber: number,
-                            items: items
-                        },
-                        headers: {
-                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            updateCoverage: function (number, items) {
+                return generalHttpService.postApiDataWithHeading('CoverageWorkItem', {
+                    workItemNumber: number,
+                    items: items
+                });
             }
         };
     })

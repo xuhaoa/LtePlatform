@@ -92,6 +92,23 @@
                 });
                 return deferred.promise;
             },
+            getApiDataWithHeading: function (topic, params) {
+                var deferred = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: appUrlService.getApiUrl(topic),
+                    params: params,
+                    headers: {
+                        'Authorization': 'Bearer ' + appUrlService.getAccessToken()
+                    }
+                }).success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (reason) {
+                    deferred.reject(reason);
+                });
+                return deferred.promise;
+            },
             postApiData: function(topic, data) {
                 var deferred = $q.defer();
                 $http.post(appUrlService.getApiUrl(topic), data)
@@ -99,6 +116,23 @@
                         deferred.resolve(result);
                     })
                     .error(function (reason) {
+                        deferred.reject(reason);
+                    });
+                return deferred.promise;
+            },
+            postApiDataWithHeading: function (topic, data) {
+                var deferred = $q.defer();
+                $http({
+                        method: 'POST',
+                        url: appUrlService.getApiUrl(topic),
+                        data: data,
+                        headers: {
+                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
+                        }
+                    }).success(function(result) {
+                        deferred.resolve(result);
+                    })
+                    .error(function(reason) {
                         deferred.reject(reason);
                     });
                 return deferred.promise;
