@@ -7,8 +7,8 @@ app.controller("rutrace.index", function ($scope, appRegionService, appKpiServic
         value: yesterday,
         opened: false
     };
-    $scope.showKpi = function() {
-        kpiPreciseService.getRecentPreciseRegionKpi($scope.city.selected, $scope.statDate.value)
+    $scope.showKpi = function(city) {
+        kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value)
             .then(function (result) {
                 $scope.statDate.value = appFormatService.getDate(result.statDate);
                 angular.forEach(result.districtPreciseViews, function(view) {
@@ -18,10 +18,14 @@ app.controller("rutrace.index", function ($scope, appRegionService, appKpiServic
                 $scope.overallStat.townStats = result.townPreciseViews;
                 $scope.overallStat.currentDistrict = result.districtPreciseViews[0].district;
                 $scope.overallStat.cityStat
-                    = appKpiService.getCityStat($scope.overallStat.districtStats, $scope.city.selected);
+                    = appKpiService.getCityStat($scope.overallStat.districtStats, city);
                 $scope.overallStat.cityStat.objectRate = 92.6;
                 $scope.overallStat.dateString = appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
             });
     };
-    $scope.showKpi();
+    $scope.$watch('city.selected', function (city) {
+        if (city) {
+            $scope.showKpi(city);
+        }        
+    });
 });

@@ -9,19 +9,28 @@
     $scope.flowDate = {
         value: yesterday,
         opened: false
-    };
-    kpiPreciseService.getRecentPreciseRegionKpi($scope.city.selected || '佛山', $scope.statDate.value || new Date())
+    };    
+
+    $scope.queryKpi4G = function (city) {
+        kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value || new Date())
         .then(function (result) {
             $scope.statDate.value = appFormatService.getDate(result.statDate);
-            $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, $scope.city.selected);
+            $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, city);
             $scope.rate = appKpiService.calculatePreciseRating($scope.cityStat.preciseRate);
             $("#preciseConfig").highcharts(kpiDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
                 $scope.cityStat));
         });
-    downSwitchService.getRecentKpi($scope.city.selected || '佛山', $scope.statDate.value || new Date())
-        .then(function (result) {
-            $scope.flowDate.value = appFormatService.getDate(result.statDate);
-            $scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
-            $scope.downRate = appKpiService.calculateDownSwitchRating($scope.flowStat);
-        });
+        downSwitchService.getRecentKpi(city, $scope.statDate.value || new Date())
+            .then(function (result) {
+                $scope.flowDate.value = appFormatService.getDate(result.statDate);
+                $scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
+                $scope.downRate = appKpiService.calculateDownSwitchRating($scope.flowStat);
+            });
+    };
+
+    $scope.$watch('city.selected', function (city) {
+        if (city) {
+            $scope.queryKpi4G(city);
+        }
+    });
 });
