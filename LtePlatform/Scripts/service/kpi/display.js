@@ -300,6 +300,22 @@
                     over6DbOption: over6DbColumn.options,
                     over10DbOption: over10DbColumn.options
                 };
+            },
+            calculatePreciseChange: function(input) {
+                var preKpis = input.slice(0, 7);
+                var postKpis = input.slice(input.length - 7);
+                var preSum = 0;
+                var postSum = 0;
+                angular.forEach(preKpis, function(kpi) {
+                    preSum += kpi.secondRate;
+                });
+                angular.forEach(postKpis, function(kpi) {
+                    postSum += kpi.secondRate;
+                });
+                return {
+                    pre: 100 - preSum / 7,
+                    post: 100 - postSum / 7
+                };
             }
         };
     });

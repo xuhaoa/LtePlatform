@@ -2,16 +2,7 @@
     workitemService, appFormatService, cellPreciseService, kpiDisplayService, preciseWorkItemService, networkElementService) {
     $scope.page.title = "工单编号" + $routeParams.number + "信息";
     $scope.serialNumber = $routeParams.number;
-    var lastWeek = new Date();
-    lastWeek.setDate(lastWeek.getDate() - 7);
-    $scope.beginDate = {
-        value: lastWeek,
-        opened: false
-    };
-    $scope.endDate = {
-        value: new Date(),
-        opened: false
-    };
+    $scope.initialize = true;
     $scope.queryWorkItems = function () {
         workitemService.querySingleItem($routeParams.number).then(function (result) {
             $scope.currentView = result;
@@ -39,6 +30,12 @@
                     $scope.beginDateString + "-" + $scope.endDateString + "MR数变化趋势");
                 $scope.preciseConfig = kpiDisplayService.getPreciseOptions(result,
                     $scope.beginDateString + "-" + $scope.endDateString + "精确覆盖率变化趋势");
+                if ($scope.initialize && result.length > 14) {
+                    var output = kpiDisplayService.calculatePreciseChange(result);
+                    console.log(output.pre);
+                    console.log(output.post);
+                    $scope.initialize = false;
+                }
             });
     };
     
