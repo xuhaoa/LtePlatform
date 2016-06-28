@@ -133,9 +133,13 @@
 			        new BMap.Point(x1, y1)
 				], { strokeColor: color, strokeWeight: 1 });
 			},
-            getCircle: function(x, y, r, color) {
+            getCircle: function(x, y, r, color, callback, neighbor) {
                 color = color || "orange";
-                return new BMap.Circle(new BMap.Point(x, y), r, { strokeColor: color, fillColor: color });
+                var circle = new BMap.Circle(new BMap.Point(x, y), r, { strokeColor: color, fillColor: color });
+                circle.addEventListener("click", function () {
+                    callback(neighbor);
+                });
+                return circle;
             },
             transformToBaidu: function(longtitute, lattitute) {
                 var deferred = $q.defer();
@@ -255,7 +259,7 @@
 					});
 				});
 			},
-			generateInterferenceComponents: function (lines, circles, cell, neighbors, xOffset, yOffset, color) {
+			generateInterferenceComponents: function (lines, circles, cell, neighbors, xOffset, yOffset, color, callback) {
 			    var zoom = map.getZoom();
 			    var rSector = geometryService.getRadius(zoom).rSector;
 			    var centerCell = getCellCenter(cell, rSector / 2);
@@ -266,7 +270,11 @@
 			                var line = geometryService.getLine(centerCell.longtitute + xOffset, centerCell.lattitute + yOffset,
 			                    neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, color);
 			                lines.push(line);
-			                var circle = geometryService.getCircle(neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, 50, color);
+			                var circle = geometryService.getCircle(
+                                neighborCenter.longtitute + xOffset,
+                                neighborCenter.lattitute + yOffset,
+                                50, color,
+                                callback, neighbor);
 			                circles.push(circle);
 			            });
 			        }

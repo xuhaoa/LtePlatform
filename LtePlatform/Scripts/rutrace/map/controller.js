@@ -50,6 +50,10 @@
         }
     });
 
+    $scope.showInterferenceInfo = function(info) {
+        console.log(info);
+    };
+
     $scope.generateComponents = function(cell) {
         geometryService.transformToBaidu(cell.longtitute, cell.lattitute).then(function (coors) {
             var xOffset = coors.x - cell.longtitute;
@@ -63,7 +67,7 @@
             preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
                 $routeParams.cellId, $routeParams.sectorId).then(function (interference) {
                     baiduMapService.generateInterferenceComponents($scope.interferenceLines, $scope.interferenceCircles, cell,
-                        interference, xOffset, yOffset, "orange");
+                        interference, xOffset, yOffset, "orange", $scope.showInterferenceInfo);
                 });
             preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
                 $routeParams.cellId, $routeParams.sectorId).then(function (victims) {
