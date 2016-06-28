@@ -120,6 +120,9 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
+            showInterferenceVictim: function(neighbor) {
+                console.log(neighbor);
+            },
             matchNeighbor: function(center, candidate, neighbors) {
                 var modalInstance = $uibModal.open({
                     animation: true,
