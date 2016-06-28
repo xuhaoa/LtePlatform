@@ -121,7 +121,25 @@
                 });
             },
             showInterferenceVictim: function(neighbor) {
-                console.log(neighbor);
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Map/VictimMapInfoBox.html',
+                    controller: 'map.source.dialog',
+                    size: 'sm',
+                    resolve: {
+                        dialogTitle: function () {
+                            return neighbor.victimCellName + "被干扰小区信息";
+                        },
+                        neighbor: function () {
+                            return neighbor;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (nei) {
+                    console.log(nei);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
             },
             matchNeighbor: function(center, candidate, neighbors) {
                 var modalInstance = $uibModal.open({
