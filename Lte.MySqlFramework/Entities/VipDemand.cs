@@ -17,7 +17,7 @@ namespace Lte.MySqlFramework.Entities
 
         public DemandLevel DemandLevel { get; set; }
 
-        [CloneProtection]
+        [CloneProtection(Protection = false)]
         public int TownId { get; set; }
 
         public string ProjectName { get; set; }

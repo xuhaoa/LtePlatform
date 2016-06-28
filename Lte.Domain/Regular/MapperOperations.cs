@@ -42,9 +42,8 @@ namespace Lte.Domain.Regular
                 {
                     var cfa = (CloneProtectionAttribute)Attribute.GetCustomAttribute(
                         srcProperty, typeof(CloneProtectionAttribute));
-                    if (srcProperty.Name.ToLower().Contains("id") && cfa == null) continue;
-
-                    if (cfa != null && cfa.Protection) { continue; }
+                    if ((srcProperty.Name.ToLower().Contains("id") && cfa == null) 
+                        || (cfa != null && cfa.Protection)) { continue; }
                 }
                 foreach (var destProperty in destProperties
                     .Where(destProperty => destProperty.Name == srcProperty.Name

@@ -17,12 +17,13 @@
             scope: {
                 items: '=',
                 city: '=',
-                district: '='
+                district: '=',
+                messages: '='
             },
             templateUrl: customerRoot + 'vip/DemandList.html',
             link: function(scope, element, attrs) {
                 scope.supplement = function(view){
-                    customerDialogService.supplementVipDemandInfo(view, scope.city, scope.district);
+                    customerDialogService.supplementVipDemandInfo(view, scope.city, scope.district, scope.messages);
                 };
             }
         };

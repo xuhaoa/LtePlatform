@@ -42,7 +42,7 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
-            supplementVipDemandInfo: function(view, city, district) {
+            supplementVipDemandInfo: function(view, city, district, messages) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '/appViews/Customer/Dialog/VipSupplement.html',
