@@ -32,8 +32,8 @@
                     $scope.beginDateString + "-" + $scope.endDateString + "精确覆盖率变化趋势");
                 if ($scope.initialize && result.length > 14) {
                     var output = kpiDisplayService.calculatePreciseChange(result);
-                    console.log(output.pre);
-                    console.log(output.post);
+                    $scope.preKpi = output.pre;
+                    $scope.postKpi = output.post;
                     $scope.initialize = false;
                 }
             });
