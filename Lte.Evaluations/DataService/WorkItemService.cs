@@ -225,15 +225,18 @@ namespace Lte.Evaluations.DataService
             return view;
         }
 
-        public async Task FinishWorkItem(string serialNumber, string userName, string comments)
+        public async Task<WorkItemView> FinishWorkItem(string serialNumber, string userName, string comments)
         {
             var existedItem = await _repository.FirstOrDefaultAsync(x => x.SerialNumber == serialNumber);
-            if (existedItem == null) return;
+            if (existedItem == null) return null;
             existedItem.Comments += "[" + DateTime.Now + "]" + userName + ": " + comments;
             existedItem.FinishTime = DateTime.Now;
             existedItem.State = WorkItemState.Finished;
-            await _repository.UpdateAsync(existedItem);
+            var result = await _repository.UpdateAsync(existedItem);
+            var view = result == null ? null : Mapper.Map<WorkItem, WorkItemView>(result);
+            view?.UpdateTown(_eNodebRepository, _btsRepository, _townRepository);
             _repository.SaveChanges();
+            return view;
         }
     }
 }

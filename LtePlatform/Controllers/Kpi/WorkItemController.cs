@@ -123,9 +123,9 @@ namespace LtePlatform.Controllers.Kpi
         }
 
         [HttpGet]
-        public async Task Finish(string finishNumber, string comments)
+        public async Task<WorkItemView> Finish(string finishNumber, string comments)
         {
-            await _service.FinishWorkItem(finishNumber, User.Identity.Name, comments);
+            return await _service.FinishWorkItem(finishNumber, User.Identity.Name, comments);
         }
 
         [HttpPut]

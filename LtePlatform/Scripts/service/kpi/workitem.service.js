@@ -53,6 +53,12 @@
                     serialNumber: serialNumber
                 });
             },
+            finish: function(comments, finishNumber){
+                return generalHttpService.getApiDataWithHeading('WorkItem', {
+                    finishNumber: finishNumber,
+                    comments: comments
+                });
+            },
             queryByENodebId: function (eNodebId) {
                 return generalHttpService.getApiDataWithHeading('WorkItem', {
                     eNodebId: eNodebId
