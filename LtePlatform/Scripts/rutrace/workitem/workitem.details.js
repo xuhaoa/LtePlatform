@@ -39,7 +39,7 @@
             });
     };
     $scope.finishItem = function () {
-        workitemService.finish('优化前精确覆盖率：' + $scope.preKpi + '%；优化后精确覆盖率：' + $scope.postKpi,
+        workitemService.finish('优化前精确覆盖率：' + $scope.preKpi + '%；优化后精确覆盖率：' + $scope.postKpi + '%',
             $scope.serialNumber).then(function (view) {
                 $scope.currentView = view;
             });
