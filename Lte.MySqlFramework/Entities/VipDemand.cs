@@ -40,6 +40,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string SustainPerson { get; set; }
 
+        [CloneProtection(Protection = true)]
         public DateTime? FinishTime { get; set; }
 
         public int SubscriberGotten { get; set; }
