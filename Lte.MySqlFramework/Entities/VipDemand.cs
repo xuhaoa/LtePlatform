@@ -40,11 +40,13 @@ namespace Lte.MySqlFramework.Entities
 
         public string SustainPerson { get; set; }
 
-        public DateTime FinishTime { get; set; }
+        public DateTime? FinishTime { get; set; }
 
         public int SubscriberGotten { get; set; }
 
         public string FinishResults { get; set; }
+
+        public string ProcessInfo { get; set; }
     }
     
     public class VipDemandDto : IDistrictTown
@@ -79,11 +81,13 @@ namespace Lte.MySqlFramework.Entities
 
         public string SustainPerson { get; set; }
 
-        public DateTime FinishTime { get; set; }
+        public bool IsFinished { get; set; }
 
         public int SubscriberGotten { get; set; }
 
         public string FinishResults { get; set; }
+
+        public string ProcessInfo { get; set; }
     }
 
     public class VipDemandExcel

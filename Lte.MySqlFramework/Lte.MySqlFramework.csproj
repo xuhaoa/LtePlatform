@@ -117,10 +117,6 @@
     <Compile Include="Entities\FlowZteCsv.cs" />
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201606150920331_Update_Customer1.cs" />
-    <Compile Include="Migrations\201606150920331_Update_Customer1.Designer.cs">
-      <DependentUpon>201606150920331_Update_Customer1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201606190032469_Update_Flow.cs" />
     <Compile Include="Migrations\201606190032469_Update_Flow.Designer.cs">
       <DependentUpon>201606190032469_Update_Flow.cs</DependentUpon>
@@ -128,6 +124,10 @@
     <Compile Include="Migrations\201606231413559_Add_VipDemand.cs" />
     <Compile Include="Migrations\201606231413559_Add_VipDemand.Designer.cs">
       <DependentUpon>201606231413559_Add_VipDemand.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606290316246_Update_VipDemand.cs" />
+    <Compile Include="Migrations\201606290316246_Update_VipDemand.Designer.cs">
+      <DependentUpon>201606290316246_Update_VipDemand.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -137,14 +137,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606150920331_Update_Customer1.resx">
-      <DependentUpon>201606150920331_Update_Customer1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606190032469_Update_Flow.resx">
       <DependentUpon>201606190032469_Update_Flow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606231413559_Add_VipDemand.resx">
       <DependentUpon>201606231413559_Add_VipDemand.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606290316246_Update_VipDemand.resx">
+      <DependentUpon>201606290316246_Update_VipDemand.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

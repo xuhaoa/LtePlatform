@@ -14,7 +14,7 @@
                     templateUrl: viewDir + "VipList.html",
                     controller: "vip.list"
                 })
-                .when('/topDistrict/:district', {
+                .when('/vip/process/:number', {
                     templateUrl: viewDir + "Top.html",
                     controller: "rutrace.top.district"
                 })

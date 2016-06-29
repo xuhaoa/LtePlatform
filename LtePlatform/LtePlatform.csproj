@@ -456,6 +456,7 @@
     <Content Include="appViews\Customer\EmergencyList.html" />
     <Content Include="appViews\Customer\Dialog\Emergency.html" />
     <Content Include="appViews\Customer\Index.html" />
+    <Content Include="appViews\Customer\Process\Vip.html" />
     <Content Include="appViews\Customer\VipList.html" />
     <Content Include="appViews\Evaluation\Dialog\BuildingInfoBox.html" />
     <Content Include="appViews\Evaluation\Home.html" />

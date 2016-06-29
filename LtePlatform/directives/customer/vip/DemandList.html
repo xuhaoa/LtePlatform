@@ -29,8 +29,9 @@
             <td>
                 <button class="btn btn-sm btn-warning" ng-click="supplement(item)"
                         ng-hide="item.area && item.subscriberGotten && item.contactPerson && item.phoneNumber && item.townId > 0">补全信息</button>
-                <a class="btn btn-sm btn-success" ng-href="{{rootPath}}emergency/process/{{item.serialNumber}}"
-                   ng-show="item.area && item.subscriberGotten && item.contactPerson && item.phoneNumber && item.townId > 0">工单处理</a>
+                <a class="btn btn-sm btn-success" ng-href="{{rootPath}}vip/process/{{item.serialNumber}}"
+                   ng-show="item.area && item.subscriberGotten && item.contactPerson && item.phoneNumber && item.townId > 0 && !item.isFinished">工单处理</a>
+                <span ng-if="item.isFinished" style="color: green">已完成</span>
             </td>
         </tr>
     </tbody>
