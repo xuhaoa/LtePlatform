@@ -26,7 +26,12 @@
             <td>{{item.serialNumber}}</td>
             <td>{{item.department}}</td>
             <td>{{item.contactPerson}}</td>
-            <td><button class="btn btn-sm btn-warning" ng-click="supplement(item)">补全信息</button></td>
+            <td>
+                <button class="btn btn-sm btn-warning" ng-click="supplement(item)"
+                        ng-hide="item.area && item.subscriberGotten && item.contactPerson && item.phoneNumber && item.townId > 0">补全信息</button>
+                <a class="btn btn-sm btn-success" ng-href="{{rootPath}}emergency/process/{{item.serialNumber}}"
+                   ng-show="item.area && item.subscriberGotten && item.contactPerson && item.phoneNumber && item.townId > 0">工单处理</a>
+            </td>
         </tr>
     </tbody>
 </table>

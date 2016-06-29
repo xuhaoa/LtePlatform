@@ -18,7 +18,8 @@
                 items: '=',
                 city: '=',
                 district: '=',
-                messages: '='
+                messages: '=',
+                rootPath: '='
             },
             templateUrl: customerRoot + 'vip/DemandList.html',
             link: function(scope, element, attrs) {

@@ -123,7 +123,7 @@
         };
     })
     .factory('preciseChartService', function() {
-        var updateCpmpoundStats = function(stats, type, subType) {
+        var updateCompoundStats = function(stats, type, subType) {
             var j;
             for (j = 0; j < stats.length; j++) {
                 if (stats[j].type === type) {
@@ -155,7 +155,7 @@
             angular.forEach(views, function(view) {
                 var type = view.workItemType;
                 var subType = view.workItemSubType;
-                updateCpmpoundStats(stats, type, subType);
+                updateCompoundStats(stats, type, subType);
             });
             return stats;
         };
@@ -164,7 +164,7 @@
             angular.forEach(views, function(view) {
                 var type = view.workItemState;
                 var subType = view.workItemSubType;
-                updateCpmpoundStats(stats, type, subType);
+                updateCompoundStats(stats, type, subType);
             });
             return stats;
         };
