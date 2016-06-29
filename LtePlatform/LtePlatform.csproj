@@ -978,11 +978,13 @@
     <Content Include="Scripts\service\topic\customer.js" />
     <Content Include="Scripts\service\topic\qunit.my.js" />
     <Content Include="Scripts\test\example.js" />
+    <Content Include="Scripts\test\helpers.js" />
     <Content Include="Scripts\test\jasmineTest.js" />
     <Content Include="Scripts\test\kpi.conf.js" />
     <Content Include="Scripts\test\kpi\app.kpi.service.js" />
     <Content Include="Scripts\test\mock\highcharts.mock.js" />
     <Content Include="Scripts\test\mock\ui.bootstrap.mock.js" />
+    <Content Include="Scripts\test\uib.conf.js" />
     <Content Include="Scripts\test\uib\accordion.spec.js" />
     <Content Include="Scripts\test\workitem.conf.js" />
     <Content Include="Scripts\test\workitem\precise.chart.service.js" />
@@ -1183,12 +1185,6 @@
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
-    <Content Include="Scripts\jquery-ui-1.11.4.js" />
-    <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
-    <Content Include="Scripts\knockout-3.4.0.debug.js" />
-    <Content Include="Scripts\knockout-3.4.0.js" />
-    <Content Include="Scripts\knockout.validation.js" />
-    <Content Include="Scripts\knockout.validation.min.js" />
     <Content Include="Scripts\kpi\workitem\bts.js" />
     <Content Include="Scripts\kpi\workitem\cdmaCell.js" />
     <Content Include="Scripts\kpi\workitem\cell.js" />
@@ -1300,7 +1296,6 @@
     <Content Include="Views\College\_PreciseKpi.cshtml" />
     <Content Include="appViews\College\Table\CollegeStatTable.html" />
     <Content Include="Views\Dt\_List.cshtml" />
-    <Content Include="Scripts\knockout.validation.min.js.map" />
     <Content Include="appViews\College\Table\CollegeMapInfoBox.html" />
     <Content Include="appViews\Rutrace\Map\PreciseSectorMapInfoBox.html" />
     <Content Include="appViews\College\Table\DistributionMapInfoBox.html" />
