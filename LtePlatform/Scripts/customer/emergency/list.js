@@ -1,4 +1,5 @@
 ﻿app.controller("emergency.list", function ($scope, customerDialogService, customerQueryService) {
+    $scope.page.title = "应急需求";
     $scope.construct = function() {
         customerDialogService.constructEmergencyCommunication(
             $scope.city, $scope.district, $scope.type, $scope.page.messages, $scope.query);

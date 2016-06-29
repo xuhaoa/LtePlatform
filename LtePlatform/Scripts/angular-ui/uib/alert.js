@@ -16,6 +16,12 @@ angular.module('ui.bootstrap.alert', [])
       $scope.close();
     }, parseInt(dismissOnTimeout, 10));
   }
+
+  var type = angular.isDefined($attrs.type) ? $interpolate($attrs.type)($scope.$parent) : null;
+
+  if (type) {
+      $element.addClass('alert-' + type);
+  }
 }])
 
 .directive('uibAlert', function() {

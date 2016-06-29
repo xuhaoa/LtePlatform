@@ -1,4 +1,5 @@
 ﻿app.controller("vip.list", function ($scope, customerDialogService, customerQueryService) {
+    $scope.page.title = "政企支撑";
     $scope.construct = function() {
         customerDialogService.constructEmergencyCommunication(
             $scope.city, $scope.district, $scope.type, $scope.page.messages, $scope.query);
