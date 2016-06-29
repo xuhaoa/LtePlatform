@@ -20,6 +20,7 @@ module.exports = function (config) {
             '../angular-mocks.js',
             '../angular-sanitize.min.js',
             '../angular-ui/uib/*.js',
+            {pattern: '../../template/**/*.html',  included: false},
             'helpers.js',
             'uib/*.js'
         ],

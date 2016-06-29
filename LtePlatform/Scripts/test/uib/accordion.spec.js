@@ -6,7 +6,7 @@
   //beforeEach(module('/template/accordion/accordion.html'));
   //beforeEach(module('/template/accordion/accordion-group.html'));
 
-  beforeEach(inject(function(_$animate_, $rootScope) {
+  beforeEach(inject(function(_$animate_, $rootScope, $injector) {
     $animate = _$animate_;
     $scope = $rootScope;
   }));
@@ -124,7 +124,7 @@
     }));
 
     it('should be a tablist', function() {
-      element = $compile('<uib-accordion></uib-accordion>')(scope);
+        element = $compile('<uib-accordion template-url="../../template/accordion/accordion.html"></uib-accordion>')(scope);
       scope.$digest();
       expect(element.html()).toContain('role="tablist"');
     });
