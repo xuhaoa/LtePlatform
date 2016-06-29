@@ -1,6 +1,7 @@
 ﻿<div class="row">
     <div class="col-md-6">
         <div date-span-column begin-date="beginDate" end-date="endDate"></div>
+        <input type="checkbox" ng-model="displayFinishedItem" />显示已完成工单
     </div>
     <div class="col-md-6">
         <div city-district-selection city="city" district="district"></div>
@@ -20,4 +21,5 @@
         </div>
     </div>
 </div>
-<div vip-demand-list items="items" city="city" district="district" messages="page.messages" root-path="rootPath"></div>
+<div vip-demand-list items="items" city="city" district="district" 
+     messages="page.messages" root-path="rootPath" display-finished-item="displayFinishedItem"></div>

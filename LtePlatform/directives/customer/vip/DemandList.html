@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody ng-repeat="item in items">
-        <tr>
+        <tr ng-show="displayFinishedItem || !item.isInfoComplete || !item.isFinished">
             <td>{{item.district}}</td>
             <td style="min-width: 150px">{{item.projectName}}</td>
             <td>{{item.area}}</td>
