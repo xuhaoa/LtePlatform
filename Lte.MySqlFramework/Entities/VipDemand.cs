@@ -84,6 +84,8 @@ namespace Lte.MySqlFramework.Entities
 
         public bool IsFinished { get; set; }
 
+        public bool IsInfoComplete { get; set; }
+
         public int SubscriberGotten { get; set; }
 
         public string FinishResults { get; set; }

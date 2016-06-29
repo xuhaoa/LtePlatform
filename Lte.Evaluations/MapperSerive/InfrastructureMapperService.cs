@@ -213,7 +213,13 @@ namespace Lte.Evaluations.MapperSerive
             Mapper.CreateMap<VipDemand, VipDemandDto>()
                 .ForMember(d => d.DemandLevelDescription, opt => opt.MapFrom(s => s.DemandLevel.GetEnumDescription()))
                 .ForMember(d => d.NetworkTypeDescription, opt => opt.MapFrom(s => s.NetworkType.GetEnumDescription()))
-                .ForMember(d => d.IsFinished, opt => opt.MapFrom(s => s.FinishTime != null));
+                .ForMember(d => d.IsFinished, opt => opt.MapFrom(s => s.FinishTime != null))
+                .ForMember(d => d.IsInfoComplete,
+                    opt =>
+                        opt.MapFrom(
+                            s =>
+                                !string.IsNullOrEmpty(s.Area) && !string.IsNullOrEmpty(s.ContactPerson) &&
+                                !string.IsNullOrEmpty(s.PhoneNumber) && s.TownId > 0));
         }
     }
 }
