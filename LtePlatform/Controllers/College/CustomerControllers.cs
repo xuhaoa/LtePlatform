@@ -70,5 +70,11 @@ namespace LtePlatform.Controllers.College
         {
             return _service.Query(district, town, begin, end);
         }
+
+        [HttpGet]
+        public VipDemandDto Get(string serialNumber)
+        {
+            return _service.QuerySingle(serialNumber);
+        }
     }
 }

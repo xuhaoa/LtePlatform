@@ -140,5 +140,10 @@ namespace Lte.Evaluations.DataService.College
                 _townRepository.QueryTown(dto.District, dto.Town)?.Id ?? 1;
             return await _repository.UpdateOne<IVipDemandRepository, VipDemand, VipDemandDto>(dto);
         }
+
+        public VipDemandDto QuerySingle(string serialNumber)
+        {
+            return Mapper.Map<VipDemand, VipDemandDto>(_repository.FirstOrDefault(x => x.SerialNumber == serialNumber));
+        }
     }
 }

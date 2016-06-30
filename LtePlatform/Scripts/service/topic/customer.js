@@ -94,6 +94,11 @@
                     key: 'NetworkType'
                 });
             },
+            queryMarketThemeOptions: function () {
+                return generalHttpService.getApiData('KpiOptions', {
+                    key: 'MarketTheme'
+                });
+            },
             queryTransmitFunctionOptions: function() {
                 return ['光纤', '微波', '卫星'];
             },
@@ -113,6 +118,11 @@
                 return generalHttpService.getApiData("VipDemand", {
                     begin: begin,
                     end: end
+                });
+            },
+            queryOneVip: function (serialNumber) {
+                return generalHttpService.getApiData("VipDemand", {
+                    serialNumber: serialNumber
                 });
             },
             updateVip: function(dto) {
