@@ -209,7 +209,9 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.DemandLevel,
                     opt => opt.MapFrom(s => s.DemandLevelDescription.GetEnumType<DemandLevel>()))
                 .ForMember(d => d.NetworkType,
-                    opt => opt.MapFrom(s => s.NetworkTypeDescription.GetEnumType<NetworkType>()));
+                    opt => opt.MapFrom(s => s.NetworkTypeDescription.GetEnumType<NetworkType>()))
+                .ForMember(d => d.MarketTheme,
+                    opt => opt.MapFrom(s => s.MarketThemeDescription.GetEnumType<MarketTheme>()));
             Mapper.CreateMap<VipDemand, VipDemandDto>()
                 .ForMember(d => d.DemandLevelDescription, opt => opt.MapFrom(s => s.DemandLevel.GetEnumDescription()))
                 .ForMember(d => d.NetworkTypeDescription, opt => opt.MapFrom(s => s.NetworkType.GetEnumDescription()))
@@ -219,7 +221,8 @@ namespace Lte.Evaluations.MapperSerive
                         opt.MapFrom(
                             s =>
                                 !string.IsNullOrEmpty(s.Area) && !string.IsNullOrEmpty(s.ContactPerson) &&
-                                !string.IsNullOrEmpty(s.PhoneNumber) && s.TownId > 0));
+                                !string.IsNullOrEmpty(s.PhoneNumber) && s.TownId > 0))
+                .ForMember(d => d.MarketThemeDescription, opt => opt.MapFrom(s => s.MarketTheme.GetEnumDescription()));
         }
     }
 }

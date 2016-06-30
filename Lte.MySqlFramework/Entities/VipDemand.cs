@@ -24,6 +24,8 @@ namespace Lte.MySqlFramework.Entities
 
         public NetworkType NetworkType { get; set; }
 
+        public MarketTheme MarketTheme { get; set; }
+
         public string Department { get; set; }
 
         public string ContactPerson { get; set; }
@@ -65,6 +67,8 @@ namespace Lte.MySqlFramework.Entities
         public string ProjectName { get; set; }
         
         public string NetworkTypeDescription { get; set; }
+
+        public string MarketThemeDescription { get; set; }
 
         public string Department { get; set; }
 
