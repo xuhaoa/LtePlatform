@@ -944,6 +944,7 @@
     <Content Include="Scripts\test\mock\ui.bootstrap.mock.js" />
     <Content Include="Scripts\test\uib.conf.js" />
     <Content Include="Scripts\test\uib\accordion.spec.js" />
+    <Content Include="Scripts\test\uib\alert.spec.js" />
     <Content Include="Scripts\test\workitem.conf.js" />
     <Content Include="Scripts\test\workitem\precise.chart.service.js" />
     <Content Include="template\accordion\accordion-group.html" />
