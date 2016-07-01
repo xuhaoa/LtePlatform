@@ -23,33 +23,6 @@ namespace LtePlatform
             bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
                 "~/Scripts/knockout-{version}.js",
                 "~/Scripts/knockout.validation.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/ui-bootstraps").Include(
-                "~/Scripts/angular-ui/ui-bootstrap.js",
-                "~/Scripts/angular-ui/uib/accordion.js",
-                "~/Scripts/angular-ui/uib/alert.js",
-                "~/Scripts/angular-ui/uib/buttons.js",
-                "~/Scripts/angular-ui/uib/carousel.js",
-                "~/Scripts/angular-ui/uib/collapse.js",
-                "~/Scripts/angular-ui/uib/dateparser.js",
-                "~/Scripts/angular-ui/uib/datepicker.js",
-                "~/Scripts/angular-ui/uib/debounce.js",
-                "~/Scripts/angular-ui/uib/dropdown.js",
-                "~/Scripts/angular-ui/uib/isClass.js",
-                "~/Scripts/angular-ui/uib/modal.js",
-                "~/Scripts/angular-ui/uib/pager.js",
-                "~/Scripts/angular-ui/uib/pagination.js",
-                "~/Scripts/angular-ui/uib/paging.js",
-                "~/Scripts/angular-ui/uib/popover.js",
-                "~/Scripts/angular-ui/uib/position.js",
-                "~/Scripts/angular-ui/uib/progressbar.js",
-                "~/Scripts/angular-ui/uib/rating.js",
-                "~/Scripts/angular-ui/uib/stackedMap.js",
-                "~/Scripts/angular-ui/uib/tooltip.js",
-                "~/Scripts/angular-ui/uib/tabindex.js",
-                "~/Scripts/angular-ui/uib/tabs.js",
-                "~/Scripts/angular-ui/uib/timepicker.js",
-                "~/Scripts/angular-ui/uib/typeahead.js"));
             
             bundles.Add(new ScriptBundle("~/bundles/dtList").Include(
                 "~/Scripts/sammy-{version}.js",
