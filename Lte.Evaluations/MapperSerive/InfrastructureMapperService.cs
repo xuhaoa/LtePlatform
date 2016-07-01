@@ -3,6 +3,7 @@ using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
+using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Evaluations.ViewModels.Mr;
 using Lte.Evaluations.ViewModels.Switch;

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using AutoMapper;
 using Lte.Evaluations.DataService.Dump;
-using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;

@@ -2,7 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using Lte.Evaluations.DataService.Basic;
-using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities;

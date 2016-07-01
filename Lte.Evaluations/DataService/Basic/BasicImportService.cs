@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Lte.Domain.LinqToExcel;
-using Lte.Evaluations.MapperSerive;
-using Lte.Parameters.Abstract;
+using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.ExcelCsv;

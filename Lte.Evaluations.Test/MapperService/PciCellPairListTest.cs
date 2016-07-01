@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
-using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.MapperSerive.Infrastructure;
 using NUnit.Framework;
 using Shouldly;
 

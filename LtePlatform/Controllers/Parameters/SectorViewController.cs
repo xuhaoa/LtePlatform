@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Web.Http;
-using Lte.Evaluations.DataService;
 using Lte.Evaluations.DataService.Basic;
-using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.ViewModels;
 using LtePlatform.Models;
 

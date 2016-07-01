@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
-using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
-using Lte.Parameters.Entities.Basic;
-using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.Entities.Mr;
 
 namespace Lte.Evaluations.DataService.Mr

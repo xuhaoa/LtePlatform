@@ -3,8 +3,8 @@ using System.Linq;
 using AutoMapper;
 using Lte.Domain.Regular;
 using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Parameters.Entities;
-using Lte.Parameters.MockOperations;
 using NUnit.Framework;
 using Shouldly;
 

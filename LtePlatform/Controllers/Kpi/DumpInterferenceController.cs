@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Lte.Evaluations.DataService.Mr;
-using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Mr;
 using LtePlatform.Models;

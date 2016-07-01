@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 using Lte.Evaluations.DataService.Mr;
-using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.MapperSerive.Infrastructure;
 using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.Mr
