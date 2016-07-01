@@ -143,7 +143,15 @@ namespace Lte.Evaluations.DataService.College
 
         public VipDemandDto QuerySingle(string serialNumber)
         {
-            return Mapper.Map<VipDemand, VipDemandDto>(_repository.FirstOrDefault(x => x.SerialNumber == serialNumber));
+            var result =
+                Mapper.Map<VipDemand, VipDemandDto>(_repository.FirstOrDefault(x => x.SerialNumber == serialNumber));
+            var town = _townRepository.Get(result.TownId);
+            if (town != null)
+            {
+                result.District = town.DistrictName;
+                result.Town = town.TownName;
+            }
+            return result;
         }
     }
 }
