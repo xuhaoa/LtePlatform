@@ -6,18 +6,8 @@ namespace Lte.Parameters.Abstract.Infrastructure
 {
     public interface IInfrastructureRepository : IRepository<InfrastructureInfo>
     {
-        IEnumerable<int> GetENodebIds(string collegeName);
-
-        IEnumerable<int> GetCellIds(string collegeName);
-
-        IEnumerable<int> GetBtsIds(string collegeName);
-
-        IEnumerable<int> GetCdmaCellIds(string collegeName);
-
-        IEnumerable<int> GetLteDistributionIds(string collegeName);
-
-        IEnumerable<int> GetCdmaDistributionIds(string collegeName);
-
+        IEnumerable<int> GetCollegeInfrastructureIds(string collegeName, InfrastructureType type);
+        
         InfrastructureInfo GetTopPreciseMonitor(int id);
 
         List<InfrastructureInfo> GetAllPreciseMonitor(); 

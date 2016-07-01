@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Infrastructure;
+using Lte.Parameters.Entities;
 using Moq;
 using NUnit.Framework;
 
@@ -23,7 +24,7 @@ namespace Lte.Evaluations.MockItems.Validation
         [TestCase(3)]
         public void Test_GetENodebIds(int id)
         {
-            var ids = _repository.Object.GetENodebIds("College-" + id);
+            var ids = _repository.Object.GetCollegeInfrastructureIds("College-" + id, InfrastructureType.ENodeb);
             Assert.AreEqual(ids.Count(), 1);
             Assert.AreEqual(ids.ElementAt(0), id);
         }

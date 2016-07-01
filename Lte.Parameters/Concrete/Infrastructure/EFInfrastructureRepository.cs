@@ -9,49 +9,13 @@ namespace Lte.Parameters.Concrete.Infrastructure
 {
     public class EFInfrastructureRepository : EfRepositoryBase<EFParametersContext, InfrastructureInfo>, IInfrastructureRepository
     {
-        public IEnumerable<int> GetENodebIds(string collegeName)
+        public IEnumerable<int> GetCollegeInfrastructureIds(string collegeName, InfrastructureType type)
         {
             return GetAll().Where(x =>
-                x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.ENodeb
+                x.HotspotName == collegeName && x.InfrastructureType == type && x.HotspotType == HotspotType.College
                 ).Select(x => x.InfrastructureId).ToList();
         }
-
-
-        public IEnumerable<int> GetCellIds(string collegeName)
-        {
-            return GetAll().Where(x =>
-                x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.Cell
-                ).Select(x => x.InfrastructureId).ToList();
-        }
-
-        public IEnumerable<int> GetBtsIds(string collegeName)
-        {
-            return GetAll().Where(x =>
-                x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.CdmaBts
-                ).Select(x => x.InfrastructureId).ToList();
-        }
-
-        public IEnumerable<int> GetCdmaCellIds(string collegeName)
-        {
-            return GetAll().Where(x =>
-                x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.CdmaCell
-                ).Select(x => x.InfrastructureId).ToList();
-        }
-
-        public IEnumerable<int> GetLteDistributionIds(string collegeName)
-        {
-            return GetAll().Where(x =>
-                x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.LteIndoor
-                ).Select(x => x.InfrastructureId).ToList();
-        }
-
-        public IEnumerable<int> GetCdmaDistributionIds(string collegeName)
-        {
-            return GetAll().Where(x =>
-                x.HotspotName == collegeName && x.InfrastructureType == InfrastructureType.CdmaIndoor
-                ).Select(x => x.InfrastructureId).ToList();
-        }
-
+        
         public InfrastructureInfo GetTopPreciseMonitor(int id)
         {
             return FirstOrDefault(x => x.InfrastructureId == id && x.HotspotType == HotspotType.TopPrecise);

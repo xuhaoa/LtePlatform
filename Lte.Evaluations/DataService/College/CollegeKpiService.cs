@@ -9,6 +9,7 @@ using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
+using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.College;
 
 namespace Lte.Evaluations.DataService.College
@@ -133,7 +134,7 @@ namespace Lte.Evaluations.DataService.College
 
         public IEnumerable<CellPreciseKpiView> GetViews(string collegeName, DateTime begin, DateTime end)
         {
-            var ids = _repository.GetCellIds(collegeName);
+            var ids = _repository.GetCollegeInfrastructureIds(collegeName, InfrastructureType.Cell);
             var query =
                 ids.Select(_cellRepository.Get).Where(cell => cell != null)
                     .Select(x => CellPreciseKpiView.ConstructView(x, _eNodebRepository)).ToList();

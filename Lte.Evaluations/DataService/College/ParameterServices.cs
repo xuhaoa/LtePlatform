@@ -29,7 +29,7 @@ namespace Lte.Evaluations.DataService.College
         public IEnumerable<Tuple<string, IEnumerable<AlarmStat>>> QueryCollegeENodebAlarms(string collegeName,
             DateTime begin, DateTime end)
         {
-            var ids = _infrastructureRepository.GetENodebIds(collegeName);
+            var ids = _infrastructureRepository.GetCollegeInfrastructureIds(collegeName, InfrastructureType.ENodeb);
             return (from id in ids
                     select _eNodebRepository.Get(id)
                 into eNodeb
@@ -70,7 +70,7 @@ namespace Lte.Evaluations.DataService.College
 
         public IEnumerable<CellView> GetViews(string collegeName)
         {
-            var ids = _repository.GetCellIds(collegeName);
+            var ids = _repository.GetCollegeInfrastructureIds(collegeName, InfrastructureType.Cell);
             var query = ids.Select(_cellRepository.Get).Where(cell => cell != null).ToList();
             return query.Any()
                 ? query.Select(x => CellView.ConstructView(x, _eNodebRepository))
@@ -95,7 +95,7 @@ namespace Lte.Evaluations.DataService.College
 
         public IEnumerable<CdmaCellView> GetViews(string collegeName)
         {
-            var ids = _repository.GetCdmaCellIds(collegeName);
+            var ids = _repository.GetCollegeInfrastructureIds(collegeName, InfrastructureType.CdmaCell);
             var query = ids.Select(_cellRepository.Get).Where(cell => cell != null).ToList();
             return query.Any()
                 ? query.Select(x => CdmaCellView.ConstructView(x, _btsRepository))
