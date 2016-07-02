@@ -93,13 +93,13 @@ namespace AutoMapper
         IMappingExpression WithProfile(string profileName);
 
         /// <summary>
-        /// Skip normal member mapping and convert using a <see cref="ITypeConverter{TSource,TDestination}"/> instantiated during mapping
+        /// Skip normal member mapping and convert using a <see cref="ITypeConverter{TDestination}"/> instantiated during mapping
         /// </summary>
         /// <typeparam name="TTypeConverter">Type converter type</typeparam>
         void ConvertUsing<TTypeConverter>();
 
         /// <summary>
-        /// Skip normal member mapping and convert using a <see cref="ITypeConverter{TSource,TDestination}"/> instantiated during mapping
+        /// Skip normal member mapping and convert using a <see cref="ITypeConverter{TDestination}"/> instantiated during mapping
         /// Use this method if you need to specify the converter type at runtime
         /// </summary>
         /// <param name="typeConverterType">Type converter type</param>
@@ -288,13 +288,13 @@ namespace AutoMapper
         /// Skip member mapping and use a custom type converter instance to convert to the destination type
         /// </summary>
         /// <param name="converter">Type converter instance</param>
-        void ConvertUsing(ITypeConverter<TSource, TDestination> converter);
+        void ConvertUsing(ITypeConverter<TDestination> converter);
 
         /// <summary>
         /// Skip member mapping and use a custom type converter instance to convert to the destination type
         /// </summary>
         /// <typeparam name="TTypeConverter">Type converter type</typeparam>
-        void ConvertUsing<TTypeConverter>() where TTypeConverter : ITypeConverter<TSource, TDestination>;
+        void ConvertUsing<TTypeConverter>() where TTypeConverter : ITypeConverter<TDestination>;
 
         /// <summary>
         /// Execute a custom function to the source and/or destination types before member mapping

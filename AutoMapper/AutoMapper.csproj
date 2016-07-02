@@ -54,12 +54,8 @@
     <Compile Include="IgnoreMapAttribute.cs" />
     <Compile Include="IMappingEngine.cs" />
     <Compile Include="IMappingExpression.cs" />
-    <Compile Include="IMappingOperationOptions.cs" />
     <Compile Include="IMappingOptions.cs" />
-    <Compile Include="IMemberAccessor.cs" />
     <Compile Include="IMemberConfigurationExpression.cs" />
-    <Compile Include="IMemberGetter.cs" />
-    <Compile Include="IMemberResolver.cs" />
     <Compile Include="INamingConvention.cs" />
     <Compile Include="Internal\DefaultResolver.cs" />
     <Compile Include="Internal\DeferredInstantiatedConverter.cs" />
@@ -113,10 +109,7 @@
     <Compile Include="IProfileConfiguration.cs" />
     <Compile Include="IProfileExpression.cs" />
     <Compile Include="IResolutionExpression.cs" />
-    <Compile Include="IResolverConfigurationExpression.cs" />
     <Compile Include="ISourceMemberConfigurationExpression.cs" />
-    <Compile Include="ITypeConverter.cs" />
-    <Compile Include="ITypeMapFactory.cs" />
     <Compile Include="IValueResolver.cs" />
     <Compile Include="LowerUnderscoreNamingConvention.cs" />
     <Compile Include="Mapper.cs" />

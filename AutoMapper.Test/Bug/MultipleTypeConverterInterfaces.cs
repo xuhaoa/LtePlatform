@@ -30,8 +30,8 @@ namespace AutoMapper.Test.Bug
             public int DestinationBarValue { get; set; }
         }
 
-        public class DualConverter : ITypeConverter<SourceFoo, DestinationFoo>,
-            ITypeConverter<SourceBar, DestinationBar>
+        public class DualConverter : ITypeConverter<DestinationFoo>,
+            ITypeConverter<DestinationBar>
         {
             public DestinationFoo Convert(ResolutionContext context)
             {
@@ -39,7 +39,7 @@ namespace AutoMapper.Test.Bug
                 return new DestinationFoo {DestinationFooValue = source.SourceFooValue + 100};
             }
 
-            DestinationBar ITypeConverter<SourceBar, DestinationBar>.Convert(ResolutionContext context)
+            DestinationBar ITypeConverter<DestinationBar>.Convert(ResolutionContext context)
             {
                 var source = context.SourceValue as SourceBar;
                 return new DestinationBar {DestinationBarValue = source.SourceBarValue + 1000};

@@ -240,7 +240,7 @@ namespace AutoMapper.Test.Core
 				_dto.Children[0].Parent.ID.ShouldBe(_dto.ID);
 			}
 
-			public class ChildIdToParentDtoConverter : ITypeConverter<int, ParentDto>
+			public class ChildIdToParentDtoConverter : ITypeConverter<ParentDto>
 			{
 				private readonly Dictionary<int, ParentModel> _parentModels;
 
@@ -258,7 +258,7 @@ namespace AutoMapper.Test.Core
 				}
 			}
 
-			public class ParentIdToChildDtoListConverter : ITypeConverter<int, List<ChildDto>>
+			public class ParentIdToChildDtoListConverter : ITypeConverter<List<ChildDto>>
 			{
 				private readonly IList<ChildModel> _childModels;
 

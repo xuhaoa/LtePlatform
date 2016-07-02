@@ -39,7 +39,7 @@ namespace AutoMapper.Internal
 
         public void ConvertUsing(Type typeConverterType)
         {
-            var interfaceType = typeof(ITypeConverter<,>).MakeGenericType(TypeMap.SourceType, TypeMap.DestinationType);
+            var interfaceType = typeof(ITypeConverter<>).MakeGenericType(TypeMap.SourceType, TypeMap.DestinationType);
             var convertMethodType = interfaceType.IsAssignableFrom(typeConverterType) ? interfaceType : typeConverterType;
             var converter = new DeferredInstantiatedConverter(convertMethodType, BuildCtor<object>(typeConverterType));
 
@@ -476,14 +476,14 @@ $"Source member {sourceMember} is ambiguous on type {TypeMap.SourceType.FullName
             TypeMap.UseCustomMapper(source => mappingFunction(source, (TSource)source.SourceValue));
         }
 
-        public void ConvertUsing(ITypeConverter<TSource, TDestination> converter)
+        public void ConvertUsing(ITypeConverter<TDestination> converter)
         {
             ConvertUsing(converter.Convert);
         }
 
-        public void ConvertUsing<TTypeConverter>() where TTypeConverter : ITypeConverter<TSource, TDestination>
+        public void ConvertUsing<TTypeConverter>() where TTypeConverter : ITypeConverter<TDestination>
         {
-            var converter = new DeferredInstantiatedConverter<TSource, TDestination>(BuildCtor<ITypeConverter<TSource, TDestination>>(typeof(TTypeConverter)));
+            var converter = new DeferredInstantiatedConverter<TSource, TDestination>(BuildCtor<ITypeConverter<TDestination>>(typeof(TTypeConverter)));
 
             ConvertUsing(converter.Convert);
         }

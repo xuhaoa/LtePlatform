@@ -3,7 +3,7 @@ namespace AutoMapper.Internal
     using System;
     using System.Reflection;
 
-    public class DeferredInstantiatedConverter : ITypeConverter<object, object>
+    public class DeferredInstantiatedConverter : ITypeConverter<object>
     {
         private readonly Func<ResolutionContext, object> _instantiator;
         private readonly MethodInfo _converterMethod;
@@ -23,16 +23,16 @@ namespace AutoMapper.Internal
 
         private MethodInfo GetClosedConvertMethod(ResolutionContext context)
         {
-            var interfaceType = typeof(ITypeConverter<,>).MakeGenericType(context.SourceType, context.DestinationType);
+            var interfaceType = typeof(ITypeConverter<>).MakeGenericType(context.SourceType, context.DestinationType);
             return interfaceType.GetMethod("Convert");
         }
     }
 
-    public class DeferredInstantiatedConverter<TSource, TDestination> : ITypeConverter<TSource, TDestination>
+    public class DeferredInstantiatedConverter<TSource, TDestination> : ITypeConverter<TDestination>
     {
-        private readonly Func<ResolutionContext, ITypeConverter<TSource, TDestination>> _instantiator;
+        private readonly Func<ResolutionContext, ITypeConverter<TDestination>> _instantiator;
 
-        public DeferredInstantiatedConverter(Func<ResolutionContext, ITypeConverter<TSource, TDestination>> instantiator)
+        public DeferredInstantiatedConverter(Func<ResolutionContext, ITypeConverter<TDestination>> instantiator)
         {
             _instantiator = instantiator;
         }

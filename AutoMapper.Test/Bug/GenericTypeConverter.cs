@@ -29,7 +29,7 @@ namespace AutoMapper.Test.Bug
             public T Value { get; set; }
         }
 
-        public class Converter<T> : ITypeConverter<Source<T>, Destination<T>>, ITypeConverter<OtherSource<T>, OtherDestination<T>>
+        public class Converter<T> : ITypeConverter<Destination<T>>, ITypeConverter<OtherDestination<T>>
         {
             public static readonly Destination<T> SomeDestination = new Destination<T>();
             public static readonly OtherDestination<T> SomeOtherDestination = new OtherDestination<T>();
@@ -39,7 +39,7 @@ namespace AutoMapper.Test.Bug
                 return SomeDestination;
             }
 
-            OtherDestination<T> ITypeConverter<OtherSource<T>, OtherDestination<T>>.Convert(ResolutionContext context)
+            OtherDestination<T> ITypeConverter<OtherDestination<T>>.Convert(ResolutionContext context)
             {
                 return SomeOtherDestination;
             }
