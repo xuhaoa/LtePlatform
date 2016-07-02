@@ -9,29 +9,23 @@ namespace Lte.Domain.LinqToCsv.Mapper
     {
         protected FieldIndexInfo fieldIndexInfo;
 
-        public FieldIndexInfo FieldIndexInfo
-        {
-            get { return fieldIndexInfo; }
-        }
+        public FieldIndexInfo FieldIndexInfo => fieldIndexInfo;
 
-        protected Dictionary<string, TypeFieldInfo> nameToInfo = null;
+        protected readonly Dictionary<string, TypeFieldInfo> nameToInfo;
 
-        public Dictionary<string, TypeFieldInfo> NameToInfo
-        {
-            get { return nameToInfo; }
-        }
+        public Dictionary<string, TypeFieldInfo> NameToInfo => nameToInfo;
 
-        protected CsvFileDescription FileDescription;
+        protected readonly CsvFileDescription FileDescription;
 
         // Only used when throwing an exception
-        protected string FileName;
+        protected readonly string FileName;
 
         private TypeFieldInfo AnalyzeTypeField(
                                 MemberInfo mi,
                                 bool allRequiredFieldsMustHaveFieldIndex,
                                 bool allCsvColumnFieldsMustHaveFieldIndex)
         {
-            TypeFieldInfo tfi = new TypeFieldInfo();
+            var tfi = new TypeFieldInfo();
             tfi.MemberInfo = mi;
             tfi.UpdateParseParameters(FileDescription.UseOutputFormatForParsingCsvValue);
             tfi.UpdateAttributes();
@@ -55,9 +49,9 @@ namespace Lte.Domain.LinqToCsv.Mapper
             // Make sure there are no duplicate FieldIndices.
             // However, allow gaps in the FieldIndex range, to make it easier to later insert
             // fields in the range.
-            int lastFieldIndex = Int32.MinValue;
-            string lastName = "";
-            foreach (TypeFieldInfo tfi in fieldIndexInfo.IndexToInfo)
+            var lastFieldIndex = int.MinValue;
+            var lastName = "";
+            foreach (var tfi in fieldIndexInfo.IndexToInfo)
             {
                 lastName = tfi.UpdateLastName<T>(lastName, ref lastFieldIndex);
             }
@@ -67,7 +61,7 @@ namespace Lte.Domain.LinqToCsv.Mapper
         {
             nameToInfo.Clear();
 
-            foreach (MemberInfo mi in type.GetMembers(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static))
+            foreach (var mi in type.GetMembers(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static))
             {
                 // Only process field and property members.
                 if ((mi.MemberType == MemberTypes.Field) ||
@@ -75,7 +69,7 @@ namespace Lte.Domain.LinqToCsv.Mapper
                 {
                     // Note that the compiler does not allow fields and/or properties
                     // with the same name as some other field or property.
-                    TypeFieldInfo tfi =
+                    var tfi =
                         AnalyzeTypeField(mi,
                                 allRequiredFieldsMustHaveFieldIndex,
                                 allCsvColumnFieldsMustHaveFieldIndex);
@@ -110,9 +104,9 @@ namespace Lte.Domain.LinqToCsv.Mapper
         {
             row.Clear();
 
-            for (int i = 0; i < fieldIndexInfo.IndexToInfo.Length; i++)
+            for (var i = 0; i < fieldIndexInfo.IndexToInfo.Length; i++)
             {
-                TypeFieldInfo tfi = fieldIndexInfo.IndexToInfo[i];
+                var tfi = fieldIndexInfo.IndexToInfo[i];
 
                 if (FileDescription.EnforceCsvColumnAttribute &&
                         (!tfi.HasColumnAttribute))
@@ -128,9 +122,9 @@ namespace Lte.Domain.LinqToCsv.Mapper
         {
             row.Clear();
             
-            for (int i = 0; i < fieldIndexInfo.IndexToInfo.Length; i++)
+            for (var i = 0; i < fieldIndexInfo.IndexToInfo.Length; i++)
             {
-                TypeFieldInfo tfi = fieldIndexInfo.IndexToInfo[i];
+                var tfi = fieldIndexInfo.IndexToInfo[i];
 
                 if (FileDescription.EnforceCsvColumnAttribute &&
                         (!tfi.HasColumnAttribute))

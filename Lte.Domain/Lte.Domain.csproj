@@ -83,8 +83,6 @@
     <Compile Include="LinqToCsv\StreamDef\CsvStreamLine.cs" />
     <Compile Include="LinqToCsv\Description\CsvFileDescription.cs" />
     <Compile Include="LinqToCsv\Description\DataRow.cs" />
-    <Compile Include="LinqToCsv\Description\DataRowItem.cs" />
-    <Compile Include="LinqToCsv\Description\IDataRow.cs" />
     <Compile Include="LinqToCsv\Mapper\FieldIndexInfo.cs" />
     <Compile Include="LinqToCsv\Mapper\FieldMapper.cs" />
     <Compile Include="LinqToCsv\Mapper\FieldMapper_Reading.cs" />

@@ -9,7 +9,6 @@ namespace Lte.Domain.LinqToCsv.Description
     public class CsvFileDescription
     {
         // Culture used to process the CSV values, specifically numbers and dates.
-        private CultureInfo cultureInfo = CultureInfo.CurrentCulture;
 
         // FileCultureName and FileCultureInfo both get/set
         // the CultureInfo used for the file.
@@ -19,15 +18,11 @@ namespace Lte.Domain.LinqToCsv.Description
         // To simply use the current culture, leave the culture as is.
         public string FileCultureName
         {
-            get { return cultureInfo.Name; }
-            set { cultureInfo = new CultureInfo(value); }
+            get { return FileCultureInfo.Name; }
+            set { FileCultureInfo = new CultureInfo(value); }
         }
 
-        public CultureInfo FileCultureInfo
-        {
-            get { return cultureInfo; }
-            set { cultureInfo = value; }
-        }
+        public CultureInfo FileCultureInfo { get; set; }
 
         // When reading a file, exceptions thrown while the file is being read
         // are captured in an aggregate exception. That aggregate exception is then
@@ -38,13 +33,8 @@ namespace Lte.Domain.LinqToCsv.Description
         // immediately.
         //
         // To not have a maximum at all, set this to -1.
-        private int maximumNbrExceptions = 100;
 
-        public int MaximumNbrExceptions
-        {
-            get { return maximumNbrExceptions; }
-            set { maximumNbrExceptions = value; }
-        }
+        public int MaximumNbrExceptions { get; set; } = 100;
 
         // Character used to separate fields in the file.
         // By default, this is comma (,).
@@ -81,7 +71,9 @@ namespace Lte.Domain.LinqToCsv.Description
         public bool DetectEncodingFromByteOrderMarks { get; set; }
         
         public bool UseFieldIndexForReadingData { get; set; }
+
         public bool UseOutputFormatForParsingCsvValue { get; set; }
+
         public bool IgnoreTrailingSeparatorChar { get; set; }
 
         /// <summary>
@@ -91,7 +83,7 @@ namespace Lte.Domain.LinqToCsv.Description
 
         public CsvFileDescription()
         {
-            cultureInfo = CultureInfo.CurrentCulture;
+            FileCultureInfo = CultureInfo.CurrentCulture;
             FirstLineHasColumnNames = true;
             EnforceCsvColumnAttribute = false;
             QuoteAllFields = false;
@@ -105,49 +97,31 @@ namespace Lte.Domain.LinqToCsv.Description
             IgnoreUnknownColumns = false;
         }
 
-        public static CsvFileDescription TabDescription
+        public static CsvFileDescription TabDescription => new CsvFileDescription
         {
-            get
-            {
-                return new CsvFileDescription
-                {
-                    SeparatorChar = '\t',
-                    IgnoreUnknownColumns = true,
-                    FirstLineHasColumnNames = true,
-                    EnforceCsvColumnAttribute = false, // default is false
-                    FileCultureName = "en-US" // default is the current culture
-                };
-            }
-        }
+            SeparatorChar = '\t',
+            IgnoreUnknownColumns = true,
+            FirstLineHasColumnNames = true,
+            EnforceCsvColumnAttribute = false, // default is false
+            FileCultureName = "en-US" // default is the current culture
+        };
 
-        public static CsvFileDescription CommaDescription
+        public static CsvFileDescription CommaDescription => new CsvFileDescription
         {
-            get
-            {
-                return new CsvFileDescription
-                {
-                    SeparatorChar = ',',
-                    IgnoreUnknownColumns = true,
-                    FirstLineHasColumnNames = true,
-                    EnforceCsvColumnAttribute = false, // default is false
-                    FileCultureName = "en-US" // default is the current culture
-                };
-            }
-        }
+            SeparatorChar = ',',
+            IgnoreUnknownColumns = true,
+            FirstLineHasColumnNames = true,
+            EnforceCsvColumnAttribute = false, // default is false
+            FileCultureName = "en-US" // default is the current culture
+        };
 
-        public static CsvFileDescription ChineseExportDescription
+        public static CsvFileDescription ChineseExportDescription => new CsvFileDescription
         {
-            get
-            {
-                return new CsvFileDescription
-                {
-                    SeparatorChar = ',',
-                    FirstLineHasColumnNames = true,
-                    EnforceCsvColumnAttribute = true,
-                    TextEncoding = Encoding.GetEncoding("GB2312")
-                };
-            }
-        }
+            SeparatorChar = ',',
+            FirstLineHasColumnNames = true,
+            EnforceCsvColumnAttribute = true,
+            TextEncoding = Encoding.GetEncoding("GB2312")
+        };
     }
 
 }
