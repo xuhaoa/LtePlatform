@@ -63,7 +63,6 @@
     <Compile Include="Internal\DelegateBasedResolver.cs" />
     <Compile Include="Internal\DelegateFactory.cs" />
     <Compile Include="Internal\EnumerableExtensions.cs" />
-    <Compile Include="Internal\FieldAccessor.cs" />
     <Compile Include="Internal\FieldGetter.cs" />
     <Compile Include="Internal\IDelegateFactory.cs" />
     <Compile Include="Internal\IEnumNameValueMapper.cs" />
@@ -82,7 +81,6 @@
     <Compile Include="Internal\MappingExpression.cs" />
     <Compile Include="Internal\MemberGetter.cs" />
     <Compile Include="Internal\MemberNameReplacer.cs" />
-    <Compile Include="Internal\MethodGetter.cs" />
     <Compile Include="Internal\NoOpReaderWriterLockFactory.cs" />
     <Compile Include="Internal\NotSupportedEnumNameValueMappingFactory.cs" />
     <Compile Include="Internal\NotSupportedProxyGeneratorFactory.cs" />
@@ -90,9 +88,7 @@
     <Compile Include="Internal\NullReplacementMethod.cs" />
     <Compile Include="Internal\PrimitiveExtensions.cs" />
     <Compile Include="Internal\ProfileConfiguration.cs" />
-    <Compile Include="Internal\PropertyAccessor.cs" />
     <Compile Include="Internal\PropertyEmitter.cs" />
-    <Compile Include="Internal\PropertyGetter.cs" />
     <Compile Include="Internal\PropertyNameResolver.cs" />
     <Compile Include="Internal\ProxyBase.cs" />
     <Compile Include="Internal\ProxyGenerator.cs" />
