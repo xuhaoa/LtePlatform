@@ -33,4 +33,10 @@ namespace AutoMapper
     {
         void SetValue(object destination, object value);
     }
+
+    public interface ITypeMapObjectMapper
+    {
+        object Map(ResolutionContext context, IMappingEngineRunner mapper);
+        bool IsMatch(ResolutionContext context, IMappingEngineRunner mapper);
+    }
 }

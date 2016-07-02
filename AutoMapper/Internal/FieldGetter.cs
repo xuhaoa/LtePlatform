@@ -63,4 +63,59 @@ namespace AutoMapper.Internal
             return _fieldInfo.IsDefined(attributeType, inherit);
         }
     }
+
+    public class FieldAccessor : FieldGetter, IMemberAccessor
+    {
+        private readonly Lazy<LateBoundFieldSet> _lateBoundFieldSet;
+
+        public FieldAccessor(FieldInfo fieldInfo)
+            : base(fieldInfo)
+        {
+            _lateBoundFieldSet = new Lazy<LateBoundFieldSet>(() => DelegateFactory.CreateSet(fieldInfo));
+        }
+
+        public void SetValue(object destination, object value)
+        {
+            _lateBoundFieldSet.Value(destination, value);
+        }
+    }
+
+    public class ValueTypeFieldAccessor : FieldGetter, IMemberAccessor
+    {
+        private readonly FieldInfo _lateBoundFieldSet;
+
+        public ValueTypeFieldAccessor(FieldInfo fieldInfo)
+            : base(fieldInfo)
+        {
+            _lateBoundFieldSet = fieldInfo;
+        }
+
+        public void SetValue(object destination, object value)
+        {
+            _lateBoundFieldSet.SetValue(destination, value);
+        }
+    }
+
+    public class ValueTypePropertyAccessor : PropertyGetter, IMemberAccessor
+    {
+        private readonly MethodInfo _lateBoundPropertySet;
+
+        public ValueTypePropertyAccessor(PropertyInfo propertyInfo)
+            : base(propertyInfo)
+        {
+            var method = propertyInfo.GetSetMethod(true);
+            HasSetter = method != null;
+            if (HasSetter)
+            {
+                _lateBoundPropertySet = method;
+            }
+        }
+
+        public bool HasSetter { get; }
+
+        public void SetValue(object destination, object value)
+        {
+            _lateBoundPropertySet.Invoke(destination, new[] { value });
+        }
+    }
 }

@@ -61,7 +61,6 @@
     <Compile Include="Internal\DeferredInstantiatedConverter.cs" />
     <Compile Include="Internal\DeferredInstantiatedResolver.cs" />
     <Compile Include="Internal\DelegateBasedResolver.cs" />
-    <Compile Include="Internal\DelegateBasedResolver2.cs" />
     <Compile Include="Internal\DelegateFactory.cs" />
     <Compile Include="Internal\EnumerableExtensions.cs" />
     <Compile Include="Internal\FieldAccessor.cs" />
@@ -87,7 +86,6 @@
     <Compile Include="Internal\NoOpReaderWriterLockFactory.cs" />
     <Compile Include="Internal\NotSupportedEnumNameValueMappingFactory.cs" />
     <Compile Include="Internal\NotSupportedProxyGeneratorFactory.cs" />
-    <Compile Include="Internal\NullableConverterFactory.cs" />
     <Compile Include="Internal\NullReferenceExceptionSwallowingResolver.cs" />
     <Compile Include="Internal\NullReplacementMethod.cs" />
     <Compile Include="Internal\PrimitiveExtensions.cs" />
@@ -98,13 +96,9 @@
     <Compile Include="Internal\PropertyNameResolver.cs" />
     <Compile Include="Internal\ProxyBase.cs" />
     <Compile Include="Internal\ProxyGenerator.cs" />
-    <Compile Include="Internal\ProxyGeneratorFactory.cs" />
-    <Compile Include="Internal\RealReaderWriterLockSlimFactory.cs" />
     <Compile Include="Internal\ReflectionHelper.cs" />
     <Compile Include="Internal\ResolutionExpression.cs" />
     <Compile Include="Internal\TypeExtensions.cs" />
-    <Compile Include="Internal\ValueTypeFieldAccessor.cs" />
-    <Compile Include="Internal\ValueTypePropertyAccessor.cs" />
     <Compile Include="IObjectMapper.cs" />
     <Compile Include="IProfileConfiguration.cs" />
     <Compile Include="IProfileExpression.cs" />
@@ -129,13 +123,11 @@
     <Compile Include="Mappers\FlagsEnumMapper.cs" />
     <Compile Include="Mappers\HashSetMapper.cs" />
     <Compile Include="Mappers\ImplicitConversionOperatorMapper.cs" />
-    <Compile Include="Mappers\ITypeMapObjectMapper.cs" />
     <Compile Include="Mappers\ListSourceMapper.cs" />
     <Compile Include="Mappers\MapperRegistry.cs" />
     <Compile Include="Mappers\MultidimensionalArrayMapper.cs" />
     <Compile Include="Mappers\NameValueCollectionMapper.cs" />
     <Compile Include="Mappers\NullableMapper.cs" />
-    <Compile Include="Mappers\NullableSourceMapper.cs" />
     <Compile Include="Mappers\ObjectCreator.cs" />
     <Compile Include="Mappers\OpenGenericMapper.cs" />
     <Compile Include="Mappers\PrimitiveArrayMapper.cs" />
