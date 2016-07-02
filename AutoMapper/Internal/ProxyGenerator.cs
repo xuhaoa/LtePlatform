@@ -1,5 +1,4 @@
-namespace AutoMapper.Internal
-{
+
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -8,6 +7,47 @@ namespace AutoMapper.Internal
     using System.Reflection;
     using System.Reflection.Emit;
     using System.Text.RegularExpressions;
+
+namespace AutoMapper.Internal
+{
+    public interface IProxyGenerator
+    {
+        Type GetProxyType(Type interfaceType);
+    }
+
+    public interface IProxyGeneratorFactory
+    {
+        IProxyGenerator Create();
+    }
+
+    public abstract class ProxyBase
+    {
+        protected ProxyBase()
+        {
+
+        }
+
+        protected void NotifyPropertyChanged(PropertyChangedEventHandler handler, string method)
+        {
+            handler?.Invoke(this, new PropertyChangedEventArgs(method));
+        }
+    }
+
+    public class ProxyGeneratorFactory : IProxyGeneratorFactory
+    {
+        public IProxyGenerator Create()
+        {
+            return new NotSupportedProxyGenerator();
+        }
+
+        public class NotSupportedProxyGenerator : IProxyGenerator
+        {
+            public Type GetProxyType(Type interfaceType)
+            {
+                throw new PlatformNotSupportedException("Proxy generation not supported on this platform.");
+            }
+        }
+    }
 
     public class ProxyGenerator : IProxyGenerator
     {
@@ -149,6 +189,69 @@ namespace AutoMapper.Internal
                 }
             }
             return typeBuilder.CreateType();
+        }
+
+        public class PropertyEmitter
+        {
+            private static readonly MethodInfo proxyBase_NotifyPropertyChanged =
+                typeof(ProxyBase).GetMethod("NotifyPropertyChanged",
+                    BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+
+            private readonly FieldBuilder fieldBuilder;
+            private readonly MethodBuilder getterBuilder;
+            private readonly PropertyBuilder propertyBuilder;
+            private readonly MethodBuilder setterBuilder;
+
+            public PropertyEmitter(TypeBuilder owner, string name, Type propertyType, FieldBuilder propertyChangedField)
+            {
+                fieldBuilder = owner.DefineField($"<{name}>", propertyType, FieldAttributes.Private);
+                getterBuilder = owner.DefineMethod($"get_{name}",
+                    MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig |
+                    MethodAttributes.SpecialName, propertyType, Type.EmptyTypes);
+                ILGenerator getterIl = getterBuilder.GetILGenerator();
+                getterIl.Emit(OpCodes.Ldarg_0);
+                getterIl.Emit(OpCodes.Ldfld, fieldBuilder);
+                getterIl.Emit(OpCodes.Ret);
+                setterBuilder = owner.DefineMethod($"set_{name}",
+                    MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig |
+                    MethodAttributes.SpecialName, typeof(void), new[] { propertyType });
+                ILGenerator setterIl = setterBuilder.GetILGenerator();
+                setterIl.Emit(OpCodes.Ldarg_0);
+                setterIl.Emit(OpCodes.Ldarg_1);
+                setterIl.Emit(OpCodes.Stfld, fieldBuilder);
+                if (propertyChangedField != null)
+                {
+                    setterIl.Emit(OpCodes.Ldarg_0);
+                    setterIl.Emit(OpCodes.Dup);
+                    setterIl.Emit(OpCodes.Ldfld, propertyChangedField);
+                    setterIl.Emit(OpCodes.Ldstr, name);
+                    setterIl.Emit(OpCodes.Call, proxyBase_NotifyPropertyChanged);
+                }
+                setterIl.Emit(OpCodes.Ret);
+                propertyBuilder = owner.DefineProperty(name, PropertyAttributes.None, propertyType, null);
+                propertyBuilder.SetGetMethod(getterBuilder);
+                propertyBuilder.SetSetMethod(setterBuilder);
+            }
+
+            public Type PropertyType => propertyBuilder.PropertyType;
+
+            public MethodBuilder GetGetter(Type requiredType)
+            {
+                if (!requiredType.IsAssignableFrom(PropertyType))
+                {
+                    throw new InvalidOperationException("Types are not compatible");
+                }
+                return getterBuilder;
+            }
+
+            public MethodBuilder GetSetter(Type requiredType)
+            {
+                if (!PropertyType.IsAssignableFrom(requiredType))
+                {
+                    throw new InvalidOperationException("Types are not compatible");
+                }
+                return setterBuilder;
+            }
         }
 
         public Type GetProxyType(Type interfaceType)

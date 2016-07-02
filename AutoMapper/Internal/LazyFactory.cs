@@ -1,7 +1,13 @@
-namespace AutoMapper.Internal
-{
+
     using System;
     using System.Threading;
+
+namespace AutoMapper.Internal
+{
+    public interface ILazy<out T>
+    {
+        T Value { get; }
+    }
 
     public static class LazyFactory
     {
@@ -13,9 +19,9 @@ namespace AutoMapper.Internal
         private sealed class LazyImpl<T> : ILazy<T>
             where T : class
         {
-            private readonly Object _lockObj = new Object();
+            private readonly object _lockObj = new object();
             private readonly Func<T> _valueFactory;
-            private Boolean _isDelegateInvoked;
+            private bool _isDelegateInvoked;
 
             private T m_value;
 
@@ -28,26 +34,24 @@ namespace AutoMapper.Internal
             {
                 get
                 {
-                    if (!_isDelegateInvoked)
+                    if (_isDelegateInvoked) return m_value;
+                    var temp = _valueFactory();
+                    Interlocked.CompareExchange(ref m_value, temp, null);
+
+                    var lockTaken = false;
+
+                    try
                     {
-                        T temp = _valueFactory();
-                        Interlocked.CompareExchange(ref m_value, temp, null);
+                        Monitor.Enter(_lockObj);
+                        lockTaken = true;
 
-                        Boolean lockTaken = false;
-
-                        try
+                        _isDelegateInvoked = true;
+                    }
+                    finally
+                    {
+                        if (lockTaken)
                         {
-                            Monitor.Enter(_lockObj);
-                            lockTaken = true;
-
-                            _isDelegateInvoked = true;
-                        }
-                        finally
-                        {
-                            if (lockTaken)
-                            {
-                                Monitor.Exit(_lockObj);
-                            }
+                            Monitor.Exit(_lockObj);
                         }
                     }
 
