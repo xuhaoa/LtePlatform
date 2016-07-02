@@ -15,6 +15,7 @@ namespace AutoMapper.Test.Core
 		public class When_mapping_to_a_concrete_non_generic_ienumerable : AutoMapperSpecBase
 		{
 			private Destination _destination;
+            private Source _source;
 
 			public class Source
 			{
@@ -35,36 +36,50 @@ namespace AutoMapper.Test.Core
 
 			protected override void Because_of()
 			{
-				_destination = Mapper.Map<Source, Destination>(new Source { Values = new[] { 1, 2, 3, 4 }, Values2 = new List<int> { 9, 8, 7, 6 } });
+			    _source = new Source {Values = new[] {1, 2, 3, 4}, Values2 = new List<int> {9, 8, 7, 6}};
 			}
 
 			[Test]
 			public void Should_map_the_list_of_source_items()
 			{
+			    _destination = Mapper.Map<Source, Destination>(_source);
 				_destination.Values.ShouldNotBeNull();
 				_destination.Values.ShouldContain(1);
 				_destination.Values.ShouldContain(2);
 				_destination.Values.ShouldContain(3);
 				_destination.Values.ShouldContain(4);
-			}
-
-			[Test]
-			public void Should_map_from_the_generic_list_of_values()
-			{
 				_destination.Values2.ShouldNotBeNull();
 				_destination.Values2.ShouldContain(9);
 				_destination.Values2.ShouldContain(8);
 				_destination.Values2.ShouldContain(7);
 				_destination.Values2.ShouldContain(6);
 			}
+
+            [Test]
+            public void Test_Update()
+            {
+                _destination=new Destination();
+                Mapper.Map(_source, _destination);
+                _destination.Values.ShouldNotBeNull();
+                _destination.Values.ShouldContain(1);
+                _destination.Values.ShouldContain(2);
+                _destination.Values.ShouldContain(3);
+                _destination.Values.ShouldContain(4);
+                _destination.Values2.ShouldNotBeNull();
+                _destination.Values2.ShouldContain(9);
+                _destination.Values2.ShouldContain(8);
+                _destination.Values2.ShouldContain(7);
+                _destination.Values2.ShouldContain(6);
+            }
 		}
 
         [TestFixture]
 		public class When_mapping_to_a_concrete_generic_ienumerable : AutoMapperSpecBase
 		{
 			private Destination _destination;
+            private Source _source;
 
-			public class Source
+            public class Source
 			{
 				public int[] Values { get; set; }
 
@@ -86,28 +101,41 @@ namespace AutoMapper.Test.Core
 
 			protected override void Because_of()
 			{
-				_destination = Mapper.Map<Source, Destination>(new Source { Values = new[] { 1, 2, 3, 4 }, Values2 = new List<int> { 9, 8, 7, 6 } });
+			    _source = new Source {Values = new[] {1, 2, 3, 4}, Values2 = new List<int> {9, 8, 7, 6}};
 			}
 
 			[Test]
 			public void Should_map_the_list_of_source_items()
 			{
+				_destination = Mapper.Map<Source, Destination>(_source);
 				_destination.Values.ShouldNotBeNull();
 				_destination.Values.ShouldContain(1);
 				_destination.Values.ShouldContain(2);
 				_destination.Values.ShouldContain(3);
 				_destination.Values.ShouldContain(4);
-			}
-
-			[Test]
-			public void Should_map_from_the_generic_list_of_values_with_formatting()
-			{
 				_destination.Values2.ShouldNotBeNull();
 				_destination.Values2.ShouldContain("9");
 				_destination.Values2.ShouldContain("8");
 				_destination.Values2.ShouldContain("7");
 				_destination.Values2.ShouldContain("6");
 			}
+
+            [Test]
+            public void Test_Update()
+            {
+                _destination = new Destination();
+                Mapper.Map(_source, _destination);
+                _destination.Values.ShouldNotBeNull();
+                _destination.Values.ShouldContain(1);
+                _destination.Values.ShouldContain(2);
+                _destination.Values.ShouldContain(3);
+                _destination.Values.ShouldContain(4);
+                _destination.Values2.ShouldNotBeNull();
+                _destination.Values2.ShouldContain("9");
+                _destination.Values2.ShouldContain("8");
+                _destination.Values2.ShouldContain("7");
+                _destination.Values2.ShouldContain("6");
+            }
 		}
 
         [TestFixture]

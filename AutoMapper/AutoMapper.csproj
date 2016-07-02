@@ -44,8 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AliasedMember.cs" />
-    <Compile Include="AutoMapperConfigurationException.cs" />
-    <Compile Include="AutoMapperMappingException.cs" />
+    <Compile Include="AutoMapperException.cs" />
     <Compile Include="ConfigurationStore.cs" />
     <Compile Include="Configuration\CreateTypeMapExpression.cs" />
     <Compile Include="ConstructorMap.cs" />
