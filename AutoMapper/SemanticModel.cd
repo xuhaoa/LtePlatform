@@ -20,50 +20,9 @@
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAEAEAAAjQEiAACKAAAAACAAAAAAAAIQEAAQAYBAkA=</HashCode>
+      <HashCode>AIAEAEAAAjQEiAACKAAAAACAAAAAAAAIQEAAQAIBAEA=</HashCode>
       <FileName>MappingEngine.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="AutoMapper.Configuration">
-    <Position X="5" Y="3.25" Width="2.25" />
-    <Members>
-      <Field Name="_formatterCtor" Hidden="true" />
-      <Field Name="_resolverCtor" Hidden="true" />
-      <Field Name="_typeConverterCtor" Hidden="true" />
-      <Method Name="AddFormatExpression" Hidden="true" />
-      <Method Name="AddFormatter" Hidden="true" />
-      <Method Name="AddProfile" Hidden="true" />
-      <Property Name="AllowNullDestinationValues" Hidden="true" />
-      <Method Name="Configuration" Hidden="true" />
-      <Method Name="ConstructFormattersUsing" Hidden="true" />
-      <Method Name="ConstructResolversUsing" Hidden="true" />
-      <Method Name="ConstructTypeConvertersUsing" Hidden="true" />
-      <Method Name="CreateMap" Hidden="true" />
-      <Method Name="CreateProfile" Hidden="true" />
-      <Method Name="CreateTypeMap" Hidden="true" />
-      <Field Name="DefaultProfileName" Hidden="true" />
-      <Method Name="DryRunTypeMap" Hidden="true" />
-      <Method Name="ForSourceType" Hidden="true" />
-      <Method Name="GetProfile" Hidden="true" />
-      <Property Name="IProfileConfiguration.MapNullSourceValuesAsNull" Hidden="true" />
-      <Method Name="SelfConfigure" Hidden="true" />
-      <Method Name="SelfProfile" Hidden="true" />
-      <Method Name="SkipFormatter" Hidden="true" />
-    </Members>
-    <Compartments>
-      <Compartment Name="Properties" Collapsed="true" />
-      <Compartment Name="Fields" Collapsed="true" />
-    </Compartments>
-    <TypeIdentifier>
-      <HashCode>AAAABAgAEAJBwACAASAAgCAIAACAIUAAgEgQAEEZEgA=</HashCode>
-      <FileName>Configuration.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Field Name="_mappers" />
-      <Field Name="_typeMaps" />
-      <Field Name="_formatterProfiles" />
-    </ShowAsCollectionAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="AutoMapper.TypeMap">
@@ -117,43 +76,28 @@
       <Field Name="_sourceValueResolvers" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="AutoMapper.FormatterExpression" Collapsed="true">
-    <Position X="7.5" Y="4" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAAACAAAEAAARAAAACAQAAAIAAAAIAAAgAAADAABIAE=</HashCode>
-      <FileName>Internal\FormatterExpression.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
   <Interface Name="AutoMapper.IConfiguration">
     <Position X="5" Y="1.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAIAAAAAQAAAAAAACAACAAAAAAgQAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAIAAAAAQAAAAAAAAAAAAAAAAAgQAAAAAAA=</HashCode>
       <FileName>IConfiguration.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="AutoMapper.IObjectMapper" Collapsed="true">
+  <Interface Name="AutoMapper.IObjectMapper">
     <Position X="8.25" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IObjectMapper.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="AutoMapper.IValueResolver" Collapsed="true">
+  <Interface Name="AutoMapper.IValueResolver">
     <Position X="15.25" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IValueResolver.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="AutoMapper.IValueFormatter" Collapsed="true">
-    <Position X="14.75" Y="5" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
-      <FileName>IValueFormatter.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

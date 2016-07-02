@@ -1,15 +1,12 @@
+using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using AutoMapper.Internal;
 
 namespace AutoMapper
 {
-    using System;
-    using System.Collections.Generic;
-using System.Collections.ObjectModel;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text.RegularExpressions;
-    using Internal;
-
     public class TypeMapFactory : ITypeMapFactory
     {
         private static readonly ConcurrentDictionary<Type, TypeDetails> _typeInfos
@@ -17,22 +14,13 @@ using System.Collections.ObjectModel;
 
         public static TypeDetails GetTypeInfo(Type type, IProfileConfiguration profileConfiguration)
         {
-            TypeDetails typeInfo = _typeInfos.GetOrAdd(type, t => new TypeDetails(type, profileConfiguration.ShouldMapProperty, profileConfiguration.ShouldMapField, profileConfiguration.SourceExtensionMethods));
+            var typeInfo = _typeInfos.GetOrAdd(type,
+                t =>
+                    new TypeDetails(type, profileConfiguration.ShouldMapProperty, profileConfiguration.ShouldMapField,
+                        profileConfiguration.SourceExtensionMethods));
 
             return typeInfo;
         }
-        //internal static ICollection<IChildMemberConfiguration> sourceToDestinationMemberMappers = new Collection<IChildMemberConfiguration>
-        //{
-        //    // Need to do it fixie way for prefix and postfix to work together + not specify match explicitly
-        //    // Have 3 properties for Members, Methods, And External Methods
-        //    // Parent goes to all
-        //    new MemberConfiguration().AddMember<NameSplitMember>().AddName<PrePostfixName>(_ => _.AddStrings(p => p.Prefixes, "Get")).SetMemberInfo<AllMemberInfo>(),
-        //    //new CustomizedSourceToDestinationMemberMapper().MemberNameMatch().ExtensionNameMatch().ExtensionPrefix("Get").MethodPrefix("Get").MethodNameMatch(),
-        //};
-
-        
-
-        //internal static readonly ICollection<IChildMemberConfiguration> def = sourceToDestinationMemberMappers.ToList();
 
         public TypeMap CreateTypeMap(Type sourceType, Type destinationType, IProfileConfiguration options, MemberList memberList)
         {
@@ -45,52 +33,46 @@ using System.Collections.ObjectModel;
             {
                 var members = new LinkedList<MemberInfo>();
 
-                if (MapDestinationPropertyToSource(options, sourceTypeInfo, destProperty.GetType(), destProperty.Name, members))
-                {
-                    var resolvers = members.Select(mi => mi.ToMemberGetter());
-                    var destPropertyAccessor = destProperty.ToMemberAccessor();
+                if (!MapDestinationPropertyToSource(options, sourceTypeInfo, destProperty.GetType(), destProperty.Name,
+                        members)) continue;
+                var resolvers = members.Select(mi => mi.ToMemberGetter());
+                var destPropertyAccessor = destProperty.ToMemberAccessor();
 
-                    typeMap.AddPropertyMap(destPropertyAccessor, resolvers.Cast<IValueResolver>());
-                }
+                typeMap.AddPropertyMap(destPropertyAccessor, resolvers);
             }
-            if (!destinationType.IsAbstract() && destinationType.IsClass())
+            if (destinationType.IsAbstract() || !destinationType.IsClass()) return typeMap;
+            foreach (var destCtor in destTypeInfo.Constructors.OrderByDescending(ci => ci.GetParameters().Length))
             {
-                foreach (var destCtor in destTypeInfo.Constructors.OrderByDescending(ci => ci.GetParameters().Length))
+                if (MapDestinationCtorToSource(typeMap, destCtor, sourceTypeInfo, options))
                 {
-                    if (MapDestinationCtorToSource(typeMap, destCtor, sourceTypeInfo, options))
-                    {
-                        break;
-                    }
+                    break;
                 }
             }
             return typeMap;
         }
 
-        private bool MapDestinationPropertyToSource(IProfileConfiguration options, TypeDetails sourceTypeInfo, Type destType, string destMemberInfo, LinkedList<MemberInfo> members)
+        private static bool MapDestinationPropertyToSource(IProfileConfiguration options, TypeDetails sourceTypeInfo,
+            Type destType, string destMemberInfo, LinkedList<MemberInfo> members)
         {
-            return options.MemberConfigurations.Any(_ => _.MapDestinationPropertyToSource(options, sourceTypeInfo, destType, destMemberInfo, members));
+            return
+                options.MemberConfigurations.Any(
+                    _ => _.MapDestinationPropertyToSource(options, sourceTypeInfo, destType, destMemberInfo, members));
         }
 
-        private bool MapDestinationCtorToSource(TypeMap typeMap, ConstructorInfo destCtor, TypeDetails sourceTypeInfo, IProfileConfiguration options)
+        private static bool MapDestinationCtorToSource(TypeMap typeMap, ConstructorInfo destCtor,
+            TypeDetails sourceTypeInfo, IProfileConfiguration options)
         {
-            var parameters = new List<ConstructorParameterMap>();
             var ctorParameters = destCtor.GetParameters();
 
             if (ctorParameters.Length == 0 || !options.ConstructorMappingEnabled)
                 return false;
 
-            foreach (var parameter in ctorParameters)
-            {
-                var members = new LinkedList<MemberInfo>();
-
-                var canResolve = MapDestinationPropertyToSource(options, sourceTypeInfo, parameter.GetType(), parameter.Name, members);
-
-                var resolvers = members.Select(mi => mi.ToMemberGetter());
-
-                var param = new ConstructorParameterMap(parameter, resolvers.ToArray(), canResolve);
-
-                parameters.Add(param);
-            }
+            var parameters = (from parameter in ctorParameters
+                let members = new LinkedList<MemberInfo>()
+                let canResolve =
+                    MapDestinationPropertyToSource(options, sourceTypeInfo, parameter.GetType(), parameter.Name, members)
+                let resolvers = members.Select(mi => mi.ToMemberGetter())
+                select new ConstructorParameterMap(parameter, resolvers.ToArray(), canResolve)).ToList();
 
             typeMap.AddConstructorMap(destCtor, parameters);
 
@@ -102,9 +84,11 @@ using System.Collections.ObjectModel;
             return GetTypeInfo(type, mappingOptions.ShouldMapProperty, mappingOptions.ShouldMapField, mappingOptions.SourceExtensionMethods);
         }
 
-        private TypeDetails GetTypeInfo(Type type, Func<PropertyInfo, bool> shouldMapProperty, Func<FieldInfo, bool> shouldMapField, IEnumerable<MethodInfo> extensionMethodsToSearch)
+        private static TypeDetails GetTypeInfo(Type type, Func<PropertyInfo, bool> shouldMapProperty,
+            Func<FieldInfo, bool> shouldMapField, IEnumerable<MethodInfo> extensionMethodsToSearch)
         {
-            return _typeInfos.GetOrAdd(type, t => new TypeDetails(type, shouldMapProperty, shouldMapField, extensionMethodsToSearch));
+            return _typeInfos.GetOrAdd(type,
+                t => new TypeDetails(type, shouldMapProperty, shouldMapField, extensionMethodsToSearch));
         }
 
         private static MemberInfo FindTypeMember(IEnumerable<MemberInfo> modelProperties,
@@ -113,30 +97,23 @@ using System.Collections.ObjectModel;
             string nameToSearch,
             IMappingOptions mappingOptions)
         {
-            MemberInfo pi = modelProperties.FirstOrDefault(prop => NameMatches(prop.Name, nameToSearch, mappingOptions));
+            var pi = modelProperties.FirstOrDefault(prop => NameMatches(prop.Name, nameToSearch, mappingOptions));
             if (pi != null)
                 return pi;
 
-            MethodInfo mi = getMethods.FirstOrDefault(m => NameMatches(m.Name, nameToSearch, mappingOptions));
+            var mi = getMethods.FirstOrDefault(m => NameMatches(m.Name, nameToSearch, mappingOptions));
             if (mi != null)
                 return mi;
 
             mi = getExtensionMethods.FirstOrDefault(m => NameMatches(m.Name, nameToSearch, mappingOptions));
-            if (mi != null)
-                return mi;
-
-            return null;
+            return mi;
         }
 
         private static bool NameMatches(string memberName, string nameToMatch, IMappingOptions mappingOptions)
         {
-            var possibleSourceNames = PossibleNames(memberName, mappingOptions.Aliases,
-                mappingOptions.MemberNameReplacers,
-                mappingOptions.Prefixes, mappingOptions.Postfixes);
+            var possibleSourceNames = PossibleNames(memberName, mappingOptions.Aliases);
 
-            var possibleDestNames = PossibleNames(nameToMatch, mappingOptions.Aliases,
-                mappingOptions.MemberNameReplacers,
-                mappingOptions.DestinationPrefixes, mappingOptions.DestinationPostfixes);
+            var possibleDestNames = PossibleNames(nameToMatch, mappingOptions.Aliases);
 
             var all =
                 from sourceName in possibleSourceNames
@@ -144,12 +121,10 @@ using System.Collections.ObjectModel;
                 select new {sourceName, destName};
 
             return
-                all.Any(pair => String.Compare(pair.sourceName, pair.destName, StringComparison.OrdinalIgnoreCase) == 0);
+                all.Any(pair => string.Compare(pair.sourceName, pair.destName, StringComparison.OrdinalIgnoreCase) == 0);
         }
 
-        private static IEnumerable<string> PossibleNames(string memberName, IEnumerable<AliasedMember> aliases,
-            IEnumerable<MemberNameReplacer> memberNameReplacers, IEnumerable<string> prefixes,
-            IEnumerable<string> postfixes)
+        private static IEnumerable<string> PossibleNames(string memberName, IEnumerable<AliasedMember> aliases)
         {
             if (string.IsNullOrEmpty(memberName))
                 yield break;
@@ -157,26 +132,27 @@ using System.Collections.ObjectModel;
             yield return memberName;
 
             foreach (
-                var alias in aliases.Where(alias => String.Equals(memberName, alias.Member, StringComparison.Ordinal)))
+                var alias in aliases.Where(alias => string.Equals(memberName, alias.Member, StringComparison.Ordinal)))
             {
                 yield return alias.Alias;
             }
         }
 
-        private NameSnippet CreateNameSnippet(IEnumerable<string> matches, int i, IMappingOptions mappingOptions)
+        private NameSnippet CreateNameSnippet(IEnumerable<string> matches, int i)
         {
             return new NameSnippet
             {
                 First =
-                    String.Join("",matches.Take(i).ToArray()),
+                    string.Join("",matches.Take(i).ToArray()),
                 Second =
-                    String.Join("",matches.Skip(i).ToArray())
+                    string.Join("",matches.Skip(i).ToArray())
             };
         }
 
         private class NameSnippet
         {
             public string First { get; set; }
+
             public string Second { get; set; }
         }
     }

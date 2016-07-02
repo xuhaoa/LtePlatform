@@ -42,7 +42,7 @@
         void AfterMap(Action<object, object> afterFunction);
     }
 
-    public interface IMappingOperationOptions<TSource, TDestination> : IMappingOperationOptions
+    public interface IMappingOperationOptions<out TSource, out TDestination> : IMappingOperationOptions
     {
         /// <summary>
         /// Execute a custom function to the source and/or destination types before member mapping

@@ -50,12 +50,9 @@
     <Compile Include="ConstructorMap.cs" />
     <Compile Include="ConstructorParameterMap.cs" />
     <Compile Include="IConfiguration.cs" />
-    <Compile Include="IConfigurationProvider.cs" />
     <Compile Include="ICtorParamConfigurationExpression.cs" />
     <Compile Include="IgnoreMapAttribute.cs" />
-    <Compile Include="IMappingAction.cs" />
     <Compile Include="IMappingEngine.cs" />
-    <Compile Include="IMappingEngineRunner.cs" />
     <Compile Include="IMappingExpression.cs" />
     <Compile Include="IMappingOperationOptions.cs" />
     <Compile Include="IMappingOptions.cs" />

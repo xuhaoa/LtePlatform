@@ -1,14 +1,16 @@
-using System;
-using System.Collections.Generic;
+ using System;
+ using System.Collections.Concurrent;
+ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+ using AutoMapper.QueryableExtensions;
 
 namespace AutoMapper
 {
     using System;
     using System.Linq.Expressions;
     using System.Reflection;
-    using ObjectDictionary = System.Collections.Generic.IDictionary<string, object>;
+    using ObjectDictionary = IDictionary<string, object>;
 
     /// <summary>
     /// Performs mapping based on configuration
@@ -169,7 +171,28 @@ namespace AutoMapper
         void DynamicMap(object source, object destination, Type sourceType, Type destinationType);
 
         Expression CreateMapExpression(Type sourceType, Type destinationType, ObjectDictionary parameters = null, params MemberInfo[] membersToExpand);
+
         IObjectMapper GetOrAddMapper(TypePair typePair, Func<TypePair, IObjectMapper> factory);
     }
 
+    /// <summary>
+    /// Main entry point for executing maps
+    /// </summary>
+    public interface IMappingEngineRunner
+    {
+        object Map(ResolutionContext context);
+
+        object CreateObject(ResolutionContext context);
+
+        IConfigurationProvider ConfigurationProvider { get; }
+
+        bool ShouldMapSourceValueAsNull(ResolutionContext context);
+
+        bool ShouldMapSourceCollectionAsNull(ResolutionContext context);
+        
+        Expression CreateMapExpression(ExpressionRequest request,
+            Expression instanceParameter, ConcurrentDictionary<ExpressionRequest, int> typePairCount);
+
+        LambdaExpression CreateMapExpression(ExpressionRequest request, ConcurrentDictionary<ExpressionRequest, int> typePairCount);
+    }
 }
