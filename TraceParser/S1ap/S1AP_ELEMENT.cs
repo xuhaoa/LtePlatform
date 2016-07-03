@@ -5,40 +5,33 @@ using TraceParser.Common;
 namespace TraceParser.S1ap
 {
     [Serializable]
-    public class S1AP_PDU : ITraceMessage
+    public class S1AP_PDU : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public InitiatingMessage initiatingMessage { get; set; }
 
         public SuccessfulOutcome successfulOutcome { get; set; }
 
         public UnsuccessfulOutcome unsuccessfulOutcome { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<S1AP_PDU>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public S1AP_PDU Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(S1AP_PDU config, BitArrayInputStream input)
             {
-                S1AP_PDU sap_pdu = new S1AP_PDU();
-                sap_pdu.InitDefaults();
+                InitDefaults();
                 input.readBit();
                 switch (input.readBits(2))
                 {
                     case 0:
-                        sap_pdu.initiatingMessage = InitiatingMessage.PerDecoder.Instance.Decode(input);
-                        return sap_pdu;
-
+                        config.initiatingMessage = InitiatingMessage.PerDecoder.Instance.Decode(input);
+                        return;
                     case 1:
-                        sap_pdu.successfulOutcome = SuccessfulOutcome.PerDecoder.Instance.Decode(input);
-                        return sap_pdu;
-
+                        config.successfulOutcome = SuccessfulOutcome.PerDecoder.Instance.Decode(input);
+                        return;
                     case 2:
-                        sap_pdu.unsuccessfulOutcome = UnsuccessfulOutcome.PerDecoder.Instance.Decode(input);
-                        return sap_pdu;
+                        config.unsuccessfulOutcome = UnsuccessfulOutcome.PerDecoder.Instance.Decode(input);
+                        return;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");
             }

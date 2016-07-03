@@ -46,40 +46,33 @@ namespace TraceParser.X2ap
     }
 
     [Serializable]
-    public class X2AP_PDU : ITraceMessage
+    public class X2AP_PDU : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public InitiatingMessage initiatingMessage { get; set; }
 
         public SuccessfulOutcome successfulOutcome { get; set; }
 
         public UnsuccessfulOutcome unsuccessfulOutcome { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<X2AP_PDU>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public X2AP_PDU Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(X2AP_PDU config, BitArrayInputStream input)
             {
-                X2AP_PDU xap_pdu = new X2AP_PDU();
-                xap_pdu.InitDefaults();
+                InitDefaults();
                 input.readBit();
                 switch (input.readBits(2))
                 {
                     case 0:
-                        xap_pdu.initiatingMessage = InitiatingMessage.PerDecoder.Instance.Decode(input);
-                        return xap_pdu;
-
+                        config.initiatingMessage = InitiatingMessage.PerDecoder.Instance.Decode(input);
+                        return;
                     case 1:
-                        xap_pdu.successfulOutcome = SuccessfulOutcome.PerDecoder.Instance.Decode(input);
-                        return xap_pdu;
-
+                        config.successfulOutcome = SuccessfulOutcome.PerDecoder.Instance.Decode(input);
+                        return;
                     case 2:
-                        xap_pdu.unsuccessfulOutcome = UnsuccessfulOutcome.PerDecoder.Instance.Decode(input);
-                        return xap_pdu;
+                        config.unsuccessfulOutcome = UnsuccessfulOutcome.PerDecoder.Instance.Decode(input);
+                        return;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");
             }

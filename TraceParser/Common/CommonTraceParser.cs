@@ -8,7 +8,7 @@ namespace TraceParser.Common
 {
     public static class CommonTraceParser
     {
-        public static ITraceMessage DecodeMsg(string hexStr, string messageName)
+        public static TraceConfig DecodeMsg(string hexStr, string messageName)
         {
             using (BitArrayInputStream stream = hexStr.GetInputStream())
             {
@@ -16,7 +16,7 @@ namespace TraceParser.Common
             }
         }
 
-        public static ITraceMessage DecodeMsg(BitArrayInputStream stream, string messageName)
+        public static TraceConfig DecodeMsg(BitArrayInputStream stream, string messageName)
         {
             switch (messageName)
             {

@@ -1,5 +1,3 @@
-using System.CodeDom;
-using AutoMapper.Should;
 using NUnit.Framework;
 using Shouldly;
 

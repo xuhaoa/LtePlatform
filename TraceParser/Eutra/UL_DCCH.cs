@@ -5,24 +5,18 @@ using TraceParser.Common;
 namespace TraceParser.Eutra
 {
     [Serializable]
-    public class UL_DCCH_Message : ITraceMessage
+    public class UL_DCCH_Message : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public UL_DCCH_MessageType message { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<UL_DCCH_Message>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public UL_DCCH_Message Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(UL_DCCH_Message config, BitArrayInputStream input)
             {
-                UL_DCCH_Message message = new UL_DCCH_Message();
-                message.InitDefaults();
-                message.message = UL_DCCH_MessageType.PerDecoder.Instance.Decode(input);
-                return message;
+                InitDefaults();
+                config.message = UL_DCCH_MessageType.PerDecoder.Instance.Decode(input);
             }
         }
     }

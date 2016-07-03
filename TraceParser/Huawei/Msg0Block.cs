@@ -71,7 +71,7 @@ namespace TraceParser.Huawei
 
         public ushort body_length_ui2 { get; set; }
 
-        public ITraceMessage body_object { get; set; }
+        public TraceConfig body_object { get; set; }
 
         public uint callid_ui4 { get; set; }
 
