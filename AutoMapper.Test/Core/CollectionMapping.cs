@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using AutoMapper.Should;
 using NUnit.Framework;
 using Shouldly;
 

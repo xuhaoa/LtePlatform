@@ -22,7 +22,7 @@ namespace AutoMapper.Test.Bug
 
         protected override void Establish_context()
         {
-            AutoMapper.Mapper.CreateMap<Source, Destination>();
+            Mapper.CreateMap<Source, Destination>();
         }
 
         [Test]
@@ -32,11 +32,11 @@ namespace AutoMapper.Test.Bug
             var source = new Source() { Name = "Test" };
             var destination = new Destination();
 
-            AutoMapper.Mapper.Map<Source, Destination>(source, destination); // Works
+            Mapper.Map<Source, Destination>(source, destination); // Works
 
             var subDestination = new SubDestination();
 
-            AutoMapper.Mapper.Map<Source, Destination>(source, subDestination); // Fails
+            Mapper.Map<Source, Destination>(source, subDestination); // Fails
         }
     }
 }

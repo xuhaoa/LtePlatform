@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Shouldly;
 using NUnit.Framework;
+using Shouldly;
 
 namespace AutoMapper.Test.Bug
 {

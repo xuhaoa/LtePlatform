@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using AutoMapper.Should;
 using NUnit.Framework;
 using Shouldly;
 

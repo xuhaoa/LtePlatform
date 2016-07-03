@@ -1,6 +1,4 @@
-﻿using System;
-using AutoMapper.Should;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Shouldly;
 
 namespace AutoMapper.Test.Bug
@@ -16,12 +14,12 @@ namespace AutoMapper.Test.Bug
 
             // Since the name of the parameter is 'type', Automapper.TypeMapFactory chooses SourceClass.GetType()
             // to fulfill the dependency, causing an InvalidCastException during Mapper.Map()
-            public DestinationClass(Int32 type)
+            public DestinationClass(int type)
             {
                 Type = type;
             }
 
-            public Int32 Type { get; private set; }
+            public int Type { get; private set; }
         }
         
         [Test]

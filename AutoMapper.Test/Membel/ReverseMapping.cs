@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Shouldly;
 using NUnit.Framework;
+using Shouldly;
 
 namespace AutoMapper.Test.Membel
 {
@@ -339,12 +339,12 @@ namespace AutoMapper.Test.Membel
         {
             // from http://stackoverflow.com/questions/954480/automapper-ignore-the-rest/6474397#6474397
             public static IMappingExpression<TSource, TDestination> IgnoreAllNonExisting<TSource, TDestination>(
-                this AutoMapper.IMappingExpression<TSource, TDestination> expression)
+                this IMappingExpression<TSource, TDestination> expression)
             {
                 var sourceType = typeof (TSource);
                 var destinationType = typeof (TDestination);
                 var existingMaps =
-                    AutoMapper.Mapper.GetAllTypeMaps()
+                    Mapper.GetAllTypeMaps()
                         .First(x => x.SourceType == sourceType && x.DestinationType == destinationType);
                 foreach (var property in existingMaps.GetUnmappedPropertyNames())
                 {
@@ -354,12 +354,12 @@ namespace AutoMapper.Test.Membel
             }
 
             public static IMappingExpression<TSource, TDestination> IgnoreAllNonExistingSource<TSource, TDestination>(
-                this AutoMapper.IMappingExpression<TSource, TDestination> expression)
+                this IMappingExpression<TSource, TDestination> expression)
             {
                 var sourceType = typeof (TSource);
                 var destinationType = typeof (TDestination);
                 var existingMaps =
-                    AutoMapper.Mapper.GetAllTypeMaps()
+                    Mapper.GetAllTypeMaps()
                         .First(x => x.SourceType == sourceType && x.DestinationType == destinationType);
                 foreach (var property in existingMaps.GetUnmappedPropertyNames())
                 {

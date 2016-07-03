@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using NUnit.Framework;
 using Shouldly;
@@ -56,7 +57,7 @@ namespace AutoMapper.Test.Core
                 _destination.Value2.ShouldBe(default(int));
             }
 
-            public class SkipAttribute : System.Attribute { }
+            public class SkipAttribute : Attribute { }
         }
 
         [TestFixture]

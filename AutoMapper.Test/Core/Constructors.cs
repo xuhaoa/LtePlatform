@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq.Expressions;
-using AutoMapper.Should;
 using NUnit.Framework;
 using Shouldly;
 

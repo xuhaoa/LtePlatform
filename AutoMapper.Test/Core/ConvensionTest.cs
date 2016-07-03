@@ -2,7 +2,6 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using AutoMapper.Mappers;
-using AutoMapper.Should;
 using NUnit.Framework;
 using Shouldly;
 

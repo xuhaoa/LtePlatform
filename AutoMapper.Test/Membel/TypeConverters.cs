@@ -1,8 +1,8 @@
 #if !NETFX_CORE
 using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Reflection;
-using AutoMapper.Should;
 using NUnit.Framework;
 using Shouldly;
 
@@ -151,7 +151,7 @@ namespace AutoMapper.Test.Membel
 					return destinationType == typeof (Destination);
 				}
 
-				public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
+				public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 				{
 				    return new Destination
 				    {
@@ -164,7 +164,7 @@ namespace AutoMapper.Test.Membel
 					return sourceType == typeof(Destination);
 				}
 
-				public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+				public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 				{
 					return new Source {Value = ((Destination) value).OtherValue - 10};
 				}

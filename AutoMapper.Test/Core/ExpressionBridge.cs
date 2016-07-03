@@ -1,10 +1,8 @@
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper.QueryableExtensions;
-using AutoMapper.Should;
 using AutoMapper.Test.Core.ConditionalMapping;
 using NUnit.Framework;
 using Shouldly;
@@ -302,7 +300,7 @@ namespace AutoMapper.Test.Core
                     _bei = belist.AsQueryable();
                 }
 
-                [When_configuring_a_member_to_skip_based_on_the_property_metadata.Skip]
+                [When_configuring_a_member_to_skip_based_on_the_property_metadata.SkipAttribute]
                 [ExpectedException(typeof(StackOverflowException))]
                 public void Should_not_throw_exception()
                 {

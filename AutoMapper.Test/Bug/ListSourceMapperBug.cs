@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using AutoMapper.Should;
 using NUnit.Framework;
 using Shouldly;
 

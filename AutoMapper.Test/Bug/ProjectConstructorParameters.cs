@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using AutoMapper.QueryableExtensions;
-using AutoMapper.Should;
 using NUnit.Framework;
 using Shouldly;
 
