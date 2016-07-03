@@ -193,12 +193,6 @@
     <Compile Include="Should\Core\Exceptions\EqualException.cs" />
     <Compile Include="Should\Core\Exceptions\IsAssignableFromException.cs" />
     <Compile Include="Should\Core\Exceptions\IsNotTypeException.cs" />
-    <Compile Include="Should\Core\Exceptions\IsTypeException.cs" />
-    <Compile Include="Should\Core\Exceptions\NotEmptyException.cs" />
-    <Compile Include="Should\Core\Exceptions\NotEqualException.cs" />
-    <Compile Include="Should\Core\Exceptions\NotInRangeException.cs" />
-    <Compile Include="Should\Core\Exceptions\NotNullException.cs" />
-    <Compile Include="Should\Core\Exceptions\NullException.cs" />
     <Compile Include="Should\Core\Exceptions\ParameterCountMismatchException.cs" />
     <Compile Include="Should\Core\Exceptions\SameException.cs" />
     <Compile Include="Should\Core\Exceptions\SingleException.cs" />

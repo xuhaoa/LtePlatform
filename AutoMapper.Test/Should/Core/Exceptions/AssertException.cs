@@ -99,14 +99,7 @@ namespace AutoMapper.Test.Should.Core.Exceptions
     public class AssertActualExpectedException : AssertException
     {
         readonly string differencePosition = "";
-
-        /// <summary>
-        /// Creates a new instance of the <see href="AssertActualExpectedException"/> class.
-        /// </summary>
-        /// <param name="expected">The expected value</param>
-        /// <param name="actual">The actual value</param>
-        /// <param name="userMessage">The user message to be shown</param>
-        /// <param name="skipPositionCheck">Set to true to skip the check for difference position</param>
+        
         protected AssertActualExpectedException(object expected,
                                              object actual,
                                              string userMessage,
@@ -135,22 +128,11 @@ namespace AutoMapper.Test.Should.Core.Exceptions
             Actual += $" ({actual.GetType().FullName})";
             Expected += $" ({expected.GetType().FullName})";
         }
-
-        /// <summary>
-        /// Gets the actual value.
-        /// </summary>
+        
         public string Actual { get; }
-
-        /// <summary>
-        /// Gets the expected value.
-        /// </summary>
+        
         public string Expected { get; }
-
-        /// <summary>
-        /// Gets a message that describes the current exception. Includes the expected and actual values.
-        /// </summary>
-        /// <returns>The error message that explains the reason for the exception, or an empty string("").</returns>
-        /// <filterpriority>1</filterpriority>
+        
         public override string Message => string.Format("{0}{4}{1}Expected: {2}{4}Actual:   {3}",
             base.Message,
             differencePosition,
@@ -175,47 +157,25 @@ namespace AutoMapper.Test.Should.Core.Exceptions
             return value.Replace(Environment.NewLine, Environment.NewLine + "          ");
         }
     }
-
-    /// <summary>
-    /// Exception thrown when a value is unexpectedly not in the given range.
-    /// </summary>
+    
     public class InRangeException : AssertException
     {
-        /// <summary>
-        /// Creates a new instance of the <see cref="InRangeException"/> class.
-        /// </summary>
-        /// <param name="actual">The actual object value</param>
-        /// <param name="low">The low value of the range</param>
-        /// <param name="high">The high value of the range</param>
         public InRangeException(object actual,
                                 object low,
                                 object high)
             : base("CustomizeAssert.InRange() Failure")
         {
-            this.Low = low?.ToString();
-            this.High = high?.ToString();
-            this.Actual = actual?.ToString();
+            Low = low?.ToString();
+            High = high?.ToString();
+            Actual = actual?.ToString();
         }
-
-        /// <summary>
-        /// Gets the actual object value
-        /// </summary>
+        
         public string Actual { get; }
-
-        /// <summary>
-        /// Gets the high value of the range
-        /// </summary>
+        
         public string High { get; }
-
-        /// <summary>
-        /// Gets the low value of the range
-        /// </summary>
+        
         public string Low { get; }
-
-        /// <summary>
-        /// Gets a message that describes the current exception.
-        /// </summary>
-        /// <returns>The error message that explains the reason for the exception, or an empty string("").</returns>
+        
         public override string Message => $"{base.Message}\r\nRange:  ({Low} - {High})\r\nActual: {Actual ?? "(null)"}";
     }
 
@@ -225,36 +185,19 @@ namespace AutoMapper.Test.Should.Core.Exceptions
             : base($"Test execution time exceeded: {timeout}ms") { }
     }
 
-    /// <summary>
-    /// Exception that is thrown when a call to Debug.CustomizeAssert() fails.
-    /// </summary>
     public class TraceAssertException : AssertException
     {
-        /// <summary>
-        /// Creates a new instance of the <see cref="TraceAssertException"/> class.
-        /// </summary>
-        /// <param name="assertMessage">The original assert message</param>
-        /// <param name="assertDetailedMessage">The original assert detailed message</param>
         public TraceAssertException(string assertMessage,
                                     string assertDetailedMessage = "")
         {
-            this.AssertMessage = assertMessage ?? "";
-            this.AssertDetailedMessage = assertDetailedMessage ?? "";
+            AssertMessage = assertMessage ?? "";
+            AssertDetailedMessage = assertDetailedMessage ?? "";
         }
-
-        /// <summary>
-        /// Gets the original assert detailed message.
-        /// </summary>
+        
         public string AssertDetailedMessage { get; }
-
-        /// <summary>
-        /// Gets the original assert message.
-        /// </summary>
+        
         public string AssertMessage { get; }
-
-        /// <summary>
-        /// Gets a message that describes the current exception.
-        /// </summary>
+        
         public override string Message
         {
             get
@@ -282,5 +225,60 @@ namespace AutoMapper.Test.Should.Core.Exceptions
             public NotSameException()
                 : base("CustomizeAssert.NotSame() Failure") { }
         }
+    }
+
+    public class NotNullException : AssertException
+    {
+        public NotNullException()
+            : this("CustomizeAssert.NotNull() Failure") { }
+        
+        public NotNullException(string message)
+            : base(message) { }
+    }
+
+    public class NotInRangeException : AssertException
+    {
+        public NotInRangeException(object actual,
+                                   object low,
+                                   object high)
+            : base("CustomizeAssert.NotInRange() Failure")
+        {
+            this.Low = low?.ToString();
+            this.High = high?.ToString();
+            this.Actual = actual?.ToString();
+        }
+        
+        public string Actual { get; }
+        
+        public string High { get; }
+        
+        public string Low { get; }
+        
+        public override string Message => $"{base.Message}\r\nRange:  ({Low} - {High})\r\nActual: {Actual ?? "(null)"}";
+    }
+
+    public class NullException : AssertActualExpectedException
+    {
+        public NullException(object actual)
+            : base(null, actual, "CustomizeAssert.Null() Failure") { }
+    }
+
+    public class NotEmptyException : AssertException
+    {
+        public NotEmptyException()
+            : base("CustomizeAssert.NotEmpty() failure") { }
+    }
+
+    public class NotEqualException : AssertActualExpectedException
+    {
+        public NotEqualException(object expected, object actual, string userMessage = "CustomizeAssert.NotEqual() Failure")
+            : base(expected, actual, userMessage) { }
+    }
+
+    public class IsTypeException : AssertActualExpectedException
+    {
+        public IsTypeException(Type expected,
+                               object actual)
+            : base(expected, actual?.GetType(), "CustomizeAssert.IsType() Failure") { }
     }
 }
