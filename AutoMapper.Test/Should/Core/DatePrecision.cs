@@ -1,6 +1,6 @@
 using System;
 
-namespace AutoMapper.Should.Core
+namespace AutoMapper.Test.Should.Core
 {
     public abstract class DatePrecision
     {

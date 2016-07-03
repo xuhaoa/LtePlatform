@@ -5,46 +5,32 @@ using TraceParser.Common;
 namespace TraceParser.Eutra
 {
     [Serializable]
-    public class DL_CCCH_Message : ITraceMessage
+    public class DL_CCCH_Message : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public DL_CCCH_MessageType message { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<DL_CCCH_Message>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public DL_CCCH_Message Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(DL_CCCH_Message config, BitArrayInputStream input)
             {
-                DL_CCCH_Message message = new DL_CCCH_Message();
-                message.InitDefaults();
-                message.message = DL_CCCH_MessageType.PerDecoder.Instance.Decode(input);
-                return message;
+                InitDefaults();
+                config.message = DL_CCCH_MessageType.PerDecoder.Instance.Decode(input);
             }
         }
     }
 
     [Serializable]
-    public class DL_CCCH_MessageType
+    public class DL_CCCH_MessageType : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public c1_Type c1 { get; set; }
 
         public messageClassExtension_Type messageClassExtension { get; set; }
 
         [Serializable]
-        public class c1_Type
+        public class c1_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public RRCConnectionReestablishment rrcConnectionReestablishment { get; set; }
 
             public RRCConnectionReestablishmentReject rrcConnectionReestablishmentReject { get; set; }
@@ -53,33 +39,29 @@ namespace TraceParser.Eutra
 
             public RRCConnectionSetup rrcConnectionSetup { get; set; }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<c1_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public c1_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(c1_Type config, BitArrayInputStream input)
                 {
-                    c1_Type type = new c1_Type();
-                    type.InitDefaults();
+                    InitDefaults();
                     switch (input.readBits(2))
                     {
                         case 0:
-                            type.rrcConnectionReestablishment 
+                            config.rrcConnectionReestablishment
                                 = RRCConnectionReestablishment.PerDecoder.Instance.Decode(input);
-                            return type;
-
+                            return;
                         case 1:
-                            type.rrcConnectionReestablishmentReject 
+                            config.rrcConnectionReestablishmentReject
                                 = RRCConnectionReestablishmentReject.PerDecoder.Instance.Decode(input);
-                            return type;
-
+                            return;
                         case 2:
-                            type.rrcConnectionReject = RRCConnectionReject.PerDecoder.Instance.Decode(input);
-                            return type;
-
+                            config.rrcConnectionReject = RRCConnectionReject.PerDecoder.Instance.Decode(input);
+                            return;
                         case 3:
-                            type.rrcConnectionSetup = RRCConnectionSetup.PerDecoder.Instance.Decode(input);
-                            return type;
+                            config.rrcConnectionSetup = RRCConnectionSetup.PerDecoder.Instance.Decode(input);
+                            return;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
                 }
@@ -87,42 +69,34 @@ namespace TraceParser.Eutra
         }
 
         [Serializable]
-        public class messageClassExtension_Type
+        public class messageClassExtension_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<messageClassExtension_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public messageClassExtension_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(messageClassExtension_Type config, BitArrayInputStream input)
                 {
-                    messageClassExtension_Type type = new messageClassExtension_Type();
-                    type.InitDefaults();
-                    return type;
+                    InitDefaults();
                 }
             }
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<DL_CCCH_MessageType>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public DL_CCCH_MessageType Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(DL_CCCH_MessageType config, BitArrayInputStream input)
             {
-                DL_CCCH_MessageType type = new DL_CCCH_MessageType();
-                type.InitDefaults();
+                InitDefaults();
                 switch (input.readBits(1))
                 {
                     case 0:
-                        type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
-                        return type;
-
+                        config.c1 = c1_Type.PerDecoder.Instance.Decode(input);
+                        return;
                     case 1:
-                        type.messageClassExtension = messageClassExtension_Type.PerDecoder.Instance.Decode(input);
-                        return type;
+                        config.messageClassExtension = messageClassExtension_Type.PerDecoder.Instance.Decode(input);
+                        return;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");
             }

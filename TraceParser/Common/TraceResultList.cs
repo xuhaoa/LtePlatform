@@ -8,11 +8,10 @@ namespace TraceParser.Common
 {
     public class TraceResultList
     {
-        public List<ITraceMessage> Messages { get; set; }
+        public List<TraceConfig> Messages { get; } = new List<TraceConfig>();
 
         public TraceResultList()
         {
-            Messages = new List<ITraceMessage>();
             FailCounts = 0;
         }
 
