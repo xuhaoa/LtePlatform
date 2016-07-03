@@ -21,7 +21,7 @@ namespace TraceParser.Huawei
                 return;
             }
             _HasError = true;
-            using (BitArrayInputStream stream = new BitArrayInputStream(new MemoryStream(body_bytes)))
+            using (var stream = new BitArrayInputStream(new MemoryStream(body_bytes)))
             {
                 try
                 {
@@ -59,13 +59,11 @@ namespace TraceParser.Huawei
                 {
                     return null;
                 }
-                if (((AsnParseClass != null) && !AsnParseClass.Equals("X2AP_PDU")) && !AsnParseClass.Equals("S1AP_PDU"))
-                {
-                    List<byte> list = _body_bytes.ToList();
-                    list.RemoveAt(0);
-                    return list.ToArray();
-                }
-                return _body_bytes;
+                if (((AsnParseClass == null) || AsnParseClass.Equals("X2AP_PDU")) || AsnParseClass.Equals("S1AP_PDU"))
+                    return _body_bytes;
+                var list = _body_bytes.ToList();
+                list.RemoveAt(0);
+                return list.ToArray();
             }
         }
 
@@ -109,13 +107,7 @@ namespace TraceParser.Huawei
 
         public sbyte second_ui1 { get; set; }
 
-        public string type_name
-        {
-            get
-            {
-                return "";
-            }
-        }
+        public string type_name => "";
 
         public uint typeid_ui4 { get; set; }
 

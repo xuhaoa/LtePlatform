@@ -70,9 +70,7 @@
     <Compile Include="Eutra\AS.cs" />
     <Compile Include="Eutra\BandClass.cs" />
     <Compile Include="Eutra\BandParameters.cs" />
-    <Compile Include="Eutra\BCCH_BCH_Message.cs" />
     <Compile Include="Eutra\BCCH_Config.cs" />
-    <Compile Include="Eutra\BCCH_DL_SCH_MessageType.cs" />
     <Compile Include="Eutra\CA.cs" />
     <Compile Include="Eutra\CarrierFreq.cs" />
     <Compile Include="Eutra\CellGlobalId.cs" />
