@@ -1,5 +1,4 @@
-﻿using AutoMapper.Should.Core.Assertions;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Shouldly;
 
 namespace AutoMapper.Test.Bug

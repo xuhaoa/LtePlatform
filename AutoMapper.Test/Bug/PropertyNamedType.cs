@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper.Should;
+using AutoMapper.Test.Should;
 using NUnit.Framework;
 using Shouldly;
 

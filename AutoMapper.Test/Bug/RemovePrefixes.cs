@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper.Mappers;
 using AutoMapper.Should;
+using AutoMapper.Test.Should;
 using NUnit.Framework;
 
 namespace AutoMapper.Test.Bug
