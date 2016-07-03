@@ -41,9 +41,9 @@ namespace TraceParser.Eutra
 
             public PCCH_Config Decode(BitArrayInputStream input)
             {
-                PCCH_Config config = new PCCH_Config();
+                var config = new PCCH_Config();
                 config.InitDefaults();
-                int nBits = 2;
+                var nBits = 2;
                 config.defaultPagingCycle = (defaultPagingCycle_Enum)input.readBits(nBits);
                 nBits = 3;
                 config.nB = (nB_Enum)input.readBits(nBits);
@@ -53,24 +53,18 @@ namespace TraceParser.Eutra
     }
 
     [Serializable]
-    public class PCCH_Message : ITraceMessage
+    public class PCCH_Message : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public PCCH_MessageType message { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<PCCH_Message>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public PCCH_Message Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(PCCH_Message config, BitArrayInputStream input)
             {
-                PCCH_Message message = new PCCH_Message();
-                message.InitDefaults();
-                message.message = PCCH_MessageType.PerDecoder.Instance.Decode(input);
-                return message;
+                InitDefaults();
+                config.message = PCCH_MessageType.PerDecoder.Instance.Decode(input);
             }
         }
     }
@@ -101,7 +95,7 @@ namespace TraceParser.Eutra
 
                 public c1_Type Decode(BitArrayInputStream input)
                 {
-                    c1_Type type = new c1_Type();
+                    var type = new c1_Type();
                     type.InitDefaults();
                     if (input.readBits(1) != 0)
                     {
@@ -126,7 +120,7 @@ namespace TraceParser.Eutra
 
                 public messageClassExtension_Type Decode(BitArrayInputStream input)
                 {
-                    messageClassExtension_Type type = new messageClassExtension_Type();
+                    var type = new messageClassExtension_Type();
                     type.InitDefaults();
                     return type;
                 }
@@ -139,7 +133,7 @@ namespace TraceParser.Eutra
 
             public PCCH_MessageType Decode(BitArrayInputStream input)
             {
-                PCCH_MessageType type = new PCCH_MessageType();
+                var type = new PCCH_MessageType();
                 type.InitDefaults();
                 switch (input.readBits(1))
                 {

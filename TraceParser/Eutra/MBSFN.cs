@@ -296,24 +296,18 @@ namespace TraceParser.Eutra
     }
 
     [Serializable]
-    public class MCCH_Message : ITraceMessage
+    public class MCCH_Message : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public MCCH_MessageType message { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<MCCH_Message>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public MCCH_Message Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(MCCH_Message config, BitArrayInputStream input)
             {
-                MCCH_Message message = new MCCH_Message();
-                message.InitDefaults();
-                message.message = MCCH_MessageType.PerDecoder.Instance.Decode(input);
-                return message;
+                InitDefaults();
+                config.message = MCCH_MessageType.PerDecoder.Instance.Decode(input);
             }
         }
     }

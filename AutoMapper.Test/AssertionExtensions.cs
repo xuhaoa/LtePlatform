@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper.Should;
 using AutoMapper.Test.Should.Core.Exceptions;
 using Shouldly;
 
