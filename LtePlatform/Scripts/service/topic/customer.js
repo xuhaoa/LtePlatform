@@ -127,6 +127,9 @@
             },
             updateVip: function(dto) {
                 return generalHttpService.putApiData("VipDemand", dto)
+            },
+            queryOneEmergency: function(id) {
+                return generalHttpService.getApiData('EmergencyCommunication/' + id, {});
             }
         }
     });

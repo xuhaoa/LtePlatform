@@ -26,6 +26,12 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
+        public EmergencyCommunicationDto Get(int id)
+        {
+            return _service.Query(id);
+        }
+
+        [HttpGet]
         public List<EmergencyCommunicationDto> Get(DateTime begin, DateTime end)
         {
             return _service.Query(begin, end);

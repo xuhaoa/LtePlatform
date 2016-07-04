@@ -21,7 +21,7 @@ namespace Abp.EntityFramework.Repositories
 
         List<TEntity> GetAllList(int townId, DateTime begin, DateTime end);
     }
-
+    
     public interface ISaveChanges
     {
         int SaveChanges();

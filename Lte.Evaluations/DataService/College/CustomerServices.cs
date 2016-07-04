@@ -37,22 +37,38 @@ namespace Lte.Evaluations.DataService.College
             var results = Mapper.Map<List<TEntity>, List<TDto>>(repository.GetAllList(begin, end));
             results.ForEach(x =>
             {
-                if (x.TownId == 0)
-                {
-                    x.District = "未知";
-                    x.Town = "未知";
-                }
-                else
-                {
-                    var town = townRepository.Get(x.TownId);
-                    if (town != null)
-                    {
-                        x.District = town.DistrictName;
-                        x.Town = town.TownName;
-                    }
-                }
+                UpdateTown(townRepository, x);
             });
             return results;
+        }
+
+        public static TDto Query<TRepository, TEntity, TDto>(this TRepository repository,
+            ITownRepository townRepository, int id)
+            where TRepository : IRepository<TEntity>
+            where TEntity: Entity
+            where TDto : IDistrictTown
+        {
+            var result = Mapper.Map<TEntity, TDto>(repository.Get(id));
+            UpdateTown(townRepository, result);
+            return result;
+        }
+
+        private static void UpdateTown<TDto>(ITownRepository townRepository, TDto x) where TDto : IDistrictTown
+        {
+            if (x.TownId == 0)
+            {
+                x.District = "未知";
+                x.Town = "未知";
+            }
+            else
+            {
+                var town = townRepository.Get(x.TownId);
+                if (town != null)
+                {
+                    x.District = town.DistrictName;
+                    x.Town = town.TownName;
+                }
+            }
         }
 
         public static List<TDto> Query<TRepository, TEntity, TDto>(this TRepository repository,
@@ -88,6 +104,13 @@ namespace Lte.Evaluations.DataService.College
                 _repository
                     .DumpItem<IEmergencyCommunicationRepository, EmergencyCommunication, EmergencyCommunicationDto>(
                         dto, _townRepository);
+        }
+
+        public EmergencyCommunicationDto Query(int id)
+        {
+            return
+                _repository.Query<IEmergencyCommunicationRepository, EmergencyCommunication, EmergencyCommunicationDto>(
+                    _townRepository, id);
         }
 
         public List<EmergencyCommunicationDto> Query(DateTime begin, DateTime end)

@@ -18,9 +18,9 @@
                     templateUrl: viewDir + "Process/Vip.html",
                     controller: "vip.process"
                 })
-                .when('/chart', {
-                    templateUrl: viewDir + "Chart.html",
-                    controller: "rutrace.chart"
+                .when('/emergency/process/:id', {
+                    templateUrl: viewDir + "Process/Emergency.html",
+                    controller: "emergency.process"
                 })
                 .when('/trendchart', {
                     templateUrl: viewDir + "TrendChart.html",
