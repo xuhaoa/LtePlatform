@@ -11,6 +11,7 @@
             <th>预计人数</th>
             <th>传输方式</th>
             <th>电源方式</th>
+            <th>工单处理</th>
         </tr>
     </thead>
     <tbody ng-repeat="item in items">
@@ -25,6 +26,11 @@
             <td>{{item.expectedPeople}}</td>
             <td>{{item.transmitFunction}}</td>
             <td>{{item.electricSupply}}</td>
+            <td>
+                <a ng-href="{{rootPath}}emergency/process/{{item.id}}" class="btn btn-sm btn-success">
+                    {{item.emergencyStateDescription}}
+                </a>
+            </td>
         </tr>
     </tbody>
 </table>

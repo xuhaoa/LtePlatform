@@ -5,7 +5,8 @@
             restrict: 'ECMA',
             replace: true,
             scope: {
-                items: '='
+                items: '=',
+                rootPath: '='
             },
             templateUrl: customerRoot + 'emergency/CommunicationList.html'
         };
