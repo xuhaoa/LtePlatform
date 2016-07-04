@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Domain.Regular;
+﻿using AutoMapper;
 using Lte.Domain.Regular.Attributes;
 
-namespace Lte.Parameters.Entities
+namespace Lte.Parameters.Entities.ExcelCsv
 {
     /// <summary>
     /// 定义记录LTE小区的信息的Excel导出数据项
@@ -14,11 +9,11 @@ namespace Lte.Parameters.Entities
     /// <remarks>需要定义与Cell之间的映射关系</remarks>
     public class CellExcel
     {
-        [CloneProtection]
+        [IgnoreMap]
         [ExcelColumn("CELL_ID", TransformEnum.ByteRemoveQuotions)]
         public byte SectorId { get; set; }
 
-        [CloneProtection]
+        [IgnoreMap]
         [ExcelColumn("频点")]
         public int Frequency { get; set; }
 

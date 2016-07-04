@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Domain.Regular;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Lte.Domain.Regular.Attributes;
 
-namespace Lte.Parameters.Entities
+namespace Lte.Parameters.Entities.ExcelCsv
 {
     [TypeDoc("定义记录CDMA小区的信息的Excel导出数据项，需要定义与CdmaCell之间的映射关系")]
     public class CdmaCellExcel
     {
-        [CloneProtection]
+        [IgnoreMap]
         [ExcelColumn("扇区标识")]
         [MemberDoc("扇区标识")]
         [Required]
         public byte SectorId { get; set; }
 
-        [CloneProtection]
+        [IgnoreMap]
         [ExcelColumn("频点")]
         [MemberDoc("CDMA频点，如283、201、37等")]
         public int Frequency { get; set; }
@@ -57,27 +52,27 @@ namespace Lte.Parameters.Entities
         [MemberDoc("天线增益（dBi）")]
         public double AntennaGain { get; set; }
 
-        [CloneProtection]
+        [IgnoreMap]
         [ExcelColumn("基站编号")]
         [MemberDoc("基站编号")]
         public int BtsId { get; set; }
 
-        [CloneProtection]
+        [IgnoreMap]
         [ExcelColumn("小区标识")]
         [MemberDoc("小区标识")]
         public int CellId { get; set; }
 
-        [CloneProtection]
+        [IgnoreMap]
         [ExcelColumn("载扇类型(1X/DO)")]
         [MemberDoc("载扇类型(1X/DO)")]
         public string CellType { get; set; }
 
-        [CloneProtection]
+        [IgnoreMap]
         [ExcelColumn("LAC")]
         [MemberDoc("LAC，位置区编码")]
         public string Lac { get; set; }
 
-        [CloneProtection]
+        [IgnoreMap]
         [ExcelColumn("PN码")]
         [MemberDoc("PN码")]
         public short Pn { get; set; }

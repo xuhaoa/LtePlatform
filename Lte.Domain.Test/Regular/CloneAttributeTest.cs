@@ -34,7 +34,7 @@ namespace Lte.Domain.Test.Regular
         {
             public int M1 { get; set; }
 
-            [CloneProtection]
+            [IgnoreMap]
             public int M2 { get; set; }
         }
 
@@ -70,20 +70,14 @@ namespace Lte.Domain.Test.Regular
         [Test]
         public void TestClone_InterClass_Protection()
         {
+            Mapper.CreateMap<A1, B>();
             var a = new A1 { M1 = 11, M2 = 22 };
-
+            
             using (var b = new B { M1 = 33, M2 = 44 })
             {
-                a.CloneProperties(b);
+                Mapper.Map(a, b);
                 Assert.AreEqual(b.M1, 11);
                 Assert.AreEqual(b.M2, 22);
-            }
-
-            using (var b = new B { M1 = 33, M2 = 44 })
-            {
-                a.CloneProperties(b, true);
-                Assert.AreEqual(b.M1, 11);
-                Assert.AreEqual(b.M2, 44);
             }
         }
     }
