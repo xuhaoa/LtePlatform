@@ -1,14 +1,36 @@
 using System.Collections.Concurrent;
-
-namespace AutoMapper
-{
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-    using Internal;
+    using AutoMapper.Internal;
+
+
+namespace AutoMapper
+{
+    public class SourceMemberConfig
+    {
+        private bool _ignored;
+
+        public SourceMemberConfig(MemberInfo sourceMember)
+        {
+            SourceMember = sourceMember;
+        }
+
+        public MemberInfo SourceMember { get; private set; }
+
+        public void Ignore()
+        {
+            _ignored = true;
+        }
+
+        public bool IsIgnored()
+        {
+            return _ignored;
+        }
+    }
 
     /// <summary>
     /// Main configuration object holding all mapping configuration for a source and destination type

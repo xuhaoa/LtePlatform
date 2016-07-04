@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AliasedMember.cs" />
     <Compile Include="AutoMapperException.cs" />
     <Compile Include="ConfigurationStore.cs" />
     <Compile Include="Configuration\CreateTypeMapExpression.cs" />
@@ -75,7 +74,6 @@
     <Compile Include="Internal\ManualNullableConverterFactory.cs" />
     <Compile Include="Internal\MappingExpression.cs" />
     <Compile Include="Internal\MemberGetter.cs" />
-    <Compile Include="Internal\MemberNameReplacer.cs" />
     <Compile Include="Internal\NoOpReaderWriterLockFactory.cs" />
     <Compile Include="Internal\NotSupportedEnumNameValueMappingFactory.cs" />
     <Compile Include="Internal\NullReferenceExceptionSwallowingResolver.cs" />
@@ -155,7 +153,6 @@
     <Compile Include="QueryableExtensions\ProjectionExpression.cs" />
     <Compile Include="ResolutionContext.cs" />
     <Compile Include="ResolutionResult.cs" />
-    <Compile Include="SourceMemberConfig.cs" />
     <Compile Include="ThreadSafeList.cs" />
     <Compile Include="TypeDetails.cs" />
     <Compile Include="TypeMap.cs" />
