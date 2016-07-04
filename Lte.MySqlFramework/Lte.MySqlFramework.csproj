@@ -117,10 +117,6 @@
     <Compile Include="Entities\FlowZteCsv.cs" />
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201606231413559_Add_VipDemand.cs" />
-    <Compile Include="Migrations\201606231413559_Add_VipDemand.Designer.cs">
-      <DependentUpon>201606231413559_Add_VipDemand.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201606290316246_Update_VipDemand.cs" />
     <Compile Include="Migrations\201606290316246_Update_VipDemand.Designer.cs">
       <DependentUpon>201606290316246_Update_VipDemand.cs</DependentUpon>
@@ -128,6 +124,10 @@
     <Compile Include="Migrations\201606301022299_Update_VipDemand1.cs" />
     <Compile Include="Migrations\201606301022299_Update_VipDemand1.Designer.cs">
       <DependentUpon>201606301022299_Update_VipDemand1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607041422195_Update_Emergency.cs" />
+    <Compile Include="Migrations\201607041422195_Update_Emergency.Designer.cs">
+      <DependentUpon>201607041422195_Update_Emergency.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -137,14 +137,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606231413559_Add_VipDemand.resx">
-      <DependentUpon>201606231413559_Add_VipDemand.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606290316246_Update_VipDemand.resx">
       <DependentUpon>201606290316246_Update_VipDemand.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606301022299_Update_VipDemand1.resx">
       <DependentUpon>201606301022299_Update_VipDemand1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607041422195_Update_Emergency.resx">
+      <DependentUpon>201607041422195_Update_Emergency.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

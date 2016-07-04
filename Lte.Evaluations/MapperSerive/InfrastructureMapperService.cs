@@ -200,7 +200,9 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.VehicleLocation,
                     opt => opt.MapFrom(s => s.Description.GetSplittedFields(new[] {'[', ']'})[0]))
                 .ForMember(d => d.OtherDescription,
-                    opt => opt.MapFrom(s => s.Description.GetSplittedFields(new[] {'[', ']'})[1]));
+                    opt => opt.MapFrom(s => s.Description.GetSplittedFields(new[] {'[', ']'})[1]))
+                .ForMember(d => d.EmergencyStateDescription,
+                    opt => opt.MapFrom(s => s.EmergencyState.GetEnumDescription()));
             Mapper.CreateMap<VipDemandExcel, VipDemand>()
                 .ForMember(d => d.DemandLevel,
                     opt => opt.MapFrom(s => s.DemandLevelDescription.GetEnumType<DemandLevel>()))
@@ -224,6 +226,12 @@ namespace Lte.Evaluations.MapperSerive
                                 !string.IsNullOrEmpty(s.Area) && !string.IsNullOrEmpty(s.ContactPerson) &&
                                 !string.IsNullOrEmpty(s.PhoneNumber) && s.TownId > 0))
                 .ForMember(d => d.MarketThemeDescription, opt => opt.MapFrom(s => s.MarketTheme.GetEnumDescription()));
+            Mapper.CreateMap<EmergencyProcess, EmergencyProcessDto>()
+                .ForMember(d => d.ProcessStateDescription,
+                    opt => opt.MapFrom(s => s.ProcessState.GetEnumDescription()));
+            Mapper.CreateMap<EmergencyProcessDto, EmergencyProcess>()
+                .ForMember(d => d.ProcessState,
+                    opt => opt.MapFrom(s => s.ProcessStateDescription.GetEnumType<EmergencyState>()));
         }
     }
 }

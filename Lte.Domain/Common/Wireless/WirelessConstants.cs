@@ -178,6 +178,19 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(MarketTheme.OpenChannel, "开放渠道"),
                     new Tuple<object, string>(MarketTheme.Others, "其他")
                 }
+            },
+            {
+                "EmergencyState", new[]
+                {
+                    new Tuple<object, string>(EmergencyState.Register, "通信车申请"),
+                    new Tuple<object, string>(EmergencyState.FiberBegin, "光纤起单"),
+                    new Tuple<object, string>(EmergencyState.ElectricPrepare, "电源准备"),
+                    new Tuple<object, string>(EmergencyState.FiberFinish, "光纤调通"),
+                    new Tuple<object, string>(EmergencyState.VehicleInPlace, "通信车就位"),
+                    new Tuple<object, string>(EmergencyState.VehicleInService, "通信车开通"),
+                    new Tuple<object, string>(EmergencyState.Test, "优化测试"),
+                    new Tuple<object, string>(EmergencyState.Finish, "完成")
+                }
             }
         };
     }

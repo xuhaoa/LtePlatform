@@ -61,4 +61,17 @@ namespace Lte.Domain.Common.Wireless
         CollegeAutumn,
         Others
     }
+
+    [EnumTypeDescription(typeof(EmergencyState), Register)]
+    public enum EmergencyState : byte
+    {
+        Register,
+        FiberBegin,
+        ElectricPrepare,
+        FiberFinish,
+        VehicleInPlace,
+        VehicleInService,
+        Test,
+        Finish
+    }
 }
