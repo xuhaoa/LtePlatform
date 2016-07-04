@@ -335,7 +335,7 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
-            showSourceStrength: function(currentView, callback) {
+            showSourceStrengthChart: function(currentView, callback) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '/appViews/Rutrace/Interference/SourceStrengthChartDialog.html',
