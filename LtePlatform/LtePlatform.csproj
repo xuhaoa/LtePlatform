@@ -828,7 +828,7 @@
     <Content Include="Scripts\app\home.network.js" />
     <Content Include="Scripts\app\home.workitem.js" />
     <Content Include="Scripts\college\all.map.js" />
-    <Content Include="Scripts\college\map.name.js" />
+    <Content Include="Scripts\college\map\name.js" />
     <Content Include="Scripts\college\map\college.dialog.js" />
     <Content Include="Scripts\college\query\all.js" />
     <Content Include="Scripts\college\query\bts.dialog.js" />
@@ -1090,7 +1090,6 @@
     <Content Include="Scripts\college\coverage.viewmodel.js" />
     <Content Include="Scripts\college\kpi.controller.js" />
     <Content Include="Scripts\college\kpi.viewmodel.js" />
-    <Content Include="Scripts\college\map.controller.js" />
     <Content Include="Scripts\college\college.viewmodel.js" />
     <Content Include="Scripts\college\precise.controller.js" />
     <Content Include="Scripts\college\precise.viewmodel.js" />
@@ -1170,7 +1169,6 @@
     <Content Include="Scripts\angular-ui\angular-cookies.js" />
     <Content Include="Scripts\angular-ui\angular-loader.js" />
     <Content Include="Scripts\angular-ui\angular-resource.js" />
-    <Content Include="Scripts\angular-ui\angular-route.js" />
     <Content Include="Scripts\angular-ui\angular-sanitize.js" />
     <Content Include="Scripts\angular-ui\angular-touch.js" />
     <Content Include="Scripts\angular-ui\angular-ui-router.js" />

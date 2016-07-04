@@ -21,7 +21,7 @@
         }, {
             displayName: "日常管理",
             tag: "management",
-            isActive: false,
+            isActive: true,
             subItems: [
                 {
                     displayName: "测试报告",

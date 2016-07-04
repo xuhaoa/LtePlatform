@@ -65,6 +65,22 @@
                     }
                 },
                 url: "/query/:name"
+            }).state('coverage', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/GeneralMenu.html",
+                        controller: "menu.root"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "/Coverage/All.html",
+                        controller: "all.coverage"
+                    },
+                    'collegeList': {
+                        templateUrl: viewDir + "CollegeMenu.html",
+                        controller: "college.menu"
+                    }
+                },
+                url: "/query"
             });
         $urlRouterProvider.otherwise('/');
     })
