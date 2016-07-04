@@ -10,6 +10,11 @@
             queryRegion: function (id) {
                 return generalHttpService.getApiData('CollegeRegion/' + id, {});
             },
+            queryRange: function(name) {
+                return generalHttpService.getApiData('CollegeRegion', {
+                    collegeName: name
+                });
+            },
             queryENodebs: function (name) {
                 return generalHttpService.getApiData('CollegeENodeb', {
                     collegeName: name
@@ -38,6 +43,17 @@
             queryCdmaDistributions: function (name) {
                 return generalHttpService.getApiData('CollegeCdmaDistributions', {
                     collegeName: name
+                });
+            },
+            queryRaster: function(dataType, range, begin, end) {
+                return generalHttpService.getApiData('RasterFile', {
+                    dataType: dataType,
+                    west: range.west,
+                    east: range.east,
+                    south: range.south,
+                    north: range.north,
+                    begin: begin,
+                    end: end
                 });
             }
         }
