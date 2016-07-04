@@ -23,6 +23,32 @@
                         });
                     });
                 });
+            },
+            showDtInfos: function(infos) {
+                collegeService.queryStats().then(function (colleges) {
+                    angular.forEach(colleges, function (college) {
+                        var center;
+                        collegeService.queryRegion(college.id).then(function (region) {
+                            switch (region.regionType) {
+                                case 2:
+                                    center = baiduMapService.getPolygonCenter(region.info.split(';'));
+                                    break;
+                                case 1:
+                                    center = baiduMapService.getRectangleCenter(region.info.split(';'));
+                                    break;
+                                default:
+                                    center = baiduMapService.getCircleCenter(region.info.split(';'));
+                                    break;
+                            }
+                            infos.push({
+                                name: college.name,
+                                centerX: center.X,
+                                centerY: center.Y,
+                                area: college.area
+                            });
+                        });
+                    });
+                });
             }
         };
     });

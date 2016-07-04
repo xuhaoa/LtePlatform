@@ -402,6 +402,20 @@
                     Y: centery
                 };
             },
+            getPolygonCenter: function(coors) {
+                var centerx = 0;
+                var centery = 0;
+                for (var p = 0; p < coors.length / 2; p++) {
+                    centerx += parseFloat(coors[2 * p]);
+                    centery += parseFloat(coors[2 * p + 1]);
+                }
+                centerx /= coors.length / 2;
+                centery /= coors.length / 2;
+                return {
+                    X: centerx,
+                    Y: centery
+                };
+            },
             drawRectangleAndGetCenter: function(coors) {
                 var centerx = (parseFloat(coors[0]) + parseFloat(coors[2])) / 2;
                 var centery = (parseFloat(coors[1]) + parseFloat(coors[3])) / 2;
@@ -417,6 +431,14 @@
                     Y: centery
                 };
             },
+            getRectangleCenter: function(coors) {
+                var centerx = (parseFloat(coors[0]) + parseFloat(coors[2])) / 2;
+                var centery = (parseFloat(coors[1]) + parseFloat(coors[3])) / 2;
+                return {
+                    X: centerx,
+                    Y: centery
+                };
+            },
             drawCircleAndGetCenter: function(coors) {
                 var centerx = parseFloat(coors[0]);
                 var centery = parseFloat(coors[1]);
@@ -424,6 +446,14 @@
                     parseFloat(coors[2]),
                     { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.2 });
                 map.addOverlay(circle);
+                return {
+                    X: centerx,
+                    Y: centery
+                };
+            },
+            getCircleCenter: function(coors) {
+                var centerx = parseFloat(coors[0]);
+                var centery = parseFloat(coors[1]);
                 return {
                     X: centerx,
                     Y: centery
