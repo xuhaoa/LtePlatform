@@ -80,7 +80,7 @@
                         controller: "college.menu"
                     }
                 },
-                url: "/query"
+                url: "/coverage"
             });
         $urlRouterProvider.otherwise('/');
     })
