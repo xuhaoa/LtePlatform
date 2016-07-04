@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Repositories;
+using AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 
@@ -16,8 +17,7 @@ namespace Lte.MySqlFramework.Entities
         public string SerialNumber { get; set; }
 
         public DemandLevel DemandLevel { get; set; }
-
-        [CloneProtection(Protection = false)]
+        
         public int TownId { get; set; }
 
         public string ProjectName { get; set; }
@@ -42,7 +42,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string SustainPerson { get; set; }
 
-        [CloneProtection(Protection = true)]
+        [IgnoreMap]
         public DateTime? FinishTime { get; set; }
 
         public int SubscriberGotten { get; set; }

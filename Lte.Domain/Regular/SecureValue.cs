@@ -121,5 +121,16 @@ namespace Lte.Domain.Regular
             return result;
         }
 
+        private static void CloneDateTimeValue<T>(this T source, T destination)
+            where T : class, new()
+        {
+            var properties = (typeof(T)).GetProperties();
+            foreach (var property in properties
+                .Where(property => property.CanRead && property.CanWrite)
+                .Where(property => property.PropertyType.Name == "DateTime"))
+            {
+                property.SetValue(destination, property.GetValue(source, null), null);
+            }
+        }
     }
 }

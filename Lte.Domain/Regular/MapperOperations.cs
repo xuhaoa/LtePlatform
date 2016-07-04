@@ -9,18 +9,6 @@ namespace Lte.Domain.Regular
 {
     public static class MapperOperations
     {
-        public static void CloneDateTimeValue<T>(this T source, T destination)
-            where T : class, new()
-        {
-            var properties = (typeof(T)).GetProperties();
-            foreach (var property in properties
-                .Where(property => property.CanRead && property.CanWrite)
-                .Where(property => property.PropertyType.Name == "DateTime"))
-            {
-                property.SetValue(destination, property.GetValue(source, null), null);
-            }
-        }
-
         /// <summary>
         /// 安全的对象属性克隆方法（源对象和目标对象具有不同类型）
         /// </summary>

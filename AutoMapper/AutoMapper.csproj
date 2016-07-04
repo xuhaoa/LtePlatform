@@ -89,7 +89,6 @@
     <Compile Include="Internal\TypeExtensions.cs" />
     <Compile Include="IObjectMapper.cs" />
     <Compile Include="IProfileConfiguration.cs" />
-    <Compile Include="IProfileExpression.cs" />
     <Compile Include="IResolutionExpression.cs" />
     <Compile Include="ISourceMemberConfigurationExpression.cs" />
     <Compile Include="IValueResolver.cs" />

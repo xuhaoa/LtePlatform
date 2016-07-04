@@ -128,6 +128,7 @@ namespace AutoMapper.Test.Core
         public class Destination
         {
             public string ShouldBeMapped { get; set; }
+
             [IgnoreMap]
             public string ShouldNotBeMapped { get; set; }
         }

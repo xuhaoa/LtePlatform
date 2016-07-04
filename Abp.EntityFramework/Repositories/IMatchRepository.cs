@@ -76,7 +76,7 @@ namespace Abp.EntityFramework.Repositories
             }
             else
             {
-                Mapper.Map<TDto, TEntity>(stat).CloneProperties(info, true);
+                Mapper.Map(stat, info);
                 
                 await repository.UpdateAsync(info);
             }

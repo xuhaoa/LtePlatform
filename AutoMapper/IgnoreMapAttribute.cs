@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// Ignore this member for validation and skip during mapping
+    /// 映射时忽略这个字段
     /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class IgnoreMapAttribute : Attribute
