@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
+using AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.Basic;
@@ -46,7 +47,7 @@ namespace Lte.Evaluations.DataService.Mr
                 }
                 else
                 {
-                    neighbor.CloneProperties(item);
+                    Mapper.Map(neighbor, item);
                     await _repository.UpdateAsync(item);
                 }
                 _repository.SaveChanges();
@@ -71,7 +72,7 @@ namespace Lte.Evaluations.DataService.Mr
                 }
                 else
                 {
-                    neighbor.CloneProperties(item);
+                    Mapper.Map(neighbor, item);
                     _repository.Update(item);
                 }
                 _repository.SaveChanges();

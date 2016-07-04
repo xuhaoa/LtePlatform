@@ -14,8 +14,7 @@ namespace Lte.Parameters.MockOperations
     {
         protected override WorkItem ConvertCore(WorkItemExcel source)
         {
-            var result = new WorkItem();
-            source.CloneProperties(result);
+            var result = Mapper.Map<WorkItem>(source);
             result.Cause = source.CauseDescription.GetWorkItemCause();
             result.State = source.StateDescription.GetState();
 

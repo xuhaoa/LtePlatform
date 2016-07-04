@@ -98,7 +98,6 @@
     <Compile Include="Lz4Net\Lz4DecompressionStreamBase.cs" />
     <Compile Include="Regular\RegexService.cs" />
     <Compile Include="Regular\IpAddress.cs" />
-    <Compile Include="Regular\MapperOperations.cs" />
     <Compile Include="Lz4Net\Core\CoreHandlers.cs" />
     <Compile Include="Lz4Net\Core\DirectoryEventArgs.cs" />
     <Compile Include="Lz4Net\Core\ExtendedPathFilter.cs" />
@@ -138,7 +137,6 @@
     <Compile Include="LinqToExcel\Service\ExcelQueryExecutor.cs" />
     <Compile Include="LinqToExcel\Service\ExcelUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Regular\Attributes\CloneProtectionAttribute.cs" />
     <Compile Include="Regular\HexOperations.cs" />
     <Compile Include="Regular\IOOperations.cs" />
     <Compile Include="Regular\LittleEndianBitConverter.cs" />

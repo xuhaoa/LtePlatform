@@ -119,7 +119,7 @@ namespace Lte.Evaluations.DataService.Mr
             var item = _repository.Object.Get("007", 3, 4);
             item.ShouldNotBeNull();
             item.ENodebId.ShouldBe(3);
-            item.SectorId.ShouldBe((byte) 4);
+            item.SectorId.ShouldBe((byte)4);
             item.Mod3Share.ShouldBe(2.4);
         }
 

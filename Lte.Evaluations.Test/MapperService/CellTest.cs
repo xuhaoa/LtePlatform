@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
+using AutoMapper;
 using Lte.Evaluations.MapperSerive.Kpi;
+using Lte.Evaluations.Policy;
+using Lte.Evaluations.ViewModels.Precise;
+using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Kpi;
 using NUnit.Framework;
 using Shouldly;
@@ -82,6 +88,50 @@ namespace Lte.Evaluations.MapperService
                 trend.TotalDrops.ShouldBe(drops[i]);
                 trend.TotalCallAttempst.ShouldBe(calls[i]);
             }
+        }
+    }
+
+    [TestFixture]
+    public class Precise4GSectorTest
+    {
+        private readonly ITypeFinder _typeFinder = new TypeFinder
+        {
+            AssemblyFinder = new MyAssemblyFinder()
+        };
+
+        [TestFixtureSetUp]
+        public void TestFixtureSetup()
+        {
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
+        }
+
+        [Test]
+        public void Test_Item()
+        {
+            var cell = new Cell
+            {
+                ENodebId = 1,
+                SectorId = 2,
+                Pci = 3,
+                RsPower = 15.4,
+                Azimuth = 122,
+                Longtitute = 112.113,
+                Lattitute = 22.344
+            };
+            var sector = new Precise4GSector
+            {
+                SectorId = 33,
+                Pci = 23,
+                Lattitute = 66.7
+            };
+            Mapper.Map(cell, sector);
+            sector.SectorId.ShouldBe((byte)2);
+            sector.Pci.ShouldBe((short) 3);
+            sector.RsPower.ShouldBe(15.4);
+            sector.Azimuth.ShouldBe(122);
+            sector.Longtitute.ShouldBe(112.113);
+            sector.Lattitute.ShouldBe(22.344);
         }
     }
 }

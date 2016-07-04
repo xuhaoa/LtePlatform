@@ -1,9 +1,12 @@
-﻿using AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
+using AutoMapper;
 using Lte.Domain.Regular;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities.Basic;
 
 namespace Lte.Evaluations.ViewModels.Precise
 {
+    [AutoMapFrom(typeof(Cell))]
     public class Precise4GSector : Precise4GView
     {
         public double Height { get; set; }
@@ -30,7 +33,7 @@ namespace Lte.Evaluations.ViewModels.Precise
             }
             else
             {
-                cell.CloneProperties(sector);
+                Mapper.Map(cell, sector);
                 sector.DownTilt = cell.MTilt + cell.ETilt;
             }
             return sector;

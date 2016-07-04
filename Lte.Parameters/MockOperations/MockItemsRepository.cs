@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
+using AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using Moq;
@@ -54,6 +55,7 @@ namespace Lte.Parameters.MockOperations
             where T : Entity, IWorkItemCell, new()
             where TRepository : class, IRepository<T>
         {
+            Mapper.CreateMap<T, T>();
             repository.Setup(x => x.Update(It.IsAny<T>())).Callback<T>(
                 e =>
                 {
@@ -64,7 +66,7 @@ namespace Lte.Parameters.MockOperations
                                 x.ENodebId == e.ENodebId && x.SectorId == e.SectorId &&
                                 x.WorkItemNumber == e.WorkItemNumber);
                     if (item != null)
-                        e.CloneProperties(item);
+                        Mapper.Map(e, item);
                     SynchronizeValues<T, TRepository>(repository);
                 }).Returns<T>(e => e);
             repository.Setup(x => x.UpdateAsync(It.IsAny<T>())).Callback<T>(e => repository.Object.Update(e));

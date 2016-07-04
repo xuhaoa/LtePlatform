@@ -61,10 +61,6 @@ namespace Lte.Domain.Test.Regular
             var b = Mapper.Map<A, B>(a);
             Assert.AreEqual(b.M1, 11);
             Assert.AreEqual(b.M2, 22);
-
-            a.CloneProperties(b, true);
-            Assert.AreEqual(b.M1, 11);
-            Assert.AreEqual(b.M2, 22);
         }
 
         [Test]
