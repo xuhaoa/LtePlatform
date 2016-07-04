@@ -92,7 +92,6 @@
     <Compile Include="IResolutionExpression.cs" />
     <Compile Include="ISourceMemberConfigurationExpression.cs" />
     <Compile Include="IValueResolver.cs" />
-    <Compile Include="LowerUnderscoreNamingConvention.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="Mappers\ArrayMapper.cs" />
     <Compile Include="Mappers\AssignableArrayMapper.cs" />
@@ -126,9 +125,7 @@
     <Compile Include="Mappers\TypeMapMapper.cs" />
     <Compile Include="Mappers\TypeMapObjectMapperRegistry.cs" />
     <Compile Include="MappingEngine.cs" />
-    <Compile Include="MappingOperationOptions.cs" />
     <Compile Include="MemberList.cs" />
-    <Compile Include="PascalCaseNamingConvention.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyMap.cs" />
@@ -160,12 +157,8 @@
     <Compile Include="ResolutionResult.cs" />
     <Compile Include="SourceMemberConfig.cs" />
     <Compile Include="ThreadSafeList.cs" />
-    <Compile Include="TypeConverter.cs" />
     <Compile Include="TypeDetails.cs" />
     <Compile Include="TypeMap.cs" />
-    <Compile Include="TypeMapCreatedEventArgs.cs" />
-    <Compile Include="TypeMapFactory.cs" />
-    <Compile Include="TypePair.cs" />
     <Compile Include="ValueResolver.cs" />
   </ItemGroup>
   <ItemGroup>
