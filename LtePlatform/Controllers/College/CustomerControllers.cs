@@ -44,6 +44,51 @@ namespace LtePlatform.Controllers.College
         }
     }
 
+    public class EmergencyProcessController : ApiController
+    {
+        private readonly EmergencyCommunicationService _service;
+
+        public EmergencyProcessController(EmergencyCommunicationService service)
+        {
+            _service = service;
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<EmergencyProcessDto> Post(EmergencyCommunicationDto dto)
+        {
+            return await _service.Process(dto, User.Identity.Name);
+        }
+
+        [HttpPut]
+        public async Task<int> Put(EmergencyProcessDto dto)
+        {
+            return await _service.UpdateAsync(dto);
+        }
+    }
+
+    public class EmergencyFiberController : ApiController
+    {
+        private readonly EmergencyFiberService _service;
+
+        public EmergencyFiberController(EmergencyFiberService service)
+        {
+            _service = service;
+        }
+
+        [HttpPost]
+        public EmergencyFiberWorkItem Post(EmergencyFiberWorkItem item)
+        {
+            return _service.Create(item);
+        }
+
+        [HttpPut]
+        public async Task<int> Put(EmergencyFiberWorkItem item)
+        {
+            return await _service.Finish(item);
+        }
+    }
+
     public class VipDemandController : ApiController
     {
         private readonly VipDemandService _service;
