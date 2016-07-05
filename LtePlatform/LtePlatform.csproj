@@ -941,6 +941,7 @@
     <Content Include="Scripts\test\kpi\app.kpi.service.js" />
     <Content Include="Scripts\test\mock\highcharts.mock.js" />
     <Content Include="Scripts\test\mock\ui.bootstrap.mock.js" />
+    <Content Include="Scripts\test\test-main.js" />
     <Content Include="Scripts\test\uib.conf.js" />
     <Content Include="Scripts\test\uib\accordion.spec.js" />
     <Content Include="Scripts\test\uib\alert.spec.js" />
