@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Abp.EntityFramework;
 using Abp.EntityFramework.Repositories;
+using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 
@@ -69,6 +71,43 @@ namespace Lte.MySqlFramework.Concrete
         public VipDemand Match(VipDemandDto stat)
         {
             return FirstOrDefault(x => x.SerialNumber == stat.SerialNumber);
+        }
+    }
+
+    public class EmergencyProcessRepository : EfRepositoryBase<MySqlContext, EmergencyProcess>,
+        IEmergencyProcessRepository
+    {
+        public EmergencyProcessRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public EmergencyProcess Match(EmergencyProcessDto stat)
+        {
+            var state = stat.ProcessStateDescription.GetEnumType<EmergencyState>();
+            return FirstOrDefault(x => x.EmergencyId == stat.EmergencyId && x.ProcessState == state);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
+    public class EmergencyFiberWorkItemRepository : EfRepositoryBase<MySqlContext, EmergencyFiberWorkItem>,
+        IEmergencyFiberWorkItemRepository
+    {
+        public EmergencyFiberWorkItemRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public EmergencyFiberWorkItem Match(EmergencyFiberWorkItem stat)
+        {
+            return FirstOrDefault(x => x.EmergencyId == stat.EmergencyId && x.WorkItemNumber == stat.WorkItemNumber);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
         }
     }
 }

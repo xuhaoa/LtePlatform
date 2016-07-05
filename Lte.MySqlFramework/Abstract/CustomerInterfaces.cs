@@ -31,6 +31,12 @@ namespace Lte.MySqlFramework.Abstract
             IMatchRepository<EmergencyProcess, EmergencyProcessDto>,
             ISaveChanges
     {
-        
+    }
+
+    public interface IEmergencyFiberWorkItemRepository
+        : IRepository<EmergencyFiberWorkItem>,
+            IMatchRepository<EmergencyFiberWorkItem>,
+            ISaveChanges
+    {
     }
 }

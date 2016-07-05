@@ -160,6 +160,10 @@ namespace LtePlatform
 
             ninjectKernel.Bind<ICollegeInfrastructure<CdmaBtsView>>().To<CollegeBtssService>();
 
+            ninjectKernel.Bind<IEmergencyProcessRepository>().To<EmergencyProcessRepository>();
+
+            ninjectKernel.Bind<IEmergencyFiberWorkItemRepository>().To<EmergencyFiberWorkItemRepository>();
+
             ninjectKernel.Bind<CellService>().ToSelf();
 
             ninjectKernel.Bind<CdmaCellService>().ToSelf();
