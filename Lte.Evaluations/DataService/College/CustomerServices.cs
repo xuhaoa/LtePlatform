@@ -10,6 +10,7 @@ using Lte.MySqlFramework.Entities;
 using Abp.EntityFramework.Repositories;
 using AutoMapper;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 using Lte.Parameters.Abstract;
 
 namespace Lte.Evaluations.DataService.College
@@ -91,11 +92,14 @@ namespace Lte.Evaluations.DataService.College
     {
         private readonly IEmergencyCommunicationRepository _repository;
         private readonly ITownRepository _townRepository;
+        private readonly IEmergencyProcessRepository _processRepository;
 
-        public EmergencyCommunicationService(IEmergencyCommunicationRepository repository, ITownRepository townRepository)
+        public EmergencyCommunicationService(IEmergencyCommunicationRepository repository, ITownRepository townRepository,
+            IEmergencyProcessRepository processRepository)
         {
             _repository = repository;
             _townRepository = townRepository;
+            _processRepository = processRepository;
         }
 
         public int Dump(EmergencyCommunicationDto dto)
@@ -126,7 +130,31 @@ namespace Lte.Evaluations.DataService.College
                 _repository.Query<IEmergencyCommunicationRepository, EmergencyCommunication, EmergencyCommunicationDto>(
                     _townRepository, district, town, begin, end);
         }
+
+        public async Task<EmergencyProcessDto> Process(EmergencyCommunicationDto dto, string userName)
+        {
+            var currentState = dto.EmergencyStateDescription.GetEnumType<EmergencyState>();
+            if (currentState == EmergencyState.Finish)
+                return null;
+            var nextState = (EmergencyState) ((byte) currentState + 1);
+            dto.EmergencyStateDescription = nextState.GetEnumDescription();
+            await
+                _repository
+                    .UpdateOne<IEmergencyCommunicationRepository, EmergencyCommunication, EmergencyCommunicationDto>(dto);
+            var process = new EmergencyProcessDto
+            {
+                EmergencyId = dto.Id,
+                ProcessPerson = userName,
+                ProcessTime = DateTime.Now,
+                ProcessStateDescription = dto.EmergencyStateDescription
+            };
+            _processRepository.ImportOne<IEmergencyProcessRepository, EmergencyProcess, EmergencyProcessDto>(process);
+            return process;
+        }
     }
+
+    public class EmergencyProcessService
+    { }
 
     public class VipDemandService
     {
