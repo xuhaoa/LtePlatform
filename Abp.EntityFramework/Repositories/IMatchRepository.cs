@@ -15,6 +15,12 @@ namespace Abp.EntityFramework.Repositories
         TEnitty Match(TExcel stat);
     }
 
+    public interface IMatchRepository<TEntity>
+        where TEntity : Entity
+    {
+        TEntity Match(TEntity stat);
+    }
+
     public interface IDateSpanQuery<TEntity>
     {
         List<TEntity> GetAllList(DateTime begin, DateTime end);
@@ -61,6 +67,18 @@ namespace Abp.EntityFramework.Repositories
             if (info == null)
             {
                 repository.Insert(stat.MapTo<TEntity>());
+            }
+            return repository.SaveChanges();
+        }
+
+        public static int ImportOne<TRepository, TEntity>(this TRepository repository, TEntity stat)
+            where TRepository : IRepository<TEntity>, IMatchRepository<TEntity>, ISaveChanges
+            where TEntity : Entity
+        {
+            var info = repository.Match(stat);
+            if (info == null)
+            {
+                repository.Insert(stat);
             }
             return repository.SaveChanges();
         }

@@ -25,4 +25,12 @@ namespace Lte.MySqlFramework.Abstract
         ISaveChanges
     {
     }
+
+    public interface IEmergencyProcessRepository
+        : IRepository<EmergencyProcess>,
+            IMatchRepository<EmergencyProcess, EmergencyProcessDto>,
+            ISaveChanges
+    {
+        
+    }
 }
