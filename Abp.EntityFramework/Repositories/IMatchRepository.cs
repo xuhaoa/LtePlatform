@@ -100,5 +100,23 @@ namespace Abp.EntityFramework.Repositories
             }
             return repository.SaveChanges();
         }
+
+        public async static Task<int> UpdateOne<TRepository, TEntity>(this TRepository repository, TEntity stat)
+            where TRepository : IRepository<TEntity>, IMatchRepository<TEntity>, ISaveChanges
+            where TEntity : Entity, new()
+        {
+            var info = repository.Match(stat);
+            if (info == null)
+            {
+                await repository.InsertAsync(stat);
+            }
+            else
+            {
+                Mapper.Map(stat, info);
+
+                await repository.UpdateAsync(info);
+            }
+            return repository.SaveChanges();
+        }
     }
 }

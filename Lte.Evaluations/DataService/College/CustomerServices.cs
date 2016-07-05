@@ -151,10 +151,37 @@ namespace Lte.Evaluations.DataService.College
             _processRepository.ImportOne<IEmergencyProcessRepository, EmergencyProcess, EmergencyProcessDto>(process);
             return process;
         }
+
+        public async Task<int> UpdateAsync(EmergencyProcessDto dto)
+        {
+            return
+                await
+                    _processRepository.UpdateOne<IEmergencyProcessRepository, EmergencyProcess, EmergencyProcessDto>(dto);
+        }
     }
 
-    public class EmergencyProcessService
-    { }
+    public class EmergencyFiberService
+    {
+        private readonly IEmergencyFiberWorkItemRepository _repository;
+
+        public EmergencyFiberService(IEmergencyFiberWorkItemRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public EmergencyFiberWorkItem Create(EmergencyFiberWorkItem item)
+        {
+            item.BeginDate = DateTime.Now;
+            var result = _repository.ImportOne(item);
+            return result > 0 ? item : null;
+        }
+
+        public async Task<int> Finish(EmergencyFiberWorkItem item)
+        {
+            item.FinishDate = DateTime.Now;
+            return await _repository.UpdateOne(item);
+        }
+    }
 
     public class VipDemandService
     {

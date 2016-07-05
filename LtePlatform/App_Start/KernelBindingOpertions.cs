@@ -255,6 +255,8 @@ namespace LtePlatform
             ninjectKernel.Bind<EmergencyCommunicationService>().ToSelf();
 
             ninjectKernel.Bind<VipDemandService>().ToSelf();
+
+            ninjectKernel.Bind<EmergencyFiberService>().ToSelf();
         }
     }
 }
