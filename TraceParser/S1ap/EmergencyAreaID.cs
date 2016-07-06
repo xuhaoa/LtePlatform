@@ -54,7 +54,7 @@ namespace TraceParser.S1ap
             {
                 EmergencyAreaID_Broadcast_Item item = new EmergencyAreaID_Broadcast_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 item.emergencyAreaID = input.readOctetString(3);
                 input.skipUnreadedBits();
@@ -118,7 +118,7 @@ namespace TraceParser.S1ap
             {
                 EmergencyAreaID_Cancelled_Item item = new EmergencyAreaID_Cancelled_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 item.emergencyAreaID = input.readOctetString(3);
                 input.skipUnreadedBits();

@@ -126,7 +126,7 @@ namespace TraceParser.Eutra
             {
                 DeltaTxD_OffsetListPUCCH_r10 _r = new DeltaTxD_OffsetListPUCCH_r10();
                 _r.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 int nBits = 1;
                 _r.deltaTxD_OffsetPUCCH_Format1_r10 = (deltaTxD_OffsetPUCCH_Format1_r10_Enum)input.readBits(nBits);
                 nBits = 1;

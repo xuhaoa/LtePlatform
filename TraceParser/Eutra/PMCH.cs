@@ -37,7 +37,7 @@ namespace TraceParser.Eutra
             {
                 PMCH_Config_r9 _r = new PMCH_Config_r9();
                 _r.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 _r.sf_AllocEnd_r9 = input.readBits(11);
                 _r.dataMCS_r9 = input.readBits(5);
                 const int nBits = 3;
@@ -66,7 +66,7 @@ namespace TraceParser.Eutra
             {
                 PMCH_Info_r9 _r = new PMCH_Info_r9();
                 _r.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 _r.pmch_Config_r9 = PMCH_Config_r9.PerDecoder.Instance.Decode(input);
                 _r.mbms_SessionInfoList_r9 = new List<MBMS_SessionInfo_r9>();
                 const int nBits = 5;

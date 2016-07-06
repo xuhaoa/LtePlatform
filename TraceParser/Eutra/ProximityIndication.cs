@@ -157,7 +157,7 @@ namespace TraceParser.Eutra
                 {
                     carrierFreq_r9_Type type = new carrierFreq_r9_Type();
                     type.InitDefaults();
-                    bool flag = input.readBit() != 0;
+                    bool flag = input.ReadBit() != 0;
                     switch (input.readBits(2))
                     {
                         case 0:

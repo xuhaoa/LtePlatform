@@ -26,7 +26,7 @@ namespace TraceParser.S1ap
                 int num4;
                 WarningAreaList list = new WarningAreaList();
                 list.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(2))
                 {
                     case 0:
@@ -138,7 +138,7 @@ namespace TraceParser.S1ap
             {
                 WriteReplaceWarningRequest request = new WriteReplaceWarningRequest();
                 request.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -170,7 +170,7 @@ namespace TraceParser.S1ap
             {
                 WriteReplaceWarningResponse response = new WriteReplaceWarningResponse();
                 response.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 response.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

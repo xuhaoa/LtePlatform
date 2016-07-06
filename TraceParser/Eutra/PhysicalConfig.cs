@@ -212,7 +212,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream2;
                 PhysicalConfigDedicated dedicated = new PhysicalConfigDedicated();
                 dedicated.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 10);
                 if (stream.Read())
                 {
@@ -279,7 +279,7 @@ namespace TraceParser.Eutra
                     }
                     if (stream2.Read())
                     {
-                        dedicated.cif_Presence_r10 = input.readBit() == 1;
+                        dedicated.cif_Presence_r10 = input.ReadBit() == 1;
                     }
                     if (stream2.Read())
                     {
@@ -494,7 +494,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream2;
                 PhysicalConfigDedicatedSCell_r10 _r = new PhysicalConfigDedicatedSCell_r10();
                 _r.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {

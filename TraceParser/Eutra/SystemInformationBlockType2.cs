@@ -53,7 +53,7 @@ namespace TraceParser.Eutra
                     var type = new ac_BarringInfo_Type();
                     type.InitDefaults();
                     var stream = new BitMaskStream(input, 2);
-                    type.ac_BarringForEmergency = input.readBit() == 1;
+                    type.ac_BarringForEmergency = input.ReadBit() == 1;
                     if (stream.Read())
                     {
                         type.ac_BarringForMO_Signalling = AC_BarringConfig.PerDecoder.Instance.Decode(input);
@@ -125,7 +125,7 @@ namespace TraceParser.Eutra
                 var type = new SystemInformationBlockType2();
                 type.InitDefaults();
                 var flag = false;
-                flag = input.readBit() != 0;
+                flag = input.ReadBit() != 0;
                 var stream = flag ? new BitMaskStream(input, 3) : new BitMaskStream(input, 2);
                 if (stream.Read())
                 {

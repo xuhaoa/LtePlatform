@@ -120,7 +120,7 @@ namespace TraceParser.Eutra
                 var type = new SystemInformationBlockType8();
                 type.InitDefaults();
                 var flag = false;
-                flag = input.readBit() != 0;
+                flag = input.ReadBit() != 0;
                 var stream = flag ? new BitMaskStream(input, 5) : new BitMaskStream(input, 4);
                 if (stream.Read())
                 {
@@ -148,7 +148,7 @@ namespace TraceParser.Eutra
                     stream2 = new BitMaskStream(input, 5);
                     if (stream2.Read())
                     {
-                        type.csfb_SupportForDualRxUEs_r9 = input.readBit() == 1;
+                        type.csfb_SupportForDualRxUEs_r9 = input.ReadBit() == 1;
                     }
                     if (stream2.Read())
                     {

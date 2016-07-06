@@ -51,14 +51,12 @@
     <Compile Include="Eric\EricTraceTest.cs" />
     <Compile Include="Huawei\HwTraceParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RRC\CodeBitAttributeTest.cs" />
     <Compile Include="RRC\MeasureConfigTest.cs" />
     <Compile Include="RRC\MeasureMaintainousTest.cs" />
     <Compile Include="RRC\MeasurementReportTest.cs" />
     <Compile Include="RRC\RadioResourceTest.cs" />
-    <Compile Include="RRC\RRCConnectionReconfigurationTest.cs" />
-    <Compile Include="RRC\RRCConnectionReleaseTest.cs" />
-    <Compile Include="RRC\RRCConnectionSetupCompleteTest.cs" />
-    <Compile Include="RRC\RRCConnectionSetupTest.cs" />
+    <Compile Include="RRC\RRCConnectionTest.cs" />
     <Compile Include="S1ap\InitiatingMessageTest.cs" />
     <Compile Include="Zte\ZteBasicTest.cs" />
   </ItemGroup>

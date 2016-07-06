@@ -25,7 +25,7 @@ namespace TraceParser.Eutra
             {
                 ReestablishmentInfo info = new ReestablishmentInfo();
                 info.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 info.sourcePhysCellId = input.readBits(9);
                 info.targetCellShortMAC_I = input.readBitString(0x10);
                 if (stream.Read())

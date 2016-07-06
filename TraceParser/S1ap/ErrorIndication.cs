@@ -21,7 +21,7 @@ namespace TraceParser.S1ap
             {
                 ErrorIndication indication = new ErrorIndication();
                 indication.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 indication.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

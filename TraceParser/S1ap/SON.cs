@@ -27,7 +27,7 @@ namespace TraceParser.S1ap
             {
                 SONConfigurationTransfer transfer = new SONConfigurationTransfer();
                 transfer.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 transfer.targeteNB_ID = TargeteNB_ID.PerDecoder.Instance.Decode(input);
                 transfer.sourceeNB_ID = SourceeNB_ID.PerDecoder.Instance.Decode(input);
                 transfer.sONInformation = SONInformation.PerDecoder.Instance.Decode(input);
@@ -67,7 +67,7 @@ namespace TraceParser.S1ap
             {
                 SONInformation information = new SONInformation();
                 information.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(1))
                 {
                     case 0:
@@ -104,7 +104,7 @@ namespace TraceParser.S1ap
             {
                 SONInformationReply reply = new SONInformationReply();
                 reply.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
                     reply.x2TNLConfigurationInfo = X2TNLConfigurationInfo.PerDecoder.Instance.Decode(input);

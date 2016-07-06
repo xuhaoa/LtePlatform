@@ -24,7 +24,7 @@ namespace TraceParser.S1ap
             {
                 ENB_StatusTransfer_TransparentContainer container = new ENB_StatusTransfer_TransparentContainer();
                 container.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 container.bearers_SubjectToStatusTransferList = new List<ProtocolIE_Field>();
                 int nBits = 8;
@@ -84,7 +84,7 @@ namespace TraceParser.S1ap
             {
                 ENBDirectInformationTransfer transfer = new ENBDirectInformationTransfer();
                 transfer.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 transfer.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -132,7 +132,7 @@ namespace TraceParser.S1ap
             {
                 ENBStatusTransfer transfer = new ENBStatusTransfer();
                 transfer.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 transfer.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -180,13 +180,13 @@ namespace TraceParser.S1ap
             {
                 X2TNLConfigurationInfo info = new X2TNLConfigurationInfo();
                 info.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 info.eNBX2TransportLayerAddresses = new List<string>();
                 int nBits = 1;
                 int num5 = input.readBits(nBits) + 1;
                 for (int i = 0; i < num5; i++)
                 {
-                    input.readBit();
+                    input.ReadBit();
                     int num = input.readBits(8);
                     input.skipUnreadedBits();
                     string item = input.readBitString(num + 1);

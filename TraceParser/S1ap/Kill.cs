@@ -21,7 +21,7 @@ namespace TraceParser.S1ap
             {
                 KillRequest request = new KillRequest();
                 request.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -53,7 +53,7 @@ namespace TraceParser.S1ap
             {
                 KillResponse response = new KillResponse();
                 response.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 response.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

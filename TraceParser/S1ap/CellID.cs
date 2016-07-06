@@ -37,7 +37,7 @@ namespace TraceParser.S1ap
             {
                 CellID_Broadcast_Item item = new CellID_Broadcast_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.eCGI = EUTRAN_CGI.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -91,7 +91,7 @@ namespace TraceParser.S1ap
             {
                 CellID_Cancelled_Item item = new CellID_Cancelled_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.eCGI = EUTRAN_CGI.PerDecoder.Instance.Decode(input);
                 int nBits = input.readBits(1) + 1;
                 input.skipUnreadedBits();
@@ -136,7 +136,7 @@ namespace TraceParser.S1ap
             {
                 GERAN_Cell_ID l_id = new GERAN_Cell_ID();
                 l_id.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 l_id.lAI = LAI.PerDecoder.Decode(input);
                 input.skipUnreadedBits();
                 l_id.rAC = input.readOctetString(1);

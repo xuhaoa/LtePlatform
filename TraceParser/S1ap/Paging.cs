@@ -21,7 +21,7 @@ namespace TraceParser.S1ap
             {
                 Paging paging = new Paging();
                 paging.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 paging.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

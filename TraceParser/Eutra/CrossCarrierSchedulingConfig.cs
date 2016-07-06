@@ -79,7 +79,7 @@ namespace TraceParser.Eutra
                     {
                         own_r10_Type type = new own_r10_Type();
                         type.InitDefaults();
-                        type.cif_Presence_r10 = input.readBit() == 1;
+                        type.cif_Presence_r10 = input.ReadBit() == 1;
                         return type;
                     }
                 }

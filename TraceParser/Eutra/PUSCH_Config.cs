@@ -61,7 +61,7 @@ namespace TraceParser.Eutra
                     int nBits = 1;
                     type.hoppingMode = (hoppingMode_Enum)input.readBits(nBits);
                     type.pusch_HoppingOffset = input.readBits(7);
-                    type.enable64QAM = input.readBit() == 1;
+                    type.enable64QAM = input.ReadBit() == 1;
                     return type;
                 }
             }

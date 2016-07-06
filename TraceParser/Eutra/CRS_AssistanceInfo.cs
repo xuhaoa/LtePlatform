@@ -33,7 +33,7 @@ namespace TraceParser.Eutra
             {
                 CRS_AssistanceInfo_r11 _r = new CRS_AssistanceInfo_r11();
                 _r.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 _r.physCellId_r11 = input.readBits(9);
                 int nBits = 2;
                 _r.antennaPortsCount_r11 = (antennaPortsCount_r11_Enum)input.readBits(nBits);

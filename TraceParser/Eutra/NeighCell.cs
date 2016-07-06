@@ -23,7 +23,7 @@ namespace TraceParser.Eutra
             {
                 NeighCellCDMA2000 lcdma = new NeighCellCDMA2000();
                 lcdma.InitDefaults();
-                int nBits = (input.readBit() == 0) ? 5 : 5;
+                int nBits = (input.ReadBit() == 0) ? 5 : 5;
                 lcdma.bandClass = (BandclassCDMA2000)input.readBits(nBits);
                 lcdma.neighCellsPerFreqList = new List<NeighCellsPerBandclassCDMA2000>();
                 nBits = 4;
@@ -57,7 +57,7 @@ namespace TraceParser.Eutra
             {
                 NeighCellCDMA2000_r11 _r = new NeighCellCDMA2000_r11();
                 _r.InitDefaults();
-                int nBits = (input.readBit() == 0) ? 5 : 5;
+                int nBits = (input.ReadBit() == 0) ? 5 : 5;
                 _r.bandClass = (BandclassCDMA2000)input.readBits(nBits);
                 _r.neighFreqInfoList_r11 = new List<NeighCellsPerBandclassCDMA2000_r11>();
                 nBits = 4;

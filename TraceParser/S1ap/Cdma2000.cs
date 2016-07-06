@@ -17,14 +17,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -57,14 +57,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -97,14 +97,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -137,14 +137,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -187,19 +187,19 @@ namespace TraceParser.S1ap
             {
                 Cdma2000OneXSRVCCInfo info = new Cdma2000OneXSRVCCInfo();
                 info.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_00C9;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -219,14 +219,14 @@ namespace TraceParser.S1ap
                 nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0163;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -246,14 +246,14 @@ namespace TraceParser.S1ap
                 nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_01FD;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -299,14 +299,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -339,14 +339,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);

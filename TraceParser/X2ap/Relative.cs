@@ -38,14 +38,14 @@ namespace TraceParser.X2ap
             {
                 RelativeNarrowbandTxPower power = new RelativeNarrowbandTxPower();
                 power.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 int num = input.readBits(7);
                 input.skipUnreadedBits();
                 power.rNTP_PerPRB = input.readBitString(num + 6);
-                int nBits = (input.readBit() == 0) ? 4 : 4;
+                int nBits = (input.ReadBit() == 0) ? 4 : 4;
                 power.rNTP_Threshold = (RNTP_Threshold)input.readBits(nBits);
-                nBits = (input.readBit() == 0) ? 2 : 2;
+                nBits = (input.ReadBit() == 0) ? 2 : 2;
                 power.numberOfCellSpecificAntennaPorts = (numberOfCellSpecificAntennaPorts_Enum)input.readBits(nBits);
                 power.p_B = input.readBits(2);
                 power.pDCCH_InterferenceImpact = input.readBits(3);
@@ -89,7 +89,7 @@ namespace TraceParser.X2ap
             {
                 AllocationAndRetentionPriority priority = new AllocationAndRetentionPriority();
                 priority.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 priority.priorityLevel = input.readBits(4);
                 int nBits = 1;
                 priority.pre_emptionCapability = (Pre_emptionCapability)input.readBits(nBits);
@@ -137,7 +137,7 @@ namespace TraceParser.X2ap
             {
                 GBR_QosInformation information = new GBR_QosInformation();
                 information.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 int nBits = input.readBits(3) + 1;
                 input.skipUnreadedBits();
                 information.e_RAB_MaximumBitrateDL = input.readBits(nBits * 8);
@@ -188,8 +188,8 @@ namespace TraceParser.X2ap
             {
                 GTPtunnelEndpoint endpoint = new GTPtunnelEndpoint();
                 endpoint.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 int num = input.readBits(8);
                 input.skipUnreadedBits();
                 endpoint.transportLayerAddress = input.readBitString(num + 1);
@@ -233,7 +233,7 @@ namespace TraceParser.X2ap
             {
                 COUNTvalue tvalue = new COUNTvalue();
                 tvalue.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 tvalue.pDCP_SN = input.readBits(0x10);
                 int nBits = input.readBits(2) + 1;
@@ -277,7 +277,7 @@ namespace TraceParser.X2ap
             {
                 COUNTValueExtended extended = new COUNTValueExtended();
                 extended.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 extended.pDCP_SNExtended = input.readBits(15);
                 int nBits = input.readBits(2) + 1;
                 input.skipUnreadedBits();

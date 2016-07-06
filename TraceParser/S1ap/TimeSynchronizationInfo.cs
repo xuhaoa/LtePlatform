@@ -25,8 +25,8 @@ namespace TraceParser.S1ap
             {
                 TimeSynchronizationInfo info = new TimeSynchronizationInfo();
                 info.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 info.stratumLevel = input.readBits(2);
                 int nBits = 1;
                 info.synchronizationStatus = (SynchronizationStatus)input.readBits(nBits);

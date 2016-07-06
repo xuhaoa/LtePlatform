@@ -39,7 +39,7 @@ namespace TraceParser.S1ap
             {
                 UE_S1AP_ID_pair _pair = new UE_S1AP_ID_pair();
                 _pair.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 int nBits = input.readBits(2) + 1;
                 input.skipUnreadedBits();
                 _pair.mME_UE_S1AP_ID = input.readBits(nBits * 8);
@@ -82,7 +82,7 @@ namespace TraceParser.S1ap
             {
                 UE_S1AP_IDs ds = new UE_S1AP_IDs();
                 ds.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(1))
                 {
                     case 0:
@@ -123,7 +123,7 @@ namespace TraceParser.S1ap
             {
                 UEAggregateMaximumBitrate bitrate = new UEAggregateMaximumBitrate();
                 bitrate.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 int nBits = input.readBits(3) + 1;
                 input.skipUnreadedBits();
                 bitrate.uEaggregateMaximumBitRateDL = input.readBits(nBits * 8);
@@ -164,7 +164,7 @@ namespace TraceParser.S1ap
             {
                 UECapabilityInfoIndication indication = new UECapabilityInfoIndication();
                 indication.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 indication.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -212,7 +212,7 @@ namespace TraceParser.S1ap
             {
                 UEPagingID gid = new UEPagingID();
                 gid.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(1))
                 {
                     case 0:
@@ -243,14 +243,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -291,7 +291,7 @@ namespace TraceParser.S1ap
             {
                 UESecurityCapabilities capabilities = new UESecurityCapabilities();
                 capabilities.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 capabilities.encryptionAlgorithms = input.readBitString(0x10);
                 capabilities.integrityProtectionAlgorithms = input.readBitString(0x10);
                 if (stream.Read())
@@ -324,14 +324,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -364,14 +364,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);

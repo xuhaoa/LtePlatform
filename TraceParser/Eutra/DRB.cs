@@ -88,7 +88,7 @@ namespace TraceParser.Eutra
             {
                 DRB_ToAddMod mod = new DRB_ToAddMod();
                 mod.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
                 if (stream.Read())
                 {
                     mod.eps_BearerIdentity = input.readBits(4);

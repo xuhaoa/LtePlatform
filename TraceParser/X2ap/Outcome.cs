@@ -33,14 +33,14 @@ namespace TraceParser.X2ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_00CF;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -105,14 +105,14 @@ namespace TraceParser.X2ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_00CF;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -175,14 +175,14 @@ namespace TraceParser.X2ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -215,14 +215,14 @@ namespace TraceParser.X2ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -267,13 +267,13 @@ namespace TraceParser.X2ap
             {
                 TraceActivation activation = new TraceActivation();
                 activation.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 activation.eUTRANTraceID = input.readOctetString(8);
                 activation.interfacesToTrace = input.readBitString(8);
-                int nBits = (input.readBit() == 0) ? 3 : 3;
+                int nBits = (input.ReadBit() == 0) ? 3 : 3;
                 activation.traceDepth = (TraceDepth)input.readBits(nBits);
-                input.readBit();
+                input.ReadBit();
                 int num = input.readBits(8);
                 input.skipUnreadedBits();
                 activation.traceCollectionEntityIPAddress = input.readBitString(num + 1);
@@ -303,7 +303,7 @@ namespace TraceParser.X2ap
 
             public string Decode(BitArrayInputStream input)
             {
-                input.readBit();
+                input.ReadBit();
                 int num = input.readBits(8);
                 return input.readBitString(num + 1);
             }

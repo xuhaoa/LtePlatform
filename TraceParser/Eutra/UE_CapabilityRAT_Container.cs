@@ -111,14 +111,14 @@ namespace TraceParser.Eutra
                         for (int j = 0; j < item.BandSubclassLength; j++)
                         {
                             SubClasses classes = new SubClasses {
-                                SC7 = input.readBit(),
-                                SC6 = input.readBit(),
-                                SC5 = input.readBit(),
-                                SC4 = input.readBit(),
-                                SC3 = input.readBit(),
-                                SC2 = input.readBit(),
-                                SC1 = input.readBit(),
-                                SC0 = input.readBit()
+                                SC7 = input.ReadBit(),
+                                SC6 = input.ReadBit(),
+                                SC5 = input.ReadBit(),
+                                SC4 = input.ReadBit(),
+                                SC3 = input.ReadBit(),
+                                SC2 = input.ReadBit(),
+                                SC1 = input.ReadBit(),
+                                SC0 = input.ReadBit()
                             };
                             item.SubClassesList.Add(classes);
                             i++;
@@ -159,7 +159,7 @@ namespace TraceParser.Eutra
                 int nBits = 0;
                 UE_CapabilityRAT_Container container = new UE_CapabilityRAT_Container();
                 container.InitDefaults();
-                int num2 = (input.readBit() == 0) ? 3 : 3;
+                int num2 = (input.ReadBit() == 0) ? 3 : 3;
                 container.rat_Type = (RAT_Type) input.readBits(num2);
                 nBits = input.readBits(8);
                 if ((container.rat_Type == RAT_Type.eutra) && (nBits > 0))

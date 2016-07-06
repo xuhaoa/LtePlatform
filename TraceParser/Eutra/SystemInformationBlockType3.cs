@@ -228,7 +228,7 @@ namespace TraceParser.Eutra
                         var nBits = 3;
                         type.allowedMeasBandwidth = (AllowedMeasBandwidth)input.readBits(nBits);
                     }
-                    type.presenceAntennaPort1 = input.readBit() == 1;
+                    type.presenceAntennaPort1 = input.ReadBit() == 1;
                     type.neighCellConfig = input.readBitString(2);
                     type.t_ReselectionEUTRA = input.readBits(3);
                     if (stream.Read())
@@ -250,7 +250,7 @@ namespace TraceParser.Eutra
                 var type = new SystemInformationBlockType3();
                 type.InitDefaults();
                 var flag = false;
-                flag = input.readBit() != 0;
+                flag = input.ReadBit() != 0;
                 var stream = flag ? new BitMaskStream(input, 1) : new BitMaskStream(input, 0);
                 type.cellReselectionInfoCommon = cellReselectionInfoCommon_Type.PerDecoder.Instance.Decode(input);
                 type.cellReselectionServingFreqInfo = cellReselectionServingFreqInfo_Type.PerDecoder.Instance.Decode(input);

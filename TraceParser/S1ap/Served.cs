@@ -55,7 +55,7 @@ namespace TraceParser.S1ap
             {
                 ServedGUMMEIsItem item = new ServedGUMMEIsItem();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.servedPLMNs = new List<string>();
                 int nBits = 5;
                 int num5 = input.readBits(nBits) + 1;

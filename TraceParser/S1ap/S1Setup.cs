@@ -21,7 +21,7 @@ namespace TraceParser.S1ap
             {
                 S1SetupFailure failure = new S1SetupFailure();
                 failure.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -53,7 +53,7 @@ namespace TraceParser.S1ap
             {
                 S1SetupRequest request = new S1SetupRequest();
                 request.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -85,7 +85,7 @@ namespace TraceParser.S1ap
             {
                 S1SetupResponse response = new S1SetupResponse();
                 response.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 response.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

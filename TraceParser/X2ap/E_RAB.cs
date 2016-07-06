@@ -25,8 +25,8 @@ namespace TraceParser.X2ap
             {
                 E_RAB_Item item = new E_RAB_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 item.e_RAB_ID = input.readBits(4);
                 item.cause = Cause.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
@@ -69,7 +69,7 @@ namespace TraceParser.X2ap
             {
                 E_RAB_Level_QoS_Parameters parameters = new E_RAB_Level_QoS_Parameters();
                 parameters.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 input.skipUnreadedBits();
                 parameters.qCI = input.readBits(8);
                 parameters.allocationAndRetentionPriority = AllocationAndRetentionPriority.PerDecoder.Instance.Decode(input);
@@ -131,8 +131,8 @@ namespace TraceParser.X2ap
             {
                 E_RABs_Admitted_Item item = new E_RABs_Admitted_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
+                input.ReadBit();
                 item.e_RAB_ID = input.readBits(4);
                 if (stream.Read())
                 {
@@ -198,8 +198,8 @@ namespace TraceParser.X2ap
             {
                 E_RABs_SubjectToStatusTransfer_Item item = new E_RABs_SubjectToStatusTransfer_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                input.ReadBit();
                 item.e_RAB_ID = input.readBits(4);
                 if (stream.Read())
                 {
@@ -265,8 +265,8 @@ namespace TraceParser.X2ap
                 int num4;
                 E_RABs_ToBeSetup_Item item = new E_RABs_ToBeSetup_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                input.ReadBit();
                 item.e_RAB_ID = input.readBits(4);
                 item.e_RAB_Level_QoS_Parameters = E_RAB_Level_QoS_Parameters.PerDecoder.Instance.Decode(input);
                 if (stream.Read())

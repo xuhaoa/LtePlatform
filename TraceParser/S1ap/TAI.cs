@@ -25,7 +25,7 @@ namespace TraceParser.S1ap
             {
                 TAI tai = new TAI();
                 tai.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 tai.pLMNidentity = input.readOctetString(3);
                 input.skipUnreadedBits();
@@ -82,7 +82,7 @@ namespace TraceParser.S1ap
             {
                 TAI_Broadcast_Item item = new TAI_Broadcast_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.tAI = TAI.PerDecoder.Instance.Decode(input);
                 input.skipUnreadedBits();
                 item.completedCellinTAI = new List<CompletedCellinTAI_Item>();
@@ -145,7 +145,7 @@ namespace TraceParser.S1ap
             {
                 TAI_Cancelled_Item item = new TAI_Cancelled_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.tAI = TAI.PerDecoder.Instance.Decode(input);
                 input.skipUnreadedBits();
                 item.cancelledCellinTAI = new List<CancelledCellinTAI_Item>();
@@ -192,7 +192,7 @@ namespace TraceParser.S1ap
             {
                 TAIItem item = new TAIItem();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.tAI = TAI.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -274,7 +274,7 @@ namespace TraceParser.S1ap
             {
                 SupportedTAs_Item item = new SupportedTAs_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 item.tAC = input.readOctetString(2);
                 item.broadcastPLMNs = new List<string>();

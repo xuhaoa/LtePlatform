@@ -17,7 +17,7 @@ namespace TraceParser.S1ap
             protected override void ProcessConfig(HandoverCancel config, BitArrayInputStream input)
             {
                 InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 config.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -43,7 +43,7 @@ namespace TraceParser.S1ap
             protected override void ProcessConfig(HandoverCancelAcknowledge config, BitArrayInputStream input)
             {
                 InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 config.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -74,7 +74,7 @@ namespace TraceParser.S1ap
             {
                 var command = new HandoverCommand();
                 command.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 command.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -106,7 +106,7 @@ namespace TraceParser.S1ap
             {
                 var failure = new HandoverFailure();
                 failure.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -138,7 +138,7 @@ namespace TraceParser.S1ap
             {
                 var notify = new HandoverNotify();
                 notify.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 notify.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -170,7 +170,7 @@ namespace TraceParser.S1ap
             {
                 var failure = new HandoverPreparationFailure();
                 failure.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -202,7 +202,7 @@ namespace TraceParser.S1ap
             {
                 var request = new HandoverRequest();
                 request.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -234,7 +234,7 @@ namespace TraceParser.S1ap
             {
                 var acknowledge = new HandoverRequestAcknowledge();
                 acknowledge.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 acknowledge.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -266,7 +266,7 @@ namespace TraceParser.S1ap
             {
                 var required = new HandoverRequired();
                 required.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 required.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -309,7 +309,7 @@ namespace TraceParser.S1ap
                 int num4;
                 var list = new HandoverRestrictionList();
                 list.InitDefaults();
-                var stream = (input.readBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
+                var stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
                 input.skipUnreadedBits();
                 list.servingPLMN = input.readOctetString(3);
                 if (stream.Read())
@@ -348,7 +348,7 @@ namespace TraceParser.S1ap
                 }
                 if (stream.Read())
                 {
-                    num4 = (input.readBit() == 0) ? 3 : 3;
+                    num4 = (input.ReadBit() == 0) ? 3 : 3;
                     list.forbiddenInterRATs = (ForbiddenInterRATs)input.readBits(num4);
                 }
                 if (stream.Read())

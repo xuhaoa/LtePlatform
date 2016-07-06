@@ -17,14 +17,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -61,7 +61,7 @@ namespace TraceParser.S1ap
             {
                 NASNonDeliveryIndication indication = new NASNonDeliveryIndication();
                 indication.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 indication.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -89,14 +89,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -129,14 +129,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -173,7 +173,7 @@ namespace TraceParser.S1ap
             {
                 UplinkNASTransport transport = new UplinkNASTransport();
                 transport.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 transport.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

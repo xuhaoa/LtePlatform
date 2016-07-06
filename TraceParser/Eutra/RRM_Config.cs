@@ -24,7 +24,7 @@ namespace TraceParser.Eutra
                 int num2;
                 RRM_Config config = new RRM_Config();
                 config.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {

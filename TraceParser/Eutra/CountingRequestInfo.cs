@@ -20,7 +20,7 @@ namespace TraceParser.Eutra
             {
                 CountingRequestInfo_r10 _r = new CountingRequestInfo_r10();
                 _r.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 _r.tmgi_r10 = TMGI_r9.PerDecoder.Instance.Decode(input);
                 return _r;
             }

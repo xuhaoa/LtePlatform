@@ -29,11 +29,11 @@ namespace TraceParser.S1ap
                 int num4;
                 Cause cause = new Cause();
                 cause.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(3))
                 {
                     case 0:
-                        num4 = (input.readBit() == 0) ? 6 : 6;
+                        num4 = (input.ReadBit() == 0) ? 6 : 6;
                         cause.radioNetwork = (CauseRadioNetwork)input.readBits(num4);
                         return cause;
 
@@ -43,17 +43,17 @@ namespace TraceParser.S1ap
                         return cause;
 
                     case 2:
-                        num4 = (input.readBit() == 0) ? 3 : 3;
+                        num4 = (input.ReadBit() == 0) ? 3 : 3;
                         cause.nas = (CauseNas)input.readBits(num4);
                         return cause;
 
                     case 3:
-                        num4 = (input.readBit() == 0) ? 3 : 3;
+                        num4 = (input.ReadBit() == 0) ? 3 : 3;
                         cause.protocol = (CauseProtocol)input.readBits(num4);
                         return cause;
 
                     case 4:
-                        num4 = (input.readBit() == 0) ? 3 : 3;
+                        num4 = (input.ReadBit() == 0) ? 3 : 3;
                         cause.misc = (CauseMisc)input.readBits(num4);
                         return cause;
                 }

@@ -21,7 +21,7 @@ namespace TraceParser.S1ap
             {
                 ENBConfigurationTransfer transfer = new ENBConfigurationTransfer();
                 transfer.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 transfer.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -53,7 +53,7 @@ namespace TraceParser.S1ap
             {
                 ENBConfigurationUpdate update = new ENBConfigurationUpdate();
                 update.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 update.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -85,7 +85,7 @@ namespace TraceParser.S1ap
             {
                 ENBConfigurationUpdateAcknowledge acknowledge = new ENBConfigurationUpdateAcknowledge();
                 acknowledge.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 acknowledge.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -117,7 +117,7 @@ namespace TraceParser.S1ap
             {
                 ENBConfigurationUpdateFailure failure = new ENBConfigurationUpdateFailure();
                 failure.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

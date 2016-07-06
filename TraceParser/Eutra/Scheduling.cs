@@ -30,7 +30,7 @@ namespace TraceParser.Eutra
                 int num3 = input.readBits(nBits);
                 for (int i = 0; i < num3; i++)
                 {
-                    nBits = (input.readBit() == 0) ? 4 : 4;
+                    nBits = (input.ReadBit() == 0) ? 4 : 4;
                     SIB_Type item = (SIB_Type)input.readBits(nBits);
                     info.sib_MappingInfo.Add(item);
                 }

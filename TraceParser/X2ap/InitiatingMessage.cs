@@ -32,14 +32,14 @@ namespace TraceParser.X2ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_00CF;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);

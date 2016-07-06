@@ -26,7 +26,7 @@ namespace TraceParser.S1ap
                 int num4;
                 BroadcastCancelledAreaList list = new BroadcastCancelledAreaList();
                 list.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(2))
                 {
                     case 0:
@@ -97,7 +97,7 @@ namespace TraceParser.S1ap
                 int num4;
                 BroadcastCompletedAreaList list = new BroadcastCompletedAreaList();
                 list.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(2))
                 {
                     case 0:

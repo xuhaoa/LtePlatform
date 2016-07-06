@@ -18,14 +18,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -58,14 +58,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -106,7 +106,7 @@ namespace TraceParser.S1ap
             {
                 TargeteNB_ID enb_id = new TargeteNB_ID();
                 enb_id.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 enb_id.global_ENB_ID = Global_ENB_ID.PerDecoder.Instance.Decode(input);
                 enb_id.selected_TAI = TAI.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
@@ -145,19 +145,19 @@ namespace TraceParser.S1ap
             {
                 TargeteNB_ToSourceeNB_TransparentContainer container = new TargeteNB_ToSourceeNB_TransparentContainer();
                 container.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_00C9;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -211,7 +211,7 @@ namespace TraceParser.S1ap
             {
                 TargetID tid = new TargetID();
                 tid.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(2))
                 {
                     case 0:
@@ -257,7 +257,7 @@ namespace TraceParser.S1ap
                 int num4;
                 TargetRNC_ID trnc_id = new TargetRNC_ID();
                 trnc_id.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0)
+                BitMaskStream stream = (input.ReadBit() != 0)
                     ? new BitMaskStream(input, 3)
                     : new BitMaskStream(input, 3);
                 trnc_id.lAI = LAI.PerDecoder.Decode(input);
@@ -304,14 +304,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);

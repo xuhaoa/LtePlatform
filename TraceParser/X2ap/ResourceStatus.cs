@@ -21,7 +21,7 @@ namespace TraceParser.X2ap
             {
                 ResourceStatusFailure failure = new ResourceStatusFailure();
                 failure.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -53,7 +53,7 @@ namespace TraceParser.X2ap
             {
                 ResourceStatusRequest request = new ResourceStatusRequest();
                 request.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -85,7 +85,7 @@ namespace TraceParser.X2ap
             {
                 ResourceStatusResponse response = new ResourceStatusResponse();
                 response.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 response.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -117,7 +117,7 @@ namespace TraceParser.X2ap
             {
                 ResourceStatusUpdate update = new ResourceStatusUpdate();
                 update.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 update.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -150,7 +150,7 @@ namespace TraceParser.X2ap
                 RLFIndication indication = new RLFIndication();
                 indication.InitDefaults();
                 bool flag = false;
-                flag = input.readBit() != 0;
+                flag = input.ReadBit() != 0;
                 input.skipUnreadedBits();
                 indication.protocolIEs = new List<ProtocolIE_Field>();
                 int nBits = 0x10;
@@ -182,7 +182,7 @@ namespace TraceParser.X2ap
             {
                 SNStatusTransfer transfer = new SNStatusTransfer();
                 transfer.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 transfer.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

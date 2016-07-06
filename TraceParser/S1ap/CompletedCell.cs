@@ -37,7 +37,7 @@ namespace TraceParser.S1ap
             {
                 CompletedCellinEAI_Item item = new CompletedCellinEAI_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.eCGI = EUTRAN_CGI.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -89,7 +89,7 @@ namespace TraceParser.S1ap
             {
                 CompletedCellinTAI_Item item = new CompletedCellinTAI_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.eCGI = EUTRAN_CGI.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {

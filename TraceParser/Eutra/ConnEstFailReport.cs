@@ -141,7 +141,7 @@ namespace TraceParser.Eutra
             {
                 ConnEstFailReport_r11 _r = new ConnEstFailReport_r11();
                 _r.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
                 _r.failedCellId_r11 = CellGlobalIdEUTRA.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -153,8 +153,8 @@ namespace TraceParser.Eutra
                     _r.measResultNeighCells_r11 = measResultNeighCells_r11_Type.PerDecoder.Instance.Decode(input);
                 }
                 _r.numberOfPreamblesSent_r11 = input.readBits(8) + 1;
-                _r.contentionDetected_r11 = input.readBit() == 1;
-                _r.maxTxPowerReached_r11 = input.readBit() == 1;
+                _r.contentionDetected_r11 = input.ReadBit() == 1;
+                _r.maxTxPowerReached_r11 = input.ReadBit() == 1;
                 _r.timeSinceFailure_r11 = input.readBits(0x12);
                 if (stream.Read())
                 {

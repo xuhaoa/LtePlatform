@@ -85,7 +85,7 @@ namespace TraceParser.Eutra
                 {
                     var element = new sib_TypeAndInfo_Element();
                     element.InitDefaults();
-                    var flag = input.readBit() != 0;
+                    var flag = input.ReadBit() != 0;
                     switch (input.readBits(4))
                     {
                         case 0:

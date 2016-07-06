@@ -34,7 +34,7 @@ namespace TraceParser.Eutra
             {
                 MeasObjectCDMA2000 tcdma = new MeasObjectCDMA2000();
                 tcdma.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 BitMaskStream stream2 = new BitMaskStream(input, 4);
                 int nBits = 1;
@@ -129,13 +129,13 @@ namespace TraceParser.Eutra
                 BitMaskStream stream3;
                 MeasObjectEUTRA teutra = new MeasObjectEUTRA();
                 teutra.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 BitMaskStream stream2 = new BitMaskStream(input, 5);
                 teutra.carrierFreq = input.readBits(0x10);
                 int nBits = 3;
                 teutra.allowedMeasBandwidth = (AllowedMeasBandwidth)input.readBits(nBits);
-                teutra.presenceAntennaPort1 = input.readBit() == 1;
+                teutra.presenceAntennaPort1 = input.ReadBit() == 1;
                 teutra.neighCellConfig = input.readBitString(2);
                 if (stream.Read())
                 {
@@ -208,7 +208,7 @@ namespace TraceParser.Eutra
                     stream3 = new BitMaskStream(input, 1);
                     if (stream3.Read())
                     {
-                        teutra.widebandRSRQ_Meas_r11 = input.readBit() == 1;
+                        teutra.widebandRSRQ_Meas_r11 = input.ReadBit() == 1;
                     }
                 }
                 if (flag)
@@ -291,7 +291,7 @@ namespace TraceParser.Eutra
             {
                 MeasObjectGERAN tgeran = new MeasObjectGERAN();
                 tgeran.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 BitMaskStream stream2 = new BitMaskStream(input, 1);
                 tgeran.carrierFreqs = CarrierFreqsGERAN.PerDecoder.Instance.Decode(input);
@@ -346,7 +346,7 @@ namespace TraceParser.Eutra
                 {
                     measObject_Type type = new measObject_Type();
                     type.InitDefaults();
-                    input.readBit();
+                    input.ReadBit();
                     switch (input.readBits(2))
                     {
                         case 0:
@@ -526,7 +526,7 @@ namespace TraceParser.Eutra
             {
                 MeasObjectUTRA tutra = new MeasObjectUTRA();
                 tutra.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 BitMaskStream stream2 = new BitMaskStream(input, 3);
                 tutra.carrierFreq = input.readBits(14);

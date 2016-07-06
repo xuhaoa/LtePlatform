@@ -391,9 +391,9 @@ namespace TraceParser.Eutra
                 _r.InitDefaults();
                 int nBits = 3;
                 _r.cqi_ReportModeAperiodic_r11 = (CQI_ReportModeAperiodic)input.readBits(nBits);
-                _r.trigger01_r11 = input.readBit() == 1;
-                _r.trigger10_r11 = input.readBit() == 1;
-                _r.trigger11_r11 = input.readBit() == 1;
+                _r.trigger01_r11 = input.ReadBit() == 1;
+                _r.trigger10_r11 = input.ReadBit() == 1;
+                _r.trigger11_r11 = input.ReadBit() == 1;
                 return _r;
             }
         }
@@ -633,7 +633,7 @@ namespace TraceParser.Eutra
                     {
                         type.ri_ConfigIndex = input.readBits(10);
                     }
-                    type.simultaneousAckNackAndCQI = input.readBit() == 1;
+                    type.simultaneousAckNackAndCQI = input.ReadBit() == 1;
                     return type;
                 }
             }
@@ -884,7 +884,7 @@ namespace TraceParser.Eutra
                     {
                         type.ri_ConfigIndex = input.readBits(10);
                     }
-                    type.simultaneousAckNackAndCQI = input.readBit() == 1;
+                    type.simultaneousAckNackAndCQI = input.ReadBit() == 1;
                     if (stream.Read())
                     {
                         int nBits = 1;
@@ -1149,7 +1149,7 @@ namespace TraceParser.Eutra
             {
                 CQI_ReportPeriodicProcExt_r11 _r = new CQI_ReportPeriodicProcExt_r11();
                 _r.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 _r.cqi_ReportPeriodicProcExtId_r11 = input.readBits(2) + 1;
                 _r.cqi_pmi_ConfigIndex_r11 = input.readBits(10);
                 _r.cqi_FormatIndicatorPeriodic_r11 = cqi_FormatIndicatorPeriodic_r11_Type.PerDecoder.Instance.Decode(input);

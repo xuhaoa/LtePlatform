@@ -86,7 +86,7 @@ namespace TraceParser.Eutra
                     {
                         rohc_Type type = new rohc_Type();
                         type.InitDefaults();
-                        BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                        BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                         if (stream.Read())
                         {
                             type.maxCID = input.readBits(14) + 1;
@@ -129,15 +129,15 @@ namespace TraceParser.Eutra
                         {
                             profiles_Type type = new profiles_Type();
                             type.InitDefaults();
-                            type.profile0x0001 = input.readBit() == 1;
-                            type.profile0x0002 = input.readBit() == 1;
-                            type.profile0x0003 = input.readBit() == 1;
-                            type.profile0x0004 = input.readBit() == 1;
-                            type.profile0x0006 = input.readBit() == 1;
-                            type.profile0x0101 = input.readBit() == 1;
-                            type.profile0x0102 = input.readBit() == 1;
-                            type.profile0x0103 = input.readBit() == 1;
-                            type.profile0x0104 = input.readBit() == 1;
+                            type.profile0x0001 = input.ReadBit() == 1;
+                            type.profile0x0002 = input.ReadBit() == 1;
+                            type.profile0x0003 = input.ReadBit() == 1;
+                            type.profile0x0004 = input.ReadBit() == 1;
+                            type.profile0x0006 = input.ReadBit() == 1;
+                            type.profile0x0101 = input.ReadBit() == 1;
+                            type.profile0x0102 = input.ReadBit() == 1;
+                            type.profile0x0103 = input.ReadBit() == 1;
+                            type.profile0x0104 = input.ReadBit() == 1;
                             return type;
                         }
                     }
@@ -160,7 +160,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream2;
                 PDCP_Config config = new PDCP_Config();
                 config.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
@@ -215,7 +215,7 @@ namespace TraceParser.Eutra
                 {
                     rlc_AM_Type type = new rlc_AM_Type();
                     type.InitDefaults();
-                    type.statusReportRequired = input.readBit() == 1;
+                    type.statusReportRequired = input.ReadBit() == 1;
                     return type;
                 }
             }
@@ -297,7 +297,7 @@ namespace TraceParser.Eutra
             {
                 PDCP_Parameters parameters = new PDCP_Parameters();
                 parameters.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 parameters.supportedROHC_Profiles = supportedROHC_Profiles_Type.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -341,15 +341,15 @@ namespace TraceParser.Eutra
                 {
                     supportedROHC_Profiles_Type type = new supportedROHC_Profiles_Type();
                     type.InitDefaults();
-                    type.profile0x0001 = input.readBit() == 1;
-                    type.profile0x0002 = input.readBit() == 1;
-                    type.profile0x0003 = input.readBit() == 1;
-                    type.profile0x0004 = input.readBit() == 1;
-                    type.profile0x0006 = input.readBit() == 1;
-                    type.profile0x0101 = input.readBit() == 1;
-                    type.profile0x0102 = input.readBit() == 1;
-                    type.profile0x0103 = input.readBit() == 1;
-                    type.profile0x0104 = input.readBit() == 1;
+                    type.profile0x0001 = input.ReadBit() == 1;
+                    type.profile0x0002 = input.ReadBit() == 1;
+                    type.profile0x0003 = input.ReadBit() == 1;
+                    type.profile0x0004 = input.ReadBit() == 1;
+                    type.profile0x0006 = input.ReadBit() == 1;
+                    type.profile0x0101 = input.ReadBit() == 1;
+                    type.profile0x0102 = input.ReadBit() == 1;
+                    type.profile0x0103 = input.ReadBit() == 1;
+                    type.profile0x0104 = input.ReadBit() == 1;
                     return type;
                 }
             }

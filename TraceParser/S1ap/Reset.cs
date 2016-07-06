@@ -21,7 +21,7 @@ namespace TraceParser.S1ap
             {
                 Reset reset = new Reset();
                 reset.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 reset.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -53,7 +53,7 @@ namespace TraceParser.S1ap
             {
                 ResetAcknowledge acknowledge = new ResetAcknowledge();
                 acknowledge.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 acknowledge.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -88,7 +88,7 @@ namespace TraceParser.S1ap
                 int num4;
                 ResetType type = new ResetType();
                 type.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(1))
                 {
                     case 0:

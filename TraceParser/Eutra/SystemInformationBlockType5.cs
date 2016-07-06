@@ -24,7 +24,7 @@ namespace TraceParser.Eutra
                 var type = new SystemInformationBlockType5();
                 type.InitDefaults();
                 var flag = false;
-                flag = input.readBit() != 0;
+                flag = input.ReadBit() != 0;
                 var stream = flag ? new BitMaskStream(input, 1) : new BitMaskStream(input, 0);
                 type.interFreqCarrierFreqList = new List<InterFreqCarrierFreqInfo>();
                 var num2 = 3;

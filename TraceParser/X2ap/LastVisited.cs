@@ -26,7 +26,7 @@ namespace TraceParser.X2ap
                 int nBits;
                 LastVisitedCell_Item item = new LastVisitedCell_Item();
                 item.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(2))
                 {
                     case 0:
@@ -47,14 +47,14 @@ namespace TraceParser.X2ap
                 }
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_00F2;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -98,7 +98,7 @@ namespace TraceParser.X2ap
             {
                 LastVisitedEUTRANCellInformation information = new LastVisitedEUTRANCellInformation();
                 information.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 information.global_Cell_ID = ECGI.PerDecoder.Instance.Decode(input);
                 information.cellType = CellType.PerDecoder.Instance.Decode(input);
                 input.skipUnreadedBits();
@@ -137,7 +137,7 @@ namespace TraceParser.X2ap
             {
                 LastVisitedGERANCellInformation information = new LastVisitedGERANCellInformation();
                 information.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 if (input.readBits(1) != 0)
                 {
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -160,14 +160,14 @@ namespace TraceParser.X2ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);

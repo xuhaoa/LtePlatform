@@ -25,7 +25,7 @@ namespace TraceParser.X2ap
             {
                 CompleteFailureCauseInformation_Item item = new CompleteFailureCauseInformation_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.cell_ID = ECGI.PerDecoder.Instance.Decode(input);
                 item.measurementFailureCause_List = new List<ProtocolIE_Field>();
                 int nBits = 5;
@@ -87,10 +87,10 @@ namespace TraceParser.X2ap
             {
                 CompositeAvailableCapacity capacity = new CompositeAvailableCapacity();
                 capacity.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    input.readBit();
+                    input.ReadBit();
                     capacity.cellCapacityClassValue = input.readBits(7) + 1;
                 }
                 capacity.capacityValue = input.readBits(7);
@@ -132,7 +132,7 @@ namespace TraceParser.X2ap
             {
                 CompositeAvailableCapacityGroup group = new CompositeAvailableCapacityGroup();
                 group.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 group.dL_CompositeAvailableCapacity = CompositeAvailableCapacity.PerDecoder.Instance.Decode(input);
                 group.uL_CompositeAvailableCapacity = CompositeAvailableCapacity.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
@@ -176,11 +176,11 @@ namespace TraceParser.X2ap
                 int num4;
                 Cause cause = new Cause();
                 cause.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(2))
                 {
                     case 0:
-                        num4 = (input.readBit() == 0) ? 5 : 5;
+                        num4 = (input.ReadBit() == 0) ? 5 : 5;
                         cause.radioNetwork = (CauseRadioNetwork)input.readBits(num4);
                         return cause;
 
@@ -190,12 +190,12 @@ namespace TraceParser.X2ap
                         return cause;
 
                     case 2:
-                        num4 = (input.readBit() == 0) ? 3 : 3;
+                        num4 = (input.ReadBit() == 0) ? 3 : 3;
                         cause.protocol = (CauseProtocol)input.readBits(num4);
                         return cause;
 
                     case 3:
-                        num4 = (input.readBit() == 0) ? 3 : 3;
+                        num4 = (input.ReadBit() == 0) ? 3 : 3;
                         cause.misc = (CauseMisc)input.readBits(num4);
                         return cause;
                 }

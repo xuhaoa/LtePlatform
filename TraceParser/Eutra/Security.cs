@@ -46,9 +46,9 @@ namespace TraceParser.Eutra
             {
                 SecurityAlgorithmConfig config = new SecurityAlgorithmConfig();
                 config.InitDefaults();
-                int nBits = (input.readBit() == 0) ? 3 : 3;
+                int nBits = (input.ReadBit() == 0) ? 3 : 3;
                 config.cipheringAlgorithm = (cipheringAlgorithm_Enum)input.readBits(nBits);
-                nBits = (input.readBit() == 0) ? 3 : 3;
+                nBits = (input.ReadBit() == 0) ? 3 : 3;
                 config.integrityProtAlgorithm = (integrityProtAlgorithm_Enum)input.readBits(nBits);
                 return config;
             }
@@ -127,7 +127,7 @@ namespace TraceParser.Eutra
                         {
                             type.securityAlgorithmConfig = SecurityAlgorithmConfig.PerDecoder.Instance.Decode(input);
                         }
-                        type.keyChangeIndicator = input.readBit() == 1;
+                        type.keyChangeIndicator = input.ReadBit() == 1;
                         type.nextHopChainingCount = input.readBits(3);
                         return type;
                     }
@@ -165,7 +165,7 @@ namespace TraceParser.Eutra
             {
                 SecurityConfigHO gho = new SecurityConfigHO();
                 gho.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 gho.handoverType = handoverType_Type.PerDecoder.Instance.Decode(input);
                 return gho;
             }
@@ -189,7 +189,7 @@ namespace TraceParser.Eutra
             {
                 SecurityConfigSMC gsmc = new SecurityConfigSMC();
                 gsmc.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 gsmc.securityAlgorithmConfig = SecurityAlgorithmConfig.PerDecoder.Instance.Decode(input);
                 return gsmc;
             }

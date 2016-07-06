@@ -57,7 +57,7 @@ namespace TraceParser.Eutra
             {
                 SRB_ToAddMod mod = new SRB_ToAddMod();
                 mod.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 mod.srb_Identity = input.readBits(1) + 1;
                 if (stream.Read())
                 {

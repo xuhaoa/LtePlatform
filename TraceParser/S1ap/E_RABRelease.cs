@@ -21,7 +21,7 @@ namespace TraceParser.S1ap
             {
                 E_RABReleaseCommand command = new E_RABReleaseCommand();
                 command.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 command.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -53,7 +53,7 @@ namespace TraceParser.S1ap
             {
                 E_RABReleaseIndication indication = new E_RABReleaseIndication();
                 indication.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 indication.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -87,8 +87,8 @@ namespace TraceParser.S1ap
             {
                 E_RABReleaseItemBearerRelComp comp = new E_RABReleaseItemBearerRelComp();
                 comp.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 comp.e_RAB_ID = input.readBits(4);
                 if (stream.Read())
                 {
@@ -138,7 +138,7 @@ namespace TraceParser.S1ap
             {
                 E_RABReleaseResponse response = new E_RABReleaseResponse();
                 response.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 response.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -176,10 +176,10 @@ namespace TraceParser.S1ap
             {
                 E_RABToBeSwitchedDLItem item = new E_RABToBeSwitchedDLItem();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 item.e_RAB_ID = input.readBits(4);
-                input.readBit();
+                input.ReadBit();
                 int num = input.readBits(8);
                 input.skipUnreadedBits();
                 item.transportLayerAddress = input.readBitString(num + 1);
@@ -225,10 +225,10 @@ namespace TraceParser.S1ap
             {
                 E_RABToBeSwitchedULItem item = new E_RABToBeSwitchedULItem();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 item.e_RAB_ID = input.readBits(4);
-                input.readBit();
+                input.ReadBit();
                 int num = input.readBits(8);
                 input.skipUnreadedBits();
                 item.transportLayerAddress = input.readBitString(num + 1);

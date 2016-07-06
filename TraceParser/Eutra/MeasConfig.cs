@@ -47,7 +47,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream2;
                 MeasConfig config = new MeasConfig();
                 config.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 11);
                 if (stream.Read())//measObjectToRemoveListPresent
                 {
@@ -290,7 +290,7 @@ namespace TraceParser.Eutra
                     {
                         gapOffset_Type type = new gapOffset_Type();
                         type.InitDefaults();
-                        input.readBit();
+                        input.ReadBit();
                         switch (input.readBits(1))
                         {
                             case 0:

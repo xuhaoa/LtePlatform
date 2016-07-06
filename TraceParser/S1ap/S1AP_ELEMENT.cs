@@ -20,7 +20,7 @@ namespace TraceParser.S1ap
             protected override void ProcessConfig(S1AP_PDU config, BitArrayInputStream input)
             {
                 InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(2))
                 {
                     case 0:

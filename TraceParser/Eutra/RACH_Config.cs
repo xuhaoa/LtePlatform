@@ -26,7 +26,7 @@ namespace TraceParser.Eutra
             {
                 RACH_ConfigCommon common = new RACH_ConfigCommon();
                 common.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 common.preambleInfo = preambleInfo_Type.PerDecoder.Instance.Decode(input);
                 common.powerRampingParameters = PowerRampingParameters.PerDecoder.Instance.Decode(input);
                 common.ra_SupervisionInfo = ra_SupervisionInfo_Type.PerDecoder.Instance.Decode(input);
@@ -126,7 +126,7 @@ namespace TraceParser.Eutra
                     {
                         preamblesGroupAConfig_Type type = new preamblesGroupAConfig_Type();
                         type.InitDefaults();
-                        input.readBit();
+                        input.ReadBit();
                         int nBits = 4;
                         type.sizeOfRA_PreamblesGroupA = (sizeOfRA_PreamblesGroupA_Enum)input.readBits(nBits);
                         nBits = 2;
@@ -234,7 +234,7 @@ namespace TraceParser.Eutra
             {
                 RACH_ConfigCommonSCell_r11 _r = new RACH_ConfigCommonSCell_r11();
                 _r.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 _r.powerRampingParameters_r11 = PowerRampingParameters.PerDecoder.Instance.Decode(input);
                 _r.ra_SupervisionInfo_r11 = ra_SupervisionInfo_r11_Type.PerDecoder.Instance.Decode(input);
                 return _r;

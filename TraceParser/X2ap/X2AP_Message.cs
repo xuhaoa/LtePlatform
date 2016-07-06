@@ -18,14 +18,14 @@ namespace TraceParser.X2ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -61,7 +61,7 @@ namespace TraceParser.X2ap
             protected override void ProcessConfig(X2AP_PDU config, BitArrayInputStream input)
             {
                 InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(2))
                 {
                     case 0:
@@ -113,7 +113,7 @@ namespace TraceParser.X2ap
             {
                 X2MessageTransfer transfer = new X2MessageTransfer();
                 transfer.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 transfer.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -145,7 +145,7 @@ namespace TraceParser.X2ap
             {
                 X2Release release = new X2Release();
                 release.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 release.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -177,7 +177,7 @@ namespace TraceParser.X2ap
             {
                 X2SetupFailure failure = new X2SetupFailure();
                 failure.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -209,7 +209,7 @@ namespace TraceParser.X2ap
             {
                 X2SetupRequest request = new X2SetupRequest();
                 request.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -241,7 +241,7 @@ namespace TraceParser.X2ap
             {
                 X2SetupResponse response = new X2SetupResponse();
                 response.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 response.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

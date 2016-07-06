@@ -54,7 +54,7 @@ namespace TraceParser.Eutra
             {
                 UE_TimersAndConstants constants = new UE_TimersAndConstants();
                 constants.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 int nBits = 3;
                 constants.t300 = (t300_Enum)input.readBits(nBits);
                 nBits = 3;

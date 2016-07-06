@@ -99,7 +99,7 @@ namespace TraceParser.Eutra
                 {
                     setup_Type type = new setup_Type();
                     type.InitDefaults();
-                    bool flag = input.readBit() != 0;
+                    bool flag = input.ReadBit() != 0;
                     int nBits = 4;
                     type.semiPersistSchedIntervalDL = (semiPersistSchedIntervalDL_Enum)input.readBits(nBits);
                     type.numberOfConfSPS_Processes = input.readBits(3) + 1;
@@ -298,7 +298,7 @@ namespace TraceParser.Eutra
                 {
                     setup_Type type = new setup_Type();
                     type.InitDefaults();
-                    BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                    BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                     int nBits = 4;
                     type.semiPersistSchedIntervalUL = (semiPersistSchedIntervalUL_Enum)input.readBits(nBits);
                     nBits = 2;

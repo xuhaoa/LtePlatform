@@ -46,7 +46,7 @@ namespace TraceParser.Eutra
                     int nBits;
                     locationCoordinates_r10_Type type = new locationCoordinates_r10_Type();
                     type.InitDefaults();
-                    bool flag = input.readBit() != 0;
+                    bool flag = input.ReadBit() != 0;
                     switch (input.readBits(3))
                     {
                         case 0:
@@ -113,7 +113,7 @@ namespace TraceParser.Eutra
                 int nBits;
                 LocationInfo_r10 _r = new LocationInfo_r10();
                 _r.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 _r.locationCoordinates_r10 = locationCoordinates_r10_Type.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {

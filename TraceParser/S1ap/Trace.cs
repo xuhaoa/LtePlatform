@@ -29,13 +29,13 @@ namespace TraceParser.S1ap
             {
                 TraceActivation activation = new TraceActivation();
                 activation.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 activation.e_UTRAN_Trace_ID = input.readOctetString(8);
                 activation.interfacesToTrace = input.readBitString(8);
-                int nBits = (input.readBit() == 0) ? 3 : 3;
+                int nBits = (input.ReadBit() == 0) ? 3 : 3;
                 activation.traceDepth = (TraceDepth)input.readBits(nBits);
-                input.readBit();
+                input.ReadBit();
                 int num = input.readBits(8);
                 input.skipUnreadedBits();
                 activation.traceCollectionEntityIPAddress = input.readBitString(num + 1);
@@ -73,7 +73,7 @@ namespace TraceParser.S1ap
             {
                 TraceFailureIndication indication = new TraceFailureIndication();
                 indication.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 indication.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -105,7 +105,7 @@ namespace TraceParser.S1ap
             {
                 TraceStart start = new TraceStart();
                 start.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 start.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -185,8 +185,8 @@ namespace TraceParser.S1ap
             {
                 RequestType type = new RequestType();
                 type.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                int nBits = (input.readBit() == 0) ? 2 : 2;
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                int nBits = (input.ReadBit() == 0) ? 2 : 2;
                 type.eventType = (EventType)input.readBits(nBits);
                 nBits = 1;
                 type.reportArea = (ReportArea)input.readBits(nBits);
@@ -228,7 +228,7 @@ namespace TraceParser.S1ap
             {
                 SecurityContext context = new SecurityContext();
                 context.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 context.nextHopChainingCount = input.readBits(3);
                 input.skipUnreadedBits();
                 context.nextHopParameter = input.readBitString(0x100);
@@ -286,7 +286,7 @@ namespace TraceParser.S1ap
 
             public string Decode(BitArrayInputStream input)
             {
-                input.readBit();
+                input.ReadBit();
                 int num = input.readBits(8);
                 return input.readBitString(num + 1);
             }

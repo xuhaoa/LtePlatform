@@ -21,7 +21,7 @@ namespace TraceParser.S1ap
             {
                 Inter_SystemInformationTransferType type = new Inter_SystemInformationTransferType();
                 type.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 if (input.readBits(1) != 0)
                 {
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -53,19 +53,19 @@ namespace TraceParser.S1ap
             {
                 RIMTransfer transfer = new RIMTransfer();
                 transfer.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 input.skipUnreadedBits();
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_00C9;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -115,14 +115,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -161,7 +161,7 @@ namespace TraceParser.S1ap
             {
                 RIMRoutingAddress address = new RIMRoutingAddress();
                 address.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 switch (input.readBits(1))
                 {
                     case 0:

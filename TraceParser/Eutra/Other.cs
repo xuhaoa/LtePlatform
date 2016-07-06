@@ -84,7 +84,7 @@ namespace TraceParser.Eutra
             {
                 OtherConfig_r9 _r = new OtherConfig_r9();
                 _r.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {

@@ -31,7 +31,7 @@ namespace TraceParser.Eutra
                 int num2;
                 BandCombinationParameters_v1130 _v = new BandCombinationParameters_v1130();
                 _v.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
                     num2 = 1;
@@ -203,7 +203,7 @@ namespace TraceParser.Eutra
             {
                 BandParameters_v1090 _v = new BandParameters_v1090();
                 _v.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
                     _v.bandEUTRA_v1090 = input.readBits(8) + 0x41;
@@ -261,7 +261,7 @@ namespace TraceParser.Eutra
             {
                 InterRAT_BandInfo info = new InterRAT_BandInfo();
                 info.InitDefaults();
-                info.interRAT_NeedForGaps = input.readBit() == 1;
+                info.interRAT_NeedForGaps = input.ReadBit() == 1;
                 return info;
             }
         }

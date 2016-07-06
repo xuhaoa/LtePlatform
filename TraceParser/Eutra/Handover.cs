@@ -27,7 +27,7 @@ namespace TraceParser.Eutra
                 Handover handover = new Handover();
                 handover.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 2);
-                int num2 = (input.readBit() == 0) ? 3 : 3;
+                int num2 = (input.ReadBit() == 0) ? 3 : 3;
                 handover.targetRAT_Type = (targetRAT_Type_Enum)input.readBits(num2);
                 int nBits = input.readBits(8);
                 handover.targetRAT_MessageContainer = input.readOctetString(nBits);
@@ -535,7 +535,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    es.concurrPrepCDMA2000_HRPD_r9 = input.readBit() == 1;
+                    es.concurrPrepCDMA2000_HRPD_r9 = input.ReadBit() == 1;
                 }
                 if (stream.Read())
                 {

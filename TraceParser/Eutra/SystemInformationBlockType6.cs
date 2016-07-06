@@ -31,7 +31,7 @@ namespace TraceParser.Eutra
                 var type = new SystemInformationBlockType6();
                 type.InitDefaults();
                 var flag = false;
-                flag = input.readBit() != 0;
+                flag = input.ReadBit() != 0;
                 var stream = flag ? new BitMaskStream(input, 4) : new BitMaskStream(input, 3);
                 if (stream.Read())
                 {

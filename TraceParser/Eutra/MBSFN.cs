@@ -94,7 +94,7 @@ namespace TraceParser.Eutra
             {
                 MBSFN_AreaInfo_r9 _r = new MBSFN_AreaInfo_r9();
                 _r.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 _r.mbsfn_AreaId_r9 = input.readBits(8);
                 const int nBits = 1;
                 _r.non_MBSFNregionLength = (non_MBSFNregionLength_Enum)input.readBits(nBits);

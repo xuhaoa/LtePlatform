@@ -128,7 +128,7 @@ namespace TraceParser.Eutra
             {
                 MBMS_SessionInfo_r9 _r = new MBMS_SessionInfo_r9();
                 _r.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 _r.tmgi_r9 = TMGI_r9.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {

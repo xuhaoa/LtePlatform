@@ -29,8 +29,8 @@ namespace TraceParser.S1ap
             {
                 Bearers_SubjectToStatusTransfer_Item item = new Bearers_SubjectToStatusTransfer_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                input.ReadBit();
                 item.e_RAB_ID = input.readBits(4);
                 item.uL_COUNTvalue = COUNTvalue.PerDecoder.Instance.Decode(input);
                 item.dL_COUNTvalue = COUNTvalue.PerDecoder.Instance.Decode(input);
@@ -91,7 +91,7 @@ namespace TraceParser.S1ap
             {
                 COUNTvalue tvalue = new COUNTvalue();
                 tvalue.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0)
+                BitMaskStream stream = (input.ReadBit() != 0)
                     ? new BitMaskStream(input, 1)
                     : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();

@@ -21,7 +21,7 @@ namespace TraceParser.S1ap
             {
                 UplinkNonUEAssociatedLPPaTransport transport = new UplinkNonUEAssociatedLPPaTransport();
                 transport.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 transport.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -53,7 +53,7 @@ namespace TraceParser.S1ap
             {
                 UplinkS1cdma2000tunneling kscdmatunneling = new UplinkS1cdma2000tunneling();
                 kscdmatunneling.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 kscdmatunneling.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -85,7 +85,7 @@ namespace TraceParser.S1ap
             {
                 UplinkUEAssociatedLPPaTransport transport = new UplinkUEAssociatedLPPaTransport();
                 transport.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 transport.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

@@ -13,7 +13,7 @@ namespace TraceParser.S1ap
 
             public long Decode(BitArrayInputStream input)
             {
-                input.readBit();
+                input.ReadBit();
                 return input.readBits(4);
             }
         }
@@ -50,10 +50,10 @@ namespace TraceParser.S1ap
             {
                 E_RABAdmittedItem item = new E_RABAdmittedItem();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
+                input.ReadBit();
                 item.e_RAB_ID = input.readBits(4);
-                input.readBit();
+                input.ReadBit();
                 int num = input.readBits(8);
                 input.skipUnreadedBits();
                 item.transportLayerAddress = input.readBitString(num + 1);
@@ -61,7 +61,7 @@ namespace TraceParser.S1ap
                 item.gTP_TEID = input.readOctetString(4);
                 if (stream.Read())
                 {
-                    input.readBit();
+                    input.ReadBit();
                     num = input.readBits(8);
                     input.skipUnreadedBits();
                     item.dL_transportLayerAddress = input.readBitString(num + 1);
@@ -73,7 +73,7 @@ namespace TraceParser.S1ap
                 }
                 if (stream.Read())
                 {
-                    input.readBit();
+                    input.ReadBit();
                     num = input.readBits(8);
                     input.skipUnreadedBits();
                     item.uL_TransportLayerAddress = input.readBitString(num + 1);
@@ -128,12 +128,12 @@ namespace TraceParser.S1ap
                 int num;
                 E_RABDataForwardingItem item = new E_RABDataForwardingItem();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
+                input.ReadBit();
                 item.e_RAB_ID = input.readBits(4);
                 if (stream.Read())
                 {
-                    input.readBit();
+                    input.ReadBit();
                     num = input.readBits(8);
                     input.skipUnreadedBits();
                     item.dL_transportLayerAddress = input.readBitString(num + 1);
@@ -145,7 +145,7 @@ namespace TraceParser.S1ap
                 }
                 if (stream.Read())
                 {
-                    input.readBit();
+                    input.ReadBit();
                     num = input.readBits(8);
                     input.skipUnreadedBits();
                     item.uL_TransportLayerAddress = input.readBitString(num + 1);
@@ -193,8 +193,8 @@ namespace TraceParser.S1ap
             {
                 E_RABFailedToSetupItemHOReqAck ack = new E_RABFailedToSetupItemHOReqAck();
                 ack.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 ack.e_RAB_ID = input.readBits(4);
                 ack.cause = Cause.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
@@ -250,8 +250,8 @@ namespace TraceParser.S1ap
                 int num4;
                 E_RABInformationListItem item = new E_RABInformationListItem();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                input.ReadBit();
                 item.e_RAB_ID = input.readBits(4);
                 if (stream.Read())
                 {
@@ -296,8 +296,8 @@ namespace TraceParser.S1ap
             {
                 E_RABItem item = new E_RABItem();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 item.e_RAB_ID = input.readBits(4);
                 item.cause = Cause.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
@@ -340,7 +340,7 @@ namespace TraceParser.S1ap
             {
                 E_RABLevelQoSParameters parameters = new E_RABLevelQoSParameters();
                 parameters.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 input.skipUnreadedBits();
                 parameters.qCI = input.readBits(8);
                 parameters.allocationRetentionPriority = AllocationAndRetentionPriority.PerDecoder.Instance.Decode(input);

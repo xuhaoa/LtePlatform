@@ -13,7 +13,7 @@ namespace TraceParser.X2ap
 
             public long Decode(BitArrayInputStream input)
             {
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 return input.readBits(0x10) + 1;
             }
@@ -41,7 +41,7 @@ namespace TraceParser.X2ap
             {
                 MeasurementFailureCause_Item item = new MeasurementFailureCause_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.measurementFailedReportCharacteristics = input.readBitString(0x20);
                 item.cause = Cause.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
@@ -97,7 +97,7 @@ namespace TraceParser.X2ap
                 int num4;
                 MeasurementInitiationResult_Item item = new MeasurementInitiationResult_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 item.cell_ID = ECGI.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -174,7 +174,7 @@ namespace TraceParser.X2ap
             {
                 MeasurementThresholdA2 da = new MeasurementThresholdA2();
                 da.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(1))
                 {
                     case 0:

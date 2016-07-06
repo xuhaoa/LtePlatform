@@ -21,7 +21,7 @@ namespace TraceParser.X2ap
             {
                 HandoverCancel cancel = new HandoverCancel();
                 cancel.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 cancel.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -53,7 +53,7 @@ namespace TraceParser.X2ap
             {
                 HandoverPreparationFailure failure = new HandoverPreparationFailure();
                 failure.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -85,7 +85,7 @@ namespace TraceParser.X2ap
             {
                 HandoverReport report = new HandoverReport();
                 report.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 report.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -117,7 +117,7 @@ namespace TraceParser.X2ap
             {
                 HandoverRequest request = new HandoverRequest();
                 request.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -149,7 +149,7 @@ namespace TraceParser.X2ap
             {
                 HandoverRequestAcknowledge acknowledge = new HandoverRequestAcknowledge();
                 acknowledge.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 acknowledge.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -192,7 +192,7 @@ namespace TraceParser.X2ap
                 int num4;
                 HandoverRestrictionList list = new HandoverRestrictionList();
                 list.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
                 input.skipUnreadedBits();
                 list.servingPLMN = input.readOctetString(3);
                 if (stream.Read())
@@ -231,7 +231,7 @@ namespace TraceParser.X2ap
                 }
                 if (stream.Read())
                 {
-                    num4 = (input.readBit() == 0) ? 3 : 3;
+                    num4 = (input.ReadBit() == 0) ? 3 : 3;
                     list.forbiddenInterRATs = (ForbiddenInterRATs)input.readBits(num4);
                 }
                 if (stream.Read())

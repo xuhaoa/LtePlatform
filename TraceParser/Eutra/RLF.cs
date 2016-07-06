@@ -276,7 +276,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream2;
                 RLF_Report_r9 _r = new RLF_Report_r9();
                 _r.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 _r.measResultLastServCell_r9 = measResultLastServCell_r9_Type.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
@@ -579,7 +579,7 @@ namespace TraceParser.Eutra
                 {
                     setup_Type type = new setup_Type();
                     type.InitDefaults();
-                    input.readBit();
+                    input.ReadBit();
                     int nBits = 3;
                     type.t301_r9 = (t301_r9_Enum)input.readBits(nBits);
                     nBits = 3;

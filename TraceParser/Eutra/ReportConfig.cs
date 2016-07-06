@@ -46,7 +46,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream;
                 ReportConfigEUTRA geutra = new ReportConfigEUTRA();
                 geutra.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 geutra.triggerType = triggerType_Type.PerDecoder.Instance.Decode(input);
                 int nBits = 1;
                 geutra.triggerQuantity = (triggerQuantity_Enum)input.readBits(nBits);
@@ -60,7 +60,7 @@ namespace TraceParser.Eutra
                 if (flag)
                 {
                     stream = new BitMaskStream(input, 8);
-                    bool flag2 = input.readBit() != 0;//verExt3Present
+                    bool flag2 = input.ReadBit() != 0;//verExt3Present
                     stream=new BitMaskStream(input, 6);
                     stream=new BitMaskStream(input, 2);
                     if (stream.Read())
@@ -89,7 +89,7 @@ namespace TraceParser.Eutra
                             geutra.reportAddNeighMeas_r10 = (reportAddNeighMeas_r10_Enum) input.readBits(nBits);
                         }
                         stream = new BitMaskStream(input, 4);
-                        bool flag3 = input.readBit() != 0; //verExt4Present
+                        bool flag3 = input.ReadBit() != 0; //verExt4Present
                         if (flag3)
                         {
                             stream = new BitMaskStream(input, 1);
@@ -248,7 +248,7 @@ namespace TraceParser.Eutra
                                 eventA3_Type type = new eventA3_Type();
                                 type.InitDefaults();
                                 type.a3_Offset = input.readBits(6) + -30;
-                                type.reportOnLeave = input.readBit() == 1;
+                                type.reportOnLeave = input.ReadBit() == 1;
                                 return type;
                             }
                         }
@@ -323,7 +323,7 @@ namespace TraceParser.Eutra
                                 eventA6_r10_Type type = new eventA6_r10_Type();
                                 type.InitDefaults();
                                 type.a6_Offset_r10 = input.readBits(6) + -30;
-                                type.a6_ReportOnLeave_r10 = input.readBit() == 1;
+                                type.a6_ReportOnLeave_r10 = input.ReadBit() == 1;
                                 return type;
                             }
                         }
@@ -337,7 +337,7 @@ namespace TraceParser.Eutra
                         {
                             eventId_Type type = new eventId_Type();
                             type.InitDefaults();
-                            bool flag = input.readBit() != 0;
+                            bool flag = input.ReadBit() != 0;
                             switch (input.readBits(3))
                             {
                                 case 0:
@@ -478,7 +478,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream;
                 ReportConfigInterRAT rrat = new ReportConfigInterRAT();
                 rrat.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 rrat.triggerType = triggerType_Type.PerDecoder.Instance.Decode(input);
                 rrat.maxReportCells = input.readBits(3) + 1;
                 int nBits = 4;
@@ -508,7 +508,7 @@ namespace TraceParser.Eutra
                     stream = new BitMaskStream(input, 1);
                     if (stream.Read())
                     {
-                        rrat.includeLocationInfo_r11 = input.readBit() == 1;
+                        rrat.includeLocationInfo_r11 = input.ReadBit() == 1;
                     }
                 }
                 return rrat;
@@ -709,7 +709,7 @@ namespace TraceParser.Eutra
                         {
                             eventId_Type type = new eventId_Type();
                             type.InitDefaults();
-                            input.readBit();
+                            input.ReadBit();
                             switch (input.readBits(1))
                             {
                                 case 0:

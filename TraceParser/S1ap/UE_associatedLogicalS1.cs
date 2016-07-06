@@ -26,7 +26,7 @@ namespace TraceParser.S1ap
                 int num4;
                 UE_associatedLogicalS1_ConnectionItem item = new UE_associatedLogicalS1_ConnectionItem();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
                     num4 = input.readBits(2) + 1;

@@ -81,7 +81,7 @@ namespace TraceParser.Eutra
             {
                 CandidateCellInfo_r10 _r = new CandidateCellInfo_r10();
                 _r.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 _r.physCellId_r10 = input.readBits(9);
                 _r.dl_CarrierFreq_r10 = input.readBits(0x10);

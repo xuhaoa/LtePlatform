@@ -79,7 +79,7 @@ namespace TraceParser.Eutra
             {
                 IDC_Config_r11 _r = new IDC_Config_r11();
                 _r.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
                     const int nBits = 1;
@@ -113,7 +113,7 @@ namespace TraceParser.Eutra
             {
                 IDC_SubframePattern_r11 _r = new IDC_SubframePattern_r11();
                 _r.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(1))
                 {
                     case 0:

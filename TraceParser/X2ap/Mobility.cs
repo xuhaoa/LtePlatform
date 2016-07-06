@@ -21,7 +21,7 @@ namespace TraceParser.X2ap
             {
                 MobilityChangeAcknowledge acknowledge = new MobilityChangeAcknowledge();
                 acknowledge.InitDefaults();
-               input.readBit();
+               input.ReadBit();
                 input.skipUnreadedBits();
                 acknowledge.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -53,7 +53,7 @@ namespace TraceParser.X2ap
             {
                 MobilityChangeFailure failure = new MobilityChangeFailure();
                 failure.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -85,7 +85,7 @@ namespace TraceParser.X2ap
             {
                 MobilityChangeRequest request = new MobilityChangeRequest();
                 request.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -131,7 +131,7 @@ namespace TraceParser.X2ap
             {
                 MobilityParametersInformation information = new MobilityParametersInformation();
                 information.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 information.handoverTriggerChange = input.readBits(6) + -20;
                 return information;
             }
@@ -157,7 +157,7 @@ namespace TraceParser.X2ap
             {
                 MobilityParametersModificationRange range = new MobilityParametersModificationRange();
                 range.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 range.handoverTriggerChangeLowerLimit = input.readBits(6) + -20;
                 range.handoverTriggerChangeUpperLimit = input.readBits(6) + -20;
                 return range;

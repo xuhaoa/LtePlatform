@@ -30,7 +30,7 @@ namespace TraceParser.S1ap
                 int num4;
                 CriticalityDiagnostics diagnostics = new CriticalityDiagnostics();
                 diagnostics.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
@@ -98,7 +98,7 @@ namespace TraceParser.S1ap
             {
                 CriticalityDiagnostics_IE_Item item = new CriticalityDiagnostics_IE_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 int nBits = 2;
                 item.iECriticality = (Criticality)input.readBits(nBits);
                 nBits = input.readBits(1) + 1;

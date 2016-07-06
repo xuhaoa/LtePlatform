@@ -25,7 +25,7 @@ namespace TraceParser.Eutra
             {
                 CSI_IM_Config_r11 _r = new CSI_IM_Config_r11();
                 _r.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 _r.csi_IM_ConfigId_r11 = input.readBits(2) + 1;
                 _r.resourceConfig_r11 = input.readBits(5);
                 _r.subframeConfig_r11 = input.readBits(8);
@@ -70,7 +70,7 @@ namespace TraceParser.Eutra
             {
                 CSI_Process_r11 _r = new CSI_Process_r11();
                 _r.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 3);
                 _r.csi_ProcessId_r11 = input.readBits(2) + 1;
                 _r.csi_RS_ConfigNZPId_r11 = input.readBits(2) + 1;
@@ -310,7 +310,7 @@ namespace TraceParser.Eutra
             {
                 CSI_RS_ConfigNZP_r11 _r = new CSI_RS_ConfigNZP_r11();
                 _r.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 _r.csi_RS_ConfigNZPId_r11 = input.readBits(2) + 1;
                 int nBits = 2;
                 _r.antennaPortsCount_r11 = (antennaPortsCount_r11_Enum)input.readBits(nBits);
@@ -452,7 +452,7 @@ namespace TraceParser.Eutra
             {
                 CSI_RS_ConfigZP_r11 _r = new CSI_RS_ConfigZP_r11();
                 _r.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 _r.csi_RS_ConfigZPId_r11 = input.readBits(2) + 1;
                 _r.resourceConfigList_r11 = input.readBitString(0x10);
                 _r.subframeConfig_r11 = input.readBits(8);

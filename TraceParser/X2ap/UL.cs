@@ -27,7 +27,7 @@ namespace TraceParser.X2ap
 
             public string Decode(BitArrayInputStream input)
             {
-                input.readBit();
+                input.ReadBit();
                 int num = input.readBits(7);
                 return input.readBitString(num + 1);
             }
@@ -69,9 +69,9 @@ namespace TraceParser.X2ap
             {
                 UL_HighInterferenceIndicationInfo_Item item = new UL_HighInterferenceIndicationInfo_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.target_Cell_ID = ECGI.PerDecoder.Instance.Decode(input);
-                input.readBit();
+                input.ReadBit();
                 int num = input.readBits(7);
                 input.skipUnreadedBits();
                 item.ul_interferenceindication = input.readBitString(num + 1);

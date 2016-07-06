@@ -22,7 +22,7 @@ namespace TraceParser.Eutra
             {
                 IntraFreqNeighCellInfo info = new IntraFreqNeighCellInfo();
                 info.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 info.physCellId = input.readBits(9);
                 const int nBits = 5;
                 info.q_OffsetCell = (Q_OffsetRange)input.readBits(nBits);

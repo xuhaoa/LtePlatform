@@ -23,7 +23,7 @@ namespace TraceParser.Eutra
             {
                 CarrierFreqCDMA2000 qcdma = new CarrierFreqCDMA2000();
                 qcdma.InitDefaults();
-                int nBits = (input.readBit() == 0) ? 5 : 5;
+                int nBits = (input.ReadBit() == 0) ? 5 : 5;
                 qcdma.bandClass = (BandclassCDMA2000)input.readBits(nBits);
                 qcdma.arfcn = input.readBits(11);
                 return qcdma;
@@ -321,7 +321,7 @@ namespace TraceParser.Eutra
             {
                 CarrierFreqsInfoGERAN ogeran = new CarrierFreqsInfoGERAN();
                 ogeran.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 ogeran.carrierFreqs = CarrierFreqsGERAN.PerDecoder.Instance.Decode(input);
                 ogeran.commonInfo = commonInfo_Type.PerDecoder.Instance.Decode(input);
                 return ogeran;
@@ -360,7 +360,7 @@ namespace TraceParser.Eutra
             {
                 CarrierFreqUTRA_FDD qutra_fdd = new CarrierFreqUTRA_FDD();
                 qutra_fdd.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 qutra_fdd.carrierFreq = input.readBits(14);
                 if (stream.Read())
@@ -438,7 +438,7 @@ namespace TraceParser.Eutra
             {
                 CarrierFreqUTRA_TDD qutra_tdd = new CarrierFreqUTRA_TDD();
                 qutra_tdd.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 qutra_tdd.carrierFreq = input.readBits(14);
                 if (stream.Read())
                 {

@@ -39,7 +39,7 @@ namespace TraceParser.X2ap
             {
                 UE_ContextInformation information = new UE_ContextInformation();
                 information.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 4) : new BitMaskStream(input, 4);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 4) : new BitMaskStream(input, 4);
                 int num4 = input.readBits(2) + 1;
                 input.skipUnreadedBits();
                 information.mME_UE_S1AP_ID = input.readBits(num4 * 8);
@@ -64,14 +64,14 @@ namespace TraceParser.X2ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_01B1;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -140,14 +140,14 @@ namespace TraceParser.X2ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -180,14 +180,14 @@ namespace TraceParser.X2ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0096;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -259,7 +259,7 @@ namespace TraceParser.X2ap
             {
                 UEAggregateMaximumBitRate rate = new UEAggregateMaximumBitRate();
                 rate.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 int nBits = input.readBits(3) + 1;
                 input.skipUnreadedBits();
                 rate.uEaggregateMaximumBitRateDownlink = input.readBits(nBits * 8);
@@ -300,7 +300,7 @@ namespace TraceParser.X2ap
             {
                 UEContextRelease release = new UEContextRelease();
                 release.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 release.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -336,10 +336,10 @@ namespace TraceParser.X2ap
             {
                 UESecurityCapabilities capabilities = new UESecurityCapabilities();
                 capabilities.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 capabilities.encryptionAlgorithms = input.readBitString(0x10);
-                input.readBit();
+                input.ReadBit();
                 capabilities.integrityProtectionAlgorithms = input.readBitString(0x10);
                 if (stream.Read())
                 {

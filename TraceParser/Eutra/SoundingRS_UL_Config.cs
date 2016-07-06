@@ -65,7 +65,7 @@ namespace TraceParser.Eutra
                     type.srs_BandwidthConfig = (srs_BandwidthConfig_Enum)input.readBits(nBits);
                     nBits = 4;
                     type.srs_SubframeConfig = (srs_SubframeConfig_Enum)input.readBits(nBits);
-                    type.ackNackSRS_SimultaneousTransmission = input.readBit() == 1;
+                    type.ackNackSRS_SimultaneousTransmission = input.ReadBit() == 1;
                     if (stream.Read())
                     {
                         nBits = 1;
@@ -193,7 +193,7 @@ namespace TraceParser.Eutra
                     nBits = 2;
                     type.srs_HoppingBandwidth = (srs_HoppingBandwidth_Enum)input.readBits(nBits);
                     type.freqDomainPosition = input.readBits(5);
-                    type.duration = input.readBit() == 1;
+                    type.duration = input.ReadBit() == 1;
                     type.srs_ConfigIndex = input.readBits(10);
                     type.transmissionComb = input.readBits(1);
                     nBits = 3;
@@ -369,7 +369,7 @@ namespace TraceParser.Eutra
                         {
                             setup_Type type = new setup_Type();
                             type.InitDefaults();
-                            input.readBit();
+                            input.ReadBit();
                             type.srs_ConfigApDCI_Format0_r10 = SRS_ConfigAp_r10.PerDecoder.Instance.Decode(input);
                             type.srs_ConfigApDCI_Format1a2b2c_r10 = SRS_ConfigAp_r10.PerDecoder.Instance.Decode(input);
                             return type;

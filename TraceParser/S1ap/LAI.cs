@@ -25,7 +25,7 @@ namespace TraceParser.S1ap
             {
                 var lai = new LAI();
                 lai.InitDefaults();
-                var stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                var stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 lai.pLMNidentity = input.readOctetString(3);
                 input.skipUnreadedBits();

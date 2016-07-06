@@ -42,7 +42,7 @@ namespace TraceParser.X2ap
 
             public long Decode(BitArrayInputStream input)
             {
-                input.readBit();
+                input.ReadBit();
                 return input.readBits(4);
             }
         }
@@ -73,7 +73,7 @@ namespace TraceParser.X2ap
 
             public long Decode(BitArrayInputStream input)
             {
-                input.readBit();
+                input.ReadBit();
                 int num2 = input.readBits(2) + 1;
                 input.skipUnreadedBits();
                 return input.readBits(num2 * 8) + 0x10000;
@@ -102,7 +102,7 @@ namespace TraceParser.X2ap
             {
                 ECGI ecgi = new ECGI();
                 ecgi.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 ecgi.pLMN_Identity = input.readOctetString(3);
                 ecgi.eUTRANcellIdentifier = input.readBitString(0x1c);
@@ -173,7 +173,7 @@ namespace TraceParser.X2ap
             {
                 GUMMEI gummei = new GUMMEI();
                 gummei.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 gummei.gU_Group_ID = GU_Group_ID.PerDecoder.Instance.Decode(input);
                 input.skipUnreadedBits();
                 gummei.mME_Code = input.readOctetString(1);
@@ -215,7 +215,7 @@ namespace TraceParser.X2ap
             {
                 GU_Group_ID p_id = new GU_Group_ID();
                 p_id.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 p_id.pLMN_Identity = input.readOctetString(3);
                 input.skipUnreadedBits();
@@ -292,7 +292,7 @@ namespace TraceParser.X2ap
 
             public long Decode(BitArrayInputStream input)
             {
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 return input.readBits(0x10);
             }

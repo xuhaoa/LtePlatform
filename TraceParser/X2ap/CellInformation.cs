@@ -23,7 +23,7 @@ namespace TraceParser.X2ap
             {
                 CellBasedMDT dmdt = new CellBasedMDT();
                 dmdt.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 dmdt.cellIdListforMDT = new List<ECGI>();
                 int nBits = 5;
                 int num5 = input.readBits(nBits) + 1;
@@ -58,7 +58,7 @@ namespace TraceParser.X2ap
 
             public long Decode(BitArrayInputStream input)
             {
-                input.readBit();
+                input.ReadBit();
                 return input.readBits(7) + 1;
             }
         }
@@ -104,7 +104,7 @@ namespace TraceParser.X2ap
                 int num4;
                 CellInformation_Item item = new CellInformation_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 4) : new BitMaskStream(input, 4);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 4) : new BitMaskStream(input, 4);
                 item.cell_ID = ECGI.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -113,7 +113,7 @@ namespace TraceParser.X2ap
                     int num5 = input.readBits(num4) + 1;
                     for (int i = 0; i < num5; i++)
                     {
-                        num4 = (input.readBit() == 0) ? 2 : 2;
+                        num4 = (input.ReadBit() == 0) ? 2 : 2;
                         UL_InterferenceOverloadIndication_Item item2 = (UL_InterferenceOverloadIndication_Item)input.readBits(num4);
                         item.ul_InterferenceOverloadIndication.Add(item2);
                     }
@@ -187,7 +187,7 @@ namespace TraceParser.X2ap
             {
                 AS_SecurityInformation information = new AS_SecurityInformation();
                 information.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 information.key_eNodeB_star = input.readBitString(0x100);
                 information.nextHopChainingCount = input.readBits(3);
@@ -229,7 +229,7 @@ namespace TraceParser.X2ap
             {
                 LocationReportingInformation information = new LocationReportingInformation();
                 information.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 int nBits = 1;
                 information.eventType = (EventType)input.readBits(nBits);
                 nBits = 1;

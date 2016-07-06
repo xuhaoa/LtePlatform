@@ -52,7 +52,7 @@ namespace TraceParser.Eutra
             {
                 RLC_Config config = new RLC_Config();
                 config.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(2))
                 {
                     case 0:

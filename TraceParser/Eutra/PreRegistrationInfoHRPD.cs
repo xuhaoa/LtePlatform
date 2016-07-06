@@ -26,7 +26,7 @@ namespace TraceParser.Eutra
                 PreRegistrationInfoHRPD ohrpd = new PreRegistrationInfoHRPD();
                 ohrpd.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 2);
-                ohrpd.preRegistrationAllowed = input.readBit() == 1;
+                ohrpd.preRegistrationAllowed = input.ReadBit() == 1;
                 if (stream.Read())
                 {
                     ohrpd.preRegistrationZoneId = input.readBits(8);

@@ -21,7 +21,7 @@ namespace TraceParser.Eutra
             {
                 InterFreqBandInfo info = new InterFreqBandInfo();
                 info.InitDefaults();
-                info.interFreqNeedForGaps = input.readBit() == 1;
+                info.interFreqNeedForGaps = input.ReadBit() == 1;
                 return info;
             }
         }
@@ -78,7 +78,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream3;
                 InterFreqCarrierFreqInfo info = new InterFreqCarrierFreqInfo();
                 info.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 BitMaskStream stream2 = new BitMaskStream(input, 5);
                 info.dl_CarrierFreq = input.readBits(0x10);
@@ -96,7 +96,7 @@ namespace TraceParser.Eutra
                 info.threshX_Low = input.readBits(5);
                 int nBits = 3;
                 info.allowedMeasBandwidth = (AllowedMeasBandwidth)input.readBits(nBits);
-                info.presenceAntennaPort1 = input.readBit() == 1;
+                info.presenceAntennaPort1 = input.ReadBit() == 1;
                 if (stream2.Read())
                 {
                     info.cellReselectionPriority = input.readBits(3);

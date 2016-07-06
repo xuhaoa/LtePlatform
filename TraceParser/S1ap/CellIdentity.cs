@@ -35,7 +35,7 @@ namespace TraceParser.S1ap
             {
                 CellTrafficTrace trace = new CellTrafficTrace();
                 trace.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 trace.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -69,8 +69,8 @@ namespace TraceParser.S1ap
             {
                 CellType type = new CellType();
                 type.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                int nBits = (input.readBit() == 0) ? 2 : 2;
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                int nBits = (input.ReadBit() == 0) ? 2 : 2;
                 type.cell_Size = (Cell_Size)input.readBits(nBits);
                 if (stream.Read())
                 {
@@ -114,7 +114,7 @@ namespace TraceParser.S1ap
             {
                 CGI cgi = new CGI();
                 cgi.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 input.skipUnreadedBits();
                 cgi.pLMNidentity = input.readOctetString(3);
                 input.skipUnreadedBits();
@@ -179,7 +179,7 @@ namespace TraceParser.S1ap
             {
                 EUTRAN_CGI eutran_cgi = new EUTRAN_CGI();
                 eutran_cgi.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 eutran_cgi.pLMNidentity = input.readOctetString(3);
                 eutran_cgi.cell_ID = input.readBitString(0x1c);

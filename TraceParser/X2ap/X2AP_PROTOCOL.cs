@@ -119,7 +119,7 @@ namespace TraceParser.X2ap
         {
             public static Number_of_Antennaports Extension(BitArrayInputStream input)
             {
-                int nBits = (input.readBit() == 0) ? 2 : 2;
+                int nBits = (input.ReadBit() == 0) ? 2 : 2;
                 return (Number_of_Antennaports)input.readBits(nBits);
             }
 
@@ -1103,7 +1103,7 @@ namespace TraceParser.X2ap
 
             public static ReportingPeriodicity Value(BitArrayInputStream input)
             {
-                int nBits = (input.readBit() == 0) ? 2 : 2;
+                int nBits = (input.ReadBit() == 0) ? 2 : 2;
                 return (ReportingPeriodicity)input.readBits(nBits);
             }
         }
@@ -1348,7 +1348,7 @@ namespace TraceParser.X2ap
 
             public static TimeToWait Value(BitArrayInputStream input)
             {
-                int nBits = (input.readBit() == 0) ? 3 : 3;
+                int nBits = (input.ReadBit() == 0) ? 3 : 3;
                 return (TimeToWait)input.readBits(nBits);
             }
         }

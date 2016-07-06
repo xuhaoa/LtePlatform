@@ -152,7 +152,7 @@ namespace TraceParser.Eutra
                 int num3 = input.readBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
-                    nBits = (input.readBit() == 0) ? 3 : 3;
+                    nBits = (input.ReadBit() == 0) ? 3 : 3;
                     RAT_Type item = (RAT_Type)input.readBits(nBits);
                     es.ue_CapabilityRequest.Add(item);
                 }

@@ -155,7 +155,7 @@ namespace TraceParser.Eutra
                 {
                     measResult_Type type = new measResult_Type();
                     type.InitDefaults();
-                    BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                    BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                     if (stream.Read())
                     {
                         type.pilotPnPhase = input.readBits(15);
@@ -263,7 +263,7 @@ namespace TraceParser.Eutra
                     BitMaskStream stream2;
                     measResult_Type type = new measResult_Type();
                     type.InitDefaults();
-                    bool flag = input.readBit() != 0;
+                    bool flag = input.ReadBit() != 0;
                     BitMaskStream stream = new BitMaskStream(input, 2);
                     if (stream.Read())
                     {
@@ -408,7 +408,7 @@ namespace TraceParser.Eutra
                 {
                     measResult_Type type = new measResult_Type();
                     type.InitDefaults();
-                    input.readBit();
+                    input.ReadBit();
                     type.rssi = input.readBits(6);
                     return type;
                 }
@@ -479,7 +479,7 @@ namespace TraceParser.Eutra
                     int num2;
                     measResultNeighCells_Type type = new measResultNeighCells_Type();
                     type.InitDefaults();
-                    input.readBit();
+                    input.ReadBit();
                     switch (input.readBits(2))
                     {
                         case 0:
@@ -562,7 +562,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream2;
                 MeasResults results = new MeasResults();
                 results.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 results.measId = input.readBits(5) + 1;
                 results.measResultPCell = measResultPCell_Type.PerDecoder.Instance.Decode(input);
@@ -622,7 +622,7 @@ namespace TraceParser.Eutra
             {
                 MeasResultsCDMA2000 scdma = new MeasResultsCDMA2000();
                 scdma.InitDefaults();
-                scdma.preRegistrationStatusHRPD = input.readBit() == 1;
+                scdma.preRegistrationStatusHRPD = input.ReadBit() == 1;
                 scdma.measResultListCDMA2000 = new List<MeasResultCDMA2000>();
                 int nBits = 3;
                 int num3 = input.readBits(nBits) + 1;
@@ -712,7 +712,7 @@ namespace TraceParser.Eutra
             {
                 MeasResultServFreq_r10 _r = new MeasResultServFreq_r10();
                 _r.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 _r.servFreqId_r10 = input.readBits(3);
                 if (stream.Read())
                 {
@@ -813,7 +813,7 @@ namespace TraceParser.Eutra
                     BitMaskStream stream2;
                     measResult_Type type = new measResult_Type();
                     type.InitDefaults();
-                    bool flag = input.readBit() != 0;
+                    bool flag = input.ReadBit() != 0;
                     BitMaskStream stream = new BitMaskStream(input, 2);
                     if (stream.Read())
                     {

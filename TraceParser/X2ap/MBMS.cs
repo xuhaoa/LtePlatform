@@ -56,10 +56,10 @@ namespace TraceParser.X2ap
             {
                 MBSFN_Subframe_Info info = new MBSFN_Subframe_Info();
                 info.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                int nBits = (input.readBit() == 0) ? 3 : 3;
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                int nBits = (input.ReadBit() == 0) ? 3 : 3;
                 info.radioframeAllocationPeriod = (RadioframeAllocationPeriod)input.readBits(nBits);
-                input.readBit();
+                input.ReadBit();
                 info.radioframeAllocationOffset = input.readBits(3);
                 info.subframeAllocation = SubframeAllocation.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
@@ -112,7 +112,7 @@ namespace TraceParser.X2ap
             {
                 SubframeAllocation allocation = new SubframeAllocation();
                 allocation.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(1))
                 {
                     case 0:

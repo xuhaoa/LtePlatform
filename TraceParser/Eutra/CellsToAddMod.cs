@@ -214,7 +214,7 @@ namespace TraceParser.Eutra
             {
                 SCellToAddMod_r10 _r = new SCellToAddMod_r10();
                 _r.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 3);
                 _r.sCellIndex_r10 = input.readBits(3) + 1;
                 if (stream.Read())

@@ -21,7 +21,7 @@ namespace TraceParser.S1ap
             {
                 LocationReport report = new LocationReport();
                 report.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 report.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -53,7 +53,7 @@ namespace TraceParser.S1ap
             {
                 LocationReportingControl control = new LocationReportingControl();
                 control.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 control.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -85,7 +85,7 @@ namespace TraceParser.S1ap
             {
                 LocationReportingFailureIndication indication = new LocationReportingFailureIndication();
                 indication.InitDefaults();
-               input.readBit();
+               input.ReadBit();
                 input.skipUnreadedBits();
                 indication.protocolIEs = new List<ProtocolIE_Field>();
                 int nBits = 0x10;

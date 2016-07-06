@@ -25,7 +25,7 @@ namespace TraceParser.Eutra
             {
                 var _r = new SystemInformationBlockType13_r9();
                 _r.InitDefaults();
-                var stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                var stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 _r.mbsfn_AreaInfoList_r9 = new List<MBSFN_AreaInfo_r9>();
                 const int num2 = 3;
                 var num3 = input.readBits(num2) + 1;

@@ -28,7 +28,7 @@ namespace TraceParser.Eutra
             {
                 QuantityConfig config = new QuantityConfig();
                 config.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 4);
                 if (stream.Read())
                 {
@@ -114,12 +114,12 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    num2 = (input.readBit() == 0) ? 4 : 4;
+                    num2 = (input.ReadBit() == 0) ? 4 : 4;
                     geutra.filterCoefficientRSRP = (FilterCoefficient)input.readBits(num2);
                 }
                 if (stream.Read())
                 {
-                    num2 = (input.readBit() == 0) ? 4 : 4;
+                    num2 = (input.ReadBit() == 0) ? 4 : 4;
                     geutra.filterCoefficientRSRQ = (FilterCoefficient)input.readBits(num2);
                 }
                 return geutra;
@@ -157,7 +157,7 @@ namespace TraceParser.Eutra
                 ggeran.measQuantityGERAN = (measQuantityGERAN_Enum)input.readBits(nBits);
                 if (stream.Read())
                 {
-                    nBits = (input.readBit() == 0) ? 4 : 4;
+                    nBits = (input.ReadBit() == 0) ? 4 : 4;
                     ggeran.filterCoefficient = (FilterCoefficient)input.readBits(nBits);
                 }
                 return ggeran;
@@ -205,7 +205,7 @@ namespace TraceParser.Eutra
                 gutra.measQuantityUTRA_TDD = (measQuantityUTRA_TDD_Enum)input.readBits(nBits);
                 if (stream.Read())
                 {
-                    nBits = (input.readBit() == 0) ? 4 : 4;
+                    nBits = (input.ReadBit() == 0) ? 4 : 4;
                     gutra.filterCoefficient = (FilterCoefficient)input.readBits(nBits);
                 }
                 return gutra;
@@ -234,7 +234,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    int nBits = (input.readBit() == 0) ? 4 : 4;
+                    int nBits = (input.ReadBit() == 0) ? 4 : 4;
                     _v.filterCoefficient2_FDD_r10 = (FilterCoefficient)input.readBits(nBits);
                 }
                 return _v;

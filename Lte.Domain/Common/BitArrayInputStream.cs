@@ -7,22 +7,28 @@ using System.Threading.Tasks;
 
 namespace Lte.Domain.Common
 {
-    public sealed class BitArrayInputStream : Stream
+    public interface IBitArrayReader
     {
-        public long bitPosition;
-        private Stream byteStream;
-        public int currentBit;
-        public int currentByte;
-        private StringBuilder haveReadBin = new StringBuilder();
-        private byte[] streamArray;
+        int ReadBit();
+    }
+
+    public sealed class BitArrayInputStream : Stream, IBitArrayReader
+    {
+        public long BitPosition { get; set; }
+
+        private readonly Stream _byteStream;
+        private int _currentBit;
+        private int _currentByte;
+        private readonly StringBuilder _haveReadBin = new StringBuilder();
+        private readonly byte[] _streamArray;
 
         public BitArrayInputStream(Stream byteStream)
         {
-            streamArray = new byte[byteStream.Length];
-            byteStream.Read(streamArray, 0, streamArray.Length);
+            _streamArray = new byte[byteStream.Length];
+            byteStream.Read(_streamArray, 0, _streamArray.Length);
             byteStream.Position = 0L;
-            bitPosition = 0L;
-            this.byteStream = byteStream;
+            BitPosition = 0L;
+            _byteStream = byteStream;
         }
 
         private string DecimalToBinary(int decimalNum)
@@ -42,12 +48,12 @@ namespace Lte.Domain.Common
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if (currentBit == 0)
+            if (_currentBit == 0)
             {
-                return byteStream.Read(buffer, offset, count);
+                return _byteStream.Read(buffer, offset, count);
             }
             int index = 0;
-            while (((index < buffer.Length) && (index < byteStream.Length)) && (index < count))
+            while (((index < buffer.Length) && (index < _byteStream.Length)) && (index < count))
             {
                 buffer[index] = (byte)ReadByte();
                 index++;
@@ -55,23 +61,23 @@ namespace Lte.Domain.Common
             return index;
         }
 
-        public int readBit()
+        public int ReadBit()
         {
-            if (bitPosition >= bitLength)
+            if (BitPosition >= bitLength)
             {
                 throw new Exception("越界");
             }
-            if (currentBit == 0)
+            if (_currentBit == 0)
             {
-                currentByte = byteStream.ReadByte();
+                _currentByte = _byteStream.ReadByte();
             }
-            currentBit++;
-            int num = (currentByte >> (8 - currentBit)) & 1;
-            if (currentBit > 7)
+            _currentBit++;
+            int num = (_currentByte >> (8 - _currentBit)) & 1;
+            if (_currentBit > 7)
             {
-                currentBit = 0;
+                _currentBit = 0;
             }
-            bitPosition += 1L;
+            BitPosition += 1L;
             return num;
         }
 
@@ -80,7 +86,7 @@ namespace Lte.Domain.Common
             int num = 0;
             for (int i = 0; (i < nBits) && (i <= 0x20); i++)
             {
-                num = (num << 1) | readBit();
+                num = (num << 1) | ReadBit();
             }
             return num;
         }
@@ -101,20 +107,20 @@ namespace Lte.Domain.Common
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < nBits; i++)
             {
-                builder.Append(readBit());
+                builder.Append(ReadBit());
             }
             return (builder + "'B");
         }
 
         public override int ReadByte()
         {
-            if (currentBit == 0)
+            if (_currentBit == 0)
             {
-                return byteStream.ReadByte();
+                return _byteStream.ReadByte();
             }
-            int num = byteStream.ReadByte();
-            int num2 = ((currentByte << currentBit) | (num >> (8 - currentBit))) & 0xff;
-            currentByte = num;
+            int num = _byteStream.ReadByte();
+            int num2 = ((_currentByte << _currentBit) | (num >> (8 - _currentBit))) & 0xff;
+            _currentByte = num;
             return num2;
         }
 
@@ -140,10 +146,10 @@ namespace Lte.Domain.Common
 
         public void Reverse()
         {
-            byteStream.Position = 0L;
-            bitPosition = 0L;
-            currentBit = 0;
-            currentByte = 0;
+            _byteStream.Position = 0L;
+            BitPosition = 0L;
+            _currentBit = 0;
+            _currentByte = 0;
         }
 
         public override long Seek(long offset, SeekOrigin origin)
@@ -157,7 +163,7 @@ namespace Lte.Domain.Common
 
         public void skipUnreadedBits()
         {
-            currentBit = 0;
+            _currentBit = 0;
         }
 
         public override void Write(byte[] buffer, int offset, int count)
@@ -168,7 +174,7 @@ namespace Lte.Domain.Common
         {
             get
             {
-                return byteStream;
+                return _byteStream;
             }
         }
 
@@ -177,9 +183,9 @@ namespace Lte.Domain.Common
             get
             {
                 StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < streamArray.Length; i++)
+                for (int i = 0; i < _streamArray.Length; i++)
                 {
-                    byte decimalNum = streamArray[i];
+                    byte decimalNum = _streamArray[i];
                     string str = string.Format("{0}[{1}]:{2}", i, decimalNum.ToString("X2"), DecimalToBinary(decimalNum));
                     builder.AppendLine(str);
                 }
@@ -191,7 +197,7 @@ namespace Lte.Domain.Common
         {
             get
             {
-                return (byteStream.Length * 8L);
+                return (_byteStream.Length * 8L);
             }
         }
 
@@ -199,7 +205,7 @@ namespace Lte.Domain.Common
         {
             get
             {
-                return (bitPosition < bitLength);
+                return (BitPosition < bitLength);
             }
         }
 
@@ -223,7 +229,7 @@ namespace Lte.Domain.Common
         {
             get
             {
-                return haveReadBin.ToString();
+                return _haveReadBin.ToString();
             }
         }
 
@@ -232,7 +238,7 @@ namespace Lte.Domain.Common
             get
             {
                 StringBuilder builder = new StringBuilder();
-                foreach (byte num in streamArray)
+                foreach (byte num in _streamArray)
                 {
                     builder.Append(num.ToString("X2"));
                 }
@@ -244,7 +250,7 @@ namespace Lte.Domain.Common
         {
             get
             {
-                return byteStream.Length;
+                return _byteStream.Length;
             }
         }
 
@@ -252,11 +258,11 @@ namespace Lte.Domain.Common
         {
             get
             {
-                return byteStream.Position;
+                return _byteStream.Position;
             }
             set
             {
-                byteStream.Position = value;
+                _byteStream.Position = value;
             }
         }
     }

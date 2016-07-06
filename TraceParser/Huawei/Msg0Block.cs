@@ -26,7 +26,7 @@ namespace TraceParser.Huawei
                 try
                 {
                     body_object = CommonTraceParser.DecodeMsg(stream, AsnParseClass);
-                    if (((stream.bitLength - stream.bitPosition) > 8L) && (AsnParseClass != null))
+                    if (((stream.bitLength - stream.BitPosition) > 8L) && (AsnParseClass != null))
                     {
                         _HasError = true;
                     }
@@ -37,7 +37,7 @@ namespace TraceParser.Huawei
                 }
                 catch (Exception)
                 {
-                    stream.bitPosition = 0L;
+                    stream.BitPosition = 0L;
                 }
             }
         }

@@ -227,7 +227,7 @@ namespace TraceParser.Eutra
             {
                 PagingRecord record = new PagingRecord();
                 record.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 record.ue_Identity = PagingUE_Identity.PerDecoder.Instance.Decode(input);
                 const int nBits = 1;
                 record.cn_Domain = (cn_Domain_Enum)input.readBits(nBits);
@@ -255,7 +255,7 @@ namespace TraceParser.Eutra
             {
                 PagingUE_Identity identity = new PagingUE_Identity();
                 identity.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(1))
                 {
                     case 0:

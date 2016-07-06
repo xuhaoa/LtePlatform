@@ -23,7 +23,7 @@ namespace TraceParser.Eutra
             {
                 MeasSubframePattern_r10 _r = new MeasSubframePattern_r10();
                 _r.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(1))
                 {
                     case 0:
@@ -59,7 +59,7 @@ namespace TraceParser.Eutra
                 {
                     subframePatternTDD_r10_Type type = new subframePatternTDD_r10_Type();
                     type.InitDefaults();
-                    input.readBit();
+                    input.ReadBit();
                     switch (input.readBits(2))
                     {
                         case 0:

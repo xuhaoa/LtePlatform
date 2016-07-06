@@ -75,7 +75,7 @@ namespace TraceParser.Eutra
                     }
                     if (stream.Read())
                     {
-                        type.csfb_SupportForDualRxUEs_r11 = input.readBit() == 1;
+                        type.csfb_SupportForDualRxUEs_r11 = input.ReadBit() == 1;
                     }
                     if (stream.Read())
                     {
@@ -125,7 +125,7 @@ namespace TraceParser.Eutra
             {
                 var _r = new ParametersCDMA2000_r11();
                 InitDefaults();
-                var stream = (input.readBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
+                var stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
                     _r.systemTimeInfo_r11 = systemTimeInfo_r11_Type.PerDecoder.Instance.Decode(input);

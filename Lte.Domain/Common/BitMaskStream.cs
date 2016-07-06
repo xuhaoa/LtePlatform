@@ -15,7 +15,7 @@ namespace Lte.Domain.Common
             _list = new Queue<bool>(count);
             for (int i = 0; i < count; i++)
             {
-                _list.Enqueue(input.readBit() != 0);
+                _list.Enqueue(input.ReadBit() != 0);
             }
         }
 

@@ -21,7 +21,7 @@ namespace TraceParser.X2ap
             {
                 CellActivationFailure failure = new CellActivationFailure();
                 failure.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -69,7 +69,7 @@ namespace TraceParser.X2ap
             {
                 ActivatedCellList_Item item = new ActivatedCellList_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.ecgi = ECGI.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -105,7 +105,7 @@ namespace TraceParser.X2ap
             {
                 CellActivationRequest request = new CellActivationRequest();
                 request.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -137,7 +137,7 @@ namespace TraceParser.X2ap
             {
                 CellActivationResponse response = new CellActivationResponse();
                 response.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 response.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

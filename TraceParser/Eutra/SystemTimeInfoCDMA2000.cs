@@ -56,7 +56,7 @@ namespace TraceParser.Eutra
             {
                 var ocdma = new SystemTimeInfoCDMA2000();
                 ocdma.InitDefaults();
-                ocdma.cdma_EUTRA_Synchronisation = input.readBit() == 1;
+                ocdma.cdma_EUTRA_Synchronisation = input.ReadBit() == 1;
                 ocdma.cdma_SystemTime = cdma_SystemTime_Type.PerDecoder.Instance.Decode(input);
                 return ocdma;
             }

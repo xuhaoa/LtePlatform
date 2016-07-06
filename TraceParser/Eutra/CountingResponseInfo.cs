@@ -20,7 +20,7 @@ namespace TraceParser.Eutra
             {
                 CountingResponseInfo_r10 _r = new CountingResponseInfo_r10();
                 _r.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 _r.countingResponseService_r10 = input.readBits(4);
                 return _r;
             }

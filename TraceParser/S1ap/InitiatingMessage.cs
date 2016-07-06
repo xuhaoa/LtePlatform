@@ -33,14 +33,14 @@ namespace TraceParser.S1ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_00CF;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -93,7 +93,7 @@ namespace TraceParser.S1ap
             {
                 InitialUEMessage message = new InitialUEMessage();
                 message.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 message.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

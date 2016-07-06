@@ -57,7 +57,7 @@ namespace TraceParser.Eutra
                 PRACH_ConfigInfo info = new PRACH_ConfigInfo();
                 info.InitDefaults();
                 info.prach_ConfigIndex = input.readBits(6);
-                info.highSpeedFlag = input.readBit() == 1;
+                info.highSpeedFlag = input.ReadBit() == 1;
                 info.zeroCorrelationZoneConfig = input.readBits(4);
                 info.prach_FreqOffset = input.readBits(7);
                 return info;

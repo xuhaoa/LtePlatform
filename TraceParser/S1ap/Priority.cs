@@ -41,7 +41,7 @@ namespace TraceParser.S1ap
             {
                 AllocationAndRetentionPriority priority = new AllocationAndRetentionPriority();
                 priority.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 priority.priorityLevel = input.readBits(4);
                 int nBits = 1;
                 priority.pre_emptionCapability = (Pre_emptionCapability)input.readBits(nBits);

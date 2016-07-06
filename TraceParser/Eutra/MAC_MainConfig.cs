@@ -103,7 +103,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream2;
                 MAC_MainConfig config = new MAC_MainConfig();
                 config.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
@@ -323,7 +323,7 @@ namespace TraceParser.Eutra
                     }
                     num2 = 3;
                     type.retxBSR_Timer = (retxBSR_Timer_Enum)input.readBits(num2);
-                    type.ttiBundling = input.readBit() == 1;
+                    type.ttiBundling = input.ReadBit() == 1;
                     return type;
                 }
             }
@@ -379,7 +379,7 @@ namespace TraceParser.Eutra
             {
                 MAC_MainConfigSCell_r11 _r = new MAC_MainConfigSCell_r11();
                 _r.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
                     _r.stag_Id_r11 = input.readBits(2) + 1;

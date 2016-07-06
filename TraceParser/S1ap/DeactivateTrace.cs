@@ -21,7 +21,7 @@ namespace TraceParser.S1ap
             {
                 DeactivateTrace trace = new DeactivateTrace();
                 trace.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 trace.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

@@ -276,7 +276,7 @@ namespace TraceParser.Eutra
             {
                 PDSCH_RE_MappingQCL_Config_r11 _r = new PDSCH_RE_MappingQCL_Config_r11();
                 _r.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 _r.pdsch_RE_MappingQCL_ConfigId_r11 = input.readBits(2) + 1;
                 if (stream.Read())
                 {

@@ -30,7 +30,7 @@ namespace TraceParser.Eutra
                 int num3 = input.readBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
-                    nBits = (input.readBit() == 0) ? 5 : 5;
+                    nBits = (input.ReadBit() == 0) ? 5 : 5;
                     BandclassCDMA2000 item = (BandclassCDMA2000)input.readBits(nBits);
                     scdma_xrtt.supportedBandList1XRTT.Add(item);
                 }
@@ -152,7 +152,7 @@ namespace TraceParser.Eutra
                 int num3 = input.readBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
-                    nBits = (input.readBit() == 0) ? 5 : 5;
+                    nBits = (input.ReadBit() == 0) ? 5 : 5;
                     BandclassCDMA2000 item = (BandclassCDMA2000)input.readBits(nBits);
                     scdma_hrpd.supportedBandListHRPD.Add(item);
                 }
@@ -234,11 +234,11 @@ namespace TraceParser.Eutra
                 int num3 = input.readBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
-                    nBits = (input.readBit() == 0) ? 4 : 4;
+                    nBits = (input.ReadBit() == 0) ? 4 : 4;
                     SupportedBandGERAN item = (SupportedBandGERAN)input.readBits(nBits);
                     sgeran.supportedBandListGERAN.Add(item);
                 }
-                sgeran.interRAT_PS_HO_ToGERAN = input.readBit() == 1;
+                sgeran.interRAT_PS_HO_ToGERAN = input.ReadBit() == 1;
                 return sgeran;
             }
         }
@@ -312,7 +312,7 @@ namespace TraceParser.Eutra
                 int num3 = input.readBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
-                    nBits = (input.readBit() == 0) ? 4 : 5;
+                    nBits = (input.ReadBit() == 0) ? 4 : 5;
                     SupportedBandUTRA_FDD item = (SupportedBandUTRA_FDD)input.readBits(nBits);
                     sutra_fdd.supportedBandListUTRA_FDD.Add(item);
                 }
@@ -372,7 +372,7 @@ namespace TraceParser.Eutra
                 int num3 = input.readBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
-                    nBits = (input.readBit() == 0) ? 4 : 4;
+                    nBits = (input.ReadBit() == 0) ? 4 : 4;
                     SupportedBandUTRA_TDD128 item = (SupportedBandUTRA_TDD128)input.readBits(nBits);
                     sutra_tdd.supportedBandListUTRA_TDD128.Add(item);
                 }
@@ -403,7 +403,7 @@ namespace TraceParser.Eutra
                 int num3 = input.readBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
-                    nBits = (input.readBit() == 0) ? 4 : 4;
+                    nBits = (input.ReadBit() == 0) ? 4 : 4;
                     SupportedBandUTRA_TDD384 item = (SupportedBandUTRA_TDD384)input.readBits(nBits);
                     sutra_tdd.supportedBandListUTRA_TDD384.Add(item);
                 }
@@ -434,7 +434,7 @@ namespace TraceParser.Eutra
                 int num3 = input.readBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
-                    nBits = (input.readBit() == 0) ? 4 : 4;
+                    nBits = (input.ReadBit() == 0) ? 4 : 4;
                     SupportedBandUTRA_TDD768 item = (SupportedBandUTRA_TDD768)input.readBits(nBits);
                     sutra_tdd.supportedBandListUTRA_TDD768.Add(item);
                 }

@@ -275,7 +275,7 @@ namespace TraceParser.Eutra
             {
                 TDM_AssistanceInfo_r11 _r = new TDM_AssistanceInfo_r11();
                 _r.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(1))
                 {
                     case 0:

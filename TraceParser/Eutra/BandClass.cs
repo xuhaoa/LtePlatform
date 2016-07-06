@@ -26,8 +26,8 @@ namespace TraceParser.Eutra
             {
                 BandClassInfoCDMA2000 ocdma = new BandClassInfoCDMA2000();
                 ocdma.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                int nBits = (input.readBit() == 0) ? 5 : 5;
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                int nBits = (input.ReadBit() == 0) ? 5 : 5;
                 ocdma.bandClass = (BandclassCDMA2000)input.readBits(nBits);
                 if (stream.Read())
                 {
@@ -59,7 +59,7 @@ namespace TraceParser.Eutra
             {
                 BandClassPriority1XRTT priorityxrtt = new BandClassPriority1XRTT();
                 priorityxrtt.InitDefaults();
-                int nBits = (input.readBit() == 0) ? 5 : 5;
+                int nBits = (input.ReadBit() == 0) ? 5 : 5;
                 priorityxrtt.bandClass = (BandclassCDMA2000)input.readBits(nBits);
                 priorityxrtt.cellReselectionPriority = input.readBits(3);
                 return priorityxrtt;
@@ -86,7 +86,7 @@ namespace TraceParser.Eutra
             {
                 BandClassPriorityHRPD yhrpd = new BandClassPriorityHRPD();
                 yhrpd.InitDefaults();
-                int nBits = (input.readBit() == 0) ? 5 : 5;
+                int nBits = (input.ReadBit() == 0) ? 5 : 5;
                 yhrpd.bandClass = (BandclassCDMA2000)input.readBits(nBits);
                 yhrpd.cellReselectionPriority = input.readBits(3);
                 return yhrpd;
@@ -114,7 +114,7 @@ namespace TraceParser.Eutra
                 SupportedBandEUTRA deutra = new SupportedBandEUTRA();
                 deutra.InitDefaults();
                 deutra.bandEUTRA = input.readBits(6) + 1;
-                deutra.halfDuplex = input.readBit() == 1;
+                deutra.halfDuplex = input.ReadBit() == 1;
                 return deutra;
             }
         }

@@ -23,7 +23,7 @@ namespace TraceParser.Eutra
                 CA_MIMO_ParametersDL_r10 _r = new CA_MIMO_ParametersDL_r10();
                 _r.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                int nBits = (input.readBit() == 0) ? 3 : 3;
+                int nBits = (input.ReadBit() == 0) ? 3 : 3;
                 _r.ca_BandwidthClassDL_r10 = (CA_BandwidthClass_r10)input.readBits(nBits);
                 if (stream.Read())
                 {
@@ -55,7 +55,7 @@ namespace TraceParser.Eutra
                 CA_MIMO_ParametersUL_r10 _r = new CA_MIMO_ParametersUL_r10();
                 _r.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                int nBits = (input.readBit() == 0) ? 3 : 3;
+                int nBits = (input.ReadBit() == 0) ? 3 : 3;
                 _r.ca_BandwidthClassUL_r10 = (CA_BandwidthClass_r10)input.readBits(nBits);
                 if (stream.Read())
                 {

@@ -308,7 +308,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = (input.readBit() == 0) ? 3 : 3;
+                    int nBits = (input.ReadBit() == 0) ? 3 : 3;
                     es.ue_ConfigRelease_r9 = (ue_ConfigRelease_r9_Enum)input.readBits(nBits);
                 }
                 if (stream.Read())

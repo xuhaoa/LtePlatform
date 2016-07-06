@@ -21,7 +21,7 @@ namespace TraceParser.S1ap
             {
                 UEContextModificationFailure failure = new UEContextModificationFailure();
                 failure.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -53,7 +53,7 @@ namespace TraceParser.S1ap
             {
                 UEContextModificationRequest request = new UEContextModificationRequest();
                 request.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -85,7 +85,7 @@ namespace TraceParser.S1ap
             {
                 UEContextModificationResponse response = new UEContextModificationResponse();
                 response.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 response.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -117,7 +117,7 @@ namespace TraceParser.S1ap
             {
                 UEContextReleaseCommand command = new UEContextReleaseCommand();
                 command.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 command.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -149,7 +149,7 @@ namespace TraceParser.S1ap
             {
                 UEContextReleaseComplete complete = new UEContextReleaseComplete();
                 complete.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 complete.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -181,7 +181,7 @@ namespace TraceParser.S1ap
             {
                 UEContextReleaseRequest request = new UEContextReleaseRequest();
                 request.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

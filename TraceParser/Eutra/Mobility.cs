@@ -45,7 +45,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream2;
                 MobilityControlInfo info = new MobilityControlInfo();
                 info.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 4);
                 info.targetPhysCellId = input.readBits(9);
                 if (stream.Read())
@@ -132,7 +132,7 @@ namespace TraceParser.Eutra
                 int num2;
                 IdleModeMobilityControlInfo info = new IdleModeMobilityControlInfo();
                 info.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 7) : new BitMaskStream(input, 7);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 7) : new BitMaskStream(input, 7);
                 if (stream.Read())
                 {
                     info.freqPriorityListEUTRA = new List<FreqPriorityEUTRA>();
@@ -397,7 +397,7 @@ namespace TraceParser.Eutra
                 MobilityFromEUTRACommand_r8_IEs es = new MobilityFromEUTRACommand_r8_IEs();
                 es.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                es.cs_FallbackIndicator = input.readBit() == 1;
+                es.cs_FallbackIndicator = input.ReadBit() == 1;
                 es.purpose = purpose_Type.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -464,7 +464,7 @@ namespace TraceParser.Eutra
                 MobilityFromEUTRACommand_r9_IEs es = new MobilityFromEUTRACommand_r9_IEs();
                 es.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                es.cs_FallbackIndicator = input.readBit() == 1;
+                es.cs_FallbackIndicator = input.ReadBit() == 1;
                 es.purpose = purpose_Type.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -495,7 +495,7 @@ namespace TraceParser.Eutra
                 {
                     purpose_Type type = new purpose_Type();
                     type.InitDefaults();
-                    input.readBit();
+                    input.ReadBit();
                     switch (input.readBits(2))
                     {
                         case 0:

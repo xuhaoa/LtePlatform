@@ -22,7 +22,7 @@ namespace TraceParser.Eutra
             {
                 var _r = new SystemInformationBlockType16_r11();
                 _r.InitDefaults();
-                var stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                var stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
                     _r.timeInfo_r11 = timeInfo_r11_Type.PerDecoder.Instance.Decode(input);

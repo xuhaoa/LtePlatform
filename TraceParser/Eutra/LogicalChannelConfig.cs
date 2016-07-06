@@ -27,7 +27,7 @@ namespace TraceParser.Eutra
             {
                 LogicalChannelConfig config = new LogicalChannelConfig();
                 config.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {

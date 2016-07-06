@@ -100,7 +100,7 @@ namespace TraceParser.Eutra
                 UE_EUTRA_Capability capability = new UE_EUTRA_Capability();
                 capability.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 2);
-                int nBits = (input.readBit() == 0) ? 3 : 3;
+                int nBits = (input.ReadBit() == 0) ? 3 : 3;
                 capability.accessStratumRelease = (AccessStratumRelease)input.readBits(nBits);
                 capability.ue_Category = input.readBits(3) + 1;
                 capability.pdcp_Parameters = PDCP_Parameters.PerDecoder.Instance.Decode(input);
@@ -759,7 +759,7 @@ namespace TraceParser.Eutra
             {
                 UE_EUTRA_CapabilityAddXDD_Mode_r9 _r = new UE_EUTRA_CapabilityAddXDD_Mode_r9();
                 _r.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 7) : new BitMaskStream(input, 7);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 7) : new BitMaskStream(input, 7);
                 if (stream.Read())
                 {
                     _r.phyLayerParameters_r9 = PhyLayerParameters.PerDecoder.Instance.Decode(input);
@@ -818,7 +818,7 @@ namespace TraceParser.Eutra
             {
                 UE_EUTRA_CapabilityAddXDD_Mode_v1060 _v = new UE_EUTRA_CapabilityAddXDD_Mode_v1060();
                 _v.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 4);
                 if (stream.Read())
                 {
@@ -870,7 +870,7 @@ namespace TraceParser.Eutra
             {
                 UE_EUTRA_CapabilityAddXDD_Mode_v1130 _v = new UE_EUTRA_CapabilityAddXDD_Mode_v1130();
                 _v.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
                     _v.phyLayerParameters_v1130 = PhyLayerParameters_v1130.PerDecoder.Instance.Decode(input);

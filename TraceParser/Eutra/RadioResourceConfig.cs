@@ -48,7 +48,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream2;
                 RadioResourceConfigCommon common = new RadioResourceConfigCommon();
                 common.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 9);
                 if (stream.Read())
                 {
@@ -204,7 +204,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream2;
                 RadioResourceConfigCommonSCell_r10 _r = new RadioResourceConfigCommonSCell_r10();
                 _r.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 _r.nonUL_Configuration_r10 = nonUL_Configuration_r10_Type.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
@@ -377,7 +377,7 @@ namespace TraceParser.Eutra
             {
                 RadioResourceConfigCommonSIB nsib = new RadioResourceConfigCommonSIB();
                 nsib.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 nsib.rach_ConfigCommon = RACH_ConfigCommon.PerDecoder.Instance.Decode(input);
                 nsib.bcch_Config = BCCH_Config.PerDecoder.Instance.Decode(input);
                 nsib.pcch_Config = PCCH_Config.PerDecoder.Instance.Decode(input);
@@ -470,7 +470,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream2;
                 RadioResourceConfigDedicated dedicated = new RadioResourceConfigDedicated();
                 dedicated.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 6);
                 if (stream.Read())
                 {
@@ -565,7 +565,7 @@ namespace TraceParser.Eutra
             {
                 RadioResourceConfigDedicatedSCell_r10 _r = new RadioResourceConfigDedicatedSCell_r10();
                 _r.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {

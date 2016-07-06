@@ -24,7 +24,7 @@ namespace TraceParser.Eutra
             {
                 RSTD_InterFreqInfo_r10 _r = new RSTD_InterFreqInfo_r10();
                 _r.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 _r.carrierFreq_r10 = input.readBits(0x10);
                 _r.measPRS_Offset_r10 = input.readBits(6);
                 if (flag)

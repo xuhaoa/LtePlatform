@@ -85,7 +85,7 @@ namespace TraceParser.Eutra
                     type.cellBarred = (cellBarred_Enum)input.readBits(nBits);
                     nBits = 1;
                     type.intraFreqReselection = (intraFreqReselection_Enum)input.readBits(nBits);
-                    type.csg_Indication = input.readBit() == 1;
+                    type.csg_Indication = input.ReadBit() == 1;
                     if (stream.Read())
                     {
                         type.csg_Identity = input.readBitString(0x1b);

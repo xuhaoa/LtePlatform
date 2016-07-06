@@ -21,7 +21,7 @@ namespace TraceParser.X2ap
             {
                 ENBConfigurationUpdate update = new ENBConfigurationUpdate();
                 update.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 update.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -53,7 +53,7 @@ namespace TraceParser.X2ap
             {
                 ENBConfigurationUpdateAcknowledge acknowledge = new ENBConfigurationUpdateAcknowledge();
                 acknowledge.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 acknowledge.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -85,7 +85,7 @@ namespace TraceParser.X2ap
             {
                 ENBConfigurationUpdateFailure failure = new ENBConfigurationUpdateFailure();
                 failure.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

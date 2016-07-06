@@ -40,7 +40,7 @@ namespace TraceParser.Eutra
             {
                 BitMaskStream stream;
                 InitDefaults();
-                var flag = input.readBit() != 0;
+                var flag = input.ReadBit() != 0;
                 config.sourceMeasConfig = MeasConfig.PerDecoder.Instance.Decode(input);
                 config.sourceRadioResourceConfig = RadioResourceConfigDedicated.PerDecoder.Instance.Decode(input);
                 config.sourceSecurityAlgorithmConfig = SecurityAlgorithmConfig.PerDecoder.Instance.Decode(input);
@@ -130,7 +130,7 @@ namespace TraceParser.Eutra
             protected override void ProcessConfig(AS_Context_v1130 config, BitArrayInputStream input)
             {
                 InitDefaults();
-                var stream = (input.readBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
+                var stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
                     config.idc_Indication_r11 = input.readOctetString(input.readBits(8));

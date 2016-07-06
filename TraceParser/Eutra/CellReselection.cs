@@ -228,7 +228,7 @@ namespace TraceParser.Eutra
                 {
                     targetRAT_Type_Type type = new targetRAT_Type_Type();
                     type.InitDefaults();
-                    input.readBit();
+                    input.ReadBit();
                     if (input.readBits(1) != 0)
                     {
                         throw new Exception(GetType().Name + ":NoChoice had been choose");

@@ -149,8 +149,8 @@ namespace TraceParser.Eutra
                 UEInformationRequest_r9_IEs es = new UEInformationRequest_r9_IEs();
                 es.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                es.rach_ReportReq_r9 = input.readBit() == 1;
-                es.rlf_ReportReq_r9 = input.readBit() == 1;
+                es.rach_ReportReq_r9 = input.ReadBit() == 1;
+                es.rlf_ReportReq_r9 = input.ReadBit() == 1;
                 if (stream.Read())
                 {
                     es.nonCriticalExtension = UEInformationRequest_v930_IEs.PerDecoder.Instance.Decode(input);
@@ -512,7 +512,7 @@ namespace TraceParser.Eutra
                     rach_Report_r9_Type type = new rach_Report_r9_Type();
                     type.InitDefaults();
                     type.numberOfPreamblesSent_r9 = input.readBits(8) + 1;
-                    type.contentionDetected_r9 = input.readBit() == 1;
+                    type.contentionDetected_r9 = input.ReadBit() == 1;
                     return type;
                 }
             }

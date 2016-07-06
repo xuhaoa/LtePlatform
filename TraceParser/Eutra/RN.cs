@@ -23,7 +23,7 @@ namespace TraceParser.Eutra
             {
                 RN_SubframeConfig_r10 _r = new RN_SubframeConfig_r10();
                 _r.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
                     _r.subframeConfigPattern_r10 = subframeConfigPattern_r10_Type.PerDecoder.Instance.Decode(input);
@@ -109,7 +109,7 @@ namespace TraceParser.Eutra
                 {
                     rpdcch_Config_r10_Type type = new rpdcch_Config_r10_Type();
                     type.InitDefaults();
-                    input.readBit();
+                    input.ReadBit();
                     const int nBits = 3;
                     type.resourceAllocationType_r10 = (resourceAllocationType_r10_Enum)input.readBits(nBits);
                     type.resourceBlockAssignment_r10 = resourceBlockAssignment_r10_Type.PerDecoder.Instance.Decode(input);
@@ -309,7 +309,7 @@ namespace TraceParser.Eutra
                     {
                         resourceBlockAssignment_r10_Type type = new resourceBlockAssignment_r10_Type();
                         type.InitDefaults();
-                        input.readBit();
+                        input.ReadBit();
                         switch (input.readBits(1))
                         {
                             case 0:
@@ -496,7 +496,7 @@ namespace TraceParser.Eutra
             {
                 RN_SystemInfo_r10 _r = new RN_SystemInfo_r10();
                 _r.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
                     int nBits = input.readBits(8);

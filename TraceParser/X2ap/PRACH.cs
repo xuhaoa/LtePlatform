@@ -31,11 +31,11 @@ namespace TraceParser.X2ap
             {
                 PRACH_Configuration configuration = new PRACH_Configuration();
                 configuration.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 input.skipUnreadedBits();
                 configuration.rootSequenceIndex = input.readBits(0x10);
                 configuration.zeroCorrelationIndex = input.readBits(4);
-                configuration.highSpeedFlag = input.readBit() == 1;
+                configuration.highSpeedFlag = input.ReadBit() == 1;
                 configuration.prach_FreqOffset = input.readBits(7);
                 if (stream.Read())
                 {
@@ -79,10 +79,10 @@ namespace TraceParser.X2ap
             {
                 HWLoadIndicator indicator = new HWLoadIndicator();
                 indicator.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                int nBits = (input.readBit() == 0) ? 2 : 2;
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                int nBits = (input.ReadBit() == 0) ? 2 : 2;
                 indicator.dLHWLoadIndicator = (LoadIndicator)input.readBits(nBits);
-                nBits = (input.readBit() == 0) ? 2 : 2;
+                nBits = (input.ReadBit() == 0) ? 2 : 2;
                 indicator.uLHWLoadIndicator = (LoadIndicator)input.readBits(nBits);
                 if (stream.Read())
                 {
@@ -130,7 +130,7 @@ namespace TraceParser.X2ap
             {
                 RadioResourceStatus status = new RadioResourceStatus();
                 status.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 status.dL_GBR_PRB_usage = input.readBits(7);
                 status.uL_GBR_PRB_usage = input.readBits(7);
                 status.dL_non_GBR_PRB_usage = input.readBits(7);
@@ -175,10 +175,10 @@ namespace TraceParser.X2ap
             {
                 S1TNLLoadIndicator indicator = new S1TNLLoadIndicator();
                 indicator.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                int nBits = (input.readBit() == 0) ? 2 : 2;
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                int nBits = (input.ReadBit() == 0) ? 2 : 2;
                 indicator.dLS1TNLLoadIndicator = (LoadIndicator)input.readBits(nBits);
-                nBits = (input.readBit() == 0) ? 2 : 2;
+                nBits = (input.ReadBit() == 0) ? 2 : 2;
                 indicator.uLS1TNLLoadIndicator = (LoadIndicator)input.readBits(nBits);
                 if (stream.Read())
                 {
@@ -214,7 +214,7 @@ namespace TraceParser.X2ap
             {
                 ErrorIndication indication = new ErrorIndication();
                 indication.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 indication.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -246,7 +246,7 @@ namespace TraceParser.X2ap
             {
                 LoadInformation information = new LoadInformation();
                 information.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 information.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -278,7 +278,7 @@ namespace TraceParser.X2ap
             {
                 ResetRequest request = new ResetRequest();
                 request.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -310,7 +310,7 @@ namespace TraceParser.X2ap
             {
                 ResetResponse response = new ResetResponse();
                 response.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 response.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

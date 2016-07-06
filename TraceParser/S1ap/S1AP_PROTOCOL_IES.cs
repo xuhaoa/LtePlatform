@@ -791,7 +791,7 @@ namespace TraceParser.S1ap
 
             public static PagingDRX Value(BitArrayInputStream input)
             {
-                var nBits = (input.readBit() == 0) ? 2 : 2;
+                var nBits = (input.ReadBit() == 0) ? 2 : 2;
                 return (PagingDRX)input.readBits(nBits);
             }
         }
@@ -1819,7 +1819,7 @@ namespace TraceParser.S1ap
 
             public static HandoverType Value(BitArrayInputStream input)
             {
-                var nBits = (input.readBit() == 0) ? 3 : 3;
+                var nBits = (input.ReadBit() == 0) ? 3 : 3;
                 return (HandoverType)input.readBits(nBits);
             }
         }
@@ -2072,7 +2072,7 @@ namespace TraceParser.S1ap
 
             public static PagingDRX Value(BitArrayInputStream input)
             {
-                var nBits = (input.readBit() == 0) ? 2 : 2;
+                var nBits = (input.ReadBit() == 0) ? 2 : 2;
                 return (PagingDRX)input.readBits(nBits);
             }
         }
@@ -2218,7 +2218,7 @@ namespace TraceParser.S1ap
 
             public static RRC_Establishment_Cause Value(BitArrayInputStream input)
             {
-                var nBits = (input.readBit() == 0) ? 3 : 3;
+                var nBits = (input.ReadBit() == 0) ? 3 : 3;
                 return (RRC_Establishment_Cause)input.readBits(nBits);
             }
         }
@@ -2625,7 +2625,7 @@ namespace TraceParser.S1ap
 
             public static TimeToWait Value(BitArrayInputStream input)
             {
-                var nBits = (input.readBit() == 0) ? 3 : 3;
+                var nBits = (input.ReadBit() == 0) ? 3 : 3;
                 return (TimeToWait)input.readBits(nBits);
             }
         }

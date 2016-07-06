@@ -31,8 +31,8 @@ namespace TraceParser.X2ap
             {
                 ServedCell_Information information = new ServedCell_Information();
                 information.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 input.skipUnreadedBits();
                 information.pCI = input.readBits(0x10);
                 information.cellId = ECGI.PerDecoder.Instance.Decode(input);
@@ -101,7 +101,7 @@ namespace TraceParser.X2ap
                 int num4;
                 ServedCells_Element element = new ServedCells_Element();
                 element.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 element.servedCellInfo = ServedCell_Information.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -164,7 +164,7 @@ namespace TraceParser.X2ap
             {
                 ServedCellsToActivate_Item item = new ServedCellsToActivate_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.ecgi = ECGI.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -221,7 +221,7 @@ namespace TraceParser.X2ap
                 int num4;
                 ServedCellsToModify_Item item = new ServedCellsToModify_Item();
                 item.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 item.old_ecgi = ECGI.PerDecoder.Instance.Decode(input);
                 item.servedCellInfo = ServedCell_Information.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
@@ -289,9 +289,9 @@ namespace TraceParser.X2ap
             {
                 Neighbour_Information_Element element = new Neighbour_Information_Element();
                 element.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 element.eCGI = ECGI.PerDecoder.Instance.Decode(input);
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 element.pCI = input.readBits(0x10);
                 int nBits = input.readBits(1) + 1;

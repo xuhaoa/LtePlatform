@@ -199,12 +199,12 @@ namespace TraceParser.Eutra
                 dedicated.p0_UE_PUSCH = input.readBits(4) + -8;
                 int nBits = 1;
                 dedicated.deltaMCS_Enabled = (deltaMCS_Enabled_Enum)input.readBits(nBits);
-                dedicated.accumulationEnabled = input.readBit() == 1;
+                dedicated.accumulationEnabled = input.ReadBit() == 1;
                 dedicated.p0_UE_PUCCH = input.readBits(4) + -8;
                 dedicated.pSRS_Offset = input.readBits(4);
                 if (stream.Read())
                 {
-                    nBits = (input.readBit() == 0) ? 4 : 4;
+                    nBits = (input.ReadBit() == 0) ? 4 : 4;
                     dedicated.filterCoefficient = (FilterCoefficient)input.readBits(nBits);
                 }
                 return dedicated;
@@ -331,7 +331,7 @@ namespace TraceParser.Eutra
                 _r.p0_UE_PUSCH_r10 = input.readBits(4) + -8;
                 int nBits = 1;
                 _r.deltaMCS_Enabled_r10 = (deltaMCS_Enabled_r10_Enum)input.readBits(nBits);
-                _r.accumulationEnabled_r10 = input.readBit() == 1;
+                _r.accumulationEnabled_r10 = input.ReadBit() == 1;
                 _r.pSRS_Offset_r10 = input.readBits(4);
                 if (stream2.Read())
                 {
@@ -339,7 +339,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    nBits = (input.readBit() == 0) ? 4 : 4;
+                    nBits = (input.ReadBit() == 0) ? 4 : 4;
                     _r.filterCoefficient_r10 = (FilterCoefficient)input.readBits(nBits);
                 }
                 nBits = 1;

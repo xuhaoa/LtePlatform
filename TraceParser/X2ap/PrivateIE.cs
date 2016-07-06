@@ -43,14 +43,14 @@ namespace TraceParser.X2ap
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_00A5;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -87,14 +87,14 @@ namespace TraceParser.X2ap
                 nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_01AE;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -185,7 +185,7 @@ namespace TraceParser.X2ap
             {
                 EUTRA_Mode_Info info = new EUTRA_Mode_Info();
                 info.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 switch (input.readBits(1))
                 {
                     case 0:
@@ -255,16 +255,16 @@ namespace TraceParser.X2ap
             {
                 FDD_Info info = new FDD_Info();
                 info.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 int nBits = input.readBits(1) + 1;
                 input.skipUnreadedBits();
                 info.uL_EARFCN = input.readBits(nBits * 8);
                 nBits = input.readBits(1) + 1;
                 input.skipUnreadedBits();
                 info.dL_EARFCN = input.readBits(nBits * 8);
-                nBits = (input.readBit() == 0) ? 3 : 3;
+                nBits = (input.ReadBit() == 0) ? 3 : 3;
                 info.uL_Transmission_Bandwidth = (Transmission_Bandwidth)input.readBits(nBits);
-                nBits = (input.readBit() == 0) ? 3 : 3;
+                nBits = (input.ReadBit() == 0) ? 3 : 3;
                 info.dL_Transmission_Bandwidth = (Transmission_Bandwidth)input.readBits(nBits);
                 if (stream.Read())
                 {
@@ -308,13 +308,13 @@ namespace TraceParser.X2ap
             {
                 TDD_Info info = new TDD_Info();
                 info.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 int nBits = input.readBits(1) + 1;
                 input.skipUnreadedBits();
                 info.eARFCN = input.readBits(nBits * 8);
-                nBits = (input.readBit() == 0) ? 3 : 3;
+                nBits = (input.ReadBit() == 0) ? 3 : 3;
                 info.transmission_Bandwidth = (Transmission_Bandwidth)input.readBits(nBits);
-                nBits = (input.readBit() == 0) ? 3 : 3;
+                nBits = (input.ReadBit() == 0) ? 3 : 3;
                 info.subframeAssignment = (SubframeAssignment)input.readBits(nBits);
                 info.specialSubframe_Info = SpecialSubframe_Info.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
@@ -357,8 +357,8 @@ namespace TraceParser.X2ap
             {
                 SpecialSubframe_Info info = new SpecialSubframe_Info();
                 info.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                int nBits = (input.readBit() == 0) ? 4 : 4;
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                int nBits = (input.ReadBit() == 0) ? 4 : 4;
                 info.specialSubframePatterns = (SpecialSubframePatterns)input.readBits(nBits);
                 nBits = 1;
                 info.cyclicPrefixDL = (CyclicPrefixDL)input.readBits(nBits);
@@ -398,7 +398,7 @@ namespace TraceParser.X2ap
             {
                 PrivateMessage message = new PrivateMessage();
                 message.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 message.privateIEs = new List<PrivateIE_Field>();
                 const int nBits = 0x10;

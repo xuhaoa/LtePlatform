@@ -27,10 +27,10 @@ namespace TraceParser.S1ap
             {
                 E_RABSetupItemBearerSURes res = new E_RABSetupItemBearerSURes();
                 res.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 res.e_RAB_ID = input.readBits(4);
-                input.readBit();
+                input.ReadBit();
                 int num = input.readBits(8);
                 input.skipUnreadedBits();
                 res.transportLayerAddress = input.readBitString(num + 1);
@@ -76,10 +76,10 @@ namespace TraceParser.S1ap
             {
                 E_RABSetupItemCtxtSURes res = new E_RABSetupItemCtxtSURes();
                 res.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 res.e_RAB_ID = input.readBits(4);
-                input.readBit();
+                input.ReadBit();
                 int num = input.readBits(8);
                 input.skipUnreadedBits();
                 res.transportLayerAddress = input.readBitString(num + 1);
@@ -147,7 +147,7 @@ namespace TraceParser.S1ap
             {
                 E_RABSetupRequest request = new E_RABSetupRequest();
                 request.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -179,7 +179,7 @@ namespace TraceParser.S1ap
             {
                 E_RABSetupResponse response = new E_RABSetupResponse();
                 response.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 response.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -221,11 +221,11 @@ namespace TraceParser.S1ap
             {
                 E_RABToBeSetupItemBearerSUReq req = new E_RABToBeSetupItemBearerSUReq();
                 req.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 req.e_RAB_ID = input.readBits(4);
                 req.e_RABlevelQoSParameters = E_RABLevelQoSParameters.PerDecoder.Instance.Decode(input);
-                input.readBit();
+                input.ReadBit();
                 int nBits = input.readBits(8);
                 input.skipUnreadedBits();
                 req.transportLayerAddress = input.readBitString(nBits + 1);
@@ -235,14 +235,14 @@ namespace TraceParser.S1ap
                 nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0130;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -302,11 +302,11 @@ namespace TraceParser.S1ap
             {
                 E_RABToBeSetupItemCtxtSUReq req = new E_RABToBeSetupItemCtxtSUReq();
                 req.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
+                input.ReadBit();
                 req.e_RAB_ID = input.readBits(4);
                 req.e_RABlevelQoSParameters = E_RABLevelQoSParameters.PerDecoder.Instance.Decode(input);
-                input.readBit();
+                input.ReadBit();
                 int nBits = input.readBits(8);
                 input.skipUnreadedBits();
                 req.transportLayerAddress = input.readBitString(nBits + 1);
@@ -320,14 +320,14 @@ namespace TraceParser.S1ap
                 nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_0144;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);
@@ -386,10 +386,10 @@ namespace TraceParser.S1ap
             {
                 E_RABToBeSetupItemHOReq req = new E_RABToBeSetupItemHOReq();
                 req.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 req.e_RAB_ID = input.readBits(4);
-                input.readBit();
+                input.ReadBit();
                 int num = input.readBits(8);
                 input.skipUnreadedBits();
                 req.transportLayerAddress = input.readBitString(num + 1);

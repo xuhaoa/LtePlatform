@@ -21,12 +21,12 @@ namespace TraceParser.S1ap
             {
                 OverloadResponse response = new OverloadResponse();
                 response.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 if (input.readBits(1) != 0)
                 {
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
                 }
-                int nBits = (input.readBit() == 0) ? 2 : 2;
+                int nBits = (input.ReadBit() == 0) ? 2 : 2;
                 response.overloadAction = (OverloadAction)input.readBits(nBits);
                 return response;
             }
@@ -50,7 +50,7 @@ namespace TraceParser.S1ap
             {
                 OverloadStart start = new OverloadStart();
                 start.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 start.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -82,7 +82,7 @@ namespace TraceParser.S1ap
             {
                 OverloadStop stop = new OverloadStop();
                 stop.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 stop.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;

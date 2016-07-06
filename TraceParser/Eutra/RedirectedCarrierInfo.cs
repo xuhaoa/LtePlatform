@@ -33,7 +33,7 @@ namespace TraceParser.Eutra
             {
                 RedirectedCarrierInfo info = new RedirectedCarrierInfo();
                 info.InitDefaults();
-                bool flag = input.readBit() != 0;
+                bool flag = input.ReadBit() != 0;
                 switch (input.readBits(3))
                 {
                     case 0:

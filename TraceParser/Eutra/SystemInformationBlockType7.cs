@@ -28,7 +28,7 @@ namespace TraceParser.Eutra
                 var type = new SystemInformationBlockType7();
                 type.InitDefaults();
                 var flag = false;
-                flag = input.readBit() != 0;
+                flag = input.ReadBit() != 0;
                 var stream = flag ? new BitMaskStream(input, 3) : new BitMaskStream(input, 2);
                 type.t_ReselectionGERAN = input.readBits(3);
                 if (stream.Read())

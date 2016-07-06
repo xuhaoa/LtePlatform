@@ -23,8 +23,8 @@ namespace TraceParser.Eutra
             {
                 PhyLayerParameters parameters = new PhyLayerParameters();
                 parameters.InitDefaults();
-                parameters.ue_TxAntennaSelectionSupported = input.readBit() == 1;
-                parameters.ue_SpecificRefSigsSupported = input.readBit() == 1;
+                parameters.ue_TxAntennaSelectionSupported = input.ReadBit() == 1;
+                parameters.ue_SpecificRefSigsSupported = input.ReadBit() == 1;
                 return parameters;
             }
         }

@@ -23,8 +23,8 @@ namespace TraceParser.S1ap
             {
                 E_RABModifyItemBearerModRes res = new E_RABModifyItemBearerModRes();
                 res.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 res.e_RAB_ID = input.readBits(4);
                 if (stream.Read())
                 {
@@ -74,7 +74,7 @@ namespace TraceParser.S1ap
             {
                 E_RABModifyRequest request = new E_RABModifyRequest();
                 request.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -106,7 +106,7 @@ namespace TraceParser.S1ap
             {
                 E_RABModifyResponse response = new E_RABModifyResponse();
                 response.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 response.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -144,22 +144,22 @@ namespace TraceParser.S1ap
             {
                 E_RABToBeModifiedItemBearerModReq req = new E_RABToBeModifiedItemBearerModReq();
                 req.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                input.readBit();
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
                 req.e_RAB_ID = input.readBits(4);
                 req.e_RABLevelQoSParameters = E_RABLevelQoSParameters.PerDecoder.Instance.Decode(input);
                 input.skipUnreadedBits();
                 int nBits = 0;
                 while (true)
                 {
-                    switch (input.readBit())
+                    switch (input.ReadBit())
                     {
                         case 0:
                             nBits += input.readBits(7);
                             goto Label_00F3;
 
                         case 1:
-                            switch (input.readBit())
+                            switch (input.ReadBit())
                             {
                                 case 0:
                                     nBits += input.readBits(14);

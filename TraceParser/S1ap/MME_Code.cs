@@ -37,7 +37,7 @@ namespace TraceParser.S1ap
             {
                 MMEDirectInformationTransfer transfer = new MMEDirectInformationTransfer();
                 transfer.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 transfer.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -85,7 +85,7 @@ namespace TraceParser.S1ap
             {
                 MMEStatusTransfer transfer = new MMEStatusTransfer();
                 transfer.InitDefaults();
-                input.readBit();
+                input.ReadBit();
                 input.skipUnreadedBits();
                 transfer.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
@@ -123,7 +123,7 @@ namespace TraceParser.S1ap
             {
                 GUMMEI gummei = new GUMMEI();
                 gummei.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 gummei.pLMN_Identity = input.readOctetString(3);
                 input.skipUnreadedBits();
@@ -213,7 +213,7 @@ namespace TraceParser.S1ap
             {
                 S_TMSI s_tmsi = new S_TMSI();
                 s_tmsi.InitDefaults();
-                BitMaskStream stream = (input.readBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 s_tmsi.mMEC = input.readOctetString(1);
                 input.skipUnreadedBits();
