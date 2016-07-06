@@ -229,7 +229,7 @@ namespace TraceParser.Eutra
                         type.allowedMeasBandwidth = (AllowedMeasBandwidth)input.ReadBits(nBits);
                     }
                     type.presenceAntennaPort1 = input.ReadBit() == 1;
-                    type.neighCellConfig = input.readBitString(2);
+                    type.neighCellConfig = input.ReadBitString(2);
                     type.t_ReselectionEUTRA = input.ReadBits(3);
                     if (stream.Read())
                     {

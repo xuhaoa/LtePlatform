@@ -266,7 +266,7 @@ namespace TraceParser.Eutra
                     {
                         setup_Type type = new setup_Type();
                         type.InitDefaults();
-                        type.zeroTxPowerResourceConfigList_r10 = input.readBitString(0x10);
+                        type.zeroTxPowerResourceConfigList_r10 = input.ReadBitString(0x10);
                         type.zeroTxPowerSubframeConfig_r10 = input.ReadBits(8);
                         return type;
                     }
@@ -454,7 +454,7 @@ namespace TraceParser.Eutra
                 _r.InitDefaults();
                 input.ReadBit();
                 _r.csi_RS_ConfigZPId_r11 = input.ReadBits(2) + 1;
-                _r.resourceConfigList_r11 = input.readBitString(0x10);
+                _r.resourceConfigList_r11 = input.ReadBitString(0x10);
                 _r.subframeConfig_r11 = input.ReadBits(8);
                 return _r;
             }

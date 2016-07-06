@@ -14,7 +14,7 @@ namespace TraceParser.X2ap
 
             public string Decode(BitArrayInputStream input)
             {
-                return input.readBitString(0x1b);
+                return input.ReadBitString(0x1b);
             }
         }
     }
@@ -28,7 +28,7 @@ namespace TraceParser.X2ap
 
             public string Decode(BitArrayInputStream input)
             {
-                return input.readBitString(0x10);
+                return input.ReadBitString(0x10);
             }
         }
     }
@@ -105,7 +105,7 @@ namespace TraceParser.X2ap
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 ecgi.pLMN_Identity = input.readOctetString(3);
-                ecgi.eUTRANcellIdentifier = input.readBitString(0x1c);
+                ecgi.eUTRANcellIdentifier = input.ReadBitString(0x1c);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();

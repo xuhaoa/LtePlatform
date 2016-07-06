@@ -56,7 +56,7 @@ namespace TraceParser.Eutra
                 {
                     basicFields_r11_Type type = new basicFields_r11_Type();
                     type.InitDefaults();
-                    type.c_RNTI_r11 = input.readBitString(0x10);
+                    type.c_RNTI_r11 = input.ReadBitString(0x10);
                     int nBits = 2;
                     type.rlf_Cause_r11 = (rlf_Cause_r11_Enum)input.ReadBits(nBits);
                     type.timeSinceFailure_r11 = input.ReadBits(0x12);

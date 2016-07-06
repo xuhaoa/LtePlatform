@@ -21,7 +21,7 @@ namespace TraceParser.Eutra
             {
                 config.ac_BarringFactor = (ac_BarringFactor_Enum)input.ReadBits(4);
                 config.ac_BarringTime = (ac_BarringTime_Enum)input.ReadBits(3);
-                config.ac_BarringForSpecialAC = input.readBitString(5);
+                config.ac_BarringForSpecialAC = input.ReadBitString(5);
             }
         }
     }

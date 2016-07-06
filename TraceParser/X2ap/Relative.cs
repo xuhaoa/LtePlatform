@@ -42,7 +42,7 @@ namespace TraceParser.X2ap
                 input.ReadBit();
                 int num = input.ReadBits(7);
                 input.skipUnreadedBits();
-                power.rNTP_PerPRB = input.readBitString(num + 6);
+                power.rNTP_PerPRB = input.ReadBitString(num + 6);
                 int nBits = (input.ReadBit() == 0) ? 4 : 4;
                 power.rNTP_Threshold = (RNTP_Threshold)input.ReadBits(nBits);
                 nBits = (input.ReadBit() == 0) ? 2 : 2;
@@ -192,7 +192,7 @@ namespace TraceParser.X2ap
                 input.ReadBit();
                 int num = input.ReadBits(8);
                 input.skipUnreadedBits();
-                endpoint.transportLayerAddress = input.readBitString(num + 1);
+                endpoint.transportLayerAddress = input.ReadBitString(num + 1);
                 input.skipUnreadedBits();
                 endpoint.gTP_TEID = input.readOctetString(4);
                 if (stream.Read())

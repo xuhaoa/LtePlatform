@@ -39,8 +39,8 @@ namespace TraceParser.Eutra
                 const int nBits = 3;
                 block.dl_Bandwidth = (dl_Bandwidth_Enum)input.ReadBits(nBits);
                 block.phich_Config = PHICH_Config.PerDecoder.Instance.Decode(input);
-                block.systemFrameNumber = input.readBitString(8);
-                block.spare = input.readBitString(10);
+                block.systemFrameNumber = input.ReadBitString(8);
+                block.spare = input.ReadBitString(10);
                 return block;
             }
         }

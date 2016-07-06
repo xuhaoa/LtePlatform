@@ -29,7 +29,7 @@ namespace TraceParser.Eutra
                         return identity;
 
                     case 1:
-                        identity.randomValue = input.readBitString(40);
+                        identity.randomValue = input.ReadBitString(40);
                         return identity;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");

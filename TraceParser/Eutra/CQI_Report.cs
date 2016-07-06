@@ -338,8 +338,8 @@ namespace TraceParser.Eutra
                     {
                         aperiodicCSI_Trigger_r10_Type type = new aperiodicCSI_Trigger_r10_Type();
                         type.InitDefaults();
-                        type.trigger1_r10 = input.readBitString(8);
-                        type.trigger2_r10 = input.readBitString(8);
+                        type.trigger1_r10 = input.ReadBitString(8);
+                        type.trigger2_r10 = input.ReadBitString(8);
                         return type;
                     }
                 }

@@ -189,7 +189,7 @@ namespace TraceParser.X2ap
                 information.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
-                information.key_eNodeB_star = input.readBitString(0x100);
+                information.key_eNodeB_star = input.ReadBitString(0x100);
                 information.nextHopChainingCount = input.ReadBits(3);
                 if (stream.Read())
                 {

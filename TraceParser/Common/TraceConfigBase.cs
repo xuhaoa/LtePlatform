@@ -60,7 +60,7 @@ namespace TraceParser.Common
             {
                 if (tuple.Item2 == choice)
                 {
-                    tuple.Item1.SetValue(source, input.readBitString(tuple.Item3));
+                    tuple.Item1.SetValue(source, input.ReadBitString(tuple.Item3));
                     return;
                 }
             }

@@ -30,8 +30,8 @@ namespace TraceParser.Eutra
                 type.InitDefaults();
                 var flag = input.ReadBit() != 0;
                 var stream = flag ? new BitMaskStream(input, 2) : new BitMaskStream(input, 1);
-                type.messageIdentifier = input.readBitString(0x10);
-                type.serialNumber = input.readBitString(0x10);
+                type.messageIdentifier = input.ReadBitString(0x10);
+                type.serialNumber = input.ReadBitString(0x10);
                 type.warningType = input.readOctetString(2);
                 if (stream.Read())
                 {

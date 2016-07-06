@@ -30,8 +30,8 @@ namespace TraceParser.Eutra
                 {
                     dmme.plmn_Identity = PLMN_Identity.PerDecoder.Instance.Decode(input);
                 }
-                dmme.mmegi = input.readBitString(0x10);
-                dmme.mmec = input.readBitString(8);
+                dmme.mmegi = input.ReadBitString(0x10);
+                dmme.mmec = input.ReadBitString(8);
                 return dmme;
             }
         }

@@ -101,7 +101,7 @@ namespace TraceParser.Eutra
                 {
                     info.cellReselectionPriority = input.ReadBits(3);
                 }
-                info.neighCellConfig = input.readBitString(2);
+                info.neighCellConfig = input.ReadBitString(2);
                 if (stream.Read())
                 {
                     nBits = 5;

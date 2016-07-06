@@ -27,7 +27,7 @@ namespace TraceParser.Eutra
                 info.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 info.sourcePhysCellId = input.ReadBits(9);
-                info.targetCellShortMAC_I = input.readBitString(0x10);
+                info.targetCellShortMAC_I = input.ReadBitString(0x10);
                 if (stream.Read())
                 {
                     info.additionalReestabInfoList = new List<AdditionalReestabInfo>();
@@ -65,9 +65,9 @@ namespace TraceParser.Eutra
             {
                 AdditionalReestabInfo info = new AdditionalReestabInfo();
                 info.InitDefaults();
-                info.cellIdentity = input.readBitString(0x1c);
-                info.key_eNodeB_Star = input.readBitString(0x100);
-                info.shortMAC_I = input.readBitString(0x10);
+                info.cellIdentity = input.ReadBitString(0x1c);
+                info.key_eNodeB_Star = input.ReadBitString(0x100);
+                info.shortMAC_I = input.ReadBitString(0x10);
                 return info;
             }
         }
@@ -94,9 +94,9 @@ namespace TraceParser.Eutra
             {
                 ReestabUE_Identity identity = new ReestabUE_Identity();
                 identity.InitDefaults();
-                identity.c_RNTI = input.readBitString(0x10);
+                identity.c_RNTI = input.ReadBitString(0x10);
                 identity.physCellId = input.ReadBits(9);
-                identity.shortMAC_I = input.readBitString(0x10);
+                identity.shortMAC_I = input.ReadBitString(0x10);
                 return identity;
             }
         }

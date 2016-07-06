@@ -547,7 +547,7 @@ namespace TraceParser.Eutra
                 es.cdma2000_Type = (CDMA2000_Type)input.ReadBits(num2);
                 if (stream.Read())
                 {
-                    es.meid = input.readBitString(0x38);
+                    es.meid = input.ReadBitString(0x38);
                 }
                 int nBits = input.ReadBits(8);
                 es.dedicatedInfo = input.readOctetString(nBits);

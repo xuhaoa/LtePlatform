@@ -44,7 +44,7 @@ namespace TraceParser.Eutra
                 config.sourceMeasConfig = MeasConfig.PerDecoder.Instance.Decode(input);
                 config.sourceRadioResourceConfig = RadioResourceConfigDedicated.PerDecoder.Instance.Decode(input);
                 config.sourceSecurityAlgorithmConfig = SecurityAlgorithmConfig.PerDecoder.Instance.Decode(input);
-                config.sourceUE_Identity = input.readBitString(0x10);
+                config.sourceUE_Identity = input.ReadBitString(0x10);
                 config.sourceMasterInformationBlock = MasterInformationBlock.PerDecoder.Instance.Decode(input);
                 config.sourceSystemInformationBlockType1 = SystemInformationBlockType1.PerDecoder.Instance.Decode(input);
                 config.sourceSystemInformationBlockType2 = SystemInformationBlockType2.PerDecoder.Instance.Decode(input);

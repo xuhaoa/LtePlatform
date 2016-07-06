@@ -204,7 +204,7 @@ namespace TraceParser.X2ap
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
-                    item.receiveStatusofULPDCPSDUs = input.readBitString(0x1000);
+                    item.receiveStatusofULPDCPSDUs = input.ReadBitString(0x1000);
                 }
                 item.uL_COUNTvalue = COUNTvalue.PerDecoder.Instance.Decode(input);
                 item.dL_COUNTvalue = COUNTvalue.PerDecoder.Instance.Decode(input);

@@ -22,8 +22,8 @@ namespace TraceParser.Eutra
             {
                 S_TMSI s_tmsi = new S_TMSI();
                 s_tmsi.InitDefaults();
-                s_tmsi.mmec = input.readBitString(8);
-                s_tmsi.m_TMSI = input.readBitString(0x20);
+                s_tmsi.mmec = input.ReadBitString(8);
+                s_tmsi.m_TMSI = input.ReadBitString(0x20);
                 return s_tmsi;
             }
         }

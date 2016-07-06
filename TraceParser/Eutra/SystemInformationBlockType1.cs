@@ -79,8 +79,8 @@ namespace TraceParser.Eutra
                         var item = PLMN_IdentityInfo.PerDecoder.Instance.Decode(input);
                         type.plmn_IdentityList.Add(item);
                     }
-                    type.trackingAreaCode = input.readBitString(0x10);
-                    type.cellIdentity = input.readBitString(0x1c);
+                    type.trackingAreaCode = input.ReadBitString(0x10);
+                    type.cellIdentity = input.ReadBitString(0x1c);
                     nBits = 1;
                     type.cellBarred = (cellBarred_Enum)input.ReadBits(nBits);
                     nBits = 1;
@@ -88,7 +88,7 @@ namespace TraceParser.Eutra
                     type.csg_Indication = input.ReadBit() == 1;
                     if (stream.Read())
                     {
-                        type.csg_Identity = input.readBitString(0x1b);
+                        type.csg_Identity = input.ReadBitString(0x1b);
                     }
                     return type;
                 }

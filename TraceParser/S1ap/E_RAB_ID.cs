@@ -56,7 +56,7 @@ namespace TraceParser.S1ap
                 input.ReadBit();
                 int num = input.ReadBits(8);
                 input.skipUnreadedBits();
-                item.transportLayerAddress = input.readBitString(num + 1);
+                item.transportLayerAddress = input.ReadBitString(num + 1);
                 input.skipUnreadedBits();
                 item.gTP_TEID = input.readOctetString(4);
                 if (stream.Read())
@@ -64,7 +64,7 @@ namespace TraceParser.S1ap
                     input.ReadBit();
                     num = input.ReadBits(8);
                     input.skipUnreadedBits();
-                    item.dL_transportLayerAddress = input.readBitString(num + 1);
+                    item.dL_transportLayerAddress = input.ReadBitString(num + 1);
                 }
                 if (stream.Read())
                 {
@@ -76,7 +76,7 @@ namespace TraceParser.S1ap
                     input.ReadBit();
                     num = input.ReadBits(8);
                     input.skipUnreadedBits();
-                    item.uL_TransportLayerAddress = input.readBitString(num + 1);
+                    item.uL_TransportLayerAddress = input.ReadBitString(num + 1);
                 }
                 if (stream.Read())
                 {
@@ -136,7 +136,7 @@ namespace TraceParser.S1ap
                     input.ReadBit();
                     num = input.ReadBits(8);
                     input.skipUnreadedBits();
-                    item.dL_transportLayerAddress = input.readBitString(num + 1);
+                    item.dL_transportLayerAddress = input.ReadBitString(num + 1);
                 }
                 if (stream.Read())
                 {
@@ -148,7 +148,7 @@ namespace TraceParser.S1ap
                     input.ReadBit();
                     num = input.ReadBits(8);
                     input.skipUnreadedBits();
-                    item.uL_TransportLayerAddress = input.readBitString(num + 1);
+                    item.uL_TransportLayerAddress = input.ReadBitString(num + 1);
                 }
                 if (stream.Read())
                 {

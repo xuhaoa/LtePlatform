@@ -37,7 +37,7 @@ namespace TraceParser.S1ap
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
-                    item.receiveStatusofULPDCPSDUs = input.readBitString(0x1000);
+                    item.receiveStatusofULPDCPSDUs = input.ReadBitString(0x1000);
                 }
                 if (stream.Read())
                 {

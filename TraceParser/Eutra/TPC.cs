@@ -89,7 +89,7 @@ namespace TraceParser.Eutra
                 {
                     setup_Type type = new setup_Type();
                     type.InitDefaults();
-                    type.tpc_RNTI = input.readBitString(0x10);
+                    type.tpc_RNTI = input.ReadBitString(0x10);
                     type.tpc_Index = TPC_Index.PerDecoder.Instance.Decode(input);
                     return type;
                 }

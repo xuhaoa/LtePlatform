@@ -12,7 +12,7 @@ namespace TraceParser.S1ap
 
             public string Decode(BitArrayInputStream input)
             {
-                return input.readBitString(8);
+                return input.ReadBitString(8);
             }
         }
     }

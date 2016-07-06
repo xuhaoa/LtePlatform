@@ -42,7 +42,7 @@ namespace TraceParser.X2ap
                 MeasurementFailureCause_Item item = new MeasurementFailureCause_Item();
                 item.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                item.measurementFailedReportCharacteristics = input.readBitString(0x20);
+                item.measurementFailedReportCharacteristics = input.ReadBitString(0x20);
                 item.cause = Cause.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -150,7 +150,7 @@ namespace TraceParser.X2ap
 
             public string Decode(BitArrayInputStream input)
             {
-                return input.readBitString(8);
+                return input.ReadBitString(8);
             }
         }
     }
@@ -199,7 +199,7 @@ namespace TraceParser.X2ap
 
             public string Decode(BitArrayInputStream input)
             {
-                return input.readBitString(0x20);
+                return input.ReadBitString(0x20);
             }
         }
     }

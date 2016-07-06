@@ -33,7 +33,7 @@ namespace TraceParser.S1ap
                 input.ReadBit();
                 int num = input.ReadBits(8);
                 input.skipUnreadedBits();
-                res.transportLayerAddress = input.readBitString(num + 1);
+                res.transportLayerAddress = input.ReadBitString(num + 1);
                 input.skipUnreadedBits();
                 res.gTP_TEID = input.readOctetString(4);
                 if (stream.Read())
@@ -82,7 +82,7 @@ namespace TraceParser.S1ap
                 input.ReadBit();
                 int num = input.ReadBits(8);
                 input.skipUnreadedBits();
-                res.transportLayerAddress = input.readBitString(num + 1);
+                res.transportLayerAddress = input.ReadBitString(num + 1);
                 input.skipUnreadedBits();
                 res.gTP_TEID = input.readOctetString(4);
                 if (stream.Read())
@@ -228,7 +228,7 @@ namespace TraceParser.S1ap
                 input.ReadBit();
                 int nBits = input.ReadBits(8);
                 input.skipUnreadedBits();
-                req.transportLayerAddress = input.readBitString(nBits + 1);
+                req.transportLayerAddress = input.ReadBitString(nBits + 1);
                 input.skipUnreadedBits();
                 req.gTP_TEID = input.readOctetString(4);
                 input.skipUnreadedBits();
@@ -309,7 +309,7 @@ namespace TraceParser.S1ap
                 input.ReadBit();
                 int nBits = input.ReadBits(8);
                 input.skipUnreadedBits();
-                req.transportLayerAddress = input.readBitString(nBits + 1);
+                req.transportLayerAddress = input.ReadBitString(nBits + 1);
                 input.skipUnreadedBits();
                 req.gTP_TEID = input.readOctetString(4);
                 if (!stream.Read())
@@ -392,7 +392,7 @@ namespace TraceParser.S1ap
                 input.ReadBit();
                 int num = input.ReadBits(8);
                 input.skipUnreadedBits();
-                req.transportLayerAddress = input.readBitString(num + 1);
+                req.transportLayerAddress = input.ReadBitString(num + 1);
                 input.skipUnreadedBits();
                 req.gTP_TEID = input.readOctetString(4);
                 req.e_RABlevelQosParameters = E_RABLevelQoSParameters.PerDecoder.Instance.Decode(input);

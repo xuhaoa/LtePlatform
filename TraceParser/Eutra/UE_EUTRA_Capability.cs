@@ -109,7 +109,7 @@ namespace TraceParser.Eutra
                 capability.measParameters = MeasParameters.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
-                    capability.featureGroupIndicators = input.readBitString(0x20);
+                    capability.featureGroupIndicators = input.ReadBitString(0x20);
                 }
                 capability.interRAT_Parameters = interRAT_Parameters_Type.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
@@ -173,7 +173,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    es.featureGroupIndRel10_r10 = input.readBitString(0x20);
+                    es.featureGroupIndRel10_r10 = input.ReadBitString(0x20);
                 }
                 if (stream.Read())
                 {
@@ -572,7 +572,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 4);
                 if (stream.Read())
                 {
-                    es.featureGroupIndRel9Add_r9 = input.readBitString(0x20);
+                    es.featureGroupIndRel9Add_r9 = input.ReadBitString(0x20);
                 }
                 if (stream.Read())
                 {
@@ -766,11 +766,11 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    _r.featureGroupIndicators_r9 = input.readBitString(0x20);
+                    _r.featureGroupIndicators_r9 = input.ReadBitString(0x20);
                 }
                 if (stream.Read())
                 {
-                    _r.featureGroupIndRel9Add_r9 = input.readBitString(0x20);
+                    _r.featureGroupIndRel9Add_r9 = input.ReadBitString(0x20);
                 }
                 if (stream.Read())
                 {
@@ -826,7 +826,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    _v.featureGroupIndRel10_v1060 = input.readBitString(0x20);
+                    _v.featureGroupIndRel10_v1060 = input.ReadBitString(0x20);
                 }
                 if (stream.Read())
                 {

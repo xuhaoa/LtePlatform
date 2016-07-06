@@ -26,11 +26,11 @@ namespace TraceParser.Common
                 switch (input.ReadBits(1))
                 {
                     case 0:
-                        config.macro_eNB_ID = input.readBitString(20);
+                        config.macro_eNB_ID = input.ReadBitString(20);
                         break;
 
                     case 1:
-                        config.home_eNB_ID = input.readBitString(0x1c);
+                        config.home_eNB_ID = input.ReadBitString(0x1c);
                         break;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");

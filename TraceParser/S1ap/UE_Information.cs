@@ -188,7 +188,7 @@ namespace TraceParser.S1ap
 
             public string Decode(BitArrayInputStream input)
             {
-                return input.readBitString(10);
+                return input.ReadBitString(10);
             }
         }
     }
@@ -292,8 +292,8 @@ namespace TraceParser.S1ap
                 UESecurityCapabilities capabilities = new UESecurityCapabilities();
                 capabilities.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                capabilities.encryptionAlgorithms = input.readBitString(0x10);
-                capabilities.integrityProtectionAlgorithms = input.readBitString(0x10);
+                capabilities.encryptionAlgorithms = input.ReadBitString(0x10);
+                capabilities.integrityProtectionAlgorithms = input.ReadBitString(0x10);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();

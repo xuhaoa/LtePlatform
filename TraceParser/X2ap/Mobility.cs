@@ -109,7 +109,7 @@ namespace TraceParser.X2ap
 
             public string Decode(BitArrayInputStream input)
             {
-                return input.readBitString(0x20);
+                return input.ReadBitString(0x20);
             }
         }
     }

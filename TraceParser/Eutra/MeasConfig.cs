@@ -545,7 +545,7 @@ namespace TraceParser.Eutra
                 es.traceReference_r10 = TraceReference_r10.PerDecoder.Instance.Decode(input);
                 es.traceRecordingSessionRef_r10 = input.readOctetString(2);
                 es.tce_Id_r10 = input.readOctetString(1);
-                es.absoluteTimeInfo_r10 = input.readBitString(0x30);
+                es.absoluteTimeInfo_r10 = input.ReadBitString(0x30);
                 if (stream.Read())
                 {
                     es.areaConfiguration_r10 = AreaConfiguration_r10.PerDecoder.Instance.Decode(input);

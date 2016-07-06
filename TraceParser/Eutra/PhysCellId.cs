@@ -22,8 +22,8 @@ namespace TraceParser.Eutra
             {
                 PhysCellIdGERAN dgeran = new PhysCellIdGERAN();
                 dgeran.InitDefaults();
-                dgeran.networkColourCode = input.readBitString(3);
-                dgeran.baseStationColourCode = input.readBitString(3);
+                dgeran.networkColourCode = input.ReadBitString(3);
+                dgeran.baseStationColourCode = input.ReadBitString(3);
                 return dgeran;
             }
         }

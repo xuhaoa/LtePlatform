@@ -354,27 +354,27 @@ namespace TraceParser.Eutra
                             switch (input.ReadBits(3))
                             {
                                 case 0:
-                                    type.nrb6_r10 = input.readBitString(6);
+                                    type.nrb6_r10 = input.ReadBitString(6);
                                     return type;
 
                                 case 1:
-                                    type.nrb15_r10 = input.readBitString(8);
+                                    type.nrb15_r10 = input.ReadBitString(8);
                                     return type;
 
                                 case 2:
-                                    type.nrb25_r10 = input.readBitString(13);
+                                    type.nrb25_r10 = input.ReadBitString(13);
                                     return type;
 
                                 case 3:
-                                    type.nrb50_r10 = input.readBitString(0x11);
+                                    type.nrb50_r10 = input.ReadBitString(0x11);
                                     return type;
 
                                 case 4:
-                                    type.nrb75_r10 = input.readBitString(0x13);
+                                    type.nrb75_r10 = input.ReadBitString(0x13);
                                     return type;
 
                                 case 5:
-                                    type.nrb100_r10 = input.readBitString(0x19);
+                                    type.nrb100_r10 = input.ReadBitString(0x19);
                                     return type;
                             }
                             throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -412,27 +412,27 @@ namespace TraceParser.Eutra
                             switch (input.ReadBits(3))
                             {
                                 case 0:
-                                    type.nrb6_r10 = input.readBitString(5);
+                                    type.nrb6_r10 = input.ReadBitString(5);
                                     return type;
 
                                 case 1:
-                                    type.nrb15_r10 = input.readBitString(7);
+                                    type.nrb15_r10 = input.ReadBitString(7);
                                     return type;
 
                                 case 2:
-                                    type.nrb25_r10 = input.readBitString(9);
+                                    type.nrb25_r10 = input.ReadBitString(9);
                                     return type;
 
                                 case 3:
-                                    type.nrb50_r10 = input.readBitString(11);
+                                    type.nrb50_r10 = input.ReadBitString(11);
                                     return type;
 
                                 case 4:
-                                    type.nrb75_r10 = input.readBitString(12);
+                                    type.nrb75_r10 = input.ReadBitString(12);
                                     return type;
 
                                 case 5:
-                                    type.nrb100_r10 = input.readBitString(13);
+                                    type.nrb100_r10 = input.ReadBitString(13);
                                     return type;
                             }
                             throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -464,7 +464,7 @@ namespace TraceParser.Eutra
                     switch (input.ReadBits(1))
                     {
                         case 0:
-                            type.subframeConfigPatternFDD_r10 = input.readBitString(8);
+                            type.subframeConfigPatternFDD_r10 = input.ReadBitString(8);
                             return type;
 
                         case 1:

@@ -63,7 +63,7 @@ namespace TraceParser.Eutra
                     }
                     if (stream.Read())
                     {
-                        type.longCodeState1XRTT_r11 = input.readBitString(0x2a);
+                        type.longCodeState1XRTT_r11 = input.ReadBitString(0x2a);
                     }
                     if (stream.Read())
                     {

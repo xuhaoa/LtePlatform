@@ -28,7 +28,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
-                    config.semiPersistSchedC_RNTI = input.readBitString(0x10);
+                    config.semiPersistSchedC_RNTI = input.ReadBitString(0x10);
                 }
                 if (stream.Read())
                 {

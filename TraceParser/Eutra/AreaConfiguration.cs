@@ -38,7 +38,7 @@ namespace TraceParser.Eutra
                             int num6 = input.ReadBits(3) + 1;
                             for (int j = 0; j < num6; j++)
                             {
-                                string str = input.readBitString(0x10);
+                                string str = input.ReadBitString(0x10);
                                 config.trackingAreaCodeList_r10.Add(str);
                             }
                             return;

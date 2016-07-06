@@ -33,8 +33,8 @@ namespace TraceParser.Eutra
                 var _r = new SystemInformationBlockType12_r9();
                 _r.InitDefaults();
                 var stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
-                _r.messageIdentifier_r9 = input.readBitString(0x10);
-                _r.serialNumber_r9 = input.readBitString(0x10);
+                _r.messageIdentifier_r9 = input.ReadBitString(0x10);
+                _r.serialNumber_r9 = input.ReadBitString(0x10);
                 const int num2 = 1;
                 _r.warningMessageSegmentType_r9 = (warningMessageSegmentType_r9_Enum)input.ReadBits(num2);
                 _r.warningMessageSegmentNumber_r9 = input.ReadBits(6);

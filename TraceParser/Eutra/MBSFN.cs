@@ -64,7 +64,7 @@ namespace TraceParser.Eutra
                     type.mcch_Offset_r9 = input.ReadBits(4);
                     nBits = 1;
                     type.mcch_ModificationPeriod_r9 = (mcch_ModificationPeriod_r9_Enum)input.ReadBits(nBits);
-                    type.sf_AllocInfo_r9 = input.readBitString(6);
+                    type.sf_AllocInfo_r9 = input.ReadBitString(6);
                     nBits = 2;
                     type.signallingMCS_r9 = (signallingMCS_r9_Enum)input.ReadBits(nBits);
                     return type;
@@ -166,11 +166,11 @@ namespace TraceParser.Eutra
                     switch (input.ReadBits(1))
                     {
                         case 0:
-                            type.oneFrame = input.readBitString(6);
+                            type.oneFrame = input.ReadBitString(6);
                             return type;
 
                         case 1:
-                            type.fourFrames = input.readBitString(0x18);
+                            type.fourFrames = input.ReadBitString(0x18);
                             return type;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");

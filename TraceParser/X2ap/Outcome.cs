@@ -157,7 +157,7 @@ namespace TraceParser.X2ap
 
             public string Decode(BitArrayInputStream input)
             {
-                return input.readBitString(0x10);
+                return input.ReadBitString(0x10);
             }
         }
     }
@@ -270,13 +270,13 @@ namespace TraceParser.X2ap
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 activation.eUTRANTraceID = input.readOctetString(8);
-                activation.interfacesToTrace = input.readBitString(8);
+                activation.interfacesToTrace = input.ReadBitString(8);
                 int nBits = (input.ReadBit() == 0) ? 3 : 3;
                 activation.traceDepth = (TraceDepth)input.ReadBits(nBits);
                 input.ReadBit();
                 int num = input.ReadBits(8);
                 input.skipUnreadedBits();
-                activation.traceCollectionEntityIPAddress = input.readBitString(num + 1);
+                activation.traceCollectionEntityIPAddress = input.ReadBitString(num + 1);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
@@ -305,7 +305,7 @@ namespace TraceParser.X2ap
             {
                 input.ReadBit();
                 int num = input.ReadBits(8);
-                return input.readBitString(num + 1);
+                return input.ReadBitString(num + 1);
             }
         }
     }

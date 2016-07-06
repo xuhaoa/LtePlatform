@@ -30,7 +30,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    config.csg_Identity_r9 = input.readBitString(0x1b);
+                    config.csg_Identity_r9 = input.ReadBitString(0x1b);
                 }
             }
         }

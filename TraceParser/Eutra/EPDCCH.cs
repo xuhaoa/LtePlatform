@@ -247,7 +247,7 @@ namespace TraceParser.Eutra
                     const int nBits = 2;
                     type.numberPRB_Pairs_r11 = (numberPRB_Pairs_r11_Enum)input.ReadBits(nBits);
                     int num = input.ReadBits(6);
-                    type.resourceBlockAssignment_r11 = input.readBitString(num + 4);
+                    type.resourceBlockAssignment_r11 = input.ReadBitString(num + 4);
                     return type;
                 }
             }

@@ -27,7 +27,7 @@ namespace TraceParser.Eutra
                 switch (input.ReadBits(1))
                 {
                     case 0:
-                        _r.subframePatternFDD_r10 = input.readBitString(40);
+                        _r.subframePatternFDD_r10 = input.ReadBitString(40);
                         return _r;
 
                     case 1:
@@ -63,15 +63,15 @@ namespace TraceParser.Eutra
                     switch (input.ReadBits(2))
                     {
                         case 0:
-                            type.subframeConfig1_5_r10 = input.readBitString(20);
+                            type.subframeConfig1_5_r10 = input.ReadBitString(20);
                             return type;
 
                         case 1:
-                            type.subframeConfig0_r10 = input.readBitString(70);
+                            type.subframeConfig0_r10 = input.ReadBitString(70);
                             return type;
 
                         case 2:
-                            type.subframeConfig6_r10 = input.readBitString(60);
+                            type.subframeConfig6_r10 = input.ReadBitString(60);
                             return type;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");

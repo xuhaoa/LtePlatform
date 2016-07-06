@@ -104,7 +104,7 @@ namespace Lte.Domain.Common
             }
         }
 
-        public string readBitString(int nBits)
+        public string ReadBitString(int nBits)
         {
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < nBits; i++)

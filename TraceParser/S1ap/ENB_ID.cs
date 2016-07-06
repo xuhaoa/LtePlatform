@@ -189,7 +189,7 @@ namespace TraceParser.S1ap
                     input.ReadBit();
                     int num = input.ReadBits(8);
                     input.skipUnreadedBits();
-                    string item = input.readBitString(num + 1);
+                    string item = input.ReadBitString(num + 1);
                     info.eNBX2TransportLayerAddresses.Add(item);
                 }
                 if (stream.Read())

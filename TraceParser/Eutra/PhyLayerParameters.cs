@@ -263,7 +263,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    _v.interBandTDD_CA_WithDifferentConfig_r11 = input.readBitString(2);
+                    _v.interBandTDD_CA_WithDifferentConfig_r11 = input.ReadBitString(2);
                 }
                 return _v;
             }

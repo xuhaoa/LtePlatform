@@ -63,7 +63,7 @@ namespace TraceParser.Eutra
                     type.timeInfoUTC_r11 = input.ReadBits(40);
                     if (stream.Read())
                     {
-                        type.dayLightSavingTime_r11 = input.readBitString(2);
+                        type.dayLightSavingTime_r11 = input.ReadBitString(2);
                     }
                     if (stream.Read())
                     {

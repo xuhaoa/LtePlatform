@@ -65,28 +65,28 @@ namespace TraceParser.Eutra
                     switch (input.ReadBits(3))
                     {
                         case 0:
-                            config.n2TxAntenna_tm3 = input.readBitString(2);
+                            config.n2TxAntenna_tm3 = input.ReadBitString(2);
                             return;
                         case 1:
-                            config.n4TxAntenna_tm3 = input.readBitString(4);
+                            config.n4TxAntenna_tm3 = input.ReadBitString(4);
                             return;
                         case 2:
-                            config.n2TxAntenna_tm4 = input.readBitString(6);
+                            config.n2TxAntenna_tm4 = input.ReadBitString(6);
                             return;
                         case 3:
-                            config.n4TxAntenna_tm4 = input.readBitString(0x40);
+                            config.n4TxAntenna_tm4 = input.ReadBitString(0x40);
                             return;
                         case 4:
-                            config.n2TxAntenna_tm5 = input.readBitString(4);
+                            config.n2TxAntenna_tm5 = input.ReadBitString(4);
                             return;
                         case 5:
-                            config.n4TxAntenna_tm5 = input.readBitString(0x10);
+                            config.n4TxAntenna_tm5 = input.ReadBitString(0x10);
                             return;
                         case 6:
-                            config.n2TxAntenna_tm6 = input.readBitString(4);
+                            config.n2TxAntenna_tm6 = input.ReadBitString(4);
                             return;
                         case 7:
-                            config.n4TxAntenna_tm6 = input.readBitString(0x10);
+                            config.n4TxAntenna_tm6 = input.ReadBitString(0x10);
                             return;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -176,7 +176,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     var nBits = input.ReadBits(8);
-                    config.codebookSubsetRestriction_r10 = input.readBitString(nBits);
+                    config.codebookSubsetRestriction_r10 = input.ReadBitString(nBits);
                 }
                 config.ue_TransmitAntennaSelection = ue_TransmitAntennaSelection_Type.PerDecoder.Instance.Decode(input);
             }
@@ -283,10 +283,10 @@ namespace TraceParser.Eutra
                     switch (input.ReadBits(1))
                     {
                         case 0:
-                            config.n2TxAntenna_tm8_r9 = input.readBitString(6);
+                            config.n2TxAntenna_tm8_r9 = input.ReadBitString(6);
                             return;
                         case 1:
-                            config.n4TxAntenna_tm8_r9 = input.readBitString(0x20);
+                            config.n4TxAntenna_tm8_r9 = input.ReadBitString(0x20);
                             return;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");

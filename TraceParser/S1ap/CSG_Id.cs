@@ -13,7 +13,7 @@ namespace TraceParser.S1ap
 
             public string Decode(BitArrayInputStream input)
             {
-                return input.readBitString(0x1b);
+                return input.ReadBitString(0x1b);
             }
         }
     }
@@ -52,7 +52,7 @@ namespace TraceParser.S1ap
                 CSG_IdList_Item item = new CSG_IdList_Item();
                 item.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                item.cSG_Id = input.readBitString(0x1b);
+                item.cSG_Id = input.ReadBitString(0x1b);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();

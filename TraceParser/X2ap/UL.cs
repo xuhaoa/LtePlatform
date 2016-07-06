@@ -29,7 +29,7 @@ namespace TraceParser.X2ap
             {
                 input.ReadBit();
                 int num = input.ReadBits(7);
-                return input.readBitString(num + 1);
+                return input.ReadBitString(num + 1);
             }
         }
     }
@@ -74,7 +74,7 @@ namespace TraceParser.X2ap
                 input.ReadBit();
                 int num = input.ReadBits(7);
                 input.skipUnreadedBits();
-                item.ul_interferenceindication = input.readBitString(num + 1);
+                item.ul_interferenceindication = input.ReadBitString(num + 1);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();

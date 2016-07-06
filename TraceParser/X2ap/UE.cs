@@ -338,9 +338,9 @@ namespace TraceParser.X2ap
                 capabilities.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.ReadBit();
-                capabilities.encryptionAlgorithms = input.readBitString(0x10);
+                capabilities.encryptionAlgorithms = input.ReadBitString(0x10);
                 input.ReadBit();
-                capabilities.integrityProtectionAlgorithms = input.readBitString(0x10);
+                capabilities.integrityProtectionAlgorithms = input.ReadBitString(0x10);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();

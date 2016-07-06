@@ -44,8 +44,8 @@ namespace TraceParser.Eutra
             {
                 CSFB_RegistrationParam1XRTT paramxrtt = new CSFB_RegistrationParam1XRTT();
                 paramxrtt.InitDefaults();
-                paramxrtt.sid = input.readBitString(15);
-                paramxrtt.nid = input.readBitString(0x10);
+                paramxrtt.sid = input.ReadBitString(15);
+                paramxrtt.nid = input.ReadBitString(0x10);
                 paramxrtt.multipleSID = input.ReadBit() == 1;
                 paramxrtt.multipleNID = input.ReadBit() == 1;
                 paramxrtt.homeReg = input.ReadBit() == 1;
@@ -53,10 +53,10 @@ namespace TraceParser.Eutra
                 paramxrtt.foreignNIDReg = input.ReadBit() == 1;
                 paramxrtt.parameterReg = input.ReadBit() == 1;
                 paramxrtt.powerUpReg = input.ReadBit() == 1;
-                paramxrtt.registrationPeriod = input.readBitString(7);
-                paramxrtt.registrationZone = input.readBitString(12);
-                paramxrtt.totalZone = input.readBitString(3);
-                paramxrtt.zoneTimer = input.readBitString(3);
+                paramxrtt.registrationPeriod = input.ReadBitString(7);
+                paramxrtt.registrationZone = input.ReadBitString(12);
+                paramxrtt.totalZone = input.ReadBitString(3);
+                paramxrtt.zoneTimer = input.ReadBitString(3);
                 return paramxrtt;
             }
         }
@@ -351,7 +351,7 @@ namespace TraceParser.Eutra
                 CSFBParametersResponseCDMA2000_r8_IEs es = new CSFBParametersResponseCDMA2000_r8_IEs();
                 es.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                es.rand = input.readBitString(0x20);
+                es.rand = input.ReadBitString(0x20);
                 int nBits = input.ReadBits(8);
                 es.mobilityParameters = input.readOctetString(nBits);
                 if (stream.Read())

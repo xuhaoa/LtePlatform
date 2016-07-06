@@ -222,7 +222,7 @@ namespace TraceParser.Eutra
                     type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 1);
                     type.cellGlobalId = CellGlobalIdEUTRA.PerDecoder.Instance.Decode(input);
-                    type.trackingAreaCode = input.readBitString(0x10);
+                    type.trackingAreaCode = input.ReadBitString(0x10);
                     if (stream.Read())
                     {
                         type.plmn_IdentityList = new List<PLMN_Identity>();
@@ -340,7 +340,7 @@ namespace TraceParser.Eutra
                 MeasResultForECID_r9 _r = new MeasResultForECID_r9();
                 _r.InitDefaults();
                 _r.ue_RxTxTimeDiffResult_r9 = input.ReadBits(12);
-                _r.currentSFN_r9 = input.readBitString(10);
+                _r.currentSFN_r9 = input.ReadBitString(10);
                 return _r;
             }
         }
@@ -384,7 +384,7 @@ namespace TraceParser.Eutra
                     type.cellGlobalId = CellGlobalIdGERAN.PerDecoder.Instance.Decode(input);
                     if (stream.Read())
                     {
-                        type.routingAreaCode = input.readBitString(8);
+                        type.routingAreaCode = input.ReadBitString(8);
                     }
                     return type;
                 }
@@ -767,11 +767,11 @@ namespace TraceParser.Eutra
                     type.cellGlobalId = CellGlobalIdUTRA.PerDecoder.Instance.Decode(input);
                     if (stream.Read())
                     {
-                        type.locationAreaCode = input.readBitString(0x10);
+                        type.locationAreaCode = input.ReadBitString(0x10);
                     }
                     if (stream.Read())
                     {
-                        type.routingAreaCode = input.readBitString(8);
+                        type.routingAreaCode = input.ReadBitString(8);
                     }
                     if (stream.Read())
                     {

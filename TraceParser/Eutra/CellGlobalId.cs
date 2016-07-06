@@ -25,11 +25,11 @@ namespace TraceParser.Eutra
                 switch (input.ReadBits(1))
                 {
                     case 0:
-                        dcdma.cellGlobalId1XRTT = input.readBitString(0x2f);
+                        dcdma.cellGlobalId1XRTT = input.ReadBitString(0x2f);
                         return dcdma;
 
                     case 1:
-                        dcdma.cellGlobalIdHRPD = input.readBitString(0x80);
+                        dcdma.cellGlobalIdHRPD = input.ReadBitString(0x80);
                         return dcdma;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -57,7 +57,7 @@ namespace TraceParser.Eutra
                 CellGlobalIdEUTRA deutra = new CellGlobalIdEUTRA();
                 deutra.InitDefaults();
                 deutra.plmn_Identity = PLMN_Identity.PerDecoder.Instance.Decode(input);
-                deutra.cellIdentity = input.readBitString(0x1c);
+                deutra.cellIdentity = input.ReadBitString(0x1c);
                 return deutra;
             }
         }
@@ -85,8 +85,8 @@ namespace TraceParser.Eutra
                 CellGlobalIdGERAN dgeran = new CellGlobalIdGERAN();
                 dgeran.InitDefaults();
                 dgeran.plmn_Identity = PLMN_Identity.PerDecoder.Instance.Decode(input);
-                dgeran.locationAreaCode = input.readBitString(0x10);
-                dgeran.cellIdentity = input.readBitString(0x10);
+                dgeran.locationAreaCode = input.ReadBitString(0x10);
+                dgeran.cellIdentity = input.ReadBitString(0x10);
                 return dgeran;
             }
         }
@@ -112,7 +112,7 @@ namespace TraceParser.Eutra
                 CellGlobalIdUTRA dutra = new CellGlobalIdUTRA();
                 dutra.InitDefaults();
                 dutra.plmn_Identity = PLMN_Identity.PerDecoder.Instance.Decode(input);
-                dutra.cellIdentity = input.readBitString(0x1c);
+                dutra.cellIdentity = input.ReadBitString(0x1c);
                 return dutra;
             }
         }

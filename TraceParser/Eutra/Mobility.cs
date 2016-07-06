@@ -62,7 +62,7 @@ namespace TraceParser.Eutra
                 }
                 int nBits = 3;
                 info.t304 = (t304_Enum)input.ReadBits(nBits);
-                info.newUE_Identity = input.readBitString(0x10);
+                info.newUE_Identity = input.ReadBitString(0x10);
                 info.radioResourceConfigCommon = RadioResourceConfigCommon.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {

@@ -116,12 +116,12 @@ namespace TraceParser.X2ap
                 switch (input.ReadBits(1))
                 {
                     case 0:
-                        allocation.oneframe = input.readBitString(6);
+                        allocation.oneframe = input.ReadBitString(6);
                         return allocation;
 
                     case 1:
                         input.skipUnreadedBits();
-                        allocation.fourframes = input.readBitString(0x18);
+                        allocation.fourframes = input.ReadBitString(0x18);
                         return allocation;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");

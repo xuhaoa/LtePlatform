@@ -32,13 +32,13 @@ namespace TraceParser.S1ap
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 activation.e_UTRAN_Trace_ID = input.readOctetString(8);
-                activation.interfacesToTrace = input.readBitString(8);
+                activation.interfacesToTrace = input.ReadBitString(8);
                 int nBits = (input.ReadBit() == 0) ? 3 : 3;
                 activation.traceDepth = (TraceDepth)input.ReadBits(nBits);
                 input.ReadBit();
                 int num = input.ReadBits(8);
                 input.skipUnreadedBits();
-                activation.traceCollectionEntityIPAddress = input.readBitString(num + 1);
+                activation.traceCollectionEntityIPAddress = input.ReadBitString(num + 1);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
@@ -144,7 +144,7 @@ namespace TraceParser.S1ap
 
             public string Decode(BitArrayInputStream input)
             {
-                return input.readBitString(0x10);
+                return input.ReadBitString(0x10);
             }
         }
     }
@@ -231,7 +231,7 @@ namespace TraceParser.S1ap
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 context.nextHopChainingCount = input.ReadBits(3);
                 input.skipUnreadedBits();
-                context.nextHopParameter = input.readBitString(0x100);
+                context.nextHopParameter = input.ReadBitString(0x100);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
@@ -258,7 +258,7 @@ namespace TraceParser.S1ap
 
             public string Decode(BitArrayInputStream input)
             {
-                return input.readBitString(0x100);
+                return input.ReadBitString(0x100);
             }
         }
     }
@@ -272,7 +272,7 @@ namespace TraceParser.S1ap
 
             public string Decode(BitArrayInputStream input)
             {
-                return input.readBitString(0x10);
+                return input.ReadBitString(0x10);
             }
         }
     }
@@ -288,7 +288,7 @@ namespace TraceParser.S1ap
             {
                 input.ReadBit();
                 int num = input.ReadBits(8);
-                return input.readBitString(num + 1);
+                return input.ReadBitString(num + 1);
             }
         }
     }

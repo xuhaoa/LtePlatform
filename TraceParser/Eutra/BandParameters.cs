@@ -84,7 +84,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     int num = input.ReadBits(5);
-                    _r.supportedBandwidthCombinationSet_r10 = input.readBitString(num + 1);
+                    _r.supportedBandwidthCombinationSet_r10 = input.ReadBitString(num + 1);
                 }
                 return _r;
             }

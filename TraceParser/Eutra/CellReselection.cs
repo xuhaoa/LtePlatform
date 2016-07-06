@@ -209,7 +209,7 @@ namespace TraceParser.Eutra
                         type.carrierFreq = CarrierFreqGERAN.PerDecoder.Instance.Decode(input);
                         if (stream.Read())
                         {
-                            type.networkControlOrder = input.readBitString(2);
+                            type.networkControlOrder = input.ReadBitString(2);
                         }
                         if (stream.Read())
                         {

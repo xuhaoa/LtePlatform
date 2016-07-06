@@ -13,7 +13,7 @@ namespace TraceParser.S1ap
 
             public string Decode(BitArrayInputStream input)
             {
-                return input.readBitString(0x1c);
+                return input.ReadBitString(0x1c);
             }
         }
     }
@@ -182,7 +182,7 @@ namespace TraceParser.S1ap
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 eutran_cgi.pLMNidentity = input.readOctetString(3);
-                eutran_cgi.cell_ID = input.readBitString(0x1c);
+                eutran_cgi.cell_ID = input.ReadBitString(0x1c);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();

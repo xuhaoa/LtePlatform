@@ -300,7 +300,7 @@ namespace TraceParser.Eutra
                     {
                         type.cellReselectionPriority = input.ReadBits(3);
                     }
-                    type.ncc_Permitted = input.readBitString(8);
+                    type.ncc_Permitted = input.ReadBitString(8);
                     type.q_RxLevMin = input.ReadBits(6);
                     if (stream.Read())
                     {

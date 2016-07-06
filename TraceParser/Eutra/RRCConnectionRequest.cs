@@ -104,7 +104,7 @@ namespace TraceParser.Eutra
                 es.ue_Identity = InitialUE_Identity.PerDecoder.Instance.Decode(input);
                 int nBits = 3;
                 es.establishmentCause = (EstablishmentCause)input.ReadBits(nBits);
-                es.spare = input.readBitString(1);
+                es.spare = input.ReadBitString(1);
                 return es;
             }
         }

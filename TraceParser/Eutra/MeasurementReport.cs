@@ -262,7 +262,7 @@ namespace TraceParser.Eutra
                 LogMeasReport_r10 _r = new LogMeasReport_r10();
                 _r.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                _r.absoluteTimeStamp_r10 = input.readBitString(0x30);
+                _r.absoluteTimeStamp_r10 = input.ReadBitString(0x30);
                 _r.traceReference_r10 = TraceReference_r10.PerDecoder.Instance.Decode(input);
                 _r.traceRecordingSessionRef_r10 = input.readOctetString(2);
                 _r.tce_Id_r10 = input.readOctetString(1);

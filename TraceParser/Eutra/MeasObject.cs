@@ -136,7 +136,7 @@ namespace TraceParser.Eutra
                 int nBits = 3;
                 teutra.allowedMeasBandwidth = (AllowedMeasBandwidth)input.ReadBits(nBits);
                 teutra.presenceAntennaPort1 = input.ReadBit() == 1;
-                teutra.neighCellConfig = input.readBitString(2);
+                teutra.neighCellConfig = input.ReadBitString(2);
                 if (stream.Read())
                 {
                     nBits = 5;
@@ -301,7 +301,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    tgeran.ncc_Permitted = input.readBitString(8);
+                    tgeran.ncc_Permitted = input.ReadBitString(8);
                 }
                 if (stream2.Read())
                 {

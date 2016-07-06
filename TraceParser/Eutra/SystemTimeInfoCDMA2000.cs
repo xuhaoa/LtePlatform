@@ -36,11 +36,11 @@ namespace TraceParser.Eutra
                     switch (input.ReadBits(1))
                     {
                         case 0:
-                            type.synchronousSystemTime = input.readBitString(0x27);
+                            type.synchronousSystemTime = input.ReadBitString(0x27);
                             return type;
 
                         case 1:
-                            type.asynchronousSystemTime = input.readBitString(0x31);
+                            type.asynchronousSystemTime = input.ReadBitString(0x31);
                             return type;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
