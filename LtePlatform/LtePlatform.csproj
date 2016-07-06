@@ -635,6 +635,7 @@
     <Content Include="Scripts\angular-messages.js" />
     <Content Include="Scripts\angular-messages.min.js" />
     <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular-scenario.js" />
     <Content Include="directives\uib\alert.js" />
     <Content Include="Areas\TestPage\Scripts\angular\chap10.viewmodel.js" />
@@ -774,6 +775,7 @@
     <Content Include="Scripts\angular-route.min.js" />
     <Content Include="Scripts\angular-sanitize.min.js" />
     <Content Include="Scripts\angular-touch.min.js" />
+    <Content Include="Scripts\angular-ui-router.js" />
     <Content Include="Scripts\angular-ui-router.min.js" />
     <Content Include="Scripts\angular-ui\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\angular-ui\bootstrap-datetimepicker.min.js" />
@@ -1138,8 +1140,8 @@
     <Content Include="Scripts\highcharts\themes\sand.png" />
     <Content Include="Scripts\highcharts\themes\skies.jpg" />
     <Content Include="Scripts\highcharts\themes\skies.js" />
-    <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-messages.min.js.map" />
+    <Content Include="Scripts\angular.min.js.map" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -1174,7 +1176,6 @@
     <Content Include="Scripts\angular-ui\angular-resource.js" />
     <Content Include="Scripts\angular-ui\angular-sanitize.js" />
     <Content Include="Scripts\angular-ui\angular-touch.js" />
-    <Content Include="Scripts\angular-ui\angular-ui-router.js" />
     <Content Include="Scripts\parameters\list.controller.js" />
     <Content Include="Scripts\parameters\query.map.js" />
     <Content Include="Scripts\respond.js" />
