@@ -102,7 +102,6 @@
     <Compile Include="DataService\College\InfrastructureServices.cs" />
     <Compile Include="DataService\College\CollegeKpiService.cs" />
     <Compile Include="DataService\College\CollegeStatService.cs" />
-    <Compile Include="DataService\CsvFileInfoService.cs" />
     <Compile Include="DataService\Dump\BtsDumpService.cs" />
     <Compile Include="DataService\Dump\CdmaCellDumpService.cs" />
     <Compile Include="DataService\Dump\CellDumpService.cs" />
@@ -139,7 +138,6 @@
     <Compile Include="DataService\Kpi\PreciseImportService.cs" />
     <Compile Include="DataService\Kpi\PreciseRegionStatService.cs" />
     <Compile Include="DataService\Kpi\PreciseStatService.cs" />
-    <Compile Include="DataService\RasterInfoService.cs" />
     <Compile Include="DataService\Kpi\TopDrop2GService.cs" />
     <Compile Include="DataService\Basic\TownQueryService.cs" />
     <Compile Include="DataService\WorkItemService.cs" />

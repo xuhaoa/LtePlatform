@@ -130,7 +130,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\Basic\IEutranInterNFreqRepository.cs" />
-    <Compile Include="Abstract\IAreaTestDateRepository.cs" />
     <Compile Include="Abstract\Basic\IBtsRepository.cs" />
     <Compile Include="Abstract\Basic\ICdmaCellRepository.cs" />
     <Compile Include="Abstract\Kpi\ICdmaRegionStatRepository.cs" />
