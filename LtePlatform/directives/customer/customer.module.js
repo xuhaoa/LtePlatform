@@ -25,10 +25,39 @@
             },
             templateUrl: customerRoot + 'vip/DemandList.html',
             link: function(scope, element, attrs) {
-                scope.supplement = function (view) {
+                scope.supplement = function(view) {
                     customerDialogService.supplementVipDemandInfo(view, scope.city, scope.district, scope.messages);
                     view.isInfoComplete = true;
                 };
+            }
+        };
+    })
+    .value('processTypeDictionay', {
+        "通信车申请": 'default',
+        "光纤起单": 'danger',
+        "电源准备": 'primary',
+        "光纤调通": 'warning',
+        "通信车就位": 'info',
+        "通信车开通": 'primary',
+        "优化测试": 'info',
+        "完成": 'success'
+    })
+    .directive('emergencyProcessState', function(processTypeDictionay) {
+        return {
+            restrict: 'A',
+            scope: {
+                state: '='
+            },
+            template: '<span>{{state}}</span>',
+            link: function(scope, element, attrs) {
+                element.addClass('label');
+                
+                scope.$watch("state", function (state) {
+                    if (state) {
+                        var type = processTypeDictionay[state] || 'primary';
+                        element.addClass('label-' + type);
+                    }
+                });
             }
         };
     });

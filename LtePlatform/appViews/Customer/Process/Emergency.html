@@ -1,29 +1,35 @@
 ﻿<h3 class="text-primary">项目名称：{{item.projectName}}</h3>
 <table class="table table-bordered">
     <tbody>
-        <tr>
-            <td>保障等级</td>
-            <td>{{item.demandLevelDescription}}</td>
-            <td>开始时间</td>
-            <td>{{item.beginDate | date: 'yyyy-MM-dd'}}</td>
-            <td>结束时间</td>
-            <td>{{item.endDate | date: 'yyyy-MM-dd'}}</td>
-        </tr>
-        <tr>
-            <td>需求联系人</td>
-            <td>{{item.person}}</td>
-            <td>联系人电话</td>
-            <td>{{item.phone}}</td>
-            <td>需求部门</td>
-            <td>{{item.department}}</td>
-        </tr>
-        <tr>
-            <td>通信车类型</td>
-            <td>{{item.vehicularTypeDescription}}</td>
-            <td>区域</td>
-            <td>{{item.district}}</td>
-            <td>镇区</td>
-            <td>{{item.town}}</td>
-        </tr>
+    <tr>
+        <td>保障等级</td>
+        <td>{{item.demandLevelDescription}}</td>
+        <td>开始时间</td>
+        <td>{{item.beginDate | date: 'yyyy-MM-dd'}}</td>
+        <td>结束时间</td>
+        <td>{{item.endDate | date: 'yyyy-MM-dd'}}</td>
+    </tr>
+    <tr>
+        <td>需求联系人</td>
+        <td>{{item.person}}</td>
+        <td>联系人电话</td>
+        <td>{{item.phone}}</td>
+        <td>需求部门</td>
+        <td>{{item.department}}</td>
+    </tr>
+    <tr>
+        <td>通信车类型</td>
+        <td>{{item.vehicularTypeDescription}}</td>
+        <td>区域</td>
+        <td>{{item.district}}</td>
+        <td>镇区</td>
+        <td>{{item.town}}</td>
+    </tr>
     </tbody>
 </table>
+<div class="input-group">
+    当前状态：
+    <div emergency-process-state state="item.emergencyStateDescription"></div>
+    下一状态：
+    <div emergency-process-state state="item.nextStateDescription"></div>
+</div>
