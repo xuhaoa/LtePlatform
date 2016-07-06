@@ -63,7 +63,6 @@ namespace LtePlatform
             bundles.Add(new StyleBundle("~/Content/css").Include(
                  "~/Content/bootstrap.css",
                  "~/Content/bootstrap-theme.css",
-                "~/Content/themes/ui-bootstrap.css",
                  "~/Content/Site.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
