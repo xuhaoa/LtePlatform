@@ -38,8 +38,6 @@ namespace TraceParser.Eutra
 
             protected override void ProcessConfig(AS_Config config, BitArrayInputStream input)
             {
-                BitMaskStream stream;
-                InitDefaults();
                 var flag = input.ReadBit() != 0;
                 config.sourceMeasConfig = MeasConfig.PerDecoder.Instance.Decode(input);
                 config.sourceRadioResourceConfig = RadioResourceConfigDedicated.PerDecoder.Instance.Decode(input);
@@ -50,27 +48,23 @@ namespace TraceParser.Eutra
                 config.sourceSystemInformationBlockType2 = SystemInformationBlockType2.PerDecoder.Instance.Decode(input);
                 config.antennaInfoCommon = AntennaInfoCommon.PerDecoder.Instance.Decode(input);
                 config.sourceDl_CarrierFreq = input.ReadBits(0x10);
-                if (flag)
+                if (!flag) return;
+                var stream = new BitMaskStream(input, 1);
+                if (stream.Read())
                 {
-                    stream = new BitMaskStream(input, 1);
-                    if (stream.Read())
-                    {
-                        var nBits = input.ReadBits(8);
-                        config.sourceSystemInformationBlockType1Ext = input.readOctetString(nBits);
-                    }
-                    config.sourceOtherConfig_r9 = OtherConfig_r9.PerDecoder.Instance.Decode(input);
+                    var nBits = input.ReadBits(8);
+                    config.sourceSystemInformationBlockType1Ext = input.readOctetString(nBits);
                 }
-                if (flag)
+                config.sourceOtherConfig_r9 = OtherConfig_r9.PerDecoder.Instance.Decode(input);
+
+                stream = new BitMaskStream(input, 1);
+                if (!stream.Read()) return;
+                config.sourceSCellConfigList_r10 = new List<SCellToAddMod_r10>();
+                var num3 = input.ReadBits(2) + 1;
+                for (var i = 0; i < num3; i++)
                 {
-                    stream = new BitMaskStream(input, 1);
-                    if (!stream.Read()) return;
-                    config.sourceSCellConfigList_r10 = new List<SCellToAddMod_r10>();
-                    var num3 = input.ReadBits(2) + 1;
-                    for (var i = 0; i < num3; i++)
-                    {
-                        var item = SCellToAddMod_r10.PerDecoder.Instance.Decode(input);
-                        config.sourceSCellConfigList_r10.Add(item);
-                    }
+                    var item = SCellToAddMod_r10.PerDecoder.Instance.Decode(input);
+                    config.sourceSCellConfigList_r10.Add(item);
                 }
             }
         }
@@ -87,7 +81,6 @@ namespace TraceParser.Eutra
             
             protected override void ProcessConfig(AS_Config_v9e0 config, BitArrayInputStream input)
             {
-                InitDefaults();
                 config.sourceDl_CarrierFreq_v9e0 = input.ReadBits(0x12) + 0x10000;
             }
         }
@@ -104,7 +97,6 @@ namespace TraceParser.Eutra
             
             protected override void ProcessConfig(AS_Context config, BitArrayInputStream input)
             {
-                InitDefaults();
                 var stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
@@ -129,7 +121,6 @@ namespace TraceParser.Eutra
             
             protected override void ProcessConfig(AS_Context_v1130 config, BitArrayInputStream input)
             {
-                InitDefaults();
                 var stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
                 if (stream.Read())
                 {

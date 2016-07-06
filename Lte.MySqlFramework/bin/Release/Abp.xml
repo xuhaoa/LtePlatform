@@ -47,11 +47,6 @@
             Used to define some constants for ABP.
             </summary>
         </member>
-        <member name="F:Abp.AbpConsts.CurrentVersion">
-            <summary>
-            Current version of the ABP.
-            </summary>
-        </member>
         <member name="F:Abp.AbpConsts.LocalizationSourceName">
             <summary>
             Localization source name of ASP.NET Boilerplate framework.
@@ -161,6 +156,11 @@
         <member name="P:Abp.AbpServiceBase.Logger">
             <summary>
             Reference to the logger to write logs.
+            </summary>
+        </member>
+        <member name="P:Abp.AbpServiceBase.ObjectMapper">
+            <summary>
+            Reference to the object to object mapper.
             </summary>
         </member>
         <member name="M:Abp.AbpServiceBase.#ctor">
@@ -1426,6 +1426,11 @@
             Gets current session information.
             </summary>
         </member>
+        <member name="P:Abp.Application.Services.ApplicationService.AppliedCrossCuttingConcerns">
+            <summary>
+            Gets the applied cross cutting concerns.
+            </summary>
+        </member>
         <member name="M:Abp.Application.Services.ApplicationService.#ctor">
             <summary>
             Constructor.
@@ -1456,12 +1461,6 @@
             </summary>
             <param name="featureName">Name of the feature</param>
             <returns></returns>
-        </member>
-        <member name="T:Abp.Application.Services.DisableDynamicWebApiAttribute">
-            <summary>
-            Add this attribute to an application service interface or an interface method
-            to disable dynamic web api creation.
-            </summary>
         </member>
         <member name="T:Abp.Application.Services.IApplicationService">
             <summary>
@@ -2012,7 +2011,7 @@
         </member>
         <member name="P:Abp.Auditing.AuditInfo.Exception">
             <summary>
-            Exception object, if an exception occured during execution of the method.
+            Exception object, if an exception occurred during execution of the method.
             </summary>
         </member>
         <member name="T:Abp.Auditing.AuditingContractResolver">
@@ -2121,6 +2120,11 @@
         <member name="T:Abp.Auditing.NullAuditInfoProvider">
             <summary>
             Null implementation of <see cref="T:Abp.Auditing.IAuditInfoProvider"/>.
+            </summary>
+        </member>
+        <member name="P:Abp.Auditing.NullAuditInfoProvider.Instance">
+            <summary>
+            Singleton instance.
             </summary>
         </member>
         <member name="T:Abp.Auditing.SimpleLogAuditingStore">
@@ -3101,6 +3105,28 @@
             </summary>
             <param name="dictionary">Dictionary to check and get</param>
             <param name="key">Key to find the value</param>
+            <typeparam name="TKey">Type of the key</typeparam>
+            <typeparam name="TValue">Type of the value</typeparam>
+            <returns>Value if found, default if can not found.</returns>
+        </member>
+        <member name="M:Abp.Collections.Extensions.DictionaryExtensions.GetOrAdd``2(System.Collections.Generic.IDictionary{``0,``1},``0,System.Func{``0,``1})">
+            <summary>
+            Gets a value from the dictionary with given key. Returns default value if can not find.
+            </summary>
+            <param name="dictionary">Dictionary to check and get</param>
+            <param name="key">Key to find the value</param>
+            <param name="factory">A factory method used to create the value if not found in the dictionary</param>
+            <typeparam name="TKey">Type of the key</typeparam>
+            <typeparam name="TValue">Type of the value</typeparam>
+            <returns>Value if found, default if can not found.</returns>
+        </member>
+        <member name="M:Abp.Collections.Extensions.DictionaryExtensions.GetOrAdd``2(System.Collections.Generic.IDictionary{``0,``1},``0,System.Func{``1})">
+            <summary>
+            Gets a value from the dictionary with given key. Returns default value if can not find.
+            </summary>
+            <param name="dictionary">Dictionary to check and get</param>
+            <param name="key">Key to find the value</param>
+            <param name="factory">A factory method used to create the value if not found in the dictionary</param>
             <typeparam name="TKey">Type of the key</typeparam>
             <typeparam name="TValue">Type of the value</typeparam>
             <returns>Value if found, default if can not found.</returns>
@@ -4609,6 +4635,32 @@
             <param name="argumentsAsAnonymousType">Constructor arguments</param>
             <returns>The object instance</returns>
         </member>
+        <member name="M:Abp.Dependency.IIocResolver.ResolveAll``1">
+            <summary>
+            Gets all implementations for given type.
+            Returning objects must be Released (see <see cref="M:Abp.Dependency.IIocResolver.Release(System.Object)"/>) after usage.
+            </summary> 
+            <typeparam name="T">Type of the objects to resolve</typeparam>
+            <returns>Object instances</returns>
+        </member>
+        <member name="M:Abp.Dependency.IIocResolver.ResolveAll``1(System.Object)">
+            <summary>
+            Gets all implementations for given type.
+            Returning objects must be Released (see <see cref="M:Abp.Dependency.IIocResolver.Release(System.Object)"/>) after usage.
+            </summary> 
+            <typeparam name="T">Type of the objects to resolve</typeparam>
+            <param name="argumentsAsAnonymousType">Constructor arguments</param>
+            <returns>Object instances</returns>
+        </member>
+        <member name="M:Abp.Dependency.IIocResolver.ResolveAll(System.Type,System.Object)">
+            <summary>
+            Gets all implementations for given type.
+            Returning objects must be Released (see <see cref="M:Abp.Dependency.IIocResolver.Release(System.Object)"/>) after usage.
+            </summary> 
+            <param name="type">Type of the objects to resolve</param>
+            <param name="argumentsAsAnonymousType">Constructor arguments</param>
+            <returns>Object instances</returns>
+        </member>
         <member name="M:Abp.Dependency.IIocResolver.Release(System.Object)">
             <summary>
             Releases a pre-resolved object. See Resolve methods.
@@ -4757,6 +4809,18 @@
             <param name="type">Type of the object to get</param>
             <param name="argumentsAsAnonymousType">Constructor arguments</param>
             <returns>The instance object</returns>
+        </member>
+        <member name="M:Abp.Dependency.IocManager.ResolveAll``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Dependency.IocManager.ResolveAll``1(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Dependency.IocManager.ResolveAll(System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Dependency.IocManager.ResolveAll(System.Type,System.Object)">
+            <inheritdoc/>
         </member>
         <member name="M:Abp.Dependency.IocManager.Release(System.Object)">
             <summary>
@@ -7201,6 +7265,22 @@
             <param name="c">Char to search in <see cref="!:str"/></param>
             <param name="n">Count of the occurence</param>
         </member>
+        <member name="M:Abp.Extensions.StringExtensions.RemovePostFix(System.String,System.String[])">
+            <summary>
+            Removes first occurrence of the given postfixes from end of the given string.
+            </summary>
+            <param name="str">The string.</param>
+            <param name="postFixes">one or more postfix.</param>
+            <returns>Modified string or the same string if it has not any of given postfixes</returns>
+        </member>
+        <member name="M:Abp.Extensions.StringExtensions.RemovePreFix(System.String,System.String[])">
+            <summary>
+            Removes first occurrence of the given prefixes from beginning of the given string.
+            </summary>
+            <param name="str">The string.</param>
+            <param name="preFixes">one or more prefix.</param>
+            <returns>Modified string or the same string if it has not any of given prefixes</returns>
+        </member>
         <member name="M:Abp.Extensions.StringExtensions.Right(System.String,System.Int32)">
             <summary>
             Gets a substring of a string from end of the string.
@@ -8291,18 +8371,6 @@
             </summary>
             <returns>List of modules</returns>
         </member>
-        <member name="T:Abp.MultiTenancy.ITenantIdResolver">
-            <summary>
-            Used to get current tenant id.
-            This interface can be implemented to get Tenant's Id if user has not logged in.
-            It can resolve TenantId from subdomain, for example.
-            </summary>
-        </member>
-        <member name="P:Abp.MultiTenancy.ITenantIdResolver.TenantId">
-            <summary>
-            Gets current TenantId or null.
-            </summary>
-        </member>
         <member name="T:Abp.MultiTenancy.MultiTenancyExtensions">
             <summary>
             Extension methods for multi-tenancy.
@@ -8343,16 +8411,6 @@
         <member name="F:Abp.MultiTenancy.MultiTenancySides.Host">
             <summary>
             Host (tenancy owner) side.
-            </summary>
-        </member>
-        <member name="T:Abp.MultiTenancy.NullTenantIdResolver">
-            <summary>
-            Implements null object pattern for <see cref="T:Abp.MultiTenancy.ITenantIdResolver"/>.
-            </summary>
-        </member>
-        <member name="P:Abp.MultiTenancy.NullTenantIdResolver.Instance">
-            <summary>
-            Singleton instance.
             </summary>
         </member>
         <member name="T:Abp.Net.Mail.EmailSenderBase">
@@ -10058,6 +10116,12 @@
             <param name="givenType">Type to check</param>
             <param name="genericType">Generic type</param>
         </member>
+        <member name="M:Abp.Reflection.ReflectionHelper.GetAttributesOfMemberAndDeclaringType(System.Reflection.MemberInfo)">
+            <summary>
+            Gets a list of attributes defined for a class member and it's declaring type including inherited attributes.
+            </summary>
+            <param name="memberInfo">MemberInfo</param>
+        </member>
         <member name="M:Abp.Reflection.ReflectionHelper.GetAttributesOfMemberAndDeclaringType``1(System.Reflection.MemberInfo)">
             <summary>
             Gets a list of attributes defined for a class member and it's declaring type including inherited attributes.
@@ -10065,13 +10129,23 @@
             <typeparam name="TAttribute">Type of the attribute</typeparam>
             <param name="memberInfo">MemberInfo</param>
         </member>
-        <member name="M:Abp.Reflection.ReflectionHelper.GetSingleAttributeOfMemberOrDeclaringTypeOrNull``1(System.Reflection.MemberInfo)">
+        <member name="M:Abp.Reflection.ReflectionHelper.GetSingleAttributeOfMemberOrDeclaringTypeOrDefault``1(System.Reflection.MemberInfo,``0)">
             <summary>
             Tries to gets an of attribute defined for a class member and it's declaring type including inherited attributes.
-            Returns null if it's not declared at all.
+            Returns default value if it's not declared at all.
             </summary>
             <typeparam name="TAttribute">Type of the attribute</typeparam>
             <param name="memberInfo">MemberInfo</param>
+            <param name="defaultValue">Default value (null as default)</param>
+        </member>
+        <member name="M:Abp.Reflection.ReflectionHelper.GetSingleAttributeOrDefault``1(System.Reflection.MemberInfo,``0)">
+            <summary>
+            Tries to gets an of attribute defined for a class member and it's declaring type including inherited attributes.
+            Returns default value if it's not declared at all.
+            </summary>
+            <typeparam name="TAttribute">Type of the attribute</typeparam>
+            <param name="memberInfo">MemberInfo</param>
+            <param name="defaultValue">Default value (null as default)</param>
         </member>
         <member name="M:Abp.Reflection.ReflectionHelper.GetValueByPath(System.Object,System.Type,System.String)">
             <summary>
@@ -11016,6 +11090,11 @@
             Can be added to a method to disable auto validation.
             </summary>
         </member>
+        <member name="T:Abp.Runtime.Validation.EnableValidationAttribute">
+            <summary>
+            Can be added to a method to enable auto validation if validation is disabled for it's class.
+            </summary>
+        </member>
         <member name="T:Abp.Runtime.Validation.ICustomValidate">
             <summary>
             Defines interface that must be implemented by classes those must be validated with custom rules.
@@ -11060,10 +11139,12 @@
             This class is used to validate a method call (invocation) for method arguments.
             </summary>
         </member>
-        <member name="M:Abp.Runtime.Validation.Interception.MethodInvocationValidator.#ctor(System.Reflection.MethodInfo,System.Object[])">
+        <member name="M:Abp.Runtime.Validation.Interception.MethodInvocationValidator.#ctor">
             <summary>
             Creates a new <see cref="T:Abp.Runtime.Validation.Interception.MethodInvocationValidator"/> instance.
             </summary>
+        </member>
+        <member name="M:Abp.Runtime.Validation.Interception.MethodInvocationValidator.Initialize(System.Reflection.MethodInfo,System.Object[])">
             <param name="method">Method to be validated</param>
             <param name="parameterValues">List of arguments those are used to call the <paramref name="method"/>.</param>
         </member>
@@ -11079,7 +11160,7 @@
             <param name="parameterInfo">Parameter of the method to validate</param>
             <param name="parameterValue">Value to validate</param>
         </member>
-        <member name="M:Abp.Runtime.Validation.Interception.MethodInvocationValidator.SetValidationAttributeErrors(System.Object)">
+        <member name="M:Abp.Runtime.Validation.Interception.MethodInvocationValidator.SetDataAnnotationAttributeErrors(System.Object)">
             <summary>
             Checks all properties for DataAnnotations attributes.
             </summary>

@@ -18,16 +18,15 @@ namespace TraceParser.Eutra
             
             protected override void ProcessConfig(AreaConfiguration_r10 config, BitArrayInputStream input)
             {
-                InitDefaults();
                 switch (input.ReadBits(1))
                 {
                     case 0:
                         {
                             config.cellGlobalIdList_r10 = new List<CellGlobalIdEUTRA>();
-                            int num4 = input.ReadBits(5) + 1;
-                            for (int i = 0; i < num4; i++)
+                            var num4 = input.ReadBits(5) + 1;
+                            for (var i = 0; i < num4; i++)
                             {
-                                CellGlobalIdEUTRA item = CellGlobalIdEUTRA.PerDecoder.Instance.Decode(input);
+                                var item = CellGlobalIdEUTRA.PerDecoder.Instance.Decode(input);
                                 config.cellGlobalIdList_r10.Add(item);
                             }
                             return;
@@ -35,10 +34,10 @@ namespace TraceParser.Eutra
                     case 1:
                         {
                             config.trackingAreaCodeList_r10 = new List<string>();
-                            int num6 = input.ReadBits(3) + 1;
-                            for (int j = 0; j < num6; j++)
+                            var num6 = input.ReadBits(3) + 1;
+                            for (var j = 0; j < num6; j++)
                             {
-                                string str = input.ReadBitString(0x10);
+                                var str = input.ReadBitString(0x10);
                                 config.trackingAreaCodeList_r10.Add(str);
                             }
                             return;
@@ -60,7 +59,6 @@ namespace TraceParser.Eutra
             
             protected override void ProcessConfig(AreaConfiguration_v1130 config, BitArrayInputStream input)
             {
-                InitDefaults();
                 config.trackingAreaCodeList_v1130 = TrackingAreaCodeList_v1130.PerDecoder.Instance.Decode(input);
             }
         }

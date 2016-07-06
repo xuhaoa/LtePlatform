@@ -232,7 +232,6 @@ namespace TraceParser.Eutra
             
             protected override void ProcessConfig(AntennaInfoDedicated_v12xx config, BitArrayInputStream input)
             {
-                InitDefaults();
                 var stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
@@ -251,8 +250,10 @@ namespace TraceParser.Eutra
         [Serializable]
         public class codebookSubsetRestriction_v920_Type : TraceConfig
         {
+            [CodeBit(Position = 0, BitToBeRead = 6)]
             public string n2TxAntenna_tm8_r9 { get; set; }
 
+            [CodeBit(Position = 1, BitToBeRead = 0x20)]
             public string n4TxAntenna_tm8_r9 { get; set; }
 
             public class PerDecoder : DecoderBase<codebookSubsetRestriction_v920_Type>
@@ -261,16 +262,7 @@ namespace TraceParser.Eutra
                 
                 protected override void ProcessConfig(codebookSubsetRestriction_v920_Type config, BitArrayInputStream input)
                 {
-                    switch (input.ReadBits(1))
-                    {
-                        case 0:
-                            config.n2TxAntenna_tm8_r9 = input.ReadBitString(6);
-                            return;
-                        case 1:
-                            config.n4TxAntenna_tm8_r9 = input.ReadBitString(0x20);
-                            return;
-                    }
-                    throw new Exception(GetType().Name + ":NoChoice had been choose");
+                    config.ReadCodeBits(input, input.ReadBits(1));
                 }
             }
         }
