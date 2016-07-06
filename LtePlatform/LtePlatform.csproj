@@ -1184,8 +1184,6 @@
     <Content Include="Scripts\rutrace\menu.controller.js" />
     <Content Include="Scripts\rutrace\topcells.controller.js" />
     <Content Include="Scripts\rutrace\workitem\workitem.list..js" />
-    <Content Include="Scripts\sammy-0.7.5.js" />
-    <Content Include="Scripts\sammy-0.7.5.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Scripts\app\common.js" />
     <Content Include="Scripts\app\home.viewmodel.js" />
