@@ -15,52 +15,40 @@ namespace TraceParser.Eutra
             
             protected override void ProcessConfig(UL_CCCH_Message config, BitArrayInputStream input)
             {
-                InitDefaults();
                 config.message = UL_CCCH_MessageType.PerDecoder.Instance.Decode(input);
             }
         }
     }
 
     [Serializable]
-    public class UL_CCCH_MessageType
+    public class UL_CCCH_MessageType : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public c1_Type c1 { get; set; }
 
         public messageClassExtension_Type messageClassExtension { get; set; }
 
         [Serializable]
-        public class c1_Type
+        public class c1_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public RRCConnectionReestablishmentRequest rrcConnectionReestablishmentRequest { get; set; }
 
             public RRCConnectionRequest rrcConnectionRequest { get; set; }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<c1_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public c1_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(c1_Type config, BitArrayInputStream input)
                 {
-                    c1_Type type = new c1_Type();
-                    type.InitDefaults();
                     switch (input.readBits(1))
                     {
                         case 0:
-                            type.rrcConnectionReestablishmentRequest 
+                            config.rrcConnectionReestablishmentRequest
                                 = RRCConnectionReestablishmentRequest.PerDecoder.Instance.Decode(input);
-                            return type;
-
+                            return;
                         case 1:
-                            type.rrcConnectionRequest = RRCConnectionRequest.PerDecoder.Instance.Decode(input);
-                            return type;
+                            config.rrcConnectionRequest = RRCConnectionRequest.PerDecoder.Instance.Decode(input);
+                            return;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
                 }
@@ -68,42 +56,33 @@ namespace TraceParser.Eutra
         }
 
         [Serializable]
-        public class messageClassExtension_Type
+        public class messageClassExtension_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<messageClassExtension_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public messageClassExtension_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(messageClassExtension_Type config, BitArrayInputStream input)
                 {
-                    messageClassExtension_Type type = new messageClassExtension_Type();
-                    type.InitDefaults();
-                    return type;
                 }
             }
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<UL_CCCH_MessageType>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public UL_CCCH_MessageType Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(UL_CCCH_MessageType config, BitArrayInputStream input)
             {
-                UL_CCCH_MessageType type = new UL_CCCH_MessageType();
-                type.InitDefaults();
                 switch (input.readBits(1))
                 {
                     case 0:
-                        type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
-                        return type;
+                        config.c1 = c1_Type.PerDecoder.Instance.Decode(input);
+                        return;
 
                     case 1:
-                        type.messageClassExtension = messageClassExtension_Type.PerDecoder.Instance.Decode(input);
-                        return type;
+                        config.messageClassExtension = messageClassExtension_Type.PerDecoder.Instance.Decode(input);
+                        return;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");
             }

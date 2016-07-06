@@ -9,7 +9,7 @@ namespace TraceParser.Common
 {
     public abstract class TraceConfig
     {
-        protected static void InitDefaults()
+        public static void InitDefaults()
         {
         }
     }
@@ -25,6 +25,7 @@ namespace TraceParser.Common
     {
         public TConfig Decode(BitArrayInputStream input)
         {
+            TraceConfig.InitDefaults();
             var config = new TConfig();
             ProcessConfig(config, input);
             return config;

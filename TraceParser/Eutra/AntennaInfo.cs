@@ -19,11 +19,10 @@ namespace TraceParser.Eutra
 
         public class PerDecoder : DecoderBase<AntennaInfoCommon>
         {
-            public static readonly PerDecoder Instance = new PerDecoder();
+            public static PerDecoder Instance => new PerDecoder();
 
             protected override void ProcessConfig(AntennaInfoCommon config, BitArrayInputStream input)
             {
-                InitDefaults();
                 config.antennaPortsCount = (antennaPortsCount_Enum)input.readBits(2);
             }
         }
@@ -59,11 +58,10 @@ namespace TraceParser.Eutra
 
             public class PerDecoder : DecoderBase<codebookSubsetRestriction_Type>
             {
-                public static readonly PerDecoder Instance = new PerDecoder();
+                public static PerDecoder Instance => new PerDecoder();
                 
                 protected override void ProcessConfig(codebookSubsetRestriction_Type config, BitArrayInputStream input)
                 {
-                    InitDefaults();
                     switch (input.readBits(3))
                     {
                         case 0:
@@ -98,12 +96,11 @@ namespace TraceParser.Eutra
 
         public class PerDecoder : DecoderBase<AntennaInfoDedicated>
         {
-            public static readonly PerDecoder Instance = new PerDecoder();
+            public static PerDecoder Instance => new PerDecoder();
             
             protected override void ProcessConfig(AntennaInfoDedicated config, BitArrayInputStream input)
             {
-                InitDefaults();
-                BitMaskStream stream = new BitMaskStream(input, 1);
+                var stream = new BitMaskStream(input, 1);
                 config.transmissionMode = (transmissionMode_Enum)input.readBits(3);
                 if (stream.Read())
                 {
@@ -134,11 +131,10 @@ namespace TraceParser.Eutra
 
             public class PerDecoder : DecoderBase<ue_TransmitAntennaSelection_Type>
             {
-                public static readonly PerDecoder Instance = new PerDecoder();
+                public static PerDecoder Instance => new PerDecoder();
                 
                 protected override void ProcessConfig(ue_TransmitAntennaSelection_Type config, BitArrayInputStream input)
                 {
-                    InitDefaults();
                     switch (input.readBits(1))
                     {
                         case 0:
@@ -171,16 +167,15 @@ namespace TraceParser.Eutra
 
         public class PerDecoder : DecoderBase<AntennaInfoDedicated_r10>
         {
-            public static readonly PerDecoder Instance = new PerDecoder();
+            public static PerDecoder Instance => new PerDecoder();
             
             protected override void ProcessConfig(AntennaInfoDedicated_r10 config, BitArrayInputStream input)
             {
-                InitDefaults();
-                BitMaskStream stream = new BitMaskStream(input, 1);
+                var stream = new BitMaskStream(input, 1);
                 config.transmissionMode_r10 = (transmissionMode_r10_Enum)input.readBits(4);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    var nBits = input.readBits(8);
                     config.codebookSubsetRestriction_r10 = input.readBitString(nBits);
                 }
                 config.ue_TransmitAntennaSelection = ue_TransmitAntennaSelection_Type.PerDecoder.Instance.Decode(input);
@@ -216,11 +211,10 @@ namespace TraceParser.Eutra
 
             public class PerDecoder : DecoderBase<ue_TransmitAntennaSelection_Type>
             {
-                public static readonly PerDecoder Instance = new PerDecoder();
+                public static PerDecoder Instance => new PerDecoder();
                 
                 protected override void ProcessConfig(ue_TransmitAntennaSelection_Type config, BitArrayInputStream input)
                 {
-                    InitDefaults();
                     switch (input.readBits(1))
                     {
                         case 0:
@@ -253,7 +247,7 @@ namespace TraceParser.Eutra
 
         public class PerDecoder : DecoderBase<AntennaInfoDedicated_v12xx>
         {
-            public static readonly PerDecoder Instance = new PerDecoder();
+            public static PerDecoder Instance => new PerDecoder();
             
             protected override void ProcessConfig(AntennaInfoDedicated_v12xx config, BitArrayInputStream input)
             {
@@ -282,11 +276,10 @@ namespace TraceParser.Eutra
 
             public class PerDecoder : DecoderBase<codebookSubsetRestriction_v920_Type>
             {
-                public static readonly PerDecoder Instance = new PerDecoder();
+                public static PerDecoder Instance => new PerDecoder();
                 
                 protected override void ProcessConfig(codebookSubsetRestriction_v920_Type config, BitArrayInputStream input)
                 {
-                    InitDefaults();
                     switch (input.readBits(1))
                     {
                         case 0:
@@ -303,11 +296,10 @@ namespace TraceParser.Eutra
 
         public class PerDecoder : DecoderBase<AntennaInfoDedicated_v920>
         {
-            public static readonly PerDecoder Instance = new PerDecoder();
+            public static PerDecoder Instance => new PerDecoder();
             
             protected override void ProcessConfig(AntennaInfoDedicated_v920 config, BitArrayInputStream input)
             {
-                InitDefaults();
                 var stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
@@ -332,11 +324,10 @@ namespace TraceParser.Eutra
 
         public class PerDecoder : DecoderBase<AntennaInfoUL_r10>
         {
-            public static readonly PerDecoder Instance = new PerDecoder();
+            public static PerDecoder Instance => new PerDecoder();
             
             protected override void ProcessConfig(AntennaInfoUL_r10 config, BitArrayInputStream input)
             {
-                InitDefaults();
                 var stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
