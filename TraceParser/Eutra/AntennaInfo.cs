@@ -40,20 +40,28 @@ namespace TraceParser.Eutra
         [Serializable]
         public class codebookSubsetRestriction_Type : TraceConfig
         {
+            [CodeBit(Position = 0, BitToBeRead = 2)]
             public string n2TxAntenna_tm3 { get; set; }
 
+            [CodeBit(Position = 1, BitToBeRead = 4)]
             public string n2TxAntenna_tm4 { get; set; }
 
+            [CodeBit(Position = 2, BitToBeRead = 6)]
             public string n2TxAntenna_tm5 { get; set; }
 
+            [CodeBit(Position = 3, BitToBeRead = 0x40)]
             public string n2TxAntenna_tm6 { get; set; }
 
+            [CodeBit(Position = 4, BitToBeRead = 4)]
             public string n4TxAntenna_tm3 { get; set; }
 
+            [CodeBit(Position = 5, BitToBeRead = 0x10)]
             public string n4TxAntenna_tm4 { get; set; }
 
+            [CodeBit(Position = 6, BitToBeRead = 4)]
             public string n4TxAntenna_tm5 { get; set; }
 
+            [CodeBit(Position = 7, BitToBeRead = 0x10)]
             public string n4TxAntenna_tm6 { get; set; }
 
             public class PerDecoder : DecoderBase<codebookSubsetRestriction_Type>
@@ -62,34 +70,7 @@ namespace TraceParser.Eutra
                 
                 protected override void ProcessConfig(codebookSubsetRestriction_Type config, BitArrayInputStream input)
                 {
-                    switch (input.ReadBits(3))
-                    {
-                        case 0:
-                            config.n2TxAntenna_tm3 = input.ReadBitString(2);
-                            return;
-                        case 1:
-                            config.n4TxAntenna_tm3 = input.ReadBitString(4);
-                            return;
-                        case 2:
-                            config.n2TxAntenna_tm4 = input.ReadBitString(6);
-                            return;
-                        case 3:
-                            config.n4TxAntenna_tm4 = input.ReadBitString(0x40);
-                            return;
-                        case 4:
-                            config.n2TxAntenna_tm5 = input.ReadBitString(4);
-                            return;
-                        case 5:
-                            config.n4TxAntenna_tm5 = input.ReadBitString(0x10);
-                            return;
-                        case 6:
-                            config.n2TxAntenna_tm6 = input.ReadBitString(4);
-                            return;
-                        case 7:
-                            config.n4TxAntenna_tm6 = input.ReadBitString(0x10);
-                            return;
-                    }
-                    throw new Exception(GetType().Name + ":NoChoice had been choose");
+                    config.ReadCodeBits(input, input.ReadBits(3));
                 }
             }
         }
