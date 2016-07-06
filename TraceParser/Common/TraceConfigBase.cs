@@ -35,12 +35,18 @@ namespace TraceParser.Common
         protected abstract void ProcessConfig(TConfig config, BitArrayInputStream input);
     }
 
-    [AttributeUsage(AttributeTargets.Parameter)]
+    [AttributeUsage(AttributeTargets.Field)]
     public class CodeBitAttribute : Attribute
     {
         public int Position { get; set; } = 0;
 
         public int BitToBeRead { get; set; } = 1;
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public class CodeBitChoiceAttribute : Attribute
+    {
+        public int Choice { get; set; } = 8;
     }
     
     public static class CodeBitReaderOpertions
@@ -54,15 +60,18 @@ namespace TraceParser.Common
         }
 
         public static void ReadCodeBits<T>(this T source, IEnumerable<Tuple<FieldInfo, int, int>> reader,
-            BitArrayInputStream input, int choice)
+            IBitArrayReader input)
         {
+            var attribute = typeof (T).GetCustomAttribute<CodeBitChoiceAttribute>();
+            if (attribute == null) return;
             foreach (var tuple in reader)
             {
-                if (tuple.Item2 == choice)
-                {
-                    tuple.Item1.SetValue(source, input.ReadBitString(tuple.Item3));
-                    return;
-                }
+                for (var i = 0; i < attribute.Choice; i++)
+                    if (tuple.Item2 == i)
+                    {
+                        tuple.Item1.SetValue(source, input.ReadBitString(tuple.Item3));
+                        return;
+                    }
             }
             throw new Exception(typeof(T).Name + ":NoChoice had been choose");
         }

@@ -12,6 +12,8 @@ namespace Lte.Domain.Common
         int ReadBit();
 
         int ReadBits(int nBits);
+
+        string ReadBitString(int nBits);
     }
 
     public sealed class BitArrayInputStream : Stream, IBitArrayReader
