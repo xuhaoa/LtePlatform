@@ -31,6 +31,7 @@ namespace Lte.MySqlFramework.Abstract
             IMatchRepository<EmergencyProcess, EmergencyProcessDto>,
             ISaveChanges
     {
+        List<EmergencyProcess> GetAllList(int emergencyId);
     }
 
     public interface IEmergencyFiberWorkItemRepository

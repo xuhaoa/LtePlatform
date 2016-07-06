@@ -94,7 +94,7 @@
                     key: 'NetworkType'
                 });
             },
-            queryMarketThemeOptions: function () {
+            queryMarketThemeOptions: function() {
                 return generalHttpService.getApiData('KpiOptions', {
                     key: 'MarketTheme'
                 });
@@ -114,13 +114,13 @@
                     end: end
                 });
             },
-            queryAllVip: function (begin, end) {
+            queryAllVip: function(begin, end) {
                 return generalHttpService.getApiData("VipDemand", {
                     begin: begin,
                     end: end
                 });
             },
-            queryOneVip: function (serialNumber) {
+            queryOneVip: function(serialNumber) {
                 return generalHttpService.getApiData("VipDemand", {
                     serialNumber: serialNumber
                 });
@@ -131,5 +131,12 @@
             queryOneEmergency: function(id) {
                 return generalHttpService.getApiData('EmergencyCommunication/' + id, {});
             }
-        }
+        };
+    })
+    .factory('emergencyService', function(generalHttpService) {
+        return {
+            queryProcessList: function(id) {
+                return generalHttpService.getApiData('EmergencyProcess/' + id, {});
+            }
+        };
     });

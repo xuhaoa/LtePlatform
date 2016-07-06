@@ -53,6 +53,12 @@ namespace LtePlatform.Controllers.College
             _service = service;
         }
 
+        [HttpGet]
+        public IEnumerable<EmergencyProcessDto> Get(int id)
+        {
+            return _service.QueryProcess(id);
+        }
+
         [Authorize]
         [HttpPost]
         public async Task<EmergencyProcessDto> Post(EmergencyCommunicationDto dto)

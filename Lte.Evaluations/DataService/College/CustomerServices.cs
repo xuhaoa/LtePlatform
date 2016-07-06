@@ -117,6 +117,12 @@ namespace Lte.Evaluations.DataService.College
                     _townRepository, id);
         }
 
+        public IEnumerable<EmergencyProcessDto> QueryProcess(int id)
+        {
+            return
+                Mapper.Map<List<EmergencyProcess>, IEnumerable<EmergencyProcessDto>>(_processRepository.GetAllList(id));
+        }
+
         public List<EmergencyCommunicationDto> Query(DateTime begin, DateTime end)
         {
             return
@@ -133,11 +139,8 @@ namespace Lte.Evaluations.DataService.College
 
         public async Task<EmergencyProcessDto> Process(EmergencyCommunicationDto dto, string userName)
         {
-            var currentState = dto.EmergencyStateDescription.GetEnumType<EmergencyState>();
-            if (currentState == EmergencyState.Finish)
-                return null;
-            var nextState = (EmergencyState) ((byte) currentState + 1);
-            dto.EmergencyStateDescription = nextState.GetEnumDescription();
+            if (dto.NextStateDescription == null) return null;
+            dto.EmergencyStateDescription = dto.NextStateDescription;
             await
                 _repository
                     .UpdateOne<IEmergencyCommunicationRepository, EmergencyCommunication, EmergencyCommunicationDto>(dto);

@@ -91,6 +91,11 @@ namespace Lte.MySqlFramework.Concrete
         {
             return Context.SaveChanges();
         }
+
+        public List<EmergencyProcess> GetAllList(int emergencyId)
+        {
+            return GetAllList(x => x.EmergencyId == emergencyId);
+        }
     }
 
     public class EmergencyFiberWorkItemRepository : EfRepositoryBase<MySqlContext, EmergencyFiberWorkItem>,

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.EntityFramework.Repositories;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 
 namespace Lte.MySqlFramework.Entities
@@ -84,6 +85,18 @@ namespace Lte.MySqlFramework.Entities
         public string OtherDescription { get; set; }
 
         public string EmergencyStateDescription { get; set; }
+
+        public string NextStateDescription
+        {
+            get
+            {
+                var currentState = EmergencyStateDescription.GetEnumType<EmergencyState>();
+                if (currentState == EmergencyState.Finish)
+                    return null;
+                var nextState = (EmergencyState)((byte)currentState + 1);
+                return nextState.GetEnumDescription();
+            }
+        }
     }
 
     public class EmergencyProcess : Entity
