@@ -476,6 +476,7 @@
     <Content Include="appViews\Rutrace\Map\VictimMapInfoBox.html" />
     <Content Include="appViews\Rutrace\WorkItem\CellTrend.html" />
     <Content Include="appViews\Rutrace\WorkItem\ForCell.html" />
+    <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="directives\app\CityDistrictSelection.Tpl.html" />
     <Content Include="directives\app\DistrictTownSelection.Tpl.html" />
     <Content Include="directives\app\dump\FileSelector.html" />
@@ -795,6 +796,10 @@
     <Content Include="Scripts\angular-ui\customize\directive.public.js" />
     <Content Include="Scripts\angular-ui\customize\directive.panel.js" />
     <Content Include="directives\uib\tabindex.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\evaluation\map.building.dialog.js" />
