@@ -16,7 +16,7 @@
             })
             .when('/datepicker', {
                 templateUrl: viewDir + "demo.datepicker.html",
-                controller: "DatepickerDemoCtrl"
+                controller: "DatepickerPopupDemoCtrl"
             })
             .when('/accordion', {
                 templateUrl: viewDir + "demo.accordion.html",
