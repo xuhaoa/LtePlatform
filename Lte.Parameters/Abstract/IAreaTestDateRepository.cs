@@ -7,8 +7,4 @@ using Lte.Parameters.Entities;
 
 namespace Lte.Parameters.Abstract
 {
-    public interface IAreaTestDateRepository
-    {
-        IQueryable<AreaTestDate> AreaTestDates { get; } 
-    }
 }

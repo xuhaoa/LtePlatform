@@ -136,9 +136,6 @@
     <Compile Include="Abstract\Kpi\ICdmaRegionStatRepository.cs" />
     <Compile Include="Abstract\Basic\ICellHuaweiMongoRepository.cs" />
     <Compile Include="Abstract\Basic\ICellRepository.cs" />
-    <Compile Include="Abstract\College\ICollege3GTestRepository.cs" />
-    <Compile Include="Abstract\College\ICollege4GTestRepository.cs" />
-    <Compile Include="Abstract\College\ICollegeKpiRepository.cs" />
     <Compile Include="Abstract\College\ICollegeRepository.cs" />
     <Compile Include="Abstract\Kpi\ICsvFileInfoRepository.cs" />
     <Compile Include="Abstract\Basic\IENodebRepository.cs" />
@@ -172,9 +169,7 @@
     <Compile Include="Concrete\Basic\EFCdmaCellRepository.cs" />
     <Compile Include="Concrete\Kpi\EFCdmaRegionStatRepository.cs" />
     <Compile Include="Concrete\Basic\EFCellRepository.cs" />
-    <Compile Include="Concrete\College\EFCollege3GTestRepository.cs" />
-    <Compile Include="Concrete\College\EFCollege4GTestRepository.cs" />
-    <Compile Include="Concrete\College\EFCollegeKpiRepository.cs" />
+    <Compile Include="Concrete\College\EFTestRepositories.cs" />
     <Compile Include="Concrete\College\EFCollegeRepository.cs" />
     <Compile Include="Concrete\Basic\EFENodebRepository.cs" />
     <Compile Include="Concrete\Infrastructure\EFInfrastructureRepository.cs" />
@@ -187,9 +182,6 @@
     <Compile Include="Concrete\Kpi\EFRegionRepository.cs" />
     <Compile Include="Concrete\Infrastructure\EFTownRepository.cs" />
     <Compile Include="Concrete\EFWorkItemRepository.cs" />
-    <Compile Include="Concrete\MasterAreaTestDateDateRepository.cs" />
-    <Compile Include="Concrete\MasterCsvFileInfoRepository.cs" />
-    <Compile Include="Concrete\MasterRasterInfoRepository.cs" />
     <Compile Include="Concrete\MasterTestContext.cs" />
     <Compile Include="Concrete\Mr\InterferenceMongoRepository.cs" />
     <Compile Include="Concrete\MyMongoProvider.cs" />
