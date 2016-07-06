@@ -34,7 +34,7 @@ namespace TraceParser.Eutra
                 {
                     var type = new eab_Param_r11_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.eab_Common_r11 = EAB_Config_r11.PerDecoder.Instance.Decode(input);
@@ -44,7 +44,7 @@ namespace TraceParser.Eutra
                         {
                             type.eab_PerPLMN_List_r11 = new List<EAB_ConfigPLMN_r11>();
                             var nBits = 3;
-                            var num4 = input.readBits(nBits) + 1;
+                            var num4 = input.ReadBits(nBits) + 1;
                             for (var i = 0; i < num4; i++)
                             {
                                 var item = EAB_ConfigPLMN_r11.PerDecoder.Instance.Decode(input);
@@ -73,7 +73,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    var nBits = input.readBits(8);
+                    var nBits = input.ReadBits(8);
                     _r.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 return _r;

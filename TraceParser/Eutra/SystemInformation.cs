@@ -51,7 +51,7 @@ namespace TraceParser.Eutra
                 {
                     var type = new criticalExtensions_Type();
                     InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.systemInformation_r8 = SystemInformation_r8_IEs.PerDecoder.Instance.Decode(input);

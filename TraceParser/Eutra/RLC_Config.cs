@@ -53,7 +53,7 @@ namespace TraceParser.Eutra
                 RLC_Config config = new RLC_Config();
                 config.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(2))
+                switch (input.ReadBits(2))
                 {
                     case 0:
                         config.am = am_Type.PerDecoder.Instance.Decode(input);

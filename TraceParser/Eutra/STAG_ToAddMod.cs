@@ -23,9 +23,9 @@ namespace TraceParser.Eutra
                 STAG_ToAddMod_r11 _r = new STAG_ToAddMod_r11();
                 _r.InitDefaults();
                 input.ReadBit();
-                _r.stag_Id_r11 = input.readBits(2) + 1;
+                _r.stag_Id_r11 = input.ReadBits(2) + 1;
                 const int nBits = 3;
-                _r.timeAlignmentTimerSTAG_r11 = (TimeAlignmentTimer)input.readBits(nBits);
+                _r.timeAlignmentTimerSTAG_r11 = (TimeAlignmentTimer)input.ReadBits(nBits);
                 return _r;
             }
         }

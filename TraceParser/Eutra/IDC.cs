@@ -58,9 +58,9 @@ namespace TraceParser.Eutra
                     autonomousDenialParameters_r11_Type type = new autonomousDenialParameters_r11_Type();
                     type.InitDefaults();
                     int nBits = 3;
-                    type.autonomousDenialSubframes_r11 = (autonomousDenialSubframes_r11_Enum)input.readBits(nBits);
+                    type.autonomousDenialSubframes_r11 = (autonomousDenialSubframes_r11_Enum)input.ReadBits(nBits);
                     nBits = 3;
-                    type.autonomousDenialValidity_r11 = (autonomousDenialValidity_r11_Enum)input.readBits(nBits);
+                    type.autonomousDenialValidity_r11 = (autonomousDenialValidity_r11_Enum)input.ReadBits(nBits);
                     return type;
                 }
             }
@@ -83,7 +83,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    _r.idc_Indication_r11 = (idc_Indication_r11_Enum)input.readBits(nBits);
+                    _r.idc_Indication_r11 = (idc_Indication_r11_Enum)input.ReadBits(nBits);
                 }
                 if (stream.Read())
                 {
@@ -114,7 +114,7 @@ namespace TraceParser.Eutra
                 IDC_SubframePattern_r11 _r = new IDC_SubframePattern_r11();
                 _r.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         _r.subframePatternFDD_r11 = input.readBitString(4);
@@ -149,7 +149,7 @@ namespace TraceParser.Eutra
                 {
                     subframePatternTDD_r11_Type type = new subframePatternTDD_r11_Type();
                     type.InitDefaults();
-                    switch (input.readBits(2))
+                    switch (input.ReadBits(2))
                     {
                         case 0:
                             type.subframeConfig0_r11 = input.readBitString(70);

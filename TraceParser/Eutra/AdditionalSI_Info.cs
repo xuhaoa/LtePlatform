@@ -26,7 +26,7 @@ namespace TraceParser.Eutra
                 var stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    config.csg_MemberStatus_r9 = (csg_MemberStatus_r9_Enum)input.readBits(1);
+                    config.csg_MemberStatus_r9 = (csg_MemberStatus_r9_Enum)input.ReadBits(1);
                 }
                 if (stream.Read())
                 {
@@ -49,14 +49,14 @@ namespace TraceParser.Eutra
 
             protected override void ProcessConfig(SI_OrPSI_GERAN config, BitArrayInputStream input)
             {
-                var choice = input.readBits(1);
+                var choice = input.ReadBits(1);
                 if (choice != 0 && choice != 1)
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
                 config.si = new List<string>();
-                var num4 = input.readBits(4) + 1;
+                var num4 = input.ReadBits(4) + 1;
                 for (var num5 = 0; num5 < num4; num5++)
                 {
-                    var num = input.readBits(5);
+                    var num = input.ReadBits(5);
                     var str = input.readOctetString(num + 1);
                     config.si.Add(str);
                 }

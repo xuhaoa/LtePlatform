@@ -487,7 +487,7 @@ namespace TraceParser.S1ap
             public static Cdma2000HORequiredIndication Value(BitArrayInputStream input)
             {
                 const int nBits = 1;
-                return (Cdma2000HORequiredIndication)input.readBits(nBits);
+                return (Cdma2000HORequiredIndication)input.ReadBits(nBits);
             }
         }
 
@@ -506,7 +506,7 @@ namespace TraceParser.S1ap
             public static Cdma2000HOStatus Value(BitArrayInputStream input)
             {
                 const int nBits = 1;
-                return (Cdma2000HOStatus)input.readBits(nBits);
+                return (Cdma2000HOStatus)input.ReadBits(nBits);
             }
         }
 
@@ -579,7 +579,7 @@ namespace TraceParser.S1ap
             public static Cdma2000RATType Value(BitArrayInputStream input)
             {
                 const int nBits = 1;
-                return (Cdma2000RATType)input.readBits(nBits);
+                return (Cdma2000RATType)input.ReadBits(nBits);
             }
         }
 
@@ -616,7 +616,7 @@ namespace TraceParser.S1ap
             public static CellAccessMode Value(BitArrayInputStream input)
             {
                 const int nBits = 1;
-                return (CellAccessMode)input.readBits(nBits);
+                return (CellAccessMode)input.ReadBits(nBits);
             }
         }
 
@@ -635,7 +635,7 @@ namespace TraceParser.S1ap
             public static CNDomain Value(BitArrayInputStream input)
             {
                 const int nBits = 1;
-                return (CNDomain)input.readBits(nBits);
+                return (CNDomain)input.ReadBits(nBits);
             }
         }
 
@@ -654,7 +654,7 @@ namespace TraceParser.S1ap
             public static ConcurrentWarningMessageIndicator Value(BitArrayInputStream input)
             {
                 const int nBits = 1;
-                return (ConcurrentWarningMessageIndicator)input.readBits(nBits);
+                return (ConcurrentWarningMessageIndicator)input.ReadBits(nBits);
             }
         }
 
@@ -691,7 +691,7 @@ namespace TraceParser.S1ap
             public static CSFallbackIndicator Value(BitArrayInputStream input)
             {
                 const int nBits = 1;
-                return (CSFallbackIndicator)input.readBits(nBits);
+                return (CSFallbackIndicator)input.ReadBits(nBits);
             }
         }
 
@@ -730,7 +730,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<CSG_IdList_Item>();
                 const int nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = CSG_IdList_Item.PerDecoder.Instance.Decode(input);
@@ -755,7 +755,7 @@ namespace TraceParser.S1ap
             public static CSGMembershipStatus Value(BitArrayInputStream input)
             {
                 const int nBits = 1;
-                return (CSGMembershipStatus)input.readBits(nBits);
+                return (CSGMembershipStatus)input.ReadBits(nBits);
             }
         }
 
@@ -792,7 +792,7 @@ namespace TraceParser.S1ap
             public static PagingDRX Value(BitArrayInputStream input)
             {
                 var nBits = (input.ReadBit() == 0) ? 2 : 2;
-                return (PagingDRX)input.readBits(nBits);
+                return (PagingDRX)input.ReadBits(nBits);
             }
         }
 
@@ -811,7 +811,7 @@ namespace TraceParser.S1ap
             public static Direct_Forwarding_Path_Availability Value(BitArrayInputStream input)
             {
                 const int nBits = 1;
-                return (Direct_Forwarding_Path_Availability)input.readBits(nBits);
+                return (Direct_Forwarding_Path_Availability)input.ReadBits(nBits);
             }
         }
 
@@ -850,7 +850,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 const int nBits = 0;
-                var num2 = input.readBits(nBits);
+                var num2 = input.ReadBits(nBits);
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -895,7 +895,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 const int nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -922,7 +922,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 const int nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -967,7 +967,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -994,7 +994,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1021,7 +1021,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 0;
-                var num2 = input.readBits(nBits);
+                var num2 = input.ReadBits(nBits);
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1102,7 +1102,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1129,7 +1129,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1174,7 +1174,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1237,7 +1237,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1264,7 +1264,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1291,7 +1291,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 0;
-                var num2 = input.readBits(nBits);
+                var num2 = input.ReadBits(nBits);
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1336,7 +1336,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1363,7 +1363,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1444,7 +1444,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1471,7 +1471,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1498,7 +1498,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 0;
-                var num2 = input.readBits(nBits);
+                var num2 = input.ReadBits(nBits);
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1543,7 +1543,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 0;
-                var num2 = input.readBits(nBits);
+                var num2 = input.ReadBits(nBits);
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1588,7 +1588,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 0;
-                var num2 = input.readBits(nBits);
+                var num2 = input.ReadBits(nBits);
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1615,7 +1615,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -1820,7 +1820,7 @@ namespace TraceParser.S1ap
             public static HandoverType Value(BitArrayInputStream input)
             {
                 var nBits = (input.ReadBit() == 0) ? 3 : 3;
-                return (HandoverType)input.readBits(nBits);
+                return (HandoverType)input.ReadBits(nBits);
             }
         }
 
@@ -2073,7 +2073,7 @@ namespace TraceParser.S1ap
             public static PagingDRX Value(BitArrayInputStream input)
             {
                 var nBits = (input.ReadBit() == 0) ? 2 : 2;
-                return (PagingDRX)input.readBits(nBits);
+                return (PagingDRX)input.ReadBits(nBits);
             }
         }
 
@@ -2092,7 +2092,7 @@ namespace TraceParser.S1ap
             public static PS_ServiceNotAvailable Value(BitArrayInputStream input)
             {
                 var nBits = 1;
-                return (PS_ServiceNotAvailable)input.readBits(nBits);
+                return (PS_ServiceNotAvailable)input.ReadBits(nBits);
             }
         }
 
@@ -2219,7 +2219,7 @@ namespace TraceParser.S1ap
             public static RRC_Establishment_Cause Value(BitArrayInputStream input)
             {
                 var nBits = (input.ReadBit() == 0) ? 3 : 3;
-                return (RRC_Establishment_Cause)input.readBits(nBits);
+                return (RRC_Establishment_Cause)input.ReadBits(nBits);
             }
         }
 
@@ -2311,7 +2311,7 @@ namespace TraceParser.S1ap
             {
                 var list = new List<ServedGUMMEIsItem>();
                 var nBits = 3;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ServedGUMMEIsItem.PerDecoder.Instance.Decode(input);
@@ -2426,7 +2426,7 @@ namespace TraceParser.S1ap
             public static SRVCCHOIndication Value(BitArrayInputStream input)
             {
                 var nBits = 1;
-                return (SRVCCHOIndication)input.readBits(nBits);
+                return (SRVCCHOIndication)input.ReadBits(nBits);
             }
         }
 
@@ -2445,7 +2445,7 @@ namespace TraceParser.S1ap
             public static SRVCCOperationPossible Value(BitArrayInputStream input)
             {
                 var nBits = 1;
-                return (SRVCCOperationPossible)input.readBits(nBits);
+                return (SRVCCOperationPossible)input.ReadBits(nBits);
             }
         }
 
@@ -2484,7 +2484,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<SupportedTAs_Item>();
                 var nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = SupportedTAs_Item.PerDecoder.Instance.Decode(input);
@@ -2547,7 +2547,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 var nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -2626,7 +2626,7 @@ namespace TraceParser.S1ap
             public static TimeToWait Value(BitArrayInputStream input)
             {
                 var nBits = (input.ReadBit() == 0) ? 3 : 3;
-                return (TimeToWait)input.readBits(nBits);
+                return (TimeToWait)input.ReadBits(nBits);
             }
         }
 
@@ -2701,7 +2701,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 var list = new List<ProtocolIE_Field>();
                 const int nBits = 8;
-                var num2 = input.readBits(nBits) + 1;
+                var num2 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num2; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);

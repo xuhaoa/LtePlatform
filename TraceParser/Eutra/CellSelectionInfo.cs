@@ -20,7 +20,7 @@ namespace TraceParser.Eutra
             {
                 CellSelectionInfo_v1130 _v = new CellSelectionInfo_v1130();
                 _v.InitDefaults();
-                _v.q_QualMinWB_r11 = input.readBits(5) + -34;
+                _v.q_QualMinWB_r11 = input.ReadBits(5) + -34;
                 return _v;
             }
         }
@@ -46,10 +46,10 @@ namespace TraceParser.Eutra
                 CellSelectionInfo_v920 _v = new CellSelectionInfo_v920();
                 _v.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                _v.q_QualMin_r9 = input.readBits(5) + -34;
+                _v.q_QualMin_r9 = input.ReadBits(5) + -34;
                 if (stream.Read())
                 {
-                    _v.q_QualMinOffset_r9 = input.readBits(3) + 1;
+                    _v.q_QualMinOffset_r9 = input.ReadBits(3) + 1;
                 }
                 return _v;
             }
@@ -83,22 +83,22 @@ namespace TraceParser.Eutra
                 _r.InitDefaults();
                 bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 2);
-                _r.physCellId_r10 = input.readBits(9);
-                _r.dl_CarrierFreq_r10 = input.readBits(0x10);
+                _r.physCellId_r10 = input.ReadBits(9);
+                _r.dl_CarrierFreq_r10 = input.ReadBits(0x10);
                 if (stream.Read())
                 {
-                    _r.rsrpResult_r10 = input.readBits(7);
+                    _r.rsrpResult_r10 = input.ReadBits(7);
                 }
                 if (stream.Read())
                 {
-                    _r.rsrqResult_r10 = input.readBits(6);
+                    _r.rsrqResult_r10 = input.ReadBits(6);
                 }
                 if (flag)
                 {
                     BitMaskStream stream2 = new BitMaskStream(input, 1);
                     if (stream2.Read())
                     {
-                        _r.dl_CarrierFreq_v1090 = input.readBits(0x12) + 0x10000;
+                        _r.dl_CarrierFreq_v1090 = input.ReadBits(0x12) + 0x10000;
                     }
                 }
                 return _r;

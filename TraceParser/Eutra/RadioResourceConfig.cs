@@ -82,14 +82,14 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    common.p_Max = input.readBits(6) + -30;
+                    common.p_Max = input.ReadBits(6) + -30;
                 }
                 if (stream.Read())
                 {
                     common.tdd_Config = TDD_Config.PerDecoder.Instance.Decode(input);
                 }
                 int nBits = 1;
-                common.ul_CyclicPrefixLength = (UL_CyclicPrefixLength)input.readBits(nBits);
+                common.ul_CyclicPrefixLength = (UL_CyclicPrefixLength)input.ReadBits(nBits);
                 if (flag)
                 {
                     stream2 = new BitMaskStream(input, 1);
@@ -171,13 +171,13 @@ namespace TraceParser.Eutra
                     type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 2);
                     int nBits = 3;
-                    type.dl_Bandwidth_r10 = (dl_Bandwidth_r10_Enum)input.readBits(nBits);
+                    type.dl_Bandwidth_r10 = (dl_Bandwidth_r10_Enum)input.ReadBits(nBits);
                     type.antennaInfoCommon_r10 = AntennaInfoCommon.PerDecoder.Instance.Decode(input);
                     if (stream.Read())
                     {
                         type.mbsfn_SubframeConfigList_r10 = new List<MBSFN_SubframeConfig>();
                         nBits = 3;
-                        int num3 = input.readBits(nBits) + 1;
+                        int num3 = input.ReadBits(nBits) + 1;
                         for (int i = 0; i < num3; i++)
                         {
                             MBSFN_SubframeConfig item = MBSFN_SubframeConfig.PerDecoder.Instance.Decode(input);
@@ -216,7 +216,7 @@ namespace TraceParser.Eutra
                     stream2 = new BitMaskStream(input, 1);
                     if (stream2.Read())
                     {
-                        _r.ul_CarrierFreq_v1090 = input.readBits(0x12) + 0x10000;
+                        _r.ul_CarrierFreq_v1090 = input.ReadBits(0x12) + 0x10000;
                     }
                 }
                 if (flag)
@@ -276,12 +276,12 @@ namespace TraceParser.Eutra
                     type.ul_FreqInfo_r10 = ul_FreqInfo_r10_Type.PerDecoder.Instance.Decode(input);
                     if (stream.Read())
                     {
-                        type.p_Max_r10 = input.readBits(6) + -30;
+                        type.p_Max_r10 = input.ReadBits(6) + -30;
                     }
                     type.uplinkPowerControlCommonSCell_r10 = UplinkPowerControlCommonSCell_r10.PerDecoder.Instance.Decode(input);
                     type.soundingRS_UL_ConfigCommon_r10 = SoundingRS_UL_ConfigCommon.PerDecoder.Instance.Decode(input);
                     int nBits = 1;
-                    type.ul_CyclicPrefixLength_r10 = (UL_CyclicPrefixLength)input.readBits(nBits);
+                    type.ul_CyclicPrefixLength_r10 = (UL_CyclicPrefixLength)input.ReadBits(nBits);
                     if (stream.Read())
                     {
                         type.prach_ConfigSCell_r10 = PRACH_ConfigSCell_r10.PerDecoder.Instance.Decode(input);
@@ -315,14 +315,14 @@ namespace TraceParser.Eutra
                         BitMaskStream stream = new BitMaskStream(input, 2);
                         if (stream.Read())
                         {
-                            type.ul_CarrierFreq_r10 = input.readBits(0x10);
+                            type.ul_CarrierFreq_r10 = input.ReadBits(0x10);
                         }
                         if (stream.Read())
                         {
                             int nBits = 3;
-                            type.ul_Bandwidth_r10 = (ul_Bandwidth_r10_Enum)input.readBits(nBits);
+                            type.ul_Bandwidth_r10 = (ul_Bandwidth_r10_Enum)input.ReadBits(nBits);
                         }
-                        type.additionalSpectrumEmissionSCell_r10 = input.readBits(5) + 1;
+                        type.additionalSpectrumEmissionSCell_r10 = input.ReadBits(5) + 1;
                         return type;
                     }
                 }
@@ -388,7 +388,7 @@ namespace TraceParser.Eutra
                 nsib.soundingRS_UL_ConfigCommon = SoundingRS_UL_ConfigCommon.PerDecoder.Instance.Decode(input);
                 nsib.uplinkPowerControlCommon = UplinkPowerControlCommon.PerDecoder.Instance.Decode(input);
                 int nBits = 1;
-                nsib.ul_CyclicPrefixLength = (UL_CyclicPrefixLength)input.readBits(nBits);
+                nsib.ul_CyclicPrefixLength = (UL_CyclicPrefixLength)input.ReadBits(nBits);
                 if (flag)
                 {
                     BitMaskStream stream = new BitMaskStream(input, 1);
@@ -446,7 +446,7 @@ namespace TraceParser.Eutra
                 {
                     mac_MainConfig_Type type = new mac_MainConfig_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.explicitValue = MAC_MainConfig.PerDecoder.Instance.Decode(input);
@@ -476,7 +476,7 @@ namespace TraceParser.Eutra
                 {
                     dedicated.srb_ToAddModList = new List<SRB_ToAddMod>();
                     num2 = 1;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         SRB_ToAddMod item = SRB_ToAddMod.PerDecoder.Instance.Decode(input);
@@ -487,7 +487,7 @@ namespace TraceParser.Eutra
                 {
                     dedicated.drb_ToAddModList = new List<DRB_ToAddMod>();
                     num2 = 4;
-                    int num5 = input.readBits(num2) + 1;
+                    int num5 = input.ReadBits(num2) + 1;
                     for (int j = 0; j < num5; j++)
                     {
                         DRB_ToAddMod mod2 = DRB_ToAddMod.PerDecoder.Instance.Decode(input);
@@ -498,10 +498,10 @@ namespace TraceParser.Eutra
                 {
                     dedicated.drb_ToReleaseList = new List<long>();
                     num2 = 4;
-                    int num7 = input.readBits(num2) + 1;
+                    int num7 = input.ReadBits(num2) + 1;
                     for (int k = 0; k < num7; k++)
                     {
-                        long num9 = input.readBits(5) + 1;
+                        long num9 = input.ReadBits(5) + 1;
                         dedicated.drb_ToReleaseList.Add(num9);
                     }
                 }

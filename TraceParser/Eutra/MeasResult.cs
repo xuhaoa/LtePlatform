@@ -49,10 +49,10 @@ namespace TraceParser.Eutra
             {
                 MeasResult2EUTRA_r9 _r = new MeasResult2EUTRA_r9();
                 _r.InitDefaults();
-                _r.carrierFreq_r9 = input.readBits(0x10);
+                _r.carrierFreq_r9 = input.ReadBits(0x10);
                 _r.measResultList_r9 = new List<MeasResultEUTRA>();
                 int nBits = 3;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     MeasResultEUTRA item = MeasResultEUTRA.PerDecoder.Instance.Decode(input);
@@ -83,7 +83,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    _ve.carrierFreq_v9e0 = input.readBits(0x12) + 0x10000;
+                    _ve.carrierFreq_v9e0 = input.ReadBits(0x12) + 0x10000;
                 }
                 return _ve;
             }
@@ -109,10 +109,10 @@ namespace TraceParser.Eutra
             {
                 MeasResult2UTRA_r9 _r = new MeasResult2UTRA_r9();
                 _r.InitDefaults();
-                _r.carrierFreq_r9 = input.readBits(14);
+                _r.carrierFreq_r9 = input.ReadBits(14);
                 _r.measResultList_r9 = new List<MeasResultUTRA>();
                 int nBits = 3;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     MeasResultUTRA item = MeasResultUTRA.PerDecoder.Instance.Decode(input);
@@ -158,9 +158,9 @@ namespace TraceParser.Eutra
                     BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                     if (stream.Read())
                     {
-                        type.pilotPnPhase = input.readBits(15);
+                        type.pilotPnPhase = input.ReadBits(15);
                     }
-                    type.pilotStrength = input.readBits(6);
+                    type.pilotStrength = input.ReadBits(6);
                     return type;
                 }
             }
@@ -175,7 +175,7 @@ namespace TraceParser.Eutra
                 MeasResultCDMA2000 tcdma = new MeasResultCDMA2000();
                 tcdma.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                tcdma.physCellId = input.readBits(9);
+                tcdma.physCellId = input.ReadBits(9);
                 if (stream.Read())
                 {
                     tcdma.cgi_Info = CellGlobalIdCDMA2000.PerDecoder.Instance.Decode(input);
@@ -227,7 +227,7 @@ namespace TraceParser.Eutra
                     {
                         type.plmn_IdentityList = new List<PLMN_Identity>();
                         int nBits = 3;
-                        int num3 = input.readBits(nBits) + 1;
+                        int num3 = input.ReadBits(nBits) + 1;
                         for (int i = 0; i < num3; i++)
                         {
                             PLMN_Identity item = PLMN_Identity.PerDecoder.Instance.Decode(input);
@@ -267,11 +267,11 @@ namespace TraceParser.Eutra
                     BitMaskStream stream = new BitMaskStream(input, 2);
                     if (stream.Read())
                     {
-                        type.rsrpResult = input.readBits(7);
+                        type.rsrpResult = input.ReadBits(7);
                     }
                     if (stream.Read())
                     {
-                        type.rsrqResult = input.readBits(6);
+                        type.rsrqResult = input.ReadBits(6);
                     }
                     if (flag)
                     {
@@ -287,7 +287,7 @@ namespace TraceParser.Eutra
                         if (stream2.Read())
                         {
                             int nBits = 1;
-                            type.primaryPLMN_Suitable_r12 = (primaryPLMN_Suitable_r12_Enum)input.readBits(nBits);
+                            type.primaryPLMN_Suitable_r12 = (primaryPLMN_Suitable_r12_Enum)input.ReadBits(nBits);
                         }
                     }
                     return type;
@@ -309,7 +309,7 @@ namespace TraceParser.Eutra
                 MeasResultEUTRA teutra = new MeasResultEUTRA();
                 teutra.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                teutra.physCellId = input.readBits(9);
+                teutra.physCellId = input.ReadBits(9);
                 if (stream.Read())
                 {
                     teutra.cgi_Info = cgi_Info_Type.PerDecoder.Instance.Decode(input);
@@ -339,7 +339,7 @@ namespace TraceParser.Eutra
             {
                 MeasResultForECID_r9 _r = new MeasResultForECID_r9();
                 _r.InitDefaults();
-                _r.ue_RxTxTimeDiffResult_r9 = input.readBits(12);
+                _r.ue_RxTxTimeDiffResult_r9 = input.ReadBits(12);
                 _r.currentSFN_r9 = input.readBitString(10);
                 return _r;
             }
@@ -409,7 +409,7 @@ namespace TraceParser.Eutra
                     measResult_Type type = new measResult_Type();
                     type.InitDefaults();
                     input.ReadBit();
-                    type.rssi = input.readBits(6);
+                    type.rssi = input.ReadBits(6);
                     return type;
                 }
             }
@@ -480,13 +480,13 @@ namespace TraceParser.Eutra
                     measResultNeighCells_Type type = new measResultNeighCells_Type();
                     type.InitDefaults();
                     input.ReadBit();
-                    switch (input.readBits(2))
+                    switch (input.ReadBits(2))
                     {
                         case 0:
                             {
                                 type.measResultListEUTRA = new List<MeasResultEUTRA>();
                                 num2 = 3;
-                                int num4 = input.readBits(num2) + 1;
+                                int num4 = input.ReadBits(num2) + 1;
                                 for (int i = 0; i < num4; i++)
                                 {
                                     MeasResultEUTRA item = MeasResultEUTRA.PerDecoder.Instance.Decode(input);
@@ -498,7 +498,7 @@ namespace TraceParser.Eutra
                             {
                                 type.measResultListUTRA = new List<MeasResultUTRA>();
                                 num2 = 3;
-                                int num6 = input.readBits(num2) + 1;
+                                int num6 = input.ReadBits(num2) + 1;
                                 for (int j = 0; j < num6; j++)
                                 {
                                     MeasResultUTRA tutra = MeasResultUTRA.PerDecoder.Instance.Decode(input);
@@ -510,7 +510,7 @@ namespace TraceParser.Eutra
                             {
                                 type.measResultListGERAN = new List<MeasResultGERAN>();
                                 num2 = 3;
-                                int num8 = input.readBits(num2) + 1;
+                                int num8 = input.ReadBits(num2) + 1;
                                 for (int k = 0; k < num8; k++)
                                 {
                                     MeasResultGERAN tgeran = MeasResultGERAN.PerDecoder.Instance.Decode(input);
@@ -546,8 +546,8 @@ namespace TraceParser.Eutra
                 {
                     measResultPCell_Type type = new measResultPCell_Type();
                     type.InitDefaults();
-                    type.rsrpResult = input.readBits(7);
-                    type.rsrqResult = input.readBits(6);
+                    type.rsrpResult = input.ReadBits(7);
+                    type.rsrqResult = input.ReadBits(6);
                     return type;
                 }
             }
@@ -564,7 +564,7 @@ namespace TraceParser.Eutra
                 results.InitDefaults();
                 bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                results.measId = input.readBits(5) + 1;
+                results.measId = input.ReadBits(5) + 1;
                 results.measResultPCell = measResultPCell_Type.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -591,7 +591,7 @@ namespace TraceParser.Eutra
                     }
                     results.measResultServFreqList_r10 = new List<MeasResultServFreq_r10>();
                     int nBits = 3;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         MeasResultServFreq_r10 item = MeasResultServFreq_r10.PerDecoder.Instance.Decode(input);
@@ -625,7 +625,7 @@ namespace TraceParser.Eutra
                 scdma.preRegistrationStatusHRPD = input.ReadBit() == 1;
                 scdma.measResultListCDMA2000 = new List<MeasResultCDMA2000>();
                 int nBits = 3;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     MeasResultCDMA2000 item = MeasResultCDMA2000.PerDecoder.Instance.Decode(input);
@@ -670,9 +670,9 @@ namespace TraceParser.Eutra
                 {
                     measResultBestNeighCell_r10_Type type = new measResultBestNeighCell_r10_Type();
                     type.InitDefaults();
-                    type.physCellId_r10 = input.readBits(9);
-                    type.rsrpResultNCell_r10 = input.readBits(7);
-                    type.rsrqResultNCell_r10 = input.readBits(6);
+                    type.physCellId_r10 = input.ReadBits(9);
+                    type.rsrpResultNCell_r10 = input.ReadBits(7);
+                    type.rsrqResultNCell_r10 = input.ReadBits(6);
                     return type;
                 }
             }
@@ -697,8 +697,8 @@ namespace TraceParser.Eutra
                 {
                     measResultSCell_r10_Type type = new measResultSCell_r10_Type();
                     type.InitDefaults();
-                    type.rsrpResultSCell_r10 = input.readBits(7);
-                    type.rsrqResultSCell_r10 = input.readBits(6);
+                    type.rsrpResultSCell_r10 = input.ReadBits(7);
+                    type.rsrqResultSCell_r10 = input.ReadBits(6);
                     return type;
                 }
             }
@@ -713,7 +713,7 @@ namespace TraceParser.Eutra
                 MeasResultServFreq_r10 _r = new MeasResultServFreq_r10();
                 _r.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
-                _r.servFreqId_r10 = input.readBits(3);
+                _r.servFreqId_r10 = input.ReadBits(3);
                 if (stream.Read())
                 {
                     _r.measResultSCell_r10 = measResultSCell_r10_Type.PerDecoder.Instance.Decode(input);
@@ -777,7 +777,7 @@ namespace TraceParser.Eutra
                     {
                         type.plmn_IdentityList = new List<PLMN_Identity>();
                         int nBits = 3;
-                        int num3 = input.readBits(nBits) + 1;
+                        int num3 = input.ReadBits(nBits) + 1;
                         for (int i = 0; i < num3; i++)
                         {
                             PLMN_Identity item = PLMN_Identity.PerDecoder.Instance.Decode(input);
@@ -817,11 +817,11 @@ namespace TraceParser.Eutra
                     BitMaskStream stream = new BitMaskStream(input, 2);
                     if (stream.Read())
                     {
-                        type.utra_RSCP = input.readBits(7) + -5;
+                        type.utra_RSCP = input.ReadBits(7) + -5;
                     }
                     if (stream.Read())
                     {
-                        type.utra_EcN0 = input.readBits(6);
+                        type.utra_EcN0 = input.ReadBits(6);
                     }
                     if (flag)
                     {
@@ -837,7 +837,7 @@ namespace TraceParser.Eutra
                         if (stream2.Read())
                         {
                             int nBits = 1;
-                            type.primaryPLMN_Suitable_r12 = (primaryPLMN_Suitable_r12_Enum)input.readBits(nBits);
+                            type.primaryPLMN_Suitable_r12 = (primaryPLMN_Suitable_r12_Enum)input.ReadBits(nBits);
                         }
                     }
                     return type;
@@ -888,14 +888,14 @@ namespace TraceParser.Eutra
                 {
                     physCellId_Type type = new physCellId_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
-                            type.fdd = input.readBits(9);
+                            type.fdd = input.ReadBits(9);
                             return type;
 
                         case 1:
-                            type.tdd = input.readBits(7);
+                            type.tdd = input.ReadBits(7);
                             return type;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");

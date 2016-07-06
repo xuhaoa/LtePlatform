@@ -29,16 +29,16 @@ namespace TraceParser.Eutra
                 ohrpd.preRegistrationAllowed = input.ReadBit() == 1;
                 if (stream.Read())
                 {
-                    ohrpd.preRegistrationZoneId = input.readBits(8);
+                    ohrpd.preRegistrationZoneId = input.ReadBits(8);
                 }
                 if (stream.Read())
                 {
                     ohrpd.secondaryPreRegistrationZoneIdList = new List<long>();
                     const int nBits = 1;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
-                        long item = input.readBits(8);
+                        long item = input.ReadBits(8);
                         ohrpd.secondaryPreRegistrationZoneIdList.Add(item);
                     }
                 }

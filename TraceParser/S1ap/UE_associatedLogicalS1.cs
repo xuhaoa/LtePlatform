@@ -29,22 +29,22 @@ namespace TraceParser.S1ap
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
-                    num4 = input.readBits(2) + 1;
+                    num4 = input.ReadBits(2) + 1;
                     input.skipUnreadedBits();
-                    item.mME_UE_S1AP_ID = input.readBits(num4 * 8);
+                    item.mME_UE_S1AP_ID = input.ReadBits(num4 * 8);
                 }
                 if (stream.Read())
                 {
-                    num4 = input.readBits(2) + 1;
+                    num4 = input.ReadBits(2) + 1;
                     input.skipUnreadedBits();
-                    item.eNB_UE_S1AP_ID = input.readBits(num4 * 8);
+                    item.eNB_UE_S1AP_ID = input.ReadBits(num4 * 8);
                 }
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     num4 = 0x10;
-                    int num5 = input.readBits(num4) + 1;
+                    int num5 = input.ReadBits(num4) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

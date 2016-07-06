@@ -44,7 +44,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -93,15 +93,15 @@ namespace TraceParser.S1ap
                 item.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.eCGI = EUTRAN_CGI.PerDecoder.Instance.Decode(input);
-                int nBits = input.readBits(1) + 1;
+                int nBits = input.ReadBits(1) + 1;
                 input.skipUnreadedBits();
-                item.numberOfBroadcasts = input.readBits(nBits * 8);
+                item.numberOfBroadcasts = input.ReadBits(nBits * 8);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -147,7 +147,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     l_id.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

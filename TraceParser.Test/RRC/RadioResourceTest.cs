@@ -46,7 +46,7 @@ namespace TraceParser.Test.RRC
         public void Test_RadioResource_Srb(string source, string[] description)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 4);
+            Assert.AreEqual(stream.ReadBits(5), 4);
             RRCConnectionReconfiguration result = RRCConnectionReconfiguration.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.criticalExtensions);
@@ -81,7 +81,7 @@ namespace TraceParser.Test.RRC
         public void Test_RadioResource_Drb(string source, string[] description)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 4);
+            Assert.AreEqual(stream.ReadBits(5), 4);
             RRCConnectionReconfiguration result = RRCConnectionReconfiguration.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.criticalExtensions);
@@ -124,7 +124,7 @@ namespace TraceParser.Test.RRC
         public void Test_RadioResouce_MacMainConfig(string source, string description)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 4);
+            Assert.AreEqual(stream.ReadBits(5), 4);
             RRCConnectionReconfiguration result = RRCConnectionReconfiguration.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.criticalExtensions);
@@ -149,7 +149,7 @@ namespace TraceParser.Test.RRC
         public void Test_RadioResource_SpsConfig(string source, string description)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 4);
+            Assert.AreEqual(stream.ReadBits(5), 4);
             RRCConnectionReconfiguration result = RRCConnectionReconfiguration.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.criticalExtensions);
@@ -181,7 +181,7 @@ namespace TraceParser.Test.RRC
         public void Test_RadioResource_PhysicalConfigDecicated(string source, string description)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 4);
+            Assert.AreEqual(stream.ReadBits(5), 4);
             RRCConnectionReconfiguration result = RRCConnectionReconfiguration.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.criticalExtensions);

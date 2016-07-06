@@ -101,8 +101,8 @@ namespace TraceParser.Eutra
                 capability.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 int nBits = (input.ReadBit() == 0) ? 3 : 3;
-                capability.accessStratumRelease = (AccessStratumRelease)input.readBits(nBits);
-                capability.ue_Category = input.readBits(3) + 1;
+                capability.accessStratumRelease = (AccessStratumRelease)input.ReadBits(nBits);
+                capability.ue_Category = input.ReadBits(3) + 1;
                 capability.pdcp_Parameters = PDCP_Parameters.PerDecoder.Instance.Decode(input);
                 capability.phyLayerParameters = PhyLayerParameters.PerDecoder.Instance.Decode(input);
                 capability.rf_Parameters = RF_Parameters.PerDecoder.Instance.Decode(input);
@@ -157,7 +157,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 9);
                 if (stream.Read())
                 {
-                    es.ue_Category_v1020 = input.readBits(2) + 6;
+                    es.ue_Category_v1020 = input.ReadBits(2) + 6;
                 }
                 if (stream.Read())
                 {
@@ -435,7 +435,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    es.ue_Category_v1170 = input.readBits(1) + 9;
+                    es.ue_Category_v1170 = input.ReadBits(1) + 9;
                 }
                 if (stream.Read())
                 {
@@ -498,7 +498,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     int nBits = 1;
-                    es.deviceType_r9 = (deviceType_r9_Enum)input.readBits(nBits);
+                    es.deviceType_r9 = (deviceType_r9_Enum)input.ReadBits(nBits);
                 }
                 es.csg_ProximityIndicationParameters_r9 = CSG_ProximityIndicationParameters_r9.PerDecoder.Instance.Decode(input);
                 es.neighCellSI_AcquisitionParameters_r9 = NeighCellSI_AcquisitionParameters_r9.PerDecoder.Instance.Decode(input);
@@ -534,7 +534,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -718,7 +718,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())

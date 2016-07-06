@@ -56,7 +56,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(3))
+                        switch (input.ReadBits(3))
                         {
                             case 0:
                                 type.rrcConnectionReestablishment_r8 = RRCConnectionReestablishment_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -116,7 +116,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -139,7 +139,7 @@ namespace TraceParser.Eutra
             {
                 RRCConnectionReestablishment reestablishment = new RRCConnectionReestablishment();
                 reestablishment.InitDefaults();
-                reestablishment.rrc_TransactionIdentifier = input.readBits(2);
+                reestablishment.rrc_TransactionIdentifier = input.ReadBits(2);
                 reestablishment.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return reestablishment;
             }
@@ -169,7 +169,7 @@ namespace TraceParser.Eutra
                 es.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 es.radioResourceConfigDedicated = RadioResourceConfigDedicated.PerDecoder.Instance.Decode(input);
-                es.nextHopChainingCount = input.readBits(3);
+                es.nextHopChainingCount = input.ReadBits(3);
                 if (stream.Read())
                 {
                     es.nonCriticalExtension = RRCConnectionReestablishment_v8a0_IEs.PerDecoder.Instance.Decode(input);
@@ -221,7 +221,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())

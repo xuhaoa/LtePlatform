@@ -34,13 +34,13 @@ namespace TraceParser.X2ap
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.ReadBit();
                 input.skipUnreadedBits();
-                information.pCI = input.readBits(0x10);
+                information.pCI = input.ReadBits(0x10);
                 information.cellId = ECGI.PerDecoder.Instance.Decode(input);
                 input.skipUnreadedBits();
                 information.tAC = input.readOctetString(2);
                 information.broadcastPLMNs = new List<string>();
                 int nBits = 3;
-                int num5 = input.readBits(nBits) + 1;
+                int num5 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num5; i++)
                 {
                     input.skipUnreadedBits();
@@ -53,7 +53,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     information.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num7 = input.readBits(nBits) + 1;
+                    int num7 = input.ReadBits(nBits) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -107,7 +107,7 @@ namespace TraceParser.X2ap
                 {
                     element.neighbour_Info = new List<Neighbour_Information_Element>();
                     num4 = 10;
-                    int num5 = input.readBits(num4);
+                    int num5 = input.ReadBits(num4);
                     for (int i = 0; i < num5; i++)
                     {
                         Neighbour_Information_Element item = Neighbour_Information_Element.PerDecoder.Instance.Decode(input);
@@ -119,7 +119,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     element.iE_Extensions = new List<ProtocolExtensionField>();
                     num4 = 0x10;
-                    int num7 = input.readBits(num4) + 1;
+                    int num7 = input.ReadBits(num4) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -171,7 +171,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -228,7 +228,7 @@ namespace TraceParser.X2ap
                 {
                     item.neighbour_Info = new List<Neighbour_Information_Element>();
                     num4 = 10;
-                    int num5 = input.readBits(num4);
+                    int num5 = input.ReadBits(num4);
                     for (int i = 0; i < num5; i++)
                     {
                         Neighbour_Information_Element element = Neighbour_Information_Element.PerDecoder.Instance.Decode(input);
@@ -240,7 +240,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     num4 = 0x10;
-                    int num7 = input.readBits(num4) + 1;
+                    int num7 = input.ReadBits(num4) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -293,16 +293,16 @@ namespace TraceParser.X2ap
                 element.eCGI = ECGI.PerDecoder.Instance.Decode(input);
                 input.ReadBit();
                 input.skipUnreadedBits();
-                element.pCI = input.readBits(0x10);
-                int nBits = input.readBits(1) + 1;
+                element.pCI = input.ReadBits(0x10);
+                int nBits = input.ReadBits(1) + 1;
                 input.skipUnreadedBits();
-                element.eARFCN = input.readBits(nBits * 8);
+                element.eARFCN = input.ReadBits(nBits * 8);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     element.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

@@ -26,9 +26,9 @@ namespace TraceParser.S1ap
                 InitiatingMessage message = new InitiatingMessage();
                 message.InitDefaults();
                 input.skipUnreadedBits();
-                message.procedureCode = input.readBits(8);
+                message.procedureCode = input.ReadBits(8);
                 const int num4 = 2;
-                message.criticality = (Criticality)input.readBits(num4);
+                message.criticality = (Criticality)input.ReadBits(num4);
                 input.skipUnreadedBits();
                 int nBits = 0;
                 while (true)
@@ -36,19 +36,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_00CF;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_00CF;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -97,7 +97,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 message.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);

@@ -45,7 +45,7 @@ namespace TraceParser.Eutra
                 var stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    es.ul_CarrierFreq_v9e0 = input.readBits(0x12) + 0x10000;
+                    es.ul_CarrierFreq_v9e0 = input.ReadBits(0x12) + 0x10000;
                 }
                 if (stream.Read())
                 {

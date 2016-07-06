@@ -40,12 +40,12 @@ namespace TraceParser.Eutra
             {
                 UplinkPowerControlCommon common = new UplinkPowerControlCommon();
                 common.InitDefaults();
-                common.p0_NominalPUSCH = input.readBits(8) + -126;
+                common.p0_NominalPUSCH = input.ReadBits(8) + -126;
                 int nBits = 3;
-                common.alpha = (alpha_Enum)input.readBits(nBits);
-                common.p0_NominalPUCCH = input.readBits(5) + -127;
+                common.alpha = (alpha_Enum)input.ReadBits(nBits);
+                common.p0_NominalPUCCH = input.ReadBits(5) + -127;
                 common.deltaFList_PUCCH = DeltaFList_PUCCH.PerDecoder.Instance.Decode(input);
-                common.deltaPreambleMsg3 = input.readBits(3) + -1;
+                common.deltaPreambleMsg3 = input.ReadBits(3) + -1;
                 return common;
             }
         }
@@ -91,9 +91,9 @@ namespace TraceParser.Eutra
                 UplinkPowerControlCommon_v1020 _v = new UplinkPowerControlCommon_v1020();
                 _v.InitDefaults();
                 int nBits = 3;
-                _v.deltaF_PUCCH_Format3_r10 = (deltaF_PUCCH_Format3_r10_Enum)input.readBits(nBits);
+                _v.deltaF_PUCCH_Format3_r10 = (deltaF_PUCCH_Format3_r10_Enum)input.ReadBits(nBits);
                 nBits = 2;
-                _v.deltaF_PUCCH_Format1bCS_r10 = (deltaF_PUCCH_Format1bCS_r10_Enum)input.readBits(nBits);
+                _v.deltaF_PUCCH_Format1bCS_r10 = (deltaF_PUCCH_Format1bCS_r10_Enum)input.ReadBits(nBits);
                 return _v;
             }
         }
@@ -130,9 +130,9 @@ namespace TraceParser.Eutra
             {
                 UplinkPowerControlCommonSCell_r10 _r = new UplinkPowerControlCommonSCell_r10();
                 _r.InitDefaults();
-                _r.p0_NominalPUSCH_r10 = input.readBits(8) + -126;
+                _r.p0_NominalPUSCH_r10 = input.ReadBits(8) + -126;
                 int nBits = 3;
-                _r.alpha_r10 = (alpha_r10_Enum)input.readBits(nBits);
+                _r.alpha_r10 = (alpha_r10_Enum)input.ReadBits(nBits);
                 return _r;
             }
         }
@@ -155,7 +155,7 @@ namespace TraceParser.Eutra
             {
                 UplinkPowerControlCommonSCell_v1130 _v = new UplinkPowerControlCommonSCell_v1130();
                 _v.InitDefaults();
-                _v.deltaPreambleMsg3_r11 = input.readBits(3) + -1;
+                _v.deltaPreambleMsg3_r11 = input.ReadBits(3) + -1;
                 return _v;
             }
         }
@@ -196,16 +196,16 @@ namespace TraceParser.Eutra
                 UplinkPowerControlDedicated dedicated = new UplinkPowerControlDedicated();
                 dedicated.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                dedicated.p0_UE_PUSCH = input.readBits(4) + -8;
+                dedicated.p0_UE_PUSCH = input.ReadBits(4) + -8;
                 int nBits = 1;
-                dedicated.deltaMCS_Enabled = (deltaMCS_Enabled_Enum)input.readBits(nBits);
+                dedicated.deltaMCS_Enabled = (deltaMCS_Enabled_Enum)input.ReadBits(nBits);
                 dedicated.accumulationEnabled = input.ReadBit() == 1;
-                dedicated.p0_UE_PUCCH = input.readBits(4) + -8;
-                dedicated.pSRS_Offset = input.readBits(4);
+                dedicated.p0_UE_PUCCH = input.ReadBits(4) + -8;
+                dedicated.pSRS_Offset = input.ReadBits(4);
                 if (stream.Read())
                 {
                     nBits = (input.ReadBit() == 0) ? 4 : 4;
-                    dedicated.filterCoefficient = (FilterCoefficient)input.readBits(nBits);
+                    dedicated.filterCoefficient = (FilterCoefficient)input.ReadBits(nBits);
                 }
                 return dedicated;
             }
@@ -238,7 +238,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    _v.pSRS_OffsetAp_r10 = input.readBits(4);
+                    _v.pSRS_OffsetAp_r10 = input.ReadBits(4);
                 }
                 return _v;
             }
@@ -269,11 +269,11 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
-                    _v.pSRS_Offset_v1130 = input.readBits(4) + 0x10;
+                    _v.pSRS_Offset_v1130 = input.ReadBits(4) + 0x10;
                 }
                 if (stream.Read())
                 {
-                    _v.pSRS_OffsetAp_v1130 = input.readBits(4) + 0x10;
+                    _v.pSRS_OffsetAp_v1130 = input.ReadBits(4) + 0x10;
                 }
                 if (stream.Read())
                 {
@@ -328,22 +328,22 @@ namespace TraceParser.Eutra
                 _r.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 BitMaskStream stream2 = new BitMaskStream(input, 1);
-                _r.p0_UE_PUSCH_r10 = input.readBits(4) + -8;
+                _r.p0_UE_PUSCH_r10 = input.ReadBits(4) + -8;
                 int nBits = 1;
-                _r.deltaMCS_Enabled_r10 = (deltaMCS_Enabled_r10_Enum)input.readBits(nBits);
+                _r.deltaMCS_Enabled_r10 = (deltaMCS_Enabled_r10_Enum)input.ReadBits(nBits);
                 _r.accumulationEnabled_r10 = input.ReadBit() == 1;
-                _r.pSRS_Offset_r10 = input.readBits(4);
+                _r.pSRS_Offset_r10 = input.ReadBits(4);
                 if (stream2.Read())
                 {
-                    _r.pSRS_OffsetAp_r10 = input.readBits(4);
+                    _r.pSRS_OffsetAp_r10 = input.ReadBits(4);
                 }
                 if (stream.Read())
                 {
                     nBits = (input.ReadBit() == 0) ? 4 : 4;
-                    _r.filterCoefficient_r10 = (FilterCoefficient)input.readBits(nBits);
+                    _r.filterCoefficient_r10 = (FilterCoefficient)input.ReadBits(nBits);
                 }
                 nBits = 1;
-                _r.pathlossReferenceLinking_r10 = (pathlossReferenceLinking_r10_Enum)input.readBits(nBits);
+                _r.pathlossReferenceLinking_r10 = (pathlossReferenceLinking_r10_Enum)input.ReadBits(nBits);
                 return _r;
             }
         }

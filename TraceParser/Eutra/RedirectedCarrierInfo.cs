@@ -34,10 +34,10 @@ namespace TraceParser.Eutra
                 RedirectedCarrierInfo info = new RedirectedCarrierInfo();
                 info.InitDefaults();
                 bool flag = input.ReadBit() != 0;
-                switch (input.readBits(3))
+                switch (input.ReadBits(3))
                 {
                     case 0:
-                        info.eutra = input.readBits(0x10);
+                        info.eutra = input.ReadBits(0x10);
                         return info;
 
                     case 1:
@@ -45,11 +45,11 @@ namespace TraceParser.Eutra
                         return info;
 
                     case 2:
-                        info.utra_FDD = input.readBits(14);
+                        info.utra_FDD = input.ReadBits(14);
                         return info;
 
                     case 3:
-                        info.utra_TDD = input.readBits(14);
+                        info.utra_TDD = input.ReadBits(14);
                         return info;
 
                     case 4:
@@ -65,10 +65,10 @@ namespace TraceParser.Eutra
                         {
                             info.utra_TDD_r10 = new List<long>();
                             int nBits = 3;
-                            int num4 = input.readBits(nBits) + 1;
+                            int num4 = input.ReadBits(nBits) + 1;
                             for (int i = 0; i < num4; i++)
                             {
-                                long item = input.readBits(14);
+                                long item = input.ReadBits(14);
                                 info.utra_TDD_r10.Add(item);
                             }
                         }
@@ -96,7 +96,7 @@ namespace TraceParser.Eutra
             {
                 RedirectedCarrierInfo_v9e0 _ve = new RedirectedCarrierInfo_v9e0();
                 _ve.InitDefaults();
-                _ve.eutra_v9e0 = input.readBits(0x12) + 0x10000;
+                _ve.eutra_v9e0 = input.ReadBits(0x12) + 0x10000;
                 return _ve;
             }
         }

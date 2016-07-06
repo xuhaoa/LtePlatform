@@ -48,7 +48,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     const int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -100,7 +100,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -147,13 +147,13 @@ namespace TraceParser.X2ap
                 type.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 int nBits = (input.ReadBit() == 0) ? 2 : 2;
-                type.cell_Size = (Cell_Size)input.readBits(nBits);
+                type.cell_Size = (Cell_Size)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     type.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

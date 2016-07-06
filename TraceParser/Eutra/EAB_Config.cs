@@ -30,7 +30,7 @@ namespace TraceParser.Eutra
                 EAB_Config_r11 _r = new EAB_Config_r11();
                 _r.InitDefaults();
                 int nBits = 2;
-                _r.eab_Category_r11 = (eab_Category_r11_Enum)input.readBits(nBits);
+                _r.eab_Category_r11 = (eab_Category_r11_Enum)input.ReadBits(nBits);
                 _r.eab_BarringBitmap_r11 = input.readBitString(10);
                 return _r;
             }

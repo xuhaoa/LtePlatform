@@ -23,7 +23,7 @@ namespace TraceParser.Eutra
                 parameters.InitDefaults();
                 parameters.bandListEUTRA = new List<BandInfoEUTRA>();
                 int nBits = 6;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     BandInfoEUTRA item = BandInfoEUTRA.PerDecoder.Instance.Decode(input);
@@ -53,7 +53,7 @@ namespace TraceParser.Eutra
                 _v.InitDefaults();
                 _v.bandCombinationListEUTRA_r10 = new List<BandInfoEUTRA>();
                 int nBits = 7;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     BandInfoEUTRA item = BandInfoEUTRA.PerDecoder.Instance.Decode(input);
@@ -85,7 +85,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    _v.rsrqMeasWideband_r11 = (rsrqMeasWideband_r11_Enum)input.readBits(nBits);
+                    _v.rsrqMeasWideband_r11 = (rsrqMeasWideband_r11_Enum)input.ReadBits(nBits);
                 }
                 return _v;
             }
@@ -126,12 +126,12 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.loggedMeasurementsIdle_r10 = (loggedMeasurementsIdle_r10_Enum)input.readBits(num2);
+                    _r.loggedMeasurementsIdle_r10 = (loggedMeasurementsIdle_r10_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.standaloneGNSS_Location_r10 = (standaloneGNSS_Location_r10_Enum)input.readBits(num2);
+                    _r.standaloneGNSS_Location_r10 = (standaloneGNSS_Location_r10_Enum)input.ReadBits(num2);
                 }
                 return _r;
             }

@@ -22,7 +22,7 @@ namespace TraceParser.Eutra
             {
                 PowerPrefIndicationConfig_r11 _r = new PowerPrefIndicationConfig_r11();
                 _r.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         return _r;
@@ -53,7 +53,7 @@ namespace TraceParser.Eutra
                     setup_Type type = new setup_Type();
                     type.InitDefaults();
                     const int nBits = 4;
-                    type.powerPrefIndicationTimer_r11 = (powerPrefIndicationTimer_r11_Enum)input.readBits(nBits);
+                    type.powerPrefIndicationTimer_r11 = (powerPrefIndicationTimer_r11_Enum)input.ReadBits(nBits);
                     return type;
                 }
             }

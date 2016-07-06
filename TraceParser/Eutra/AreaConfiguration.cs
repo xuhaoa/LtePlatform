@@ -19,12 +19,12 @@ namespace TraceParser.Eutra
             protected override void ProcessConfig(AreaConfiguration_r10 config, BitArrayInputStream input)
             {
                 InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         {
                             config.cellGlobalIdList_r10 = new List<CellGlobalIdEUTRA>();
-                            int num4 = input.readBits(5) + 1;
+                            int num4 = input.ReadBits(5) + 1;
                             for (int i = 0; i < num4; i++)
                             {
                                 CellGlobalIdEUTRA item = CellGlobalIdEUTRA.PerDecoder.Instance.Decode(input);
@@ -35,7 +35,7 @@ namespace TraceParser.Eutra
                     case 1:
                         {
                             config.trackingAreaCodeList_r10 = new List<string>();
-                            int num6 = input.readBits(3) + 1;
+                            int num6 = input.ReadBits(3) + 1;
                             for (int j = 0; j < num6; j++)
                             {
                                 string str = input.readBitString(0x10);

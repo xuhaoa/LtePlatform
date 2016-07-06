@@ -25,14 +25,14 @@ namespace TraceParser.Eutra
                 RSTD_InterFreqInfo_r10 _r = new RSTD_InterFreqInfo_r10();
                 _r.InitDefaults();
                 bool flag = input.ReadBit() != 0;
-                _r.carrierFreq_r10 = input.readBits(0x10);
-                _r.measPRS_Offset_r10 = input.readBits(6);
+                _r.carrierFreq_r10 = input.ReadBits(0x10);
+                _r.measPRS_Offset_r10 = input.ReadBits(6);
                 if (flag)
                 {
                     BitMaskStream stream = new BitMaskStream(input, 1);
                     if (stream.Read())
                     {
-                        _r.carrierFreq_v1090 = input.readBits(0x12) + 0x10000;
+                        _r.carrierFreq_v1090 = input.ReadBits(0x12) + 0x10000;
                     }
                 }
                 return _r;

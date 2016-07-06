@@ -49,7 +49,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.counterCheck_r8 = CounterCheck_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -97,7 +97,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -120,7 +120,7 @@ namespace TraceParser.Eutra
             {
                 CounterCheck check = new CounterCheck();
                 check.InitDefaults();
-                check.rrc_TransactionIdentifier = input.readBits(2);
+                check.rrc_TransactionIdentifier = input.ReadBits(2);
                 check.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return check;
             }
@@ -149,7 +149,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 es.drb_CountMSB_InfoList = new List<DRB_CountMSB_Info>();
                 const int nBits = 4;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     DRB_CountMSB_Info item = DRB_CountMSB_Info.PerDecoder.Instance.Decode(input);
@@ -206,7 +206,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -268,7 +268,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.counterCheckResponse_r8 = CounterCheckResponse_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -291,7 +291,7 @@ namespace TraceParser.Eutra
             {
                 CounterCheckResponse response = new CounterCheckResponse();
                 response.InitDefaults();
-                response.rrc_TransactionIdentifier = input.readBits(2);
+                response.rrc_TransactionIdentifier = input.ReadBits(2);
                 response.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return response;
             }
@@ -320,7 +320,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 es.drb_CountInfoList = new List<DRB_CountInfo>();
                 const int nBits = 4;
-                int num3 = input.readBits(nBits);
+                int num3 = input.ReadBits(nBits);
                 for (int i = 0; i < num3; i++)
                 {
                     DRB_CountInfo item = DRB_CountInfo.PerDecoder.Instance.Decode(input);
@@ -377,7 +377,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())

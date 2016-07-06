@@ -27,12 +27,12 @@ namespace TraceParser.Eutra
                 var stream = flag ? new BitMaskStream(input, 2) : new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    nBits = input.readBits(6);
+                    nBits = input.ReadBits(6);
                     type.hnb_Name = input.readOctetString(nBits + 1);
                 }
                 if (flag && stream.Read())
                 {
-                    nBits = input.readBits(8);
+                    nBits = input.ReadBits(8);
                     type.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 return type;

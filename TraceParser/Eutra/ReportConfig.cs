@@ -49,14 +49,14 @@ namespace TraceParser.Eutra
                 bool flag = input.ReadBit() != 0;
                 geutra.triggerType = triggerType_Type.PerDecoder.Instance.Decode(input);
                 int nBits = 1;
-                geutra.triggerQuantity = (triggerQuantity_Enum)input.readBits(nBits);
+                geutra.triggerQuantity = (triggerQuantity_Enum)input.ReadBits(nBits);
                 nBits = 1;
-                geutra.reportQuantity = (reportQuantity_Enum)input.readBits(nBits);
-                geutra.maxReportCells = input.readBits(3) + 1;
+                geutra.reportQuantity = (reportQuantity_Enum)input.ReadBits(nBits);
+                geutra.maxReportCells = input.ReadBits(3) + 1;
                 nBits = 4;
-                geutra.reportInterval = (ReportInterval)input.readBits(nBits);
+                geutra.reportInterval = (ReportInterval)input.ReadBits(nBits);
                 nBits = 3;
-                geutra.reportAmount = (reportAmount_Enum)input.readBits(nBits);
+                geutra.reportAmount = (reportAmount_Enum)input.ReadBits(nBits);
                 if (flag)
                 {
                     stream = new BitMaskStream(input, 8);
@@ -66,12 +66,12 @@ namespace TraceParser.Eutra
                     if (stream.Read())
                     {
                         nBits = 1;
-                        geutra.si_RequestForHO_r9 = (si_RequestForHO_r9_Enum) input.readBits(nBits);
+                        geutra.si_RequestForHO_r9 = (si_RequestForHO_r9_Enum) input.ReadBits(nBits);
                     }
                     if (stream.Read()) 
                     {
                         nBits = 1;
-                        geutra.ue_RxTxTimeDiffPeriodical_r9 = (ue_RxTxTimeDiffPeriodical_r9_Enum) input.readBits(nBits);
+                        geutra.ue_RxTxTimeDiffPeriodical_r9 = (ue_RxTxTimeDiffPeriodical_r9_Enum) input.ReadBits(nBits);
                     }
                     stream=new BitMaskStream(input, 7);
                     if (flag2)
@@ -81,12 +81,12 @@ namespace TraceParser.Eutra
                         if (stream.Read())
                         {
                             nBits = 1;
-                            geutra.includeLocationInfo_r10 = (includeLocationInfo_r10_Enum) input.readBits(nBits);
+                            geutra.includeLocationInfo_r10 = (includeLocationInfo_r10_Enum) input.ReadBits(nBits);
                         }
                         if (stream.Read())
                         {
                             nBits = 1;
-                            geutra.reportAddNeighMeas_r10 = (reportAddNeighMeas_r10_Enum) input.readBits(nBits);
+                            geutra.reportAddNeighMeas_r10 = (reportAddNeighMeas_r10_Enum) input.ReadBits(nBits);
                         }
                         stream = new BitMaskStream(input, 4);
                         bool flag3 = input.ReadBit() != 0; //verExt4Present
@@ -96,7 +96,7 @@ namespace TraceParser.Eutra
                             if (stream.Read())
                             {
                                 nBits = 4;
-                                geutra.alternativeTimeToTrigger_r12 = (TimeToTrigger) input.readBits(nBits);
+                                geutra.alternativeTimeToTrigger_r12 = (TimeToTrigger) input.ReadBits(nBits);
                             }
                         }
                     }
@@ -247,7 +247,7 @@ namespace TraceParser.Eutra
                             {
                                 eventA3_Type type = new eventA3_Type();
                                 type.InitDefaults();
-                                type.a3_Offset = input.readBits(6) + -30;
+                                type.a3_Offset = input.ReadBits(6) + -30;
                                 type.reportOnLeave = input.ReadBit() == 1;
                                 return type;
                             }
@@ -322,7 +322,7 @@ namespace TraceParser.Eutra
                             {
                                 eventA6_r10_Type type = new eventA6_r10_Type();
                                 type.InitDefaults();
-                                type.a6_Offset_r10 = input.readBits(6) + -30;
+                                type.a6_Offset_r10 = input.ReadBits(6) + -30;
                                 type.a6_ReportOnLeave_r10 = input.ReadBit() == 1;
                                 return type;
                             }
@@ -338,7 +338,7 @@ namespace TraceParser.Eutra
                             eventId_Type type = new eventId_Type();
                             type.InitDefaults();
                             bool flag = input.ReadBit() != 0;
-                            switch (input.readBits(3))
+                            switch (input.ReadBits(3))
                             {
                                 case 0:
                                     type.eventA1 = eventA1_Type.PerDecoder.Instance.Decode(input);
@@ -381,9 +381,9 @@ namespace TraceParser.Eutra
                         event__Type type = new event__Type();
                         type.InitDefaults();
                         type.eventId = eventId_Type.PerDecoder.Instance.Decode(input);
-                        type.hysteresis = input.readBits(5);
+                        type.hysteresis = input.ReadBits(5);
                         int nBits = 4;
-                        type.timeToTrigger = (TimeToTrigger)input.readBits(nBits);
+                        type.timeToTrigger = (TimeToTrigger)input.ReadBits(nBits);
                         return type;
                     }
                 }
@@ -397,7 +397,7 @@ namespace TraceParser.Eutra
                 {
                     triggerType_Type type = new triggerType_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.event_ = event__Type.PerDecoder.Instance.Decode(input);
@@ -429,7 +429,7 @@ namespace TraceParser.Eutra
                         periodical_Type type = new periodical_Type();
                         type.InitDefaults();
                         int nBits = 1;
-                        type.purpose = (purpose_Enum)input.readBits(nBits);
+                        type.purpose = (purpose_Enum)input.ReadBits(nBits);
                         return type;
                     }
                 }
@@ -480,18 +480,18 @@ namespace TraceParser.Eutra
                 rrat.InitDefaults();
                 bool flag = input.ReadBit() != 0;
                 rrat.triggerType = triggerType_Type.PerDecoder.Instance.Decode(input);
-                rrat.maxReportCells = input.readBits(3) + 1;
+                rrat.maxReportCells = input.ReadBits(3) + 1;
                 int nBits = 4;
-                rrat.reportInterval = (ReportInterval)input.readBits(nBits);
+                rrat.reportInterval = (ReportInterval)input.ReadBits(nBits);
                 nBits = 3;
-                rrat.reportAmount = (reportAmount_Enum)input.readBits(nBits);
+                rrat.reportAmount = (reportAmount_Enum)input.ReadBits(nBits);
                 if (flag)
                 {
                     stream = new BitMaskStream(input, 1);
                     if (stream.Read())
                     {
                         nBits = 1;
-                        rrat.si_RequestForHO_r9 = (si_RequestForHO_r9_Enum)input.readBits(nBits);
+                        rrat.si_RequestForHO_r9 = (si_RequestForHO_r9_Enum)input.ReadBits(nBits);
                     }
                 }
                 if (flag)
@@ -500,7 +500,7 @@ namespace TraceParser.Eutra
                     if (stream.Read())
                     {
                         nBits = 1;
-                        rrat.reportQuantityUTRA_FDD_r10 = (reportQuantityUTRA_FDD_r10_Enum)input.readBits(nBits);
+                        rrat.reportQuantityUTRA_FDD_r10 = (reportQuantityUTRA_FDD_r10_Enum)input.ReadBits(nBits);
                     }
                 }
                 if (flag)
@@ -602,18 +602,18 @@ namespace TraceParser.Eutra
                                 {
                                     b1_Threshold_Type type = new b1_Threshold_Type();
                                     type.InitDefaults();
-                                    switch (input.readBits(2))
+                                    switch (input.ReadBits(2))
                                     {
                                         case 0:
                                             type.b1_ThresholdUTRA = ThresholdUTRA.PerDecoder.Instance.Decode(input);
                                             return type;
 
                                         case 1:
-                                            type.b1_ThresholdGERAN = input.readBits(6);
+                                            type.b1_ThresholdGERAN = input.ReadBits(6);
                                             return type;
 
                                         case 2:
-                                            type.b1_ThresholdCDMA2000 = input.readBits(6);
+                                            type.b1_ThresholdCDMA2000 = input.ReadBits(6);
                                             return type;
                                     }
                                     throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -667,18 +667,18 @@ namespace TraceParser.Eutra
                                 {
                                     b2_Threshold2_Type type = new b2_Threshold2_Type();
                                     type.InitDefaults();
-                                    switch (input.readBits(2))
+                                    switch (input.ReadBits(2))
                                     {
                                         case 0:
                                             type.b2_Threshold2UTRA = ThresholdUTRA.PerDecoder.Instance.Decode(input);
                                             return type;
 
                                         case 1:
-                                            type.b2_Threshold2GERAN = input.readBits(6);
+                                            type.b2_Threshold2GERAN = input.ReadBits(6);
                                             return type;
 
                                         case 2:
-                                            type.b2_Threshold2CDMA2000 = input.readBits(6);
+                                            type.b2_Threshold2CDMA2000 = input.ReadBits(6);
                                             return type;
                                     }
                                     throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -710,7 +710,7 @@ namespace TraceParser.Eutra
                             eventId_Type type = new eventId_Type();
                             type.InitDefaults();
                             input.ReadBit();
-                            switch (input.readBits(1))
+                            switch (input.ReadBits(1))
                             {
                                 case 0:
                                     type.eventB1 = eventB1_Type.PerDecoder.Instance.Decode(input);
@@ -734,9 +734,9 @@ namespace TraceParser.Eutra
                         event__Type type = new event__Type();
                         type.InitDefaults();
                         type.eventId = eventId_Type.PerDecoder.Instance.Decode(input);
-                        type.hysteresis = input.readBits(5);
+                        type.hysteresis = input.ReadBits(5);
                         int nBits = 4;
-                        type.timeToTrigger = (TimeToTrigger)input.readBits(nBits);
+                        type.timeToTrigger = (TimeToTrigger)input.ReadBits(nBits);
                         return type;
                     }
                 }
@@ -750,7 +750,7 @@ namespace TraceParser.Eutra
                 {
                     triggerType_Type type = new triggerType_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.event_ = event__Type.PerDecoder.Instance.Decode(input);
@@ -782,7 +782,7 @@ namespace TraceParser.Eutra
                         periodical_Type type = new periodical_Type();
                         type.InitDefaults();
                         int nBits = 2;
-                        type.purpose = (purpose_Enum)input.readBits(nBits);
+                        type.purpose = (purpose_Enum)input.ReadBits(nBits);
                         return type;
                     }
                 }
@@ -816,7 +816,7 @@ namespace TraceParser.Eutra
             {
                 ReportConfigToAddMod mod = new ReportConfigToAddMod();
                 mod.InitDefaults();
-                mod.reportConfigId = input.readBits(5) + 1;
+                mod.reportConfigId = input.ReadBits(5) + 1;
                 mod.reportConfig = reportConfig_Type.PerDecoder.Instance.Decode(input);
                 return mod;
             }
@@ -841,7 +841,7 @@ namespace TraceParser.Eutra
                 {
                     reportConfig_Type type = new reportConfig_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.reportConfigEUTRA = ReportConfigEUTRA.PerDecoder.Instance.Decode(input);
@@ -881,12 +881,12 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.proximityIndicationEUTRA_r9 = (proximityIndicationEUTRA_r9_Enum)input.readBits(num2);
+                    _r.proximityIndicationEUTRA_r9 = (proximityIndicationEUTRA_r9_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.proximityIndicationUTRA_r9 = (proximityIndicationUTRA_r9_Enum)input.readBits(num2);
+                    _r.proximityIndicationUTRA_r9 = (proximityIndicationUTRA_r9_Enum)input.ReadBits(num2);
                 }
                 return _r;
             }

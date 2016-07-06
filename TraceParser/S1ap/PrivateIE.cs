@@ -46,19 +46,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_00A5;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_00A5;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -82,7 +82,7 @@ namespace TraceParser.S1ap
                     input.Position = num3 + nBits;
                 }
                 int num4 = 2;
-                field.criticality = (Criticality)input.readBits(num4);
+                field.criticality = (Criticality)input.ReadBits(num4);
                 input.skipUnreadedBits();
                 nBits = 0;
                 while (true)
@@ -90,19 +90,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_01AE;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_01AE;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -149,13 +149,13 @@ namespace TraceParser.S1ap
             {
                 PrivateIE_ID eie_id = new PrivateIE_ID();
                 eie_id.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         {
-                            int num4 = input.readBits(1) + 1;
+                            int num4 = input.ReadBits(1) + 1;
                             input.skipUnreadedBits();
-                            eie_id.local = input.readBits(num4 * 8);
+                            eie_id.local = input.ReadBits(num4 * 8);
                             return eie_id;
                         }
                     case 1:
@@ -187,7 +187,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 message.privateIEs = new List<PrivateIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits) + 1;
+                int num5 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num5; i++)
                 {
                     PrivateIE_Field item = PrivateIE_Field.PerDecoder.Instance.Decode(input);

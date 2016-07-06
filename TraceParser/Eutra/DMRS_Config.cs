@@ -22,7 +22,7 @@ namespace TraceParser.Eutra
             {
                 DMRS_Config_r11 _r = new DMRS_Config_r11();
                 _r.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         return _r;
@@ -54,8 +54,8 @@ namespace TraceParser.Eutra
                 {
                     setup_Type type = new setup_Type();
                     type.InitDefaults();
-                    type.scramblingIdentity_r11 = input.readBits(9);
-                    type.scramblingIdentity2_r11 = input.readBits(9);
+                    type.scramblingIdentity_r11 = input.ReadBits(9);
+                    type.scramblingIdentity2_r11 = input.ReadBits(9);
                     return type;
                 }
             }

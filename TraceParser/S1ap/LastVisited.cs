@@ -27,7 +27,7 @@ namespace TraceParser.S1ap
                 LastVisitedCell_Item item = new LastVisitedCell_Item();
                 item.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(2))
+                switch (input.ReadBits(2))
                 {
                     case 0:
                         item.e_UTRAN_Cell = LastVisitedEUTRANCellInformation.PerDecoder.Instance.Decode(input);
@@ -50,19 +50,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_00F2;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_00F2;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -102,13 +102,13 @@ namespace TraceParser.S1ap
                 information.global_Cell_ID = EUTRAN_CGI.PerDecoder.Instance.Decode(input);
                 information.cellType = CellType.PerDecoder.Instance.Decode(input);
                 input.skipUnreadedBits();
-                information.time_UE_StayedInCell = input.readBits(0x10);
+                information.time_UE_StayedInCell = input.ReadBits(0x10);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     information.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -138,7 +138,7 @@ namespace TraceParser.S1ap
                 LastVisitedGERANCellInformation information = new LastVisitedGERANCellInformation();
                 information.InitDefaults();
                 input.ReadBit();
-                if (input.readBits(1) != 0)
+                if (input.ReadBits(1) != 0)
                 {
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
                 }
@@ -163,19 +163,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_0096;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_0096;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;

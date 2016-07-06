@@ -22,14 +22,14 @@ namespace TraceParser.Eutra
             {
                 TPC_Index index = new TPC_Index();
                 index.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
-                        index.indexOfFormat3 = input.readBits(4) + 1;
+                        index.indexOfFormat3 = input.ReadBits(4) + 1;
                         return index;
 
                     case 1:
-                        index.indexOfFormat3A = input.readBits(5) + 1;
+                        index.indexOfFormat3A = input.ReadBits(5) + 1;
                         return index;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -56,7 +56,7 @@ namespace TraceParser.Eutra
             {
                 TPC_PDCCH_Config config = new TPC_PDCCH_Config();
                 config.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         config.release=new object();

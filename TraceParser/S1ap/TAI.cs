@@ -35,7 +35,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     tai.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -87,7 +87,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 item.completedCellinTAI = new List<CompletedCellinTAI_Item>();
                 int nBits = 0x10;
-                int num5 = input.readBits(nBits) + 1;
+                int num5 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num5; i++)
                 {
                     CompletedCellinTAI_Item item2 = CompletedCellinTAI_Item.PerDecoder.Instance.Decode(input);
@@ -98,7 +98,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num7 = input.readBits(nBits) + 1;
+                    int num7 = input.ReadBits(nBits) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -150,7 +150,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 item.cancelledCellinTAI = new List<CancelledCellinTAI_Item>();
                 int nBits = 0x10;
-                int num5 = input.readBits(nBits) + 1;
+                int num5 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num5; i++)
                 {
                     CancelledCellinTAI_Item item2 = CancelledCellinTAI_Item.PerDecoder.Instance.Decode(input);
@@ -161,7 +161,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num7 = input.readBits(nBits) + 1;
+                    int num7 = input.ReadBits(nBits) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -199,7 +199,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -279,7 +279,7 @@ namespace TraceParser.S1ap
                 item.tAC = input.readOctetString(2);
                 item.broadcastPLMNs = new List<string>();
                 int nBits = 3;
-                int num5 = input.readBits(nBits) + 1;
+                int num5 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num5; i++)
                 {
                     input.skipUnreadedBits();
@@ -291,7 +291,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num7 = input.readBits(nBits) + 1;
+                    int num7 = input.ReadBits(nBits) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

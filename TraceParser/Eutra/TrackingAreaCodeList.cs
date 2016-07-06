@@ -23,7 +23,7 @@ namespace TraceParser.Eutra
                 _v.InitDefaults();
                 _v.plmn_Identity_perTAC_List_r11 = new List<PLMN_Identity>();
                 int nBits = 3;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     PLMN_Identity item = PLMN_Identity.PerDecoder.Instance.Decode(input);

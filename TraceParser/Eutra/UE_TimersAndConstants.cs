@@ -56,17 +56,17 @@ namespace TraceParser.Eutra
                 constants.InitDefaults();
                 input.ReadBit();
                 int nBits = 3;
-                constants.t300 = (t300_Enum)input.readBits(nBits);
+                constants.t300 = (t300_Enum)input.ReadBits(nBits);
                 nBits = 3;
-                constants.t301 = (t301_Enum)input.readBits(nBits);
+                constants.t301 = (t301_Enum)input.ReadBits(nBits);
                 nBits = 3;
-                constants.t310 = (t310_Enum)input.readBits(nBits);
+                constants.t310 = (t310_Enum)input.ReadBits(nBits);
                 nBits = 3;
-                constants.n310 = (n310_Enum)input.readBits(nBits);
+                constants.n310 = (n310_Enum)input.ReadBits(nBits);
                 nBits = 3;
-                constants.t311 = (t311_Enum)input.readBits(nBits);
+                constants.t311 = (t311_Enum)input.ReadBits(nBits);
                 nBits = 3;
-                constants.n311 = (n311_Enum)input.readBits(nBits);
+                constants.n311 = (n311_Enum)input.ReadBits(nBits);
                 return constants;
             }
         }

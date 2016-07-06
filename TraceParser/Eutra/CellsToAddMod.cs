@@ -24,10 +24,10 @@ namespace TraceParser.Eutra
             {
                 CellsToAddMod mod = new CellsToAddMod();
                 mod.InitDefaults();
-                mod.cellIndex = input.readBits(5) + 1;
-                mod.physCellId = input.readBits(9);
+                mod.cellIndex = input.ReadBits(5) + 1;
+                mod.physCellId = input.ReadBits(9);
                 const int nBits = 5;
-                mod.cellIndividualOffset = (Q_OffsetRange)input.readBits(nBits);
+                mod.cellIndividualOffset = (Q_OffsetRange)input.ReadBits(nBits);
                 return mod;
             }
         }
@@ -52,7 +52,7 @@ namespace TraceParser.Eutra
             {
                 AltTTT_CellsToAddMod_r12 _r = new AltTTT_CellsToAddMod_r12();
                 _r.InitDefaults();
-                _r.cellIndex = input.readBits(5) + 1;
+                _r.cellIndex = input.ReadBits(5) + 1;
                 _r.physCellIdRange = PhysCellIdRange.PerDecoder.Instance.Decode(input);
                 return _r;
             }
@@ -78,8 +78,8 @@ namespace TraceParser.Eutra
             {
                 CellsToAddModCDMA2000 dcdma = new CellsToAddModCDMA2000();
                 dcdma.InitDefaults();
-                dcdma.cellIndex = input.readBits(5) + 1;
-                dcdma.physCellId = input.readBits(9);
+                dcdma.cellIndex = input.ReadBits(5) + 1;
+                dcdma.physCellId = input.ReadBits(9);
                 return dcdma;
             }
         }
@@ -104,8 +104,8 @@ namespace TraceParser.Eutra
             {
                 CellsToAddModUTRA_FDD dutra_fdd = new CellsToAddModUTRA_FDD();
                 dutra_fdd.InitDefaults();
-                dutra_fdd.cellIndex = input.readBits(5) + 1;
-                dutra_fdd.physCellId = input.readBits(9);
+                dutra_fdd.cellIndex = input.ReadBits(5) + 1;
+                dutra_fdd.physCellId = input.ReadBits(9);
                 return dutra_fdd;
             }
         }
@@ -130,8 +130,8 @@ namespace TraceParser.Eutra
             {
                 CellsToAddModUTRA_TDD dutra_tdd = new CellsToAddModUTRA_TDD();
                 dutra_tdd.InitDefaults();
-                dutra_tdd.cellIndex = input.readBits(5) + 1;
-                dutra_tdd.physCellId = input.readBits(7);
+                dutra_tdd.cellIndex = input.ReadBits(5) + 1;
+                dutra_tdd.physCellId = input.ReadBits(7);
                 return dutra_tdd;
             }
         }
@@ -156,7 +156,7 @@ namespace TraceParser.Eutra
             {
                 BlackCellsToAddMod mod = new BlackCellsToAddMod();
                 mod.InitDefaults();
-                mod.cellIndex = input.readBits(5) + 1;
+                mod.cellIndex = input.ReadBits(5) + 1;
                 mod.physCellIdRange = PhysCellIdRange.PerDecoder.Instance.Decode(input);
                 return mod;
             }
@@ -199,8 +199,8 @@ namespace TraceParser.Eutra
                 {
                     cellIdentification_r10_Type type = new cellIdentification_r10_Type();
                     type.InitDefaults();
-                    type.physCellId_r10 = input.readBits(9);
-                    type.dl_CarrierFreq_r10 = input.readBits(0x10);
+                    type.physCellId_r10 = input.ReadBits(9);
+                    type.dl_CarrierFreq_r10 = input.ReadBits(0x10);
                     return type;
                 }
             }
@@ -216,7 +216,7 @@ namespace TraceParser.Eutra
                 _r.InitDefaults();
                 bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 3);
-                _r.sCellIndex_r10 = input.readBits(3) + 1;
+                _r.sCellIndex_r10 = input.ReadBits(3) + 1;
                 if (stream.Read())
                 {
                     _r.cellIdentification_r10 = cellIdentification_r10_Type.PerDecoder.Instance.Decode(input);
@@ -234,7 +234,7 @@ namespace TraceParser.Eutra
                     BitMaskStream stream2 = new BitMaskStream(input, 1);
                     if (stream2.Read())
                     {
-                        _r.dl_CarrierFreq_v1090 = input.readBits(0x12) + 0x10000;
+                        _r.dl_CarrierFreq_v1090 = input.ReadBits(0x12) + 0x10000;
                     }
                 }
                 return _r;

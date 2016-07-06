@@ -21,7 +21,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 config.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                var num5 = input.readBits(nBits);
+                var num5 = input.ReadBits(nBits);
                 for (var i = 0; i < num5; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -47,7 +47,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 config.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                var num5 = input.readBits(nBits);
+                var num5 = input.ReadBits(nBits);
                 for (var i = 0; i < num5; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -78,7 +78,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 command.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                var num5 = input.readBits(nBits);
+                var num5 = input.ReadBits(nBits);
                 for (var i = 0; i < num5; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -110,7 +110,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                var num5 = input.readBits(nBits);
+                var num5 = input.ReadBits(nBits);
                 for (var i = 0; i < num5; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -142,7 +142,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 notify.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                var num5 = input.readBits(nBits);
+                var num5 = input.ReadBits(nBits);
                 for (var i = 0; i < num5; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -174,7 +174,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                var num5 = input.readBits(nBits);
+                var num5 = input.ReadBits(nBits);
                 for (var i = 0; i < num5; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -206,7 +206,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                var num5 = input.readBits(nBits);
+                var num5 = input.ReadBits(nBits);
                 for (var i = 0; i < num5; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -238,7 +238,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 acknowledge.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                var num5 = input.readBits(nBits);
+                var num5 = input.ReadBits(nBits);
                 for (var i = 0; i < num5; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -270,7 +270,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 required.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                var num5 = input.readBits(nBits);
+                var num5 = input.ReadBits(nBits);
                 for (var i = 0; i < num5; i++)
                 {
                     var item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -316,7 +316,7 @@ namespace TraceParser.S1ap
                 {
                     list.equivalentPLMNs = new List<string>();
                     num4 = 4;
-                    var num5 = input.readBits(num4) + 1;
+                    var num5 = input.ReadBits(num4) + 1;
                     for (var i = 0; i < num5; i++)
                     {
                         input.skipUnreadedBits();
@@ -328,7 +328,7 @@ namespace TraceParser.S1ap
                 {
                     list.forbiddenTAs = new List<ForbiddenTAs_Item>();
                     num4 = 4;
-                    var num7 = input.readBits(num4) + 1;
+                    var num7 = input.ReadBits(num4) + 1;
                     for (var j = 0; j < num7; j++)
                     {
                         var item = ForbiddenTAs_Item.PerDecoder.Instance.Decode(input);
@@ -339,7 +339,7 @@ namespace TraceParser.S1ap
                 {
                     list.forbiddenLAs = new List<ForbiddenLAs_Item>();
                     num4 = 4;
-                    var num9 = input.readBits(num4) + 1;
+                    var num9 = input.ReadBits(num4) + 1;
                     for (var k = 0; k < num9; k++)
                     {
                         var item2 = ForbiddenLAs_Item.PerDecoder.Instance.Decode(input);
@@ -349,14 +349,14 @@ namespace TraceParser.S1ap
                 if (stream.Read())
                 {
                     num4 = (input.ReadBit() == 0) ? 3 : 3;
-                    list.forbiddenInterRATs = (ForbiddenInterRATs)input.readBits(num4);
+                    list.forbiddenInterRATs = (ForbiddenInterRATs)input.ReadBits(num4);
                 }
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     list.iE_Extensions = new List<ProtocolExtensionField>();
                     num4 = 0x10;
-                    var num11 = input.readBits(num4) + 1;
+                    var num11 = input.ReadBits(num4) + 1;
                     for (var m = 0; m < num11; m++)
                     {
                         var field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

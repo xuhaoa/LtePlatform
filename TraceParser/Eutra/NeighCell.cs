@@ -24,10 +24,10 @@ namespace TraceParser.Eutra
                 NeighCellCDMA2000 lcdma = new NeighCellCDMA2000();
                 lcdma.InitDefaults();
                 int nBits = (input.ReadBit() == 0) ? 5 : 5;
-                lcdma.bandClass = (BandclassCDMA2000)input.readBits(nBits);
+                lcdma.bandClass = (BandclassCDMA2000)input.ReadBits(nBits);
                 lcdma.neighCellsPerFreqList = new List<NeighCellsPerBandclassCDMA2000>();
                 nBits = 4;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     NeighCellsPerBandclassCDMA2000 item = NeighCellsPerBandclassCDMA2000.PerDecoder.Instance.Decode(input);
@@ -58,10 +58,10 @@ namespace TraceParser.Eutra
                 NeighCellCDMA2000_r11 _r = new NeighCellCDMA2000_r11();
                 _r.InitDefaults();
                 int nBits = (input.ReadBit() == 0) ? 5 : 5;
-                _r.bandClass = (BandclassCDMA2000)input.readBits(nBits);
+                _r.bandClass = (BandclassCDMA2000)input.ReadBits(nBits);
                 _r.neighFreqInfoList_r11 = new List<NeighCellsPerBandclassCDMA2000_r11>();
                 nBits = 4;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     NeighCellsPerBandclassCDMA2000_r11 item = NeighCellsPerBandclassCDMA2000_r11.PerDecoder.Instance.Decode(input);
@@ -91,7 +91,7 @@ namespace TraceParser.Eutra
                 _v.InitDefaults();
                 _v.neighCellsPerFreqList_v920 = new List<NeighCellsPerBandclassCDMA2000_v920>();
                 int nBits = 4;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     NeighCellsPerBandclassCDMA2000_v920 item = NeighCellsPerBandclassCDMA2000_v920.PerDecoder.Instance.Decode(input);
@@ -121,7 +121,7 @@ namespace TraceParser.Eutra
             {
                 NeighCellsCRS_Info_r11 _r = new NeighCellsCRS_Info_r11();
                 _r.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         return _r;
@@ -130,7 +130,7 @@ namespace TraceParser.Eutra
                         {
                             _r.setup = new List<CRS_AssistanceInfo_r11>();
                             int nBits = 3;
-                            int num4 = input.readBits(nBits) + 1;
+                            int num4 = input.ReadBits(nBits) + 1;
                             for (int i = 0; i < num4; i++)
                             {
                                 CRS_AssistanceInfo_r11 item = CRS_AssistanceInfo_r11.PerDecoder.Instance.Decode(input);
@@ -180,17 +180,17 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.intraFreqSI_AcquisitionForHO_r9 = (intraFreqSI_AcquisitionForHO_r9_Enum)input.readBits(num2);
+                    _r.intraFreqSI_AcquisitionForHO_r9 = (intraFreqSI_AcquisitionForHO_r9_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.interFreqSI_AcquisitionForHO_r9 = (interFreqSI_AcquisitionForHO_r9_Enum)input.readBits(num2);
+                    _r.interFreqSI_AcquisitionForHO_r9 = (interFreqSI_AcquisitionForHO_r9_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.utran_SI_AcquisitionForHO_r9 = (utran_SI_AcquisitionForHO_r9_Enum)input.readBits(num2);
+                    _r.utran_SI_AcquisitionForHO_r9 = (utran_SI_AcquisitionForHO_r9_Enum)input.ReadBits(num2);
                 }
                 return _r;
             }
@@ -221,13 +221,13 @@ namespace TraceParser.Eutra
             {
                 NeighCellsPerBandclassCDMA2000 scdma = new NeighCellsPerBandclassCDMA2000();
                 scdma.InitDefaults();
-                scdma.arfcn = input.readBits(11);
+                scdma.arfcn = input.ReadBits(11);
                 scdma.physCellIdList = new List<long>();
                 int nBits = 4;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
-                    long item = input.readBits(9);
+                    long item = input.ReadBits(9);
                     scdma.physCellIdList.Add(item);
                 }
                 return scdma;
@@ -254,13 +254,13 @@ namespace TraceParser.Eutra
             {
                 NeighCellsPerBandclassCDMA2000_r11 _r = new NeighCellsPerBandclassCDMA2000_r11();
                 _r.InitDefaults();
-                _r.arfcn = input.readBits(11);
+                _r.arfcn = input.ReadBits(11);
                 _r.physCellIdList_r11 = new List<long>();
                 int nBits = 6;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
-                    long item = input.readBits(9);
+                    long item = input.ReadBits(9);
                     _r.physCellIdList_r11.Add(item);
                 }
                 return _r;
@@ -287,10 +287,10 @@ namespace TraceParser.Eutra
                 _v.InitDefaults();
                 _v.physCellIdList_v920 = new List<long>();
                 int nBits = 5;
-                int num3 = input.readBits(nBits);
+                int num3 = input.ReadBits(nBits);
                 for (int i = 0; i < num3; i++)
                 {
-                    long item = input.readBits(9);
+                    long item = input.ReadBits(9);
                     _v.physCellIdList_v920.Add(item);
                 }
                 return _v;

@@ -24,8 +24,8 @@ namespace TraceParser.Eutra
                 CarrierFreqCDMA2000 qcdma = new CarrierFreqCDMA2000();
                 qcdma.InitDefaults();
                 int nBits = (input.ReadBit() == 0) ? 5 : 5;
-                qcdma.bandClass = (BandclassCDMA2000)input.readBits(nBits);
-                qcdma.arfcn = input.readBits(11);
+                qcdma.bandClass = (BandclassCDMA2000)input.ReadBits(nBits);
+                qcdma.arfcn = input.ReadBits(11);
                 return qcdma;
             }
         }
@@ -51,10 +51,10 @@ namespace TraceParser.Eutra
                 CarrierFreqEUTRA qeutra = new CarrierFreqEUTRA();
                 qeutra.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                qeutra.dl_CarrierFreq = input.readBits(0x10);
+                qeutra.dl_CarrierFreq = input.ReadBits(0x10);
                 if (stream.Read())
                 {
-                    qeutra.ul_CarrierFreq = input.readBits(0x10);
+                    qeutra.ul_CarrierFreq = input.ReadBits(0x10);
                 }
                 return qeutra;
             }
@@ -81,10 +81,10 @@ namespace TraceParser.Eutra
                 CarrierFreqEUTRA_v9e0 _ve = new CarrierFreqEUTRA_v9e0();
                 _ve.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                _ve.dl_CarrierFreq_v9e0 = input.readBits(0x12);
+                _ve.dl_CarrierFreq_v9e0 = input.ReadBits(0x12);
                 if (stream.Read())
                 {
-                    _ve.ul_CarrierFreq_v9e0 = input.readBits(0x12);
+                    _ve.ul_CarrierFreq_v9e0 = input.ReadBits(0x12);
                 }
                 return _ve;
             }
@@ -110,9 +110,9 @@ namespace TraceParser.Eutra
             {
                 CarrierFreqGERAN qgeran = new CarrierFreqGERAN();
                 qgeran.InitDefaults();
-                qgeran.arfcn = input.readBits(10);
+                qgeran.arfcn = input.ReadBits(10);
                 const int nBits = 1;
-                qgeran.bandIndicator = (BandIndicatorGERAN)input.readBits(nBits);
+                qgeran.bandIndicator = (BandIndicatorGERAN)input.ReadBits(nBits);
                 return qgeran;
             }
         }
@@ -140,10 +140,10 @@ namespace TraceParser.Eutra
                 {
                     _vh.multiBandInfoList = new List<long>();
                     int nBits = 3;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
-                        long item = input.readBits(7) + 1;
+                        long item = input.ReadBits(7) + 1;
                         _vh.multiBandInfoList.Add(item);
                     }
                 }
@@ -197,8 +197,8 @@ namespace TraceParser.Eutra
                     {
                         equallySpacedARFCNs_Type type = new equallySpacedARFCNs_Type();
                         type.InitDefaults();
-                        type.arfcn_Spacing = input.readBits(3) + 1;
-                        type.numberOfFollowingARFCNs = input.readBits(5);
+                        type.arfcn_Spacing = input.ReadBits(3) + 1;
+                        type.numberOfFollowingARFCNs = input.ReadBits(5);
                         return type;
                     }
                 }
@@ -212,16 +212,16 @@ namespace TraceParser.Eutra
                 {
                     followingARFCNs_Type type = new followingARFCNs_Type();
                     type.InitDefaults();
-                    switch (input.readBits(2))
+                    switch (input.ReadBits(2))
                     {
                         case 0:
                             {
                                 type.explicitListOfARFCNs = new List<long>();
                                 const int nBits = 5;
-                                int num4 = input.readBits(nBits);
+                                int num4 = input.ReadBits(nBits);
                                 for (int i = 0; i < num4; i++)
                                 {
-                                    long item = input.readBits(10);
+                                    long item = input.ReadBits(10);
                                     type.explicitListOfARFCNs.Add(item);
                                 }
                                 return type;
@@ -231,7 +231,7 @@ namespace TraceParser.Eutra
                             return type;
 
                         case 2:
-                            int num = input.readBits(4);
+                            int num = input.ReadBits(4);
                             type.variableBitMapOfARFCNs = input.readOctetString(num + 1);
                             return type;
                     }
@@ -248,9 +248,9 @@ namespace TraceParser.Eutra
             {
                 CarrierFreqsGERAN sgeran = new CarrierFreqsGERAN();
                 sgeran.InitDefaults();
-                sgeran.startingARFCN = input.readBits(10);
+                sgeran.startingARFCN = input.ReadBits(10);
                 int nBits = 1;
-                sgeran.bandIndicator = (BandIndicatorGERAN)input.readBits(nBits);
+                sgeran.bandIndicator = (BandIndicatorGERAN)input.ReadBits(nBits);
                 sgeran.followingARFCNs = followingARFCNs_Type.PerDecoder.Instance.Decode(input);
                 return sgeran;
             }
@@ -298,16 +298,16 @@ namespace TraceParser.Eutra
                     BitMaskStream stream = new BitMaskStream(input, 2);
                     if (stream.Read())
                     {
-                        type.cellReselectionPriority = input.readBits(3);
+                        type.cellReselectionPriority = input.ReadBits(3);
                     }
                     type.ncc_Permitted = input.readBitString(8);
-                    type.q_RxLevMin = input.readBits(6);
+                    type.q_RxLevMin = input.ReadBits(6);
                     if (stream.Read())
                     {
-                        type.p_MaxGERAN = input.readBits(6);
+                        type.p_MaxGERAN = input.ReadBits(6);
                     }
-                    type.threshX_High = input.readBits(5);
-                    type.threshX_Low = input.readBits(5);
+                    type.threshX_High = input.ReadBits(5);
+                    type.threshX_Low = input.ReadBits(5);
                     return type;
                 }
             }
@@ -362,16 +362,16 @@ namespace TraceParser.Eutra
                 qutra_fdd.InitDefaults();
                 bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                qutra_fdd.carrierFreq = input.readBits(14);
+                qutra_fdd.carrierFreq = input.ReadBits(14);
                 if (stream.Read())
                 {
-                    qutra_fdd.cellReselectionPriority = input.readBits(3);
+                    qutra_fdd.cellReselectionPriority = input.ReadBits(3);
                 }
-                qutra_fdd.threshX_High = input.readBits(5);
-                qutra_fdd.threshX_Low = input.readBits(5);
-                qutra_fdd.q_RxLevMin = input.readBits(6) + -60;
-                qutra_fdd.p_MaxUTRA = input.readBits(7) + -50;
-                qutra_fdd.q_QualMin = input.readBits(5) + -24;
+                qutra_fdd.threshX_High = input.ReadBits(5);
+                qutra_fdd.threshX_Low = input.ReadBits(5);
+                qutra_fdd.q_RxLevMin = input.ReadBits(6) + -60;
+                qutra_fdd.p_MaxUTRA = input.ReadBits(7) + -50;
+                qutra_fdd.q_QualMin = input.ReadBits(5) + -24;
                 if (flag)
                 {
                     BitMaskStream stream2 = new BitMaskStream(input, 1);
@@ -403,8 +403,8 @@ namespace TraceParser.Eutra
                 {
                     threshX_Q_r9_Type type = new threshX_Q_r9_Type();
                     type.InitDefaults();
-                    type.threshX_HighQ_r9 = input.readBits(5);
-                    type.threshX_LowQ_r9 = input.readBits(5);
+                    type.threshX_HighQ_r9 = input.ReadBits(5);
+                    type.threshX_LowQ_r9 = input.ReadBits(5);
                     return type;
                 }
             }
@@ -439,15 +439,15 @@ namespace TraceParser.Eutra
                 CarrierFreqUTRA_TDD qutra_tdd = new CarrierFreqUTRA_TDD();
                 qutra_tdd.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                qutra_tdd.carrierFreq = input.readBits(14);
+                qutra_tdd.carrierFreq = input.ReadBits(14);
                 if (stream.Read())
                 {
-                    qutra_tdd.cellReselectionPriority = input.readBits(3);
+                    qutra_tdd.cellReselectionPriority = input.ReadBits(3);
                 }
-                qutra_tdd.threshX_High = input.readBits(5);
-                qutra_tdd.threshX_Low = input.readBits(5);
-                qutra_tdd.q_RxLevMin = input.readBits(6) + -60;
-                qutra_tdd.p_MaxUTRA = input.readBits(7) + -50;
+                qutra_tdd.threshX_High = input.ReadBits(5);
+                qutra_tdd.threshX_Low = input.ReadBits(5);
+                qutra_tdd.q_RxLevMin = input.ReadBits(6) + -60;
+                qutra_tdd.p_MaxUTRA = input.ReadBits(7) + -50;
                 return qutra_tdd;
             }
         }
@@ -480,9 +480,9 @@ namespace TraceParser.Eutra
             {
                 AffectedCarrierFreq_r11 _r = new AffectedCarrierFreq_r11();
                 _r.InitDefaults();
-                _r.carrierFreq_r11 = input.readBits(5) + 1;
+                _r.carrierFreq_r11 = input.ReadBits(5) + 1;
                 const int nBits = 2;
-                _r.interferenceDirection_r11 = (interferenceDirection_r11_Enum)input.readBits(nBits);
+                _r.interferenceDirection_r11 = (interferenceDirection_r11_Enum)input.ReadBits(nBits);
                 return _r;
             }
         }
@@ -529,11 +529,11 @@ namespace TraceParser.Eutra
                 heutra.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 int nBits = 4;
-                heutra.dl_Bandwidth = (dl_Bandwidth_Enum)input.readBits(nBits);
+                heutra.dl_Bandwidth = (dl_Bandwidth_Enum)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     nBits = 4;
-                    heutra.ul_Bandwidth = (ul_Bandwidth_Enum)input.readBits(nBits);
+                    heutra.ul_Bandwidth = (ul_Bandwidth_Enum)input.ReadBits(nBits);
                 }
                 return heutra;
             }

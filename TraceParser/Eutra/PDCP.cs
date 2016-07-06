@@ -53,7 +53,7 @@ namespace TraceParser.Eutra
                 {
                     headerCompression_Type type = new headerCompression_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             return type;
@@ -89,7 +89,7 @@ namespace TraceParser.Eutra
                         BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                         if (stream.Read())
                         {
-                            type.maxCID = input.readBits(14) + 1;
+                            type.maxCID = input.ReadBits(14) + 1;
                         }
                         type.profiles = profiles_Type.PerDecoder.Instance.Decode(input);
                         return type;
@@ -165,7 +165,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 3;
-                    config.discardTimer = (discardTimer_Enum)input.readBits(num2);
+                    config.discardTimer = (discardTimer_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
@@ -182,7 +182,7 @@ namespace TraceParser.Eutra
                     if (stream2.Read())
                     {
                         num2 = 1;
-                        config.rn_IntegrityProtection_r10 = (rn_IntegrityProtection_r10_Enum)input.readBits(num2);
+                        config.rn_IntegrityProtection_r10 = (rn_IntegrityProtection_r10_Enum)input.ReadBits(num2);
                     }
                 }
                 if (flag)
@@ -191,7 +191,7 @@ namespace TraceParser.Eutra
                     if (stream2.Read())
                     {
                         num2 = 1;
-                        config.pdcp_SN_Size_v1130 = (pdcp_SN_Size_v1130_Enum)input.readBits(num2);
+                        config.pdcp_SN_Size_v1130 = (pdcp_SN_Size_v1130_Enum)input.ReadBits(num2);
                     }
                 }
                 return config;
@@ -245,7 +245,7 @@ namespace TraceParser.Eutra
                     rlc_UM_Type type = new rlc_UM_Type();
                     type.InitDefaults();
                     int nBits = 1;
-                    type.pdcp_SN_Size = (pdcp_SN_Size_Enum)input.readBits(nBits);
+                    type.pdcp_SN_Size = (pdcp_SN_Size_Enum)input.ReadBits(nBits);
                     return type;
                 }
             }
@@ -302,7 +302,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     int nBits = 4;
-                    parameters.maxNumberROHC_ContextSessions = (maxNumberROHC_ContextSessions_Enum)input.readBits(nBits);
+                    parameters.maxNumberROHC_ContextSessions = (maxNumberROHC_ContextSessions_Enum)input.ReadBits(nBits);
                 }
                 return parameters;
             }
@@ -386,12 +386,12 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.pdcp_SN_Extension_r11 = (pdcp_SN_Extension_r11_Enum)input.readBits(num2);
+                    _v.pdcp_SN_Extension_r11 = (pdcp_SN_Extension_r11_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.supportRohcContextContinue_r11 = (supportRohcContextContinue_r11_Enum)input.readBits(num2);
+                    _v.supportRohcContextContinue_r11 = (supportRohcContextContinue_r11_Enum)input.ReadBits(num2);
                 }
                 return _v;
             }

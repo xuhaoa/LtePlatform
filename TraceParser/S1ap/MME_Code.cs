@@ -13,9 +13,9 @@ namespace TraceParser.S1ap
 
             public long Decode(BitArrayInputStream input)
             {
-                int num2 = input.readBits(2) + 1;
+                int num2 = input.ReadBits(2) + 1;
                 input.skipUnreadedBits();
-                return input.readBits(num2 * 8);
+                return input.ReadBits(num2 * 8);
             }
         }
     }
@@ -41,7 +41,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 transfer.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -61,7 +61,7 @@ namespace TraceParser.S1ap
 
             public string Decode(BitArrayInputStream input)
             {
-                int num2 = input.readBits(8);
+                int num2 = input.ReadBits(8);
                 input.skipUnreadedBits();
                 return input.readOctetString(num2 + 1);
             }
@@ -89,7 +89,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 transfer.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -135,7 +135,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     gummei.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -172,7 +172,7 @@ namespace TraceParser.S1ap
             public long Decode(BitArrayInputStream input)
             {
                 input.skipUnreadedBits();
-                return input.readBits(8);
+                return input.ReadBits(8);
             }
         }
     }
@@ -187,7 +187,7 @@ namespace TraceParser.S1ap
             public long Decode(BitArrayInputStream input)
             {
                 input.skipUnreadedBits();
-                return input.readBits(8);
+                return input.ReadBits(8);
             }
         }
     }
@@ -223,7 +223,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     s_tmsi.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

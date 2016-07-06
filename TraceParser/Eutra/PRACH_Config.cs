@@ -23,7 +23,7 @@ namespace TraceParser.Eutra
                 PRACH_Config config = new PRACH_Config();
                 config.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                config.rootSequenceIndex = input.readBits(10);
+                config.rootSequenceIndex = input.ReadBits(10);
                 if (stream.Read())
                 {
                     config.prach_ConfigInfo = PRACH_ConfigInfo.PerDecoder.Instance.Decode(input);
@@ -56,10 +56,10 @@ namespace TraceParser.Eutra
             {
                 PRACH_ConfigInfo info = new PRACH_ConfigInfo();
                 info.InitDefaults();
-                info.prach_ConfigIndex = input.readBits(6);
+                info.prach_ConfigIndex = input.ReadBits(6);
                 info.highSpeedFlag = input.ReadBit() == 1;
-                info.zeroCorrelationZoneConfig = input.readBits(4);
-                info.prach_FreqOffset = input.readBits(7);
+                info.zeroCorrelationZoneConfig = input.ReadBits(4);
+                info.prach_FreqOffset = input.ReadBits(7);
                 return info;
             }
         }
@@ -82,7 +82,7 @@ namespace TraceParser.Eutra
             {
                 PRACH_ConfigSCell_r10 _r = new PRACH_ConfigSCell_r10();
                 _r.InitDefaults();
-                _r.prach_ConfigIndex_r10 = input.readBits(6);
+                _r.prach_ConfigIndex_r10 = input.ReadBits(6);
                 return _r;
             }
         }
@@ -107,7 +107,7 @@ namespace TraceParser.Eutra
             {
                 PRACH_ConfigSIB gsib = new PRACH_ConfigSIB();
                 gsib.InitDefaults();
-                gsib.rootSequenceIndex = input.readBits(10);
+                gsib.rootSequenceIndex = input.ReadBits(10);
                 gsib.prach_ConfigInfo = PRACH_ConfigInfo.PerDecoder.Instance.Decode(input);
                 return gsib;
             }

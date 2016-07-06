@@ -58,16 +58,16 @@ namespace TraceParser.X2ap
                 info.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 int nBits = (input.ReadBit() == 0) ? 3 : 3;
-                info.radioframeAllocationPeriod = (RadioframeAllocationPeriod)input.readBits(nBits);
+                info.radioframeAllocationPeriod = (RadioframeAllocationPeriod)input.ReadBits(nBits);
                 input.ReadBit();
-                info.radioframeAllocationOffset = input.readBits(3);
+                info.radioframeAllocationOffset = input.ReadBits(3);
                 info.subframeAllocation = SubframeAllocation.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     info.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -113,7 +113,7 @@ namespace TraceParser.X2ap
                 SubframeAllocation allocation = new SubframeAllocation();
                 allocation.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         allocation.oneframe = input.readBitString(6);

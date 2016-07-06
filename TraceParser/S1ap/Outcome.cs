@@ -25,9 +25,9 @@ namespace TraceParser.S1ap
                 SuccessfulOutcome outcome = new SuccessfulOutcome();
                 outcome.InitDefaults();
                 input.skipUnreadedBits();
-                outcome.procedureCode = input.readBits(8);
+                outcome.procedureCode = input.ReadBits(8);
                 const int num4 = 2;
-                outcome.criticality = (Criticality)input.readBits(num4);
+                outcome.criticality = (Criticality)input.ReadBits(num4);
                 input.skipUnreadedBits();
                 int nBits = 0;
                 while (true)
@@ -35,19 +35,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_00CF;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_00CF;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -97,9 +97,9 @@ namespace TraceParser.S1ap
                 UnsuccessfulOutcome outcome = new UnsuccessfulOutcome();
                 outcome.InitDefaults();
                 input.skipUnreadedBits();
-                outcome.procedureCode = input.readBits(8);
+                outcome.procedureCode = input.ReadBits(8);
                 int num4 = 2;
-                outcome.criticality = (Criticality)input.readBits(num4);
+                outcome.criticality = (Criticality)input.ReadBits(num4);
                 input.skipUnreadedBits();
                 int nBits = 0;
                 while (true)
@@ -107,19 +107,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_00CF;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_00CF;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;

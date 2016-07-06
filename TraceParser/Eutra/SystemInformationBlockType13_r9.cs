@@ -28,7 +28,7 @@ namespace TraceParser.Eutra
                 var stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 _r.mbsfn_AreaInfoList_r9 = new List<MBSFN_AreaInfo_r9>();
                 const int num2 = 3;
-                var num3 = input.readBits(num2) + 1;
+                var num3 = input.ReadBits(num2) + 1;
                 for (var i = 0; i < num3; i++)
                 {
                     var item = MBSFN_AreaInfo_r9.PerDecoder.Instance.Decode(input);
@@ -37,7 +37,7 @@ namespace TraceParser.Eutra
                 _r.notificationConfig_r9 = MBMS_NotificationConfig_r9.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
-                    var nBits = input.readBits(8);
+                    var nBits = input.ReadBits(8);
                     _r.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 return _r;

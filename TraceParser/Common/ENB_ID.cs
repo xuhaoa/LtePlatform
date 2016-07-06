@@ -23,7 +23,7 @@ namespace TraceParser.Common
             {
                 InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         config.macro_eNB_ID = input.readBitString(20);
@@ -61,7 +61,7 @@ namespace TraceParser.Common
                 if (!stream.Read()) return;
                 input.skipUnreadedBits();
                 config.iE_Extensions = new List<ProtocolExtensionField>();
-                var num5 = input.readBits(0x10) + 1;
+                var num5 = input.ReadBits(0x10) + 1;
                 for (var i = 0; i < num5; i++)
                 {
                     var item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

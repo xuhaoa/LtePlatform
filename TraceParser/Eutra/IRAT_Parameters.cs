@@ -27,17 +27,17 @@ namespace TraceParser.Eutra
                 scdma_xrtt.InitDefaults();
                 scdma_xrtt.supportedBandList1XRTT = new List<BandclassCDMA2000>();
                 int nBits = 5;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     nBits = (input.ReadBit() == 0) ? 5 : 5;
-                    BandclassCDMA2000 item = (BandclassCDMA2000)input.readBits(nBits);
+                    BandclassCDMA2000 item = (BandclassCDMA2000)input.ReadBits(nBits);
                     scdma_xrtt.supportedBandList1XRTT.Add(item);
                 }
                 nBits = 1;
-                scdma_xrtt.tx_Config1XRTT = (tx_Config1XRTT_Enum)input.readBits(nBits);
+                scdma_xrtt.tx_Config1XRTT = (tx_Config1XRTT_Enum)input.ReadBits(nBits);
                 nBits = 1;
-                scdma_xrtt.rx_Config1XRTT = (rx_Config1XRTT_Enum)input.readBits(nBits);
+                scdma_xrtt.rx_Config1XRTT = (rx_Config1XRTT_Enum)input.ReadBits(nBits);
                 return scdma_xrtt;
             }
         }
@@ -78,7 +78,7 @@ namespace TraceParser.Eutra
                 IRAT_ParametersCDMA2000_1XRTT_v1020 _v = new IRAT_ParametersCDMA2000_1XRTT_v1020();
                 _v.InitDefaults();
                 int nBits = 1;
-                _v.e_CSFB_dual_1XRTT_r10 = (e_CSFB_dual_1XRTT_r10_Enum)input.readBits(nBits);
+                _v.e_CSFB_dual_1XRTT_r10 = (e_CSFB_dual_1XRTT_r10_Enum)input.ReadBits(nBits);
                 return _v;
             }
         }
@@ -115,11 +115,11 @@ namespace TraceParser.Eutra
                 _v.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 int nBits = 1;
-                _v.e_CSFB_1XRTT_r9 = (e_CSFB_1XRTT_r9_Enum)input.readBits(nBits);
+                _v.e_CSFB_1XRTT_r9 = (e_CSFB_1XRTT_r9_Enum)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     nBits = 1;
-                    _v.e_CSFB_ConcPS_Mob1XRTT_r9 = (e_CSFB_ConcPS_Mob1XRTT_r9_Enum)input.readBits(nBits);
+                    _v.e_CSFB_ConcPS_Mob1XRTT_r9 = (e_CSFB_ConcPS_Mob1XRTT_r9_Enum)input.ReadBits(nBits);
                 }
                 return _v;
             }
@@ -149,17 +149,17 @@ namespace TraceParser.Eutra
                 scdma_hrpd.InitDefaults();
                 scdma_hrpd.supportedBandListHRPD = new List<BandclassCDMA2000>();
                 int nBits = 5;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     nBits = (input.ReadBit() == 0) ? 5 : 5;
-                    BandclassCDMA2000 item = (BandclassCDMA2000)input.readBits(nBits);
+                    BandclassCDMA2000 item = (BandclassCDMA2000)input.ReadBits(nBits);
                     scdma_hrpd.supportedBandListHRPD.Add(item);
                 }
                 nBits = 1;
-                scdma_hrpd.tx_ConfigHRPD = (tx_ConfigHRPD_Enum)input.readBits(nBits);
+                scdma_hrpd.tx_ConfigHRPD = (tx_ConfigHRPD_Enum)input.ReadBits(nBits);
                 nBits = 1;
-                scdma_hrpd.rx_ConfigHRPD = (rx_ConfigHRPD_Enum)input.readBits(nBits);
+                scdma_hrpd.rx_ConfigHRPD = (rx_ConfigHRPD_Enum)input.ReadBits(nBits);
                 return scdma_hrpd;
             }
         }
@@ -203,7 +203,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    _v.cdma2000_NW_Sharing_r11 = (cdma2000_NW_Sharing_r11_Enum)input.readBits(nBits);
+                    _v.cdma2000_NW_Sharing_r11 = (cdma2000_NW_Sharing_r11_Enum)input.ReadBits(nBits);
                 }
                 return _v;
             }
@@ -231,11 +231,11 @@ namespace TraceParser.Eutra
                 sgeran.InitDefaults();
                 sgeran.supportedBandListGERAN = new List<SupportedBandGERAN>();
                 int nBits = 6;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     nBits = (input.ReadBit() == 0) ? 4 : 4;
-                    SupportedBandGERAN item = (SupportedBandGERAN)input.readBits(nBits);
+                    SupportedBandGERAN item = (SupportedBandGERAN)input.ReadBits(nBits);
                     sgeran.supportedBandListGERAN.Add(item);
                 }
                 sgeran.interRAT_PS_HO_ToGERAN = input.ReadBit() == 1;
@@ -278,12 +278,12 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.dtm_r9 = (dtm_r9_Enum)input.readBits(num2);
+                    _v.dtm_r9 = (dtm_r9_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.e_RedirectionGERAN_r9 = (e_RedirectionGERAN_r9_Enum)input.readBits(num2);
+                    _v.e_RedirectionGERAN_r9 = (e_RedirectionGERAN_r9_Enum)input.ReadBits(num2);
                 }
                 return _v;
             }
@@ -309,11 +309,11 @@ namespace TraceParser.Eutra
                 sutra_fdd.InitDefaults();
                 sutra_fdd.supportedBandListUTRA_FDD = new List<SupportedBandUTRA_FDD>();
                 int nBits = 6;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     nBits = (input.ReadBit() == 0) ? 4 : 5;
-                    SupportedBandUTRA_FDD item = (SupportedBandUTRA_FDD)input.readBits(nBits);
+                    SupportedBandUTRA_FDD item = (SupportedBandUTRA_FDD)input.ReadBits(nBits);
                     sutra_fdd.supportedBandListUTRA_FDD.Add(item);
                 }
                 return sutra_fdd;
@@ -344,7 +344,7 @@ namespace TraceParser.Eutra
                 IRAT_ParametersUTRA_TDD_v1020 _v = new IRAT_ParametersUTRA_TDD_v1020();
                 _v.InitDefaults();
                 int nBits = 1;
-                _v.e_RedirectionUTRA_TDD_r10 = (e_RedirectionUTRA_TDD_r10_Enum)input.readBits(nBits);
+                _v.e_RedirectionUTRA_TDD_r10 = (e_RedirectionUTRA_TDD_r10_Enum)input.ReadBits(nBits);
                 return _v;
             }
         }
@@ -369,11 +369,11 @@ namespace TraceParser.Eutra
                 sutra_tdd.InitDefaults();
                 sutra_tdd.supportedBandListUTRA_TDD128 = new List<SupportedBandUTRA_TDD128>();
                 int nBits = 6;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     nBits = (input.ReadBit() == 0) ? 4 : 4;
-                    SupportedBandUTRA_TDD128 item = (SupportedBandUTRA_TDD128)input.readBits(nBits);
+                    SupportedBandUTRA_TDD128 item = (SupportedBandUTRA_TDD128)input.ReadBits(nBits);
                     sutra_tdd.supportedBandListUTRA_TDD128.Add(item);
                 }
                 return sutra_tdd;
@@ -400,11 +400,11 @@ namespace TraceParser.Eutra
                 sutra_tdd.InitDefaults();
                 sutra_tdd.supportedBandListUTRA_TDD384 = new List<SupportedBandUTRA_TDD384>();
                 int nBits = 6;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     nBits = (input.ReadBit() == 0) ? 4 : 4;
-                    SupportedBandUTRA_TDD384 item = (SupportedBandUTRA_TDD384)input.readBits(nBits);
+                    SupportedBandUTRA_TDD384 item = (SupportedBandUTRA_TDD384)input.ReadBits(nBits);
                     sutra_tdd.supportedBandListUTRA_TDD384.Add(item);
                 }
                 return sutra_tdd;
@@ -431,11 +431,11 @@ namespace TraceParser.Eutra
                 sutra_tdd.InitDefaults();
                 sutra_tdd.supportedBandListUTRA_TDD768 = new List<SupportedBandUTRA_TDD768>();
                 int nBits = 6;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     nBits = (input.ReadBit() == 0) ? 4 : 4;
-                    SupportedBandUTRA_TDD768 item = (SupportedBandUTRA_TDD768)input.readBits(nBits);
+                    SupportedBandUTRA_TDD768 item = (SupportedBandUTRA_TDD768)input.ReadBits(nBits);
                     sutra_tdd.supportedBandListUTRA_TDD768.Add(item);
                 }
                 return sutra_tdd;
@@ -466,7 +466,7 @@ namespace TraceParser.Eutra
                 IRAT_ParametersUTRA_v920 _v = new IRAT_ParametersUTRA_v920();
                 _v.InitDefaults();
                 int nBits = 1;
-                _v.e_RedirectionUTRA_r9 = (e_RedirectionUTRA_r9_Enum)input.readBits(nBits);
+                _v.e_RedirectionUTRA_r9 = (e_RedirectionUTRA_r9_Enum)input.ReadBits(nBits);
                 return _v;
             }
         }
@@ -504,32 +504,32 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _vc.voiceOverPS_HS_UTRA_FDD_r9 = (voiceOverPS_HS_UTRA_FDD_r9_Enum)input.readBits(num2);
+                    _vc.voiceOverPS_HS_UTRA_FDD_r9 = (voiceOverPS_HS_UTRA_FDD_r9_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _vc.voiceOverPS_HS_UTRA_TDD128_r9 = (voiceOverPS_HS_UTRA_TDD128_r9_Enum)input.readBits(num2);
+                    _vc.voiceOverPS_HS_UTRA_TDD128_r9 = (voiceOverPS_HS_UTRA_TDD128_r9_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _vc.srvcc_FromUTRA_FDD_ToUTRA_FDD_r9 = (srvcc_FromUTRA_FDD_ToUTRA_FDD_r9_Enum)input.readBits(num2);
+                    _vc.srvcc_FromUTRA_FDD_ToUTRA_FDD_r9 = (srvcc_FromUTRA_FDD_ToUTRA_FDD_r9_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _vc.srvcc_FromUTRA_FDD_ToGERAN_r9 = (srvcc_FromUTRA_FDD_ToGERAN_r9_Enum)input.readBits(num2);
+                    _vc.srvcc_FromUTRA_FDD_ToGERAN_r9 = (srvcc_FromUTRA_FDD_ToGERAN_r9_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _vc.srvcc_FromUTRA_TDD128_ToUTRA_TDD128_r9 = (srvcc_FromUTRA_TDD128_ToUTRA_TDD128_r9_Enum)input.readBits(num2);
+                    _vc.srvcc_FromUTRA_TDD128_ToUTRA_TDD128_r9 = (srvcc_FromUTRA_TDD128_ToUTRA_TDD128_r9_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _vc.srvcc_FromUTRA_TDD128_ToGERAN_r9 = (srvcc_FromUTRA_TDD128_ToGERAN_r9_Enum)input.readBits(num2);
+                    _vc.srvcc_FromUTRA_TDD128_ToGERAN_r9 = (srvcc_FromUTRA_TDD128_ToGERAN_r9_Enum)input.ReadBits(num2);
                 }
                 return _vc;
             }
@@ -589,7 +589,7 @@ namespace TraceParser.Eutra
                 IRAT_ParametersUTRA_v9h0 _vh = new IRAT_ParametersUTRA_v9h0();
                 _vh.InitDefaults();
                 int nBits = 1;
-                _vh.mfbi_UTRA_r9 = (mfbi_UTRA_r9_Enum)input.readBits(nBits);
+                _vh.mfbi_UTRA_r9 = (mfbi_UTRA_r9_Enum)input.ReadBits(nBits);
                 return _vh;
             }
         }

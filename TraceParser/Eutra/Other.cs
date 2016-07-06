@@ -34,17 +34,17 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.inDeviceCoexInd_r11 = (inDeviceCoexInd_r11_Enum)input.readBits(num2);
+                    _r.inDeviceCoexInd_r11 = (inDeviceCoexInd_r11_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.powerPrefInd_r11 = (powerPrefInd_r11_Enum)input.readBits(num2);
+                    _r.powerPrefInd_r11 = (powerPrefInd_r11_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.ue_Rx_TxTimeDiffMeasurements_r11 = (ue_Rx_TxTimeDiffMeasurements_r11_Enum)input.readBits(num2);
+                    _r.ue_Rx_TxTimeDiffMeasurements_r11 = (ue_Rx_TxTimeDiffMeasurements_r11_Enum)input.ReadBits(num2);
                 }
                 return _r;
             }

@@ -26,9 +26,9 @@ namespace TraceParser.Eutra
                 CSI_IM_Config_r11 _r = new CSI_IM_Config_r11();
                 _r.InitDefaults();
                 input.ReadBit();
-                _r.csi_IM_ConfigId_r11 = input.readBits(2) + 1;
-                _r.resourceConfig_r11 = input.readBits(5);
-                _r.subframeConfig_r11 = input.readBits(8);
+                _r.csi_IM_ConfigId_r11 = input.ReadBits(2) + 1;
+                _r.resourceConfig_r11 = input.ReadBits(5);
+                _r.subframeConfig_r11 = input.ReadBits(8);
                 return _r;
             }
         }
@@ -72,12 +72,12 @@ namespace TraceParser.Eutra
                 _r.InitDefaults();
                 bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 3);
-                _r.csi_ProcessId_r11 = input.readBits(2) + 1;
-                _r.csi_RS_ConfigNZPId_r11 = input.readBits(2) + 1;
-                _r.csi_IM_ConfigId_r11 = input.readBits(2) + 1;
+                _r.csi_ProcessId_r11 = input.ReadBits(2) + 1;
+                _r.csi_RS_ConfigNZPId_r11 = input.ReadBits(2) + 1;
+                _r.csi_IM_ConfigId_r11 = input.ReadBits(2) + 1;
                 _r.p_C_AndCBSRList_r11 = new List<P_C_AndCBSR_r11>();
                 int nBits = 1;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     P_C_AndCBSR_r11 item = P_C_AndCBSR_r11.PerDecoder.Instance.Decode(input);
@@ -89,7 +89,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    _r.cqi_ReportPeriodicProcId_r11 = input.readBits(2);
+                    _r.cqi_ReportPeriodicProcId_r11 = input.ReadBits(2);
                 }
                 if (stream.Read())
                 {
@@ -101,7 +101,7 @@ namespace TraceParser.Eutra
                     if (stream2.Read())
                     {
                         nBits = 1;
-                        _r.alternativeCodebookEnabledFor4TXProc_r12 = (alternativeCodebookEnabledFor4TXProc_r12_Enum)input.readBits(nBits);
+                        _r.alternativeCodebookEnabledFor4TXProc_r12 = (alternativeCodebookEnabledFor4TXProc_r12_Enum)input.ReadBits(nBits);
                     }
                 }
                 return _r;
@@ -139,7 +139,7 @@ namespace TraceParser.Eutra
                 {
                     csi_RS_r10_Type type = new csi_RS_r10_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             return type;
@@ -184,10 +184,10 @@ namespace TraceParser.Eutra
                         setup_Type type = new setup_Type();
                         type.InitDefaults();
                         int nBits = 2;
-                        type.antennaPortsCount_r10 = (antennaPortsCount_r10_Enum)input.readBits(nBits);
-                        type.resourceConfig_r10 = input.readBits(5);
-                        type.subframeConfig_r10 = input.readBits(8);
-                        type.p_C_r10 = input.readBits(5) + -8;
+                        type.antennaPortsCount_r10 = (antennaPortsCount_r10_Enum)input.ReadBits(nBits);
+                        type.resourceConfig_r10 = input.ReadBits(5);
+                        type.subframeConfig_r10 = input.ReadBits(8);
+                        type.p_C_r10 = input.ReadBits(5) + -8;
                         return type;
                     }
                 }
@@ -234,7 +234,7 @@ namespace TraceParser.Eutra
                 {
                     zeroTxPowerCSI_RS_r10_Type type = new zeroTxPowerCSI_RS_r10_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             return type;
@@ -267,7 +267,7 @@ namespace TraceParser.Eutra
                         setup_Type type = new setup_Type();
                         type.InitDefaults();
                         type.zeroTxPowerResourceConfigList_r10 = input.readBitString(0x10);
-                        type.zeroTxPowerSubframeConfig_r10 = input.readBits(8);
+                        type.zeroTxPowerSubframeConfig_r10 = input.ReadBits(8);
                         return type;
                     }
                 }
@@ -311,12 +311,12 @@ namespace TraceParser.Eutra
                 CSI_RS_ConfigNZP_r11 _r = new CSI_RS_ConfigNZP_r11();
                 _r.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                _r.csi_RS_ConfigNZPId_r11 = input.readBits(2) + 1;
+                _r.csi_RS_ConfigNZPId_r11 = input.ReadBits(2) + 1;
                 int nBits = 2;
-                _r.antennaPortsCount_r11 = (antennaPortsCount_r11_Enum)input.readBits(nBits);
-                _r.resourceConfig_r11 = input.readBits(5);
-                _r.subframeConfig_r11 = input.readBits(8);
-                _r.scramblingIdentity_r11 = input.readBits(9);
+                _r.antennaPortsCount_r11 = (antennaPortsCount_r11_Enum)input.ReadBits(nBits);
+                _r.resourceConfig_r11 = input.ReadBits(5);
+                _r.subframeConfig_r11 = input.ReadBits(8);
+                _r.scramblingIdentity_r11 = input.ReadBits(9);
                 if (stream.Read())
                 {
                     _r.qcl_CRS_Info_r11 = qcl_CRS_Info_r11_Type.PerDecoder.Instance.Decode(input);
@@ -365,7 +365,7 @@ namespace TraceParser.Eutra
                     {
                         mbsfn_SubframeConfigList_r11_Type type = new mbsfn_SubframeConfigList_r11_Type();
                         type.InitDefaults();
-                        switch (input.readBits(1))
+                        switch (input.ReadBits(1))
                         {
                             case 0:
                                 return type;
@@ -397,7 +397,7 @@ namespace TraceParser.Eutra
                             type.InitDefaults();
                             type.subframeConfigList = new List<MBSFN_SubframeConfig>();
                             int nBits = 3;
-                            int num3 = input.readBits(nBits) + 1;
+                            int num3 = input.ReadBits(nBits) + 1;
                             for (int i = 0; i < num3; i++)
                             {
                                 MBSFN_SubframeConfig item = MBSFN_SubframeConfig.PerDecoder.Instance.Decode(input);
@@ -418,9 +418,9 @@ namespace TraceParser.Eutra
                     qcl_CRS_Info_r11_Type type = new qcl_CRS_Info_r11_Type();
                     type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 1);
-                    type.qcl_ScramblingIdentity_r11 = input.readBits(9);
+                    type.qcl_ScramblingIdentity_r11 = input.ReadBits(9);
                     const int nBits = 2;
-                    type.crs_PortsCount_r11 = (crs_PortsCount_r11_Enum)input.readBits(nBits);
+                    type.crs_PortsCount_r11 = (crs_PortsCount_r11_Enum)input.ReadBits(nBits);
                     if (stream.Read())
                     {
                         type.mbsfn_SubframeConfigList_r11 = mbsfn_SubframeConfigList_r11_Type.PerDecoder.Instance.Decode(input);
@@ -453,9 +453,9 @@ namespace TraceParser.Eutra
                 CSI_RS_ConfigZP_r11 _r = new CSI_RS_ConfigZP_r11();
                 _r.InitDefaults();
                 input.ReadBit();
-                _r.csi_RS_ConfigZPId_r11 = input.readBits(2) + 1;
+                _r.csi_RS_ConfigZPId_r11 = input.ReadBits(2) + 1;
                 _r.resourceConfigList_r11 = input.readBitString(0x10);
-                _r.subframeConfig_r11 = input.readBits(8);
+                _r.subframeConfig_r11 = input.ReadBits(8);
                 return _r;
             }
         }

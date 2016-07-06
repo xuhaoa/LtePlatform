@@ -31,7 +31,7 @@ namespace TraceParser.S1ap
                 item.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 input.ReadBit();
-                item.e_RAB_ID = input.readBits(4);
+                item.e_RAB_ID = input.ReadBits(4);
                 item.uL_COUNTvalue = COUNTvalue.PerDecoder.Instance.Decode(input);
                 item.dL_COUNTvalue = COUNTvalue.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
@@ -44,7 +44,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -95,16 +95,16 @@ namespace TraceParser.S1ap
                     ? new BitMaskStream(input, 1)
                     : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
-                tvalue.pDCP_SN = input.readBits(0x10);
-                int nBits = input.readBits(2) + 1;
+                tvalue.pDCP_SN = input.ReadBits(0x10);
+                int nBits = input.ReadBits(2) + 1;
                 input.skipUnreadedBits();
-                tvalue.hFN = input.readBits(nBits*8);
+                tvalue.hFN = input.ReadBits(nBits*8);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     tvalue.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

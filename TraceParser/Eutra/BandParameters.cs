@@ -35,18 +35,18 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.multipleTimingAdvance_r11 = (multipleTimingAdvance_r11_Enum)input.readBits(num2);
+                    _v.multipleTimingAdvance_r11 = (multipleTimingAdvance_r11_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.simultaneousRx_Tx_r11 = (simultaneousRx_Tx_r11_Enum)input.readBits(num2);
+                    _v.simultaneousRx_Tx_r11 = (simultaneousRx_Tx_r11_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     _v.bandParameterList_r11 = new List<BandParameters_v1130>();
                     num2 = 6;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         BandParameters_v1130 item = BandParameters_v1130.PerDecoder.Instance.Decode(input);
@@ -83,7 +83,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    int num = input.readBits(5);
+                    int num = input.ReadBits(5);
                     _r.supportedBandwidthCombinationSet_r10 = input.readBitString(num + 1);
                 }
                 return _r;
@@ -113,7 +113,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 oeutra.interFreqBandList = new List<InterFreqBandInfo>();
                 int nBits = 6;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     InterFreqBandInfo item = InterFreqBandInfo.PerDecoder.Instance.Decode(input);
@@ -123,7 +123,7 @@ namespace TraceParser.Eutra
                 {
                     oeutra.interRAT_BandList = new List<InterRAT_BandInfo>();
                     nBits = 6;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int j = 0; j < num5; j++)
                     {
                         InterRAT_BandInfo info2 = InterRAT_BandInfo.PerDecoder.Instance.Decode(input);
@@ -158,12 +158,12 @@ namespace TraceParser.Eutra
                 BandParameters_r10 _r = new BandParameters_r10();
                 _r.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 2);
-                _r.bandEUTRA_r10 = input.readBits(6) + 1;
+                _r.bandEUTRA_r10 = input.ReadBits(6) + 1;
                 if (stream.Read())
                 {
                     _r.bandParametersUL_r10 = new List<CA_MIMO_ParametersUL_r10>();
                     num2 = 4;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         CA_MIMO_ParametersUL_r10 item = CA_MIMO_ParametersUL_r10.PerDecoder.Instance.Decode(input);
@@ -174,7 +174,7 @@ namespace TraceParser.Eutra
                 {
                     _r.bandParametersDL_r10 = new List<CA_MIMO_ParametersDL_r10>();
                     num2 = 4;
-                    int num5 = input.readBits(num2) + 1;
+                    int num5 = input.ReadBits(num2) + 1;
                     for (int j = 0; j < num5; j++)
                     {
                         CA_MIMO_ParametersDL_r10 _r3 = CA_MIMO_ParametersDL_r10.PerDecoder.Instance.Decode(input);
@@ -206,7 +206,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    _v.bandEUTRA_v1090 = input.readBits(8) + 0x41;
+                    _v.bandEUTRA_v1090 = input.ReadBits(8) + 0x41;
                 }
                 return _v;
             }
@@ -231,7 +231,7 @@ namespace TraceParser.Eutra
                 BandParameters_v1130 _v = new BandParameters_v1130();
                 _v.InitDefaults();
                 int nBits = 2;
-                _v.supportedCSI_Proc_r11 = (supportedCSI_Proc_r11_Enum)input.readBits(nBits);
+                _v.supportedCSI_Proc_r11 = (supportedCSI_Proc_r11_Enum)input.ReadBits(nBits);
                 return _v;
             }
         }

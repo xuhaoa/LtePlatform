@@ -22,7 +22,7 @@ namespace TraceParser.Eutra
             {
                 InitialUE_Identity identity = new InitialUE_Identity();
                 identity.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         identity.s_TMSI = S_TMSI.PerDecoder.Instance.Decode(input);

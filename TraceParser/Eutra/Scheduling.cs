@@ -24,14 +24,14 @@ namespace TraceParser.Eutra
                 SchedulingInfo info = new SchedulingInfo();
                 info.InitDefaults();
                 int nBits = 3;
-                info.si_Periodicity = (si_Periodicity_Enum)input.readBits(nBits);
+                info.si_Periodicity = (si_Periodicity_Enum)input.ReadBits(nBits);
                 info.sib_MappingInfo = new List<SIB_Type>();
                 nBits = 5;
-                int num3 = input.readBits(nBits);
+                int num3 = input.ReadBits(nBits);
                 for (int i = 0; i < num3; i++)
                 {
                     nBits = (input.ReadBit() == 0) ? 4 : 4;
-                    SIB_Type item = (SIB_Type)input.readBits(nBits);
+                    SIB_Type item = (SIB_Type)input.ReadBits(nBits);
                     info.sib_MappingInfo.Add(item);
                 }
                 return info;
@@ -69,7 +69,7 @@ namespace TraceParser.Eutra
             {
                 SchedulingRequestConfig config = new SchedulingRequestConfig();
                 config.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         return config;
@@ -115,10 +115,10 @@ namespace TraceParser.Eutra
                 {
                     setup_Type type = new setup_Type();
                     type.InitDefaults();
-                    type.sr_PUCCH_ResourceIndex = input.readBits(11);
-                    type.sr_ConfigIndex = input.readBits(8);
+                    type.sr_PUCCH_ResourceIndex = input.ReadBits(11);
+                    type.sr_ConfigIndex = input.ReadBits(8);
                     int nBits = 3;
-                    type.dsr_TransMax = (dsr_TransMax_Enum)input.readBits(nBits);
+                    type.dsr_TransMax = (dsr_TransMax_Enum)input.ReadBits(nBits);
                     return type;
                 }
             }
@@ -145,7 +145,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    _v.sr_PUCCH_ResourceIndexP1_r10 = input.readBits(11);
+                    _v.sr_PUCCH_ResourceIndexP1_r10 = input.ReadBits(11);
                 }
                 return _v;
             }

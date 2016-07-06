@@ -49,7 +49,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.ueCapabilityEnquiry_r8 = UECapabilityEnquiry_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -97,7 +97,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -120,7 +120,7 @@ namespace TraceParser.Eutra
             {
                 UECapabilityEnquiry enquiry = new UECapabilityEnquiry();
                 enquiry.InitDefaults();
-                enquiry.rrc_TransactionIdentifier = input.readBits(2);
+                enquiry.rrc_TransactionIdentifier = input.ReadBits(2);
                 enquiry.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return enquiry;
             }
@@ -149,11 +149,11 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 es.ue_CapabilityRequest = new List<RAT_Type>();
                 int nBits = 3;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     nBits = (input.ReadBit() == 0) ? 3 : 3;
-                    RAT_Type item = (RAT_Type)input.readBits(nBits);
+                    RAT_Type item = (RAT_Type)input.ReadBits(nBits);
                     es.ue_CapabilityRequest.Add(item);
                 }
                 if (stream.Read())
@@ -207,7 +207,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -272,7 +272,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(3))
+                        switch (input.ReadBits(3))
                         {
                             case 0:
                                 type.ueCapabilityInformation_r8 = UECapabilityInformation_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -332,7 +332,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -355,7 +355,7 @@ namespace TraceParser.Eutra
             {
                 UECapabilityInformation information = new UECapabilityInformation();
                 information.InitDefaults();
-                information.rrc_TransactionIdentifier = input.readBits(2);
+                information.rrc_TransactionIdentifier = input.ReadBits(2);
                 information.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return information;
             }
@@ -384,7 +384,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 es.ue_CapabilityRAT_ContainerList = new List<UE_CapabilityRAT_Container>();
                 const int nBits = 4;
-                int num3 = input.readBits(nBits);
+                int num3 = input.ReadBits(nBits);
                 for (int i = 0; i < num3; i++)
                 {
                     UE_CapabilityRAT_Container item = UE_CapabilityRAT_Container.PerDecoder.Instance.Decode(input);
@@ -441,7 +441,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())

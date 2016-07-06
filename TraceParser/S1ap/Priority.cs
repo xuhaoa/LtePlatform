@@ -13,7 +13,7 @@ namespace TraceParser.S1ap
 
             public long Decode(BitArrayInputStream input)
             {
-                return input.readBits(4);
+                return input.ReadBits(4);
             }
         }
     }
@@ -42,17 +42,17 @@ namespace TraceParser.S1ap
                 AllocationAndRetentionPriority priority = new AllocationAndRetentionPriority();
                 priority.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                priority.priorityLevel = input.readBits(4);
+                priority.priorityLevel = input.ReadBits(4);
                 int nBits = 1;
-                priority.pre_emptionCapability = (Pre_emptionCapability)input.readBits(nBits);
+                priority.pre_emptionCapability = (Pre_emptionCapability)input.ReadBits(nBits);
                 nBits = 1;
-                priority.pre_emptionVulnerability = (Pre_emptionVulnerability)input.readBits(nBits);
+                priority.pre_emptionVulnerability = (Pre_emptionVulnerability)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     priority.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

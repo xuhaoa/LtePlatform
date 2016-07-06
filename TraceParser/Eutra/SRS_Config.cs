@@ -41,13 +41,13 @@ namespace TraceParser.Eutra
                 SRS_ConfigAp_r10 _r = new SRS_ConfigAp_r10();
                 _r.InitDefaults();
                 int nBits = 2;
-                _r.srs_AntennaPortAp_r10 = (SRS_AntennaPort)input.readBits(nBits);
+                _r.srs_AntennaPortAp_r10 = (SRS_AntennaPort)input.ReadBits(nBits);
                 nBits = 2;
-                _r.srs_BandwidthAp_r10 = (srs_BandwidthAp_r10_Enum)input.readBits(nBits);
-                _r.freqDomainPositionAp_r10 = input.readBits(5);
-                _r.transmissionCombAp_r10 = input.readBits(1);
+                _r.srs_BandwidthAp_r10 = (srs_BandwidthAp_r10_Enum)input.ReadBits(nBits);
+                _r.freqDomainPositionAp_r10 = input.ReadBits(5);
+                _r.transmissionCombAp_r10 = input.ReadBits(1);
                 nBits = 3;
-                _r.cyclicShiftAp_r10 = (cyclicShiftAp_r10_Enum)input.readBits(nBits);
+                _r.cyclicShiftAp_r10 = (cyclicShiftAp_r10_Enum)input.ReadBits(nBits);
                 return _r;
             }
         }

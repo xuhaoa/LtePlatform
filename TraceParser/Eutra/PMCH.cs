@@ -38,10 +38,10 @@ namespace TraceParser.Eutra
                 PMCH_Config_r9 _r = new PMCH_Config_r9();
                 _r.InitDefaults();
                 input.ReadBit();
-                _r.sf_AllocEnd_r9 = input.readBits(11);
-                _r.dataMCS_r9 = input.readBits(5);
+                _r.sf_AllocEnd_r9 = input.ReadBits(11);
+                _r.dataMCS_r9 = input.ReadBits(5);
                 const int nBits = 3;
-                _r.mch_SchedulingPeriod_r9 = (mch_SchedulingPeriod_r9_Enum)input.readBits(nBits);
+                _r.mch_SchedulingPeriod_r9 = (mch_SchedulingPeriod_r9_Enum)input.ReadBits(nBits);
                 return _r;
             }
         }
@@ -70,7 +70,7 @@ namespace TraceParser.Eutra
                 _r.pmch_Config_r9 = PMCH_Config_r9.PerDecoder.Instance.Decode(input);
                 _r.mbms_SessionInfoList_r9 = new List<MBMS_SessionInfo_r9>();
                 const int nBits = 5;
-                int num3 = input.readBits(nBits);
+                int num3 = input.ReadBits(nBits);
                 for (int i = 0; i < num3; i++)
                 {
                     MBMS_SessionInfo_r9 item = MBMS_SessionInfo_r9.PerDecoder.Instance.Decode(input);

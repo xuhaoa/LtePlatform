@@ -48,7 +48,7 @@ namespace TraceParser.Eutra
                 {
                     es.interFreqCarrierFreqList_v9e0 = new List<InterFreqCarrierFreqInfo_v9e0>();
                     var nBits = 3;
-                    var num3 = input.readBits(nBits) + 1;
+                    var num3 = input.ReadBits(nBits) + 1;
                     for (var i = 0; i < num3; i++)
                     {
                         var item = InterFreqCarrierFreqInfo_v9e0.PerDecoder.Instance.Decode(input);

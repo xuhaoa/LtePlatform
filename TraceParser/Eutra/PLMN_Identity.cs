@@ -29,19 +29,19 @@ namespace TraceParser.Eutra
                 {
                     identity.mcc = new List<long>();
                     num2 = 0;
-                    int num3 = input.readBits(num2) + 3;
+                    int num3 = input.ReadBits(num2) + 3;
                     for (int j = 0; j < num3; j++)
                     {
-                        long item = input.readBits(4);
+                        long item = input.ReadBits(4);
                         identity.mcc.Add(item);
                     }
                 }
                 identity.mnc = new List<long>();
                 num2 = 1;
-                int num6 = input.readBits(num2) + 2;
+                int num6 = input.ReadBits(num2) + 2;
                 for (int i = 0; i < num6; i++)
                 {
-                    long num8 = input.readBits(4);
+                    long num8 = input.ReadBits(4);
                     identity.mnc.Add(num8);
                 }
                 return identity;
@@ -76,7 +76,7 @@ namespace TraceParser.Eutra
                 info.InitDefaults();
                 info.plmn_Identity = PLMN_Identity.PerDecoder.Instance.Decode(input);
                 const int nBits = 1;
-                info.cellReservedForOperatorUse = (cellReservedForOperatorUse_Enum)input.readBits(nBits);
+                info.cellReservedForOperatorUse = (cellReservedForOperatorUse_Enum)input.ReadBits(nBits);
                 return info;
             }
         }

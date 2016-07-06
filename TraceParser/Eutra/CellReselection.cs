@@ -30,7 +30,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 scdma.bandClassList = new List<BandClassInfoCDMA2000>();
                 int nBits = 5;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     BandClassInfoCDMA2000 item = BandClassInfoCDMA2000.PerDecoder.Instance.Decode(input);
@@ -38,13 +38,13 @@ namespace TraceParser.Eutra
                 }
                 scdma.neighCellList = new List<NeighCellCDMA2000>();
                 nBits = 4;
-                int num5 = input.readBits(nBits) + 1;
+                int num5 = input.ReadBits(nBits) + 1;
                 for (int j = 0; j < num5; j++)
                 {
                     NeighCellCDMA2000 lcdma = NeighCellCDMA2000.PerDecoder.Instance.Decode(input);
                     scdma.neighCellList.Add(lcdma);
                 }
-                scdma.t_ReselectionCDMA2000 = input.readBits(3);
+                scdma.t_ReselectionCDMA2000 = input.ReadBits(3);
                 if (stream.Read())
                 {
                     scdma.t_ReselectionCDMA2000_SF = SpeedStateScaleFactors.PerDecoder.Instance.Decode(input);
@@ -80,7 +80,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 _r.bandClassList = new List<BandClassInfoCDMA2000>();
                 int nBits = 5;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     BandClassInfoCDMA2000 item = BandClassInfoCDMA2000.PerDecoder.Instance.Decode(input);
@@ -88,13 +88,13 @@ namespace TraceParser.Eutra
                 }
                 _r.neighCellList_r11 = new List<NeighCellCDMA2000_r11>();
                 nBits = 4;
-                int num5 = input.readBits(nBits) + 1;
+                int num5 = input.ReadBits(nBits) + 1;
                 for (int j = 0; j < num5; j++)
                 {
                     NeighCellCDMA2000_r11 _r2 = NeighCellCDMA2000_r11.PerDecoder.Instance.Decode(input);
                     _r.neighCellList_r11.Add(_r2);
                 }
-                _r.t_ReselectionCDMA2000 = input.readBits(3);
+                _r.t_ReselectionCDMA2000 = input.ReadBits(3);
                 if (stream.Read())
                 {
                     _r.t_ReselectionCDMA2000_SF = SpeedStateScaleFactors.PerDecoder.Instance.Decode(input);
@@ -123,7 +123,7 @@ namespace TraceParser.Eutra
                 _v.InitDefaults();
                 _v.neighCellList_v920 = new List<NeighCellCDMA2000_v920>();
                 int nBits = 4;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     NeighCellCDMA2000_v920 item = NeighCellCDMA2000_v920.PerDecoder.Instance.Decode(input);
@@ -154,7 +154,7 @@ namespace TraceParser.Eutra
                 CellChangeOrder order = new CellChangeOrder();
                 order.InitDefaults();
                 int nBits = 3;
-                order.t304 = (t304_Enum)input.readBits(nBits);
+                order.t304 = (t304_Enum)input.ReadBits(nBits);
                 order.targetRAT_Type = targetRAT_Type_Type.PerDecoder.Instance.Decode(input);
                 return order;
             }
@@ -229,7 +229,7 @@ namespace TraceParser.Eutra
                     targetRAT_Type_Type type = new targetRAT_Type_Type();
                     type.InitDefaults();
                     input.ReadBit();
-                    if (input.readBits(1) != 0)
+                    if (input.ReadBits(1) != 0)
                     {
                         throw new Exception(GetType().Name + ":NoChoice had been choose");
                     }

@@ -46,7 +46,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.ulInformationTransfer_r8 = ULInformationTransfer_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -94,7 +94,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -156,20 +156,20 @@ namespace TraceParser.Eutra
                     int nBits;
                     dedicatedInfoType_Type type = new dedicatedInfoType_Type();
                     type.InitDefaults();
-                    switch (input.readBits(2))
+                    switch (input.ReadBits(2))
                     {
                         case 0:
-                            nBits = input.readBits(8);
+                            nBits = input.ReadBits(8);
                             type.dedicatedInfoNAS = input.readOctetString(nBits);
                             return type;
 
                         case 1:
-                            nBits = input.readBits(8);
+                            nBits = input.ReadBits(8);
                             type.dedicatedInfoCDMA2000_1XRTT = input.readOctetString(nBits);
                             return type;
 
                         case 2:
-                            nBits = input.readBits(8);
+                            nBits = input.ReadBits(8);
                             type.dedicatedInfoCDMA2000_HRPD = input.readOctetString(nBits);
                             return type;
                     }
@@ -239,7 +239,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())

@@ -49,10 +49,10 @@ namespace TraceParser.Eutra
                     measResultFailedCell_r11_Type type = new measResultFailedCell_r11_Type();
                     type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 1);
-                    type.rsrpResult_r11 = input.readBits(7);
+                    type.rsrpResult_r11 = input.ReadBits(7);
                     if (stream.Read())
                     {
-                        type.rsrqResult_r11 = input.readBits(6);
+                        type.rsrqResult_r11 = input.ReadBits(6);
                     }
                     return type;
                 }
@@ -88,7 +88,7 @@ namespace TraceParser.Eutra
                     {
                         type.measResultListEUTRA_r11 = new List<MeasResult2EUTRA_r9>();
                         num2 = 3;
-                        int num3 = input.readBits(num2) + 1;
+                        int num3 = input.ReadBits(num2) + 1;
                         for (int i = 0; i < num3; i++)
                         {
                             MeasResult2EUTRA_r9 item = MeasResult2EUTRA_r9.PerDecoder.Instance.Decode(input);
@@ -99,7 +99,7 @@ namespace TraceParser.Eutra
                     {
                         type.measResultListUTRA_r11 = new List<MeasResult2UTRA_r9>();
                         num2 = 3;
-                        int num5 = input.readBits(num2) + 1;
+                        int num5 = input.ReadBits(num2) + 1;
                         for (int j = 0; j < num5; j++)
                         {
                             MeasResult2UTRA_r9 _r2 = MeasResult2UTRA_r9.PerDecoder.Instance.Decode(input);
@@ -110,7 +110,7 @@ namespace TraceParser.Eutra
                     {
                         type.measResultListGERAN_r11 = new List<MeasResultGERAN>();
                         num2 = 3;
-                        int num7 = input.readBits(num2) + 1;
+                        int num7 = input.ReadBits(num2) + 1;
                         for (int k = 0; k < num7; k++)
                         {
                             MeasResultGERAN tgeran = MeasResultGERAN.PerDecoder.Instance.Decode(input);
@@ -121,7 +121,7 @@ namespace TraceParser.Eutra
                     {
                         type.measResultsCDMA2000_r11 = new List<MeasResult2CDMA2000_r9>();
                         num2 = 3;
-                        int num9 = input.readBits(num2) + 1;
+                        int num9 = input.ReadBits(num2) + 1;
                         for (int m = 0; m < num9; m++)
                         {
                             MeasResult2CDMA2000_r9 _r3 = MeasResult2CDMA2000_r9.PerDecoder.Instance.Decode(input);
@@ -152,15 +152,15 @@ namespace TraceParser.Eutra
                 {
                     _r.measResultNeighCells_r11 = measResultNeighCells_r11_Type.PerDecoder.Instance.Decode(input);
                 }
-                _r.numberOfPreamblesSent_r11 = input.readBits(8) + 1;
+                _r.numberOfPreamblesSent_r11 = input.ReadBits(8) + 1;
                 _r.contentionDetected_r11 = input.ReadBit() == 1;
                 _r.maxTxPowerReached_r11 = input.ReadBit() == 1;
-                _r.timeSinceFailure_r11 = input.readBits(0x12);
+                _r.timeSinceFailure_r11 = input.ReadBits(0x12);
                 if (stream.Read())
                 {
                     _r.measResultListEUTRA_v1130 = new List<MeasResult2EUTRA_v9e0>();
                     int nBits = 3;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         MeasResult2EUTRA_v9e0 item = MeasResult2EUTRA_v9e0.PerDecoder.Instance.Decode(input);

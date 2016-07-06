@@ -22,8 +22,8 @@ namespace TraceParser.Eutra
             {
                 FreqPriorityEUTRA yeutra = new FreqPriorityEUTRA();
                 yeutra.InitDefaults();
-                yeutra.carrierFreq = input.readBits(0x10);
-                yeutra.cellReselectionPriority = input.readBits(3);
+                yeutra.carrierFreq = input.ReadBits(0x10);
+                yeutra.cellReselectionPriority = input.ReadBits(3);
                 return yeutra;
             }
         }
@@ -49,7 +49,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    _ve.carrierFreq_v9e0 = input.readBits(0x12) + 0x10000;
+                    _ve.carrierFreq_v9e0 = input.ReadBits(0x12) + 0x10000;
                 }
                 return _ve;
             }
@@ -75,8 +75,8 @@ namespace TraceParser.Eutra
             {
                 FreqPriorityUTRA_FDD yutra_fdd = new FreqPriorityUTRA_FDD();
                 yutra_fdd.InitDefaults();
-                yutra_fdd.carrierFreq = input.readBits(14);
-                yutra_fdd.cellReselectionPriority = input.readBits(3);
+                yutra_fdd.carrierFreq = input.ReadBits(14);
+                yutra_fdd.cellReselectionPriority = input.ReadBits(3);
                 return yutra_fdd;
             }
         }
@@ -101,8 +101,8 @@ namespace TraceParser.Eutra
             {
                 FreqPriorityUTRA_TDD yutra_tdd = new FreqPriorityUTRA_TDD();
                 yutra_tdd.InitDefaults();
-                yutra_tdd.carrierFreq = input.readBits(14);
-                yutra_tdd.cellReselectionPriority = input.readBits(3);
+                yutra_tdd.carrierFreq = input.ReadBits(14);
+                yutra_tdd.cellReselectionPriority = input.ReadBits(3);
                 return yutra_tdd;
             }
         }
@@ -128,7 +128,7 @@ namespace TraceParser.Eutra
                 FreqsPriorityGERAN ygeran = new FreqsPriorityGERAN();
                 ygeran.InitDefaults();
                 ygeran.carrierFreqs = CarrierFreqsGERAN.PerDecoder.Instance.Decode(input);
-                ygeran.cellReselectionPriority = input.readBits(3);
+                ygeran.cellReselectionPriority = input.ReadBits(3);
                 return ygeran;
             }
         }

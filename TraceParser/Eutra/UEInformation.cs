@@ -49,7 +49,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.ueInformationRequest_r9 = UEInformationRequest_r9_IEs.PerDecoder.Instance.Decode(input);
@@ -97,7 +97,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -120,7 +120,7 @@ namespace TraceParser.Eutra
             {
                 UEInformationRequest_r9 _r = new UEInformationRequest_r9();
                 _r.InitDefaults();
-                _r.rrc_TransactionIdentifier = input.readBits(2);
+                _r.rrc_TransactionIdentifier = input.ReadBits(2);
                 _r.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return _r;
             }
@@ -188,7 +188,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    es.logMeasReportReq_r10 = (logMeasReportReq_r10_Enum)input.readBits(nBits);
+                    es.logMeasReportReq_r10 = (logMeasReportReq_r10_Enum)input.ReadBits(nBits);
                 }
                 if (stream.Read())
                 {
@@ -227,7 +227,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    es.connEstFailReportReq_r11 = (connEstFailReportReq_r11_Enum)input.readBits(nBits);
+                    es.connEstFailReportReq_r11 = (connEstFailReportReq_r11_Enum)input.ReadBits(nBits);
                 }
                 if (stream.Read())
                 {
@@ -286,7 +286,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    es.mobilityHistoryReportReq_r12 = (mobilityHistoryReportReq_r12_Enum)input.readBits(nBits);
+                    es.mobilityHistoryReportReq_r12 = (mobilityHistoryReportReq_r12_Enum)input.ReadBits(nBits);
                 }
                 if (stream.Read())
                 {
@@ -319,7 +319,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -376,7 +376,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.ueInformationResponse_r9 = UEInformationResponse_r9_IEs.PerDecoder.Instance.Decode(input);
@@ -424,7 +424,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -447,7 +447,7 @@ namespace TraceParser.Eutra
             {
                 UEInformationResponse_r9 _r = new UEInformationResponse_r9();
                 _r.InitDefaults();
-                _r.rrc_TransactionIdentifier = input.readBits(2);
+                _r.rrc_TransactionIdentifier = input.ReadBits(2);
                 _r.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return _r;
             }
@@ -511,7 +511,7 @@ namespace TraceParser.Eutra
                 {
                     rach_Report_r9_Type type = new rach_Report_r9_Type();
                     type.InitDefaults();
-                    type.numberOfPreamblesSent_r9 = input.readBits(8) + 1;
+                    type.numberOfPreamblesSent_r9 = input.ReadBits(8) + 1;
                     type.contentionDetected_r9 = input.ReadBit() == 1;
                     return type;
                 }
@@ -629,7 +629,7 @@ namespace TraceParser.Eutra
                 {
                     es.mobilityHistoryReport_r12 = new List<VisitedCellInfo_r12>();
                     const int nBits = 4;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         VisitedCellInfo_r12 item = VisitedCellInfo_r12.PerDecoder.Instance.Decode(input);
@@ -667,7 +667,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())

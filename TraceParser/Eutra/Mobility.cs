@@ -47,7 +47,7 @@ namespace TraceParser.Eutra
                 info.InitDefaults();
                 bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 4);
-                info.targetPhysCellId = input.readBits(9);
+                info.targetPhysCellId = input.ReadBits(9);
                 if (stream.Read())
                 {
                     info.carrierFreq = CarrierFreqEUTRA.PerDecoder.Instance.Decode(input);
@@ -58,10 +58,10 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    info.additionalSpectrumEmission = input.readBits(5) + 1;
+                    info.additionalSpectrumEmission = input.ReadBits(5) + 1;
                 }
                 int nBits = 3;
-                info.t304 = (t304_Enum)input.readBits(nBits);
+                info.t304 = (t304_Enum)input.ReadBits(nBits);
                 info.newUE_Identity = input.readBitString(0x10);
                 info.radioResourceConfigCommon = RadioResourceConfigCommon.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
@@ -82,7 +82,7 @@ namespace TraceParser.Eutra
                     if (stream2.Read())
                     {
                         nBits = 1;
-                        info.drb_ContinueROHC_r11 = (drb_ContinueROHC_r11_Enum)input.readBits(nBits);
+                        info.drb_ContinueROHC_r11 = (drb_ContinueROHC_r11_Enum)input.ReadBits(nBits);
                     }
                 }
                 return info;
@@ -137,7 +137,7 @@ namespace TraceParser.Eutra
                 {
                     info.freqPriorityListEUTRA = new List<FreqPriorityEUTRA>();
                     num2 = 3;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         FreqPriorityEUTRA item = FreqPriorityEUTRA.PerDecoder.Instance.Decode(input);
@@ -148,7 +148,7 @@ namespace TraceParser.Eutra
                 {
                     info.freqPriorityListGERAN = new List<FreqsPriorityGERAN>();
                     num2 = 4;
-                    int num5 = input.readBits(num2) + 1;
+                    int num5 = input.ReadBits(num2) + 1;
                     for (int j = 0; j < num5; j++)
                     {
                         FreqsPriorityGERAN ygeran = FreqsPriorityGERAN.PerDecoder.Instance.Decode(input);
@@ -159,7 +159,7 @@ namespace TraceParser.Eutra
                 {
                     info.freqPriorityListUTRA_FDD = new List<FreqPriorityUTRA_FDD>();
                     num2 = 4;
-                    int num7 = input.readBits(num2) + 1;
+                    int num7 = input.ReadBits(num2) + 1;
                     for (int k = 0; k < num7; k++)
                     {
                         FreqPriorityUTRA_FDD yutra_fdd = FreqPriorityUTRA_FDD.PerDecoder.Instance.Decode(input);
@@ -170,7 +170,7 @@ namespace TraceParser.Eutra
                 {
                     info.freqPriorityListUTRA_TDD = new List<FreqPriorityUTRA_TDD>();
                     num2 = 4;
-                    int num9 = input.readBits(num2) + 1;
+                    int num9 = input.ReadBits(num2) + 1;
                     for (int m = 0; m < num9; m++)
                     {
                         FreqPriorityUTRA_TDD yutra_tdd = FreqPriorityUTRA_TDD.PerDecoder.Instance.Decode(input);
@@ -181,7 +181,7 @@ namespace TraceParser.Eutra
                 {
                     info.bandClassPriorityListHRPD = new List<BandClassPriorityHRPD>();
                     num2 = 5;
-                    int num11 = input.readBits(num2) + 1;
+                    int num11 = input.ReadBits(num2) + 1;
                     for (int n = 0; n < num11; n++)
                     {
                         BandClassPriorityHRPD yhrpd = BandClassPriorityHRPD.PerDecoder.Instance.Decode(input);
@@ -192,7 +192,7 @@ namespace TraceParser.Eutra
                 {
                     info.bandClassPriorityList1XRTT = new List<BandClassPriority1XRTT>();
                     num2 = 5;
-                    int num13 = input.readBits(num2) + 1;
+                    int num13 = input.ReadBits(num2) + 1;
                     for (int num14 = 0; num14 < num13; num14++)
                     {
                         BandClassPriority1XRTT priorityxrtt = BandClassPriority1XRTT.PerDecoder.Instance.Decode(input);
@@ -202,7 +202,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 3;
-                    info.t320 = (t320_Enum)input.readBits(num2);
+                    info.t320 = (t320_Enum)input.ReadBits(num2);
                 }
                 return info;
             }
@@ -240,7 +240,7 @@ namespace TraceParser.Eutra
                 _ve.InitDefaults();
                 _ve.freqPriorityListEUTRA_v9e0 = new List<FreqPriorityEUTRA_v9e0>();
                 int nBits = 3;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     FreqPriorityEUTRA_v9e0 item = FreqPriorityEUTRA_v9e0.PerDecoder.Instance.Decode(input);
@@ -296,7 +296,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.mobilityFromEUTRACommand_r8 = MobilityFromEUTRACommand_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -345,7 +345,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -368,7 +368,7 @@ namespace TraceParser.Eutra
             {
                 MobilityFromEUTRACommand command = new MobilityFromEUTRACommand();
                 command.InitDefaults();
-                command.rrc_TransactionIdentifier = input.readBits(2);
+                command.rrc_TransactionIdentifier = input.ReadBits(2);
                 command.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return command;
             }
@@ -426,7 +426,7 @@ namespace TraceParser.Eutra
                 {
                     purpose_Type type = new purpose_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.handover = Handover.PerDecoder.Instance.Decode(input);
@@ -496,7 +496,7 @@ namespace TraceParser.Eutra
                     purpose_Type type = new purpose_Type();
                     type.InitDefaults();
                     input.ReadBit();
-                    switch (input.readBits(2))
+                    switch (input.ReadBits(2))
                     {
                         case 0:
                             type.handover = Handover.PerDecoder.Instance.Decode(input);
@@ -538,7 +538,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -593,7 +593,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    es.bandIndicator = (BandIndicatorGERAN)input.readBits(nBits);
+                    es.bandIndicator = (BandIndicatorGERAN)input.ReadBits(nBits);
                 }
                 if (stream.Read())
                 {
@@ -626,7 +626,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -681,7 +681,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    es.bandIndicator = (BandIndicatorGERAN)input.readBits(nBits);
+                    es.bandIndicator = (BandIndicatorGERAN)input.ReadBits(nBits);
                 }
                 if (stream.Read())
                 {
@@ -716,11 +716,11 @@ namespace TraceParser.Eutra
                 MobilityStateParameters parameters = new MobilityStateParameters();
                 parameters.InitDefaults();
                 int nBits = 3;
-                parameters.t_Evaluation = (t_Evaluation_Enum)input.readBits(nBits);
+                parameters.t_Evaluation = (t_Evaluation_Enum)input.ReadBits(nBits);
                 nBits = 3;
-                parameters.t_HystNormal = (t_HystNormal_Enum)input.readBits(nBits);
-                parameters.n_CellChangeMedium = input.readBits(4) + 1;
-                parameters.n_CellChangeHigh = input.readBits(4) + 1;
+                parameters.t_HystNormal = (t_HystNormal_Enum)input.ReadBits(nBits);
+                parameters.n_CellChangeMedium = input.ReadBits(4) + 1;
+                parameters.n_CellChangeHigh = input.ReadBits(4) + 1;
                 return parameters;
             }
         }

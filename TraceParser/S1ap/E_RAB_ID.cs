@@ -14,7 +14,7 @@ namespace TraceParser.S1ap
             public long Decode(BitArrayInputStream input)
             {
                 input.ReadBit();
-                return input.readBits(4);
+                return input.ReadBits(4);
             }
         }
     }
@@ -52,9 +52,9 @@ namespace TraceParser.S1ap
                 item.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
                 input.ReadBit();
-                item.e_RAB_ID = input.readBits(4);
+                item.e_RAB_ID = input.ReadBits(4);
                 input.ReadBit();
-                int num = input.readBits(8);
+                int num = input.ReadBits(8);
                 input.skipUnreadedBits();
                 item.transportLayerAddress = input.readBitString(num + 1);
                 input.skipUnreadedBits();
@@ -62,7 +62,7 @@ namespace TraceParser.S1ap
                 if (stream.Read())
                 {
                     input.ReadBit();
-                    num = input.readBits(8);
+                    num = input.ReadBits(8);
                     input.skipUnreadedBits();
                     item.dL_transportLayerAddress = input.readBitString(num + 1);
                 }
@@ -74,7 +74,7 @@ namespace TraceParser.S1ap
                 if (stream.Read())
                 {
                     input.ReadBit();
-                    num = input.readBits(8);
+                    num = input.ReadBits(8);
                     input.skipUnreadedBits();
                     item.uL_TransportLayerAddress = input.readBitString(num + 1);
                 }
@@ -88,7 +88,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -130,11 +130,11 @@ namespace TraceParser.S1ap
                 item.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
                 input.ReadBit();
-                item.e_RAB_ID = input.readBits(4);
+                item.e_RAB_ID = input.ReadBits(4);
                 if (stream.Read())
                 {
                     input.ReadBit();
-                    num = input.readBits(8);
+                    num = input.ReadBits(8);
                     input.skipUnreadedBits();
                     item.dL_transportLayerAddress = input.readBitString(num + 1);
                 }
@@ -146,7 +146,7 @@ namespace TraceParser.S1ap
                 if (stream.Read())
                 {
                     input.ReadBit();
-                    num = input.readBits(8);
+                    num = input.ReadBits(8);
                     input.skipUnreadedBits();
                     item.uL_TransportLayerAddress = input.readBitString(num + 1);
                 }
@@ -160,7 +160,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -195,14 +195,14 @@ namespace TraceParser.S1ap
                 ack.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.ReadBit();
-                ack.e_RAB_ID = input.readBits(4);
+                ack.e_RAB_ID = input.ReadBits(4);
                 ack.cause = Cause.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     ack.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -252,18 +252,18 @@ namespace TraceParser.S1ap
                 item.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 input.ReadBit();
-                item.e_RAB_ID = input.readBits(4);
+                item.e_RAB_ID = input.ReadBits(4);
                 if (stream.Read())
                 {
                     num4 = 1;
-                    item.dL_Forwarding = (DL_Forwarding)input.readBits(num4);
+                    item.dL_Forwarding = (DL_Forwarding)input.ReadBits(num4);
                 }
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     num4 = 0x10;
-                    int num5 = input.readBits(num4) + 1;
+                    int num5 = input.ReadBits(num4) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -298,14 +298,14 @@ namespace TraceParser.S1ap
                 item.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.ReadBit();
-                item.e_RAB_ID = input.readBits(4);
+                item.e_RAB_ID = input.ReadBits(4);
                 item.cause = Cause.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -342,7 +342,7 @@ namespace TraceParser.S1ap
                 parameters.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 input.skipUnreadedBits();
-                parameters.qCI = input.readBits(8);
+                parameters.qCI = input.ReadBits(8);
                 parameters.allocationRetentionPriority = AllocationAndRetentionPriority.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -353,7 +353,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     parameters.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

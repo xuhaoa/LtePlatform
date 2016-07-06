@@ -35,10 +35,10 @@ namespace TraceParser.Eutra
                 PUCCH_ConfigCommon common = new PUCCH_ConfigCommon();
                 common.InitDefaults();
                 int nBits = 2;
-                common.deltaPUCCH_Shift = (deltaPUCCH_Shift_Enum)input.readBits(nBits);
-                common.nRB_CQI = input.readBits(7);
-                common.nCS_AN = input.readBits(3);
-                common.n1PUCCH_AN = input.readBits(11);
+                common.deltaPUCCH_Shift = (deltaPUCCH_Shift_Enum)input.ReadBits(nBits);
+                common.nRB_CQI = input.ReadBits(7);
+                common.nCS_AN = input.ReadBits(3);
+                common.n1PUCCH_AN = input.ReadBits(11);
                 return common;
             }
         }
@@ -74,7 +74,7 @@ namespace TraceParser.Eutra
                 {
                     ackNackRepetition_Type type = new ackNackRepetition_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.release=new object();
@@ -108,8 +108,8 @@ namespace TraceParser.Eutra
                         setup_Type type = new setup_Type();
                         type.InitDefaults();
                         int nBits = 2;
-                        type.repetitionFactor = (repetitionFactor_Enum)input.readBits(nBits);
-                        type.n1PUCCH_AN_Rep = input.readBits(11);
+                        type.repetitionFactor = (repetitionFactor_Enum)input.ReadBits(nBits);
+                        type.n1PUCCH_AN_Rep = input.ReadBits(11);
                         return type;
                     }
                 }
@@ -137,7 +137,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     int nBits = 1;
-                    dedicated.tdd_AckNackFeedbackMode = (tdd_AckNackFeedbackMode_Enum)input.readBits(nBits);
+                    dedicated.tdd_AckNackFeedbackMode = (tdd_AckNackFeedbackMode_Enum)input.ReadBits(nBits);
                 }
                 return dedicated;
             }
@@ -182,16 +182,16 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.twoAntennaPortActivatedPUCCH_Format1a1b_r10 = (twoAntennaPortActivatedPUCCH_Format1a1b_r10_Enum)input.readBits(num2);
+                    _v.twoAntennaPortActivatedPUCCH_Format1a1b_r10 = (twoAntennaPortActivatedPUCCH_Format1a1b_r10_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.simultaneousPUCCH_PUSCH_r10 = (simultaneousPUCCH_PUSCH_r10_Enum)input.readBits(num2);
+                    _v.simultaneousPUCCH_PUSCH_r10 = (simultaneousPUCCH_PUSCH_r10_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
-                    _v.n1PUCCH_AN_RepP1_r10 = input.readBits(11);
+                    _v.n1PUCCH_AN_RepP1_r10 = input.ReadBits(11);
                 }
                 return _v;
             }
@@ -236,7 +236,7 @@ namespace TraceParser.Eutra
                         {
                             n1PUCCH_AN_CS_r10_Type type = new n1PUCCH_AN_CS_r10_Type();
                             type.InitDefaults();
-                            switch (input.readBits(1))
+                            switch (input.ReadBits(1))
                             {
                                 case 0:
                                     return type;
@@ -268,15 +268,15 @@ namespace TraceParser.Eutra
                                 type.InitDefaults();
                                 type.n1PUCCH_AN_CS_List_r10 = new List<List<long>>();
                                 int nBits = 1;
-                                int num3 = input.readBits(nBits) + 1;
+                                int num3 = input.ReadBits(nBits) + 1;
                                 for (int i = 0; i < num3; i++)
                                 {
                                     List<long> item = new List<long>();
                                     nBits = 2;
-                                    int num5 = input.readBits(nBits) + 1;
+                                    int num5 = input.ReadBits(nBits) + 1;
                                     for (int j = 0; j < num5; j++)
                                     {
-                                        long num7 = input.readBits(11);
+                                        long num7 = input.ReadBits(11);
                                         item.Add(num7);
                                     }
                                     type.n1PUCCH_AN_CS_List_r10.Add(item);
@@ -329,10 +329,10 @@ namespace TraceParser.Eutra
                         {
                             type.n3PUCCH_AN_List_r10 = new List<long>();
                             int nBits = 2;
-                            int num3 = input.readBits(nBits) + 1;
+                            int num3 = input.ReadBits(nBits) + 1;
                             for (int i = 0; i < num3; i++)
                             {
-                                long item = input.readBits(10);
+                                long item = input.ReadBits(10);
                                 type.n3PUCCH_AN_List_r10.Add(item);
                             }
                         }
@@ -363,7 +363,7 @@ namespace TraceParser.Eutra
                         {
                             twoAntennaPortActivatedPUCCH_Format3_r10_Type type = new twoAntennaPortActivatedPUCCH_Format3_r10_Type();
                             type.InitDefaults();
-                            switch (input.readBits(1))
+                            switch (input.ReadBits(1))
                             {
                                 case 0:
                                     return type;
@@ -395,10 +395,10 @@ namespace TraceParser.Eutra
                                 type.InitDefaults();
                                 type.n3PUCCH_AN_ListP1_r10 = new List<long>();
                                 int nBits = 2;
-                                int num3 = input.readBits(nBits) + 1;
+                                int num3 = input.ReadBits(nBits) + 1;
                                 for (int i = 0; i < num3; i++)
                                 {
-                                    long item = input.readBits(10);
+                                    long item = input.ReadBits(10);
                                     type.n3PUCCH_AN_ListP1_r10.Add(item);
                                 }
                                 return type;
@@ -416,7 +416,7 @@ namespace TraceParser.Eutra
                 {
                     pucch_Format_r10_Type type = new pucch_Format_r10_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.format3_r10 = format3_r10_Type.PerDecoder.Instance.Decode(input);
@@ -472,7 +472,7 @@ namespace TraceParser.Eutra
                 {
                     n1PUCCH_AN_CS_v1130_Type type = new n1PUCCH_AN_CS_v1130_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             return type;
@@ -504,10 +504,10 @@ namespace TraceParser.Eutra
                         type.InitDefaults();
                         type.n1PUCCH_AN_CS_ListP1_r11 = new List<long>();
                         int nBits = 2;
-                        int num3 = input.readBits(nBits) + 2;
+                        int num3 = input.ReadBits(nBits) + 2;
                         for (int i = 0; i < num3; i++)
                         {
-                            long item = input.readBits(11);
+                            long item = input.ReadBits(11);
                             type.n1PUCCH_AN_CS_ListP1_r11.Add(item);
                         }
                         return type;
@@ -535,7 +535,7 @@ namespace TraceParser.Eutra
                 {
                     nPUCCH_Param_r11_Type type = new nPUCCH_Param_r11_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             return type;
@@ -567,8 +567,8 @@ namespace TraceParser.Eutra
                     {
                         setup_Type type = new setup_Type();
                         type.InitDefaults();
-                        type.nPUCCH_Identity_r11 = input.readBits(9);
-                        type.n1PUCCH_AN_r11 = input.readBits(11);
+                        type.nPUCCH_Identity_r11 = input.ReadBits(9);
+                        type.n1PUCCH_AN_r11 = input.ReadBits(11);
                         return type;
                     }
                 }

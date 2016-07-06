@@ -23,9 +23,9 @@ namespace TraceParser.Eutra
                 TDD_Config config = new TDD_Config();
                 config.InitDefaults();
                 int nBits = 3;
-                config.subframeAssignment = (subframeAssignment_Enum)input.readBits(nBits);
+                config.subframeAssignment = (subframeAssignment_Enum)input.ReadBits(nBits);
                 nBits = 4;
-                config.specialSubframePatterns = (specialSubframePatterns_Enum)input.readBits(nBits);
+                config.specialSubframePatterns = (specialSubframePatterns_Enum)input.ReadBits(nBits);
                 return config;
             }
         }
@@ -73,7 +73,7 @@ namespace TraceParser.Eutra
                 TDD_Config_v1130 _v = new TDD_Config_v1130();
                 _v.InitDefaults();
                 int nBits = 1;
-                _v.specialSubframePatterns_v1130 = (specialSubframePatterns_v1130_Enum)input.readBits(nBits);
+                _v.specialSubframePatterns_v1130 = (specialSubframePatterns_v1130_Enum)input.ReadBits(nBits);
                 return _v;
             }
         }

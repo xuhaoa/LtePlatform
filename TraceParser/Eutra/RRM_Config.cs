@@ -29,7 +29,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 6;
-                    config.ue_InactiveTime = (ue_InactiveTime_Enum)input.readBits(num2);
+                    config.ue_InactiveTime = (ue_InactiveTime_Enum)input.ReadBits(num2);
                 }
                 if (flag)
                 {
@@ -40,7 +40,7 @@ namespace TraceParser.Eutra
                     }
                     config.candidateCellInfoList_r10 = new List<CandidateCellInfo_r10>();
                     num2 = 3;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         CandidateCellInfo_r10 item = CandidateCellInfo_r10.PerDecoder.Instance.Decode(input);

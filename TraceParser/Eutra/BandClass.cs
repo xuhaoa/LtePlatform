@@ -28,13 +28,13 @@ namespace TraceParser.Eutra
                 ocdma.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 int nBits = (input.ReadBit() == 0) ? 5 : 5;
-                ocdma.bandClass = (BandclassCDMA2000)input.readBits(nBits);
+                ocdma.bandClass = (BandclassCDMA2000)input.ReadBits(nBits);
                 if (stream.Read())
                 {
-                    ocdma.cellReselectionPriority = input.readBits(3);
+                    ocdma.cellReselectionPriority = input.ReadBits(3);
                 }
-                ocdma.threshX_High = input.readBits(6);
-                ocdma.threshX_Low = input.readBits(6);
+                ocdma.threshX_High = input.ReadBits(6);
+                ocdma.threshX_Low = input.ReadBits(6);
                 return ocdma;
             }
         }
@@ -60,8 +60,8 @@ namespace TraceParser.Eutra
                 BandClassPriority1XRTT priorityxrtt = new BandClassPriority1XRTT();
                 priorityxrtt.InitDefaults();
                 int nBits = (input.ReadBit() == 0) ? 5 : 5;
-                priorityxrtt.bandClass = (BandclassCDMA2000)input.readBits(nBits);
-                priorityxrtt.cellReselectionPriority = input.readBits(3);
+                priorityxrtt.bandClass = (BandclassCDMA2000)input.ReadBits(nBits);
+                priorityxrtt.cellReselectionPriority = input.ReadBits(3);
                 return priorityxrtt;
             }
         }
@@ -87,8 +87,8 @@ namespace TraceParser.Eutra
                 BandClassPriorityHRPD yhrpd = new BandClassPriorityHRPD();
                 yhrpd.InitDefaults();
                 int nBits = (input.ReadBit() == 0) ? 5 : 5;
-                yhrpd.bandClass = (BandclassCDMA2000)input.readBits(nBits);
-                yhrpd.cellReselectionPriority = input.readBits(3);
+                yhrpd.bandClass = (BandclassCDMA2000)input.ReadBits(nBits);
+                yhrpd.cellReselectionPriority = input.ReadBits(3);
                 return yhrpd;
             }
         }
@@ -113,7 +113,7 @@ namespace TraceParser.Eutra
             {
                 SupportedBandEUTRA deutra = new SupportedBandEUTRA();
                 deutra.InitDefaults();
-                deutra.bandEUTRA = input.readBits(6) + 1;
+                deutra.bandEUTRA = input.ReadBits(6) + 1;
                 deutra.halfDuplex = input.ReadBit() == 1;
                 return deutra;
             }
@@ -140,7 +140,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    _ve.bandEUTRA_v9e0 = input.readBits(8) + 0x41;
+                    _ve.bandEUTRA_v9e0 = input.ReadBits(8) + 0x41;
                 }
                 return _ve;
             }

@@ -75,7 +75,7 @@ namespace TraceParser.X2ap
             public static DeactivationIndication Extension(BitArrayInputStream input)
             {
                 int nBits = 1;
-                return (DeactivationIndication)input.readBits(nBits);
+                return (DeactivationIndication)input.ReadBits(nBits);
             }
 
             public static object GetMemberObj(string member, BitArrayInputStream input)
@@ -95,7 +95,7 @@ namespace TraceParser.X2ap
             {
                 List<MBSFN_Subframe_Info> list = new List<MBSFN_Subframe_Info>();
                 const int nBits = 3;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     MBSFN_Subframe_Info item = MBSFN_Subframe_Info.PerDecoder.Instance.Decode(input);
@@ -120,7 +120,7 @@ namespace TraceParser.X2ap
             public static Number_of_Antennaports Extension(BitArrayInputStream input)
             {
                 int nBits = (input.ReadBit() == 0) ? 2 : 2;
-                return (Number_of_Antennaports)input.readBits(nBits);
+                return (Number_of_Antennaports)input.ReadBits(nBits);
             }
 
             public static object GetMemberObj(string member, BitArrayInputStream input)
@@ -351,7 +351,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 List<ActivatedCellList_Item> list = new List<ActivatedCellList_Item>();
                 const int nBits = 8;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     ActivatedCellList_Item item = ActivatedCellList_Item.PerDecoder.Instance.Decode(input);
@@ -414,7 +414,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 List<ProtocolIE_Field> list = new List<ProtocolIE_Field>();
                 int nBits = 8;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -459,7 +459,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 List<ProtocolIE_Field> list = new List<ProtocolIE_Field>();
                 int nBits = 8;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -504,7 +504,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 List<ProtocolIE_Field> list = new List<ProtocolIE_Field>();
                 int nBits = 8;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -585,7 +585,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 List<ProtocolIE_Field> list = new List<ProtocolIE_Field>();
                 int nBits = 8;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -612,7 +612,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 List<ProtocolIE_Field> list = new List<ProtocolIE_Field>();
                 int nBits = 8;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -657,7 +657,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 List<ProtocolIE_Field> list = new List<ProtocolIE_Field>();
                 int nBits = 8;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -899,7 +899,7 @@ namespace TraceParser.X2ap
             {
                 List<GU_Group_ID> list = new List<GU_Group_ID>();
                 int nBits = 4;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     GU_Group_ID item = GU_Group_ID.PerDecoder.Instance.Decode(input);
@@ -925,7 +925,7 @@ namespace TraceParser.X2ap
             {
                 List<GU_Group_ID> list = new List<GU_Group_ID>();
                 int nBits = 4;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     GU_Group_ID item = GU_Group_ID.PerDecoder.Instance.Decode(input);
@@ -951,7 +951,7 @@ namespace TraceParser.X2ap
             {
                 List<GU_Group_ID> list = new List<GU_Group_ID>();
                 int nBits = 4;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     GU_Group_ID item = GU_Group_ID.PerDecoder.Instance.Decode(input);
@@ -994,7 +994,7 @@ namespace TraceParser.X2ap
             public static HandoverReportType Value(BitArrayInputStream input)
             {
                 int nBits = 1;
-                return (HandoverReportType)input.readBits(nBits);
+                return (HandoverReportType)input.ReadBits(nBits);
             }
         }
 
@@ -1067,7 +1067,7 @@ namespace TraceParser.X2ap
             public static Registration_Request Value(BitArrayInputStream input)
             {
                 int nBits = 1;
-                return (Registration_Request)input.readBits(nBits);
+                return (Registration_Request)input.ReadBits(nBits);
             }
         }
 
@@ -1104,7 +1104,7 @@ namespace TraceParser.X2ap
             public static ReportingPeriodicity Value(BitArrayInputStream input)
             {
                 int nBits = (input.ReadBit() == 0) ? 2 : 2;
-                return (ReportingPeriodicity)input.readBits(nBits);
+                return (ReportingPeriodicity)input.ReadBits(nBits);
             }
         }
 
@@ -1125,7 +1125,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 List<ServedCells_Element> list = new List<ServedCells_Element>();
                 int nBits = 8;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     ServedCells_Element item = ServedCells_Element.PerDecoder.Instance.Decode(input);
@@ -1152,7 +1152,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 List<ServedCellsToActivate_Item> list = new List<ServedCellsToActivate_Item>();
                 int nBits = 8;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     ServedCellsToActivate_Item item = ServedCellsToActivate_Item.PerDecoder.Instance.Decode(input);
@@ -1179,7 +1179,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 List<ServedCells_Element> list = new List<ServedCells_Element>();
                 int nBits = 8;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     ServedCells_Element item = ServedCells_Element.PerDecoder.Instance.Decode(input);
@@ -1206,7 +1206,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 List<ECGI> list = new List<ECGI>();
                 int nBits = 8;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     ECGI item = ECGI.PerDecoder.Instance.Decode(input);
@@ -1233,7 +1233,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 List<ServedCellsToModify_Item> list = new List<ServedCellsToModify_Item>();
                 int nBits = 8;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     ServedCellsToModify_Item item = ServedCellsToModify_Item.PerDecoder.Instance.Decode(input);
@@ -1294,7 +1294,7 @@ namespace TraceParser.X2ap
             public static SRVCCOperationPossible Value(BitArrayInputStream input)
             {
                 int nBits = 1;
-                return (SRVCCOperationPossible)input.readBits(nBits);
+                return (SRVCCOperationPossible)input.ReadBits(nBits);
             }
         }
 
@@ -1349,7 +1349,7 @@ namespace TraceParser.X2ap
             public static TimeToWait Value(BitArrayInputStream input)
             {
                 int nBits = (input.ReadBit() == 0) ? 3 : 3;
-                return (TimeToWait)input.readBits(nBits);
+                return (TimeToWait)input.ReadBits(nBits);
             }
         }
 
@@ -1405,7 +1405,7 @@ namespace TraceParser.X2ap
             {
                 List<LastVisitedCell_Item> list = new List<LastVisitedCell_Item>();
                 const int nBits = 4;
-                int num2 = input.readBits(nBits) + 1;
+                int num2 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num2; i++)
                 {
                     LastVisitedCell_Item item = LastVisitedCell_Item.PerDecoder.Instance.Decode(input);

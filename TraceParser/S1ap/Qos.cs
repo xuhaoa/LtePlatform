@@ -30,24 +30,24 @@ namespace TraceParser.S1ap
                 GBR_QosInformation information = new GBR_QosInformation();
                 information.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                int nBits = input.readBits(3) + 1;
+                int nBits = input.ReadBits(3) + 1;
                 input.skipUnreadedBits();
-                information.e_RAB_MaximumBitrateDL = input.readBits(nBits * 8);
-                nBits = input.readBits(3) + 1;
+                information.e_RAB_MaximumBitrateDL = input.ReadBits(nBits * 8);
+                nBits = input.ReadBits(3) + 1;
                 input.skipUnreadedBits();
-                information.e_RAB_MaximumBitrateUL = input.readBits(nBits * 8);
-                nBits = input.readBits(3) + 1;
+                information.e_RAB_MaximumBitrateUL = input.ReadBits(nBits * 8);
+                nBits = input.ReadBits(3) + 1;
                 input.skipUnreadedBits();
-                information.e_RAB_GuaranteedBitrateDL = input.readBits(nBits * 8);
-                nBits = input.readBits(3) + 1;
+                information.e_RAB_GuaranteedBitrateDL = input.ReadBits(nBits * 8);
+                nBits = input.ReadBits(3) + 1;
                 input.skipUnreadedBits();
-                information.e_RAB_GuaranteedBitrateUL = input.readBits(nBits * 8);
+                information.e_RAB_GuaranteedBitrateUL = input.ReadBits(nBits * 8);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     information.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -69,7 +69,7 @@ namespace TraceParser.S1ap
             public long Decode(BitArrayInputStream input)
             {
                 input.skipUnreadedBits();
-                return input.readBits(8);
+                return input.ReadBits(8);
             }
         }
     }

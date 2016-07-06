@@ -37,7 +37,7 @@ namespace TraceParser.Eutra
                 {
                     type.carrierFreqListUTRA_FDD = new List<CarrierFreqUTRA_FDD>();
                     num2 = 4;
-                    var num3 = input.readBits(num2) + 1;
+                    var num3 = input.ReadBits(num2) + 1;
                     for (var i = 0; i < num3; i++)
                     {
                         var item = CarrierFreqUTRA_FDD.PerDecoder.Instance.Decode(input);
@@ -48,21 +48,21 @@ namespace TraceParser.Eutra
                 {
                     type.carrierFreqListUTRA_TDD = new List<CarrierFreqUTRA_TDD>();
                     num2 = 4;
-                    var num5 = input.readBits(num2) + 1;
+                    var num5 = input.ReadBits(num2) + 1;
                     for (var j = 0; j < num5; j++)
                     {
                         var qutra_tdd = CarrierFreqUTRA_TDD.PerDecoder.Instance.Decode(input);
                         type.carrierFreqListUTRA_TDD.Add(qutra_tdd);
                     }
                 }
-                type.t_ReselectionUTRA = input.readBits(3);
+                type.t_ReselectionUTRA = input.ReadBits(3);
                 if (stream.Read())
                 {
                     type.t_ReselectionUTRA_SF = SpeedStateScaleFactors.PerDecoder.Instance.Decode(input);
                 }
                 if (flag && stream.Read())
                 {
-                    var nBits = input.readBits(8);
+                    var nBits = input.ReadBits(8);
                     type.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 return type;

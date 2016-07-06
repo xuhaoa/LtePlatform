@@ -33,7 +33,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    es.ims_EmergencySupport_r9 = (ims_EmergencySupport_r9_Enum)input.readBits(nBits);
+                    es.ims_EmergencySupport_r9 = (ims_EmergencySupport_r9_Enum)input.ReadBits(nBits);
                 }
                 if (stream.Read())
                 {

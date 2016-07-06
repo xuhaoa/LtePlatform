@@ -25,7 +25,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 failure.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -57,7 +57,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -89,7 +89,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 response.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -121,7 +121,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 update.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -154,7 +154,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 indication.protocolIEs = new List<ProtocolIE_Field>();
                 int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -186,7 +186,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 transfer.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);

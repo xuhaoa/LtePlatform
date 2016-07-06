@@ -26,9 +26,9 @@ namespace TraceParser.X2ap
                 SuccessfulOutcome outcome = new SuccessfulOutcome();
                 outcome.InitDefaults();
                 input.skipUnreadedBits();
-                outcome.procedureCode = input.readBits(8);
+                outcome.procedureCode = input.ReadBits(8);
                 const int num4 = 2;
-                outcome.criticality = (Criticality)input.readBits(num4);
+                outcome.criticality = (Criticality)input.ReadBits(num4);
                 input.skipUnreadedBits();
                 int nBits = 0;
                 while (true)
@@ -36,19 +36,19 @@ namespace TraceParser.X2ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_00CF;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_00CF;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -98,9 +98,9 @@ namespace TraceParser.X2ap
                 UnsuccessfulOutcome outcome = new UnsuccessfulOutcome();
                 outcome.InitDefaults();
                 input.skipUnreadedBits();
-                outcome.procedureCode = input.readBits(8);
+                outcome.procedureCode = input.ReadBits(8);
                 const int num4 = 2;
-                outcome.criticality = (Criticality)input.readBits(num4);
+                outcome.criticality = (Criticality)input.ReadBits(num4);
                 input.skipUnreadedBits();
                 int nBits = 0;
                 while (true)
@@ -108,19 +108,19 @@ namespace TraceParser.X2ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_00CF;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_00CF;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -178,19 +178,19 @@ namespace TraceParser.X2ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_0096;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_0096;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -218,19 +218,19 @@ namespace TraceParser.X2ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_0096;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_0096;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -272,9 +272,9 @@ namespace TraceParser.X2ap
                 activation.eUTRANTraceID = input.readOctetString(8);
                 activation.interfacesToTrace = input.readBitString(8);
                 int nBits = (input.ReadBit() == 0) ? 3 : 3;
-                activation.traceDepth = (TraceDepth)input.readBits(nBits);
+                activation.traceDepth = (TraceDepth)input.ReadBits(nBits);
                 input.ReadBit();
-                int num = input.readBits(8);
+                int num = input.ReadBits(8);
                 input.skipUnreadedBits();
                 activation.traceCollectionEntityIPAddress = input.readBitString(num + 1);
                 if (stream.Read())
@@ -282,7 +282,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     activation.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -304,7 +304,7 @@ namespace TraceParser.X2ap
             public string Decode(BitArrayInputStream input)
             {
                 input.ReadBit();
-                int num = input.readBits(8);
+                int num = input.ReadBits(8);
                 return input.readBitString(num + 1);
             }
         }

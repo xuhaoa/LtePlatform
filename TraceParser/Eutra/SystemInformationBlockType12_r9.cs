@@ -36,9 +36,9 @@ namespace TraceParser.Eutra
                 _r.messageIdentifier_r9 = input.readBitString(0x10);
                 _r.serialNumber_r9 = input.readBitString(0x10);
                 const int num2 = 1;
-                _r.warningMessageSegmentType_r9 = (warningMessageSegmentType_r9_Enum)input.readBits(num2);
-                _r.warningMessageSegmentNumber_r9 = input.readBits(6);
-                var nBits = input.readBits(8);
+                _r.warningMessageSegmentType_r9 = (warningMessageSegmentType_r9_Enum)input.ReadBits(num2);
+                _r.warningMessageSegmentNumber_r9 = input.ReadBits(6);
+                var nBits = input.ReadBits(8);
                 _r.warningMessageSegment_r9 = input.readOctetString(nBits);
                 if (stream.Read())
                 {
@@ -46,7 +46,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    nBits = input.readBits(8);
+                    nBits = input.ReadBits(8);
                     _r.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 return _r;

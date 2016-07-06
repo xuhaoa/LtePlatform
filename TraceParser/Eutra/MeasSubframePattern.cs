@@ -24,7 +24,7 @@ namespace TraceParser.Eutra
                 MeasSubframePattern_r10 _r = new MeasSubframePattern_r10();
                 _r.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         _r.subframePatternFDD_r10 = input.readBitString(40);
@@ -60,7 +60,7 @@ namespace TraceParser.Eutra
                     subframePatternTDD_r10_Type type = new subframePatternTDD_r10_Type();
                     type.InitDefaults();
                     input.ReadBit();
-                    switch (input.readBits(2))
+                    switch (input.ReadBits(2))
                     {
                         case 0:
                             type.subframeConfig1_5_r10 = input.readBitString(20);
@@ -99,7 +99,7 @@ namespace TraceParser.Eutra
             {
                 MeasSubframePatternConfigNeigh_r10 _r = new MeasSubframePatternConfigNeigh_r10();
                 _r.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         return _r;
@@ -137,7 +137,7 @@ namespace TraceParser.Eutra
                     {
                         type.measSubframeCellList_r10 = new List<PhysCellIdRange>();
                         const int nBits = 5;
-                        int num3 = input.readBits(nBits) + 1;
+                        int num3 = input.ReadBits(nBits) + 1;
                         for (int i = 0; i < num3; i++)
                         {
                             PhysCellIdRange item = PhysCellIdRange.PerDecoder.Instance.Decode(input);
@@ -169,7 +169,7 @@ namespace TraceParser.Eutra
             {
                 MeasSubframePatternPCell_r10 _r = new MeasSubframePatternPCell_r10();
                 _r.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         return _r;

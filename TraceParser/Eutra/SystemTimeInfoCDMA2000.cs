@@ -33,7 +33,7 @@ namespace TraceParser.Eutra
                 {
                     var type = new cdma_SystemTime_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.synchronousSystemTime = input.readBitString(0x27);

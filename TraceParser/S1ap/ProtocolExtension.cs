@@ -41,11 +41,11 @@ namespace TraceParser.S1ap
                 long num3 = 0L;
                 ProtocolExtensionField field = new ProtocolExtensionField();
                 field.InitDefaults();
-                int num4 = input.readBits(1) + 1;
+                int num4 = input.ReadBits(1) + 1;
                 input.skipUnreadedBits();
-                field.id = input.readBits(num4 * 8);
+                field.id = input.ReadBits(num4 * 8);
                 num4 = 2;
-                field.criticality = (Criticality)input.readBits(num4);
+                field.criticality = (Criticality)input.ReadBits(num4);
                 input.skipUnreadedBits();
                 nBits = 0;
                 while (true)
@@ -53,19 +53,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_00DD;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_00DD;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -102,9 +102,9 @@ namespace TraceParser.S1ap
 
             public long Decode(BitArrayInputStream input)
             {
-                int num2 = input.readBits(1) + 1;
+                int num2 = input.ReadBits(1) + 1;
                 input.skipUnreadedBits();
-                return input.readBits(num2 * 8);
+                return input.ReadBits(num2 * 8);
             }
         }
     }

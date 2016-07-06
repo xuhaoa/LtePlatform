@@ -39,13 +39,13 @@ namespace TraceParser.Eutra
                 UL_AM_RLC ul_am_rlc = new UL_AM_RLC();
                 ul_am_rlc.InitDefaults();
                 int nBits = 6;
-                ul_am_rlc.t_PollRetransmit = (T_PollRetransmit)input.readBits(nBits);
+                ul_am_rlc.t_PollRetransmit = (T_PollRetransmit)input.ReadBits(nBits);
                 nBits = 3;
-                ul_am_rlc.pollPDU = (PollPDU)input.readBits(nBits);
+                ul_am_rlc.pollPDU = (PollPDU)input.ReadBits(nBits);
                 nBits = 4;
-                ul_am_rlc.pollByte = (PollByte)input.readBits(nBits);
+                ul_am_rlc.pollByte = (PollByte)input.ReadBits(nBits);
                 nBits = 3;
-                ul_am_rlc.maxRetxThreshold = (maxRetxThreshold_Enum)input.readBits(nBits);
+                ul_am_rlc.maxRetxThreshold = (maxRetxThreshold_Enum)input.ReadBits(nBits);
                 return ul_am_rlc;
             }
         }

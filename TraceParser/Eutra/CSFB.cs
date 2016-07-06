@@ -80,7 +80,7 @@ namespace TraceParser.Eutra
                 CSFB_RegistrationParam1XRTT_v920 _v = new CSFB_RegistrationParam1XRTT_v920();
                 _v.InitDefaults();
                 int nBits = 1;
-                _v.powerDownReg_r9 = (powerDownReg_r9_Enum)input.readBits(nBits);
+                _v.powerDownReg_r9 = (powerDownReg_r9_Enum)input.ReadBits(nBits);
                 return _v;
             }
         }
@@ -139,7 +139,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.csfbParametersRequestCDMA2000_r8 = CSFBParametersRequestCDMA2000_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -237,7 +237,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -299,7 +299,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.csfbParametersResponseCDMA2000_r8 = CSFBParametersResponseCDMA2000_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -322,7 +322,7 @@ namespace TraceParser.Eutra
             {
                 CSFBParametersResponseCDMA2000 ecdma = new CSFBParametersResponseCDMA2000();
                 ecdma.InitDefaults();
-                ecdma.rrc_TransactionIdentifier = input.readBits(2);
+                ecdma.rrc_TransactionIdentifier = input.ReadBits(2);
                 ecdma.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return ecdma;
             }
@@ -352,7 +352,7 @@ namespace TraceParser.Eutra
                 es.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 es.rand = input.readBitString(0x20);
-                int nBits = input.readBits(8);
+                int nBits = input.ReadBits(8);
                 es.mobilityParameters = input.readOctetString(nBits);
                 if (stream.Read())
                 {
@@ -405,7 +405,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -450,17 +450,17 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 4);
                 if (stream.Read())
                 {
-                    nBits = input.readBits(8);
+                    nBits = input.ReadBits(8);
                     _r.messageContCDMA2000_1XRTT_r9 = input.readOctetString(nBits);
                 }
                 if (stream.Read())
                 {
                     const int num2 = 1;
-                    _r.mobilityCDMA2000_HRPD_r9 = (mobilityCDMA2000_HRPD_r9_Enum)input.readBits(num2);
+                    _r.mobilityCDMA2000_HRPD_r9 = (mobilityCDMA2000_HRPD_r9_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
-                    nBits = input.readBits(8);
+                    nBits = input.ReadBits(8);
                     _r.messageContCDMA2000_HRPD_r9 = input.readOctetString(nBits);
                 }
                 if (stream.Read())

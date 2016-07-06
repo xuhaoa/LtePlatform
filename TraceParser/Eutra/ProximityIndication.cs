@@ -46,7 +46,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.proximityIndication_r9 = ProximityIndication_r9_IEs.PerDecoder.Instance.Decode(input);
@@ -94,7 +94,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -158,20 +158,20 @@ namespace TraceParser.Eutra
                     carrierFreq_r9_Type type = new carrierFreq_r9_Type();
                     type.InitDefaults();
                     bool flag = input.ReadBit() != 0;
-                    switch (input.readBits(2))
+                    switch (input.ReadBits(2))
                     {
                         case 0:
-                            type.eutra_r9 = input.readBits(0x10);
+                            type.eutra_r9 = input.ReadBits(0x10);
                             return type;
 
                         case 1:
-                            type.utra_r9 = input.readBits(14);
+                            type.utra_r9 = input.ReadBits(14);
                             return type;
 
                         case 2:
                             if (flag)
                             {
-                                type.eutra2_v9e0 = input.readBits(0x12) + 0x10000;
+                                type.eutra2_v9e0 = input.ReadBits(0x12) + 0x10000;
                             }
                             return type;
                     }
@@ -190,7 +190,7 @@ namespace TraceParser.Eutra
                 es.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 const int nBits = 1;
-                es.type_r9 = (type_r9_Enum)input.readBits(nBits);
+                es.type_r9 = (type_r9_Enum)input.ReadBits(nBits);
                 es.carrierFreq_r9 = carrierFreq_r9_Type.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
@@ -249,7 +249,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())

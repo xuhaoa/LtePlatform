@@ -29,9 +29,9 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     int nBits = 3;
-                    config.cqi_ReportModeAperiodic = (CQI_ReportModeAperiodic)input.readBits(nBits);
+                    config.cqi_ReportModeAperiodic = (CQI_ReportModeAperiodic)input.ReadBits(nBits);
                 }
-                config.nomPDSCH_RS_EPRE_Offset = input.readBits(3) + -1;
+                config.nomPDSCH_RS_EPRE_Offset = input.ReadBits(3) + -1;
                 if (stream.Read())
                 {
                     config.cqi_ReportPeriodic = CQI_ReportPeriodic.PerDecoder.Instance.Decode(input);
@@ -77,7 +77,7 @@ namespace TraceParser.Eutra
                 {
                     csi_SubframePatternConfig_r10_Type type = new csi_SubframePatternConfig_r10_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             return type;
@@ -130,7 +130,7 @@ namespace TraceParser.Eutra
                 {
                     _r.cqi_ReportAperiodic_r10 = CQI_ReportAperiodic_r10.PerDecoder.Instance.Decode(input);
                 }
-                _r.nomPDSCH_RS_EPRE_Offset = input.readBits(3) + -1;
+                _r.nomPDSCH_RS_EPRE_Offset = input.ReadBits(3) + -1;
                 if (stream.Read())
                 {
                     _r.cqi_ReportPeriodic_r10 = CQI_ReportPeriodic_r10.PerDecoder.Instance.Decode(input);
@@ -138,7 +138,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    _r.pmi_RI_Report_r9 = (pmi_RI_Report_r9_Enum)input.readBits(nBits);
+                    _r.pmi_RI_Report_r9 = (pmi_RI_Report_r9_Enum)input.ReadBits(nBits);
                 }
                 if (stream.Read())
                 {
@@ -209,12 +209,12 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.cqi_Mask_r9 = (cqi_Mask_r9_Enum)input.readBits(num2);
+                    _v.cqi_Mask_r9 = (cqi_Mask_r9_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.pmi_RI_Report_r9 = (pmi_RI_Report_r9_Enum)input.readBits(num2);
+                    _v.pmi_RI_Report_r9 = (pmi_RI_Report_r9_Enum)input.ReadBits(num2);
                 }
                 return _v;
             }
@@ -254,9 +254,9 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 3;
-                    _r.cqi_ReportModeAperiodic_r10 = (CQI_ReportModeAperiodic)input.readBits(num2);
+                    _r.cqi_ReportModeAperiodic_r10 = (CQI_ReportModeAperiodic)input.ReadBits(num2);
                 }
-                _r.nomPDSCH_RS_EPRE_Offset_r10 = input.readBits(3) + -1;
+                _r.nomPDSCH_RS_EPRE_Offset_r10 = input.ReadBits(3) + -1;
                 if (stream.Read())
                 {
                     _r.cqi_ReportPeriodicSCell_r10 = CQI_ReportPeriodic_r10.PerDecoder.Instance.Decode(input);
@@ -264,7 +264,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.pmi_RI_Report_r10 = (pmi_RI_Report_r10_Enum)input.readBits(num2);
+                    _r.pmi_RI_Report_r10 = (pmi_RI_Report_r10_Enum)input.ReadBits(num2);
                 }
                 return _r;
             }
@@ -295,7 +295,7 @@ namespace TraceParser.Eutra
             {
                 CQI_ReportAperiodic_r10 _r = new CQI_ReportAperiodic_r10();
                 _r.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         return _r;
@@ -355,7 +355,7 @@ namespace TraceParser.Eutra
                     type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 1);
                     const int nBits = 3;
-                    type.cqi_ReportModeAperiodic_r10 = (CQI_ReportModeAperiodic)input.readBits(nBits);
+                    type.cqi_ReportModeAperiodic_r10 = (CQI_ReportModeAperiodic)input.ReadBits(nBits);
                     if (stream.Read())
                     {
                         type.aperiodicCSI_Trigger_r10 = aperiodicCSI_Trigger_r10_Type.PerDecoder.Instance.Decode(input);
@@ -390,7 +390,7 @@ namespace TraceParser.Eutra
                 CQI_ReportAperiodicProc_r11 _r = new CQI_ReportAperiodicProc_r11();
                 _r.InitDefaults();
                 int nBits = 3;
-                _r.cqi_ReportModeAperiodic_r11 = (CQI_ReportModeAperiodic)input.readBits(nBits);
+                _r.cqi_ReportModeAperiodic_r11 = (CQI_ReportModeAperiodic)input.ReadBits(nBits);
                 _r.trigger01_r11 = input.ReadBit() == 1;
                 _r.trigger10_r11 = input.ReadBit() == 1;
                 _r.trigger11_r11 = input.ReadBit() == 1;
@@ -428,10 +428,10 @@ namespace TraceParser.Eutra
                 {
                     _r.csi_IM_ConfigToReleaseList_r11 = new List<long>();
                     num2 = 2;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
-                        long item = input.readBits(2) + 1;
+                        long item = input.ReadBits(2) + 1;
                         _r.csi_IM_ConfigToReleaseList_r11.Add(item);
                     }
                 }
@@ -439,7 +439,7 @@ namespace TraceParser.Eutra
                 {
                     _r.csi_IM_ConfigToAddModList_r11 = new List<CSI_IM_Config_r11>();
                     num2 = 2;
-                    int num6 = input.readBits(num2) + 1;
+                    int num6 = input.ReadBits(num2) + 1;
                     for (int j = 0; j < num6; j++)
                     {
                         CSI_IM_Config_r11 _r2 = CSI_IM_Config_r11.PerDecoder.Instance.Decode(input);
@@ -450,10 +450,10 @@ namespace TraceParser.Eutra
                 {
                     _r.csi_ProcessToReleaseList_r11 = new List<long>();
                     num2 = 2;
-                    int num8 = input.readBits(num2) + 1;
+                    int num8 = input.ReadBits(num2) + 1;
                     for (int k = 0; k < num8; k++)
                     {
-                        long num10 = input.readBits(2) + 1;
+                        long num10 = input.ReadBits(2) + 1;
                         _r.csi_ProcessToReleaseList_r11.Add(num10);
                     }
                 }
@@ -461,7 +461,7 @@ namespace TraceParser.Eutra
                 {
                     _r.csi_ProcessToAddModList_r11 = new List<CSI_Process_r11>();
                     num2 = 2;
-                    int num11 = input.readBits(num2) + 1;
+                    int num11 = input.ReadBits(num2) + 1;
                     for (int m = 0; m < num11; m++)
                     {
                         CSI_Process_r11 _r3 = CSI_Process_r11.PerDecoder.Instance.Decode(input);
@@ -495,12 +495,12 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    _r.ri_Ref_CSI_ProcessId_r11 = input.readBits(2) + 1;
+                    _r.ri_Ref_CSI_ProcessId_r11 = input.ReadBits(2) + 1;
                 }
                 if (stream.Read())
                 {
                     int nBits = 1;
-                    _r.pmi_RI_Report_r11 = (pmi_RI_Report_r11_Enum)input.readBits(nBits);
+                    _r.pmi_RI_Report_r11 = (pmi_RI_Report_r11_Enum)input.ReadBits(nBits);
                 }
                 return _r;
             }
@@ -531,7 +531,7 @@ namespace TraceParser.Eutra
             {
                 CQI_ReportPeriodic periodic = new CQI_ReportPeriodic();
                 periodic.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         return periodic;
@@ -580,7 +580,7 @@ namespace TraceParser.Eutra
                     {
                         cqi_FormatIndicatorPeriodic_Type type = new cqi_FormatIndicatorPeriodic_Type();
                         type.InitDefaults();
-                        switch (input.readBits(1))
+                        switch (input.ReadBits(1))
                         {
                             case 0:
                                 return type;
@@ -610,7 +610,7 @@ namespace TraceParser.Eutra
                         {
                             subbandCQI_Type type = new subbandCQI_Type();
                             type.InitDefaults();
-                            type.k = input.readBits(2) + 1;
+                            type.k = input.ReadBits(2) + 1;
                             return type;
                         }
                     }
@@ -626,12 +626,12 @@ namespace TraceParser.Eutra
                     setup_Type type = new setup_Type();
                     type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 1);
-                    type.cqi_PUCCH_ResourceIndex = input.readBits(11);
-                    type.cqi_pmi_ConfigIndex = input.readBits(10);
+                    type.cqi_PUCCH_ResourceIndex = input.ReadBits(11);
+                    type.cqi_pmi_ConfigIndex = input.ReadBits(10);
                     type.cqi_FormatIndicatorPeriodic = cqi_FormatIndicatorPeriodic_Type.PerDecoder.Instance.Decode(input);
                     if (stream.Read())
                     {
-                        type.ri_ConfigIndex = input.readBits(10);
+                        type.ri_ConfigIndex = input.ReadBits(10);
                     }
                     type.simultaneousAckNackAndCQI = input.ReadBit() == 1;
                     return type;
@@ -659,7 +659,7 @@ namespace TraceParser.Eutra
             {
                 CQI_ReportPeriodic_r10 _r = new CQI_ReportPeriodic_r10();
                 _r.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         return _r;
@@ -714,7 +714,7 @@ namespace TraceParser.Eutra
                     {
                         cqi_FormatIndicatorPeriodic_r10_Type type = new cqi_FormatIndicatorPeriodic_r10_Type();
                         type.InitDefaults();
-                        switch (input.readBits(1))
+                        switch (input.ReadBits(1))
                         {
                             case 0:
                                 type.widebandCQI_r10 = widebandCQI_r10_Type.PerDecoder.Instance.Decode(input);
@@ -747,9 +747,9 @@ namespace TraceParser.Eutra
                         {
                             subbandCQI_r10_Type type = new subbandCQI_r10_Type();
                             type.InitDefaults();
-                            type.k = input.readBits(2) + 1;
+                            type.k = input.ReadBits(2) + 1;
                             int nBits = 1;
-                            type.periodicityFactor_r10 = (periodicityFactor_r10_Enum)input.readBits(nBits);
+                            type.periodicityFactor_r10 = (periodicityFactor_r10_Enum)input.ReadBits(nBits);
                             return type;
                         }
                     }
@@ -788,7 +788,7 @@ namespace TraceParser.Eutra
                             if (stream.Read())
                             {
                                 const int nBits = 1;
-                                type.csi_ReportMode_r10 = (csi_ReportMode_r10_Enum)input.readBits(nBits);
+                                type.csi_ReportMode_r10 = (csi_ReportMode_r10_Enum)input.ReadBits(nBits);
                             }
                             return type;
                         }
@@ -820,7 +820,7 @@ namespace TraceParser.Eutra
                     {
                         csi_ConfigIndex_r10_Type type = new csi_ConfigIndex_r10_Type();
                         type.InitDefaults();
-                        switch (input.readBits(1))
+                        switch (input.ReadBits(1))
                         {
                             case 0:
                                 return type;
@@ -853,10 +853,10 @@ namespace TraceParser.Eutra
                             setup_Type type = new setup_Type();
                             type.InitDefaults();
                             BitMaskStream stream = new BitMaskStream(input, 1);
-                            type.cqi_pmi_ConfigIndex2_r10 = input.readBits(10);
+                            type.cqi_pmi_ConfigIndex2_r10 = input.ReadBits(10);
                             if (stream.Read())
                             {
-                                type.ri_ConfigIndex2_r10 = input.readBits(10);
+                                type.ri_ConfigIndex2_r10 = input.ReadBits(10);
                             }
                             return type;
                         }
@@ -873,22 +873,22 @@ namespace TraceParser.Eutra
                     setup_Type type = new setup_Type();
                     type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 4);
-                    type.cqi_PUCCH_ResourceIndex_r10 = input.readBits(11);
+                    type.cqi_PUCCH_ResourceIndex_r10 = input.ReadBits(11);
                     if (stream.Read())
                     {
-                        type.cqi_PUCCH_ResourceIndexP1_r10 = input.readBits(11);
+                        type.cqi_PUCCH_ResourceIndexP1_r10 = input.ReadBits(11);
                     }
-                    type.cqi_pmi_ConfigIndex = input.readBits(10);
+                    type.cqi_pmi_ConfigIndex = input.ReadBits(10);
                     type.cqi_FormatIndicatorPeriodic_r10 = cqi_FormatIndicatorPeriodic_r10_Type.PerDecoder.Instance.Decode(input);
                     if (stream.Read())
                     {
-                        type.ri_ConfigIndex = input.readBits(10);
+                        type.ri_ConfigIndex = input.ReadBits(10);
                     }
                     type.simultaneousAckNackAndCQI = input.ReadBit() == 1;
                     if (stream.Read())
                     {
                         int nBits = 1;
-                        type.cqi_Mask_r9 = (cqi_Mask_r9_Enum)input.readBits(nBits);
+                        type.cqi_Mask_r9 = (cqi_Mask_r9_Enum)input.ReadBits(nBits);
                     }
                     if (stream.Read())
                     {
@@ -926,16 +926,16 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.simultaneousAckNackAndCQI_Format3_r11 = (simultaneousAckNackAndCQI_Format3_r11_Enum)input.readBits(num2);
+                    _v.simultaneousAckNackAndCQI_Format3_r11 = (simultaneousAckNackAndCQI_Format3_r11_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     _v.cqi_ReportPeriodicProcExtToReleaseList_r11 = new List<long>();
                     num2 = 2;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
-                        long item = input.readBits(2) + 1;
+                        long item = input.ReadBits(2) + 1;
                         _v.cqi_ReportPeriodicProcExtToReleaseList_r11.Add(item);
                     }
                 }
@@ -943,7 +943,7 @@ namespace TraceParser.Eutra
                 {
                     _v.cqi_ReportPeriodicProcExtToAddModList_r11 = new List<CQI_ReportPeriodicProcExt_r11>();
                     num2 = 2;
-                    int num6 = input.readBits(num2) + 1;
+                    int num6 = input.ReadBits(num2) + 1;
                     for (int j = 0; j < num6; j++)
                     {
                         CQI_ReportPeriodicProcExt_r11 _r = CQI_ReportPeriodicProcExt_r11.PerDecoder.Instance.Decode(input);
@@ -996,7 +996,7 @@ namespace TraceParser.Eutra
                 {
                     cqi_FormatIndicatorPeriodic_r11_Type type = new cqi_FormatIndicatorPeriodic_r11_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.widebandCQI_r11 = widebandCQI_r11_Type.PerDecoder.Instance.Decode(input);
@@ -1029,9 +1029,9 @@ namespace TraceParser.Eutra
                     {
                         subbandCQI_r11_Type type = new subbandCQI_r11_Type();
                         type.InitDefaults();
-                        type.k = input.readBits(2) + 1;
+                        type.k = input.ReadBits(2) + 1;
                         int nBits = 1;
-                        type.periodicityFactor_r11 = (periodicityFactor_r11_Enum)input.readBits(nBits);
+                        type.periodicityFactor_r11 = (periodicityFactor_r11_Enum)input.ReadBits(nBits);
                         return type;
                     }
                 }
@@ -1070,7 +1070,7 @@ namespace TraceParser.Eutra
                         if (stream.Read())
                         {
                             const int nBits = 1;
-                            type.csi_ReportMode_r11 = (csi_ReportMode_r11_Enum)input.readBits(nBits);
+                            type.csi_ReportMode_r11 = (csi_ReportMode_r11_Enum)input.ReadBits(nBits);
                         }
                         return type;
                     }
@@ -1097,7 +1097,7 @@ namespace TraceParser.Eutra
                 {
                     csi_ConfigIndex_r11_Type type = new csi_ConfigIndex_r11_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             return type;
@@ -1130,10 +1130,10 @@ namespace TraceParser.Eutra
                         setup_Type type = new setup_Type();
                         type.InitDefaults();
                         BitMaskStream stream = new BitMaskStream(input, 1);
-                        type.cqi_pmi_ConfigIndex2_r11 = input.readBits(10);
+                        type.cqi_pmi_ConfigIndex2_r11 = input.ReadBits(10);
                         if (stream.Read())
                         {
-                            type.ri_ConfigIndex2_r11 = input.readBits(10);
+                            type.ri_ConfigIndex2_r11 = input.ReadBits(10);
                         }
                         return type;
                     }
@@ -1150,12 +1150,12 @@ namespace TraceParser.Eutra
                 CQI_ReportPeriodicProcExt_r11 _r = new CQI_ReportPeriodicProcExt_r11();
                 _r.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
-                _r.cqi_ReportPeriodicProcExtId_r11 = input.readBits(2) + 1;
-                _r.cqi_pmi_ConfigIndex_r11 = input.readBits(10);
+                _r.cqi_ReportPeriodicProcExtId_r11 = input.ReadBits(2) + 1;
+                _r.cqi_pmi_ConfigIndex_r11 = input.ReadBits(10);
                 _r.cqi_FormatIndicatorPeriodic_r11 = cqi_FormatIndicatorPeriodic_r11_Type.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
-                    _r.ri_ConfigIndex_r11 = input.readBits(10);
+                    _r.ri_ConfigIndex_r11 = input.ReadBits(10);
                 }
                 if (stream.Read())
                 {

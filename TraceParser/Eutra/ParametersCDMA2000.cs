@@ -80,7 +80,7 @@ namespace TraceParser.Eutra
                     if (stream.Read())
                     {
                         const int nBits = 1;
-                        type.csfb_DualRxTxSupport_r11 = (csfb_DualRxTxSupport_r11_Enum)input.readBits(nBits);
+                        type.csfb_DualRxTxSupport_r11 = (csfb_DualRxTxSupport_r11_Enum)input.ReadBits(nBits);
                     }
                     return type;
                 }
@@ -130,7 +130,7 @@ namespace TraceParser.Eutra
                 {
                     _r.systemTimeInfo_r11 = systemTimeInfo_r11_Type.PerDecoder.Instance.Decode(input);
                 }
-                _r.searchWindowSize_r11 = input.readBits(4);
+                _r.searchWindowSize_r11 = input.ReadBits(4);
                 if (stream.Read())
                 {
                     _r.parametersHRPD_r11 = parametersHRPD_r11_Type.PerDecoder.Decode(input);
@@ -162,7 +162,7 @@ namespace TraceParser.Eutra
                 {
                     var type = new systemTimeInfo_r11_Type();
                     InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.explicitValue = SystemTimeInfoCDMA2000.PerDecoder.Instance.Decode(input);

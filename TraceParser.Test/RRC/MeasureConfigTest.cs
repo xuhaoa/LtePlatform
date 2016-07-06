@@ -33,7 +33,7 @@ namespace TraceParser.Test.RRC
         public void Test_Zte_MeasObject(string source, string[] description)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 4);
+            Assert.AreEqual(stream.ReadBits(5), 4);
             RRCConnectionReconfiguration result = RRCConnectionReconfiguration.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.criticalExtensions);
@@ -109,7 +109,7 @@ namespace TraceParser.Test.RRC
         public void Test_Zte_ReportConfig(string source, string[] description)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 4);
+            Assert.AreEqual(stream.ReadBits(5), 4);
             RRCConnectionReconfiguration result = RRCConnectionReconfiguration.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.criticalExtensions);
@@ -194,7 +194,7 @@ namespace TraceParser.Test.RRC
         public void Test_Zte_MeasId(string source, string[] description)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 4);
+            Assert.AreEqual(stream.ReadBits(5), 4);
             RRCConnectionReconfiguration result = RRCConnectionReconfiguration.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.criticalExtensions);

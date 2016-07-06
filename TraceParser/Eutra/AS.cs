@@ -49,13 +49,13 @@ namespace TraceParser.Eutra
                 config.sourceSystemInformationBlockType1 = SystemInformationBlockType1.PerDecoder.Instance.Decode(input);
                 config.sourceSystemInformationBlockType2 = SystemInformationBlockType2.PerDecoder.Instance.Decode(input);
                 config.antennaInfoCommon = AntennaInfoCommon.PerDecoder.Instance.Decode(input);
-                config.sourceDl_CarrierFreq = input.readBits(0x10);
+                config.sourceDl_CarrierFreq = input.ReadBits(0x10);
                 if (flag)
                 {
                     stream = new BitMaskStream(input, 1);
                     if (stream.Read())
                     {
-                        var nBits = input.readBits(8);
+                        var nBits = input.ReadBits(8);
                         config.sourceSystemInformationBlockType1Ext = input.readOctetString(nBits);
                     }
                     config.sourceOtherConfig_r9 = OtherConfig_r9.PerDecoder.Instance.Decode(input);
@@ -65,7 +65,7 @@ namespace TraceParser.Eutra
                     stream = new BitMaskStream(input, 1);
                     if (!stream.Read()) return;
                     config.sourceSCellConfigList_r10 = new List<SCellToAddMod_r10>();
-                    var num3 = input.readBits(2) + 1;
+                    var num3 = input.ReadBits(2) + 1;
                     for (var i = 0; i < num3; i++)
                     {
                         var item = SCellToAddMod_r10.PerDecoder.Instance.Decode(input);
@@ -88,7 +88,7 @@ namespace TraceParser.Eutra
             protected override void ProcessConfig(AS_Config_v9e0 config, BitArrayInputStream input)
             {
                 InitDefaults();
-                config.sourceDl_CarrierFreq_v9e0 = input.readBits(0x12) + 0x10000;
+                config.sourceDl_CarrierFreq_v9e0 = input.ReadBits(0x12) + 0x10000;
             }
         }
     }
@@ -133,15 +133,15 @@ namespace TraceParser.Eutra
                 var stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
-                    config.idc_Indication_r11 = input.readOctetString(input.readBits(8));
+                    config.idc_Indication_r11 = input.readOctetString(input.ReadBits(8));
                 }
                 if (stream.Read())
                 {
-                    config.mbmsInterestIndication_r11 = input.readOctetString(input.readBits(8));
+                    config.mbmsInterestIndication_r11 = input.readOctetString(input.ReadBits(8));
                 }
                 if (stream.Read())
                 {
-                    config.powerPrefIndication_r11 = input.readOctetString(input.readBits(8));
+                    config.powerPrefIndication_r11 = input.readOctetString(input.ReadBits(8));
                 }
             }
         }

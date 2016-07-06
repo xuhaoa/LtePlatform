@@ -28,7 +28,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 container.bearers_SubjectToStatusTransferList = new List<ProtocolIE_Field>();
                 int nBits = 8;
-                int num5 = input.readBits(nBits) + 1;
+                int num5 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -39,7 +39,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     container.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num7 = input.readBits(nBits) + 1;
+                    int num7 = input.ReadBits(nBits) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         ProtocolExtensionField field2 = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -60,9 +60,9 @@ namespace TraceParser.S1ap
 
             public long Decode(BitArrayInputStream input)
             {
-                int num2 = input.readBits(2) + 1;
+                int num2 = input.ReadBits(2) + 1;
                 input.skipUnreadedBits();
-                return input.readBits(num2 * 8);
+                return input.ReadBits(num2 * 8);
             }
         }
     }
@@ -88,7 +88,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 transfer.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -108,7 +108,7 @@ namespace TraceParser.S1ap
 
             public string Decode(BitArrayInputStream input)
             {
-                int num2 = input.readBits(8);
+                int num2 = input.ReadBits(8);
                 input.skipUnreadedBits();
                 return input.readOctetString(num2 + 1);
             }
@@ -136,7 +136,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 transfer.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -183,11 +183,11 @@ namespace TraceParser.S1ap
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 info.eNBX2TransportLayerAddresses = new List<string>();
                 int nBits = 1;
-                int num5 = input.readBits(nBits) + 1;
+                int num5 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num5; i++)
                 {
                     input.ReadBit();
-                    int num = input.readBits(8);
+                    int num = input.ReadBits(8);
                     input.skipUnreadedBits();
                     string item = input.readBitString(num + 1);
                     info.eNBX2TransportLayerAddresses.Add(item);
@@ -197,7 +197,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     info.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num7 = input.readBits(nBits) + 1;
+                    int num7 = input.ReadBits(nBits) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

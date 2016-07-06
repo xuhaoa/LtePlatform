@@ -46,7 +46,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.ueAssistanceInformation_r11 = UEAssistanceInformation_r11_IEs.PerDecoder.Instance.Decode(input);
@@ -94,7 +94,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -168,11 +168,11 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int num2 = 1;
-                    es.powerPrefIndication_r11 = (powerPrefIndication_r11_Enum)input.readBits(num2);
+                    es.powerPrefIndication_r11 = (powerPrefIndication_r11_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())

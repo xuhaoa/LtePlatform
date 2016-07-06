@@ -91,14 +91,14 @@ namespace TraceParser.Eutra
                     var stream = new BitMaskStream(input, 2);
                     if (stream.Read())
                     {
-                        type.ul_CarrierFreq = input.readBits(0x10);
+                        type.ul_CarrierFreq = input.ReadBits(0x10);
                     }
                     if (stream.Read())
                     {
                         var nBits = 3;
-                        type.ul_Bandwidth = (ul_Bandwidth_Enum)input.readBits(nBits);
+                        type.ul_Bandwidth = (ul_Bandwidth_Enum)input.ReadBits(nBits);
                     }
-                    type.additionalSpectrumEmission = input.readBits(5) + 1;
+                    type.additionalSpectrumEmission = input.ReadBits(5) + 1;
                     return type;
                 }
             }
@@ -138,7 +138,7 @@ namespace TraceParser.Eutra
                 {
                     type.mbsfn_SubframeConfigList = new List<MBSFN_SubframeConfig>();
                     num2 = 3;
-                    var num3 = input.readBits(num2) + 1;
+                    var num3 = input.ReadBits(num2) + 1;
                     for (var i = 0; i < num3; i++)
                     {
                         var item = MBSFN_SubframeConfig.PerDecoder.Instance.Decode(input);
@@ -146,10 +146,10 @@ namespace TraceParser.Eutra
                     }
                 }
                 num2 = 3;
-                type.timeAlignmentTimerCommon = (TimeAlignmentTimer)input.readBits(num2);
+                type.timeAlignmentTimerCommon = (TimeAlignmentTimer)input.ReadBits(num2);
                 if (flag && stream.Read())
                 {
-                    var nBits = input.readBits(8);
+                    var nBits = input.ReadBits(8);
                     type.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (flag)

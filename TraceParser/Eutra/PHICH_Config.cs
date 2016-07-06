@@ -23,9 +23,9 @@ namespace TraceParser.Eutra
                 PHICH_Config config = new PHICH_Config();
                 config.InitDefaults();
                 int nBits = 1;
-                config.phich_Duration = (phich_Duration_Enum)input.readBits(nBits);
+                config.phich_Duration = (phich_Duration_Enum)input.ReadBits(nBits);
                 nBits = 2;
-                config.phich_Resource = (phich_Resource_Enum)input.readBits(nBits);
+                config.phich_Resource = (phich_Resource_Enum)input.ReadBits(nBits);
                 return config;
             }
         }

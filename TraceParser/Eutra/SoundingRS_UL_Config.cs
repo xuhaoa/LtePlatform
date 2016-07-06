@@ -23,7 +23,7 @@ namespace TraceParser.Eutra
             {
                 SoundingRS_UL_ConfigCommon common = new SoundingRS_UL_ConfigCommon();
                 common.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         common.release=new object();
@@ -62,14 +62,14 @@ namespace TraceParser.Eutra
                     type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 1);
                     int nBits = 3;
-                    type.srs_BandwidthConfig = (srs_BandwidthConfig_Enum)input.readBits(nBits);
+                    type.srs_BandwidthConfig = (srs_BandwidthConfig_Enum)input.ReadBits(nBits);
                     nBits = 4;
-                    type.srs_SubframeConfig = (srs_SubframeConfig_Enum)input.readBits(nBits);
+                    type.srs_SubframeConfig = (srs_SubframeConfig_Enum)input.ReadBits(nBits);
                     type.ackNackSRS_SimultaneousTransmission = input.ReadBit() == 1;
                     if (stream.Read())
                     {
                         nBits = 1;
-                        type.srs_MaxUpPts = (srs_MaxUpPts_Enum)input.readBits(nBits);
+                        type.srs_MaxUpPts = (srs_MaxUpPts_Enum)input.ReadBits(nBits);
                     }
                     return type;
                 }
@@ -133,7 +133,7 @@ namespace TraceParser.Eutra
             {
                 SoundingRS_UL_ConfigDedicated dedicated = new SoundingRS_UL_ConfigDedicated();
                 dedicated.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         dedicated.release=new object();
@@ -189,15 +189,15 @@ namespace TraceParser.Eutra
                     setup_Type type = new setup_Type();
                     type.InitDefaults();
                     int nBits = 2;
-                    type.srs_Bandwidth = (srs_Bandwidth_Enum)input.readBits(nBits);
+                    type.srs_Bandwidth = (srs_Bandwidth_Enum)input.ReadBits(nBits);
                     nBits = 2;
-                    type.srs_HoppingBandwidth = (srs_HoppingBandwidth_Enum)input.readBits(nBits);
-                    type.freqDomainPosition = input.readBits(5);
+                    type.srs_HoppingBandwidth = (srs_HoppingBandwidth_Enum)input.ReadBits(nBits);
+                    type.freqDomainPosition = input.ReadBits(5);
                     type.duration = input.ReadBit() == 1;
-                    type.srs_ConfigIndex = input.readBits(10);
-                    type.transmissionComb = input.readBits(1);
+                    type.srs_ConfigIndex = input.ReadBits(10);
+                    type.transmissionComb = input.ReadBits(1);
                     nBits = 3;
-                    type.cyclicShift = (cyclicShift_Enum)input.readBits(nBits);
+                    type.cyclicShift = (cyclicShift_Enum)input.ReadBits(nBits);
                     return type;
                 }
             }
@@ -238,7 +238,7 @@ namespace TraceParser.Eutra
                 SoundingRS_UL_ConfigDedicated_v1020 _v = new SoundingRS_UL_ConfigDedicated_v1020();
                 _v.InitDefaults();
                 int nBits = 2;
-                _v.srs_AntennaPort_r10 = (SRS_AntennaPort)input.readBits(nBits);
+                _v.srs_AntennaPort_r10 = (SRS_AntennaPort)input.ReadBits(nBits);
                 return _v;
             }
         }
@@ -263,7 +263,7 @@ namespace TraceParser.Eutra
             {
                 SoundingRS_UL_ConfigDedicatedAperiodic_r10 _r = new SoundingRS_UL_ConfigDedicatedAperiodic_r10();
                 _r.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         return _r;
@@ -298,12 +298,12 @@ namespace TraceParser.Eutra
                     setup_Type type = new setup_Type();
                     type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 2);
-                    type.srs_ConfigIndexAp_r10 = input.readBits(5);
+                    type.srs_ConfigIndexAp_r10 = input.ReadBits(5);
                     if (stream.Read())
                     {
                         type.srs_ConfigApDCI_Format4_r10 = new List<SRS_ConfigAp_r10>();
                         const int nBits = 2;
-                        int num3 = input.readBits(nBits) + 1;
+                        int num3 = input.ReadBits(nBits) + 1;
                         for (int i = 0; i < num3; i++)
                         {
                             SRS_ConfigAp_r10 item = SRS_ConfigAp_r10.PerDecoder.Instance.Decode(input);
@@ -337,7 +337,7 @@ namespace TraceParser.Eutra
                     {
                         srs_ActivateAp_r10_Type type = new srs_ActivateAp_r10_Type();
                         type.InitDefaults();
-                        switch (input.readBits(1))
+                        switch (input.ReadBits(1))
                         {
                             case 0:
                                 return type;

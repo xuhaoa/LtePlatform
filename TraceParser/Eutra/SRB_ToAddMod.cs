@@ -35,7 +35,7 @@ namespace TraceParser.Eutra
                 {
                     logicalChannelConfig_Type type = new logicalChannelConfig_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.explicitValue = LogicalChannelConfig.PerDecoder.Instance.Decode(input);
@@ -58,7 +58,7 @@ namespace TraceParser.Eutra
                 SRB_ToAddMod mod = new SRB_ToAddMod();
                 mod.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
-                mod.srb_Identity = input.readBits(1) + 1;
+                mod.srb_Identity = input.ReadBits(1) + 1;
                 if (stream.Read())
                 {
                     mod.rlc_Config = rlc_Config_Type.PerDecoder.Instance.Decode(input);
@@ -90,7 +90,7 @@ namespace TraceParser.Eutra
                 {
                     rlc_Config_Type type = new rlc_Config_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.explicitValue = RLC_Config.PerDecoder.Instance.Decode(input);

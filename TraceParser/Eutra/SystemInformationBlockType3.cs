@@ -49,7 +49,7 @@ namespace TraceParser.Eutra
                     type.InitDefaults();
                     var stream = new BitMaskStream(input, 1);
                     const int nBits = 4;
-                    type.q_Hyst = (q_Hyst_Enum)input.readBits(nBits);
+                    type.q_Hyst = (q_Hyst_Enum)input.ReadBits(nBits);
                     if (stream.Read())
                     {
                         type.speedStateReselectionPars = speedStateReselectionPars_Type.PerDecoder.Instance.Decode(input);
@@ -123,9 +123,9 @@ namespace TraceParser.Eutra
                             var type = new q_HystSF_Type();
                             type.InitDefaults();
                             var nBits = 2;
-                            type.sf_Medium = (sf_Medium_Enum)input.readBits(nBits);
+                            type.sf_Medium = (sf_Medium_Enum)input.ReadBits(nBits);
                             nBits = 2;
-                            type.sf_High = (sf_High_Enum)input.readBits(nBits);
+                            type.sf_High = (sf_High_Enum)input.ReadBits(nBits);
                             return type;
                         }
                     }
@@ -173,10 +173,10 @@ namespace TraceParser.Eutra
                     var stream = new BitMaskStream(input, 1);
                     if (stream.Read())
                     {
-                        type.s_NonIntraSearch = input.readBits(5);
+                        type.s_NonIntraSearch = input.ReadBits(5);
                     }
-                    type.threshServingLow = input.readBits(5);
-                    type.cellReselectionPriority = input.readBits(3);
+                    type.threshServingLow = input.ReadBits(5);
+                    type.cellReselectionPriority = input.ReadBits(3);
                     return type;
                 }
             }
@@ -214,23 +214,23 @@ namespace TraceParser.Eutra
                     var type = new intraFreqCellReselectionInfo_Type();
                     type.InitDefaults();
                     var stream = new BitMaskStream(input, 4);
-                    type.q_RxLevMin = input.readBits(6) + -70;
+                    type.q_RxLevMin = input.ReadBits(6) + -70;
                     if (stream.Read())
                     {
-                        type.p_Max = input.readBits(6) + -30;
+                        type.p_Max = input.ReadBits(6) + -30;
                     }
                     if (stream.Read())
                     {
-                        type.s_IntraSearch = input.readBits(5);
+                        type.s_IntraSearch = input.ReadBits(5);
                     }
                     if (stream.Read())
                     {
                         var nBits = 3;
-                        type.allowedMeasBandwidth = (AllowedMeasBandwidth)input.readBits(nBits);
+                        type.allowedMeasBandwidth = (AllowedMeasBandwidth)input.ReadBits(nBits);
                     }
                     type.presenceAntennaPort1 = input.ReadBit() == 1;
                     type.neighCellConfig = input.readBitString(2);
-                    type.t_ReselectionEUTRA = input.readBits(3);
+                    type.t_ReselectionEUTRA = input.ReadBits(3);
                     if (stream.Read())
                     {
                         type.t_ReselectionEUTRA_SF = SpeedStateScaleFactors.PerDecoder.Instance.Decode(input);
@@ -257,7 +257,7 @@ namespace TraceParser.Eutra
                 type.intraFreqCellReselectionInfo = intraFreqCellReselectionInfo_Type.PerDecoder.Instance.Decode(input);
                 if (flag && stream.Read())
                 {
-                    var nBits = input.readBits(8);
+                    var nBits = input.ReadBits(8);
                     type.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (flag)
@@ -273,11 +273,11 @@ namespace TraceParser.Eutra
                     }
                     if (stream2.Read())
                     {
-                        type.q_QualMin_r9 = input.readBits(5) + -34;
+                        type.q_QualMin_r9 = input.ReadBits(5) + -34;
                     }
                     if (stream2.Read())
                     {
-                        type.threshServingLowQ_r9 = input.readBits(5);
+                        type.threshServingLowQ_r9 = input.ReadBits(5);
                     }
                 }
                 if (flag)
@@ -285,7 +285,7 @@ namespace TraceParser.Eutra
                     stream2 = new BitMaskStream(input, 1);
                     if (stream2.Read())
                     {
-                        type.q_QualMinWB_r11 = input.readBits(5) + -34;
+                        type.q_QualMinWB_r11 = input.ReadBits(5) + -34;
                     }
                 }
                 return type;
@@ -311,8 +311,8 @@ namespace TraceParser.Eutra
                 {
                     var type = new s_IntraSearch_v920_Type();
                     type.InitDefaults();
-                    type.s_IntraSearchP_r9 = input.readBits(5);
-                    type.s_IntraSearchQ_r9 = input.readBits(5);
+                    type.s_IntraSearchP_r9 = input.ReadBits(5);
+                    type.s_IntraSearchQ_r9 = input.ReadBits(5);
                     return type;
                 }
             }
@@ -337,8 +337,8 @@ namespace TraceParser.Eutra
                 {
                     var type = new s_NonIntraSearch_v920_Type();
                     type.InitDefaults();
-                    type.s_NonIntraSearchP_r9 = input.readBits(5);
-                    type.s_NonIntraSearchQ_r9 = input.readBits(5);
+                    type.s_NonIntraSearchP_r9 = input.ReadBits(5);
+                    type.s_NonIntraSearchQ_r9 = input.ReadBits(5);
                     return type;
                 }
             }

@@ -46,7 +46,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.rrcConnectionReject_r8 = RRCConnectionReject_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -94,7 +94,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -143,7 +143,7 @@ namespace TraceParser.Eutra
                 RRCConnectionReject_r8_IEs es = new RRCConnectionReject_r8_IEs();
                 es.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                es.waitTime = input.readBits(4) + 1;
+                es.waitTime = input.ReadBits(4) + 1;
                 if (stream.Read())
                 {
                     es.nonCriticalExtension = RRCConnectionReject_v8a0_IEs.PerDecoder.Instance.Decode(input);
@@ -175,7 +175,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    es.extendedWaitTime_r10 = input.readBits(11) + 1;
+                    es.extendedWaitTime_r10 = input.ReadBits(11) + 1;
                 }
                 if (stream.Read())
                 {
@@ -231,9 +231,9 @@ namespace TraceParser.Eutra
                     deprioritisationReq_r11_Type type = new deprioritisationReq_r11_Type();
                     type.InitDefaults();
                     int nBits = 1;
-                    type.deprioritisationType_r11 = (deprioritisationType_r11_Enum)input.readBits(nBits);
+                    type.deprioritisationType_r11 = (deprioritisationType_r11_Enum)input.ReadBits(nBits);
                     nBits = 2;
-                    type.deprioritisationTimer_r11 = (deprioritisationTimer_r11_Enum)input.readBits(nBits);
+                    type.deprioritisationTimer_r11 = (deprioritisationTimer_r11_Enum)input.ReadBits(nBits);
                     return type;
                 }
             }
@@ -303,7 +303,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())

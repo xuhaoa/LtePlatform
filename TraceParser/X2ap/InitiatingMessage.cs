@@ -25,9 +25,9 @@ namespace TraceParser.X2ap
                 InitiatingMessage message = new InitiatingMessage();
                 message.InitDefaults();
                 input.skipUnreadedBits();
-                message.procedureCode = input.readBits(8);
+                message.procedureCode = input.ReadBits(8);
                 const int num4 = 2;
-                message.criticality = (Criticality)input.readBits(num4);
+                message.criticality = (Criticality)input.ReadBits(num4);
                 input.skipUnreadedBits();
                 int nBits = 0;
                 while (true)
@@ -35,19 +35,19 @@ namespace TraceParser.X2ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_00CF;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_00CF;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;

@@ -48,13 +48,13 @@ namespace TraceParser.Eutra
                 var stream = new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
-                    es.freqBandIndicator_v9e0 = input.readBits(8) + 0x41;
+                    es.freqBandIndicator_v9e0 = input.ReadBits(8) + 0x41;
                 }
                 if (stream.Read())
                 {
                     es.multiBandInfoList_v9e0 = new List<MultiBandInfo_v9e0>();
                     const int nBits = 3;
-                    var num3 = input.readBits(nBits) + 1;
+                    var num3 = input.ReadBits(nBits) + 1;
                     for (var i = 0; i < num3; i++)
                     {
                         var item = MultiBandInfo_v9e0.PerDecoder.Instance.Decode(input);

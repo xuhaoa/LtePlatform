@@ -44,9 +44,9 @@ namespace TraceParser.Eutra
                 var config = new PCCH_Config();
                 config.InitDefaults();
                 var nBits = 2;
-                config.defaultPagingCycle = (defaultPagingCycle_Enum)input.readBits(nBits);
+                config.defaultPagingCycle = (defaultPagingCycle_Enum)input.ReadBits(nBits);
                 nBits = 3;
-                config.nB = (nB_Enum)input.readBits(nBits);
+                config.nB = (nB_Enum)input.ReadBits(nBits);
                 return config;
             }
         }
@@ -97,7 +97,7 @@ namespace TraceParser.Eutra
                 {
                     var type = new c1_Type();
                     type.InitDefaults();
-                    if (input.readBits(1) != 0)
+                    if (input.ReadBits(1) != 0)
                     {
                         throw new Exception(GetType().Name + ":NoChoice had been choose");
                     }
@@ -135,7 +135,7 @@ namespace TraceParser.Eutra
             {
                 var type = new PCCH_MessageType();
                 type.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         type.c1 = c1_Type.PerDecoder.Instance.Decode(input);

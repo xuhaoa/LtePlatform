@@ -21,19 +21,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_0096;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_0096;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -61,19 +61,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_0096;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_0096;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -114,7 +114,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     enb_id.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -162,19 +162,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_00C9;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_00C9;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -187,7 +187,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     container.e_RABInformationList = new List<ProtocolIE_Field>();
                     num4 = 8;
-                    int num5 = input.readBits(num4) + 1;
+                    int num5 = input.ReadBits(num4) + 1;
                     for (int j = 0; j < num5; j++)
                     {
                         ProtocolIE_Field field = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -198,11 +198,11 @@ namespace TraceParser.S1ap
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
-                    container.subscriberProfileIDforRFP = input.readBits(8) + 1;
+                    container.subscriberProfileIDforRFP = input.ReadBits(8) + 1;
                 }
                 container.uE_HistoryInformation = new List<LastVisitedCell_Item>();
                 num4 = 4;
-                int num7 = input.readBits(num4) + 1;
+                int num7 = input.ReadBits(num4) + 1;
                 for (int i = 0; i < num7; i++)
                 {
                     LastVisitedCell_Item item = LastVisitedCell_Item.PerDecoder.Instance.Decode(input);
@@ -213,7 +213,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     container.iE_Extensions = new List<ProtocolExtensionField>();
                     num4 = 0x10;
-                    int num9 = input.readBits(num4) + 1;
+                    int num9 = input.ReadBits(num4) + 1;
                     for (int k = 0; k < num9; k++)
                     {
                         ProtocolExtensionField field2 = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -241,19 +241,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_0096;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_0096;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;

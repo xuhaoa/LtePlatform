@@ -39,7 +39,7 @@ namespace TraceParser.Eutra
                 }
                 if (flag && stream.Read())
                 {
-                    var nBits = input.readBits(8);
+                    var nBits = input.ReadBits(8);
                     type.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 return type;

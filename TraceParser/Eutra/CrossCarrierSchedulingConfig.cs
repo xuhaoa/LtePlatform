@@ -55,8 +55,8 @@ namespace TraceParser.Eutra
                     {
                         other_r10_Type type = new other_r10_Type();
                         type.InitDefaults();
-                        type.schedulingCellId_r10 = input.readBits(3);
-                        type.pdsch_Start_r10 = input.readBits(2) + 1;
+                        type.schedulingCellId_r10 = input.ReadBits(3);
+                        type.pdsch_Start_r10 = input.ReadBits(2) + 1;
                         return type;
                     }
                 }
@@ -93,7 +93,7 @@ namespace TraceParser.Eutra
                 {
                     schedulingCellInfo_r10_Type type = new schedulingCellInfo_r10_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.own_r10 = own_r10_Type.PerDecoder.Instance.Decode(input);

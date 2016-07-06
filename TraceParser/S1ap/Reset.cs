@@ -25,7 +25,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 reset.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -57,7 +57,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 acknowledge.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -89,11 +89,11 @@ namespace TraceParser.S1ap
                 ResetType type = new ResetType();
                 type.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         num4 = 1;
-                        type.s1_Interface = (ResetAll)input.readBits(num4);
+                        type.s1_Interface = (ResetAll)input.ReadBits(num4);
                         return type;
 
                     case 1:
@@ -101,7 +101,7 @@ namespace TraceParser.S1ap
                             input.skipUnreadedBits();
                             type.partOfS1_Interface = new List<ProtocolIE_Field>();
                             num4 = 8;
-                            int num6 = input.readBits(num4) + 1;
+                            int num6 = input.ReadBits(num4) + 1;
                             for (int i = 0; i < num6; i++)
                             {
                                 ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);

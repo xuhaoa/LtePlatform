@@ -83,7 +83,7 @@ namespace TraceParser.Eutra
                 QuantityConfigCDMA2000 gcdma = new QuantityConfigCDMA2000();
                 gcdma.InitDefaults();
                 int nBits = 1;
-                gcdma.measQuantityCDMA2000 = (measQuantityCDMA2000_Enum)input.readBits(nBits);
+                gcdma.measQuantityCDMA2000 = (measQuantityCDMA2000_Enum)input.ReadBits(nBits);
                 return gcdma;
             }
         }
@@ -115,12 +115,12 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = (input.ReadBit() == 0) ? 4 : 4;
-                    geutra.filterCoefficientRSRP = (FilterCoefficient)input.readBits(num2);
+                    geutra.filterCoefficientRSRP = (FilterCoefficient)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = (input.ReadBit() == 0) ? 4 : 4;
-                    geutra.filterCoefficientRSRQ = (FilterCoefficient)input.readBits(num2);
+                    geutra.filterCoefficientRSRQ = (FilterCoefficient)input.ReadBits(num2);
                 }
                 return geutra;
             }
@@ -154,11 +154,11 @@ namespace TraceParser.Eutra
                 ggeran.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 int nBits = 1;
-                ggeran.measQuantityGERAN = (measQuantityGERAN_Enum)input.readBits(nBits);
+                ggeran.measQuantityGERAN = (measQuantityGERAN_Enum)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     nBits = (input.ReadBit() == 0) ? 4 : 4;
-                    ggeran.filterCoefficient = (FilterCoefficient)input.readBits(nBits);
+                    ggeran.filterCoefficient = (FilterCoefficient)input.ReadBits(nBits);
                 }
                 return ggeran;
             }
@@ -200,13 +200,13 @@ namespace TraceParser.Eutra
                 gutra.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 int nBits = 1;
-                gutra.measQuantityUTRA_FDD = (measQuantityUTRA_FDD_Enum)input.readBits(nBits);
+                gutra.measQuantityUTRA_FDD = (measQuantityUTRA_FDD_Enum)input.ReadBits(nBits);
                 nBits = 1;
-                gutra.measQuantityUTRA_TDD = (measQuantityUTRA_TDD_Enum)input.readBits(nBits);
+                gutra.measQuantityUTRA_TDD = (measQuantityUTRA_TDD_Enum)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     nBits = (input.ReadBit() == 0) ? 4 : 4;
-                    gutra.filterCoefficient = (FilterCoefficient)input.readBits(nBits);
+                    gutra.filterCoefficient = (FilterCoefficient)input.ReadBits(nBits);
                 }
                 return gutra;
             }
@@ -235,7 +235,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     int nBits = (input.ReadBit() == 0) ? 4 : 4;
-                    _v.filterCoefficient2_FDD_r10 = (FilterCoefficient)input.readBits(nBits);
+                    _v.filterCoefficient2_FDD_r10 = (FilterCoefficient)input.ReadBits(nBits);
                 }
                 return _v;
             }

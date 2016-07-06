@@ -58,7 +58,7 @@ namespace TraceParser.X2ap
                 item.pLMN_Identity = input.readOctetString(3);
                 item.forbiddenLACs = new List<string>();
                 int nBits = 12;
-                int num5 = input.readBits(nBits) + 1;
+                int num5 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num5; i++)
                 {
                     input.skipUnreadedBits();
@@ -70,7 +70,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num7 = input.readBits(nBits) + 1;
+                    int num7 = input.ReadBits(nBits) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -136,7 +136,7 @@ namespace TraceParser.X2ap
                 item.pLMN_Identity = input.readOctetString(3);
                 item.forbiddenTACs = new List<string>();
                 int nBits = 12;
-                int num5 = input.readBits(nBits) + 1;
+                int num5 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num5; i++)
                 {
                     input.skipUnreadedBits();
@@ -148,7 +148,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num7 = input.readBits(nBits) + 1;
+                    int num7 = input.ReadBits(nBits) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

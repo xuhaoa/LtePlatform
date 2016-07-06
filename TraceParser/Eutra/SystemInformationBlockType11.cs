@@ -37,9 +37,9 @@ namespace TraceParser.Eutra
                 type.messageIdentifier = input.readBitString(0x10);
                 type.serialNumber = input.readBitString(0x10);
                 const int num2 = 1;
-                type.warningMessageSegmentType = (warningMessageSegmentType_Enum)input.readBits(num2);
-                type.warningMessageSegmentNumber = input.readBits(6);
-                var nBits = input.readBits(8);
+                type.warningMessageSegmentType = (warningMessageSegmentType_Enum)input.ReadBits(num2);
+                type.warningMessageSegmentNumber = input.ReadBits(6);
+                var nBits = input.ReadBits(8);
                 type.warningMessageSegment = input.readOctetString(nBits);
                 if (stream.Read())
                 {
@@ -47,7 +47,7 @@ namespace TraceParser.Eutra
                 }
                 if (flag && stream.Read())
                 {
-                    nBits = input.readBits(8);
+                    nBits = input.ReadBits(8);
                     type.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 return type;

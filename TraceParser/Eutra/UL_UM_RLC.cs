@@ -21,7 +21,7 @@ namespace TraceParser.Eutra
                 UL_UM_RLC ul_um_rlc = new UL_UM_RLC();
                 ul_um_rlc.InitDefaults();
                 int nBits = 1;
-                ul_um_rlc.sn_FieldLength = (SN_FieldLength)input.readBits(nBits);
+                ul_um_rlc.sn_FieldLength = (SN_FieldLength)input.ReadBits(nBits);
                 return ul_um_rlc;
             }
         }

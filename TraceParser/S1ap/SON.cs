@@ -36,7 +36,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     transfer.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -68,12 +68,12 @@ namespace TraceParser.S1ap
                 SONInformation information = new SONInformation();
                 information.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         {
                             int nBits = 1;
-                            information.sONInformationRequest = (SONInformationRequest)input.readBits(nBits);
+                            information.sONInformationRequest = (SONInformationRequest)input.ReadBits(nBits);
                             return information;
                         }
                     case 1:
@@ -114,7 +114,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     reply.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

@@ -25,7 +25,7 @@ namespace TraceParser.Eutra
                 var stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    var nBits = input.readBits(8);
+                    var nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())

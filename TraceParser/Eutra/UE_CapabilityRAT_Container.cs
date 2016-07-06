@@ -91,21 +91,21 @@ namespace TraceParser.Eutra
                 {
                     A21MobileSubscriptionInformation information = new A21MobileSubscriptionInformation {
                         A21ElementIdentifier = input.readOctetString(1),
-                        Length = input.readBits(8),
+                        Length = input.ReadBits(8),
                         RecordIdentifier = input.readOctetString(1),
-                        RecordLength = input.readBits(8),
-                        AllBandClassesIncluded = input.readBits(1),
-                        CurrentBandSubclass = input.readBits(7),
+                        RecordLength = input.ReadBits(8),
+                        AllBandClassesIncluded = input.ReadBits(1),
+                        CurrentBandSubclass = input.ReadBits(7),
                         BandClassList = new List<BandClass>()
                     };
                     for (int i = 1; i < information.RecordLength; i++)
                     {
                         BandClass item = new BandClass {
-                            BandClassValue = input.readBits(8),
-                            AllBandClassesIncluded = input.readBits(1)
+                            BandClassValue = input.ReadBits(8),
+                            AllBandClassesIncluded = input.ReadBits(1)
                         };
-                        input.readBits(3);
-                        item.BandSubclassLength = input.readBits(4);
+                        input.ReadBits(3);
+                        item.BandSubclassLength = input.ReadBits(4);
                         i += 2;
                         item.SubClassesList = new List<SubClasses>();
                         for (int j = 0; j < item.BandSubclassLength; j++)
@@ -160,8 +160,8 @@ namespace TraceParser.Eutra
                 UE_CapabilityRAT_Container container = new UE_CapabilityRAT_Container();
                 container.InitDefaults();
                 int num2 = (input.ReadBit() == 0) ? 3 : 3;
-                container.rat_Type = (RAT_Type) input.readBits(num2);
-                nBits = input.readBits(8);
+                container.rat_Type = (RAT_Type) input.ReadBits(num2);
+                nBits = input.ReadBits(8);
                 if ((container.rat_Type == RAT_Type.eutra) && (nBits > 0))
                 {
                     str = input.readOctetString(nBits);

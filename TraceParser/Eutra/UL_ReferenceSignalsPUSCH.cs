@@ -27,9 +27,9 @@ namespace TraceParser.Eutra
                 UL_ReferenceSignalsPUSCH spusch = new UL_ReferenceSignalsPUSCH();
                 spusch.InitDefaults();
                 spusch.groupHoppingEnabled = input.ReadBit() == 1;
-                spusch.groupAssignmentPUSCH = input.readBits(5);
+                spusch.groupAssignmentPUSCH = input.ReadBits(5);
                 spusch.sequenceHoppingEnabled = input.ReadBit() == 1;
-                spusch.cyclicShift = input.readBits(3);
+                spusch.cyclicShift = input.ReadBits(3);
                 return spusch;
             }
         }

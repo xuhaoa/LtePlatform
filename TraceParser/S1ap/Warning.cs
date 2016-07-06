@@ -27,14 +27,14 @@ namespace TraceParser.S1ap
                 WarningAreaList list = new WarningAreaList();
                 list.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(2))
+                switch (input.ReadBits(2))
                 {
                     case 0:
                         {
                             input.skipUnreadedBits();
                             list.cellIDList = new List<EUTRAN_CGI>();
                             num4 = 0x10;
-                            int num6 = input.readBits(num4) + 1;
+                            int num6 = input.ReadBits(num4) + 1;
                             for (int i = 0; i < num6; i++)
                             {
                                 EUTRAN_CGI item = EUTRAN_CGI.PerDecoder.Instance.Decode(input);
@@ -47,7 +47,7 @@ namespace TraceParser.S1ap
                             input.skipUnreadedBits();
                             list.trackingAreaListforWarning = new List<TAI>();
                             num4 = 0x10;
-                            int num8 = input.readBits(num4) + 1;
+                            int num8 = input.ReadBits(num4) + 1;
                             for (int j = 0; j < num8; j++)
                             {
                                 TAI tai = TAI.PerDecoder.Instance.Decode(input);
@@ -60,7 +60,7 @@ namespace TraceParser.S1ap
                             input.skipUnreadedBits();
                             list.emergencyAreaIDList = new List<string>();
                             num4 = 0x10;
-                            int num10 = input.readBits(num4) + 1;
+                            int num10 = input.ReadBits(num4) + 1;
                             for (int k = 0; k < num10; k++)
                             {
                                 input.skipUnreadedBits();
@@ -84,7 +84,7 @@ namespace TraceParser.S1ap
 
             public string Decode(BitArrayInputStream input)
             {
-                int num2 = input.readBits(14);
+                int num2 = input.ReadBits(14);
                 input.skipUnreadedBits();
                 return input.readOctetString(num2 + 1);
             }
@@ -142,7 +142,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 request.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -174,7 +174,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 response.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);

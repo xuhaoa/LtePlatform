@@ -62,7 +62,7 @@ namespace TraceParser.Eutra
             {
                 SPS_ConfigDL gdl = new SPS_ConfigDL();
                 gdl.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         gdl.release=new object();
@@ -101,14 +101,14 @@ namespace TraceParser.Eutra
                     type.InitDefaults();
                     bool flag = input.ReadBit() != 0;
                     int nBits = 4;
-                    type.semiPersistSchedIntervalDL = (semiPersistSchedIntervalDL_Enum)input.readBits(nBits);
-                    type.numberOfConfSPS_Processes = input.readBits(3) + 1;
+                    type.semiPersistSchedIntervalDL = (semiPersistSchedIntervalDL_Enum)input.ReadBits(nBits);
+                    type.numberOfConfSPS_Processes = input.ReadBits(3) + 1;
                     type.n1PUCCH_AN_PersistentList = new List<long>();
                     nBits = 2;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
-                        long item = input.readBits(11);
+                        long item = input.ReadBits(11);
                         type.n1PUCCH_AN_PersistentList.Add(item);
                     }
                     if (flag)
@@ -162,7 +162,7 @@ namespace TraceParser.Eutra
                     {
                         twoAntennaPortActivated_r10_Type type = new twoAntennaPortActivated_r10_Type();
                         type.InitDefaults();
-                        switch (input.readBits(1))
+                        switch (input.ReadBits(1))
                         {
                             case 0:
                                 return type;
@@ -194,10 +194,10 @@ namespace TraceParser.Eutra
                             type.InitDefaults();
                             type.n1PUCCH_AN_PersistentListP1_r10 = new List<long>();
                             const int nBits = 2;
-                            int num3 = input.readBits(nBits) + 1;
+                            int num3 = input.ReadBits(nBits) + 1;
                             for (int i = 0; i < num3; i++)
                             {
-                                long item = input.readBits(11);
+                                long item = input.ReadBits(11);
                                 type.n1PUCCH_AN_PersistentListP1_r10.Add(item);
                             }
                             return type;
@@ -227,7 +227,7 @@ namespace TraceParser.Eutra
             {
                 SPS_ConfigUL gul = new SPS_ConfigUL();
                 gul.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         gul.release=new object();
@@ -283,8 +283,8 @@ namespace TraceParser.Eutra
                     {
                         p0_Persistent_Type type = new p0_Persistent_Type();
                         type.InitDefaults();
-                        type.p0_NominalPUSCH_Persistent = input.readBits(8) + -126;
-                        type.p0_UE_PUSCH_Persistent = input.readBits(4) + -8;
+                        type.p0_NominalPUSCH_Persistent = input.ReadBits(8) + -126;
+                        type.p0_UE_PUSCH_Persistent = input.ReadBits(4) + -8;
                         return type;
                     }
                 }
@@ -300,9 +300,9 @@ namespace TraceParser.Eutra
                     type.InitDefaults();
                     BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                     int nBits = 4;
-                    type.semiPersistSchedIntervalUL = (semiPersistSchedIntervalUL_Enum)input.readBits(nBits);
+                    type.semiPersistSchedIntervalUL = (semiPersistSchedIntervalUL_Enum)input.ReadBits(nBits);
                     nBits = 2;
-                    type.implicitReleaseAfter = (implicitReleaseAfter_Enum)input.readBits(nBits);
+                    type.implicitReleaseAfter = (implicitReleaseAfter_Enum)input.ReadBits(nBits);
                     if (stream.Read())
                     {
                         type.p0_Persistent = p0_Persistent_Type.PerDecoder.Instance.Decode(input);
@@ -310,7 +310,7 @@ namespace TraceParser.Eutra
                     if (stream.Read())
                     {
                         nBits = 1;
-                        type.twoIntervalsConfig = (twoIntervalsConfig_Enum)input.readBits(nBits);
+                        type.twoIntervalsConfig = (twoIntervalsConfig_Enum)input.ReadBits(nBits);
                     }
                     return type;
                 }

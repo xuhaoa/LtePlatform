@@ -23,7 +23,7 @@ namespace TraceParser.Eutra
                 parameters.InitDefaults();
                 parameters.supportedBandListEUTRA = new List<SupportedBandEUTRA>();
                 const int nBits = 6;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     SupportedBandEUTRA item = SupportedBandEUTRA.PerDecoder.Instance.Decode(input);
@@ -53,12 +53,12 @@ namespace TraceParser.Eutra
                 _v.InitDefaults();
                 _v.supportedBandCombination_r10 = new List<List<BandParameters_r10>>();
                 int nBits = 7;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     List<BandParameters_r10> item = new List<BandParameters_r10>();
                     nBits = 6;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int j = 0; j < num5; j++)
                     {
                         BandParameters_r10 _r = BandParameters_r10.PerDecoder.Instance.Decode(input);
@@ -90,7 +90,7 @@ namespace TraceParser.Eutra
                 _v.InitDefaults();
                 _v.supportedBandCombinationExt_r10 = new List<BandCombinationParametersExt_r10>();
                 const int nBits = 7;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     BandCombinationParametersExt_r10 item = BandCombinationParametersExt_r10.PerDecoder.Instance.Decode(input);
@@ -123,12 +123,12 @@ namespace TraceParser.Eutra
                 {
                     _v.supportedBandCombination_v1090 = new List<List<BandParameters_v1090>>();
                     int nBits = 7;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         List<BandParameters_v1090> item = new List<BandParameters_v1090>();
                         nBits = 6;
-                        int num5 = input.readBits(nBits) + 1;
+                        int num5 = input.ReadBits(nBits) + 1;
                         for (int j = 0; j < num5; j++)
                         {
                             BandParameters_v1090 _v2 = BandParameters_v1090.PerDecoder.Instance.Decode(input);
@@ -164,7 +164,7 @@ namespace TraceParser.Eutra
                 {
                     _v.supportedBandCombination_v1130 = new List<BandCombinationParameters_v1130>();
                     const int nBits = 7;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         BandCombinationParameters_v1130 item = BandCombinationParameters_v1130.PerDecoder.Instance.Decode(input);
@@ -198,7 +198,7 @@ namespace TraceParser.Eutra
                 {
                     _ve.supportedBandListEUTRA_v9e0 = new List<SupportedBandEUTRA_v9e0>();
                     const int nBits = 6;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         SupportedBandEUTRA_v9e0 item = SupportedBandEUTRA_v9e0.PerDecoder.Instance.Decode(input);

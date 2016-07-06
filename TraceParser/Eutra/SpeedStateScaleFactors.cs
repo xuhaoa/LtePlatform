@@ -23,9 +23,9 @@ namespace TraceParser.Eutra
                 SpeedStateScaleFactors factors = new SpeedStateScaleFactors();
                 factors.InitDefaults();
                 int nBits = 2;
-                factors.sf_Medium = (sf_Medium_Enum)input.readBits(nBits);
+                factors.sf_Medium = (sf_Medium_Enum)input.ReadBits(nBits);
                 nBits = 2;
-                factors.sf_High = (sf_High_Enum)input.readBits(nBits);
+                factors.sf_High = (sf_High_Enum)input.ReadBits(nBits);
                 return factors;
             }
         }

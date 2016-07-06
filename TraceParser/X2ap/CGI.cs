@@ -43,7 +43,7 @@ namespace TraceParser.X2ap
             public long Decode(BitArrayInputStream input)
             {
                 input.ReadBit();
-                return input.readBits(4);
+                return input.ReadBits(4);
             }
         }
     }
@@ -57,9 +57,9 @@ namespace TraceParser.X2ap
 
             public long Decode(BitArrayInputStream input)
             {
-                int num2 = input.readBits(1) + 1;
+                int num2 = input.ReadBits(1) + 1;
                 input.skipUnreadedBits();
-                return input.readBits(num2 * 8);
+                return input.ReadBits(num2 * 8);
             }
         }
     }
@@ -74,9 +74,9 @@ namespace TraceParser.X2ap
             public long Decode(BitArrayInputStream input)
             {
                 input.ReadBit();
-                int num2 = input.readBits(2) + 1;
+                int num2 = input.ReadBits(2) + 1;
                 input.skipUnreadedBits();
-                return input.readBits(num2 * 8) + 0x10000;
+                return input.ReadBits(num2 * 8) + 0x10000;
             }
         }
     }
@@ -111,7 +111,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     ecgi.iE_Extensions = new List<ProtocolExtensionField>();
                     const int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -182,7 +182,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     gummei.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -225,7 +225,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     p_id.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -260,9 +260,9 @@ namespace TraceParser.X2ap
 
             public long Decode(BitArrayInputStream input)
             {
-                int num2 = input.readBits(2) + 1;
+                int num2 = input.ReadBits(2) + 1;
                 input.skipUnreadedBits();
-                return input.readBits(num2 * 8);
+                return input.ReadBits(num2 * 8);
             }
         }
     }
@@ -276,9 +276,9 @@ namespace TraceParser.X2ap
 
             public long Decode(BitArrayInputStream input)
             {
-                int num2 = input.readBits(2) + 1;
+                int num2 = input.ReadBits(2) + 1;
                 input.skipUnreadedBits();
-                return input.readBits(num2 * 8);
+                return input.ReadBits(num2 * 8);
             }
         }
     }
@@ -294,7 +294,7 @@ namespace TraceParser.X2ap
             {
                 input.ReadBit();
                 input.skipUnreadedBits();
-                return input.readBits(0x10);
+                return input.ReadBits(0x10);
             }
         }
     }
@@ -309,7 +309,7 @@ namespace TraceParser.X2ap
             public long Decode(BitArrayInputStream input)
             {
                 input.skipUnreadedBits();
-                return input.readBits(0x10);
+                return input.ReadBits(0x10);
             }
         }
     }
@@ -323,7 +323,7 @@ namespace TraceParser.X2ap
 
             public long Decode(BitArrayInputStream input)
             {
-                return input.readBits(15);
+                return input.ReadBits(15);
             }
         }
     }
@@ -353,7 +353,7 @@ namespace TraceParser.X2ap
             public long Decode(BitArrayInputStream input)
             {
                 input.skipUnreadedBits();
-                return input.readBits(8);
+                return input.ReadBits(8);
             }
         }
     }

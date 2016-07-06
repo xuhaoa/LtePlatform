@@ -58,7 +58,7 @@ namespace TraceParser.S1ap
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.servedPLMNs = new List<string>();
                 int nBits = 5;
-                int num5 = input.readBits(nBits) + 1;
+                int num5 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num5; i++)
                 {
                     input.skipUnreadedBits();
@@ -68,7 +68,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 item.servedGroupIDs = new List<string>();
                 nBits = 0x10;
-                int num7 = input.readBits(nBits) + 1;
+                int num7 = input.ReadBits(nBits) + 1;
                 for (int j = 0; j < num7; j++)
                 {
                     input.skipUnreadedBits();
@@ -78,7 +78,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 item.servedMMECs = new List<string>();
                 nBits = 8;
-                int num9 = input.readBits(nBits) + 1;
+                int num9 = input.ReadBits(nBits) + 1;
                 for (int k = 0; k < num9; k++)
                 {
                     input.skipUnreadedBits();
@@ -90,7 +90,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num11 = input.readBits(nBits) + 1;
+                    int num11 = input.ReadBits(nBits) + 1;
                     for (int m = 0; m < num11; m++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

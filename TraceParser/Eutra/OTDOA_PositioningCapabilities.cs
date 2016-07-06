@@ -34,11 +34,11 @@ namespace TraceParser.Eutra
                 _r.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 int nBits = 1;
-                _r.otdoa_UE_Assisted_r10 = (otdoa_UE_Assisted_r10_Enum)input.readBits(nBits);
+                _r.otdoa_UE_Assisted_r10 = (otdoa_UE_Assisted_r10_Enum)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     nBits = 1;
-                    _r.interFreqRSTD_Measurement_r10 = (interFreqRSTD_Measurement_r10_Enum)input.readBits(nBits);
+                    _r.interFreqRSTD_Measurement_r10 = (interFreqRSTD_Measurement_r10_Enum)input.ReadBits(nBits);
                 }
                 return _r;
             }

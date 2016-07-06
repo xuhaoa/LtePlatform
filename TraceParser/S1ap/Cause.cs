@@ -30,31 +30,31 @@ namespace TraceParser.S1ap
                 Cause cause = new Cause();
                 cause.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(3))
+                switch (input.ReadBits(3))
                 {
                     case 0:
                         num4 = (input.ReadBit() == 0) ? 6 : 6;
-                        cause.radioNetwork = (CauseRadioNetwork)input.readBits(num4);
+                        cause.radioNetwork = (CauseRadioNetwork)input.ReadBits(num4);
                         return cause;
 
                     case 1:
                         num4 = 1;
-                        cause.transport = (CauseTransport)input.readBits(num4);
+                        cause.transport = (CauseTransport)input.ReadBits(num4);
                         return cause;
 
                     case 2:
                         num4 = (input.ReadBit() == 0) ? 3 : 3;
-                        cause.nas = (CauseNas)input.readBits(num4);
+                        cause.nas = (CauseNas)input.ReadBits(num4);
                         return cause;
 
                     case 3:
                         num4 = (input.ReadBit() == 0) ? 3 : 3;
-                        cause.protocol = (CauseProtocol)input.readBits(num4);
+                        cause.protocol = (CauseProtocol)input.ReadBits(num4);
                         return cause;
 
                     case 4:
                         num4 = (input.ReadBit() == 0) ? 3 : 3;
-                        cause.misc = (CauseMisc)input.readBits(num4);
+                        cause.misc = (CauseMisc)input.ReadBits(num4);
                         return cause;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");

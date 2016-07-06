@@ -26,7 +26,7 @@ namespace TraceParser.Eutra
                 {
                     _r.physCellIdRangeUTRA_FDDList_r9 = new List<PhysCellIdRangeUTRA_FDD_r9>();
                     int nBits = 2;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         PhysCellIdRangeUTRA_FDD_r9 item = PhysCellIdRangeUTRA_FDD_r9.PerDecoder.Instance.Decode(input);
@@ -74,17 +74,17 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.intraFreqProximityIndication_r9 = (intraFreqProximityIndication_r9_Enum)input.readBits(num2);
+                    _r.intraFreqProximityIndication_r9 = (intraFreqProximityIndication_r9_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.interFreqProximityIndication_r9 = (interFreqProximityIndication_r9_Enum)input.readBits(num2);
+                    _r.interFreqProximityIndication_r9 = (interFreqProximityIndication_r9_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.utran_ProximityIndication_r9 = (utran_ProximityIndication_r9_Enum)input.readBits(num2);
+                    _r.utran_ProximityIndication_r9 = (utran_ProximityIndication_r9_Enum)input.ReadBits(num2);
                 }
                 return _r;
             }

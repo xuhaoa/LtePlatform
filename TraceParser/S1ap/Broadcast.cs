@@ -27,14 +27,14 @@ namespace TraceParser.S1ap
                 BroadcastCancelledAreaList list = new BroadcastCancelledAreaList();
                 list.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(2))
+                switch (input.ReadBits(2))
                 {
                     case 0:
                         {
                             input.skipUnreadedBits();
                             list.cellID_Cancelled = new List<CellID_Cancelled_Item>();
                             num4 = 0x10;
-                            int num6 = input.readBits(num4) + 1;
+                            int num6 = input.ReadBits(num4) + 1;
                             for (int i = 0; i < num6; i++)
                             {
                                 CellID_Cancelled_Item item = CellID_Cancelled_Item.PerDecoder.Instance.Decode(input);
@@ -47,7 +47,7 @@ namespace TraceParser.S1ap
                             input.skipUnreadedBits();
                             list.tAI_Cancelled = new List<TAI_Cancelled_Item>();
                             num4 = 0x10;
-                            int num8 = input.readBits(num4) + 1;
+                            int num8 = input.ReadBits(num4) + 1;
                             for (int j = 0; j < num8; j++)
                             {
                                 TAI_Cancelled_Item item2 = TAI_Cancelled_Item.PerDecoder.Instance.Decode(input);
@@ -60,7 +60,7 @@ namespace TraceParser.S1ap
                             input.skipUnreadedBits();
                             list.emergencyAreaID_Cancelled = new List<EmergencyAreaID_Cancelled_Item>();
                             num4 = 0x10;
-                            int num10 = input.readBits(num4) + 1;
+                            int num10 = input.ReadBits(num4) + 1;
                             for (int k = 0; k < num10; k++)
                             {
                                 EmergencyAreaID_Cancelled_Item item3 
@@ -98,14 +98,14 @@ namespace TraceParser.S1ap
                 BroadcastCompletedAreaList list = new BroadcastCompletedAreaList();
                 list.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(2))
+                switch (input.ReadBits(2))
                 {
                     case 0:
                         {
                             input.skipUnreadedBits();
                             list.cellID_Broadcast = new List<CellID_Broadcast_Item>();
                             num4 = 0x10;
-                            int num6 = input.readBits(num4) + 1;
+                            int num6 = input.ReadBits(num4) + 1;
                             for (int i = 0; i < num6; i++)
                             {
                                 CellID_Broadcast_Item item = CellID_Broadcast_Item.PerDecoder.Instance.Decode(input);
@@ -118,7 +118,7 @@ namespace TraceParser.S1ap
                             input.skipUnreadedBits();
                             list.tAI_Broadcast = new List<TAI_Broadcast_Item>();
                             num4 = 0x10;
-                            int num8 = input.readBits(num4) + 1;
+                            int num8 = input.ReadBits(num4) + 1;
                             for (int j = 0; j < num8; j++)
                             {
                                 TAI_Broadcast_Item item2 = TAI_Broadcast_Item.PerDecoder.Instance.Decode(input);
@@ -131,7 +131,7 @@ namespace TraceParser.S1ap
                             input.skipUnreadedBits();
                             list.emergencyAreaID_Broadcast = new List<EmergencyAreaID_Broadcast_Item>();
                             num4 = 0x10;
-                            int num10 = input.readBits(num4) + 1;
+                            int num10 = input.ReadBits(num4) + 1;
                             for (int k = 0; k < num10; k++)
                             {
                                 EmergencyAreaID_Broadcast_Item item3 = EmergencyAreaID_Broadcast_Item.PerDecoder.Instance.Decode(input);
@@ -154,9 +154,9 @@ namespace TraceParser.S1ap
 
             public long Decode(BitArrayInputStream input)
             {
-                int num2 = input.readBits(1) + 1;
+                int num2 = input.ReadBits(1) + 1;
                 input.skipUnreadedBits();
-                return input.readBits(num2 * 8);
+                return input.ReadBits(num2 * 8);
             }
         }
     }
@@ -170,9 +170,9 @@ namespace TraceParser.S1ap
 
             public long Decode(BitArrayInputStream input)
             {
-                int num2 = input.readBits(1) + 1;
+                int num2 = input.ReadBits(1) + 1;
                 input.skipUnreadedBits();
-                return input.readBits(num2 * 8);
+                return input.ReadBits(num2 * 8);
             }
         }
     }

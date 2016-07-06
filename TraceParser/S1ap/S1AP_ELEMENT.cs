@@ -21,7 +21,7 @@ namespace TraceParser.S1ap
             {
                 InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(2))
+                switch (input.ReadBits(2))
                 {
                     case 0:
                         config.initiatingMessage = InitiatingMessage.PerDecoder.Instance.Decode(input);
@@ -84,7 +84,7 @@ namespace TraceParser.S1ap
             public static Data_Forwarding_Not_Possible Extension(BitArrayInputStream input)
             {
                 int nBits = 1;
-                return (Data_Forwarding_Not_Possible)input.readBits(nBits);
+                return (Data_Forwarding_Not_Possible)input.ReadBits(nBits);
             }
 
             public static object GetMemberObj(string member, BitArrayInputStream input)

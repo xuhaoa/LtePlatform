@@ -81,37 +81,37 @@ namespace TraceParser.Eutra
                 bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 BitMaskStream stream2 = new BitMaskStream(input, 5);
-                info.dl_CarrierFreq = input.readBits(0x10);
-                info.q_RxLevMin = input.readBits(6) + -70;
+                info.dl_CarrierFreq = input.ReadBits(0x10);
+                info.q_RxLevMin = input.ReadBits(6) + -70;
                 if (stream2.Read())
                 {
-                    info.p_Max = input.readBits(6) + -30;
+                    info.p_Max = input.ReadBits(6) + -30;
                 }
-                info.t_ReselectionEUTRA = input.readBits(3);
+                info.t_ReselectionEUTRA = input.ReadBits(3);
                 if (stream2.Read())
                 {
                     info.t_ReselectionEUTRA_SF = SpeedStateScaleFactors.PerDecoder.Instance.Decode(input);
                 }
-                info.threshX_High = input.readBits(5);
-                info.threshX_Low = input.readBits(5);
+                info.threshX_High = input.ReadBits(5);
+                info.threshX_Low = input.ReadBits(5);
                 int nBits = 3;
-                info.allowedMeasBandwidth = (AllowedMeasBandwidth)input.readBits(nBits);
+                info.allowedMeasBandwidth = (AllowedMeasBandwidth)input.ReadBits(nBits);
                 info.presenceAntennaPort1 = input.ReadBit() == 1;
                 if (stream2.Read())
                 {
-                    info.cellReselectionPriority = input.readBits(3);
+                    info.cellReselectionPriority = input.ReadBits(3);
                 }
                 info.neighCellConfig = input.readBitString(2);
                 if (stream.Read())
                 {
                     nBits = 5;
-                    info.q_OffsetFreq = (Q_OffsetRange)input.readBits(nBits);
+                    info.q_OffsetFreq = (Q_OffsetRange)input.ReadBits(nBits);
                 }
                 if (stream2.Read())
                 {
                     info.interFreqNeighCellList = new List<InterFreqNeighCellInfo>();
                     nBits = 4;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         InterFreqNeighCellInfo item = InterFreqNeighCellInfo.PerDecoder.Instance.Decode(input);
@@ -122,7 +122,7 @@ namespace TraceParser.Eutra
                 {
                     info.interFreqBlackCellList = new List<PhysCellIdRange>();
                     nBits = 4;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int j = 0; j < num5; j++)
                     {
                         PhysCellIdRange range = PhysCellIdRange.PerDecoder.Instance.Decode(input);
@@ -134,7 +134,7 @@ namespace TraceParser.Eutra
                     stream3 = new BitMaskStream(input, 2);
                     if (stream3.Read())
                     {
-                        info.q_QualMin_r9 = input.readBits(5) + -34;
+                        info.q_QualMin_r9 = input.ReadBits(5) + -34;
                     }
                     if (stream3.Read())
                     {
@@ -146,7 +146,7 @@ namespace TraceParser.Eutra
                     stream3 = new BitMaskStream(input, 1);
                     if (stream3.Read())
                     {
-                        info.q_QualMinWB_r11 = input.readBits(5) + -34;
+                        info.q_QualMinWB_r11 = input.ReadBits(5) + -34;
                     }
                 }
                 return info;
@@ -172,8 +172,8 @@ namespace TraceParser.Eutra
                 {
                     threshX_Q_r9_Type type = new threshX_Q_r9_Type();
                     type.InitDefaults();
-                    type.threshX_HighQ_r9 = input.readBits(5);
-                    type.threshX_LowQ_r9 = input.readBits(5);
+                    type.threshX_HighQ_r9 = input.ReadBits(5);
+                    type.threshX_LowQ_r9 = input.ReadBits(5);
                     return type;
                 }
             }
@@ -202,10 +202,10 @@ namespace TraceParser.Eutra
                 {
                     _vh.multiBandInfoList = new List<long>();
                     int nBits = 3;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
-                        long item = input.readBits(6) + 1;
+                        long item = input.ReadBits(6) + 1;
                         _vh.multiBandInfoList.Add(item);
                     }
                 }
@@ -236,13 +236,13 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    _ve.dl_CarrierFreq_v9e0 = input.readBits(0x12) + 0x10000;
+                    _ve.dl_CarrierFreq_v9e0 = input.ReadBits(0x12) + 0x10000;
                 }
                 if (stream.Read())
                 {
                     _ve.multiBandInfoList_v9e0 = new List<MultiBandInfo_v9e0>();
                     int nBits = 3;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         MultiBandInfo_v9e0 item = MultiBandInfo_v9e0.PerDecoder.Instance.Decode(input);
@@ -273,9 +273,9 @@ namespace TraceParser.Eutra
             {
                 InterFreqNeighCellInfo info = new InterFreqNeighCellInfo();
                 info.InitDefaults();
-                info.physCellId = input.readBits(9);
+                info.physCellId = input.ReadBits(9);
                 int nBits = 5;
-                info.q_OffsetCell = (Q_OffsetRange)input.readBits(nBits);
+                info.q_OffsetCell = (Q_OffsetRange)input.ReadBits(nBits);
                 return info;
             }
         }
@@ -324,7 +324,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.interFreqRSTDMeasurementIndication_r10 = InterFreqRSTDMeasurementIndication_r10_IEs.PerDecoder.Instance.Decode(input);
@@ -372,7 +372,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -446,7 +446,7 @@ namespace TraceParser.Eutra
                 es.rstd_InterFreqIndication_r10 = rstd_InterFreqIndication_r10_Type.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -476,7 +476,7 @@ namespace TraceParser.Eutra
                 {
                     rstd_InterFreqIndication_r10_Type type = new rstd_InterFreqIndication_r10_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.start = start_Type.PerDecoder.Instance.Decode(input);
@@ -508,7 +508,7 @@ namespace TraceParser.Eutra
                         type.InitDefaults();
                         type.rstd_InterFreqInfoList_r10 = new List<RSTD_InterFreqInfo_r10>();
                         int nBits = 2;
-                        int num3 = input.readBits(nBits) + 1;
+                        int num3 = input.ReadBits(nBits) + 1;
                         for (int i = 0; i < num3; i++)
                         {
                             RSTD_InterFreqInfo_r10 item = RSTD_InterFreqInfo_r10.PerDecoder.Instance.Decode(input);

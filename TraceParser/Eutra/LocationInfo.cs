@@ -47,22 +47,22 @@ namespace TraceParser.Eutra
                     locationCoordinates_r10_Type type = new locationCoordinates_r10_Type();
                     type.InitDefaults();
                     bool flag = input.ReadBit() != 0;
-                    switch (input.readBits(3))
+                    switch (input.ReadBits(3))
                     {
                         case 0:
-                            nBits = input.readBits(8);
+                            nBits = input.ReadBits(8);
                             type.ellipsoid_Point_r10 = input.readOctetString(nBits);
                             return type;
 
                         case 1:
-                            nBits = input.readBits(8);
+                            nBits = input.ReadBits(8);
                             type.ellipsoidPointWithAltitude_r10 = input.readOctetString(nBits);
                             return type;
 
                         case 2:
                             if (flag)
                             {
-                                nBits = input.readBits(8);
+                                nBits = input.ReadBits(8);
                                 type.ellipsoidPointWithUncertaintyCircle_r11 = input.readOctetString(nBits);
                             }
                             return type;
@@ -70,7 +70,7 @@ namespace TraceParser.Eutra
                         case 3:
                             if (flag)
                             {
-                                nBits = input.readBits(8);
+                                nBits = input.ReadBits(8);
                                 type.ellipsoidPointWithUncertaintyEllipse_r11 = input.readOctetString(nBits);
                             }
                             return type;
@@ -78,7 +78,7 @@ namespace TraceParser.Eutra
                         case 4:
                             if (flag)
                             {
-                                nBits = input.readBits(8);
+                                nBits = input.ReadBits(8);
                                 type.ellipsoidPointWithAltitudeAndUncertaintyEllipsoid_r11 = input.readOctetString(nBits);
                             }
                             return type;
@@ -86,7 +86,7 @@ namespace TraceParser.Eutra
                         case 5:
                             if (flag)
                             {
-                                nBits = input.readBits(8);
+                                nBits = input.ReadBits(8);
                                 type.ellipsoidArc_r11 = input.readOctetString(nBits);
                             }
                             return type;
@@ -94,7 +94,7 @@ namespace TraceParser.Eutra
                         case 6:
                             if (flag)
                             {
-                                nBits = input.readBits(8);
+                                nBits = input.ReadBits(8);
                                 type.polygon_r11 = input.readOctetString(nBits);
                             }
                             return type;
@@ -117,12 +117,12 @@ namespace TraceParser.Eutra
                 _r.locationCoordinates_r10 = locationCoordinates_r10_Type.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
-                    nBits = input.readBits(8);
+                    nBits = input.ReadBits(8);
                     _r.horizontalVelocity_r10 = input.readOctetString(nBits);
                 }
                 if (stream.Read())
                 {
-                    nBits = input.readBits(8);
+                    nBits = input.ReadBits(8);
                     _r.gnss_TOD_msec_r10 = input.readOctetString(nBits);
                 }
                 return _r;

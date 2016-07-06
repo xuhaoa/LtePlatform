@@ -51,7 +51,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.rrcConnectionReestablishmentRequest_r8 = RRCConnectionReestablishmentRequest_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -103,7 +103,7 @@ namespace TraceParser.Eutra
                 es.InitDefaults();
                 es.ue_Identity = ReestabUE_Identity.PerDecoder.Instance.Decode(input);
                 int nBits = 2;
-                es.reestablishmentCause = (ReestablishmentCause)input.readBits(nBits);
+                es.reestablishmentCause = (ReestablishmentCause)input.ReadBits(nBits);
                 es.spare = input.readBitString(2);
                 return es;
             }

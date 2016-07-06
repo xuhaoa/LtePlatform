@@ -84,16 +84,16 @@ namespace TraceParser.Eutra
                         int num2;
                         demodulationRS_r10_Type type = new demodulationRS_r10_Type();
                         type.InitDefaults();
-                        switch (input.readBits(1))
+                        switch (input.ReadBits(1))
                         {
                             case 0:
                                 num2 = 1;
-                                type.interleaving_r10 = (interleaving_r10_Enum)input.readBits(num2);
+                                type.interleaving_r10 = (interleaving_r10_Enum)input.ReadBits(num2);
                                 return type;
 
                             case 1:
                                 num2 = 1;
-                                type.noInterleaving_r10 = (noInterleaving_r10_Enum)input.readBits(num2);
+                                type.noInterleaving_r10 = (noInterleaving_r10_Enum)input.ReadBits(num2);
                                 return type;
                         }
                         throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -111,10 +111,10 @@ namespace TraceParser.Eutra
                     type.InitDefaults();
                     input.ReadBit();
                     const int nBits = 3;
-                    type.resourceAllocationType_r10 = (resourceAllocationType_r10_Enum)input.readBits(nBits);
+                    type.resourceAllocationType_r10 = (resourceAllocationType_r10_Enum)input.ReadBits(nBits);
                     type.resourceBlockAssignment_r10 = resourceBlockAssignment_r10_Type.PerDecoder.Instance.Decode(input);
                     type.demodulationRS_r10 = demodulationRS_r10_Type.PerDecoder.Instance.Decode(input);
-                    type.pdsch_Start_r10 = input.readBits(2) + 1;
+                    type.pdsch_Start_r10 = input.ReadBits(2) + 1;
                     type.pucch_Config_r10 = pucch_Config_r10_Type.PerDecoder.Instance.Decode(input);
                     return type;
                 }
@@ -151,10 +151,10 @@ namespace TraceParser.Eutra
                             fdd_Type type = new fdd_Type();
                             type.InitDefaults();
                             BitMaskStream stream = new BitMaskStream(input, 1);
-                            type.n1PUCCH_AN_P0_r10 = input.readBits(11);
+                            type.n1PUCCH_AN_P0_r10 = input.ReadBits(11);
                             if (stream.Read())
                             {
-                                type.n1PUCCH_AN_P1_r10 = input.readBits(11);
+                                type.n1PUCCH_AN_P1_r10 = input.ReadBits(11);
                             }
                             return type;
                         }
@@ -169,7 +169,7 @@ namespace TraceParser.Eutra
                     {
                         pucch_Config_r10_Type type = new pucch_Config_r10_Type();
                         type.InitDefaults();
-                        switch (input.readBits(1))
+                        switch (input.ReadBits(1))
                         {
                             case 0:
                                 type.tdd = tdd_Type.PerDecoder.Instance.Decode(input);
@@ -213,10 +213,10 @@ namespace TraceParser.Eutra
                                 type.InitDefaults();
                                 type.n1PUCCH_AN_List_r10 = new List<long>();
                                 int nBits = 2;
-                                int num3 = input.readBits(nBits) + 1;
+                                int num3 = input.ReadBits(nBits) + 1;
                                 for (int i = 0; i < num3; i++)
                                 {
-                                    long item = input.readBits(11);
+                                    long item = input.ReadBits(11);
                                     type.n1PUCCH_AN_List_r10.Add(item);
                                 }
                                 return type;
@@ -244,10 +244,10 @@ namespace TraceParser.Eutra
                                 fallbackForFormat3_Type type = new fallbackForFormat3_Type();
                                 type.InitDefaults();
                                 BitMaskStream stream = new BitMaskStream(input, 1);
-                                type.n1PUCCH_AN_P0_r10 = input.readBits(11);
+                                type.n1PUCCH_AN_P0_r10 = input.ReadBits(11);
                                 if (stream.Read())
                                 {
-                                    type.n1PUCCH_AN_P1_r10 = input.readBits(11);
+                                    type.n1PUCCH_AN_P1_r10 = input.ReadBits(11);
                                 }
                                 return type;
                             }
@@ -262,7 +262,7 @@ namespace TraceParser.Eutra
                         {
                             tdd_Type type = new tdd_Type();
                             type.InitDefaults();
-                            switch (input.readBits(1))
+                            switch (input.ReadBits(1))
                             {
                                 case 0:
                                     type.channelSelectionMultiplexingBundling = channelSelectionMultiplexingBundling_Type.PerDecoder.Instance.Decode(input);
@@ -310,7 +310,7 @@ namespace TraceParser.Eutra
                         resourceBlockAssignment_r10_Type type = new resourceBlockAssignment_r10_Type();
                         type.InitDefaults();
                         input.ReadBit();
-                        switch (input.readBits(1))
+                        switch (input.ReadBits(1))
                         {
                             case 0:
                                 type.type01_r10 = type01_r10_Type.PerDecoder.Instance.Decode(input);
@@ -351,7 +351,7 @@ namespace TraceParser.Eutra
                         {
                             type01_r10_Type type = new type01_r10_Type();
                             type.InitDefaults();
-                            switch (input.readBits(3))
+                            switch (input.ReadBits(3))
                             {
                                 case 0:
                                     type.nrb6_r10 = input.readBitString(6);
@@ -409,7 +409,7 @@ namespace TraceParser.Eutra
                         {
                             type2_r10_Type type = new type2_r10_Type();
                             type.InitDefaults();
-                            switch (input.readBits(3))
+                            switch (input.ReadBits(3))
                             {
                                 case 0:
                                     type.nrb6_r10 = input.readBitString(5);
@@ -461,14 +461,14 @@ namespace TraceParser.Eutra
                 {
                     subframeConfigPattern_r10_Type type = new subframeConfigPattern_r10_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.subframeConfigPatternFDD_r10 = input.readBitString(8);
                             return type;
 
                         case 1:
-                            type.subframeConfigPatternTDD_r10 = input.readBits(5);
+                            type.subframeConfigPatternTDD_r10 = input.ReadBits(5);
                             return type;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -499,7 +499,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     _r.systemInformationBlockType1_r10 = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -556,7 +556,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.rnReconfiguration_r10 = RNReconfiguration_r10_IEs.PerDecoder.Instance.Decode(input);
@@ -604,7 +604,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -627,7 +627,7 @@ namespace TraceParser.Eutra
             {
                 RNReconfiguration_r10 _r = new RNReconfiguration_r10();
                 _r.InitDefaults();
-                _r.rrc_TransactionIdentifier = input.readBits(2);
+                _r.rrc_TransactionIdentifier = input.ReadBits(2);
                 _r.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return _r;
             }
@@ -688,7 +688,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -745,7 +745,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.rnReconfigurationComplete_r10 = RNReconfigurationComplete_r10_IEs.PerDecoder.Instance.Decode(input);
@@ -793,7 +793,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -816,7 +816,7 @@ namespace TraceParser.Eutra
             {
                 RNReconfigurationComplete_r10 _r = new RNReconfigurationComplete_r10();
                 _r.InitDefaults();
-                _r.rrc_TransactionIdentifier = input.readBits(2);
+                _r.rrc_TransactionIdentifier = input.ReadBits(2);
                 _r.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return _r;
             }
@@ -865,7 +865,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())

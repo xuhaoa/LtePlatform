@@ -35,7 +35,7 @@ namespace TraceParser.Eutra
                 {
                     type.intraFreqNeighCellList = new List<IntraFreqNeighCellInfo>();
                     num2 = 4;
-                    var num3 = input.readBits(num2) + 1;
+                    var num3 = input.ReadBits(num2) + 1;
                     for (var i = 0; i < num3; i++)
                     {
                         var item = IntraFreqNeighCellInfo.PerDecoder.Instance.Decode(input);
@@ -46,7 +46,7 @@ namespace TraceParser.Eutra
                 {
                     type.intraFreqBlackCellList = new List<PhysCellIdRange>();
                     num2 = 4;
-                    var num5 = input.readBits(num2) + 1;
+                    var num5 = input.ReadBits(num2) + 1;
                     for (var j = 0; j < num5; j++)
                     {
                         var range = PhysCellIdRange.PerDecoder.Instance.Decode(input);
@@ -59,7 +59,7 @@ namespace TraceParser.Eutra
                 }
                 if (flag && stream.Read())
                 {
-                    var nBits = input.readBits(8);
+                    var nBits = input.ReadBits(8);
                     type.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 return type;

@@ -26,7 +26,7 @@ namespace TraceParser.Eutra
                 var stream = new BitMaskStream(input, 1);
                 es.sib_TypeAndInfo = new List<sib_TypeAndInfo_Element>();
                 const int nBits = 5;
-                var num3 = input.readBits(nBits) + 1;
+                var num3 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num3; i++)
                 {
                     var item = sib_TypeAndInfo_Element.PerDecoder.Instance.Decode(input);
@@ -86,7 +86,7 @@ namespace TraceParser.Eutra
                     var element = new sib_TypeAndInfo_Element();
                     element.InitDefaults();
                     var flag = input.ReadBit() != 0;
-                    switch (input.readBits(4))
+                    switch (input.ReadBits(4))
                     {
                         case 0:
                             element.sib2 = SystemInformationBlockType2.PerDecoder.Instance.Decode(input);

@@ -22,7 +22,7 @@ namespace TraceParser.S1ap
                 Inter_SystemInformationTransferType type = new Inter_SystemInformationTransferType();
                 type.InitDefaults();
                 input.ReadBit();
-                if (input.readBits(1) != 0)
+                if (input.ReadBits(1) != 0)
                 {
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
                 }
@@ -61,19 +61,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_00C9;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_00C9;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -90,7 +90,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     transfer.iE_Extensions = new List<ProtocolExtensionField>();
                     const int num4 = 0x10;
-                    int num5 = input.readBits(num4) + 1;
+                    int num5 = input.ReadBits(num4) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -118,19 +118,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_0096;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_0096;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -162,7 +162,7 @@ namespace TraceParser.S1ap
                 RIMRoutingAddress address = new RIMRoutingAddress();
                 address.InitDefaults();
                 bool flag = input.ReadBit() != 0;
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         address.gERAN_Cell_ID = GERAN_Cell_ID.PerDecoder.Instance.Decode(input);

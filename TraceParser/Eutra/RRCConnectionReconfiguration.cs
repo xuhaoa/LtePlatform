@@ -57,7 +57,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(3))
+                        switch (input.ReadBits(3))
                         {
                             case 0:
                                 type.rrcConnectionReconfiguration_r8 
@@ -118,7 +118,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -141,7 +141,7 @@ namespace TraceParser.Eutra
             {
                 RRCConnectionReconfiguration reconfiguration = new RRCConnectionReconfiguration();
                 reconfiguration.InitDefaults();
-                reconfiguration.rrc_TransactionIdentifier = input.readBits(2);
+                reconfiguration.rrc_TransactionIdentifier = input.ReadBits(2);
                 reconfiguration.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return reconfiguration;
             }
@@ -188,10 +188,10 @@ namespace TraceParser.Eutra
                 {
                     es.dedicatedInfoNASList = new List<string>();
                     const int num2 = 4;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
-                        int nBits = input.readBits(8);
+                        int nBits = input.ReadBits(8);
                         string item = input.readOctetString(nBits);
                         es.dedicatedInfoNASList.Add(item);
                     }
@@ -240,10 +240,10 @@ namespace TraceParser.Eutra
                 {
                     es.sCellToReleaseList_r10 = new List<long>();
                     num2 = 2;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
-                        long item = input.readBits(3) + 1;
+                        long item = input.ReadBits(3) + 1;
                         es.sCellToReleaseList_r10.Add(item);
                     }
                 }
@@ -251,7 +251,7 @@ namespace TraceParser.Eutra
                 {
                     es.sCellToAddModList_r10 = new List<SCellToAddMod_r10>();
                     num2 = 2;
-                    int num6 = input.readBits(num2) + 1;
+                    int num6 = input.ReadBits(num2) + 1;
                     for (int j = 0; j < num6; j++)
                     {
                         SCellToAddMod_r10 _r = SCellToAddMod_r10.PerDecoder.Instance.Decode(input);
@@ -309,7 +309,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.systemInfomationBlockType1Dedicated_r11 = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -343,7 +343,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -389,7 +389,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    es.fullConfig_r9 = (fullConfig_r9_Enum)input.readBits(nBits);
+                    es.fullConfig_r9 = (fullConfig_r9_Enum)input.ReadBits(nBits);
                 }
                 if (stream.Read())
                 {

@@ -13,7 +13,7 @@ namespace TraceParser.X2ap
 
             public long Decode(BitArrayInputStream input)
             {
-                return input.readBits(7);
+                return input.ReadBits(7);
             }
         }
     }
@@ -28,7 +28,7 @@ namespace TraceParser.X2ap
             public string Decode(BitArrayInputStream input)
             {
                 input.ReadBit();
-                int num = input.readBits(7);
+                int num = input.ReadBits(7);
                 return input.readBitString(num + 1);
             }
         }
@@ -72,7 +72,7 @@ namespace TraceParser.X2ap
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 item.target_Cell_ID = ECGI.PerDecoder.Instance.Decode(input);
                 input.ReadBit();
-                int num = input.readBits(7);
+                int num = input.ReadBits(7);
                 input.skipUnreadedBits();
                 item.ul_interferenceindication = input.readBitString(num + 1);
                 if (stream.Read())
@@ -80,7 +80,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     const int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -115,7 +115,7 @@ namespace TraceParser.X2ap
 
             public long Decode(BitArrayInputStream input)
             {
-                return input.readBits(7);
+                return input.ReadBits(7);
             }
         }
     }
@@ -129,7 +129,7 @@ namespace TraceParser.X2ap
 
             public long Decode(BitArrayInputStream input)
             {
-                return input.readBits(7);
+                return input.ReadBits(7);
             }
         }
     }

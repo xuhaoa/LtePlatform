@@ -47,10 +47,10 @@ namespace TraceParser.Eutra
                 {
                     plmn_Id_r9_Type type = new plmn_Id_r9_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
-                            type.plmn_Index_r9 = input.readBits(3) + 1;
+                            type.plmn_Index_r9 = input.ReadBits(3) + 1;
                             return type;
 
                         case 1:

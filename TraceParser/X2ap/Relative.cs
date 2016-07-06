@@ -40,21 +40,21 @@ namespace TraceParser.X2ap
                 power.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.ReadBit();
-                int num = input.readBits(7);
+                int num = input.ReadBits(7);
                 input.skipUnreadedBits();
                 power.rNTP_PerPRB = input.readBitString(num + 6);
                 int nBits = (input.ReadBit() == 0) ? 4 : 4;
-                power.rNTP_Threshold = (RNTP_Threshold)input.readBits(nBits);
+                power.rNTP_Threshold = (RNTP_Threshold)input.ReadBits(nBits);
                 nBits = (input.ReadBit() == 0) ? 2 : 2;
-                power.numberOfCellSpecificAntennaPorts = (numberOfCellSpecificAntennaPorts_Enum)input.readBits(nBits);
-                power.p_B = input.readBits(2);
-                power.pDCCH_InterferenceImpact = input.readBits(3);
+                power.numberOfCellSpecificAntennaPorts = (numberOfCellSpecificAntennaPorts_Enum)input.ReadBits(nBits);
+                power.p_B = input.ReadBits(2);
+                power.pDCCH_InterferenceImpact = input.ReadBits(3);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     power.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -90,17 +90,17 @@ namespace TraceParser.X2ap
                 AllocationAndRetentionPriority priority = new AllocationAndRetentionPriority();
                 priority.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                priority.priorityLevel = input.readBits(4);
+                priority.priorityLevel = input.ReadBits(4);
                 int nBits = 1;
-                priority.pre_emptionCapability = (Pre_emptionCapability)input.readBits(nBits);
+                priority.pre_emptionCapability = (Pre_emptionCapability)input.ReadBits(nBits);
                 nBits = 1;
-                priority.pre_emptionVulnerability = (Pre_emptionVulnerability)input.readBits(nBits);
+                priority.pre_emptionVulnerability = (Pre_emptionVulnerability)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     priority.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -138,24 +138,24 @@ namespace TraceParser.X2ap
                 GBR_QosInformation information = new GBR_QosInformation();
                 information.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                int nBits = input.readBits(3) + 1;
+                int nBits = input.ReadBits(3) + 1;
                 input.skipUnreadedBits();
-                information.e_RAB_MaximumBitrateDL = input.readBits(nBits * 8);
-                nBits = input.readBits(3) + 1;
+                information.e_RAB_MaximumBitrateDL = input.ReadBits(nBits * 8);
+                nBits = input.ReadBits(3) + 1;
                 input.skipUnreadedBits();
-                information.e_RAB_MaximumBitrateUL = input.readBits(nBits * 8);
-                nBits = input.readBits(3) + 1;
+                information.e_RAB_MaximumBitrateUL = input.ReadBits(nBits * 8);
+                nBits = input.ReadBits(3) + 1;
                 input.skipUnreadedBits();
-                information.e_RAB_GuaranteedBitrateDL = input.readBits(nBits * 8);
-                nBits = input.readBits(3) + 1;
+                information.e_RAB_GuaranteedBitrateDL = input.ReadBits(nBits * 8);
+                nBits = input.ReadBits(3) + 1;
                 input.skipUnreadedBits();
-                information.e_RAB_GuaranteedBitrateUL = input.readBits(nBits * 8);
+                information.e_RAB_GuaranteedBitrateUL = input.ReadBits(nBits * 8);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     information.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -190,7 +190,7 @@ namespace TraceParser.X2ap
                 endpoint.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.ReadBit();
-                int num = input.readBits(8);
+                int num = input.ReadBits(8);
                 input.skipUnreadedBits();
                 endpoint.transportLayerAddress = input.readBitString(num + 1);
                 input.skipUnreadedBits();
@@ -200,7 +200,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     endpoint.iE_Extensions = new List<ProtocolExtensionField>();
                     const int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -235,16 +235,16 @@ namespace TraceParser.X2ap
                 tvalue.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
-                tvalue.pDCP_SN = input.readBits(0x10);
-                int nBits = input.readBits(2) + 1;
+                tvalue.pDCP_SN = input.ReadBits(0x10);
+                int nBits = input.ReadBits(2) + 1;
                 input.skipUnreadedBits();
-                tvalue.hFN = input.readBits(nBits * 8);
+                tvalue.hFN = input.ReadBits(nBits * 8);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     tvalue.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -278,16 +278,16 @@ namespace TraceParser.X2ap
                 COUNTValueExtended extended = new COUNTValueExtended();
                 extended.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                extended.pDCP_SNExtended = input.readBits(15);
-                int nBits = input.readBits(2) + 1;
+                extended.pDCP_SNExtended = input.ReadBits(15);
+                int nBits = input.ReadBits(2) + 1;
                 input.skipUnreadedBits();
-                extended.hFNModified = input.readBits(nBits * 8);
+                extended.hFNModified = input.ReadBits(nBits * 8);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     extended.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

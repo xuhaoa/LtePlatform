@@ -65,17 +65,17 @@ namespace TraceParser.Eutra
                     if (stream.Read())
                     {
                         num2 = 3;
-                        type.sCellDeactivationTimer_r10 = (sCellDeactivationTimer_r10_Enum)input.readBits(num2);
+                        type.sCellDeactivationTimer_r10 = (sCellDeactivationTimer_r10_Enum)input.ReadBits(num2);
                     }
                     if (stream.Read())
                     {
                         num2 = 1;
-                        type.extendedBSR_Sizes_r10 = (extendedBSR_Sizes_r10_Enum)input.readBits(num2);
+                        type.extendedBSR_Sizes_r10 = (extendedBSR_Sizes_r10_Enum)input.ReadBits(num2);
                     }
                     if (stream.Read())
                     {
                         num2 = 1;
-                        type.extendedPHR_r10 = (extendedPHR_r10_Enum)input.readBits(num2);
+                        type.extendedPHR_r10 = (extendedPHR_r10_Enum)input.ReadBits(num2);
                     }
                     return type;
                 }
@@ -114,7 +114,7 @@ namespace TraceParser.Eutra
                     config.drx_Config = DRX_Config.PerDecoder.Instance.Decode(input);
                 }
                 int nBits = 3;
-                config.timeAlignmentTimerDedicated = (TimeAlignmentTimer)input.readBits(nBits);
+                config.timeAlignmentTimerDedicated = (TimeAlignmentTimer)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     config.phr_Config = phr_Config_Type.PerDecoder.Instance.Decode(input);
@@ -124,7 +124,7 @@ namespace TraceParser.Eutra
                     stream2 = new BitMaskStream(input, 1);
                     if (stream2.Read())
                     {
-                        config.sr_ProhibitTimer_r9 = input.readBits(3);
+                        config.sr_ProhibitTimer_r9 = input.ReadBits(3);
                     }
                 }
                 if (flag)
@@ -142,10 +142,10 @@ namespace TraceParser.Eutra
                     {
                         config.stag_ToReleaseList_r11 = new List<long>();
                         nBits = 2;
-                        int num3 = input.readBits(nBits) + 1;
+                        int num3 = input.ReadBits(nBits) + 1;
                         for (int i = 0; i < num3; i++)
                         {
-                            long item = input.readBits(2) + 1;
+                            long item = input.ReadBits(2) + 1;
                             config.stag_ToReleaseList_r11.Add(item);
                         }
                     }
@@ -153,7 +153,7 @@ namespace TraceParser.Eutra
                     {
                         config.stag_ToAddModList_r11 = new List<STAG_ToAddMod_r11>();
                         nBits = 2;
-                        int num6 = input.readBits(nBits) + 1;
+                        int num6 = input.ReadBits(nBits) + 1;
                         for (int j = 0; j < num6; j++)
                         {
                             STAG_ToAddMod_r11 _r = STAG_ToAddMod_r11.PerDecoder.Instance.Decode(input);
@@ -188,7 +188,7 @@ namespace TraceParser.Eutra
                 {
                     phr_Config_Type type = new phr_Config_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             return type;
@@ -231,11 +231,11 @@ namespace TraceParser.Eutra
                         setup_Type type = new setup_Type();
                         type.InitDefaults();
                         int nBits = 3;
-                        type.periodicPHR_Timer = (periodicPHR_Timer_Enum)input.readBits(nBits);
+                        type.periodicPHR_Timer = (periodicPHR_Timer_Enum)input.ReadBits(nBits);
                         nBits = 3;
-                        type.prohibitPHR_Timer = (prohibitPHR_Timer_Enum)input.readBits(nBits);
+                        type.prohibitPHR_Timer = (prohibitPHR_Timer_Enum)input.ReadBits(nBits);
                         nBits = 2;
-                        type.dl_PathlossChange = (dl_PathlossChange_Enum)input.readBits(nBits);
+                        type.dl_PathlossChange = (dl_PathlossChange_Enum)input.ReadBits(nBits);
                         return type;
                     }
                 }
@@ -314,15 +314,15 @@ namespace TraceParser.Eutra
                     if (stream.Read())
                     {
                         num2 = 4;
-                        type.maxHARQ_Tx = (maxHARQ_Tx_Enum)input.readBits(num2);
+                        type.maxHARQ_Tx = (maxHARQ_Tx_Enum)input.ReadBits(num2);
                     }
                     if (stream.Read())
                     {
                         num2 = 4;
-                        type.periodicBSR_Timer = (periodicBSR_Timer_Enum)input.readBits(num2);
+                        type.periodicBSR_Timer = (periodicBSR_Timer_Enum)input.ReadBits(num2);
                     }
                     num2 = 3;
-                    type.retxBSR_Timer = (retxBSR_Timer_Enum)input.readBits(num2);
+                    type.retxBSR_Timer = (retxBSR_Timer_Enum)input.ReadBits(num2);
                     type.ttiBundling = input.ReadBit() == 1;
                     return type;
                 }
@@ -382,7 +382,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    _r.stag_Id_r11 = input.readBits(2) + 1;
+                    _r.stag_Id_r11 = input.ReadBits(2) + 1;
                 }
                 return _r;
             }

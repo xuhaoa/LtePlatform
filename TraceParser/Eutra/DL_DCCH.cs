@@ -70,7 +70,7 @@ namespace TraceParser.Eutra
                 protected override void ProcessConfig(c1_Type config, BitArrayInputStream input)
                 {
                     InitDefaults();
-                    switch (input.readBits(4))
+                    switch (input.ReadBits(4))
                     {
                         case 0:
                             config.csfbParametersResponseCDMA2000
@@ -143,7 +143,7 @@ namespace TraceParser.Eutra
             protected override void ProcessConfig(DL_DCCH_MessageType config, BitArrayInputStream input)
             {
                 InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         config.c1 = c1_Type.PerDecoder.Instance.Decode(input);

@@ -22,7 +22,7 @@ namespace TraceParser.Eutra
             {
                 CellGlobalIdCDMA2000 dcdma = new CellGlobalIdCDMA2000();
                 dcdma.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         dcdma.cellGlobalId1XRTT = input.readBitString(0x2f);

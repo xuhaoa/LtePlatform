@@ -32,7 +32,7 @@ namespace TraceParser.Eutra
                 {
                     config_r11_Type type = new config_r11_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             return type;
@@ -76,16 +76,16 @@ namespace TraceParser.Eutra
                         }
                         if (stream.Read())
                         {
-                            type.startSymbol_r11 = input.readBits(2) + 1;
+                            type.startSymbol_r11 = input.ReadBits(2) + 1;
                         }
                         if (stream.Read())
                         {
                             type.setConfigToReleaseList_r11 = new List<long>();
                             num2 = 1;
-                            int num3 = input.readBits(num2) + 1;
+                            int num3 = input.ReadBits(num2) + 1;
                             for (int i = 0; i < num3; i++)
                             {
-                                long item = input.readBits(1);
+                                long item = input.ReadBits(1);
                                 type.setConfigToReleaseList_r11.Add(item);
                             }
                         }
@@ -93,7 +93,7 @@ namespace TraceParser.Eutra
                         {
                             type.setConfigToAddModList_r11 = new List<EPDCCH_SetConfig_r11>();
                             num2 = 1;
-                            int num6 = input.readBits(num2) + 1;
+                            int num6 = input.ReadBits(num2) + 1;
                             for (int j = 0; j < num6; j++)
                             {
                                 EPDCCH_SetConfig_r11 _r = EPDCCH_SetConfig_r11.PerDecoder.Instance.Decode(input);
@@ -123,7 +123,7 @@ namespace TraceParser.Eutra
                         {
                             subframePatternConfig_r11_Type type = new subframePatternConfig_r11_Type();
                             type.InitDefaults();
-                            switch (input.readBits(1))
+                            switch (input.ReadBits(1))
                             {
                                 case 0:
                                     return type;
@@ -204,15 +204,15 @@ namespace TraceParser.Eutra
                 EPDCCH_SetConfig_r11 _r = new EPDCCH_SetConfig_r11();
                 _r.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                _r.setConfigId_r11 = input.readBits(1);
+                _r.setConfigId_r11 = input.ReadBits(1);
                 int nBits = 1;
-                _r.transmissionType_r11 = (transmissionType_r11_Enum)input.readBits(nBits);
+                _r.transmissionType_r11 = (transmissionType_r11_Enum)input.ReadBits(nBits);
                 _r.resourceBlockAssignment_r11 = resourceBlockAssignment_r11_Type.PerDecoder.Instance.Decode(input);
-                _r.dmrs_ScramblingSequenceInt_r11 = input.readBits(9);
-                _r.pucch_ResourceStartOffset_r11 = input.readBits(11);
+                _r.dmrs_ScramblingSequenceInt_r11 = input.ReadBits(9);
+                _r.pucch_ResourceStartOffset_r11 = input.ReadBits(11);
                 if (stream.Read())
                 {
-                    _r.re_MappingQCL_ConfigId_r11 = input.readBits(2) + 1;
+                    _r.re_MappingQCL_ConfigId_r11 = input.ReadBits(2) + 1;
                 }
                 return _r;
             }
@@ -245,8 +245,8 @@ namespace TraceParser.Eutra
                     resourceBlockAssignment_r11_Type type = new resourceBlockAssignment_r11_Type();
                     type.InitDefaults();
                     const int nBits = 2;
-                    type.numberPRB_Pairs_r11 = (numberPRB_Pairs_r11_Enum)input.readBits(nBits);
-                    int num = input.readBits(6);
+                    type.numberPRB_Pairs_r11 = (numberPRB_Pairs_r11_Enum)input.ReadBits(nBits);
+                    int num = input.ReadBits(6);
                     type.resourceBlockAssignment_r11 = input.readBitString(num + 4);
                     return type;
                 }

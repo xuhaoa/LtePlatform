@@ -23,10 +23,10 @@ namespace TraceParser.Eutra
                 PowerRampingParameters parameters = new PowerRampingParameters();
                 parameters.InitDefaults();
                 int nBits = 2;
-                parameters.powerRampingStep = (powerRampingStep_Enum)input.readBits(nBits);
+                parameters.powerRampingStep = (powerRampingStep_Enum)input.ReadBits(nBits);
                 nBits = 4;
                 parameters.preambleInitialReceivedTargetPower 
-                    = (preambleInitialReceivedTargetPower_Enum)input.readBits(nBits);
+                    = (preambleInitialReceivedTargetPower_Enum)input.ReadBits(nBits);
                 return parameters;
             }
         }

@@ -29,7 +29,7 @@ namespace TraceParser.X2ap
                 item.cell_ID = ECGI.PerDecoder.Instance.Decode(input);
                 item.measurementFailureCause_List = new List<ProtocolIE_Field>();
                 int nBits = 5;
-                int num5 = input.readBits(nBits) + 1;
+                int num5 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field field = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -40,7 +40,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num7 = input.readBits(nBits) + 1;
+                    int num7 = input.ReadBits(nBits) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         ProtocolExtensionField field2 = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -91,15 +91,15 @@ namespace TraceParser.X2ap
                 if (stream.Read())
                 {
                     input.ReadBit();
-                    capacity.cellCapacityClassValue = input.readBits(7) + 1;
+                    capacity.cellCapacityClassValue = input.ReadBits(7) + 1;
                 }
-                capacity.capacityValue = input.readBits(7);
+                capacity.capacityValue = input.ReadBits(7);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     capacity.iE_Extensions = new List<ProtocolExtensionField>();
                     const int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -140,7 +140,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     group.iE_Extensions = new List<ProtocolExtensionField>();
                     const int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -177,26 +177,26 @@ namespace TraceParser.X2ap
                 Cause cause = new Cause();
                 cause.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(2))
+                switch (input.ReadBits(2))
                 {
                     case 0:
                         num4 = (input.ReadBit() == 0) ? 5 : 5;
-                        cause.radioNetwork = (CauseRadioNetwork)input.readBits(num4);
+                        cause.radioNetwork = (CauseRadioNetwork)input.ReadBits(num4);
                         return cause;
 
                     case 1:
                         num4 = 1;
-                        cause.transport = (CauseTransport)input.readBits(num4);
+                        cause.transport = (CauseTransport)input.ReadBits(num4);
                         return cause;
 
                     case 2:
                         num4 = (input.ReadBit() == 0) ? 3 : 3;
-                        cause.protocol = (CauseProtocol)input.readBits(num4);
+                        cause.protocol = (CauseProtocol)input.ReadBits(num4);
                         return cause;
 
                     case 3:
                         num4 = (input.ReadBit() == 0) ? 3 : 3;
-                        cause.misc = (CauseMisc)input.readBits(num4);
+                        cause.misc = (CauseMisc)input.ReadBits(num4);
                         return cause;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");

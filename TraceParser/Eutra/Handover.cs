@@ -28,8 +28,8 @@ namespace TraceParser.Eutra
                 handover.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 int num2 = (input.ReadBit() == 0) ? 3 : 3;
-                handover.targetRAT_Type = (targetRAT_Type_Enum)input.readBits(num2);
-                int nBits = input.readBits(8);
+                handover.targetRAT_Type = (targetRAT_Type_Enum)input.ReadBits(num2);
+                int nBits = input.ReadBits(8);
                 handover.targetRAT_MessageContainer = input.readOctetString(nBits);
                 if (stream.Read())
                 {
@@ -107,7 +107,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(3))
+                        switch (input.ReadBits(3))
                         {
                             case 0:
                                 type.handoverCommand_r8 = HandoverCommand_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -167,7 +167,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -236,7 +236,7 @@ namespace TraceParser.Eutra
                 HandoverCommand_r8_IEs es = new HandoverCommand_r8_IEs();
                 es.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                int nBits = input.readBits(8);
+                int nBits = input.ReadBits(8);
                 es.handoverCommandMessage = input.readOctetString(nBits);
                 if (stream.Read())
                 {
@@ -292,7 +292,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.handoverFromEUTRAPreparationRequest_r8 = HandoverFromEUTRAPreparationRequest_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -340,7 +340,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -363,7 +363,7 @@ namespace TraceParser.Eutra
             {
                 HandoverFromEUTRAPreparationRequest request = new HandoverFromEUTRAPreparationRequest();
                 request.InitDefaults();
-                request.rrc_TransactionIdentifier = input.readBits(2);
+                request.rrc_TransactionIdentifier = input.ReadBits(2);
                 request.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return request;
             }
@@ -395,14 +395,14 @@ namespace TraceParser.Eutra
                 es.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 3);
                 const int num2 = 1;
-                es.cdma2000_Type = (CDMA2000_Type)input.readBits(num2);
+                es.cdma2000_Type = (CDMA2000_Type)input.ReadBits(num2);
                 if (stream.Read())
                 {
                     es.rand = input.readBitString(0x20);
                 }
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.mobilityParameters = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -464,7 +464,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     int nBits = 1;
-                    es.dualRxTxRedirectIndicator_r10 = (dualRxTxRedirectIndicator_r10_Enum)input.readBits(nBits);
+                    es.dualRxTxRedirectIndicator_r10 = (dualRxTxRedirectIndicator_r10_Enum)input.ReadBits(nBits);
                 }
                 if (stream.Read())
                 {
@@ -501,7 +501,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())

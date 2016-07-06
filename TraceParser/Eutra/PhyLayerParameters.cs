@@ -74,38 +74,38 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.twoAntennaPortsForPUCCH_r10 = (twoAntennaPortsForPUCCH_r10_Enum)input.readBits(num2);
+                    _v.twoAntennaPortsForPUCCH_r10 = (twoAntennaPortsForPUCCH_r10_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.tm9_With_8Tx_FDD_r10 = (tm9_With_8Tx_FDD_r10_Enum)input.readBits(num2);
+                    _v.tm9_With_8Tx_FDD_r10 = (tm9_With_8Tx_FDD_r10_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.pmi_Disabling_r10 = (pmi_Disabling_r10_Enum)input.readBits(num2);
+                    _v.pmi_Disabling_r10 = (pmi_Disabling_r10_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.crossCarrierScheduling_r10 = (crossCarrierScheduling_r10_Enum)input.readBits(num2);
+                    _v.crossCarrierScheduling_r10 = (crossCarrierScheduling_r10_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.simultaneousPUCCH_PUSCH_r10 = (simultaneousPUCCH_PUSCH_r10_Enum)input.readBits(num2);
+                    _v.simultaneousPUCCH_PUSCH_r10 = (simultaneousPUCCH_PUSCH_r10_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.multiClusterPUSCH_WithinCC_r10 = (multiClusterPUSCH_WithinCC_r10_Enum)input.readBits(num2);
+                    _v.multiClusterPUSCH_WithinCC_r10 = (multiClusterPUSCH_WithinCC_r10_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     _v.nonContiguousUL_RA_WithinCC_List_r10 = new List<NonContiguousUL_RA_WithinCC_r10>();
                     num2 = 6;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         NonContiguousUL_RA_WithinCC_r10 item = NonContiguousUL_RA_WithinCC_r10.PerDecoder.Instance.Decode(input);
@@ -186,37 +186,37 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.crs_InterfHandl_r11 = (crs_InterfHandl_r11_Enum)input.readBits(num2);
+                    _v.crs_InterfHandl_r11 = (crs_InterfHandl_r11_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.ePDCCH_r11 = (ePDCCH_r11_Enum)input.readBits(num2);
+                    _v.ePDCCH_r11 = (ePDCCH_r11_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.multiACK_CSI_Reporting_r11 = (multiACK_CSI_Reporting_r11_Enum)input.readBits(num2);
+                    _v.multiACK_CSI_Reporting_r11 = (multiACK_CSI_Reporting_r11_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.ss_CCH_InterfHandl_r11 = (ss_CCH_InterfHandl_r11_Enum)input.readBits(num2);
+                    _v.ss_CCH_InterfHandl_r11 = (ss_CCH_InterfHandl_r11_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.tdd_SpecialSubframe_r11 = (tdd_SpecialSubframe_r11_Enum)input.readBits(num2);
+                    _v.tdd_SpecialSubframe_r11 = (tdd_SpecialSubframe_r11_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.txDiv_PUCCH1b_ChSelect_r11 = (txDiv_PUCCH1b_ChSelect_r11_Enum)input.readBits(num2);
+                    _v.txDiv_PUCCH1b_ChSelect_r11 = (txDiv_PUCCH1b_ChSelect_r11_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.ul_CoMP_r11 = (ul_CoMP_r11_Enum)input.readBits(num2);
+                    _v.ul_CoMP_r11 = (ul_CoMP_r11_Enum)input.ReadBits(num2);
                 }
                 return _v;
             }
@@ -304,12 +304,12 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.enhancedDualLayerFDD_r9 = (enhancedDualLayerFDD_r9_Enum)input.readBits(num2);
+                    _v.enhancedDualLayerFDD_r9 = (enhancedDualLayerFDD_r9_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.enhancedDualLayerTDD_r9 = (enhancedDualLayerTDD_r9_Enum)input.readBits(num2);
+                    _v.enhancedDualLayerTDD_r9 = (enhancedDualLayerTDD_r9_Enum)input.ReadBits(num2);
                 }
                 return _v;
             }
@@ -340,12 +340,12 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _vd.tm5_FDD_r9 = (tm5_FDD_r9_Enum)input.readBits(num2);
+                    _vd.tm5_FDD_r9 = (tm5_FDD_r9_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _vd.tm5_TDD_r9 = (tm5_TDD_r9_Enum)input.readBits(num2);
+                    _vd.tm5_TDD_r9 = (tm5_TDD_r9_Enum)input.ReadBits(num2);
                 }
                 return _vd;
             }

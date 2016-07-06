@@ -29,7 +29,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    _r.obtainLocation_r11 = (obtainLocation_r11_Enum)input.readBits(nBits);
+                    _r.obtainLocation_r11 = (obtainLocation_r11_Enum)input.ReadBits(nBits);
                 }
                 return _r;
             }

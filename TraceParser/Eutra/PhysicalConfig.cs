@@ -100,7 +100,7 @@ namespace TraceParser.Eutra
                 {
                     additionalSpectrumEmissionCA_r10_Type type = new additionalSpectrumEmissionCA_r10_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             return type;
@@ -130,7 +130,7 @@ namespace TraceParser.Eutra
                     {
                         setup_Type type = new setup_Type();
                         type.InitDefaults();
-                        type.additionalSpectrumEmissionPCell_r10 = input.readBits(5) + 1;
+                        type.additionalSpectrumEmissionPCell_r10 = input.ReadBits(5) + 1;
                         return type;
                     }
                 }
@@ -156,7 +156,7 @@ namespace TraceParser.Eutra
                 {
                     antennaInfo_r10_Type type = new antennaInfo_r10_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.explicitValue_r10 = AntennaInfoDedicated_r10.PerDecoder.Instance.Decode(input);
@@ -189,7 +189,7 @@ namespace TraceParser.Eutra
                 {
                     antennaInfo_Type type = new antennaInfo_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.explicitValue = AntennaInfoDedicated.PerDecoder.Instance.Decode(input);
@@ -330,10 +330,10 @@ namespace TraceParser.Eutra
                     {
                         dedicated.csi_RS_ConfigNZPToReleaseList_r11 = new List<long>();
                         num2 = 2;
-                        int num3 = input.readBits(num2) + 1;
+                        int num3 = input.ReadBits(num2) + 1;
                         for (int i = 0; i < num3; i++)
                         {
-                            long item = input.readBits(2) + 1;
+                            long item = input.ReadBits(2) + 1;
                             dedicated.csi_RS_ConfigNZPToReleaseList_r11.Add(item);
                         }
                     }
@@ -341,7 +341,7 @@ namespace TraceParser.Eutra
                     {
                         dedicated.csi_RS_ConfigNZPToAddModList_r11 = new List<CSI_RS_ConfigNZP_r11>();
                         num2 = 2;
-                        int num6 = input.readBits(num2) + 1;
+                        int num6 = input.ReadBits(num2) + 1;
                         for (int j = 0; j < num6; j++)
                         {
                             CSI_RS_ConfigNZP_r11 _r = CSI_RS_ConfigNZP_r11.PerDecoder.Instance.Decode(input);
@@ -352,10 +352,10 @@ namespace TraceParser.Eutra
                     {
                         dedicated.csi_RS_ConfigZPToReleaseList_r11 = new List<long>();
                         num2 = 2;
-                        int num8 = input.readBits(num2) + 1;
+                        int num8 = input.ReadBits(num2) + 1;
                         for (int k = 0; k < num8; k++)
                         {
-                            long num10 = input.readBits(2) + 1;
+                            long num10 = input.ReadBits(2) + 1;
                             dedicated.csi_RS_ConfigZPToReleaseList_r11.Add(num10);
                         }
                     }
@@ -363,7 +363,7 @@ namespace TraceParser.Eutra
                     {
                         dedicated.csi_RS_ConfigZPToAddModList_r11 = new List<CSI_RS_ConfigZP_r11>();
                         num2 = 2;
-                        int num11 = input.readBits(num2) + 1;
+                        int num11 = input.ReadBits(num2) + 1;
                         for (int m = 0; m < num11; m++)
                         {
                             CSI_RS_ConfigZP_r11 _r2 = CSI_RS_ConfigZP_r11.PerDecoder.Instance.Decode(input);
@@ -512,10 +512,10 @@ namespace TraceParser.Eutra
                     {
                         _r.csi_RS_ConfigNZPToReleaseList_r11 = new List<long>();
                         num2 = 2;
-                        int num3 = input.readBits(num2) + 1;
+                        int num3 = input.ReadBits(num2) + 1;
                         for (int i = 0; i < num3; i++)
                         {
-                            long item = input.readBits(2) + 1;
+                            long item = input.ReadBits(2) + 1;
                             _r.csi_RS_ConfigNZPToReleaseList_r11.Add(item);
                         }
                     }
@@ -523,7 +523,7 @@ namespace TraceParser.Eutra
                     {
                         _r.csi_RS_ConfigNZPToAddModList_r11 = new List<CSI_RS_ConfigNZP_r11>();
                         num2 = 2;
-                        int num6 = input.readBits(num2) + 1;
+                        int num6 = input.ReadBits(num2) + 1;
                         for (int j = 0; j < num6; j++)
                         {
                             CSI_RS_ConfigNZP_r11 _r2 = CSI_RS_ConfigNZP_r11.PerDecoder.Instance.Decode(input);
@@ -534,10 +534,10 @@ namespace TraceParser.Eutra
                     {
                         _r.csi_RS_ConfigZPToReleaseList_r11 = new List<long>();
                         num2 = 2;
-                        int num8 = input.readBits(num2) + 1;
+                        int num8 = input.ReadBits(num2) + 1;
                         for (int k = 0; k < num8; k++)
                         {
-                            long num10 = input.readBits(2) + 1;
+                            long num10 = input.ReadBits(2) + 1;
                             _r.csi_RS_ConfigZPToReleaseList_r11.Add(num10);
                         }
                     }
@@ -545,7 +545,7 @@ namespace TraceParser.Eutra
                     {
                         _r.csi_RS_ConfigZPToAddModList_r11 = new List<CSI_RS_ConfigZP_r11>();
                         num2 = 2;
-                        int num11 = input.readBits(num2) + 1;
+                        int num11 = input.ReadBits(num2) + 1;
                         for (int m = 0; m < num11; m++)
                         {
                             CSI_RS_ConfigZP_r11 _r3 = CSI_RS_ConfigZP_r11.PerDecoder.Instance.Decode(input);

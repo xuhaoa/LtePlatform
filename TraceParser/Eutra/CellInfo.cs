@@ -29,10 +29,10 @@ namespace TraceParser.Eutra
                 _r.carrierFreq_r9 = CarrierFreqGERAN.PerDecoder.Instance.Decode(input);
                 _r.systemInformation_r9 = new List<string>();
                 const int nBits = 4;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
-                    int num = input.readBits(5);
+                    int num = input.ReadBits(5);
                     string item = input.readOctetString(num + 1);
                     _r.systemInformation_r9.Add(item);
                 }
@@ -60,8 +60,8 @@ namespace TraceParser.Eutra
             {
                 CellInfoUTRA_FDD_r9 _r = new CellInfoUTRA_FDD_r9();
                 _r.InitDefaults();
-                _r.physCellId_r9 = input.readBits(9);
-                int nBits = input.readBits(8);
+                _r.physCellId_r9 = input.ReadBits(9);
+                int nBits = input.ReadBits(8);
                 _r.utra_BCCH_Container_r9 = input.readOctetString(nBits);
                 return _r;
             }
@@ -89,9 +89,9 @@ namespace TraceParser.Eutra
             {
                 CellInfoUTRA_TDD_r10 _r = new CellInfoUTRA_TDD_r10();
                 _r.InitDefaults();
-                _r.physCellId_r10 = input.readBits(7);
-                _r.carrierFreq_r10 = input.readBits(14);
-                int nBits = input.readBits(8);
+                _r.physCellId_r10 = input.ReadBits(7);
+                _r.carrierFreq_r10 = input.ReadBits(14);
+                int nBits = input.ReadBits(8);
                 _r.utra_BCCH_Container_r10 = input.readOctetString(nBits);
                 return _r;
             }
@@ -117,8 +117,8 @@ namespace TraceParser.Eutra
             {
                 CellInfoUTRA_TDD_r9 _r = new CellInfoUTRA_TDD_r9();
                 _r.InitDefaults();
-                _r.physCellId_r9 = input.readBits(7);
-                int nBits = input.readBits(8);
+                _r.physCellId_r9 = input.ReadBits(7);
+                int nBits = input.ReadBits(8);
                 _r.utra_BCCH_Container_r9 = input.readOctetString(nBits);
                 return _r;
             }
@@ -149,7 +149,7 @@ namespace TraceParser.Eutra
                 {
                     _r.visitedCellId_r12 = visitedCellId_r12_Type.PerDecoder.Instance.Decode(input);
                 }
-                _r.timeSpent_r12 = input.readBits(12);
+                _r.timeSpent_r12 = input.ReadBits(12);
                 return _r;
             }
         }
@@ -184,8 +184,8 @@ namespace TraceParser.Eutra
                     {
                         pci_arfcn_r12_Type type = new pci_arfcn_r12_Type();
                         type.InitDefaults();
-                        type.physCellId_r12 = input.readBits(9);
-                        type.carrierFreq_r12 = input.readBits(0x10);
+                        type.physCellId_r12 = input.ReadBits(9);
+                        type.carrierFreq_r12 = input.ReadBits(0x10);
                         return type;
                     }
                 }
@@ -199,7 +199,7 @@ namespace TraceParser.Eutra
                 {
                     visitedCellId_r12_Type type = new visitedCellId_r12_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.cellGlobalId_r12 = CellGlobalIdEUTRA.PerDecoder.Instance.Decode(input);

@@ -24,7 +24,7 @@ namespace TraceParser.Eutra
             protected override void ProcessConfig(BCCH_Config config, BitArrayInputStream input)
             {
                 InitDefaults();
-                config.modificationPeriodCoeff = (modificationPeriodCoeff_Enum)input.readBits(2);
+                config.modificationPeriodCoeff = (modificationPeriodCoeff_Enum)input.ReadBits(2);
             }
         }
     }
@@ -84,7 +84,7 @@ namespace TraceParser.Eutra
                 protected override void ProcessConfig(c1_Type config, BitArrayInputStream input)
                 {
                     InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             config.systemInformation = SystemInformation.PerDecoder.Decode(input);
@@ -119,7 +119,7 @@ namespace TraceParser.Eutra
             protected override void ProcessConfig(BCCH_DL_SCH_MessageType config, BitArrayInputStream input)
             {
                 InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         config.c1 = c1_Type.PerDecoder.Instance.Decode(input);

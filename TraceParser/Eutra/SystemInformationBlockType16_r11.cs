@@ -29,7 +29,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    var nBits = input.readBits(8);
+                    var nBits = input.ReadBits(8);
                     _r.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 return _r;
@@ -60,18 +60,18 @@ namespace TraceParser.Eutra
                     var type = new timeInfo_r11_Type();
                     type.InitDefaults();
                     var stream = new BitMaskStream(input, 3);
-                    type.timeInfoUTC_r11 = input.readBits(40);
+                    type.timeInfoUTC_r11 = input.ReadBits(40);
                     if (stream.Read())
                     {
                         type.dayLightSavingTime_r11 = input.readBitString(2);
                     }
                     if (stream.Read())
                     {
-                        type.leapSeconds_r11 = input.readBits(8) + -127;
+                        type.leapSeconds_r11 = input.ReadBits(8) + -127;
                     }
                     if (stream.Read())
                     {
-                        type.localTimeOffset_r11 = input.readBits(7) + -63;
+                        type.localTimeOffset_r11 = input.ReadBits(7) + -63;
                     }
                     return type;
                 }

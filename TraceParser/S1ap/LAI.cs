@@ -34,7 +34,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 lai.iE_Extensions = new List<ProtocolExtensionField>();
                 const int nBits = 0x10;
-                var num5 = input.readBits(nBits) + 1;
+                var num5 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num5; i++)
                 {
                     var item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

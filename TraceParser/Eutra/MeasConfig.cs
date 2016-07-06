@@ -53,10 +53,10 @@ namespace TraceParser.Eutra
                 {
                     config.measObjectToRemoveList = new List<long>();
                     num2 = 5;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
-                        long item = input.readBits(5) + 1;
+                        long item = input.ReadBits(5) + 1;
                         config.measObjectToRemoveList.Add(item);
                     }
                 }
@@ -64,7 +64,7 @@ namespace TraceParser.Eutra
                 {
                     config.measObjectToAddModList = new List<MeasObjectToAddMod>();
                     num2 = 5;
-                    int num6 = input.readBits(num2) + 1;
+                    int num6 = input.ReadBits(num2) + 1;
                     for (int j = 0; j < num6; j++)
                     {
                         MeasObjectToAddMod mod = MeasObjectToAddMod.PerDecoder.Instance.Decode(input);
@@ -75,10 +75,10 @@ namespace TraceParser.Eutra
                 {
                     config.reportConfigToRemoveList = new List<long>();
                     num2 = 5;
-                    int num8 = input.readBits(num2) + 1;
+                    int num8 = input.ReadBits(num2) + 1;
                     for (int k = 0; k < num8; k++)
                     {
-                        long num10 = input.readBits(5) + 1;
+                        long num10 = input.ReadBits(5) + 1;
                         config.reportConfigToRemoveList.Add(num10);
                     }
                 }
@@ -86,7 +86,7 @@ namespace TraceParser.Eutra
                 {
                     config.reportConfigToAddModList = new List<ReportConfigToAddMod>();
                     num2 = 5;
-                    int num11 = input.readBits(num2) + 1;
+                    int num11 = input.ReadBits(num2) + 1;
                     for (int m = 0; m < num11; m++)
                     {
                         ReportConfigToAddMod mod2 = ReportConfigToAddMod.PerDecoder.Instance.Decode(input);
@@ -97,10 +97,10 @@ namespace TraceParser.Eutra
                 {
                     config.measIdToRemoveList = new List<long>();
                     num2 = 5;
-                    int num13 = input.readBits(num2) + 1;
+                    int num13 = input.ReadBits(num2) + 1;
                     for (int n = 0; n < num13; n++)
                     {
-                        long num15 = input.readBits(5) + 1;
+                        long num15 = input.ReadBits(5) + 1;
                         config.measIdToRemoveList.Add(num15);
                     }
                 }
@@ -108,7 +108,7 @@ namespace TraceParser.Eutra
                 {
                     config.measIdToAddModList = new List<MeasIdToAddMod>();
                     num2 = 5;
-                    int num16 = input.readBits(num2) + 1;
+                    int num16 = input.ReadBits(num2) + 1;
                     for (int num17 = 0; num17 < num16; num17++)
                     {
                         MeasIdToAddMod mod3 = MeasIdToAddMod.PerDecoder.Instance.Decode(input);
@@ -125,7 +125,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())//s_MeasurePresent
                 {
-                    config.s_Measure = input.readBits(7);
+                    config.s_Measure = input.ReadBits(7);
                 }
                 if (stream.Read())//preRegistrationInfoHRPDPresent
                 {
@@ -142,7 +142,7 @@ namespace TraceParser.Eutra
                     {
                         config.measObjectToAddModList_v9e0 = new List<MeasObjectToAddMod_v9e0>();
                         num2 = 5;
-                        int num18 = input.readBits(num2) + 1;
+                        int num18 = input.ReadBits(num2) + 1;
                         for (int num19 = 0; num19 < num18; num19++)
                         {
                             MeasObjectToAddMod_v9e0 _ve = MeasObjectToAddMod_v9e0.PerDecoder.Instance.Decode(input);
@@ -159,7 +159,7 @@ namespace TraceParser.Eutra
                     }
                     config.measIdToAddModList_v12xy = new List<MeasIdToAddMod_v12xy>();
                     num2 = 5;
-                    int num20 = input.readBits(num2) + 1;
+                    int num20 = input.ReadBits(num2) + 1;
                     for (int num21 = 0; num21 < num20; num21++)
                     {
                         MeasIdToAddMod_v12xy _vxy = MeasIdToAddMod_v12xy.PerDecoder.Instance.Decode(input);
@@ -189,7 +189,7 @@ namespace TraceParser.Eutra
                 {
                     speedStatePars_Type type = new speedStatePars_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             return type;
@@ -249,7 +249,7 @@ namespace TraceParser.Eutra
             {
                 MeasGapConfig config = new MeasGapConfig();
                 config.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         return config;
@@ -291,14 +291,14 @@ namespace TraceParser.Eutra
                         gapOffset_Type type = new gapOffset_Type();
                         type.InitDefaults();
                         input.ReadBit();
-                        switch (input.readBits(1))
+                        switch (input.ReadBits(1))
                         {
                             case 0:
-                                type.gp0 = input.readBits(6);
+                                type.gp0 = input.ReadBits(6);
                                 return type;
 
                             case 1:
-                                type.gp1 = input.readBits(7);
+                                type.gp1 = input.ReadBits(7);
                                 return type;
                         }
                         throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -342,9 +342,9 @@ namespace TraceParser.Eutra
             {
                 MeasIdToAddMod mod = new MeasIdToAddMod();
                 mod.InitDefaults();
-                mod.measId = input.readBits(5) + 1;
-                mod.measObjectId = input.readBits(5) + 1;
-                mod.reportConfigId = input.readBits(5) + 1;
+                mod.measId = input.ReadBits(5) + 1;
+                mod.measObjectId = input.ReadBits(5) + 1;
+                mod.reportConfigId = input.ReadBits(5) + 1;
                 return mod;
             }
         }
@@ -371,7 +371,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 3;
-                    _vxy.t312_r12 = (t312_r12_Enum)input.readBits(nBits);
+                    _vxy.t312_r12 = (t312_r12_Enum)input.ReadBits(nBits);
                 }
                 return _vxy;
             }
@@ -433,7 +433,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.loggedMeasurementConfiguration_r10 = LoggedMeasurementConfiguration_r10_IEs.PerDecoder.Instance.Decode(input);
@@ -481,7 +481,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -551,9 +551,9 @@ namespace TraceParser.Eutra
                     es.areaConfiguration_r10 = AreaConfiguration_r10.PerDecoder.Instance.Decode(input);
                 }
                 int nBits = 3;
-                es.loggingDuration_r10 = (LoggingDuration_r10)input.readBits(nBits);
+                es.loggingDuration_r10 = (LoggingDuration_r10)input.ReadBits(nBits);
                 nBits = 3;
-                es.loggingInterval_r10 = (LoggingInterval_r10)input.readBits(nBits);
+                es.loggingInterval_r10 = (LoggingInterval_r10)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     es.nonCriticalExtension = LoggedMeasurementConfiguration_v1080_IEs.PerDecoder.Instance.Decode(input);
@@ -585,7 +585,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension_r10 = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -643,7 +643,7 @@ namespace TraceParser.Eutra
                 {
                     es.plmn_IdentityList_r11 = new List<PLMN_Identity>();
                     const int nBits = 4;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         PLMN_Identity item = PLMN_Identity.PerDecoder.Instance.Decode(input);

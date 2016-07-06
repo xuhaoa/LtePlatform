@@ -57,10 +57,10 @@ namespace TraceParser.Eutra
                 {
                     pusch_ConfigBasic_Type type = new pusch_ConfigBasic_Type();
                     type.InitDefaults();
-                    type.n_SB = input.readBits(2) + 1;
+                    type.n_SB = input.ReadBits(2) + 1;
                     int nBits = 1;
-                    type.hoppingMode = (hoppingMode_Enum)input.readBits(nBits);
-                    type.pusch_HoppingOffset = input.readBits(7);
+                    type.hoppingMode = (hoppingMode_Enum)input.ReadBits(nBits);
+                    type.pusch_HoppingOffset = input.ReadBits(7);
                     type.enable64QAM = input.ReadBit() == 1;
                     return type;
                 }
@@ -89,9 +89,9 @@ namespace TraceParser.Eutra
             {
                 PUSCH_ConfigDedicated dedicated = new PUSCH_ConfigDedicated();
                 dedicated.InitDefaults();
-                dedicated.betaOffset_ACK_Index = input.readBits(4);
-                dedicated.betaOffset_RI_Index = input.readBits(4);
-                dedicated.betaOffset_CQI_Index = input.readBits(4);
+                dedicated.betaOffset_ACK_Index = input.ReadBits(4);
+                dedicated.betaOffset_RI_Index = input.ReadBits(4);
+                dedicated.betaOffset_CQI_Index = input.ReadBits(4);
                 return dedicated;
             }
         }
@@ -131,9 +131,9 @@ namespace TraceParser.Eutra
                 {
                     betaOffsetMC_r10_Type type = new betaOffsetMC_r10_Type();
                     type.InitDefaults();
-                    type.betaOffset_ACK_Index_MC_r10 = input.readBits(4);
-                    type.betaOffset_RI_Index_MC_r10 = input.readBits(4);
-                    type.betaOffset_CQI_Index_MC_r10 = input.readBits(4);
+                    type.betaOffset_ACK_Index_MC_r10 = input.ReadBits(4);
+                    type.betaOffset_RI_Index_MC_r10 = input.ReadBits(4);
+                    type.betaOffset_CQI_Index_MC_r10 = input.ReadBits(4);
                     return type;
                 }
             }
@@ -166,12 +166,12 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.groupHoppingDisabled_r10 = (groupHoppingDisabled_r10_Enum)input.readBits(num2);
+                    _v.groupHoppingDisabled_r10 = (groupHoppingDisabled_r10_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.dmrs_WithOCC_Activated_r10 = (dmrs_WithOCC_Activated_r10_Enum)input.readBits(num2);
+                    _v.dmrs_WithOCC_Activated_r10 = (dmrs_WithOCC_Activated_r10_Enum)input.ReadBits(num2);
                 }
                 return _v;
             }
@@ -219,7 +219,7 @@ namespace TraceParser.Eutra
                 {
                     pusch_DMRS_r11_Type type = new pusch_DMRS_r11_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             return type;
@@ -251,8 +251,8 @@ namespace TraceParser.Eutra
                     {
                         setup_Type type = new setup_Type();
                         type.InitDefaults();
-                        type.nPUSCH_Identity_r11 = input.readBits(9);
-                        type.nDMRS_CSH_Identity_r11 = input.readBits(9);
+                        type.nPUSCH_Identity_r11 = input.ReadBits(9);
+                        type.nDMRS_CSH_Identity_r11 = input.ReadBits(9);
                         return type;
                     }
                 }
@@ -294,12 +294,12 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.groupHoppingDisabled_r10 = (groupHoppingDisabled_r10_Enum)input.readBits(num2);
+                    _r.groupHoppingDisabled_r10 = (groupHoppingDisabled_r10_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _r.dmrs_WithOCC_Activated_r10 = (dmrs_WithOCC_Activated_r10_Enum)input.readBits(num2);
+                    _r.dmrs_WithOCC_Activated_r10 = (dmrs_WithOCC_Activated_r10_Enum)input.ReadBits(num2);
                 }
                 return _r;
             }

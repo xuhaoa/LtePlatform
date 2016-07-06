@@ -40,21 +40,21 @@ namespace TraceParser.X2ap
                 UE_ContextInformation information = new UE_ContextInformation();
                 information.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 4) : new BitMaskStream(input, 4);
-                int num4 = input.readBits(2) + 1;
+                int num4 = input.ReadBits(2) + 1;
                 input.skipUnreadedBits();
-                information.mME_UE_S1AP_ID = input.readBits(num4 * 8);
+                information.mME_UE_S1AP_ID = input.ReadBits(num4 * 8);
                 information.uESecurityCapabilities = UESecurityCapabilities.PerDecoder.Instance.Decode(input);
                 information.aS_SecurityInformation = AS_SecurityInformation.PerDecoder.Instance.Decode(input);
                 information.uEaggregateMaximumBitRate = UEAggregateMaximumBitRate.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
-                    information.subscriberProfileIDforRFP = input.readBits(8) + 1;
+                    information.subscriberProfileIDforRFP = input.ReadBits(8) + 1;
                 }
                 input.skipUnreadedBits();
                 information.e_RABs_ToBeSetup_List = new List<ProtocolIE_Field>();
                 num4 = 8;
-                int num5 = input.readBits(num4) + 1;
+                int num5 = input.ReadBits(num4) + 1;
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -67,19 +67,19 @@ namespace TraceParser.X2ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_01B1;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_01B1;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -101,7 +101,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     information.iE_Extensions = new List<ProtocolExtensionField>();
                     num4 = 0x10;
-                    int num7 = input.readBits(num4) + 1;
+                    int num7 = input.ReadBits(num4) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         ProtocolExtensionField field2 = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -143,19 +143,19 @@ namespace TraceParser.X2ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_0096;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_0096;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -183,19 +183,19 @@ namespace TraceParser.X2ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_0096;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_0096;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -216,9 +216,9 @@ namespace TraceParser.X2ap
 
             public long Decode(BitArrayInputStream input)
             {
-                int num2 = input.readBits(2) + 1;
+                int num2 = input.ReadBits(2) + 1;
                 input.skipUnreadedBits();
-                return input.readBits(num2 * 8);
+                return input.ReadBits(num2 * 8);
             }
         }
     }
@@ -233,7 +233,7 @@ namespace TraceParser.X2ap
             public long Decode(BitArrayInputStream input)
             {
                 input.skipUnreadedBits();
-                return input.readBits(0x10);
+                return input.ReadBits(0x10);
             }
         }
     }
@@ -260,18 +260,18 @@ namespace TraceParser.X2ap
                 UEAggregateMaximumBitRate rate = new UEAggregateMaximumBitRate();
                 rate.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                int nBits = input.readBits(3) + 1;
+                int nBits = input.ReadBits(3) + 1;
                 input.skipUnreadedBits();
-                rate.uEaggregateMaximumBitRateDownlink = input.readBits(nBits * 8);
-                nBits = input.readBits(3) + 1;
+                rate.uEaggregateMaximumBitRateDownlink = input.ReadBits(nBits * 8);
+                nBits = input.ReadBits(3) + 1;
                 input.skipUnreadedBits();
-                rate.uEaggregateMaximumBitRateUplink = input.readBits(nBits * 8);
+                rate.uEaggregateMaximumBitRateUplink = input.ReadBits(nBits * 8);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     rate.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -304,7 +304,7 @@ namespace TraceParser.X2ap
                 input.skipUnreadedBits();
                 release.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -346,7 +346,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     capabilities.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

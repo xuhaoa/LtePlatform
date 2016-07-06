@@ -24,11 +24,11 @@ namespace TraceParser.Eutra
                 _r.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 int nBits = (input.ReadBit() == 0) ? 3 : 3;
-                _r.ca_BandwidthClassDL_r10 = (CA_BandwidthClass_r10)input.readBits(nBits);
+                _r.ca_BandwidthClassDL_r10 = (CA_BandwidthClass_r10)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     nBits = 2;
-                    _r.supportedMIMO_CapabilityDL_r10 = (MIMO_CapabilityDL_r10)input.readBits(nBits);
+                    _r.supportedMIMO_CapabilityDL_r10 = (MIMO_CapabilityDL_r10)input.ReadBits(nBits);
                 }
                 return _r;
             }
@@ -56,11 +56,11 @@ namespace TraceParser.Eutra
                 _r.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 int nBits = (input.ReadBit() == 0) ? 3 : 3;
-                _r.ca_BandwidthClassUL_r10 = (CA_BandwidthClass_r10)input.readBits(nBits);
+                _r.ca_BandwidthClassUL_r10 = (CA_BandwidthClass_r10)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     nBits = 1;
-                    _r.supportedMIMO_CapabilityUL_r10 = (MIMO_CapabilityUL_r10)input.readBits(nBits);
+                    _r.supportedMIMO_CapabilityUL_r10 = (MIMO_CapabilityUL_r10)input.ReadBits(nBits);
                 }
                 return _r;
             }

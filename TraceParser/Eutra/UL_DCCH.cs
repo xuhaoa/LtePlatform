@@ -79,7 +79,7 @@ namespace TraceParser.Eutra
                 {
                     c1_Type type = new c1_Type();
                     type.InitDefaults();
-                    switch (input.readBits(4))
+                    switch (input.ReadBits(4))
                     {
                         case 0:
                             type.csfbParametersRequestCDMA2000 = CSFBParametersRequestCDMA2000.PerDecoder.Instance.Decode(input);
@@ -214,7 +214,7 @@ namespace TraceParser.Eutra
                     {
                         c2_Type type = new c2_Type();
                         type.InitDefaults();
-                        switch (input.readBits(4))
+                        switch (input.ReadBits(4))
                         {
                             case 0:
                                 type.ueAssistanceInformation_r11 
@@ -303,7 +303,7 @@ namespace TraceParser.Eutra
                 {
                     messageClassExtension_Type type = new messageClassExtension_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c2 = c2_Type.PerDecoder.Instance.Decode(input);
@@ -326,7 +326,7 @@ namespace TraceParser.Eutra
             {
                 UL_DCCH_MessageType type = new UL_DCCH_MessageType();
                 type.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         type.c1 = c1_Type.PerDecoder.Instance.Decode(input);

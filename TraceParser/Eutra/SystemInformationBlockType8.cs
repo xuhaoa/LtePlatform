@@ -128,7 +128,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    type.searchWindowSize = (long)input.readBits(4);
+                    type.searchWindowSize = (long)input.ReadBits(4);
                 }
                 if (stream.Read())
                 {
@@ -140,7 +140,7 @@ namespace TraceParser.Eutra
                 }
                 if (flag && stream.Read())
                 {
-                    var nBits = input.readBits(8);
+                    var nBits = input.ReadBits(8);
                     type.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (flag)
@@ -173,7 +173,7 @@ namespace TraceParser.Eutra
                     if (stream2.Read())
                     {
                         num2 = 1;
-                        type.csfb_DualRxTxSupport_r10 = (csfb_DualRxTxSupport_r10_Enum)input.readBits(num2);
+                        type.csfb_DualRxTxSupport_r10 = (csfb_DualRxTxSupport_r10_Enum)input.ReadBits(num2);
                     }
                 }
                 if (flag)
@@ -185,7 +185,7 @@ namespace TraceParser.Eutra
                     }
                     type.sib8_PerPLMN_List_r11 = new List<SIB8_PerPLMN_r11>();
                     num2 = 3;
-                    var num3 = input.readBits(num2) + 1;
+                    var num3 = input.ReadBits(num2) + 1;
                     for (var i = 0; i < num3; i++)
                     {
                         var item = SIB8_PerPLMN_r11.PerDecoder.Decode(input);

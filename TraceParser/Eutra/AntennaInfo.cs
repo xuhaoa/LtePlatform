@@ -23,7 +23,7 @@ namespace TraceParser.Eutra
 
             protected override void ProcessConfig(AntennaInfoCommon config, BitArrayInputStream input)
             {
-                config.antennaPortsCount = (antennaPortsCount_Enum)input.readBits(2);
+                config.antennaPortsCount = (antennaPortsCount_Enum)input.ReadBits(2);
             }
         }
     }
@@ -62,7 +62,7 @@ namespace TraceParser.Eutra
                 
                 protected override void ProcessConfig(codebookSubsetRestriction_Type config, BitArrayInputStream input)
                 {
-                    switch (input.readBits(3))
+                    switch (input.ReadBits(3))
                     {
                         case 0:
                             config.n2TxAntenna_tm3 = input.readBitString(2);
@@ -101,7 +101,7 @@ namespace TraceParser.Eutra
             protected override void ProcessConfig(AntennaInfoDedicated config, BitArrayInputStream input)
             {
                 var stream = new BitMaskStream(input, 1);
-                config.transmissionMode = (transmissionMode_Enum)input.readBits(3);
+                config.transmissionMode = (transmissionMode_Enum)input.ReadBits(3);
                 if (stream.Read())
                 {
                     config.codebookSubsetRestriction = codebookSubsetRestriction_Type.PerDecoder.Instance.Decode(input);
@@ -135,13 +135,13 @@ namespace TraceParser.Eutra
                 
                 protected override void ProcessConfig(ue_TransmitAntennaSelection_Type config, BitArrayInputStream input)
                 {
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             config.release = new object();
                             return;
                         case 1:
-                            config.setup = (setup_Enum)input.readBits(1);
+                            config.setup = (setup_Enum)input.ReadBits(1);
                             return;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -172,10 +172,10 @@ namespace TraceParser.Eutra
             protected override void ProcessConfig(AntennaInfoDedicated_r10 config, BitArrayInputStream input)
             {
                 var stream = new BitMaskStream(input, 1);
-                config.transmissionMode_r10 = (transmissionMode_r10_Enum)input.readBits(4);
+                config.transmissionMode_r10 = (transmissionMode_r10_Enum)input.ReadBits(4);
                 if (stream.Read())
                 {
-                    var nBits = input.readBits(8);
+                    var nBits = input.ReadBits(8);
                     config.codebookSubsetRestriction_r10 = input.readBitString(nBits);
                 }
                 config.ue_TransmitAntennaSelection = ue_TransmitAntennaSelection_Type.PerDecoder.Instance.Decode(input);
@@ -215,12 +215,12 @@ namespace TraceParser.Eutra
                 
                 protected override void ProcessConfig(ue_TransmitAntennaSelection_Type config, BitArrayInputStream input)
                 {
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             return;
                         case 1:
-                            config.setup = (setup_Enum)input.readBits(1);
+                            config.setup = (setup_Enum)input.ReadBits(1);
                             return;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -256,7 +256,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     config.alternativeCodebookEnabledFor4TX_r12 
-                        = (alternativeCodebookEnabledFor4TX_r12_Enum)input.readBits(1);
+                        = (alternativeCodebookEnabledFor4TX_r12_Enum)input.ReadBits(1);
                 }
             }
         }
@@ -280,7 +280,7 @@ namespace TraceParser.Eutra
                 
                 protected override void ProcessConfig(codebookSubsetRestriction_v920_Type config, BitArrayInputStream input)
                 {
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             config.n2TxAntenna_tm8_r9 = input.readBitString(6);
@@ -331,11 +331,11 @@ namespace TraceParser.Eutra
                 var stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    config.transmissionModeUL_r10 = (transmissionModeUL_r10_Enum)input.readBits(3);
+                    config.transmissionModeUL_r10 = (transmissionModeUL_r10_Enum)input.ReadBits(3);
                 }
                 if (stream.Read())
                 {
-                    config.fourAntennaPortActivated_r10 = (fourAntennaPortActivated_r10_Enum)input.readBits(1);
+                    config.fourAntennaPortActivated_r10 = (fourAntennaPortActivated_r10_Enum)input.ReadBits(1);
                 }
             }
         }

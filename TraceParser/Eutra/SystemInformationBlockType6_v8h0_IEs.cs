@@ -48,7 +48,7 @@ namespace TraceParser.Eutra
                 {
                     es.carrierFreqListUTRA_FDD_v8h0 = new List<CarrierFreqInfoUTRA_FDD_v8h0>();
                     var nBits = 4;
-                    var num3 = input.readBits(nBits) + 1;
+                    var num3 = input.ReadBits(nBits) + 1;
                     for (var i = 0; i < num3; i++)
                     {
                         var item = CarrierFreqInfoUTRA_FDD_v8h0.PerDecoder.Instance.Decode(input);

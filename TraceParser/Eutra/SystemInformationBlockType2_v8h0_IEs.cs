@@ -28,10 +28,10 @@ namespace TraceParser.Eutra
                 {
                     es.multiBandInfoList = new List<long>();
                     var nBits = 3;
-                    var num3 = input.readBits(nBits) + 1;
+                    var num3 = input.ReadBits(nBits) + 1;
                     for (var i = 0; i < num3; i++)
                     {
-                        long item = input.readBits(5) + 1;
+                        long item = input.ReadBits(5) + 1;
                         es.multiBandInfoList.Add(item);
                     }
                 }

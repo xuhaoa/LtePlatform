@@ -55,7 +55,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(3))
+                        switch (input.ReadBits(3))
                         {
                             case 0:
                                 type.measurementReport_r8 = MeasurementReport_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -115,7 +115,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -217,7 +217,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -268,7 +268,7 @@ namespace TraceParser.Eutra
                 _r.tce_Id_r10 = input.readOctetString(1);
                 _r.logMeasInfoList_r10 = new List<LogMeasInfo_r10>();
                 int nBits = 10;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     LogMeasInfo_r10 item = LogMeasInfo_r10.PerDecoder.Instance.Decode(input);
@@ -277,7 +277,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     nBits = 1;
-                    _r.logMeasAvailable_r10 = (logMeasAvailable_r10_Enum)input.readBits(nBits);
+                    _r.logMeasAvailable_r10 = (logMeasAvailable_r10_Enum)input.ReadBits(nBits);
                 }
                 return _r;
             }
@@ -332,7 +332,7 @@ namespace TraceParser.Eutra
                     {
                         type.measResultListEUTRA_r10 = new List<MeasResult2EUTRA_r9>();
                         num2 = 3;
-                        int num3 = input.readBits(num2) + 1;
+                        int num3 = input.ReadBits(num2) + 1;
                         for (int i = 0; i < num3; i++)
                         {
                             MeasResult2EUTRA_r9 item = MeasResult2EUTRA_r9.PerDecoder.Instance.Decode(input);
@@ -343,7 +343,7 @@ namespace TraceParser.Eutra
                     {
                         type.measResultListUTRA_r10 = new List<MeasResult2UTRA_r9>();
                         num2 = 3;
-                        int num5 = input.readBits(num2) + 1;
+                        int num5 = input.ReadBits(num2) + 1;
                         for (int j = 0; j < num5; j++)
                         {
                             MeasResult2UTRA_r9 _r2 = MeasResult2UTRA_r9.PerDecoder.Instance.Decode(input);
@@ -354,12 +354,12 @@ namespace TraceParser.Eutra
                     {
                         type.measResultListGERAN_r10 = new List<List<MeasResultGERAN>>();
                         num2 = 2;
-                        int num7 = input.readBits(num2) + 1;
+                        int num7 = input.ReadBits(num2) + 1;
                         for (int k = 0; k < num7; k++)
                         {
                             List<MeasResultGERAN> list = new List<MeasResultGERAN>();
                             num2 = 3;
-                            int num9 = input.readBits(num2) + 1;
+                            int num9 = input.ReadBits(num2) + 1;
                             for (int m = 0; m < num9; m++)
                             {
                                 MeasResultGERAN tgeran = MeasResultGERAN.PerDecoder.Instance.Decode(input);
@@ -372,7 +372,7 @@ namespace TraceParser.Eutra
                     {
                         type.measResultListCDMA2000_r10 = new List<MeasResult2CDMA2000_r9>();
                         num2 = 3;
-                        int num11 = input.readBits(num2) + 1;
+                        int num11 = input.ReadBits(num2) + 1;
                         for (int n = 0; n < num11; n++)
                         {
                             MeasResult2CDMA2000_r9 _r3 = MeasResult2CDMA2000_r9.PerDecoder.Instance.Decode(input);
@@ -403,8 +403,8 @@ namespace TraceParser.Eutra
                 {
                     measResultServCell_r10_Type type = new measResultServCell_r10_Type();
                     type.InitDefaults();
-                    type.rsrpResult_r10 = input.readBits(7);
-                    type.rsrqResult_r10 = input.readBits(6);
+                    type.rsrpResult_r10 = input.ReadBits(7);
+                    type.rsrqResult_r10 = input.ReadBits(6);
                     return type;
                 }
             }
@@ -424,7 +424,7 @@ namespace TraceParser.Eutra
                 {
                     _r.locationInfo_r10 = LocationInfo_r10.PerDecoder.Instance.Decode(input);
                 }
-                _r.relativeTimeStamp_r10 = input.readBits(13);
+                _r.relativeTimeStamp_r10 = input.ReadBits(13);
                 _r.servCellIdentity_r10 = CellGlobalIdEUTRA.PerDecoder.Instance.Decode(input);
                 _r.measResultServCell_r10 = measResultServCell_r10_Type.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
@@ -440,7 +440,7 @@ namespace TraceParser.Eutra
                     }
                     _r.measResultListEUTRA_v1090 = new List<MeasResult2EUTRA_v9e0>();
                     int nBits = 3;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         MeasResult2EUTRA_v9e0 item = MeasResult2EUTRA_v9e0.PerDecoder.Instance.Decode(input);

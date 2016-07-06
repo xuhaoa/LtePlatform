@@ -10,6 +10,8 @@ namespace Lte.Domain.Common
     public interface IBitArrayReader
     {
         int ReadBit();
+
+        int ReadBits(int nBits);
     }
 
     public sealed class BitArrayInputStream : Stream, IBitArrayReader
@@ -81,7 +83,7 @@ namespace Lte.Domain.Common
             return num;
         }
 
-        public int readBits(int nBits)
+        public int ReadBits(int nBits)
         {
             int num = 0;
             for (int i = 0; (i < nBits) && (i <= 0x20); i++)
@@ -91,14 +93,14 @@ namespace Lte.Domain.Common
             return num;
         }
 
-        public void readBits(byte[] buffer, int offset, int bits)
+        public void ReadBits(byte[] buffer, int offset, int bits)
         {
             int count = bits / 8;
             int nBits = bits % 8;
             Read(buffer, offset, count);
             if (nBits > 0)
             {
-                buffer[count] = (byte)(readBits(nBits) << (8 - nBits));
+                buffer[count] = (byte)(ReadBits(nBits) << (8 - nBits));
             }
         }
 
@@ -139,7 +141,7 @@ namespace Lte.Domain.Common
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < nBits; i++)
             {
-                builder.Append(readBits(8).ToString("X2"));
+                builder.Append(ReadBits(8).ToString("X2"));
             }
             return (builder + "'H");
         }

@@ -38,24 +38,24 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 BitMaskStream stream2 = new BitMaskStream(input, 4);
                 int nBits = 1;
-                tcdma.cdma2000_Type = (CDMA2000_Type)input.readBits(nBits);
+                tcdma.cdma2000_Type = (CDMA2000_Type)input.ReadBits(nBits);
                 tcdma.carrierFreq = CarrierFreqCDMA2000.PerDecoder.Instance.Decode(input);
                 if (stream2.Read())
                 {
-                    tcdma.searchWindowSize = input.readBits(4);
+                    tcdma.searchWindowSize = input.ReadBits(4);
                 }
                 if (stream.Read())
                 {
-                    tcdma.offsetFreq = input.readBits(5) + -15;
+                    tcdma.offsetFreq = input.ReadBits(5) + -15;
                 }
                 if (stream2.Read())
                 {
                     tcdma.cellsToRemoveList = new List<long>();
                     nBits = 5;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
-                        long item = input.readBits(5) + 1;
+                        long item = input.ReadBits(5) + 1;
                         tcdma.cellsToRemoveList.Add(item);
                     }
                 }
@@ -63,7 +63,7 @@ namespace TraceParser.Eutra
                 {
                     tcdma.cellsToAddModList = new List<CellsToAddModCDMA2000>();
                     nBits = 5;
-                    int num6 = input.readBits(nBits) + 1;
+                    int num6 = input.ReadBits(nBits) + 1;
                     for (int j = 0; j < num6; j++)
                     {
                         CellsToAddModCDMA2000 dcdma = CellsToAddModCDMA2000.PerDecoder.Instance.Decode(input);
@@ -72,7 +72,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream2.Read())
                 {
-                    tcdma.cellForWhichToReportCGI = input.readBits(9);
+                    tcdma.cellForWhichToReportCGI = input.ReadBits(9);
                 }
                 return tcdma;
             }
@@ -132,24 +132,24 @@ namespace TraceParser.Eutra
                 bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 BitMaskStream stream2 = new BitMaskStream(input, 5);
-                teutra.carrierFreq = input.readBits(0x10);
+                teutra.carrierFreq = input.ReadBits(0x10);
                 int nBits = 3;
-                teutra.allowedMeasBandwidth = (AllowedMeasBandwidth)input.readBits(nBits);
+                teutra.allowedMeasBandwidth = (AllowedMeasBandwidth)input.ReadBits(nBits);
                 teutra.presenceAntennaPort1 = input.ReadBit() == 1;
                 teutra.neighCellConfig = input.readBitString(2);
                 if (stream.Read())
                 {
                     nBits = 5;
-                    teutra.offsetFreq = (Q_OffsetRange)input.readBits(nBits);
+                    teutra.offsetFreq = (Q_OffsetRange)input.ReadBits(nBits);
                 }
                 if (stream2.Read())
                 {
                     teutra.cellsToRemoveList = new List<long>();
                     nBits = 5;
-                    num3 = input.readBits(nBits) + 1;
+                    num3 = input.ReadBits(nBits) + 1;
                     for (num4 = 0; num4 < num3; num4++)
                     {
-                        num5 = input.readBits(5) + 1;
+                        num5 = input.ReadBits(5) + 1;
                         teutra.cellsToRemoveList.Add(num5);
                     }
                 }
@@ -157,7 +157,7 @@ namespace TraceParser.Eutra
                 {
                     teutra.cellsToAddModList = new List<CellsToAddMod>();
                     nBits = 5;
-                    int num6 = input.readBits(nBits) + 1;
+                    int num6 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num6; i++)
                     {
                         CellsToAddMod item = CellsToAddMod.PerDecoder.Instance.Decode(input);
@@ -168,10 +168,10 @@ namespace TraceParser.Eutra
                 {
                     teutra.blackCellsToRemoveList = new List<long>();
                     nBits = 5;
-                    num3 = input.readBits(nBits) + 1;
+                    num3 = input.ReadBits(nBits) + 1;
                     for (num4 = 0; num4 < num3; num4++)
                     {
-                        num5 = input.readBits(5) + 1;
+                        num5 = input.ReadBits(5) + 1;
                         teutra.blackCellsToRemoveList.Add(num5);
                     }
                 }
@@ -179,7 +179,7 @@ namespace TraceParser.Eutra
                 {
                     teutra.blackCellsToAddModList = new List<BlackCellsToAddMod>();
                     nBits = 5;
-                    int num8 = input.readBits(nBits) + 1;
+                    int num8 = input.ReadBits(nBits) + 1;
                     for (int j = 0; j < num8; j++)
                     {
                         BlackCellsToAddMod mod2 = BlackCellsToAddMod.PerDecoder.Instance.Decode(input);
@@ -188,7 +188,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream2.Read())
                 {
-                    teutra.cellForWhichToReportCGI = input.readBits(9);
+                    teutra.cellForWhichToReportCGI = input.ReadBits(9);
                 }
                 if (flag)
                 {
@@ -196,7 +196,7 @@ namespace TraceParser.Eutra
                     if (stream3.Read())
                     {
                         nBits = 3;
-                        teutra.measCycleSCell_r10 = (MeasCycleSCell_r10)input.readBits(nBits);
+                        teutra.measCycleSCell_r10 = (MeasCycleSCell_r10)input.ReadBits(nBits);
                     }
                     if (stream3.Read())
                     {
@@ -218,10 +218,10 @@ namespace TraceParser.Eutra
                     {
                         teutra.altTTT_CellsToRemoveList_r12 = new List<long>();
                         nBits = 5;
-                        num3 = input.readBits(nBits) + 1;
+                        num3 = input.ReadBits(nBits) + 1;
                         for (num4 = 0; num4 < num3; num4++)
                         {
-                            num5 = input.readBits(5) + 1;
+                            num5 = input.ReadBits(5) + 1;
                             teutra.altTTT_CellsToRemoveList_r12.Add(num5);
                         }
                     }
@@ -231,7 +231,7 @@ namespace TraceParser.Eutra
                     }
                     teutra.altTTT_CellsToAddModList_r12 = new List<AltTTT_CellsToAddMod_r12>();
                     nBits = 5;
-                    int num10 = input.readBits(nBits) + 1;
+                    int num10 = input.ReadBits(nBits) + 1;
                     for (int k = 0; k < num10; k++)
                     {
                         AltTTT_CellsToAddMod_r12 _r = AltTTT_CellsToAddMod_r12.PerDecoder.Instance.Decode(input);
@@ -260,7 +260,7 @@ namespace TraceParser.Eutra
             {
                 MeasObjectEUTRA_v9e0 _ve = new MeasObjectEUTRA_v9e0();
                 _ve.InitDefaults();
-                _ve.carrierFreq_v9e0 = input.readBits(0x12) + 0x10000;
+                _ve.carrierFreq_v9e0 = input.ReadBits(0x12) + 0x10000;
                 return _ve;
             }
         }
@@ -297,7 +297,7 @@ namespace TraceParser.Eutra
                 tgeran.carrierFreqs = CarrierFreqsGERAN.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
-                    tgeran.offsetFreq = input.readBits(5) + -15;
+                    tgeran.offsetFreq = input.ReadBits(5) + -15;
                 }
                 if (stream.Read())
                 {
@@ -347,7 +347,7 @@ namespace TraceParser.Eutra
                     measObject_Type type = new measObject_Type();
                     type.InitDefaults();
                     input.ReadBit();
-                    switch (input.readBits(2))
+                    switch (input.ReadBits(2))
                     {
                         case 0:
                             type.measObjectEUTRA = MeasObjectEUTRA.PerDecoder.Instance.Decode(input);
@@ -378,7 +378,7 @@ namespace TraceParser.Eutra
             {
                 MeasObjectToAddMod mod = new MeasObjectToAddMod();
                 mod.InitDefaults();
-                mod.measObjectId = input.readBits(5) + 1;
+                mod.measObjectId = input.ReadBits(5) + 1;
                 mod.measObject = measObject_Type.PerDecoder.Instance.Decode(input);
                 return mod;
             }
@@ -451,14 +451,14 @@ namespace TraceParser.Eutra
                 {
                     cellForWhichToReportCGI_Type type = new cellForWhichToReportCGI_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
-                            type.utra_FDD = input.readBits(9);
+                            type.utra_FDD = input.ReadBits(9);
                             return type;
 
                         case 1:
-                            type.utra_TDD = input.readBits(7);
+                            type.utra_TDD = input.ReadBits(7);
                             return type;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -486,13 +486,13 @@ namespace TraceParser.Eutra
                     int num2;
                     cellsToAddModList_Type type = new cellsToAddModList_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             {
                                 type.cellsToAddModListUTRA_FDD = new List<CellsToAddModUTRA_FDD>();
                                 num2 = 5;
-                                int num4 = input.readBits(num2) + 1;
+                                int num4 = input.ReadBits(num2) + 1;
                                 for (int i = 0; i < num4; i++)
                                 {
                                     CellsToAddModUTRA_FDD item = CellsToAddModUTRA_FDD.PerDecoder.Instance.Decode(input);
@@ -504,7 +504,7 @@ namespace TraceParser.Eutra
                             {
                                 type.cellsToAddModListUTRA_TDD = new List<CellsToAddModUTRA_TDD>();
                                 num2 = 5;
-                                int num6 = input.readBits(num2) + 1;
+                                int num6 = input.ReadBits(num2) + 1;
                                 for (int j = 0; j < num6; j++)
                                 {
                                     CellsToAddModUTRA_TDD dutra_tdd = CellsToAddModUTRA_TDD.PerDecoder.Instance.Decode(input);
@@ -529,19 +529,19 @@ namespace TraceParser.Eutra
                 bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 BitMaskStream stream2 = new BitMaskStream(input, 3);
-                tutra.carrierFreq = input.readBits(14);
+                tutra.carrierFreq = input.ReadBits(14);
                 if (stream.Read())
                 {
-                    tutra.offsetFreq = input.readBits(5) + -15;
+                    tutra.offsetFreq = input.ReadBits(5) + -15;
                 }
                 if (stream2.Read())
                 {
                     tutra.cellsToRemoveList = new List<long>();
                     int nBits = 5;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
-                        long item = input.readBits(5) + 1;
+                        long item = input.ReadBits(5) + 1;
                         tutra.cellsToRemoveList.Add(item);
                     }
                 }

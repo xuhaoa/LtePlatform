@@ -38,7 +38,7 @@ namespace TraceParser.Eutra
                 {
                     paging.pagingRecordList = new List<PagingRecord>();
                     num2 = 4;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         PagingRecord item = PagingRecord.PerDecoder.Instance.Decode(input);
@@ -48,12 +48,12 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    paging.systemInfoModification = (systemInfoModification_Enum)input.readBits(num2);
+                    paging.systemInfoModification = (systemInfoModification_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    paging.etws_Indication = (etws_Indication_Enum)input.readBits(num2);
+                    paging.etws_Indication = (etws_Indication_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
@@ -117,7 +117,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    es.eab_ParamModification_r11 = (eab_ParamModification_r11_Enum)input.readBits(nBits);
+                    es.eab_ParamModification_r11 = (eab_ParamModification_r11_Enum)input.ReadBits(nBits);
                 }
                 if (stream.Read())
                 {
@@ -151,7 +151,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = flag ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -191,7 +191,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     int nBits = 1;
-                    es.cmas_Indication_r9 = (cmas_Indication_r9_Enum)input.readBits(nBits);
+                    es.cmas_Indication_r9 = (cmas_Indication_r9_Enum)input.ReadBits(nBits);
                 }
                 if (stream.Read())
                 {
@@ -230,7 +230,7 @@ namespace TraceParser.Eutra
                 input.ReadBit();
                 record.ue_Identity = PagingUE_Identity.PerDecoder.Instance.Decode(input);
                 const int nBits = 1;
-                record.cn_Domain = (cn_Domain_Enum)input.readBits(nBits);
+                record.cn_Domain = (cn_Domain_Enum)input.ReadBits(nBits);
                 return record;
             }
         }
@@ -256,7 +256,7 @@ namespace TraceParser.Eutra
                 PagingUE_Identity identity = new PagingUE_Identity();
                 identity.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         identity.s_TMSI = S_TMSI.PerDecoder.Instance.Decode(input);
@@ -266,10 +266,10 @@ namespace TraceParser.Eutra
                         {
                             identity.imsi = new List<long>();
                             int nBits = 4;
-                            int num4 = input.readBits(nBits) + 6;
+                            int num4 = input.ReadBits(nBits) + 6;
                             for (int i = 0; i < num4; i++)
                             {
-                                long item = input.readBits(4);
+                                long item = input.ReadBits(4);
                                 identity.imsi.Add(item);
                             }
                             return identity;

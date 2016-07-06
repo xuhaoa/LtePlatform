@@ -12,9 +12,9 @@ namespace TraceParser.S1ap
 
             public long Decode(BitArrayInputStream input)
             {
-                int num2 = input.readBits(2) + 1;
+                int num2 = input.ReadBits(2) + 1;
                 input.skipUnreadedBits();
-                return input.readBits(num2 * 8) + 0x1000;
+                return input.ReadBits(num2 * 8) + 0x1000;
             }
         }
     }
@@ -28,9 +28,9 @@ namespace TraceParser.S1ap
 
             public long Decode(BitArrayInputStream input)
             {
-                int num2 = input.readBits(1) + 1;
+                int num2 = input.ReadBits(1) + 1;
                 input.skipUnreadedBits();
-                return input.readBits(num2 * 8) + 0x1000;
+                return input.ReadBits(num2 * 8) + 0x1000;
             }
         }
     }

@@ -39,7 +39,7 @@ namespace TraceParser.Eutra
                     if (stream2.Read())
                     {
                         const int nBits = 1;
-                        config.logicalChannelSR_Mask_r9 = (logicalChannelSR_Mask_r9_Enum)input.readBits(nBits);
+                        config.logicalChannelSR_Mask_r9 = (logicalChannelSR_Mask_r9_Enum)input.ReadBits(nBits);
                     }
                 }
                 return config;
@@ -82,14 +82,14 @@ namespace TraceParser.Eutra
                     ul_SpecificParameters_Type type = new ul_SpecificParameters_Type();
                     type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 1);
-                    type.priority = input.readBits(4) + 1;
+                    type.priority = input.ReadBits(4) + 1;
                     int nBits = 4;
-                    type.prioritisedBitRate = (prioritisedBitRate_Enum)input.readBits(nBits);
+                    type.prioritisedBitRate = (prioritisedBitRate_Enum)input.ReadBits(nBits);
                     nBits = 3;
-                    type.bucketSizeDuration = (bucketSizeDuration_Enum)input.readBits(nBits);
+                    type.bucketSizeDuration = (bucketSizeDuration_Enum)input.ReadBits(nBits);
                     if (stream.Read())
                     {
-                        type.logicalChannelGroup = input.readBits(2);
+                        type.logicalChannelGroup = input.ReadBits(2);
                     }
                     return type;
                 }

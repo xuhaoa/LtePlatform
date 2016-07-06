@@ -23,9 +23,9 @@ namespace TraceParser.Eutra
                 DL_AM_RLC dl_am_rlc = new DL_AM_RLC();
                 dl_am_rlc.InitDefaults();
                 int nBits = 5;
-                dl_am_rlc.t_Reordering = (T_Reordering)input.readBits(nBits);
+                dl_am_rlc.t_Reordering = (T_Reordering)input.ReadBits(nBits);
                 nBits = 6;
-                dl_am_rlc.t_StatusProhibit = (T_StatusProhibit)input.readBits(nBits);
+                dl_am_rlc.t_StatusProhibit = (T_StatusProhibit)input.ReadBits(nBits);
                 return dl_am_rlc;
             }
         }

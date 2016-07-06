@@ -24,7 +24,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    _r.rach_Report_r9 = (rach_Report_r9_Enum)input.readBits(nBits);
+                    _r.rach_Report_r9 = (rach_Report_r9_Enum)input.ReadBits(nBits);
                 }
                 return _r;
             }

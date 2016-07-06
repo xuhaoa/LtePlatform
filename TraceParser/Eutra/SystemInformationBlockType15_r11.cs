@@ -35,10 +35,10 @@ namespace TraceParser.Eutra
                 {
                     _r.mbms_SAI_IntraFreq_r11 = new List<long>();
                     num2 = 6;
-                    var num3 = input.readBits(num2) + 1;
+                    var num3 = input.ReadBits(num2) + 1;
                     for (var i = 0; i < num3; i++)
                     {
-                        long item = input.readBits(0x10);
+                        long item = input.ReadBits(0x10);
                         _r.mbms_SAI_IntraFreq_r11.Add(item);
                     }
                 }
@@ -46,7 +46,7 @@ namespace TraceParser.Eutra
                 {
                     _r.mbms_SAI_InterFreqList_r11 = new List<MBMS_SAI_InterFreq_r11>();
                     num2 = 3;
-                    var num6 = input.readBits(num2) + 1;
+                    var num6 = input.ReadBits(num2) + 1;
                     for (var j = 0; j < num6; j++)
                     {
                         var _r2 = MBMS_SAI_InterFreq_r11.PerDecoder.Instance.Decode(input);
@@ -55,7 +55,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    var nBits = input.readBits(8);
+                    var nBits = input.ReadBits(8);
                     _r.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (flag)
@@ -67,7 +67,7 @@ namespace TraceParser.Eutra
                     }
                     _r.mbms_SAI_InterFreqList_v1140 = new List<MBMS_SAI_InterFreq_v1140>();
                     num2 = 3;
-                    var num8 = input.readBits(num2) + 1;
+                    var num8 = input.ReadBits(num2) + 1;
                     for (var k = 0; k < num8; k++)
                     {
                         var _v = MBMS_SAI_InterFreq_v1140.PerDecoder.Instance.Decode(input);

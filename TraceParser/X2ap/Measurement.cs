@@ -15,7 +15,7 @@ namespace TraceParser.X2ap
             {
                 input.ReadBit();
                 input.skipUnreadedBits();
-                return input.readBits(0x10) + 1;
+                return input.ReadBits(0x10) + 1;
             }
         }
     }
@@ -49,7 +49,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -103,7 +103,7 @@ namespace TraceParser.X2ap
                 {
                     item.measurementFailureCause_List = new List<ProtocolIE_Field>();
                     num4 = 5;
-                    int num5 = input.readBits(num4) + 1;
+                    int num5 = input.ReadBits(num4) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolIE_Field field = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -115,7 +115,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     num4 = 0x10;
-                    int num7 = input.readBits(num4) + 1;
+                    int num7 = input.ReadBits(num4) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         ProtocolExtensionField field2 = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -175,14 +175,14 @@ namespace TraceParser.X2ap
                 MeasurementThresholdA2 da = new MeasurementThresholdA2();
                 da.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
-                        da.threshold_RSRP = input.readBits(7);
+                        da.threshold_RSRP = input.ReadBits(7);
                         return da;
 
                     case 1:
-                        da.threshold_RSRQ = input.readBits(6);
+                        da.threshold_RSRQ = input.ReadBits(6);
                         return da;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");

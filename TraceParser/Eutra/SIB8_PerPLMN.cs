@@ -33,7 +33,7 @@ namespace TraceParser.Eutra
                 {
                     var type = new parametersCDMA2000_r11_Type();
                     InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.explicitValue = ParametersCDMA2000_r11.PerDecoder.Decode(input);
@@ -55,7 +55,7 @@ namespace TraceParser.Eutra
             {
                 var _r = new SIB8_PerPLMN_r11();
                 InitDefaults();
-                _r.plmn_Identity_r11 = input.readBits(3) + 1;
+                _r.plmn_Identity_r11 = input.ReadBits(3) + 1;
                 _r.parametersCDMA2000_r11 = parametersCDMA2000_r11_Type.PerDecoder.Instance.Decode(input);
                 return _r;
             }

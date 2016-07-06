@@ -22,14 +22,14 @@ namespace TraceParser.Eutra
             {
                 ThresholdEUTRA deutra = new ThresholdEUTRA();
                 deutra.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
-                        deutra.threshold_RSRP = input.readBits(7);
+                        deutra.threshold_RSRP = input.ReadBits(7);
                         return deutra;
 
                     case 1:
-                        deutra.threshold_RSRQ = input.readBits(6);
+                        deutra.threshold_RSRQ = input.ReadBits(6);
                         return deutra;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -56,14 +56,14 @@ namespace TraceParser.Eutra
             {
                 ThresholdUTRA dutra = new ThresholdUTRA();
                 dutra.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
-                        dutra.utra_RSCP = input.readBits(7) + -5;
+                        dutra.utra_RSCP = input.ReadBits(7) + -5;
                         return dutra;
 
                     case 1:
-                        dutra.utra_EcN0 = input.readBits(6);
+                        dutra.utra_EcN0 = input.ReadBits(6);
                         return dutra;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");

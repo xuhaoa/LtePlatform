@@ -47,9 +47,9 @@ namespace TraceParser.Eutra
                 SecurityAlgorithmConfig config = new SecurityAlgorithmConfig();
                 config.InitDefaults();
                 int nBits = (input.ReadBit() == 0) ? 3 : 3;
-                config.cipheringAlgorithm = (cipheringAlgorithm_Enum)input.readBits(nBits);
+                config.cipheringAlgorithm = (cipheringAlgorithm_Enum)input.ReadBits(nBits);
                 nBits = (input.ReadBit() == 0) ? 3 : 3;
-                config.integrityProtAlgorithm = (integrityProtAlgorithm_Enum)input.readBits(nBits);
+                config.integrityProtAlgorithm = (integrityProtAlgorithm_Enum)input.ReadBits(nBits);
                 return config;
             }
         }
@@ -128,7 +128,7 @@ namespace TraceParser.Eutra
                             type.securityAlgorithmConfig = SecurityAlgorithmConfig.PerDecoder.Instance.Decode(input);
                         }
                         type.keyChangeIndicator = input.ReadBit() == 1;
-                        type.nextHopChainingCount = input.readBits(3);
+                        type.nextHopChainingCount = input.ReadBits(3);
                         return type;
                     }
                 }
@@ -142,7 +142,7 @@ namespace TraceParser.Eutra
                 {
                     handoverType_Type type = new handoverType_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.intraLTE = intraLTE_Type.PerDecoder.Instance.Decode(input);
@@ -241,7 +241,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.securityModeCommand_r8 = SecurityModeCommand_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -289,7 +289,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -312,7 +312,7 @@ namespace TraceParser.Eutra
             {
                 SecurityModeCommand command = new SecurityModeCommand();
                 command.InitDefaults();
-                command.rrc_TransactionIdentifier = input.readBits(2);
+                command.rrc_TransactionIdentifier = input.ReadBits(2);
                 command.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return command;
             }
@@ -391,7 +391,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -453,7 +453,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.securityModeComplete_r8 = SecurityModeComplete_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -476,7 +476,7 @@ namespace TraceParser.Eutra
             {
                 SecurityModeComplete complete = new SecurityModeComplete();
                 complete.InitDefaults();
-                complete.rrc_TransactionIdentifier = input.readBits(2);
+                complete.rrc_TransactionIdentifier = input.ReadBits(2);
                 complete.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return complete;
             }
@@ -553,7 +553,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = flag ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -615,7 +615,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.securityModeFailure_r8 = SecurityModeFailure_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -638,7 +638,7 @@ namespace TraceParser.Eutra
             {
                 SecurityModeFailure failure = new SecurityModeFailure();
                 failure.InitDefaults();
-                failure.rrc_TransactionIdentifier = input.readBits(2);
+                failure.rrc_TransactionIdentifier = input.ReadBits(2);
                 failure.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return failure;
             }
@@ -714,7 +714,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())

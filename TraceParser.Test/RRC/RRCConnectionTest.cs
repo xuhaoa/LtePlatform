@@ -16,7 +16,7 @@ namespace TraceParser.Test.RRC
         public void Test_Decode(string source)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(3), 3);
+            Assert.AreEqual(stream.ReadBits(3), 3);
             RRCConnectionSetup signal = RRCConnectionSetup.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(signal);
         }
@@ -40,7 +40,7 @@ namespace TraceParser.Test.RRC
         public void Test_SrbToAddModList(string source, string description)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(3), 3);
+            Assert.AreEqual(stream.ReadBits(3), 3);
             RRCConnectionSetup signal = RRCConnectionSetup.PerDecoder.Instance.Decode(stream);
             Assert.AreEqual(signal.rrc_TransactionIdentifier, 1);
             SRB_ToAddMod item =
@@ -63,7 +63,7 @@ namespace TraceParser.Test.RRC
         public void Test_MacMainConfig(string source, string description)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(3), 3);
+            Assert.AreEqual(stream.ReadBits(3), 3);
             RRCConnectionSetup signal = RRCConnectionSetup.PerDecoder.Instance.Decode(stream);
             Assert.AreEqual(signal.rrc_TransactionIdentifier, 1);
             MAC_MainConfig config =
@@ -83,7 +83,7 @@ namespace TraceParser.Test.RRC
         public void Test_SpsConfig(string source, string description)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(3), 3);
+            Assert.AreEqual(stream.ReadBits(3), 3);
             RRCConnectionSetup signal = RRCConnectionSetup.PerDecoder.Instance.Decode(stream);
             Assert.AreEqual(signal.rrc_TransactionIdentifier, 1);
             SPS_Config config =
@@ -126,7 +126,7 @@ namespace TraceParser.Test.RRC
         public void Test_PhysicalConfigDedicated(string source, string description)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(3), 3);
+            Assert.AreEqual(stream.ReadBits(3), 3);
             RRCConnectionSetup signal = RRCConnectionSetup.PerDecoder.Instance.Decode(stream);
             Assert.AreEqual(signal.rrc_TransactionIdentifier, 1);
             PhysicalConfigDedicated config =
@@ -145,7 +145,7 @@ namespace TraceParser.Test.RRC
         public void Test_Decode(string source, int transactionId)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 4);
+            Assert.AreEqual(stream.ReadBits(5), 4);
             RRCConnectionSetupComplete signal = RRCConnectionSetupComplete.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(signal);
             Assert.AreEqual(signal.rrc_TransactionIdentifier, transactionId);
@@ -165,7 +165,7 @@ namespace TraceParser.Test.RRC
         public void Test_CentralPart(string source, string description)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 4);
+            Assert.AreEqual(stream.ReadBits(5), 4);
             RRCConnectionSetupComplete signal = RRCConnectionSetupComplete.PerDecoder.Instance.Decode(stream);
             RRCConnectionSetupComplete_r8_IEs item = signal.criticalExtensions.c1.rrcConnectionSetupComplete_r8;
             Assert.AreEqual(item.GetOutputs(), description);
@@ -180,7 +180,7 @@ namespace TraceParser.Test.RRC
         public void Test_Decode(string source, bool redirect)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 5);
+            Assert.AreEqual(stream.ReadBits(5), 5);
             RRCConnectionRelease signal = RRCConnectionRelease.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(signal);
             Assert.AreEqual(signal.rrc_TransactionIdentifier, 0);
@@ -221,7 +221,7 @@ namespace TraceParser.Test.RRC
             bool macConfigExist, bool phyConfigExist)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 4);
+            Assert.AreEqual(stream.ReadBits(5), 4);
             RRCConnectionReconfiguration result = RRCConnectionReconfiguration.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(result);
             Assert.AreEqual(result.rrc_TransactionIdentifier, transId);
@@ -270,7 +270,7 @@ namespace TraceParser.Test.RRC
             int measObjects, int reportConfigs, int measIds)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 4);
+            Assert.AreEqual(stream.ReadBits(5), 4);
             RRCConnectionReconfiguration result = RRCConnectionReconfiguration.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(result);
             Assert.AreEqual(result.rrc_TransactionIdentifier, transId);
@@ -296,7 +296,7 @@ namespace TraceParser.Test.RRC
         public void Test_Zte(string source)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 4);
+            Assert.AreEqual(stream.ReadBits(5), 4);
             RRCConnectionReconfiguration result = RRCConnectionReconfiguration.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(result);
         }
@@ -311,7 +311,7 @@ namespace TraceParser.Test.RRC
         public void Test_ZteCellTrace(string source)
         {
             BitArrayInputStream stream = source.ToUpper().GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 4);
+            Assert.AreEqual(stream.ReadBits(5), 4);
             RRCConnectionReconfiguration result = RRCConnectionReconfiguration.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(result);
         }

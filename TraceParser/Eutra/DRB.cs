@@ -24,9 +24,9 @@ namespace TraceParser.Eutra
             {
                 DRB_CountInfo info = new DRB_CountInfo();
                 info.InitDefaults();
-                info.drb_Identity = input.readBits(5) + 1;
-                info.count_Uplink = input.readBits(0x20);
-                info.count_Downlink = input.readBits(0x20);
+                info.drb_Identity = input.ReadBits(5) + 1;
+                info.count_Uplink = input.ReadBits(0x20);
+                info.count_Downlink = input.ReadBits(0x20);
                 return info;
             }
         }
@@ -53,9 +53,9 @@ namespace TraceParser.Eutra
             {
                 DRB_CountMSB_Info info = new DRB_CountMSB_Info();
                 info.InitDefaults();
-                info.drb_Identity = input.readBits(5) + 1;
-                info.countMSB_Uplink = input.readBits(0x19);
-                info.countMSB_Downlink = input.readBits(0x19);
+                info.drb_Identity = input.ReadBits(5) + 1;
+                info.countMSB_Uplink = input.ReadBits(0x19);
+                info.countMSB_Downlink = input.ReadBits(0x19);
                 return info;
             }
         }
@@ -91,9 +91,9 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 5) : new BitMaskStream(input, 5);
                 if (stream.Read())
                 {
-                    mod.eps_BearerIdentity = input.readBits(4);
+                    mod.eps_BearerIdentity = input.ReadBits(4);
                 }
-                mod.drb_Identity = input.readBits(5) + 1;
+                mod.drb_Identity = input.ReadBits(5) + 1;
                 if (stream.Read())
                 {
                     mod.pdcp_Config = PDCP_Config.PerDecoder.Instance.Decode(input);
@@ -104,7 +104,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    mod.logicalChannelIdentity = input.readBits(3) + 3;
+                    mod.logicalChannelIdentity = input.ReadBits(3) + 3;
                 }
                 if (stream.Read())
                 {

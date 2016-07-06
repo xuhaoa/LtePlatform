@@ -30,7 +30,7 @@ namespace TraceParser.Eutra
                 common.preambleInfo = preambleInfo_Type.PerDecoder.Instance.Decode(input);
                 common.powerRampingParameters = PowerRampingParameters.PerDecoder.Instance.Decode(input);
                 common.ra_SupervisionInfo = ra_SupervisionInfo_Type.PerDecoder.Instance.Decode(input);
-                common.maxHARQ_Msg3Tx = input.readBits(3) + 1;
+                common.maxHARQ_Msg3Tx = input.ReadBits(3) + 1;
                 return common;
             }
         }
@@ -76,7 +76,7 @@ namespace TraceParser.Eutra
                     type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 1);
                     const int nBits = 4;
-                    type.numberOfRA_Preambles = (numberOfRA_Preambles_Enum)input.readBits(nBits);
+                    type.numberOfRA_Preambles = (numberOfRA_Preambles_Enum)input.ReadBits(nBits);
                     if (stream.Read())
                     {
                         type.preamblesGroupAConfig = preamblesGroupAConfig_Type.PerDecoder.Instance.Decode(input);
@@ -128,11 +128,11 @@ namespace TraceParser.Eutra
                         type.InitDefaults();
                         input.ReadBit();
                         int nBits = 4;
-                        type.sizeOfRA_PreamblesGroupA = (sizeOfRA_PreamblesGroupA_Enum)input.readBits(nBits);
+                        type.sizeOfRA_PreamblesGroupA = (sizeOfRA_PreamblesGroupA_Enum)input.ReadBits(nBits);
                         nBits = 2;
-                        type.messageSizeGroupA = (messageSizeGroupA_Enum)input.readBits(nBits);
+                        type.messageSizeGroupA = (messageSizeGroupA_Enum)input.ReadBits(nBits);
                         nBits = 3;
-                        type.messagePowerOffsetGroupB = (messagePowerOffsetGroupB_Enum)input.readBits(nBits);
+                        type.messagePowerOffsetGroupB = (messagePowerOffsetGroupB_Enum)input.ReadBits(nBits);
                         return type;
                     }
                 }
@@ -192,11 +192,11 @@ namespace TraceParser.Eutra
                     ra_SupervisionInfo_Type type = new ra_SupervisionInfo_Type();
                     type.InitDefaults();
                     int nBits = 4;
-                    type.preambleTransMax = (PreambleTransMax)input.readBits(nBits);
+                    type.preambleTransMax = (PreambleTransMax)input.ReadBits(nBits);
                     nBits = 3;
-                    type.ra_ResponseWindowSize = (ra_ResponseWindowSize_Enum)input.readBits(nBits);
+                    type.ra_ResponseWindowSize = (ra_ResponseWindowSize_Enum)input.ReadBits(nBits);
                     nBits = 3;
-                    type.mac_ContentionResolutionTimer = (mac_ContentionResolutionTimer_Enum)input.readBits(nBits);
+                    type.mac_ContentionResolutionTimer = (mac_ContentionResolutionTimer_Enum)input.ReadBits(nBits);
                     return type;
                 }
             }
@@ -259,7 +259,7 @@ namespace TraceParser.Eutra
                     ra_SupervisionInfo_r11_Type type = new ra_SupervisionInfo_r11_Type();
                     type.InitDefaults();
                     const int nBits = 4;
-                    type.preambleTransMax_r11 = (PreambleTransMax)input.readBits(nBits);
+                    type.preambleTransMax_r11 = (PreambleTransMax)input.ReadBits(nBits);
                     return type;
                 }
             }
@@ -285,8 +285,8 @@ namespace TraceParser.Eutra
             {
                 RACH_ConfigDedicated dedicated = new RACH_ConfigDedicated();
                 dedicated.InitDefaults();
-                dedicated.ra_PreambleIndex = input.readBits(6);
-                dedicated.ra_PRACH_MaskIndex = input.readBits(4);
+                dedicated.ra_PreambleIndex = input.ReadBits(6);
+                dedicated.ra_PRACH_MaskIndex = input.ReadBits(4);
                 return dedicated;
             }
         }
@@ -318,7 +318,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    _r.nonContiguousUL_RA_WithinCC_Info_r10 = (nonContiguousUL_RA_WithinCC_Info_r10_Enum)input.readBits(nBits);
+                    _r.nonContiguousUL_RA_WithinCC_Info_r10 = (nonContiguousUL_RA_WithinCC_Info_r10_Enum)input.ReadBits(nBits);
                 }
                 return _r;
             }

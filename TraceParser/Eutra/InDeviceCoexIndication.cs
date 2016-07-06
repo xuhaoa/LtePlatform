@@ -47,7 +47,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.inDeviceCoexIndication_r11 = InDeviceCoexIndication_r11_IEs.PerDecoder.Instance.Decode(input);
@@ -95,7 +95,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -172,7 +172,7 @@ namespace TraceParser.Eutra
                 {
                     es.affectedCarrierFreqList_r11 = new List<AffectedCarrierFreq_r11>();
                     int num2 = 5;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         AffectedCarrierFreq_r11 item = AffectedCarrierFreq_r11.PerDecoder.Instance.Decode(input);
@@ -185,7 +185,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -255,13 +255,13 @@ namespace TraceParser.Eutra
                     type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 1);
                     int nBits = 3;
-                    type.drx_CycleLength_r11 = (drx_CycleLength_r11_Enum)input.readBits(nBits);
+                    type.drx_CycleLength_r11 = (drx_CycleLength_r11_Enum)input.ReadBits(nBits);
                     if (stream.Read())
                     {
-                        type.drx_Offset_r11 = input.readBits(8);
+                        type.drx_Offset_r11 = input.ReadBits(8);
                     }
                     nBits = 3;
-                    type.drx_ActiveTime_r11 = (drx_ActiveTime_r11_Enum)input.readBits(nBits);
+                    type.drx_ActiveTime_r11 = (drx_ActiveTime_r11_Enum)input.ReadBits(nBits);
                     return type;
                 }
             }
@@ -276,7 +276,7 @@ namespace TraceParser.Eutra
                 TDM_AssistanceInfo_r11 _r = new TDM_AssistanceInfo_r11();
                 _r.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         _r.drx_AssistanceInfo_r11 = drx_AssistanceInfo_r11_Type.PerDecoder.Instance.Decode(input);
@@ -286,7 +286,7 @@ namespace TraceParser.Eutra
                         {
                             _r.idc_SubframePatternList_r11 = new List<IDC_SubframePattern_r11>();
                             const int nBits = 3;
-                            int num4 = input.readBits(nBits) + 1;
+                            int num4 = input.ReadBits(nBits) + 1;
                             for (int i = 0; i < num4; i++)
                             {
                                 IDC_SubframePattern_r11 item = IDC_SubframePattern_r11.PerDecoder.Instance.Decode(input);

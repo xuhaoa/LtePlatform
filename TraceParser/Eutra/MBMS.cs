@@ -32,9 +32,9 @@ namespace TraceParser.Eutra
                 MBMS_NotificationConfig_r9 _r = new MBMS_NotificationConfig_r9();
                 _r.InitDefaults();
                 const int nBits = 1;
-                _r.notificationRepetitionCoeff_r9 = (notificationRepetitionCoeff_r9_Enum)input.readBits(nBits);
-                _r.notificationOffset_r9 = input.readBits(4);
-                _r.notificationSF_Index_r9 = input.readBits(3) + 1;
+                _r.notificationRepetitionCoeff_r9 = (notificationRepetitionCoeff_r9_Enum)input.ReadBits(nBits);
+                _r.notificationOffset_r9 = input.ReadBits(4);
+                _r.notificationSF_Index_r9 = input.ReadBits(3) + 1;
                 return _r;
             }
         }
@@ -59,13 +59,13 @@ namespace TraceParser.Eutra
             {
                 MBMS_SAI_InterFreq_r11 _r = new MBMS_SAI_InterFreq_r11();
                 _r.InitDefaults();
-                _r.dl_CarrierFreq_r11 = input.readBits(0x12);
+                _r.dl_CarrierFreq_r11 = input.ReadBits(0x12);
                 _r.mbms_SAI_List_r11 = new List<long>();
                 const int nBits = 6;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
-                    long item = input.readBits(0x10);
+                    long item = input.ReadBits(0x10);
                     _r.mbms_SAI_List_r11.Add(item);
                 }
                 return _r;
@@ -95,10 +95,10 @@ namespace TraceParser.Eutra
                 {
                     _v.multiBandInfoList_r11 = new List<long>();
                     const int nBits = 3;
-                    int num3 = input.readBits(nBits) + 1;
+                    int num3 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num3; i++)
                     {
-                        long item = input.readBits(8) + 1;
+                        long item = input.ReadBits(8) + 1;
                         _v.multiBandInfoList_r11.Add(item);
                     }
                 }
@@ -134,7 +134,7 @@ namespace TraceParser.Eutra
                 {
                     _r.sessionId_r9 = input.readOctetString(1);
                 }
-                _r.logicalChannelIdentity_r9 = input.readBits(5);
+                _r.logicalChannelIdentity_r9 = input.ReadBits(5);
                 return _r;
             }
         }
@@ -184,7 +184,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 _r.countingRequestList_r10 = new List<CountingRequestInfo_r10>();
                 const int num2 = 4;
-                int num3 = input.readBits(num2) + 1;
+                int num3 = input.ReadBits(num2) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     CountingRequestInfo_r10 item = CountingRequestInfo_r10.PerDecoder.Instance.Decode(input);
@@ -192,7 +192,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     _r.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -247,7 +247,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.countingResponse_r10 = MBMSCountingResponse_r10_IEs.PerDecoder.Instance.Decode(input);
@@ -295,7 +295,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -370,13 +370,13 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 4);
                 if (stream.Read())
                 {
-                    es.mbsfn_AreaIndex_r10 = input.readBits(3);
+                    es.mbsfn_AreaIndex_r10 = input.ReadBits(3);
                 }
                 if (stream.Read())
                 {
                     es.countingResponseList_r10 = new List<CountingResponseInfo_r10>();
                     const int num2 = 4;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         CountingResponseInfo_r10 item = CountingResponseInfo_r10.PerDecoder.Instance.Decode(input);
@@ -385,7 +385,7 @@ namespace TraceParser.Eutra
                 }
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -440,7 +440,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.interestIndication_r11 = MBMSInterestIndication_r11_IEs.PerDecoder.Instance.Decode(input);
@@ -488,7 +488,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -571,21 +571,21 @@ namespace TraceParser.Eutra
                 {
                     es.mbms_FreqList_r11 = new List<long>();
                     num2 = 3;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
-                        long item = input.readBits(0x12);
+                        long item = input.ReadBits(0x12);
                         es.mbms_FreqList_r11.Add(item);
                     }
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    es.mbms_Priority_r11 = (mbms_Priority_r11_Enum)input.readBits(num2);
+                    es.mbms_Priority_r11 = (mbms_Priority_r11_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())

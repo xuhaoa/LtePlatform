@@ -34,24 +34,24 @@ namespace TraceParser.S1ap
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
-                    diagnostics.procedureCode = input.readBits(8);
+                    diagnostics.procedureCode = input.ReadBits(8);
                 }
                 if (stream.Read())
                 {
                     num4 = 2;
-                    diagnostics.triggeringMessage = (TriggeringMessage)input.readBits(num4);
+                    diagnostics.triggeringMessage = (TriggeringMessage)input.ReadBits(num4);
                 }
                 if (stream.Read())
                 {
                     num4 = 2;
-                    diagnostics.procedureCriticality = (Criticality)input.readBits(num4);
+                    diagnostics.procedureCriticality = (Criticality)input.ReadBits(num4);
                 }
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     diagnostics.iEsCriticalityDiagnostics = new List<CriticalityDiagnostics_IE_Item>();
                     num4 = 8;
-                    int num5 = input.readBits(num4) + 1;
+                    int num5 = input.ReadBits(num4) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         CriticalityDiagnostics_IE_Item item = CriticalityDiagnostics_IE_Item.PerDecoder.Instance.Decode(input);
@@ -63,7 +63,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     diagnostics.iE_Extensions = new List<ProtocolExtensionField>();
                     num4 = 0x10;
-                    int num7 = input.readBits(num4) + 1;
+                    int num7 = input.ReadBits(num4) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -100,18 +100,18 @@ namespace TraceParser.S1ap
                 item.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 int nBits = 2;
-                item.iECriticality = (Criticality)input.readBits(nBits);
-                nBits = input.readBits(1) + 1;
+                item.iECriticality = (Criticality)input.ReadBits(nBits);
+                nBits = input.ReadBits(1) + 1;
                 input.skipUnreadedBits();
-                item.iE_ID = input.readBits(nBits * 8);
+                item.iE_ID = input.ReadBits(nBits * 8);
                 nBits = 1;
-                item.typeOfError = (TypeOfError)input.readBits(nBits);
+                item.typeOfError = (TypeOfError)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

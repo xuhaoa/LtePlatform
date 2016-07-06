@@ -49,11 +49,11 @@ namespace TraceParser.Eutra
                 PhysCellIdRange range = new PhysCellIdRange();
                 range.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                range.start = input.readBits(9);
+                range.start = input.ReadBits(9);
                 if (stream.Read())
                 {
                     const int nBits = 4;
-                    range.range = (range_Enum)input.readBits(nBits);
+                    range.range = (range_Enum)input.ReadBits(nBits);
                 }
                 return range;
             }
@@ -100,10 +100,10 @@ namespace TraceParser.Eutra
                 PhysCellIdRangeUTRA_FDD_r9 _r = new PhysCellIdRangeUTRA_FDD_r9();
                 _r.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                _r.start_r9 = input.readBits(9);
+                _r.start_r9 = input.ReadBits(9);
                 if (stream.Read())
                 {
-                    _r.range_r9 = input.readBits(9) + 2;
+                    _r.range_r9 = input.ReadBits(9) + 2;
                 }
                 return _r;
             }

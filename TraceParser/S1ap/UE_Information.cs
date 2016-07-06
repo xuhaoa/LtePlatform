@@ -40,18 +40,18 @@ namespace TraceParser.S1ap
                 UE_S1AP_ID_pair _pair = new UE_S1AP_ID_pair();
                 _pair.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                int nBits = input.readBits(2) + 1;
+                int nBits = input.ReadBits(2) + 1;
                 input.skipUnreadedBits();
-                _pair.mME_UE_S1AP_ID = input.readBits(nBits * 8);
-                nBits = input.readBits(2) + 1;
+                _pair.mME_UE_S1AP_ID = input.ReadBits(nBits * 8);
+                nBits = input.ReadBits(2) + 1;
                 input.skipUnreadedBits();
-                _pair.eNB_UE_S1AP_ID = input.readBits(nBits * 8);
+                _pair.eNB_UE_S1AP_ID = input.ReadBits(nBits * 8);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     _pair.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -83,7 +83,7 @@ namespace TraceParser.S1ap
                 UE_S1AP_IDs ds = new UE_S1AP_IDs();
                 ds.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         ds.uE_S1AP_ID_pair = UE_S1AP_ID_pair.PerDecoder.Instance.Decode(input);
@@ -91,9 +91,9 @@ namespace TraceParser.S1ap
 
                     case 1:
                         {
-                            int num4 = input.readBits(2) + 1;
+                            int num4 = input.ReadBits(2) + 1;
                             input.skipUnreadedBits();
-                            ds.mME_UE_S1AP_ID = input.readBits(num4 * 8);
+                            ds.mME_UE_S1AP_ID = input.ReadBits(num4 * 8);
                             return ds;
                         }
                 }
@@ -124,18 +124,18 @@ namespace TraceParser.S1ap
                 UEAggregateMaximumBitrate bitrate = new UEAggregateMaximumBitrate();
                 bitrate.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                int nBits = input.readBits(3) + 1;
+                int nBits = input.ReadBits(3) + 1;
                 input.skipUnreadedBits();
-                bitrate.uEaggregateMaximumBitRateDL = input.readBits(nBits * 8);
-                nBits = input.readBits(3) + 1;
+                bitrate.uEaggregateMaximumBitRateDL = input.ReadBits(nBits * 8);
+                nBits = input.ReadBits(3) + 1;
                 input.skipUnreadedBits();
-                bitrate.uEaggregateMaximumBitRateUL = input.readBits(nBits * 8);
+                bitrate.uEaggregateMaximumBitRateUL = input.ReadBits(nBits * 8);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     bitrate.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -168,7 +168,7 @@ namespace TraceParser.S1ap
                 input.skipUnreadedBits();
                 indication.protocolIEs = new List<ProtocolIE_Field>();
                 const int nBits = 0x10;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int i = 0; i < num5; i++)
                 {
                     ProtocolIE_Field item = ProtocolIE_Field.PerDecoder.Instance.Decode(input);
@@ -213,14 +213,14 @@ namespace TraceParser.S1ap
                 UEPagingID gid = new UEPagingID();
                 gid.InitDefaults();
                 input.ReadBit();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         gid.s_TMSI = S_TMSI.PerDecoder.Instance.Decode(input);
                         return gid;
 
                     case 1:
-                        int num = input.readBits(3);
+                        int num = input.ReadBits(3);
                         input.skipUnreadedBits();
                         gid.iMSI = input.readOctetString(num + 3);
                         return gid;
@@ -246,19 +246,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_0096;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_0096;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -299,7 +299,7 @@ namespace TraceParser.S1ap
                     input.skipUnreadedBits();
                     capabilities.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -327,19 +327,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_0096;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_0096;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -367,19 +367,19 @@ namespace TraceParser.S1ap
                     switch (input.ReadBit())
                     {
                         case 0:
-                            nBits += input.readBits(7);
+                            nBits += input.ReadBits(7);
                             goto Label_0096;
 
                         case 1:
                             switch (input.ReadBit())
                             {
                                 case 0:
-                                    nBits += input.readBits(14);
+                                    nBits += input.ReadBits(14);
                                     goto Label_0096;
 
                                 case 1:
-                                    input.readBits(2);
-                                    nBits += input.readBits(4) * 0x400;
+                                    input.ReadBits(2);
+                                    nBits += input.ReadBits(4) * 0x400;
                                     break;
                             }
                             break;
@@ -401,7 +401,7 @@ namespace TraceParser.S1ap
             public long Decode(BitArrayInputStream input)
             {
                 input.skipUnreadedBits();
-                return input.readBits(8) + 1;
+                return input.ReadBits(8) + 1;
             }
         }
     }

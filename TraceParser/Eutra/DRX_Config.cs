@@ -22,7 +22,7 @@ namespace TraceParser.Eutra
             {
                 DRX_Config config = new DRX_Config();
                 config.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         return config;
@@ -147,70 +147,70 @@ namespace TraceParser.Eutra
                     {
                         longDRX_CycleStartOffset_Type type = new longDRX_CycleStartOffset_Type();
                         type.InitDefaults();
-                        switch (input.readBits(4))
+                        switch (input.ReadBits(4))
                         {
                             case 0:
-                                type.sf10 = input.readBits(4);
+                                type.sf10 = input.ReadBits(4);
                                 return type;
 
                             case 1:
-                                type.sf20 = input.readBits(5);
+                                type.sf20 = input.ReadBits(5);
                                 return type;
 
                             case 2:
-                                type.sf32 = input.readBits(5);
+                                type.sf32 = input.ReadBits(5);
                                 return type;
 
                             case 3:
-                                type.sf40 = input.readBits(6);
+                                type.sf40 = input.ReadBits(6);
                                 return type;
 
                             case 4:
-                                type.sf64 = input.readBits(6);
+                                type.sf64 = input.ReadBits(6);
                                 return type;
 
                             case 5:
-                                type.sf80 = input.readBits(7);
+                                type.sf80 = input.ReadBits(7);
                                 return type;
 
                             case 6:
-                                type.sf128 = input.readBits(7);
+                                type.sf128 = input.ReadBits(7);
                                 return type;
 
                             case 7:
-                                type.sf160 = input.readBits(8);
+                                type.sf160 = input.ReadBits(8);
                                 return type;
 
                             case 8:
-                                type.sf256 = input.readBits(8);
+                                type.sf256 = input.ReadBits(8);
                                 return type;
 
                             case 9:
-                                type.sf320 = input.readBits(9);
+                                type.sf320 = input.ReadBits(9);
                                 return type;
 
                             case 10:
-                                type.sf512 = input.readBits(9);
+                                type.sf512 = input.ReadBits(9);
                                 return type;
 
                             case 11:
-                                type.sf640 = input.readBits(10);
+                                type.sf640 = input.ReadBits(10);
                                 return type;
 
                             case 12:
-                                type.sf1024 = input.readBits(10);
+                                type.sf1024 = input.ReadBits(10);
                                 return type;
 
                             case 13:
-                                type.sf1280 = input.readBits(11);
+                                type.sf1280 = input.ReadBits(11);
                                 return type;
 
                             case 14:
-                                type.sf2048 = input.readBits(11);
+                                type.sf2048 = input.ReadBits(11);
                                 return type;
 
                             case 15:
-                                type.sf2560 = input.readBits(12);
+                                type.sf2560 = input.ReadBits(12);
                                 return type;
                         }
                         throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -248,11 +248,11 @@ namespace TraceParser.Eutra
                     type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 1);
                     int nBits = 4;
-                    type.onDurationTimer = (onDurationTimer_Enum)input.readBits(nBits);
+                    type.onDurationTimer = (onDurationTimer_Enum)input.ReadBits(nBits);
                     nBits = 5;
-                    type.drx_InactivityTimer = (drx_InactivityTimer_Enum)input.readBits(nBits);
+                    type.drx_InactivityTimer = (drx_InactivityTimer_Enum)input.ReadBits(nBits);
                     nBits = 3;
-                    type.drx_RetransmissionTimer = (drx_RetransmissionTimer_Enum)input.readBits(nBits);
+                    type.drx_RetransmissionTimer = (drx_RetransmissionTimer_Enum)input.ReadBits(nBits);
                     type.longDRX_CycleStartOffset = longDRX_CycleStartOffset_Type.PerDecoder.Instance.Decode(input);
                     if (stream.Read())
                     {
@@ -282,8 +282,8 @@ namespace TraceParser.Eutra
                         shortDRX_Type type = new shortDRX_Type();
                         type.InitDefaults();
                         int nBits = 4;
-                        type.shortDRX_Cycle = (shortDRX_Cycle_Enum)input.readBits(nBits);
-                        type.drxShortCycleTimer = input.readBits(4) + 1;
+                        type.shortDRX_Cycle = (shortDRX_Cycle_Enum)input.ReadBits(nBits);
+                        type.drxShortCycleTimer = input.ReadBits(4) + 1;
                         return type;
                     }
                 }
@@ -348,14 +348,14 @@ namespace TraceParser.Eutra
                 {
                     longDRX_CycleStartOffset_v1130_Type type = new longDRX_CycleStartOffset_v1130_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
-                            type.sf60_v1130 = input.readBits(6);
+                            type.sf60_v1130 = input.ReadBits(6);
                             return type;
 
                         case 1:
-                            type.sf70_v1130 = input.readBits(7);
+                            type.sf70_v1130 = input.ReadBits(7);
                             return type;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
@@ -376,7 +376,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.drx_RetransmissionTimer_v1130 = (drx_RetransmissionTimer_v1130_Enum)input.readBits(num2);
+                    _v.drx_RetransmissionTimer_v1130 = (drx_RetransmissionTimer_v1130_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
@@ -385,7 +385,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.shortDRX_Cycle_v1130 = (shortDRX_Cycle_v1130_Enum)input.readBits(num2);
+                    _v.shortDRX_Cycle_v1130 = (shortDRX_Cycle_v1130_Enum)input.ReadBits(num2);
                 }
                 return _v;
             }

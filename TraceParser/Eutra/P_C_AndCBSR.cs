@@ -22,8 +22,8 @@ namespace TraceParser.Eutra
             {
                 P_C_AndCBSR_r11 _r = new P_C_AndCBSR_r11();
                 _r.InitDefaults();
-                _r.p_C_r11 = input.readBits(5) + -8;
-                int nBits = input.readBits(8);
+                _r.p_C_r11 = input.ReadBits(5) + -8;
+                int nBits = input.ReadBits(8);
                 _r.codebookSubsetRestriction_r11 = input.readBitString(nBits);
                 return _r;
             }

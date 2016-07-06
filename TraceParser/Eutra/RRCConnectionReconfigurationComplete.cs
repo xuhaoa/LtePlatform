@@ -53,7 +53,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.rrcConnectionReconfigurationComplete_r8 = RRCConnectionReconfigurationComplete_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -76,7 +76,7 @@ namespace TraceParser.Eutra
             {
                 RRCConnectionReconfigurationComplete complete = new RRCConnectionReconfigurationComplete();
                 complete.InitDefaults();
-                complete.rrc_TransactionIdentifier = input.readBits(2);
+                complete.rrc_TransactionIdentifier = input.ReadBits(2);
                 complete.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return complete;
             }
@@ -141,12 +141,12 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    es.rlf_InfoAvailable_r10 = (rlf_InfoAvailable_r10_Enum)input.readBits(num2);
+                    es.rlf_InfoAvailable_r10 = (rlf_InfoAvailable_r10_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     num2 = 1;
-                    es.logMeasAvailable_r10 = (logMeasAvailable_r10_Enum)input.readBits(num2);
+                    es.logMeasAvailable_r10 = (logMeasAvailable_r10_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
@@ -210,7 +210,7 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    es.connEstFailInfoAvailable_r11 = (connEstFailInfoAvailable_r11_Enum)input.readBits(nBits);
+                    es.connEstFailInfoAvailable_r11 = (connEstFailInfoAvailable_r11_Enum)input.ReadBits(nBits);
                 }
                 if (stream.Read())
                 {
@@ -243,7 +243,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())

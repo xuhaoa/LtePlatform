@@ -23,7 +23,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    _ve.freqBandIndicator_v9e0 = input.readBits(8) + 0x41;
+                    _ve.freqBandIndicator_v9e0 = input.ReadBits(8) + 0x41;
                 }
                 return _ve;
             }

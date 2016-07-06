@@ -49,7 +49,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(2))
+                        switch (input.ReadBits(2))
                         {
                             case 0:
                                 type.rrcConnectionRelease_r8 = RRCConnectionRelease_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -97,7 +97,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -120,7 +120,7 @@ namespace TraceParser.Eutra
             {
                 RRCConnectionRelease release = new RRCConnectionRelease();
                 release.InitDefaults();
-                release.rrc_TransactionIdentifier = input.readBits(2);
+                release.rrc_TransactionIdentifier = input.ReadBits(2);
                 release.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return release;
             }
@@ -152,7 +152,7 @@ namespace TraceParser.Eutra
                 es.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 3);
                 const int nBits = 2;
-                es.releaseCause = (ReleaseCause)input.readBits(nBits);
+                es.releaseCause = (ReleaseCause)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     es.redirectedCarrierInfo = RedirectedCarrierInfo.PerDecoder.Instance.Decode(input);
@@ -212,7 +212,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    es.extendedWaitTime_r10 = input.readBits(11) + 1;
+                    es.extendedWaitTime_r10 = input.ReadBits(11) + 1;
                 }
                 if (stream.Read())
                 {
@@ -245,7 +245,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -293,13 +293,13 @@ namespace TraceParser.Eutra
                     cellInfoList_r9_Type type = new cellInfoList_r9_Type();
                     type.InitDefaults();
                     bool flag = input.ReadBit() != 0;
-                    switch (input.readBits(2))
+                    switch (input.ReadBits(2))
                     {
                         case 0:
                             {
                                 type.geran_r9 = new List<CellInfoGERAN_r9>();
                                 num2 = 5;
-                                int num4 = input.readBits(num2) + 1;
+                                int num4 = input.ReadBits(num2) + 1;
                                 for (int i = 0; i < num4; i++)
                                 {
                                     CellInfoGERAN_r9 item = CellInfoGERAN_r9.PerDecoder.Instance.Decode(input);
@@ -311,7 +311,7 @@ namespace TraceParser.Eutra
                             {
                                 type.utra_FDD_r9 = new List<CellInfoUTRA_FDD_r9>();
                                 num2 = 4;
-                                int num6 = input.readBits(num2) + 1;
+                                int num6 = input.ReadBits(num2) + 1;
                                 for (int j = 0; j < num6; j++)
                                 {
                                     CellInfoUTRA_FDD_r9 _r2 = CellInfoUTRA_FDD_r9.PerDecoder.Instance.Decode(input);
@@ -323,7 +323,7 @@ namespace TraceParser.Eutra
                             {
                                 type.utra_TDD_r9 = new List<CellInfoUTRA_TDD_r9>();
                                 num2 = 4;
-                                int num8 = input.readBits(num2) + 1;
+                                int num8 = input.ReadBits(num2) + 1;
                                 for (int k = 0; k < num8; k++)
                                 {
                                     CellInfoUTRA_TDD_r9 _r3 = CellInfoUTRA_TDD_r9.PerDecoder.Instance.Decode(input);
@@ -336,7 +336,7 @@ namespace TraceParser.Eutra
                             {
                                 type.utra_TDD_r10 = new List<CellInfoUTRA_TDD_r10>();
                                 num2 = 4;
-                                int num10 = input.readBits(num2) + 1;
+                                int num10 = input.ReadBits(num2) + 1;
                                 for (int m = 0; m < num10; m++)
                                 {
                                     CellInfoUTRA_TDD_r10 _r4 = CellInfoUTRA_TDD_r10.PerDecoder.Instance.Decode(input);

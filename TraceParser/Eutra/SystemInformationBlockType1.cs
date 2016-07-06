@@ -73,7 +73,7 @@ namespace TraceParser.Eutra
                     var stream = new BitMaskStream(input, 1);
                     type.plmn_IdentityList = new List<PLMN_IdentityInfo>();
                     var nBits = 3;
-                    var num3 = input.readBits(nBits) + 1;
+                    var num3 = input.ReadBits(nBits) + 1;
                     for (var i = 0; i < num3; i++)
                     {
                         var item = PLMN_IdentityInfo.PerDecoder.Instance.Decode(input);
@@ -82,9 +82,9 @@ namespace TraceParser.Eutra
                     type.trackingAreaCode = input.readBitString(0x10);
                     type.cellIdentity = input.readBitString(0x1c);
                     nBits = 1;
-                    type.cellBarred = (cellBarred_Enum)input.readBits(nBits);
+                    type.cellBarred = (cellBarred_Enum)input.ReadBits(nBits);
                     nBits = 1;
-                    type.intraFreqReselection = (intraFreqReselection_Enum)input.readBits(nBits);
+                    type.intraFreqReselection = (intraFreqReselection_Enum)input.ReadBits(nBits);
                     type.csg_Indication = input.ReadBit() == 1;
                     if (stream.Read())
                     {
@@ -115,10 +115,10 @@ namespace TraceParser.Eutra
                     var type = new cellSelectionInfo_Type();
                     type.InitDefaults();
                     var stream = new BitMaskStream(input, 1);
-                    type.q_RxLevMin = input.readBits(6) + -70;
+                    type.q_RxLevMin = input.ReadBits(6) + -70;
                     if (stream.Read())
                     {
-                        type.q_RxLevMinOffset = input.readBits(3) + 1;
+                        type.q_RxLevMinOffset = input.ReadBits(3) + 1;
                     }
                     return type;
                 }
@@ -138,12 +138,12 @@ namespace TraceParser.Eutra
                 type.cellSelectionInfo = cellSelectionInfo_Type.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
-                    type.p_Max = input.readBits(6) + -30;
+                    type.p_Max = input.ReadBits(6) + -30;
                 }
-                type.freqBandIndicator = input.readBits(6) + 1;
+                type.freqBandIndicator = input.ReadBits(6) + 1;
                 type.schedulingInfoList = new List<SchedulingInfo>();
                 var nBits = 5;
-                var num3 = input.readBits(nBits) + 1;
+                var num3 = input.ReadBits(nBits) + 1;
                 for (var i = 0; i < num3; i++)
                 {
                     var item = SchedulingInfo.PerDecoder.Instance.Decode(input);
@@ -154,8 +154,8 @@ namespace TraceParser.Eutra
                     type.tdd_Config = TDD_Config.PerDecoder.Instance.Decode(input);
                 }
                 nBits = 3;
-                type.si_WindowLength = (si_WindowLength_Enum)input.readBits(nBits);
-                type.systemInfoValueTag = input.readBits(5);
+                type.si_WindowLength = (si_WindowLength_Enum)input.ReadBits(nBits);
+                type.systemInfoValueTag = input.ReadBits(5);
                 if (stream.Read())
                 {
                     type.nonCriticalExtension = SystemInformationBlockType1_v890_IEs.PerDecoder.Instance.Decode(input);

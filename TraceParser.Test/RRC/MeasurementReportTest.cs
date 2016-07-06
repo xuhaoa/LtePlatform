@@ -20,7 +20,7 @@ namespace TraceParser.Test.RRC
         public void Test_Decode(string source)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 1);
+            Assert.AreEqual(stream.ReadBits(5), 1);
             MeasurementReport signal = MeasurementReport.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(signal);
         }
@@ -35,7 +35,7 @@ namespace TraceParser.Test.RRC
         public void Test_MeasureResults(string source, int measId)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 1);
+            Assert.AreEqual(stream.ReadBits(5), 1);
             MeasurementReport signal = MeasurementReport.PerDecoder.Instance.Decode(stream);
             MeasResults results = signal.criticalExtensions.c1.measurementReport_r8.measResults;
             Assert.IsNotNull(results);
@@ -52,7 +52,7 @@ namespace TraceParser.Test.RRC
         public void Test_MeasPCell(string source, string description)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 1);
+            Assert.AreEqual(stream.ReadBits(5), 1);
             MeasurementReport signal = MeasurementReport.PerDecoder.Instance.Decode(stream);
             MeasResults results = signal.criticalExtensions.c1.measurementReport_r8.measResults;
             Assert.AreEqual(results.measResultPCell.GetOutputs(), description);
@@ -63,7 +63,7 @@ namespace TraceParser.Test.RRC
         public void Test_MeasId_And_PCell(string source, int measId, string description)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 1);
+            Assert.AreEqual(stream.ReadBits(5), 1);
             MeasurementReport signal = MeasurementReport.PerDecoder.Instance.Decode(stream);
             MeasResults results = signal.criticalExtensions.c1.measurementReport_r8.measResults;
             Assert.IsNotNull(results);
@@ -76,7 +76,7 @@ namespace TraceParser.Test.RRC
         public void Test_NeighborCells_NoNeighbors(string source)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 1);
+            Assert.AreEqual(stream.ReadBits(5), 1);
             MeasurementReport signal = MeasurementReport.PerDecoder.Instance.Decode(stream);
             Assert.IsNull(signal.criticalExtensions.c1.measurementReport_r8.measResults.measResultNeighCells);
         }
@@ -102,7 +102,7 @@ namespace TraceParser.Test.RRC
         public void Test_NeighborCells_Neighbors(string source, string[] descriptions)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 1);
+            Assert.AreEqual(stream.ReadBits(5), 1);
             MeasurementReport signal = MeasurementReport.PerDecoder.Instance.Decode(stream);
             Assert.IsNotNull(signal.criticalExtensions.c1.measurementReport_r8.measResults.measResultNeighCells);
             List<MeasResultEUTRA> measResultEutras =
@@ -138,7 +138,7 @@ namespace TraceParser.Test.RRC
         public void Test_Primary_And_Neighbors(string source, int measId, string pDescription, string[] neighbors)
         {
             BitArrayInputStream stream = source.GetInputStream();
-            Assert.AreEqual(stream.readBits(5), 1);
+            Assert.AreEqual(stream.ReadBits(5), 1);
             MeasurementReport signal = MeasurementReport.PerDecoder.Instance.Decode(stream);
             MeasResults results = signal.criticalExtensions.c1.measurementReport_r8.measResults;
             Assert.IsNotNull(results);

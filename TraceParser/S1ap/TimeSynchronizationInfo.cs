@@ -27,15 +27,15 @@ namespace TraceParser.S1ap
                 info.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.ReadBit();
-                info.stratumLevel = input.readBits(2);
+                info.stratumLevel = input.ReadBits(2);
                 int nBits = 1;
-                info.synchronizationStatus = (SynchronizationStatus)input.readBits(nBits);
+                info.synchronizationStatus = (SynchronizationStatus)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     info.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

@@ -23,8 +23,8 @@ namespace TraceParser.Eutra
             {
                 PDSCH_ConfigCommon common = new PDSCH_ConfigCommon();
                 common.InitDefaults();
-                common.referenceSignalPower = input.readBits(7) + -60;
-                common.p_b = input.readBits(2);
+                common.referenceSignalPower = input.ReadBits(7) + -60;
+                common.p_b = input.ReadBits(2);
                 return common;
             }
         }
@@ -60,7 +60,7 @@ namespace TraceParser.Eutra
                 PDSCH_ConfigDedicated dedicated = new PDSCH_ConfigDedicated();
                 dedicated.InitDefaults();
                 int nBits = 3;
-                dedicated.p_a = (p_a_Enum)input.readBits(nBits);
+                dedicated.p_a = (p_a_Enum)input.ReadBits(nBits);
                 return dedicated;
             }
         }
@@ -98,16 +98,16 @@ namespace TraceParser.Eutra
                 if (stream.Read())
                 {
                     num2 = 1;
-                    _v.qcl_Operation = (qcl_Operation_Enum)input.readBits(num2);
+                    _v.qcl_Operation = (qcl_Operation_Enum)input.ReadBits(num2);
                 }
                 if (stream.Read())
                 {
                     _v.re_MappingQCLConfigToReleaseList_r11 = new List<long>();
                     num2 = 2;
-                    int num3 = input.readBits(num2) + 1;
+                    int num3 = input.ReadBits(num2) + 1;
                     for (int i = 0; i < num3; i++)
                     {
-                        long item = input.readBits(2) + 1;
+                        long item = input.ReadBits(2) + 1;
                         _v.re_MappingQCLConfigToReleaseList_r11.Add(item);
                     }
                 }
@@ -115,7 +115,7 @@ namespace TraceParser.Eutra
                 {
                     _v.re_MappingQCLConfigToAddModList_r11 = new List<PDSCH_RE_MappingQCL_Config_r11>();
                     num2 = 2;
-                    int num6 = input.readBits(num2) + 1;
+                    int num6 = input.ReadBits(num2) + 1;
                     for (int j = 0; j < num6; j++)
                     {
                         PDSCH_RE_MappingQCL_Config_r11 _r = PDSCH_RE_MappingQCL_Config_r11.PerDecoder.Instance.Decode(input);
@@ -190,7 +190,7 @@ namespace TraceParser.Eutra
                     {
                         mbsfn_SubframeConfigList_r11_Type type = new mbsfn_SubframeConfigList_r11_Type();
                         type.InitDefaults();
-                        switch (input.readBits(1))
+                        switch (input.ReadBits(1))
                         {
                             case 0:
                                 return type;
@@ -222,7 +222,7 @@ namespace TraceParser.Eutra
                             type.InitDefaults();
                             type.subframeConfigList = new List<MBSFN_SubframeConfig>();
                             int nBits = 3;
-                            int num3 = input.readBits(nBits) + 1;
+                            int num3 = input.ReadBits(nBits) + 1;
                             for (int i = 0; i < num3; i++)
                             {
                                 MBSFN_SubframeConfig item = MBSFN_SubframeConfig.PerDecoder.Instance.Decode(input);
@@ -254,15 +254,15 @@ namespace TraceParser.Eutra
                     type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 1);
                     int nBits = 2;
-                    type.crs_PortsCount_r11 = (crs_PortsCount_r11_Enum)input.readBits(nBits);
-                    type.crs_FreqShift_r11 = input.readBits(3);
+                    type.crs_PortsCount_r11 = (crs_PortsCount_r11_Enum)input.ReadBits(nBits);
+                    type.crs_FreqShift_r11 = input.ReadBits(3);
                     if (stream.Read())
                     {
                         type.mbsfn_SubframeConfigList_r11 
                             = mbsfn_SubframeConfigList_r11_Type.PerDecoder.Instance.Decode(input);
                     }
                     nBits = 3;
-                    type.pdsch_Start_r11 = (pdsch_Start_r11_Enum)input.readBits(nBits);
+                    type.pdsch_Start_r11 = (pdsch_Start_r11_Enum)input.ReadBits(nBits);
                     return type;
                 }
             }
@@ -277,15 +277,15 @@ namespace TraceParser.Eutra
                 PDSCH_RE_MappingQCL_Config_r11 _r = new PDSCH_RE_MappingQCL_Config_r11();
                 _r.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 2) : new BitMaskStream(input, 2);
-                _r.pdsch_RE_MappingQCL_ConfigId_r11 = input.readBits(2) + 1;
+                _r.pdsch_RE_MappingQCL_ConfigId_r11 = input.ReadBits(2) + 1;
                 if (stream.Read())
                 {
                     _r.optionalSetOfFields_r11 = optionalSetOfFields_r11_Type.PerDecoder.Instance.Decode(input);
                 }
-                _r.csi_RS_ConfigZPId_r11 = input.readBits(2) + 1;
+                _r.csi_RS_ConfigZPId_r11 = input.ReadBits(2) + 1;
                 if (stream.Read())
                 {
-                    _r.qcl_CSI_RS_ConfigNZPId_r11 = input.readBits(2) + 1;
+                    _r.qcl_CSI_RS_ConfigNZPId_r11 = input.ReadBits(2) + 1;
                 }
                 return _r;
             }

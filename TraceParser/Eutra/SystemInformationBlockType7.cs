@@ -30,7 +30,7 @@ namespace TraceParser.Eutra
                 var flag = false;
                 flag = input.ReadBit() != 0;
                 var stream = flag ? new BitMaskStream(input, 3) : new BitMaskStream(input, 2);
-                type.t_ReselectionGERAN = input.readBits(3);
+                type.t_ReselectionGERAN = input.ReadBits(3);
                 if (stream.Read())
                 {
                     type.t_ReselectionGERAN_SF = SpeedStateScaleFactors.PerDecoder.Instance.Decode(input);
@@ -39,7 +39,7 @@ namespace TraceParser.Eutra
                 {
                     type.carrierFreqsInfoList = new List<CarrierFreqsInfoGERAN>();
                     var num2 = 4;
-                    var num3 = input.readBits(num2) + 1;
+                    var num3 = input.ReadBits(num2) + 1;
                     for (var i = 0; i < num3; i++)
                     {
                         var item = CarrierFreqsInfoGERAN.PerDecoder.Instance.Decode(input);
@@ -48,7 +48,7 @@ namespace TraceParser.Eutra
                 }
                 if (flag && stream.Read())
                 {
-                    var nBits = input.readBits(8);
+                    var nBits = input.ReadBits(8);
                     type.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 return type;

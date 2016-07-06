@@ -60,13 +60,13 @@ namespace TraceParser.Eutra
                     mcch_Config_r9_Type type = new mcch_Config_r9_Type();
                     type.InitDefaults();
                     int nBits = 2;
-                    type.mcch_RepetitionPeriod_r9 = (mcch_RepetitionPeriod_r9_Enum)input.readBits(nBits);
-                    type.mcch_Offset_r9 = input.readBits(4);
+                    type.mcch_RepetitionPeriod_r9 = (mcch_RepetitionPeriod_r9_Enum)input.ReadBits(nBits);
+                    type.mcch_Offset_r9 = input.ReadBits(4);
                     nBits = 1;
-                    type.mcch_ModificationPeriod_r9 = (mcch_ModificationPeriod_r9_Enum)input.readBits(nBits);
+                    type.mcch_ModificationPeriod_r9 = (mcch_ModificationPeriod_r9_Enum)input.ReadBits(nBits);
                     type.sf_AllocInfo_r9 = input.readBitString(6);
                     nBits = 2;
-                    type.signallingMCS_r9 = (signallingMCS_r9_Enum)input.readBits(nBits);
+                    type.signallingMCS_r9 = (signallingMCS_r9_Enum)input.ReadBits(nBits);
                     return type;
                 }
             }
@@ -95,10 +95,10 @@ namespace TraceParser.Eutra
                 MBSFN_AreaInfo_r9 _r = new MBSFN_AreaInfo_r9();
                 _r.InitDefaults();
                 input.ReadBit();
-                _r.mbsfn_AreaId_r9 = input.readBits(8);
+                _r.mbsfn_AreaId_r9 = input.ReadBits(8);
                 const int nBits = 1;
-                _r.non_MBSFNregionLength = (non_MBSFNregionLength_Enum)input.readBits(nBits);
-                _r.notificationIndicator_r9 = input.readBits(3);
+                _r.non_MBSFNregionLength = (non_MBSFNregionLength_Enum)input.ReadBits(nBits);
+                _r.notificationIndicator_r9 = input.ReadBits(3);
                 _r.mcch_Config_r9 = mcch_Config_r9_Type.PerDecoder.Instance.Decode(input);
                 return _r;
             }
@@ -127,8 +127,8 @@ namespace TraceParser.Eutra
                 MBSFN_SubframeConfig config = new MBSFN_SubframeConfig();
                 config.InitDefaults();
                 int nBits = 3;
-                config.radioframeAllocationPeriod = (radioframeAllocationPeriod_Enum)input.readBits(nBits);
-                config.radioframeAllocationOffset = input.readBits(3);
+                config.radioframeAllocationPeriod = (radioframeAllocationPeriod_Enum)input.ReadBits(nBits);
+                config.radioframeAllocationOffset = input.ReadBits(3);
                 config.subframeAllocation = subframeAllocation_Type.PerDecoder.Instance.Decode(input);
                 return config;
             }
@@ -163,7 +163,7 @@ namespace TraceParser.Eutra
                 {
                     subframeAllocation_Type type = new subframeAllocation_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.oneFrame = input.readBitString(6);
@@ -216,17 +216,17 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 _r.commonSF_Alloc_r9 = new List<MBSFN_SubframeConfig>();
                 int nBits = 3;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     MBSFN_SubframeConfig item = MBSFN_SubframeConfig.PerDecoder.Instance.Decode(input);
                     _r.commonSF_Alloc_r9.Add(item);
                 }
                 nBits = 3;
-                _r.commonSF_AllocPeriod_r9 = (commonSF_AllocPeriod_r9_Enum)input.readBits(nBits);
+                _r.commonSF_AllocPeriod_r9 = (commonSF_AllocPeriod_r9_Enum)input.ReadBits(nBits);
                 _r.pmch_InfoList_r9 = new List<PMCH_Info_r9>();
                 nBits = 4;
-                int num5 = input.readBits(nBits);
+                int num5 = input.ReadBits(nBits);
                 for (int j = 0; j < num5; j++)
                 {
                     PMCH_Info_r9 _r2 = PMCH_Info_r9.PerDecoder.Instance.Decode(input);
@@ -283,7 +283,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
@@ -340,7 +340,7 @@ namespace TraceParser.Eutra
                 {
                     c1_Type type = new c1_Type();
                     type.InitDefaults();
-                    if (input.readBits(1) != 0)
+                    if (input.ReadBits(1) != 0)
                     {
                         throw new Exception(GetType().Name + ":NoChoice had been choose");
                     }
@@ -378,7 +378,7 @@ namespace TraceParser.Eutra
                     {
                         c2_Type type = new c2_Type();
                         type.InitDefaults();
-                        if (input.readBits(1) != 0)
+                        if (input.ReadBits(1) != 0)
                         {
                             throw new Exception(GetType().Name + ":NoChoice had been choose");
                         }
@@ -416,7 +416,7 @@ namespace TraceParser.Eutra
                 {
                     later_Type type = new later_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c2 = c2_Type.PerDecoder.Instance.Decode(input);
@@ -439,7 +439,7 @@ namespace TraceParser.Eutra
             {
                 MCCH_MessageType type = new MCCH_MessageType();
                 type.InitDefaults();
-                switch (input.readBits(1))
+                switch (input.ReadBits(1))
                 {
                     case 0:
                         type.c1 = c1_Type.PerDecoder.Instance.Decode(input);

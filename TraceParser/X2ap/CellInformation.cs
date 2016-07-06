@@ -26,7 +26,7 @@ namespace TraceParser.X2ap
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 dmdt.cellIdListforMDT = new List<ECGI>();
                 int nBits = 5;
-                int num5 = input.readBits(nBits) + 1;
+                int num5 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num5; i++)
                 {
                     ECGI item = ECGI.PerDecoder.Instance.Decode(input);
@@ -37,7 +37,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     dmdt.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num7 = input.readBits(nBits) + 1;
+                    int num7 = input.ReadBits(nBits) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -59,7 +59,7 @@ namespace TraceParser.X2ap
             public long Decode(BitArrayInputStream input)
             {
                 input.ReadBit();
-                return input.readBits(7) + 1;
+                return input.ReadBits(7) + 1;
             }
         }
     }
@@ -110,11 +110,11 @@ namespace TraceParser.X2ap
                 {
                     item.ul_InterferenceOverloadIndication = new List<UL_InterferenceOverloadIndication_Item>();
                     num4 = 7;
-                    int num5 = input.readBits(num4) + 1;
+                    int num5 = input.ReadBits(num4) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         num4 = (input.ReadBit() == 0) ? 2 : 2;
-                        UL_InterferenceOverloadIndication_Item item2 = (UL_InterferenceOverloadIndication_Item)input.readBits(num4);
+                        UL_InterferenceOverloadIndication_Item item2 = (UL_InterferenceOverloadIndication_Item)input.ReadBits(num4);
                         item.ul_InterferenceOverloadIndication.Add(item2);
                     }
                 }
@@ -123,7 +123,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     item.ul_HighInterferenceIndicationInfo = new List<UL_HighInterferenceIndicationInfo_Item>();
                     num4 = 8;
-                    int num7 = input.readBits(num4) + 1;
+                    int num7 = input.ReadBits(num4) + 1;
                     for (int j = 0; j < num7; j++)
                     {
                         UL_HighInterferenceIndicationInfo_Item item3 
@@ -140,7 +140,7 @@ namespace TraceParser.X2ap
                     input.skipUnreadedBits();
                     item.iE_Extensions = new List<ProtocolExtensionField>();
                     num4 = 0x10;
-                    int num9 = input.readBits(num4) + 1;
+                    int num9 = input.ReadBits(num4) + 1;
                     for (int k = 0; k < num9; k++)
                     {
                         ProtocolExtensionField field = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -190,13 +190,13 @@ namespace TraceParser.X2ap
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 information.key_eNodeB_star = input.readBitString(0x100);
-                information.nextHopChainingCount = input.readBits(3);
+                information.nextHopChainingCount = input.ReadBits(3);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     information.iE_Extensions = new List<ProtocolExtensionField>();
                     int nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);
@@ -231,15 +231,15 @@ namespace TraceParser.X2ap
                 information.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
                 int nBits = 1;
-                information.eventType = (EventType)input.readBits(nBits);
+                information.eventType = (EventType)input.ReadBits(nBits);
                 nBits = 1;
-                information.reportArea = (ReportArea)input.readBits(nBits);
+                information.reportArea = (ReportArea)input.ReadBits(nBits);
                 if (stream.Read())
                 {
                     input.skipUnreadedBits();
                     information.iE_Extensions = new List<ProtocolExtensionField>();
                     nBits = 0x10;
-                    int num5 = input.readBits(nBits) + 1;
+                    int num5 = input.ReadBits(nBits) + 1;
                     for (int i = 0; i < num5; i++)
                     {
                         ProtocolExtensionField item = ProtocolExtensionField.PerDecoder.Instance.Decode(input);

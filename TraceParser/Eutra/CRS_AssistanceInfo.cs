@@ -34,12 +34,12 @@ namespace TraceParser.Eutra
                 CRS_AssistanceInfo_r11 _r = new CRS_AssistanceInfo_r11();
                 _r.InitDefaults();
                 input.ReadBit();
-                _r.physCellId_r11 = input.readBits(9);
+                _r.physCellId_r11 = input.ReadBits(9);
                 int nBits = 2;
-                _r.antennaPortsCount_r11 = (antennaPortsCount_r11_Enum)input.readBits(nBits);
+                _r.antennaPortsCount_r11 = (antennaPortsCount_r11_Enum)input.ReadBits(nBits);
                 _r.mbsfn_SubframeConfigList_r11 = new List<MBSFN_SubframeConfig>();
                 nBits = 3;
-                int num3 = input.readBits(nBits) + 1;
+                int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     MBSFN_SubframeConfig item = MBSFN_SubframeConfig.PerDecoder.Instance.Decode(input);

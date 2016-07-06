@@ -56,7 +56,7 @@ namespace TraceParser.Eutra
                     {
                         c1_Type type = new c1_Type();
                         type.InitDefaults();
-                        switch (input.readBits(3))
+                        switch (input.ReadBits(3))
                         {
                             case 0:
                                 type.rrcConnectionSetup_r8 = RRCConnectionSetup_r8_IEs.PerDecoder.Instance.Decode(input);
@@ -116,7 +116,7 @@ namespace TraceParser.Eutra
                 {
                     criticalExtensions_Type type = new criticalExtensions_Type();
                     type.InitDefaults();
-                    switch (input.readBits(1))
+                    switch (input.ReadBits(1))
                     {
                         case 0:
                             type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
@@ -139,7 +139,7 @@ namespace TraceParser.Eutra
             {
                 RRCConnectionSetup setup = new RRCConnectionSetup();
                 setup.InitDefaults();
-                setup.rrc_TransactionIdentifier = input.readBits(2);
+                setup.rrc_TransactionIdentifier = input.ReadBits(2);
                 setup.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
                 return setup;
             }
@@ -218,7 +218,7 @@ namespace TraceParser.Eutra
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.readBits(8);
+                    int nBits = input.ReadBits(8);
                     es.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
