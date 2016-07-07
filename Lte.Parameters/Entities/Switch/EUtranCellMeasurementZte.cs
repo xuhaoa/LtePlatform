@@ -336,5 +336,11 @@ namespace Lte.Parameters.Entities.Switch
         public int? eutranMeasParas_perQCIInterFreqMeaGrpCfg { get; set; }
 
         public int? CDMA2000MeasParas_cdmaFreqSRVCCMeasInd { get; set; }
+
+        public int? geranBandAnrMeas { get; set; }
+
+        public int? geranAnrArfcnNum { get; set; }
+
+        public string geranAnrArfcn { get; set; }
     }
 }
