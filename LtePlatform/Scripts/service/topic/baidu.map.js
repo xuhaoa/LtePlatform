@@ -402,6 +402,15 @@
                     Y: centery
                 };
             },
+            drawPolygon: function(coors) {
+                var points = [];
+                for (var p = 0; p < coors.length / 2; p++) {
+                    points.push(new BMap.Point(parseFloat(coors[2 * p]), parseFloat(coors[2 * p + 1])));
+                }
+                var polygon = new BMap.Polygon(points,
+                { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.2 });
+                map.addOverlay(polygon);
+            },
             getPolygonCenter: function(coors) {
                 var centerx = 0;
                 var centery = 0;
@@ -431,6 +440,15 @@
                     Y: centery
                 };
             },
+            drawRectangle: function(coors) {
+                var rectangle = new BMap.Polygon([
+                    new BMap.Point(parseFloat(coors[0]), parseFloat(coors[1])),
+                    new BMap.Point(parseFloat(coors[2]), parseFloat(coors[1])),
+                    new BMap.Point(parseFloat(coors[2]), parseFloat(coors[3])),
+                    new BMap.Point(parseFloat(coors[0]), parseFloat(coors[3]))
+                ], { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.2 });
+                map.addOverlay(rectangle);
+            },
             getRectangleCenter: function(coors) {
                 var centerx = (parseFloat(coors[0]) + parseFloat(coors[2])) / 2;
                 var centery = (parseFloat(coors[1]) + parseFloat(coors[3])) / 2;
@@ -450,6 +468,12 @@
                     X: centerx,
                     Y: centery
                 };
+            },
+            drawCircle: function(coors) {
+                var circle = new BMap.Circle(new BMap.Point(parseFloat(coors[0]), parseFloat(coors[1])),
+                    parseFloat(coors[2]),
+                    { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.2 });
+                map.addOverlay(circle);
             },
             getCircleCenter: function(coors) {
                 var centerx = parseFloat(coors[0]);

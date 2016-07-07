@@ -57,4 +57,13 @@
                 });
             }
         }
+    })
+    .factory('collegeQueryService', function(generalHttpService) {
+        return {
+            queryByName: function(name) {
+                return generalHttpService.getApiData('CollegeQuery', {
+                    name: name
+                });
+            }
+        };
     });

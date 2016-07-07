@@ -1,5 +1,5 @@
 ﻿angular.module('college.map', ['myApp.region', 'college'])
-    .factory('collegeMapService', function(baiduMapService, collegeService) {
+    .factory('collegeMapService', function (baiduMapService, collegeService) {
         return {
             showCollegeInfos: function(showCollegeDialogs) {
                 collegeService.queryStats().then(function(colleges) {
@@ -22,6 +22,21 @@
                             baiduMapService.drawLabel(college.name, center.X, center.Y);
                         });
                     });
+                });
+            },
+            drawCollegeArea: function(collegeId) {
+                collegeService.queryRegion(collegeId).then(function (region) {
+                    switch (region.regionType) {
+                        case 2:
+                            baiduMapService.drawPolygon(region.info.split(';'));
+                            break;
+                        case 1:
+                            baiduMapService.drawRectangle(region.info.split(';'));
+                            break;
+                        default:
+                            baiduMapService.drawCircle(region.info.split(';'));
+                            break;
+                    }
                 });
             },
             showDtInfos: function(infos) {

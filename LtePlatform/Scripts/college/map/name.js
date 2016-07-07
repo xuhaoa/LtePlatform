@@ -1,8 +1,17 @@
-﻿app.controller("map.name", function ($scope, $uibModal, $stateParams, $log, appRegionService, baiduMapService,
-    collegeService, parametersMapService, parametersDialogService) {
+﻿app.controller("map.name", function ($scope, $uibModal, $stateParams, $log, 
+    baiduMapService,
+    collegeService,
+    collegeQueryService,
+    parametersMapService,
+    parametersDialogService) {
+
     $scope.collegeInfo.url = $scope.rootPath + "map";
     $scope.collegeName = $stateParams.name;
     baiduMapService.initializeMap("all-map", 15);
+
+    collegeQueryService.queryByName($scope.collegeName).then(function(college) {
+        console.log(college);
+    });
 
     switch($stateParams.type) {
         case 'lte':
