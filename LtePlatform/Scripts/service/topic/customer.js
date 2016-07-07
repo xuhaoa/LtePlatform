@@ -143,6 +143,15 @@
             },
             updateProcess: function(process) {
                 return generalHttpService.putApiData('EmergencyProcess', process);
+            },
+            createFiberItem: function(item) {
+                return generalHttpService.postApiData('EmergencyFiber', item);
+            },
+            finishFiberItem: function(item) {
+                return generalHttpService.putApiData('EmergencyFiber', item);
+            },
+            queryFiberList: function (id) {
+                return generalHttpService.getApiData('EmergencyFiber/' + id, {});
             }
         };
     });

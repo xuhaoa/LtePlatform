@@ -28,4 +28,7 @@
     };
 
     $scope.query();
+    emergencyService.queryFiberList($routeParams.id).then(function(list) {
+        console.log(list);
+    });
 });

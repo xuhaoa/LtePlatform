@@ -114,5 +114,10 @@ namespace Lte.MySqlFramework.Concrete
         {
             return Context.SaveChanges();
         }
+
+        public List<EmergencyFiberWorkItem> GetAllList(int emergencyId)
+        {
+            return GetAllList(x => x.EmergencyId == emergencyId);
+        }
     }
 }

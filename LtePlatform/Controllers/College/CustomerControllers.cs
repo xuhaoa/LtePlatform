@@ -77,6 +77,12 @@ namespace LtePlatform.Controllers.College
     {
         private readonly EmergencyFiberService _service;
 
+        [HttpGet]
+        public IEnumerable<EmergencyFiberWorkItem> Get(int id)
+        {
+            return _service.Query(id);
+        }
+
         public EmergencyFiberController(EmergencyFiberService service)
         {
             _service = service;

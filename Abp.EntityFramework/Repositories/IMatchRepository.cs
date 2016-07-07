@@ -71,16 +71,18 @@ namespace Abp.EntityFramework.Repositories
             return repository.SaveChanges();
         }
 
-        public static int ImportOne<TRepository, TEntity>(this TRepository repository, TEntity stat)
+        public static TEntity ImportOne<TRepository, TEntity>(this TRepository repository, TEntity stat)
             where TRepository : IRepository<TEntity>, IMatchRepository<TEntity>, ISaveChanges
             where TEntity : Entity
         {
             var info = repository.Match(stat);
             if (info == null)
             {
-                repository.Insert(stat);
+                var result = repository.Insert(stat);
+                repository.SaveChanges();
+                return result;
             }
-            return repository.SaveChanges();
+            return null;
         }
 
         public async static Task<int> UpdateOne<TRepository, TEntity, TDto>(this TRepository repository, TDto stat)

@@ -39,5 +39,6 @@ namespace Lte.MySqlFramework.Abstract
             IMatchRepository<EmergencyFiberWorkItem>,
             ISaveChanges
     {
+        List<EmergencyFiberWorkItem> GetAllList(int emergencyId);
     }
 }

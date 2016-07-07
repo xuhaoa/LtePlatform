@@ -179,14 +179,18 @@ namespace Lte.Evaluations.DataService.College
         public EmergencyFiberWorkItem Create(EmergencyFiberWorkItem item)
         {
             item.BeginDate = DateTime.Now;
-            var result = _repository.ImportOne(item);
-            return result > 0 ? item : null;
+            return _repository.ImportOne(item);
         }
 
         public async Task<int> Finish(EmergencyFiberWorkItem item)
         {
             item.FinishDate = DateTime.Now;
             return await _repository.UpdateOne(item);
+        }
+
+        public List<EmergencyFiberWorkItem> Query(int id)
+        {
+            return _repository.GetAllList(id);
         }
     }
 
