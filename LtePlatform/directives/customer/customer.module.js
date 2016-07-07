@@ -21,6 +21,16 @@
             templateUrl: customerRoot + 'emergency/ProcessList.html'
         };
     })
+    .directive('fiberItemList', function (customerRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                items: '='
+            },
+            templateUrl: customerRoot + 'emergency/FiberList.html'
+        };
+    })
     .directive('vipDemandList', function(customerRoot, customerDialogService) {
         return {
             restrict: 'ECMA',

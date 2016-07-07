@@ -44,7 +44,7 @@
     };
 
     $scope.$watch('item.nextStateDescription', function(state) {
-        $scope.canGoNextStep = state && state !== '光纤起单';
+        $scope.canGoNextStep = state && (state !== '光纤起单' || $scope.fiberList.length > 0);
     });
 
     $scope.query();

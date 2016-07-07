@@ -1,0 +1,18 @@
+﻿<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>建单时间</th>
+            <th>完成时间</th>
+            <th>联系人</th>
+            <th>工单编号</th>
+        </tr>
+    </thead>
+    <tbody ng-repeat="item in items">
+        <tr>
+            <td>{{item.beginDate}}</td>
+            <td>{{item.finishDate}}</td>
+            <td>{{item.person}}</td>
+            <td>{{item.workItemNumber}}</td>
+        </tr>
+    </tbody>
+</table>
