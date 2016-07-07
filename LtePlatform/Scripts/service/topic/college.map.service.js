@@ -39,7 +39,7 @@
                     }
                 });
             },
-            showDtInfos: function(infos) {
+            showDtInfos: function(infos, callback) {
                 collegeService.queryStats().then(function (colleges) {
                     angular.forEach(colleges, function (college) {
                         var center;
@@ -61,6 +61,7 @@
                                 centerY: center.Y,
                                 area: college.area
                             });
+                            callback();
                         });
                     });
                 });

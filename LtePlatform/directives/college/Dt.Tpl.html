@@ -5,7 +5,9 @@
             <th>区域面积（平方米）</th>
             <th>中心经度</th>
             <th>中心纬度</th>
-            <th>处理</th>
+            <th>2G文件数</th>
+            <th>3G文件数</th>
+            <th>4G文件数</th>
         </tr>
     </thead>
     <tbody ng-repeat="college in colleges">
@@ -14,7 +16,9 @@
             <td>{{college.area | number: 2}}</td>
             <td>{{college.centerX | number: 4}}</td>
             <td>{{college.centerY | number: 4}}</td>
-            <td></td>
+            <td>{{college.file2Gs}}</td>
+            <td>{{college.file3Gs}}</td>
+            <td>{{college.file4Gs}}</td>
         </tr>
     </tbody>
 </table>
