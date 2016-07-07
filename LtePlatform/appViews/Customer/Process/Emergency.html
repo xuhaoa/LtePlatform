@@ -39,8 +39,11 @@
             处理信息：
             <input type="text" ng-model="processInfo" class="form-control"/>
             <span class="input-group-btn">
-                <button type="button" class="btn btn-primary" ng-click="createProcess()" ng-disabled="!item.nextStateDescription">
+                <button type="button" class="btn btn-primary" ng-click="createProcess()" ng-disabled="!canGoNextStep">
                     流程处理
+                </button>
+                <button type="button" class="btn btn-warning" ng-click="createFiber()" ng-if="item.nextStateDescription == '光纤起单'">
+                    生成光纤单
                 </button>
             </span>
         </div>

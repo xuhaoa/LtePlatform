@@ -1,6 +1,8 @@
 ﻿app.controller("emergency.process", function ($scope, $routeParams,
     customerQueryService,
     emergencyService) {
+
+    $scope.canGoNextStep = false;
     
     $scope.query = function() {
         customerQueryService.queryOneEmergency($routeParams.id).then(function (item) {
@@ -26,6 +28,14 @@
             }
         });
     };
+
+    $scope.createFiber = function() {
+        $scope.canGoNextStep = true;
+    };
+
+    $scope.$watch('item.nextStateDescription', function(state) {
+        $scope.canGoNextStep = state && state !== '光纤起单';
+    });
 
     $scope.query();
     emergencyService.queryFiberList($routeParams.id).then(function(list) {
