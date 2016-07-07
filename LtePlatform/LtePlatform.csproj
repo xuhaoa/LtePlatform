@@ -818,6 +818,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\evaluation\map.building.dialog.js" />
+    <Content Include="Scripts\baidu\plugins\GeoUtils.js" />
     <Content Include="Scripts\college\coverage\all.js" />
     <Content Include="Scripts\customer\emergency\fiber.new.dialog.js" />
     <Content Include="Scripts\customer\emergency\list.js" />

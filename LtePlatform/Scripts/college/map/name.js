@@ -2,6 +2,7 @@
     baiduMapService,
     collegeService,
     collegeQueryService,
+    collegeMapService,
     parametersMapService,
     parametersDialogService) {
 
@@ -10,7 +11,7 @@
     baiduMapService.initializeMap("all-map", 15);
 
     collegeQueryService.queryByName($scope.collegeName).then(function(college) {
-        console.log(college);
+        collegeMapService.drawCollegeArea(college.id);
     });
 
     switch($stateParams.type) {
