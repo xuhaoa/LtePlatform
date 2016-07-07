@@ -62,7 +62,10 @@
             link: function(scope, element, attrs) {
                 element.addClass('label');
                 
-                scope.$watch("state", function (state) {
+                scope.$watch("state", function (state, oldState) {
+                    if (oldState) {
+                        element.removeClass('label-' + processTypeDictionay[oldState]);
+                    }
                     if (state) {
                         var type = processTypeDictionay[state] || 'primary';
                         element.addClass('label-' + type);

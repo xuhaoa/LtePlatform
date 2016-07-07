@@ -7,6 +7,8 @@
             $scope.item = item;
             if ($scope.item.nextStateDescription) {
                 $scope.processInfo = "已完成" + $scope.item.nextStateDescription;
+            } else {
+                $scope.processInfo = "";
             }
         });
         emergencyService.queryProcessList($routeParams.id).then(function(list) {
