@@ -21,14 +21,21 @@
             templateUrl: customerRoot + 'emergency/ProcessList.html'
         };
     })
-    .directive('fiberItemList', function (customerRoot) {
+    .directive('fiberItemList', function (customerRoot, emergencyService) {
         return {
             restrict: 'ECMA',
             replace: true,
             scope: {
                 items: '='
             },
-            templateUrl: customerRoot + 'emergency/FiberList.html'
+            templateUrl: customerRoot + 'emergency/FiberList.html',
+            link: function(scope, element, attrs) {
+                scope.finish = function(item) {
+                    emergencyService.finishFiberItem(item).then(function() {
+                        item.finishDate = new Date();
+                    });
+                };
+            }
         };
     })
     .directive('vipDemandList', function(customerRoot, customerDialogService) {

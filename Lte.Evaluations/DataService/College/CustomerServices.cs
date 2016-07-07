@@ -184,8 +184,12 @@ namespace Lte.Evaluations.DataService.College
 
         public async Task<int> Finish(EmergencyFiberWorkItem item)
         {
-            item.FinishDate = DateTime.Now;
-            return await _repository.UpdateOne(item);
+            var info =
+                _repository.FirstOrDefault(
+                    x => x.EmergencyId == item.EmergencyId && x.WorkItemNumber == item.WorkItemNumber);
+            info.FinishDate = DateTime.Now;
+            await _repository.UpdateAsync(info);
+            return _repository.SaveChanges();
         }
 
         public List<EmergencyFiberWorkItem> Query(int id)
