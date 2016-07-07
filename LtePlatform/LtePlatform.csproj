@@ -1998,7 +1998,7 @@
     <Content Include="appViews\Rutrace\Map\PreciseSectorMapInfoBox.html" />
     <Content Include="appViews\College\Table\DistributionMapInfoBox.html" />
     <Content Include="appViews\College\Coverage\All.html" />
-    <Content Include="appViews\College\Coverage\_CoverageMap.cshtml" />
+    <Content Include="appViews\College\Coverage\CollegeMap.html" />
     <Content Include="Scripts\rutrace\interference\neighbors.controller.js" />
     <Content Include="Scripts\service\app.region.service.js" />
     <None Include="Views\College\_Edit.cshtml" />
