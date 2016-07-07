@@ -190,7 +190,9 @@ namespace Lte.Evaluations.MapperSerive
                     opt => opt.MapFrom(s => s.VehicularTypeDescription.GetEnumType<VehicleType>()))
                 .ForMember(d => d.ContactPerson, opt => opt.MapFrom(s => s.Person + "(" + s.Phone + ")"))
                 .ForMember(d => d.Description,
-                    opt => opt.MapFrom(s => "[" + s.VehicleLocation + "]" + s.OtherDescription));
+                    opt => opt.MapFrom(s => "[" + s.VehicleLocation + "]" + s.OtherDescription))
+                .ForMember(d => d.EmergencyState,
+                    opt => opt.MapFrom(s => s.EmergencyStateDescription.GetEnumType<EmergencyState>()));
             Mapper.CreateMap<EmergencyCommunication, EmergencyCommunicationDto>()
                 .ForMember(d => d.DemandLevelDescription, opt => opt.MapFrom(s => s.DemandLevel.GetEnumDescription()))
                 .ForMember(d => d.VehicularTypeDescription, opt => opt.MapFrom(s => s.VehicleType.GetEnumDescription()))

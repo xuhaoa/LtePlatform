@@ -141,9 +141,13 @@ namespace Lte.Evaluations.DataService.College
         {
             if (dto.NextStateDescription == null) return null;
             dto.EmergencyStateDescription = dto.NextStateDescription;
-            await
-                _repository
-                    .UpdateOne<IEmergencyCommunicationRepository, EmergencyCommunication, EmergencyCommunicationDto>(dto);
+            var stat = _repository.Get(dto.Id);
+            if (stat != null)
+            {
+                Mapper.Map(dto, stat);
+                await _repository.UpdateAsync(stat);
+                _repository.SaveChanges();
+            }
             var process = new EmergencyProcessDto
             {
                 EmergencyId = dto.Id,
