@@ -1,8 +1,10 @@
 ﻿app.controller("emergency.process", function ($scope, $routeParams,
     customerQueryService,
-    emergencyService) {
+    emergencyService,
+    customerDialogService) {
 
     $scope.canGoNextStep = false;
+    $scope.fiberList = [];
     
     $scope.query = function() {
         customerQueryService.queryOneEmergency($routeParams.id).then(function (item) {
@@ -28,9 +30,17 @@
             }
         });
     };
+    $scope.queryFiberItems = function() {
+        emergencyService.queryFiberList($routeParams.id).then(function(list) {
+            $scope.fiberList = list;
+        });
+    };
 
-    $scope.createFiber = function() {
-        $scope.canGoNextStep = true;
+    $scope.createFiber = function () {
+        customerDialogService.constructFiberItem($routeParams.id, $scope.fiberList.length, function(item) {
+            $scope.canGoNextStep = true;
+            $scope.fiberList.push(item);
+        }, $scope.page.messages);
     };
 
     $scope.$watch('item.nextStateDescription', function(state) {
@@ -38,7 +48,5 @@
     });
 
     $scope.query();
-    emergencyService.queryFiberList($routeParams.id).then(function(list) {
-        console.log(list);
-    });
+    $scope.queryFiberItems();
 });

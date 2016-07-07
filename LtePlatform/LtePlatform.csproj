@@ -448,6 +448,7 @@
     <Content Include="appViews\College\Table\CollegeCellBasicInfo.html" />
     <Content Include="appViews\College\Table\CollegeCellInfoBox.html" />
     <Content Include="appViews\College\Test\GenerateReport.html" />
+    <Content Include="appViews\Customer\Dialog\Fiber.html" />
     <Content Include="appViews\Customer\Dialog\VipSupplement.html" />
     <Content Include="appViews\Customer\EmergencyList.html" />
     <Content Include="appViews\Customer\Dialog\Emergency.html" />
@@ -817,6 +818,7 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\evaluation\map.building.dialog.js" />
     <Content Include="Scripts\college\coverage\all.js" />
+    <Content Include="Scripts\customer\emergency\fiber.new.dialog.js" />
     <Content Include="Scripts\customer\emergency\list.js" />
     <Content Include="Scripts\customer\emergency\new.dialog.js" />
     <Content Include="Scripts\customer\emergency\process.js" />

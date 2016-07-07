@@ -1,5 +1,5 @@
 ﻿angular.module('customer.service', ['myApp.url'])
-    .factory('customerDialogService', function ($uibModal, $log, customerQueryService) {
+    .factory('customerDialogService', function ($uibModal, $log, customerQueryService, emergencyService) {
         return {
             constructEmergencyCommunication: function(city, district, type, messages, callback) {
                 var modalInstance = $uibModal.open({
@@ -72,6 +72,44 @@
                         });
                     });
                 }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            constructFiberItem: function(id, num, callback, messages) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Customer/Dialog/Fiber.html',
+                    controller: 'fiber.new.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function() {
+                            return "新增光纤工单信息";
+                        },
+                        id: function() {
+                            return id;
+                        },
+                        num: function() {
+                            return num;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function(item) {
+                    emergencyService.createFiberItem(item).then(function (result) {
+                        if (result) {
+                            messages.push({
+                                type: 'success',
+                                contents: '完成光纤工单：' + item.workItemNumber + '的导入'
+                            });
+                            callback(result);
+                        } else {
+                            messages.push({
+                                type: 'warning',
+                                contents: '最近已经有该工单，请不要重复导入'
+                            });
+                        }
+                    });
+                }, function() {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             }
