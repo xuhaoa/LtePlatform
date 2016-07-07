@@ -11,6 +11,16 @@
             templateUrl: customerRoot + 'emergency/CommunicationList.html'
         };
     })
+    .directive('emergencyProcessList', function (customerRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                items: '='
+            },
+            templateUrl: customerRoot + 'emergency/ProcessList.html'
+        };
+    })
     .directive('vipDemandList', function(customerRoot, customerDialogService) {
         return {
             restrict: 'ECMA',

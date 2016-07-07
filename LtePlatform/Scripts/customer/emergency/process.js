@@ -10,7 +10,7 @@
             }
         });
         emergencyService.queryProcessList($routeParams.id).then(function(list) {
-            console.log(list);
+            $scope.processItems = list;
         });
     };
 

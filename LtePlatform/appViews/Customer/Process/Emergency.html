@@ -39,10 +39,36 @@
             处理信息：
             <input type="text" ng-model="processInfo" class="form-control"/>
             <span class="input-group-btn">
-                <button type="button" class="btn btn-primary" ng-click="createProcess()">
+                <button type="button" class="btn btn-primary" ng-click="createProcess()" ng-disabled="!item.nextStateDescription">
                     流程处理
                 </button>
             </span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 ">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    处理记录
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div emergency-process-list items="processItems"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 ">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    光纤工单
+                </h3>
+            </div>
+            <div class="panel-body">
+
+            </div>
         </div>
     </div>
 </div>
