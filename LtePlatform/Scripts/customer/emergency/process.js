@@ -5,9 +5,23 @@
     $scope.query = function() {
         customerQueryService.queryOneEmergency($routeParams.id).then(function (item) {
             $scope.item = item;
+            if ($scope.item.nextStateDescription) {
+                $scope.processInfo = "已完成" + $scope.item.nextStateDescription;
+            }
         });
         emergencyService.queryProcessList($routeParams.id).then(function(list) {
             console.log(list);
+        });
+    };
+
+    $scope.createProcess = function() {
+        emergencyService.createProcess($scope.item).then(function(process) {
+            if (process) {
+                process.processInfo = $scope.processInfo;
+                emergencyService.updateProcess(process).then(function() {
+                    $scope.query();
+                });
+            }
         });
     };
 

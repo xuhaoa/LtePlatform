@@ -137,6 +137,12 @@
         return {
             queryProcessList: function(id) {
                 return generalHttpService.getApiData('EmergencyProcess/' + id, {});
+            },
+            createProcess: function(dto) {
+                return generalHttpService.postApiDataWithHeading('EmergencyProcess', dto);
+            },
+            updateProcess: function(process) {
+                return generalHttpService.putApiData('EmergencyProcess', process);
             }
         };
     });
