@@ -40,7 +40,7 @@
                         controller: "menu.root"
                     },
                     "contents": {
-                        templateUrl: viewDir + "/Table/CollegeStatTable.html",
+                        templateUrl: viewDir + "Stat.html",
                         controller: "all.query"
                     },
                     'collegeList': {
@@ -91,8 +91,8 @@
 
         $rootScope.collegeInfo = {
             year: {
-                options: [2015, 2016],
-                selected: 2015
+                options: [2015, 2016, 2017],
+                selected: new Date().getYear()+1900
             },
             url: $rootScope.rootPath + "map",
             names: [],
