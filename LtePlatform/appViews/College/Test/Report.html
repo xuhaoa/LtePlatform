@@ -1,46 +1,24 @@
-﻿<div class="row">
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion"
-                       href="#queryInfo">
-                        信息查询
-                    </a>
-                </h4>
-            </div>
-            <div id="queryInfo" class="panel-collapse collapse in">
-                <div class="panel-body">
-                    待开发
-                </div>
-            </div>
-        </div>
+﻿<p>
+    日期：
+    <input id="date" data-bind="value: begin" />
+    时段：
+    <select data-bind="options: hourSelection, value: hour"></select>
+    <button class="btn btn-primary" data-bind="click: createTest3G">新建或保存3G记录</button>
+    <button class="btn btn-primary" data-bind="click: createTest4G">新建或保存4G记录</button>
+</p>
+<p>
+    校园名称：
+    <select data-bind="options: colleges, value: selectedCollege"></select>
+    4G基站名称：
+    <select data-bind="options: eNodebs, value: selectedENodeb"></select>
+    扇区编号：
+    <select data-bind="options: sectorSelection, value: sectorId"></select>
+</p>
+<div uib-tabset active="active">
+    <div uib-tab index="0" heading="4G测试报告">
+        <div id="preciseConfig"></div>
     </div>
-    <div class="col-md-8">
-        <p>
-            日期：
-            <input id="date" data-bind="value: begin"/>
-            时段：
-            <select data-bind="options: hourSelection, value: hour"></select>
-            <button class="btn btn-primary" data-bind="click: createTest3G">新建或保存3G记录</button>
-            <button class="btn btn-primary" data-bind="click: createTest4G">新建或保存4G记录</button>
-        </p>
-        <p>
-            校园名称：
-            <select data-bind="options: colleges, value: selectedCollege"></select>
-            4G基站名称：
-            <select data-bind="options: eNodebs, value: selectedENodeb"></select>
-            扇区编号：
-            <select data-bind="options: sectorSelection, value: sectorId"></select>
-        </p>
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#show-list" data-toggle="tab">测试信息列表</a></li>
-            <li><a href="#import-info" data-toggle="tab"></a></li>
-        </ul>
+    <div uib-tab index="1" heading="3G测试报告">
+        <div id="downSwitchConfig" style="max-width: 300px"></div>
     </div>
-    @{
-        Html.RenderPartial("_Edit3GTest");
-        Html.RenderPartial("_Edit4GTest");
-    }
 </div>
-<!-- /ko -->
