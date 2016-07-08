@@ -478,11 +478,13 @@
     <Content Include="appViews\Rutrace\Map\VictimMapInfoBox.html" />
     <Content Include="appViews\Rutrace\WorkItem\CellTrend.html" />
     <Content Include="appViews\Rutrace\WorkItem\ForCell.html" />
+    <Content Include="appViews\Test\Simple\GridFilter.html" />
     <Content Include="Areas\TestPage\Scripts\angular\route.js" />
     <Content Include="Content\angular-busy.css" />
     <Content Include="Content\angular-busy.min.css" />
     <Content Include="Content\angular-toggle-switch-bootstrap.css" />
     <Content Include="Content\angular-toggle-switch.css" />
+    <Content Include="Content\themes\test\ui-grid.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="Content\ui-grid.css" />
     <Content Include="Content\ui-grid.min.css" />
@@ -1833,6 +1835,7 @@
       <Bare>True</Bare>
       <Iced>False</Iced>
     </Content>
+    <Content Include="Areas\TestPage\Scripts\qunit\grid.filter.js" />
     <None Include="Areas\TestPage\Views\AngularTest\Simple.cshtml" />
     <Content Include="appViews\Test\Angular\SubmitForm.html" />
     <Content Include="appViews\Test\Angular\RootProperty.html" />

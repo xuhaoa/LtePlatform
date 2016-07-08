@@ -14,6 +14,10 @@
                     templateUrl: viewDir + "LegacyMarkup.html",
                     controller: "legacy.markup"
                 })
+                .when('/filter', {
+                    templateUrl: viewDir + "GridFilter.html",
+                    controller: "grid.filter"
+                })
                 .otherwise({
                     redirectTo: '/'
                 });
@@ -43,8 +47,8 @@
                 displayName: "Order",
                 url: rootUrl + "/legacy"
             }, {
-                displayName: "No QUnit Markup",
-                url: "/NoQUnitMarkup"
+                displayName: "Grid Filter",
+                url: rootUrl + "/filter"
             }, {
                 displayName: "Single Test Id",
                 url: "/SingleTestId"
