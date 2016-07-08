@@ -1832,7 +1832,7 @@
     </Content>
     <None Include="Areas\TestPage\Views\AngularTest\Simple.cshtml" />
     <Content Include="appViews\Test\Angular\SubmitForm.html" />
-    <Content Include="Areas\TestPage\Views\AngularTest\RootProperty.cshtml" />
+    <Content Include="appViews\Test\Angular\RootProperty.html" />
     <Content Include="Areas\TestPage\Views\AngularTest\Chapter9Ari.cshtml" />
     <Content Include="Areas\TestPage\Views\AngularTest\Chapter10Ari.cshtml" />
     <Content Include="appViews\Test\Chapter10\demo.dateparser.html" />

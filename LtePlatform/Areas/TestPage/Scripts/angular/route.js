@@ -6,9 +6,9 @@
                 templateUrl: viewDir + "SubmitForm.html",
                 controller: "submit.form"
             })
-            .when('/main', {
-                templateUrl: viewDir + "Main.html",
-                controller: "qunit.main"
+            .when('/root', {
+                templateUrl: viewDir + "RootProperty.html",
+                controller: "root.property"
             })
             .when('/legacy', {
                 templateUrl: viewDir + "LegacyMarkup.html",

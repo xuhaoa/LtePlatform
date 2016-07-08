@@ -16,7 +16,7 @@
             }, {
                 name: "RootProperty",
                 displayName: "Root Property",
-                url: rootPath + "RootProperty"
+                url: indexPath + "root"
             }, {
                 name: "Chapter9Ari",
                 displayName: "第 9 章　内置指令",
