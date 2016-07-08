@@ -15,8 +15,7 @@ namespace Lte.Parameters.Abstract.College
         CollegeInfo GetByName(string name);
 
         RectangleRange GetRange(string name);
-
-        List<CollegeInfo> GetAllList(int year);
+        
     }
 
     public interface ICollegeKpiRepository : IRepository<CollegeKpi>, ISaveChanges

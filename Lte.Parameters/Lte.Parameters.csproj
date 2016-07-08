@@ -263,13 +263,9 @@
     <Compile Include="Entities\Work\WorkItemExcel.cs" />
     <Compile Include="Entities\Work\WorkItemType.cs" />
     <Compile Include="Entities\Work\WorkItemTypeQueries.cs" />
-    <Compile Include="Migrations\201601150734100_Modify_Interence_Matrix_2016_0115.cs" />
-    <Compile Include="Migrations\201601150734100_Modify_Interence_Matrix_2016_0115.Designer.cs">
-      <DependentUpon>201601150734100_Modify_Interence_Matrix_2016_0115.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605040553139_Initialize_MySql_20160504.cs" />
-    <Compile Include="Migrations\201605040553139_Initialize_MySql_20160504.Designer.cs">
-      <DependentUpon>201605040553139_Initialize_MySql_20160504.cs</DependentUpon>
+    <Compile Include="Migrations\201607080726347_Change_CollgeStat.cs" />
+    <Compile Include="Migrations\201607080726347_Change_CollgeStat.Designer.cs">
+      <DependentUpon>201607080726347_Change_CollgeStat.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MockOperations\InterferenceMatrixCsvContainer.cs" />
@@ -307,14 +303,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601150734100_Modify_Interence_Matrix_2016_0115.resx">
-      <DependentUpon>201601150734100_Modify_Interence_Matrix_2016_0115.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605040553139_Initialize_MySql_20160504.resx">
-      <DependentUpon>201605040553139_Initialize_MySql_20160504.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607080726347_Change_CollgeStat.resx">
+      <DependentUpon>201607080726347_Change_CollgeStat.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

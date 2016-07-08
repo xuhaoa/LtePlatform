@@ -26,12 +26,7 @@ namespace Lte.Parameters.Concrete.College
             var college = GetByName(name);
             return college == null ? null : GetRegion(college.Id)?.RectangleRange;
         }
-
-        public List<CollegeInfo> GetAllList(int year)
-        {
-            return GetAll().Where(x => x.OldOpenDate.Year == year).ToList();
-        }
-
+        
         public int SaveChanges()
         {
             return Context.SaveChanges();

@@ -31,5 +31,7 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<EmergencyProcess> EmergencyProcesses { get; set; }
 
         public DbSet<EmergencyFiberWorkItem> EmergencyFiberWorkItems { get; set; }
+
+        public DbSet<CollegeYearInfo> CollegeYearInfos { get; set; }
     }
 }

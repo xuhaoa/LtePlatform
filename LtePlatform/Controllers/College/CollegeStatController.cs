@@ -20,19 +20,21 @@ namespace LtePlatform.Controllers.College
         [HttpGet]
         [ApiDoc("根据校园编号查询校园网统计信息")]
         [ApiParameterDoc("id", "校园编号")]
+        [ApiParameterDoc("year", "年份")]
         [ApiResponse("校园网统计信息， 若查不到则会返回错误信息")]
-        public IHttpActionResult Get(int id)
+        public IHttpActionResult Get(int id, int year)
         {
-            var stat = _service.QueryStat(id);
+            var stat = _service.QueryStat(id, year);
             return stat == null ? (IHttpActionResult)BadRequest("ID Not Found!") : Ok(stat);
         }
 
         [HttpGet]
         [ApiDoc("查询所有校园网统计信息")]
+        [ApiParameterDoc("year", "年份")]
         [ApiResponse("所有校园网统计信息")]
-        public IEnumerable<CollegeStat> Get()
+        public IEnumerable<CollegeStat> Get(int year)
         {
-            return _service.QueryStats();
+            return _service.QueryStats(year);
         }
     }
 

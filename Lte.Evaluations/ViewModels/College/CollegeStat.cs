@@ -4,6 +4,7 @@ using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.College;
 using System.Runtime.Serialization;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Infrastructure;
 
 namespace Lte.Evaluations.ViewModels.College
@@ -52,12 +53,12 @@ namespace Lte.Evaluations.ViewModels.College
         [DataMember]
         public int TotalCdmaIndoors { get; set; }
 
-        public CollegeStat(ICollegeRepository repository, CollegeInfo info,
+        public CollegeStat(ICollegeRepository repository, CollegeInfo info, CollegeYearInfo yearInfo,
             IInfrastructureRepository infrastructureRepository)
         {
             CollegeRegion region = repository.GetRegion(info.Id);
             Name = info.Name;
-            ExpectedSubscribers = info.ExpectedSubscribers;
+            ExpectedSubscribers = yearInfo?.ExpectedSubscribers ?? 0;
             Area = region?.Area??0;
             Id = region?.AreaId??2;
             UpdateStats(infrastructureRepository);
