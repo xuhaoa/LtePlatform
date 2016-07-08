@@ -1,5 +1,6 @@
 ﻿app.run(function ($rootScope) {
     var rootPath = '/TestPage/AngularTest/';
+    var indexPath = '/TestPage/AngularTest#/';
     $rootScope.menuItems = [
         {
             displayName: "AngularJS测试",
@@ -11,7 +12,7 @@
             }, {
                 name: "SubmitForm",
                 displayName: "Submit Form",
-                url: rootPath + "SubmitForm"
+                url: indexPath
             }, {
                 name: "RootProperty",
                 displayName: "Root Property",

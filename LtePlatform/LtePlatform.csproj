@@ -478,6 +478,7 @@
     <Content Include="appViews\Rutrace\Map\VictimMapInfoBox.html" />
     <Content Include="appViews\Rutrace\WorkItem\CellTrend.html" />
     <Content Include="appViews\Rutrace\WorkItem\ForCell.html" />
+    <Content Include="Areas\TestPage\Scripts\angular\route.js" />
     <Content Include="Content\angular-busy.css" />
     <Content Include="Content\angular-busy.min.css" />
     <Content Include="Content\angular-toggle-switch-bootstrap.css" />
@@ -1830,7 +1831,7 @@
       <Iced>False</Iced>
     </Content>
     <None Include="Areas\TestPage\Views\AngularTest\Simple.cshtml" />
-    <Content Include="Areas\TestPage\Views\AngularTest\SubmitForm.cshtml" />
+    <Content Include="appViews\Test\Angular\SubmitForm.html" />
     <Content Include="Areas\TestPage\Views\AngularTest\RootProperty.cshtml" />
     <Content Include="Areas\TestPage\Views\AngularTest\Chapter9Ari.cshtml" />
     <Content Include="Areas\TestPage\Views\AngularTest\Chapter10Ari.cshtml" />
@@ -2067,7 +2068,6 @@
     <Content Include="appViews\Rutrace\Import.html" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="appViews\Test\AngularJs\" />
     <Folder Include="App_Data\" />
     <Folder Include="Areas\CustomerPage\Models\" />
     <Folder Include="Areas\CustomerPage\Views\Shared\" />
