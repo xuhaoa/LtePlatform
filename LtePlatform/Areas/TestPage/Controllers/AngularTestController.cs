@@ -8,6 +8,11 @@ namespace LtePlatform.Areas.TestPage.Controllers
 {
     public class AngularTestController : Controller
     {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         // GET: TestPage/AngularTest
         public ActionResult Simple()
         {
@@ -30,16 +35,6 @@ namespace LtePlatform.Areas.TestPage.Controllers
         }
 
         public ActionResult Chapter10Ari()
-        {
-            return View();
-        }
-
-        public ActionResult Chapter11Ari()
-        {
-            return View();
-        }
-
-        public ActionResult Chapter12Ari()
         {
             return View();
         }

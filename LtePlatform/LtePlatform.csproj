@@ -1829,13 +1829,11 @@
       <Bare>True</Bare>
       <Iced>False</Iced>
     </Content>
-    <Content Include="Areas\TestPage\Views\AngularTest\Simple.cshtml" />
+    <None Include="Areas\TestPage\Views\AngularTest\Simple.cshtml" />
     <Content Include="Areas\TestPage\Views\AngularTest\SubmitForm.cshtml" />
     <Content Include="Areas\TestPage\Views\AngularTest\RootProperty.cshtml" />
     <Content Include="Areas\TestPage\Views\AngularTest\Chapter9Ari.cshtml" />
     <Content Include="Areas\TestPage\Views\AngularTest\Chapter10Ari.cshtml" />
-    <Content Include="Areas\TestPage\Views\AngularTest\Chapter11Ari.cshtml" />
-    <Content Include="Areas\TestPage\Views\AngularTest\Chapter12Ari.cshtml" />
     <Content Include="appViews\Test\Chapter10\demo.dateparser.html" />
     <Content Include="Areas\CustomerPage\Views\web.config" />
     <None Include="Areas\CustomerPage\Views\Customer\Index.cshtml" />
@@ -1845,7 +1843,7 @@
     <Content Include="Areas\TestPage\Views\WebApiTest\BasicPost.cshtml" />
     <Content Include="Areas\TestPage\Views\WebApiTest\Html5Test.cshtml" />
     <Content Include="Areas\TestPage\Views\WebApiTest\Html5PostTest.cshtml" />
-    <Content Include="Areas\TestPage\Views\Shared\_AngularJSMenu.cshtml" />
+    <None Include="Areas\TestPage\Views\AngularTest\Index.cshtml" />
     <None Include="Areas\TestPage\Views\WebApiTest\SimpleType.cshtml" />
     <Content Include="Areas\TestPage\Views\WebApiTest\_BasicPost.cshtml" />
     <Content Include="Content\themes\datetimepicker.less" />
@@ -2069,10 +2067,12 @@
     <Content Include="appViews\Rutrace\Import.html" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="appViews\Test\AngularJs\" />
     <Folder Include="App_Data\" />
     <Folder Include="Areas\CustomerPage\Models\" />
     <Folder Include="Areas\CustomerPage\Views\Shared\" />
     <Folder Include="Areas\HelpPage\Views\Shared\" />
+    <Folder Include="Areas\TestPage\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
