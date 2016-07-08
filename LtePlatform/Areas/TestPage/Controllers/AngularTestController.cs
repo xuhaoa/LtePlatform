@@ -19,11 +19,6 @@ namespace LtePlatform.Areas.TestPage.Controllers
             return View();
         }
         
-        public ActionResult RootProperty()
-        {
-            return View();
-        }
-
         public ActionResult Chapter9Ari()
         {
             return View();
