@@ -44,10 +44,10 @@
                 url:  rootUrl + "/main",
                 tooltip: "第一个ui-grid"
             }, {
-                displayName: "Order",
+                displayName: "ui-grid的排序功能",
                 url: rootUrl + "/legacy"
             }, {
-                displayName: "Grid Filter",
+                displayName: "ui-grid的过滤功能",
                 url: rootUrl + "/filter"
             }, {
                 displayName: "Single Test Id",

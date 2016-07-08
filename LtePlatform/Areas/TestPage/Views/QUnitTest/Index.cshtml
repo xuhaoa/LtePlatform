@@ -3,6 +3,7 @@
         <div ng-include="'/appViews/GeneralMenu.html'"></div>
     </div>
     <div ng-class="{'col-md-9': sideBarShown, 'col-md-12': !sideBarShown}">
+        <h3>{{page.title}}</h3>
         <div ng-view></div>
     </div>
 </div>

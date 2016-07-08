@@ -1,4 +1,5 @@
 ﻿app.controller('legacy.markup', ['$scope', '$http', 'uiGridConstants', function ($scope, $http, uiGridConstants) {
+    $scope.page.title = "ui-grid的排序功能";
     $scope.gridOptions1 = {
         enableSorting: true,
         columnDefs: [

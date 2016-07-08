@@ -1,4 +1,6 @@
 ﻿app.controller('grid.filter', ['$scope', '$http', 'uiGridConstants', function ($scope, $http, uiGridConstants) {
+
+    $scope.page.title = 'ui-grid的过滤功能';
   var today = new Date();
   var nextWeek = new Date();
   nextWeek.setDate(nextWeek.getDate() + 7);
