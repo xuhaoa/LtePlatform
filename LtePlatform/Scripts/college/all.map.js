@@ -27,5 +27,5 @@
     baiduMapService.initializeMap("all-map", 11);
     baiduMapService.addCityBoundary("佛山");
 
-    collegeMapService.showCollegeInfos(showCollegDialogs);
+    collegeMapService.showCollegeInfos(showCollegDialogs, $scope.collegeInfo.year.selected);
 });

@@ -1,8 +1,8 @@
 ﻿angular.module('college.map', ['myApp.region', 'college'])
     .factory('collegeMapService', function (baiduMapService, collegeService) {
         return {
-            showCollegeInfos: function(showCollegeDialogs) {
-                collegeService.queryStats().then(function(colleges) {
+            showCollegeInfos: function(showCollegeDialogs, year) {
+                collegeService.queryStats(year).then(function(colleges) {
                     angular.forEach(colleges, function (college) {
                         var center;
                         collegeService.queryRegion(college.id).then(function(region) {
