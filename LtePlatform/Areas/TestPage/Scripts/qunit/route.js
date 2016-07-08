@@ -40,7 +40,7 @@
                 url:  rootUrl + "/main",
                 tooltip: "第一个ui-grid"
             }, {
-                displayName: "Legacy Markup",
+                displayName: "Order",
                 url: rootUrl + "/legacy"
             }, {
                 displayName: "No QUnit Markup",
