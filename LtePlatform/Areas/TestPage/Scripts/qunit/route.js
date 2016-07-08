@@ -28,7 +28,7 @@
         };
         $rootScope.menuItems = [
         {
-            displayName: "QUnit官网案例测试",
+            displayName: "QUnit and Ui-Grid测试",
             isActive: true,
             subItems: [
             {
@@ -36,9 +36,9 @@
                 url: rootUrl + "/",
                 tooltip: "使用QUNnit进行测试的代码。"
             }, {
-                displayName: "QUnit主测试界面",
+                displayName: "第一个ui-grid",
                 url:  rootUrl + "/main",
-                tooltip: "测试主页"
+                tooltip: "第一个ui-grid"
             }, {
                 displayName: "Legacy Markup",
                 url: rootUrl + "/legacy"

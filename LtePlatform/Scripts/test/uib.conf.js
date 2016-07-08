@@ -18,6 +18,7 @@ module.exports = function(config) {
         '../angular.min.js',
         '../angular-mocks.js',
         '../angular-ui/ui-bootstrap-tpls.js',
+        'helper.js',
         'uib/alert.spec.js'
     ],
 
