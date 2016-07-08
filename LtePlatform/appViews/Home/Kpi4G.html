@@ -17,7 +17,15 @@
             </p>
         </div>
     </div>
-    <div id="preciseConfig"></div>
+    <div uib-tabset active="active">
+        <div uib-tab index="0" heading="精确覆盖率">
+            <div id="preciseConfig"></div>
+        </div>
+        <div uib-tab index="1" heading="4G用户3G流量比">
+            <div id="downSwitchConfig" style="max-width: 300px"></div>
+        </div>
+    </div>
+    
 
     <script type="text/ng-template" id="rateTooltipTemplate.html">
         <h6>精确覆盖率星级定义</h6>

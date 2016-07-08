@@ -13,18 +13,20 @@
 
     $scope.queryKpi4G = function (city) {
         kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value || new Date())
-        .then(function (result) {
-            $scope.statDate.value = appFormatService.getDate(result.statDate);
-            $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, city);
-            $scope.rate = appKpiService.calculatePreciseRating($scope.cityStat.preciseRate);
-            $("#preciseConfig").highcharts(kpiDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
-                $scope.cityStat));
-        });
+            .then(function(result) {
+                $scope.statDate.value = appFormatService.getDate(result.statDate);
+                $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, city);
+                $scope.rate = appKpiService.calculatePreciseRating($scope.cityStat.preciseRate);
+                $("#preciseConfig").highcharts(kpiDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
+                    $scope.cityStat));
+            });
         downSwitchService.getRecentKpi(city, $scope.statDate.value || new Date())
             .then(function (result) {
                 $scope.flowDate.value = appFormatService.getDate(result.statDate);
                 $scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
                 $scope.downRate = appKpiService.calculateDownSwitchRating($scope.flowStat);
+                $("#downSwitchConfig").highcharts(kpiDisplayService.generateDownSwitchOptions(result.downSwitchFlowViews,
+                    city, $scope.flowStat));
             });
     };
 

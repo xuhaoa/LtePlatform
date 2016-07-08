@@ -57,6 +57,29 @@
                 });
                 return chart.options;
             },
+            generateDownSwitchOptions: function(districtStats, city, cityDownSwitch) {
+                var chart = new BarChart();
+                chart.title.text = city + "4G用户3G流量比统计";
+                var category = [];
+                var precise = [];
+                angular.forEach(districtStats, function(stat) {
+                    category.push(stat.region);
+                    precise.push(stat.downSwitchRate);
+                });
+                category.push(city);
+                precise.push(cityDownSwitch);
+                chart.xAxis.categories = category;
+                chart.yAxis.title.text = '4G用户3G流量比';
+                chart.xAxis.title.text = '区域';
+                chart.yAxis.min = 0;
+                chart.yAxis.max = 10;
+                chart.series.push({
+                    type: 'bar',
+                    name: '4G用户3G流量比',
+                    data: precise
+                });
+                return chart.options;
+            },
             generateComboChartOptions: function(data, name, city) {
                 var chart = new ComboChart();
                 chart.title.text = name;
