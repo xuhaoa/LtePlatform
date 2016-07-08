@@ -3,7 +3,7 @@
     $scope.page.title = "基础信息查看";
 
     
-    collegeService.queryStats().then(function(colleges) {
+    collegeService.queryStats($scope.collegeInfo.year.selected).then(function(colleges) {
         $scope.collegeList = colleges;
     });
 });

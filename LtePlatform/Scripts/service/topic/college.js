@@ -4,8 +4,10 @@
             queryNames: function () {
                 return generalHttpService.getApiData('CollegeNames', {});
             },
-            queryStats: function () {
-                return generalHttpService.getApiData('CollegeStat', {});
+            queryStats: function (year) {
+                return generalHttpService.getApiData('CollegeStat', {
+                    year: year
+                });
             },
             queryRegion: function (id) {
                 return generalHttpService.getApiData('CollegeRegion/' + id, {});
