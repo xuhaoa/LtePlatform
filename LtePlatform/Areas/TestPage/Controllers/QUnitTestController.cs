@@ -14,34 +14,5 @@ namespace LtePlatform.Areas.TestPage.Controllers
             return View();
         }
         
-        public ActionResult NoQUnitMarkup()
-        {
-            return View();
-        }
-
-        public ActionResult SingleTestId()
-        {
-            return View();
-        }
-
-        public ActionResult AutoStart()
-        {
-            return View();
-        }
-
-        public ActionResult Headless()
-        {
-            return View();
-        }
-        
-        public ActionResult Logs()
-        {
-            return View();
-        }
-
-        public ActionResult Only()
-        {
-            return View();
-        }
     }
 }
