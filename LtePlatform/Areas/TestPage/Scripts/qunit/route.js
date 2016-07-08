@@ -18,6 +18,10 @@
                     templateUrl: viewDir + "GridFilter.html",
                     controller: "grid.filter"
                 })
+                .when('/footer', {
+                    templateUrl: viewDir + "GridFooter.html",
+                    controller: "grid.footer"
+                })
                 .otherwise({
                     redirectTo: '/'
                 });
@@ -50,8 +54,8 @@
                 displayName: "ui-grid的过滤功能",
                 url: rootUrl + "/filter"
             }, {
-                displayName: "Single Test Id",
-                url: "/SingleTestId"
+                displayName: "ui-grid的表脚",
+                url: rootUrl + "/footer"
             }, {
                 displayName: "Auto Start",
                 url: "/AutoStart"

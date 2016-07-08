@@ -479,7 +479,9 @@
     <Content Include="appViews\Rutrace\WorkItem\CellTrend.html" />
     <Content Include="appViews\Rutrace\WorkItem\ForCell.html" />
     <Content Include="appViews\Test\Simple\GridFilter.html" />
+    <Content Include="appViews\Test\Simple\GridFooter.html" />
     <Content Include="Areas\TestPage\Scripts\angular\route.js" />
+    <Content Include="Areas\TestPage\Scripts\qunit\grid.footer.js" />
     <Content Include="Content\angular-busy.css" />
     <Content Include="Content\angular-busy.min.css" />
     <Content Include="Content\angular-toggle-switch-bootstrap.css" />
