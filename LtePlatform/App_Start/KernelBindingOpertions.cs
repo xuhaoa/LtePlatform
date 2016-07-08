@@ -148,6 +148,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IVipDemandRepository>().To<VipDemandRepository>();
 
+            ninjectKernel.Bind<ICollegeYearRepository>().To<CollegeYearRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();
