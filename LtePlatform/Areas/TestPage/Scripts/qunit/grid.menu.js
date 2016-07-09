@@ -9,7 +9,7 @@
   };
  
   $scope.gridOptions = {
-    exporterMenuCsv: false,
+    exporterMenuCsv: true,
     enableGridMenu: true,
     gridMenuTitleFilter: fakeI18n,
     columnDefs: [
