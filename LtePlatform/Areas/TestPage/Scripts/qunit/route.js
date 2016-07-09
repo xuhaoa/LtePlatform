@@ -38,6 +38,10 @@
                     templateUrl: viewDir + "GridMenu.html",
                     controller: "grid.menu"
                 })
+                .when('/template', {
+                    templateUrl: viewDir + "GridBinding.html",
+                    controller: "grid.template"
+                })
                 .otherwise({
                     redirectTo: '/'
                 });
@@ -84,6 +88,9 @@
             }, {
                 displayName: "ui-grid输出菜单",
                 url: rootUrl + '/menu'
+            }, {
+                displayName: "ui-grid模板",
+                url: rootUrl + '/template'
             }]
         }
         ];

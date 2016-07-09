@@ -489,6 +489,7 @@
     <Content Include="Areas\TestPage\Scripts\qunit\grid.binding.js" />
     <Content Include="Areas\TestPage\Scripts\qunit\grid.footer.js" />
     <Content Include="Areas\TestPage\Scripts\qunit\grid.menu.js" />
+    <Content Include="Areas\TestPage\Scripts\qunit\grid.template.js" />
     <Content Include="Areas\TestPage\Scripts\qunit\grid.tooltip.js" />
     <Content Include="Content\angular-busy.css" />
     <Content Include="Content\angular-busy.min.css" />
