@@ -26,6 +26,10 @@
                     templateUrl: viewDir + "GridBinding.html",
                     controller: "grid.binding"
                 })
+                .when('/cellClass', {
+                    templateUrl: viewDir + "CellClass.html",
+                    controller: "cell.class"
+                })
                 .otherwise({
                     redirectTo: '/'
                 });
@@ -64,8 +68,8 @@
                 displayName: "ui-grid的绑定",
                 url: rootUrl + "/binding"
             }, {
-                displayName: "Headless",
-                url: "/Headless"
+                displayName: "单元格格式",
+                url: rootUrl + '/cellClass'
             }, {
                 displayName: "Logs",
                 url: "/Logs"

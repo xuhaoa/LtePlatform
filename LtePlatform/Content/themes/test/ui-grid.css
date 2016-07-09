@@ -6,3 +6,5 @@
 .header-filtered {
   color: blue;
 }
+.red { color: red;  background-color: yellow !important; }
+.blue { color: blue;  }
