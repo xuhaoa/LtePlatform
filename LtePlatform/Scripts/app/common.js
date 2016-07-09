@@ -33,8 +33,10 @@
     'parameters.module',
     'rutrace.module',
     "ui.bootstrap",
-    'ui.grid',
+    'ui.grid', 
     'ui.grid.edit',
+    'ui.grid.exporter', 
+    'ui.grid.selection',
     'ui.router',
     'workitem.module'
 ]);

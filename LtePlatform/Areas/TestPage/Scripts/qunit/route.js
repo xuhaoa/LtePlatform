@@ -34,6 +34,10 @@
                     templateUrl: viewDir + "GridTooltip.html",
                     controller: "grid.tooltip"
                 })
+                .when('/menu', {
+                    templateUrl: viewDir + "GridMenu.html",
+                    controller: "grid.menu"
+                })
                 .otherwise({
                     redirectTo: '/'
                 });
@@ -78,8 +82,8 @@
                 displayName: "ui-grid智能提示",
                 url: rootUrl + '/tooltip'
             }, {
-                displayName: "Only",
-                url: "/Only"
+                displayName: "ui-grid输出菜单",
+                url: rootUrl + '/menu'
             }]
         }
         ];
