@@ -22,6 +22,10 @@
                     templateUrl: viewDir + "GridFooter.html",
                     controller: "grid.footer"
                 })
+                .when('/binding', {
+                    templateUrl: viewDir + "GridBinding.html",
+                    controller: "grid.binding"
+                })
                 .otherwise({
                     redirectTo: '/'
                 });
@@ -57,8 +61,8 @@
                 displayName: "ui-grid的表脚",
                 url: rootUrl + "/footer"
             }, {
-                displayName: "Auto Start",
-                url: "/AutoStart"
+                displayName: "ui-grid的绑定",
+                url: rootUrl + "/binding"
             }, {
                 displayName: "Headless",
                 url: "/Headless"

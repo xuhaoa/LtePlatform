@@ -34,6 +34,7 @@
     'rutrace.module',
     "ui.bootstrap",
     'ui.grid',
+    'ui.grid.edit',
     'ui.router',
     'workitem.module'
 ]);

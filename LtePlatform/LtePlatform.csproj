@@ -478,9 +478,11 @@
     <Content Include="appViews\Rutrace\Map\VictimMapInfoBox.html" />
     <Content Include="appViews\Rutrace\WorkItem\CellTrend.html" />
     <Content Include="appViews\Rutrace\WorkItem\ForCell.html" />
+    <Content Include="appViews\Test\Simple\GridBinding.html" />
     <Content Include="appViews\Test\Simple\GridFilter.html" />
     <Content Include="appViews\Test\Simple\GridFooter.html" />
     <Content Include="Areas\TestPage\Scripts\angular\route.js" />
+    <Content Include="Areas\TestPage\Scripts\qunit\grid.binding.js" />
     <Content Include="Areas\TestPage\Scripts\qunit\grid.footer.js" />
     <Content Include="Content\angular-busy.css" />
     <Content Include="Content\angular-busy.min.css" />
