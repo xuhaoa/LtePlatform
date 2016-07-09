@@ -30,6 +30,10 @@
                     templateUrl: viewDir + "CellClass.html",
                     controller: "cell.class"
                 })
+                .when('/tooltip', {
+                    templateUrl: viewDir + "GridTooltip.html",
+                    controller: "grid.tooltip"
+                })
                 .otherwise({
                     redirectTo: '/'
                 });
@@ -71,8 +75,8 @@
                 displayName: "单元格格式",
                 url: rootUrl + '/cellClass'
             }, {
-                displayName: "Logs",
-                url: "/Logs"
+                displayName: "ui-grid智能提示",
+                url: rootUrl + '/tooltip'
             }, {
                 displayName: "Only",
                 url: "/Only"
