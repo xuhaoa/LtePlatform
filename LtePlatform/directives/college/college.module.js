@@ -24,7 +24,10 @@ angular.module('college.dt', ['ui.grid'])
             scope: {
                 colleges: '='
             },
-            template: '<div ui-grid="gridOptions"></div>'
+            template: '<div></div>',
+            link: function(scope, element, attrs) {
+                console.log(scope.gridOptions);
+            }
         };
     });
 

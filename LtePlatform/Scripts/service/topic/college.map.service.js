@@ -39,7 +39,7 @@
                     }
                 });
             },
-            showDtInfos: function(infos, callback) {
+            showDtInfos: function(infos, begin, end) {
                 collegeQueryService.queryAll().then(function (colleges) {
                     angular.forEach(colleges, function (college) {
                         var center;
@@ -55,13 +55,31 @@
                                     center = baiduMapService.getCircleCenter(region.info.split(';'));
                                     break;
                             }
-                            infos.push({
+                            var info = {
                                 name: college.name,
                                 centerX: center.X,
                                 centerY: center.Y,
-                                area: region.area
+                                area: region.area,
+                                file2Gs: 0,
+                                file3Gs: 0,
+                                file4Gs: 0
+                            };
+                            infos.push(info);
+                            var range = {
+                                west: center.X - 0.03,
+                                east: center.X + 0.03,
+                                south: center.Y - 0.03,
+                                north: center.Y + 0.03
+                            };
+                            collegeService.queryRaster('2G', range, begin, end).then(function (files) {
+                                info.file2Gs = files.length;
                             });
-                            callback();
+                            collegeService.queryRaster('3G', range, begin, end).then(function (files) {
+                                info.file3Gs = files.length;
+                            });
+                            collegeService.queryRaster('4G', range, begin, end).then(function (files) {
+                                info.file4Gs = files.length;
+                            });
                         });
                     });
                 });
