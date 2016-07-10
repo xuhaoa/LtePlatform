@@ -15,7 +15,7 @@ angular.module('college.dt', ['ui.grid'])
             data: $scope.colleges
         };
     })
-    .directive('collegeDtList', function() {
+    .directive('collegeDtList', function ($compile) {
         return {
             controller: 'CollegeDtController',
             controllerAs: 'collegeDt',
@@ -25,8 +25,9 @@ angular.module('college.dt', ['ui.grid'])
                 colleges: '='
             },
             template: '<div></div>',
-            link: function(scope, element, attrs) {
-                console.log(scope.gridOptions);
+            link: function (scope, element, attrs) {
+                var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                element.append(linkDom);
             }
         };
     });
