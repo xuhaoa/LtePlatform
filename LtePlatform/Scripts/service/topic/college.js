@@ -66,6 +66,9 @@
                 return generalHttpService.getApiData('CollegeQuery', {
                     name: name
                 });
+            },
+            queryAll: function() {
+                return generalHttpService.getApiData('CollegeQuery', {});
             }
         };
     });

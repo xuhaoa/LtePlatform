@@ -1,5 +1,5 @@
 ﻿angular.module('college.map', ['myApp.region', 'college'])
-    .factory('collegeMapService', function (baiduMapService, collegeService) {
+    .factory('collegeMapService', function (baiduMapService, collegeService, collegeQueryService) {
         return {
             showCollegeInfos: function(showCollegeDialogs, year) {
                 collegeService.queryStats(year).then(function(colleges) {
@@ -40,7 +40,7 @@
                 });
             },
             showDtInfos: function(infos, callback) {
-                collegeService.queryStats().then(function (colleges) {
+                collegeQueryService.queryAll().then(function (colleges) {
                     angular.forEach(colleges, function (college) {
                         var center;
                         collegeService.queryRegion(college.id).then(function (region) {
@@ -59,7 +59,7 @@
                                 name: college.name,
                                 centerX: center.X,
                                 centerY: center.Y,
-                                area: college.area
+                                area: region.area
                             });
                             callback();
                         });
