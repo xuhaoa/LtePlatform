@@ -1,5 +1,5 @@
 ﻿angular.module('college.map', ['myApp.region', 'college'])
-    .factory('collegeMapService', function (baiduMapService, collegeService, collegeQueryService) {
+    .factory('collegeMapService', function (baiduMapService, collegeService, collegeQueryService, collegeDtService) {
         return {
             showCollegeInfos: function(showCollegeDialogs, year) {
                 collegeService.queryStats(year).then(function(colleges) {
@@ -65,21 +65,7 @@
                                 file4Gs: 0
                             };
                             infos.push(info);
-                            var range = {
-                                west: center.X - 0.03,
-                                east: center.X + 0.03,
-                                south: center.Y - 0.03,
-                                north: center.Y + 0.03
-                            };
-                            collegeService.queryRaster('2G', range, begin, end).then(function (files) {
-                                info.file2Gs = files.length;
-                            });
-                            collegeService.queryRaster('3G', range, begin, end).then(function (files) {
-                                info.file3Gs = files.length;
-                            });
-                            collegeService.queryRaster('4G', range, begin, end).then(function (files) {
-                                info.file4Gs = files.length;
-                            });
+                            collegeDtService.updateFileInfo(info, begin, end);
                         });
                     });
                 });

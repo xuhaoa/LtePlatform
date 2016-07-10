@@ -1,15 +1,15 @@
 ﻿angular.module('college', ['myApp.url'])
-    .factory('collegeService', function (generalHttpService) {
+    .factory('collegeService', function(generalHttpService) {
         return {
-            queryNames: function () {
+            queryNames: function() {
                 return generalHttpService.getApiData('CollegeNames', {});
             },
-            queryStats: function (year) {
+            queryStats: function(year) {
                 return generalHttpService.getApiData('CollegeStat', {
                     year: year
                 });
             },
-            queryRegion: function (id) {
+            queryRegion: function(id) {
                 return generalHttpService.getApiData('CollegeRegion/' + id, {});
             },
             queryRange: function(name) {
@@ -17,32 +17,32 @@
                     collegeName: name
                 });
             },
-            queryENodebs: function (name) {
+            queryENodebs: function(name) {
                 return generalHttpService.getApiData('CollegeENodeb', {
                     collegeName: name
                 });
             },
-            queryCells: function (name) {
+            queryCells: function(name) {
                 return generalHttpService.getApiData('CollegeCells', {
                     collegeName: name
                 });
             },
-            queryBtss: function (name) {
+            queryBtss: function(name) {
                 return generalHttpService.getApiData('CollegeBtss', {
                     collegeName: name
                 });
             },
-            queryCdmaCells: function (name) {
+            queryCdmaCells: function(name) {
                 return generalHttpService.getApiData('CollegeCdmaCells', {
                     collegeName: name
                 });
             },
-            queryLteDistributions: function (name) {
+            queryLteDistributions: function(name) {
                 return generalHttpService.getApiData('CollegeLteDistributions', {
                     collegeName: name
                 });
             },
-            queryCdmaDistributions: function (name) {
+            queryCdmaDistributions: function(name) {
                 return generalHttpService.getApiData('CollegeCdmaDistributions', {
                     collegeName: name
                 });
@@ -69,6 +69,27 @@
             },
             queryAll: function() {
                 return generalHttpService.getApiData('CollegeQuery', {});
+            }
+        };
+    })
+    .factory('collegeDtService', function (collegeService) {
+        return {
+            updateFileInfo: function(info, begin, end) {
+                var range = {
+                    west: info.centerX - 0.03,
+                    east: info.centerX + 0.03,
+                    south: info.centerY - 0.03,
+                    north: info.centerY + 0.03
+                };
+                collegeService.queryRaster('2G', range, begin, end).then(function (files) {
+                    info.file2Gs = files.length;
+                });
+                collegeService.queryRaster('3G', range, begin, end).then(function (files) {
+                    info.file3Gs = files.length;
+                });
+                collegeService.queryRaster('4G', range, begin, end).then(function (files) {
+                    info.file4Gs = files.length;
+                });
             }
         };
     });
