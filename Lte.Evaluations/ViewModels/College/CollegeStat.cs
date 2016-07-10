@@ -1,4 +1,5 @@
-﻿using Lte.Domain.Regular.Attributes;
+﻿using System;
+using Lte.Domain.Regular.Attributes;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Entities;
@@ -85,5 +86,24 @@ namespace Lte.Evaluations.ViewModels.College
                                                      && x.HotspotType == HotspotType.College
                                                      && x.InfrastructureType == InfrastructureType.CdmaIndoor);
         }
+    }
+
+    public class CollegeYearView
+    {
+        public string Name { get; set; }
+
+        public int TotalStudents { get; set; }
+
+        public int CurrentSubscribers { get; set; }
+
+        public int GraduateStudents { get; set; }
+
+        public int NewSubscribers { get; set; }
+
+        public DateTime OldOpenDate { get; set; }
+
+        public DateTime NewOpenDate { get; set; }
+
+        public int ExpectedSubscribers { get; set; }
     }
 }
