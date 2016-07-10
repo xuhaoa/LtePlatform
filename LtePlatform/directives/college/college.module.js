@@ -19,7 +19,7 @@ angular.module('college.dt', ['ui.grid'])
         return {
             controller: 'CollegeDtController',
             controllerAs: 'collegeDt',
-            restrict: 'ECMA',
+            restrict: 'EA',
             replace: true,
             scope: {
                 colleges: '='
@@ -32,148 +32,44 @@ angular.module('college.dt', ['ui.grid'])
         };
     });
 
-angular.module('college.infrastructure', [])
-    .value('collegeInfrastructurePath', '/appViews/College/Infrastructure/')
-    .directive('collegeStatTable', function (collegeRoot, collegeInfrastructurePath, $uibModal, $log) {
+angular.module('college.infrastructure', ['college'])
+    .controller('CollegeStatController', function($scope, collegeDialogService) {
+        $scope.showENodebs = function(name) {
+            collegeDialogService.showENodebs(name);
+        };
+
+        $scope.showCells = function(name) {
+            collegeDialogService.showCells(name);
+        };
+
+        $scope.showBtss = function(name) {
+            collegeDialogService.showBtss(name);
+        };
+
+        $scope.showCdmaCells = function(name) {
+            collegeDialogService.showCdmaCells(name);
+        };
+
+        $scope.showLteDistributions = function(name) {
+            collegeDialogService.showLteDistributions(name);
+        };
+
+        $scope.showCdmaDistributions = function(name) {
+            collegeDialogService.showCdmaDistributions(name);
+        };
+    })
+    .value('collegeRoot', '/directives/college/')
+    .directive('collegeStatTable', function (collegeRoot) {
         return {
-            restrict: 'ECMA',
+            controller: 'CollegeStatController',
+            controllerAs: 'collegeStat',
+            restrict: 'EA',
             replace: true,
             scope: {
                 collegeList: '='
             },
             templateUrl: collegeRoot + 'stat/Table.html',
             link: function(scope, element, attrs) {
-                scope.showENodebs = function(name) {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: collegeInfrastructurePath + 'ENodebDialog.html',
-                        controller: 'eNodeb.dialog',
-                        size: 'sm',
-                        resolve: {
-                            dialogTitle: function() {
-                                return name + "-" + "LTE基站信息";
-                            },
-                            name: function() {
-                                return name;
-                            }
-                        }
-                    });
-                    modalInstance.result.then(function(info) {
-                        console.log(info);
-                    }, function() {
-                        $log.info('Modal dismissed at: ' + new Date());
-                    });
-                };
-
-                scope.showCells = function(name) {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: collegeInfrastructurePath + 'LteCellDialog.html',
-                        controller: 'cell.dialog',
-                        size: 'sm',
-                        resolve: {
-                            dialogTitle: function() {
-                                return name + "-" + "LTE小区信息";
-                            },
-                            name: function() {
-                                return name;
-                            }
-                        }
-                    });
-                    modalInstance.result.then(function(info) {
-                        console.log(info);
-                    }, function() {
-                        $log.info('Modal dismissed at: ' + new Date());
-                    });
-                };
-
-                scope.showBtss = function(name) {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: collegeInfrastructurePath + 'BtsDialog.html',
-                        controller: 'bts.dialog',
-                        size: 'sm',
-                        resolve: {
-                            dialogTitle: function() {
-                                return name + "-" + "CDMA基站信息";
-                            },
-                            name: function() {
-                                return name;
-                            }
-                        }
-                    });
-                    modalInstance.result.then(function(info) {
-                        console.log(info);
-                    }, function() {
-                        $log.info('Modal dismissed at: ' + new Date());
-                    });
-                };
-
-                scope.showCdmaCells = function(name) {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: collegeInfrastructurePath + 'CdmaCellDialog.html',
-                        controller: 'cdmaCell.dialog',
-                        size: 'sm',
-                        resolve: {
-                            dialogTitle: function() {
-                                return name + "-" + "CDMA小区信息";
-                            },
-                            name: function() {
-                                return name;
-                            }
-                        }
-                    });
-                    modalInstance.result.then(function(info) {
-                        console.log(info);
-                    }, function() {
-                        $log.info('Modal dismissed at: ' + new Date());
-                    });
-                };
-
-                scope.showLteDistributions = function(name) {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: collegeInfrastructurePath + 'DistributionDialog.html',
-                        controller: 'lte.distribution.dialog',
-                        size: 'sm',
-                        resolve: {
-                            dialogTitle: function() {
-                                return name + "-" + "LTE室分信息";
-                            },
-                            name: function() {
-                                return name;
-                            }
-                        }
-                    });
-                    modalInstance.result.then(function(info) {
-                        console.log(info);
-                    }, function() {
-                        $log.info('Modal dismissed at: ' + new Date());
-                    });
-                };
-
-                scope.showCdmaDistributions = function(name) {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: collegeInfrastructurePath + 'DistributionDialog.html',
-                        controller: 'cdma.distribution.dialog',
-                        size: 'sm',
-                        resolve: {
-                            dialogTitle: function() {
-                                return name + "-" + "CDMA室分信息";
-                            },
-                            name: function() {
-                                return name;
-                            }
-                        }
-                    });
-                    modalInstance.result.then(function(info) {
-                        console.log(info);
-                    }, function() {
-                        $log.info('Modal dismissed at: ' + new Date());
-                    });
-                };
 
             }
         };

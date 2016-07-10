@@ -2,8 +2,10 @@
     $scope.collegeInfo.url = $scope.rootPath + "query";
     $scope.page.title = "基础信息查看";
 
-    
-    collegeService.queryStats($scope.collegeInfo.year.selected).then(function(colleges) {
-        $scope.collegeList = colleges;
+    $scope.$watch('collegeInfo.year.selected', function(year) {
+        collegeService.queryStats(year).then(function(colleges) {
+            $scope.collegeList = colleges;
+        });
     });
+
 });
