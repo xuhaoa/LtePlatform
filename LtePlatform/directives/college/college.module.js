@@ -1,13 +1,32 @@
-﻿angular.module('college.module', [])
+﻿angular.module('college.module', ['ui.grid'])
     .value('collegeRoot', '/directives/college/')
-    .directive('collegeDtList', function(collegeRoot) {
+    .directive('collegeDtList', function() {
         return {
             restrict: 'ECMA',
             replace: true,
             scope: {
                 colleges: '='
             },
-            templateUrl: collegeRoot + 'Dt.Tpl.html'
+            template: '<div ui-grid="gridOptions"></div>',
+            link: function (scope, element, attrs) {
+                scope.gridOptions = {
+                    columnDefs: [
+                        { field: 'name', name: '校园名称' },
+                        { field: 'area', name: '区域面积（平方米）', cellFilter: 'number: 2' },
+                        { field: 'centerX', name: '中心经度', cellFilter: 'number: 4' },
+                        { field: 'centerY', name: '中心纬度', cellFilter: 'number: 4' },
+                        { field: 'file2Gs', name: '2G文件数' },
+                        { field: 'file3Gs', name: '3G文件数' },
+                        { field: 'file4Gs', name: '4G文件数' }
+                    ],
+                    data: []
+                };
+                scope.$watch(scope.colleges, function(colleges) {
+                    if (colleges) {
+                        scope.gridOptions.data = colleges;
+                    }
+                });
+            }
         };
     })
     .value('collegeInfrastructurePath', '/appViews/College/Infrastructure/')
