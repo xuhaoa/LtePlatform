@@ -1,34 +1,34 @@
-﻿angular.module('college.module', ['ui.grid'])
-    .value('collegeRoot', '/directives/college/')
+﻿angular.module('college.module', ['college.dt', 'college.infrastructure']);
+
+angular.module('college.dt', ['ui.grid'])
+    .controller('CollegeDtController', function($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'name', name: '校园名称' },
+                { field: 'area', name: '区域面积（平方米）', cellFilter: 'number: 2' },
+                { field: 'centerX', name: '中心经度', cellFilter: 'number: 4' },
+                { field: 'centerY', name: '中心纬度', cellFilter: 'number: 4' },
+                { field: 'file2Gs', name: '2G文件数' },
+                { field: 'file3Gs', name: '3G文件数' },
+                { field: 'file4Gs', name: '4G文件数' }
+            ],
+            data: $scope.colleges
+        };
+    })
     .directive('collegeDtList', function() {
         return {
+            controller: 'CollegeDtController',
+            controllerAs: 'collegeDt',
             restrict: 'ECMA',
             replace: true,
             scope: {
                 colleges: '='
             },
-            template: '<div ui-grid="gridOptions"></div>',
-            link: function (scope, element, attrs) {
-                scope.gridOptions = {
-                    columnDefs: [
-                        { field: 'name', name: '校园名称' },
-                        { field: 'area', name: '区域面积（平方米）', cellFilter: 'number: 2' },
-                        { field: 'centerX', name: '中心经度', cellFilter: 'number: 4' },
-                        { field: 'centerY', name: '中心纬度', cellFilter: 'number: 4' },
-                        { field: 'file2Gs', name: '2G文件数' },
-                        { field: 'file3Gs', name: '3G文件数' },
-                        { field: 'file4Gs', name: '4G文件数' }
-                    ],
-                    data: []
-                };
-                scope.$watch(scope.colleges, function(colleges) {
-                    if (colleges) {
-                        scope.gridOptions.data = colleges;
-                    }
-                });
-            }
+            template: '<div ui-grid="gridOptions"></div>'
         };
-    })
+    });
+
+angular.module('college.infrastructure', [])
     .value('collegeInfrastructurePath', '/appViews/College/Infrastructure/')
     .directive('collegeStatTable', function (collegeRoot, collegeInfrastructurePath, $uibModal, $log) {
         return {
