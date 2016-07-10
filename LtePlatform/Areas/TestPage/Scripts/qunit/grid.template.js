@@ -17,7 +17,11 @@
           {
               name: 'ShowScope',
               cellTemplate: '<button class="btn primary" ng-click="grid.appScope.showMe(row.entity.gender)">Click Me</button>'
-          }
+          },
+        {
+            name: 'ShowGender',
+            cellTemplate: '<a href="">{{row.entity.gender}}</a>'
+        }
     ];
     /*
     $scope.gridOptions.data = [

@@ -504,7 +504,6 @@
     <Content Include="directives\app\DistrictTownSelection.Tpl.html" />
     <Content Include="directives\app\dump\FileSelector.html" />
     <Content Include="directives\college\college.module.js" />
-    <Content Include="directives\college\Dt.Tpl.html" />
     <Content Include="directives\customer\customer.module.js" />
     <Content Include="directives\customer\emergency\CommunicationList.html" />
     <Content Include="directives\customer\emergency\FiberList.html" />
