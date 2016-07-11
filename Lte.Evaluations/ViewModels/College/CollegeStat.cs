@@ -5,6 +5,7 @@ using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.College;
 using System.Runtime.Serialization;
+using Abp.EntityFramework.AutoMapper;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Infrastructure;
 
@@ -88,6 +89,7 @@ namespace Lte.Evaluations.ViewModels.College
         }
     }
 
+    [AutoMapFrom(typeof(CollegeYearInfo))]
     public class CollegeYearView
     {
         public string Name { get; set; }

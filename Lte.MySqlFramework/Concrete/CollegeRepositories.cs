@@ -25,5 +25,10 @@ namespace Lte.MySqlFramework.Concrete
         {
             return FirstOrDefault(x => x.CollegeId == collegeId && x.Year == year);
         }
+
+        public List<CollegeYearInfo> GetAllList(int year)
+        {
+            return GetAllList(x => x.Year == year);
+        }
     }
 }

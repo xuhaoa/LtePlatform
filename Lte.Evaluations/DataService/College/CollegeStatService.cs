@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Lte.Evaluations.ViewModels.College;
 using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract;
@@ -22,6 +23,16 @@ namespace Lte.Evaluations.DataService.College
             _infrastructureRepository = infrastructureRepository;
             _yearRepository = yearRepository;
         }
+        
+        public CollegeInfo QueryInfo(int id)
+        {
+            return _repository.Get(id);
+        }
+
+        public CollegeInfo QueryInfo(string name)
+        {
+            return _repository.FirstOrDefault(x => x.Name == name);
+        }
 
         public CollegeStat QueryStat(int id, int year)
         {
@@ -42,6 +53,24 @@ namespace Lte.Evaluations.DataService.College
                         new CollegeStat(_repository, x, _yearRepository.GetByCollegeAndYear(x.Id, year),
                             _infrastructureRepository))).Where(x=>x.ExpectedSubscribers > 0);
         }
+
+        public List<CollegeInfo> QueryInfos()
+        {
+            return _repository.GetAllList();
+        } 
+
+        public IEnumerable<CollegeYearView> QuerYearViews(int year)
+        {
+            var infos = _yearRepository.GetAllList(year);
+            return !infos.Any()
+                ? new List<CollegeYearView>()
+                : infos.Select(x =>
+                {
+                    var stat = Mapper.Map<CollegeYearView>(x);
+                    stat.Name = _repository.Get(x.CollegeId).Name;
+                    return stat;
+                });
+        } 
 
         public IEnumerable<string> QueryNames()
         {

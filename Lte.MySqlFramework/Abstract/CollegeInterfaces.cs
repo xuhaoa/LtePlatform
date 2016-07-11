@@ -12,5 +12,7 @@ namespace Lte.MySqlFramework.Abstract
     public interface ICollegeYearRepository : IRepository<CollegeYearInfo>, ISaveChanges
     {
         CollegeYearInfo GetByCollegeAndYear(int collegeId, int year);
+
+        List<CollegeYearInfo> GetAllList(int year);
     }
 }

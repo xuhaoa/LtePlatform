@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using Lte.Evaluations.DataService.College;
+using Lte.Evaluations.ViewModels.College;
 using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Entities.College;
 using LtePlatform.Models;
@@ -10,11 +11,11 @@ namespace LtePlatform.Controllers.College
     [ApiControl("校园网基本查询控制器")]
     public class CollegeQueryController : ApiController
     {
-        private readonly ICollegeRepository _repository;
+        private readonly CollegeStatService _service;
 
-        public CollegeQueryController(ICollegeRepository repository)
+        public CollegeQueryController(CollegeStatService service)
         {
-            _repository = repository;
+            _service = service;
         }
 
         [HttpGet]
@@ -23,7 +24,7 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("校园网信息")]
         public IHttpActionResult Get(int id)
         {
-            CollegeInfo info = _repository.Get(id);
+            var info = _service.QueryInfo(id);
             return info == null ? (IHttpActionResult)BadRequest("College Id Not Found!") : Ok(info);
         }
 
@@ -33,7 +34,7 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("校园网信息")]
         public IHttpActionResult Get(string name)
         {
-            CollegeInfo info = _repository.FirstOrDefault(x => x.Name == name);
+            CollegeInfo info = _service.QueryInfo(name);
             return info == null ? (IHttpActionResult)BadRequest("College Name Not Found!") : Ok(info);
         }
 
@@ -42,7 +43,13 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("所有校园网信息")]
         public IEnumerable<CollegeInfo> Get()
         {
-            return _repository.GetAllList();
+            return _service.QueryInfos();
+        }
+
+        [HttpGet]
+        public IEnumerable<CollegeYearView> GetYearViews(int year)
+        {
+            return _service.QuerYearViews(year);
         }
     }
 
