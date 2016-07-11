@@ -36,7 +36,7 @@ angular.module('college.info', [])
     .controller('CollegeInfoController', function($scope) {
         $scope.gridOptions = {
             columnDefs: [
-                { field: 'name', name: '校园名称' },
+                { field: 'name', name: '校园名称', width: 250, enableColumnResizing: false },
                 { field: 'totalStudents', name: '在校学生数' },
                 { field: 'graduateStudents', name: '毕业用户数' },
                 { field: 'currentSubscribers', name: '当前用户数' },
