@@ -8,9 +8,7 @@
             $scope.collegeList = colleges;
         });
         collegeQueryService.queryYearList(year).then(function (colleges) {
-            angular.forEach(colleges, function(college) {
-                $scope.collegeYearList.push(college);
-            });
+            $scope.collegeYearList = colleges;
         });
     });
 

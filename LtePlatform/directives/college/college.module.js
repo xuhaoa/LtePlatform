@@ -45,7 +45,7 @@ angular.module('college.info', [])
                 { field: 'oldOpenDate', name: '老生开学日期', cellFilter: 'date: "yyyy-MM-dd"' },
                 { field: 'newOpenDate', name: '新生开学日期', cellFilter: 'date: "yyyy-MM-dd"' }
             ],
-            data: $scope.colleges
+            data: []
         };
     })
     .directive('collegeInfoList', function ($compile) {
@@ -59,8 +59,15 @@ angular.module('college.info', [])
             },
             template: '<div></div>',
             link: function (scope, element, attrs) {
-                var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-                element.append(linkDom);
+                scope.initialize = false;
+                scope.$watch('colleges', function(colleges) {
+                    scope.gridOptions.data = colleges;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
             }
         };
     });
