@@ -69,6 +69,11 @@
             },
             queryAll: function() {
                 return generalHttpService.getApiData('CollegeQuery', {});
+            },
+            queryYearList: function(year) {
+                return generalHttpService.getApiData('CollegeQuery', {
+                    year: year
+                });
             }
         };
     })

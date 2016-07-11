@@ -1,4 +1,4 @@
-﻿angular.module('college.module', ['college.dt', 'college.infrastructure']);
+﻿angular.module('college.module', ['college.dt', 'college.info', 'college.infrastructure']);
 
 angular.module('college.dt', ['ui.grid'])
     .controller('CollegeDtController', function($scope) {
@@ -19,6 +19,39 @@ angular.module('college.dt', ['ui.grid'])
         return {
             controller: 'CollegeDtController',
             controllerAs: 'collegeDt',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                colleges: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                element.append(linkDom);
+            }
+        };
+    });
+
+angular.module('college.info', [])
+    .controller('CollegeInfoController', function($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'name', name: '校园名称' },
+                { field: 'totalStudents', name: '在校学生数' },
+                { field: 'graduateStudents', name: '毕业用户数' },
+                { field: 'currentSubscribers', name: '当前用户数' },
+                { field: 'newSubscribers', name: '新发展用户数' },
+                { field: 'expectedSubscribers', name: '预计到达用户数' },
+                { field: 'oldOpenDate', name: '老生开学日期', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'newOpenDate', name: '新生开学日期', cellFilter: 'date: "yyyy-MM-dd"' }
+            ],
+            data: $scope.colleges
+        };
+    })
+    .directive('collegeInfoList', function ($compile) {
+        return {
+            controller: 'CollegeInfoController',
+            controllerAs: 'collegeInfo',
             restrict: 'EA',
             replace: true,
             scope: {
