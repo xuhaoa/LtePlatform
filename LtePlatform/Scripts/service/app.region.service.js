@@ -130,6 +130,14 @@
                 }
 
                 return urlParams;
+            },
+            searchText: function(options, matchFunction) {
+                for (var i = 0; i < options.length; i++) {
+                    if (matchFunction(options[i])) {
+                        return options[i];
+                    }
+                }
+                return null;
             }
         }
     });
