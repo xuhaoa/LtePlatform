@@ -12,5 +12,15 @@
         });
     };
 
+    $scope.save=function() {
+        $scope.item.marketThemeDescription = $scope.marketTheme.selected;
+        customerQueryService.updateVip($scope.item).then(function() {
+            $scope.page.messages.push({
+                type: 'success',
+                contents: '完成政企需求工单：' + $scope.item.serialNumber
+            });
+        });
+    }
+
     $scope.query();
 });

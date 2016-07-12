@@ -85,7 +85,7 @@ namespace Abp.EntityFramework.Repositories
             return null;
         }
 
-        public async static Task<int> UpdateOne<TRepository, TEntity, TDto>(this TRepository repository, TDto stat)
+        public static async Task<int> UpdateOne<TRepository, TEntity, TDto>(this TRepository repository, TDto stat)
             where TRepository : IRepository<TEntity>, IMatchRepository<TEntity, TDto>, ISaveChanges
             where TEntity : Entity, new()
         {

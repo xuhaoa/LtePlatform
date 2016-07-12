@@ -216,7 +216,8 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.NetworkType,
                     opt => opt.MapFrom(s => s.NetworkTypeDescription.GetEnumType<NetworkType>()))
                 .ForMember(d => d.MarketTheme,
-                    opt => opt.MapFrom(s => s.MarketThemeDescription.GetEnumType<MarketTheme>()));
+                    opt => opt.MapFrom(s => s.MarketThemeDescription.GetEnumType<MarketTheme>()))
+                .ForMember(d => d.FinishTime, opt => opt.MapFrom(s => DateTime.Now));
             Mapper.CreateMap<VipDemand, VipDemandDto>()
                 .ForMember(d => d.DemandLevelDescription, opt => opt.MapFrom(s => s.DemandLevel.GetEnumDescription()))
                 .ForMember(d => d.NetworkTypeDescription, opt => opt.MapFrom(s => s.NetworkType.GetEnumDescription()))
