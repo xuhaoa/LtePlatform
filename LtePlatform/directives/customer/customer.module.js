@@ -53,8 +53,10 @@
             templateUrl: customerRoot + 'vip/DemandList.html',
             link: function(scope, element, attrs) {
                 scope.supplement = function(view) {
-                    customerDialogService.supplementVipDemandInfo(view, scope.city, scope.district, scope.messages);
-                    view.isInfoComplete = true;
+                    customerDialogService.supplementVipDemandInfo(view, scope.city, scope.district, scope.messages,
+                        function() {
+                            view.isInfoComplete = true;
+                        });
                 };
             }
         };
