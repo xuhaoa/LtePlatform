@@ -52,10 +52,8 @@
                 scope.$watch("city.selected", function (city) {
                     if (city) {
                         appRegionService.queryDistricts(city).then(function (districts) {
-                            scope.district = {
-                                options: districts,
-                                selected: districts[0]
-                            };
+                            scope.district.options = districts;
+                            scope.district.selected = districts[0];
                         });
                     }
                 });
@@ -76,10 +74,8 @@
                 scope.$watch("district.selected", function (district) {
                     if (district) {
                         appRegionService.queryTowns(scope.city.selected, district).then(function (towns) {
-                            scope.town = {
-                                options: towns,
-                                selected: towns[0]
-                            };
+                            scope.town.options = towns;
+                            scope.town.selected = towns[0];
                         });
                     }
                 });

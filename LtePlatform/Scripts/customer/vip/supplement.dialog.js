@@ -9,14 +9,13 @@
         return $scope.view.projectName.indexOf(text) >= 0 || $scope.view.projectContents.indexOf(text) >= 0;
     };
     $scope.matchDistrictTown = function () {
-        console.log($scope.district);
-        var districtOption = appFormatService.queryText($scope.district.options, $scope.matchFunction);
+        var districtOption = appFormatService.searchText($scope.district.options, $scope.matchFunction);
         if (districtOption) {
             $scope.district.selected = districtOption;
         }
     };
     $scope.$watch('town.selected', function() {
-        var townOption = appFormatService.queryText($scope.town.options, $scope.matchFunction);
+        var townOption = appFormatService.searchText($scope.town.options, $scope.matchFunction);
         if (townOption) {
             $scope.town.selected = townOption;
         }

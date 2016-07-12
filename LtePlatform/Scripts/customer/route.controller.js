@@ -138,8 +138,12 @@
             options: []
         };
         $rootScope.district = {
-            options: "",
-            selected: []
+            options: [],
+            selected: ""
+        };
+        $rootScope.town = {
+            options: [],
+            selected: ""
         };
         var lastWeek = new Date();
         lastWeek.setDate(lastWeek.getDate() - 7);
