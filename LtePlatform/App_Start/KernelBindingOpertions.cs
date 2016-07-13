@@ -150,6 +150,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<ICollegeYearRepository>().To<CollegeYearRepository>();
 
+            ninjectKernel.Bind<ICellUlpcCommRepository>().To<CellUlpcCommRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();

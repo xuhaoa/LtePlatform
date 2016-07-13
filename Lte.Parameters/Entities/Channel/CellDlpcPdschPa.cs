@@ -9,7 +9,7 @@ using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Channel
 {
-    public class CellDlpcPdschPa : IEntity<ObjectId>, IHuaweiMongo
+    public class CellDlpcPdschPa : IEntity<ObjectId>, IHuaweiCellMongo
     {
         public ObjectId Id { get; set; }
 

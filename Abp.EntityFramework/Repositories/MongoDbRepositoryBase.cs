@@ -44,6 +44,11 @@ namespace Abp.MongoDb.Repositories
             _databaseProvider = databaseProvider;
         }
 
+        public IQueryable<TEntity> QueryCursor(IMongoQuery query)
+        {
+            return Collection.Find(query).AsQueryable();
+        }
+
         public override IQueryable<TEntity> GetAll()
         {
             return Collection.AsQueryable();

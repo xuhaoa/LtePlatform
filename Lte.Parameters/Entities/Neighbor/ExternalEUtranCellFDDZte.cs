@@ -1,5 +1,5 @@
 ﻿using Abp.Domain.Entities;
-using Lte.Parameters.Entities.Switch;
+using Lte.Parameters.Entities.Basic;
 using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Neighbor

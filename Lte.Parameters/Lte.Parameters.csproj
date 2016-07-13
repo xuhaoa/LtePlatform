@@ -207,7 +207,7 @@
     <Compile Include="Concrete\Switch\UeEUtranMeasurementRepository.cs" />
     <Compile Include="Entities\AlarmStat.cs" />
     <Compile Include="Entities\Basic\CellHuaweiMongo.cs" />
-    <Compile Include="Entities\Basic\IHuaweiMongo.cs" />
+    <Compile Include="Entities\Basic\CommonFormats.cs" />
     <Compile Include="Entities\ExcelCsv\AlarmStatCsv.cs" />
     <Compile Include="Entities\ExcelCsv\AlarmStatHuawei.cs" />
     <Compile Include="Entities\ExcelCsv\BtsExcel.cs" />
@@ -249,7 +249,6 @@
     <Compile Include="Entities\Switch\CellMeasGroupZte.cs" />
     <Compile Include="Entities\Switch\EUtranCellMeasurementZte.cs" />
     <Compile Include="Entities\Switch\IZteMeasGroup.cs" />
-    <Compile Include="Entities\Switch\IZteMongo.cs" />
     <Compile Include="Entities\Switch\InterFreqHoGroup.cs" />
     <Compile Include="Entities\Switch\InterRatHoComm.cs" />
     <Compile Include="Entities\Switch\IntraFreqHoGroup.cs" />

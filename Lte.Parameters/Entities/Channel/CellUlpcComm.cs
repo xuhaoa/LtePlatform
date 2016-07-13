@@ -11,7 +11,7 @@ using MongoDB.Bson;
 namespace Lte.Parameters.Entities.Channel
 {
     [TypeDoc("华为上行控制参数")]
-    public class CellUlpcComm : IEntity<ObjectId>, IHuaweiMongo
+    public class CellUlpcComm : IEntity<ObjectId>, IHuaweiCellMongo
     {
         public bool IsTransient()
         {
@@ -55,5 +55,7 @@ namespace Lte.Parameters.Entities.Channel
 
         [MemberDoc("PUCCH格式2的偏置：该参数表示PUCCH格式2的Delta值。参数的使用细节请参见3GPP TS 36.213。")]
         public int DeltaFPUCCHFormat2 { get; set; }
+
+        public int LocalCellId { get; set; }
     }
 }
