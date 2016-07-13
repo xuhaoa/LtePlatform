@@ -33,4 +33,22 @@ namespace Lte.Parameters.Concrete.Channel
             return list.FirstOrDefault(x => x.iDate == recentDate);
         }
     }
+
+    public class CellUlpcCommRepository : MongoDbRepositoryBase<CellUlpcComm, ObjectId>, ICellUlpcCommRepository
+    {
+        public CellUlpcCommRepository(IMongoDatabaseProvider databaseProvider) : base(databaseProvider)
+        {
+            CollectionName = "CellUlpcComm";
+        }
+
+        public CellUlpcCommRepository() : this(new MyMongoProvider("fangww"))
+        {
+
+        }
+
+        public CellUlpcComm GetRecent(int eNodebId, int localCellId)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

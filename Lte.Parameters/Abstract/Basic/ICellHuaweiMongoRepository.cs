@@ -36,4 +36,9 @@ namespace Lte.Parameters.Abstract.Basic
     {
         CellDlpcPdschPa GetRecent(int eNodebId, int localCellId);
     }
+
+    public interface ICellUlpcCommRepository : IRepository<CellUlpcComm, ObjectId>
+    {
+        CellUlpcComm GetRecent(int eNodebId, int localCellId);
+    }
 }
