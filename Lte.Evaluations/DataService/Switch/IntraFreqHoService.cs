@@ -40,8 +40,8 @@ namespace Lte.Evaluations.DataService.Switch
             var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
             if (eNodeb == null) return null;
             return eNodeb.Factory == "华为"
-                ? (IMongoQuery<ENodebIntraFreqHoView>) new HuaweiENodebQuery(_huaweiENodebHoRepository, eNodebId)
-                : new ZteENodebQuery(_zteGroupRepository, _zteMeasurementRepository, eNodebId);
+                ? (IMongoQuery<ENodebIntraFreqHoView>) new HuaweiIntraFreqENodebQuery(_huaweiENodebHoRepository, eNodebId)
+                : new ZteIntraFreqENodebQuery(_zteGroupRepository, _zteMeasurementRepository, eNodebId);
         }
 
         public ENodebIntraFreqHoView QueryENodebHo(int eNodebId)
@@ -68,31 +68,20 @@ namespace Lte.Evaluations.DataService.Switch
         }
     }
 
-    internal class HuaweiENodebQuery : IMongoQuery<ENodebIntraFreqHoView>
+    internal class HuaweiIntraFreqENodebQuery : HuaweiENodebQuery<IntraRatHoComm, ENodebIntraFreqHoView, IIntraRatHoCommRepository>
     {
-        private readonly IIntraRatHoCommRepository _huaweiENodebHoRepository;
-        private readonly int _eNodebId;
-
-        public HuaweiENodebQuery(IIntraRatHoCommRepository huaweiENodebHoRepository, int eNodebId)
+        public HuaweiIntraFreqENodebQuery(IIntraRatHoCommRepository repository, int eNodebId) : base(repository, eNodebId)
         {
-            _huaweiENodebHoRepository = huaweiENodebHoRepository;
-            _eNodebId = eNodebId;
-        }
-
-        public ENodebIntraFreqHoView Query()
-        {
-            var huaweiPara = _huaweiENodebHoRepository.GetRecent(_eNodebId);
-            return huaweiPara == null ? null : Mapper.Map<IntraRatHoComm, ENodebIntraFreqHoView>(huaweiPara);
         }
     }
 
-    internal class ZteENodebQuery : IMongoQuery<ENodebIntraFreqHoView>
+    internal class ZteIntraFreqENodebQuery : IMongoQuery<ENodebIntraFreqHoView>
     {
         private readonly ICellMeasGroupZteRepository _zteGroupRepository;
         private readonly IUeEUtranMeasurementRepository _zteMeasurementRepository;
         private readonly int _eNodebId;
 
-        public ZteENodebQuery(ICellMeasGroupZteRepository zteGroupRepository,
+        public ZteIntraFreqENodebQuery(ICellMeasGroupZteRepository zteGroupRepository,
             IUeEUtranMeasurementRepository zteMeasurementRepository, int eNodebId)
         {
             _zteGroupRepository = zteGroupRepository;

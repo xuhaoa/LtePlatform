@@ -4,8 +4,12 @@ using MongoDB.Bson;
 
 namespace Lte.Parameters.Abstract.Switch
 {
-    public interface IIntraRatHoCommRepository : IRepository<IntraRatHoComm, ObjectId>
+    public interface IRecent<out TStat>
     {
-        IntraRatHoComm GetRecent(int eNodebId);
+        TStat GetRecent(int eNodebId);
+    }
+    public interface IIntraRatHoCommRepository : IRepository<IntraRatHoComm, ObjectId>, IRecent<IntraRatHoComm>
+    {
+        
     }
 }
