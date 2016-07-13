@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Linq.Mapping;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Lte.Parameters.Entities
+namespace Lte.Parameters.Entities.Dt
 {
     [Table(Name = "dbo.csvFilesInfo")]
     public class CsvFilesInfo
@@ -24,5 +20,21 @@ namespace Lte.Parameters.Entities
 
         [Column(Name = "distance", DbType = "float")]
         public double? Distance { get; set; }
+    }
+
+    [Table(Name = "dbo.areaTestDate")]
+    public class AreaTestDate
+    {
+        [Column(Name = "area", DbType = "Char(50)")]
+        public string Area { get; set; }
+
+        [Column(Name = "latestTestDate2G", DbType = "Char(100)")]
+        public string LatestTestDate2G { get; set; }
+
+        [Column(Name = "latestTestDate3G", DbType = "Char(100)")]
+        public string LatestTestDate3G { get; set; }
+
+        [Column(Name = "latestTestDate4G", DbType = "Char(100)")]
+        public string LatestTestDate4G { get; set; }
     }
 }

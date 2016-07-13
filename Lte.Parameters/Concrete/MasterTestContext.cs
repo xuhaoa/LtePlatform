@@ -2,6 +2,7 @@
 using System.Data.Linq.Mapping;
 using System.Reflection;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Dt;
 
 namespace Lte.Parameters.Concrete
 {

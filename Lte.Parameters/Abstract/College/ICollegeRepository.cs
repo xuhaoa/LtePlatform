@@ -5,6 +5,7 @@ using Abp.Domain.Repositories;
 using Abp.EntityFramework.Repositories;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.College;
+using Lte.Parameters.Entities.Dt;
 
 namespace Lte.Parameters.Abstract.College
 {

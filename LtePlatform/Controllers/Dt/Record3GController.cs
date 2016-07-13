@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using Lte.Evaluations.DataService;
 using Lte.Evaluations.ViewModels;
-using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Dt;
 using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.Dt

@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Lte.Evaluations.DataService;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Dt;
 using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.Dt

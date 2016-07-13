@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Linq.Mapping;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Linq.Mapping;
 using Lte.Domain.Regular;
 
-namespace Lte.Parameters.Entities
+namespace Lte.Parameters.Entities.Dt
 {
     [Table(Name = "dbo.rasterInfo")]
     public class RasterInfo

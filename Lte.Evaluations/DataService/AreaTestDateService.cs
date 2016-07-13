@@ -9,6 +9,7 @@ using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Dt;
 
 namespace Lte.Evaluations.DataService
 {

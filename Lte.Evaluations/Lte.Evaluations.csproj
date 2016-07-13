@@ -174,7 +174,7 @@
     <Compile Include="ViewModels\Precise\Precise4GView.cs" />
     <Compile Include="ViewModels\Precise\PreciseHistory.cs" />
     <Compile Include="ViewModels\RegionKpi\PreciseRegionDateView.cs" />
-    <Compile Include="ViewModels\RasterInfoView.cs" />
+    <Compile Include="ViewModels\DtInfoViews.cs" />
     <Compile Include="ViewModels\SectorView.cs" />
     <Compile Include="ViewModels\Kpi\TopConnection3GCellView.cs" />
     <Compile Include="ViewModels\Kpi\TopConnection3GDateView.cs" />

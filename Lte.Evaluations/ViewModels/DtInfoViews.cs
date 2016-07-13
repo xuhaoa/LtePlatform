@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Lte.Domain.Regular;
 using Lte.Domain.Regular.Attributes;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Dt;
 
 namespace Lte.Evaluations.ViewModels
 {
@@ -57,6 +58,43 @@ namespace Lte.Evaluations.ViewModels
         public string CsvFileName { get; set; }
 
         [MemberDoc("包含的网格编号列表")]
-        public IEnumerable<int> RasterNums { get; set; } 
+        public IEnumerable<int> RasterNums { get; set; }
+    }
+
+    public class FileRecordCoverage2G
+    {
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        public double Ecio { get; set; }
+
+        public double RxAgc { get; set; }
+
+        public double TxPower { get; set; }
+    }
+
+    public class FileRecordCoverage3G
+    {
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        public double Sinr { get; set; }
+
+        public double RxAgc0 { get; set; }
+
+        public double RxAgc1 { get; set; }
+    }
+
+    public class FileRecordCoverage4G
+    {
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        public double Sinr { get; set; }
+
+        public double Rsrp { get; set; }
     }
 }

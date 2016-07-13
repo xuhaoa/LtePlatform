@@ -8,6 +8,7 @@ using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.College;
+using Lte.Parameters.Entities.Dt;
 
 namespace Lte.Parameters.Concrete.College
 {

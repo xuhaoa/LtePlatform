@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Dt;
 
 namespace Lte.Parameters.Abstract.Kpi
 {

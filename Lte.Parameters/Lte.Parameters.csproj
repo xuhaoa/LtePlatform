@@ -209,7 +209,6 @@
     <Compile Include="Entities\Basic\IHuaweiMongo.cs" />
     <Compile Include="Entities\ExcelCsv\AlarmStatCsv.cs" />
     <Compile Include="Entities\ExcelCsv\AlarmStatHuawei.cs" />
-    <Compile Include="Entities\AreaTestDate.cs" />
     <Compile Include="Entities\ExcelCsv\BtsExcel.cs" />
     <Compile Include="Entities\Basic\CdmaBts.cs" />
     <Compile Include="Entities\ExcelCsv\CdmaCellExcel.cs" />
@@ -222,12 +221,10 @@
     <Compile Include="Entities\College\CollegeInfo.cs" />
     <Compile Include="Entities\College\CollegeKpi.cs" />
     <Compile Include="Abstract\IAlarmRepository.cs" />
-    <Compile Include="Entities\CsvFilesInfo.cs" />
+    <Compile Include="Entities\Dt\DtFilesInfo.cs" />
     <Compile Include="Entities\Basic\ENodeb.cs" />
     <Compile Include="Entities\ExcelCsv\ENodebExcel.cs" />
-    <Compile Include="Entities\FileRecord2G.cs" />
-    <Compile Include="Entities\FileRecord3G.cs" />
-    <Compile Include="Entities\FileRecord4G.cs" />
+    <Compile Include="Entities\Dt\FileRecords.cs" />
     <Compile Include="Entities\IndoorDistribution.cs" />
     <Compile Include="Entities\IndoorDistributionExcel.cs" />
     <Compile Include="Entities\InfrastructureDefs.cs" />
@@ -243,7 +240,7 @@
     <Compile Include="Entities\OptimizeRegion.cs" />
     <Compile Include="Entities\Kpi\PreciseCoverage4G.cs" />
     <Compile Include="Entities\Kpi\PreciseCoverage4GCsv.cs" />
-    <Compile Include="Entities\RasterInfo.cs" />
+    <Compile Include="Entities\Dt\RasterInfo.cs" />
     <Compile Include="Entities\Kpi\TopConnection3GCell.cs" />
     <Compile Include="Entities\ExcelCsv\TopConnection3GCellExcel.cs" />
     <Compile Include="Entities\Kpi\TopDrop2GCell.cs" />
