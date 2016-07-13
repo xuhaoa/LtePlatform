@@ -47,4 +47,5 @@ namespace Lte.Parameters.Concrete.Channel
             return this.QueryRecent(eNodebId, localCellId);
         }
     }
+
 }

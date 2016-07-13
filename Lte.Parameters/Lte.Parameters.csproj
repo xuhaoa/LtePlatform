@@ -133,7 +133,7 @@
     <Compile Include="Abstract\Basic\IBtsRepository.cs" />
     <Compile Include="Abstract\Basic\ICdmaCellRepository.cs" />
     <Compile Include="Abstract\Kpi\ICdmaRegionStatRepository.cs" />
-    <Compile Include="Abstract\Basic\ICellHuaweiMongoRepository.cs" />
+    <Compile Include="Abstract\Basic\MongoRepositories.cs" />
     <Compile Include="Abstract\Basic\ICellRepository.cs" />
     <Compile Include="Abstract\College\ICollegeRepository.cs" />
     <Compile Include="Abstract\Kpi\ICsvFileInfoRepository.cs" />
@@ -141,9 +141,8 @@
     <Compile Include="Abstract\Infrastructure\IInfrastructureRepository.cs" />
     <Compile Include="Abstract\IInterferenceMatrixRepository.cs" />
     <Compile Include="Abstract\Kpi\IInterferenceMongoRepository.cs" />
-    <Compile Include="Abstract\Neighbor\IEutranIntraFreqNCellRepository.cs" />
-    <Compile Include="Abstract\Neighbor\IEUtranRelationZteRepository.cs" />
-    <Compile Include="Abstract\Neighbor\ILteNeighborCellRepository.cs" />
+    <Compile Include="Abstract\Neighbor\HuaweiRepositories.cs" />
+    <Compile Include="Abstract\Neighbor\ZteRepositories.cs" />
     <Compile Include="Abstract\IPagingRepository.cs" />
     <Compile Include="Abstract\Kpi\IPreciseCoverage4GRepository.cs" />
     <Compile Include="Abstract\IRasterInfoRepository.cs" />
@@ -196,6 +195,7 @@
     <Compile Include="Entities\Channel\ECellEquipmentFunctionZte.cs" />
     <Compile Include="Entities\Channel\PDSCHCfg.cs" />
     <Compile Include="Entities\Channel\PowerControlDLZte.cs" />
+    <Compile Include="Entities\Channel\PowerControlULZte.cs" />
     <Compile Include="Entities\Mr\CellDistance.cs" />
     <Compile Include="Entities\Mr\CellStastic.cs" />
     <Compile Include="Entities\Neighbor\ExternalEUtranCellFDDZte.cs" />

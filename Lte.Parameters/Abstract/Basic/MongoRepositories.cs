@@ -41,4 +41,16 @@ namespace Lte.Parameters.Abstract.Basic
     {
         CellUlpcComm GetRecent(int eNodebId, int localCellId);
     }
+
+    public interface IPowerControlDLZteRepository : IRepository<PowerControlDLZte, ObjectId>
+    {
+        List<PowerControlDLZte> GetRecentList(int eNodebId);
+
+        PowerControlDLZte GetRecent(int eNodebId, byte sectorId);
+    }
+
+    public interface IPowerControlULZteRepository : IRepository<PowerControlULZte, ObjectId>
+    {
+        PowerControlULZte GetRecent(int eNodebId, byte sectorId);
+    }
 }

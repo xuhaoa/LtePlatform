@@ -23,10 +23,17 @@ namespace Lte.Parameters.Abstract.Neighbor
         List<ExternalEUtranCellFDDZte> GetReverseList(int destENodebId, byte destSectorId);
     }
 
-    public interface IPowerControlDLZteRepository : IRepository<PowerControlDLZte, ObjectId>
+    public interface ILteNeighborCellRepository : IRepository<LteNeighborCell>
     {
-        List<PowerControlDLZte> GetRecentList(int eNodebId);
+        List<LteNeighborCell> GetAllList(int cellId, byte sectorId);
+    }
 
-        PowerControlDLZte GetRecent(int eNodebId, byte sectorId);
+    public interface INearestPciCellRepository : IRepository<NearestPciCell>
+    {
+        List<NearestPciCell> GetAllList(int cellId, byte sectorId);
+
+        NearestPciCell GetNearestPciCell(int cellId, byte sectorId, short pci);
+
+        int SaveChanges();
     }
 }
