@@ -16,7 +16,8 @@ namespace Lte.Evaluations.DataService.Switch
     [TestFixture]
     public class IntraFreqHoServiceTests
     {
-        private readonly IUeEUtranMeasurementRepository _zteMeasurementRepository = new UeEUtranMeasurementRepository();
+        private readonly Mock<IUeEUtranMeasurementRepository> _zteMeasurementRepository =
+            new Mock<IUeEUtranMeasurementRepository>();
         private readonly ICellMeasGroupZteRepository _zteGroupRepository = new CellMeasGroupZteRepository();
 
         private readonly IEUtranCellMeasurementZteRepository _zteCellGroupRepository =
@@ -48,11 +49,18 @@ namespace Lte.Evaluations.DataService.Switch
                     eNodeB_Id = eNodebId,
                     IntraFreqHoA3RprtQuan = 3344
                 });
+            _zteMeasurementRepository.Setup(x => x.GetRecent(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns<int, int>((eNodebId, configId) => new UeEUtranMeasurementZte
+                {
+                    eNodeB_Id = eNodebId,
+                    reportAmount = 1234,
+                    reportQuantity = 5678
+                });
         }
 
         [TestCase(500814)]
         [TestCase(500923)]
-        public void Test_HuaweiInterFreqENodebQuery(int eNodebId)
+        public void Test_HuaweiIntraFreqENodebQuery(int eNodebId)
         {
             var query = new HuaweiIntraFreqENodebQuery(_huaweiENodebHoRepository.Object, eNodebId);
             Assert.IsNotNull(query);
@@ -63,10 +71,23 @@ namespace Lte.Evaluations.DataService.Switch
         }
 
         [TestCase(500814)]
+        [TestCase(500923)]
+        public void Test_ZteIntraFreqENodebQuery(int eNodebId)
+        {
+            var query = new ZteIntraFreqENodebQuery(_zteGroupRepository, _zteMeasurementRepository.Object, eNodebId);
+            Assert.IsNotNull(query);
+            var result = query.Query();
+            Assert.IsNotNull(result);
+            result.ENodebId.ShouldBe(eNodebId);
+            result.ReportAmount.ShouldBe(1234);
+            result.ReportQuantity.ShouldBe(5678);
+        }
+
+        [TestCase(500814)]
         [TestCase(501766)]
         public void Test_ENodebQuery(int eNodebId)
         {
-            var service = new IntraFreqHoService(_zteMeasurementRepository, _zteGroupRepository, _zteCellGroupRepository,
+            var service = new IntraFreqHoService(_zteMeasurementRepository.Object, _zteGroupRepository, _zteCellGroupRepository,
                 _huaweiCellHoRepository, _huaweiENodebHoRepository.Object, _huaweiCellRepository, _eNodebRepository.Object);
             var result = service.QueryENodebHo(eNodebId);
             Assert.IsNotNull(result);

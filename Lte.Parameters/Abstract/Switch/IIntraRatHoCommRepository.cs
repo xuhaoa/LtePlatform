@@ -8,6 +8,7 @@ namespace Lte.Parameters.Abstract.Switch
     {
         TStat GetRecent(int eNodebId);
     }
+
     public interface IIntraRatHoCommRepository : IRepository<IntraRatHoComm, ObjectId>, IRecent<IntraRatHoComm>
     {
         

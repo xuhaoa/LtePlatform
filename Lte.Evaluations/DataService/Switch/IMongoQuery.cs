@@ -24,8 +24,8 @@ namespace Lte.Evaluations.DataService.Switch
         where TRepository: IRecent<TStat>
         where TView: class 
     {
-        protected readonly TRepository _repository;
-        protected readonly int _eNodebId;
+        private readonly TRepository _repository;
+        private readonly int _eNodebId;
 
         protected HuaweiENodebQuery(TRepository repository, int eNodebId)
         {
@@ -37,6 +37,25 @@ namespace Lte.Evaluations.DataService.Switch
         {
             var huaweiPara = _repository.GetRecent(_eNodebId);
             return huaweiPara == null ? null : Mapper.Map<TStat, TView>(huaweiPara);
+        }
+    }
+
+    public abstract class ZteGeneralENodebQuery<TStat, TView> : IMongoQuery<TView>
+        where TView : class
+    {
+        protected readonly int ENodebId;
+
+        protected ZteGeneralENodebQuery(int eNodebId)
+        {
+            ENodebId = eNodebId;
+        }
+
+        protected abstract TStat QueryStat();
+
+        public TView Query()
+        {
+            var ztePara = QueryStat();
+            return ztePara == null ? null : Mapper.Map<TStat, TView>(ztePara);
         }
     }
 }

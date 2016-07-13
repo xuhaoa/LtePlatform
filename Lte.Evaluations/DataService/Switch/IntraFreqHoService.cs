@@ -75,32 +75,30 @@ namespace Lte.Evaluations.DataService.Switch
         }
     }
 
-    internal class ZteIntraFreqENodebQuery : IMongoQuery<ENodebIntraFreqHoView>
+    internal class ZteIntraFreqENodebQuery : ZteGeneralENodebQuery<UeEUtranMeasurementZte, ENodebIntraFreqHoView>
     {
         private readonly ICellMeasGroupZteRepository _zteGroupRepository;
         private readonly IUeEUtranMeasurementRepository _zteMeasurementRepository;
-        private readonly int _eNodebId;
 
         public ZteIntraFreqENodebQuery(ICellMeasGroupZteRepository zteGroupRepository,
-            IUeEUtranMeasurementRepository zteMeasurementRepository, int eNodebId)
+            IUeEUtranMeasurementRepository zteMeasurementRepository, int eNodebId) 
+            : base(eNodebId)
         {
             _zteGroupRepository = zteGroupRepository;
             _zteMeasurementRepository = zteMeasurementRepository;
-            _eNodebId = eNodebId;
         }
 
-        public ENodebIntraFreqHoView Query()
+        protected override UeEUtranMeasurementZte QueryStat()
         {
             if (UeEUtranMeasurementZte.IntraFreqHoConfigId < 0)
             {
-                var zteGroup = _zteGroupRepository.GetRecent(_eNodebId);
+                var zteGroup = _zteGroupRepository.GetRecent(ENodebId);
                 UeEUtranMeasurementZte.IntraFreqHoConfigId = zteGroup == null
                     ? 50
                     : int.Parse(zteGroup.intraFHOMeasCfg.Split(',')[0]);
             }
 
-            var ztePara = _zteMeasurementRepository.GetRecent(_eNodebId, UeEUtranMeasurementZte.IntraFreqHoConfigId);
-            return ztePara == null ? null : Mapper.Map<UeEUtranMeasurementZte, ENodebIntraFreqHoView>(ztePara);
+            return _zteMeasurementRepository.GetRecent(ENodebId, UeEUtranMeasurementZte.IntraFreqHoConfigId);
         }
     }
 
