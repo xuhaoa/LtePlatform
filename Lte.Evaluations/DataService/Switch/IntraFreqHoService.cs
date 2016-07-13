@@ -56,8 +56,8 @@ namespace Lte.Evaluations.DataService.Switch
             if (eNodeb == null) return null;
             return eNodeb.Factory == "华为"
                 ? (IMongoQuery<CellIntraFreqHoView>)
-                    new HuaweiCellQuery(_huaweiCellRepository, _huaweiCellHoRepository, eNodebId, sectorId)
-                : new ZteCellQuery(_zteMeasurementRepository, _zteGroupRepository, _zteCellGroupRepository, eNodebId,
+                    new HuaweiIntraFreqCellQuery(_huaweiCellRepository, _huaweiCellHoRepository, eNodebId, sectorId)
+                : new ZteIntraFreqCellQuery(_zteMeasurementRepository, _zteGroupRepository, _zteCellGroupRepository, eNodebId,
                     sectorId);
         }
 
@@ -102,14 +102,14 @@ namespace Lte.Evaluations.DataService.Switch
         }
     }
 
-    internal class HuaweiCellQuery : IMongoQuery<CellIntraFreqHoView>
+    internal class HuaweiIntraFreqCellQuery : IMongoQuery<CellIntraFreqHoView>
     {
         private readonly ICellHuaweiMongoRepository _huaweiCellRepository;
         private readonly IIntraFreqHoGroupRepository _huaweiCellHoRepository;
         private readonly int _eNodebId;
         private readonly byte _sectorId;
 
-        public HuaweiCellQuery(ICellHuaweiMongoRepository huaweiCellRepository,
+        public HuaweiIntraFreqCellQuery(ICellHuaweiMongoRepository huaweiCellRepository,
             IIntraFreqHoGroupRepository huaweiCellHoRepository, int eNodebId, byte sectorId)
         {
             _huaweiCellHoRepository = huaweiCellHoRepository;
@@ -127,7 +127,7 @@ namespace Lte.Evaluations.DataService.Switch
         }
     }
 
-    internal class ZteCellQuery : IMongoQuery<CellIntraFreqHoView>
+    internal class ZteIntraFreqCellQuery : IMongoQuery<CellIntraFreqHoView>
     {
         private readonly IUeEUtranMeasurementRepository _zteMeasurementRepository;
         private readonly ICellMeasGroupZteRepository _zteGroupRepository;
@@ -135,7 +135,7 @@ namespace Lte.Evaluations.DataService.Switch
         private readonly int _eNodebId;
         private readonly byte _sectorId;
 
-        public ZteCellQuery(IUeEUtranMeasurementRepository zteMeasurementRepository,
+        public ZteIntraFreqCellQuery(IUeEUtranMeasurementRepository zteMeasurementRepository,
             ICellMeasGroupZteRepository zteGroupRepository, IEUtranCellMeasurementZteRepository zteCellGroupRepository, 
             int eNodebId, byte sectorId)
         {

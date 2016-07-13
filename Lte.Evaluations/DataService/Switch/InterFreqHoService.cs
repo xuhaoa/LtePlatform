@@ -74,21 +74,11 @@ namespace Lte.Evaluations.DataService.Switch
         }
     }
 
-    internal class HuaweiInterFreqENodebQuery : IMongoQuery<ENodebInterFreqHoView>
+    internal class HuaweiInterFreqENodebQuery : HuaweiENodebQuery<IntraRatHoComm, ENodebInterFreqHoView, IIntraRatHoCommRepository>
     {
-        private readonly IIntraRatHoCommRepository _huaweiENodebHoRepository;
-        private readonly int _eNodebId;
-
-        public HuaweiInterFreqENodebQuery(IIntraRatHoCommRepository huaweiENodebHoRepository, int eNodebId)
+        public HuaweiInterFreqENodebQuery(IIntraRatHoCommRepository repository, int eNodebId)
+            : base(repository, eNodebId)
         {
-            _huaweiENodebHoRepository = huaweiENodebHoRepository;
-            _eNodebId = eNodebId;
-        }
-
-        public ENodebInterFreqHoView Query()
-        {
-            var huaweiPara = _huaweiENodebHoRepository.GetRecent(_eNodebId);
-            return huaweiPara == null ? null : Mapper.Map<IntraRatHoComm, ENodebInterFreqHoView>(huaweiPara);
         }
     }
 
