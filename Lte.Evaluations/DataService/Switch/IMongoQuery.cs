@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Lte.Evaluations.ViewModels.Switch;
+using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Switch;
 using Lte.Parameters.Entities.Switch;
 
@@ -20,14 +21,14 @@ namespace Lte.Evaluations.DataService.Switch
         T Query(DateTime begin, DateTime end);
     }
 
-    public abstract class HuaweiENodebQuery<TStat, TView, TRepository> : IMongoQuery<TView>
+    public abstract class HuaweiENodebMongoQuery<TStat, TView, TRepository> : IMongoQuery<TView>
         where TRepository: IRecent<TStat>
         where TView: class 
     {
         private readonly TRepository _repository;
         private readonly int _eNodebId;
 
-        protected HuaweiENodebQuery(TRepository repository, int eNodebId)
+        protected HuaweiENodebMongoQuery(TRepository repository, int eNodebId)
         {
             _repository = repository;
             _eNodebId = eNodebId;
@@ -37,6 +38,29 @@ namespace Lte.Evaluations.DataService.Switch
         {
             var huaweiPara = _repository.GetRecent(_eNodebId);
             return huaweiPara == null ? null : Mapper.Map<TStat, TView>(huaweiPara);
+        }
+    }
+
+    public abstract class HuaweiCellMongoQuery<TView> : IMongoQuery<TView>
+    {
+        private readonly ICellHuaweiMongoRepository _huaweiCellRepository;
+        protected readonly int ENodebId;
+        protected readonly byte SectorId;
+
+        protected HuaweiCellMongoQuery(ICellHuaweiMongoRepository huaweiCellRepository, int eNodebId, byte sectorId)
+        {
+            _huaweiCellRepository = huaweiCellRepository;
+            ENodebId = eNodebId;
+            SectorId = sectorId;
+        }
+
+        protected abstract TView QueryByLocalCellId(int localCellId);
+
+        public TView Query()
+        {
+            var huaweiCell = _huaweiCellRepository.GetRecent(ENodebId, SectorId);
+            var localCellId = huaweiCell?.LocalCellId ?? SectorId;
+            return QueryByLocalCellId(localCellId);
         }
     }
 

@@ -62,7 +62,7 @@ namespace Lte.Evaluations.DataService.Switch
         [TestCase(500923)]
         public void Test_HuaweiIntraFreqENodebQuery(int eNodebId)
         {
-            var query = new HuaweiIntraFreqENodebQuery(_huaweiENodebHoRepository.Object, eNodebId);
+            var query = new HuaweiIntraFreqENodebMongoQuery(_huaweiENodebHoRepository.Object, eNodebId);
             Assert.IsNotNull(query);
             var result = query.Query();
             Assert.IsNotNull(result);

@@ -40,7 +40,7 @@ namespace Lte.Evaluations.DataService.Switch
             var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
             if (eNodeb == null) return null;
             return eNodeb.Factory == "华为"
-                ? (IMongoQuery<ENodebIntraFreqHoView>) new HuaweiIntraFreqENodebQuery(_huaweiENodebHoRepository, eNodebId)
+                ? (IMongoQuery<ENodebIntraFreqHoView>) new HuaweiIntraFreqENodebMongoQuery(_huaweiENodebHoRepository, eNodebId)
                 : new ZteIntraFreqENodebQuery(_zteGroupRepository, _zteMeasurementRepository, eNodebId);
         }
 
@@ -68,9 +68,9 @@ namespace Lte.Evaluations.DataService.Switch
         }
     }
 
-    internal class HuaweiIntraFreqENodebQuery : HuaweiENodebQuery<IntraRatHoComm, ENodebIntraFreqHoView, IIntraRatHoCommRepository>
+    internal class HuaweiIntraFreqENodebMongoQuery : HuaweiENodebMongoQuery<IntraRatHoComm, ENodebIntraFreqHoView, IIntraRatHoCommRepository>
     {
-        public HuaweiIntraFreqENodebQuery(IIntraRatHoCommRepository repository, int eNodebId) : base(repository, eNodebId)
+        public HuaweiIntraFreqENodebMongoQuery(IIntraRatHoCommRepository repository, int eNodebId) : base(repository, eNodebId)
         {
         }
     }
@@ -102,27 +102,20 @@ namespace Lte.Evaluations.DataService.Switch
         }
     }
 
-    internal class HuaweiIntraFreqCellQuery : IMongoQuery<CellIntraFreqHoView>
+    internal class HuaweiIntraFreqCellQuery : HuaweiCellMongoQuery<CellIntraFreqHoView>
     {
-        private readonly ICellHuaweiMongoRepository _huaweiCellRepository;
         private readonly IIntraFreqHoGroupRepository _huaweiCellHoRepository;
-        private readonly int _eNodebId;
-        private readonly byte _sectorId;
 
         public HuaweiIntraFreqCellQuery(ICellHuaweiMongoRepository huaweiCellRepository,
             IIntraFreqHoGroupRepository huaweiCellHoRepository, int eNodebId, byte sectorId)
+            : base(huaweiCellRepository, eNodebId, sectorId)
         {
             _huaweiCellHoRepository = huaweiCellHoRepository;
-            _huaweiCellRepository = huaweiCellRepository;
-            _eNodebId = eNodebId;
-            _sectorId = sectorId;
         }
 
-        public CellIntraFreqHoView Query()
+        protected override CellIntraFreqHoView QueryByLocalCellId(int localCellId)
         {
-            var huaweiCell = _huaweiCellRepository.GetRecent(_eNodebId, _sectorId);
-            var localCellId = huaweiCell?.LocalCellId ?? _sectorId;
-            var huaweiPara = _huaweiCellHoRepository.GetRecent(_eNodebId, localCellId);
+            var huaweiPara = _huaweiCellHoRepository.GetRecent(ENodebId, localCellId);
             return huaweiPara == null ? null : Mapper.Map<IntraFreqHoGroup, CellIntraFreqHoView>(huaweiPara);
         }
     }

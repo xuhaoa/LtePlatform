@@ -55,32 +55,24 @@ namespace Lte.Evaluations.DataService.Basic
         }
     }
 
-    internal class HuaweiCellPowerQuery : IMongoQuery<CellPower>
+    internal class HuaweiCellPowerQuery : HuaweiCellMongoQuery<CellPower>
     {
-        private readonly ICellHuaweiMongoRepository _huaweiCellRepository;
         private readonly IPDSCHCfgRepository _huaweiPbRepository;
         private readonly ICellDlpcPdschPaRepository _huaweiPaRepository;
-        private readonly int _eNodebId;
-        private readonly byte _sectorId;
 
         public HuaweiCellPowerQuery(ICellHuaweiMongoRepository huaweiCellRepository,
             IPDSCHCfgRepository huaweiPbRepository, ICellDlpcPdschPaRepository huaweiPaRepository, int eNodebId,
-            byte sectorId)
+            byte sectorId) : base(huaweiCellRepository, eNodebId, sectorId)
         {
-            _huaweiCellRepository = huaweiCellRepository;
             _huaweiPbRepository = huaweiPbRepository;
             _huaweiPaRepository = huaweiPaRepository;
-            _eNodebId = eNodebId;
-            _sectorId = sectorId;
         }
 
-        public CellPower Query()
+        protected override CellPower QueryByLocalCellId(int localCellId)
         {
-            var huaweiCell = _huaweiCellRepository.GetRecent(_eNodebId, _sectorId);
-            var localCellId = huaweiCell?.LocalCellId ?? _sectorId;
-            var pbCfg = _huaweiPbRepository.GetRecent(_eNodebId, localCellId);
-            var paCfg = _huaweiPaRepository.GetRecent(_eNodebId, localCellId);
-            return pbCfg == null || paCfg == null ? null : new CellPower(pbCfg, paCfg) {SectorId = _sectorId};
+            var pbCfg = _huaweiPbRepository.GetRecent(ENodebId, localCellId);
+            var paCfg = _huaweiPaRepository.GetRecent(ENodebId, localCellId);
+            return pbCfg == null || paCfg == null ? null : new CellPower(pbCfg, paCfg) { SectorId = SectorId };
         }
     }
 

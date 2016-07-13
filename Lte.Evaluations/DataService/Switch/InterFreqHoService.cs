@@ -45,7 +45,7 @@ namespace Lte.Evaluations.DataService.Switch
             var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
             if (eNodeb == null) return null;
             return eNodeb.Factory == "华为"
-                ? (IMongoQuery<ENodebInterFreqHoView>)new HuaweiInterFreqENodebQuery(_huaweiENodebHoRepository, eNodebId)
+                ? (IMongoQuery<ENodebInterFreqHoView>)new HuaweiInterFreqENodebMongoQuery(_huaweiENodebHoRepository, eNodebId)
                 : new ZteInterFreqENodebQuery(_zteMeasurementRepository, _zteGroupRepository, eNodebId);
         }
 
@@ -74,9 +74,9 @@ namespace Lte.Evaluations.DataService.Switch
         }
     }
 
-    internal class HuaweiInterFreqENodebQuery : HuaweiENodebQuery<IntraRatHoComm, ENodebInterFreqHoView, IIntraRatHoCommRepository>
+    internal class HuaweiInterFreqENodebMongoQuery : HuaweiENodebMongoQuery<IntraRatHoComm, ENodebInterFreqHoView, IIntraRatHoCommRepository>
     {
-        public HuaweiInterFreqENodebQuery(IIntraRatHoCommRepository repository, int eNodebId)
+        public HuaweiInterFreqENodebMongoQuery(IIntraRatHoCommRepository repository, int eNodebId)
             : base(repository, eNodebId)
         {
         }
@@ -118,36 +118,30 @@ namespace Lte.Evaluations.DataService.Switch
         }
     }
 
-    internal class HuaweiInterFreqCellQuery : IMongoQuery<List<CellInterFreqHoView>>
+    internal class HuaweiInterFreqCellQuery : HuaweiCellMongoQuery<List<CellInterFreqHoView>>
     {
         private readonly IInterFreqHoGroupRepository _huaweiCellHoRepository;
-        private readonly ICellHuaweiMongoRepository _huaweiCellRepository;
         private readonly IEutranInterNFreqRepository _huaweiNFreqRepository;
         private readonly IIntraFreqHoGroupRepository _intraFreqHoGroupRepository;
-        private readonly int _eNodebId;
-        private readonly byte _sectorId;
 
         public HuaweiInterFreqCellQuery(IInterFreqHoGroupRepository huaweiCellHoRepository,
             ICellHuaweiMongoRepository huaweiCellRepository, IEutranInterNFreqRepository huaweiNFreqRepository,
             IIntraFreqHoGroupRepository intraFreqHoGroupRepository, int eNodebId, byte sectorId)
+            : base(huaweiCellRepository, eNodebId, sectorId)
         {
             _huaweiCellHoRepository = huaweiCellHoRepository;
-            _huaweiCellRepository = huaweiCellRepository;
             _huaweiNFreqRepository = huaweiNFreqRepository;
             _intraFreqHoGroupRepository = intraFreqHoGroupRepository;
-            _eNodebId = eNodebId;
-            _sectorId = sectorId;
         }
 
-        public List<CellInterFreqHoView> Query()
+        protected override List<CellInterFreqHoView> QueryByLocalCellId(int localCellId)
         {
+
             var results = new List<CellInterFreqHoView>();
-            var huaweiCell = _huaweiCellRepository.GetRecent(_eNodebId, _sectorId);
-            var localCellId = huaweiCell?.LocalCellId ?? _sectorId;
-            var nFreqs = _huaweiNFreqRepository.GetRecentList(_eNodebId, localCellId);
-            var hoGroup = _huaweiCellHoRepository.GetRecent(_eNodebId, localCellId);
+            var nFreqs = _huaweiNFreqRepository.GetRecentList(ENodebId, localCellId);
+            var hoGroup = _huaweiCellHoRepository.GetRecent(ENodebId, localCellId);
             if (hoGroup == null) return null;
-            var intraFreqConfig = _intraFreqHoGroupRepository.GetRecent(_eNodebId, localCellId);
+            var intraFreqConfig = _intraFreqHoGroupRepository.GetRecent(ENodebId, localCellId);
             foreach (var config in nFreqs.Select(freq => new CellInterFreqHoView
             {
                 Earfcn = freq.DlEarfcn,
