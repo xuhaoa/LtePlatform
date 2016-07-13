@@ -124,6 +124,7 @@
     <Compile Include="MapperSerive\Infrastructure\CollegeContainers.cs" />
     <Compile Include="Policy\MyAssemblyFinder.cs" />
     <Compile Include="ViewModels\Basic\RegionStat.cs" />
+    <Compile Include="ViewModels\Channel\CellOpenLoopPcView.cs" />
     <Compile Include="ViewModels\Channel\CellPower.cs" />
     <Compile Include="ViewModels\College\CollegeStat.cs" />
     <Compile Include="ViewModels\Kpi\FlowView.cs" />

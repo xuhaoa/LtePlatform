@@ -5,11 +5,13 @@ using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.ViewModels.Basic;
+using Lte.Evaluations.ViewModels.Channel;
 using Lte.Evaluations.ViewModels.Mr;
 using Lte.Evaluations.ViewModels.Switch;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
+using Lte.Parameters.Entities.Channel;
 using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.Entities.Neighbor;
 using Lte.Parameters.Entities.Switch;
@@ -70,6 +72,17 @@ namespace Lte.Evaluations.MapperSerive
                     opt => opt.MapFrom(s => s.DivisionDuplex.IndexOf("FDD", StringComparison.Ordinal) >= 0))
                 .ForMember(d => d.Gateway, opt => opt.MapFrom(s => s.Gateway.AddressValue))
                 .ForMember(d => d.SubIp, opt => opt.MapFrom(s => s.Ip.IpByte4));
+            Mapper.CreateMap<PowerControlULZte, CellOpenLoopPcView>()
+                .ForMember(d => d.P0NominalPUCCH, opt => opt.MapFrom(s => s.poNominalPUCCH))
+                .ForMember(d => d.P0NominalPUSCH, opt => opt.MapFrom(s => s.p0NominalPUSCH))
+                .ForMember(d => d.PassLossCoeff, opt => opt.MapFrom(s => s.alpha))
+                .ForMember(d => d.DeltaFPUCCHFormat1, opt => opt.MapFrom(s => s.deltaFPucchFormat1))
+                .ForMember(d => d.DeltaFPUCCHFormat1b, opt => opt.MapFrom(s => s.deltaFPucchFormat1b))
+                .ForMember(d => d.DeltaFPUCCHFormat2, opt => opt.MapFrom(s => s.deltaFPucchFormat2))
+                .ForMember(d => d.DeltaFPUCCHFormat2a, opt => opt.MapFrom(s => s.deltaFPucchFormat2a))
+                .ForMember(d => d.DeltaFPUCCHFormat2b, opt => opt.MapFrom(s => s.deltaFPucchFormat2b))
+                .ForMember(d => d.DeltaMsg2, opt => opt.MapFrom(s => s.deltaMsg3))
+                .ForMember(d => d.DeltaPreambleMsg3, opt => opt.MapFrom(s => s.deltaPreambleMsg3));
         }
 
         public static void MapHoParametersService()
