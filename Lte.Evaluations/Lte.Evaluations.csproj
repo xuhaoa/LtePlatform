@@ -120,6 +120,7 @@
     <Compile Include="DataService\Switch\IMongoQuery.cs" />
     <Compile Include="DataService\Switch\InterFreqHoService.cs" />
     <Compile Include="DataService\Switch\IntraFreqHoService.cs" />
+    <Compile Include="DataService\Switch\UlOpenLoopPcService.cs" />
     <Compile Include="MapperSerive\Infrastructure\BasicContainers.cs" />
     <Compile Include="MapperSerive\Infrastructure\CollegeContainers.cs" />
     <Compile Include="Policy\MyAssemblyFinder.cs" />

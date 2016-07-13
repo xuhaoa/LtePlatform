@@ -263,6 +263,8 @@ namespace LtePlatform
             ninjectKernel.Bind<VipDemandService>().ToSelf();
 
             ninjectKernel.Bind<EmergencyFiberService>().ToSelf();
+
+            ninjectKernel.Bind<UlOpenLoopPcService>().ToSelf();
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Lte.Evaluations.DataService.Basic;
+using Lte.Evaluations.DataService.Switch;
 using Lte.Evaluations.ViewModels.Channel;
 using LtePlatform.Models;
 
@@ -26,6 +27,22 @@ namespace LtePlatform.Controllers.Mongo
         [ApiParameterDoc("sectorId", "扇区编号")]
         [ApiResponse("指定小区的功率参数，包括Pa/Pb和Rs功率参数")]
         public CellPower Get(int eNodebId, byte sectorId)
+        {
+            return _service.Query(eNodebId, sectorId);
+        }
+    }
+
+    public class UplinkOpenLoopPowerControlController : ApiController
+    {
+        private readonly UlOpenLoopPcService _service;
+
+        public UplinkOpenLoopPowerControlController(UlOpenLoopPcService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public CellOpenLoopPcView Get(int eNodebId, byte sectorId)
         {
             return _service.Query(eNodebId, sectorId);
         }
