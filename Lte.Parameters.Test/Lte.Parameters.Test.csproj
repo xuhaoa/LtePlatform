@@ -134,6 +134,7 @@
     <Compile Include="Basic\ExternalEUtranCellFDDZteRepositoryTests.cs" />
     <Compile Include="Basic\PowerControlDLZteRepositoryTests.cs" />
     <Compile Include="Basic\PrachFDDZteRepositoryTests.cs" />
+    <Compile Include="Channel\CellPcRepositoryTest.cs" />
     <Compile Include="Converter\WorkItemConverterTest.cs" />
     <Compile Include="Entities\AlarmStatCsvTest.cs" />
     <Compile Include="Entities\CellConstructionTest.cs" />
