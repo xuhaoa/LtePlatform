@@ -58,8 +58,11 @@ namespace Lte.Evaluations.DataService.Switch
         {
             var stat = _huaweiPcRepository.GetRecent(ENodebId, localCellId);
             var view = Mapper.Map<CellOpenLoopPcView>(stat);
-            view.ENodebId = ENodebId;
-            view.SectorId = SectorId;
+            if (view != null)
+            {
+                view.ENodebId = ENodebId;
+                view.SectorId = SectorId;
+            }
             return view;
         }
     }
@@ -81,8 +84,11 @@ namespace Lte.Evaluations.DataService.Switch
         {
             var stat = _ztePcRepository.GetRecent(_eNodebId, _sectorId);
             var view = Mapper.Map<CellOpenLoopPcView>(stat);
-            view.ENodebId = _eNodebId;
-            view.SectorId = _sectorId;
+            if (view != null)
+            {
+                view.ENodebId = _eNodebId;
+                view.SectorId = _sectorId;
+            }
             return view;
         }
     }
