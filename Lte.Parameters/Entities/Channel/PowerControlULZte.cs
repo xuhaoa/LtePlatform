@@ -103,5 +103,11 @@ namespace Lte.Parameters.Entities.Channel
         public int switchForCLPCofPUSCH { get; set; }
 
         public int ueTransPowerCeiling { get; set; }
+
+        public int? deltaFPucchFormat1bCS { get; set; }
+
+        public int? deltaFPucchFormat3 { get; set; }
+
+        public int? tarSinrPucchUl { get; set; }
     }
 }

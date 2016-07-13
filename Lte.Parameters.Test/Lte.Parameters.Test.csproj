@@ -132,7 +132,6 @@
     <Compile Include="Basic\EutranIntraFreqNCellRepositoryTests.cs" />
     <Compile Include="Basic\EUtranRelationZteRepositoryTests.cs" />
     <Compile Include="Basic\ExternalEUtranCellFDDZteRepositoryTests.cs" />
-    <Compile Include="Basic\PowerControlDLZteRepositoryTests.cs" />
     <Compile Include="Basic\PrachFDDZteRepositoryTests.cs" />
     <Compile Include="Channel\CellPcRepositoryTest.cs" />
     <Compile Include="Channel\ChannelRepositoryTests.cs" />

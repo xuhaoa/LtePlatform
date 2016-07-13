@@ -48,4 +48,45 @@ namespace Lte.Parameters.Concrete.Channel
         }
     }
 
+    public class PowerControlDLZteRepository : MongoDbRepositoryBase<PowerControlDLZte, ObjectId>, IPowerControlDLZteRepository
+    {
+        public PowerControlDLZteRepository(IMongoDatabaseProvider databaseProvider) : base(databaseProvider)
+        {
+            CollectionName = "PowerControlDL";
+        }
+
+        public PowerControlDLZteRepository() : this(new MyMongoProvider("fangww"))
+        {
+
+        }
+
+        public List<PowerControlDLZte> GetRecentList(int eNodebId)
+        {
+            return this.QueryRecentList(eNodebId);
+        }
+
+        public PowerControlDLZte GetRecent(int eNodebId, byte sectorId)
+        {
+            return this.QueryRecent(eNodebId, sectorId);
+        }
+    }
+
+    public class PowerControlULZteRepository : MongoDbRepositoryBase<PowerControlULZte, ObjectId>,
+        IPowerControlULZteRepository
+    {
+        public PowerControlULZteRepository(IMongoDatabaseProvider databaseProvider) : base(databaseProvider)
+        {
+            CollectionName = "PowerControlUL";
+        }
+
+        public PowerControlULZteRepository() : this(new MyMongoProvider("fangww"))
+        {
+
+        }
+
+        public PowerControlULZte GetRecent(int eNodebId, byte sectorId)
+        {
+            return this.QueryRecent(eNodebId, sectorId);
+        }
+    }
 }

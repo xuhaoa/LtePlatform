@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Abp.Domain.Entities;
 using Abp.MongoDb.Repositories;
 using MongoDB.Bson;
@@ -47,5 +48,31 @@ namespace Lte.Parameters.Entities.Basic
         string parentLDN { get; set; }
 
         string description { get; set; }
+    }
+
+    public static class ZteRepositoryQueries
+    {
+        public static TEntity QueryRecent<TEntity>(this MongoDbRepositoryBase<TEntity, ObjectId> repository,
+            int eNodebId, byte sectorId)
+            where TEntity : class, IZteMongo, IEntity<ObjectId>
+        {
+            var query =
+                MongoDB.Driver.Builders.Query<TEntity>.Where(
+                    e => e.eNodeB_Id == eNodebId && e.description == "cellLocalId=" + sectorId);
+            var list = repository.QueryCursor(query);
+            var recentDate = list.Max(x => x.iDate);
+            return list.FirstOrDefault(x => x.iDate == recentDate);
+        }
+
+        public static List<TEntity> QueryRecentList<TEntity>(this MongoDbRepositoryBase<TEntity, ObjectId> repository,
+            int eNodebId)
+            where TEntity : class, IZteMongo, IEntity<ObjectId>
+        {
+            var query =
+                MongoDB.Driver.Builders.Query<TEntity>.Where(e => e.eNodeB_Id == eNodebId);
+            var list = repository.QueryCursor(query);
+            var recentDate = list.Max(x => x.iDate);
+            return list.Where(x => x.iDate == recentDate).ToList();
+        }
     }
 }

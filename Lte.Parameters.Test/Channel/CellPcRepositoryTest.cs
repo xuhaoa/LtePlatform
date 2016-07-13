@@ -39,4 +39,41 @@ namespace Lte.Parameters.Test.Channel
             result.P0NominalPUCCH.ShouldBe(-115);
         }
     }
+
+    [TestFixture]
+    public class PowerControlDLZteRepositoryTests
+    {
+        private readonly IPowerControlDLZteRepository _repository = new PowerControlDLZteRepository();
+
+        [Test]
+        public void Test_GetRecentBySectorId()
+        {
+            var results = _repository.GetRecent(501562, 1);
+            Assert.IsNotNull(results);
+            Assert.AreEqual(results.iDate, "20160708");
+        }
+
+        [Test]
+        public void Test_GetRecentByENodebId()
+        {
+            var results = _repository.GetRecentList(501562);
+            Assert.IsNotNull(results);
+            Assert.AreEqual(results.Count, 15);
+            Assert.AreEqual(results[0].iDate, "20160708");
+        }
+    }
+
+    public class PowerControlULZteRepositoryTest
+    {
+        private readonly IPowerControlULZteRepository _repository = new PowerControlULZteRepository();
+
+        [Test]
+        public void Test_GetRecentBySectorId()
+        {
+            var results = _repository.GetRecent(501562, 1);
+            Assert.IsNotNull(results);
+            Assert.AreEqual(results.iDate, "20160708");
+            results.p0NominalPUSCH.ShouldBe(-67);
+        }
+    }
 }

@@ -161,7 +161,6 @@
     <Compile Include="Concrete\Basic\PrachFDDZteRepository.cs" />
     <Compile Include="Concrete\Channel\CellPcRepositories.cs" />
     <Compile Include="Concrete\Channel\PDSCHCfgRepository.cs" />
-    <Compile Include="Concrete\Channel\PowerControlDLZteRepository.cs" />
     <Compile Include="Concrete\EFAlarmRepository.cs" />
     <Compile Include="Concrete\Basic\EFBtsRepository.cs" />
     <Compile Include="Concrete\Basic\EFCdmaCellRepository.cs" />
