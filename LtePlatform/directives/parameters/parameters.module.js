@@ -1,5 +1,7 @@
-﻿angular.module('parameters.module', ['myApp.region', 'parameters.chart'])
-    .constant('parametersRoot', '/directives/parameters/')
+﻿angular.module('parameters.module', ['parameters.infrastructure', 'parameters.list', 'parameters.handoff', 'parameters.power'])
+    .constant('parametersRoot', '/directives/parameters/');
+
+angular.module('parameters.infrastructure', [])
     .directive('cityInfrastructure', function(parametersRoot) {
         return {
             restrict: 'ECMA',
@@ -32,8 +34,10 @@
             },
             templateUrl: parametersRoot + 'DistrictInfrastructure.Tpl.html'
         }
-    })
-    .directive('alarmTable', function (parametersRoot) {
+    });
+
+angular.module('parameters.list', ['myApp.parameters', 'huawei.mongo.parameters'])
+    .directive('alarmTable', function(parametersRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -43,7 +47,7 @@
             templateUrl: parametersRoot + 'kpi/AlarmTable.html'
         }
     })
-    .directive('flowTable', function (parametersRoot) {
+    .directive('flowTable', function(parametersRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -53,7 +57,7 @@
             templateUrl: parametersRoot + 'kpi/FlowTable.html'
         }
     })
-    .directive('eNodebDetailsTable', function (parametersRoot) {
+    .directive('eNodebDetailsTable', function(parametersRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -63,7 +67,7 @@
             templateUrl: parametersRoot + 'eNodeb/ENodebDetailsTable.html'
         }
     })
-    .directive('lteCellTable', function (parametersRoot) {
+    .directive('lteCellTable', function(parametersRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -73,7 +77,7 @@
             templateUrl: parametersRoot + 'eNodeb/LteCellTable.html'
         }
     })
-    .directive('cdmaCellTable', function (parametersRoot) {
+    .directive('cdmaCellTable', function(parametersRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -83,7 +87,40 @@
             templateUrl: parametersRoot + 'cdma/CellTable.html'
         }
     })
-    .directive('eNodebIntraFreq', function (parametersRoot) {
+
+    .controller('CellDetailsController', function ($scope, networkElementService, cellHuaweiMongoService) {
+        networkElementService.queryCellInfo($scope.eNodebId, $scope.sectorId).then(function (result) {
+            $scope.lteCellDetails = result;
+        });
+        cellHuaweiMongoService.queryCellParameters($scope.eNodebId, $scope.sectorId).then(function (info) {
+            $scope.cellMongo = info;
+        });
+    })
+    .directive('cellDetails', function(parametersRoot) {
+        return {
+            controller: 'CellDetailsController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                eNodebId: '=',
+                sectorId: '='
+            },
+            templateUrl: parametersRoot + 'cell/CellDetails.html'
+        }
+    })
+    .directive('lteCellBasicInfo', function(parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                neighbor: '='
+            },
+            templateUrl: parametersRoot + 'cell/BasicInfo.html'
+        }
+    });
+
+angular.module('parameters.handoff', ['handoff.parameters'])
+    .directive('eNodebIntraFreq', function(parametersRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -93,7 +130,7 @@
             templateUrl: parametersRoot + 'eNodeb/ENodebIntraFreq.html'
         }
     })
-    .directive('eNodebInterFreq', function (parametersRoot) {
+    .directive('eNodebInterFreq', function(parametersRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -103,38 +140,24 @@
             templateUrl: parametersRoot + 'eNodeb/ENodebInterFreq.html'
         }
     })
-    .directive('cellDetails', function (parametersRoot) {
-        return {
-            restrict: 'ECMA',
-            replace: true,
-            scope: {
-                lteCellDetails: '=',
-                cellMongo: '='
-            },
-            templateUrl: parametersRoot + 'cell/CellDetails.html'
-        }
+    .controller('CellIntraFreqController', function($scope, intraFreqHoService) {
+        intraFreqHoService.queryCellParameters($scope.eNodebId, $scope.sectorId).then(function(result) {
+            $scope.intraFreqHo = result;
+        });
     })
-    .directive('lteCellBasicInfo', function (parametersRoot) {
+    .directive('cellIntraFreq', function(parametersRoot) {
         return {
-            restrict: 'ECMA',
+            restrict: 'EA',
+            controller: 'CellIntraFreqController',
             replace: true,
             scope: {
-                neighbor: '='
-            },
-            templateUrl: parametersRoot + 'cell/BasicInfo.html'
-        }
-    })
-    .directive('cellIntraFreq', function (parametersRoot) {
-        return {
-            restrict: 'ECMA',
-            replace: true,
-            scope: {
-                intraFreqHo: '='
+                eNodebId: '=',
+                sectorId: '='
             },
             templateUrl: parametersRoot + 'cell/CellIntraFreq.html'
         }
     })
-    .directive('a1InterFreq', function (parametersRoot) {
+    .directive('a1InterFreq', function(parametersRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -144,7 +167,7 @@
             templateUrl: parametersRoot + 'cell/A1InterFreq.html'
         }
     })
-    .directive('a2InterFreq', function (parametersRoot) {
+    .directive('a2InterFreq', function(parametersRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -154,7 +177,7 @@
             templateUrl: parametersRoot + 'cell/A2InterFreq.html'
         }
     })
-    .directive('a3InterFreq', function (parametersRoot) {
+    .directive('a3InterFreq', function(parametersRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -164,7 +187,7 @@
             templateUrl: parametersRoot + 'cell/A3InterFreq.html'
         }
     })
-    .directive('a4InterFreq', function (parametersRoot) {
+    .directive('a4InterFreq', function(parametersRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -174,7 +197,7 @@
             templateUrl: parametersRoot + 'cell/A4InterFreq.html'
         }
     })
-    .directive('a5InterFreq', function (parametersRoot) {
+    .directive('a5InterFreq', function(parametersRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -184,22 +207,38 @@
             templateUrl: parametersRoot + 'cell/A5InterFreq.html'
         }
     })
-    .directive('cellInterFreq', function (parametersRoot) {
+    .controller('CellInterFreqController', function($scope, interFreqHoService) {
+        interFreqHoService.queryCellParameters($scope.eNodebId, $scope.sectorId).then(function(result) {
+            $scope.interFreqHo = result;
+        });
+    })
+    .directive('cellInterFreq', function(parametersRoot) {
         return {
-            restrict: 'ECMA',
+            restrict: 'EA',
+            controller: 'CellInterFreqController',
             replace: true,
             scope: {
-                interFreqHo: '='
+                eNodebId: '=',
+                sectorId: '='
             },
             templateUrl: parametersRoot + 'cell/CellInterFreq.html'
         }
+    });
+
+angular.module('parameters.power', ['huawei.mongo.parameters'])
+    .controller('CellChannelPower', function ($scope, cellPowerService) {
+        cellPowerService.queryCellParameters($scope.eNodebId, $scope.sectorId).then(function (result) {
+            $scope.cellPower = result;
+        });
     })
     .directive('cellChannelPower', function (parametersRoot) {
         return {
             restrict: 'ECMA',
+            controller: 'CellChannelPower',
             replace: true,
             scope: {
-                cellPower: '='
+                eNodebId: '=',
+                sectorId: '='
             },
             templateUrl: parametersRoot + 'cell/Power.html'
         }
