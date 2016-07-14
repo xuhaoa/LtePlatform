@@ -39,20 +39,25 @@
             return angular.isNumber(input) && input >= 0 && input < 6 ? amounts[input] : input;
         }
     })
-        .filter("halfDb", function() {
+    .filter("halfDb", function() {
         return function(input) {
             return angular.isNumber(input) ? input / 2 : input;
         };
     })
-    .filter("triggerQuantity", function(){
-        var types=["RSRP", "RSRQ"];
-        return function(input){
-            return input===0||input===1?types[input]:input;
+    .filter("doubleDb", function() {
+        return function(input) {
+            return angular.isNumber(input) ? input * 2 : input;
         };
     })
-    .filter("reportQuantity", function(){
-        var types=["与触发量相同", "全部发送"];
-        return function(input){
-            return input===0||input===1?types[input]:input;
+    .filter("triggerQuantity", function() {
+        var types = ["RSRP", "RSRQ"];
+        return function(input) {
+            return input === 0 || input === 1 ? types[input] : input;
+        };
+    })
+    .filter("reportQuantity", function() {
+        var types = ["与触发量相同", "全部发送"];
+        return function(input) {
+            return input === 0 || input === 1 ? types[input] : input;
         };
     });

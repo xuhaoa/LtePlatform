@@ -14,4 +14,34 @@
         return function(input) {
             return angular.isNumber(input) && input >= 0 && input < 8 ? dict[input] : input;
         };
+    })
+    .filter("pathLoss", function() {
+        var dict = [
+            0, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1
+        ];
+        return function(input) {
+            return angular.isNumber(input) && input >= 0 && input < 8 ? dict[input] : input;
+        };
+    })
+    .filter("deltaFPucch", function() {
+        var dict;
+        return function(input, format) {
+            switch (format) {
+            case '1':
+                dict = [-2, 0, 2];
+                return angular.isNumber(input) && input >= 0 && input < 3 ? dict[input] : input;
+            case '1b':
+                dict = [1, 3, 5];
+                return angular.isNumber(input) && input >= 0 && input < 3 ? dict[input] : input;
+            case '2':
+                dict = [-2, 0, 1, 2];
+                return angular.isNumber(input) && input >= 0 && input < 4 ? dict[input] : input;
+            case '2a':
+            case '2b':
+                dict = [-2, 0, 2];
+                return angular.isNumber(input) && input >= 0 && input < 3 ? dict[input] : input;
+            default:
+                return 'undefined';
+            }
+        }
     });
