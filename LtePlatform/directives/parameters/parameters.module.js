@@ -226,20 +226,37 @@ angular.module('parameters.handoff', ['handoff.parameters'])
     });
 
 angular.module('parameters.power', ['huawei.mongo.parameters'])
-    .controller('CellChannelPower', function ($scope, cellPowerService) {
-        cellPowerService.queryCellParameters($scope.eNodebId, $scope.sectorId).then(function (result) {
+    .controller('CellChannelPowerControl', function($scope, cellPowerService) {
+        cellPowerService.queryCellParameters($scope.eNodebId, $scope.sectorId).then(function(result) {
             $scope.cellPower = result;
         });
     })
-    .directive('cellChannelPower', function (parametersRoot) {
+    .directive('cellChannelPower', function(parametersRoot) {
         return {
-            restrict: 'ECMA',
-            controller: 'CellChannelPower',
+            restrict: 'EA',
+            controller: 'CellChannelPowerControl',
             replace: true,
             scope: {
                 eNodebId: '=',
                 sectorId: '='
             },
             templateUrl: parametersRoot + 'cell/Power.html'
+        }
+    })
+    .controller('UplinkOpenLoopPowerControl', function($scope, cellPowerService) {
+        cellPowerService.queryUlOpenLoopPowerControll($scope.eNodebId, $scope.sectorId).then(function(result) {
+            $scope.item = result;
+        });
+    })
+    .directive('uplinkOpenLoopPower', function(parametersRoot) {
+        return {
+            restrict: 'EA',
+            controller: 'UplinkOpenLoopPowerControl',
+            replace: true,
+            scope: {
+                eNodebId: '=',
+                sectorId: '='
+            },
+            templateUrl: parametersRoot + 'cell/UlOpenLoopPowerControl.html'
         }
     });

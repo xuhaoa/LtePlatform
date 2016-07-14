@@ -512,6 +512,7 @@
     <Content Include="directives\app\app.module.js" />
     <Content Include="directives\app\DateSpan.Tpl.html" />
     <Content Include="directives\app\DateSpanRow.Tpl.html" />
+    <Content Include="directives\parameters\cell\UlOpenLoopPowerControl.html" />
     <Content Include="directives\parameters\eNodeb\ENodebInterFreq.html" />
     <Content Include="directives\parameters\eNodeb\ENodebIntraFreq.html" />
     <Content Include="appViews\Parameters\Import\BtsInfos.html" />

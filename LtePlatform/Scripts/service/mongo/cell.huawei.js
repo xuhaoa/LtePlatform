@@ -1,59 +1,32 @@
 ﻿angular.module('huawei.mongo.parameters', ['myApp.url'])
-    .factory('cellHuaweiMongoService', function($q, $http, appUrlService) {
+    .factory('cellHuaweiMongoService', function (generalHttpService) {
         return {
-            queryCellParameters: function(eNodebId, sectorId) {
-                var deferred = $q.defer();
-                $http({
-                        method: 'GET',
-                        url: appUrlService.getApiUrl('CellHuaweiMongo'),
-                        params: {
-                            eNodebId: eNodebId,
-                            sectorId: sectorId
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+            queryCellParameters: function (eNodebId, sectorId) {
+                return generalHttpService.getApiData('CellHuaweiMongo', {
+                    eNodebId: eNodebId,
+                    sectorId: sectorId
+                });
             },
             queryLocalCellDef: function (eNodebId) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('CellHuaweiMongo'),
-                    params: {
-                        eNodebId: eNodebId
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                    .error(function (reason) {
-                        deferred.reject(reason);
-                    });
-                return deferred.promise;
+                return generalHttpService.getApiData('CellHuaweiMongo', {
+                    eNodebId: eNodebId
+                });
             }
         };
     })
-     .factory('cellPowerService', function ($q, $http, appUrlService) {
+     .factory('cellPowerService', function (generalHttpService) {
          return {
              queryCellParameters: function (eNodebId, sectorId) {
-                 var deferred = $q.defer();
-                 $http({
-                     method: 'GET',
-                     url: appUrlService.getApiUrl('CellPower'),
-                     params: {
-                         eNodebId: eNodebId,
-                         sectorId: sectorId
-                     }
-                 }).success(function (result) {
-                     deferred.resolve(result);
-                 })
-                     .error(function (reason) {
-                         deferred.reject(reason);
-                     });
-                 return deferred.promise;
+                 return generalHttpService.getApiData('CellPower', {
+                     eNodebId: eNodebId,
+                     sectorId: sectorId
+                 });
+             },
+             queryUlOpenLoopPowerControll: function(eNodebId, sectorId) {
+                 return generalHttpService.getApiData('UplinkOpenLoopPowerControl', {
+                     eNodebId: eNodebId,
+                     sectorId: sectorId
+                 });
              }
          };
      });
