@@ -112,6 +112,7 @@
     <Compile Include="Concrete\PreciseWorkItemCellRepositroy.cs" />
     <Compile Include="Entities\CellStatMysql.cs" />
     <Compile Include="Entities\CollegeYearInfo.cs" />
+    <Compile Include="Entities\ComplainItem.cs" />
     <Compile Include="Entities\DownSwitchFlow.cs" />
     <Compile Include="Entities\EmergencyCommunication.cs" />
     <Compile Include="Entities\FlowHuawei.cs" />

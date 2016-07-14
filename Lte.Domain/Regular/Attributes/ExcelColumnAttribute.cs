@@ -13,7 +13,9 @@ namespace Lte.Domain.Regular.Attributes
         DefaultZeroDouble,
         DefaultOpenDate,
         AntiNullAddress,
-        NullabelDateTime
+        NullabelDateTime,
+        Longtitute,
+        Lattitute
     }
 
     [AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
@@ -42,25 +44,55 @@ namespace Lte.Domain.Regular.Attributes
                     case TransformEnum.IntegerDefaultToZero:
                         return x => x.ToString().ConvertToInt((int?) _defaultValue ?? 0);
                     case TransformEnum.IntegerRemoveDots:
-                        return x => x.ToString().Replace(".", "").ConvertToInt((int?)_defaultValue ?? 0);
+                        return x => x.ToString().Replace(".", "").ConvertToInt((int?) _defaultValue ?? 0);
                     case TransformEnum.IntegerRemoveQuotions:
-                        return x => x.ToString().Replace("'", "").ConvertToInt((int?)_defaultValue ?? 0);
+                        return x => x.ToString().Replace("'", "").ConvertToInt((int?) _defaultValue ?? 0);
                     case TransformEnum.ByteRemoveQuotions:
-                        return x => x.ToString().Replace("'", "").ConvertToByte((byte?)_defaultValue ?? 0);
+                        return x => x.ToString().Replace("'", "").ConvertToByte((byte?) _defaultValue ?? 0);
                     case TransformEnum.IpAddress:
                         return x => new IpAddress(x.ToString());
                     case TransformEnum.DefaultZeroDouble:
-                        return x => x.ToString().ConvertToDouble((double?)_defaultValue ?? 0);
+                        return x => x.ToString().ConvertToDouble((double?) _defaultValue ?? 0);
                     case TransformEnum.DefaultOpenDate:
-                        return x => x.ToString().ConvertToDateTime((DateTime?)_defaultValue ?? DateTime.Today.AddMonths(-1));
+                        return
+                            x =>
+                                x.ToString()
+                                    .ConvertToDateTime((DateTime?) _defaultValue ?? DateTime.Today.AddMonths(-1));
                     case TransformEnum.AntiNullAddress:
                         return x => string.IsNullOrEmpty(x.ToString()) ? "请编辑地址" : x.ToString();
                     case TransformEnum.NullabelDateTime:
-                        return x => string.IsNullOrEmpty(x) ? (DateTime?)null : x.ConvertToDateTime(DateTime.Now);
+                        return x => string.IsNullOrEmpty(x) ? (DateTime?) null : x.ConvertToDateTime(DateTime.Now);
+                    case TransformEnum.Longtitute:
+                        return x =>
+                        {
+                            var l = x.ToString().ConvertToDouble((double?) _defaultValue ?? 0);
+                            return MatchReange(l, 112, 114, 100);
+                        };
+                    case TransformEnum.Lattitute:
+                        return x =>
+                        {
+                            var l = x.ToString().ConvertToDouble((double?) _defaultValue ?? 0);
+                            return MatchReange(l, 22, 24, 20);
+                        };
                     default:
                         return null;
                 }
             }
+        }
+
+        private static object MatchReange(double l, int low, int high, int offset)
+        {
+            if (low < l && l < high) return l;
+            if (low - offset < l && l < high - offset) return l + offset;
+            if (low + offset*10 < l && l < high + offset*10) return l - offset*10;
+            if (low*10 < l && l < high*10) return l/10;
+            if (low*100 < l && l < high*100) return l/100;
+            if (low*1000 < l && l < high*1000) return l/1000;
+            if (low*10000 < l && l < high*10000) return l/10000;
+            if (low*100000 < l && l < high*100000) return l/100000;
+            if (low*1000000 < l && l < high*1000000) return l/1000000;
+            if (low*10000000 < l && l < high*10000000) return l/10000000;
+            return 0;
         }
     }
 }
