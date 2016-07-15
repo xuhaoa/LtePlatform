@@ -6,4 +6,7 @@
     workitemService.queryChartData("state-subtype").then(function (result) {
         $("#state-chart").highcharts(preciseChartService.getStateOption(result));
     });
+    workitemService.queryChartData("district-town").then(function (result) {
+        $("#district-chart").highcharts(preciseChartService.getDistrictOption(result));
+    });
 });

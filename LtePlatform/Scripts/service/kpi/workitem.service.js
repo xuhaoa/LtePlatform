@@ -179,6 +179,20 @@
                     chart.addOneSeries(stat.type, stat.total, stat.subData);
                 });
                 return chart.options;
+            },
+
+            getDistrictOption: function (views) {
+                var stats = generateCompoundStats(views);
+
+                var chart = new DrilldownPie();
+                chart.title.text = "工单镇区分布图";
+                chart.series[0].data = [];
+                chart.drilldown.series = [];
+                chart.series[0].name = "镇区";
+                angular.forEach(stats, function (stat) {
+                    chart.addOneSeries(stat.type, stat.total, stat.subData);
+                });
+                return chart.options;
             }
         }
     })

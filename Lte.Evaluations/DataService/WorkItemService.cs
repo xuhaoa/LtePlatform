@@ -198,8 +198,8 @@ namespace Lte.Evaluations.DataService
                     return WorkItemChartViews.GroupBy(x => new { x.District, x.Town }).Select(g =>
                           new WorkItemChartTypeView
                           {
-                              Type = g.Key.District,
-                              SubType = g.Key.Town,
+                              Type = g.Key.District ?? "不分区",
+                              SubType = g.Key.Town ?? "不分区",
                               Total = g.Count()
                           });
                 default:
