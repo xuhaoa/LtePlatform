@@ -74,4 +74,91 @@ namespace Lte.Domain.Common.Wireless
         Test,
         Finish
     }
+
+    [EnumTypeDescription(typeof(ComplainSource), Unknown)]
+    public enum ComplainSource : byte
+    {
+        Number10000,
+        Qq,
+        Weixin,
+        Voice,
+        BranchService,
+        Others,
+        Wangting,
+        Zhangting,
+        Yingyeting,
+        Unknown
+    }
+
+    [EnumTypeDescription(typeof(CustomerType), Unknown)]
+    public enum CustomerType : byte
+    {
+        Individual,
+        Family,
+        Company,
+        Unknown
+    }
+
+    [EnumTypeDescription(typeof(ComplainReason), Unknown)]
+    public enum ComplainReason : byte
+    {
+        OutOfBuisiness,
+        SubscriberProblem,
+        OtherMalfunction,
+        NetworkMalfunction,
+        NetworkOptimize,
+        UnConfirmed,
+        BiqianMalfunction,
+        NeedNewSite,
+        CustomerReservation,
+        Unknown
+    }
+
+    [EnumTypeDescription(typeof(ComplainSubReason), Others)]
+    public enum ComplainSubReason : byte
+    {
+        Biqian,
+        ParameterAdjust,
+        OutOfBuisiness,
+        NothingWithNetwork,
+        BaseStationMalfunction,
+        WrongDestination,
+        OutInterference,
+        ProjectNotBegin,
+        UnableToConfirmCustomer,
+        WuyeProblem,
+        WrongReasonJustified,
+        RecoverButUnknownReason,
+        EmergencyOptimization,
+        SubscriberFeeling,
+        SubscriberTerminal,
+        ReservationTest,
+        Others
+    }
+
+    [EnumTypeDescription(typeof(ComplainScene), Others)]
+    public enum ComplainScene : byte
+    {
+        BetweenCityAndVillage,
+        VillageInCity,
+        SubRailway,
+        TransportationRoutine,
+        College,
+        CenterOfCity,
+        ImportantRegion,
+        Residential,
+        Others
+    }
+
+    [EnumTypeDescription(typeof(ComplainCategory), Others)]
+    public enum ComplainCategory : byte
+    {
+        LowSpeed3G,
+        WeakCoverage3G,
+        LowSpeed4G,
+        WeakCoverage4G,
+        BadQualityVoice,
+        WeakCoverageVoice,
+        Others
+    }
 }

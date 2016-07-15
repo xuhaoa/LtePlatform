@@ -3,12 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Abp.Domain.Entities;
+using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
 {
-    public class ComplainItem
+    public class ComplainItem : Entity
     {
+        public string SerialNumber { get; set; }
+
+        public int TownId { get; set; }
+
+        public ComplainSource ComplainSource { get; set; }
+
+        public DateTime BeginTime { get; set; }
+
+        public string City { get; set; }
+
+        public string District { get; set; }
+
+        public string RoadName { get; set; }
+        
+        public string BuildingName { get; set; }
+
+        public double Longtitute { get; set; }
+        
+        public double Lattitute { get; set; }
+
+        public ComplainReason ComplainReason { get; set; }
+
+        public ComplainSubReason ComplainSubReason { get; set; }
+
+        public string Grid { get; set; }
+
+        public NetworkType NetworkType { get; set; }
+
+        public string SitePosition { get; set; }
+
+        public bool IsIndoor { get; set; }
+
+        public ComplainScene ComplainScene { get; set; }
+
+        public ComplainCategory ComplainCategory { get; set; }
     }
 
     public class ComplainExcel

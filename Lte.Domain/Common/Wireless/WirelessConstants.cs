@@ -191,6 +191,94 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(EmergencyState.Test, "优化测试"),
                     new Tuple<object, string>(EmergencyState.Finish, "完成")
                 }
+            },
+            {
+                "ComplainSource", new []
+                {
+                    new Tuple<object, string>(ComplainSource.Number10000, "10000号"), 
+                    new Tuple<object, string>(ComplainSource.Qq, "10000号QQ客服"), 
+                    new Tuple<object, string>(ComplainSource.Weixin, "10000号微信客服"),
+                    new Tuple<object, string>(ComplainSource.Voice, "10000号语音呼入"),
+                    new Tuple<object, string>(ComplainSource.BranchService, "分公司客服中心"),  
+                    new Tuple<object, string>(ComplainSource.Others, "其他"),  
+                    new Tuple<object, string>(ComplainSource.Wangting, "网厅"), 
+                    new Tuple<object, string>(ComplainSource.Zhangting, "掌厅"), 
+                    new Tuple<object, string>(ComplainSource.Yingyeting, "营业厅"), 
+                    new Tuple<object, string>(ComplainSource.Unknown, "未知")
+                }
+            },
+            {
+                "CustomerType", new []
+                {
+                    new Tuple<object, string>(CustomerType.Individual, "个人客户"), 
+                    new Tuple<object, string>(CustomerType.Family, "家庭客户"), 
+                    new Tuple<object, string>(CustomerType.Company, "政企客户"),
+                    new Tuple<object, string>(CustomerType.Unknown, "未知"),  
+                }
+            },
+            {
+                "ComplainReason", new []
+                {
+                    new Tuple<object, string>(ComplainReason.OutOfBuisiness, "错派或非本专业"), 
+                    new Tuple<object, string>(ComplainReason.SubscriberProblem, "客户侧问题"), 
+                    new Tuple<object, string>(ComplainReason.OtherMalfunction, "其他原因导致故障"), 
+                    new Tuple<object, string>(ComplainReason.NetworkMalfunction, "网络设备故障"), 
+                    new Tuple<object, string>(ComplainReason.NetworkOptimize, "网络优化调整"), 
+                    new Tuple<object, string>(ComplainReason.UnConfirmed, "未确认"), 
+                    new Tuple<object, string>(ComplainReason.BiqianMalfunction, "物业逼迁导致故障"),
+                    new Tuple<object, string>(ComplainReason.NeedNewSite, "需新增资源"),
+                    new Tuple<object, string>(ComplainReason.NeedNewSite, "新增资源"),
+                    new Tuple<object, string>(ComplainReason.CustomerReservation, "预约客户"), 
+                    new Tuple<object, string>(ComplainReason.Unknown, "未知原因")
+                }
+            },
+            {
+                "ComplainSubReason", new []
+                {
+                    new Tuple<object, string>(ComplainSubReason.Biqian, "逼迁关停"), 
+                    new Tuple<object, string>(ComplainSubReason.ParameterAdjust, "参数调整"), 
+                    new Tuple<object, string>(ComplainSubReason.OutOfBuisiness, "非本专业原因"), 
+                    new Tuple<object, string>(ComplainSubReason.NothingWithNetwork, "非网络质量投诉"), 
+                    new Tuple<object, string>(ComplainSubReason.BaseStationMalfunction, "基站设备故障"), 
+                    new Tuple<object, string>(ComplainSubReason.WrongDestination, "申告地错派"), 
+                    new Tuple<object, string>(ComplainSubReason.OutInterference, "外部干扰"), 
+                    new Tuple<object, string>(ComplainSubReason.ProjectNotBegin, "未立项"), 
+                    new Tuple<object, string>(ComplainSubReason.UnableToConfirmCustomer, "无法与用户确认"), 
+                    new Tuple<object, string>(ComplainSubReason.WuyeProblem, "物业阻挠"), 
+                    new Tuple<object, string>(ComplainSubReason.WrongReasonJustified, "业务表象错派"), 
+                    new Tuple<object, string>(ComplainSubReason.RecoverButUnknownReason, "业务恢复但原因未知"), 
+                    new Tuple<object, string>(ComplainSubReason.EmergencyOptimization, "应急优化解决"), 
+                    new Tuple<object, string>(ComplainSubReason.SubscriberFeeling, "用户感知问题"), 
+                    new Tuple<object, string>(ComplainSubReason.SubscriberTerminal, "用户感知问题"), 
+                    new Tuple<object, string>(ComplainSubReason.ReservationTest, "预约客户测试"), 
+                    new Tuple<object, string>(ComplainSubReason.Others, "其他原因"), 
+                }
+            },
+            {
+                "ComplainScene", new []
+                {
+                    new Tuple<object, string>(ComplainScene.BetweenCityAndVillage, "城乡结合部"), 
+                    new Tuple<object, string>(ComplainScene.VillageInCity, "城中村"), 
+                    new Tuple<object, string>(ComplainScene.SubRailway, "地铁"),
+                    new Tuple<object, string>(ComplainScene.TransportationRoutine, "交通要道"),
+                    new Tuple<object, string>(ComplainScene.College, "校园"),   
+                    new Tuple<object, string>(ComplainScene.CenterOfCity, "中心市区"),
+                    new Tuple<object, string>(ComplainScene.ImportantRegion, "重要区域"), 
+                    new Tuple<object, string>(ComplainScene.Residential, "住宅小区"),  
+                    new Tuple<object, string>(ComplainScene.Others, "其他")
+                }
+            },
+            {
+                "ComplainCategory", new []
+                {
+                    new Tuple<object, string>(ComplainCategory.LowSpeed3G, "3G-网速慢"),
+                    new Tuple<object, string>(ComplainCategory.WeakCoverage3G, "3G-无信号或信号弱"), 
+                    new Tuple<object, string>(ComplainCategory.LowSpeed4G, "4G-网速慢"),
+                    new Tuple<object, string>(ComplainCategory.WeakCoverage4G, "4G-无信号或信号弱"), 
+                    new Tuple<object, string>(ComplainCategory.BadQualityVoice, "语音-通话质量差"),  
+                    new Tuple<object, string>(ComplainCategory.WeakCoverageVoice, "语音-无信号或信号弱"), 
+                    new Tuple<object, string>(ComplainCategory.Others, "其他")
+                }
             }
         };
     }
