@@ -121,13 +121,13 @@
     <Compile Include="Entities\FlowZteCsv.cs" />
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201607041422195_Update_Emergency.cs" />
-    <Compile Include="Migrations\201607041422195_Update_Emergency.Designer.cs">
-      <DependentUpon>201607041422195_Update_Emergency.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201607080614128_Update_CollegeYearInfo.cs" />
     <Compile Include="Migrations\201607080614128_Update_CollegeYearInfo.Designer.cs">
       <DependentUpon>201607080614128_Update_CollegeYearInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607150609084_Construct_ComplainItem.cs" />
+    <Compile Include="Migrations\201607150609084_Construct_ComplainItem.Designer.cs">
+      <DependentUpon>201607150609084_Construct_ComplainItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -137,11 +137,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607041422195_Update_Emergency.resx">
-      <DependentUpon>201607041422195_Update_Emergency.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607080614128_Update_CollegeYearInfo.resx">
       <DependentUpon>201607080614128_Update_CollegeYearInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607150609084_Construct_ComplainItem.resx">
+      <DependentUpon>201607150609084_Construct_ComplainItem.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
