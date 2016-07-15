@@ -63,24 +63,16 @@ namespace Lte.Domain.Regular.Attributes
                     case TransformEnum.NullabelDateTime:
                         return x => string.IsNullOrEmpty(x) ? (DateTime?) null : x.ConvertToDateTime(DateTime.Now);
                     case TransformEnum.Longtitute:
-                        return x =>
-                        {
-                            var l = x.ToString().ConvertToDouble((double?) _defaultValue ?? 0);
-                            return MatchReange(l, 112, 114, 100);
-                        };
+                        return x => string.IsNullOrEmpty(x) ? null : MatchRange(x.ConvertToDouble(0), 112, 114, 100);
                     case TransformEnum.Lattitute:
-                        return x =>
-                        {
-                            var l = x.ToString().ConvertToDouble((double?) _defaultValue ?? 0);
-                            return MatchReange(l, 22, 24, 20);
-                        };
+                        return x => string.IsNullOrEmpty(x) ? null : MatchRange(x.ConvertToDouble(0), 22, 24, 20);
                     default:
                         return null;
                 }
             }
         }
 
-        private static object MatchReange(double l, int low, int high, int offset)
+        private static object MatchRange(double l, int low, int high, int offset)
         {
             if (low < l && l < high) return l;
             if (low - offset < l && l < high - offset) return l + offset;

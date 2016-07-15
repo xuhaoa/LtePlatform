@@ -19,6 +19,9 @@ namespace Lte.Domain.LinqToExcel.Service
             if (@object == null || @object is DBNull)
                 return null;
 
+            if (castType.IsValueType && @object.ToString() == "")
+                return null;
+
             //checking for nullable types
             if (castType.IsGenericType &&
                 castType.GetGenericTypeDefinition() == typeof(Nullable<>))
