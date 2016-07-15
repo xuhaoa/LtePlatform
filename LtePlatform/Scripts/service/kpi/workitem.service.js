@@ -41,8 +41,10 @@
                     signinNumber: serialNumber
                 });
             },
-            queryChartData: function () {
-                return generalHttpService.getApiDataWithHeading('WorkItem', {});
+            queryChartData: function (chartType) {
+                return generalHttpService.getApiDataWithHeading('WorkItem', {
+                    chartType: chartType
+                });
             },
             updateSectorIds: function () {
                 return generalHttpService.putApiData('WorkItem', {});
@@ -123,54 +125,36 @@
         };
     })
     .factory('preciseChartService', function() {
-        var updateCompoundStats = function(stats, type, subType) {
+        var updateCompoundStats = function(stats, type, subType, total) {
             var j;
             for (j = 0; j < stats.length; j++) {
                 if (stats[j].type === type) {
-                    stats[j].total++;
-                    var subData = stats[j].subData;
-                    var k;
-                    for (k = 0; k < subData.length; k++) {
-                        if (subData[k][0] === subType) {
-                            subData[k][1]++;
-                            break;
-                        }
-                    }
-                    if (k === subData.length) {
-                        subData.push([subType, 1]);
-                    }
+                    stats[j].total += total;
+                    stats[j].subData.push([subType, total]);
                     break;
                 }
             }
             if (j === stats.length) {
                 stats.push({
                     type: type,
-                    total: 1,
-                    subData: [[subType, 1]]
+                    total: total,
+                    subData: [[subType, total]]
                 });
             }
         };
-        var generateCompoundStatsForType = function(views) {
+        var generateCompoundStats = function(views) {
             var stats = [];
             angular.forEach(views, function(view) {
-                var type = view.workItemType;
-                var subType = view.workItemSubType;
-                updateCompoundStats(stats, type, subType);
-            });
-            return stats;
-        };
-        var generateCompoundStatsForState = function(views) {
-            var stats = [];
-            angular.forEach(views, function(view) {
-                var type = view.workItemState;
-                var subType = view.workItemSubType;
-                updateCompoundStats(stats, type, subType);
+                var type = view.type;
+                var subType = view.subType;
+                var total = view.total;
+                updateCompoundStats(stats, type, subType, total);
             });
             return stats;
         };
         return {
             getTypeOption: function(views) {
-                var stats = generateCompoundStatsForType(views);
+                var stats = generateCompoundStats(views);
 
                 var chart = new DrilldownPie();
                 chart.title.text = "工单类型分布图";
@@ -184,7 +168,7 @@
             },
 
             getStateOption: function(views) {
-                var stats = generateCompoundStatsForState(views);
+                var stats = generateCompoundStats(views);
 
                 var chart = new DrilldownPie();
                 chart.title.text = "工单状态分布图";

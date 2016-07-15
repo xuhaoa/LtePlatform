@@ -163,11 +163,48 @@ namespace Lte.Evaluations.DataService
             return views.Where(x => x.District == district);
         }
 
-        public IEnumerable<WorkItemChartView> QueryViews()
+        private static IEnumerable<WorkItemChartView> WorkItemChartViews { get; set; }
+
+        private static DateTime ChartDate { get; set; } = DateTime.Today;
+
+        public IEnumerable<WorkItemChartTypeView> QueryChartTypeViews(string chartType)
         {
-            var views = Mapper.Map<List<WorkItem>, List<WorkItemView>>(_repository.GetAllList());
-            views.ForEach(x => x.UpdateTown(_eNodebRepository, _btsRepository, _townRepository));
-            return views.MapTo<IEnumerable<WorkItemChartView>>();
+            if (WorkItemChartViews == null || ChartDate != DateTime.Today)
+            {
+                ChartDate = DateTime.Today;
+                var views = Mapper.Map<List<WorkItem>, List<WorkItemView>>(_repository.GetAllList());
+                views.ForEach(x => x.UpdateTown(_eNodebRepository, _btsRepository, _townRepository));
+                WorkItemChartViews = views.MapTo<IEnumerable<WorkItemChartView>>();
+            }
+            switch (chartType)
+            {
+                case "type-subtype":
+                    return WorkItemChartViews.GroupBy(x => new {x.WorkItemType, x.WorkItemSubType}).Select(g =>
+                        new WorkItemChartTypeView
+                        {
+                            Type = g.Key.WorkItemType,
+                            SubType = g.Key.WorkItemSubType,
+                            Total = g.Count()
+                        });
+                case "state-subtype":
+                    return WorkItemChartViews.GroupBy(x => new {x.WorkItemState, x.WorkItemSubType}).Select(g =>
+                        new WorkItemChartTypeView
+                        {
+                            Type = g.Key.WorkItemState,
+                            SubType = g.Key.WorkItemSubType,
+                            Total = g.Count()
+                        });
+                case "district-town":
+                    return WorkItemChartViews.GroupBy(x => new { x.District, x.Town }).Select(g =>
+                          new WorkItemChartTypeView
+                          {
+                              Type = g.Key.District,
+                              SubType = g.Key.Town,
+                              Total = g.Count()
+                          });
+                default:
+                    return new List<WorkItemChartTypeView>();
+            }
         }
 
         public bool FeedBack(string userName, string message, string serialNumber)

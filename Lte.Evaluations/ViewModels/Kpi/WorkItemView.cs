@@ -125,4 +125,13 @@ namespace Lte.Evaluations.ViewModels.Kpi
         [MemberDoc("工单状态")]
         public string WorkItemState { get; set; }
     }
+
+    public class WorkItemChartTypeView
+    {
+        public string Type { get; set; }
+
+        public string SubType { get; set; }
+
+        public int Total { get; set; }
+    }
 }

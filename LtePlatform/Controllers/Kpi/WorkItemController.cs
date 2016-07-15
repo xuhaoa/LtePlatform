@@ -27,11 +27,12 @@ namespace LtePlatform.Controllers.Kpi
         }
 
         [HttpGet]
-        [ApiDoc("查询所有工单列表")]
-        [ApiResponse("所有工单列表")]
-        public IEnumerable<WorkItemChartView> Get()
+        [ApiDoc("查询所有工单类型统计数据")]
+        [ApiParameterDoc("chartType", "类型定义")]
+        [ApiResponse("所有工单统计数据")]
+        public IEnumerable<WorkItemChartTypeView> GetChartViews(string chartType)
         {
-            return _service.QueryViews();
+            return _service.QueryChartTypeViews(chartType);
         }
 
         [HttpGet]
