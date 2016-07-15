@@ -22,9 +22,9 @@
                     templateUrl: viewDir + "Process/Emergency.html",
                     controller: "emergency.process"
                 })
-                .when('/trendchart', {
-                    templateUrl: viewDir + "TrendChart.html",
-                    controller: "rutrace.trendchart"
+                .when('/complain/adjust', {
+                    templateUrl: viewDir + "Complain/Adjust.html",
+                    controller: "complain.adjust"
                 })
                 .when('/top', {
                     templateUrl: viewDir + "Top.html",
@@ -120,8 +120,8 @@
                 isActive: false,
                 subItems: [
                     {
-                        displayName: "从MongoDB导入",
-                        url: rootUrl + "/mongo"
+                        displayName: "抱怨量信息校正",
+                        url: rootUrl + "/complain/adjust"
                     }
                 ]
             }
