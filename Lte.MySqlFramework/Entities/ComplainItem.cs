@@ -106,5 +106,7 @@ namespace Lte.MySqlFramework.Entities
 
         [ExcelColumn("表象大类")]
         public string CategoryDescription { get; set; }
+
+        public int TownId { get; set; }
     }
 }

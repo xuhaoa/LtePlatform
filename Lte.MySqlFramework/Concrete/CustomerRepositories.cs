@@ -120,4 +120,37 @@ namespace Lte.MySqlFramework.Concrete
             return GetAllList(x => x.EmergencyId == emergencyId);
         }
     }
+
+    public class ComplainItemRepository : EfRepositoryBase<MySqlContext, ComplainItem>,
+        IComplainItemRepository
+    {
+        public ComplainItemRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public ComplainItem Match(ComplainExcel stat)
+        {
+            return Get(stat.SerialNumber);
+        }
+
+        public List<ComplainItem> GetAllList(DateTime begin, DateTime end)
+        {
+            return GetAllList(x => x.BeginTime >= begin && x.BeginTime < end);
+        }
+
+        public List<ComplainItem> GetAllList(int townId, DateTime begin, DateTime end)
+        {
+            return GetAllList(x => x.BeginTime >= begin && x.BeginTime < end && x.TownId == townId);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+
+        public ComplainItem Get(string serialNumber)
+        {
+            return FirstOrDefault(x => x.SerialNumber == serialNumber);
+        }
+    }
 }

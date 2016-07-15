@@ -41,4 +41,13 @@ namespace Lte.MySqlFramework.Abstract
     {
         List<EmergencyFiberWorkItem> GetAllList(int emergencyId);
     }
+
+    public interface IComplainItemRepository
+        : IRepository<ComplainItem>,
+            IMatchRepository<ComplainItem, ComplainExcel>,
+            IDateSpanQuery<ComplainItem>,
+            ISaveChanges
+    {
+        ComplainItem Get(string serialNumber);
+    }
 }

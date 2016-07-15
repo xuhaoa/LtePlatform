@@ -21,16 +21,21 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly ITopConnection3GRepository _top3GRepository;
         private readonly IDownSwitchFlowRepository _downSwitchRepository;
         private readonly IVipDemandRepository _vipDemandRepository;
+        private readonly IComplainItemRepository _complainItemRepository;
+        private readonly List<Town> _towns; 
 
         public KpiImportService(ICdmaRegionStatRepository regionStatRepository,
             ITopDrop2GCellRepository top2GRepository, ITopConnection3GRepository top3GRepository,
-            IDownSwitchFlowRepository downSwitchRepository, IVipDemandRepository vipDemandRepository)
+            IDownSwitchFlowRepository downSwitchRepository, IVipDemandRepository vipDemandRepository,
+            IComplainItemRepository complainItemRepository, ITownRepository townRepository)
         {
             _regionStatRepository = regionStatRepository;
             _top2GRepository = top2GRepository;
             _top3GRepository = top3GRepository;
             _downSwitchRepository = downSwitchRepository;
             _vipDemandRepository = vipDemandRepository;
+            _complainItemRepository = complainItemRepository;
+            _towns = townRepository.GetAllList();
         }
         public List<string> Import(string path, IEnumerable<string> regions)
         {
@@ -73,6 +78,25 @@ namespace Lte.Evaluations.DataService.Kpi
             var count =
                 _vipDemandRepository.Import<IVipDemandRepository, VipDemand, VipDemandExcel>(stats);
             return "完成政企客户支撑信息导入" + count + "条";
+        }
+
+        public string ImportComplain(string path)
+        {
+            var factory = new ExcelQueryFactory { FileName = path };
+            var stats = (from c in factory.Worksheet<ComplainExcel>("组合项目")
+                         select c).ToList();
+            foreach (var stat in stats)
+            {
+                var town =
+                    _towns.FirstOrDefault(
+                        x => (stat.Grid.Contains(x.DistrictName) || stat.CandidateDistrict.Contains(x.DistrictName))
+                             && (stat.RoadName.Contains(x.TownName) || stat.BuildingName.Contains(x.TownName)));
+                if (town != null)
+                    stat.TownId = town.Id;
+            }
+            var count =
+                _complainItemRepository.Import<IComplainItemRepository, ComplainItem, ComplainExcel>(stats);
+            return "完成抱怨量信息导入" + count + "条";
         }
     }
 }

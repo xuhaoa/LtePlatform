@@ -170,6 +170,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IEmergencyFiberWorkItemRepository>().To<EmergencyFiberWorkItemRepository>();
 
+            ninjectKernel.Bind<IComplainItemRepository>().To<ComplainItemRepository>();
+
             ninjectKernel.Bind<CellService>().ToSelf();
 
             ninjectKernel.Bind<CdmaCellService>().ToSelf();
