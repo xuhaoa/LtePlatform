@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 
@@ -46,6 +47,28 @@ namespace Lte.MySqlFramework.Entities
         public ComplainScene ComplainScene { get; set; }
 
         public ComplainCategory ComplainCategory { get; set; }
+    }
+
+    [AutoMapFrom(typeof(ComplainItem))]
+    public class ComplainPositionDto
+    {
+        public string SerialNumber { get; set; }
+
+        public string City { get; set; }
+
+        public string District { get; set; }
+        
+        public string Town { get; set; }
+
+        public string RoadName { get; set; }
+
+        public string BuildingName { get; set; }
+
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        public string SitePosition { get; set; }
     }
 
     public class ComplainExcel

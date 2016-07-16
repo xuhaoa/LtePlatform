@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
+using Abp.EntityFramework.AutoMapper;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Abp.EntityFramework.Repositories;
@@ -245,6 +246,34 @@ namespace Lte.Evaluations.DataService.College
                 result.Town = town.TownName;
             }
             return result;
+        }
+    }
+
+    public class ComplainService
+    {
+        private readonly IComplainItemRepository _repository;
+        private readonly ITownRepository _townRepository;
+
+        public ComplainService(IComplainItemRepository repository, ITownRepository townRepository)
+        {
+            _repository = repository;
+            _townRepository = townRepository;
+        }
+
+        public IEnumerable<ComplainPositionDto> QueryPositionDtos(DateTime begin, DateTime end)
+        {
+            return _repository.GetAllList(begin, end).MapTo<IEnumerable<ComplainPositionDto>>();
+        }
+
+        public async Task<int> UpdateTown(ComplainPositionDto dto)
+        {
+            var item = _repository.Get(dto.SerialNumber);
+            if (item == null) return 0;
+            var town = _townRepository.QueryTown(dto.City, dto.District, dto.Town);
+            if (town == null) return 0;
+            item.TownId = town.Id;
+            await _repository.UpdateAsync(item);
+            return _repository.SaveChanges();
         }
     }
 }

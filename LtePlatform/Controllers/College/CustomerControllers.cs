@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Lte.Evaluations.DataService.College;
 using Lte.MySqlFramework.Entities;
+using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.College
 {
@@ -101,6 +102,7 @@ namespace LtePlatform.Controllers.College
         }
     }
 
+    [ApiControl("政企客户需求查询控制器")]
     public class VipDemandController : ApiController
     {
         private readonly VipDemandService _service;
@@ -111,12 +113,16 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpPost]
+        [ApiDoc("新增政企客户")]
+        [ApiParameterDoc("dto", "政企客户信息")]
         public int Post(VipDemandDto dto)
         {
             return _service.Dump(dto);
         }
 
         [HttpPut]
+        [ApiDoc("更新政企客户")]
+        [ApiParameterDoc("dto", "政企客户信息")]
         public async Task<int> Put(VipDemandDto dto)
         {
             return await _service.UpdateAsync(dto);
@@ -139,5 +145,27 @@ namespace LtePlatform.Controllers.College
         {
             return _service.QuerySingle(serialNumber);
         }
+    }
+
+    public class ComplainPositionController : ApiController
+    {
+        private readonly ComplainService _service;
+
+        public ComplainPositionController(ComplainService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<ComplainPositionDto> Get(DateTime begin, DateTime end)
+        {
+            return _service.QueryPositionDtos(begin, end);
+        }
+
+        [HttpPost]
+        public async Task<int> Post(ComplainPositionDto dto)
+        {
+            return await _service.UpdateTown(dto);
+        } 
     }
 }

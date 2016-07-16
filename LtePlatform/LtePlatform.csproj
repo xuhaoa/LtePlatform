@@ -1867,6 +1867,7 @@
     <Content Include="Content\ui-grid.woff" />
     <Content Include="Content\ui-grid.ttf" />
     <Content Include="Content\ui-grid.eot" />
+    <None Include="Properties\PublishProfiles\Lte-ftp-219.pubxml" />
     <None Include="Properties\PublishProfiles\Lte2.pubxml" />
     <Content Include="Scripts\college\menu.root.js" />
     <Content Include="Scripts\bootstrap.js" />

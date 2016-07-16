@@ -267,6 +267,8 @@ namespace LtePlatform
             ninjectKernel.Bind<EmergencyFiberService>().ToSelf();
 
             ninjectKernel.Bind<UlOpenLoopPcService>().ToSelf();
+
+            ninjectKernel.Bind<ComplainService>().ToSelf();
         }
     }
 }
