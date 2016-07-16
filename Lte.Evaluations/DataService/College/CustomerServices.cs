@@ -262,7 +262,8 @@ namespace Lte.Evaluations.DataService.College
 
         public IEnumerable<ComplainPositionDto> QueryPositionDtos(DateTime begin, DateTime end)
         {
-            return _repository.GetAllList(begin, end).MapTo<IEnumerable<ComplainPositionDto>>();
+            return
+                _repository.GetAllList(begin, end).Where(x => x.TownId == 0).MapTo<IEnumerable<ComplainPositionDto>>();
         }
 
         public async Task<int> UpdateTown(ComplainPositionDto dto)
