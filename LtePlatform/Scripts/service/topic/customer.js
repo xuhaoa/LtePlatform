@@ -1,5 +1,5 @@
 ﻿angular.module('customer.service', ['myApp.url'])
-    .factory('customerDialogService', function ($uibModal, $log, customerQueryService, emergencyService) {
+    .factory('customerDialogService', function($uibModal, $log, customerQueryService, emergencyService) {
         return {
             constructEmergencyCommunication: function(city, district, type, messages, callback) {
                 var modalInstance = $uibModal.open({
@@ -24,7 +24,7 @@
                 });
 
                 modalInstance.result.then(function(dto) {
-                    customerQueryService.postDto(dto).then(function (result) {
+                    customerQueryService.postDto(dto).then(function(result) {
                         if (result > 0) {
                             messages.push({
                                 type: 'success',
@@ -49,30 +49,30 @@
                     controller: 'vip.supplement.dialog',
                     size: 'lg',
                     resolve: {
-                        dialogTitle: function () {
+                        dialogTitle: function() {
                             return "补充政企客户支撑需求信息";
                         },
                         view: function() {
                             return view;
                         },
-                        city: function () {
+                        city: function() {
                             return city;
                         },
-                        district: function () {
+                        district: function() {
                             return district;
                         }
                     }
                 });
 
-                modalInstance.result.then(function (dto) {
-                    customerQueryService.updateVip(dto).then(function () {
+                modalInstance.result.then(function(dto) {
+                    customerQueryService.updateVip(dto).then(function() {
                         messages.push({
                             type: 'success',
                             contents: '完成政企客户支撑需求：' + dto.serialNumber + '的补充'
                         });
                         callback();
                     });
-                }, function () {
+                }, function() {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
@@ -96,7 +96,7 @@
                 });
 
                 modalInstance.result.then(function(item) {
-                    emergencyService.createFiberItem(item).then(function (result) {
+                    emergencyService.createFiberItem(item).then(function(result) {
                         if (result) {
                             messages.push({
                                 type: 'success',
@@ -189,8 +189,21 @@
             finishFiberItem: function(item) {
                 return generalHttpService.putApiData('EmergencyFiber', item);
             },
-            queryFiberList: function (id) {
+            queryFiberList: function(id) {
                 return generalHttpService.getApiData('EmergencyFiber/' + id, {});
             }
         };
+    })
+    .factory('complainService', function(generalHttpService) {
+        return {
+            queryPositionList: function(begin, end) {
+                return generalHttpService.getApiData('ComplainPosition', {
+                    begin: begin,
+                    end: end
+                });
+            },
+            postPosition: function(dto) {
+                return generalHttpService.postApiData('ComplainPosition', dto);
+            }
+        }
     });
