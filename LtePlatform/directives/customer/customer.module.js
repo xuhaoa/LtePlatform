@@ -114,9 +114,13 @@ angular.module('customer.complain', ['customer.service'])
                 { field: 'roadName', name: '路名' },
                 { field: 'longtitute', name: '经度', cellFilter: 'number: 4' },
                 { field: 'lattitute', name: '纬度', cellFilter: 'number: 4' },
-                { field: 'sitePosition', name: '附近站点' }
+                { field: 'sitePosition', name: '附近站点' },
+                { name: '匹配位置', cellTemplate: '<button class="btn btn-default" ng-click="grid.appScope.match(row.entity)">匹配</button>' }
             ],
             data: []
+        };
+        $scope.match = function(item) {
+            console.log(item);
         };
     })
     .directive('complainPositionList', function ($compile) {
