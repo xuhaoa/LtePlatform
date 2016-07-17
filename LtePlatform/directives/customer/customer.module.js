@@ -1,4 +1,4 @@
-﻿angular.module('customer.module', ['customer.emergency', 'customer.vip'])
+﻿angular.module('customer.module', ['customer.emergency', 'customer.vip', 'customer.complain'])
     .constant('customerRoot', '/directives/customer/');
 
 angular.module('customer.emergency', ['customer.service'])
@@ -104,6 +104,7 @@ angular.module('customer.vip', ['customer.service'])
 angular.module('customer.complain', ['customer.service'])
     .controller('ComplainPositionController', function ($scope) {
         $scope.gridOptions = {
+            paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
             columnDefs: [
                 { field: 'serialNumber', name: '工单编号' },
@@ -129,10 +130,10 @@ angular.module('customer.complain', ['customer.service'])
             template: '<div></div>',
             link: function (scope, element, attrs) {
                 scope.initialize = false;
-                scope.$watch('colleges', function (items) {
+                scope.$watch('items', function (items) {
                     scope.gridOptions.data = items;
                     if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination></div>')(scope);
+                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 800px"></div>')(scope);
                         element.append(linkDom);
                         scope.initialize = true;
                     }
