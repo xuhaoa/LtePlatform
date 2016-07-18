@@ -35,5 +35,12 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<CollegeYearInfo> CollegeYearInfos { get; set; }
 
         public DbSet<ComplainItem> ComplainItems { get; set; }
+
+        public DbSet<CdmaRegionStat> CdmaRegionStats { get; set; }
+
+        public DbSet<TopDrop2GCell> TopDrop2GStats { get; set; }
+
+        public DbSet<TopConnection3GCell> TopConnection3GStats { get; set; }
+
     }
 }

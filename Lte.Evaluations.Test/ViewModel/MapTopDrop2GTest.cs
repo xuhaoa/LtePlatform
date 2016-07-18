@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MapperSerive.Kpi;
-using Lte.Parameters.Entities.Kpi;
+using Lte.MySqlFramework.Entities;
 using NUnit.Framework;
 
 namespace Lte.Evaluations.ViewModel

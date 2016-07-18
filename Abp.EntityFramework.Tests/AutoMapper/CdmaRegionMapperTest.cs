@@ -1,6 +1,5 @@
 ﻿using Abp.EntityFramework.AutoMapper;
-using Lte.Parameters.Entities;
-using Lte.Parameters.Entities.Basic;
+using Lte.MySqlFramework.Entities;
 using NUnit.Framework;
 using Shouldly;
 

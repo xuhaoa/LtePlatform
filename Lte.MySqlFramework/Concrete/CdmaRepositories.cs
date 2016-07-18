@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Abp.EntityFramework;
 using Abp.EntityFramework.Repositories;
-using Lte.Parameters.Abstract.Kpi;
-using Lte.Parameters.Entities;
-using Lte.Parameters.Entities.Basic;
-using Lte.Parameters.Entities.Kpi;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 
-namespace Lte.Parameters.Concrete.Kpi
+namespace Lte.MySqlFramework.Concrete
 {
-    public class EFCdmaRegionStatRepository : EfRepositoryBase<EFParametersContext, CdmaRegionStat>, ICdmaRegionStatRepository
+    public class EFCdmaRegionStatRepository : EfRepositoryBase<MySqlContext, CdmaRegionStat>, ICdmaRegionStatRepository
     {
         public List<CdmaRegionStat> GetAllList(DateTime begin, DateTime end)
         {
@@ -28,7 +27,7 @@ namespace Lte.Parameters.Concrete.Kpi
             return Context.SaveChanges();
         }
 
-        public EFCdmaRegionStatRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
+        public EFCdmaRegionStatRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
 
@@ -38,7 +37,7 @@ namespace Lte.Parameters.Concrete.Kpi
         }
     }
 
-    public class EFTopDrop2GCellRepository : EfRepositoryBase<EFParametersContext, TopDrop2GCell>, ITopDrop2GCellRepository
+    public class EFTopDrop2GCellRepository : EfRepositoryBase<MySqlContext, TopDrop2GCell>, ITopDrop2GCellRepository
     {
         public List<TopDrop2GCell> GetAllList(string city, DateTime begin, DateTime end)
         {
@@ -50,7 +49,7 @@ namespace Lte.Parameters.Concrete.Kpi
             return Context.SaveChanges();
         }
 
-        public EFTopDrop2GCellRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
+        public EFTopDrop2GCellRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
 
@@ -61,7 +60,7 @@ namespace Lte.Parameters.Concrete.Kpi
         }
     }
 
-    public class EFTopConnection3GRepository : EfRepositoryBase<EFParametersContext, TopConnection3GCell>, ITopConnection3GRepository
+    public class EFTopConnection3GRepository : EfRepositoryBase<MySqlContext, TopConnection3GCell>, ITopConnection3GRepository
     {
         public List<TopConnection3GCell> GetAllList(string city, DateTime begin, DateTime end)
         {
@@ -73,7 +72,7 @@ namespace Lte.Parameters.Concrete.Kpi
             return Context.SaveChanges();
         }
 
-        public EFTopConnection3GRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
+        public EFTopConnection3GRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
 

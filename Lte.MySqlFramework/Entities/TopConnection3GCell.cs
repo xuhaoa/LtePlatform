@@ -3,11 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lte.Domain.Regular;
+using Abp.Domain.Entities;
+using AutoMapper;
+using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 
-namespace Lte.Parameters.Entities
+namespace Lte.MySqlFramework.Entities
 {
+    public class TopConnection3GCell : Entity, IBtsIdQuery
+    {
+        public DateTime StatTime { get; set; }
+
+        public string City { get; set; }
+
+        public int BtsId { get; set; }
+
+        public int CellId { get; set; }
+
+        public byte SectorId { get; set; }
+
+        public int WirelessDrop { get; set; }
+
+        public int ConnectionAttempts { get; set; }
+
+        public int ConnectionFails { get; set; }
+
+        public double LinkBusyRate { get; set; }
+
+        public static TopConnection3GCell ConstructStat(TopConnection3GCellExcel cellExcel)
+        {
+            return Mapper.Map<TopConnection3GCellExcel, TopConnection3GCell>(cellExcel);
+        }
+    }
+
     public class TopConnection3GCellExcel
     {
         [ExcelColumn("地市")]

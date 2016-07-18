@@ -18,8 +18,6 @@ namespace Lte.Parameters.Concrete
 
         public DbSet<Town> Towns { get; set; }
 
-        public DbSet<CdmaRegionStat> CdmaRegionStats { get; set; }
-
         public DbSet<OptimizeRegion> OptimizeRegions { get; set; }
 
         public DbSet<CollegeInfo> CollegeInfos { get; set; }
@@ -45,10 +43,6 @@ namespace Lte.Parameters.Concrete
         public DbSet<IndoorDistribution> IndoorDistributions { get; set; }
 
         public DbSet<PreciseCoverage4G> PrecisCoverage4Gs { get; set; }
-
-        public DbSet<TopDrop2GCell> TopDrop2GStats { get; set; }
-
-        public DbSet<TopConnection3GCell> TopConnection3GStats { get; set; }
 
         public DbSet<TownPreciseCoverage4GStat> TownPreciseCoverage4GStats { get; set; }
 

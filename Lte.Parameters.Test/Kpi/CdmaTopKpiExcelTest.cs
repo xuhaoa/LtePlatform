@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Lte.Domain.LinqToExcel;
 using Lte.Domain.Test.LinqToExcel;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities;
 using NUnit.Framework;
 

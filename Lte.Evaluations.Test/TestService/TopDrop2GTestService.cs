@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Lte.Evaluations.MockItems;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Abstract.Kpi;
-using Lte.Parameters.Entities.Kpi;
 using Lte.Parameters.MockOperations;
 using Moq;
 

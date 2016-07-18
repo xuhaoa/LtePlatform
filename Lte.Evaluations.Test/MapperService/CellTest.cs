@@ -7,8 +7,8 @@ using AutoMapper;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Precise;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Basic;
-using Lte.Parameters.Entities.Kpi;
 using NUnit.Framework;
 using Shouldly;
 

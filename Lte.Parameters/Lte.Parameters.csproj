@@ -132,7 +132,6 @@
     <Compile Include="Abstract\Basic\IEutranInterNFreqRepository.cs" />
     <Compile Include="Abstract\Basic\IBtsRepository.cs" />
     <Compile Include="Abstract\Basic\ICdmaCellRepository.cs" />
-    <Compile Include="Abstract\Kpi\ICdmaRegionStatRepository.cs" />
     <Compile Include="Abstract\Basic\MongoRepositories.cs" />
     <Compile Include="Abstract\Basic\ICellRepository.cs" />
     <Compile Include="Abstract\College\ICollegeRepository.cs" />
@@ -164,7 +163,6 @@
     <Compile Include="Concrete\EFAlarmRepository.cs" />
     <Compile Include="Concrete\Basic\EFBtsRepository.cs" />
     <Compile Include="Concrete\Basic\EFCdmaCellRepository.cs" />
-    <Compile Include="Concrete\Kpi\EFCdmaRegionStatRepository.cs" />
     <Compile Include="Concrete\Basic\EFCellRepository.cs" />
     <Compile Include="Concrete\College\EFTestRepositories.cs" />
     <Compile Include="Concrete\College\EFCollegeRepository.cs" />
@@ -212,8 +210,6 @@
     <Compile Include="Entities\ExcelCsv\BtsExcel.cs" />
     <Compile Include="Entities\Basic\CdmaBts.cs" />
     <Compile Include="Entities\ExcelCsv\CdmaCellExcel.cs" />
-    <Compile Include="Entities\Basic\CdmaRegionStat.cs" />
-    <Compile Include="Entities\ExcelCsv\CdmaRegionStatExcel.cs" />
     <Compile Include="Entities\Basic\Cell.cs" />
     <Compile Include="Entities\ExcelCsv\CellExcel.cs" />
     <Compile Include="Entities\College\College3GTestResults.cs" />
@@ -241,10 +237,6 @@
     <Compile Include="Entities\Kpi\PreciseCoverage4G.cs" />
     <Compile Include="Entities\Kpi\PreciseCoverage4GCsv.cs" />
     <Compile Include="Entities\Dt\RasterInfo.cs" />
-    <Compile Include="Entities\Kpi\TopConnection3GCell.cs" />
-    <Compile Include="Entities\ExcelCsv\TopConnection3GCellExcel.cs" />
-    <Compile Include="Entities\Kpi\TopDrop2GCell.cs" />
-    <Compile Include="Entities\ExcelCsv\TopDrop2GCellExcel.cs" />
     <Compile Include="Entities\Switch\CellMeasGroupZte.cs" />
     <Compile Include="Entities\Switch\EUtranCellMeasurementZte.cs" />
     <Compile Include="Entities\Switch\IZteMeasGroup.cs" />

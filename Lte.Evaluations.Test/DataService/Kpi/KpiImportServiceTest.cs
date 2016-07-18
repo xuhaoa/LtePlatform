@@ -4,9 +4,8 @@ using System.IO;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
-using Lte.Parameters.Abstract.Kpi;
-using Lte.Parameters.Entities.Basic;
-using Lte.Parameters.MockOperations;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Moq;
 using NUnit.Framework;
 

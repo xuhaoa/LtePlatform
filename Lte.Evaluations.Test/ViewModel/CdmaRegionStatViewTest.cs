@@ -1,10 +1,10 @@
 ﻿using System;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.ViewModels.RegionKpi;
-using Lte.Parameters.Entities.Basic;
+using Lte.MySqlFramework.Entities;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.ViewModel
+namespace Lte.Evaluations.ViewModel
 {
     [TestFixture]
     public class CdmaRegionStatViewTest

@@ -100,8 +100,10 @@
   <ItemGroup>
     <Compile Include="Abstract\CollegeInterfaces.cs" />
     <Compile Include="Abstract\CustomerInterfaces.cs" />
+    <Compile Include="Abstract\CdmaStatRepositories.cs" />
     <Compile Include="Abstract\ICellStatMysqlRepository.cs" />
     <Compile Include="Abstract\IFlowRepository.cs" />
+    <Compile Include="Concrete\CdmaRepositories.cs" />
     <Compile Include="Concrete\CellStatMysqlRepository.cs" />
     <Compile Include="Concrete\CollegeRepositories.cs" />
     <Compile Include="Concrete\CustomerRepositories.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="Concrete\FlowZteRepository.cs" />
     <Compile Include="Concrete\MySqlContext.cs" />
     <Compile Include="Concrete\PreciseWorkItemCellRepositroy.cs" />
+    <Compile Include="Entities\CdmaRegionStat.cs" />
     <Compile Include="Entities\CellStatMysql.cs" />
     <Compile Include="Entities\CollegeYearInfo.cs" />
     <Compile Include="Entities\ComplainItem.cs" />
@@ -120,6 +123,8 @@
     <Compile Include="Entities\FlowZte.cs" />
     <Compile Include="Entities\FlowZteCsv.cs" />
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
+    <Compile Include="Entities\TopConnection3GCell.cs" />
+    <Compile Include="Entities\TopDrop2GCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
     <Compile Include="Migrations\201607080614128_Update_CollegeYearInfo.cs" />
     <Compile Include="Migrations\201607080614128_Update_CollegeYearInfo.Designer.cs">

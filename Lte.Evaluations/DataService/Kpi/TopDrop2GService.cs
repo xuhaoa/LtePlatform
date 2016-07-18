@@ -4,9 +4,9 @@ using System.Linq;
 using AutoMapper;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.ViewModels.Kpi;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Abstract.Kpi;
-using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.DataService.Kpi
 {

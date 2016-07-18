@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Lte.Evaluations.DataService.Kpi;
-using Lte.Evaluations.MockItems;
 using Lte.Evaluations.ViewModels.RegionKpi;
-using Lte.Parameters.Abstract;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Infrastructure;
-using Lte.Parameters.Abstract.Kpi;
-using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.MockOperations;
 using Moq;
 

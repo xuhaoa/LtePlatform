@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using Lte.Parameters.Entities;
-using Lte.Parameters.Entities.Basic;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.ViewModels.RegionKpi
 {

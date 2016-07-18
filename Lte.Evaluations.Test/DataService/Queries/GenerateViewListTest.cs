@@ -5,7 +5,7 @@ using System.Reflection;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.Test.DataService.Queries;
-using Lte.Parameters.Entities.Basic;
+using Lte.MySqlFramework.Entities;
 using NUnit.Framework;
 
 namespace Lte.Evaluations.DataService.Queries
