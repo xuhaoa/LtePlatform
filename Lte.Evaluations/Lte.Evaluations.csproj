@@ -129,7 +129,6 @@
     <Compile Include="ViewModels\Channel\CellPower.cs" />
     <Compile Include="ViewModels\College\CollegeStat.cs" />
     <Compile Include="ViewModels\Kpi\FlowView.cs" />
-    <Compile Include="ViewModels\Kpi\TopConnection3GTrendView.cs" />
     <Compile Include="ViewModels\Mr\CellStasticView.cs" />
     <Compile Include="ViewModels\Mr\InterferenceMatrixView.cs" />
     <Compile Include="DataService\Mr\InterferenceNeighborService.cs" />
@@ -184,7 +183,6 @@
     <Compile Include="ViewModels\Kpi\TopDrop2GCellView.cs" />
     <Compile Include="ViewModels\Kpi\TopDrop2GDateView.cs" />
     <Compile Include="ViewModels\Kpi\TopDrop2GTrend.cs" />
-    <Compile Include="ViewModels\Kpi\TopDrop2GTrendView.cs" />
     <Compile Include="ViewModels\RegionKpi\TownENodebStatView.cs" />
     <Compile Include="ViewModels\RegionKpi\TownPreciseView.cs" />
     <Compile Include="ViewModels\Switch\CellInterFreqHoView.cs" />

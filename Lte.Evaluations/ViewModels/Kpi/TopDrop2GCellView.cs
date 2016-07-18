@@ -1,9 +1,12 @@
 ﻿using System;
+using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Regular.Attributes;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.ViewModels.Kpi
 {
     [TypeDoc("TOP掉话小区视图")]
+    [AutoMapFrom(typeof(TopDrop2GCell))]
     public class TopDrop2GCellView
     {
         [MemberDoc("统计日期")]

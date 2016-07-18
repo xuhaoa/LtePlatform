@@ -1,8 +1,11 @@
 ﻿using System;
+using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Regular.Attributes;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.ViewModels.Kpi
 {
+    [AutoMapFrom(typeof(TopConnection3GCell))]
     public class TopConnection3GCellView
     {
         [MemberDoc("统计日期")]

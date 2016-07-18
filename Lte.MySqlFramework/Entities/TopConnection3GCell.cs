@@ -29,11 +29,6 @@ namespace Lte.MySqlFramework.Entities
         public int ConnectionFails { get; set; }
 
         public double LinkBusyRate { get; set; }
-
-        public static TopConnection3GCell ConstructStat(TopConnection3GCellExcel cellExcel)
-        {
-            return Mapper.Map<TopConnection3GCellExcel, TopConnection3GCell>(cellExcel);
-        }
     }
 
     public class TopConnection3GCellExcel
