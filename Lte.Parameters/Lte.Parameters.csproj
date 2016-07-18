@@ -251,9 +251,9 @@
     <Compile Include="Entities\Work\WorkItemExcel.cs" />
     <Compile Include="Entities\Work\WorkItemType.cs" />
     <Compile Include="Entities\Work\WorkItemTypeQueries.cs" />
-    <Compile Include="Migrations\201607080726347_Change_CollgeStat.cs" />
-    <Compile Include="Migrations\201607080726347_Change_CollgeStat.Designer.cs">
-      <DependentUpon>201607080726347_Change_CollgeStat.cs</DependentUpon>
+    <Compile Include="Migrations\201607180718542_Update_Lte_Parameters.cs" />
+    <Compile Include="Migrations\201607180718542_Update_Lte_Parameters.Designer.cs">
+      <DependentUpon>201607180718542_Update_Lte_Parameters.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MockOperations\InterferenceMatrixCsvContainer.cs" />
@@ -291,8 +291,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607080726347_Change_CollgeStat.resx">
-      <DependentUpon>201607080726347_Change_CollgeStat.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607180718542_Update_Lte_Parameters.resx">
+      <DependentUpon>201607180718542_Update_Lte_Parameters.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -7,18 +7,18 @@ namespace Lte.Parameters.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Change_CollgeStat : IMigrationMetadata
+    public sealed partial class Update_Lte_Parameters : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Change_CollgeStat));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Update_Lte_Parameters));
         
         string IMigrationMetadata.Id
         {
-            get { return "201607080726347_Change_CollgeStat"; }
+            get { return "201607180718542_Update_Lte_Parameters"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return Resources.GetString("Source"); }
+            get { return null; }
         }
         
         string IMigrationMetadata.Target

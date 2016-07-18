@@ -19,6 +19,7 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly ICdmaRegionStatRepository _regionStatRepository;
         private readonly ITopDrop2GCellRepository _top2GRepository;
         private readonly ITopConnection3GRepository _top3GRepository;
+        private readonly ITopConnection2GRepository _topConnection2GRepository;
         private readonly IDownSwitchFlowRepository _downSwitchRepository;
         private readonly IVipDemandRepository _vipDemandRepository;
         private readonly IComplainItemRepository _complainItemRepository;
@@ -26,12 +27,14 @@ namespace Lte.Evaluations.DataService.Kpi
 
         public KpiImportService(ICdmaRegionStatRepository regionStatRepository,
             ITopDrop2GCellRepository top2GRepository, ITopConnection3GRepository top3GRepository,
+            ITopConnection2GRepository topConnection2GRepository,
             IDownSwitchFlowRepository downSwitchRepository, IVipDemandRepository vipDemandRepository,
             IComplainItemRepository complainItemRepository, ITownRepository townRepository)
         {
             _regionStatRepository = regionStatRepository;
             _top2GRepository = top2GRepository;
             _top3GRepository = top3GRepository;
+            _topConnection2GRepository = topConnection2GRepository;
             _downSwitchRepository = downSwitchRepository;
             _vipDemandRepository = vipDemandRepository;
             _complainItemRepository = complainItemRepository;
@@ -46,16 +49,26 @@ namespace Lte.Evaluations.DataService.Kpi
                     select c).ToList()
                 let count = _regionStatRepository.Import<ICdmaRegionStatRepository, CdmaRegionStat, CdmaRegionStatExcel>(stats)
                 select "完成导入区域：'" + region + "'的日常指标导入" + count + "条").ToList();
+
             var topDrops = (from c in factory.Worksheet<TopDrop2GCellExcel>(TopDrop2GCellExcel.SheetName)
                             select c).ToList();
             var drops = _top2GRepository.Import<ITopDrop2GCellRepository, TopDrop2GCell, TopDrop2GCellExcel>(topDrops);
             message.Add("完成TOP掉话小区导入" + drops + "个");
+
             var topConnections = (from c in factory.Worksheet<TopConnection3GCellExcel>(TopConnection3GCellExcel.SheetName)
                                   select c).ToList();
             var connections =
                 _top3GRepository.Import<ITopConnection3GRepository, TopConnection3GCell, TopConnection3GCellExcel>(
                     topConnections);
             message.Add("完成TOP连接小区导入" + connections + "个");
+
+            var topConnection2Gs = (from c in factory.Worksheet<TopConnection2GExcel>(TopConnection2GExcel.SheetName)
+                select c).ToList();
+            var connection2Gs =
+                _topConnection2GRepository.Import<ITopConnection2GRepository, TopConnection2GCell, TopConnection2GExcel>
+                    (topConnection2Gs);
+            message.Add("完成TOP呼建小区导入" + connection2Gs + "个");
+
             return message;
         }
 
