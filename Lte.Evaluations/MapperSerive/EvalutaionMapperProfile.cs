@@ -16,6 +16,9 @@ namespace Lte.Evaluations.MapperSerive
 
         protected override void Configure()
         {
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
+
             InfrastructureMapperService.MapCdmaCell();
             InfrastructureMapperService.MapCell();
             InfrastructureMapperService.MapHoParametersService();
@@ -33,9 +36,6 @@ namespace Lte.Evaluations.MapperSerive
             BaiduMapperService.MapCdmaCellView();
             BaiduMapperService.MapCellView();
             BaiduMapperService.MapDtViews();
-            
-            var module = new AbpAutoMapperModule(_typeFinder);
-            module.PostInitialize();
         }
     }
 }

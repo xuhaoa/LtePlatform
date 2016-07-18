@@ -198,6 +198,10 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.StatTime, opt => opt.MapFrom(s => s.StatDate.AddHours(s.StatHour)))
                 .ForMember(d => d.CellId,
                     opt => opt.MapFrom(s => s.CellName.GetSubStringInFirstPairOfChars('[', ']').ConvertToInt(1)));
+            Mapper.CreateMap<TopConnection2GExcel, TopConnection2GCell>()
+                .ForMember(d => d.StatTime, opt => opt.MapFrom(s => s.StatDate.AddHours(s.StatHour)))
+                .ForMember(d => d.CellId,
+                    opt => opt.MapFrom(s => s.CellName.GetSubStringInFirstPairOfChars('[', ']').ConvertToInt(1)));
         }
 
         public static void MapWorkItem()

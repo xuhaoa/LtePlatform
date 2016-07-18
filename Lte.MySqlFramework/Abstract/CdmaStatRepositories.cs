@@ -21,6 +21,12 @@ namespace Lte.MySqlFramework.Abstract
         List<TopDrop2GCell> GetAllList(string city, DateTime begin, DateTime end);
     }
 
+    public interface ITopConnection2GRepository : IRepository<TopConnection2GCell>,
+        IMatchRepository<TopConnection2GCell, TopConnection2GExcel>, ISaveChanges
+    {
+        List<TopConnection2GCell> GetAllList(string city, DateTime begin, DateTime end);
+    }
+
     public interface ITopConnection3GRepository : IRepository<TopConnection3GCell>,
         IMatchRepository<TopConnection3GCell, TopConnection3GCellExcel>, ISaveChanges
     {

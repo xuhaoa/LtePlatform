@@ -126,13 +126,13 @@
     <Compile Include="Entities\TopConnection3GCell.cs" />
     <Compile Include="Entities\TopDrop2GCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201607080614128_Update_CollegeYearInfo.cs" />
-    <Compile Include="Migrations\201607080614128_Update_CollegeYearInfo.Designer.cs">
-      <DependentUpon>201607080614128_Update_CollegeYearInfo.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201607150609084_Construct_ComplainItem.cs" />
     <Compile Include="Migrations\201607150609084_Construct_ComplainItem.Designer.cs">
       <DependentUpon>201607150609084_Construct_ComplainItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607180641597_Change_CdmaKpi_MySql.cs" />
+    <Compile Include="Migrations\201607180641597_Change_CdmaKpi_MySql.Designer.cs">
+      <DependentUpon>201607180641597_Change_CdmaKpi_MySql.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,11 +142,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607080614128_Update_CollegeYearInfo.resx">
-      <DependentUpon>201607080614128_Update_CollegeYearInfo.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607150609084_Construct_ComplainItem.resx">
       <DependentUpon>201607150609084_Construct_ComplainItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607180641597_Change_CdmaKpi_MySql.resx">
+      <DependentUpon>201607180641597_Change_CdmaKpi_MySql.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

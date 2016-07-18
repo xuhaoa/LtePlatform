@@ -76,6 +76,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<ITopConnection3GRepository>().To<EFTopConnection3GRepository>();
 
+            ninjectKernel.Bind<ITopConnection2GRepository>().To<EFTopConnection2GRepository>();
+
             ninjectKernel.Bind<ITownPreciseCoverage4GStatRepository>().To<EFTownPreciseCoverage4GStatRepository>();
 
             ninjectKernel.Bind<IAreaTestDateRepository>().To<MasterAreaTestDateDateRepository>();

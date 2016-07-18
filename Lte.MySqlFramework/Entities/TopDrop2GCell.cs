@@ -35,7 +35,7 @@ namespace Lte.MySqlFramework.Entities
         public int CallAttempts { get; set; }
     }
 
-    public class TopConnection2GCell
+    public class TopConnection2GCell : Entity
     {
         public DateTime StatTime { get; set; }
 

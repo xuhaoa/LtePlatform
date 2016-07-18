@@ -82,4 +82,27 @@ namespace Lte.MySqlFramework.Concrete
             return FirstOrDefault(x => x.BtsId == stat.BtsId && x.SectorId == stat.SectorId && x.StatTime == time);
         }
     }
+
+    public class EFTopConnection2GRepository : EfRepositoryBase<MySqlContext, TopConnection2GCell>, ITopConnection2GRepository
+    {
+        public List<TopConnection2GCell> GetAllList(string city, DateTime begin, DateTime end)
+        {
+            return GetAll().Where(x => x.StatTime >= begin && x.StatTime < end && x.City == city).ToList();
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+
+        public EFTopConnection2GRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public TopConnection2GCell Match(TopConnection2GExcel stat)
+        {
+            var time = stat.StatDate.AddHours(stat.StatHour);
+            return FirstOrDefault(x => x.BtsId == stat.BtsId && x.SectorId == stat.SectorId && x.StatTime == time);
+        }
+    }
 }
