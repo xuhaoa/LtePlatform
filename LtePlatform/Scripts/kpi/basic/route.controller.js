@@ -77,19 +77,29 @@
         $rootScope.closeAlert = function (index) {
             $rootScope.page.messages.splice(index, 1);
         };
+        var lastWeek = new Date();
+        lastWeek.setDate(lastWeek.getDate() - 7);
+        $rootScope.beginDate = {
+            value: lastWeek,
+            opened: false
+        };
+        $rootScope.endDate = {
+            value: new Date(),
+            opened: false
+        };
 
         appRegionService.initializeCities()
             .then(function (result) {
-                angular.forEach(result, function(district) {
+                angular.forEach(result, function(city) {
                     menuItemService.updateMenuItem($rootScope.menuItems, 0,
-                        "指标变化趋势-" + district,
-                        $rootScope.rootPath + "trend/" + district);
+                        "指标变化趋势-" + city,
+                        $rootScope.rootPath + "trend/" + city);
                     menuItemService.updateMenuItem($rootScope.menuItems, 1,
-                        "TOP掉话变化趋势-" + district,
-                        $rootScope.rootPath + "topDrop2GTrend/" + district);
+                        "TOP掉话变化趋势-" + city,
+                        $rootScope.rootPath + "topDrop2GTrend/" + city);
                     menuItemService.updateMenuItem($rootScope.menuItems, 1,
-                        "TOP连接成功率变化趋势-" + district,
-                        $rootScope.rootPath + "topConnection3GTrend/" + district);
+                        "TOP连接成功率变化趋势-" + city,
+                        $rootScope.rootPath + "topConnection3GTrend/" + city);
                 });
             });
     });
