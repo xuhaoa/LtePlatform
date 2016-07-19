@@ -100,6 +100,16 @@ namespace Lte.Evaluations.DataService
             return true;
         }
 
+        public void ClearDumpItems()
+        {
+            WorkItemInfos.Clear();
+        }
+
+        public int QueryDumpItems()
+        {
+            return WorkItemInfos.Count;
+        }
+
         public int QueryTotalItems(string statCondition, string typeCondition)
         {
             var predict = (statCondition + '_' + typeCondition).GetWorkItemFilter();

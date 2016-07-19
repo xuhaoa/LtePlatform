@@ -463,6 +463,7 @@
     <Content Include="appViews\Home\Network.html" />
     <Content Include="appViews\Home\WorkItem.html" />
     <Content Include="appViews\Import\ImportProgress.html" />
+    <Content Include="appViews\Import\Precise\WorkItem.html" />
     <Content Include="appViews\Manage\AllUsers.html" />
     <Content Include="appViews\Manage\CurrentUser.html" />
     <Content Include="appViews\Manage\ForgotPassword.html" />
@@ -1598,6 +1599,7 @@
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
     <Content Include="Scripts\jcs-auto-validate.js" />
     <Content Include="Scripts\jcs-auto-validate.min.js" />
+    <Content Include="Scripts\kpi\workitem.import.js" />
     <Content Include="Scripts\mycharts\areaChart.js" />
     <Content Include="Scripts\mycharts\gaugeMeter.js" />
     <Content Include="Scripts\mycharts\timeSeriesLine.js" />

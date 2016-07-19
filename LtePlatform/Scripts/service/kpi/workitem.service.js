@@ -61,9 +61,6 @@
                     comments: comments
                 });
             },
-            dumpOneItem: function() {
-                return generalHttpService.putApiData('WorkItem', {});
-            },
             queryByENodebId: function (eNodebId) {
                 return generalHttpService.getApiDataWithHeading('WorkItem', {
                     eNodebId: eNodebId
@@ -84,6 +81,19 @@
                     begin: begin,
                     end: end
                 });
+            }
+        };
+    })
+    .factory('dumpWorkItemService', function(generalHttpService) {
+        return {
+            dumpSingleItem: function() {
+                return generalHttpService.putApiData('DumpWorkItem', {});
+            },
+            clearItems: function() {
+                return generalHttpService.deleteApiData('DumpWorkItem');
+            },
+            queryTotalDumpItems: function() {
+                return generalHttpService.getApiData('DumpWorkItem', {});
             }
         };
     })

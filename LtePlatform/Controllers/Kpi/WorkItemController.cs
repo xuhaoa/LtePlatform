@@ -181,5 +181,17 @@ namespace LtePlatform.Controllers.Kpi
         {
             return await _service.DumpOne();
         }
+
+        [HttpDelete]
+        public void Delete()
+        {
+            _service.ClearDumpItems();
+        }
+
+        [HttpGet]
+        public int Get()
+        {
+            return _service.QueryDumpItems();
+        }
     }
 }
