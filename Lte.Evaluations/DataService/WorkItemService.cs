@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToExcel;
 using Lte.Evaluations.Policy;
@@ -58,27 +59,36 @@ namespace Lte.Evaluations.DataService
             return _repository.SaveChanges();
         }
 
+        private static Stack<WorkItemExcel> WorkItemInfos { get; }=new Stack<WorkItemExcel>();
+
         public string ImportExcelFiles(string path)
         {
             var factory = new ExcelQueryFactory { FileName = path };
             const string sheetName = "工单查询结果";
             var infos = (from c in factory.Worksheet<WorkItemExcel>(sheetName)
                         select c).ToList();
-            var oldInfos = from info in infos
-                join item in _repository.GetAllList() on info.SerialNumber equals item.SerialNumber
-                select info;
-            var newInfos = infos.Except(oldInfos).ToList();
-            var newItems = Mapper.Map<List<WorkItemExcel>, IEnumerable<WorkItem>>(newInfos);
-            foreach (var oldInfo in oldInfos)
+            WorkItemInfos.Clear();
+            foreach (var info in infos)
             {
-                _repository.Import(oldInfo);
+                WorkItemInfos.Push(info);
+                //var item = _repository.FirstOrDefault(x => x.SerialNumber == info.SerialNumber);
+                //if (item != null)
+                //{
+                //    if (info.FeedbackTime > item.FeedbackTime)
+                //        item.FeedbackTime = info.FeedbackTime;
+                //    item.FinishTime = info.FinishTime;
+                //    item.RejectTimes = info.RejectTimes;
+                //    item.RepeatTimes = info.RepeatTimes;
+                //    item.State = info.StateDescription.GetEnumType<WorkItemState>();
+                //    _repository.Update(item);
+                //}
+                //else
+                //{
+                //    _repository.Insert(Mapper.Map<WorkItemExcel, WorkItem>(info));
+                //}
             }
-            foreach (var item in newItems)
-            {
-                _repository.Insert(item);
-            }
-            var count = _repository.SaveChanges();
-            return "完成工单导入：" + count + "条";
+
+            return "完成工单读取：" + WorkItemInfos.Count + "条";
         }
 
         public int QueryTotalItems(string statCondition, string typeCondition)

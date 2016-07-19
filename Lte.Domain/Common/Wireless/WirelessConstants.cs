@@ -340,7 +340,11 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(WorkItemState.Processing, "待处理"),
                     new Tuple<object, string>(WorkItemState.Processed, "待归档"),
                     new Tuple<object, string>(WorkItemState.Finished, "已归档"),
-                    new Tuple<object, string>(WorkItemState.ToBeSigned, "待签单")
+                    new Tuple<object, string>(WorkItemState.ToBeSigned, "待签单"),
+                    new Tuple<object, string>(WorkItemState.Processing, "处理"),
+                    new Tuple<object, string>(WorkItemState.Processing, "任务处理"),  
+                    new Tuple<object, string>(WorkItemState.Auditing, "审核"), 
+                    new Tuple<object, string>(WorkItemState.Auditing, "回单审核"), 
                 }
             },
             {

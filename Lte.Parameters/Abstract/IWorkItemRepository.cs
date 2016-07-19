@@ -10,8 +10,6 @@ namespace Lte.Parameters.Abstract
 {
     public interface IWorkItemRepository : IPagingRepository<WorkItem>
     {
-        void Import(WorkItemExcel itemExcel);
-
         Task<List<WorkItem>> GetAllListAsync(int eNodebId, byte sectorId);
 
         Task<List<WorkItem>> GetAllListAsync(int eNodebId);

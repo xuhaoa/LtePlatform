@@ -96,7 +96,8 @@ namespace Lte.Domain.Common.Wireless
         Processing,
         Processed,
         Finished,
-        ToBeSigned
+        ToBeSigned,
+        Auditing
     }
 
     [EnumTypeDescription(typeof(WorkItemCause), Others)]
