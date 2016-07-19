@@ -43,7 +43,7 @@
             </div>
         </div>
         <div ng-repeat="k in kpi.options">
-            <highchart config="configs[k]" ng-show="k === kpi.selected"></highchart>
+            <div id="kpi-{{$index}}" ng-show="k === kpi.selected"></div>
         </div>
     </div>
 </div>
