@@ -61,6 +61,9 @@
                     comments: comments
                 });
             },
+            dumpOneItem: function() {
+                return generalHttpService.putApiData('WorkItem', {});
+            },
             queryByENodebId: function (eNodebId) {
                 return generalHttpService.getApiDataWithHeading('WorkItem', {
                     eNodebId: eNodebId

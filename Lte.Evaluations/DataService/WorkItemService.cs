@@ -71,24 +71,33 @@ namespace Lte.Evaluations.DataService
             foreach (var info in infos)
             {
                 WorkItemInfos.Push(info);
-                //var item = _repository.FirstOrDefault(x => x.SerialNumber == info.SerialNumber);
-                //if (item != null)
-                //{
-                //    if (info.FeedbackTime > item.FeedbackTime)
-                //        item.FeedbackTime = info.FeedbackTime;
-                //    item.FinishTime = info.FinishTime;
-                //    item.RejectTimes = info.RejectTimes;
-                //    item.RepeatTimes = info.RepeatTimes;
-                //    item.State = info.StateDescription.GetEnumType<WorkItemState>();
-                //    _repository.Update(item);
-                //}
-                //else
-                //{
-                //    _repository.Insert(Mapper.Map<WorkItemExcel, WorkItem>(info));
-                //}
+               
             }
 
             return "完成工单读取：" + WorkItemInfos.Count + "条";
+        }
+
+        public async Task<bool> DumpOne()
+        {
+            var info = WorkItemInfos.Pop();
+            if (info == null) return false;
+            var item = _repository.FirstOrDefault(x => x.SerialNumber == info.SerialNumber);
+            if (item != null)
+            {
+                if (info.FeedbackTime > item.FeedbackTime)
+                    item.FeedbackTime = info.FeedbackTime;
+                item.FinishTime = info.FinishTime;
+                item.RejectTimes = info.RejectTimes;
+                item.RepeatTimes = info.RepeatTimes;
+                item.State = info.StateDescription.GetEnumType<WorkItemState>();
+                await _repository.UpdateAsync(item);
+            }
+            else
+            {
+                await _repository.InsertAsync(Mapper.Map<WorkItemExcel, WorkItem>(info));
+            }
+            _repository.SaveChanges();
+            return true;
         }
 
         public int QueryTotalItems(string statCondition, string typeCondition)

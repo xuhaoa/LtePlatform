@@ -166,4 +166,20 @@ namespace LtePlatform.Controllers.Kpi
             return await _service.QueryTotalItemsThisMonth();
         }
     }
+
+    public class DumpWorkItemController : ApiController
+    {
+        private readonly WorkItemService _service;
+
+        public DumpWorkItemController(WorkItemService service)
+        {
+            _service = service;
+        }
+
+        [HttpPut]
+        public async Task<bool> Put()
+        {
+            return await _service.DumpOne();
+        }
+    }
 }
