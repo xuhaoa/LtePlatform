@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lte.Domain.Common.Wireless
 {
@@ -193,91 +190,191 @@ namespace Lte.Domain.Common.Wireless
                 }
             },
             {
-                "ComplainSource", new []
+                "ComplainSource", new[]
                 {
-                    new Tuple<object, string>(ComplainSource.Number10000, "10000号"), 
-                    new Tuple<object, string>(ComplainSource.Qq, "10000号QQ客服"), 
+                    new Tuple<object, string>(ComplainSource.Number10000, "10000号"),
+                    new Tuple<object, string>(ComplainSource.Qq, "10000号QQ客服"),
                     new Tuple<object, string>(ComplainSource.Weixin, "10000号微信客服"),
                     new Tuple<object, string>(ComplainSource.Voice, "10000号语音呼入"),
-                    new Tuple<object, string>(ComplainSource.BranchService, "分公司客服中心"),  
-                    new Tuple<object, string>(ComplainSource.Others, "其他"),  
-                    new Tuple<object, string>(ComplainSource.Wangting, "网厅"), 
-                    new Tuple<object, string>(ComplainSource.Zhangting, "掌厅"), 
-                    new Tuple<object, string>(ComplainSource.Yingyeting, "营业厅"), 
+                    new Tuple<object, string>(ComplainSource.BranchService, "分公司客服中心"),
+                    new Tuple<object, string>(ComplainSource.Others, "其他"),
+                    new Tuple<object, string>(ComplainSource.Wangting, "网厅"),
+                    new Tuple<object, string>(ComplainSource.Zhangting, "掌厅"),
+                    new Tuple<object, string>(ComplainSource.Yingyeting, "营业厅"),
                     new Tuple<object, string>(ComplainSource.Unknown, "未知")
                 }
             },
             {
-                "CustomerType", new []
+                "CustomerType", new[]
                 {
-                    new Tuple<object, string>(CustomerType.Individual, "个人客户"), 
-                    new Tuple<object, string>(CustomerType.Family, "家庭客户"), 
+                    new Tuple<object, string>(CustomerType.Individual, "个人客户"),
+                    new Tuple<object, string>(CustomerType.Family, "家庭客户"),
                     new Tuple<object, string>(CustomerType.Company, "政企客户"),
-                    new Tuple<object, string>(CustomerType.Unknown, "未知"),  
+                    new Tuple<object, string>(CustomerType.Unknown, "未知"),
                 }
             },
             {
-                "ComplainReason", new []
+                "ComplainReason", new[]
                 {
-                    new Tuple<object, string>(ComplainReason.OutOfBuisiness, "错派或非本专业"), 
-                    new Tuple<object, string>(ComplainReason.SubscriberProblem, "客户侧问题"), 
-                    new Tuple<object, string>(ComplainReason.OtherMalfunction, "其他原因导致故障"), 
-                    new Tuple<object, string>(ComplainReason.NetworkMalfunction, "网络设备故障"), 
-                    new Tuple<object, string>(ComplainReason.NetworkOptimize, "网络优化调整"), 
-                    new Tuple<object, string>(ComplainReason.UnConfirmed, "未确认"), 
+                    new Tuple<object, string>(ComplainReason.OutOfBuisiness, "错派或非本专业"),
+                    new Tuple<object, string>(ComplainReason.SubscriberProblem, "客户侧问题"),
+                    new Tuple<object, string>(ComplainReason.OtherMalfunction, "其他原因导致故障"),
+                    new Tuple<object, string>(ComplainReason.NetworkMalfunction, "网络设备故障"),
+                    new Tuple<object, string>(ComplainReason.NetworkOptimize, "网络优化调整"),
+                    new Tuple<object, string>(ComplainReason.UnConfirmed, "未确认"),
                     new Tuple<object, string>(ComplainReason.BiqianMalfunction, "物业逼迁导致故障"),
                     new Tuple<object, string>(ComplainReason.NeedNewSite, "需新增资源"),
                     new Tuple<object, string>(ComplainReason.NeedNewSite, "新增资源"),
-                    new Tuple<object, string>(ComplainReason.CustomerReservation, "预约客户"), 
+                    new Tuple<object, string>(ComplainReason.CustomerReservation, "预约客户"),
                     new Tuple<object, string>(ComplainReason.Unknown, "未知原因")
                 }
             },
             {
-                "ComplainSubReason", new []
+                "ComplainSubReason", new[]
                 {
-                    new Tuple<object, string>(ComplainSubReason.Biqian, "逼迁关停"), 
-                    new Tuple<object, string>(ComplainSubReason.ParameterAdjust, "参数调整"), 
-                    new Tuple<object, string>(ComplainSubReason.OutOfBuisiness, "非本专业原因"), 
-                    new Tuple<object, string>(ComplainSubReason.NothingWithNetwork, "非网络质量投诉"), 
-                    new Tuple<object, string>(ComplainSubReason.BaseStationMalfunction, "基站设备故障"), 
-                    new Tuple<object, string>(ComplainSubReason.WrongDestination, "申告地错派"), 
-                    new Tuple<object, string>(ComplainSubReason.OutInterference, "外部干扰"), 
-                    new Tuple<object, string>(ComplainSubReason.ProjectNotBegin, "未立项"), 
-                    new Tuple<object, string>(ComplainSubReason.UnableToConfirmCustomer, "无法与用户确认"), 
-                    new Tuple<object, string>(ComplainSubReason.WuyeProblem, "物业阻挠"), 
-                    new Tuple<object, string>(ComplainSubReason.WrongReasonJustified, "业务表象错派"), 
-                    new Tuple<object, string>(ComplainSubReason.RecoverButUnknownReason, "业务恢复但原因未知"), 
-                    new Tuple<object, string>(ComplainSubReason.EmergencyOptimization, "应急优化解决"), 
-                    new Tuple<object, string>(ComplainSubReason.SubscriberFeeling, "用户感知问题"), 
-                    new Tuple<object, string>(ComplainSubReason.SubscriberTerminal, "用户感知问题"), 
-                    new Tuple<object, string>(ComplainSubReason.ReservationTest, "预约客户测试"), 
-                    new Tuple<object, string>(ComplainSubReason.Others, "其他原因"), 
+                    new Tuple<object, string>(ComplainSubReason.Biqian, "逼迁关停"),
+                    new Tuple<object, string>(ComplainSubReason.ParameterAdjust, "参数调整"),
+                    new Tuple<object, string>(ComplainSubReason.OutOfBuisiness, "非本专业原因"),
+                    new Tuple<object, string>(ComplainSubReason.NothingWithNetwork, "非网络质量投诉"),
+                    new Tuple<object, string>(ComplainSubReason.BaseStationMalfunction, "基站设备故障"),
+                    new Tuple<object, string>(ComplainSubReason.WrongDestination, "申告地错派"),
+                    new Tuple<object, string>(ComplainSubReason.OutInterference, "外部干扰"),
+                    new Tuple<object, string>(ComplainSubReason.ProjectNotBegin, "未立项"),
+                    new Tuple<object, string>(ComplainSubReason.UnableToConfirmCustomer, "无法与用户确认"),
+                    new Tuple<object, string>(ComplainSubReason.WuyeProblem, "物业阻挠"),
+                    new Tuple<object, string>(ComplainSubReason.WrongReasonJustified, "业务表象错派"),
+                    new Tuple<object, string>(ComplainSubReason.RecoverButUnknownReason, "业务恢复但原因未知"),
+                    new Tuple<object, string>(ComplainSubReason.EmergencyOptimization, "应急优化解决"),
+                    new Tuple<object, string>(ComplainSubReason.SubscriberFeeling, "用户感知问题"),
+                    new Tuple<object, string>(ComplainSubReason.SubscriberTerminal, "用户感知问题"),
+                    new Tuple<object, string>(ComplainSubReason.ReservationTest, "预约客户测试"),
+                    new Tuple<object, string>(ComplainSubReason.Others, "其他原因"),
                 }
             },
             {
-                "ComplainScene", new []
+                "ComplainScene", new[]
                 {
-                    new Tuple<object, string>(ComplainScene.BetweenCityAndVillage, "城乡结合部"), 
-                    new Tuple<object, string>(ComplainScene.VillageInCity, "城中村"), 
+                    new Tuple<object, string>(ComplainScene.BetweenCityAndVillage, "城乡结合部"),
+                    new Tuple<object, string>(ComplainScene.VillageInCity, "城中村"),
                     new Tuple<object, string>(ComplainScene.SubRailway, "地铁"),
                     new Tuple<object, string>(ComplainScene.TransportationRoutine, "交通要道"),
-                    new Tuple<object, string>(ComplainScene.College, "校园"),   
+                    new Tuple<object, string>(ComplainScene.College, "校园"),
                     new Tuple<object, string>(ComplainScene.CenterOfCity, "中心市区"),
-                    new Tuple<object, string>(ComplainScene.ImportantRegion, "重要区域"), 
-                    new Tuple<object, string>(ComplainScene.Residential, "住宅小区"),  
+                    new Tuple<object, string>(ComplainScene.ImportantRegion, "重要区域"),
+                    new Tuple<object, string>(ComplainScene.Residential, "住宅小区"),
                     new Tuple<object, string>(ComplainScene.Others, "其他")
                 }
             },
             {
-                "ComplainCategory", new []
+                "ComplainCategory", new[]
                 {
                     new Tuple<object, string>(ComplainCategory.LowSpeed3G, "3G-网速慢"),
-                    new Tuple<object, string>(ComplainCategory.WeakCoverage3G, "3G-无信号或信号弱"), 
+                    new Tuple<object, string>(ComplainCategory.WeakCoverage3G, "3G-无信号或信号弱"),
                     new Tuple<object, string>(ComplainCategory.LowSpeed4G, "4G-网速慢"),
-                    new Tuple<object, string>(ComplainCategory.WeakCoverage4G, "4G-无信号或信号弱"), 
-                    new Tuple<object, string>(ComplainCategory.BadQualityVoice, "语音-通话质量差"),  
-                    new Tuple<object, string>(ComplainCategory.WeakCoverageVoice, "语音-无信号或信号弱"), 
+                    new Tuple<object, string>(ComplainCategory.WeakCoverage4G, "4G-无信号或信号弱"),
+                    new Tuple<object, string>(ComplainCategory.BadQualityVoice, "语音-通话质量差"),
+                    new Tuple<object, string>(ComplainCategory.WeakCoverageVoice, "语音-无信号或信号弱"),
                     new Tuple<object, string>(ComplainCategory.Others, "其他")
+                }
+            },
+            {
+                "WorkItemType", new[]
+                {
+                    new Tuple<object, string>(WorkItemType.Infrastructure4G, "4G基础数据"),
+                    new Tuple<object, string>(WorkItemType.Interference4G, "4G干扰故障"),
+                    new Tuple<object, string>(WorkItemType.Kpi2G, "2G性能故障"),
+                    new Tuple<object, string>(WorkItemType.Kpi4G, "4G性能故障"),
+                    new Tuple<object, string>(WorkItemType.NetworkProblem, "网元故障"),
+                    new Tuple<object, string>(WorkItemType.RrcConnection, "RRC连接成功率恶化"),
+                    new Tuple<object, string>(WorkItemType.Others, "其他类型"),
+                    new Tuple<object, string>(WorkItemType.DailyTask, "日常网优作业计划"),
+                    new Tuple<object, string>(WorkItemType.DailyReport, "日报"),
+                    new Tuple<object, string>(WorkItemType.Yilutong, "翼路通"),
+                    new Tuple<object, string>(WorkItemType.KeySite, "省-集团测试保障-关键站点清单收集"),
+                    new Tuple<object, string>(WorkItemType.SelfConstruction, "自建工单")
+                }
+            },
+            {
+                "WorkItemSubtype", new[]
+                {
+                    new Tuple<object, string>(WorkItemSubtype.CallSetup, "小区级呼叫建立成功率异常"),
+                    new Tuple<object, string>(WorkItemSubtype.DataMaintainence, "数据维护"),
+                    new Tuple<object, string>(WorkItemSubtype.Drop2G, "小区级掉话率异常"),
+                    new Tuple<object, string>(WorkItemSubtype.ErabConnection, "小区级E-RAB建立成功率异常"),
+                    new Tuple<object, string>(WorkItemSubtype.ErabDrop, "小区级E-RAB掉线率异常"),
+                    new Tuple<object, string>(WorkItemSubtype.PrbUplinkInterference, "PRB上行控制信道干扰"),
+                    new Tuple<object, string>(WorkItemSubtype.PrbUplinkSevereInterference, "PRB上行控制信道严重干扰"),
+                    new Tuple<object, string>(WorkItemSubtype.PreciseRate, "小区级精确覆盖率异常"),
+                    new Tuple<object, string>(WorkItemSubtype.RrcConnection, "小区级RRC连接成功率恶化"),
+                    new Tuple<object, string>(WorkItemSubtype.Rssi, "RSSI故障"),
+                    new Tuple<object, string>(WorkItemSubtype.UplinkInterference, "小区级上行干扰"),
+                    new Tuple<object, string>(WorkItemSubtype.UplinkSevereInterference, "小区级上行严重干扰"),
+                    new Tuple<object, string>(WorkItemSubtype.Others, "其他类型"),
+                    new Tuple<object, string>(WorkItemSubtype.AutomaticDt, "自动路测系统管理"),
+                    new Tuple<object, string>(WorkItemSubtype.ResourceOptimize, "资源调优管理"),
+                    new Tuple<object, string>(WorkItemSubtype.ProjectOptimization, "专题专项优化"),
+                    new Tuple<object, string>(WorkItemSubtype.CommunicationSustain, "重大通信保障"),
+                    new Tuple<object, string>(WorkItemSubtype.OptimizationWorkItem, "优化工单处理"),
+                    new Tuple<object, string>(WorkItemSubtype.KpiAlarm, "性能监控预警"),
+                    new Tuple<object, string>(WorkItemSubtype.RectifyDemand, "网优整改需求管理"),
+                    new Tuple<object, string>(WorkItemSubtype.NetworkPlan, "网络规划选址"),
+                    new Tuple<object, string>(WorkItemSubtype.SpecialData, "特殊数据更新"),
+                    new Tuple<object, string>(WorkItemSubtype.Dispossessed, "逼迁应急优化"),
+                    new Tuple<object, string>(WorkItemSubtype.ParameterCheck, "参数核查优化"),
+                    new Tuple<object, string>(WorkItemSubtype.ClusterRf, "簇射频优化"),
+                    new Tuple<object, string>(WorkItemSubtype.CoverageEvaluation, "覆盖系统评估"),
+                    new Tuple<object, string>(WorkItemSubtype.InterferenceCheck, "干扰排查整治"),
+                    new Tuple<object, string>(WorkItemSubtype.EngineeringOptimization, "工程优化管理"),
+                    new Tuple<object, string>(WorkItemSubtype.PlanDemandLibrary, "规划需求库管理"),
+                    new Tuple<object, string>(WorkItemSubtype.EngineeringParameters, "基站工参维护"),
+                    new Tuple<object, string>(WorkItemSubtype.MarketSustain, "市场支撑保障"),
+                    new Tuple<object, string>(WorkItemSubtype.CapacityEvaluation, "容量系统评估"),
+                    new Tuple<object, string>(WorkItemSubtype.CustomerComplain, "客户投诉处理"),
+                    new Tuple<object, string>(WorkItemSubtype.WeeklyAnalysis, "每周质量分析"),
+                    new Tuple<object, string>(WorkItemSubtype.DailyTest, "日常测试管理")
+                }
+            },
+            {
+                "WorkItemState", new[]
+                {
+                    new Tuple<object, string>(WorkItemState.Processing, "待处理"),
+                    new Tuple<object, string>(WorkItemState.Processed, "待归档"),
+                    new Tuple<object, string>(WorkItemState.Finished, "已归档"),
+                    new Tuple<object, string>(WorkItemState.ToBeSigned, "待签单")
+                }
+            },
+            {
+                "WorkItemCause", new[]
+                {
+                    new Tuple<object, string>(WorkItemCause.Antenna, "天线问题"),
+                    new Tuple<object, string>(WorkItemCause.AntennaFeedline, "天馈器件异常"),
+                    new Tuple<object, string>(WorkItemCause.ApplianceProblem, "设备故障"),
+                    new Tuple<object, string>(WorkItemCause.FeedAppliance, "馈线链接器件问题"),
+                    new Tuple<object, string>(WorkItemCause.HardSwitch, "硬切换问题"),
+                    new Tuple<object, string>(WorkItemCause.ImproperPower, "功率不合理"),
+                    new Tuple<object, string>(WorkItemCause.IndoorDistribution, "室分器件异常"),
+                    new Tuple<object, string>(WorkItemCause.InterferenceCoverage, "干扰覆盖问题"),
+                    new Tuple<object, string>(WorkItemCause.InvisibleAlarm, "主设备隐性故障"),
+                    new Tuple<object, string>(WorkItemCause.Jamming, "拥塞"),
+                    new Tuple<object, string>(WorkItemCause.MainAlarm, "主设备障碍告警"),
+                    new Tuple<object, string>(WorkItemCause.NeighborCell, "邻区漏配"),
+                    new Tuple<object, string>(WorkItemCause.Others, "其他"),
+                    new Tuple<object, string>(WorkItemCause.Others, "其它"),
+                    new Tuple<object, string>(WorkItemCause.Others, "其它原因"),
+                    new Tuple<object, string>(WorkItemCause.OuterInterference, "外界干扰"),
+                    new Tuple<object, string>(WorkItemCause.OuterInterference, "网络外部干扰"),
+                    new Tuple<object, string>(WorkItemCause.OverCoverage, "越区覆盖"),
+                    new Tuple<object, string>(WorkItemCause.OverCoverage, "越区覆盖问题"),
+                    new Tuple<object, string>(WorkItemCause.Overload, "负荷过载"),
+                    new Tuple<object, string>(WorkItemCause.PagingChannelBusy, "寻呼信道负荷高"),
+                    new Tuple<object, string>(WorkItemCause.ParameterConfig, "参数配置错误"),
+                    new Tuple<object, string>(WorkItemCause.PilotPolution, "导频污染"),
+                    new Tuple<object, string>(WorkItemCause.ResouceJamming, "资源拥塞"),
+                    new Tuple<object, string>(WorkItemCause.Rssi, "RSSI异常"),
+                    new Tuple<object, string>(WorkItemCause.TrunkProblem, "传输故障"),
+                    new Tuple<object, string>(WorkItemCause.WeakCoverage, "弱覆盖"),
+                    new Tuple<object, string>(WorkItemCause.WeakCoverage, "弱覆盖问题"),
+                    new Tuple<object, string>(WorkItemCause.WrongDownTilt, "下倾角错误")
                 }
             }
         };

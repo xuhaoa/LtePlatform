@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.EntityFramework;
 using AutoMapper;
+using Lte.Domain.Common.Wireless;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Entities.Work;
 

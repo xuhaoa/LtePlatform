@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using Lte.Domain.Common;
-using Lte.Domain.Regular;
+using Lte.Domain.Common.Wireless;
 using Lte.Parameters.Entities.Work;
 
 namespace Lte.Parameters.MockOperations
@@ -15,8 +11,8 @@ namespace Lte.Parameters.MockOperations
         protected override WorkItem ConvertCore(WorkItemExcel source)
         {
             var result = Mapper.Map<WorkItem>(source);
-            result.Cause = source.CauseDescription.GetWorkItemCause();
-            result.State = source.StateDescription.GetState();
+            result.Cause = source.CauseDescription.GetEnumType<WorkItemCause>();
+            result.State = source.StateDescription.GetEnumType<WorkItemState>();
 
             var title = source.Title ?? "";
             var typeFields = title.Split('_');
@@ -24,25 +20,25 @@ namespace Lte.Parameters.MockOperations
             var titleFields2 = title.GetSplittedFields("—");
             if (typeFields.Length > 3)
             {
-                result.Type = typeFields[1].GetWorkItemType();
-                result.Subtype = typeFields[2].GetWorkItemSubtype();
+                result.Type = typeFields[1].GetEnumType<WorkItemType>();
+                result.Subtype = typeFields[2].GetEnumType<WorkItemSubtype>();
                 result.FeedbackContents = "[" + DateTime.Now + "]创建信息：" + typeFields[3];
             }
             else if (typeFields.Length == 3)
             {
-                result.Type = typeFields[1].GetWorkItemType();
+                result.Type = typeFields[1].GetEnumType<WorkItemType>();
                 result.Subtype = WorkItemSubtype.Others;
                 result.FeedbackContents = "[" + DateTime.Now + "]创建信息：" + typeFields[2];
             }
             else if (titleFields.Length == 2)
             {
-                result.Type = titleFields[0].GetWorkItemType();
+                result.Type = titleFields[0].GetEnumType<WorkItemType>();
                 result.Subtype = WorkItemSubtype.Others;
                 result.FeedbackContents = "[" + DateTime.Now + "]创建信息：" + titleFields[1];
             }
             else if (titleFields2.Length == 2)
             {
-                result.Type = titleFields2[0].GetWorkItemType();
+                result.Type = titleFields2[0].GetEnumType<WorkItemType>();
                 result.Subtype = WorkItemSubtype.Others;
                 result.FeedbackContents = "[" + DateTime.Now + "]创建信息：" + titleFields2[1];
             }

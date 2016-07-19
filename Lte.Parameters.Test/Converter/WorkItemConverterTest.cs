@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.MapperSerive;
 using Lte.Parameters.Entities.Work;
 using NUnit.Framework;

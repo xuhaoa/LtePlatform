@@ -12,7 +12,6 @@ using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Dt;
-using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.Entities.Kpi;
 using Lte.Parameters.Entities.Mr;
 using Lte.Parameters.Entities.Work;
@@ -207,10 +206,10 @@ namespace Lte.Evaluations.MapperSerive
         public static void MapWorkItem()
         {
             Mapper.CreateMap<WorkItem, WorkItemView>()
-                .ForMember(d => d.WorkItemCause, opt => opt.MapFrom(s => s.Cause.GetWorkItemCauseDescription()))
-                .ForMember(d => d.WorkItemState, opt => opt.MapFrom(s => s.State.GetWorkItemStateDescription()))
-                .ForMember(d => d.WorkItemType, opt => opt.MapFrom(s => s.Type.GetWorkItemTypeDescription()))
-                .ForMember(d => d.WorkItemSubType, opt => opt.MapFrom(s => s.Subtype.GetWorkItemSubtypeDescription()));
+                .ForMember(d => d.WorkItemCause, opt => opt.MapFrom(s => s.Cause.GetEnumDescription()))
+                .ForMember(d => d.WorkItemState, opt => opt.MapFrom(s => s.State.GetEnumDescription()))
+                .ForMember(d => d.WorkItemType, opt => opt.MapFrom(s => s.Type.GetEnumDescription()))
+                .ForMember(d => d.WorkItemSubType, opt => opt.MapFrom(s => s.Subtype.GetEnumDescription()));
             Mapper.CreateMap<WorkItemExcel, WorkItem>()
                 .ConvertUsing<WorkItemConverter>();
         }

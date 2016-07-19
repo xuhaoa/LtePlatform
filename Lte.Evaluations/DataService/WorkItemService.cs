@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
+using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToExcel;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Kpi;

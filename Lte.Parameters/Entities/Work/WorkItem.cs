@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using Lte.Domain.Regular.Attributes;
 
