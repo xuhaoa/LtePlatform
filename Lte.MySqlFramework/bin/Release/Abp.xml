@@ -11,6 +11,16 @@
             It must be instantiated and initialized (see <see cref="M:Abp.AbpBootstrapper.Initialize"/>) first in an application.
             </summary>
         </member>
+        <member name="P:Abp.AbpBootstrapper.StartupModule">
+            <summary>
+            Get the startup module of the application which depends on other used modules.
+            </summary>
+        </member>
+        <member name="P:Abp.AbpBootstrapper.PlugInSources">
+            <summary>
+            A list of plug in folders.
+            </summary>
+        </member>
         <member name="P:Abp.AbpBootstrapper.IocManager">
             <summary>
             Gets IIocManager object used by this class.
@@ -21,15 +31,43 @@
             Is this object disposed before?
             </summary>
         </member>
-        <member name="M:Abp.AbpBootstrapper.#ctor">
+        <member name="M:Abp.AbpBootstrapper.#ctor(System.Type)">
             <summary>
             Creates a new <see cref="T:Abp.AbpBootstrapper"/> instance.
             </summary>
+            <param name="startupModule">Startup module of the application which depends on other used modules. Should be derived from <see cref="T:Abp.Modules.AbpModule"/>.</param>
         </member>
-        <member name="M:Abp.AbpBootstrapper.#ctor(Abp.Dependency.IIocManager)">
+        <member name="M:Abp.AbpBootstrapper.#ctor(System.Type,Abp.Dependency.IIocManager)">
             <summary>
             Creates a new <see cref="T:Abp.AbpBootstrapper"/> instance.
             </summary>
+            <param name="startupModule">Startup module of the application which depends on other used modules. Should be derived from <see cref="T:Abp.Modules.AbpModule"/>.</param>
+            <param name="iocManager">IIocManager that is used to bootstrap the ABP system</param>
+        </member>
+        <member name="M:Abp.AbpBootstrapper.Create``1">
+            <summary>
+            Creates a new <see cref="T:Abp.AbpBootstrapper"/> instance.
+            </summary>
+            <typeparam name="TStartupModule">Startup module of the application which depends on other used modules. Should be derived from <see cref="T:Abp.Modules.AbpModule"/>.</typeparam>
+        </member>
+        <member name="M:Abp.AbpBootstrapper.Create``1(Abp.Dependency.IIocManager)">
+            <summary>
+            Creates a new <see cref="T:Abp.AbpBootstrapper"/> instance.
+            </summary>
+            <typeparam name="TStartupModule">Startup module of the application which depends on other used modules. Should be derived from <see cref="T:Abp.Modules.AbpModule"/>.</typeparam>
+            <param name="iocManager">IIocManager that is used to bootstrap the ABP system</param>
+        </member>
+        <member name="M:Abp.AbpBootstrapper.Create(System.Type)">
+            <summary>
+            Creates a new <see cref="T:Abp.AbpBootstrapper"/> instance.
+            </summary>
+            <param name="startupModule">Startup module of the application which depends on other used modules. Should be derived from <see cref="T:Abp.Modules.AbpModule"/>.</param>
+        </member>
+        <member name="M:Abp.AbpBootstrapper.Create(System.Type,Abp.Dependency.IIocManager)">
+            <summary>
+            Creates a new <see cref="T:Abp.AbpBootstrapper"/> instance.
+            </summary>
+            <param name="startupModule">Startup module of the application which depends on other used modules. Should be derived from <see cref="T:Abp.Modules.AbpModule"/>.</param>
             <param name="iocManager">IIocManager that is used to bootstrap the ABP system</param>
         </member>
         <member name="M:Abp.AbpBootstrapper.Initialize">
@@ -370,6 +408,12 @@
         <member name="P:Abp.SequentialGuidGenerator.Instance">
             <summary>
             Gets the singleton <see cref="T:Abp.SequentialGuidGenerator"/> instance.
+            </summary>
+        </member>
+        <member name="M:Abp.SequentialGuidGenerator.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:Abp.SequentialGuidGenerator"/> class from being created.
+            Use <see cref="P:Abp.SequentialGuidGenerator.Instance"/>.
             </summary>
         </member>
         <member name="T:Abp.SequentialGuidGenerator.SequentialGuidDatabaseType">
@@ -797,22 +841,6 @@
         <member name="M:Abp.Application.Features.FeatureDictionary.AddAllFeatures">
             <summary>
             Adds all child features of current features recursively.
-            </summary>
-        </member>
-        <member name="T:Abp.Application.Features.FeatureInterceptor">
-            <summary>
-            Intercepts methods to apply <see cref="T:Abp.Application.Features.RequiresFeatureAttribute"/>.
-            </summary>
-        </member>
-        <member name="M:Abp.Application.Features.FeatureInterceptor.#ctor(Abp.Dependency.IIocResolver)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Abp.Application.Features.FeatureInterceptor"/> class.
-            </summary>
-            <param name="iocResolver">The ioc resolver.</param>
-        </member>
-        <member name="T:Abp.Application.Features.FeatureInterceptorRegistrar">
-            <summary>
-            Used to register <see cref="T:Abp.Application.Features.FeatureInterceptor"/> for needed classes.
             </summary>
         </member>
         <member name="T:Abp.Application.Features.FeatureManager">
@@ -1602,7 +1630,7 @@
         </member>
         <member name="T:Abp.Application.Services.Dto.EntityRequestInput`1">
             <summary>
-            This <see cref="T:Abp.Application.Services.Dto.IInputDto"/> can be used to send Id of an entity to an <see cref="T:Abp.Application.Services.IApplicationService"/> method.
+            This DTO can be used to send Id of an entity to an <see cref="T:Abp.Application.Services.IApplicationService"/> method.
             </summary>
             <typeparam name="TPrimaryKey">Type of the primary key of entity</typeparam>
         </member>
@@ -1635,7 +1663,7 @@
         </member>
         <member name="T:Abp.Application.Services.Dto.EntityResultOutput`1">
             <summary>
-            This <see cref="T:Abp.Application.Services.Dto.IOutputDto"/> can be used to send Id of an entity as response from an <see cref="T:Abp.Application.Services.IApplicationService"/> method.
+            This DTO can be used to send Id of an entity as response from an <see cref="T:Abp.Application.Services.IApplicationService"/> method.
             </summary>
             <typeparam name="TPrimaryKey">Type of the primary key of entity</typeparam>
         </member>
@@ -1678,7 +1706,7 @@
         </member>
         <member name="T:Abp.Application.Services.Dto.IdInput`1">
             <summary>
-            This <see cref="T:Abp.Application.Services.Dto.IInputDto"/> can be directly used (or inherited)
+            This DTO can be directly used (or inherited)
             to pass an Id value to an application service method.
             </summary>
             <typeparam name="TId">Type of the Id</typeparam>
@@ -1882,7 +1910,7 @@
         </member>
         <member name="T:Abp.Application.Services.Dto.NullableIdInput`1">
             <summary>
-            This <see cref="T:Abp.Application.Services.Dto.IInputDto"/> can be directly used (or inherited)
+            This DTO can be directly used (or inherited)
             to pass an nullable Id value to an application service method.
             </summary>
             <typeparam name="TId">Type of the Id</typeparam>
@@ -2137,6 +2165,12 @@
             Singleton instance.
             </summary>
         </member>
+        <member name="T:Abp.Authorization.AbpAllowAnonymousAttribute">
+            <summary>
+            Used to allow a method to be accessed by any user.
+            Suppress <see cref="T:Abp.Authorization.AbpAuthorizeAttribute"/> defined in the class containing that method.
+            </summary>
+        </member>
         <member name="T:Abp.Authorization.AbpAuthorizationException">
             <summary>
             This exception is thrown on an unauthorized request.
@@ -2188,6 +2222,16 @@
             Creates a new instance of <see cref="T:Abp.Authorization.AbpAuthorizeAttribute"/> class.
             </summary>
             <param name="permissions">A list of permissions to authorize</param>
+        </member>
+        <member name="T:Abp.Authorization.AuthorizationInterceptor">
+            <summary>
+            This class is used to intercept methods to make authorization if the method defined <see cref="T:Abp.Authorization.AbpAuthorizeAttribute"/>.
+            </summary>
+        </member>
+        <member name="T:Abp.Authorization.AuthorizationInterceptorRegistrar">
+            <summary>
+            This class is used to register interceptors on the Application Layer.
+            </summary>
         </member>
         <member name="T:Abp.Authorization.AuthorizationProvider">
             <summary>
@@ -2644,16 +2688,6 @@
         </member>
         <member name="M:Abp.Authorization.SimplePermissionDependency.IsSatisfiedAsync(Abp.Authorization.IPermissionDependencyContext)">
             <inheritdoc/>
-        </member>
-        <member name="T:Abp.Authorization.Interceptors.AuthorizationInterceptor">
-            <summary>
-            This class is used to intercept methods to make authorization if the method defined <see cref="T:Abp.Authorization.AbpAuthorizeAttribute"/>.
-            </summary>
-        </member>
-        <member name="T:Abp.Authorization.Interceptors.AuthorizationInterceptorRegistrar">
-            <summary>
-            This class is used to register interceptors on the Application Layer.
-            </summary>
         </member>
         <member name="T:Abp.BackgroundJobs.BackgroundJob`1">
             <summary>
@@ -4231,6 +4265,11 @@
             <param name="type">The type to be replaced.</param>
             <param name="replaceAction">Replace action.</param>
         </member>
+        <member name="M:Abp.Configuration.Startup.IAbpStartupConfiguration.Get``1">
+            <summary>
+            Gets a configuration object.
+            </summary>
+        </member>
         <member name="T:Abp.Configuration.Startup.IAuthorizationConfiguration">
             <summary>
             Used to configure authorization system.
@@ -4288,6 +4327,14 @@
         <member name="P:Abp.Configuration.Startup.ILocalizationConfiguration.WrapGivenTextIfNotFound">
             <summary>
             It returns the given text by wrapping with [ and ] chars
+            if not found in the localization source.
+            This is considered only if <see cref="P:Abp.Configuration.Startup.ILocalizationConfiguration.ReturnGivenTextIfNotFound"/> is true.
+            Default: true.
+            </summary>
+        </member>
+        <member name="P:Abp.Configuration.Startup.ILocalizationConfiguration.HumanizeTextIfNotFound">
+            <summary>
+            It returns the given text by converting string from 'PascalCase' to a 'Sentense case'
             if not found in the localization source.
             This is considered only if <see cref="P:Abp.Configuration.Startup.ILocalizationConfiguration.ReturnGivenTextIfNotFound"/> is true.
             Default: true.
@@ -4363,6 +4410,9 @@
             <inheritdoc/>
         </member>
         <member name="P:Abp.Configuration.Startup.LocalizationConfiguration.WrapGivenTextIfNotFound">
+            <inheritdoc/>
+        </member>
+        <member name="P:Abp.Configuration.Startup.LocalizationConfiguration.HumanizeTextIfNotFound">
             <inheritdoc/>
         </member>
         <member name="T:Abp.Configuration.Startup.LocalizationSourceList">
@@ -6027,8 +6077,8 @@
             <summary>
             This attribute is used to indicate that declaring method is atomic and should be considered as a unit of work.
             A method that has this attribute is intercepted, a database connection is opened and a transaction is started before call the method.
-            At the end of method call, transaction is commited and all changes applied to the database if there is no exception,
-            othervise it's rolled back. 
+            At the end of method call, transaction is committed and all changes applied to the database if there is no exception,
+            otherwise it's rolled back. 
             </summary>
             <remarks>
             This attribute has no effect if there is already a unit of work before calling this method, if so, it uses the same transaction.
@@ -7323,6 +7373,21 @@
             <param name="culture">An object that supplies culture-specific casing rules</param>
             <returns>camelCase of the string</returns>
         </member>
+        <member name="M:Abp.Extensions.StringExtensions.ToSentenceCase(System.String)">
+            <summary>
+            Converts given PascalCase/camelCase string to sentence (by splitting words by space).
+            Example: "ThisIsSampleSentence" is converted to "This is a sample sentence".
+            </summary>
+            <param name="str">String to convert.</param>
+        </member>
+        <member name="M:Abp.Extensions.StringExtensions.ToSentenceCase(System.String,System.Globalization.CultureInfo)">
+            <summary>
+            Converts given PascalCase/camelCase string to sentence (by splitting words by space).
+            Example: "ThisIsSampleSentence" is converted to "This is a sample sentence".
+            </summary>
+            <param name="str">String to convert.</param>
+            <param name="culture">An object that supplies culture-specific casing rules.</param>
+        </member>
         <member name="M:Abp.Extensions.StringExtensions.ToEnum``1(System.String)">
             <summary>
             Converts string to enum value.
@@ -8239,7 +8304,7 @@
             </summary>
             <remarks>
             A module definition class is generally located in it's own assembly
-            and implements some action in module events on application startup and shotdown.
+            and implements some action in module events on application startup and shutdown.
             It also defines depended modules.
             </remarks>
         </member>
@@ -8282,10 +8347,13 @@
         </member>
         <member name="M:Abp.Modules.AbpModule.FindDependedModuleTypes(System.Type)">
             <summary>
-            Finds depended modules of a module.
+            Finds direct depended modules of a module.
             </summary>
-            <param name="moduleType"></param>
-            <returns></returns>
+        </member>
+        <member name="M:Abp.Modules.AbpModule.FindDependedModuleTypesRecursively(System.Type)">
+            <summary>
+            Finds all depended modules (and their dependencies recursively) for a module.
+            </summary>
         </member>
         <member name="T:Abp.Modules.AbpModuleCollection">
             <summary>
@@ -8331,11 +8399,10 @@
             All dependent modules of this module.
             </summary>
         </member>
-        <member name="M:Abp.Modules.AbpModuleInfo.#ctor(Abp.Modules.AbpModule)">
+        <member name="M:Abp.Modules.AbpModuleInfo.#ctor(System.Type,Abp.Modules.AbpModule)">
             <summary>
             Creates a new AbpModuleInfo object.
             </summary>
-            <param name="instance"></param>
         </member>
         <member name="T:Abp.Modules.AbpModuleManager">
             <summary>
@@ -8358,18 +8425,6 @@
             Used to define dependencies of an ABP module to other modules.
             </summary>
             <param name="dependedModuleTypes">Types of depended modules</param>
-        </member>
-        <member name="T:Abp.Modules.IModuleFinder">
-            <summary>
-            This interface is responsible to find all modules (derived from <see cref="T:Abp.Modules.AbpModule"/>)
-            in the application.
-            </summary>
-        </member>
-        <member name="M:Abp.Modules.IModuleFinder.FindAll">
-            <summary>
-            Finds all modules.
-            </summary>
-            <returns>List of modules</returns>
         </member>
         <member name="T:Abp.MultiTenancy.MultiTenancyExtensions">
             <summary>
@@ -9995,6 +10050,12 @@
             </summary>
             <param name="user">User.</param>
         </member>
+        <member name="M:Abp.RealTime.IOnlineClientManager.GetAllByUserId(Abp.IUserIdentifier)">
+            <summary>
+            Gets all online clients of a user.
+            </summary>
+            <param name="user">User.</param>
+        </member>
         <member name="M:Abp.RealTime.IOnlineClientManager.GetAllClients">
             <summary>
             Gets all online clients.
@@ -10081,26 +10142,15 @@
             <param name="onlineClientManager">The online client manager.</param>
             <param name="user">User.</param>
         </member>
-        <member name="T:Abp.Reflection.CurrentDomainAssemblyFinder">
-            <summary>
-            Default implementation of <see cref="T:Abp.Reflection.IAssemblyFinder"/>.
-            If gets assemblies from current domain.
-            </summary>
-        </member>
-        <member name="P:Abp.Reflection.CurrentDomainAssemblyFinder.Instance">
-            <summary>
-            Gets Singleton instance of <see cref="T:Abp.Reflection.CurrentDomainAssemblyFinder"/>.
-            </summary>
-        </member>
         <member name="T:Abp.Reflection.IAssemblyFinder">
             <summary>
-            This interface is used to get all assemblies to investigate special classes
-            such as ABP modules.
+            This interface is used to get assemblies in the application.
+            It may not return all assemblies, but those are related with modules.
             </summary>
         </member>
         <member name="M:Abp.Reflection.IAssemblyFinder.GetAllAssemblies">
             <summary>
-            This method should return all assemblies used by application.
+            Gets all assemblies.
             </summary>
             <returns>List of assemblies</returns>
         </member>
@@ -11117,11 +11167,6 @@
             This method is called lastly before method execution (after validation if exists).
             </summary>
         </member>
-        <member name="T:Abp.Runtime.Validation.IValidate">
-            <summary>
-            This interface is implemented by classes those are needed to validate before use.
-            </summary>
-        </member>
         <member name="P:Abp.Runtime.Validation.ValueValidatorBase.Item(System.String)">
             <summary>
             Gets/sets arbitrary objects related to this object.
@@ -11891,11 +11936,6 @@
             It sets false to <see cref="P:Abp.Web.Models.WrapResultAttribute.WrapOnSuccess"/> and <see cref="P:Abp.Web.Models.WrapResultAttribute.WrapOnError"/>  properties.
             </summary>
         </member>
-        <member name="P:Abp.Web.Models.DontWrapResultAttribute.Default">
-            <summary>
-            Gets default <see cref="T:Abp.Web.Models.DontWrapResultAttribute"/>.
-            </summary>
-        </member>
         <member name="M:Abp.Web.Models.DontWrapResultAttribute.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Abp.Web.Models.DontWrapResultAttribute"/> class.
@@ -11904,11 +11944,6 @@
         <member name="T:Abp.Web.Models.WrapResultAttribute">
             <summary>
             Used to determine how ABP should wrap response on the web layer.
-            </summary>
-        </member>
-        <member name="P:Abp.Web.Models.WrapResultAttribute.Default">
-            <summary>
-            Gets default <see cref="T:Abp.Web.Models.WrapResultAttribute"/>.
             </summary>
         </member>
         <member name="P:Abp.Web.Models.WrapResultAttribute.WrapOnSuccess">

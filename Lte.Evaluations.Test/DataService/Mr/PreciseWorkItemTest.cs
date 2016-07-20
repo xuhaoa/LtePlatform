@@ -29,10 +29,7 @@ namespace Lte.Evaluations.DataService.Mr
         private readonly Mock<ICellPowerService> _powerRepository = new Mock<ICellPowerService>();
         private readonly Mock<ICellRepository> _cellRepository = new Mock<ICellRepository>();
 
-        private readonly ITypeFinder _typeFinder = new TypeFinder
-        {
-            AssemblyFinder = new MyAssemblyFinder()
-        };
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
 
         private PreciseWorkItemService _serivice;
 

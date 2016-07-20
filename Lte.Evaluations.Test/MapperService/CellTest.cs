@@ -94,10 +94,7 @@ namespace Lte.Evaluations.MapperService
     [TestFixture]
     public class Precise4GSectorTest
     {
-        private readonly ITypeFinder _typeFinder = new TypeFinder
-        {
-            AssemblyFinder = new MyAssemblyFinder()
-        };
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
 
         [TestFixtureSetUp]
         public void TestFixtureSetup()

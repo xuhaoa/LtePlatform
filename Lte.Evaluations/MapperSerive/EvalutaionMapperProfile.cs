@@ -9,10 +9,7 @@ namespace Lte.Evaluations.MapperSerive
 {
     public class EvalutaionMapperProfile : Profile
     {
-        private readonly ITypeFinder _typeFinder = new TypeFinder
-        {
-            AssemblyFinder = new MyAssemblyFinder()
-        };
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
 
         protected override void Configure()
         {

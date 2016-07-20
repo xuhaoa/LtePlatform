@@ -25,10 +25,7 @@ namespace Abp.EntityFramework.Tests
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            typeFinder = new TypeFinder
-            {
-                AssemblyFinder = new MyAssemblyFinder()
-            };
+            typeFinder = new TypeFinder(new MyAssemblyFinder());
             module = new AbpAutoMapperModule(typeFinder);
             module.PostInitialize();
         }
