@@ -3,6 +3,7 @@ using System.Linq;
 using AutoMapper;
 using Lte.Evaluations.ViewModels.College;
 using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Abstract.Infrastructure;
@@ -32,6 +33,14 @@ namespace Lte.Evaluations.DataService.College
         public CollegeInfo QueryInfo(string name)
         {
             return _repository.FirstOrDefault(x => x.Name == name);
+        }
+
+        public CollegeYearInfo QueryInfo(string name, int year)
+        {
+            var info = _repository.GetByName(name);
+            return info == null
+                ? null
+                : _yearRepository.GetByCollegeAndYear(info.Id, year);
         }
 
         public CollegeStat QueryStat(int id, int year)

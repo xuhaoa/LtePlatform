@@ -12,5 +12,7 @@
             $scope.collegeYearList = colleges;
         });
     });
+    $scope.$watch('collegeName', function(name) {
 
+    });
 });

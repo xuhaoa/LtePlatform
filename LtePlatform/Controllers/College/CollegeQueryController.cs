@@ -34,7 +34,14 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("校园网信息")]
         public IHttpActionResult Get(string name)
         {
-            CollegeInfo info = _service.QueryInfo(name);
+            var info = _service.QueryInfo(name);
+            return info == null ? (IHttpActionResult)BadRequest("College Name Not Found!") : Ok(info);
+        }
+
+        [HttpGet]
+        public IHttpActionResult Get(string name, int year)
+        {
+            var info = _service.QueryInfo(name, year);
             return info == null ? (IHttpActionResult)BadRequest("College Name Not Found!") : Ok(info);
         }
 
