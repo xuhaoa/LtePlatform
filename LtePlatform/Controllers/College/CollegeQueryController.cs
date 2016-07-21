@@ -2,6 +2,7 @@
 using System.Web.Http;
 using Lte.Evaluations.DataService.College;
 using Lte.Evaluations.ViewModels.College;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Entities.College;
 using LtePlatform.Models;
@@ -39,10 +40,9 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
-        public IHttpActionResult Get(string name, int year)
+        public CollegeYearInfo Get(string name, int year)
         {
-            var info = _service.QueryInfo(name, year);
-            return info == null ? (IHttpActionResult)BadRequest("College Name Not Found!") : Ok(info);
+            return _service.QueryInfo(name, year);
         }
 
         [HttpGet]
