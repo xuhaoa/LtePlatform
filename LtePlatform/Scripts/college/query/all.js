@@ -21,4 +21,9 @@
             $scope.collegeExisted = !!info;
         });
     });
+    $scope.addOneCollegeMarkerInfo = function() {
+        collegeQueryService.queryByNameAndYear($scope.collegeName, $scope.collegeInfo.year.selected - 1).then(function(item) {
+            console.log(item);
+        });
+    };
 });

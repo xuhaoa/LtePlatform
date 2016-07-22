@@ -200,6 +200,22 @@
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
+            },
+            addYearInfo: function(item) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: collegeInfrastructurePath + 'YearInfoDialog.html',
+                    controller: 'year.info.dialog',
+                    size: 'sm',
+                    resolve: {
+                        
+                    }
+                });
+                modalInstance.result.then(function (info) {
+                    console.log(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
             }
         };
     });
