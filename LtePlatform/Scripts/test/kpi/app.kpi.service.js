@@ -30,6 +30,8 @@
 
         expect(stat.city).toEqual('Foshan');
         expect(stat.firstRate).toBeCloseTo(73.33, 2);
+        expect(stat.preciseRate).toBeCloseTo(87.33, 2);
+        expect(stat.totalMrs).toBe(300);
     });
 
     it('should be able to get MR pie options', function() {
@@ -68,7 +70,28 @@
         var options = appKpiService.getMrPieOptions(districtStats, townStats);
 
         expect(options.title.text).toEqual("分镇区测量报告数分布图");
-        expect(options.series[0].name).toEqual("区域");
-        expect(options.series[0].data.length).toEqual(3);
+        var series = options.series[0];
+        expect(series.name).toEqual("区域");
+        expect(series.data.length).toEqual(3);
+        expect(series.data[0].name).toBe('district1');
+        expect(series.data[0].drilldown).toBe('district1');
+        expect(series.data[1].name).toBe('district2');
+    });
+
+    it('Should be able to get down-switch rate', function() {
+        var stats = [
+            {
+                downSwitchFlow3G: 20,
+                flow4G: 100
+            }, {
+                downSwitchFlow3G: 30,
+                flow4G: 200
+            }, {
+                downSwitchFlow3G: 20,
+                flow4G: 200
+            }
+        ];
+        var result = appKpiService.getDownSwitchRate(stats);
+        expect(result).toBe(14);
     });
 });
