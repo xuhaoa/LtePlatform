@@ -441,6 +441,7 @@
     <Content Include="appViews\College\Infrastructure\ENodebTable.html" />
     <Content Include="appViews\College\Infrastructure\LteCellDialog.html" />
     <Content Include="appViews\College\Infrastructure\LteCellTable.html" />
+    <Content Include="appViews\College\Infrastructure\YearInfoDialog.html" />
     <Content Include="appViews\College\Stat.html" />
     <Content Include="appViews\College\Table\CdmaCellBasicInfo.html" />
     <Content Include="appViews\College\Table\CdmaCellInfoBox.html" />
@@ -1616,6 +1617,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Scripts\college\query\year.info.dialog.js" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.0.js" />
     <Content Include="Scripts\jquery-3.1.0.min.js" />

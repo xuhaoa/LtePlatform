@@ -122,7 +122,7 @@
                     animation: true,
                     templateUrl: collegeInfrastructurePath + 'ENodebDialog.html',
                     controller: 'eNodeb.dialog',
-                    size: 'sm',
+                    size: 'lg',
                     resolve: resolveScope(name, "LTE基站信息")
                 });
                 modalInstance.result.then(function (info) {
@@ -136,7 +136,7 @@
                     animation: true,
                     templateUrl: collegeInfrastructurePath + 'LteCellDialog.html',
                     controller: 'cell.dialog',
-                    size: 'sm',
+                    size: 'lg',
                     resolve: resolveScope(name, "LTE小区信息")
                 });
                 modalInstance.result.then(function (info) {
@@ -150,7 +150,7 @@
                     animation: true,
                     templateUrl: collegeInfrastructurePath + 'BtsDialog.html',
                     controller: 'bts.dialog',
-                    size: 'sm',
+                    size: 'lg',
                     resolve: resolveScope(name, "CDMA基站信息")
                 });
                 modalInstance.result.then(function (info) {
@@ -164,7 +164,7 @@
                     animation: true,
                     templateUrl: collegeInfrastructurePath + 'CdmaCellDialog.html',
                     controller: 'cdmaCell.dialog',
-                    size: 'sm',
+                    size: 'lg',
                     resolve: resolveScope(name, "CDMA小区信息")
                 });
                 modalInstance.result.then(function (info) {
@@ -178,7 +178,7 @@
                     animation: true,
                     templateUrl: collegeInfrastructurePath + 'DistributionDialog.html',
                     controller: 'lte.distribution.dialog',
-                    size: 'sm',
+                    size: 'lg',
                     resolve: resolveScope(name, "LTE室分信息")
                 });
                 modalInstance.result.then(function (info) {
@@ -192,7 +192,7 @@
                     animation: true,
                     templateUrl: collegeInfrastructurePath + 'DistributionDialog.html',
                     controller: 'cdma.distribution.dialog',
-                    size: 'sm',
+                    size: 'lg',
                     resolve: resolveScope(name, "CDMA室分信息")
                 });
                 modalInstance.result.then(function (info) {
@@ -201,14 +201,22 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
-            addYearInfo: function(item) {
+            addYearInfo: function (item, name, year) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: collegeInfrastructurePath + 'YearInfoDialog.html',
                     controller: 'year.info.dialog',
-                    size: 'sm',
+                    size: 'lg',
                     resolve: {
-                        
+                        name: function() {
+                            return name;
+                        },
+                        year: function() {
+                            return year;
+                        },
+                        item: function() {
+                            return item;
+                        }
                     }
                 });
                 modalInstance.result.then(function (info) {
