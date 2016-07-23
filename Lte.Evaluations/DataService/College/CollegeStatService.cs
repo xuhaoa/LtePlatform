@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Lte.Evaluations.ViewModels.College;
 using Lte.MySqlFramework.Abstract;
@@ -42,6 +43,14 @@ namespace Lte.Evaluations.DataService.College
                 ? null
                 : _yearRepository.GetByCollegeAndYear(info.Id, year);
         }
+
+        public async Task<int> SaveYearInfo(CollegeYearInfo info)
+        {
+            var item = _yearRepository.GetByCollegeAndYear(info.CollegeId, info.Year);
+            if (item != null) return 0;
+            await _yearRepository.InsertAsync(info);
+            return _yearRepository.SaveChanges();
+        } 
 
         public CollegeStat QueryStat(int id, int year)
         {

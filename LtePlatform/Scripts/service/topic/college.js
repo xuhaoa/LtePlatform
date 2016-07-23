@@ -80,6 +80,9 @@
                 return generalHttpService.getApiData('CollegeQuery', {
                     year: year
                 });
+            },
+            saveYearInfo: function(info) {
+                return generalHttpService.postApiData('CollegeQuery', info);
             }
         };
     })
@@ -105,7 +108,7 @@
         };
     })
     .value('collegeInfrastructurePath', '/appViews/College/Infrastructure/')
-    .factory('collegeDialogService', function (collegeInfrastructurePath, $uibModal, $log) {
+    .factory('collegeDialogService', function (collegeInfrastructurePath, collegeQueryService, $uibModal, $log) {
         var resolveScope = function(name, topic) {
             return {
                 dialogTitle: function() {
@@ -201,7 +204,7 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
-            addYearInfo: function (item, name, year) {
+            addYearInfo: function (item, name, year, callback) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: collegeInfrastructurePath + 'YearInfoDialog.html',
@@ -220,7 +223,9 @@
                     }
                 });
                 modalInstance.result.then(function (info) {
-                    console.log(info);
+                    collegeQueryService.saveYearInfo(info).then(function() {
+                        callback();
+                    });
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });

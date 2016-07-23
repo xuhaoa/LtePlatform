@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Lte.Evaluations.DataService.College;
 using Lte.Evaluations.ViewModels.College;
@@ -58,6 +59,12 @@ namespace LtePlatform.Controllers.College
         {
             return _service.QuerYearViews(year);
         }
+
+        [HttpPost]
+        public async Task<int> Post(CollegeYearInfo info)
+        {
+            return await _service.SaveYearInfo(info);
+        } 
     }
 
     [ApiControl("统计校园网名称控制器")]

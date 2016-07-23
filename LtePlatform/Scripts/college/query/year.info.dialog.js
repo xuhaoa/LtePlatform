@@ -16,6 +16,7 @@
 	$scope.ok = function () {
 	    $scope.dto.oldOpenDate = $scope.beginDate.value;
 	    $scope.dto.newOpenDate = $scope.endDate.value;
+	    $scope.dto.year = year;
         $uibModalInstance.close($scope.dto);
     };
 
