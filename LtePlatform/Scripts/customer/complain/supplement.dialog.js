@@ -8,7 +8,7 @@
         $scope.city.selected = cities[0];
         appRegionService.queryDistricts($scope.city.selected).then(function (districts) {
             $scope.district.options = districts;
-            $scope.district.selected = districts[0];
+            $scope.district.selected = (item.district) ? item.district.replace('区', '') : districts[0];
         });
     });
 

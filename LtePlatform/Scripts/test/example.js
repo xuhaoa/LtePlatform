@@ -1,3 +1,0 @@
-﻿function TT() {
-    return "abc";
-}

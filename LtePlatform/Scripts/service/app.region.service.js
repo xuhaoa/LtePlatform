@@ -138,6 +138,15 @@
                     }
                 }
                 return null;
+            },
+            searchPattern: function(options, text) {
+                for (var i = 0; i < options.length; i++) {
+                    var pattern = new RegExp(options[i]);
+                    if (pattern.test(text)) {
+                        return options[i];
+                    }
+                }
+                return null;
             }
         }
     });
