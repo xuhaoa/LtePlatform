@@ -84,7 +84,8 @@
                     secondNeighbors: 0,
                     thirdNeighbors: 0,
                     firstRate: 0,
-                    preciseRate: 0
+                    preciseRate: 0,
+                    objectRate: 92.6
                 };
                 angular.forEach(districtStats, function(districtStat) {
                     accumulatePreciseStat(stat, districtStat);

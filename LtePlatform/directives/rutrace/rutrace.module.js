@@ -113,7 +113,7 @@ angular.module('rutrace.stat', [])
                     scope.gridOptions.data = districtStats;
 
                     if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        var linkDom = $compile('<div style="height: 300px" ui-grid="gridOptions"></div>')(scope);
                         element.append(linkDom);
                         scope.initialize = true;
                     }
