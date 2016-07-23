@@ -113,6 +113,25 @@
                 }, function() {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
+            },
+            supplementComplainInfo: function(item) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Customer/Dialog/Complain.html',
+                    controller: 'complain.supplement.dialog',
+                    size: 'lg',
+                    resolve: {
+                        item: function () {
+                            return item;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                    console.log(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
             }
         };
     })

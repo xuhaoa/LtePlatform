@@ -102,7 +102,7 @@ angular.module('customer.vip', ['customer.service'])
     });
 
 angular.module('customer.complain', ['customer.service'])
-    .controller('ComplainPositionController', function ($scope) {
+    .controller('ComplainPositionController', function ($scope, customerDialogService) {
         $scope.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
@@ -120,7 +120,7 @@ angular.module('customer.complain', ['customer.service'])
             data: []
         };
         $scope.match = function(item) {
-            console.log(item);
+            customerDialogService.supplementComplainInfo(item);
         };
     })
     .directive('complainPositionList', function ($compile) {
