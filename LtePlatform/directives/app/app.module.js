@@ -20,7 +20,11 @@
                 endDate: '='
             },
             templateUrl: appRoot + 'DateSpanRow.Tpl.html',
-            transclude: true
+            transclude: true,
+            link: function(scope, element, attrs) {
+                scope.beginTips = attrs.beginTips || "开始日期：";
+                scope.endTips = attrs.endTips || "结束日期：";
+            }
         };
     })
     .directive('dumpFileSelector', function (appRoot) {

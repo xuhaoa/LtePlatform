@@ -1,17 +1,21 @@
-﻿app.controller('year.info.dialog', function ($scope, $uibModalInstance, name, year, item) {
+﻿app.controller('year.info.dialog', function ($scope, $uibModalInstance, appFormatService,
+    name, year, item) {
 	$scope.dialogTitle = name + year + "年校园信息补充";
 	$scope.dto = item;
-    console.log($scope.dto);
 	$scope.beginDate = {
-		value: item.oldOpenDate,
+	    value: appFormatService.getDate(item.oldOpenDate),
 		opened: false
 	};
 	$scope.endDate = {
-		value: item.newOpenDate,
+	    value: appFormatService.getDate(item.newOpenDate),
 		opened: false
 	};
+	$scope.beginDate.value.setDate($scope.beginDate.value.getDate() + 365);
+    $scope.endDate.value.setDate($scope.endDate.value.getDate() + 365);
 
-    $scope.ok = function () {
+	$scope.ok = function () {
+	    $scope.dto.oldOpenDate = $scope.beginDate.value;
+	    $scope.dto.newOpenDate = $scope.endDate.value;
         $uibModalInstance.close($scope.dto);
     };
 
