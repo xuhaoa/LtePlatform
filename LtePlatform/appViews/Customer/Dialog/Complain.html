@@ -6,7 +6,27 @@
 </div>
 <div class="modal-body form-horizontal">
     <div district-town-selection city="city" district="district" town="town">
-        <button class="btn btn-success">匹配镇区</button>
+        <button class="btn btn-success" ng-click="matchTown()">匹配镇区</button>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label>楼宇名称</label>
+        </div>
+        <div class="col-md-2">
+            <span>{{item.buildingName}}</span>
+        </div>
+        <div class="col-md-2">
+            <label>站点位置</label>
+        </div>
+        <div class="col-md-2">
+            <span>{{item.sitePosition}}</span>
+        </div>
+        <div class="col-md-2">
+            <label>附近道路</label>
+        </div>
+        <div class="col-md-2">
+            <span>{{item.roadName}}</span>
+        </div>
     </div>
 </div>
 <div class="modal-footer">

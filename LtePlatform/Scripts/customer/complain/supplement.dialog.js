@@ -1,5 +1,5 @@
 ﻿app.controller('complain.supplement.dialog', function ($scope, $uibModalInstance,
-    appRegionService, item) {
+    appRegionService, appFormatService, item) {
     $scope.dialogTitle = item.serialNumber + "工单信息补充";
 
     $scope.item = item;
@@ -12,7 +12,26 @@
         });
     });
 
+    $scope.matchTown = function() {
+        var town = appFormatService.searchPattern($scope.town.options, item.sitePosition);
+        if (town) {
+            $scope.town.selected = town;
+            return;
+        }
+        town = appFormatService.searchPattern($scope.town.options, item.buildingName);
+        if (town) {
+            $scope.town.selected = town;
+            return;
+        }
+        town = appFormatService.searchPattern($scope.town.options, item.roadName);
+        if (town) {
+            $scope.town.selected = town;
+        }
+    };
+
     $scope.ok = function () {
+        $scope.item.district = $scope.district.selected;
+        $scope.item.town = $scope.town.selected;
         $uibModalInstance.close($scope.item);
     };
     $scope.cancel = function () {
