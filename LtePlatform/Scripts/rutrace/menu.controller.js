@@ -119,10 +119,16 @@
         $rootScope.viewData = {
             workItems: []
         };
+        var lastSeason = new Date();
+        lastSeason.setDate(lastSeason.getDate() - 100);
         var lastWeek = new Date();
         lastWeek.setDate(lastWeek.getDate() - 7);
         $rootScope.beginDate = {
             value: new Date(lastWeek.getFullYear(), lastWeek.getMonth(), lastWeek.getDate(), 8),
+            opened: false
+        };
+        $rootScope.seasonDate = {
+            value: new Date(lastSeason.getFullYear(), lastSeason.getMonth(), lastSeason.getDate(), 8),
             opened: false
         };
         var today = new Date();

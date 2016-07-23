@@ -45,11 +45,10 @@ app.controller("rutrace.root", function ($scope, appRegionService, menuItemServi
         $scope.city.options = result;
         $scope.city.selected = result[0];
         appRegionService.queryDistricts(result[0]).then(function (districts) {
-            for (var i = 0; i < districts.length; i++) {
+            angular.forEach(districts, function(district) {
                 menuItemService.updateMenuItem($scope.menuItems, 2,
-                    "TOP指标分析-" + districts[i],
-                    $scope.rootPath + "topDistrict/" + districts[i]);
-            }
+                    "TOP指标分析-" + district, $scope.rootPath + "topDistrict/" + district);
+            });
         });
     });
 });
