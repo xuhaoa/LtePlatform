@@ -62,15 +62,63 @@ angular.module('rutrace.coverage', ['neighbor.mongo'])
     });
 
 angular.module('rutrace.stat', [])
-    .directive('districtStatTable', function(htmlRoot) {
+    .controller('DistrictStatController', function($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'city', name: '城市' },
+                {
+                    name: '区域',
+                    cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.overallStat.currentDistrict = row.entity.district">{{row.entity.district}}</button>'
+                },
+                { field: 'totalMrs', name: 'MR总数' },
+                {
+                    field: 'preciseRate',
+                    name: '精确覆盖率',
+                    cellFilter: 'number: 2',
+                    cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                        if (grid.getCellValue(row, col) < row.entity.objectRate) {
+                            return 'text-danger';
+                        }
+                        return 'text-success';
+                    }
+                },
+                { field: 'objectRate', name: '本区目标值', cellFilter: 'number: 2' },
+                { field: 'firstRate', name: '第一精确覆盖率', cellFilter: 'number: 2' },
+                { field: 'thirdRate', name: '第三精确覆盖率', cellFilter: 'number: 2' },
+                {
+                    name: '处理',
+                    cellTemplate: '<a class="btn btn-sm btn-primary" ng-href="{{grid.appScope.rootPath}}workitemDistrict/{{row.entity.district}}">工单处理</a>'
+                },
+                {
+                    name: '分析',
+                    cellTemplate: '<a class="btn btn-sm btn-default" ng-href="{{grid.appScope.rootPath}}topDistrict/{{row.entity.district}}">TOP指标</a>'
+                }
+            ],
+            data: []
+        };
+    })
+    .directive('districtStatTable', function ($compile) {
         return {
-            restrict: 'ECMA',
+            controller: 'DistrictStatController',
+            restrict: 'EA',
             replace: true,
             scope: {
                 overallStat: '=',
                 rootPath: '='
             },
-            templateUrl: htmlRoot + 'DistrictStatTable.Tpl.html'
+            template: '<div></div>',
+            link: function(scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('overallStat.districtStats', function(districtStats) {
+                    scope.gridOptions.data = districtStats;
+
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
         };
     })
 
