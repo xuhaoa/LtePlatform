@@ -78,7 +78,7 @@
             getCityStat: function (districtStats, currentCity) {
                 var stat = {
                     city: currentCity,
-                    district: "-",
+                    district: "全网",
                     totalMrs: 0,
                     firstNeighbors: 0,
                     secondNeighbors: 0,
