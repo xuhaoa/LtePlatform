@@ -74,6 +74,7 @@
                 town: '='
             },
             templateUrl: appRoot + 'DistrictTownSelection.Tpl.html',
+            transclude: true,
             link: function (scope) {
                 scope.$watch("district.selected", function (district) {
                     if (district) {
