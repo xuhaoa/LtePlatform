@@ -9,10 +9,10 @@
         appRegionService.queryDistricts($scope.city.selected).then(function (districts) {
             $scope.district.options = districts;
             $scope.district.selected = (item.district) ? item.district.replace('区', '') : districts[0];
+            baiduMapService.initializeMap("map", 11);
+            baiduMapService.addCityBoundary("佛山");
         });
     });
-    baiduMapService.initializeMap("map", 11);
-    baiduMapService.addCityBoundary("佛山");
 
     $scope.matchTown = function() {
         var town = appFormatService.searchPattern($scope.town.options, item.sitePosition);
