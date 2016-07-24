@@ -538,6 +538,8 @@ angular.module('map.infrastructure', ["ui.bootstrap", 'handoff.parameters'])
     .controller('map.neighbor.dialog', function($scope, $uibModalInstance, intraFreqHoService, interFreqHoService,
         neighbor, dialogTitle) {
         $scope.neighbor = neighbor;
+        $scope.eNodebId = neighbor.otherInfos.split(': ')[5];
+        $scope.sectorId = neighbor.cellName.split('-')[1];
         $scope.dialogTitle = dialogTitle;
         $scope.parameter = {
             options: [
@@ -555,12 +557,7 @@ angular.module('map.infrastructure', ["ui.bootstrap", 'handoff.parameters'])
             $uibModalInstance.dismiss('cancel');
         };
 
-        var eNodebId = $scope.neighbor.otherInfos.split(': ')[5];
-        var sectorId = $scope.neighbor.cellName.split('-')[1];
-        intraFreqHoService.queryCellParameters(eNodebId, sectorId).then(function(result) {
-            $scope.intraFreqHo = result;
-        });
-        interFreqHoService.queryCellParameters(eNodebId, sectorId).then(function(result) {
+        interFreqHoService.queryCellParameters($scope.eNodebId, $scope.sectorId).then(function (result) {
             $scope.interFreqHo = result;
         });
     })
@@ -575,6 +572,8 @@ angular.module('map.infrastructure', ["ui.bootstrap", 'handoff.parameters'])
             ],
             selected: '基本参数'
         };
+        $scope.eNodebId = cell.eNodebId;
+        $scope.sectorId = cell.sectorId;
 
         $scope.ok = function() {
             $uibModalInstance.close($scope.cell);
@@ -584,9 +583,6 @@ angular.module('map.infrastructure', ["ui.bootstrap", 'handoff.parameters'])
             $uibModalInstance.dismiss('cancel');
         };
 
-        intraFreqHoService.queryCellParameters(cell.eNodebId, cell.sectorId).then(function(result) {
-            $scope.intraFreqHo = result;
-        });
         interFreqHoService.queryCellParameters(cell.eNodebId, cell.sectorId).then(function(result) {
             $scope.interFreqHo = result;
         });

@@ -2,19 +2,21 @@
     <div class="title">
         <strong>同频切换参数: </strong>
     </div>
-    <table class="table table-hover">
-        <tbody>
-        <tr>
-            <td>A3事件判决迟滞</td>
-            <td>{{intraFreqHo.hysteresis | halfDb}}dB</td>
-            <td>A3事件发生到上报的延迟</td>
-            <td>{{intraFreqHo.timeToTrigger | timeToTrigger}}毫秒</td>
-        </tr>
-        <tr>
-            <td>A3事件偏置</td>
-            <td>{{intraFreqHo.a3Offset | halfDb}}dB</td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="list">
+        <ul>
+            <li>
+                <div class="left">A3事件判决迟滞</div>
+                <div class="rmb">{{intraFreqHo.hysteresis | halfDb}}dB</div>
+            </li>
+            <li>
+                <div class="left">A3事件发生到上报的延迟</div>
+                <div class="rmb">{{intraFreqHo.timeToTrigger | timeToTrigger}}毫秒</div>
+            </li>
+            <li>
+                <div class="left">A3事件偏置</div>
+                <div class="rmb">{{intraFreqHo.a3Offset | halfDb}}dB</div>
+            </li>
+        </ul>
+    </div>
 </div>
 

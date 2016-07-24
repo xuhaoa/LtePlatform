@@ -171,7 +171,7 @@
                     animation: true,
                     templateUrl: '/appViews/Rutrace/Map/NeighborMapInfoBox.html',
                     controller: 'map.neighbor.dialog',
-                    size: 'sm',
+                    size: '',
                     resolve: {
                         dialogTitle: function() {
                             return cell.cellName + "小区信息";
