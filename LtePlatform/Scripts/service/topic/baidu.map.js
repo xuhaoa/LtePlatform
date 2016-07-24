@@ -1,4 +1,4 @@
-﻿angular.module('baidu.map', ['myApp.url', 'myApp.parameters'])
+﻿angular.module('baidu.map', ['myApp.url', 'myApp.parameters', 'map.infrastructure'])
     .factory('geometryService', function($http, $q, appUrlService) {
         var getDistanceFunc = function(p1Lat, p1Lng, p2Lat, p2Lng) {
             var earthRadiusKm = 6378.137;
@@ -299,23 +299,8 @@
 			        }
 			    });
 			},
-            addOneMarker: function(marker, html) {
+            addOneMarker: function(marker) {
                 map.addOverlay(marker);
-                var infoBox = new BMapLib.InfoBox(map, html, {
-                    boxStyle: {
-                        background: "url('/Content/themes/baidu/tipbox.jpg') no-repeat center top",
-                        width: "270px",
-                        height: "200px"
-                    },
-                    closeIconUrl: "/Content/themes/baidu/close.png",
-                    closeIconMargin: "1px 1px 0 0",
-                    enableAutoPan: true,
-                    align: INFOBOX_AT_TOP
-                });
-                marker.addEventListener("click", function() {
-
-                    infoBox.open(this);
-                });
             },
             addOneMarkerToScope: function(marker, callback, data) {
                 map.addOverlay(marker);
@@ -499,4 +484,110 @@
                 map.addOverlay(label);
             }
         };
+    });
+
+angular.module('map.infrastructure', ["ui.bootstrap", 'handoff.parameters'])
+    .controller('map.eNodeb.dialog', function($scope, $uibModalInstance, eNodeb, dialogTitle) {
+        $scope.eNodeb = eNodeb;
+        $scope.dialogTitle = dialogTitle;
+
+        $scope.ok = function() {
+            $uibModalInstance.close($scope.eNodeb);
+        };
+
+        $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('map.bts.dialog', function($scope, $uibModalInstance, bts, dialogTitle) {
+        $scope.bts = bts;
+        $scope.dialogTitle = dialogTitle;
+
+        $scope.ok = function() {
+            $uibModalInstance.close($scope.bts);
+        };
+
+        $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('map.cdma.cell.dialog', function($scope, $uibModalInstance, neighbor, dialogTitle) {
+        $scope.neighbor = neighbor;
+        $scope.dialogTitle = dialogTitle;
+
+        $scope.ok = function() {
+            $uibModalInstance.close($scope.neighbor);
+        };
+
+        $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('map.distribution.dialog', function($scope, $uibModalInstance, distribution, dialogTitle) {
+        $scope.distribution = distribution;
+        $scope.dialogTitle = dialogTitle;
+
+        $scope.ok = function() {
+            $uibModalInstance.close($scope.distribution);
+        };
+
+        $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('map.neighbor.dialog', function($scope, $uibModalInstance, intraFreqHoService, interFreqHoService,
+        neighbor, dialogTitle) {
+        $scope.neighbor = neighbor;
+        $scope.dialogTitle = dialogTitle;
+        $scope.parameter = {
+            options: [
+                '基本参数', '同频切换', 'A1异频切换',
+                'A2异频切换', 'A3异频切换', 'A4异频切换', 'A5异频切换'
+            ],
+            selected: '基本参数'
+        };
+
+        $scope.ok = function() {
+            $uibModalInstance.close($scope.neighbor);
+        };
+
+        $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        var eNodebId = $scope.neighbor.otherInfos.split(': ')[5];
+        var sectorId = $scope.neighbor.cellName.split('-')[1];
+        intraFreqHoService.queryCellParameters(eNodebId, sectorId).then(function(result) {
+            $scope.intraFreqHo = result;
+        });
+        interFreqHoService.queryCellParameters(eNodebId, sectorId).then(function(result) {
+            $scope.interFreqHo = result;
+        });
+    })
+    .controller('college.cell.dialog', function($scope, $uibModalInstance, intraFreqHoService, interFreqHoService,
+        cell, dialogTitle) {
+        $scope.cell = cell;
+        $scope.dialogTitle = dialogTitle;
+        $scope.parameter = {
+            options: [
+                '基本参数', '同频切换', 'A1异频切换',
+                'A2异频切换', 'A3异频切换', 'A4异频切换', 'A5异频切换'
+            ],
+            selected: '基本参数'
+        };
+
+        $scope.ok = function() {
+            $uibModalInstance.close($scope.cell);
+        };
+
+        $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        intraFreqHoService.queryCellParameters(cell.eNodebId, cell.sectorId).then(function(result) {
+            $scope.intraFreqHo = result;
+        });
+        interFreqHoService.queryCellParameters(cell.eNodebId, cell.sectorId).then(function(result) {
+            $scope.interFreqHo = result;
+        });
     });
