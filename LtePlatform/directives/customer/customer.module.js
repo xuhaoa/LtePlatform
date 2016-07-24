@@ -120,7 +120,12 @@ angular.module('customer.complain', ['customer.service'])
             data: []
         };
         $scope.match = function(item) {
-            customerDialogService.supplementComplainInfo(item);
+            customerDialogService.supplementComplainInfo(item, function() {
+                $scope.messages.push({
+                    type: 'success',
+                    contents: '完成抱怨量工单' + item.serialNumber + '的信息补充！'
+                });
+            });
         };
     })
     .directive('complainPositionList', function ($compile) {
@@ -129,7 +134,8 @@ angular.module('customer.complain', ['customer.service'])
             restrict: 'EA',
             replace: true,
             scope: {
-                items: '='
+                items: '=',
+                messages: '='
             },
             template: '<div></div>',
             link: function (scope, element, attrs) {

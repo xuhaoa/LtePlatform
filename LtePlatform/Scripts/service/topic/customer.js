@@ -1,5 +1,5 @@
 ﻿angular.module('customer.service', ['myApp.url'])
-    .factory('customerDialogService', function($uibModal, $log, customerQueryService, emergencyService) {
+    .factory('customerDialogService', function ($uibModal, $log, customerQueryService, emergencyService, complainService) {
         return {
             constructEmergencyCommunication: function(city, district, type, messages, callback) {
                 var modalInstance = $uibModal.open({
@@ -114,7 +114,7 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
-            supplementComplainInfo: function(item) {
+            supplementComplainInfo: function(item, callback) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '/appViews/Customer/Dialog/Complain.html',
@@ -128,7 +128,9 @@
                 });
 
                 modalInstance.result.then(function (info) {
-                    console.log(info);
+                    complainService.postPosition(info).then(function() {
+                        callback();
+                    });
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
