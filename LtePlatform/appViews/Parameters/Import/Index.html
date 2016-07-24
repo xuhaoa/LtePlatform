@@ -107,6 +107,9 @@
                     <button class="btn btn-warning" ng-disabled="importData.newCdmaCells.length===0" ng-click="postAllCdmaCells()">
                         <i class="glyphicon glyphicon-save" title="批量导入"></i>
                     </button>
+                    <button class="btn btn-success" ng-click="importCdmaRrus()" ng-disabled="importData.cdmaCellCount == 0">
+                        导入RRU
+                    </button>
                 </div>
             </td>
             <td>

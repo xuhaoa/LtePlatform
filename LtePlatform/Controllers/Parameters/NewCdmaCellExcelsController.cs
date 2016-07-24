@@ -53,6 +53,12 @@ namespace LtePlatform.Controllers.Parameters
         public async Task<int> Put()
         {
             return await _service.ImportRru(BasicImportService.CdmaCellExcels);
-        } 
+        }
+
+        [HttpGet]
+        public int Get()
+        {
+            return BasicImportService.CdmaCellExcels.Count;
+        }
     }
 }

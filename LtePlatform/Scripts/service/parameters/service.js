@@ -156,6 +156,9 @@
             queryCdmaCellExcels: function () {
                 return generalHttpService.getApiData('NewCdmaCellExcels', {});
             },
+            queryCdmaCellCount: function () {
+                return generalHttpService.getApiData('DumpCdmaRru', {});
+            },
             queryVanishedENodebs: function () {
                 return generalHttpService.getApiData('DumpENodebExcel', {});
             },

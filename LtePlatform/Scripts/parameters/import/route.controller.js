@@ -88,6 +88,9 @@
     basicImportService.queryCdmaCellExcels().then(function (data) {
         $rootScope.importData.newCdmaCells = data;
     });
+    basicImportService.queryCdmaCellCount().then(function(data) {
+        $rootScope.importData.cdmaCellCount = data;
+    });
     basicImportService.queryVanishedENodebs().then(function (data) {
         $rootScope.importData.vanishedENodebIds = data;
     });
