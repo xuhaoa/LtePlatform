@@ -123,16 +123,17 @@
     <Compile Include="Entities\FlowZte.cs" />
     <Compile Include="Entities\FlowZteCsv.cs" />
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
+    <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopConnection3GCell.cs" />
     <Compile Include="Entities\TopDrop2GCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201607150609084_Construct_ComplainItem.cs" />
-    <Compile Include="Migrations\201607150609084_Construct_ComplainItem.Designer.cs">
-      <DependentUpon>201607150609084_Construct_ComplainItem.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201607180641597_Change_CdmaKpi_MySql.cs" />
     <Compile Include="Migrations\201607180641597_Change_CdmaKpi_MySql.Designer.cs">
       <DependentUpon>201607180641597_Change_CdmaKpi_MySql.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607241210479_Add_CdmaRru.cs" />
+    <Compile Include="Migrations\201607241210479_Add_CdmaRru.Designer.cs">
+      <DependentUpon>201607241210479_Add_CdmaRru.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,11 +143,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607150609084_Construct_ComplainItem.resx">
-      <DependentUpon>201607150609084_Construct_ComplainItem.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607180641597_Change_CdmaKpi_MySql.resx">
       <DependentUpon>201607180641597_Change_CdmaKpi_MySql.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607241210479_Add_CdmaRru.resx">
+      <DependentUpon>201607241210479_Add_CdmaRru.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

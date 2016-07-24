@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using Lte.Domain.Common;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.DataService.Dump;
 using Lte.Evaluations.MapperSerive.Infrastructure;
-using Lte.Parameters.Entities;
-using Lte.Parameters.Entities.ExcelCsv;
 using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.Parameters

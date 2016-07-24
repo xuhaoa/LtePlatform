@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Lte.Domain.Common;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
-using Lte.Parameters.Entities.ExcelCsv;
 
 namespace Lte.Evaluations.DataService.Dump
 {

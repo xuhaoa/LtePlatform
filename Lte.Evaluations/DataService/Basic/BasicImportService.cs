@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Lte.Domain.Common;
 using Lte.Domain.LinqToExcel;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Parameters.Abstract.Basic;

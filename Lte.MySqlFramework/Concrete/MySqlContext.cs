@@ -44,5 +44,6 @@ namespace Lte.MySqlFramework.Concrete
 
         public DbSet<TopConnection3GCell> TopConnection3GStats { get; set; }
 
+        public DbSet<CdmaRru> CdmaRrus { get; set; }
     }
 }

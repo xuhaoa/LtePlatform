@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Construct_ComplainItem : IMigrationMetadata
+    public sealed partial class Add_CdmaRru : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Construct_ComplainItem));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_CdmaRru));
         
         string IMigrationMetadata.Id
         {
-            get { return "201607150609084_Construct_ComplainItem"; }
+            get { return "201607241210479_Add_CdmaRru"; }
         }
         
         string IMigrationMetadata.Source

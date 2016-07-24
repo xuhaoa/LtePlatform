@@ -44,6 +44,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
@@ -63,7 +64,7 @@
     <Compile Include="Common\Geo\IGeoPoint.cs" />
     <Compile Include="Common\Geo\ITown.cs" />
     <Compile Include="Common\Lz4Attributes.cs" />
-    <Compile Include="Common\Lz4Types.cs" />
+    <Compile Include="Common\ExcelTypes.cs" />
     <Compile Include="Common\TextOperations.cs" />
     <Compile Include="Common\TypeOperations.cs" />
     <Compile Include="Common\Util.cs" />
@@ -148,7 +149,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AutoMapper\AutoMapper.csproj">
+      <Project>{75c9d4b5-2117-4b06-a6b1-70afcd6b3bfc}</Project>
+      <Name>AutoMapper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

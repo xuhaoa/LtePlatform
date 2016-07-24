@@ -209,7 +209,6 @@
     <Compile Include="Entities\ExcelCsv\AlarmStatHuawei.cs" />
     <Compile Include="Entities\ExcelCsv\BtsExcel.cs" />
     <Compile Include="Entities\Basic\CdmaBts.cs" />
-    <Compile Include="Entities\ExcelCsv\CdmaCellExcel.cs" />
     <Compile Include="Entities\Basic\Cell.cs" />
     <Compile Include="Entities\ExcelCsv\CellExcel.cs" />
     <Compile Include="Entities\College\College3GTestResults.cs" />

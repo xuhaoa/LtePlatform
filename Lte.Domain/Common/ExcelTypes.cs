@@ -1,19 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using Lte.Domain.Regular.Attributes;
 
-namespace Lte.Parameters.Entities.ExcelCsv
+namespace Lte.Domain.Common
 {
     [TypeDoc("定义记录CDMA小区的信息的Excel导出数据项，需要定义与CdmaCell之间的映射关系")]
     public class CdmaCellExcel
     {
-        [IgnoreMap]
         [ExcelColumn("扇区标识")]
         [MemberDoc("扇区标识")]
         [Required]
         public byte SectorId { get; set; }
 
-        [IgnoreMap]
         [ExcelColumn("频点")]
         [MemberDoc("CDMA频点，如283、201、37等")]
         public int Frequency { get; set; }
@@ -52,12 +55,10 @@ namespace Lte.Parameters.Entities.ExcelCsv
         [MemberDoc("天线增益（dBi）")]
         public double AntennaGain { get; set; }
 
-        [IgnoreMap]
         [ExcelColumn("基站编号")]
         [MemberDoc("基站编号")]
         public int BtsId { get; set; }
 
-        [IgnoreMap]
         [ExcelColumn("小区标识")]
         [MemberDoc("小区标识")]
         public int CellId { get; set; }
@@ -76,5 +77,14 @@ namespace Lte.Parameters.Entities.ExcelCsv
         [ExcelColumn("PN码")]
         [MemberDoc("PN码")]
         public short Pn { get; set; }
+
+        [ExcelColumn("是否是RRU(来自：RRU拉远表)")]
+        public string IsRru { get; set; }
+
+        [ExcelColumn("TRM单板号")]
+        public byte TrmId { get; set; }
+
+        [ExcelColumn("RRU覆盖名称(来自：RRU拉远表)")]
+        public string RruName { get; set; }
     }
 }

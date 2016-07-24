@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 using Abp.Domain.Entities;
 using AutoMapper;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
-using Lte.Parameters.Entities.ExcelCsv;
 
 namespace Lte.Parameters.Entities.Basic
 {
