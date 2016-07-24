@@ -1,5 +1,5 @@
 ﻿app.controller('complain.supplement.dialog', function ($scope, $uibModalInstance,
-    appRegionService, appFormatService, item) {
+    appRegionService, appFormatService, baiduMapService, item) {
     $scope.dialogTitle = item.serialNumber + "工单信息补充";
 
     $scope.item = item;
@@ -11,6 +11,8 @@
             $scope.district.selected = (item.district) ? item.district.replace('区', '') : districts[0];
         });
     });
+    baiduMapService.initializeMap("map", 11);
+    baiduMapService.addCityBoundary("佛山");
 
     $scope.matchTown = function() {
         var town = appFormatService.searchPattern($scope.town.options, item.sitePosition);
