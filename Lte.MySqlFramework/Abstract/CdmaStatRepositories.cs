@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.EntityFramework.Repositories;
+using Lte.Domain.Common;
 using Lte.MySqlFramework.Entities;
 
 namespace Lte.MySqlFramework.Abstract
@@ -31,5 +32,11 @@ namespace Lte.MySqlFramework.Abstract
         IMatchRepository<TopConnection3GCell, TopConnection3GCellExcel>, ISaveChanges
     {
         List<TopConnection3GCell> GetAllList(string city, DateTime begin, DateTime end);
+    }
+
+    public interface ICdmaRruRepository : IRepository<CdmaRru>,
+        IMatchRepository<CdmaRru, CdmaCellExcel>, ISaveChanges
+    {
+        CdmaRru Get(int btsId, byte sectorId);
     }
 }

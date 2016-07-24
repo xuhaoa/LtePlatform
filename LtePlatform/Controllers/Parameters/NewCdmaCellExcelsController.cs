@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Lte.Domain.Common;
 using Lte.Evaluations.DataService.Basic;
@@ -37,5 +38,21 @@ namespace LtePlatform.Controllers.Parameters
         {
             return _dumpService.DumpNewCellExcels(container.Infos);
         }
+    }
+
+    public class DumpCdmaRruController : ApiController
+    {
+        private readonly CdmaCellDumpService _service;
+
+        public DumpCdmaRruController(CdmaCellDumpService service)
+        {
+            _service = service;
+        }
+
+        [HttpPut]
+        public async Task<int> Put()
+        {
+            return await _service.ImportRru(BasicImportService.CdmaCellExcels);
+        } 
     }
 }

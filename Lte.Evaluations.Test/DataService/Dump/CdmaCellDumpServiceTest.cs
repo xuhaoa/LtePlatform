@@ -22,7 +22,7 @@ namespace Lte.Evaluations.DataService.Dump
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            _service=new CdmaCellDumpService(_cellRepository.Object);
+            _service=new CdmaCellDumpService(_cellRepository.Object, null);
             _cellRepository.MockGetId<ICdmaCellRepository, CdmaCell>();
             _cellRepository.MockOperations();
             _cellRepository.MockRepositorySaveItems<CdmaCell, ICdmaCellRepository>();

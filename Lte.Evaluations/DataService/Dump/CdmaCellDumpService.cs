@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Abp.EntityFramework.Repositories;
 using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Evaluations.MapperSerive.Infrastructure;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 
@@ -11,10 +15,12 @@ namespace Lte.Evaluations.DataService.Dump
     public class CdmaCellDumpService
     {
         private readonly ICdmaCellRepository _cellRepository;
+        private readonly ICdmaRruRepository _rruRepository;
 
-        public CdmaCellDumpService(ICdmaCellRepository cellRepository)
+        public CdmaCellDumpService(ICdmaCellRepository cellRepository, ICdmaRruRepository rruRepository)
         {
             _cellRepository = cellRepository;
+            _rruRepository = rruRepository;
         }
 
         public int DumpNewCellExcels(IEnumerable<CdmaCellExcel> infos)
@@ -71,5 +77,16 @@ namespace Lte.Evaluations.DataService.Dump
             }
             _cellRepository.SaveChanges();
         }
+
+        public async Task<int> ImportRru(IEnumerable<CdmaCellExcel> infos)
+        {
+            var rruInfos = infos.Where(x => x.IsRru == "Y");
+            int count = 0;
+            foreach (var info in rruInfos)
+            {
+                count += await _rruRepository.UpdateOne<ICdmaRruRepository, CdmaRru, CdmaCellExcel>(info);
+            }
+            return count;
+        } 
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Abp.EntityFramework;
 using Abp.EntityFramework.Repositories;
+using Lte.Domain.Common;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 
@@ -103,6 +104,28 @@ namespace Lte.MySqlFramework.Concrete
         {
             var time = stat.StatDate.AddHours(stat.StatHour);
             return FirstOrDefault(x => x.BtsId == stat.BtsId && x.SectorId == stat.SectorId && x.StatTime == time);
+        }
+    }
+
+    public class CdmaRruRepository : EfRepositoryBase<MySqlContext, CdmaRru>, ICdmaRruRepository
+    {
+        public CdmaRruRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public CdmaRru Match(CdmaCellExcel stat)
+        {
+            return Get(stat.BtsId, stat.SectorId);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+
+        public CdmaRru Get(int btsId, byte sectorId)
+        {
+            return FirstOrDefault(x => x.BtsId == btsId && x.SectorId == sectorId);
         }
     }
 }
