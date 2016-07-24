@@ -125,6 +125,7 @@ angular.module('customer.complain', ['customer.service'])
                     type: 'success',
                     contents: '完成抱怨量工单' + item.serialNumber + '的信息补充！'
                 });
+                $scope.query();
             });
         };
     })
@@ -135,7 +136,8 @@ angular.module('customer.complain', ['customer.service'])
             replace: true,
             scope: {
                 items: '=',
-                messages: '='
+                messages: '=',
+                query: '&'
             },
             template: '<div></div>',
             link: function (scope, element, attrs) {
