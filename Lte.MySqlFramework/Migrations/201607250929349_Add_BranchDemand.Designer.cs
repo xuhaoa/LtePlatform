@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Change_CdmaKpi_MySql : IMigrationMetadata
+    public sealed partial class Add_BranchDemand : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Change_CdmaKpi_MySql));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_BranchDemand));
         
         string IMigrationMetadata.Id
         {
-            get { return "201607180641597_Change_CdmaKpi_MySql"; }
+            get { return "201607250929349_Add_BranchDemand"; }
         }
         
         string IMigrationMetadata.Source

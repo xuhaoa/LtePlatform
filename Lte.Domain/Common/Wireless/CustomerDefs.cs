@@ -161,4 +161,29 @@ namespace Lte.Domain.Common.Wireless
         WeakCoverageVoice,
         Others
     }
+
+    [EnumTypeDescription(typeof(SolveFunction), Others)]
+    public enum SolveFunction : byte
+    {
+        NewSiteUnplanned,
+        NewSitePlanned,
+        NewRruUnplanned,
+        NewRruPlanned,
+        NewDistributionPlanned,
+        NewDistributionUnplanned,
+        NewRepeaterPlanned,
+        NewRepeaterUnplanned,
+        NewDoPlanned,
+        NewDoUnplanned,
+        DistributionExpansion,
+        SubscriberTerminal,
+        BtsMalfunction,
+        DistributionMalfunction,
+        RepeaterMalfunction,
+        NetworkOptimization,
+        SelfRecoverage,
+        NormalTest,
+        NoContact,
+        Others
+    }
 }
