@@ -50,4 +50,10 @@ namespace Lte.MySqlFramework.Abstract
     {
         ComplainItem Get(string serialNumber);
     }
+
+    public interface IBranchDemandRepository
+        : IRepository<BranchDemand>, IDateSpanQuery<BranchDemand>, ISaveChanges
+    {
+        
+    }
 }

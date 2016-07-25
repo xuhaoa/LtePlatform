@@ -153,4 +153,26 @@ namespace Lte.MySqlFramework.Concrete
             return FirstOrDefault(x => x.SerialNumber == serialNumber);
         }
     }
+
+    public class BranchDemandRepository : EfRepositoryBase<MySqlContext, BranchDemand>,IBranchDemandRepository
+    {
+        public BranchDemandRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public List<BranchDemand> GetAllList(DateTime begin, DateTime end)
+        {
+            return GetAllList(x => x.BeginDate >= begin && x.BeginDate < end);
+        }
+
+        public List<BranchDemand> GetAllList(int townId, DateTime begin, DateTime end)
+        {
+            return GetAllList(x => x.BeginDate >= begin && x.BeginDate < end && x.TownId == townId);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
 }

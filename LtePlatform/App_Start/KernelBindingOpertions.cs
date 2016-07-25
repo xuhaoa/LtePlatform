@@ -158,6 +158,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<ICdmaRruRepository>().To<CdmaRruRepository>();
 
+            ninjectKernel.Bind<IBranchDemandRepository>().To<BranchDemandRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();

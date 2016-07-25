@@ -263,6 +263,11 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.IsIndoor, opt => opt.MapFrom(s => s.IndoorDescription == "室内"))
                 .ForMember(d => d.SitePosition,
                     opt => opt.MapFrom(s => string.IsNullOrEmpty(s.Site) ? s.Position : s.Site));
+            Mapper.CreateMap<BranchDemandExcel, BranchDemand>()
+                .ForMember(d => d.SolveFunction,
+                    opt => opt.MapFrom(s => s.SolveFunctionDescription.GetEnumType<SolveFunction>()))
+                .ForMember(d => d.IsSolved, opt => opt.MapFrom(s => s.IsSolvedDescription == "是"))
+                .ForMember(d => d.ProcessContents, opt => opt.MapFrom(s => "[" + DateTime.Now + "]" + s.FirstContents));
         }
     }
 }
