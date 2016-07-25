@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Abp.Domain.Entities;
-using Abp.EntityFramework.Repositories;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 
 namespace Lte.MySqlFramework.Entities
@@ -44,7 +40,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
 
-    public class EmergencyCommunicationDto : IDistrictTown
+    public class EmergencyCommunicationDto : IDistrictTown, ITownId
     {
         public int Id { get; set; }
 

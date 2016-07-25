@@ -6,6 +6,18 @@ using System.Threading.Tasks;
 
 namespace Lte.Domain.Common.Geo
 {
+    public interface ITownId
+    {
+        int TownId { get; set; }
+    }
+
+    public interface IDistrictTown
+    {
+        string District { get; set; }
+
+        string Town { get; set; }
+    }
+
     public interface ITown
     {
         string CityName { get; set; }

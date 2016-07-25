@@ -119,15 +119,9 @@ namespace Lte.Evaluations.DataService.Kpi
         {
             var factory = new ExcelQueryFactory {FileName = path};
             var stats = (from c in factory.Worksheet<BranchDemandExcel>("Sheet1") select c).ToList();
-            foreach (var stat in stats)
-            {
-                var town =
-                    _towns.FirstOrDefault(
-                        x => x.CityName == "佛山" && x.DistrictName == stat.District && x.TownName == stat.Town);
-                if (town != null)
-                    stat.TownId = town.Id;
-            }
-            var count = _branchDemandRepository.Import<IBranchDemandRepository, BranchDemand, BranchDemandExcel>(stats);
+            var count =
+                _branchDemandRepository.Import<IBranchDemandRepository, BranchDemand, BranchDemandExcel, Town>(stats,
+                    _towns);
             return "完成分公司需求信息导入" + count + "条";
         }
     }

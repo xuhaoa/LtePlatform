@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
@@ -10,8 +9,7 @@ using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Abp.EntityFramework.Repositories;
 using AutoMapper;
-using Lte.Domain.Common;
-using Lte.Domain.Common.Wireless;
+using Lte.Domain.Common.Geo;
 using Lte.Parameters.Abstract;
 
 namespace Lte.Evaluations.DataService.College
@@ -22,7 +20,7 @@ namespace Lte.Evaluations.DataService.College
             ITownRepository townRepository)
             where TRepository : IRepository<TEntity>, IMatchRepository<TEntity, TItem>, ISaveChanges
             where TEntity : Entity
-            where TItem : IDistrictTown
+            where TItem : IDistrictTown, ITownId
         {
             dto.TownId =
                 townRepository.QueryTown(dto.District, dto.Town)?.Id ?? 1;
@@ -34,7 +32,7 @@ namespace Lte.Evaluations.DataService.College
         public static List<TDto> Query<TRepository, TEntity, TDto>(this TRepository repository,
             ITownRepository townRepository, DateTime begin, DateTime end)
             where TRepository : IDateSpanQuery<TEntity>
-            where TDto : IDistrictTown
+            where TDto : IDistrictTown, ITownId
         {
             var results = Mapper.Map<List<TEntity>, List<TDto>>(repository.GetAllList(begin, end));
             results.ForEach(x =>
@@ -48,14 +46,15 @@ namespace Lte.Evaluations.DataService.College
             ITownRepository townRepository, int id)
             where TRepository : IRepository<TEntity>
             where TEntity: Entity
-            where TDto : IDistrictTown
+            where TDto : IDistrictTown, ITownId
         {
             var result = Mapper.Map<TEntity, TDto>(repository.Get(id));
             UpdateTown(townRepository, result);
             return result;
         }
 
-        private static void UpdateTown<TDto>(ITownRepository townRepository, TDto x) where TDto : IDistrictTown
+        private static void UpdateTown<TDto>(ITownRepository townRepository, TDto x) 
+            where TDto : IDistrictTown, ITownId
         {
             if (x.TownId == 0)
             {

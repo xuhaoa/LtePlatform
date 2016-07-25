@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
 {
-    public class BranchDemand : Entity
+    public class BranchDemand : Entity, ITownId
     {
         public DateTime BeginDate { get; set; }
 
@@ -30,7 +31,7 @@ namespace Lte.MySqlFramework.Entities
         public double Lattitute { get; set; }
     }
 
-    public class BranchDemandExcel
+    public class BranchDemandExcel : IDistrictTown
     {
         [ExcelColumn("用户申告时间")]
         public DateTime BeginDate { get; set; }
@@ -38,11 +39,9 @@ namespace Lte.MySqlFramework.Entities
         [ExcelColumn("所属区域")]
         public string District { get; set; }
 
-        [ExcelColumn("所属区域")]
+        [ExcelColumn("所属镇")]
         public string Town { get; set; }
-
-        public int TownId { get; set; }
-
+        
         [ExcelColumn("用户申告内容描述")]
         public string ComplainContents { get; set; }
 

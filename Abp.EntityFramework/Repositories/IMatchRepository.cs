@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
-using Lte.Domain.Regular;
+using AutoMapper.Internal;
+using Lte.Domain.Common.Geo;
 
 namespace Abp.EntityFramework.Repositories
 {
@@ -32,16 +34,7 @@ namespace Abp.EntityFramework.Repositories
     {
         int SaveChanges();
     }
-
-    public interface IDistrictTown
-    {
-        string District { get; set; }
-
-        string Town { get; set; }
-
-        int TownId { get; set; }
-    }
-
+    
     public static class MatchRepositoryOperation
     {
         public static int Import<TRepository, TEntity, TExcel>(this TRepository repository, IEnumerable<TExcel> stats)
@@ -54,6 +47,28 @@ namespace Abp.EntityFramework.Repositories
                 if (info == null)
                 {
                     repository.Insert(stat.MapTo<TEntity>());
+                }
+            }
+            return repository.SaveChanges();
+        }
+
+        public static int Import<TRepository, TEntity, TExcel, TTown>(
+            this TRepository repository, IEnumerable<TExcel> stats, List<TTown> towns)
+            where TRepository : IRepository<TEntity>, IMatchRepository<TEntity, TExcel>, ISaveChanges
+            where TEntity : Entity, ITownId
+            where TTown : Entity, ITown
+            where TExcel : IDistrictTown
+        {
+            foreach (var stat in stats)
+            {
+                var info = repository.Match(stat);
+                if (info == null)
+                {
+                    info = stat.MapTo<TEntity>();
+                    var town = towns.FirstOrDefault(x => x.DistrictName == stat.District && x.TownName == stat.Town);
+                    if (town != null)
+                        info.TownId = town.Id;
+                    repository.Insert(info);
                 }
             }
             return repository.SaveChanges();

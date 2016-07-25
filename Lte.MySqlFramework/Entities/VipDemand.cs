@@ -1,7 +1,7 @@
 ﻿using System;
 using Abp.Domain.Entities;
-using Abp.EntityFramework.Repositories;
 using AutoMapper;
+using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 
@@ -47,7 +47,7 @@ namespace Lte.MySqlFramework.Entities
         public string ProcessInfo { get; set; }
     }
     
-    public class VipDemandDto : IDistrictTown
+    public class VipDemandDto : IDistrictTown, ITownId
     {
         public string SerialNumber { get; set; }
         
