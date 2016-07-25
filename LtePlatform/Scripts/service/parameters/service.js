@@ -183,6 +183,9 @@
             dumpOneCdmaCellExcel: function (item) {
                 return generalHttpService.postApiData('DumpCdmaCellExcel', item);
             },
+            dumpCdmaRrus: function() {
+                return generalHttpService.putApiData('DumpCdmaRru', {});
+            },
             dumpMultipleENodebExcels: function (items) {
                 return generalHttpService.postApiData('NewENodebExcels', {
                     infos: items

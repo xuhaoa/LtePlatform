@@ -52,6 +52,17 @@
         }
     };
 
+    $scope.importCdmaRrus = function() {
+        if ($scope.importData.cdmaCellCount > 0) {
+            basicImportService.dumpCdmaRrus().then(function(result) {
+                $scope.importData.updateMessages.push({
+                    contents: "完成CDMA RRU导入" + result + "个",
+                    type: 'success'
+                });
+            });
+        }
+    };
+
     $scope.vanishENodebs = function () {
         basicImportService.vanishENodebIds($scope.importData.vanishedENodebIds).then(function() {
             $scope.importData.updateMessages.push({
