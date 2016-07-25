@@ -41,6 +41,8 @@ namespace Lte.MySqlFramework.Entities
         [ExcelColumn("所属区域")]
         public string Town { get; set; }
 
+        public int TownId { get; set; }
+
         [ExcelColumn("用户申告内容描述")]
         public string ComplainContents { get; set; }
 

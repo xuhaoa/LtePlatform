@@ -174,5 +174,10 @@ namespace Lte.MySqlFramework.Concrete
         {
             return Context.SaveChanges();
         }
+
+        public BranchDemand Match(BranchDemandExcel stat)
+        {
+            return FirstOrDefault(x => x.BeginDate == stat.BeginDate && x.ComplainContents == stat.ComplainContents);
+        }
     }
 }

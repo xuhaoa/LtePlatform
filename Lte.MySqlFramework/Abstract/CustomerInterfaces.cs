@@ -52,7 +52,8 @@ namespace Lte.MySqlFramework.Abstract
     }
 
     public interface IBranchDemandRepository
-        : IRepository<BranchDemand>, IDateSpanQuery<BranchDemand>, ISaveChanges
+        : IRepository<BranchDemand>, IMatchRepository<BranchDemand, BranchDemandExcel>,
+        IDateSpanQuery<BranchDemand>, ISaveChanges
     {
         
     }

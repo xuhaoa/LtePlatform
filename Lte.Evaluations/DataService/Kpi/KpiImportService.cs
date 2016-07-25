@@ -23,13 +23,15 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly IDownSwitchFlowRepository _downSwitchRepository;
         private readonly IVipDemandRepository _vipDemandRepository;
         private readonly IComplainItemRepository _complainItemRepository;
+        private readonly IBranchDemandRepository _branchDemandRepository;
         private readonly List<Town> _towns; 
 
         public KpiImportService(ICdmaRegionStatRepository regionStatRepository,
             ITopDrop2GCellRepository top2GRepository, ITopConnection3GRepository top3GRepository,
             ITopConnection2GRepository topConnection2GRepository,
             IDownSwitchFlowRepository downSwitchRepository, IVipDemandRepository vipDemandRepository,
-            IComplainItemRepository complainItemRepository, ITownRepository townRepository)
+            IComplainItemRepository complainItemRepository, IBranchDemandRepository branchDemandRepository,
+            ITownRepository townRepository)
         {
             _regionStatRepository = regionStatRepository;
             _top2GRepository = top2GRepository;
@@ -38,6 +40,7 @@ namespace Lte.Evaluations.DataService.Kpi
             _downSwitchRepository = downSwitchRepository;
             _vipDemandRepository = vipDemandRepository;
             _complainItemRepository = complainItemRepository;
+            _branchDemandRepository = branchDemandRepository;
             _towns = townRepository.GetAllList();
         }
         public List<string> Import(string path, IEnumerable<string> regions)
@@ -110,6 +113,22 @@ namespace Lte.Evaluations.DataService.Kpi
             var count =
                 _complainItemRepository.Import<IComplainItemRepository, ComplainItem, ComplainExcel>(stats);
             return "完成抱怨量信息导入" + count + "条";
+        }
+
+        public string ImportBranchDemand(string path)
+        {
+            var factory = new ExcelQueryFactory {FileName = path};
+            var stats = (from c in factory.Worksheet<BranchDemandExcel>("Sheet1") select c).ToList();
+            foreach (var stat in stats)
+            {
+                var town =
+                    _towns.FirstOrDefault(
+                        x => x.CityName == "佛山" && x.DistrictName == stat.District && x.TownName == stat.Town);
+                if (town != null)
+                    stat.TownId = town.Id;
+            }
+            var count = _branchDemandRepository.Import<IBranchDemandRepository, BranchDemand, BranchDemandExcel>(stats);
+            return "完成分公司需求信息导入" + count + "条";
         }
     }
 }
