@@ -156,5 +156,24 @@ angular.module('app.directives.glyphicon', [])
                 }
             }
         }
+    })
+    .directive('glyphiconInline', function ($compile) {
+        return {
+            restrict: 'A',
+            scope: {
+                type: '='
+            },
+            link: function (scope, element, attrs) {
+                scope.initialize = true;
+                scope.$watch('type', function(type) {
+                    if (type && scope.initialize) {
+                        var dom = $compile('<em glyphicon-enhance type=' + type + '></em>')(scope);
+                        element.append(dom);
+                        scope.initialze = false;
+                    }
+                });
+
+            }
+        };
     });
     

@@ -18,4 +18,12 @@
         expect(element.hasClass('glyphicon-l')).toBe(true);
         expect(element.hasClass('glyphicon-shopping-cart'));
     });
+
+    it('The glyphicon-inline directive', function () {
+        var scope = $rootScope.$new(true);
+        scope.type = "stats";
+        var element = $compile('<div glyphicon-inline type="type"></div>')(scope);
+        scope.$digest();
+        expect(element.hasClass('glyphicon')).toBe(false);
+    });
 });
