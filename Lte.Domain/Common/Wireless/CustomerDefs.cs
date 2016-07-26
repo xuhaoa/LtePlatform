@@ -159,7 +159,10 @@ namespace Lte.Domain.Common.Wireless
         WeakCoverage4G,
         BadQualityVoice,
         WeakCoverageVoice,
-        Others
+        Others,
+        Voice,
+        Web,
+        ShortMessage
     }
 
     [EnumTypeDescription(typeof(SolveFunction), Others)]

@@ -268,6 +268,10 @@ namespace Lte.Evaluations.MapperSerive
                     opt => opt.MapFrom(s => s.SolveFunctionDescription.GetEnumType<SolveFunction>()))
                 .ForMember(d => d.IsSolved, opt => opt.MapFrom(s => s.IsSolvedDescription == "是"))
                 .ForMember(d => d.ProcessContents, opt => opt.MapFrom(s => "[" + DateTime.Now + "]" + s.FirstContents));
+            Mapper.CreateMap<OnlineSustainExcel, OnlineSustain>()
+                .ForMember(d => d.ComplainCategory,
+                    opt => opt.MapFrom(s => s.ComplainCategoryDescription.GetEnumType<ComplainCategory>()))
+                .ForMember(d => d.IsPreProcessed, opt => opt.MapFrom(s => s.PreProcessString == "是"));
         }
     }
 }

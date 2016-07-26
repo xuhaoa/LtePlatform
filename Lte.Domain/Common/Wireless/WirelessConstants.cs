@@ -274,7 +274,10 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(ComplainCategory.WeakCoverage4G, "4G-无信号或信号弱"),
                     new Tuple<object, string>(ComplainCategory.BadQualityVoice, "语音-通话质量差"),
                     new Tuple<object, string>(ComplainCategory.WeakCoverageVoice, "语音-无信号或信号弱"),
-                    new Tuple<object, string>(ComplainCategory.Others, "其他")
+                    new Tuple<object, string>(ComplainCategory.Others, "其他"),
+                    new Tuple<object, string>(ComplainCategory.Voice, "语音"), 
+                    new Tuple<object, string>(ComplainCategory.Web, "上网"),
+                    new Tuple<object, string>(ComplainCategory.ShortMessage, "短信"),  
                 }
             },
             {
