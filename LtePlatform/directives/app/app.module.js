@@ -175,5 +175,25 @@ angular.module('app.directives.glyphicon', [])
 
             }
         };
+    })
+    .directive('panelColor', function() {
+        return {
+            restrict: 'A',
+            scope: {
+                color: '='
+            },
+            link: function (scope, element, attrs) {
+                scope.initialize = true;
+                scope.$watch('color', function (color) {
+                    if (color && scope.initialize) {
+                        element.addClass('panel');
+                        element.addClass('panel-widget');
+                        element.addClass('panel-' + color);
+                        scope.initialze = false;
+                    }
+                });
+
+            }
+        }
     });
     
