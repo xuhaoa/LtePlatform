@@ -1744,13 +1744,14 @@
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\spin.min.js" />
     <Content Include="Scripts\test\app\format.service.js" />
+    <Content Include="Scripts\test\directives\app.js" />
     <Content Include="Scripts\test\helpers.js" />
     <Content Include="Scripts\test\jasmineTest.js" />
     <Content Include="Scripts\test\kpi.conf.js" />
     <Content Include="Scripts\test\kpi\app.kpi.service.js" />
     <Content Include="Scripts\test\mock\highcharts.mock.js" />
     <Content Include="Scripts\test\mock\ui.bootstrap.mock.js" />
-    <Content Include="Scripts\test\uib.conf.js" />
+    <Content Include="Scripts\test\directives.conf.js" />
     <Content Include="Scripts\test\uib\accordion.spec.js" />
     <Content Include="Scripts\test\uib\alert.spec.js" />
     <Content Include="Scripts\test\uib\buttons.spec.js" />

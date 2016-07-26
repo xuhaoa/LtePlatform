@@ -79,17 +79,17 @@
         var rootUrl = "/Customer#";
         $rootScope.menuItems = [
             {
-                displayName: "日常支撑",
+                displayName: "投诉处理",
                 isActive: true,
                 subItems: [{
-                        displayName: "新增需求",
-                        url: rootUrl + "/newDemand"
+                        displayName: "10000号投诉",
+                        url: rootUrl + "/complain/list"
                     }, {
-                        displayName: "处理需求",
-                        url: rootUrl + "/processDemand"
+                        displayName: "分公司投诉",
+                        url: rootUrl + "/complain/branch"
                     }, {
-                        displayName: "日常统计分析",
-                        url: rootUrl + "/dailyStat"
+                        displayName: "在线支撑",
+                        url: rootUrl + "/complain/online"
                     }
                 ]
             }, {
@@ -107,17 +107,17 @@
                     displayName: "校园网专题优化",
                     url: "/College/Map",
                     tooltip: "校园网专项优化，包括数据管理、指标分析、支撑工作管理和校园网覆盖呈现"
-                }, {
-                    displayName: "专项统计分析",
-                    url: rootUrl + "/vipStat"
                 }]
             }, {
-                displayName: "基础信息",
+                displayName: "统计分析",
                 isActive: false,
                 subItems: [
                     {
                         displayName: "抱怨量信息校正",
                         url: rootUrl + "/complain/adjust"
+                    }, {
+                        displayName: "统计分析",
+                        url: rootUrl + "/dailyStat"
                     }
                 ]
             }

@@ -17,9 +17,8 @@ module.exports = function(config) {
     files: [
         '../angular.min.js',
         '../angular-mocks.js',
-        '../angular-ui/ui-bootstrap-tpls.js',
-        'helper.js',
-        'uib/alert.spec.js'
+        '../../directives/**/*.js',
+        'directives/*.js'
     ],
 
 

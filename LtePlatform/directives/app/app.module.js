@@ -1,5 +1,8 @@
-﻿angular.module('app.module', ["ui.bootstrap", 'myApp.region'])
-    .value('appRoot', '/directives/app/')
+﻿angular.module('app.module', [
+    'app.directives.date', 'app.directives.file', 'app.directives.district', 'app.directives.form', 'app.directives.glyphicon'])
+    .constant('appRoot', '/directives/app/');
+
+angular.module('app.directives.date', [])
     .directive('dateSpanColumn', function(appRoot) {
         return {
             restrict: 'ECMA',
@@ -26,8 +29,10 @@
                 scope.endTips = attrs.endTips || "结束日期：";
             }
         };
-    })
-    .directive('dumpFileSelector', function (appRoot) {
+    });
+
+angular.module('app.directives.file', [])
+    .directive('dumpFileSelector', function(appRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -38,8 +43,10 @@
             templateUrl: appRoot + 'dump/FileSelector.html',
             transclude: true
         };
-    })
-    .directive('cityDistrictSelection', function (appRoot, appRegionService) {
+    });
+
+angular.module('app.directives.district', ["ui.bootstrap", 'myApp.region'])
+    .directive('cityDistrictSelection', function(appRoot, appRegionService) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -53,9 +60,9 @@
                     scope.city.options = cities;
                     scope.city.selected = cities[0];
                 });
-                scope.$watch("city.selected", function (city) {
+                scope.$watch("city.selected", function(city) {
                     if (city) {
-                        appRegionService.queryDistricts(city).then(function (districts) {
+                        appRegionService.queryDistricts(city).then(function(districts) {
                             scope.district.options = districts;
                             scope.district.selected = districts[0];
                         });
@@ -64,7 +71,7 @@
             }
         };
     })
-    .directive('districtTownSelection', function (appRoot, appRegionService) {
+    .directive('districtTownSelection', function(appRoot, appRegionService) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -75,10 +82,10 @@
             },
             templateUrl: appRoot + 'DistrictTownSelection.Tpl.html',
             transclude: true,
-            link: function (scope) {
-                scope.$watch("district.selected", function (district) {
+            link: function(scope) {
+                scope.$watch("district.selected", function(district) {
                     if (district) {
-                        appRegionService.queryTowns(scope.city.selected, district).then(function (towns) {
+                        appRegionService.queryTowns(scope.city.selected, district).then(function(towns) {
                             scope.town.options = towns;
                             scope.town.selected = towns[0];
                         });
@@ -86,7 +93,9 @@
                 });
             }
         };
-    })
+    });
+
+angular.module('app.directives.form', [])
     .directive('formFieldError', function($compile) {
         return{
             restrict: 'A',
@@ -96,14 +105,14 @@
                 subScope.hasErrors = function() {
                     return ngModel.$invalid && ngModel.$dirty;
                 };
-                subScope.errors = function () {
+                subScope.errors = function() {
                     var errors = ngModel.$error;
                     if (errors.parse !== undefined) {
                         errors.parse = false;
                     }
                     return errors;
                 };
-                subScope.customHints =  scope.$eval(attrs.formFieldError);
+                subScope.customHints = scope.$eval(attrs.formFieldError);
                 var hint = $compile(
                     '<ul class="text-danger" ng-if="hasErrors()">'
                     + '<small ng-repeat="(name, wrong) in errors()" ng-if="wrong">{{name | formError: customHints}}</small>'
@@ -133,5 +142,19 @@
                 });
             }
         };
+    });
+
+angular.module('app.directives.glyphicon', [])
+    .directive('glyphiconEnhance', function() {
+        return {
+            restrict: 'A',
+            compile: function(element, attrs) {
+                element.addClass('glyphicon');
+                element.addClass('glyphicon-l');
+                if (attrs.type) {
+                    element.addClass('glyphicon-' + attrs.type);
+                }
+            }
+        }
     });
     
