@@ -180,4 +180,31 @@ namespace Lte.MySqlFramework.Concrete
             return FirstOrDefault(x => x.BeginDate == stat.BeginDate && x.ComplainContents == stat.ComplainContents);
         }
     }
+
+    public class OnlineSustainRepository : EfRepositoryBase<MySqlContext, OnlineSustain>, IOnlineSustainRepository
+    {
+        public OnlineSustainRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public OnlineSustain Match(OnlineSustainExcel stat)
+        {
+            return FirstOrDefault(x => x.SerialNumber == stat.SerialNumber);
+        }
+
+        public List<OnlineSustain> GetAllList(DateTime begin, DateTime end)
+        {
+            return GetAllList(x => x.BeginDate >= begin && x.BeginDate < end);
+        }
+
+        public List<OnlineSustain> GetAllList(int townId, DateTime begin, DateTime end)
+        {
+            return GetAllList(x => x.BeginDate >= begin && x.BeginDate < end && x.TownId == townId);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
 }

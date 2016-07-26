@@ -160,6 +160,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IBranchDemandRepository>().To<BranchDemandRepository>();
 
+            ninjectKernel.Bind<IOnlineSustainRepository>().To<OnlineSustainRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();

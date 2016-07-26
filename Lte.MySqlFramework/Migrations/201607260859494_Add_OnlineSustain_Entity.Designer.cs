@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Add_CdmaRru : IMigrationMetadata
+    public sealed partial class Add_OnlineSustain_Entity : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_CdmaRru));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_OnlineSustain_Entity));
         
         string IMigrationMetadata.Id
         {
-            get { return "201607241210479_Add_CdmaRru"; }
+            get { return "201607260859494_Add_OnlineSustain_Entity"; }
         }
         
         string IMigrationMetadata.Source

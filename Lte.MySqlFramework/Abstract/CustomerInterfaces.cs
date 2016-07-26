@@ -57,4 +57,11 @@ namespace Lte.MySqlFramework.Abstract
     {
         
     }
+
+    public interface IOnlineSustainRepository
+        : IRepository<OnlineSustain>, IMatchRepository<OnlineSustain, OnlineSustainExcel>,
+            IDateSpanQuery<OnlineSustain>, ISaveChanges
+    {
+        
+    }
 }

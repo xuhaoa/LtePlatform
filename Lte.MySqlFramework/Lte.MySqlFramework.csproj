@@ -129,13 +129,13 @@
     <Compile Include="Entities\TopConnection3GCell.cs" />
     <Compile Include="Entities\TopDrop2GCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201607241210479_Add_CdmaRru.cs" />
-    <Compile Include="Migrations\201607241210479_Add_CdmaRru.Designer.cs">
-      <DependentUpon>201607241210479_Add_CdmaRru.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201607250929349_Add_BranchDemand.cs" />
     <Compile Include="Migrations\201607250929349_Add_BranchDemand.Designer.cs">
       <DependentUpon>201607250929349_Add_BranchDemand.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607260859494_Add_OnlineSustain_Entity.cs" />
+    <Compile Include="Migrations\201607260859494_Add_OnlineSustain_Entity.Designer.cs">
+      <DependentUpon>201607260859494_Add_OnlineSustain_Entity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -145,11 +145,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607241210479_Add_CdmaRru.resx">
-      <DependentUpon>201607241210479_Add_CdmaRru.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607250929349_Add_BranchDemand.resx">
       <DependentUpon>201607250929349_Add_BranchDemand.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607260859494_Add_OnlineSustain_Entity.resx">
+      <DependentUpon>201607260859494_Add_OnlineSustain_Entity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

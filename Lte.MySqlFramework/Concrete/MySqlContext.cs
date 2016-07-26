@@ -47,5 +47,7 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<CdmaRru> CdmaRrus { get; set; }
 
         public DbSet<BranchDemand> BranchDemands { get; set; }
+
+        public DbSet<OnlineSustain> OnlineSustains { get; set; }
     }
 }
