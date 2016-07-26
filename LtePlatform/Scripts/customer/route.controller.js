@@ -26,9 +26,9 @@
                     templateUrl: viewDir + "Complain/Adjust.html",
                     controller: "complain.adjust"
                 })
-                .when('/top', {
-                    templateUrl: viewDir + "Top.html",
-                    controller: "rutrace.top"
+                .when('/dailyStat', {
+                    templateUrl: viewDir + "Complain/Stat.html",
+                    controller: "daily.stat"
                 })
                 .when('/import/:cellId/:sectorId/:name', {
                     templateUrl: viewDir + "Import.html",
@@ -88,7 +88,7 @@
                         displayName: "处理需求",
                         url: rootUrl + "/processDemand"
                     }, {
-                        displayName: "统计分析",
+                        displayName: "日常统计分析",
                         url: rootUrl + "/dailyStat"
                     }
                 ]
@@ -108,7 +108,7 @@
                     url: "/College/Map",
                     tooltip: "校园网专项优化，包括数据管理、指标分析、支撑工作管理和校园网覆盖呈现"
                 }, {
-                    displayName: "统计分析",
+                    displayName: "专项统计分析",
                     url: rootUrl + "/vipStat"
                 }]
             }, {
