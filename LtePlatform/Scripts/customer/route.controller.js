@@ -81,13 +81,15 @@
             {
                 displayName: "日常支撑",
                 isActive: true,
-                subItems: [
-                    {
-                        displayName: "指标总体情况",
-                        url: rootUrl + "/"
+                subItems: [{
+                        displayName: "新增需求",
+                        url: rootUrl + "/newDemand"
                     }, {
-                        displayName: "指标变化趋势",
-                        url: rootUrl + "/trend"
+                        displayName: "处理需求",
+                        url: rootUrl + "/processDemand"
+                    }, {
+                        displayName: "统计分析",
+                        url: rootUrl + "/dailyStat"
                     }
                 ]
             }, {
@@ -105,16 +107,10 @@
                     displayName: "校园网专题优化",
                     url: "/College/Map",
                     tooltip: "校园网专项优化，包括数据管理、指标分析、支撑工作管理和校园网覆盖呈现"
+                }, {
+                    displayName: "统计分析",
+                    url: rootUrl + "/vipStat"
                 }]
-            }, {
-                displayName: "统计分析",
-                isActive: true,
-                subItems: [
-                    {
-                        displayName: "分析",
-                        url: rootUrl + "/top"
-                    }
-                ]
             }, {
                 displayName: "基础信息",
                 isActive: false,

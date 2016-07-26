@@ -482,6 +482,20 @@
                     fontFamily: "微软雅黑"
                 });
                 map.addOverlay(label);
+            },
+            drawMultiPoints: function(coors, color, xoffset, yoffset, callback) {
+                var points = [];  // 添加海量点数据
+                angular.forEach(coors, function(data) {
+                    points.push(new BMap.Point(data.longtitute - xoffset, data.lattitute - yoffset));
+                });
+                var options = {
+                    size: BMAP_POINT_SIZE_SMALL,
+                    color: color
+                }
+                var pointCollection = new BMap.PointCollection(points, options);  // 初始化PointCollection
+                if (callback)
+                    pointCollection.addEventListener('click', callback);
+                map.addOverlay(pointCollection);  // 添加Overlay
             }
         };
     });
