@@ -15,7 +15,8 @@ namespace Lte.Domain.Regular.Attributes
         AntiNullAddress,
         NullabelDateTime,
         Longtitute,
-        Lattitute
+        Lattitute,
+        DoubleEmptyZero
     }
 
     [AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
@@ -66,6 +67,8 @@ namespace Lte.Domain.Regular.Attributes
                         return x => string.IsNullOrEmpty(x) ? null : MatchRange(x.ConvertToDouble(0), 112, 114, 100);
                     case TransformEnum.Lattitute:
                         return x => string.IsNullOrEmpty(x) ? null : MatchRange(x.ConvertToDouble(0), 22, 24, 20);
+                    case TransformEnum.DoubleEmptyZero:
+                        return x => string.IsNullOrEmpty(x) ? 0 : x.ConvertToDouble(0);
                     default:
                         return null;
                 }

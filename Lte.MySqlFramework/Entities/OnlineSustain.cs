@@ -69,11 +69,11 @@ namespace Lte.MySqlFramework.Entities
         [ExcelColumn("工单单号")]
         public string WorkItemNumber { get; set; }
 
-        [ExcelColumn("经度", TransformEnum.DefaultZeroDouble, 0)]
-        public double? Longtitute { get; set; }
+        [ExcelColumn("经度", TransformEnum.DoubleEmptyZero, 0)]
+        public double Longtitute { get; set; }
 
-        [ExcelColumn("纬度", TransformEnum.DefaultZeroDouble, 0)]
-        public double? Lattitute { get; set; }
+        [ExcelColumn("纬度", TransformEnum.DoubleEmptyZero, 0)]
+        public double Lattitute { get; set; }
 
         [ExcelColumn("后续跟进")]
         public string FollowInfo { get; set; }

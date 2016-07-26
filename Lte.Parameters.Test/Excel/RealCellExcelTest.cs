@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using Lte.Domain.LinqToExcel;
 using Lte.Domain.Test.LinqToExcel;
+using Lte.Evaluations.MapperSerive;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.ExcelCsv;
 using NUnit.Framework;
@@ -43,6 +45,60 @@ namespace Lte.Parameters.Test.Excel
             Assert.AreEqual(info.Count, 14999);
             var longtitutes = info.Select(x => x.Longtitute).Where(x => x > 112 && x < 114);
             longtitutes.Count().ShouldBe(14999);
+        }
+    }
+
+    public class OnlineSustainTests : SQLLogStatements_Helper
+    {
+        ExcelQueryFactory _repo;
+        string _excelFileName;
+        string _worksheetName;
+        private string _excelFilesDirectory;
+
+        [TestFixtureSetUp]
+        public void fs()
+        {
+            InstantiateLogger();
+            var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            _excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
+            _worksheetName = "Sheet1";
+            InfrastructureMapperService.MapCustomerEntities();
+        }
+
+        [Test]
+        public void Test_Read_Sheet()
+        {
+            _excelFileName = Path.Combine(_excelFilesDirectory, "Online1.xlsx");
+            _repo = new ExcelQueryFactory {FileName = _excelFileName};
+            var info = (from c in _repo.Worksheet<OnlineSustainExcel>(_worksheetName)
+                select c).ToList();
+
+            Assert.IsNotNull(info);
+            Assert.AreEqual(info.Count, 2);
+        }
+
+        [Test]
+        public void Test_Read_Sheet2()
+        {
+            _excelFileName = Path.Combine(_excelFilesDirectory, "在线支撑1.xlsx");
+            _repo = new ExcelQueryFactory { FileName = _excelFileName };
+            var info = (from c in _repo.Worksheet<OnlineSustainExcel>(_worksheetName)
+                        select c).ToList();
+
+            Assert.IsNotNull(info);
+            Assert.AreEqual(info.Count, 24);
+        }
+
+        [Test]
+        public void Test_Read_Sheet3()
+        {
+            _excelFileName = Path.Combine(_excelFilesDirectory, "在线支撑.xlsx");
+            _repo = new ExcelQueryFactory { FileName = _excelFileName };
+            var info = (from c in _repo.Worksheet<OnlineSustainExcel>(_worksheetName)
+                        select c).ToList();
+
+            Assert.IsNotNull(info);
+            Assert.AreEqual(info.Count, 3349);
         }
     }
 }
