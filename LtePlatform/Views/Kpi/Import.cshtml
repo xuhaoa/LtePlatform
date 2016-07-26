@@ -37,6 +37,11 @@
                 {
                     <div dump-file-selector file-title="分公司需求文件选择：" tag="branch"></div>
                 }
+                @using (Html.BeginForm("OnlineImport", "Kpi",
+                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                {
+                    <div dump-file-selector file-title="在线支撑文件选择：" tag="online"></div>
+                }
             </div>
             <div class="col-md-5">
                 @{Html.RenderPartial("_AlertPanel");}

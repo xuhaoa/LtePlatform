@@ -70,10 +70,10 @@ namespace Lte.MySqlFramework.Entities
         public string WorkItemNumber { get; set; }
 
         [ExcelColumn("经度", TransformEnum.DefaultZeroDouble, 0)]
-        public double Longtitute { get; set; }
+        public double? Longtitute { get; set; }
 
         [ExcelColumn("纬度", TransformEnum.DefaultZeroDouble, 0)]
-        public double Lattitute { get; set; }
+        public double? Lattitute { get; set; }
 
         [ExcelColumn("后续跟进")]
         public string FollowInfo { get; set; }
