@@ -87,6 +87,18 @@ namespace Lte.Domain.Common.Wireless
         Conclusion
     }
 
+    [EnumTypeDescription(typeof(ComplainState), Begin)]
+    public enum ComplainState : byte
+    {
+        Begin,
+        Preprocessed,
+        PlanTest,
+        Test,
+        ProcessIssues,
+        Feedback,
+        Archive
+    }
+
     [EnumTypeDescription(typeof(ComplainSource), Unknown)]
     public enum ComplainSource : byte
     {

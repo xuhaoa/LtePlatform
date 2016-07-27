@@ -169,6 +169,10 @@ namespace Lte.MySqlFramework.Entities
         public string ProcessPerson { get; set; }
 
         public string ProcessInfo { get; set; }
+
+        public string AttachFilePath { get; set; }
+
+        public string ContactPerson { get; set; }
     }
 
     public class VipProcessDto
@@ -186,5 +190,9 @@ namespace Lte.MySqlFramework.Entities
         public string ProcessPerson { get; set; }
 
         public string ProcessInfo { get; set; }
+
+        public string AttachFilePath { get; set; }
+
+        public string ContactPerson { get; set; }
     }
 }

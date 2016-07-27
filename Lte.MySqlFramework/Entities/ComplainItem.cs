@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 
@@ -47,6 +48,100 @@ namespace Lte.MySqlFramework.Entities
         public ComplainScene ComplainScene { get; set; }
 
         public ComplainCategory ComplainCategory { get; set; }
+
+        public ComplainState ComplainState { get; set; }
+    }
+
+    public class ComplanDto
+    {
+        public string SerialNumber { get; set; }
+
+        public string ComplainSourceDescription { get; set; }
+
+        public DateTime BeginTime { get; set; }
+
+        public string City { get; set; }
+
+        public string District { get; set; }
+
+        public string Town { get; set; }
+
+        public string RoadName { get; set; }
+
+        public string BuildingName { get; set; }
+
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        public string ComplainReasonDescription { get; set; }
+
+        public string ComplainSubReasonDescription { get; set; }
+
+        public string Grid { get; set; }
+
+        public string NetworkTypeDescription { get; set; }
+
+        public string SitePosition { get; set; }
+
+        public bool IsIndoor { get; set; }
+
+        public string ComplainSceneDescription { get; set; }
+
+        public string ComplainCategoryDescription { get; set; }
+
+        public string ComplainStateDescription { get; set; }
+
+        public string NextStateDescription
+        {
+            get
+            {
+                var nextState = ComplainStateDescription.GetNextStateDescription(EmergencyState.Finish);
+                return nextState == null ? null : ((EmergencyState)nextState).GetEnumDescription();
+            }
+        }
+    }
+
+    public class ComplainProcess : Entity
+    {
+        public string SerialNumber { get; set; }
+
+        public ComplainState ComplainState { get; set; }
+
+        public DateTime BeginTime { get; set; }
+
+        public string BeginInfo { get; set; }
+
+        public DateTime ProcessTime { get; set; }
+
+        public string ProcessPerson { get; set; }
+
+        public string ProcessInfo { get; set; }
+
+        public string AttachFilePath { get; set; }
+
+        public string ContactPerson { get; set; }
+    }
+
+    public class ComplainProcessDto
+    {
+        public string SerialNumber { get; set; }
+
+        public string ComplainStateDescription { get; set; }
+
+        public DateTime BeginTime { get; set; }
+
+        public string BeginInfo { get; set; }
+
+        public DateTime ProcessTime { get; set; }
+
+        public string ProcessPerson { get; set; }
+
+        public string ProcessInfo { get; set; }
+
+        public string AttachFilePath { get; set; }
+
+        public string ContactPerson { get; set; }
     }
 
     [AutoMapFrom(typeof(ComplainItem))]

@@ -51,5 +51,7 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<OnlineSustain> OnlineSustains { get; set; }
 
         public DbSet<VipProcess> VipProcesses { get; set; }
+
+        public DbSet<ComplainProcess> ComplainProcesses { get; set; }
     }
 }
