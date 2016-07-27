@@ -408,6 +408,18 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(SolveFunction.NoContact, "联系不上用"),
                     new Tuple<object, string>(SolveFunction.Others, "其他")
                 }
+            },
+            {
+                "VipState", new[]
+                {
+                    new Tuple<object, string>(VipState.Preprocessed, "预处理"),
+                    new Tuple<object, string>(VipState.Test, "现场测试"),  
+                    new Tuple<object, string>(VipState.TestEvaluation, "测试评估"), 
+                    new Tuple<object, string>(VipState.NetworkOptimization, "优化调整"), 
+                    new Tuple<object, string>(VipState.NewSite, "新增资源"), 
+                    new Tuple<object, string>(VipState.EmergencyDemand, "通信车需求"), 
+                    new Tuple<object, string>(VipState.Conclusion, "保障结论"), 
+                }
             }
         };
     }

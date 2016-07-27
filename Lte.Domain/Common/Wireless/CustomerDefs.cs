@@ -75,6 +75,18 @@ namespace Lte.Domain.Common.Wireless
         Finish
     }
 
+    [EnumTypeDescription(typeof(VipState), Preprocessed)]
+    public enum VipState : byte
+    {
+        Preprocessed,
+        Test,
+        TestEvaluation,
+        NetworkOptimization,
+        NewSite,
+        EmergencyDemand,
+        Conclusion
+    }
+
     [EnumTypeDescription(typeof(ComplainSource), Unknown)]
     public enum ComplainSource : byte
     {

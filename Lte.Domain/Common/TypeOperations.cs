@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Lte.Domain.Common.Wireless;
+using Lte.Domain.LinqToExcel.Service;
 
 namespace Lte.Domain.Common
 {
@@ -69,6 +70,15 @@ namespace Lte.Domain.Common
             if (tuple != null) return tuple?.Item2;
             var alternativeTuple = alternativeList.FirstOrDefault(x => x.Item1.Equals(type));
             return alternativeTuple != null ? alternativeTuple.Item2 : defaultDescription;
+        }
+
+        public static byte? GetNextStateDescription<TEnum>(this string currentStateDescription, TEnum finalState)
+            where TEnum: struct
+        {
+            var currentState = currentStateDescription.GetEnumType<TEnum>();
+            if (currentState.Equals(finalState))
+                return null;
+            return (byte) (currentState.Cast<byte>() + 1);
         }
     }
 

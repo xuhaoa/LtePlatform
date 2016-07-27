@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Add_BranchDemand : IMigrationMetadata
+    public sealed partial class Add_Vip_Process : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_BranchDemand));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_Vip_Process));
         
         string IMigrationMetadata.Id
         {
-            get { return "201607250929349_Add_BranchDemand"; }
+            get { return "201607270641257_Add_Vip_Process"; }
         }
         
         string IMigrationMetadata.Source

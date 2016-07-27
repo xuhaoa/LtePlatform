@@ -230,7 +230,8 @@ namespace Lte.Evaluations.MapperSerive
                     opt => opt.MapFrom(s => s.NetworkTypeDescription.GetEnumType<NetworkType>()))
                 .ForMember(d => d.MarketTheme,
                     opt => opt.MapFrom(s => s.MarketThemeDescription.GetEnumType<MarketTheme>()))
-                .ForMember(d => d.FinishTime, opt => opt.MapFrom(s => DateTime.Now));
+                .ForMember(d => d.FinishTime, opt => opt.MapFrom(s => DateTime.Now))
+                .ForMember(d => d.VipState, opt => opt.MapFrom(s => s.VipStateDescription.GetEnumType<VipState>()));
             Mapper.CreateMap<VipDemand, VipDemandDto>()
                 .ForMember(d => d.DemandLevelDescription, opt => opt.MapFrom(s => s.DemandLevel.GetEnumDescription()))
                 .ForMember(d => d.NetworkTypeDescription, opt => opt.MapFrom(s => s.NetworkType.GetEnumDescription()))
@@ -241,13 +242,18 @@ namespace Lte.Evaluations.MapperSerive
                             s =>
                                 !string.IsNullOrEmpty(s.Area) && !string.IsNullOrEmpty(s.ContactPerson) &&
                                 !string.IsNullOrEmpty(s.PhoneNumber) && s.TownId > 0))
-                .ForMember(d => d.MarketThemeDescription, opt => opt.MapFrom(s => s.MarketTheme.GetEnumDescription()));
+                .ForMember(d => d.MarketThemeDescription, opt => opt.MapFrom(s => s.MarketTheme.GetEnumDescription()))
+                .ForMember(d => d.VipStateDescription, opt => opt.MapFrom(s => s.VipState.GetEnumDescription()));
             Mapper.CreateMap<EmergencyProcess, EmergencyProcessDto>()
                 .ForMember(d => d.ProcessStateDescription,
                     opt => opt.MapFrom(s => s.ProcessState.GetEnumDescription()));
             Mapper.CreateMap<EmergencyProcessDto, EmergencyProcess>()
                 .ForMember(d => d.ProcessState,
                     opt => opt.MapFrom(s => s.ProcessStateDescription.GetEnumType<EmergencyState>()));
+            Mapper.CreateMap<VipProcess, VipProcessDto>()
+                .ForMember(d => d.VipStateDescription, opt => opt.MapFrom(s => s.VipState.GetEnumDescription()));
+            Mapper.CreateMap<VipProcessDto, VipProcess>()
+                .ForMember(d => d.VipState, opt => opt.MapFrom(s => s.VipStateDescription.GetEnumType<VipState>()));
             Mapper.CreateMap<ComplainExcel, ComplainItem>()
                 .ForMember(d => d.ComplainSource,
                     opt => opt.MapFrom(s => s.SourceDescription.GetEnumType<ComplainSource>()))

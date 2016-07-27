@@ -1,6 +1,7 @@
 ﻿using System;
 using Abp.Domain.Entities;
 using AutoMapper;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
@@ -45,6 +46,8 @@ namespace Lte.MySqlFramework.Entities
         public string FinishResults { get; set; }
 
         public string ProcessInfo { get; set; }
+
+        public VipState VipState { get; set; }
     }
     
     public class VipDemandDto : IDistrictTown, ITownId
@@ -90,6 +93,17 @@ namespace Lte.MySqlFramework.Entities
         public string FinishResults { get; set; }
 
         public string ProcessInfo { get; set; }
+
+        public string VipStateDescription { get; set; }
+
+        public string NextStateDescription
+        {
+            get
+            {
+                var nextState = VipStateDescription.GetNextStateDescription(EmergencyState.Finish);
+                return nextState == null ? null : ((EmergencyState)nextState).GetEnumDescription();
+            }
+        }
     }
 
     public class VipDemandExcel
@@ -138,5 +152,39 @@ namespace Lte.MySqlFramework.Entities
 
         [ExcelColumn("处理结果")]
         public string FinishResults { get; set; }
+    }
+
+    public class VipProcess : Entity
+    {
+        public string SerialNumber { get; set; }
+
+        public VipState VipState { get; set; }
+
+        public DateTime BeginTime { get; set; }
+
+        public string BeginInfo { get; set; }
+
+        public DateTime ProcessTime { get; set; }
+
+        public string ProcessPerson { get; set; }
+
+        public string ProcessInfo { get; set; }
+    }
+
+    public class VipProcessDto
+    {
+        public string SerialNumber { get; set; }
+
+        public string VipStateDescription { get; set; }
+
+        public DateTime BeginTime { get; set; }
+
+        public string BeginInfo { get; set; }
+
+        public DateTime ProcessTime { get; set; }
+
+        public string ProcessPerson { get; set; }
+
+        public string ProcessInfo { get; set; }
     }
 }

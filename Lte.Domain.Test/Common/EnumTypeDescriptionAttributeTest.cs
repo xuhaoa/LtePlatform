@@ -78,5 +78,14 @@ namespace Lte.Domain.Test.Common
             alarmDecription = AlarmType.BbuCpriLost.GetEnumDescription(WirelessPublic.AlarmTypeHuaweiList);
             Assert.AreEqual(alarmDecription, "BBU CPRI光模块/电接口不在位告警");
         }
+
+        [Test]
+        public void TestGetNextStateDescription()
+        {
+            var currentState = "通信车申请";
+            var nextState = currentState.GetNextStateDescription(EmergencyState.Finish);
+            Assert.AreEqual(nextState==null?null:((EmergencyState)nextState).GetEnumDescription(), "光纤起单");
+            Assert.AreEqual((EmergencyState)1,EmergencyState.FiberBegin);
+        }
     }
 }

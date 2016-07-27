@@ -86,11 +86,8 @@ namespace Lte.MySqlFramework.Entities
         {
             get
             {
-                var currentState = EmergencyStateDescription.GetEnumType<EmergencyState>();
-                if (currentState == EmergencyState.Finish)
-                    return null;
-                var nextState = (EmergencyState)((byte)currentState + 1);
-                return nextState.GetEnumDescription();
+                var nextState = EmergencyStateDescription.GetNextStateDescription(EmergencyState.Finish);
+                return nextState == null ? null : ((EmergencyState) nextState).GetEnumDescription();
             }
         }
     }

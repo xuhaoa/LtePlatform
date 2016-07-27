@@ -49,5 +49,7 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<BranchDemand> BranchDemands { get; set; }
 
         public DbSet<OnlineSustain> OnlineSustains { get; set; }
+
+        public DbSet<VipProcess> VipProcesses { get; set; }
     }
 }
