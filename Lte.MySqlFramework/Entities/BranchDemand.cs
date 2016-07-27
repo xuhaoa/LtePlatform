@@ -14,6 +14,8 @@ namespace Lte.MySqlFramework.Entities
     {
         public DateTime BeginDate { get; set; }
 
+        public string SerialNumber { get; set; }
+
         public int TownId { get; set; }
 
         public string ComplainContents { get; set; }
@@ -29,12 +31,19 @@ namespace Lte.MySqlFramework.Entities
         public double Lontitute { get; set; }
         
         public double Lattitute { get; set; }
+
+        public string SubscriberInfo { get; set; }
+        
+        public string ManagerInfo { get; set; }
     }
 
     public class BranchDemandExcel : IDistrictTown
     {
         [ExcelColumn("用户申告时间")]
         public DateTime BeginDate { get; set; }
+
+        [ExcelColumn("序号")]
+        public string SerialNumber { get; set; }
 
         [ExcelColumn("所属区域")]
         public string District { get; set; }
@@ -62,5 +71,11 @@ namespace Lte.MySqlFramework.Entities
 
         [ExcelColumn("纬度")]
         public double Lattitute { get; set; }
+
+        [ExcelColumn("用户姓名及电话号码")]
+        public string SubscriberInfo { get; set; }
+
+        [ExcelColumn("客户经理姓名")]
+        public string ManagerInfo { get; set; }
     }
 }

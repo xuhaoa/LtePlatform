@@ -137,6 +137,10 @@
     <Compile Include="Migrations\201607270641257_Add_Vip_Process.Designer.cs">
       <DependentUpon>201607270641257_Add_Vip_Process.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607270916135_Update_Some_Entities.cs" />
+    <Compile Include="Migrations\201607270916135_Update_Some_Entities.Designer.cs">
+      <DependentUpon>201607270916135_Update_Some_Entities.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -150,6 +154,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607270641257_Add_Vip_Process.resx">
       <DependentUpon>201607270641257_Add_Vip_Process.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607270916135_Update_Some_Entities.resx">
+      <DependentUpon>201607270916135_Update_Some_Entities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

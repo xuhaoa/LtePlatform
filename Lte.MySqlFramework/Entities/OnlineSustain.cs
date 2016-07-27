@@ -15,6 +15,12 @@ namespace Lte.MySqlFramework.Entities
 
         public int TownId { get; set; }
 
+        public string ContactPhone { get; set; }
+        
+        public int StaffId { get; set; }
+        
+        public string Phenomenon { get; set; }
+
         public string SerialNumber { get; set; }
 
         public string DutyStaff { get; set; }
@@ -44,6 +50,15 @@ namespace Lte.MySqlFramework.Entities
     {
         [ExcelColumn("日期")]
         public DateTime BeginDate { get; set; }
+
+        [ExcelColumn("联系电话")]
+        public string ContactPhone { get; set; }
+
+        [ExcelColumn("话务员工号")]
+        public int StaffId { get; set; }
+
+        [ExcelColumn("现象")]
+        public string Phenomenon { get; set; }
 
         [ExcelColumn("预处理（流水号）单号")]
         public string SerialNumber { get; set; }
