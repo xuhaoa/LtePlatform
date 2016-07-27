@@ -14,6 +14,7 @@
             text: 'Exchange rate'
         }
     };
+    self.enableLegend = false;
     self.series = [];
     self.options = {
         chart: {
@@ -26,10 +27,10 @@
             enabled: false
         },
         tooltip: {
-            pointFormat: '{series.name} produced <b>{point.y:,.0f}</b><br/>warheads in {point.x}'
+            pointFormat: '{series.name} <b>{point.y:,.0f}</b>'
         },
         credits: {
-            enabled: false
+            enabled: self.enableLegend
         },
         series: self.series
     };
