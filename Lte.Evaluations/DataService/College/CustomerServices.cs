@@ -86,6 +86,25 @@ namespace Lte.Evaluations.DataService.College
             });
             return results;
         }
+
+        public static Tuple<IEnumerable<string>, IEnumerable<int>> Query<TService, TItem>(this TService service, 
+            DateTime date, Func<TItem, DateTime> queryDate)
+            where TService : IDateSpanService<TItem>
+        {
+            var begin = new DateTime(date.Year, date.Month, 1);
+            var start = new DateTime(date.Year, date.Month, 1);
+            var end = new DateTime(date.Year, date.Month + 1, 1);
+            var items = service.QueryItems(begin, end);
+            var dateStrings = new List<string>();
+            var counts = new List<int>();
+            while (begin < end)
+            {
+                dateStrings.Add(begin.ToShortDateString());
+                counts.Add(items.Count(x => queryDate(x) > start && queryDate(x) < begin.AddDays(1)));
+                begin = begin.AddDays(1);
+            }
+            return new Tuple<IEnumerable<string>, IEnumerable<int>>(dateStrings, counts);
+        }
     }
 
     public class EmergencyCommunicationService
@@ -248,7 +267,14 @@ namespace Lte.Evaluations.DataService.College
         }
     }
 
-    public class ComplainService
+    public interface IDateSpanService<TItem>
+    {
+        List<TItem> QueryItems(DateTime begin, DateTime end);
+
+        Task<int> QueryCount(DateTime begin, DateTime end);
+    }
+
+    public class ComplainService : IDateSpanService<ComplainItem>
     {
         private readonly IComplainItemRepository _repository;
         private readonly ITownRepository _townRepository;

@@ -189,19 +189,7 @@ namespace LtePlatform.Controllers.College
         [HttpGet]
         public Tuple<IEnumerable<string>, IEnumerable<int>> GetTrend(DateTime date)
         {
-            var begin = new DateTime(date.Year, date.Month, 1);
-            var start= new DateTime(date.Year, date.Month, 1);
-            var end = new DateTime(date.Year, date.Month + 1, 1);
-            var items = _service.QueryItems(begin, end);
-            var dateStrings = new List<string>();
-            var counts = new List<int>();
-            while (begin < end)
-            {
-                dateStrings.Add(begin.ToShortDateString());
-                counts.Add(items.Count(x => x.BeginTime > start && x.BeginTime < begin.AddDays(1)));
-                begin = begin.AddDays(1);
-            }
-            return new Tuple<IEnumerable<string>, IEnumerable<int>>(dateStrings, counts);
+            return _service.Query<ComplainService, ComplainItem>(date, x => x.BeginTime);
         }
     }
 }
