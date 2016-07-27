@@ -98,6 +98,29 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
+    public class VipProcessRepository : EfRepositoryBase<MySqlContext, VipProcess>, IVipProcessRepository
+    {
+        public VipProcessRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public VipProcess Match(VipProcessDto stat)
+        {
+            var state = stat.VipStateDescription.GetEnumType<VipState>();
+            return FirstOrDefault(x => x.SerialNumber == stat.SerialNumber && x.VipState == state);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+
+        public List<VipProcess> GetAllList(string serialNumber)
+        {
+            return GetAllList(x => x.SerialNumber == serialNumber);
+        }
+    }
+
     public class EmergencyFiberWorkItemRepository : EfRepositoryBase<MySqlContext, EmergencyFiberWorkItem>,
         IEmergencyFiberWorkItemRepository
     {

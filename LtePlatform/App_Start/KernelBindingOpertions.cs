@@ -162,6 +162,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IOnlineSustainRepository>().To<OnlineSustainRepository>();
 
+            ninjectKernel.Bind<IVipProcessRepository>().To<VipProcessRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();

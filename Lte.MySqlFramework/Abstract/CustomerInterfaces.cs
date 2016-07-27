@@ -34,6 +34,14 @@ namespace Lte.MySqlFramework.Abstract
         List<EmergencyProcess> GetAllList(int emergencyId);
     }
 
+    public interface IVipProcessRepository
+        : IRepository<VipProcess>,
+            IMatchRepository<VipProcess, VipProcessDto>,
+            ISaveChanges
+    {
+        List<VipProcess> GetAllList(string serialNumber);
+    }
+
     public interface IEmergencyFiberWorkItemRepository
         : IRepository<EmergencyFiberWorkItem>,
             IMatchRepository<EmergencyFiberWorkItem>,
