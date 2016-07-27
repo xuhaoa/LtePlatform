@@ -13,14 +13,38 @@ angular.module('customer.emergency', ['customer.service'])
             templateUrl: customerRoot + 'emergency/CommunicationList.html'
         };
     })
-    .directive('emergencyProcessList', function (customerRoot) {
+
+    .controller('EmergencyProcessController', function($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'processTime', name: '处理时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
+                { field: 'processPerson', name: '处理人' },
+                { field: 'processStateDescription', name: '处理步骤' },
+                { field: 'processInfo', name: '反馈信息' }
+            ],
+            data: []
+        };
+    })
+    .directive('emergencyProcessList', function ($compile) {
         return {
-            restrict: 'ECMA',
+            restrict: 'EA',
+            controller: 'EmergencyProcessController',
             replace: true,
             scope: {
                 items: '='
             },
-            templateUrl: customerRoot + 'emergency/ProcessList.html'
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
         };
     })
 
