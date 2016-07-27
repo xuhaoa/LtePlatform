@@ -212,6 +212,11 @@
             },
             queryFiberList: function(id) {
                 return generalHttpService.getApiData('EmergencyFiber/' + id, {});
+            },
+            queryVipDemands: function(today) {
+                return generalHttpService.getApiData('VipDemand', {
+                    today: today
+                });
             }
         };
     })

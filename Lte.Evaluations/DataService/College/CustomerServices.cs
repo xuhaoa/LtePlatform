@@ -224,7 +224,7 @@ namespace Lte.Evaluations.DataService.College
         }
     }
 
-    public class VipDemandService
+    public class VipDemandService : IDateSpanService<VipDemand>
     {
         private readonly IVipDemandRepository _repository;
         private readonly ITownRepository _townRepository;
@@ -271,6 +271,16 @@ namespace Lte.Evaluations.DataService.College
                 result.Town = town.TownName;
             }
             return result;
+        }
+
+        public List<VipDemand> QueryItems(DateTime begin, DateTime end)
+        {
+            return _repository.GetAllList(begin, end);
+        }
+
+        public async Task<int> QueryCount(DateTime begin, DateTime end)
+        {
+            return await _repository.CountAsync(x => x.BeginDate >= begin && x.BeginDate < end);
         }
     }
 

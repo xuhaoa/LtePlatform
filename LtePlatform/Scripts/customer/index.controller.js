@@ -1,4 +1,4 @@
-﻿app.controller("customer.index", function ($scope, complainService, appKpiService) {
+﻿app.controller("customer.index", function ($scope, complainService, appKpiService, emergencyService) {
     $scope.overallStats = [
         {
             tips: "抱怨量",
@@ -44,6 +44,9 @@
         });
         complainService.queryOnlineSustains($scope.statDate.value).then(function(count) {
             $scope.overallStats[2].count = count;
+        });
+        emergencyService.queryVipDemands($scope.statDate.value).then(function(count) {
+            $scope.overallStats[3].count = count;
         });
     };
 

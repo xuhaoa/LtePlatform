@@ -145,6 +145,12 @@ namespace LtePlatform.Controllers.College
         {
             return _service.QuerySingle(serialNumber);
         }
+
+        [HttpGet]
+        public async Task<int> GetCount(DateTime today)
+        {
+            return await _service.QueryCount<VipDemandService, VipDemand>(today);
+        }
     }
 
     [ApiControl("抱怨量位置更新控制器")]
