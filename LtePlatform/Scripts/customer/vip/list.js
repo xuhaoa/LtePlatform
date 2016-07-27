@@ -9,7 +9,6 @@
             $scope.items = items;
         });
     };
-    $scope.displayFinishedItem = false;
 
     customerQueryService.queryNetworkTypeOptions().then(function(options) {
         $scope.type = {

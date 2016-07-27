@@ -94,8 +94,7 @@ angular.module('customer.vip', ['customer.service'])
                 city: '=',
                 district: '=',
                 messages: '=',
-                rootPath: '=',
-                displayFinishedItem: '='
+                rootPath: '='
             },
             templateUrl: customerRoot + 'vip/DemandList.html'
         };
