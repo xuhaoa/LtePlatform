@@ -235,6 +235,11 @@
                 return generalHttpService.getApiData('ComplainQuery', {
                     date: date
                 });
+            },
+            queryBranchDemands: function(today) {
+                return generalHttpService.getApiData('BranchDemand', {
+                    today: today
+                });
             }
         }
     });

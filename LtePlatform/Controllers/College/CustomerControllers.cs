@@ -182,8 +182,7 @@ namespace LtePlatform.Controllers.College
         [HttpGet]
         public async Task<int> GetCount(DateTime today)
         {
-            var begin = new DateTime(today.Year, today.Month, 1);
-            return await _service.QueryCount(begin, today.AddDays(1));
+            return await _service.QueryCount<ComplainService, ComplainItem>(today);
         }
 
         [HttpGet]
@@ -191,5 +190,21 @@ namespace LtePlatform.Controllers.College
         {
             return _service.Query<ComplainService, ComplainItem>(date, x => x.BeginTime);
         }
+    }
+
+    public class BranchDemandController : ApiController
+    {
+        private readonly BranchDemandService _service;
+
+        public BranchDemandController(BranchDemandService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public async Task<int> GetCount(DateTime today)
+        {
+            return await _service.QueryCount<BranchDemandService, BranchDemand>(today);
+        } 
     }
 }

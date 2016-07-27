@@ -39,6 +39,9 @@
                 $('#line-chart').highcharts(options);
             });
         });
+        complainService.queryBranchDemands($scope.statDate.value).then(function(count) {
+            $scope.overallStats[1].count = count;
+        });
     };
 
     $scope.query();

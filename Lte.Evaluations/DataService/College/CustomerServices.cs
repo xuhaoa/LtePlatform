@@ -105,6 +105,13 @@ namespace Lte.Evaluations.DataService.College
             }
             return new Tuple<IEnumerable<string>, IEnumerable<int>>(dateStrings, counts);
         }
+
+        public static async Task<int> QueryCount<TService, TItem>(this TService service, DateTime today)
+            where TService : IDateSpanService<TItem>
+        {
+            var begin = new DateTime(today.Year, today.Month, 1);
+            return await service.QueryCount(begin, today.AddDays(1));
+        }
     }
 
     public class EmergencyCommunicationService
@@ -311,5 +318,25 @@ namespace Lte.Evaluations.DataService.College
         {
             return await _repository.CountAsync(x => x.BeginTime >= begin && x.BeginTime < end);
         }  
+    }
+
+    public class BranchDemandService : IDateSpanService<BranchDemand>
+    {
+        private readonly IBranchDemandRepository _repository;
+
+        public BranchDemandService(IBranchDemandRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public List<BranchDemand> QueryItems(DateTime begin, DateTime end)
+        {
+            return _repository.GetAllList(begin, end);
+        }
+
+        public async Task<int> QueryCount(DateTime begin, DateTime end)
+        {
+            return await _repository.CountAsync(x => x.BeginDate >= begin && x.BeginDate < end);
+        }
     }
 }
