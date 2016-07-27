@@ -265,6 +265,11 @@ namespace Lte.Evaluations.DataService.College
                 _repository.GetAllList(begin, end).Where(x => x.TownId == 0).MapTo<IEnumerable<ComplainPositionDto>>();
         }
 
+        public List<ComplainItem> QueryItems(DateTime begin, DateTime end)
+        {
+            return _repository.GetAllList(begin, end);
+        }
+
         public async Task<int> UpdateTown(ComplainPositionDto dto)
         {
             var item = _repository.Get(dto.SerialNumber);
@@ -275,5 +280,10 @@ namespace Lte.Evaluations.DataService.College
             await _repository.UpdateAsync(item);
             return _repository.SaveChanges();
         }
+
+        public async Task<int> QueryCount(DateTime begin, DateTime end)
+        {
+            return await _repository.CountAsync(x => x.BeginTime >= begin && x.BeginTime < end);
+        }  
     }
 }
