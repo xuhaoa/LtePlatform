@@ -225,6 +225,16 @@
             },
             postPosition: function(dto) {
                 return generalHttpService.postApiData('ComplainPosition', dto);
+            },
+            queryCurrentComplains: function(today) {
+                return generalHttpService.getApiData('ComplainQuery', {
+                    today: today
+                });
+            },
+            queryMonthTrend: function(date) {
+                return generalHttpService.getApiData('ComplainQuery', {
+                    date: date
+                });
             }
         }
     });

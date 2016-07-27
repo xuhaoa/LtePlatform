@@ -62,7 +62,18 @@
     </div><!--/.col-->
 
     <div class="col-md-4">
-
+        <label>日期：</label>
+        <div class="input-group">
+            <input type="text" class="form-control" uib-datepicker-popup ng-model="statDate.value" is-open="statDate.opened" ng-required="true" close-text="Close" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="statDate.opened = true">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="query()">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+            </span>
+        </div>
         <div class="panel panel-blue">
             <div class="panel-heading dark-overlay"><span class="glyphicon glyphicon-check"></span>待办</div>
             <div class="panel-body">

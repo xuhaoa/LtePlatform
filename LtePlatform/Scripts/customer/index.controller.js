@@ -1,4 +1,4 @@
-﻿app.controller("customer.index", function ($scope) {
+﻿app.controller("customer.index", function ($scope, complainService) {
     $scope.overallStats = [
         {
             tips: "抱怨量",
@@ -22,4 +22,15 @@
             color: "red"
         }
     ];
+    $scope.statDate = {
+        value: new Date(),
+        opened: false
+    };
+    $scope.query = function() {
+        complainService.queryCurrentComplains($scope.statDate.value).then(function(count) {
+            $scope.overallStats[0].count = count;
+        });
+    };
+
+    $scope.query();
 });
