@@ -240,6 +240,11 @@
                 return generalHttpService.getApiData('BranchDemand', {
                     today: today
                 });
+            },
+            queryOnlineSustains: function(today) {
+                return generalHttpService.getApiData('OnlineSustain', {
+                    today: today
+                });
             }
         }
     });

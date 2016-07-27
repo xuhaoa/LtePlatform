@@ -42,6 +42,9 @@
         complainService.queryBranchDemands($scope.statDate.value).then(function(count) {
             $scope.overallStats[1].count = count;
         });
+        complainService.queryOnlineSustains($scope.statDate.value).then(function(count) {
+            $scope.overallStats[2].count = count;
+        });
     };
 
     $scope.query();

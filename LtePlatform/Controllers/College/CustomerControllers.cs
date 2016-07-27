@@ -207,4 +207,20 @@ namespace LtePlatform.Controllers.College
             return await _service.QueryCount<BranchDemandService, BranchDemand>(today);
         } 
     }
+
+    public class OnlineSustainController : ApiController
+    {
+        private readonly OnlineSustainService _service;
+
+        public OnlineSustainController(OnlineSustainService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public async Task<int> GetCount(DateTime today)
+        {
+            return await _service.QueryCount<OnlineSustainService, OnlineSustain>(today);
+        }
+    }
 }

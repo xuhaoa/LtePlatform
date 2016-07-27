@@ -339,4 +339,24 @@ namespace Lte.Evaluations.DataService.College
             return await _repository.CountAsync(x => x.BeginDate >= begin && x.BeginDate < end);
         }
     }
+
+    public class OnlineSustainService : IDateSpanService<OnlineSustain>
+    {
+        private readonly IOnlineSustainRepository _repository;
+
+        public OnlineSustainService(IOnlineSustainRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public List<OnlineSustain> QueryItems(DateTime begin, DateTime end)
+        {
+            return _repository.GetAllList(begin, end);
+        }
+
+        public async Task<int> QueryCount(DateTime begin, DateTime end)
+        {
+            return await _repository.CountAsync(x => x.BeginDate >= begin && x.BeginDate < end);
+        }
+    }
 }
