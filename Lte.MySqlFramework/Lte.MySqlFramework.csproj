@@ -129,10 +129,6 @@
     <Compile Include="Entities\TopConnection3GCell.cs" />
     <Compile Include="Entities\TopDrop2GCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201607260859494_Add_OnlineSustain_Entity.cs" />
-    <Compile Include="Migrations\201607260859494_Add_OnlineSustain_Entity.Designer.cs">
-      <DependentUpon>201607260859494_Add_OnlineSustain_Entity.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201607270641257_Add_Vip_Process.cs" />
     <Compile Include="Migrations\201607270641257_Add_Vip_Process.Designer.cs">
       <DependentUpon>201607270641257_Add_Vip_Process.cs</DependentUpon>
@@ -149,9 +145,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607260859494_Add_OnlineSustain_Entity.resx">
-      <DependentUpon>201607260859494_Add_OnlineSustain_Entity.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607270641257_Add_Vip_Process.resx">
       <DependentUpon>201607270641257_Add_Vip_Process.cs</DependentUpon>
     </EmbeddedResource>

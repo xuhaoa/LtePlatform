@@ -200,7 +200,7 @@ namespace Lte.MySqlFramework.Concrete
 
         public BranchDemand Match(BranchDemandExcel stat)
         {
-            return FirstOrDefault(x => x.BeginDate == stat.BeginDate && x.ComplainContents == stat.ComplainContents);
+            return FirstOrDefault(x => x.SerialNumber == stat.SerialNumber);
         }
     }
 
