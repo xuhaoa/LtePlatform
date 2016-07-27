@@ -97,6 +97,37 @@ angular.module('customer.emergency', ['customer.service'])
                 });
             }
         };
+    })
+    .value('vipTypeDictionay', {
+        "预处理": 'default',
+        "现场测试": 'danger',
+        "测试评估": 'primary',
+        "优化调整": 'warning',
+        "新增资源": 'info',
+        "通信车需求": 'primary',
+        "保障结论": 'info'
+    })
+    .directive('vipProcessState', function (vipTypeDictionay) {
+        return {
+            restrict: 'A',
+            scope: {
+                state: '='
+            },
+            template: '<span>{{state}}</span>',
+            link: function (scope, element, attrs) {
+                element.addClass('label');
+
+                scope.$watch("state", function (state, oldState) {
+                    if (oldState) {
+                        element.removeClass('label-' + vipTypeDictionay[oldState]);
+                    }
+                    if (state) {
+                        var type = vipTypeDictionay[state] || 'primary';
+                        element.addClass('label-' + type);
+                    }
+                });
+            }
+        };
     });
 
 angular.module('customer.vip', ['customer.service'])
