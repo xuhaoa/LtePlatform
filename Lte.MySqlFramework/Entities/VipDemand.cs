@@ -111,8 +111,8 @@ namespace Lte.MySqlFramework.Entities
             return new VipProcessDto
             {
                 SerialNumber = SerialNumber,
-                ProcessPerson = userName,
-                ProcessTime = DateTime.Now,
+                ContactPerson = userName,
+                BeginTime = DateTime.Now,
                 VipStateDescription = CurrentStateDescription
             };
         }

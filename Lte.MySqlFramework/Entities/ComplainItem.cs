@@ -107,8 +107,8 @@ namespace Lte.MySqlFramework.Entities
             return new ComplainProcessDto
             {
                 SerialNumber = SerialNumber,
-                ProcessPerson = userName,
-                ProcessTime = DateTime.Now,
+                ContactPerson = userName,
+                BeginTime = DateTime.Now,
                 ComplainStateDescription = CurrentStateDescription
             };
         }

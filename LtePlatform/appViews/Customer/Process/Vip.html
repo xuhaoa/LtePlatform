@@ -52,7 +52,7 @@
         </div>
         <div class="input-group">
             <label>当前状态：</label>
-            <div vip-process-state state="item.vipStateDescription"></div>
+            <div vip-process-state state="item.currentStateDescription"></div>
             <label>下一状态：</label>
             <div vip-process-state state="item.nextStateDescription"></div>
         </div>
@@ -61,7 +61,7 @@
         <div class="input-group">
             <input type="text" ng-model="processInfo" class="form-control" />
             <span class="input-group-btn">
-                <button type="button" class="btn btn-primary" ng-click="createProcess()" ng-disabled="!canGoNextStep">
+                <button type="button" class="btn btn-primary" ng-click="createProcess()" ng-disabled="!item.nextStateDescription">
                     生成流程
                 </button>
             </span>

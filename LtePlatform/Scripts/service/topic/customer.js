@@ -201,8 +201,14 @@
             createProcess: function(dto) {
                 return generalHttpService.postApiDataWithHeading('EmergencyProcess', dto);
             },
+            createVipProcess: function(dto) {
+                return generalHttpService.postApiDataWithHeading('VipProcess', dto);
+            },
             updateProcess: function(process) {
                 return generalHttpService.putApiData('EmergencyProcess', process);
+            },
+            updateVipProcess: function (process) {
+                return generalHttpService.putApiData('VipProcess', process);
             },
             createFiberItem: function(item) {
                 return generalHttpService.postApiData('EmergencyFiber', item);
@@ -216,6 +222,11 @@
             queryVipDemands: function(today) {
                 return generalHttpService.getApiData('VipDemand', {
                     today: today
+                });
+            },
+            queryVipProcessList: function(number) {
+                return generalHttpService.getApiData('VipProcess', {
+                    serialNumber: number
                 });
             }
         };

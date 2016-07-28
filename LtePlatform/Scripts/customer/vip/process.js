@@ -1,8 +1,13 @@
-﻿app.controller("vip.process", function ($scope, $routeParams, customerQueryService) {
+﻿app.controller("vip.process", function ($scope, $routeParams, customerQueryService, emergencyService) {
     
     $scope.query = function() {
         customerQueryService.queryOneVip($routeParams.number).then(function(item) {
             $scope.item = item;
+            if ($scope.item.nextStateDescription) {
+                $scope.processInfo = "已完成" + $scope.item.nextStateDescription;
+            } else {
+                $scope.processInfo = "";
+            }
             customerQueryService.queryMarketThemeOptions().then(function(options) {
                 $scope.marketTheme = {
                     options: options,
@@ -10,8 +15,21 @@
                 };
             });
         });
+        emergencyService.queryVipProcessList($routeParams.number).then(function(items) {
+            console.log(items);
+        });
     };
 
+    $scope.createProcess = function () {
+        emergencyService.createVipProcess($scope.item).then(function (process) {
+            if (process) {
+                process.beginInfo = $scope.processInfo;
+                emergencyService.updateVipProcess(process).then(function () {
+                    $scope.query();
+                });
+            }
+        });
+    };
     $scope.save=function() {
         $scope.item.marketThemeDescription = $scope.marketTheme.selected;
         customerQueryService.updateVip($scope.item).then(function() {
