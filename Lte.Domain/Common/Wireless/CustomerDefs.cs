@@ -62,9 +62,10 @@ namespace Lte.Domain.Common.Wireless
         Others
     }
 
-    [EnumTypeDescription(typeof(EmergencyState), Register)]
+    [EnumTypeDescription(typeof(EmergencyState), Begin)]
     public enum EmergencyState : byte
     {
+        Begin,
         Register,
         FiberBegin,
         ElectricPrepare,
@@ -75,9 +76,10 @@ namespace Lte.Domain.Common.Wireless
         Finish
     }
 
-    [EnumTypeDescription(typeof(VipState), Preprocessed)]
+    [EnumTypeDescription(typeof(VipState), Begin)]
     public enum VipState : byte
     {
+        Begin,
         Preprocessed,
         Test,
         TestEvaluation,

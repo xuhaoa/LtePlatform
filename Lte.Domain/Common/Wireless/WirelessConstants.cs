@@ -179,6 +179,7 @@ namespace Lte.Domain.Common.Wireless
             {
                 "EmergencyState", new[]
                 {
+                    new Tuple<object, string>(EmergencyState.Begin, "生成工单"), 
                     new Tuple<object, string>(EmergencyState.Register, "通信车申请"),
                     new Tuple<object, string>(EmergencyState.FiberBegin, "光纤起单"),
                     new Tuple<object, string>(EmergencyState.ElectricPrepare, "电源准备"),
@@ -412,6 +413,7 @@ namespace Lte.Domain.Common.Wireless
             {
                 "VipState", new[]
                 {
+                    new Tuple<object, string>(VipState.Begin, "生成工单"), 
                     new Tuple<object, string>(VipState.Preprocessed, "预处理"),
                     new Tuple<object, string>(VipState.Test, "现场测试"),  
                     new Tuple<object, string>(VipState.TestEvaluation, "测试评估"), 
