@@ -52,8 +52,7 @@ angular.module('customer.emergency', ['customer.service'])
             }
         };
     })
-
-
+    
     .controller('BranchListController', function ($scope) {
         $scope.gridOptions = {
             paginationPageSizes: [20, 40, 60],
@@ -92,7 +91,48 @@ angular.module('customer.emergency', ['customer.service'])
             }
         };
     })
-.controller('EmergencyProcessController', function ($scope) {
+
+    .controller('OnlineListController', function ($scope) {
+        $scope.gridOptions = {
+            paginationPageSizes: [20, 40, 60],
+            paginationPageSize: 20,
+            columnDefs: [
+                { field: 'serialNumber', name: '序列号' },
+                { field: 'beginDate', name: '受理时间', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'address', name: '投诉地址' },
+                { field: 'complainCategoryDescription', name: '投诉类型' },
+                { field: 'phenomenon', name: '投诉现象' },
+                { field: 'followInfo', name: '跟进信息' },
+                { field: 'dutyStaff', name: '值班人员' }
+            ],
+            data: []
+        };
+    })
+    .directive('onlineList', function ($compile) {
+        return {
+            restrict: 'EA',
+            controller: 'OnlineListController',
+            replace: true,
+            scope: {
+                items: '=',
+                rootPath: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 600px"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
+    })
+
+    .controller('EmergencyProcessController', function ($scope) {
         $scope.gridOptions = {
             columnDefs: [
                 { field: 'processTime', name: '处理时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
