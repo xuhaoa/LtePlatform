@@ -430,7 +430,7 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(ComplainState.Preprocessed, "预处理"),
                     new Tuple<object, string>(ComplainState.PlanTest, "预约测试"),
                     new Tuple<object, string>(ComplainState.Test, "现场测试"),   
-                    new Tuple<object, string>(ComplainState.Preprocessed, "问题处理"),
+                    new Tuple<object, string>(ComplainState.ProcessIssues, "问题处理"),
                     new Tuple<object, string>(ComplainState.Feedback, "回访用户"),
                     new Tuple<object, string>(ComplainState.Archive, "工单归档"),   
                 }

@@ -235,6 +235,42 @@ angular.module('customer.emergency', ['customer.service'])
         };
     })
 
+    .controller('ComplainProcessController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'beginTime', name: '开始时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
+                { field: 'contactPerson', name: '发起人' },
+                { field: 'complainStateDescription', name: '处理步骤' },
+                { field: 'beginInfo', name: '建单信息' },
+                { field: 'processPerson', name: '处理人' },
+                { field: 'processInfo', name: '处理信息' }
+            ],
+            data: []
+        };
+    })
+    .directive('complainProcessList', function ($compile) {
+        return {
+            restrict: 'EA',
+            controller: 'ComplainProcessController',
+            replace: true,
+            scope: {
+                items: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
+    })
+
     .controller('FiberItemController', function($scope, emergencyService) {
         $scope.finish = function(item) {
             emergencyService.finishFiberItem(item).then(function() {
