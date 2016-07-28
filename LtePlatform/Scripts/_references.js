@@ -157,6 +157,7 @@
 /// <reference path="college/test/controller.js" />
 /// <reference path="customer/complain/adjust.js" />
 /// <reference path="customer/complain/list.js" />
+/// <reference path="customer/complain/process.js" />
 /// <reference path="customer/complain/supplement.dialog.js" />
 /// <reference path="customer/emergency/fiber.new.dialog.js" />
 /// <reference path="customer/emergency/list.js" />

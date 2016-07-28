@@ -42,9 +42,9 @@
                     templateUrl: viewDir + "Complain/Online.html",
                     controller: "complain.online"
                 })
-                .when('/baidumap/:cellId/:sectorId/:name', {
-                    templateUrl: viewDir + "Map/Index.html",
-                    controller: "rutrace.map"
+                .when('/complain/process/:number', {
+                    templateUrl: viewDir + "Process/Complain.html",
+                    controller: "complain.process"
                 })
                 .when('/details/:number', {
                     templateUrl: viewDir + "WorkItem/AnalyticDetails.html",

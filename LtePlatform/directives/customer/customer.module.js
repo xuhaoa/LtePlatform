@@ -53,7 +53,11 @@ angular.module('customer.emergency', ['customer.service'])
                 { field: 'buildingName', name: '楼宇名称' },
                 { field: 'roadName', name: '道路名称' },
                 { field: 'complainSourceDescription', name: '投诉来源' },
-                { field: 'networkTypeDescription', name: '网络类型' }
+                { field: 'networkTypeDescription', name: '网络类型' },
+                {
+                    name: '工单处理',
+                    cellTemplate: '<a ng-href="{{grid.appScope.rootPath}}complain/process/{{row.entity.serialNumber}}" class="btn btn-sm btn-success">{{row.entity.currentStateDescription}}</a>'
+                }
             ],
             data: []
         };
