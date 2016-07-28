@@ -94,13 +94,13 @@ namespace Lte.MySqlFramework.Entities
 
         public string ProcessInfo { get; set; }
 
-        public string VipStateDescription { get; set; }
+        public string CurrentStateDescription { get; set; }
 
         public string NextStateDescription
         {
             get
             {
-                var nextState = VipStateDescription.GetNextStateDescription(EmergencyState.Finish);
+                var nextState = CurrentStateDescription.GetNextStateDescription(EmergencyState.Finish);
                 return nextState == null ? null : ((EmergencyState)nextState).GetEnumDescription();
             }
         }

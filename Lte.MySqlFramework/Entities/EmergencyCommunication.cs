@@ -1,5 +1,6 @@
 ﻿using System;
 using Abp.Domain.Entities;
+using Abp.EntityFramework.Repositories;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
@@ -40,7 +41,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
 
-    public class EmergencyCommunicationDto : IDistrictTown, ITownId
+    public class EmergencyCommunicationDto : IDistrictTown, ITownId, IConstructDto<EmergencyProcessDto>, IStateChange
     {
         public int Id { get; set; }
 
@@ -80,15 +81,26 @@ namespace Lte.MySqlFramework.Entities
 
         public string OtherDescription { get; set; }
 
-        public string EmergencyStateDescription { get; set; }
+        public string CurrentStateDescription { get; set; }
 
         public string NextStateDescription
         {
             get
             {
-                var nextState = EmergencyStateDescription.GetNextStateDescription(EmergencyState.Finish);
+                var nextState = CurrentStateDescription.GetNextStateDescription(EmergencyState.Finish);
                 return nextState == null ? null : ((EmergencyState) nextState).GetEnumDescription();
             }
+        }
+
+        public EmergencyProcessDto Construct(string userName)
+        {
+            return new EmergencyProcessDto
+            {
+                EmergencyId = Id,
+                ProcessPerson = userName,
+                ProcessTime = DateTime.Now,
+                ProcessStateDescription = CurrentStateDescription
+            };
         }
     }
 

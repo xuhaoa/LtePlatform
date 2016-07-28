@@ -165,24 +165,11 @@ namespace Lte.Evaluations.DataService.College
 
         public async Task<EmergencyProcessDto> ConstructProcess(EmergencyCommunicationDto dto, string userName)
         {
-            if (dto.NextStateDescription == null) return null;
-            dto.EmergencyStateDescription = dto.NextStateDescription;
-            var stat = _repository.Get(dto.Id);
-            if (stat != null)
-            {
-                Mapper.Map(dto, stat);
-                await _repository.UpdateAsync(stat);
-                _repository.SaveChanges();
-            }
-            var process = new EmergencyProcessDto
-            {
-                EmergencyId = dto.Id,
-                ProcessPerson = userName,
-                ProcessTime = DateTime.Now,
-                ProcessStateDescription = dto.EmergencyStateDescription
-            };
-            _processRepository.ImportOne<IEmergencyProcessRepository, EmergencyProcess, EmergencyProcessDto>(process);
-            return process;
+            return await 
+                _repository
+                    .ConstructProcess
+                    <IEmergencyCommunicationRepository, IEmergencyProcessRepository, EmergencyCommunication,
+                        EmergencyCommunicationDto, EmergencyProcess, EmergencyProcessDto>(_processRepository, dto, userName);
         }
 
         public async Task<int> UpdateAsync(EmergencyProcessDto dto)

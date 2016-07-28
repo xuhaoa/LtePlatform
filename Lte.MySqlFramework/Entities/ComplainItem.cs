@@ -90,13 +90,13 @@ namespace Lte.MySqlFramework.Entities
 
         public string ComplainCategoryDescription { get; set; }
 
-        public string ComplainStateDescription { get; set; }
+        public string CurrentStateDescription { get; set; }
 
         public string NextStateDescription
         {
             get
             {
-                var nextState = ComplainStateDescription.GetNextStateDescription(EmergencyState.Finish);
+                var nextState = CurrentStateDescription.GetNextStateDescription(EmergencyState.Finish);
                 return nextState == null ? null : ((EmergencyState)nextState).GetEnumDescription();
             }
         }

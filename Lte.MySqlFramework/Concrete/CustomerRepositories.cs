@@ -36,9 +36,7 @@ namespace Lte.MySqlFramework.Concrete
 
         public EmergencyCommunication Match(EmergencyCommunicationDto stat)
         {
-            var begin = stat.BeginDate.AddDays(-7);
-            var end = stat.EndDate.AddDays(7);
-            return FirstOrDefault(x => x.ProjectName == stat.ProjectName && x.BeginDate >= begin && x.EndDate < end);
+            return Get(stat.Id);
         }
     }
 

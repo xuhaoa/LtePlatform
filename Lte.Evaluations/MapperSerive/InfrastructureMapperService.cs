@@ -205,7 +205,7 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.Description,
                     opt => opt.MapFrom(s => "[" + s.VehicleLocation + "]" + s.OtherDescription))
                 .ForMember(d => d.EmergencyState,
-                    opt => opt.MapFrom(s => s.EmergencyStateDescription.GetEnumType<EmergencyState>()));
+                    opt => opt.MapFrom(s => s.CurrentStateDescription.GetEnumType<EmergencyState>()));
             Mapper.CreateMap<EmergencyCommunication, EmergencyCommunicationDto>()
                 .ForMember(d => d.DemandLevelDescription, opt => opt.MapFrom(s => s.DemandLevel.GetEnumDescription()))
                 .ForMember(d => d.VehicularTypeDescription, opt => opt.MapFrom(s => s.VehicleType.GetEnumDescription()))
@@ -216,7 +216,7 @@ namespace Lte.Evaluations.MapperSerive
                     opt => opt.MapFrom(s => s.Description.GetSplittedFields(new[] {'[', ']'})[0]))
                 .ForMember(d => d.OtherDescription,
                     opt => opt.MapFrom(s => s.Description.GetSplittedFields(new[] {'[', ']'})[1]))
-                .ForMember(d => d.EmergencyStateDescription,
+                .ForMember(d => d.CurrentStateDescription,
                     opt => opt.MapFrom(s => s.EmergencyState.GetEnumDescription()));
             Mapper.CreateMap<VipDemandExcel, VipDemand>()
                 .ForMember(d => d.DemandLevel,
@@ -231,7 +231,7 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.MarketTheme,
                     opt => opt.MapFrom(s => s.MarketThemeDescription.GetEnumType<MarketTheme>()))
                 .ForMember(d => d.FinishTime, opt => opt.MapFrom(s => DateTime.Now))
-                .ForMember(d => d.VipState, opt => opt.MapFrom(s => s.VipStateDescription.GetEnumType<VipState>()));
+                .ForMember(d => d.VipState, opt => opt.MapFrom(s => s.CurrentStateDescription.GetEnumType<VipState>()));
             Mapper.CreateMap<VipDemand, VipDemandDto>()
                 .ForMember(d => d.DemandLevelDescription, opt => opt.MapFrom(s => s.DemandLevel.GetEnumDescription()))
                 .ForMember(d => d.NetworkTypeDescription, opt => opt.MapFrom(s => s.NetworkType.GetEnumDescription()))
@@ -243,7 +243,7 @@ namespace Lte.Evaluations.MapperSerive
                                 !string.IsNullOrEmpty(s.Area) && !string.IsNullOrEmpty(s.ContactPerson) &&
                                 !string.IsNullOrEmpty(s.PhoneNumber) && s.TownId > 0))
                 .ForMember(d => d.MarketThemeDescription, opt => opt.MapFrom(s => s.MarketTheme.GetEnumDescription()))
-                .ForMember(d => d.VipStateDescription, opt => opt.MapFrom(s => s.VipState.GetEnumDescription()));
+                .ForMember(d => d.CurrentStateDescription, opt => opt.MapFrom(s => s.VipState.GetEnumDescription()));
             Mapper.CreateMap<EmergencyProcess, EmergencyProcessDto>()
                 .ForMember(d => d.ProcessStateDescription,
                     opt => opt.MapFrom(s => s.ProcessState.GetEnumDescription()));
@@ -286,7 +286,7 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.ComplainSceneDescription,
                     opt => opt.MapFrom(s => s.ComplainScene.GetEnumDescription()))
                 .ForMember(d => d.IsIndoorDescription, opt => opt.MapFrom(s => s.IsIndoor ? "室内" : "室外"))
-                .ForMember(d => d.ComplainStateDescription,
+                .ForMember(d => d.CurrentStateDescription,
                     opt => opt.MapFrom(s => s.ComplainState.GetEnumDescription()))
                 .ForMember(d => d.ComplainCategoryDescription,
                     opt => opt.MapFrom(s => s.ComplainCategory.GetEnumDescription()));

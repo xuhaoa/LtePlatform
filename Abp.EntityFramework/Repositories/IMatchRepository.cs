@@ -7,16 +7,17 @@ using Abp.Domain.Repositories;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using AutoMapper.Internal;
+using Castle.MicroKernel.ModelBuilder.Descriptors;
 using Lte.Domain.Common.Geo;
 
 namespace Abp.EntityFramework.Repositories
 {
-    public interface IMatchRepository<out TEnitty, in TExcel>
-        where TEnitty: Entity
+    public interface IMatchRepository<out TEntity, in TExcel>
+        where TEntity: Entity
     {
-        TEnitty Match(TExcel stat);
+        TEntity Match(TExcel stat);
     }
-
+    
     public interface IMatchRepository<TEntity>
         where TEntity : Entity
     {
@@ -33,6 +34,18 @@ namespace Abp.EntityFramework.Repositories
     public interface ISaveChanges
     {
         int SaveChanges();
+    }
+
+    public interface IStateChange
+    {
+        string CurrentStateDescription { get; set; }
+
+        string NextStateDescription { get; }
+    }
+
+    public interface IConstructDto<out TDto>
+    {
+        TDto Construct(string userName);
     }
     
     public static class MatchRepositoryOperation
@@ -116,6 +129,30 @@ namespace Abp.EntityFramework.Repositories
                 await repository.UpdateAsync(info);
             }
             return repository.SaveChanges();
+        }
+
+        public static async Task<TProcessDto> ConstructProcess
+            <TRepository, TProcessRepository, TEntity, TDto, TProcess, TProcessDto>(this TRepository repository,
+                TProcessRepository processRepository, TDto dto, string userName)
+            where TRepository : IRepository<TEntity>, IMatchRepository<TEntity, TDto>,  ISaveChanges
+            where TProcessRepository : IRepository<TProcess>, IMatchRepository<TProcess, TProcessDto>, ISaveChanges
+            where TEntity : Entity, new()
+            where TDto : IStateChange, IConstructDto<TProcessDto>
+            where TProcess : Entity
+            where TProcessDto : class
+        {
+            if (dto.NextStateDescription == null) return null;
+            dto.CurrentStateDescription = dto.NextStateDescription;
+            var stat = repository.Match(dto);
+            if (stat != null)
+            {
+                Mapper.Map(dto, stat);
+                await repository.UpdateAsync(stat);
+                repository.SaveChanges();
+            }
+            var process = dto.Construct(userName);
+            processRepository.ImportOne<TProcessRepository, TProcess, TProcessDto>(process);
+            return process;
         }
     }
 }
