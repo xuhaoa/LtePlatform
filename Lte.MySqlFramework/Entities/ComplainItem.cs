@@ -97,8 +97,8 @@ namespace Lte.MySqlFramework.Entities
         {
             get
             {
-                var nextState = CurrentStateDescription.GetNextStateDescription(EmergencyState.Finish);
-                return nextState == null ? null : ((EmergencyState)nextState).GetEnumDescription();
+                var nextState = CurrentStateDescription.GetNextStateDescription(ComplainState.Archive);
+                return nextState == null ? null : ((ComplainState)nextState).GetEnumDescription();
             }
         }
 

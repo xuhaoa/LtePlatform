@@ -146,7 +146,7 @@ namespace Abp.EntityFramework.Repositories
             var stat = repository.Match(dto);
             if (stat != null)
             {
-                Mapper.Map(dto, stat);
+                Mapper.Map<TDto, TEntity>(dto, stat);
                 await repository.UpdateAsync(stat);
                 repository.SaveChanges();
             }
