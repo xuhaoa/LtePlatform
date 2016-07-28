@@ -315,6 +315,37 @@ angular.module('customer.emergency', ['customer.service'])
                 });
             }
         };
+    })
+    .value('complainTypeDictionay', {
+        "生成工单": 'default',
+        "预处理": 'danger',
+        "预约测试": 'primary',
+        "现场测试": 'warning',
+        "问题处理": 'info',
+        "回访用户": 'primary',
+        "工单归档": 'success'
+    })
+    .directive('complainProcessState', function (complainTypeDictionay) {
+        return {
+            restrict: 'A',
+            scope: {
+                state: '='
+            },
+            template: '<span>{{state}}</span>',
+            link: function (scope, element, attrs) {
+                element.addClass('label');
+
+                scope.$watch("state", function (state, oldState) {
+                    if (oldState) {
+                        element.removeClass('label-' + complainTypeDictionay[oldState]);
+                    }
+                    if (state) {
+                        var type = complainTypeDictionay[state] || 'primary';
+                        element.addClass('label-' + type);
+                    }
+                });
+            }
+        };
     });
 
 angular.module('customer.vip', ['customer.service'])

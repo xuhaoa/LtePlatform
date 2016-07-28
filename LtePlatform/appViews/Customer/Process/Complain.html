@@ -30,16 +30,16 @@
 <div class="row">
     <div class="col-md-5">
         当前状态：
-        <div emergency-process-state state="item.currentStateDescription"></div>
+        <div complain-process-state state="item.currentStateDescription"></div>
         下一状态：
-        <div emergency-process-state state="item.nextStateDescription"></div>
+        <div complain-process-state state="item.nextStateDescription"></div>
     </div>
     <div class="col-md-7">
         <div class="input-group">
             处理信息：
             <input type="text" ng-model="processInfo" class="form-control" />
             <span class="input-group-btn">
-                <button type="button" class="btn btn-primary" ng-click="createProcess()" ng-disabled="!canGoNextStep">
+                <button type="button" class="btn btn-primary" ng-click="createProcess()" ng-disabled="!item.nextStateDescription">
                     流程处理
                 </button>
             </span>
@@ -53,6 +53,6 @@
         </h3>
     </div>
     <div class="panel-body">
-        <div emergency-process-list items="processItems"></div>
+        <div vip-process-list items="processItems"></div>
     </div>
 </div>

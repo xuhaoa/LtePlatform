@@ -290,6 +290,22 @@ namespace Lte.Evaluations.MapperSerive
                     opt => opt.MapFrom(s => s.ComplainState.GetEnumDescription()))
                 .ForMember(d => d.ComplainCategoryDescription,
                     opt => opt.MapFrom(s => s.ComplainCategory.GetEnumDescription()));
+            Mapper.CreateMap<ComplainDto, ComplainItem>()
+                .ForMember(d => d.ComplainSource,
+                    opt => opt.MapFrom(s => s.ComplainSourceDescription.GetEnumType<ComplainSource>()))
+                .ForMember(d => d.ComplainReason,
+                    opt => opt.MapFrom(s => s.ComplainReasonDescription.GetEnumType<ComplainReason>()))
+                .ForMember(d => d.ComplainSubReason,
+                    opt => opt.MapFrom(s => s.ComplainSubReasonDescription.GetEnumType<ComplainSubReason>()))
+                .ForMember(d => d.NetworkType,
+                    opt => opt.MapFrom(s => s.NetworkTypeDescription.GetEnumType<NetworkType>()))
+                .ForMember(d => d.ComplainScene,
+                    opt => opt.MapFrom(s => s.ComplainSceneDescription.GetEnumType<ComplainScene>()))
+                .ForMember(d => d.ComplainCategory,
+                    opt => opt.MapFrom(s => s.ComplainCategoryDescription.GetEnumType<ComplainCategory>()))
+                .ForMember(d => d.IsIndoor, opt => opt.MapFrom(s => s.IsIndoorDescription == "室内"))
+                .ForMember(d => d.ComplainState,
+                    opt => opt.MapFrom(s => s.CurrentStateDescription.GetEnumType<ComplainState>()));
             Mapper.CreateMap<BranchDemandExcel, BranchDemand>()
                 .ForMember(d => d.SolveFunction,
                     opt => opt.MapFrom(s => s.SolveFunctionDescription.GetEnumType<SolveFunction>()))
