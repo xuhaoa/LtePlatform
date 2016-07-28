@@ -295,6 +295,14 @@ namespace Lte.Evaluations.MapperSerive
                     opt => opt.MapFrom(s => s.SolveFunctionDescription.GetEnumType<SolveFunction>()))
                 .ForMember(d => d.IsSolved, opt => opt.MapFrom(s => s.IsSolvedDescription == "是"))
                 .ForMember(d => d.ProcessContents, opt => opt.MapFrom(s => "[" + DateTime.Now + "]" + s.FirstContents));
+            Mapper.CreateMap<BranchDemand, BranchDemandDto>()
+                .ForMember(d => d.SolveFunctionDescription,
+                    opt => opt.MapFrom(s => s.SolveFunction.GetEnumDescription()))
+                .ForMember(d => d.IsSolvedDescription, opt => opt.MapFrom(s => s.IsSolved ? "是" : "否"));
+            Mapper.CreateMap<BranchDemandDto, BranchDemand>()
+                .ForMember(d => d.SolveFunction,
+                    opt => opt.MapFrom(s => s.SolveFunctionDescription.GetEnumType<SolveFunction>()))
+                .ForMember(d => d.IsSolved, opt => opt.MapFrom(s => s.IsSolvedDescription == "是"));
             Mapper.CreateMap<OnlineSustainExcel, OnlineSustain>()
                 .ForMember(d => d.ComplainCategory,
                     opt => opt.MapFrom(s => s.ComplainCategoryDescription.GetEnumType<ComplainCategory>()))

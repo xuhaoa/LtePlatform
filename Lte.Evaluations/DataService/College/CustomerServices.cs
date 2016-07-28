@@ -387,6 +387,12 @@ namespace Lte.Evaluations.DataService.College
         {
             return await _repository.CountAsync(x => x.BeginDate >= begin && x.BeginDate < end);
         }
+
+        public List<BranchDemandDto> QueryList(DateTime begin, DateTime end)
+        {
+            var items = _repository.GetAllList(begin, end);
+            return Mapper.Map<List<BranchDemand>, List<BranchDemandDto>>(items);
+        }
     }
 
     public class OnlineSustainService : IDateSpanService<OnlineSustain>

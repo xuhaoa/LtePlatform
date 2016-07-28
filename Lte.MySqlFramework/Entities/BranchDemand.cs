@@ -37,6 +37,39 @@ namespace Lte.MySqlFramework.Entities
         public string ManagerInfo { get; set; }
     }
 
+    public class BranchDemandDto
+    {
+        public DateTime BeginDate { get; set; }
+
+        public string SerialNumber { get; set; }
+
+        public int TownId { get; set; }
+
+        public string City { get; set; }
+
+        public string District { get; set; }
+
+        public string Town { get; set; }
+
+        public string ComplainContents { get; set; }
+
+        public string ProcessContents { get; set; }
+
+        public string SolveFunctionDescription { get; set; }
+
+        public string IsSolvedDescription { get; set; }
+
+        public DateTime? EndDate { get; set; }
+
+        public double Lontitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        public string SubscriberInfo { get; set; }
+
+        public string ManagerInfo { get; set; }
+    }
+
     public class BranchDemandExcel : IDistrictTown
     {
         [ExcelColumn("用户申告时间")]

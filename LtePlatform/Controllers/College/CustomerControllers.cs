@@ -265,7 +265,14 @@ namespace LtePlatform.Controllers.College
         public async Task<int> GetCount(DateTime today)
         {
             return await _service.QueryCount<BranchDemandService, BranchDemand>(today);
-        } 
+        }
+
+        [HttpGet]
+        public List<BranchDemandDto> Get(DateTime begin, DateTime end)
+        {
+            return _service.QueryList(begin, end);
+        }
+
     }
 
     public class OnlineSustainController : ApiController

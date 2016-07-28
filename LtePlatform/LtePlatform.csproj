@@ -447,6 +447,7 @@
     <Content Include="appViews\College\Table\CollegeCellInfoBox.html" />
     <Content Include="appViews\College\Test\GenerateReport.html" />
     <Content Include="appViews\Customer\Complain\Adjust.html" />
+    <Content Include="appViews\Customer\Complain\Branch.html" />
     <Content Include="appViews\Customer\Complain\List.html" />
     <Content Include="appViews\Customer\Complain\Stat.html" />
     <Content Include="appViews\Customer\Dialog\Complain.html" />

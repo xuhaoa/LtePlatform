@@ -267,6 +267,12 @@
                     begin: begin,
                     end: end
                 });
+            },
+            queryBranchList: function(begin, end) {
+                return generalHttpService.getApiData("BranchDemand", {
+                    begin: begin,
+                    end: end
+                });
             }
         }
     });

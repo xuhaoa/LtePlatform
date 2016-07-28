@@ -34,9 +34,9 @@
                     templateUrl: viewDir + "Complain/List.html",
                     controller: "complain.list"
                 })
-                .when('/interference/:cellId/:sectorId/:name', {
-                    templateUrl: viewDir + "Interference/Index.html",
-                    controller: "rutrace.interference"
+                .when('/complain/branch', {
+                    templateUrl: viewDir + "Complain/Branch.html",
+                    controller: "complain.branch"
                 })
                 .when('/coverage/:cellId/:sectorId/:name', {
                     templateUrl: viewDir + "Coverage/Index.html",
