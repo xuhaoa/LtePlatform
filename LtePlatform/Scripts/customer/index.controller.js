@@ -4,22 +4,26 @@
             tips: "抱怨量",
             count: 120,
             type: "shopping-cart",
-            color: "blue"
+            color: "blue",
+            path: "complain/list"
         }, {
             tips: "分公司需求",
             count: 80,
             type: "comment",
-            color: "orange"
+            color: "orange",
+            path: "complain/branch"
         }, {
             tips: "在线支撑",
             count: 7,
             type: "user",
-            color: "teal"
+            color: "teal",
+            path: "complain/online"
         }, {
             tips: "政企支撑",
             count: 44,
             type: "stats",
-            color: "red"
+            color: "red",
+            path: "vip"
         }
     ];
     $scope.statDate = {

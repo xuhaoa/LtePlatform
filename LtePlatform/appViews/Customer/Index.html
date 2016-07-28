@@ -6,7 +6,9 @@
                 </div>
                 <div class="col-sm-9 col-lg-7 widget-right">
                     <div class="large">{{stat.count}}</div>
-                    <div class="text-muted">{{stat.tips}}</div>
+                    <div class="text-muted">
+                        <a ng-href="{{rootPath}}{{stat.path}}">{{stat.tips}}</a>
+                    </div>
                 </div>
             </div>
         </div>
