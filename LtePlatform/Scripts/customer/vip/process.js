@@ -16,7 +16,7 @@
             });
         });
         emergencyService.queryVipProcessList($routeParams.number).then(function(items) {
-            console.log(items);
+            $scope.processItems = items;
         });
     };
 
