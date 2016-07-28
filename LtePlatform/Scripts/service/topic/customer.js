@@ -261,6 +261,12 @@
                 return generalHttpService.getApiData('OnlineSustain', {
                     today: today
                 });
+            },
+            queryAll: function (begin, end) {
+                return generalHttpService.getApiData("ComplainQuery", {
+                    begin: begin,
+                    end: end
+                });
             }
         }
     });

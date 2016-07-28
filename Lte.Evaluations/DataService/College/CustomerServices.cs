@@ -326,6 +326,12 @@ namespace Lte.Evaluations.DataService.College
             return _repository.GetAllList(begin, end);
         }
 
+        public List<ComplainDto> Query(DateTime begin, DateTime end)
+        {
+            var items= _repository.GetAllList(begin, end);
+            return Mapper.Map<List<ComplainItem>, List<ComplainDto>>(items);
+        }
+
         public async Task<int> UpdateTown(ComplainPositionDto dto)
         {
             var item = _repository.Get(dto.SerialNumber);

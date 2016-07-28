@@ -30,9 +30,9 @@
                     templateUrl: viewDir + "Complain/Stat.html",
                     controller: "daily.stat"
                 })
-                .when('/import/:cellId/:sectorId/:name', {
-                    templateUrl: viewDir + "Import.html",
-                    controller: "rutrace.import"
+                .when('/complain/list', {
+                    templateUrl: viewDir + "Complain/List.html",
+                    controller: "complain.list"
                 })
                 .when('/interference/:cellId/:sectorId/:name', {
                     templateUrl: viewDir + "Interference/Index.html",

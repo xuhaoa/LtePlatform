@@ -215,6 +215,12 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
+        public List<ComplainDto> Get(DateTime begin, DateTime end)
+        {
+            return _service.Query(begin, end);
+        }
+
+        [HttpGet]
         public async Task<int> GetCount(DateTime today)
         {
             return await _service.QueryCount<ComplainService, ComplainItem>(today);
