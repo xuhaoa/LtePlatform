@@ -64,7 +64,7 @@ namespace LtePlatform.Controllers.College
         [HttpPost]
         public async Task<EmergencyProcessDto> Post(EmergencyCommunicationDto dto)
         {
-            return await _service.Process(dto, User.Identity.Name);
+            return await _service.ConstructProcess(dto, User.Identity.Name);
         }
 
         [HttpPut]

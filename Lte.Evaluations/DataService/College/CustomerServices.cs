@@ -163,7 +163,7 @@ namespace Lte.Evaluations.DataService.College
                     _townRepository, district, town, begin, end);
         }
 
-        public async Task<EmergencyProcessDto> Process(EmergencyCommunicationDto dto, string userName)
+        public async Task<EmergencyProcessDto> ConstructProcess(EmergencyCommunicationDto dto, string userName)
         {
             if (dto.NextStateDescription == null) return null;
             dto.EmergencyStateDescription = dto.NextStateDescription;
