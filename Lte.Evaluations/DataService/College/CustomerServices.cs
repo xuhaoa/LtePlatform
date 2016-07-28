@@ -215,11 +215,14 @@ namespace Lte.Evaluations.DataService.College
     {
         private readonly IVipDemandRepository _repository;
         private readonly ITownRepository _townRepository;
+        private readonly IVipProcessRepository _processRepository;
 
-        public VipDemandService(IVipDemandRepository repository, ITownRepository townRepository)
+        public VipDemandService(IVipDemandRepository repository, ITownRepository townRepository,
+            IVipProcessRepository processRepository)
         {
             _repository = repository;
             _townRepository = townRepository;
+            _processRepository = processRepository;
         }
 
         public int Dump(VipDemandDto dto)
@@ -247,6 +250,11 @@ namespace Lte.Evaluations.DataService.College
             return await _repository.UpdateOne<IVipDemandRepository, VipDemand, VipDemandDto>(dto);
         }
 
+        public async Task<int> UpdateAsync(VipProcessDto dto)
+        {
+            return await _processRepository.UpdateOne<IVipProcessRepository, VipProcess, VipProcessDto>(dto);
+        } 
+
         public VipDemandDto QuerySingle(string serialNumber)
         {
             var result =
@@ -269,6 +277,21 @@ namespace Lte.Evaluations.DataService.College
         {
             return await _repository.CountAsync(x => x.BeginDate >= begin && x.BeginDate < end);
         }
+
+        public async Task<VipProcessDto> ConstructProcess(VipDemandDto dto, string userName)
+        {
+            return await
+                _repository
+                    .ConstructProcess
+                    <IVipDemandRepository, IVipProcessRepository, VipDemand,
+                        VipDemandDto, VipProcess, VipProcessDto>(_processRepository, dto, userName);
+        }
+
+        public IEnumerable<VipProcessDto> QueryProcess(string serialNumber)
+        {
+            var items = _processRepository.GetAllList(serialNumber);
+            return Mapper.Map<List<VipProcess>, IEnumerable<VipProcessDto>>(items);
+        } 
     }
 
     public interface IDateSpanService<TItem>
@@ -282,11 +305,14 @@ namespace Lte.Evaluations.DataService.College
     {
         private readonly IComplainItemRepository _repository;
         private readonly ITownRepository _townRepository;
+        private readonly IComplainProcessRepository _processRepository;
 
-        public ComplainService(IComplainItemRepository repository, ITownRepository townRepository)
+        public ComplainService(IComplainItemRepository repository, ITownRepository townRepository,
+            IComplainProcessRepository processRepository)
         {
             _repository = repository;
             _townRepository = townRepository;
+            _processRepository = processRepository;
         }
 
         public IEnumerable<ComplainPositionDto> QueryPositionDtos(DateTime begin, DateTime end)
@@ -314,7 +340,27 @@ namespace Lte.Evaluations.DataService.College
         public async Task<int> QueryCount(DateTime begin, DateTime end)
         {
             return await _repository.CountAsync(x => x.BeginTime >= begin && x.BeginTime < end);
-        }  
+        }
+
+        public async Task<ComplainProcessDto> ConstructProcess(ComplainDto dto, string userName)
+        {
+            return await
+                _repository
+                    .ConstructProcess
+                    <IComplainItemRepository, IComplainProcessRepository, ComplainItem,
+                        ComplainDto, ComplainProcess, ComplainProcessDto>(_processRepository, dto, userName);
+        }
+
+        public IEnumerable<ComplainProcessDto> QueryProcess(string serialNumber)
+        {
+            var items = _processRepository.GetAllList(serialNumber);
+            return Mapper.Map<List<ComplainProcess>, IEnumerable<ComplainProcessDto>>(items);
+        }
+
+        public async Task<int> UpdateAsync(ComplainProcessDto dto)
+        {
+            return await _processRepository.UpdateOne<IComplainProcessRepository, ComplainProcess, ComplainProcessDto>(dto);
+        }
     }
 
     public class BranchDemandService : IDateSpanService<BranchDemand>

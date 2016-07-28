@@ -1,5 +1,6 @@
 ﻿using System;
 using Abp.Domain.Entities;
+using Abp.EntityFramework.Repositories;
 using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
@@ -50,7 +51,7 @@ namespace Lte.MySqlFramework.Entities
         public VipState VipState { get; set; }
     }
     
-    public class VipDemandDto : IDistrictTown, ITownId
+    public class VipDemandDto : IDistrictTown, ITownId, IConstructDto<VipProcessDto>, IStateChange
     {
         public string SerialNumber { get; set; }
         
@@ -103,6 +104,17 @@ namespace Lte.MySqlFramework.Entities
                 var nextState = CurrentStateDescription.GetNextStateDescription(EmergencyState.Finish);
                 return nextState == null ? null : ((EmergencyState)nextState).GetEnumDescription();
             }
+        }
+
+        public VipProcessDto Construct(string userName)
+        {
+            return new VipProcessDto
+            {
+                SerialNumber = SerialNumber,
+                ProcessPerson = userName,
+                ProcessTime = DateTime.Now,
+                VipStateDescription = CurrentStateDescription
+            };
         }
     }
 

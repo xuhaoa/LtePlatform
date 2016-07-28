@@ -153,6 +153,35 @@ namespace LtePlatform.Controllers.College
         }
     }
 
+    public class VipProcessController : ApiController
+    {
+        private readonly VipDemandService _service;
+
+        public VipProcessController(VipDemandService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<VipProcessDto> Get(string serialNumber)
+        {
+            return _service.QueryProcess(serialNumber);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<VipProcessDto> Post(VipDemandDto dto)
+        {
+            return await _service.ConstructProcess(dto, User.Identity.Name);
+        }
+
+        [HttpPut]
+        public async Task<int> Put(VipProcessDto dto)
+        {
+            return await _service.UpdateAsync(dto);
+        }
+    }
+
     [ApiControl("抱怨量位置更新控制器")]
     public class ComplainPositionController : ApiController
     {
@@ -195,6 +224,25 @@ namespace LtePlatform.Controllers.College
         public Tuple<IEnumerable<string>, IEnumerable<int>> GetTrend(DateTime date)
         {
             return _service.Query<ComplainService, ComplainItem>(date, x => x.BeginTime);
+        }
+
+        [HttpGet]
+        public IEnumerable<ComplainProcessDto> Get(string serialNumber)
+        {
+            return _service.QueryProcess(serialNumber);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<ComplainProcessDto> Post(ComplainDto dto)
+        {
+            return await _service.ConstructProcess(dto, User.Identity.Name);
+        }
+
+        [HttpPut]
+        public async Task<int> Put(ComplainProcessDto dto)
+        {
+            return await _service.UpdateAsync(dto);
         }
     }
 

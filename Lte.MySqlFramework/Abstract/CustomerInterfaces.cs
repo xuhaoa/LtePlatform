@@ -61,6 +61,7 @@ namespace Lte.MySqlFramework.Abstract
     public interface IComplainItemRepository
         : IRepository<ComplainItem>,
             IMatchRepository<ComplainItem, ComplainExcel>,
+            IMatchRepository<ComplainItem, ComplainDto>,
             IDateSpanQuery<ComplainItem>,
             ISaveChanges
     {

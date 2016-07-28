@@ -196,6 +196,11 @@ namespace Lte.MySqlFramework.Concrete
         {
             return FirstOrDefault(x => x.SerialNumber == serialNumber);
         }
+
+        public ComplainItem Match(ComplainDto stat)
+        {
+            return FirstOrDefault(x => x.SerialNumber == stat.SerialNumber);
+        }
     }
 
     public class BranchDemandRepository : EfRepositoryBase<MySqlContext, BranchDemand>,IBranchDemandRepository
