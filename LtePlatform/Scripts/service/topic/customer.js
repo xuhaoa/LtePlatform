@@ -273,6 +273,12 @@
                     begin: begin,
                     end: end
                 });
+            },
+            queryOnlineList: function (begin, end) {
+                return generalHttpService.getApiData("OnlineSustain", {
+                    begin: begin,
+                    end: end
+                });
             }
         }
     });

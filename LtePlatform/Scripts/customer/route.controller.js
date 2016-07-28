@@ -38,9 +38,9 @@
                     templateUrl: viewDir + "Complain/Branch.html",
                     controller: "complain.branch"
                 })
-                .when('/coverage/:cellId/:sectorId/:name', {
-                    templateUrl: viewDir + "Coverage/Index.html",
-                    controller: "rutrace.coverage"
+                .when('/complain/online', {
+                    templateUrl: viewDir + "Complain/Online.html",
+                    controller: "complain.online"
                 })
                 .when('/baidumap/:cellId/:sectorId/:name', {
                     templateUrl: viewDir + "Map/Index.html",

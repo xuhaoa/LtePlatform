@@ -449,6 +449,7 @@
     <Content Include="appViews\Customer\Complain\Adjust.html" />
     <Content Include="appViews\Customer\Complain\Branch.html" />
     <Content Include="appViews\Customer\Complain\List.html" />
+    <Content Include="appViews\Customer\Complain\Online.html" />
     <Content Include="appViews\Customer\Complain\Stat.html" />
     <Content Include="appViews\Customer\Dialog\Complain.html" />
     <Content Include="appViews\Customer\Dialog\Fiber.html" />

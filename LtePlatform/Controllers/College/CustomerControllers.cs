@@ -289,5 +289,12 @@ namespace LtePlatform.Controllers.College
         {
             return await _service.QueryCount<OnlineSustainService, OnlineSustain>(today);
         }
+
+        [HttpGet]
+        public List<OnlineSustainDto> Get(DateTime begin, DateTime end)
+        {
+            return _service.QueryList(begin, end);
+        }
+
     }
 }

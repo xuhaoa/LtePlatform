@@ -307,6 +307,14 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.ComplainCategory,
                     opt => opt.MapFrom(s => s.ComplainCategoryDescription.GetEnumType<ComplainCategory>()))
                 .ForMember(d => d.IsPreProcessed, opt => opt.MapFrom(s => s.PreProcessString == "是"));
+            Mapper.CreateMap<OnlineSustain, OnlineSustainDto>()
+                .ForMember(d => d.ComplainCategoryDescription,
+                    opt => opt.MapFrom(s => s.ComplainCategory.GetEnumDescription()))
+                .ForMember(d => d.IsPreProcessedDescription, opt => opt.MapFrom(s => s.IsPreProcessed ? "是" : "否"));
+            Mapper.CreateMap<OnlineSustainDto, OnlineSustain>()
+                .ForMember(d => d.ComplainCategory,
+                    opt => opt.MapFrom(s => s.ComplainCategoryDescription.GetEnumType<ComplainCategory>()))
+                .ForMember(d => d.IsPreProcessed, opt => opt.MapFrom(s => s.IsPreProcessedDescription == "是"));
         }
     }
 }
