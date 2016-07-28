@@ -2,15 +2,44 @@
     .constant('customerRoot', '/directives/customer/');
 
 angular.module('customer.emergency', ['customer.service'])
-    .directive('emergencyCommunicationList', function(customerRoot) {
+    .controller('EmergencyCommunicationController', function($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'projectName', name: '项目名称' },
+                { field: 'beginDate', name: '开始日期', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'endDate', name: '结束日期', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'demandLevelDescription', name: '需求等级' },
+                { field: 'vehicularTypeDescription', name: '通信车类型' },
+                { field: 'expectedPeople', name: '预计人数' },
+                {
+                    name: '工单处理',
+                    cellTemplate:'<a ng-href="{{grid.appScope.rootPath}}emergency/process/{{row.entity.id}}" class="btn btn-sm btn-success">{{row.entity.currentStateDescription}}</a>'
+                }
+            ],
+            data: []
+        };
+    })
+    .directive('emergencyCommunicationList', function ($compile) {
         return {
-            restrict: 'ECMA',
+            restrict: 'EA',
+            controller: 'EmergencyCommunicationController',
             replace: true,
             scope: {
                 items: '=',
                 rootPath: '='
             },
-            templateUrl: customerRoot + 'emergency/CommunicationList.html'
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
         };
     })
 
