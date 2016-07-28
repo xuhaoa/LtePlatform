@@ -200,6 +200,9 @@ angular.module('customer.emergency', ['customer.service'])
     })
 
     .controller('VipProcessController', function ($scope) {
+        $scope.updateProcess = function(item) {
+            console.log(item);
+        };
         $scope.gridOptions = {
             columnDefs: [
                 { field: 'beginTime', name: '开始时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
@@ -207,7 +210,11 @@ angular.module('customer.emergency', ['customer.service'])
                 { field: 'vipStateDescription', name: '处理步骤' },
                 { field: 'beginInfo', name: '建单信息' },
                 { field: 'processPerson', name: '处理人' },
-                { field: 'processInfo', name: '处理信息' }
+                { field: 'processInfo', name: '处理信息' },
+                {
+                    name: '处理',
+                    cellTemplate: '<button ng-disabled="row.entity.processInfo" class="btn btn-sm btn-success" ng-click="grid.appScope.updateProcess(row.entity)">处理信息</button>'
+                }
             ],
             data: []
         };
