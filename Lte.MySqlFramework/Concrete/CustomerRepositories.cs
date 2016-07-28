@@ -121,6 +121,29 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
+    public class ComplainProcessRepository : EfRepositoryBase<MySqlContext, ComplainProcess>, IComplainProcessRepository
+    {
+        public ComplainProcessRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public ComplainProcess Match(ComplainProcessDto stat)
+        {
+            var state = stat.ComplainStateDescription.GetEnumType<ComplainState>();
+            return FirstOrDefault(x => x.SerialNumber == stat.SerialNumber && x.ComplainState == state);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+
+        public List<ComplainProcess> GetAllList(string serialNumber)
+        {
+            return GetAllList(x => x.SerialNumber == serialNumber);
+        }
+    }
+
     public class EmergencyFiberWorkItemRepository : EfRepositoryBase<MySqlContext, EmergencyFiberWorkItem>,
         IEmergencyFiberWorkItemRepository
     {

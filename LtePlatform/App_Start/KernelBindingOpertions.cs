@@ -182,6 +182,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IComplainItemRepository>().To<ComplainItemRepository>();
 
+            ninjectKernel.Bind<IComplainProcessRepository>().To<ComplainProcessRepository>();
+
             ninjectKernel.Bind<CellService>().ToSelf();
 
             ninjectKernel.Bind<CdmaCellService>().ToSelf();

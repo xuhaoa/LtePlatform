@@ -52,7 +52,7 @@ namespace Lte.MySqlFramework.Entities
         public ComplainState ComplainState { get; set; }
     }
 
-    public class ComplanDto
+    public class ComplainDto
     {
         public string SerialNumber { get; set; }
 
@@ -84,7 +84,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string SitePosition { get; set; }
 
-        public bool IsIndoor { get; set; }
+        public string IsIndoorDescription { get; set; }
 
         public string ComplainSceneDescription { get; set; }
 

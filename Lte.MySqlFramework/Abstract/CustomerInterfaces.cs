@@ -42,6 +42,14 @@ namespace Lte.MySqlFramework.Abstract
         List<VipProcess> GetAllList(string serialNumber);
     }
 
+    public interface IComplainProcessRepository
+        : IRepository<ComplainProcess>,
+            IMatchRepository<ComplainProcess, ComplainProcessDto>,
+            ISaveChanges
+    {
+        List<ComplainProcess> GetAllList(string serialNumber);
+    }
+
     public interface IEmergencyFiberWorkItemRepository
         : IRepository<EmergencyFiberWorkItem>,
             IMatchRepository<EmergencyFiberWorkItem>,
