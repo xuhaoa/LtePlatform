@@ -1,29 +1,29 @@
-﻿<h3 class="text-primary">项目名称：{{item.projectName}}</h3>
+﻿<h3 class="text-primary">项目编号：{{item.serialNumber}}</h3>
 <table class="table table-bordered">
     <tbody>
         <tr>
-            <td>保障等级</td>
-            <td>{{item.demandLevelDescription}}</td>
+            <td>楼宇名称</td>
+            <td>{{item.buildingName}}</td>
             <td>开始时间</td>
-            <td>{{item.beginDate | date: 'yyyy-MM-dd'}}</td>
-            <td>结束时间</td>
-            <td>{{item.endDate | date: 'yyyy-MM-dd'}}</td>
+            <td>{{item.beginTime | date: 'yyyy-MM-dd'}}</td>
+            <td>投诉类型</td>
+            <td>{{item.complainCategoryDescription}}</td>
         </tr>
         <tr>
-            <td>需求联系人</td>
-            <td>{{item.person}}</td>
-            <td>联系人电话</td>
-            <td>{{item.phone}}</td>
-            <td>需求部门</td>
-            <td>{{item.department}}</td>
+            <td>投诉来源</td>
+            <td>{{item.complainSourceDescription}}</td>
+            <td>室内外</td>
+            <td>{{item.isIndoorDescription}}</td>
+            <td>网络类型</td>
+            <td>{{item.networkTypeDescription}}</td>
         </tr>
         <tr>
-            <td>通信车类型</td>
-            <td>{{item.vehicularTypeDescription}}</td>
-            <td>区域</td>
-            <td>{{item.district}}</td>
-            <td>镇区</td>
-            <td>{{item.town}}</td>
+            <td>附近道路</td>
+            <td>{{item.roadName}}</td>
+            <td>站点判断位置</td>
+            <td>{{item.sitePosition}}</td>
+            <td>现场判断原因</td>
+            <td>{{item.complainSceneDescription}}</td>
         </tr>
     </tbody>
 </table>
