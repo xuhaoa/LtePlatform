@@ -348,6 +348,12 @@ namespace Lte.Evaluations.DataService.College
             return await _repository.CountAsync(x => x.BeginTime >= begin && x.BeginTime < end);
         }
 
+        public ComplainDto Query(string serialNumber)
+        {
+            var item = _repository.FirstOrDefault(x => x.SerialNumber == serialNumber);
+            return Mapper.Map<ComplainItem, ComplainDto>(item);
+        }
+
         public async Task<ComplainProcessDto> ConstructProcess(ComplainDto dto, string userName)
         {
             return await
@@ -362,6 +368,11 @@ namespace Lte.Evaluations.DataService.College
             var items = _processRepository.GetAllList(serialNumber);
             return Mapper.Map<List<ComplainProcess>, IEnumerable<ComplainProcessDto>>(items);
         }
+
+        public async Task<int> UpdateAsync(ComplainDto dto)
+        {
+            return await _repository.UpdateOne<IComplainItemRepository, ComplainItem, ComplainDto>(dto);
+        } 
 
         public async Task<int> UpdateAsync(ComplainProcessDto dto)
         {

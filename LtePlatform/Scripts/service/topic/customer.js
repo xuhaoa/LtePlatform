@@ -185,6 +185,11 @@
                     serialNumber: serialNumber
                 });
             },
+            queryOneComplain: function (serialNumber) {
+                return generalHttpService.getApiData("ComplainQuery", {
+                    serialNumber: serialNumber
+                });
+            },
             updateVip: function(dto) {
                 return generalHttpService.putApiData("VipDemand", dto);
             },
@@ -279,6 +284,20 @@
                     begin: begin,
                     end: end
                 });
+            },
+            queryComplainProcessList: function (number) {
+                return generalHttpService.getApiData('ComplainProcess', {
+                    serialNumber: number
+                });
+            },
+            createComplainProcess: function (dto) {
+                return generalHttpService.postApiDataWithHeading('ComplainProcess', dto);
+            },
+            updateComplainProcess: function (process) {
+                return generalHttpService.putApiData('ComplainProcess', process);
+            },
+            updateComplain: function (dto) {
+                return generalHttpService.putApiData("ComplainQuery", dto);
             }
         }
     });

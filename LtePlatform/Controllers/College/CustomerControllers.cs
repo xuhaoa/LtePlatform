@@ -233,6 +233,28 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
+        public ComplainDto Get(string serialNumber)
+        {
+            return _service.Query(serialNumber);
+        }
+        
+        [HttpPut]
+        public async Task<int> Put(ComplainDto dto)
+        {
+            return await _service.UpdateAsync(dto);
+        }
+    }
+
+    public class ComplainProcessController : ApiController
+    {
+        private readonly ComplainService _service;
+
+        public ComplainProcessController(ComplainService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
         public IEnumerable<ComplainProcessDto> Get(string serialNumber)
         {
             return _service.QueryProcess(serialNumber);
