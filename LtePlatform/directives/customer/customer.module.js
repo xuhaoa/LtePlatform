@@ -14,6 +14,45 @@ angular.module('customer.emergency', ['customer.service'])
         };
     })
 
+    .controller('ComplainListController', function ($scope) {
+        $scope.gridOptions = {
+            paginationPageSizes: [20, 40, 60],
+            paginationPageSize: 20,
+            columnDefs: [
+                { field: 'serialNumber', name: '序列号' },
+                { field: 'beginTime', name: '受理时间', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'buildingName', name: '楼宇名称' },
+                { field: 'roadName', name: '道路名称' },
+                { field: 'complainSourceDescription', name: '投诉来源' },
+                { field: 'networkTypeDescription', name: '网络类型' }
+            ],
+            data: []
+        };
+    })
+    .directive('complainList', function ($compile) {
+        return {
+            restrict: 'EA',
+            controller: 'ComplainListController',
+            replace: true,
+            scope: {
+                items: '=',
+                rootPath: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 600px"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
+    })
+
     .controller('EmergencyProcessController', function($scope) {
         $scope.gridOptions = {
             columnDefs: [
