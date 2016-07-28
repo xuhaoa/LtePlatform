@@ -53,7 +53,46 @@ angular.module('customer.emergency', ['customer.service'])
         };
     })
 
-    .controller('EmergencyProcessController', function($scope) {
+
+    .controller('BranchListController', function ($scope) {
+        $scope.gridOptions = {
+            paginationPageSizes: [20, 40, 60],
+            paginationPageSize: 20,
+            columnDefs: [
+                { field: 'serialNumber', name: '序列号' },
+                { field: 'beginDate', name: '受理时间', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'subscriberInfo', name: '用户信息' },
+                { field: 'managerInfo', name: '客户经理' },
+                { field: 'complainContents', name: '投诉内容' },
+                { field: 'solveFunctionDescription', name: '处理措施' }
+            ],
+            data: []
+        };
+    })
+    .directive('branchList', function ($compile) {
+        return {
+            restrict: 'EA',
+            controller: 'BranchListController',
+            replace: true,
+            scope: {
+                items: '=',
+                rootPath: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 600px"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
+    })
+.controller('EmergencyProcessController', function ($scope) {
         $scope.gridOptions = {
             columnDefs: [
                 { field: 'processTime', name: '处理时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
