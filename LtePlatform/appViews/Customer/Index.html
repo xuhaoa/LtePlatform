@@ -31,16 +31,17 @@
             <div class="panel-heading" id="accordion"><span class="glyphicon glyphicon-comment"></span>重要事项֪</div>
             <div class="panel-body">
                 <ul>
-                    <li class="left clearfix">
+                    <li class="left clearfix" ng-repeat="notice in notices">
                         <span style="float: left">
                             <span class="glyphicon glyphicon-asterisk img-circle" style="color: rgb(250, 139, 60); font-size: 80px;"></span>
                         </span>
                         <div class="chat-body">
                             <div class="header">
-                                <strong class="text-capitalize text-primary">Luls</strong> <small class="text-muted">2016/07/22</small>
+                                <strong class="text-capitalize text-primary">{{notice.person}}</strong> 
+                                <small class="text-muted">{{notice.dateString}}</small>
                             </div>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ante turpis, rutrum ut ullamcorper sed, dapibus ac nunc. Vivamus luctus convallis mauris, eu gravida tortor aliquam ultricies.
+                                {{notice.contents}}
                             </p>
                         </div>
                     </li>
