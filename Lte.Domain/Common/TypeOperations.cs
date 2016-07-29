@@ -124,4 +124,20 @@ namespace Lte.Domain.Common
             return source == 1;
         }
     }
+
+    public class PositiveBoolTransform : ValueResolver<int, bool>
+    {
+        protected override bool ResolveCore(int source)
+        {
+            return source > 0;
+        }
+    }
+
+    public class ZeroBoolTransform : ValueResolver<int, bool>
+    {
+        protected override bool ResolveCore(int source)
+        {
+            return source == 0;
+        }
+    }
 }

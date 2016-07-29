@@ -162,5 +162,30 @@ namespace Lte.Evaluations.MapperService
             Assert.AreEqual(item.NeighborPci, 223);
             item.NeighborCellName.ShouldBe("wer");
         }
+
+        [Test]
+        public void Test_From_EutranIntraFreqNCell()
+        {
+            var cell = new EutranIntraFreqNCell
+            {
+                eNodeB_Id = 54321,
+                eNodeBId = 22222,
+                CellId = 4,
+                NeighbourCellName = "ere",
+                AnrFlag = 2,
+                NoHoFlag = 1,
+                NoRmvFlag = 0,
+                CellMeasPriority = 4
+            };
+            var item = cell.MapTo<NeighborCellMongo>();
+            Assert.AreEqual(item.CellId, 54321);
+            Assert.AreEqual(item.NeighborCellId, 22222);
+            Assert.AreEqual(item.NeighborSectorId, 4);
+            Assert.AreEqual(item.NeighborCellName, "ere");
+            Assert.IsTrue(item.IsAnrCreated);
+            Assert.IsFalse(item.HandoffAllowed);
+            Assert.IsTrue(item.RemovedAllowed);
+            Assert.AreEqual(item.CellPriority, 4);
+        }
     }
 }

@@ -38,15 +38,6 @@ namespace Lte.Evaluations.MapperSerive
             Mapper.CreateMap<Cell, PciCell>();
             Mapper.CreateMap<NearestPciCell, NearestPciCellView>();
             
-            Mapper.CreateMap<EutranIntraFreqNCell, NeighborCellMongo>()
-                .ForMember(d => d.CellId, opt => opt.MapFrom(s => s.eNodeB_Id))
-                .ForMember(d => d.NeighborCellId, opt => opt.MapFrom(s => s.eNodeBId))
-                .ForMember(d => d.NeighborSectorId, opt => opt.MapFrom(s => s.CellId))
-                .ForMember(d => d.NeighborCellName, opt => opt.MapFrom(s => s.NeighbourCellName))
-                .ForMember(d => d.IsAnrCreated, opt => opt.MapFrom(s => s.AnrFlag > 0))
-                .ForMember(d => d.HandoffAllowed, opt => opt.MapFrom(s => s.NoHoFlag == 0))
-                .ForMember(d => d.RemovedAllowed, opt => opt.MapFrom(s => s.NoRmvFlag == 0))
-                .ForMember(d => d.CellPriority, opt => opt.MapFrom(s => s.CellMeasPriority));
             Mapper.CreateMap<CellExcel, Cell>()
                 .ForMember(d => d.AntennaPorts, opt => opt.MapFrom(s => s.TransmitReceive.ToUpper().GetEnumType<AntennaPortsConfigure>()))
                 .ForMember(d => d.IsOutdoor, opt => opt.MapFrom(s => s.IsIndoor.Trim() == "否"));
