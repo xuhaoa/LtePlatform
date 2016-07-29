@@ -7,16 +7,7 @@
                     'typeCondition': type
                 });
             },
-            queryWithPagingByDistrict: function (state, type, district, itemsPerPage, page) {
-                return generalHttpService.getApiDataWithHeading('WorkItem', {
-                    statCondition: state,
-                    typeCondition: type,
-                    district: district,
-                    itemsPerPage: itemsPerPage,
-                    page: page
-                });
-            },
-            queryTotalPagesByDistrict: function (state, type, district) {
+            queryWithPagingByDistrict: function (state, type, district) {
                 return generalHttpService.getApiDataWithHeading('WorkItem', {
                     statCondition: state,
                     typeCondition: type,

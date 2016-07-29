@@ -110,16 +110,6 @@ namespace Lte.Evaluations.DataService
             return WorkItemInfos.Count;
         }
         
-        public int QueryTotalItems(string statCondition, string typeCondition, string district)
-        {
-            var predict = (statCondition + '_' + typeCondition).GetWorkItemFilter();
-            var items = predict == null ? _repository.GetAllList() : _repository.GetAllList(predict);
-            if (!items.Any()) return 0;
-            var views = Mapper.Map<List<WorkItem>, List<WorkItemView>>(items).ToList();
-            views.ForEach(x => x.UpdateTown(_eNodebRepository, _btsRepository, _townRepository));
-            return views.Count(x => x.District == district);
-        }
-
         public async Task<Tuple<int, int, int>> QueryTotalItemsThisMonth()
         {
             var lastMonthDate = DateTime.Today.Day < 26 ? DateTime.Today.AddMonths(-1) : DateTime.Today;
@@ -140,15 +130,9 @@ namespace Lte.Evaluations.DataService
             return views;
         }
 
-        public IEnumerable<WorkItemView> QueryViews(string statCondition, string typeCondition, string district, 
-            int itemsPerPage, int page)
+        public IEnumerable<WorkItemView> QueryViews(string statCondition, string typeCondition, string district)
         {
-            var predict = (statCondition + '_' + typeCondition).GetWorkItemFilter();
-            var stats = predict == null ? _repository.GetAllList() : _repository.GetAllList(predict);
-            var views = Mapper.Map<List<WorkItem>, List<WorkItemView>>(stats);
-            var districtViews = views.ToList();
-            districtViews.ForEach(x => x.UpdateTown(_eNodebRepository, _btsRepository, _townRepository));
-            return districtViews.Where(x => x.District == district).Skip(itemsPerPage*(page - 1)).Take(itemsPerPage);
+            return QueryViews(statCondition, typeCondition).Where(x => x.District == district);
         }
 
         public async Task<IEnumerable<WorkItemView>> QueryViews(int eNodebId)

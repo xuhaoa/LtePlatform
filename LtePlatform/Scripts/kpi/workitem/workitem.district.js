@@ -1,17 +1,9 @@
-﻿app.controller("workitem.district", function ($scope, $routeParams, workitemService, workItemDialog) {
+﻿app.controller("workitem.district", function ($scope, $routeParams, workitemService) {
     $scope.page.title = "工单统计-" + $routeParams.district;
-
-    $scope.updateWorkItemTable = function () {
-        workitemService.queryTotalPagesByDistrict($scope.viewData.currentState.name, $scope.viewData.currentType.name,
-            $routeParams.district).then(function (result) {
-                $scope.totalItems = result;
-                $scope.query();
-            });
-    };
 
     $scope.query = function () {
         workitemService.queryWithPagingByDistrict($scope.viewData.currentState.name, $scope.viewData.currentType.name,
-            $routeParams.district, $scope.viewData.itemsPerPage.value, $scope.viewData.currentPage).then(function (result) {
+            $routeParams.district).then(function (result) {
             angular.forEach(result, function(view) {
                 view.detailsPath = $scope.rootPath + "details/" + view.serialNumber + "/" + view.district;
             });
@@ -19,5 +11,5 @@
             });
     };
 
-    $scope.updateWorkItemTable();
+    $scope.query();
 });
