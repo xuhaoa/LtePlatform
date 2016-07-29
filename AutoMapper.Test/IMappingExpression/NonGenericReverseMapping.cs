@@ -138,7 +138,7 @@ namespace AutoMapper.Test.IMappingExpression
             {
                 var sourceType = expression.TypeMap.SourceType;
                 var destinationType = expression.TypeMap.DestinationType;
-                var existingMaps = Mapper.GetAllTypeMaps().First(x => x.SourceType.Equals(sourceType) && x.DestinationType.Equals(destinationType));
+                var existingMaps = Mapper.GetAllTypeMaps().First(x => x.SourceType == sourceType && x.DestinationType == destinationType);
                 foreach(var property in existingMaps.GetUnmappedPropertyNames())
                 {
                     expression.ForMember(property, opt => opt.Ignore());
@@ -150,7 +150,7 @@ namespace AutoMapper.Test.IMappingExpression
             {
                 var sourceType = expression.TypeMap.SourceType;
                 var destinationType = expression.TypeMap.DestinationType;
-                var existingMaps = Mapper.GetAllTypeMaps().First(x => x.SourceType.Equals(sourceType) && x.DestinationType.Equals(destinationType));
+                var existingMaps = Mapper.GetAllTypeMaps().First(x => x.SourceType == sourceType && x.DestinationType == destinationType);
                 foreach(var property in existingMaps.GetUnmappedPropertyNames())
                 {
                     expression.ForSourceMember(property, opt => opt.Ignore());

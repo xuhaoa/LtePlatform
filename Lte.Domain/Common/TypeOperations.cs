@@ -98,4 +98,18 @@ namespace Lte.Domain.Common
             TupleList = WirelessConstants.EnumDictionary[EnumType.Name];
         }
     }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class AutoMapPropertyResolveAttribute : Attribute
+    {
+        public string PeerMemberName { get; }
+
+        public Type ResolveActionType { get; }
+
+        public AutoMapPropertyResolveAttribute(string peerMemberName, Type resolvActionType = null)
+        {
+            PeerMemberName = peerMemberName;
+            ResolveActionType = resolvActionType;
+        }
+    }
 }

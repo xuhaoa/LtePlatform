@@ -2176,6 +2176,12 @@
             This exception is thrown on an unauthorized request.
             </summary>
         </member>
+        <member name="P:Abp.Authorization.AbpAuthorizationException.Severity">
+            <summary>
+            Severity of the exception.
+            Default: Warn.
+            </summary>
+        </member>
         <member name="M:Abp.Authorization.AbpAuthorizationException.#ctor">
             <summary>
             Creates a new <see cref="T:Abp.Authorization.AbpAuthorizationException"/> object.
@@ -5464,9 +5470,15 @@
         <member name="M:Abp.Domain.Repositories.IRepository`2.GetAll">
             <summary>
             Used to get a IQueryable that is used to retrieve entities from entire table.
-            <see cref="T:Abp.Domain.Uow.UnitOfWorkAttribute"/> attribute must be used to be able to call this method since this method
-            returns IQueryable and it requires open database connection to use it.
             </summary>
+            <returns>IQueryable to be used to select entities from database</returns>
+        </member>
+        <member name="M:Abp.Domain.Repositories.IRepository`2.GetAllIncluding(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
+            <summary>
+            Used to get a IQueryable that is used to retrieve entities from entire table.
+            One or more 
+            </summary>
+            <param name="propertySelectors">A list of include expressions.</param>
             <returns>IQueryable to be used to select entities from database</returns>
         </member>
         <member name="M:Abp.Domain.Repositories.IRepository`2.GetAllList">
@@ -6274,7 +6286,7 @@
         </member>
         <member name="M:Abp.Domain.Uow.UnitOfWorkBase.BeginUow">
             <summary>
-            Should be implemented by derived classes to start UOW.
+            Can be implemented by derived classes to start UOW.
             </summary>
         </member>
         <member name="M:Abp.Domain.Uow.UnitOfWorkBase.CompleteUow">
@@ -10022,13 +10034,6 @@
             </summary>
             <param name="client">The client.</param>
         </member>
-        <member name="M:Abp.RealTime.IOnlineClientManager.Remove(Abp.RealTime.IOnlineClient)">
-            <summary>
-            Removes the specified client.
-            </summary>
-            <param name="client">The client.</param>
-            <returns>True, if a client is removed</returns>
-        </member>
         <member name="M:Abp.RealTime.IOnlineClientManager.Remove(System.String)">
             <summary>
             Removes a client by connection id.
@@ -10042,19 +10047,6 @@
             Returns null if not found.
             </summary>
             <param name="connectionId">connection id</param>
-        </member>
-        <member name="M:Abp.RealTime.IOnlineClientManager.GetByUserIdOrNull(Abp.IUserIdentifier)">
-            <summary>
-            Tries to find a client by userId.
-            Returns null if not found.
-            </summary>
-            <param name="user">User.</param>
-        </member>
-        <member name="M:Abp.RealTime.IOnlineClientManager.GetAllByUserId(Abp.IUserIdentifier)">
-            <summary>
-            Gets all online clients of a user.
-            </summary>
-            <param name="user">User.</param>
         </member>
         <member name="M:Abp.RealTime.IOnlineClientManager.GetAllClients">
             <summary>

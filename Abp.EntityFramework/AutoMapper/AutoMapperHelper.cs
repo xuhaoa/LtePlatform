@@ -2,6 +2,7 @@
 using System.Reflection;
 using Abp.Collections.Extensions;
 using AutoMapper;
+using Lte.Domain.Common;
 
 namespace Abp.EntityFramework.AutoMapper
 {
@@ -33,12 +34,32 @@ namespace Abp.EntityFramework.AutoMapper
                 {
                     if (autoMapToAttribute.Direction.HasFlag(AutoMapDirection.To))
                     {
-                        Mapper.CreateMap(type, targetType);
+                        var coreMap = Mapper.CreateMap(type, targetType);
+                        foreach (var property in targetType.GetProperties())
+                        {
+                            var resolveAttribute = property.GetCustomAttribute<AutoMapPropertyResolveAttribute>();
+                            if (resolveAttribute == null) continue;
+                            var srcName = property.Name;
+                            var destName = resolveAttribute.PeerMemberName;
+                            var resolveActionType = resolveAttribute.ResolveActionType;
+                            coreMap = coreMap.ForMember(destName,
+                                map => map.ResolveUsing(resolveActionType).FromMember(srcName));
+                        }
                     }
 
                     if (autoMapToAttribute.Direction.HasFlag(AutoMapDirection.From))
                     {
-                        Mapper.CreateMap(targetType, type);                                
+                        var coreMap = Mapper.CreateMap(targetType, type);
+                        foreach (var property in targetType.GetProperties())
+                        {
+                            var resolveAttribute = property.GetCustomAttribute<AutoMapPropertyResolveAttribute>();
+                            if (resolveAttribute == null) continue;
+                            var srcName = resolveAttribute.PeerMemberName;
+                            var destName = property.Name;
+                            var resolveActionType = resolveAttribute.ResolveActionType;
+                            coreMap = coreMap.ForMember(destName,
+                                map => map.ResolveUsing(resolveActionType).FromMember(srcName));
+                        }
                     }
                 }
             }
