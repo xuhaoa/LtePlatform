@@ -1,12 +1,10 @@
 ﻿angular.module('kpi.workitem', ['myApp.url', "ui.bootstrap"])
     .factory('workitemService', function (generalHttpService) {
         return {
-            queryWithPaging: function (state, type, itemsPerPage, page) {
+            queryWithPaging: function (state, type) {
                 return generalHttpService.getApiDataWithHeading('WorkItem', {
                     'statCondition': state,
-                    'typeCondition': type,
-                    'itemsPerPage': itemsPerPage,
-                    'page': page
+                    'typeCondition': type
                 });
             },
             queryWithPagingByDistrict: function (state, type, district, itemsPerPage, page) {
@@ -16,12 +14,6 @@
                     district: district,
                     itemsPerPage: itemsPerPage,
                     page: page
-                });
-            },
-            queryTotalPages: function (state, type) {
-                return generalHttpService.getApiDataWithHeading('WorkItem', {
-                    'statCondition': state,
-                    'typeCondition': type
                 });
             },
             queryTotalPagesByDistrict: function (state, type, district) {

@@ -1,22 +1,12 @@
 ﻿app.controller("kpi.workitem", function ($scope, workitemService, workItemDialog, appRegionService, menuItemService) {
     $scope.page.title = "工单总览";
     
-    $scope.updateWorkItemTable = function() {
-        workitemService.queryTotalPages($scope.viewData.currentState.name, $scope.viewData.currentType.name,
-            $scope.viewData.itemsPerPage.value).then(function (result) {
-                $scope.viewData.totalItems = result;
-            $scope.query();
-        });
-    };
-
     $scope.query = function () {
-        workitemService.queryWithPaging($scope.viewData.currentState.name, $scope.viewData.currentType.name,
-            $scope.viewData.itemsPerPage.value, $scope.viewData.currentPage).then(function (result) {
-                angular.forEach(result, function (view) {
-                    view.detailsPath = $scope.rootPath + "details/" + view.serialNumber;
-                });
-                $scope.viewData.items = result;
-                $scope.viewItems = $scope.viewData.items;
+        workitemService.queryWithPaging($scope.viewData.currentState.name, $scope.viewData.currentType.name).then(function(result) {
+            angular.forEach(result, function(view) {
+                view.detailsPath = $scope.rootPath + "details/" + view.serialNumber;
+            });
+            $scope.viewItems = result;
         });
     };
 
@@ -29,11 +19,6 @@
         });
     };
 
-    if ($scope.viewData.items.length === 0) {
-        $scope.updateWorkItemTable();
-    } else {
-        $scope.viewItems = $scope.viewData.items;
-    }
     appRegionService.initializeCities().then(function (result) {
         appRegionService.queryDistricts(result[0]).then(function (districts) {
             angular.forEach(districts, function(district) {
@@ -43,4 +28,5 @@
             });
         });
     });
+    $scope.query();
 });

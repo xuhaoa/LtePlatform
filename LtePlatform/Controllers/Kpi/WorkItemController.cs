@@ -34,18 +34,7 @@ namespace LtePlatform.Controllers.Kpi
         {
             return _service.QueryChartTypeViews(chartType);
         }
-
-        [HttpGet]
-        [ApiDoc("查询指定条件下的工单列表数量")]
-        [ApiParameterDoc("statCondition", "工单状态条件")]
-        [ApiParameterDoc("typeCondition", "工单类型条件")]
-        [ApiResponse("总的数量")]
-        [AllowAnonymous]
-        public int Get(string statCondition, string typeCondition)
-        {
-            return _service.QueryTotalItems(statCondition, typeCondition);
-        }
-
+        
         [HttpGet]
         [ApiDoc("查询指定条件下的工单列表数量")]
         [ApiParameterDoc("statCondition", "工单状态条件")]
@@ -59,16 +48,13 @@ namespace LtePlatform.Controllers.Kpi
         }
 
         [HttpGet]
-        [ApiDoc("查询指定条件下某一页的工单视图列表")]
+        [ApiDoc("查询指定条件下工单视图列表")]
         [ApiParameterDoc("statCondition", "工单状态条件")]
         [ApiParameterDoc("typeCondition", "工单类型条件")]
-        [ApiParameterDoc("itemsPerPage", "每页显示的工单数")]
-        [ApiParameterDoc("page", "指定页码")]
-        [ApiResponse("某一页的工单视图列表")]
-        public IEnumerable<WorkItemView> Get(string statCondition, string typeCondition, int itemsPerPage,
-            int page)
+        [ApiResponse("工单视图列表")]
+        public IEnumerable<WorkItemView> Get(string statCondition, string typeCondition)
         {
-            return _service.QueryViews(statCondition, typeCondition, itemsPerPage, page);
+            return _service.QueryViews(statCondition, typeCondition);
         }
 
         [HttpGet]

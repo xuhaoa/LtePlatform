@@ -109,14 +109,7 @@ namespace Lte.Evaluations.DataService
         {
             return WorkItemInfos.Count;
         }
-
-        public int QueryTotalItems(string statCondition, string typeCondition)
-        {
-            var predict = (statCondition + '_' + typeCondition).GetWorkItemFilter();
-            var counts = predict == null ? _repository.Count() : _repository.Count(predict);
-            return counts;
-        }
-
+        
         public int QueryTotalItems(string statCondition, string typeCondition, string district)
         {
             var predict = (statCondition + '_' + typeCondition).GetWorkItemFilter();
@@ -138,14 +131,11 @@ namespace Lte.Evaluations.DataService
                 (x.FinishTime != null && x.FinishTime > x.Deadline)));
         }
 
-        public IEnumerable<WorkItemView> QueryViews(string statCondition, string typeCondition, int itemsPerPage,
-            int page)
+        public IEnumerable<WorkItemView> QueryViews(string statCondition, string typeCondition)
         {
             var predict = (statCondition + '_' + typeCondition).GetWorkItemFilter();
-            var stats = predict == null
-                ? _repository.GetAll(page, itemsPerPage, x => x.Deadline)
-                : _repository.Get(predict, page, itemsPerPage, x => x.Deadline);
-            var views = Mapper.Map<List<WorkItem>, List<WorkItemView>>(stats.ToList());
+            var stats = predict == null ? _repository.GetAllList() : _repository.GetAllList(predict);
+            var views = Mapper.Map<List<WorkItem>, List<WorkItemView>>(stats);
             views.ForEach(x => x.UpdateTown(_eNodebRepository, _btsRepository, _townRepository));
             return views;
         }
