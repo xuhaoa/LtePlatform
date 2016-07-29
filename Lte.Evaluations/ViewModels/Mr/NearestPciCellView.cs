@@ -2,7 +2,6 @@
 using Lte.Domain.Regular.Attributes;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities.Neighbor;
 
 namespace Lte.Evaluations.ViewModels.Mr
@@ -31,8 +30,7 @@ namespace Lte.Evaluations.ViewModels.Mr
         [MemberDoc("邻区基站名称")]
         public string NearestENodebName { get; set; }
         
-        public static NearestPciCellView ConstructView(NearestPciCell stat, IENodebRepository repository,
-            ICellRepository cellRepository, IInfrastructureRepository infrastructureRepository)
+        public static NearestPciCellView ConstructView(NearestPciCell stat, IENodebRepository repository)
         {
             var view = Mapper.Map<NearestPciCell, NearestPciCellView>(stat);
             var eNodeb = repository.GetByENodebId(stat.NearestCellId);

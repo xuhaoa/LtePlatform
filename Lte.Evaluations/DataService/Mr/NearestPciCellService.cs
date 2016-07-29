@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Lte.Evaluations.ViewModels.Mr;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Neighbor;
 using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.Entities.Neighbor;
@@ -17,19 +16,17 @@ namespace Lte.Evaluations.DataService.Mr
         private readonly INearestPciCellRepository _repository;
         private readonly ICellRepository _cellRepository;
         private readonly IENodebRepository _eNodebRepository;
-        private readonly IInfrastructureRepository _infrastructureRepository;
 
         private static Stack<NearestPciCell> NearestCells { get; set; }
 
         public int NearestCellCount => NearestCells.Count;
 
         public NearestPciCellService(INearestPciCellRepository repository, ICellRepository cellRepository,
-            IENodebRepository eNodebRepository, IInfrastructureRepository infrastructureRepository)
+            IENodebRepository eNodebRepository)
         {
             _repository = repository;
             _cellRepository = cellRepository;
             _eNodebRepository = eNodebRepository;
-            _infrastructureRepository = infrastructureRepository;
             if (NearestCells == null)
                 NearestCells = new Stack<NearestPciCell>();
         }
@@ -40,8 +37,7 @@ namespace Lte.Evaluations.DataService.Mr
                 _repository.GetAllList(cellId, sectorId)
                     .Select(
                         x =>
-                            NearestPciCellView.ConstructView(x, _eNodebRepository, _cellRepository,
-                                _infrastructureRepository))
+                            NearestPciCellView.ConstructView(x, _eNodebRepository))
                     .ToList();
         }
 
