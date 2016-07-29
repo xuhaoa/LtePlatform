@@ -664,7 +664,6 @@
     <Content Include="directives\workitem\precise\Cell.html" />
     <Content Include="directives\workitem\precise\CoverageCell.html" />
     <Content Include="directives\workitem\WorkItem.Details.html" />
-    <Content Include="directives\workitem\WorkItem.Tpl.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Areas\HelpPage\Scripts\api.details.js" />
     <Content Include="Areas\HelpPage\Scripts\api.group.js" />
