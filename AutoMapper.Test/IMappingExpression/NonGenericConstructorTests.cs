@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.NetworkInformation;
 using AutoMapper.QueryableExtensions;
 using NUnit.Framework;
 using Shouldly;
