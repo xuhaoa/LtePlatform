@@ -37,21 +37,7 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.DownTilt, opt => opt.MapFrom(s => s.ETilt + s.MTilt));
             Mapper.CreateMap<Cell, PciCell>();
             Mapper.CreateMap<NearestPciCell, NearestPciCellView>();
-
-            Mapper.CreateMap<EUtranRelationZte, NeighborCellMongo>()
-                .ForMember(d => d.CellId, opt => opt.MapFrom(s => s.eNodeB_Id))
-                .ForMember(d => d.IsAnrCreated, opt => opt.MapFrom(s => s.isAnrCreated == 1))
-                .ForMember(d => d.HandoffAllowed, opt => opt.MapFrom(s => s.isHOAllowed == 1))
-                .ForMember(d => d.RemovedAllowed, opt => opt.MapFrom(s => s.isRemoveAllowed == 1))
-                .ForMember(d => d.CellPriority, opt => opt.MapFrom(s => s.nCelPriority));
-
-            Mapper.CreateMap<ExternalEUtranCellFDDZte, NeighborCellMongo>()
-                .ForMember(d => d.CellId, opt => opt.MapFrom(s => s.eNodeB_Id))
-                .ForMember(d => d.NeighborCellId, opt => opt.MapFrom(s => s.eNBId))
-                .ForMember(d => d.NeighborSectorId, opt => opt.MapFrom(s => s.cellLocalId))
-                .ForMember(d => d.NeighborPci, opt => opt.MapFrom(s => s.pci))
-                .ForMember(d => d.NeighborCellName, opt => opt.MapFrom(s => s.userLabel));
-
+            
             Mapper.CreateMap<EutranIntraFreqNCell, NeighborCellMongo>()
                 .ForMember(d => d.CellId, opt => opt.MapFrom(s => s.eNodeB_Id))
                 .ForMember(d => d.NeighborCellId, opt => opt.MapFrom(s => s.eNodeBId))

@@ -1,10 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using AutoMapper;
 using Lte.Domain.Regular;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MapperSerive.Infrastructure;
+using Lte.Evaluations.Policy;
+using Lte.Evaluations.ViewModels.Mr;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Neighbor;
 using NUnit.Framework;
 using Shouldly;
 
@@ -74,4 +80,87 @@ namespace Lte.Evaluations.MapperService
         }
     }
 
+    [TestFixture]
+    public class CdmaRegionMapperTest
+    {
+        [SetUp]
+        public void Setup()
+        {
+            AutoMapperHelper.CreateMap(typeof(CdmaRegionStat));
+        }
+
+        [Test]
+        public void Map_Null_Tests()
+        {
+            CdmaRegionStatExcel info = null;
+            var stat = info.MapTo<CdmaRegionStat>();
+            stat.ShouldBeNull();
+        }
+
+        [Test]
+        public void Map_Region_Tests()
+        {
+            var info = new CdmaRegionStatExcel
+            {
+                Region = "foshan1",
+                Drop2GNum = 22
+            };
+            var stat = info.MapTo<CdmaRegionStat>();
+            stat.Region.ShouldBe("foshan1");
+            stat.Drop2GNum.ShouldBe(22);
+        }
+    }
+
+    [TestFixture]
+    public class NeighborCellMongoTest
+    {
+        private AbpAutoMapperModule module;
+        private TypeFinder typeFinder;
+
+        [TestFixtureSetUp]
+        public void TestFixtureSetup()
+        {
+            typeFinder = new TypeFinder(new MyAssemblyFinder());
+            module = new AbpAutoMapperModule(typeFinder);
+            module.PostInitialize();
+        }
+
+        [Test]
+        public void Test()
+        {
+            var relation = new EUtranRelationZte
+            {
+                eNodeB_Id = 11111,
+                isAnrCreated = 1,
+                isHOAllowed = 1,
+                isRemoveAllowed = 0,
+                nCelPriority = 22
+            };
+            var item = relation.MapTo<NeighborCellMongo>();
+            Assert.AreEqual(item.CellId, 11111);
+            Assert.IsTrue(item.IsAnrCreated);
+            item.HandoffAllowed.ShouldBeTrue();
+            item.RemovedAllowed.ShouldBeFalse();
+            item.CellPriority.ShouldBe(22);
+        }
+
+        [Test]
+        public void Test_From_ExternalEUtranCellFDDZte()
+        {
+            var external = new ExternalEUtranCellFDDZte
+            {
+                eNodeB_Id = 12345,
+                eNBId = 21,
+                cellLocalId = 5,
+                pci = 223,
+                userLabel = "wer"
+            };
+            var item = external.MapTo<NeighborCellMongo>();
+            Assert.AreEqual(item.CellId, 12345);
+            item.NeighborCellId.ShouldBe(21);
+            Assert.AreEqual(item.NeighborSectorId, 5);
+            Assert.AreEqual(item.NeighborPci, 223);
+            item.NeighborCellName.ShouldBe("wer");
+        }
+    }
 }

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToExcel.Service;
 
@@ -99,17 +100,28 @@ namespace Lte.Domain.Common
         }
     }
 
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class AutoMapPropertyResolveAttribute : Attribute
     {
         public string PeerMemberName { get; }
 
+        public Type TargetType { get; set; }
+
         public Type ResolveActionType { get; }
 
-        public AutoMapPropertyResolveAttribute(string peerMemberName, Type resolvActionType = null)
+        public AutoMapPropertyResolveAttribute(string peerMemberName, Type targetType, Type resolvActionType = null)
         {
             PeerMemberName = peerMemberName;
+            TargetType = targetType;
             ResolveActionType = resolvActionType;
+        }
+    }
+
+    public class IntToBoolTransform : ValueResolver<int, bool>
+    {
+        protected override bool ResolveCore(int source)
+        {
+            return source == 1;
         }
     }
 }

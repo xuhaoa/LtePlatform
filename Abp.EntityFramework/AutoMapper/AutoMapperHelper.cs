@@ -35,34 +35,49 @@ namespace Abp.EntityFramework.AutoMapper
                     if (autoMapToAttribute.Direction.HasFlag(AutoMapDirection.To))
                     {
                         var coreMap = Mapper.CreateMap(type, targetType);
-                        foreach (var property in targetType.GetProperties())
+                        foreach (var property in type.GetProperties())
                         {
-                            var resolveAttribute = property.GetCustomAttribute<AutoMapPropertyResolveAttribute>();
-                            if (resolveAttribute == null) continue;
-                            var srcName = property.Name;
-                            var destName = resolveAttribute.PeerMemberName;
-                            var resolveActionType = resolveAttribute.ResolveActionType;
-                            coreMap = coreMap.ForMember(destName,
-                                map => map.ResolveUsing(resolveActionType).FromMember(srcName));
+                            var resolveAttributes = property.GetCustomAttributes<AutoMapPropertyResolveAttribute>();
+                            foreach (var resolveAttribute in resolveAttributes)
+                            {
+                                if (resolveAttribute.TargetType != targetType) continue;
+                                var srcName = property.Name;
+                                var destName = resolveAttribute.PeerMemberName;
+                                var resolveActionType = resolveAttribute.ResolveActionType;
+                                coreMap = coreMap.MappingCore(resolveActionType, destName, srcName);
+                            }
                         }
                     }
 
                     if (autoMapToAttribute.Direction.HasFlag(AutoMapDirection.From))
                     {
                         var coreMap = Mapper.CreateMap(targetType, type);
-                        foreach (var property in targetType.GetProperties())
+                        foreach (var property in type.GetProperties())
                         {
-                            var resolveAttribute = property.GetCustomAttribute<AutoMapPropertyResolveAttribute>();
-                            if (resolveAttribute == null) continue;
-                            var srcName = resolveAttribute.PeerMemberName;
-                            var destName = property.Name;
-                            var resolveActionType = resolveAttribute.ResolveActionType;
-                            coreMap = coreMap.ForMember(destName,
-                                map => map.ResolveUsing(resolveActionType).FromMember(srcName));
+                            var resolveAttributes = property.GetCustomAttributes<AutoMapPropertyResolveAttribute>();
+                            foreach (var resolveAttribute in resolveAttributes)
+                            {
+                                if (resolveAttribute.TargetType != targetType) continue;
+                                var srcName = resolveAttribute.PeerMemberName;
+                                var destName = property.Name;
+                                var resolveActionType = resolveAttribute.ResolveActionType;
+                                coreMap = coreMap.MappingCore(resolveActionType, destName, srcName);
+                            }
                         }
                     }
                 }
             }
+        }
+
+        private static IMappingExpression MappingCore(this IMappingExpression coreMap,
+            Type resolveActionType, string destName, string srcName)
+        {
+            if (resolveActionType == null)
+                coreMap = coreMap.ForMember(destName, map => map.MapFrom(srcName));
+            else
+                coreMap = coreMap.ForMember(destName,
+                    map => map.ResolveUsing(resolveActionType).FromMember(srcName));
+            return coreMap;
         }
     }
 }
