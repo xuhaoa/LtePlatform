@@ -214,19 +214,6 @@ namespace AutoMapper
         }
 
         /// <summary>
-        /// Create a map between the <paramref name="sourceType"/> and <paramref name="destinationType"/> types and execute the map to the existing destination object.
-        /// Use this method when the source and destination types are not known until runtime.
-        /// </summary>
-        /// <param name="source">Source object to map from</param>
-        /// <param name="destination"></param>
-        /// <param name="sourceType">Source type to use</param>
-        /// <param name="destinationType">Destination type to use</param>
-        public static void DynamicMap(object source, object destination, Type sourceType, Type destinationType)
-        {
-            Engine.DynamicMap(source, destination, sourceType, destinationType);
-        }
-
-        /// <summary>
         /// Initializes the mapper with the supplied configuration. Runtime optimization complete after this method is called.
         /// This is the preferred means to configure AutoMapper.
         /// </summary>
@@ -287,16 +274,6 @@ namespace AutoMapper
         public static IMappingExpression CreateMap(Type sourceType, Type destinationType, MemberList memberList)
         {
             return Configuration.CreateMap(sourceType, destinationType, memberList);
-        }
-
-        /// <summary>
-        /// Create a named profile for grouped mapping configuration
-        /// </summary>
-        /// <param name="profileName">Profile name</param>
-        /// <returns>Profile configuration options</returns>
-        public static IProfileExpression CreateProfile(string profileName)
-        {
-            return Configuration.CreateProfile(profileName);
         }
 
         /// <summary>
@@ -367,15 +344,6 @@ namespace AutoMapper
         }
 
         /// <summary>
-        /// Dry run single type map
-        /// </summary>
-        /// <param name="typeMap">Type map to check</param>
-        public static void AssertConfigurationIsValid(TypeMap typeMap)
-        {
-            ConfigurationProvider.AssertConfigurationIsValid(typeMap);
-        }
-
-        /// <summary>
         /// Dry run all type maps in given profile
         /// </summary>
         /// <param name="profileName">Profile name of type maps to test</param>
@@ -414,14 +382,5 @@ namespace AutoMapper
         public static IConfiguration Configuration => (IConfiguration) ConfigurationProvider;
 
         private static IConfigurationProvider ConfigurationProvider => _configuration.Value;
-
-        /// <summary>
-        /// Globally ignore all members starting with a prefix
-        /// </summary>
-        /// <param name="startingwith">Prefix of members to ignore. Call this before all other maps created.</param>
-        public static void AddGlobalIgnore(string startingwith)
-        {
-            Configuration.AddGlobalIgnore(startingwith);
-        }
     }
 }
