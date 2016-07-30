@@ -41,14 +41,6 @@ namespace Lte.Evaluations.MapperSerive
 
         public static void MapHoParametersService()
         {
-            Mapper.CreateMap<UeEUtranMeasurementZte, ENodebIntraFreqHoView>()
-                .ForMember(d=>d.ENodebId, opt=>opt.MapFrom(s=>s.eNodeB_Id))
-                .ForMember(d=>d.ReportInterval, opt=>opt.MapFrom(s=>s.reportInterval))
-                .ForMember(d => d.ReportAmount, opt => opt.MapFrom(s => s.reportAmount))
-                .ForMember(d => d.MaxReportCellNum, opt => opt.MapFrom(s => s.maxReportCellNum))
-                .ForMember(d => d.TriggerQuantity, opt => opt.MapFrom(s => s.triggerQuantity))
-                .ForMember(d => d.ReportQuantity, opt => opt.MapFrom(s => s.reportQuantity));
-
             Mapper.CreateMap<IntraFreqHoGroup, CellIntraFreqHoView>()
                 .ForMember(d => d.ENodebId, opt => opt.MapFrom(s => s.eNodeB_Id))
                 .ForMember(d => d.Hysteresis, opt => opt.MapFrom(s => s.IntraFreqHoA3Hyst))

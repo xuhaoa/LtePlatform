@@ -211,5 +211,43 @@ namespace Lte.Evaluations.MapperService
             item.TriggerQuantity.ShouldBe(90);
             item.ReportQuantity.ShouldBe(111);
         }
+
+        [Test]
+        public void Test_From_UeEUtranMeasurementZte()
+        {
+            var info = new UeEUtranMeasurementZte
+            {
+                eNodeB_Id = 12,
+                reportInterval = 34,
+                reportAmount = 56,
+                maxReportCellNum = 78,
+                triggerQuantity = 90,
+                reportQuantity = 111
+            };
+            var item = info.MapTo<ENodebIntraFreqHoView>();
+            item.ENodebId.ShouldBe(12);
+            item.ReportInterval.ShouldBe(34);
+            item.ReportAmount.ShouldBe(56);
+            item.MaxReportCellNum.ShouldBe(78);
+            item.TriggerQuantity.ShouldBe(90);
+            item.ReportQuantity.ShouldBe(111);
+        }
+
+        [Test]
+        public void Test_CellIntraFreqHoView()
+        {
+            var info = new IntraFreqHoGroup
+            {
+                eNodeB_Id = 12,
+                IntraFreqHoA3Hyst = 34,
+                IntraFreqHoA3TimeToTrig = 56,
+                IntraFreqHoA3Offset = 78
+            };
+            var item = info.MapTo<CellIntraFreqHoView>();
+            item.ENodebId.ShouldBe(12);
+            item.Hysteresis.ShouldBe(34);
+            item.TimeToTrigger.ShouldBe(56);
+            item.A3Offset.ShouldBe(78);
+        }
     }
 }
