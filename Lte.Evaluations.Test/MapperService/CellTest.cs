@@ -9,9 +9,11 @@ using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.Policy;
+using Lte.Evaluations.ViewModels.Channel;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Basic;
+using Lte.Parameters.Entities.Channel;
 using Lte.Parameters.Entities.ExcelCsv;
 using NUnit.Framework;
 using Shouldly;
@@ -238,6 +240,31 @@ namespace Lte.Evaluations.MapperService
             Assert.AreEqual(item.SectorId, 3);
             Assert.AreEqual(item.Frequency, 0);
             Assert.IsFalse(item.IsOutdoor);
+        }
+
+        [Test]
+        public void TestCellOpenLoopPcView()
+        {
+            var info = new PowerControlULZte
+            {
+                p0NominalPUSCH = 1,
+                poNominalPUCCH = 2,
+                alpha = 3,
+                deltaMsg3 = 4,
+                deltaFPucchFormat2b = 5,
+                deltaFPucchFormat2 = 6,
+                deltaFPucchFormat1b = 7,
+                deltaPreambleMsg3 = 8
+            };
+            var item = info.MapTo<CellOpenLoopPcView>();
+            item.P0NominalPUSCH.ShouldBe(1);
+            item.P0NominalPUCCH.ShouldBe(2);
+            item.PassLossCoeff.ShouldBe(3);
+            item.DeltaMsg2.ShouldBe(4);
+            item.DeltaFPUCCHFormat2b.ShouldBe(5);
+            item.DeltaFPUCCHFormat2.ShouldBe(6);
+            item.DeltaFPUCCHFormat1b.ShouldBe(7);
+            item.DeltaPreambleMsg3.ShouldBe(8);
         }
     }
 

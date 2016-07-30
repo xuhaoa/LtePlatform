@@ -37,18 +37,6 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.DownTilt, opt => opt.MapFrom(s => s.ETilt + s.MTilt));
             Mapper.CreateMap<Cell, PciCell>();
             Mapper.CreateMap<NearestPciCell, NearestPciCellView>();
-            
-            Mapper.CreateMap<PowerControlULZte, CellOpenLoopPcView>()
-                .ForMember(d => d.P0NominalPUCCH, opt => opt.MapFrom(s => s.poNominalPUCCH))
-                .ForMember(d => d.P0NominalPUSCH, opt => opt.MapFrom(s => s.p0NominalPUSCH))
-                .ForMember(d => d.PassLossCoeff, opt => opt.MapFrom(s => s.alpha))
-                .ForMember(d => d.DeltaFPUCCHFormat1, opt => opt.MapFrom(s => s.deltaFPucchFormat1))
-                .ForMember(d => d.DeltaFPUCCHFormat1b, opt => opt.MapFrom(s => s.deltaFPucchFormat1b))
-                .ForMember(d => d.DeltaFPUCCHFormat2, opt => opt.MapFrom(s => s.deltaFPucchFormat2))
-                .ForMember(d => d.DeltaFPUCCHFormat2a, opt => opt.MapFrom(s => s.deltaFPucchFormat2a))
-                .ForMember(d => d.DeltaFPUCCHFormat2b, opt => opt.MapFrom(s => s.deltaFPucchFormat2b))
-                .ForMember(d => d.DeltaMsg2, opt => opt.MapFrom(s => s.deltaMsg3))
-                .ForMember(d => d.DeltaPreambleMsg3, opt => opt.MapFrom(s => s.deltaPreambleMsg3));
         }
 
         public static void MapHoParametersService()
