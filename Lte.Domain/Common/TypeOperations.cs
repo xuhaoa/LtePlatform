@@ -173,4 +173,12 @@ namespace Lte.Domain.Common
             return source.IpByte4;
         }
     }
+
+    public class DoubleTransform : ValueResolver<double, double>
+    {
+        protected override double ResolveCore(double source)
+        {
+            return source*2;
+        }
+    }
 }

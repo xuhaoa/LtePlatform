@@ -249,5 +249,22 @@ namespace Lte.Evaluations.MapperService
             item.TimeToTrigger.ShouldBe(56);
             item.A3Offset.ShouldBe(78);
         }
+
+        [Test]
+        public void Test_CellIntraFreqHoView_From_UeEUtranMeasurementZte()
+        {
+            var info = new UeEUtranMeasurementZte
+            {
+                eNodeB_Id = 12,
+                hysteresis = 1.5,
+                timeToTrigger = 34,
+                a3Offset = 2.5
+            };
+            var item= info.MapTo<CellIntraFreqHoView>();
+            item.ENodebId.ShouldBe(12);
+            item.Hysteresis.ShouldBe(3);
+            item.TimeToTrigger.ShouldBe(34);
+            item.A3Offset.ShouldBe(5);
+        }
     }
 }
