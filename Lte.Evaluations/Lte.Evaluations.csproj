@@ -183,11 +183,7 @@
     <Compile Include="ViewModels\Kpi\TopDrop2GTrend.cs" />
     <Compile Include="ViewModels\RegionKpi\TownENodebStatView.cs" />
     <Compile Include="ViewModels\RegionKpi\TownPreciseView.cs" />
-    <Compile Include="ViewModels\Switch\CellInterFreqHoView.cs" />
-    <Compile Include="ViewModels\Switch\CellIntraFreqHoView.cs" />
-    <Compile Include="ViewModels\Switch\ENodebInterFreqHoView.cs" />
-    <Compile Include="ViewModels\Switch\ENodebIntraFreqHoView.cs" />
-    <Compile Include="ViewModels\Switch\IHoEventView.cs" />
+    <Compile Include="ViewModels\Switch\FreqHoViews.cs" />
     <Compile Include="ViewModels\Switch\InterFreqEvents.cs" />
     <Compile Include="ViewModels\Kpi\WorkItemView.cs" />
   </ItemGroup>

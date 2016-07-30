@@ -8,10 +8,12 @@ using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Mr;
+using Lte.Evaluations.ViewModels.Switch;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.Entities.Neighbor;
+using Lte.Parameters.Entities.Switch;
 using NUnit.Framework;
 using Shouldly;
 
@@ -187,6 +189,27 @@ namespace Lte.Evaluations.MapperService
             Assert.IsFalse(item.HandoffAllowed);
             Assert.IsTrue(item.RemovedAllowed);
             Assert.AreEqual(item.CellPriority, 4);
+        }
+
+        [Test]
+        public void Test_ENodebIntraFreqHoView()
+        {
+            var info = new IntraRatHoComm
+            {
+                eNodeB_Id = 12,
+                IntraFreqHoRprtInterval = 34,
+                IntraRatHoRprtAmount = 56,
+                IntraRatHoMaxRprtCell = 78,
+                IntraFreqHoA3TrigQuan = 90,
+                IntraFreqHoA3RprtQuan = 111
+            };
+            var item = info.MapTo<ENodebIntraFreqHoView>();
+            item.ENodebId.ShouldBe(12);
+            item.ReportInterval.ShouldBe(34);
+            item.ReportAmount.ShouldBe(56);
+            item.MaxReportCellNum.ShouldBe(78);
+            item.TriggerQuantity.ShouldBe(90);
+            item.ReportQuantity.ShouldBe(111);
         }
     }
 }

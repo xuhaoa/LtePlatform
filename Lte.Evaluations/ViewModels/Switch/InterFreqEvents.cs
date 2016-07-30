@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace Lte.Evaluations.ViewModels.Switch
 {
+    public interface IHoEventView
+    {
+        int Hysteresis { get; set; }
+        int TimeToTrigger { get; set; }
+    }
+
     public class InterFreqEventA1 : IHoEventView
     {
         public int Hysteresis { get; set; }
