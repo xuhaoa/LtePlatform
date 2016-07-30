@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Lte.Domain.Common.Wireless
 {
@@ -14,6 +15,14 @@ namespace Lte.Domain.Common.Wireless
         Antenna1T1R,
         Antenna2T8R,
         Antenna4T4R
+    }
+
+    public class AntennaPortsConfigureTransform : ValueResolver<string, AntennaPortsConfigure>
+    {
+        protected override AntennaPortsConfigure ResolveCore(string source)
+        {
+            return source.ToUpper().GetEnumType<AntennaPortsConfigure>();
+        }
     }
 
     public enum FrequencyBand : byte

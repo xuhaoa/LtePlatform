@@ -114,15 +114,15 @@ namespace Lte.Evaluations.MapperService
     [TestFixture]
     public class NeighborCellMongoTest
     {
-        private AbpAutoMapperModule module;
-        private TypeFinder typeFinder;
+        private AbpAutoMapperModule _module;
+        private TypeFinder _typeFinder;
 
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            typeFinder = new TypeFinder(new MyAssemblyFinder());
-            module = new AbpAutoMapperModule(typeFinder);
-            module.PostInitialize();
+            _typeFinder = new TypeFinder(new MyAssemblyFinder());
+            _module = new AbpAutoMapperModule(_typeFinder);
+            _module.PostInitialize();
         }
 
         [Test]

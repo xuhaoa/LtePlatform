@@ -140,4 +140,12 @@ namespace Lte.Domain.Common
             return source == 0;
         }
     }
+
+    public class IndoorDescriptionToOutdoorBoolTransform : ValueResolver<string, bool>
+    {
+        protected override bool ResolveCore(string source)
+        {
+            return source.Trim() == "否";
+        }
+    }
 }

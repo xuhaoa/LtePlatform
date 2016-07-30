@@ -1,15 +1,16 @@
 ﻿using System.Globalization;
 using Abp.Domain.Entities;
+using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
+using Lte.Domain.Regular.Attributes;
+using Lte.Parameters.Entities.ExcelCsv;
 
 namespace Lte.Parameters.Entities.Basic
 {
-    /// <summary>
-    /// 定义LTE小区数据库中对应的ORM对象。
-    /// </summary>
-    /// <remarks>需要定义与CellView之间的映射关系</remarks>
+    [TypeDoc("定义LTE小区数据库中对应的ORM对象")]
+    [AutoMapFrom(typeof(CellExcel))]
     public class Cell : Entity
     {
         public int ENodebId { get; set; }
@@ -26,6 +27,7 @@ namespace Lte.Parameters.Entities.Basic
 
         public double RsPower { get; set; }
 
+        [AutoMapPropertyResolve("IsIndoor", typeof(CellExcel), typeof(IndoorDescriptionToOutdoorBoolTransform))]
         public bool IsOutdoor { get; set; }
 
         public int Tac { get; set; }
@@ -44,6 +46,7 @@ namespace Lte.Parameters.Entities.Basic
 
         public double AntennaGain { get; set; }
 
+        [AutoMapPropertyResolve("TransmitReceive", typeof(CellExcel), typeof(AntennaPortsConfigureTransform))]
         public AntennaPortsConfigure AntennaPorts { get; set; }
 
         public bool IsInUse { get; set; } = true;

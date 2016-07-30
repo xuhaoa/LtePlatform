@@ -4,11 +4,14 @@ using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
 using AutoMapper;
+using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Basic;
+using Lte.Parameters.Entities.ExcelCsv;
 using NUnit.Framework;
 using Shouldly;
 
@@ -129,6 +132,26 @@ namespace Lte.Evaluations.MapperService
             sector.Azimuth.ShouldBe(122);
             sector.Longtitute.ShouldBe(112.113);
             sector.Lattitute.ShouldBe(22.344);
+        }
+
+        [Test]
+        public void Test_From_CellExcel()
+        {
+            var info = new CellExcel
+            {
+                ENodebId = 1233,
+                SectorId = 44,
+                AntennaInfo = "2T4R",
+                AntennaGain = 15.2,
+                IsIndoor = "否"
+            };
+            
+            var cell = Mapper.Map<Cell>(info);
+            Assert.AreEqual(cell.ENodebId, 1233);
+            Assert.AreEqual(cell.SectorId, 44);
+            Assert.AreEqual(cell.AntennaPorts, AntennaPortsConfigure.Antenna2T2R);
+            Assert.AreEqual(cell.AntennaGain, 15.2);
+            Assert.IsTrue(cell.IsOutdoor);
         }
     }
 }

@@ -38,9 +38,6 @@ namespace Lte.Evaluations.MapperSerive
             Mapper.CreateMap<Cell, PciCell>();
             Mapper.CreateMap<NearestPciCell, NearestPciCellView>();
             
-            Mapper.CreateMap<CellExcel, Cell>()
-                .ForMember(d => d.AntennaPorts, opt => opt.MapFrom(s => s.TransmitReceive.ToUpper().GetEnumType<AntennaPortsConfigure>()))
-                .ForMember(d => d.IsOutdoor, opt => opt.MapFrom(s => s.IsIndoor.Trim() == "否"));
             Mapper.CreateMap<CdmaCellExcel, CdmaCell>()
                 .ForMember(d => d.Frequency, opt => opt.Ignore())
                 .ForMember(d => d.IsOutdoor, opt => opt.MapFrom(s => s.IsIndoor.Trim() == "否"));
