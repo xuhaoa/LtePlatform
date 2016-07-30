@@ -21,7 +21,7 @@ namespace Lte.Domain.Common.Wireless
     {
         protected override AntennaPortsConfigure ResolveCore(string source)
         {
-            return source.ToUpper().GetEnumType<AntennaPortsConfigure>();
+            return string.IsNullOrEmpty(source) ? AntennaPortsConfigure.Antenna2T4R : source.ToUpper().GetEnumType<AntennaPortsConfigure>();
         }
     }
 
