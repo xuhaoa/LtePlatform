@@ -51,6 +51,8 @@ namespace Lte.Parameters.Entities.Basic
 
         public bool IsInUse { get; set; } = true;
     }
+
+    [AutoMapFrom(typeof(CdmaCellExcel))]
     public class CdmaCell : Entity
     {
         public int BtsId { get; set; } = -1;
@@ -59,6 +61,7 @@ namespace Lte.Parameters.Entities.Basic
 
         public string CellType { get; set; } = "DO";
 
+        [IgnoreMap]
         public int Frequency { get; set; } = 0;
 
         public int CellId { get; set; }

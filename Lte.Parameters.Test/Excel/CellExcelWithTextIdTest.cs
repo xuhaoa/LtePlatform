@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Lte.Domain.Common;
 using Lte.Domain.LinqToExcel;
 using Lte.Domain.Regular.Attributes;
 using Lte.Domain.Test.LinqToExcel;
-using Lte.Parameters.Entities.ExcelCsv;
 using NUnit.Framework;
 using Shouldly;
 

@@ -25,13 +25,6 @@ namespace Lte.Domain.Common.Wireless
         }
     }
 
-    public enum FrequencyBand : byte
-    {
-        Fdd2100 = 0,
-        Fdd1800 = 1,
-        Tdd2600 = 2
-    }
-
     public enum FrequencyBandType
     {
         Downlink2100,
