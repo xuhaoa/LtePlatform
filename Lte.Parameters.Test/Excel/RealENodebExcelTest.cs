@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Lte.Domain.LinqToExcel;
 using Lte.Domain.Test.LinqToExcel;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.ExcelCsv;
 using NUnit.Framework;
 
 namespace Lte.Parameters.Test.Excel

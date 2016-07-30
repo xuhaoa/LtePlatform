@@ -206,6 +206,39 @@ namespace Lte.Evaluations.MapperService
             }
         }
 
+        [Test]
+        public void TestFormCdmaCellExcelToCdmaCell()
+        {
+            var info = new CdmaCellExcel
+            {
+                BtsId = 12333,
+                SectorId = 3,
+                Frequency = 283,
+                IsIndoor = "否"
+            };
+            var item = info.MapTo<CdmaCell>();
+            Assert.AreEqual(item.BtsId, 12333);
+            Assert.AreEqual(item.SectorId, 3);
+            Assert.AreEqual(item.Frequency, 0);
+            Assert.IsTrue(item.IsOutdoor);
+        }
+
+        [Test]
+        public void TestFormCdmaCellExcelToCdmaCell2()
+        {
+            var info = new CdmaCellExcel
+            {
+                BtsId = 12333,
+                SectorId = 3,
+                Frequency = 283,
+                IsIndoor = "是"
+            };
+            var item = info.MapTo<CdmaCell>();
+            Assert.AreEqual(item.BtsId, 12333);
+            Assert.AreEqual(item.SectorId, 3);
+            Assert.AreEqual(item.Frequency, 0);
+            Assert.IsFalse(item.IsOutdoor);
+        }
     }
 
     [TestFixture]
@@ -214,11 +247,6 @@ namespace Lte.Evaluations.MapperService
         class SourceCell
         {
             public string TransmitReceive { get; set; }
-        }
-
-        class DestCell
-        {
-            public AntennaPortsConfigure AntennaPorts { get; set; }
         }
 
         [Test]
@@ -238,40 +266,6 @@ namespace Lte.Evaluations.MapperService
         [Test]
         public void Test_AutoMapperHelper()
         {
-            //AutoMapperHelper.CreateMap<AutoMapFromAttribute>(typeof(Cell));
-            
-            var coreMap = Mapper.CreateMap(typeof(CellExcel), typeof(Cell));
-            //coreMap = coreMap.ForMember("IsOutdoor",
-            //        map => map.ResolveUsing(typeof(IndoorDescriptionToOutdoorBoolTransform)).FromMember("IsIndoor"));
-            coreMap = coreMap.ForMember("AntennaPorts",
-                    map => map.ResolveUsing(typeof(AntennaPortsConfigureTransform)).FromMember("TransmitReceive"));
-            //foreach (var property in type.GetProperties())
-            //{
-            //    var resolveAttributes = property.GetCustomAttributes<AutoMapPropertyResolveAttribute>();
-            //    foreach (var resolveAttribute in resolveAttributes)
-            //    {
-            //        if (resolveAttribute.TargetType != targetType) continue;
-            //        Console.WriteLine("Property:"+property.Name+";Source Type:"+type+";Target Type:"+targetType);
-            //        var srcName = resolveAttribute.PeerMemberName;
-            //        var destName = property.Name;
-            //        var resolveActionType = resolveAttribute.ResolveActionType;
-            //        Console.WriteLine("SrcName:"+srcName+";DestName:"+destName+";ResolveAction:"+resolveActionType);
-            //        coreMap = coreMap.ForMember(destName,
-            //            map => map.ResolveUsing(resolveActionType).FromMember(srcName));
-            //    }
-            //}
-
-            var info = new CellExcel
-            {
-                TransmitReceive = "2T4R"
-            };
-
-            var cell = Mapper.Map<Cell>(info);
-            //Assert.AreEqual(cell.ENodebId, 1233);
-            //Assert.AreEqual(cell.SectorId, 44);
-            //Assert.AreEqual(cell.AntennaPorts, AntennaPortsConfigure.Antenna2T2R);
-            //Assert.AreEqual(cell.AntennaGain, 15.2);
-            //Assert.IsTrue(cell.IsOutdoor);
         }
     }
 

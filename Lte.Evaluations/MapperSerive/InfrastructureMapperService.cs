@@ -38,14 +38,6 @@ namespace Lte.Evaluations.MapperSerive
             Mapper.CreateMap<Cell, PciCell>();
             Mapper.CreateMap<NearestPciCell, NearestPciCellView>();
             
-            Mapper.CreateMap<CdmaCellExcel, CdmaCell>()
-                .ForMember(d => d.Frequency, opt => opt.Ignore())
-                .ForMember(d => d.IsOutdoor, opt => opt.MapFrom(s => s.IsIndoor.Trim() == "否"));
-            Mapper.CreateMap<ENodebExcel, ENodeb>()
-                .ForMember(d => d.IsFdd,
-                    opt => opt.MapFrom(s => s.DivisionDuplex.IndexOf("FDD", StringComparison.Ordinal) >= 0))
-                .ForMember(d => d.Gateway, opt => opt.MapFrom(s => s.Gateway.AddressValue))
-                .ForMember(d => d.SubIp, opt => opt.MapFrom(s => s.Ip.IpByte4));
             Mapper.CreateMap<PowerControlULZte, CellOpenLoopPcView>()
                 .ForMember(d => d.P0NominalPUCCH, opt => opt.MapFrom(s => s.poNominalPUCCH))
                 .ForMember(d => d.P0NominalPUSCH, opt => opt.MapFrom(s => s.p0NominalPUSCH))

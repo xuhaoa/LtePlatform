@@ -7,6 +7,7 @@ using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
+using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;
@@ -54,7 +55,7 @@ namespace Lte.Evaluations.DataService.Dump
                     Address = address,
                     ENodebId = eNodebId,
                     Ip = new IpAddress(ipAddress),
-                    Gateway = new IpAddress(gatewayAddress),
+                    GatewayIp = new IpAddress(gatewayAddress),
                     CityName = "city-" + townId,
                     DistrictName = "district-" + townId,
                     TownName = "town-" + townId

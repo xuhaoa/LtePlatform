@@ -10,6 +10,7 @@ using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Mr;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.Entities.Neighbor;
 using NUnit.Framework;
 using Shouldly;
@@ -39,7 +40,7 @@ namespace Lte.Evaluations.MapperService
                     Address = address,
                     ENodebId = eNodebId,
                     Ip = new IpAddress(ipAddress),
-                    Gateway = new IpAddress(gatewayAddress)
+                    GatewayIp = new IpAddress(gatewayAddress)
                 },
                 TownId = townId
             };

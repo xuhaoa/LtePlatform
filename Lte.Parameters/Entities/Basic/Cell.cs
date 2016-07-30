@@ -84,6 +84,7 @@ namespace Lte.Parameters.Entities.Basic
 
         public double AntennaGain { get; set; }
 
+        [AutoMapPropertyResolve("IsIndoor", typeof(CdmaCellExcel), typeof(IndoorDescriptionToOutdoorBoolTransform))]
         public bool IsOutdoor { get; set; }
 
         public short Frequency1 { get; set; } = -1;

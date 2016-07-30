@@ -207,8 +207,6 @@
     <Compile Include="Entities\Basic\CommonFormats.cs" />
     <Compile Include="Entities\ExcelCsv\AlarmStatCsv.cs" />
     <Compile Include="Entities\ExcelCsv\AlarmStatHuawei.cs" />
-    <Compile Include="Entities\ExcelCsv\BtsExcel.cs" />
-    <Compile Include="Entities\Basic\CdmaBts.cs" />
     <Compile Include="Entities\Basic\Cell.cs" />
     <Compile Include="Entities\College\College3GTestResults.cs" />
     <Compile Include="Entities\College\College4GTestResults.cs" />

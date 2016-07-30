@@ -5,6 +5,7 @@ using System.Reflection;
 using AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToExcel.Service;
+using Lte.Domain.Regular;
 
 namespace Lte.Domain.Common
 {
@@ -146,6 +147,30 @@ namespace Lte.Domain.Common
         protected override bool ResolveCore(string source)
         {
             return source.Trim() == "否";
+        }
+    }
+
+    public class FddTransform : ValueResolver<string, bool>
+    {
+        protected override bool ResolveCore(string source)
+        {
+            return source.IndexOf("FDD", StringComparison.Ordinal) >= 0;
+        }
+    }
+
+    public class IpAddressTransform : ValueResolver<IpAddress, string>
+    {
+        protected override string ResolveCore(IpAddress source)
+        {
+            return source.AddressString;
+        }
+    }
+
+    public class IpByte4Transform : ValueResolver<IpAddress, byte>
+    {
+        protected override byte ResolveCore(IpAddress source)
+        {
+            return source.IpByte4;
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using Lte.Domain.LinqToExcel;
 using Lte.Domain.Test.LinqToExcel;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.ExcelCsv;
 using NUnit.Framework;
 using Shouldly;
 
@@ -44,7 +45,7 @@ namespace Lte.Parameters.Test.Excel
             info[0].Ip.AddressString.ShouldBe("8.142.15.4");
             info[2].Address.ShouldBe("佛山市顺德区大良镇锦岩路六巷5号");
             info[3].OpenDate.ShouldBe(DateTime.Parse("2013/8/30"));
-            info[4].Gateway.AddressString.ShouldBe("8.142.15.1");
+            info[4].GatewayIp.AddressString.ShouldBe("8.142.15.1");
         }
 
     }
