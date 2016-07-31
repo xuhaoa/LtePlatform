@@ -3,15 +3,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Lte.Domain.Common.Wireless
 {
+    public abstract class DescriptionTransform<TEnum> : ValueResolver<TEnum, string>
+        where TEnum : struct 
+    {
+        protected override string ResolveCore(TEnum source)
+        {
+            return source.GetEnumDescription();
+        }
+    }
+
+    public abstract class EnumTransform<TEnum> : ValueResolver<string, TEnum>
+        where TEnum : struct
+    {
+        private readonly TEnum _defaultEnum;
+
+        protected EnumTransform(TEnum defaultEnum)
+        {
+            _defaultEnum = defaultEnum;
+        } 
+
+        protected override TEnum ResolveCore(string source)
+        {
+            return string.IsNullOrEmpty(source) ? _defaultEnum : source.GetEnumType<TEnum>();
+        }
+    }
+
     [EnumTypeDescription(typeof(DemandLevel), LevelB)]
     public enum DemandLevel : byte
     {
         LevelA,
         LevelB,
         LevelC
+    }
+
+    public class DemandLevelDescriptionTransform : DescriptionTransform<DemandLevel>
+    {
+    }
+
+    public class DemandLevelTransform : EnumTransform<DemandLevel>
+    {
+        public DemandLevelTransform() : base(DemandLevel.LevelB)
+        {
+        }
     }
 
     [EnumTypeDescription(typeof(VehicleType), CPlusL)]
@@ -40,6 +77,18 @@ namespace Lte.Domain.Common.Wireless
         LteEricsson
     }
 
+    public class VehicularTypeDescriptionTransform : DescriptionTransform<VehicleType>
+    {
+        
+    }
+
+    public class VehicularTypeTransform : EnumTransform<VehicleType>
+    {
+        public VehicularTypeTransform() : base(VehicleType.CPlusL)
+        {
+        }
+    }
+
     [EnumTypeDescription(typeof(NetworkType), With2G3G4G)]
     public enum NetworkType : byte
     {
@@ -51,6 +100,18 @@ namespace Lte.Domain.Common.Wireless
         With2G3G4G4GPlus
     }
 
+    public class NetworkTypeDescritionTransform : DescriptionTransform<NetworkType>
+    {
+        
+    }
+
+    public class NetworkTypeTransform : EnumTransform<NetworkType>
+    {
+        public NetworkTypeTransform() : base(NetworkType.With2G3G4G)
+        {
+        }
+    }
+
     [EnumTypeDescription(typeof(MarketTheme), OpenChannel)]
     public enum MarketTheme : byte
     {
@@ -60,6 +121,18 @@ namespace Lte.Domain.Common.Wireless
         CollegeSpring,
         CollegeAutumn,
         Others
+    }
+
+    public class MarketThemeDescriptionTransform : DescriptionTransform<MarketTheme>
+    {
+        
+    }
+
+    public class MarketThemeTransform : EnumTransform<MarketTheme>
+    {
+        public MarketThemeTransform() : base(MarketTheme.OpenChannel)
+        {
+        }
     }
 
     [EnumTypeDescription(typeof(EmergencyState), Begin)]
@@ -74,6 +147,18 @@ namespace Lte.Domain.Common.Wireless
         VehicleInService,
         Test,
         Finish
+    }
+
+    public class EmergencyStateDescriptionTransform : DescriptionTransform<EmergencyState>
+    {
+        
+    }
+
+    public class EmergencyStateTransform : EnumTransform<EmergencyState>
+    {
+        public EmergencyStateTransform() : base(EmergencyState.Begin)
+        {
+        }
     }
 
     [EnumTypeDescription(typeof(VipState), Begin)]

@@ -181,4 +181,36 @@ namespace Lte.Domain.Common
             return source*2;
         }
     }
+
+    public class FirstLittleBracketContentsTransform : ValueResolver<string, string>
+    {
+        protected override string ResolveCore(string source)
+        {
+            return source.GetSplittedFields(new[] {'(', ')'})[0];
+        }
+    }
+
+    public class SecondLittleBracketContentsTransform : ValueResolver<String, string>
+    {
+        protected override string ResolveCore(string source)
+        {
+            return source.GetSplittedFields(new[] {'(', ')'})[1];
+        }
+    }
+
+    public class FirstMiddleBracketContentsTransform : ValueResolver<string, string>
+    {
+        protected override string ResolveCore(string source)
+        {
+            return source.GetSplittedFields(new[] {'[', ']'})[0];
+        }
+    }
+
+    public class SecondMiddleBracketContentsTransform : ValueResolver<string, string>
+    {
+        protected override string ResolveCore(string source)
+        {
+            return source.GetSplittedFields(new[] { '[', ']' })[1];
+        }
+    }
 }

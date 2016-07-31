@@ -1,5 +1,6 @@
 ﻿using System;
 using Abp.Domain.Entities;
+using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Repositories;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
@@ -40,11 +41,12 @@ namespace Lte.MySqlFramework.Entities
         public EmergencyState EmergencyState { get; set; }
     }
 
-
+    [AutoMapFrom(typeof(EmergencyCommunication))]
     public class EmergencyCommunicationDto : IDistrictTown, ITownId, IConstructDto<EmergencyProcessDto>, IStateChange
     {
         public int Id { get; set; }
 
+        [AutoMapPropertyResolve("DemandLevel", typeof(EmergencyCommunication), typeof(DemandLevelDescriptionTransform))]
         public string DemandLevelDescription { get; set; }
 
         public string District { get; set; }
@@ -61,6 +63,7 @@ namespace Lte.MySqlFramework.Entities
 
         public DateTime EndDate { get; set; }
 
+        [AutoMapPropertyResolve("VehicleType", typeof(EmergencyCommunication), typeof(VehicularTypeDescriptionTransform))]
         public string VehicularTypeDescription { get; set; }
 
         public byte Vehicles { get; set; }
@@ -73,14 +76,19 @@ namespace Lte.MySqlFramework.Entities
 
         public string Department { get; set; }
 
+        [AutoMapPropertyResolve("ContactPerson", typeof(EmergencyCommunication), typeof(FirstLittleBracketContentsTransform))]
         public string Person { get; set; }
 
+        [AutoMapPropertyResolve("ContactPerson", typeof(EmergencyCommunication), typeof(SecondLittleBracketContentsTransform))]
         public string Phone { get; set; }
 
+        [AutoMapPropertyResolve("Description", typeof(EmergencyCommunication), typeof(FirstMiddleBracketContentsTransform))]
         public string VehicleLocation { get; set; }
 
+        [AutoMapPropertyResolve("Description", typeof(EmergencyCommunication), typeof(SecondMiddleBracketContentsTransform))]
         public string OtherDescription { get; set; }
 
+        [AutoMapPropertyResolve("EmergencyState", typeof(EmergencyCommunication), typeof(EmergencyStateDescriptionTransform))]
         public string CurrentStateDescription { get; set; }
 
         public string NextStateDescription

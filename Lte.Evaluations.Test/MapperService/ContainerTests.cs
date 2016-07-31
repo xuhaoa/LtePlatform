@@ -3,6 +3,8 @@ using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
 using AutoMapper;
+using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MapperSerive.Infrastructure;
@@ -288,6 +290,29 @@ namespace Lte.Evaluations.MapperService
             item.A3InterFreqHoA1TrigQuan.ShouldBe(8);
             item.A3InterFreqHoA2TrigQuan.ShouldBe(8);
             item.InterFreqHoRprtInterval.ShouldBe(90);
+        }
+
+        [Test]
+        public void Test_EmergencyCommunicationDto()
+        {
+            var info = new EmergencyCommunication
+            {
+                Description = "[abc]defg",
+                DemandLevel = DemandLevel.LevelC,
+                VehicleType = VehicleType.CdmaAl,
+                TransmitFunction = "ghih",
+                ContactPerson = "abc(123)",
+                EmergencyState = EmergencyState.FiberFinish
+            };
+            var item = info.MapTo<EmergencyCommunicationDto>();
+            Assert.AreEqual(item.DemandLevelDescription.GetEnumType<DemandLevel>(), DemandLevel.LevelC);
+            Assert.AreEqual(item.VehicularTypeDescription.GetEnumType<VehicleType>(), VehicleType.CdmaAl);
+            Assert.AreEqual(item.TransmitFunction, "ghih");
+            Assert.AreEqual(item.Person, "abc");
+            Assert.AreEqual(item.Phone, "123");
+            Assert.AreEqual(item.VehicleLocation, "abc");
+            Assert.AreEqual(item.OtherDescription, "defg");
+            Assert.AreEqual(item.CurrentStateDescription.GetEnumType<EmergencyState>(), EmergencyState.FiberFinish);
         }
     }
 }
