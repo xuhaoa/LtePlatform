@@ -112,10 +112,12 @@ namespace Lte.MySqlFramework.Entities
         }
     }
 
+    [AutoMapFrom(typeof(EmergencyProcessDto))]
     public class EmergencyProcess : Entity
     {
         public int EmergencyId { get; set; }
 
+        [AutoMapPropertyResolve("ProcessStateDescription", typeof(EmergencyProcessDto), typeof(EmergencyStateTransform))]
         public EmergencyState ProcessState { get; set; }
 
         public DateTime ProcessTime { get; set; }
@@ -129,10 +131,12 @@ namespace Lte.MySqlFramework.Entities
         public string ContactPerson { get; set; }
     }
 
+    [AutoMapFrom(typeof(EmergencyProcess))]
     public class EmergencyProcessDto
     {
         public int EmergencyId { get; set; }
 
+        [AutoMapPropertyResolve("ProcessState", typeof(EmergencyProcess), typeof(EmergencyStateDescriptionTransform))]
         public string ProcessStateDescription { get; set; }
 
         public DateTime ProcessTime { get; set; }

@@ -174,10 +174,12 @@ namespace Lte.MySqlFramework.Entities
         public string FinishResults { get; set; }
     }
 
+    [AutoMapFrom(typeof(VipProcessDto))]
     public class VipProcess : Entity
     {
         public string SerialNumber { get; set; }
 
+        [AutoMapPropertyResolve("VipStateDescription", typeof(VipProcessDto), typeof(VipStateTransform))]
         public VipState VipState { get; set; }
 
         public DateTime BeginTime { get; set; }
@@ -195,10 +197,12 @@ namespace Lte.MySqlFramework.Entities
         public string ContactPerson { get; set; }
     }
 
+    [AutoMapFrom(typeof(VipProcess))]
     public class VipProcessDto
     {
         public string SerialNumber { get; set; }
 
+        [AutoMapPropertyResolve("VipState", typeof(VipProcess), typeof(VipStateDescriptionTransform))]
         public string VipStateDescription { get; set; }
 
         public DateTime BeginTime { get; set; }

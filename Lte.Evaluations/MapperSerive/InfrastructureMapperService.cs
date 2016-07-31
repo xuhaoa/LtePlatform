@@ -74,16 +74,6 @@ namespace Lte.Evaluations.MapperSerive
                                 !string.IsNullOrEmpty(s.PhoneNumber) && s.TownId > 0))
                 .ForMember(d => d.MarketThemeDescription, opt => opt.MapFrom(s => s.MarketTheme.GetEnumDescription()))
                 .ForMember(d => d.CurrentStateDescription, opt => opt.MapFrom(s => s.VipState.GetEnumDescription()));
-            Mapper.CreateMap<EmergencyProcess, EmergencyProcessDto>()
-                .ForMember(d => d.ProcessStateDescription,
-                    opt => opt.MapFrom(s => s.ProcessState.GetEnumDescription()));
-            Mapper.CreateMap<EmergencyProcessDto, EmergencyProcess>()
-                .ForMember(d => d.ProcessState,
-                    opt => opt.MapFrom(s => s.ProcessStateDescription.GetEnumType<EmergencyState>()));
-            Mapper.CreateMap<VipProcess, VipProcessDto>()
-                .ForMember(d => d.VipStateDescription, opt => opt.MapFrom(s => s.VipState.GetEnumDescription()));
-            Mapper.CreateMap<VipProcessDto, VipProcess>()
-                .ForMember(d => d.VipState, opt => opt.MapFrom(s => s.VipStateDescription.GetEnumType<VipState>()));
             Mapper.CreateMap<ComplainProcess, ComplainProcessDto>()
                 .ForMember(d => d.ComplainStateDescription,
                     opt => opt.MapFrom(s => s.ComplainState.GetEnumDescription()));
