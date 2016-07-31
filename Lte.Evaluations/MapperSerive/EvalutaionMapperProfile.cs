@@ -18,7 +18,6 @@ namespace Lte.Evaluations.MapperSerive
 
             InfrastructureMapperService.MapCdmaCell();
             InfrastructureMapperService.MapCell();
-            InfrastructureMapperService.MapHoParametersService();
             InfrastructureMapperService.MapDumpConatainers();
             InfrastructureMapperService.MapCustomerEntities();
 

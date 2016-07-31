@@ -1,5 +1,8 @@
 ﻿using Abp.EntityFramework;
+using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.Policy;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Switch;
 using Lte.Parameters.Concrete;
@@ -31,10 +34,12 @@ namespace Lte.Evaluations.DataService.Switch
 
         private readonly Mock<IENodebRepository> _eNodebRepository = new Mock<IENodebRepository>();
 
+        private AbpAutoMapperModule _module;
+        private TypeFinder _typeFinder;
+
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            InfrastructureMapperService.MapHoParametersService();
             _eNodebRepository.Setup(x => x.GetByENodebId(It.IsAny<int>())).Returns(new ENodeb
             {
                 Factory = "中兴"
@@ -56,6 +61,10 @@ namespace Lte.Evaluations.DataService.Switch
                     reportAmount = 1234,
                     reportQuantity = 5678
                 });
+
+            _typeFinder = new TypeFinder(new MyAssemblyFinder());
+            _module = new AbpAutoMapperModule(_typeFinder);
+            _module.PostInitialize();
         }
 
         [TestCase(500814)]

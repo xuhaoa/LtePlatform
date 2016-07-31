@@ -266,5 +266,28 @@ namespace Lte.Evaluations.MapperService
             item.TimeToTrigger.ShouldBe(34);
             item.A3Offset.ShouldBe(5);
         }
+
+        [Test]
+        public void Test_ENodebInterFreqHoView()
+        {
+            var info = new IntraRatHoComm
+            {
+                eNodeB_Id = 12,
+                InterFreqHoA4RprtQuan = 34,
+                InterFreqHoA4TrigQuan = 5,
+                InterFreqHoA1A2TrigQuan = 67,
+                A3InterFreqHoA1A2TrigQuan = 8,
+                InterFreqHoRprtInterval = 90
+            };
+            var item = info.MapTo<ENodebInterFreqHoView>();
+            item.ENodebId.ShouldBe(12);
+            item.InterFreqHoA4RprtQuan.ShouldBe(34);
+            item.InterFreqHoA4TrigQuan.ShouldBe(5);
+            item.InterFreqHoA1TrigQuan.ShouldBe(67);
+            item.InterFreqHoA2TrigQuan.ShouldBe(67);
+            item.A3InterFreqHoA1TrigQuan.ShouldBe(8);
+            item.A3InterFreqHoA2TrigQuan.ShouldBe(8);
+            item.InterFreqHoRprtInterval.ShouldBe(90);
+        }
     }
 }
