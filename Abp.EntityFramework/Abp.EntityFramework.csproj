@@ -108,7 +108,6 @@
     <Compile Include="AutoMapper\AbpAutoMapperModule.cs" />
     <Compile Include="AutoMapper\AutoMapAttribute.cs" />
     <Compile Include="AutoMapper\AutoMapExtensions.cs" />
-    <Compile Include="AutoMapper\AutoMapperHelper.cs" />
     <Compile Include="Dependency\AbpMongoDbModule.cs" />
     <Compile Include="Dependency\AbpMongoDbModuleConfiguration.cs" />
     <Compile Include="Dependency\EntityFrameworkConventionalRegistrar.cs" />

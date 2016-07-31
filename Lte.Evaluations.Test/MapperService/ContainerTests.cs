@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
@@ -323,13 +324,40 @@ namespace Lte.Evaluations.MapperService
                 DemandLevelDescription = DemandLevel.LevelA.GetEnumDescription(),
                 ProjectName = "abcdef",
                 ContactPerson = "12345",
-                NetworkTypeDescription = NetworkType.With2G3G.GetEnumDescription()
+                NetworkTypeDescription = NetworkType.With2G3G.GetEnumDescription(),
+                PlanDate = new DateTime(2016, 2, 2)
             };
             var item = info.MapTo<VipDemand>();
             Assert.AreEqual(item.DemandLevel, DemandLevel.LevelA);
             Assert.AreEqual(item.ProjectName, "abcdef");
             Assert.AreEqual(item.ContactPerson, "12345");
             Assert.AreEqual(item.NetworkType, NetworkType.With2G3G);
+            Assert.AreEqual(item.PlanDate, new DateTime(2016, 2, 2));
+        }
+
+        [Test]
+        public void Test_VipDemand_FromDto()
+        {
+            var info = new VipDemandDto
+            {
+                DemandLevelDescription = DemandLevel.LevelA.GetEnumDescription(),
+                ProjectName = "abcdef",
+                ContactPerson = "12345",
+                NetworkTypeDescription = NetworkType.With2G3G.GetEnumDescription(),
+                MarketThemeDescription = MarketTheme.CollegeSpring.GetEnumDescription(),
+                CurrentStateDescription = VipState.Conclusion.GetEnumDescription(),
+                PlanDate = new DateTime(2016, 2, 2)
+            };
+            var item = info.MapTo<VipDemand>();
+            Assert.AreEqual(item.DemandLevel,DemandLevel.LevelA);
+            Assert.AreEqual(item.ProjectName, "abcdef");
+            Assert.AreEqual(item.ContactPerson, "12345");
+            Assert.AreEqual(item.NetworkType, NetworkType.With2G3G);
+            Assert.AreEqual(item.MarketTheme,MarketTheme.CollegeSpring);
+            Assert.AreEqual(item.VipState,VipState.Conclusion);
+            Assert.IsNotNull(item.FinishTime);
+            Assert.AreEqual(((DateTime)item.FinishTime).Date, DateTime.Today);
+            Assert.AreEqual(item.PlanDate, new DateTime(2016, 2, 2));
         }
     }
 }

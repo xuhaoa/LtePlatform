@@ -57,6 +57,8 @@ namespace Lte.Domain.Test.Regular
         private class Dest
         {
             public string VehicleTypeDescription { get; set; }
+
+            public DateTime DestTime { get; set; }
         }
 
         class TypeResolver : ValueResolver<VehicleType,string>
@@ -73,7 +75,8 @@ namespace Lte.Domain.Test.Regular
 
             Mapper.CreateMap(typeof (Source), typeof (Dest))
                 .ForMember("VehicleTypeDescription",
-                    map => map.ResolveUsing(typeof (TypeResolver)).FromMember("VehicleType"));
+                    map => map.ResolveUsing(typeof (TypeResolver)).FromMember("VehicleType"))
+                .ForMember("DestTime", map => map.ResolveUsing(typeof (DateTimeNowTransform)));
         }
 
         [Test]
@@ -85,6 +88,7 @@ namespace Lte.Domain.Test.Regular
             };
             var dest = Mapper.Map<Source, Dest>(src);
             Assert.AreEqual(dest.VehicleTypeDescription.GetEnumType<VehicleType>(), VehicleType.Broadcast);
+            Assert.AreEqual(dest.DestTime.Date, DateTime.Today);
         }
     }
 }

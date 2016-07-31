@@ -174,6 +174,18 @@ namespace Lte.Domain.Common.Wireless
         Conclusion
     }
 
+    public class VipStateDescriptionTransform : DescriptionTransform<VipState>
+    {
+        
+    }
+
+    public class VipStateTransform : EnumTransform<VipState>
+    {
+        public VipStateTransform() : base(VipState.Begin)
+        {
+        }
+    }
+
     [EnumTypeDescription(typeof(ComplainState), Begin)]
     public enum ComplainState : byte
     {

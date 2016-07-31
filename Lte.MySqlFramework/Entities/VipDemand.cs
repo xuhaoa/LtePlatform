@@ -10,12 +10,13 @@ using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
 {
-    [AutoMapFrom(typeof(VipDemandExcel))]
+    [AutoMapFrom(typeof(VipDemandExcel), typeof(VipDemandDto))]
     public class VipDemand : Entity
     {
         public string SerialNumber { get; set; }
 
         [AutoMapPropertyResolve("DemandLevelDescription", typeof(VipDemandExcel), typeof(DemandLevelTransform))]
+        [AutoMapPropertyResolve("DemandLevelDescription", typeof(VipDemandDto), typeof(DemandLevelTransform))]
         public DemandLevel DemandLevel { get; set; }
         
         public int TownId { get; set; }
@@ -23,8 +24,10 @@ namespace Lte.MySqlFramework.Entities
         public string ProjectName { get; set; }
 
         [AutoMapPropertyResolve("NetworkTypeDescription", typeof(VipDemandExcel), typeof(NetworkTypeTransform))]
+        [AutoMapPropertyResolve("NetworkTypeDescription", typeof(VipDemandDto), typeof(NetworkTypeTransform))]
         public NetworkType NetworkType { get; set; }
 
+        [AutoMapPropertyResolve("MarketThemeDescription", typeof(VipDemandDto), typeof(MarketThemeTransform))]
         public MarketTheme MarketTheme { get; set; }
 
         public string Department { get; set; }
@@ -43,7 +46,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string SustainPerson { get; set; }
 
-        [IgnoreMap]
+        [AutoMapPropertyResolve("", typeof(VipDemandDto), typeof(DateTimeNowTransform))]
         public DateTime? FinishTime { get; set; }
 
         public int SubscriberGotten { get; set; }
@@ -52,6 +55,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string ProcessInfo { get; set; }
 
+        [AutoMapPropertyResolve("CurrentStateDescription", typeof(VipDemandDto), typeof(VipStateTransform))]
         public VipState VipState { get; set; }
     }
     
