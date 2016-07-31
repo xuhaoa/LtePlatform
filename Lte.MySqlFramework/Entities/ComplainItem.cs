@@ -12,12 +12,14 @@ using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
 {
+    [AutoMapFrom(typeof(ComplainDto))]
     public class ComplainItem : Entity
     {
         public string SerialNumber { get; set; }
 
         public int TownId { get; set; }
 
+        [AutoMapPropertyResolve("ComplainSourceDescription", typeof(ComplainDto), typeof(ComplainSourceTransform))]
         public ComplainSource ComplainSource { get; set; }
 
         public DateTime BeginTime { get; set; }
@@ -34,29 +36,38 @@ namespace Lte.MySqlFramework.Entities
         
         public double Lattitute { get; set; }
 
+        [AutoMapPropertyResolve("ComplainReasonDescription", typeof(ComplainDto), typeof(ComplainReasonTransform))]
         public ComplainReason ComplainReason { get; set; }
 
+        [AutoMapPropertyResolve("ComplainSubReasonDescription", typeof(ComplainDto), typeof(ComplainSubReasonTransform))]
         public ComplainSubReason ComplainSubReason { get; set; }
 
         public string Grid { get; set; }
 
+        [AutoMapPropertyResolve("NetworkTypeDescription", typeof(ComplainDto), typeof(NetworkTypeTransform))]
         public NetworkType NetworkType { get; set; }
 
         public string SitePosition { get; set; }
 
+        [AutoMapPropertyResolve("IsIndoorDescription", typeof(ComplainDto), typeof(IndoorBoolTransform))]
         public bool IsIndoor { get; set; }
 
+        [AutoMapPropertyResolve("ComplainSceneDescription", typeof(ComplainDto), typeof(ComplainSceneTransform))]
         public ComplainScene ComplainScene { get; set; }
 
+        [AutoMapPropertyResolve("ComplainCategoryDescription", typeof(ComplainDto), typeof(ComplainCategoryTransform))]
         public ComplainCategory ComplainCategory { get; set; }
 
+        [AutoMapPropertyResolve("CurrentStateDescription", typeof(ComplainDto), typeof(ComplainStateTransform))]
         public ComplainState ComplainState { get; set; }
     }
 
+    [AutoMapFrom(typeof(ComplainItem))]
     public class ComplainDto : IConstructDto<ComplainProcessDto>, IStateChange
     {
         public string SerialNumber { get; set; }
 
+        [AutoMapPropertyResolve("ComplainSource", typeof(ComplainItem), typeof(ComplainSourceDescriptionTransform))]
         public string ComplainSourceDescription { get; set; }
 
         public DateTime BeginTime { get; set; }
@@ -75,22 +86,29 @@ namespace Lte.MySqlFramework.Entities
 
         public double Lattitute { get; set; }
 
+        [AutoMapPropertyResolve("ComplainReason", typeof(ComplainItem), typeof(ComplainReasonDescriptionTransform))]
         public string ComplainReasonDescription { get; set; }
 
+        [AutoMapPropertyResolve("ComplainSubReason", typeof(ComplainItem), typeof(ComplainSubReasonDescriptionTransform))]
         public string ComplainSubReasonDescription { get; set; }
 
         public string Grid { get; set; }
 
+        [AutoMapPropertyResolve("NetworkType", typeof(ComplainItem), typeof(NetworkTypeDescritionTransform))]
         public string NetworkTypeDescription { get; set; }
 
         public string SitePosition { get; set; }
 
+        [AutoMapPropertyResolve("IsIndoor", typeof(ComplainItem), typeof(IndoorDescriptionTransform))]
         public string IsIndoorDescription { get; set; }
 
+        [AutoMapPropertyResolve("ComplainScene", typeof(ComplainItem), typeof(ComplainSceneDescriptionTransform))]
         public string ComplainSceneDescription { get; set; }
 
+        [AutoMapPropertyResolve("ComplainCategory", typeof(ComplainItem), typeof(ComplainCategoryDescriptionTransform))]
         public string ComplainCategoryDescription { get; set; }
 
+        [AutoMapPropertyResolve("ComplainState", typeof(ComplainItem), typeof(ComplainStateDescriptionTransform))]
         public string CurrentStateDescription { get; set; }
 
         public string NextStateDescription

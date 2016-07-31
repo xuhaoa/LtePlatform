@@ -225,6 +225,18 @@ namespace Lte.Domain.Common.Wireless
         Unknown
     }
 
+    public class ComplainSourceDescriptionTransform : DescriptionTransform<ComplainSource>
+    {
+        
+    }
+
+    public class ComplainSourceTransform : EnumTransform<ComplainSource>
+    {
+        public ComplainSourceTransform() : base(ComplainSource.Unknown)
+        {
+        }
+    }
+
     [EnumTypeDescription(typeof(CustomerType), Unknown)]
     public enum CustomerType : byte
     {
@@ -232,6 +244,18 @@ namespace Lte.Domain.Common.Wireless
         Family,
         Company,
         Unknown
+    }
+
+    public class CustomerTypeDescriptionTransform : DescriptionTransform<CustomerType>
+    {
+        
+    }
+
+    public class CustomerTypeTransform : EnumTransform<CustomerType>
+    {
+        public CustomerTypeTransform(CustomerType defaultEnum) : base(defaultEnum)
+        {
+        }
     }
 
     [EnumTypeDescription(typeof(ComplainReason), Unknown)]
@@ -247,6 +271,18 @@ namespace Lte.Domain.Common.Wireless
         NeedNewSite,
         CustomerReservation,
         Unknown
+    }
+
+    public class ComplainReasonDescriptionTransform : DescriptionTransform<ComplainReason>
+    {
+        
+    }
+
+    public class ComplainReasonTransform : EnumTransform<ComplainReason>
+    {
+        public ComplainReasonTransform() : base(ComplainReason.Unknown)
+        {
+        }
     }
 
     [EnumTypeDescription(typeof(ComplainSubReason), Others)]
@@ -271,6 +307,18 @@ namespace Lte.Domain.Common.Wireless
         Others
     }
 
+    public class ComplainSubReasonDescriptionTransform : DescriptionTransform<ComplainSubReason>
+    {
+        
+    }
+
+    public class ComplainSubReasonTransform : EnumTransform<ComplainSubReason>
+    {
+        public ComplainSubReasonTransform() : base(ComplainSubReason.Others)
+        {
+        }
+    }
+
     [EnumTypeDescription(typeof(ComplainScene), Others)]
     public enum ComplainScene : byte
     {
@@ -283,6 +331,18 @@ namespace Lte.Domain.Common.Wireless
         ImportantRegion,
         Residential,
         Others
+    }
+
+    public class ComplainSceneDescriptionTransform : DescriptionTransform<ComplainScene>
+    {
+        
+    }
+
+    public class ComplainSceneTransform : EnumTransform<ComplainScene>
+    {
+        public ComplainSceneTransform() : base(ComplainScene.Others)
+        {
+        }
     }
 
     [EnumTypeDescription(typeof(ComplainCategory), Others)]
@@ -298,6 +358,18 @@ namespace Lte.Domain.Common.Wireless
         Voice,
         Web,
         ShortMessage
+    }
+
+    public class ComplainCategoryDescriptionTransform : DescriptionTransform<ComplainCategory>
+    {
+        
+    }
+
+    public class ComplainCategoryTransform : EnumTransform<ComplainCategory>
+    {
+        public ComplainCategoryTransform() : base(ComplainCategory.Others)
+        {
+        }
     }
 
     [EnumTypeDescription(typeof(SolveFunction), Others)]
