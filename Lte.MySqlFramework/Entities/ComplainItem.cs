@@ -114,10 +114,12 @@ namespace Lte.MySqlFramework.Entities
         }
     }
 
+    [AutoMapFrom(typeof(ComplainProcessDto))]
     public class ComplainProcess : Entity
     {
         public string SerialNumber { get; set; }
 
+        [AutoMapPropertyResolve("ComplainStateDescription", typeof(ComplainProcessDto), typeof(ComplainStateTransform))]
         public ComplainState ComplainState { get; set; }
 
         public DateTime BeginTime { get; set; }
@@ -135,10 +137,12 @@ namespace Lte.MySqlFramework.Entities
         public string ContactPerson { get; set; }
     }
 
+    [AutoMapFrom(typeof(ComplainProcess))]
     public class ComplainProcessDto
     {
         public string SerialNumber { get; set; }
 
+        [AutoMapPropertyResolve("ComplainState", typeof(ComplainProcess), typeof(ComplainStateDescriptionTransform))]
         public string ComplainStateDescription { get; set; }
 
         public DateTime BeginTime { get; set; }

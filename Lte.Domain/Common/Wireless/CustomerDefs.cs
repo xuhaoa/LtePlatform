@@ -198,6 +198,18 @@ namespace Lte.Domain.Common.Wireless
         Archive
     }
 
+    public class ComplainStateDescriptionTransform : DescriptionTransform<ComplainState>
+    {
+        
+    }
+
+    public class ComplainStateTransform : EnumTransform<ComplainState>
+    {
+        public ComplainStateTransform() : base(ComplainState.Begin)
+        {
+        }
+    }
+
     [EnumTypeDescription(typeof(ComplainSource), Unknown)]
     public enum ComplainSource : byte
     {
