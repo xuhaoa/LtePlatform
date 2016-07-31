@@ -1,5 +1,6 @@
 ﻿using System;
 using Abp.Domain.Entities;
+using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Repositories;
 using AutoMapper;
 using Lte.Domain.Common;
@@ -9,16 +10,19 @@ using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
 {
+    [AutoMapFrom(typeof(VipDemandExcel))]
     public class VipDemand : Entity
     {
         public string SerialNumber { get; set; }
 
+        [AutoMapPropertyResolve("DemandLevelDescription", typeof(VipDemandExcel), typeof(DemandLevelTransform))]
         public DemandLevel DemandLevel { get; set; }
         
         public int TownId { get; set; }
 
         public string ProjectName { get; set; }
 
+        [AutoMapPropertyResolve("NetworkTypeDescription", typeof(VipDemandExcel), typeof(NetworkTypeTransform))]
         public NetworkType NetworkType { get; set; }
 
         public MarketTheme MarketTheme { get; set; }

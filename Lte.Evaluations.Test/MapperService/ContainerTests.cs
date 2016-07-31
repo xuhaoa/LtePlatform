@@ -314,5 +314,22 @@ namespace Lte.Evaluations.MapperService
             Assert.AreEqual(item.OtherDescription, "defg");
             Assert.AreEqual(item.CurrentStateDescription.GetEnumType<EmergencyState>(), EmergencyState.FiberFinish);
         }
+
+        [Test]
+        public void Test_VipDemand_FromExcel()
+        {
+            var info = new VipDemandExcel
+            {
+                DemandLevelDescription = DemandLevel.LevelA.GetEnumDescription(),
+                ProjectName = "abcdef",
+                ContactPerson = "12345",
+                NetworkTypeDescription = NetworkType.With2G3G.GetEnumDescription()
+            };
+            var item = info.MapTo<VipDemand>();
+            Assert.AreEqual(item.DemandLevel, DemandLevel.LevelA);
+            Assert.AreEqual(item.ProjectName, "abcdef");
+            Assert.AreEqual(item.ContactPerson, "12345");
+            Assert.AreEqual(item.NetworkType, NetworkType.With2G3G);
+        }
     }
 }

@@ -62,11 +62,6 @@ namespace Lte.Evaluations.MapperSerive
                     opt => opt.MapFrom(s => "[" + s.VehicleLocation + "]" + s.OtherDescription))
                 .ForMember(d => d.EmergencyState,
                     opt => opt.MapFrom(s => s.CurrentStateDescription.GetEnumType<EmergencyState>()));
-            Mapper.CreateMap<VipDemandExcel, VipDemand>()
-                .ForMember(d => d.DemandLevel,
-                    opt => opt.MapFrom(s => s.DemandLevelDescription.GetEnumType<DemandLevel>()))
-                .ForMember(d => d.NetworkType,
-                    opt => opt.MapFrom(s => s.NetworkTypeDescription.GetEnumType<NetworkType>()));
             Mapper.CreateMap<VipDemandDto, VipDemand>()
                 .ForMember(d => d.DemandLevel,
                     opt => opt.MapFrom(s => s.DemandLevelDescription.GetEnumType<DemandLevel>()))
