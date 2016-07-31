@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using Abp.EntityFramework.AutoMapper;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
 {
+    [AutoMapFrom(typeof(BranchDemandExcel), typeof(BranchDemandDto))]
     public class BranchDemand : Entity, ITownId
     {
         public DateTime BeginDate { get; set; }
@@ -20,10 +23,15 @@ namespace Lte.MySqlFramework.Entities
 
         public string ComplainContents { get; set; }
 
+        [AutoMapPropertyResolve("FirstContents", typeof(BranchDemandExcel), typeof(DateTimeNowLabelTransform))]
         public string ProcessContents { get; set; }
 
+        [AutoMapPropertyResolve("SolveFunctionDescription", typeof(BranchDemandExcel), typeof(SolveFunctionDescriptionTransform))]
+        [AutoMapPropertyResolve("SolveFunctionDescription", typeof(BranchDemandDto), typeof(SolveFunctionDescriptionTransform))]
         public SolveFunction SolveFunction { get; set; }
 
+        [AutoMapPropertyResolve("IsSolvedDescription", typeof(BranchDemandExcel), typeof(YesToBoolTransform))]
+        [AutoMapPropertyResolve("IsSolvedDescription", typeof(BranchDemandDto), typeof(YesToBoolTransform))]
         public bool IsSolved { get; set; }
 
         public DateTime? EndDate { get; set; }
@@ -37,6 +45,7 @@ namespace Lte.MySqlFramework.Entities
         public string ManagerInfo { get; set; }
     }
 
+    [AutoMapFrom(typeof(BranchDemand))]
     public class BranchDemandDto
     {
         public DateTime BeginDate { get; set; }
@@ -55,8 +64,10 @@ namespace Lte.MySqlFramework.Entities
 
         public string ProcessContents { get; set; }
 
+        [AutoMapPropertyResolve("SolveFunction", typeof(BranchDemand), typeof(SolveFunctionTransform))]
         public string SolveFunctionDescription { get; set; }
 
+        [AutoMapPropertyResolve("IsSolved", typeof(BranchDemand), typeof(YesNoTransform))]
         public string IsSolvedDescription { get; set; }
 
         public DateTime? EndDate { get; set; }

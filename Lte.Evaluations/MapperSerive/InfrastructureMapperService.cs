@@ -89,31 +89,6 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.IsIndoor, opt => opt.MapFrom(s => s.IndoorDescription == "室内"))
                 .ForMember(d => d.SitePosition,
                     opt => opt.MapFrom(s => string.IsNullOrEmpty(s.Site) ? s.Position : s.Site));
-            Mapper.CreateMap<BranchDemandExcel, BranchDemand>()
-                .ForMember(d => d.SolveFunction,
-                    opt => opt.MapFrom(s => s.SolveFunctionDescription.GetEnumType<SolveFunction>()))
-                .ForMember(d => d.IsSolved, opt => opt.MapFrom(s => s.IsSolvedDescription == "是"))
-                .ForMember(d => d.ProcessContents, opt => opt.MapFrom(s => "[" + DateTime.Now + "]" + s.FirstContents));
-            Mapper.CreateMap<BranchDemand, BranchDemandDto>()
-                .ForMember(d => d.SolveFunctionDescription,
-                    opt => opt.MapFrom(s => s.SolveFunction.GetEnumDescription()))
-                .ForMember(d => d.IsSolvedDescription, opt => opt.MapFrom(s => s.IsSolved ? "是" : "否"));
-            Mapper.CreateMap<BranchDemandDto, BranchDemand>()
-                .ForMember(d => d.SolveFunction,
-                    opt => opt.MapFrom(s => s.SolveFunctionDescription.GetEnumType<SolveFunction>()))
-                .ForMember(d => d.IsSolved, opt => opt.MapFrom(s => s.IsSolvedDescription == "是"));
-            Mapper.CreateMap<OnlineSustainExcel, OnlineSustain>()
-                .ForMember(d => d.ComplainCategory,
-                    opt => opt.MapFrom(s => s.ComplainCategoryDescription.GetEnumType<ComplainCategory>()))
-                .ForMember(d => d.IsPreProcessed, opt => opt.MapFrom(s => s.PreProcessString == "是"));
-            Mapper.CreateMap<OnlineSustain, OnlineSustainDto>()
-                .ForMember(d => d.ComplainCategoryDescription,
-                    opt => opt.MapFrom(s => s.ComplainCategory.GetEnumDescription()))
-                .ForMember(d => d.IsPreProcessedDescription, opt => opt.MapFrom(s => s.IsPreProcessed ? "是" : "否"));
-            Mapper.CreateMap<OnlineSustainDto, OnlineSustain>()
-                .ForMember(d => d.ComplainCategory,
-                    opt => opt.MapFrom(s => s.ComplainCategoryDescription.GetEnumType<ComplainCategory>()))
-                .ForMember(d => d.IsPreProcessed, opt => opt.MapFrom(s => s.IsPreProcessedDescription == "是"));
         }
     }
 }

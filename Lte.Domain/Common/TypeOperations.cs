@@ -106,7 +106,7 @@ namespace Lte.Domain.Common
     {
         public string PeerMemberName { get; }
 
-        public Type TargetType { get; set; }
+        public Type TargetType { get; }
 
         public Type ResolveActionType { get; }
 
@@ -147,6 +147,22 @@ namespace Lte.Domain.Common
         protected override bool ResolveCore(string source)
         {
             return source.Trim() == "否";
+        }
+    }
+
+    public class YesToBoolTransform : ValueResolver<string, bool>
+    {
+        protected override bool ResolveCore(string source)
+        {
+            return source == "是";
+        }
+    }
+
+    public class YesNoTransform : ValueResolver<bool, string>
+    {
+        protected override string ResolveCore(bool source)
+        {
+            return source ? "是" : "否";
         }
     }
 
@@ -235,6 +251,14 @@ namespace Lte.Domain.Common
         protected override DateTime ResolveCore(object source)
         {
             return DateTime.Now;
+        }
+    }
+
+    public class DateTimeNowLabelTransform : ValueResolver<string, string>
+    {
+        protected override string ResolveCore(string source)
+        {
+            return "[" + DateTime.Now + "]" + source;
         }
     }
 }

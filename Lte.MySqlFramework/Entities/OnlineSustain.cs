@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using Abp.EntityFramework.AutoMapper;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
 {
+    [AutoMapFrom(typeof(OnlineSustainExcel), typeof(OnlineSustainDto))]
     public class OnlineSustain: Entity
     {
         public DateTime BeginDate { get; set; }
@@ -25,6 +28,8 @@ namespace Lte.MySqlFramework.Entities
 
         public string DutyStaff { get; set; }
 
+        [AutoMapPropertyResolve("ComplainCategoryDescription", typeof(OnlineSustainExcel), typeof(ComplainCategoryDescriptionTransform))]
+        [AutoMapPropertyResolve("ComplainCategoryDescription", typeof(OnlineSustainDto), typeof(ComplainCategoryDescriptionTransform))]
         public ComplainCategory ComplainCategory { get; set; }
 
         public string Address { get; set; }
@@ -33,6 +38,8 @@ namespace Lte.MySqlFramework.Entities
 
         public string SpecialResponse { get; set; }
 
+        [AutoMapPropertyResolve("PreProcessString", typeof(OnlineSustainExcel), typeof(YesToBoolTransform))]
+        [AutoMapPropertyResolve("IsPreProcessedDescription", typeof(OnlineSustainDto), typeof(YesToBoolTransform))]
         public bool IsPreProcessed { get; set; }
 
         public string WorkItemNumber { get; set; }
@@ -46,6 +53,7 @@ namespace Lte.MySqlFramework.Entities
         public string FeedbackInfo { get; set; }
     }
 
+    [AutoMapFrom(typeof(OnlineSustain))]
     public class OnlineSustainDto
     {
         public DateTime BeginDate { get; set; }
@@ -68,6 +76,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string DutyStaff { get; set; }
 
+        [AutoMapPropertyResolve("ComplainCategory", typeof(OnlineSustain), typeof(ComplainCategoryTransform))]
         public string ComplainCategoryDescription { get; set; }
 
         public string Address { get; set; }
@@ -76,6 +85,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string SpecialResponse { get; set; }
 
+        [AutoMapPropertyResolve("IsPreProcessed", typeof(OnlineSustain), typeof(YesNoTransform))]
         public string IsPreProcessedDescription { get; set; }
 
         public string WorkItemNumber { get; set; }

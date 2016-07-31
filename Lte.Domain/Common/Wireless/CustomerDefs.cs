@@ -396,4 +396,16 @@ namespace Lte.Domain.Common.Wireless
         NoContact,
         Others
     }
+
+    public class SolveFunctionDescriptionTransform : DescriptionTransform<SolveFunction>
+    {
+        
+    }
+
+    public class SolveFunctionTransform : EnumTransform<SolveFunction>
+    {
+        public SolveFunctionTransform() : base(SolveFunction.Others)
+        {
+        }
+    }
 }
