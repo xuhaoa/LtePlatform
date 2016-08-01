@@ -1,17 +1,15 @@
 ﻿<div cell-details e-nodeb-id="eNodebId" sector-id="sectorId"></div>
 <div uib-tabset active="active">
-    <div uib-tab index="0" heading="同频切换">
+    <div uib-tab index="0" heading="切换参数">
         <h4 class="text-primary">同频切换参数</h4>
-        <div cell-intra-freq e-nodeb-id="eNodebId" sector-id="sectorId"></div>
-    </div>
-    <div uib-tab index="1" heading="异频切换">
+        <div cell-intra-freq-table e-nodeb-id="eNodebId" sector-id="sectorId"></div>
         <h4 class="text-primary">小区异频切换参数</h4>
         <div cell-inter-freq e-nodeb-id="eNodebId" sector-id="sectorId"></div>
     </div>
-    <div uib-tab index="2" heading="邻区列表">
+    <div uib-tab index="1" heading="邻区列表">
         <div mongo-neighbor-list mongo-neighbors="mongoNeighbors"></div>
     </div>
-    <div uib-tab index="3" heading="功率参数">
+    <div uib-tab index="2" heading="功率参数">
         <h4 class="text-primary">系统主要功率参数</h4>
         <div cell-channel-power e-nodeb-id="eNodebId" sector-id="sectorId"></div>
         <h4 class="text-success">上行开环功控参数</h4>

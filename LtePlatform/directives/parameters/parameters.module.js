@@ -157,6 +157,18 @@ angular.module('parameters.handoff', ['handoff.parameters'])
             templateUrl: parametersRoot + 'cell/CellIntraFreq.html'
         }
     })
+    .directive('cellIntraFreqTable', function (parametersRoot) {
+        return {
+            restrict: 'EA',
+            controller: 'CellIntraFreqController',
+            replace: true,
+            scope: {
+                eNodebId: '=',
+                sectorId: '='
+            },
+            templateUrl: parametersRoot + 'cell/CellIntraFreqTable.html'
+        }
+    })
     .directive('a1InterFreq', function(parametersRoot) {
         return {
             restrict: 'ECMA',

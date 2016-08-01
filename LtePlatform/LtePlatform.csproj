@@ -557,6 +557,7 @@
     <Content Include="directives\customer\customer.module.js" />
     <Content Include="directives\customer\emergency\FiberList.html" />
     <Content Include="directives\customer\vip\DemandList.html" />
+    <Content Include="directives\parameters\cell\CellIntraFreqTable.html" />
     <Content Include="directives\parameters\cell\Power.html" />
     <Content Include="directives\parameters\cell\CellInterFreq.html" />
     <Content Include="directives\parameters\cell\CellIntraFreq.html" />
