@@ -434,6 +434,18 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(ComplainState.Feedback, "回访用户"),
                     new Tuple<object, string>(ComplainState.Archive, "工单归档"),   
                 }
+            },
+            {
+                "AntennaFactory", new []
+                {
+                    new Tuple<object, string>(AntennaFactory.Rfs, "RFS"), 
+                    new Tuple<object, string>(AntennaFactory.Andrew, "安德鲁"), 
+                    new Tuple<object, string>(AntennaFactory.Anjiexin, "安捷信"), 
+                    new Tuple<object, string>(AntennaFactory.Guoren, "国人"), 
+                    new Tuple<object, string>(AntennaFactory.Jingxin, "京信"), 
+                    new Tuple<object, string>(AntennaFactory.Indoor, "室分"), 
+                    new Tuple<object, string>(AntennaFactory.Indoor, "室内"), 
+                }
             }
         };
     }

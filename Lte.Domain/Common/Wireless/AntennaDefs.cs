@@ -52,4 +52,16 @@ namespace Lte.Domain.Common.Wireless
 
         public double FrequencyEnd { get; set; }
     }
+
+    [EnumTypeDescription(typeof(AntennaFactory), Unkown)]
+    public enum AntennaFactory : byte
+    {
+        Rfs,
+        Andrew,
+        Anjiexin,
+        Guoren,
+        Jingxin,
+        Indoor,
+        Unkown
+    }
 }

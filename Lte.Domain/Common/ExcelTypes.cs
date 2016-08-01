@@ -94,8 +94,14 @@ namespace Lte.Domain.Common
         [ExcelColumn("CELL_ID", TransformEnum.ByteRemoveQuotions)]
         public byte SectorId { get; set; }
 
+        [ExcelColumn("SectorID")]
+        public byte LocalSectorId { get; set; }
+
         [ExcelColumn("频点")]
         public int Frequency { get; set; }
+
+        [ExcelColumn("拉远名称")]
+        public string RruName { get; set; }
 
         [ExcelColumn("是否接室分")]
         public string IsIndoor { get; set; } = "否";
@@ -150,6 +156,21 @@ namespace Lte.Domain.Common
 
         [ExcelColumn("C网共站小区ID")]
         public string CdmaCellId { get; set; }
+
+        [ExcelColumn("天线厂家")]
+        public string AntennaFactoryString { get; set; }
+
+        [ExcelColumn("天线型号")]
+        public string AntennaModel { get; set; }
+
+        [ExcelColumn("能否电调")]
+        public string CanBeETiltDescription { get; set; }
+
+        [ExcelColumn("是否美化")]
+        public string IsBeautifyDescription { get; set; }
+
+        [ExcelColumn("是否CA")]
+        public string IsCaDescription { get; set; }
     }
 
 }
