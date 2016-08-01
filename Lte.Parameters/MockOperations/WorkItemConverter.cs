@@ -10,9 +10,18 @@ namespace Lte.Parameters.MockOperations
     {
         protected override WorkItem ConvertCore(WorkItemExcel source)
         {
-            var result = Mapper.Map<WorkItem>(source);
-            result.Cause = source.CauseDescription.GetEnumType<WorkItemCause>();
-            result.State = source.StateDescription.GetEnumType<WorkItemState>();
+            var result = new WorkItem
+            {
+                SerialNumber = source.SerialNumber,
+                ENodebId = source.ENodebId,
+                SectorId = source.SectorId,
+                BeginTime = source.BeginTime,
+                FeedbackTime = source.FeedbackTime,
+                FinishTime = source.FinishTime,
+                Deadline = source.Deadline,
+                Cause = source.CauseDescription.GetEnumType<WorkItemCause>(),
+                State = source.StateDescription.GetEnumType<WorkItemState>()
+            };
 
             var title = source.Title ?? "";
             var typeFields = title.Split('_');

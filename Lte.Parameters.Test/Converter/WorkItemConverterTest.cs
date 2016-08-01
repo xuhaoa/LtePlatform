@@ -107,5 +107,17 @@ namespace Lte.Parameters.Test.Converter
             dest.Type.ShouldBe(WorkItemType.Others);
             dest.Subtype.ShouldBe(WorkItemSubtype.Others);
         }
+
+        [Test]
+        public void TestTitle_Title5()
+        {
+            var source = new WorkItemExcel
+            {
+                Title = "日报--请地市提交网络性能指标异常分析处理报告"
+            };
+            var dest = Mapper.Map<WorkItem>(source);
+            dest.Type.ShouldBe(WorkItemType.DailyReport);
+            dest.Subtype.ShouldBe(WorkItemSubtype.Others);
+        }
     }
 }

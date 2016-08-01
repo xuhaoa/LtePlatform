@@ -72,7 +72,7 @@
             dumpSingleItem: function() {
                 return generalHttpService.putApiData('DumpWorkItem', {});
             },
-            clearItems: function() {
+            clearImportItems: function() {
                 return generalHttpService.deleteApiData('DumpWorkItem');
             },
             queryTotalDumpItems: function() {
