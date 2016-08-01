@@ -26,8 +26,8 @@ namespace Lte.MySqlFramework.Entities
         [AutoMapPropertyResolve("FirstContents", typeof(BranchDemandExcel), typeof(DateTimeNowLabelTransform))]
         public string ProcessContents { get; set; }
 
-        [AutoMapPropertyResolve("SolveFunctionDescription", typeof(BranchDemandExcel), typeof(SolveFunctionDescriptionTransform))]
-        [AutoMapPropertyResolve("SolveFunctionDescription", typeof(BranchDemandDto), typeof(SolveFunctionDescriptionTransform))]
+        [AutoMapPropertyResolve("SolveFunctionDescription", typeof(BranchDemandExcel), typeof(SolveFunctionTransform))]
+        [AutoMapPropertyResolve("SolveFunctionDescription", typeof(BranchDemandDto), typeof(SolveFunctionTransform))]
         public SolveFunction SolveFunction { get; set; }
 
         [AutoMapPropertyResolve("IsSolvedDescription", typeof(BranchDemandExcel), typeof(YesToBoolTransform))]
@@ -64,7 +64,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string ProcessContents { get; set; }
 
-        [AutoMapPropertyResolve("SolveFunction", typeof(BranchDemand), typeof(SolveFunctionTransform))]
+        [AutoMapPropertyResolve("SolveFunction", typeof(BranchDemand), typeof(SolveFunctionDescriptionTransform))]
         public string SolveFunctionDescription { get; set; }
 
         [AutoMapPropertyResolve("IsSolved", typeof(BranchDemand), typeof(YesNoTransform))]

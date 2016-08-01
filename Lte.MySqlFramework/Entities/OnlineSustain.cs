@@ -28,8 +28,8 @@ namespace Lte.MySqlFramework.Entities
 
         public string DutyStaff { get; set; }
 
-        [AutoMapPropertyResolve("ComplainCategoryDescription", typeof(OnlineSustainExcel), typeof(ComplainCategoryDescriptionTransform))]
-        [AutoMapPropertyResolve("ComplainCategoryDescription", typeof(OnlineSustainDto), typeof(ComplainCategoryDescriptionTransform))]
+        [AutoMapPropertyResolve("ComplainCategoryDescription", typeof(OnlineSustainExcel), typeof(ComplainCategoryTransform))]
+        [AutoMapPropertyResolve("ComplainCategoryDescription", typeof(OnlineSustainDto), typeof(ComplainCategoryTransform))]
         public ComplainCategory ComplainCategory { get; set; }
 
         public string Address { get; set; }
@@ -76,7 +76,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string DutyStaff { get; set; }
 
-        [AutoMapPropertyResolve("ComplainCategory", typeof(OnlineSustain), typeof(ComplainCategoryTransform))]
+        [AutoMapPropertyResolve("ComplainCategory", typeof(OnlineSustain), typeof(ComplainCategoryDescriptionTransform))]
         public string ComplainCategoryDescription { get; set; }
 
         public string Address { get; set; }
