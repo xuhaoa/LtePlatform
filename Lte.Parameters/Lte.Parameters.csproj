@@ -245,9 +245,9 @@
     <Compile Include="Entities\Kpi\TownPreciseCoverage4GStat.cs" />
     <Compile Include="Entities\Work\WorkItem.cs" />
     <Compile Include="Entities\Work\WorkItemExcel.cs" />
-    <Compile Include="Migrations\201607180718542_Update_Lte_Parameters.cs" />
-    <Compile Include="Migrations\201607180718542_Update_Lte_Parameters.Designer.cs">
-      <DependentUpon>201607180718542_Update_Lte_Parameters.cs</DependentUpon>
+    <Compile Include="Migrations\201608011333021_Add_LocalSectorId.cs" />
+    <Compile Include="Migrations\201608011333021_Add_LocalSectorId.Designer.cs">
+      <DependentUpon>201608011333021_Add_LocalSectorId.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MockOperations\InterferenceMatrixCsvContainer.cs" />
@@ -285,8 +285,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607180718542_Update_Lte_Parameters.resx">
-      <DependentUpon>201607180718542_Update_Lte_Parameters.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608011333021_Add_LocalSectorId.resx">
+      <DependentUpon>201608011333021_Add_LocalSectorId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
