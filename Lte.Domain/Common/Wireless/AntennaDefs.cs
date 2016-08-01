@@ -64,4 +64,11 @@ namespace Lte.Domain.Common.Wireless
         Indoor,
         Unkown
     }
+
+    public class AntennaFactoryTransform : EnumTransform<AntennaFactory>
+    {
+        public AntennaFactoryTransform() : base(AntennaFactory.Unkown)
+        {
+        }
+    }
 }

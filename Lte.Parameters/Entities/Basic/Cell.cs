@@ -17,6 +17,8 @@ namespace Lte.Parameters.Entities.Basic
 
         public byte SectorId { get; set; }
 
+        public byte LocalSectorId { get; set; }
+
         public int Frequency { get; set; }
 
         public byte BandClass { get; set; }

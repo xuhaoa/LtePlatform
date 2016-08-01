@@ -6,7 +6,7 @@ using MySql.Data.Entity;
 namespace Lte.MySqlFramework.Concrete
 {
     //实施数据库迁移前，请解除注释；迁移完成后，请再次注释编译后发布，否则在IIS上程序会报错
-    //[DbConfigurationType(typeof(MySqlEFConfiguration))]
+    [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class MySqlContext : AbpDbContext
     {
         public MySqlContext() : base("MySqlContext")
@@ -53,5 +53,7 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<VipProcess> VipProcesses { get; set; }
 
         public DbSet<ComplainProcess> ComplainProcesses { get; set; }
+
+        public DbSet<LteRru> LteRrus { get; set; }
     }
 }

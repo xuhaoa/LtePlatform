@@ -129,13 +129,13 @@
     <Compile Include="Entities\TopConnection3GCell.cs" />
     <Compile Include="Entities\TopDrop2GCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201607270916135_Update_Some_Entities.cs" />
-    <Compile Include="Migrations\201607270916135_Update_Some_Entities.Designer.cs">
-      <DependentUpon>201607270916135_Update_Some_Entities.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201607272356549_Update_ComplainProcess.cs" />
     <Compile Include="Migrations\201607272356549_Update_ComplainProcess.Designer.cs">
       <DependentUpon>201607272356549_Update_ComplainProcess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608011315497_Add_LteRru.cs" />
+    <Compile Include="Migrations\201608011315497_Add_LteRru.Designer.cs">
+      <DependentUpon>201608011315497_Add_LteRru.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -145,11 +145,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607270916135_Update_Some_Entities.resx">
-      <DependentUpon>201607270916135_Update_Some_Entities.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607272356549_Update_ComplainProcess.resx">
       <DependentUpon>201607272356549_Update_ComplainProcess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608011315497_Add_LteRru.resx">
+      <DependentUpon>201608011315497_Add_LteRru.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
