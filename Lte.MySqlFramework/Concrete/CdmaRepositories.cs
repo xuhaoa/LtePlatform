@@ -128,4 +128,26 @@ namespace Lte.MySqlFramework.Concrete
             return FirstOrDefault(x => x.BtsId == btsId && x.SectorId == sectorId);
         }
     }
+
+    public class LteRruRepository : EfRepositoryBase<MySqlContext, LteRru>, ILteRruRepository
+    {
+        public LteRruRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public LteRru Match(CellExcel stat)
+        {
+            return Get(stat.ENodebId, stat.LocalSectorId);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+
+        public LteRru Get(int eNodebId, byte localSectorId)
+        {
+            return FirstOrDefault(x => x.ENodebId == eNodebId && x.LocalSectorId == localSectorId);
+        }
+    }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using Abp.EntityFramework;
 using Abp.EntityFramework.Repositories;
+using Lte.Domain.Common;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 
@@ -55,5 +56,9 @@ namespace Lte.Parameters.Concrete.Basic
             return Context.SaveChanges();
         }
 
+        public Cell Match(CellExcel stat)
+        {
+            return FirstOrDefault(x => x.ENodebId == stat.ENodebId && x.SectorId == stat.SectorId);
+        }
     }
 }

@@ -39,4 +39,10 @@ namespace Lte.MySqlFramework.Abstract
     {
         CdmaRru Get(int btsId, byte sectorId);
     }
+
+    public interface ILteRruRepository : IRepository<LteRru>,
+        IMatchRepository<LteRru, CellExcel>, ISaveChanges
+    {
+        LteRru Get(int eNodebId, byte localSectorId);
+    }
 }

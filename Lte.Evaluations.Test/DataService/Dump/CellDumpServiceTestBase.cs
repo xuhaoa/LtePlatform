@@ -21,7 +21,7 @@ namespace Lte.Evaluations.DataService.Dump
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            Service = new CellDumpService(BtsRepository.Object, CellRepository.Object);
+            Service = new CellDumpService(BtsRepository.Object, CellRepository.Object, null);
             BtsRepository.MockOperation();
             BtsRepository.MockGetId<IBtsRepository, CdmaBts>();
             BtsRepository.MockThreeBtss();

@@ -131,9 +131,8 @@
   <ItemGroup>
     <Compile Include="Abstract\Basic\IEutranInterNFreqRepository.cs" />
     <Compile Include="Abstract\Basic\IBtsRepository.cs" />
-    <Compile Include="Abstract\Basic\ICdmaCellRepository.cs" />
     <Compile Include="Abstract\Basic\MongoRepositories.cs" />
-    <Compile Include="Abstract\Basic\ICellRepository.cs" />
+    <Compile Include="Abstract\Basic\CellRepositories.cs" />
     <Compile Include="Abstract\College\ICollegeRepository.cs" />
     <Compile Include="Abstract\Kpi\ICsvFileInfoRepository.cs" />
     <Compile Include="Abstract\Basic\IENodebRepository.cs" />

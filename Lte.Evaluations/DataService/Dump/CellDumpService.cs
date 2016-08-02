@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Abp.EntityFramework.Repositories;
 using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MapperSerive.Infrastructure;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
@@ -17,11 +21,13 @@ namespace Lte.Evaluations.DataService.Dump
     {
         private readonly IBtsRepository _btsRepository;
         private readonly ICellRepository _cellRepository;
+        private readonly ILteRruRepository _rruRepository;
 
-        public CellDumpService(IBtsRepository btsRepository, ICellRepository cellRepository)
+        public CellDumpService(IBtsRepository btsRepository, ICellRepository cellRepository, ILteRruRepository rruRepository)
         {
             _btsRepository = btsRepository;
             _cellRepository = cellRepository;
+            _rruRepository = rruRepository;
         }
 
         public int DumpNewCellExcels(IEnumerable<CellExcel> infos)
@@ -114,5 +120,45 @@ namespace Lte.Evaluations.DataService.Dump
             }
             _cellRepository.SaveChanges();
         }
+
+        public async Task<int> ImportRrus(IEnumerable<CellExcel> infos)
+        {
+            var sectorInfos = from info in infos
+                group info by new
+                {
+                    info.ENodebId,
+                    info.LocalSectorId
+                }
+                into g
+                let firstInfo = g.First()
+                select new CellExcel
+                {
+                    ENodebId = g.Key.ENodebId,
+                    LocalSectorId = g.Key.LocalSectorId,
+                    RruName = firstInfo.RruName,
+                    AntennaInfo = firstInfo.AntennaInfo,
+                    AntennaFactoryString = firstInfo.AntennaFactoryString,
+                    AntennaModel = firstInfo.AntennaModel,
+                    CanBeETiltDescription = firstInfo.CanBeETiltDescription,
+                    IsBeautifyDescription = firstInfo.IsBeautifyDescription,
+                    IsCaDescription = firstInfo.IsCaDescription
+                };
+            int count = 0;
+            foreach (var info in sectorInfos)
+            {
+                count += await _rruRepository.UpdateOne<ILteRruRepository, LteRru, CellExcel>(info);
+            }
+            return count;
+        }
+
+        public async Task<int> UpdateCells(IEnumerable<CellExcel> infos)
+        {
+            int count = 0;
+            foreach (var info in infos)
+            {
+                count += await _cellRepository.UpdateOne<ICellRepository, Cell, CellExcel>(info);
+            }
+            return count;
+        } 
     }
 }
