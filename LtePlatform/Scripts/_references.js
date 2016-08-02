@@ -277,7 +277,6 @@
 /// <reference path="parameters/import/enodeb.vanished.controller.js" />
 /// <reference path="parameters/import/enodebs.controller.js" />
 /// <reference path="parameters/import/index.controller.js" />
-/// <reference path="parameters/import/route.controller.js" />
 /// <reference path="parameters/list.controller.js" />
 /// <reference path="parameters/menu.root.js" />
 /// <reference path="parameters/neighbor/import.controller.js" />
