@@ -120,7 +120,7 @@ body {
   color: #fff; }
 
 .panel-widget {
-  background: #fff; }
+  margin: 0; }
 
 .panel-body input[type=checkbox]:checked + label {
   text-decoration: line-through;
@@ -216,4 +216,7 @@ body {
 .todo-list-item:hover, a.todo-list-item:focus {
   text-decoration: none;
   background-color: #f6f6f6; }
+
+#checkbox {
+  margin: 0; }
 
