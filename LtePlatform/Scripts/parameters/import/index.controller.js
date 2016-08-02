@@ -52,6 +52,28 @@
         }
     };
 
+    $scope.updateLteCells = function() {
+        if ($scope.importData.cellCount > 0) {
+            basicImportService.updateLteCells().then(function(result) {
+                $scope.importData.updateMessages.push({
+                    contents: "完成LTE小区导入" + result + "个",
+                    type: 'success'
+                });
+            });
+        }
+    };
+
+    $scope.importLteRrus = function() {
+        if ($scope.importData.cellCount > 0) {
+            basicImportService.dumpLteRrus().then(function (result) {
+                $scope.importData.updateMessages.push({
+                    contents: "完成LTE RRU导入" + result + "个",
+                    type: 'success'
+                });
+            });
+        }
+    };
+
     $scope.importCdmaRrus = function() {
         if ($scope.importData.cdmaCellCount > 0) {
             basicImportService.dumpCdmaRrus().then(function(result) {

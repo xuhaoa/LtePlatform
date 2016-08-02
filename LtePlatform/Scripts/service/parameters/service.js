@@ -156,6 +156,9 @@
             queryCdmaCellExcels: function () {
                 return generalHttpService.getApiData('NewCdmaCellExcels', {});
             },
+            queryCellCount: function () {
+                return generalHttpService.getApiData('DumpLteRru', {});
+            },
             queryCdmaCellCount: function () {
                 return generalHttpService.getApiData('DumpCdmaRru', {});
             },
@@ -182,6 +185,12 @@
             },
             dumpOneCdmaCellExcel: function (item) {
                 return generalHttpService.postApiData('DumpCdmaCellExcel', item);
+            },
+            updateLteCells: function() {
+                return generalHttpService.postApiData('DumpLteRru', {});
+            },
+            dumpLteRrus: function() {
+                return generalHttpService.putApiData('DumpLteRru', {});
             },
             dumpCdmaRrus: function() {
                 return generalHttpService.putApiData('DumpCdmaRru', {});

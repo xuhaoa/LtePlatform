@@ -156,7 +156,7 @@ namespace Lte.Evaluations.DataService.Dump
             int count = 0;
             foreach (var info in infos)
             {
-                count += await _cellRepository.UpdateOne<ICellRepository, Cell, CellExcel>(info);
+                count += await _cellRepository.UpdateOnly<ICellRepository, Cell, CellExcel>(info);
             }
             return count;
         } 

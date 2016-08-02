@@ -58,7 +58,13 @@ namespace LtePlatform.Controllers.Parameters
         public async Task<int> Post()
         {
             return await _service.UpdateCells(BasicImportService.CellExcels);
-        } 
+        }
+
+        [HttpGet]
+        public int Get()
+        {
+            return BasicImportService.CellExcels.Count;
+        }
     }
 
     [ApiControl("新增CDMA小区的EXCEL记录的控制器，处理的逻辑是先上传解析EXCEL文件，然后从服务器获取解析结果，浏览器处用户对数据进行手工处理，然后批量或逐个上传")]

@@ -131,6 +131,20 @@ namespace Abp.EntityFramework.Repositories
             return repository.SaveChanges();
         }
 
+        public static async Task<int> UpdateOnly<TRepository, TEntity, TDto>(this TRepository repository, TDto stat)
+            where TRepository : IRepository<TEntity>, IMatchRepository<TEntity, TDto>, ISaveChanges
+            where TEntity : Entity, new()
+        {
+            var info = repository.Match(stat);
+            if (info != null)
+            {
+                Mapper.Map(stat, info);
+
+                await repository.UpdateAsync(info);
+            }
+            return repository.SaveChanges();
+        }
+
         public static async Task<TProcessDto> ConstructProcess
             <TRepository, TProcessRepository, TEntity, TDto, TProcess, TProcessDto>(this TRepository repository,
                 TProcessRepository processRepository, TDto dto, string userName)
