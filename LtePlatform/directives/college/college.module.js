@@ -73,7 +73,7 @@ angular.module('college.info', [])
     });
 
 angular.module('college.infrastructure', ['college'])
-    .controller('CollegeStatController', function($scope, collegeDialogService) {
+    .controller('CollegeStatController', function ($scope, collegeDialogService) {
         $scope.showENodebs = function(name) {
             collegeDialogService.showENodebs(name);
         };
@@ -97,20 +97,70 @@ angular.module('college.infrastructure', ['college'])
         $scope.showCdmaDistributions = function(name) {
             collegeDialogService.showCdmaDistributions(name);
         };
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'name', name: '校园名称' },
+                { field: 'expectedSubscribers', name: '用户数' },
+                { field: 'area', name: '区域面积（平方米）', cellFilter: 'number: 2' },
+                {
+                    name: '4G基站数',
+                    cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.showENodebs(row.entity.name)">' +
+                        '{{row.entity.totalLteENodebs}}</button>'
+                },
+                {
+                    name: '4G小区数',
+                    cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.showCells(row.entity.name)">' +
+                        '{{row.entity.totalLteCells}}</button>'
+                },
+                {
+                    name: '3G基站数',
+                    cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.showBtss(row.entity.name)">' +
+                        '{{row.entity.totalCdmaBts}}</button>'
+                },
+                {
+                    name: '3G小区数',
+                    cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.showCdmaCells(row.entity.name)">' +
+                        '{{row.entity.totalCdmaCells}}</button>'
+                },
+                {
+                    name: '4G室分数',
+                    cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.showLteDistributions(row.entity.name)">' +
+                        '{{row.entity.totalLteIndoors}}</button>'
+                },
+                {
+                    name: '3G室分数',
+                    cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.showCdmaDistributions(row.entity.name)">' +
+                        '{{row.entity.totalCdmaIndoors}}</button>'
+                },
+                {
+                    name: '详细信息',
+                    cellTemplate: '<a ng-href="{{grid.appScope.rootPath}}query/{{row.entity.name}}" class="btn btn-sm btn-success">详细</a>'
+                }
+            ],
+            data: []
+        };
     })
-    .value('collegeRoot', '/directives/college/')
-    .directive('collegeStatTable', function (collegeRoot) {
+    .directive('collegeStatTable', function ($compile) {
         return {
             controller: 'CollegeStatController',
-            controllerAs: 'collegeStat',
             restrict: 'EA',
             replace: true,
             scope: {
-                collegeList: '='
+                collegeList: '=',
+                rootPath: '='
             },
-            templateUrl: collegeRoot + 'stat/Table.html',
+            template: '<div></div>',
             link: function(scope, element, attrs) {
-
+                scope.initialize = false;
+                scope.$watch('collegeList', function (colleges) {
+                    scope.gridOptions.data = colleges;
+                    console.log(colleges);
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
             }
         };
     });

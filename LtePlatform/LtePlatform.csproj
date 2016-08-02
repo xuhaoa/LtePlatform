@@ -2062,7 +2062,6 @@
     <Content Include="Views\College\_KpiReport.cshtml" />
     <Content Include="Views\College\_EditKpi.cshtml" />
     <Content Include="Views\College\_PreciseKpi.cshtml" />
-    <Content Include="directives\college\stat\Table.html" />
     <Content Include="Views\Dt\_List.cshtml" />
     <Content Include="appViews\College\Table\CollegeMapInfoBox.html" />
     <Content Include="appViews\Rutrace\Map\PreciseSectorMapInfoBox.html" />
