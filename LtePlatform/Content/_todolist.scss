@@ -1,0 +1,36 @@
+﻿%margin-right{
+    margin-right:5px;
+}
+
+.todo-list { 
+	padding: 0;
+	margin: -15px;
+	background: #fff;
+	color: #5f6468;
+    .checkbox { 
+	    display:inline-block; 
+	    margin: 0px;
+    }
+}
+
+.todo-list-item {
+	list-style: none;
+	line-height: 0.9;
+	padding: 14px 15px 8px 15px;
+    a.trash .glyphicon:hover {
+	    color: #ef4040;
+    }
+    .glyphicon { 
+	    @extend %margin-right; 
+	    color: #9fadbb; 
+    }
+    .glyphicon:hover { 
+	    @extend %margin-right; 
+	    color: #1b3548; 
+    }
+}
+
+.todo-list-item:hover, a.todo-list-item:focus {
+	text-decoration: none;
+	background-color: #f6f6f6;
+}

@@ -1,0 +1,122 @@
+﻿
+.panel-widget {
+	padding: 0;
+	position: relative;
+
+    .panel-footer{
+        border: 0;
+	    text-align: center;
+
+        a {
+            color: #999;
+        }
+        a:hover {
+            color: #666;
+            text-decoration: none;
+        }
+    }
+}
+
+%panel-body-p-common {
+    color: rgba(255, 255, 255, .8);
+}
+
+%panel-heading-common {
+    border-bottom: 1px solid rgba(255, 255, 255, .2);
+}
+
+%text-muted-common {
+    color: rgba(255, 255, 255, .5);
+}
+
+$color-gray: #5f6468;
+$color-blue: #30a5ff;
+$color-teal: #1ebfae;
+$color-orange: #ffb53e;
+$color-red: #f9243f;
+
+.color-gray { 
+    color: $color-gray; 
+}
+
+.color-blue { 
+    color: $color-blue;
+}
+
+.color-teal { 
+    color: $color-teal;
+}
+
+.color-orange { 
+    color: $color-orange; 
+}
+
+.color-red { 
+    color: $color-red; 
+}
+
+.panel-blue { 
+    background: $color-blue; 
+    color: #fff; 
+    .panel-body p {
+        @extend %panel-body-p-common;
+    }
+    .panel-heading{
+        @extend %panel-heading-common
+    }
+    .text-muted {
+        @extend %text-muted-common
+    }
+}
+
+.panel-teal { 
+    background: $color-teal; 
+    color: #fff; 
+    .panel-body p {
+        @extend %panel-body-p-common;
+    }
+    .panel-heading {
+        @extend %panel-heading-common
+    }
+    .text-muted {
+        @extend %text-muted-common
+    }
+}
+
+.panel-orange { 
+    background: $color-orange; 
+    color: #fff;
+    .panel-body p {
+        @extend %panel-body-p-common;
+    }
+    .panel-heading{
+        @extend %panel-heading-common
+    }
+    .text-muted {
+        @extend %text-muted-common
+    }
+}
+
+.panel-red { 
+    background: $color-red; 
+    color: #fff; 
+    .panel-body p {
+        @extend %panel-body-p-common;
+    }
+    .panel-heading{
+        @extend %panel-heading-common
+    }
+    .text-muted {
+        @extend %text-muted-common
+    }
+}
+
+.panel-widget {
+	background: #fff;
+}
+
+.panel-body input[type=checkbox]:checked + label { 
+	text-decoration: line-through;
+	color: #777; 
+}
+

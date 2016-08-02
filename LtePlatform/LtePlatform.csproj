@@ -501,6 +501,12 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css">
+      <DependentUpon>Site.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.min.css">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -798,7 +804,8 @@
     <Content Include="Content\Images\TimeControl\time-btn-pause.png" />
     <Content Include="Content\Images\TimeControl\time-btn-play.png" />
     <Content Include="Content\Images\TimeControl\time-progress.png" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\_todolist.scss" />
+    <None Include="Content\_components.scss" />
     <Content Include="Content\themes\baidu\close.png" />
     <Content Include="Content\themes\baidu\InfoWindow.css" />
     <Content Include="Content\themes\baidu\tipbox.jpg" />
@@ -1617,6 +1624,15 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Scripts\college\query\year.info.dialog.js" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <Content Include="Content\Site.scss" />
+    <Content Include="Content\_body.scss" />
+    <Content Include="Content\_glyphicon.scss" />
+    <Content Include="Content\_panel.scss" />
+    <Content Include="Content\_widget.scss" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.0.js" />
     <Content Include="Scripts\jquery-3.1.0.min.js" />
