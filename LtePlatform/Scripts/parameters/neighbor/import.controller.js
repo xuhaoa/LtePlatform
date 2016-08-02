@@ -1,4 +1,5 @@
-﻿app.controller("neighbor.import", function ($scope, neighborImportService, flowImportService) {
+﻿angular.module("myApp", ['app.common'])
+.controller("neighbor.import", function ($scope, neighborImportService, flowImportService) {
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 7);
     $scope.beginDate = {

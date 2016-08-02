@@ -1,4 +1,4 @@
-﻿var app = angular.module('myApp', [
+﻿angular.module('app.common', [
     'app.module',
     'baidu.map',
     'basic.filters',
@@ -42,7 +42,7 @@
     'workitem.module'
 ]);
 
-app.run(function($rootScope) {
+angular.module('app.common').run(function($rootScope) {
     $rootScope.sideBarShown = true;
     Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
         return {

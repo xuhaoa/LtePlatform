@@ -1,4 +1,5 @@
-﻿app.controller("homeController", function ($scope, appUrlService, appRegionService) {
+﻿angular.module("myApp", ['app.common'])
+.controller("homeController", function ($scope, appUrlService, appRegionService) {
     appUrlService.initializeAuthorization();
     $scope.areaItems = [{
         title: "4G指标",
@@ -94,4 +95,98 @@
             }]
         }
     ];
+})
+.controller("home.kpi2G", function ($scope, appKpiService, appFormatService, kpi2GService) {
+    var yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    $scope.statDate = {
+        value: yesterday,
+        opened: false
+    };
+    kpi2GService.queryDayStats($scope.city.selected || '佛山', $scope.statDate.value || new Date())
+        .then(function (result) {
+            $scope.statDate.value = appFormatService.getDate(result.statDate);
+            var stat = result.statViews[result.statViews.length - 1];
+            $scope.dropRate = stat.drop2GRate * 100;
+            $scope.dropStar = appKpiService.calculateDropStar($scope.dropRate);
+            $scope.connectionRate = stat.connectionRate * 100;
+        });
+})
+.controller("home.network", function ($scope, appRegionService, parametersChartService) {
+    var cityName = $scope.city.selected || '佛山';
+    appRegionService.queryDistrictInfrastructures(cityName).then(function (result) {
+        appRegionService.accumulateCityStat(result, cityName);
+        $("#cityLteENodebConfig").highcharts(
+            parametersChartService.getDistrictLteENodebPieOptions(result.slice(0, result.length - 1),
+            $scope.city.selected || '佛山'));
+    });
+})
+.controller("home.kpi4G", function ($scope, kpiPreciseService, downSwitchService, appKpiService, appFormatService,
+    kpiDisplayService) {
+    var yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    $scope.statDate = {
+        value: yesterday,
+        opened: false
+    };
+    $scope.flowDate = {
+        value: yesterday,
+        opened: false
+    };
+
+    $scope.queryKpi4G = function (city) {
+        kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value || new Date())
+            .then(function (result) {
+                $scope.statDate.value = appFormatService.getDate(result.statDate);
+                $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, city);
+                $scope.rate = appKpiService.calculatePreciseRating($scope.cityStat.preciseRate);
+                $("#preciseConfig").highcharts(kpiDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
+                    $scope.cityStat));
+            });
+        downSwitchService.getRecentKpi(city, $scope.statDate.value || new Date())
+            .then(function (result) {
+                $scope.flowDate.value = appFormatService.getDate(result.statDate);
+                $scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
+                $scope.downRate = appKpiService.calculateDownSwitchRating($scope.flowStat);
+                $("#downSwitchConfig").highcharts(kpiDisplayService.generateDownSwitchOptions(result.downSwitchFlowViews,
+                    city, $scope.flowStat));
+            });
+    };
+
+    $scope.$watch('city.selected', function (city) {
+        if (city) {
+            $scope.queryKpi4G(city);
+        }
+    });
+})
+.controller("home.workitem", function ($scope, workitemService) {
+    workitemService.queryCurrentMonth().then(function (result) {
+        $scope.totalItems = result.item1;
+        $scope.finishedItems = result.item2;
+        $scope.lateItems = result.item3;
+        var finishedGauge = new GaugeMeter();
+        var inTimeGauge = new GaugeMeter();
+        finishedGauge.title.text = '完成工单情况';
+        finishedGauge.yAxis.max = $scope.totalItems;
+        finishedGauge.yAxis.plotBands[0].to = $scope.totalItems * 0.6;
+        finishedGauge.yAxis.plotBands[1].from = $scope.totalItems * 0.6;
+        finishedGauge.yAxis.plotBands[1].to = $scope.totalItems * 0.8;
+        finishedGauge.yAxis.plotBands[2].from = $scope.totalItems * 0.8;
+        finishedGauge.yAxis.plotBands[2].to = $scope.totalItems;
+        finishedGauge.series[0].name = '完成工单数';
+        finishedGauge.series[0].data[0] = $scope.finishedItems;
+        finishedGauge.yAxis.title.text = '工单数';
+        inTimeGauge.title.text = '工单及时性';
+        inTimeGauge.yAxis.max = $scope.totalItems;
+        inTimeGauge.yAxis.plotBands[0].to = $scope.totalItems * 0.6;
+        inTimeGauge.yAxis.plotBands[1].from = $scope.totalItems * 0.6;
+        inTimeGauge.yAxis.plotBands[1].to = $scope.totalItems * 0.8;
+        inTimeGauge.yAxis.plotBands[2].from = $scope.totalItems * 0.8;
+        inTimeGauge.yAxis.plotBands[2].to = $scope.totalItems;
+        inTimeGauge.series[0].name = '未超时工单数';
+        inTimeGauge.series[0].data[0] = $scope.totalItems - $scope.lateItems;
+        inTimeGauge.yAxis.title.text = '工单数';
+        $("#workitemFinished").highcharts(finishedGauge.options);
+        $("#workitemInTime").highcharts(inTimeGauge.options);
+    });
 });
