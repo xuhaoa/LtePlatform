@@ -25,11 +25,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="mr\final.py" />
+    <Compile Include="mr\first_ftp.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mr\huawei_test_ftp.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr_script.py" />
+    <Compile Include="Practise\list_test.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="mr\" />
     <Folder Include="Db\" />
+    <Folder Include="Practise\" />
     <Folder Include="phpApi\" />
   </ItemGroup>
   <ItemGroup>
