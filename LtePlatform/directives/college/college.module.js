@@ -36,7 +36,7 @@ angular.module('college.info', [])
     .controller('CollegeInfoController', function($scope) {
         $scope.gridOptions = {
             columnDefs: [
-                { field: 'name', name: '校园名称', width: 250, enableColumnResizing: false },
+                { field: 'name', name: '校园名称', width: 200, enableColumnResizing: false },
                 { field: 'totalStudents', name: '在校学生数' },
                 { field: 'graduateStudents', name: '毕业用户数' },
                 { field: 'currentSubscribers', name: '当前用户数' },
@@ -99,9 +99,9 @@ angular.module('college.infrastructure', ['college'])
         };
         $scope.gridOptions = {
             columnDefs: [
-                { field: 'name', name: '校园名称' },
+                { field: 'name', name: '校园名称', width: 200, enableColumnResizing: false },
                 { field: 'expectedSubscribers', name: '用户数' },
-                { field: 'area', name: '区域面积（平方米）', cellFilter: 'number: 2' },
+                { field: 'area', name: '区域面积（平方米）', cellFilter: 'number: 2', width: 100, enableColumnResizing: false },
                 {
                     name: '4G基站数',
                     cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.showENodebs(row.entity.name)">' +

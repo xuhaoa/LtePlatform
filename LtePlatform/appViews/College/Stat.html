@@ -3,6 +3,7 @@
     <select ng-model="collegeName" ng-options="c as c for c in collegeInfo.names" class="form-control"></select>
     <div class="input-group-btn">
         <button class="btn btn-primary" ng-click="addOneCollegeMarkerInfo()" ng-disabled="collegeExisted">添加信息</button>
+        <button class="btn btn-success" ng-click="createNewCollege()" >增加新校园</button>
     </div>
 </div>
 <div uib-tabset active="active">
