@@ -57,7 +57,6 @@ namespace TraceParser.Eutra
 
             protected override void ProcessConfig(BCCH_DL_SCH_Message config, BitArrayInputStream input)
             {
-                InitDefaults();
                 config.message = BCCH_DL_SCH_MessageType.PerDecoder.Instance.Decode(input);
             }
         }
@@ -83,7 +82,6 @@ namespace TraceParser.Eutra
                 
                 protected override void ProcessConfig(c1_Type config, BitArrayInputStream input)
                 {
-                    InitDefaults();
                     switch (input.ReadBits(1))
                     {
                         case 0:
@@ -107,7 +105,6 @@ namespace TraceParser.Eutra
                 
                 protected override void ProcessConfig(messageClassExtension_Type config, BitArrayInputStream input)
                 {
-                    InitDefaults();
                 }
             }
         }
@@ -118,7 +115,6 @@ namespace TraceParser.Eutra
             
             protected override void ProcessConfig(BCCH_DL_SCH_MessageType config, BitArrayInputStream input)
             {
-                InitDefaults();
                 switch (input.ReadBits(1))
                 {
                     case 0:
