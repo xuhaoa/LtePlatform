@@ -376,9 +376,8 @@
     <Compile Include="Controllers\Parameters\ENodebController.cs" />
     <Compile Include="Controllers\Parameters\LteNeighborCellController.cs" />
     <Compile Include="Controllers\Parameters\NearestPciCellController.cs" />
-    <Compile Include="Controllers\Parameters\NewBtsExcelsController.cs" />
     <Compile Include="Controllers\Parameters\NewCellControllers.cs" />
-    <Compile Include="Controllers\Parameters\NewENodebExcelsController.cs" />
+    <Compile Include="Controllers\Parameters\NewENodebControllers.cs" />
     <Compile Include="Controllers\Parameters\SectorViewController.cs" />
     <Compile Include="Controllers\RutraceController.cs" />
     <Compile Include="Global.asax.cs">

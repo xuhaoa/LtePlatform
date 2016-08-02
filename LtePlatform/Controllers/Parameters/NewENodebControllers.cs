@@ -6,6 +6,30 @@ using Lte.Parameters.Entities.ExcelCsv;
 
 namespace LtePlatform.Controllers.Parameters
 {
+    public class NewENodebExcelsController : ApiController
+    {
+        private readonly BasicImportService _service;
+        private readonly ENodebDumpService _dumpService;
+
+        public NewENodebExcelsController(BasicImportService service, ENodebDumpService dumpService)
+        {
+            _service = service;
+            _dumpService = dumpService;
+        }
+
+        [HttpGet]
+        public IEnumerable<ENodebExcel> Get()
+        {
+            return _service.GetNewENodebExcels();
+        }
+
+        [HttpPost]
+        public int Post(NewENodebListContainer container)
+        {
+            return _dumpService.DumpNewEnodebExcels(container.Infos);
+        }
+    }
+
     public class NewBtsExcelsController : ApiController
     {
         private readonly BasicImportService _service;

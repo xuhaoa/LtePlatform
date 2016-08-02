@@ -190,11 +190,11 @@ namespace Lte.Domain.Common
         }
     }
 
-    public class IpAddressTransform : ValueResolver<IpAddress, string>
+    public class IpAddressTransform : ValueResolver<IpAddress, int>
     {
-        protected override string ResolveCore(IpAddress source)
+        protected override int ResolveCore(IpAddress source)
         {
-            return source.AddressString;
+            return source.AddressValue;
         }
     }
 
