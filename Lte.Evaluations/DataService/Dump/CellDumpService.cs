@@ -121,7 +121,7 @@ namespace Lte.Evaluations.DataService.Dump
             _cellRepository.SaveChanges();
         }
 
-        public async Task<int> ImportRrus(IEnumerable<CellExcel> infos)
+        public async Task<int> ImportRru(IEnumerable<CellExcel> infos)
         {
             var sectorInfos = from info in infos
                 group info by new
