@@ -1632,7 +1632,6 @@
     <Content Include="Scripts\jquery-ui-1.12.0.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
     <Content Include="Scripts\kpi\workitem.import.js" />
-    <Content Include="Scripts\kpi\workitem\details.controller.js" />
     <Content Include="Scripts\mycharts\areaChart.js" />
     <Content Include="Scripts\mycharts\gaugeMeter.js" />
     <Content Include="Scripts\mycharts\timeSeriesLine.js" />
@@ -1660,9 +1659,6 @@
     <Content Include="Scripts\kpi\basic\top.drop2G.trend.js" />
     <Content Include="Scripts\kpi\basic\trend.controller.js" />
     <Content Include="Scripts\kpi\precise.import.js" />
-    <Content Include="Scripts\kpi\workitem\chart.controller.js" />
-    <Content Include="Scripts\kpi\workitem\route.controller.js" />
-    <Content Include="Scripts\kpi\workitem\workitem.district.js" />
     <Content Include="Scripts\manage\manage.current.js" />
     <Content Include="Scripts\manage\password.change.js" />
     <Content Include="Scripts\manage\password.forgot.js" />
@@ -1915,10 +1911,6 @@
     <Content Include="Scripts\angular-strap.min.js.map" />
     <Content Include="Scripts\jcs-auto-validate.min.js.map" />
     <Content Include="Scripts\angular-parse-ext.min.js.map" />
-    <Content Include="Scripts\kpi\workitem\bts.js" />
-    <Content Include="Scripts\kpi\workitem\cdmaCell.js" />
-    <Content Include="Scripts\kpi\workitem\cell.js" />
-    <Content Include="Scripts\kpi\workitem\eNodeb.js" />
     <Content Include="Scripts\kpi\interference.import.controller.js" />
     <Content Include="Scripts\kpi\workitem\index.controller.js" />
     <Content Include="Scripts\manage\index.viewmodel.js" />
