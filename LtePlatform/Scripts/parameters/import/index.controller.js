@@ -1,4 +1,4 @@
-﻿angular.module("myApp", ['app.common'])
+﻿angular.module("parameters.import.index", ['app.common'])
     .config([
         '$routeProvider', function($routeProvider) {
             var viewDir = "/appViews/Parameters/Import/";
