@@ -1,4 +1,13 @@
-describe('uib-accordion', function() {
+/// <reference path="../../angular.js"/>
+/// <reference path="../../angular-mocks.js"/>
+/// <reference path="../../jasmine/boot.js"/>
+/// <reference path="../../jasmine/console.js"/>
+/// <reference path="../../jasmine/jasmine.js"/>
+/// <reference path="../../jasmine/jasmine-html.js"/>
+/// <reference path="../../angular-ui/ui-bootstrap-tpls.js"/>
+/// <reference path="../helpers.js"/>
+
+describe('uib-accordion', function () {
   var $animate, $scope;
 
   beforeEach(module('ui.bootstrap.accordion'));

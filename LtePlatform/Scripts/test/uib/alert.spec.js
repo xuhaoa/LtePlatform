@@ -1,4 +1,13 @@
-describe('uib-alert', function() {
+/// <reference path="../../angular.js"/>
+/// <reference path="../../angular-mocks.js"/>
+/// <reference path="../../jasmine/boot.js"/>
+/// <reference path="../../jasmine/console.js"/>
+/// <reference path="../../jasmine/jasmine.js"/>
+/// <reference path="../../jasmine/jasmine-html.js"/>
+/// <reference path="../../angular-ui/ui-bootstrap-tpls.js"/>
+/// <reference path="../helpers.js"/>
+
+describe('uib-alert', function () {
   var element, scope, $compile, $templateCache, $timeout;
 
   beforeEach(module('ui.bootstrap.alert'));
@@ -45,13 +54,13 @@ describe('uib-alert', function() {
     element = $compile('<div uib-alert></div>')(scope);
     scope.$digest();
 
-    var ctrl = element.controller('uib-alert');
+    var ctrl = element.controller('uibAlert');
     expect(ctrl).toBeDefined();
 
     ctrl.text = 'foo';
     scope.$digest();
 
-    expect(element.html()).toBe('<div class="ng-binding">foo</div>');
+    expect(element.html()).toBe('foo');
   });
 
   it('should support custom templates', function() {
@@ -60,7 +69,7 @@ describe('uib-alert', function() {
     element = $compile('<div uib-alert template-url="foo/bar.html"></div>')(scope);
     scope.$digest();
 
-    expect(element.html()).toBe('<div>baz</div>');
+    expect(element.html()).toBe('baz');
   });
 
   it('should generate alerts using ng-repeat', function() {

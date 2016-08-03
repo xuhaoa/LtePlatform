@@ -246,6 +246,7 @@
 /// <reference path="spin.min.js" />
 /// <reference path="test/app/format.service.js" />
 /// <reference path="test/directives/app.js" />
+/// <reference path="test/helpers.js" />
 /// <reference path="test/kpi/app.kpi.service.js" />
 /// <reference path="test/kpi/cell.precise.service.js" />
 /// <reference path="test/mock/highcharts.mock.js" />
