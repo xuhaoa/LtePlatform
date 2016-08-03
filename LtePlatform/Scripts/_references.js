@@ -1,7 +1,4 @@
 ﻿/// <autosync enabled="true" />
-/// <reference path="../areas/helppage/scripts/api.details.js" />
-/// <reference path="../areas/helppage/scripts/api.group.js" />
-/// <reference path="../areas/helppage/scripts/api.method.js" />
 /// <reference path="../areas/helppage/scripts/route.js" />
 /// <reference path="../areas/testpage/scripts/5ch5/dictionary.js" />
 /// <reference path="../areas/testpage/scripts/5ch5/grid.js" />

@@ -100,7 +100,7 @@ namespace LtePlatform.Areas.HelpPage
 
             // Call PageResult(IEnumerable<T> items, Uri nextPageLink, long? count) constructor
             var constructor = type.GetConstructor(parameterTypes);
-            return constructor.Invoke(parameters);
+            return constructor?.Invoke(parameters);
         }
 #endif
     }
