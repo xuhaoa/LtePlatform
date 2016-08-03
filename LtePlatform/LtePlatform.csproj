@@ -1690,7 +1690,6 @@
     <Content Include="Scripts\parameters\menu.root.js" />
     <Content Include="Scripts\parameters\route.controller.js" />
     <Content Include="Scripts\qunit\qunit-1.20.0.js" />
-    <Content Include="Scripts\rutrace\cell.trend.js" />
     <Content Include="Scripts\rutrace\coverage\controller.js" />
     <Content Include="Scripts\rutrace\coverage\details.dialog.js" />
     <Content Include="Scripts\rutrace\dump\cell.mongo.js" />
@@ -1701,11 +1700,7 @@
     <Content Include="Scripts\rutrace\interference\source.strength.chart.js" />
     <Content Include="Scripts\rutrace\map\controller.js" />
     <Content Include="Scripts\rutrace\map\precise.dialog.js" />
-    <Content Include="Scripts\rutrace\precise.chart.controller.js" />
-    <Content Include="Scripts\rutrace\root.controller.js" />
-    <Content Include="Scripts\rutrace\top.district.controller.js" />
-    <Content Include="Scripts\rutrace\trend.chart.controller.js" />
-    <Content Include="Scripts\rutrace\trend.controller.js" />
+    <Content Include="Scripts\rutrace\precise.controller.js" />
     <Content Include="Scripts\rutrace\workitem\workitem.details.js" />
     <Content Include="Scripts\rutrace\workitem\workitems.controller.js" />
     <Content Include="Scripts\service\app.authorize.service.js" />
@@ -1960,10 +1955,7 @@
     <Content Include="Scripts\parameters\query.map.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\rutrace\import.controller.js" />
     <Content Include="Scripts\rutrace\interference\controller.js" />
-    <Content Include="Scripts\rutrace\menu.controller.js" />
-    <Content Include="Scripts\rutrace\topcells.controller.js" />
     <Content Include="Scripts\rutrace\workitem\workitem.list..js" />
     <Content Include="Scripts\ui-grid.js" />
     <Content Include="Scripts\ui-grid.min.js" />
