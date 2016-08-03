@@ -1652,12 +1652,6 @@
     <Content Include="Scripts\college\query\query.name.js" />
     <Content Include="Scripts\college\route.controller.js" />
     <Content Include="Scripts\kpi\basic\index.controller.js" />
-    <Content Include="Scripts\kpi\basic\route.controller.js" />
-    <Content Include="Scripts\kpi\basic\top.connection3G.js" />
-    <Content Include="Scripts\kpi\basic\top.connection3G.trend.js" />
-    <Content Include="Scripts\kpi\basic\top.drop2G.js" />
-    <Content Include="Scripts\kpi\basic\top.drop2G.trend.js" />
-    <Content Include="Scripts\kpi\basic\trend.controller.js" />
     <Content Include="Scripts\kpi\precise.import.js" />
     <Content Include="Scripts\manage\manage.current.js" />
     <Content Include="Scripts\manage\password.change.js" />
