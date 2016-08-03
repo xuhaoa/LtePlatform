@@ -1614,7 +1614,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Scripts\college\query\year.info.dialog.js" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
@@ -1640,17 +1639,7 @@
     <Content Include="Scripts\service\kpi\dump.progress.js" />
     <Content Include="Scripts\app\evaluation\home.js" />
     <Content Include="Scripts\app\evaluation\route.controller.js" />
-    <Content Include="Scripts\college\all.map.js" />
-    <Content Include="Scripts\college\map\name.js" />
-    <Content Include="Scripts\college\map\college.dialog.js" />
     <Content Include="Scripts\college\query\all.js" />
-    <Content Include="Scripts\college\query\bts.dialog.js" />
-    <Content Include="Scripts\college\query\cdma.distribution.dialog.js" />
-    <Content Include="Scripts\college\query\cdmaCell.dialog.js" />
-    <Content Include="Scripts\college\query\cell.dialog.js" />
-    <Content Include="Scripts\college\query\eNodeb.dialog.js" />
-    <Content Include="Scripts\college\query\lte.distribution.dialog.js" />
-    <Content Include="Scripts\college\query\query.name.js" />
     <Content Include="Scripts\college\route.controller.js" />
     <Content Include="Scripts\kpi\basic\index.controller.js" />
     <Content Include="Scripts\kpi\precise.import.js" />
@@ -1837,9 +1826,8 @@
     <Content Include="Content\ui-grid.eot" />
     <None Include="Properties\PublishProfiles\Lte-ftp-219.pubxml" />
     <None Include="Properties\PublishProfiles\Lte2.pubxml" />
-    <Content Include="Scripts\college\menu.root.js" />
+    <Content Include="Scripts\college\menu.js" />
     <Content Include="Scripts\coffee-script.js" />
-    <Content Include="Scripts\college\college.menu.js" />
     <Content Include="Scripts\college\coverage.viewmodel.js" />
     <Content Include="Scripts\college\kpi.controller.js" />
     <Content Include="Scripts\college\kpi.viewmodel.js" />
