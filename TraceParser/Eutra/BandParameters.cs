@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lte.Domain.Common;
+using TraceParser.Common;
 
 namespace TraceParser.Eutra
 {
     [Serializable]
-    public class BandCombinationParameters_v1130
+    public class BandCombinationParameters_v1130 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public List<BandParameters_v1130> bandParameterList_r11 { get; set; }
 
         public multipleTimingAdvance_r11_Enum? multipleTimingAdvance_r11 { get; set; }
@@ -22,38 +19,31 @@ namespace TraceParser.Eutra
             supported
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<BandCombinationParameters_v1130>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public BandCombinationParameters_v1130 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(BandCombinationParameters_v1130 config, BitArrayInputStream input)
             {
-                int num2;
-                BandCombinationParameters_v1130 _v = new BandCombinationParameters_v1130();
-                _v.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
-                    num2 = 1;
-                    _v.multipleTimingAdvance_r11 = (multipleTimingAdvance_r11_Enum)input.ReadBits(num2);
+                    config.multipleTimingAdvance_r11 = (multipleTimingAdvance_r11_Enum)input.ReadBits(1);
                 }
                 if (stream.Read())
                 {
-                    num2 = 1;
-                    _v.simultaneousRx_Tx_r11 = (simultaneousRx_Tx_r11_Enum)input.ReadBits(num2);
+                    config.simultaneousRx_Tx_r11 = (simultaneousRx_Tx_r11_Enum)input.ReadBits(1);
                 }
                 if (stream.Read())
                 {
-                    _v.bandParameterList_r11 = new List<BandParameters_v1130>();
-                    num2 = 6;
-                    int num3 = input.ReadBits(num2) + 1;
+                    config.bandParameterList_r11 = new List<BandParameters_v1130>();
+                    int num3 = input.ReadBits(6) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         BandParameters_v1130 item = BandParameters_v1130.PerDecoder.Instance.Decode(input);
-                        _v.bandParameterList_r11.Add(item);
+                        config.bandParameterList_r11.Add(item);
                     }
                 }
-                return _v;
             }
         }
 
@@ -64,175 +54,135 @@ namespace TraceParser.Eutra
     }
 
     [Serializable]
-    public class BandCombinationParametersExt_r10
+    public class BandCombinationParametersExt_r10 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public string supportedBandwidthCombinationSet_r10 { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<BandCombinationParametersExt_r10>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public BandCombinationParametersExt_r10 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(BandCombinationParametersExt_r10 config, BitArrayInputStream input)
             {
-                BandCombinationParametersExt_r10 _r = new BandCombinationParametersExt_r10();
-                _r.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
                     int num = input.ReadBits(5);
-                    _r.supportedBandwidthCombinationSet_r10 = input.ReadBitString(num + 1);
+                    config.supportedBandwidthCombinationSet_r10 = input.ReadBitString(num + 1);
                 }
-                return _r;
             }
         }
     }
 
     [Serializable]
-    public class BandInfoEUTRA
+    public class BandInfoEUTRA : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public List<InterFreqBandInfo> interFreqBandList { get; set; }
 
         public List<InterRAT_BandInfo> interRAT_BandList { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<BandInfoEUTRA>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public BandInfoEUTRA Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(BandInfoEUTRA config, BitArrayInputStream input)
             {
-                BandInfoEUTRA oeutra = new BandInfoEUTRA();
-                oeutra.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                oeutra.interFreqBandList = new List<InterFreqBandInfo>();
-                int nBits = 6;
-                int num3 = input.ReadBits(nBits) + 1;
+                config.interFreqBandList = new List<InterFreqBandInfo>();
+                int num3 = input.ReadBits(6) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     InterFreqBandInfo item = InterFreqBandInfo.PerDecoder.Instance.Decode(input);
-                    oeutra.interFreqBandList.Add(item);
+                    config.interFreqBandList.Add(item);
                 }
                 if (stream.Read())
                 {
-                    oeutra.interRAT_BandList = new List<InterRAT_BandInfo>();
-                    nBits = 6;
-                    int num5 = input.ReadBits(nBits) + 1;
+                    config.interRAT_BandList = new List<InterRAT_BandInfo>();
+                    int num5 = input.ReadBits(6) + 1;
                     for (int j = 0; j < num5; j++)
                     {
                         InterRAT_BandInfo info2 = InterRAT_BandInfo.PerDecoder.Instance.Decode(input);
-                        oeutra.interRAT_BandList.Add(info2);
+                        config.interRAT_BandList.Add(info2);
                     }
                 }
-                return oeutra;
             }
         }
     }
 
     [Serializable]
-    public class BandParameters_r10
+    public class BandParameters_r10 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long bandEUTRA_r10 { get; set; }
 
         public List<CA_MIMO_ParametersDL_r10> bandParametersDL_r10 { get; set; }
 
         public List<CA_MIMO_ParametersUL_r10> bandParametersUL_r10 { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<BandParameters_r10>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public BandParameters_r10 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(BandParameters_r10 config, BitArrayInputStream input)
             {
-                int num2;
-                BandParameters_r10 _r = new BandParameters_r10();
-                _r.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 2);
-                _r.bandEUTRA_r10 = input.ReadBits(6) + 1;
+                config.bandEUTRA_r10 = input.ReadBits(6) + 1;
                 if (stream.Read())
                 {
-                    _r.bandParametersUL_r10 = new List<CA_MIMO_ParametersUL_r10>();
-                    num2 = 4;
-                    int num3 = input.ReadBits(num2) + 1;
+                    config.bandParametersUL_r10 = new List<CA_MIMO_ParametersUL_r10>();
+                    int num3 = input.ReadBits(4) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         CA_MIMO_ParametersUL_r10 item = CA_MIMO_ParametersUL_r10.PerDecoder.Instance.Decode(input);
-                        _r.bandParametersUL_r10.Add(item);
+                        config.bandParametersUL_r10.Add(item);
                     }
                 }
                 if (stream.Read())
                 {
-                    _r.bandParametersDL_r10 = new List<CA_MIMO_ParametersDL_r10>();
-                    num2 = 4;
-                    int num5 = input.ReadBits(num2) + 1;
+                    config.bandParametersDL_r10 = new List<CA_MIMO_ParametersDL_r10>();
+                    int num5 = input.ReadBits(4) + 1;
                     for (int j = 0; j < num5; j++)
                     {
                         CA_MIMO_ParametersDL_r10 _r3 = CA_MIMO_ParametersDL_r10.PerDecoder.Instance.Decode(input);
-                        _r.bandParametersDL_r10.Add(_r3);
+                        config.bandParametersDL_r10.Add(_r3);
                     }
                 }
-                return _r;
             }
         }
     }
 
     [Serializable]
-    public class BandParameters_v1090
+    public class BandParameters_v1090 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long? bandEUTRA_v1090 { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<BandParameters_v1090>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public BandParameters_v1090 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(BandParameters_v1090 config, BitArrayInputStream input)
             {
-                BandParameters_v1090 _v = new BandParameters_v1090();
-                _v.InitDefaults();
-                BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
+                BitMaskStream stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    _v.bandEUTRA_v1090 = input.ReadBits(8) + 0x41;
+                    config.bandEUTRA_v1090 = input.ReadBits(8) + 0x41;
                 }
-                return _v;
             }
         }
     }
 
     [Serializable]
-    public class BandParameters_v1130
+    public class BandParameters_v1130 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public supportedCSI_Proc_r11_Enum supportedCSI_Proc_r11 { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<BandParameters_v1130>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public BandParameters_v1130 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(BandParameters_v1130 config, BitArrayInputStream input)
             {
-                BandParameters_v1130 _v = new BandParameters_v1130();
-                _v.InitDefaults();
-                int nBits = 2;
-                _v.supportedCSI_Proc_r11 = (supportedCSI_Proc_r11_Enum)input.ReadBits(nBits);
-                return _v;
+                config.supportedCSI_Proc_r11 = (supportedCSI_Proc_r11_Enum)input.ReadBits(2);
             }
         }
 
@@ -245,24 +195,17 @@ namespace TraceParser.Eutra
     }
 
     [Serializable]
-    public class InterRAT_BandInfo
+    public class InterRAT_BandInfo : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public bool interRAT_NeedForGaps { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<InterRAT_BandInfo>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public InterRAT_BandInfo Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(InterRAT_BandInfo config, BitArrayInputStream input)
             {
-                InterRAT_BandInfo info = new InterRAT_BandInfo();
-                info.InitDefaults();
-                info.interRAT_NeedForGaps = input.ReadBit() == 1;
-                return info;
+                config.interRAT_NeedForGaps = input.ReadBit() == 1;
             }
         }
     }

@@ -121,7 +121,8 @@ namespace TraceParser.Eutra
             
             protected override void ProcessConfig(AS_Context_v1130 config, BitArrayInputStream input)
             {
-                var stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
+                input.ReadBit();
+                var stream = new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
                     config.idc_Indication_r11 = input.readOctetString(input.ReadBits(8));
