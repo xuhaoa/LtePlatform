@@ -487,12 +487,6 @@
     <Content Include="appViews\Test\Simple\GridMenu.html" />
     <Content Include="appViews\Test\Simple\GridTooltip.html" />
     <Content Include="Areas\TestPage\Scripts\angular\route.js" />
-    <Content Include="Areas\TestPage\Scripts\qunit\cell.class.js" />
-    <Content Include="Areas\TestPage\Scripts\qunit\grid.binding.js" />
-    <Content Include="Areas\TestPage\Scripts\qunit\grid.footer.js" />
-    <Content Include="Areas\TestPage\Scripts\qunit\grid.menu.js" />
-    <Content Include="Areas\TestPage\Scripts\qunit\grid.template.js" />
-    <Content Include="Areas\TestPage\Scripts\qunit\grid.tooltip.js" />
     <Content Include="Content\angular-busy.css" />
     <Content Include="Content\angular-busy.min.css" />
     <Content Include="Content\angular-toggle-switch-bootstrap.css" />
@@ -694,9 +688,6 @@
     <Content Include="Areas\TestPage\Scripts\angular\demo.progress.js" />
     <Content Include="Areas\TestPage\Scripts\angular\demo.popover.js" />
     <Content Include="Areas\TestPage\Scripts\angular\demo.pager.js" />
-    <Content Include="Areas\TestPage\Scripts\qunit\legacy.markup.js" />
-    <Content Include="Areas\TestPage\Scripts\qunit\qunit.index.js" />
-    <Content Include="Areas\TestPage\Scripts\qunit\qunit.main.js" />
     <Content Include="Areas\TestPage\Scripts\qunit\route.js" />
     <Content Include="Content\themes\qunit.css" />
     <Content Include="Content\themes\ui-bootstrap.css" />
@@ -1799,7 +1790,6 @@
       <Bare>True</Bare>
       <Iced>False</Iced>
     </Content>
-    <Content Include="Areas\TestPage\Scripts\qunit\grid.filter.js" />
     <None Include="Areas\TestPage\Views\AngularTest\Simple.cshtml" />
     <Content Include="appViews\Test\Angular\SubmitForm.html" />
     <Content Include="appViews\Test\Angular\RootProperty.html" />
