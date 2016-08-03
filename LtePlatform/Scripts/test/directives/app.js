@@ -1,4 +1,7 @@
-﻿describe('glyphicon-enhance directive', function() {
+﻿
+
+
+describe('glyphicon-enhance directive', function () {
     var $compile, $rootScope;
     beforeEach(module('app.directives.glyphicon'));
     beforeEach(inject(function(_$compile_, _$rootScope_) {

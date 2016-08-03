@@ -1,4 +1,12 @@
-﻿describe('App format test', function() {
+﻿/// <reference path="../../angular.js"/>
+/// <reference path="../../angular-mocks.js"/>
+/// <reference path="../../jasmine/boot.js"/>
+/// <reference path="../../jasmine/console.js"/>
+/// <reference path="../../jasmine/jasmine.js"/>
+/// <reference path="../../jasmine/jasmine-html.js"/>
+/// <reference path="../../service/app.url.service.js"/>
+/// <reference path="../../service/app.region.service.js"/>
+describe('App format test', function () {
     var appFormatService;
     beforeEach(module('myApp.region'));
 
