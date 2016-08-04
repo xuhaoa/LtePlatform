@@ -12,19 +12,46 @@ namespace LtePlatform.Areas.TestPage.Controllers
         {
             return View();
         }
+    }
 
-        // GET: TestPage/AngularTest
-        public ActionResult Simple()
+    public class CoffeeScriptController : Controller
+    {
+        // GET: TestPage/CoffeeScript
+        public ActionResult Hotseat()
         {
             return View();
         }
-        
-        public ActionResult Chapter9Ari()
+    }
+
+    public class QUnitTestController : Controller
+    {
+        // GET: TestPage/QUnitTest
+        public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Chapter10Ari()
+    }
+
+    public class WebApiTestController : Controller
+    {
+        // GET: TestPage/WebApiTest
+        public ActionResult SimpleType()
+        {
+            return View();
+        }
+
+        public ActionResult BasicPost()
+        {
+            return View();
+        }
+
+        public ActionResult Html5Test()
+        {
+            return View();
+        }
+
+        public ActionResult Html5PostTest()
         {
             return View();
         }

@@ -304,11 +304,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Areas\TestPage\Controllers\AngularTestController.cs" />
-    <Compile Include="Areas\TestPage\Controllers\CoffeeScriptController.cs" />
-    <Compile Include="Areas\TestPage\Controllers\QUnitTestController.cs" />
     <Compile Include="Areas\TestPage\Controllers\SimpleTypeTestSumController.cs" />
     <Compile Include="Areas\TestPage\Controllers\TestPostOriginENodebsController.cs" />
-    <Compile Include="Areas\TestPage\Controllers\WebApiTestController.cs" />
     <Compile Include="Areas\TestPage\Models\SimpleTypeClass.cs" />
     <Compile Include="Areas\TestPage\TestPageAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -680,17 +677,6 @@
     <Content Include="Areas\TestPage\Scripts\5ch5\Player.js">
       <DependentUpon>Player.coffee</DependentUpon>
     </Content>
-    <Content Include="Areas\TestPage\Scripts\angular\demo.dateparser.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.datepicker.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.dropdown.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.typeahead.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.tooltip.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.timepicker.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.tabs.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.rating.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.progress.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.popover.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.pager.js" />
     <Content Include="Areas\TestPage\Scripts\qunit\route.js" />
     <Content Include="Content\themes\qunit.css" />
     <Content Include="Content\themes\ui-bootstrap.css" />
@@ -719,14 +705,6 @@
     <Content Include="Scripts\angular-sanitize.js" />
     <Content Include="Scripts\angular-scenario.js" />
     <Content Include="Areas\TestPage\Scripts\angular\chap10.viewmodel.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\datetime.test.controller.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.accordion.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.alert.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.buttons.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.carousel.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.collapse.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.pagination.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\demo.modal.js" />
     <Content Include="Areas\TestPage\Scripts\angular\root.js" />
     <Content Include="Areas\TestPage\Scripts\autostart.js" />
     <Content Include="Areas\TestPage\Scripts\basicpost.viewmodel.js" />
@@ -826,7 +804,6 @@
     <Content Include="Scripts\angular-ui\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\angular-ui\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\angular-ui\csv.js" />
-    <Content Include="Scripts\angular-ui\customize\directive.datetimepicker.js" />
     <Content Include="Scripts\angular-ui\customize\directive.public.js" />
     <Content Include="Scripts\angular-ui\pdfmake.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
@@ -1788,7 +1765,6 @@
     <Content Include="appViews\Test\Angular\SubmitForm.html" />
     <Content Include="appViews\Test\Angular\RootProperty.html" />
     <Content Include="appViews\Test\Angular\Chapter9Ari.html" />
-    <Content Include="Areas\TestPage\Views\AngularTest\Chapter10Ari.cshtml" />
     <Content Include="appViews\Test\Chapter10\demo.dateparser.html" />
     <Content Include="Areas\CustomerPage\Views\web.config" />
     <None Include="Areas\CustomerPage\Views\Customer\Index.cshtml" />

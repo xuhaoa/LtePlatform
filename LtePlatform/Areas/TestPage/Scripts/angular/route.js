@@ -4,7 +4,6 @@
             $rootScope.myHref = 'http://google.com';
         }, 2000);
         $rootScope.rootProperty = 'root scope';
-        var rootPath = '/TestPage/AngularTest/';
         var indexPath = '/TestPage/AngularTest#/';
         $rootScope.menuItems = [
             {
@@ -30,7 +29,7 @@
                     }, {
                         name: "Chapter10Ari",
                         displayName: "第 10 章　指令详解",
-                        url: rootPath + "Chapter10Ari"
+                        url: indexPath + "links"
                     }
                 ]
             }, {
@@ -40,7 +39,7 @@
                     {
                         displayName: "Hotseat 5x5",
                         url: "/TestPage/CoffeeScript/Hotseat",
-                        tooltip: "全网LTE和CDMA基站、小区列表和地理化显示、对全网的基站按照基站名称、地址等信息进行查询，并进行个别基站小区的增删、修改信息的操作"
+                        tooltip: "5×5棋盘"
                     }
                 ]
             }, {
@@ -69,27 +68,110 @@
         ];
 
         $rootScope.sectionItems = [
-        {
-            name: "Simple",
-            displayName: "简单类型测试",
-            url: indexPath + 'simple'
-        }, {
-            name: "Add",
-            displayName: "简单加减法",
-            url: indexPath + "add"
-        }, {
-            name: "Clock",
-            displayName: "时钟控制器",
-            url: indexPath + "clock"
-        }, {
-            name: "Interpolate",
-            displayName: "插值字符串测试",
-            url: indexPath + "interpolate"
-        }, {
-            name: "Parse",
-            displayName: "表达式解析测试",
-            url: indexPath + "parse"
-        }];
+            {
+                name: "Simple",
+                displayName: "简单类型测试",
+                url: indexPath + 'simple'
+            }, {
+                name: "Add",
+                displayName: "简单加减法",
+                url: indexPath + "add"
+            }, {
+                name: "Clock",
+                displayName: "时钟控制器",
+                url: indexPath + "clock"
+            }, {
+                name: "Interpolate",
+                displayName: "插值字符串测试",
+                url: indexPath + "interpolate"
+            }, {
+                name: "Parse",
+                displayName: "表达式解析测试",
+                url: indexPath + "parse"
+            },
+            {
+                name: "Links",
+                displayName: "指令测试",
+                url: indexPath + 'links'
+            }, {
+                displayName: "日期控件",
+                items: [
+                    {
+                        url: indexPath + "begin",
+                        displayName: "自定义"
+                    }, {
+                        url: indexPath + "dateparser",
+                        displayName: "日期解析"
+                    }, {
+                        url: indexPath + "datepicker",
+                        displayName: "复杂控件"
+                    }, {
+                        url: indexPath + "timepicker",
+                        displayName: "时间控件"
+                    }
+                ]
+            }, {
+                displayName: "控件实例I",
+                items: [
+                    {
+                        url: indexPath + "accordion",
+                        displayName: "手风琴"
+                    }, {
+                        url: indexPath + "alert",
+                        displayName: "警告框"
+                    }, {
+                        url: indexPath + "buttons",
+                        displayName: "按钮"
+                    }, {
+                        url: indexPath + "collapse",
+                        displayName: "折叠"
+                    }, {
+                        url: indexPath + "progress",
+                        displayName: "进度条"
+                    }
+                ]
+            }, {
+                displayName: "控件实例II",
+                items: [
+                    {
+                        url: indexPath + "carousel",
+                        displayName: "轮播"
+                    }, {
+                        url: indexPath + "dropdown",
+                        displayName: "下拉列表"
+                    }, {
+                        url: indexPath + "pager",
+                        displayName: "分页符"
+                    }, {
+                        url: indexPath + "pagination",
+                        displayName: "分页"
+                    }, {
+                        url: indexPath + "tabs",
+                        displayName: "标签"
+                    }
+                ]
+            }, {
+                displayName: "控件实例III",
+                items: [
+                    {
+                        url: indexPath + "modal",
+                        displayName: "模态框"
+                    }, {
+                        url: indexPath + "popover",
+                        displayName: "弹出"
+                    }, {
+                        url: indexPath + "rating",
+                        displayName: "星级"
+                    }, {
+                        url: indexPath + "tooltip",
+                        displayName: "提示"
+                    }, {
+                        url: indexPath + "typeahead",
+                        displayName: "自动补全"
+                    }
+                ]
+            }
+        ];
         $rootScope.section = {
             title: "Simple"
         };
@@ -101,6 +183,7 @@
         '$routeProvider', function($routeProvider) {
             var viewDir = "/appViews/Test/Angular/";
             var simpleDir = "/appViews/Test/Simple/";
+            var chap10Dir = "/appViews/Test/Chapter10/";
             $routeProvider
                 .when('/', {
                     templateUrl: viewDir + "SubmitForm.html",
@@ -138,6 +221,87 @@
                     templateUrl: viewDir + "Chapter9Ari.html",
                     controller: "Chap9Controller"
                 })
+
+            .when('/links', {
+                templateUrl: chap10Dir + "Links.html",
+                controller: "LinksController"
+            })
+            .when('/begin', {
+                templateUrl: chap10Dir + "DateTimeTest.html",
+                controller: "DateController"
+            })
+            .when('/dateparser', {
+                templateUrl: chap10Dir + "demo.dateparser.html",
+                controller: "DateParserDemoCtrl"
+            })
+            .when('/datepicker', {
+                templateUrl: chap10Dir + "demo.datepicker.html",
+                controller: "DatepickerPopupDemoCtrl"
+            })
+            .when('/accordion', {
+                templateUrl: chap10Dir + "demo.accordion.html",
+                controller: "AccordionDemoCtrl"
+            })
+            .when('/alert', {
+                templateUrl: chap10Dir + "demo.alert.html",
+                controller: "AlertDemoCtrl"
+            })
+            .when('/buttons', {
+                templateUrl: chap10Dir + "demo.buttons.html",
+                controller: "ButtonsCtrl"
+            })
+            .when('/carousel', {
+                templateUrl: chap10Dir + "demo.carousel.html",
+                controller: "CarouselDemoCtrl"
+            })
+            .when('/collapse', {
+                templateUrl: chap10Dir + "demo.collapse.html",
+                controller: "CollapseDemoCtrl"
+            })
+            .when('/dropdown', {
+                templateUrl: chap10Dir + "demo.dropdown.html",
+                controller: "DropdownCtrl"
+            })
+            .when('/modal', {
+                templateUrl: chap10Dir + "demo.modal.html",
+                controller: "ModalDemoCtrl"
+            })
+            .when('/pager', {
+                templateUrl: chap10Dir + "demo.pager.html",
+                controller: "PagerDemoCtrl"
+            })
+            .when('/pagination', {
+                templateUrl: chap10Dir + "demo.pagination.html",
+                controller: "PaginationDemoCtrl"
+            })
+            .when('/popover', {
+                templateUrl: chap10Dir + "demo.popover.html",
+                controller: "PopoverDemoCtrl"
+            })
+            .when('/progress', {
+                templateUrl: chap10Dir + "demo.progress.html",
+                controller: "ProgressDemoCtrl"
+            })
+            .when('/rating', {
+                templateUrl: chap10Dir + "demo.rating.html",
+                controller: "RatingDemoCtrl"
+            })
+            .when('/tabs', {
+                templateUrl: chap10Dir + "demo.tabs.html",
+                controller: "TabsDemoCtrl"
+            })
+            .when('/timepicker', {
+                templateUrl: chap10Dir + "demo.timepicker.html",
+                controller: "TimepickerDemoCtrl"
+            })
+            .when('/tooltip', {
+                templateUrl: chap10Dir + "demo.tooltip.html",
+                controller: "TooltipDemoCtrl"
+            })
+            .when('/typeahead', {
+                templateUrl: chap10Dir + "demo.typeahead.html",
+                controller: "TypeaheadCtrl"
+            })
                 .otherwise({
                     redirectTo: '/'
                 });

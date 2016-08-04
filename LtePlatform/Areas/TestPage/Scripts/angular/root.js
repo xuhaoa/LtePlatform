@@ -1,8 +1,8 @@
-﻿angular.module('myApp', ['test.angular.root', 'test.angular.index']);
+﻿angular.module('myApp', ['test.angular.root', 'test.angular.index', 'test.angular.chap10']);
 
 angular.module('test.angular.index', ['app.common'])
     .controller("root.property", function($scope) {
-        $scope.page.title = "RootProperty";
+        $scope.page.title = "Root Property";
     })
     .controller('ParentController', function($scope) {
         // 使用.controller访问`ng-controller`内部的属性
@@ -69,7 +69,7 @@ angular.module('test.angular.index', ['app.common'])
         }
     ])
     .controller("submit.form", function($scope) {
-        $scope.page.title = "SubmitForm";
+        $scope.page.title = "Submit Form";
     })
     .controller('signupController', [
         '$scope', function($scope) {
@@ -85,14 +85,14 @@ angular.module('test.angular.index', ['app.common'])
         }
     ])
     .controller("SimpleTypeController", function($scope) {
-        $scope.page.title = "Simple";
+        $scope.page.title = "Simple Type Test";
         $scope.section.title = "Simple";
         $scope.simpleA = 1;
         $scope.simpleB = 2;
     })
     .controller("ClockController", function($scope, $timeout) {
         $scope.section.title = "Clock";
-        $scope.page.title = "Simple";
+        $scope.page.title = "Simple Type Test";
         var updateClock = function() {
             $scope.clock = new Date();
             $timeout(function() {
@@ -102,14 +102,14 @@ angular.module('test.angular.index', ['app.common'])
         updateClock();
     })
     .controller("AddController", function($scope) {
-        $scope.page.title = "Simple";
+        $scope.page.title = "Simple Type Test";
         $scope.section.title = "Add";
         $scope.counter = 0;
         $scope.add = function(amount) { $scope.counter += amount; };
         $scope.subtract = function(amount) { $scope.counter -= amount; };
     })
     .controller("ParseController", function($scope, $parse) {
-        $scope.page.title = "Simple";
+        $scope.page.title = "Simple Type Test";
         $scope.section.title = "Parse";
         $scope.$watch('expr', function(newVal, oldVal, scope) {
             if (newVal !== oldVal) {
@@ -119,7 +119,7 @@ angular.module('test.angular.index', ['app.common'])
         });
     })
     .controller("InterpolateController", function($scope, $interpolate) {
-        $scope.page.title = "Simple";
+        $scope.page.title = "Simple Type Test";
         $scope.section.title = "Interpolate";
         $scope.$watch('emailBody', function(body) {
             if (body) {
@@ -129,7 +129,7 @@ angular.module('test.angular.index', ['app.common'])
         });
     })
     .controller('Chap9Controller', function($scope) {
-        $scope.page.title = "Chapter9Ari";
+        $scope.page.title = "第 9 章　内置指令";
     })
     .controller('SomeController', function($scope) {
         // 反模式，裸值
