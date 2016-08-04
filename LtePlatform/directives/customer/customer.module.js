@@ -43,49 +43,6 @@ angular.module('customer.emergency', ['customer.service'])
         };
     })
 
-    .controller('ComplainListController', function ($scope) {
-        $scope.gridOptions = {
-            paginationPageSizes: [20, 40, 60],
-            paginationPageSize: 20,
-            columnDefs: [
-                { field: 'serialNumber', name: '序列号' },
-                { field: 'beginTime', name: '受理时间', cellFilter: 'date: "yyyy-MM-dd"' },
-                { field: 'buildingName', name: '楼宇名称' },
-                { field: 'roadName', name: '道路名称' },
-                { field: 'complainSourceDescription', name: '投诉来源' },
-                { field: 'networkTypeDescription', name: '网络类型' },
-                {
-                    name: '工单处理',
-                    cellTemplate: '<a ng-href="{{grid.appScope.rootPath}}complain/process/{{row.entity.serialNumber}}" class="btn btn-sm btn-success">{{row.entity.currentStateDescription}}</a>'
-                }
-            ],
-            data: []
-        };
-    })
-    .directive('complainList', function ($compile) {
-        return {
-            restrict: 'EA',
-            controller: 'ComplainListController',
-            replace: true,
-            scope: {
-                items: '=',
-                rootPath: '='
-            },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 600px"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
-    })
-    
     .controller('BranchListController', function ($scope) {
         $scope.gridOptions = {
             paginationPageSizes: [20, 40, 60],
@@ -417,7 +374,7 @@ angular.module('customer.vip', ['customer.service'])
     });
 
 angular.module('customer.complain', ['customer.service'])
-    .controller('ComplainPositionController', function ($scope, customerDialogService) {
+    .controller('ComplainPositionController', function($scope, customerDialogService) {
         $scope.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
@@ -444,7 +401,7 @@ angular.module('customer.complain', ['customer.service'])
             });
         };
     })
-    .directive('complainPositionList', function ($compile) {
+    .directive('complainPositionList', function($compile) {
         return {
             controller: 'ComplainPositionController',
             restrict: 'EA',
@@ -455,9 +412,9 @@ angular.module('customer.complain', ['customer.service'])
                 query: '&'
             },
             template: '<div></div>',
-            link: function (scope, element, attrs) {
+            link: function(scope, element, attrs) {
                 scope.initialize = false;
-                scope.$watch('items', function (items) {
+                scope.$watch('items', function(items) {
                     scope.gridOptions.data = items;
                     if (!scope.initialize) {
                         var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 800px"></div>')(scope);
@@ -467,4 +424,47 @@ angular.module('customer.complain', ['customer.service'])
                 });
             }
         };
+    })
+    .controller('ComplainListController', function($scope) {
+        $scope.gridOptions = {
+            paginationPageSizes: [20, 40, 60],
+            paginationPageSize: 20,
+            columnDefs: [
+                { field: 'serialNumber', name: '序列号' },
+                { field: 'beginTime', name: '受理时间', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'buildingName', name: '楼宇名称' },
+                { field: 'roadName', name: '道路名称' },
+                { field: 'complainSourceDescription', name: '投诉来源' },
+                { field: 'networkTypeDescription', name: '网络类型' },
+                {
+                    name: '工单处理',
+                    cellTemplate: '<a ng-href="{{grid.appScope.rootPath}}complain/process/{{row.entity.serialNumber}}" class="btn btn-sm btn-success">{{row.entity.currentStateDescription}}</a>'
+                }
+            ],
+            data: []
+        };
+    })
+    .directive('complainList', function($compile) {
+        return {
+            restrict: 'EA',
+            controller: 'ComplainListController',
+            replace: true,
+            scope: {
+                items: '=',
+                rootPath: '='
+            },
+            template: '<div></div>',
+            link: function(scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function(items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 600px"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
     });
+    
