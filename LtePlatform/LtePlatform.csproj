@@ -727,12 +727,10 @@
     <Content Include="Areas\TestPage\Scripts\angular\demo.collapse.js" />
     <Content Include="Areas\TestPage\Scripts\angular\demo.pagination.js" />
     <Content Include="Areas\TestPage\Scripts\angular\demo.modal.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\menu.controller.js" />
     <Content Include="Areas\TestPage\Scripts\angular\oneway.domain.app.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\root.property.js" />
+    <Content Include="Areas\TestPage\Scripts\angular\root.js" />
     <Content Include="Areas\TestPage\Scripts\angular\sidebox.directive.js" />
     <Content Include="Areas\TestPage\Scripts\angular\simple.controller.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\submit.form.js" />
     <Content Include="Areas\TestPage\Scripts\angular\twoway.domain.app.js" />
     <Content Include="Areas\TestPage\Scripts\autostart.js" />
     <Content Include="Areas\TestPage\Scripts\basicpost.viewmodel.js" />
