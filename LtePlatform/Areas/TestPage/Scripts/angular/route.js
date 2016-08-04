@@ -93,6 +93,9 @@
         $rootScope.section = {
             title: "Simple"
         };
+        $rootScope.page = {
+            title: "RootProperty"
+        };
     })
     .config([
         '$routeProvider', function($routeProvider) {

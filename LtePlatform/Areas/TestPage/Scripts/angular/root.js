@@ -2,7 +2,7 @@
 
 angular.module('test.angular.index', ['app.common'])
     .controller("root.property", function($scope) {
-        $scope.pageTitle = "RootProperty";
+        $scope.page.title = "RootProperty";
     })
     .controller('ParentController', function($scope) {
         // 使用.controller访问`ng-controller`内部的属性
@@ -69,7 +69,7 @@ angular.module('test.angular.index', ['app.common'])
         }
     ])
     .controller("submit.form", function($scope) {
-        $scope.pageTitle = "SubmitForm";
+        $scope.page.title = "SubmitForm";
     })
     .controller('signupController', [
         '$scope', function($scope) {
@@ -85,14 +85,14 @@ angular.module('test.angular.index', ['app.common'])
         }
     ])
     .controller("SimpleTypeController", function($scope) {
-        $scope.pageTitle = "Simple";
+        $scope.page.title = "Simple";
         $scope.section.title = "Simple";
         $scope.simpleA = 1;
         $scope.simpleB = 2;
     })
     .controller("ClockController", function($scope, $timeout) {
         $scope.section.title = "Clock";
-        $scope.pageTitle = "Simple";
+        $scope.page.title = "Simple";
         var updateClock = function() {
             $scope.clock = new Date();
             $timeout(function() {
@@ -102,14 +102,14 @@ angular.module('test.angular.index', ['app.common'])
         updateClock();
     })
     .controller("AddController", function($scope) {
-        $scope.pageTitle = "Simple";
+        $scope.page.title = "Simple";
         $scope.section.title = "Add";
         $scope.counter = 0;
         $scope.add = function(amount) { $scope.counter += amount; };
         $scope.subtract = function(amount) { $scope.counter -= amount; };
     })
     .controller("ParseController", function($scope, $parse) {
-        $scope.pageTitle = "Simple";
+        $scope.page.title = "Simple";
         $scope.section.title = "Parse";
         $scope.$watch('expr', function(newVal, oldVal, scope) {
             if (newVal !== oldVal) {
@@ -119,7 +119,7 @@ angular.module('test.angular.index', ['app.common'])
         });
     })
     .controller("InterpolateController", function($scope, $interpolate) {
-        $scope.pageTitle = "Simple";
+        $scope.page.title = "Simple";
         $scope.section.title = "Interpolate";
         $scope.$watch('emailBody', function(body) {
             if (body) {
@@ -129,7 +129,7 @@ angular.module('test.angular.index', ['app.common'])
         });
     })
     .controller('Chap9Controller', function($scope) {
-        $scope.pageTitle = "Chapter9Ari";
+        $scope.page.title = "Chapter9Ari";
     })
     .controller('SomeController', function($scope) {
         // 反模式，裸值
