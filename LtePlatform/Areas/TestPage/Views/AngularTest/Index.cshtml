@@ -3,6 +3,13 @@
         <div ng-include="'/appViews/GeneralMenu.html'"></div>
     </div>
     <div ng-class="{'col-md-9': sideBarShown, 'col-md-12': !sideBarShown}">
+        <p>
+            <ul class="nav nav-pills">
+                <li ng-repeat="sectionItem in sectionItems" ng-class="{active: section.title == sectionItem.name}">
+                    <a ng-href="{{sectionItem.url}}">{{sectionItem.displayName}}</a>
+                </li>
+            </ul>
+        </p>
         <div ng-view></div>
     </div>
 </div>

@@ -14,7 +14,7 @@
                     {
                         name: "Simple",
                         displayName: "Simple Type Test",
-                        url: rootPath + 'Simple'
+                        url: indexPath + 'simple'
                     }, {
                         name: "SubmitForm",
                         displayName: "Submit Form",
@@ -67,10 +67,37 @@
                 ]
             }
         ];
+
+        $rootScope.sectionItems = [
+        {
+            name: "Simple",
+            displayName: "简单类型测试",
+            url: indexPath + 'simple'
+        }, {
+            name: "Add",
+            displayName: "简单加减法",
+            url: indexPath + "add"
+        }, {
+            name: "Clock",
+            displayName: "时钟控制器",
+            url: indexPath + "clock"
+        }, {
+            name: "Interpolate",
+            displayName: "插值字符串测试",
+            url: indexPath + "interpolate"
+        }, {
+            name: "Parse",
+            displayName: "表达式解析测试",
+            url: indexPath + "parse"
+        }];
+        $rootScope.section = {
+            title: "Simple"
+        };
     })
     .config([
         '$routeProvider', function($routeProvider) {
             var viewDir = "/appViews/Test/Angular/";
+            var simpleDir = "/appViews/Test/Simple/";
             $routeProvider
                 .when('/', {
                     templateUrl: viewDir + "SubmitForm.html",
@@ -83,6 +110,26 @@
                 .when('/legacy', {
                     templateUrl: viewDir + "LegacyMarkup.html",
                     controller: "legacy.markup"
+                })
+                .when('/simple', {
+                    templateUrl: simpleDir + "SimpleType.html",
+                    controller: "SimpleTypeController"
+                })
+                .when('/add', {
+                    templateUrl: simpleDir + "Add.html",
+                    controller: "AddController"
+                })
+                .when('/clock', {
+                    templateUrl: simpleDir + "Clock.html",
+                    controller: "ClockController"
+                })
+                .when('/interpolate', {
+                    templateUrl: simpleDir + "Interpolate.html",
+                    controller: "InterpolateController"
+                })
+                .when('/parse', {
+                    templateUrl: simpleDir + "Parse.html",
+                    controller: "ParseController"
                 })
                 .otherwise({
                     redirectTo: '/'

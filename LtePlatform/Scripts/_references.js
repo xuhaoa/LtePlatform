@@ -29,7 +29,6 @@
 /// <reference path="../areas/testpage/scripts/angular/root.js" />
 /// <reference path="../areas/testpage/scripts/angular/route.js" />
 /// <reference path="../areas/testpage/scripts/angular/sidebox.directive.js" />
-/// <reference path="../areas/testpage/scripts/angular/simple.controller.js" />
 /// <reference path="../areas/testpage/scripts/angular/twoway.domain.app.js" />
 /// <reference path="../areas/testpage/scripts/autostart.js" />
 /// <reference path="../areas/testpage/scripts/basicpost.viewmodel.js" />

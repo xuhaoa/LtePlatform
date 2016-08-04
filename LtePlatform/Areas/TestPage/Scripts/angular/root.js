@@ -83,4 +83,43 @@ angular.module('test.angular.index', ['app.common'])
                 }
             };
         }
-    ]);
+    ])
+    .controller("SimpleTypeController", function($scope) {
+        $scope.section.title = "Simple";
+        $scope.simpleA = 1;
+        $scope.simpleB = 2;
+    })
+    .controller("ClockController", function($scope, $timeout) {
+        $scope.section.title = "Clock";
+        var updateClock = function() {
+            $scope.clock = new Date();
+            $timeout(function() {
+                updateClock();
+            }, 1000);
+        };
+        updateClock();
+    })
+    .controller("AddController", function($scope) {
+        $scope.section.title = "Add";
+        $scope.counter = 0;
+        $scope.add = function(amount) { $scope.counter += amount; };
+        $scope.subtract = function(amount) { $scope.counter -= amount; };
+    })
+    .controller("ParseController", function($scope, $parse) {
+        $scope.section.title = "Parse";
+        $scope.$watch('expr', function(newVal, oldVal, scope) {
+            if (newVal !== oldVal) {
+                var parseFun = $parse(newVal);
+                $scope.parsedValue = parseFun(scope);
+            }
+        });
+    })
+    .controller("InterpolateController", function($scope, $interpolate) {
+        $scope.section.title = "Interpolate";
+        $scope.$watch('emailBody', function(body) {
+            if (body) {
+                var template = $interpolate(body);
+                $scope.previewText = template({ to: $scope.to });
+            }
+        });
+    });

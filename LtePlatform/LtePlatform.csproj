@@ -730,7 +730,6 @@
     <Content Include="Areas\TestPage\Scripts\angular\oneway.domain.app.js" />
     <Content Include="Areas\TestPage\Scripts\angular\root.js" />
     <Content Include="Areas\TestPage\Scripts\angular\sidebox.directive.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\simple.controller.js" />
     <Content Include="Areas\TestPage\Scripts\angular\twoway.domain.app.js" />
     <Content Include="Areas\TestPage\Scripts\autostart.js" />
     <Content Include="Areas\TestPage\Scripts\basicpost.viewmodel.js" />
@@ -1789,7 +1788,6 @@
       <Bare>True</Bare>
       <Iced>False</Iced>
     </Content>
-    <None Include="Areas\TestPage\Views\AngularTest\Simple.cshtml" />
     <Content Include="appViews\Test\Angular\SubmitForm.html" />
     <Content Include="appViews\Test\Angular\RootProperty.html" />
     <Content Include="Areas\TestPage\Views\AngularTest\Chapter9Ari.cshtml" />
