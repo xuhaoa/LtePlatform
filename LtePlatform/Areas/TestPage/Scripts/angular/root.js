@@ -85,12 +85,14 @@ angular.module('test.angular.index', ['app.common'])
         }
     ])
     .controller("SimpleTypeController", function($scope) {
+        $scope.pageTitle = "Simple";
         $scope.section.title = "Simple";
         $scope.simpleA = 1;
         $scope.simpleB = 2;
     })
     .controller("ClockController", function($scope, $timeout) {
         $scope.section.title = "Clock";
+        $scope.pageTitle = "Simple";
         var updateClock = function() {
             $scope.clock = new Date();
             $timeout(function() {
@@ -100,12 +102,14 @@ angular.module('test.angular.index', ['app.common'])
         updateClock();
     })
     .controller("AddController", function($scope) {
+        $scope.pageTitle = "Simple";
         $scope.section.title = "Add";
         $scope.counter = 0;
         $scope.add = function(amount) { $scope.counter += amount; };
         $scope.subtract = function(amount) { $scope.counter -= amount; };
     })
     .controller("ParseController", function($scope, $parse) {
+        $scope.pageTitle = "Simple";
         $scope.section.title = "Parse";
         $scope.$watch('expr', function(newVal, oldVal, scope) {
             if (newVal !== oldVal) {
@@ -115,6 +119,7 @@ angular.module('test.angular.index', ['app.common'])
         });
     })
     .controller("InterpolateController", function($scope, $interpolate) {
+        $scope.pageTitle = "Simple";
         $scope.section.title = "Interpolate";
         $scope.$watch('emailBody', function(body) {
             if (body) {
@@ -122,4 +127,73 @@ angular.module('test.angular.index', ['app.common'])
                 $scope.previewText = template({ to: $scope.to });
             }
         });
+    })
+    .controller('Chap9Controller', function($scope) {
+        $scope.pageTitle = "Chapter9Ari";
+    })
+    .controller('SomeController', function($scope) {
+        // 反模式，裸值
+        $scope.someBareValue = 'hello computer';
+        $scope.someModel = {
+            someValue: 'hello computer 2'
+        }
+        // 设置$scope本身的操作，这样没问题
+        $scope.someAction = function() {
+            // 在SomeController和ChildController内部设置{{ someBareValue }}
+            $scope.someBareValue = 'hello human, from parent';
+            $scope.someModel.someValue = 'hello human, from parent 2';
+        };
+    })
+    .controller('ChildController', function($scope) {
+        $scope.childAction = function() {
+            // 在ChildController内部设置{{ someBareValue }}
+            $scope.someBareValue = 'hello human, from child';
+            $scope.someModel.someValue = 'hello human, from child 2';
+        };
+    })
+    .controller('PeopleController', function($scope) {
+        $scope.people = [
+            { name: "Ari", city: "San Francisco" },
+            { name: "Erik", city: "Seattle" }
+        ];
+    })
+    .controller('FormController', function($scope) {
+        $scope.fields = [
+            { placeholder: 'Username', isRequired: true },
+            { placeholder: 'Password', isRequired: true },
+            { placeholder: 'Email (optional)', isRequired: false }
+        ];
+        $scope.submitForm = function() {
+            alert("it works!");
+        };
+    })
+    .controller('OtherController', function($scope) {
+        // 最佳实践，永远使用一个模式
+        $scope.someModel = {
+            someValue: 'hello computer'
+        }
+        $scope.someAction = function() {
+            $scope.someModel.someValue = 'hello human, from parent';
+        };
+    })
+    .controller('OtherChildController', function($scope) {
+        $scope.childAction = function() {
+            $scope.someModel.someValue = 'hello human, from child';
+        };
+    })
+    .directive('sidebox', function() {
+        return {
+            restrict: 'EA',
+            scope: {
+                title: '@'
+            },
+            transclude: true,
+            template: '<div class="sidebox">\
+            <div class="content">\
+                <h2 class="header">{{ title }}</h2>\
+                <span class="content" ng-transclude>\
+                </span>\
+            </div>\
+        </div>'
+        };
     });

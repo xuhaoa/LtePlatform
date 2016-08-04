@@ -727,10 +727,7 @@
     <Content Include="Areas\TestPage\Scripts\angular\demo.collapse.js" />
     <Content Include="Areas\TestPage\Scripts\angular\demo.pagination.js" />
     <Content Include="Areas\TestPage\Scripts\angular\demo.modal.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\oneway.domain.app.js" />
     <Content Include="Areas\TestPage\Scripts\angular\root.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\sidebox.directive.js" />
-    <Content Include="Areas\TestPage\Scripts\angular\twoway.domain.app.js" />
     <Content Include="Areas\TestPage\Scripts\autostart.js" />
     <Content Include="Areas\TestPage\Scripts\basicpost.viewmodel.js" />
     <Content Include="Areas\TestPage\Scripts\diff.js" />
@@ -1790,7 +1787,7 @@
     </Content>
     <Content Include="appViews\Test\Angular\SubmitForm.html" />
     <Content Include="appViews\Test\Angular\RootProperty.html" />
-    <Content Include="Areas\TestPage\Views\AngularTest\Chapter9Ari.cshtml" />
+    <Content Include="appViews\Test\Angular\Chapter9Ari.html" />
     <Content Include="Areas\TestPage\Views\AngularTest\Chapter10Ari.cshtml" />
     <Content Include="appViews\Test\Chapter10\demo.dateparser.html" />
     <Content Include="Areas\CustomerPage\Views\web.config" />

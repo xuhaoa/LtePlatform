@@ -26,7 +26,7 @@
                     }, {
                         name: "Chapter9Ari",
                         displayName: "第 9 章　内置指令",
-                        url: rootPath + "Chapter9Ari"
+                        url: indexPath + "Chapter9Ari"
                     }, {
                         name: "Chapter10Ari",
                         displayName: "第 10 章　指令详解",
@@ -130,6 +130,10 @@
                 .when('/parse', {
                     templateUrl: simpleDir + "Parse.html",
                     controller: "ParseController"
+                })
+                .when('/Chapter9Ari', {
+                    templateUrl: viewDir + "Chapter9Ari.html",
+                    controller: "Chap9Controller"
                 })
                 .otherwise({
                     redirectTo: '/'
