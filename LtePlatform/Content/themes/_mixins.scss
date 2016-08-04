@@ -1,0 +1,17 @@
+﻿
+@mixin panel-def($color) {
+    background: $color; 
+    color: #fff; 
+    .panel-body {
+        color: #000000;
+        p {
+            @extend %panel-body-p-common;
+        }
+    } 
+    .panel-heading{
+        @extend %panel-heading-common
+    }
+    .text-muted {
+        @extend %text-muted-common
+    }
+}

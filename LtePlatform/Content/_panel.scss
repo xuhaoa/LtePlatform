@@ -1,4 +1,6 @@
-﻿
+﻿@import "themes/_mixins.scss";
+@import "themes/_colors.scss";
+
 .panel-widget {
 	padding: 0;
 	position: relative;
@@ -29,12 +31,6 @@
     color: rgba(255, 255, 255, .5);
 }
 
-$color-gray: #5f6468;
-$color-blue: #30a5ff;
-$color-teal: #1ebfae;
-$color-orange: #ffb53e;
-$color-red: #f9243f;
-
 .color-gray { 
     color: $color-gray; 
 }
@@ -56,59 +52,19 @@ $color-red: #f9243f;
 }
 
 .panel-blue { 
-    background: $color-blue; 
-    color: #fff; 
-    .panel-body p {
-        @extend %panel-body-p-common;
-    }
-    .panel-heading{
-        @extend %panel-heading-common
-    }
-    .text-muted {
-        @extend %text-muted-common
-    }
+    @include panel-def($color-blue);
 }
 
 .panel-teal { 
-    background: $color-teal; 
-    color: #fff; 
-    .panel-body p {
-        @extend %panel-body-p-common;
-    }
-    .panel-heading {
-        @extend %panel-heading-common
-    }
-    .text-muted {
-        @extend %text-muted-common
-    }
+    @include panel-def($color-teal);
 }
 
 .panel-orange { 
-    background: $color-orange; 
-    color: #fff;
-    .panel-body p {
-        @extend %panel-body-p-common;
-    }
-    .panel-heading{
-        @extend %panel-heading-common
-    }
-    .text-muted {
-        @extend %text-muted-common
-    }
+    @include panel-def($color-orange);
 }
 
 .panel-red { 
-    background: $color-red; 
-    color: #fff; 
-    .panel-body p {
-        @extend %panel-body-p-common;
-    }
-    .panel-heading{
-        @extend %panel-heading-common
-    }
-    .text-muted {
-        @extend %text-muted-common
-    }
+    @include panel-def($color-red);
 }
 
 .panel-widget {
