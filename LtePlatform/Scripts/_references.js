@@ -99,7 +99,6 @@
 /// <reference path="college/test.controller.js" />
 /// <reference path="college/test.viewmodel.js" />
 /// <reference path="college/test/controller.js" />
-/// <reference path="customer/emergency/controller.js" />
 /// <reference path="customer/index.controller.js" />
 /// <reference path="highcharts/adapters/standalone-framework.js" />
 /// <reference path="highcharts/adapters/standalone-framework.src.js" />
