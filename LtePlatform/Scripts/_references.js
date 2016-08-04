@@ -85,7 +85,6 @@
 /// <reference path="angular-ui/bootstrap-datetimepicker.js" />
 /// <reference path="angular-ui/csv.js" />
 /// <reference path="angular-ui/customize/directive.datetimepicker.js" />
-/// <reference path="angular-ui/customize/directive.panel.js" />
 /// <reference path="angular-ui/customize/directive.public.js" />
 /// <reference path="angular-ui/pdfmake.js" />
 /// <reference path="angular-ui/ui-bootstrap.min.js" />

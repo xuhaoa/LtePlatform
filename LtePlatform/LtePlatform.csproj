@@ -834,7 +834,6 @@
     <Content Include="Scripts\angular-ui\csv.js" />
     <Content Include="Scripts\angular-ui\customize\directive.datetimepicker.js" />
     <Content Include="Scripts\angular-ui\customize\directive.public.js" />
-    <Content Include="Scripts\angular-ui\customize\directive.panel.js" />
     <Content Include="Scripts\angular-ui\pdfmake.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
