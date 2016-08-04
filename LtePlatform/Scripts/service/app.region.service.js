@@ -59,7 +59,7 @@
             getUTCTime: function(strDate) {
                 var date = eval('new Date(' + strDate.replace(/\d+(?=-[^-]+$)/,
                     function (a) { return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
-                return Date.UTC(date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), 0, 0);
+                return Date.UTC(date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), 0);
             },
             getDateString: function(dateTime, fmt) {
                 var o = {

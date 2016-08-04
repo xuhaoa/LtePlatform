@@ -31,4 +31,32 @@ describe('App format test', function () {
         var item = appFormatService.searchPattern(options, '佛山市顺德区乐从镇');
         expect(item).toEqual('顺德');
     });
+
+    it('Can get one date from the string like "2016-07-13"', function() {
+        var dateString = "2016-04-12";
+        var date = appFormatService.getDate(dateString);
+        expect(date.getFullYear()).toEqual(2016);
+        expect(date.getMonth()).toEqual(3);
+        expect(date.getDate()).toEqual(12);
+    });
+
+    it('Can get one date from the string like "2016/7/5"', function() {
+        var dateString = "2016/7/5";
+        var date = appFormatService.getDate(dateString);
+        expect(date.getFullYear()).toEqual(2016);
+        expect(date.getMonth()).toEqual(7);
+        expect(date.getDate()).toEqual(5);
+    });
+
+    it('Can get UTC time', function() {
+        var dateString = "2016/7/5 15:22:18";
+        var date = appFormatService.getUTCTime(dateString);
+        expect(date).toEqual(1473088938000);
+    });
+
+    it('Can get date string', function() {
+        var date = new Date(2016, 4, 28);
+        var dateString1 = appFormatService.getDateString(date, "yyyy-MM-dd");
+        expect(dateString1).toEqual("2016-05-28");
+    });
 });
