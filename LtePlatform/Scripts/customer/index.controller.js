@@ -1,6 +1,4 @@
-﻿angular.module('myApp', ['app.customer', 'customer.complain', 'customer.emergency', 'customer.vip']);
-
-angular.module('app.customer', ['app.common'])
+﻿angular.module('myApp', ['app.common'])
     .config([
         '$routeProvider', function($routeProvider) {
             var viewDir = "/appViews/Customer/";
