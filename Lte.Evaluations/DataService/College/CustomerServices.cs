@@ -112,6 +112,22 @@ namespace Lte.Evaluations.DataService.College
             var begin = new DateTime(today.Year, today.Month, 1);
             return await service.QueryCount(begin, today.AddDays(1));
         }
+
+        public static async Task<Tuple<List<string>, List<int>>> QueryCounts<TService, TItem>(this TService service,
+            DateTime today)
+            where TService : IDateSpanService<TItem>
+        {
+            var months = new List<string>();
+            var counts = new List<int>();
+            for (var i = 0; i < 12; i++)
+            {
+                var date = today.AddMonths(i - 12);
+                var begin = new DateTime(date.Year, date.Month, 1);
+                months.Add(begin.ToString("yyyy-MM"));
+                counts.Add(await service.QueryCount(begin, begin.AddMonths(1)));
+            }
+            return new Tuple<List<string>, List<int>>(months, counts);
+        }
     }
 
     public class EmergencyCommunicationService

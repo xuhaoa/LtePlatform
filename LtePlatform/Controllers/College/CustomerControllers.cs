@@ -233,6 +233,12 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
+        public async Task<Tuple<List<string>, List<int>>> QueryCounts(DateTime countDate)
+        {
+            return await _service.QueryCounts<ComplainService, ComplainItem>(countDate);
+        }
+
+        [HttpGet]
         public ComplainDto Get(string serialNumber)
         {
             return _service.Query(serialNumber);
