@@ -49,30 +49,6 @@ angular.module('app.customer', ['app.common'])
                     templateUrl: viewDir + "Process/Complain.html",
                     controller: "complain.process"
                 })
-                .when('/details/:number', {
-                    templateUrl: viewDir + "WorkItem/AnalyticDetails.html",
-                    controller: "workitem.details"
-                })
-                .when('/workItems/:cellId/:sectorId/:name', {
-                    templateUrl: viewDir + 'WorkItem/ForCell.html',
-                    controller: "rutrace.workitems"
-                })
-                .when('/workitemDistrict/:district', {
-                    templateUrl: viewDir + "WorkItem/ForCity.html",
-                    controller: "workitem.district"
-                })
-                .when('/workitemCity', {
-                    templateUrl: viewDir + "WorkItem/ForCity.html",
-                    controller: "workitem.city"
-                })
-                .when('/cellTrend/:cellId/:sectorId/:name', {
-                    templateUrl: viewDir + "WorkItem/CellTrend.html",
-                    controller: "cell.trend"
-                })
-                .when('/mongo', {
-                    templateUrl: viewDir + 'FromMongo.html',
-                    controller: 'interference.mongo'
-                })
                 .otherwise({
                     redirectTo: '/'
                 });

@@ -146,4 +146,7 @@
         $scope.cancel = function() {
             $uibModalInstance.dismiss('cancel');
         };
+    })
+    .controller("daily.stat", function($scope) {
+        $scope.page.title = "客服指标统计分析";
     });
