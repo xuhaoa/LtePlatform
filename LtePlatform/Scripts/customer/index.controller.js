@@ -583,8 +583,12 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller("daily.stat", function ($scope) {
+    .controller("daily.stat", function ($scope, complainService, appKpiService) {
         $scope.page.title = "客服指标统计分析";
+        complainService.queryComplainMonthStats(new Date()).then(function (stat) {
+            var options = appKpiService.generateColumnOptions(stat, '抱怨量月度统计', '月份', '抱怨量');
+            $("#line-chart").highcharts(options);
+        });
     })
     .controller('fiber.new.dialog', function ($scope, $uibModalInstance,
         dialogTitle, id, num) {

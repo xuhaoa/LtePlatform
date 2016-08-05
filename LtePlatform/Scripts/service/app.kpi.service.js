@@ -295,6 +295,19 @@
                 });
                 chart.enableLegend = true;
                 return chart.options;
+            },
+            generateColumnOptions: function(stat, title, xtitle, ytitle) {
+                var chart = new ComboChart();
+                chart.title.text = title;
+                chart.xAxis[0].title.text = xtitle;
+                chart.yAxis[0].title.text = ytitle;
+                chart.xAxis[0].categories = stat.item1;
+                chart.series.push({
+                    type: "column",
+                    name: ytitle,
+                    data: stat.item2
+                });
+                return chart.options;
             }
         }
     })

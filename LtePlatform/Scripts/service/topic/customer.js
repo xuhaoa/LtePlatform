@@ -298,6 +298,11 @@
             },
             updateComplain: function (dto) {
                 return generalHttpService.putApiData("ComplainQuery", dto);
+            },
+            queryComplainMonthStats: function(date) {
+                return generalHttpService.getApiData("ComplainQuery", {
+                    countDate: date
+                });
             }
         }
     });
