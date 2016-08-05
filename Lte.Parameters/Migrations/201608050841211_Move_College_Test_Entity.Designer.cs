@@ -7,13 +7,13 @@ namespace Lte.Parameters.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Add_LocalSectorId : IMigrationMetadata
+    public sealed partial class Move_College_Test_Entity : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_LocalSectorId));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Move_College_Test_Entity));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608011333021_Add_LocalSectorId"; }
+            get { return "201608050841211_Move_College_Test_Entity"; }
         }
         
         string IMigrationMetadata.Source
