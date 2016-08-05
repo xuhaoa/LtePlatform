@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
-using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.College;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.College;
-using Lte.Parameters.Entities.College;
 
 namespace Lte.Evaluations.DataService.College
 {

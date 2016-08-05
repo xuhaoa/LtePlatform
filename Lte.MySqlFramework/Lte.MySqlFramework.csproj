@@ -116,6 +116,7 @@
     <Compile Include="Entities\BranchDemand.cs" />
     <Compile Include="Entities\CdmaRegionStat.cs" />
     <Compile Include="Entities\CellStatMysql.cs" />
+    <Compile Include="Entities\CollegeTestInfos.cs" />
     <Compile Include="Entities\CollegeYearInfo.cs" />
     <Compile Include="Entities\ComplainItem.cs" />
     <Compile Include="Entities\DownSwitchFlow.cs" />
@@ -130,13 +131,13 @@
     <Compile Include="Entities\TopConnection3GCell.cs" />
     <Compile Include="Entities\TopDrop2GCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201607272356549_Update_ComplainProcess.cs" />
-    <Compile Include="Migrations\201607272356549_Update_ComplainProcess.Designer.cs">
-      <DependentUpon>201607272356549_Update_ComplainProcess.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201608011315497_Add_LteRru.cs" />
     <Compile Include="Migrations\201608011315497_Add_LteRru.Designer.cs">
       <DependentUpon>201608011315497_Add_LteRru.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608050836340_Move_College_Test_Entity.cs" />
+    <Compile Include="Migrations\201608050836340_Move_College_Test_Entity.Designer.cs">
+      <DependentUpon>201608050836340_Move_College_Test_Entity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -146,11 +147,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607272356549_Update_ComplainProcess.resx">
-      <DependentUpon>201607272356549_Update_ComplainProcess.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608011315497_Add_LteRru.resx">
       <DependentUpon>201608011315497_Add_LteRru.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608050836340_Move_College_Test_Entity.resx">
+      <DependentUpon>201608050836340_Move_College_Test_Entity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

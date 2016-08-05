@@ -55,5 +55,12 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<ComplainProcess> ComplainProcesses { get; set; }
 
         public DbSet<LteRru> LteRrus { get; set; }
+
+        public DbSet<College3GTestResults> College3GTestResultses { get; set; }
+
+        public DbSet<College4GTestResults> College4GTestResultses { get; set; }
+
+        public DbSet<CollegeKpi> CollegeKpis { get; set; }
+
     }
 }

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Lte.Evaluations.ViewModels.College;
-using Lte.Parameters.Abstract.College;
-using Lte.Parameters.Entities.College;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.DataService.College
+namespace Lte.Evaluations.DataService.College
 {
     public static class College3GTestQueries
     {

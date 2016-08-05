@@ -4,6 +4,8 @@ using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.ViewModels.College;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Entities.College;

@@ -165,8 +165,6 @@
     <Compile Include="ViewModels\RegionKpi\CdmaRegionStatView.cs" />
     <Compile Include="ViewModels\Precise\CellPreciseKpiView.cs" />
     <Compile Include="ViewModels\Basic\CellView.cs" />
-    <Compile Include="ViewModels\College\College3GTestView.cs" />
-    <Compile Include="ViewModels\College\College4GTestView.cs" />
     <Compile Include="ViewModels\College\CollegeKpiView.cs" />
     <Compile Include="ViewModels\RegionKpi\DistrictPreciseView.cs" />
     <Compile Include="ViewModels\Basic\ENodebView.cs" />

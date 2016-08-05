@@ -26,12 +26,6 @@ namespace Lte.Parameters.Concrete
 
         public DbSet<AlarmStat> AlarmStats { get; set; }
 
-        public DbSet<College3GTestResults> College3GTestResultses { get; set; }
-
-        public DbSet<College4GTestResults> College4GTestResultses { get; set; }
-
-        public DbSet<CollegeKpi> CollegeKpis { get; set; }
-
         public DbSet<ENodeb> ENodebs { get; set; }
 
         public DbSet<CdmaBts> Btss { get; set; }
