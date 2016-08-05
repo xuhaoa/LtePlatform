@@ -1648,6 +1648,9 @@
     <Content Include="Scripts\test\kpi\app.kpi.service.js" />
     <Content Include="Scripts\test\mock\highcharts.mock.js" />
     <Content Include="Scripts\test\mock\ui.bootstrap.mock.js" />
+    <Content Include="Scripts\test\ui-grid\gridObjectTestUtils.spec.js" />
+    <Content Include="Scripts\test\ui-grid\gridTestUtils.spec.js" />
+    <Content Include="Scripts\test\ui-grid\row-filtering.spec.js" />
     <Content Include="Scripts\test\uib\accordion.spec.js" />
     <Content Include="Scripts\test\uib\alert.spec.js" />
     <Content Include="Scripts\test\uib\buttons.spec.js" />
