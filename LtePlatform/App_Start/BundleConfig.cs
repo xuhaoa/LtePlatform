@@ -18,9 +18,6 @@ namespace LtePlatform
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                 "~/Scripts/bootstrap.min.js",
                 "~/Scripts/respond.min.js"));
-            
-            bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
-                "~/Content/themes/base/all.css"));
         }
     }
 }
