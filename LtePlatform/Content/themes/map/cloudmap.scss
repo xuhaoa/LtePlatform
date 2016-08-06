@@ -1,4 +1,5 @@
-﻿
+﻿@import "../_colors.scss";
+
 .cloudmap-wrapper {
     width: 100%;
     overflow: hidden;
@@ -33,14 +34,13 @@ div#contentWrapper {
 }
 
 .cloudmap-city-name {
-    color: #333333;
+    color: $color-dark-gray;
     font-weight: 700;
     cursor: pointer;
-}
-
-    .cloudmap-city-name:hover {
-        color: #3977d2;
+    &:hover {
+        color: $color-blue-azure;
     }
+}
 
 .cloudmap-search-city {
     margin-bottom: 20px;

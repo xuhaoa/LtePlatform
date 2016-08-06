@@ -33,13 +33,12 @@
 .time-panel-title {
     font-weight: 700;
     font-size: 14px;
-}
-
-    .time-panel-title .time-panel-time {
+    .time-panel-time {
         font-size: 12px;
         font-weight: 400;
         margin-left: 10px;
     }
+}
 
 .time-panel-control {
     overflow: hidden;
@@ -66,7 +65,7 @@
 
 .time-panel-progress-tick {
     float: left;
-    background: url(../../images/TimeControl/tick.png) no-repeat 50% 0;
+    background: url(Images/TimeControl/tick.png) no-repeat 50% 0;
     padding-top: 7px;
     width: 12.5%;
     text-align: center;
@@ -80,7 +79,7 @@
 }
 
 .time-panel-progress {
-    background: url(../../images/TimeControl/time-progress.png) no-repeat 0 0;
+    background: url(Images/TimeControl/time-progress.png) no-repeat 0 0;
     width: 16px;
     height: 16px;
     position: absolute;
@@ -89,7 +88,7 @@
 }
 
 .time-panel-btn {
-    background: url(../../images/TimeControl/time-btn-pause.png) no-repeat 0 0;
+    background: url(Images/TimeControl/time-btn-pause.png) no-repeat 0 0;
     width: 33px;
     height: 33px;
     float: right;
@@ -97,7 +96,7 @@
 }
 
     .time-panel-btn.play {
-        background: url(../../images/TimeControl/time-btn-play.png) no-repeat 0 0;
+        background: url(Images/TimeControl/time-btn-play.png) no-repeat 0 0;
     }
 
 #time-control {
