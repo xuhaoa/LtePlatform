@@ -1,9 +1,12 @@
-﻿using AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
+using AutoMapper;
+using Lte.Domain.Common;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 
 namespace Lte.Evaluations.ViewModels.Basic
 {
+    [AutoMapFrom(typeof(CdmaCell))]
     public class CdmaCellView
     {
         public string BtsName { get; set; }
@@ -28,12 +31,17 @@ namespace Lte.Evaluations.ViewModels.Basic
         
         public double Height { get; set; }
 
-        public double DownTilt { get; set; }
+        public double MTilt { get; set; }
+
+        public double ETilt { get; set; }
+
+        public double DownTilt => MTilt + ETilt;
 
         public double Azimuth { get; set; }
 
         public double AntennaGain { get; set; }
 
+        [AutoMapPropertyResolve("IsOutdoor", typeof(CdmaCell), typeof(OutdoorDescriptionTransform))]
         public string Indoor { get; set; }
         
         public double RsPower { get; set; }
@@ -45,6 +53,69 @@ namespace Lte.Evaluations.ViewModels.Basic
             var view = Mapper.Map<CdmaCell, CdmaCellView>(cell);
             var bts = repository.GetByBtsId(cell.BtsId);
             view.BtsName = bts?.Name;
+            return view;
+        }
+    }
+
+    [AutoMapFrom(typeof(CdmaCell))]
+    public class CdmaCompoundCellView
+    {
+        public string BtsName { get; set; }
+
+        public int BtsId { get; set; } = -1;
+
+        public byte SectorId { get; set; } = 31;
+
+        public int CellId { get; set; }
+
+        public string Lac { get; set; }
+
+        public short Pn { get; set; }
+
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        public double Height { get; set; }
+
+        public double MTilt { get; set; }
+
+        public double ETilt { get; set; }
+
+        public double DownTilt => MTilt + ETilt;
+
+        public double Azimuth { get; set; }
+
+        public double AntennaGain { get; set; }
+
+        [AutoMapPropertyResolve("IsOutdoor", typeof(CdmaCell), typeof(OutdoorDescriptionTransform))]
+        public string Indoor { get; set; }
+
+        public string OnexFrequencyList { get; set; }
+
+        public string EvdoFrequencyList { get; set; }
+
+        public static CdmaCompoundCellView ConstructView(CdmaCell onexCell, CdmaCell evdoCell, IBtsRepository repository)
+        {
+            CdmaCompoundCellView view = null;
+            if (onexCell != null)
+            {
+                view = Mapper.Map<CdmaCell, CdmaCompoundCellView>(onexCell);
+                view.OnexFrequencyList = onexCell.FrequencyList;
+                if (evdoCell != null) view.EvdoFrequencyList = evdoCell.FrequencyList;
+            }
+            else if (evdoCell != null)
+            {
+                view = Mapper.Map<CdmaCell, CdmaCompoundCellView>(evdoCell);
+                view.EvdoFrequencyList = evdoCell.FrequencyList;
+            }
+
+            if (view != null)
+            {
+                var bts = repository.GetByBtsId(view.BtsId);
+                view.BtsName = bts?.Name;
+            }
+
             return view;
         }
     }

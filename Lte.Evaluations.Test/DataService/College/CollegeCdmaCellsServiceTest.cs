@@ -1,9 +1,11 @@
 ﻿using System.Linq;
+using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities.Basic;
@@ -19,15 +21,17 @@ namespace Lte.Evaluations.DataService.College
         private readonly Mock<IBtsRepository> _btsRepository = new Mock<IBtsRepository>();
         private CollegeCdmaCellsService _service;
         private CollegeCdmaCellViewService _viewService;
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
 
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
             _service = new CollegeCdmaCellsService(_repository.Object, _cellRepository.Object, _btsRepository.Object);
             _viewService = new CollegeCdmaCellViewService(_repository.Object, _cellRepository.Object,
                 _btsRepository.Object);
             BaiduMapperService.MapCdmaCellView();
-            InfrastructureMapperService.MapCdmaCell();
             _repository.MockOperations();
             _repository.MockSixCollegeCdmaCells();
             _cellRepository.MockGetId<ICdmaCellRepository, CdmaCell>();

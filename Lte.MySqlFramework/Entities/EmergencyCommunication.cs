@@ -8,8 +8,10 @@ using Lte.Domain.Common.Wireless;
 
 namespace Lte.MySqlFramework.Entities
 {
+    [AutoMapFrom(typeof(EmergencyCommunicationDto))]
     public class EmergencyCommunication : Entity
     {
+        [AutoMapPropertyResolve("DemandLevelDescription", typeof(EmergencyCommunicationDto), typeof(DemandLevelTransform))]
         public DemandLevel DemandLevel { get; set; }
 
         public int TownId { get; set; }
@@ -22,6 +24,7 @@ namespace Lte.MySqlFramework.Entities
 
         public DateTime EndDate { get; set; }
 
+        [AutoMapPropertyResolve("VehicularTypeDescription", typeof(EmergencyCommunicationDto), typeof(VehicularTypeTransform))]
         public VehicleType VehicleType { get; set; }
 
         public byte Vehicles { get; set; }
@@ -38,6 +41,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string Description { get; set; }
 
+        [AutoMapPropertyResolve("CurrentStateDescription", typeof(EmergencyCommunicationDto), typeof(EmergencyStateTransform))]
         public EmergencyState EmergencyState { get; set; }
     }
 
@@ -82,11 +86,15 @@ namespace Lte.MySqlFramework.Entities
         [AutoMapPropertyResolve("ContactPerson", typeof(EmergencyCommunication), typeof(SecondLittleBracketContentsTransform))]
         public string Phone { get; set; }
 
+        public string ContactPerson => Person + "(" + Phone + ")";
+
         [AutoMapPropertyResolve("Description", typeof(EmergencyCommunication), typeof(FirstMiddleBracketContentsTransform))]
         public string VehicleLocation { get; set; }
 
         [AutoMapPropertyResolve("Description", typeof(EmergencyCommunication), typeof(SecondMiddleBracketContentsTransform))]
         public string OtherDescription { get; set; }
+
+        public string Description => "[" + VehicleLocation + "]" + OtherDescription;
 
         [AutoMapPropertyResolve("EmergencyState", typeof(EmergencyCommunication), typeof(EmergencyStateDescriptionTransform))]
         public string CurrentStateDescription { get; set; }

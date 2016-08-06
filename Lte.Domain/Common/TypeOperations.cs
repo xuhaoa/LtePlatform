@@ -198,6 +198,14 @@ namespace Lte.Domain.Common
         }
     }
 
+    public class NotNullTransform : ValueResolver<object, bool>
+    {
+        protected override bool ResolveCore(object source)
+        {
+            return source != null;
+        }
+    }
+
     public class IpAddressTransform : ValueResolver<IpAddress, int>
     {
         protected override int ResolveCore(IpAddress source)

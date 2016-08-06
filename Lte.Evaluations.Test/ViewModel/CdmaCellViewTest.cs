@@ -1,5 +1,8 @@
-﻿using Lte.Evaluations.MapperSerive;
+﻿using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
+using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
@@ -12,11 +15,13 @@ namespace Lte.Evaluations.ViewModel
     public class CdmaCellViewTest
     {
         private readonly Mock<IBtsRepository> _repository = new Mock<IBtsRepository>();
-            
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
+
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            InfrastructureMapperService.MapCdmaCell();
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
             _repository.MockOperation();
             _repository.MockGetId<IBtsRepository, CdmaBts>();
             _repository.MockThreeBtss();

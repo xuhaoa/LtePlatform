@@ -153,7 +153,6 @@
     <Compile Include="ViewModels\AlarmView.cs" />
     <Compile Include="ViewModels\Basic\CdmaBtsView.cs" />
     <Compile Include="ViewModels\Basic\CdmaCellView.cs" />
-    <Compile Include="ViewModels\Basic\CdmaCompoundCellView.cs" />
     <Compile Include="ViewModels\Mr\InterferenceVictimView.cs" />
     <Compile Include="ViewModels\Mr\NearestPciCellView.cs" />
     <Compile Include="ViewModels\Mr\NeighborCellMongo.cs" />

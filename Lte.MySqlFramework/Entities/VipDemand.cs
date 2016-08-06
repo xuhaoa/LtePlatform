@@ -59,10 +59,12 @@ namespace Lte.MySqlFramework.Entities
         public VipState VipState { get; set; }
     }
     
+    [AutoMapFrom(typeof(VipDemand))]
     public class VipDemandDto : IDistrictTown, ITownId, IConstructDto<VipProcessDto>, IStateChange
     {
         public string SerialNumber { get; set; }
         
+        [AutoMapPropertyResolve("DemandLevel", typeof(VipDemand), typeof(DemandLevelDescriptionTransform))]
         public string DemandLevelDescription { get; set; }
 
         public int TownId { get; set; }
@@ -73,8 +75,10 @@ namespace Lte.MySqlFramework.Entities
 
         public string ProjectName { get; set; }
         
+        [AutoMapPropertyResolve("NetworkType", typeof(VipDemand), typeof(NetworkTypeDescritionTransform))]
         public string NetworkTypeDescription { get; set; }
 
+        [AutoMapPropertyResolve("MarketTheme", typeof(VipDemand), typeof(MarketThemeDescriptionTransform))]
         public string MarketThemeDescription { get; set; }
 
         public string Department { get; set; }
@@ -93,9 +97,11 @@ namespace Lte.MySqlFramework.Entities
 
         public string SustainPerson { get; set; }
 
+        [AutoMapPropertyResolve("FinishTime", typeof(VipDemand), typeof(NotNullTransform))]
         public bool IsFinished { get; set; }
 
-        public bool IsInfoComplete { get; set; }
+        public bool IsInfoComplete => !string.IsNullOrEmpty(Area) && !string.IsNullOrEmpty(ContactPerson) &&
+                                      !string.IsNullOrEmpty(PhoneNumber) && TownId > 0;
 
         public int SubscriberGotten { get; set; }
 
@@ -103,6 +109,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string ProcessInfo { get; set; }
 
+        [AutoMapPropertyResolve("VipState", typeof(VipDemand), typeof(VipStateDescriptionTransform))]
         public string CurrentStateDescription { get; set; }
 
         public string NextStateDescription

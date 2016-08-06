@@ -137,7 +137,6 @@
     <Compile Include="Channel\ChannelRepositoryTests.cs" />
     <Compile Include="Converter\WorkItemConverterTest.cs" />
     <Compile Include="Entities\AlarmStatCsvTest.cs" />
-    <Compile Include="Entities\CustomerMapperTest.cs" />
     <Compile Include="Entities\IndoorDistributionTest.cs" />
     <Compile Include="Entities\InterferenceMatrixCsvTest.cs" />
     <Compile Include="Entities\PreciseCoverage4GTest.cs" />

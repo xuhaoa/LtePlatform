@@ -426,5 +426,102 @@ namespace Lte.Evaluations.MapperService
             view.DownTilt.ShouldBe(0.5);
             view.Indoor.ShouldBe("室内");
         }
+
+        [Test]
+        public void Test_CdmaCellView()
+        {
+            var info = new CdmaCell
+            {
+                ETilt = 0.2,
+                MTilt = 0.3,
+                IsOutdoor = false
+            };
+            var view = info.MapTo<CdmaCellView>();
+            view.DownTilt.ShouldBe(0.5);
+            view.Indoor.ShouldBe("室内");
+        }
+
+        [Test]
+        public void Test_CdmaCompoundCellView()
+        {
+            var info = new CdmaCell
+            {
+                ETilt = 0.2,
+                MTilt = 0.3,
+                IsOutdoor = false
+            };
+            var view = info.MapTo<CdmaCompoundCellView>();
+            view.DownTilt.ShouldBe(0.5);
+            view.Indoor.ShouldBe("室内");
+        }
+
+        [Test]
+        public void Test_EmergencyCommunication()
+        {
+            var dto = new EmergencyCommunicationDto
+            {
+                DemandLevelDescription = "C级",
+                VehicularTypeDescription = "L网华为",
+                Person = "abc",
+                Phone = "123",
+                VehicleLocation = "def",
+                OtherDescription = "ghi",
+                CurrentStateDescription = "光纤起单"
+            };
+            var item = dto.MapTo<EmergencyCommunication>();
+            item.DemandLevel.ShouldBe(DemandLevel.LevelC);
+            item.VehicleType.ShouldBe(VehicleType.LteHuawei);
+            item.ContactPerson.ShouldBe("abc(123)");
+            item.Description.ShouldBe("[def]ghi");
+            item.EmergencyState.ShouldBe(EmergencyState.FiberBegin);
+        }
+
+        [Test]
+        public void Test_Map_VipDemand()
+        {
+            var entity = new VipDemand
+            {
+                Id = 2,
+                SerialNumber = "4433",
+                TownId = 4,
+                FinishTime = DateTime.Parse("2016-7-6"),
+                DemandLevel = DemandLevel.LevelA,
+                NetworkType = NetworkType.With2G3G4G4GPlus,
+                MarketTheme = MarketTheme.HappyNewYear,
+                VipState = VipState.NetworkOptimization
+            };
+            var dto = new VipDemandDto();
+            Mapper.Map(entity, dto);
+            dto.SerialNumber.ShouldBe("4433");
+            dto.TownId.ShouldBe(4);
+            dto.IsInfoComplete.ShouldBe(false);
+            dto.IsFinished.ShouldBeTrue();
+            dto.DemandLevelDescription.ShouldBe("A级");
+            dto.NetworkTypeDescription.ShouldBe("2G/3G/4G/4G+");
+            dto.MarketThemeDescription.ShouldBe("岁末年初");
+            dto.CurrentStateDescription.ShouldBe("优化调整");
+        }
+
+        [Test]
+        public void Test_Map_Reverse_VipDemandDto()
+        {
+            var dto = new VipDemandDto
+            {
+                SerialNumber = "4433",
+                TownId = 5,
+                IsFinished = true,
+                DemandLevelDescription = "A级"
+            };
+            var entity = new VipDemand
+            {
+                Id = 5,
+                TownId = 3
+            };
+            Mapper.Map(dto, entity);
+            entity.SerialNumber.ShouldBe("4433");
+            entity.Id.ShouldBe(5);
+            entity.DemandLevel.ShouldBe(DemandLevel.LevelA);
+            ((DateTime)entity.FinishTime).Date.ShouldBe(DateTime.Today);
+        }
     }
 }
