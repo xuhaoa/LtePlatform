@@ -55,16 +55,32 @@
     @include panel-def($color-blue);
 }
 
+.modal-header-blue {
+    @include modal-header-def($color-blue);
+}
+
 .panel-teal { 
     @include panel-def($color-teal);
+}
+
+.modal-header-teal {
+    @include modal-header-def($color-teal);
 }
 
 .panel-orange { 
     @include panel-def($color-orange);
 }
 
+.modal-header-orange {
+    @include modal-header-def($color-orange);
+}
+
 .panel-red { 
     @include panel-def($color-red);
+}
+
+.modal-header-red {
+    @include modal-header-def($color-red);
 }
 
 .panel-widget {

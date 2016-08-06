@@ -15,3 +15,10 @@
         @extend %text-muted-common
     }
 }
+
+@mixin modal-header-def($color) {
+    background-color: $color;
+    .modal-title {
+        color: #fff;
+    }
+}

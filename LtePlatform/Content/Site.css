@@ -113,11 +113,21 @@ body {
   .panel-blue .panel-body {
     color: #000000; }
 
+.modal-header-blue {
+  background-color: #30a5ff; }
+  .modal-header-blue .modal-title {
+    color: #fff; }
+
 .panel-teal {
   background: #1ebfae;
   color: #fff; }
   .panel-teal .panel-body {
     color: #000000; }
+
+.modal-header-teal {
+  background-color: #1ebfae; }
+  .modal-header-teal .modal-title {
+    color: #fff; }
 
 .panel-orange {
   background: #ffb53e;
@@ -125,11 +135,21 @@ body {
   .panel-orange .panel-body {
     color: #000000; }
 
+.modal-header-orange {
+  background-color: #ffb53e; }
+  .modal-header-orange .modal-title {
+    color: #fff; }
+
 .panel-red {
   background: #f9243f;
   color: #fff; }
   .panel-red .panel-body {
     color: #000000; }
+
+.modal-header-red {
+  background-color: #f9243f; }
+  .modal-header-red .modal-title {
+    color: #fff; }
 
 .panel-widget {
   margin: 0; }

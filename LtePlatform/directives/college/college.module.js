@@ -99,42 +99,43 @@ angular.module('college.infrastructure', ['college'])
         };
         $scope.gridOptions = {
             columnDefs: [
-                { field: 'name', name: '校园名称', width: 200, enableColumnResizing: false },
-                { field: 'expectedSubscribers', name: '用户数' },
-                { field: 'area', name: '区域面积（平方米）', cellFilter: 'number: 2', width: 100, enableColumnResizing: false },
+                { field: 'name', name: '校园名称', width: 170, enableColumnResizing: false },
+                { field: 'expectedSubscribers', name: '用户数', width: 40 },
+                { field: 'area', name: '区域面积（平方米）', cellFilter: 'number: 2', width: 90, enableColumnResizing: false },
                 {
                     name: '4G基站数',
-                    cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.showENodebs(row.entity.name)">' +
-                        '{{row.entity.totalLteENodebs}}</button>'
+                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="grid.appScope.showENodebs(row.entity.name)">' +
+                        '详情<span class="badge pull-right">{{row.entity.totalLteENodebs}}</span></button>'
                 },
                 {
                     name: '4G小区数',
-                    cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.showCells(row.entity.name)">' +
-                        '{{row.entity.totalLteCells}}</button>'
+                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="grid.appScope.showCells(row.entity.name)">' +
+                        '详情<span class="badge pull-right">{{row.entity.totalLteCells}}</span></button>'
                 },
                 {
                     name: '3G基站数',
                     cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.showBtss(row.entity.name)">' +
-                        '{{row.entity.totalCdmaBts}}</button>'
+                        '详情<span class="badge pull-right">{{row.entity.totalCdmaBts}}</span></button>'
                 },
                 {
                     name: '3G小区数',
                     cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.showCdmaCells(row.entity.name)">' +
-                        '{{row.entity.totalCdmaCells}}</button>'
+                        '详情<span class="badge pull-right">{{row.entity.totalCdmaCells}}</span></button>'
                 },
                 {
                     name: '4G室分数',
-                    cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.showLteDistributions(row.entity.name)">' +
-                        '{{row.entity.totalLteIndoors}}</button>'
+                    cellTemplate: '<button class="btn btn-sm btn-success" ng-click="grid.appScope.showLteDistributions(row.entity.name)">' +
+                        '详情<span class="badge pull-right">{{row.entity.totalLteIndoors}}</span></button>'
                 },
                 {
                     name: '3G室分数',
-                    cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.showCdmaDistributions(row.entity.name)">' +
-                        '{{row.entity.totalCdmaIndoors}}</button>'
+                    cellTemplate: '<button class="btn btn-sm btn-success" ng-click="grid.appScope.showCdmaDistributions(row.entity.name)">' +
+                        '详情<span class="badge pull-right">{{row.entity.totalCdmaIndoors}}</span></button>'
                 },
                 {
                     name: '详细信息',
-                    cellTemplate: '<a ng-href="{{grid.appScope.rootPath}}query/{{row.entity.name}}" class="btn btn-sm btn-success">详细</a>'
+                    cellTemplate: '<a ng-href="{{grid.appScope.rootPath}}query/{{row.entity.name}}" class="btn btn-sm btn-success">详细</a>',
+                    width: 40
                 }
             ],
             data: []
