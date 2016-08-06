@@ -25,12 +25,14 @@ namespace Lte.Evaluations.MapperService
         private readonly Mock<ICellRepository> _repository = new Mock<ICellRepository>();
         private readonly Mock<IENodebRepository> _eNodebRepository = new Mock<IENodebRepository>();
         private CellService _service;
-             
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
+
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
             BaiduMapperService.MapCellView();
-            InfrastructureMapperService.MapCell();
             _eNodebRepository.MockThreeENodebs();
             _repository.MockRangeCells();
             _service = new CellService(_repository.Object, _eNodebRepository.Object);

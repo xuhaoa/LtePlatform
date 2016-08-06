@@ -39,7 +39,6 @@ namespace Lte.Evaluations.DataService.Dump
             _townRepository.MockGetId<ITownRepository, Town>();
             _townRepository.MockOpertion();
             _townRepository.MockSixTowns();
-            InfrastructureMapperService.MapCell();
         }
 
         [SetUp]

@@ -1,6 +1,9 @@
 ﻿using System.Linq;
+using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract.Basic;
@@ -19,15 +22,17 @@ namespace Lte.Evaluations.DataService.College
         private readonly Mock<IENodebRepository> _eNodebRepository = new Mock<IENodebRepository>();
         private CollegeCellsService _service;
         private CollegeCellViewService _viewService;
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
 
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
             _service = new CollegeCellsService(_repository.Object, _cellRepository.Object, _eNodebRepository.Object);
             _viewService = new CollegeCellViewService(_repository.Object, _cellRepository.Object,
                 _eNodebRepository.Object);
             BaiduMapperService.MapCellView();
-            InfrastructureMapperService.MapCell();
             _repository.MockOperations();
             _repository.MockSixCollegeCells();
             _cellRepository.MockGetId<ICellRepository, Cell>();

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Regular.Attributes;
+using Lte.Parameters.Entities.Basic;
 
 namespace Lte.Evaluations.MapperSerive.Infrastructure
 {
+    [AutoMapFrom(typeof(Cell))]
     public class PciCell
     {
         public int ENodebId { get; set; }

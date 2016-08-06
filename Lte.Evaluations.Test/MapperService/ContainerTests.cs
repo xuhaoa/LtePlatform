@@ -7,13 +7,13 @@ using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
-using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.Policy;
+using Lte.Evaluations.ViewModels.Basic;
 using Lte.Evaluations.ViewModels.Mr;
 using Lte.Evaluations.ViewModels.Switch;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.Entities.Neighbor;
 using Lte.Parameters.Entities.Switch;
@@ -411,6 +411,20 @@ namespace Lte.Evaluations.MapperService
             container.ENodeb.Address.ShouldBe("abc");
             container.ENodeb.Name.ShouldBe("def");
             container.ENodeb.Factory.ShouldBe("zte");
+        }
+
+        [Test]
+        public void Test_CellView()
+        {
+            var info = new Cell
+            {
+                ETilt = 0.2,
+                MTilt = 0.3,
+                IsOutdoor = false
+            };
+            var view = info.MapTo<CellView>();
+            view.DownTilt.ShouldBe(0.5);
+            view.Indoor.ShouldBe("室内");
         }
     }
 }

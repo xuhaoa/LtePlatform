@@ -15,7 +15,6 @@ namespace Lte.Evaluations.MapperSerive
             module.PostInitialize();
 
             InfrastructureMapperService.MapCdmaCell();
-            InfrastructureMapperService.MapCell();
             InfrastructureMapperService.MapCustomerEntities();
 
             KpiMapperService.MapCdmaRegionStat();

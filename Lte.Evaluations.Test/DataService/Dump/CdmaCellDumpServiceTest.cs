@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Domain.Common;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
-using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;
@@ -18,15 +19,17 @@ namespace Lte.Evaluations.DataService.Dump
     {
         private readonly Mock<ICdmaCellRepository> _cellRepository = new Mock<ICdmaCellRepository>();
         private CdmaCellDumpService _service;
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
 
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            _service=new CdmaCellDumpService(_cellRepository.Object, null);
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
+            _service =new CdmaCellDumpService(_cellRepository.Object, null);
             _cellRepository.MockGetId<ICdmaCellRepository, CdmaCell>();
             _cellRepository.MockOperations();
             _cellRepository.MockRepositorySaveItems<CdmaCell, ICdmaCellRepository>();
-            InfrastructureMapperService.MapCell();
         }
 
         [SetUp]

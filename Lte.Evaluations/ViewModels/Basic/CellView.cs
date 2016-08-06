@@ -1,9 +1,12 @@
-﻿using AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
+using AutoMapper;
+using Lte.Domain.Common;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 
 namespace Lte.Evaluations.ViewModels.Basic
 {
+    [AutoMapFrom(typeof(Cell))]
     public class CellView
     {
         public string ENodebName { get; private set; }
@@ -28,9 +31,14 @@ namespace Lte.Evaluations.ViewModels.Basic
 
         public double Azimuth { get; set; }
 
+        [AutoMapPropertyResolve("IsOutdoor", typeof(Cell), typeof(OutdoorDescriptionTransform))]
         public string Indoor { get; set; }
 
-        public double DownTilt { get; set; }
+        public double MTilt { get; set; }
+
+        public double ETilt { get; set; }
+
+        public double DownTilt => MTilt + ETilt;
 
         public double AntennaGain { get; set; }
 

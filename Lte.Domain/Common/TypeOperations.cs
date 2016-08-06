@@ -182,6 +182,14 @@ namespace Lte.Domain.Common
         }
     }
 
+    public class OutdoorDescriptionTransform : ValueResolver<bool, string>
+    {
+        protected override string ResolveCore(bool source)
+        {
+            return source ? "室外" : "室内";
+        }
+    }
+
     public class FddTransform : ValueResolver<string, bool>
     {
         protected override bool ResolveCore(string source)

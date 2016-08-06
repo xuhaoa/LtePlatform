@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
+using AutoMapper;
 using Lte.Domain.Regular.Attributes;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
@@ -7,6 +8,7 @@ using Lte.Parameters.Entities.Neighbor;
 namespace Lte.Evaluations.ViewModels.Mr
 {
     [TypeDoc("包含PCI的LTE邻区关系视图")]
+    [AutoMapFrom(typeof(NearestPciCell))]
     public class NearestPciCellView
     {
         [MemberDoc("小区编号（对于LTE来说就是基站编号）")]
