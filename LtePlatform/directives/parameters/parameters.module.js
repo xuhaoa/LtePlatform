@@ -103,6 +103,50 @@ angular.module('parameters.list', ['myApp.parameters', 'huawei.mongo.parameters'
             templateUrl: parametersRoot + 'eNodeb/ENodebDetailsTable.html'
         }
     })
+
+    .controller('CellDialogController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                {
+                     name: '小区名称',
+                     cellTemplate: '<span class="text-primary">{{row.entity.eNodebName}}-{{row.entity.sectorId}}</span>'
+                },
+                { field: 'frequency', name: '频点' },
+                { field: 'pci', name: 'PCI' },
+                { field: 'prach', name: 'PRACH' },
+                { field: 'rsPower', name: 'RS功率' },
+                { field: 'indoor', name: '室内外' },
+                { field: 'height', name: '高度' },
+                { field: 'azimuth', name: '方位角' },
+                { field: 'downTilt', name: '下倾' },
+                { field: 'antennaGain', name: '天线增益(dB)' }
+            ],
+            data: []
+        };
+    })
+    .directive('cellDialogTable', function ($compile) {
+        return {
+            controller: 'CellDialogController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                items: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
+    })
+
     .directive('lteCellTable', function(parametersRoot) {
         return {
             restrict: 'ECMA',
