@@ -2,8 +2,6 @@
 using Abp.Reflection;
 using AutoMapper;
 using Lte.Evaluations.Policy;
-using Lte.MySqlFramework.Abstract;
-using Lte.Parameters.MockOperations;
 
 namespace Lte.Evaluations.MapperSerive
 {
@@ -18,7 +16,6 @@ namespace Lte.Evaluations.MapperSerive
 
             InfrastructureMapperService.MapCdmaCell();
             InfrastructureMapperService.MapCell();
-            InfrastructureMapperService.MapDumpConatainers();
             InfrastructureMapperService.MapCustomerEntities();
 
             KpiMapperService.MapCdmaRegionStat();

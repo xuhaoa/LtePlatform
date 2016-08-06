@@ -32,7 +32,6 @@ namespace Lte.Evaluations.MapperService
         {
             var module = new AbpAutoMapperModule(_typeFinder);
             module.PostInitialize();
-            InfrastructureMapperService.MapDumpConatainers();
         }
 
         [TestCase("abc", "ieowue", 1, 2, "10.17.165.0", "10.17.165.100")]
@@ -361,6 +360,57 @@ namespace Lte.Evaluations.MapperService
             Assert.IsNotNull(item.FinishTime);
             Assert.AreEqual(((DateTime)item.FinishTime).Date, DateTime.Today);
             Assert.AreEqual(item.PlanDate, new DateTime(2016, 2, 2));
+        }
+
+        [Test]
+        public void Test_ENodebBtsIdPair()
+        {
+            var info = new CellExcel
+            {
+                ENodebId = 11223,
+                ShareCdmaInfo = "5_2234_0"
+            };
+            var item = info.MapTo<ENodebBtsIdPair>();
+            item.ENodebId.ShouldBe(11223);
+            item.BtsId.ShouldBe(2234);
+        }
+
+        [Test]
+        public void Test_BtsWithTownIdContainer()
+        {
+            var excelContainer = new BtsExcelWithTownIdContainer
+            {
+                TownId = 33,
+                BtsExcel = new BtsExcel
+                {
+                    Address = "abc",
+                    Name = "def"
+                }
+            };
+            var container = excelContainer.MapTo<BtsWithTownIdContainer>();
+            container.TownId.ShouldBe(33);
+            container.CdmaBts.Address.ShouldBe("abc");
+            container.CdmaBts.Name.ShouldBe("def");
+        }
+
+        [Test]
+        public void Test_ENodebWithTownIdContainer()
+        {
+            var excelContainer = new ENodebExcelWithTownIdContainer
+            {
+                TownId = 33,
+                ENodebExcel = new ENodebExcel
+                {
+                    Address = "abc",
+                    Name = "def",
+                    Factory = "zte"
+                }
+            };
+            var container = excelContainer.MapTo<ENodebWithTownIdContainer>();
+            container.TownId.ShouldBe(33);
+            container.ENodeb.Address.ShouldBe("abc");
+            container.ENodeb.Name.ShouldBe("def");
+            container.ENodeb.Factory.ShouldBe("zte");
         }
     }
 }

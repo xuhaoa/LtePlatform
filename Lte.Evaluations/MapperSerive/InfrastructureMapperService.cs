@@ -38,18 +38,7 @@ namespace Lte.Evaluations.MapperSerive
             Mapper.CreateMap<Cell, PciCell>();
             Mapper.CreateMap<NearestPciCell, NearestPciCellView>();
         }
-
-        public static void MapDumpConatainers()
-        {
-            Mapper.CreateMap<ENodebExcelWithTownIdContainer, ENodebWithTownIdContainer>()
-                .ForMember(d => d.ENodeb, opt => opt.MapFrom(s => Mapper.Map<ENodebExcel, ENodeb>(s.ENodebExcel)));
-            Mapper.CreateMap<BtsExcelWithTownIdContainer, BtsWithTownIdContainer>()
-                .ForMember(d => d.CdmaBts, opt => opt.MapFrom(s => Mapper.Map<BtsExcel, CdmaBts>(s.BtsExcel)));
-            Mapper.CreateMap<CellExcel, ENodebBtsIdPair>()
-                .ForMember(d => d.BtsId, opt => opt.MapFrom(s =>
-                    s.ShareCdmaInfo.Split('_').Length > 2 ? s.ShareCdmaInfo.Split('_')[1].ConvertToInt(-1) : -1));
-        }
-
+        
         public static void MapCustomerEntities()
         {
             Mapper.CreateMap<EmergencyCommunicationDto, EmergencyCommunication>()

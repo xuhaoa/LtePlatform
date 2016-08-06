@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.DataService.Queries;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Evaluations.Test.DataService.Queries;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
@@ -22,10 +24,14 @@ namespace Lte.Evaluations.DataService.Dump
         private readonly Mock<IBtsRepository> _btsRepository = new Mock<IBtsRepository>();
         private readonly Mock<ITownRepository> _townRepository = new Mock<ITownRepository>();
         private BtsDumpService _service;
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
+
 
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
             _service = new BtsDumpService(_btsRepository.Object, _townRepository.Object);
             _btsRepository.MockOperation();
             _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
@@ -33,7 +39,6 @@ namespace Lte.Evaluations.DataService.Dump
             _townRepository.MockOpertion();
             _townRepository.MockGetId<ITownRepository, Town>();
             _townRepository.MockSixTowns();
-            InfrastructureMapperService.MapDumpConatainers();
             AutoMapperHelper.CreateMap(typeof(BtsExcel));
         }
 

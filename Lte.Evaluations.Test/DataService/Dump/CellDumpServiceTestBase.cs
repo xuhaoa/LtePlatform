@@ -28,7 +28,6 @@ namespace Lte.Evaluations.DataService.Dump
             CellRepository.MockRepositorySaveItems<Cell, ICellRepository>();
             var module = new AbpAutoMapperModule(_typeFinder);
             module.PostInitialize();
-            InfrastructureMapperService.MapDumpConatainers();
         }
 
     }
