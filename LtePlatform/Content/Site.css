@@ -117,6 +117,8 @@ body {
   background-color: #30a5ff; }
   .modal-header-blue .modal-title {
     color: #fff; }
+  .modal-header-blue button.close {
+    color: #ffffff; }
 
 .panel-teal {
   background: #1ebfae;
@@ -128,6 +130,8 @@ body {
   background-color: #1ebfae; }
   .modal-header-teal .modal-title {
     color: #fff; }
+  .modal-header-teal button.close {
+    color: #ffffff; }
 
 .panel-orange {
   background: #ffb53e;
@@ -139,6 +143,8 @@ body {
   background-color: #ffb53e; }
   .modal-header-orange .modal-title {
     color: #fff; }
+  .modal-header-orange button.close {
+    color: #ffffff; }
 
 .panel-red {
   background: #f9243f;
@@ -150,6 +156,8 @@ body {
   background-color: #f9243f; }
   .modal-header-red .modal-title {
     color: #fff; }
+  .modal-header-red button.close {
+    color: #ffffff; }
 
 .panel-widget {
   margin: 0; }

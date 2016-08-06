@@ -15,4 +15,9 @@
             var errors = angular.extend({}, formErrorDefs, customMessages);
             return errors[name] || name;
         };
+    })
+    .filter('yesNoChinese', function() {
+        return function(input) {
+            return input ? '是' : '否';
+        };
     });
