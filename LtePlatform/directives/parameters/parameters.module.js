@@ -57,6 +57,42 @@ angular.module('parameters.list', ['myApp.parameters', 'huawei.mongo.parameters'
             templateUrl: parametersRoot + 'kpi/FlowTable.html'
         }
     })
+    .controller('LteENodebController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'eNodebId', name: 'LTE基站编号' },
+                { field: 'name', name: '基站名称', width: 150 },
+                { field: 'planNum', name: '规划编号' },
+                { field: 'openDate', name: '入网日期', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'address', name: '地址', width: 300, enableColumnResizing: false },
+                { field: 'factory', name: '厂家' },
+                { field: 'isInUse', name: '是否在用', cellFilter: 'yesNoChinese' }
+            ],
+            data: []
+        };
+    })
+    .directive('eNodebTable', function ($compile) {
+        return {
+            controller: 'LteENodebController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                items: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
+    })
     .directive('eNodebDetailsTable', function(parametersRoot) {
         return {
             restrict: 'ECMA',
