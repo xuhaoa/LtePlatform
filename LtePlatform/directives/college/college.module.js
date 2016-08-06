@@ -154,7 +154,6 @@ angular.module('college.infrastructure', ['college'])
                 scope.initialize = false;
                 scope.$watch('collegeList', function (colleges) {
                     scope.gridOptions.data = colleges;
-                    console.log(colleges);
                     if (!scope.initialize) {
                         var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
                         element.append(linkDom);

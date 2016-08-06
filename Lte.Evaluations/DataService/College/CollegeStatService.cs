@@ -50,6 +50,32 @@ namespace Lte.Evaluations.DataService.College
                 : _yearRepository.GetByCollegeAndYear(info.Id, year);
         }
 
+        public async Task<int> SaveCollegeInfo(CollegeInfo info, long userId)
+        {
+            var item = _repository.GetByName(info.Name);
+            if (item == null)
+            {
+                info.CreatorUserId = userId;
+                await _repository.InsertAsync(info);
+            }
+            else
+            {
+                item.TownId = info.TownId;
+                var areaItem = _repository.GetRegion(item.Id);
+                if (areaItem == null)
+                {
+                    item.CollegeRegion = info.CollegeRegion;
+                }
+                else
+                {
+                    areaItem.Area = info.CollegeRegion.Area;
+                    areaItem.Info = info.CollegeRegion.Info;
+                    areaItem.RegionType = info.CollegeRegion.RegionType;
+                }
+            }
+            return _repository.SaveChanges();
+        } 
+
         public async Task<int> SaveYearInfo(CollegeYearInfo info)
         {
             var item = _yearRepository.GetByCollegeAndYear(info.CollegeId, info.Year);

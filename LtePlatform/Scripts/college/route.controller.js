@@ -252,12 +252,13 @@ angular.module('college.main', ['app.common'])
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('college.new.dialog', function ($scope, $uibModalInstance, college, dialogTitle) {
-        $scope.college = college;
-        $scope.dialogTitle = dialogTitle;
+    .controller('college.new.dialog', function ($scope, $uibModalInstance) {
+        $scope.saveCollege = function() {
 
+        };
         $scope.ok = function () {
             $uibModalInstance.close($scope.college);
+            $scope.saveCollege();
         };
 
         $scope.cancel = function () {

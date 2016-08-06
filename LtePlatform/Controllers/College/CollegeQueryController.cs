@@ -124,6 +124,13 @@ namespace LtePlatform.Controllers.College
         {
             return _service.QueryStats(year);
         }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<int> Post(CollegeInfo info)
+        {
+            return await _service.SaveCollegeInfo(info, User.Identity.Name.GetHashCode());
+        } 
     }
 
     [ApiControl("校园网区域查询控制器")]
