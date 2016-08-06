@@ -12,7 +12,7 @@ using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
 {
-    [AutoMapFrom(typeof(ComplainDto))]
+    [AutoMapFrom(typeof(ComplainDto), typeof(ComplainExcel))]
     public class ComplainItem : Entity
     {
         public string SerialNumber { get; set; }
@@ -20,6 +20,7 @@ namespace Lte.MySqlFramework.Entities
         public int TownId { get; set; }
 
         [AutoMapPropertyResolve("ComplainSourceDescription", typeof(ComplainDto), typeof(ComplainSourceTransform))]
+        [AutoMapPropertyResolve("SourceDescription", typeof(ComplainExcel), typeof(ComplainSourceTransform))]
         public ComplainSource ComplainSource { get; set; }
 
         public DateTime BeginTime { get; set; }
@@ -37,25 +38,31 @@ namespace Lte.MySqlFramework.Entities
         public double Lattitute { get; set; }
 
         [AutoMapPropertyResolve("ComplainReasonDescription", typeof(ComplainDto), typeof(ComplainReasonTransform))]
+        [AutoMapPropertyResolve("ReasonFirst", typeof(ComplainExcel), typeof(ComplainReasonTransform))]
         public ComplainReason ComplainReason { get; set; }
 
         [AutoMapPropertyResolve("ComplainSubReasonDescription", typeof(ComplainDto), typeof(ComplainSubReasonTransform))]
+        [AutoMapPropertyResolve("ReasonSecond", typeof(ComplainExcel), typeof(ComplainSubReasonTransform))]
         public ComplainSubReason ComplainSubReason { get; set; }
 
         public string Grid { get; set; }
-
+        
         [AutoMapPropertyResolve("NetworkTypeDescription", typeof(ComplainDto), typeof(NetworkTypeTransform))]
+        [AutoMapPropertyResolve("NetworkDescription", typeof(ComplainExcel), typeof(NetworkTypeTransform))]
         public NetworkType NetworkType { get; set; }
 
         public string SitePosition { get; set; }
 
         [AutoMapPropertyResolve("IsIndoorDescription", typeof(ComplainDto), typeof(IndoorBoolTransform))]
+        [AutoMapPropertyResolve("IndoorDescription", typeof(ComplainExcel), typeof(IndoorBoolTransform))]
         public bool IsIndoor { get; set; }
 
         [AutoMapPropertyResolve("ComplainSceneDescription", typeof(ComplainDto), typeof(ComplainSceneTransform))]
+        [AutoMapPropertyResolve("Scene", typeof(ComplainExcel), typeof(ComplainSceneTransform))]
         public ComplainScene ComplainScene { get; set; }
 
         [AutoMapPropertyResolve("ComplainCategoryDescription", typeof(ComplainDto), typeof(ComplainCategoryTransform))]
+        [AutoMapPropertyResolve("CategoryDescription", typeof(ComplainExcel), typeof(ComplainCategoryTransform))]
         public ComplainCategory ComplainCategory { get; set; }
 
         [AutoMapPropertyResolve("CurrentStateDescription", typeof(ComplainDto), typeof(ComplainStateTransform))]
@@ -241,6 +248,12 @@ namespace Lte.MySqlFramework.Entities
         [ExcelColumn("归属网格")]
         public string Grid { get; set; }
 
+        public string District
+            =>
+                string.IsNullOrEmpty(Grid)
+                    ? CandidateDistrict
+                    : (Grid.StartsWith("FS") ? Grid.Substring(2) : CandidateDistrict);
+
         [ExcelColumn("业务类型")]
         public string NetworkDescription { get; set; }
 
@@ -249,6 +262,8 @@ namespace Lte.MySqlFramework.Entities
 
         [ExcelColumn("问题点或区域描述")]
         public string Position { get; set; }
+
+        public string SitePosition => string.IsNullOrEmpty(Site) ? Position : Site;
 
         [ExcelColumn("室内室外")]
         public string IndoorDescription { get; set; }

@@ -142,7 +142,6 @@
     <Compile Include="DataService\WorkItemService.cs" />
     <Compile Include="MapperSerive\BaiduMapperService.cs" />
     <Compile Include="MapperSerive\EvalutaionMapperProfile.cs" />
-    <Compile Include="MapperSerive\InfrastructureMapperService.cs" />
     <Compile Include="MapperSerive\KpiMapperService.cs" />
     <Compile Include="MapperSerive\Infrastructure\PciCell.cs" />
     <Compile Include="MapperSerive\Kpi\KpiContainer.cs" />

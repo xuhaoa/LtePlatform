@@ -4,7 +4,6 @@ using System.Linq;
 using Lte.Domain.Common;
 using Lte.Domain.LinqToExcel;
 using Lte.Domain.Test.LinqToExcel;
-using Lte.Evaluations.MapperSerive;
 using Lte.MySqlFramework.Entities;
 using NUnit.Framework;
 using Shouldly;
@@ -61,7 +60,6 @@ namespace Lte.Parameters.Test.Excel
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             _excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
             _worksheetName = "Sheet1";
-            InfrastructureMapperService.MapCustomerEntities();
         }
 
         [Test]

@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToExcel;
 using Lte.Domain.Test.LinqToExcel;
-using Lte.Evaluations.MapperSerive;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Work;
 using NUnit.Framework;
@@ -74,7 +68,6 @@ namespace Lte.Parameters.Test.Excel
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             _excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
             _worksheetName = "组合项目";
-            InfrastructureMapperService.MapCustomerEntities();
         }
 
         [Test]
@@ -91,21 +84,6 @@ namespace Lte.Parameters.Test.Excel
             info[4].Lattitute.ShouldBe(23.031);
             info[1].CandidateDistrict.ShouldBe("南海");
             info[2].SerialNumber.ShouldBe("2016010510008434");
-
-            var stats = Mapper.Map<List<ComplainExcel>, List<ComplainItem>>(info);
-            stats.Count.ShouldBe(994);
-            stats[0].ComplainSource.ShouldBe(ComplainSource.Voice);
-            stats[1].District.ShouldBe("南海");
-            stats[2].BeginTime.ShouldBeGreaterThan(new DateTime(2016,1,1));
-            stats[3].ComplainReason.ShouldBe(ComplainReason.NetworkOptimize);
-            stats[3].ComplainSubReason.ShouldBe(ComplainSubReason.ParameterAdjust);
-            stats[4].IsIndoor.ShouldBeFalse();
-            stats[5].IsIndoor.ShouldBeTrue();
-            stats[5].SitePosition.ShouldBe("魁奇电信");
-            stats[6].SitePosition.ShouldBe("西樵民乐1");
-            stats[5].ComplainScene.ShouldBe(ComplainScene.Residential);
-            stats[6].ComplainScene.ShouldBe(ComplainScene.VillageInCity);
-            stats[7].ComplainCategory.ShouldBe(ComplainCategory.WeakCoverageVoice);
         }
 
         [Test]

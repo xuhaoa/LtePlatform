@@ -14,8 +14,6 @@ namespace Lte.Evaluations.MapperSerive
             var module = new AbpAutoMapperModule(_typeFinder);
             module.PostInitialize();
             
-            InfrastructureMapperService.MapCustomerEntities();
-
             KpiMapperService.MapCdmaRegionStat();
             KpiMapperService.MapDtItems();
             KpiMapperService.MapFlow();

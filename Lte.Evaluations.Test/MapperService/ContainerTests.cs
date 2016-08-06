@@ -523,5 +523,61 @@ namespace Lte.Evaluations.MapperService
             entity.DemandLevel.ShouldBe(DemandLevel.LevelA);
             ((DateTime)entity.FinishTime).Date.ShouldBe(DateTime.Today);
         }
+
+        [Test]
+        public void Test_ComplainExcel()
+        {
+            var info = new ComplainExcel
+            {
+                SourceDescription = "分公司客服中心",
+                ReasonFirst = "物业逼迁导致故障",
+                ReasonSecond = "业务恢复但原因未知",
+                NetworkDescription = "3G",
+                IndoorDescription = "室内",
+                Scene = "城中村",
+                CategoryDescription = "4G-无信号或信号弱"
+            };
+            var item = info.MapTo<ComplainItem>();
+            item.ComplainSource.ShouldBe(ComplainSource.BranchService);
+            item.ComplainReason.ShouldBe(ComplainReason.BiqianMalfunction);
+            item.NetworkType.ShouldBe(NetworkType.With3G);
+            item.IsIndoor.ShouldBe(true);
+            item.ComplainScene.ShouldBe(ComplainScene.VillageInCity);
+            item.ComplainCategory.ShouldBe(ComplainCategory.WeakCoverage4G);
+            item.District.ShouldBe(null);
+        }
+
+        [Test]
+        public void Test_ComplainExcel_Grid()
+        {
+            var info = new ComplainExcel
+            {
+                Grid = "分公司客服中心"
+            };
+            var item = info.MapTo<ComplainItem>();
+            item.District.ShouldBe(null);
+        }
+
+        [Test]
+        public void Test_ComplainExcel_Grid_FS()
+        {
+            var info = new ComplainExcel
+            {
+                Grid = "FS分公司客服中心"
+            };
+            var item = info.MapTo<ComplainItem>();
+            item.District.ShouldBe("分公司客服中心");
+        }
+
+        [Test]
+        public void Test_ComplainExcel_CandidateDistrict()
+        {
+            var info = new ComplainExcel
+            {
+                CandidateDistrict = "分公司客服中心"
+            };
+            var item = info.MapTo<ComplainItem>();
+            item.District.ShouldBe("分公司客服中心");
+        }
     }
 }
