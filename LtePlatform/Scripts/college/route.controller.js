@@ -1,4 +1,4 @@
-﻿angular.module('myApp', ['college.main', 'college.menu', 'college.query', 'college.coverage', 'college.test']);
+﻿angular.module('myApp', ['college.main', 'college.query', 'college.coverage', 'college.test']);
 
 angular.module('college.main', ['app.common'])
     .config(function($stateProvider, $urlRouterProvider) {
@@ -120,6 +120,50 @@ angular.module('college.main', ['app.common'])
             opened: false
         };
     })
+
+    .controller("menu.root", function ($scope) {
+        $scope.menuTitle = "功能列表";
+        var rootUrl = "/College/Map#";
+        $scope.menuItems = [
+            {
+                displayName: "覆盖情况",
+                tag: "coverage",
+                isActive: true,
+                subItems: [
+                    {
+                        displayName: "校园网总览",
+                        url: rootUrl + "/"
+                    }, {
+                        displayName: "基础信息查看",
+                        url: rootUrl + "/query"
+                    }, {
+                        displayName: "校园覆盖",
+                        url: rootUrl + "/coverage"
+                    }
+                ]
+            }, {
+                displayName: "日常管理",
+                tag: "management",
+                isActive: true,
+                subItems: [
+                    {
+                        displayName: "测试报告",
+                        url: rootUrl + "/test"
+                    }, {
+                        displayName: "指标报告",
+                        url: rootUrl + "/kpi"
+                    }, {
+                        displayName: "精确覆盖",
+                        url: rootUrl + "/precise"
+                    }
+                ]
+            }
+        ];
+    })
+    .controller("college.menu", function ($scope, $stateParams) {
+        $scope.collegeInfo.type = $stateParams.type || 'lte';
+        $scope.collegeName = $stateParams.name;
+    })
     .controller("all.map", function($scope, $uibModal, $log, baiduMapService, collegeMapService) {
         $scope.collegeInfo.url = $scope.rootPath + "map";
         $scope.page.title = "校园网总览";
@@ -205,6 +249,18 @@ angular.module('college.main', ['app.common'])
         };
 
         $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('college.new.dialog', function ($scope, $uibModalInstance, college, dialogTitle) {
+        $scope.college = college;
+        $scope.dialogTitle = dialogTitle;
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.college);
+        };
+
+        $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
     });

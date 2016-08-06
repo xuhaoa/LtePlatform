@@ -1785,7 +1785,6 @@
     <Content Include="Content\ui-grid.eot" />
     <None Include="Properties\PublishProfiles\Lte-ftp-219.pubxml" />
     <None Include="Properties\PublishProfiles\Lte2.pubxml" />
-    <Content Include="Scripts\college\menu.js" />
     <Content Include="Scripts\coffee-script.js" />
     <Content Include="Scripts\college\coverage.viewmodel.js" />
     <Content Include="Scripts\college\kpi.controller.js" />

@@ -91,7 +91,6 @@
 /// <reference path="college/coverage/all.js" />
 /// <reference path="college/kpi.controller.js" />
 /// <reference path="college/kpi.viewmodel.js" />
-/// <reference path="college/menu.js" />
 /// <reference path="college/precise.controller.js" />
 /// <reference path="college/precise.viewmodel.js" />
 /// <reference path="college/query/all.js" />
