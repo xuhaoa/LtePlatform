@@ -71,8 +71,16 @@
     @include panel-def($color-orange);
 }
 
+.panel-orange-dark {
+    @include panel-def($color-orange-dark110);
+}
+
 .modal-header-orange {
     @include modal-header-def($color-orange);
+}
+
+.modal-header-orange-dark {
+    @include modal-header-def($color-orange-dark110);
 }
 
 .panel-red { 

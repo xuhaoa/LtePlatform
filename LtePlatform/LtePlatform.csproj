@@ -322,8 +322,6 @@
     <Compile Include="Controllers\CollegeController.cs" />
     <Compile Include="Controllers\College\CollegeTestControllers.cs" />
     <Compile Include="Controllers\College\CollegeAlarmController.cs" />
-    <Compile Include="Controllers\College\CollegeBtssController.cs" />
-    <Compile Include="Controllers\College\CollegeCdmaCellsController.cs" />
     <Compile Include="Controllers\College\CollegeDistributionsController.cs" />
     <Compile Include="Controllers\College\CollegeCellsController.cs" />
     <Compile Include="Controllers\College\CollegeENodebController.cs" />

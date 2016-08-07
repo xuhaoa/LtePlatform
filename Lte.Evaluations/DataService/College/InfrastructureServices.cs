@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
+using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
@@ -52,18 +53,30 @@ namespace Lte.Evaluations.DataService.College
     {
         private readonly IInfrastructureRepository _repository;
         private readonly IBtsRepository _btsRepository;
+        private readonly ITownRepository _townRepository;
 
-        public CollegeBtssService(IInfrastructureRepository repository, IBtsRepository btsRepository)
+        public CollegeBtssService(IInfrastructureRepository repository, IBtsRepository btsRepository, ITownRepository townRepository)
         {
             _repository = repository;
             _btsRepository = btsRepository;
+            _townRepository = townRepository;
         }
 
         public IEnumerable<CdmaBtsView> Query(string collegeName)
         {
             var ids = _repository.GetCollegeInfrastructureIds(collegeName, InfrastructureType.CdmaBts);
             var btss = ids.Select(_btsRepository.Get).Where(bts => bts != null).ToList();
-            return Mapper.Map<List<CdmaBts>, IEnumerable<CdmaBtsView>>(btss);
+            var views = Mapper.Map<List<CdmaBts>, List<CdmaBtsView>>(btss);
+            views.ForEach(x =>
+            {
+                var town = _townRepository.Get(x.TownId);
+                if (town != null)
+                {
+                    x.DistrictName = town.DistrictName;
+                    x.TownName = town.TownName;
+                }
+            });
+            return views;
         }
 
         public IEnumerable<CdmaBtsView> Query(IEnumerable<string> collegeNames)

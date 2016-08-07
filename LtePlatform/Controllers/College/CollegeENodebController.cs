@@ -50,4 +50,33 @@ namespace LtePlatform.Controllers.College
             return _service.Query(collegeNames.Names);
         }
     }
+
+    [ApiControl("校园网CDMA基站查询控制器")]
+    public class CollegeBtssController : ApiController
+    {
+        private readonly ICollegeInfrastructure<CdmaBtsView> _service;
+
+        public CollegeBtssController(CollegeBtssService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        [ApiDoc("查询单个校园的CDMA基站视图列表")]
+        [ApiParameterDoc("collegeName", "校园名称")]
+        [ApiResponse("CDMA基站视图列表")]
+        public IEnumerable<CdmaBtsView> Get(string collegeName)
+        {
+            return _service.Query(collegeName);
+        }
+
+        [HttpPost]
+        [ApiDoc("查询多个校园的CDMA基站视图")]
+        [ApiParameterDoc("collegeNames", "校园名称列表")]
+        [ApiResponse("CDMA基站视图列表")]
+        public IEnumerable<CdmaBtsView> Post(CollegeNamesContainer collegeNames)
+        {
+            return _service.Query(collegeNames.Names);
+        }
+    }
 }

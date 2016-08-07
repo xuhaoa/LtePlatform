@@ -84,13 +84,13 @@ body {
       color: #666;
       text-decoration: none; }
 
-.panel-blue .panel-body p, .panel-teal .panel-body p, .panel-orange .panel-body p, .panel-red .panel-body p {
+.panel-blue .panel-body p, .panel-teal .panel-body p, .panel-orange .panel-body p, .panel-orange-dark .panel-body p, .panel-red .panel-body p {
   color: rgba(255, 255, 255, 0.8); }
 
-.panel-blue .panel-heading, .panel-teal .panel-heading, .panel-orange .panel-heading, .panel-red .panel-heading {
+.panel-blue .panel-heading, .panel-teal .panel-heading, .panel-orange .panel-heading, .panel-orange-dark .panel-heading, .panel-red .panel-heading {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
 
-.panel-blue .text-muted, .panel-teal .text-muted, .panel-orange .text-muted, .panel-red .text-muted {
+.panel-blue .text-muted, .panel-teal .text-muted, .panel-orange .text-muted, .panel-orange-dark .text-muted, .panel-red .text-muted {
   color: rgba(255, 255, 255, 0.5); }
 
 .color-gray {
@@ -140,11 +140,24 @@ body {
   .panel-orange .panel-body {
     color: #000000; }
 
+.panel-orange-dark {
+  background: #ffa10b;
+  color: #fff; }
+  .panel-orange-dark .panel-body {
+    color: #000000; }
+
 .modal-header-orange {
   background-color: #ffb53e; }
   .modal-header-orange .modal-title {
     color: #fff; }
   .modal-header-orange button.close {
+    color: #ffffff; }
+
+.modal-header-orange-dark {
+  background-color: #ffa10b; }
+  .modal-header-orange-dark .modal-title {
+    color: #fff; }
+  .modal-header-orange-dark button.close {
     color: #ffffff; }
 
 .panel-red {

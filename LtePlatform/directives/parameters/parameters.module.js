@@ -104,6 +104,51 @@ angular.module('parameters.list', ['myApp.parameters', 'huawei.mongo.parameters'
         }
     })
 
+    .controller('CdmaBtsController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'btsId', name: 'CDMA基站编号' },
+                { field: 'name', name: '基站名称', width: 150 },
+                { field: 'bscId', name: 'BSC编号' },
+                { field: 'districtName', name: '区域' },
+                { field: 'townName', name: '镇区' },
+                {
+                     field: 'address', 
+                     name: '地址',
+                     width: 300,
+                     enableColumnResizing: false,
+                     cellTooltip: function (row) {
+                         return row.entity.address;
+                     }
+                },
+                { field: 'isInUse', name: '是否在用', cellFilter: 'yesNoChinese' }
+            ],
+            data: []
+        };
+    })
+    .directive('btsTable', function ($compile) {
+        return {
+            controller: 'CdmaBtsController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                items: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
+    })
+
     .controller('CellDialogController', function ($scope) {
         $scope.gridOptions = {
             columnDefs: [

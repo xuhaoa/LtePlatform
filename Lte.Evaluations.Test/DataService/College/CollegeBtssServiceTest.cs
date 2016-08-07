@@ -17,6 +17,7 @@ namespace Lte.Evaluations.DataService.College
     {
         private readonly Mock<IInfrastructureRepository> _repository = new Mock<IInfrastructureRepository>();
         private readonly Mock<IBtsRepository> _btsRepository = new Mock<IBtsRepository>();
+        private readonly Mock<ITownRepository> _townRepository = new Mock<ITownRepository>();
         private CollegeBtssService _service;
         private CollegeBtsTestService _testService;
 
@@ -28,7 +29,7 @@ namespace Lte.Evaluations.DataService.College
             _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
             _btsRepository.MockThreeBtss();
             _repository.MockOperations();
-            _service = new CollegeBtssService(_repository.Object, _btsRepository.Object);
+            _service = new CollegeBtssService(_repository.Object, _btsRepository.Object, _townRepository.Object);
             _testService = new CollegeBtsTestService(_repository, _btsRepository);
         }
 
