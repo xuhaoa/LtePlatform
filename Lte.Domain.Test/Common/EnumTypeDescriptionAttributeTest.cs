@@ -85,7 +85,7 @@ namespace Lte.Domain.Test.Common
             var currentState = "通信车申请";
             var nextState = currentState.GetNextStateDescription(EmergencyState.Finish);
             Assert.AreEqual(nextState==null?null:((EmergencyState)nextState).GetEnumDescription(), "光纤起单");
-            Assert.AreEqual((EmergencyState)1,EmergencyState.FiberBegin);
+            Assert.AreEqual((EmergencyState)2,EmergencyState.FiberBegin);
         }
     }
 }

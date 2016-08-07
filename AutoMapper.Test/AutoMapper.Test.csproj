@@ -33,6 +33,10 @@
     <CodeAnalysisRuleSet />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -81,7 +85,6 @@
     <Compile Include="Bug\ExpressionMapping.cs" />
     <Compile Include="Bug\ForAllMaps.cs" />
     <Compile Include="Bug\GenericTestExtensionMethods.cs" />
-    <Compile Include="Bug\GenericTypeConverter.cs" />
     <Compile Include="Bug\IgnoreAll.cs" />
     <Compile Include="Bug\InheritanceIssue.cs" />
     <Compile Include="Bug\InterfaceSelfMappingBug.cs" />
@@ -95,7 +98,6 @@
     <Compile Include="Bug\MemberNamedTypeBug.cs" />
     <Compile Include="Bug\MultidimensionalArrays.cs" />
     <Compile Include="Bug\MultipleInterfaceInheritance.cs" />
-    <Compile Include="Bug\MultipleTypeConverterInterfaces.cs" />
     <Compile Include="Bug\MultiThreadingIssues.cs" />
     <Compile Include="Bug\NamingConventions.cs" />
     <Compile Include="Bug\NestedMappingProjectionsExplicitExpanding.cs" />
@@ -201,12 +203,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AutoMapper\AutoMapper.csproj">
-      <Project>{75c9d4b5-2117-4b06-a6b1-70afcd6b3bfc}</Project>
-      <Name>AutoMapper</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
