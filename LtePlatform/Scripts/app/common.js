@@ -4,6 +4,7 @@
     'basic.filters',
     'cell.filters',
     'college',
+    'college.map',
     'college.module',
     'customer.module',
     'customer.service',
