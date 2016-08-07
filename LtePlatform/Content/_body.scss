@@ -1,4 +1,6 @@
-﻿body {
+﻿@import "themes/_colors.scss";
+
+body {
     padding-top: 70px;
     padding-bottom: 20px;
     font-size: 12px;
@@ -12,4 +14,30 @@
 .active a{
     color: azure;
     font-weight: bold;
+}
+
+.navbar-blue-azure {
+    background-color: $color-blue-azure;
+    border-color: $color-blue-azure;
+    background-image: linear-gradient(to bottom,#3c3c3c 0,$color-blue-azure 100%);
+    background-repeat: repeat-x;    
+}
+
+.nav-navbar-list>li>a {
+    color: #fff;
+    &:hover {
+        background-color: $color-dark-gray;
+    }
+}
+
+ul.nav-navbar-list .open>a.dropdown-toggle {
+    background-color: $color-dark-gray;
+}
+
+.dropdown-menu-blue-azure {
+    background-color: $color-blue-azure;
+    border-color: $color-blue-azure;
+    li>a {
+        color: #fff;
+    }    
 }
