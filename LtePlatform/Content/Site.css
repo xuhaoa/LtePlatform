@@ -60,6 +60,26 @@ body {
   color: azure;
   font-weight: bold; }
 
+.navbar-blue-azure {
+  background-color: #3977d2;
+  border-color: #3977d2;
+  background-image: linear-gradient(to bottom, #3c3c3c 0, #3977d2 100%);
+  background-repeat: repeat-x; }
+
+.nav-navbar-list > li > a {
+  color: #fff; }
+  .nav-navbar-list > li > a:hover {
+    background-color: #333333; }
+
+ul.nav-navbar-list .open > a.dropdown-toggle {
+  background-color: #333333; }
+
+.dropdown-menu-blue-azure {
+  background-color: #3977d2;
+  border-color: #3977d2; }
+  .dropdown-menu-blue-azure li > a {
+    color: #fff; }
+
 .glyphicon-xl {
   font-size: 6em; }
 

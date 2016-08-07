@@ -72,7 +72,7 @@ angular.module('college.info', [])
         };
     });
 
-angular.module('college.infrastructure', ['college'])
+angular.module('college.infrastructure', ['college.service'])
     .controller('CollegeStatController', function ($scope, collegeDialogService) {
         $scope.showENodebs = function(name) {
             collegeDialogService.showENodebs(name);
