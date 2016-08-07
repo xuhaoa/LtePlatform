@@ -1,4 +1,4 @@
-﻿angular.module('college.service', ['myApp.url', 'baidu.map'])
+﻿angular.module('college', ['myApp.url', 'baidu.map'])
     .factory('collegeService', function(generalHttpService) {
         return {
             queryNames: function() {
