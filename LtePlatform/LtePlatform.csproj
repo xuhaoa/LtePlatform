@@ -1639,7 +1639,6 @@
     <Content Include="Scripts\service\parameters\chart.js" />
     <Content Include="Scripts\service\parameters\map.service.js" />
     <Content Include="Scripts\service\topic\college.js" />
-    <Content Include="Scripts\service\topic\college.map.service.js" />
     <Content Include="Scripts\service\kpi\workitem.service.js" />
     <Content Include="Scripts\service\topic\customer.js" />
     <Content Include="Scripts\service\topic\qunit.my.js" />

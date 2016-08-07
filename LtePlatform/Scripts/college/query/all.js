@@ -35,6 +35,9 @@
                 }
             });
         };
+        $scope.createNewCollege = function() {
+
+        };
     })
     .controller('eNodeb.dialog', function($scope, $uibModalInstance, collegeService, name, dialogTitle) {
         $scope.dialogTitle = dialogTitle;

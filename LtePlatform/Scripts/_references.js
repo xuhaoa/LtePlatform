@@ -211,7 +211,6 @@
 /// <reference path="service/parameters/service.js" />
 /// <reference path="service/topic/baidu.map.js" />
 /// <reference path="service/topic/college.js" />
-/// <reference path="service/topic/college.map.service.js" />
 /// <reference path="service/topic/customer.js" />
 /// <reference path="service/topic/qunit.my.js" />
 /// <reference path="spin.min.js" />
