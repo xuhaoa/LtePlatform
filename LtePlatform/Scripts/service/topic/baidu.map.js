@@ -193,6 +193,9 @@
         };
         var drawingManager = {};
         return {
+            getMap: function() {
+                return map;
+            },
             initializeMap: function(tag, zoomLevel) {
                 map = new BMap.Map(tag);
                 map.centerAndZoom(new BMap.Point(113.01, 23.02), zoomLevel);
@@ -211,14 +214,18 @@
             },
             initializeDrawingManager: function() {
                 drawingManager = new BMapLib.DrawingManager(map, {
-                    isOpen: false, //是否开启绘制模式
+                    isOpen: true, //是否开启绘制模式
                     enableDrawingTool: true, //是否显示工具栏
                     drawingToolOptions: {
                         anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
                         offset: new BMap.Size(5, 5), //偏离值
+                        drawingTypes: [
+                            BMAP_DRAWING_CIRCLE,
+                            BMAP_DRAWING_POLYGON,
+                            BMAP_DRAWING_RECTANGLE
+                        ]
                     },
                     circleOptions: drawingStyleOptions, //圆的样式
-                    polylineOptions: drawingStyleOptions, //线的样式
                     polygonOptions: drawingStyleOptions, //多边形的样式
                     rectangleOptions: drawingStyleOptions //矩形的样式
                 });
