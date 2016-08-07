@@ -436,6 +436,7 @@
     <Content Include="appViews\College\Infrastructure\ENodebTable.html" />
     <Content Include="appViews\College\Infrastructure\LteCellDialog.html" />
     <Content Include="appViews\College\Infrastructure\LteCellTable.html" />
+    <Content Include="appViews\College\Infrastructure\NewCollegeDialog.html" />
     <Content Include="appViews\College\Infrastructure\YearInfoDialog.html" />
     <Content Include="appViews\College\Stat.html" />
     <Content Include="appViews\College\Table\CdmaCellBasicInfo.html" />
@@ -1923,7 +1924,6 @@
     <Content Include="appViews\BasicKpi\Index.html" />
     <Content Include="appViews\BasicKpi\KpiTable.html" />
     <Content Include="appViews\College\CollegeMenu.html" />
-    <Content Include="Views\College\_Map.cshtml" />
     <Content Include="appViews\College\Test\Report.html" />
     <Content Include="appViews\College\Test\College3GTest.html" />
     <Content Include="appViews\College\Test\College4GTest.html" />

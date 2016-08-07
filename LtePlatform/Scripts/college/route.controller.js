@@ -252,7 +252,10 @@ angular.module('college.main', ['app.common'])
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('college.new.dialog', function ($scope, $uibModalInstance) {
+    .controller('college.new.dialog', function ($scope, $uibModalInstance, baiduMapService) {
+        $scope.dialogTitle = "新建校园信息";
+        baiduMapService.initializeMap('map', 12);
+        baiduMapService.initializeDrawingManager();
         $scope.saveCollege = function() {
 
         };
