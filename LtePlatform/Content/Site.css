@@ -1376,6 +1376,10 @@ div#contentWrapper {
     background-color: #1ebfae;
     color: #fff;
     font-weight: bold; }
+  .help-page-table thead.thead-teal-lighten {
+    background-color: #31dfcc;
+    color: #fff;
+    font-weight: bold; }
   .help-page-table thead.thead-orange {
     background-color: #ffb53e;
     color: #fff;

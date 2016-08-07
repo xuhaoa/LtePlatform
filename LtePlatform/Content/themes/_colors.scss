@@ -2,6 +2,7 @@
 $color-gray: #5f6468;
 $color-blue: #30a5ff;
 $color-teal: #1ebfae;
+$color-teal-lighten90: lighten($color-teal, 10%);
 $color-orange: #ffb53e;
 $color-red: #f9243f;
 $color-dark-gray: #333333;

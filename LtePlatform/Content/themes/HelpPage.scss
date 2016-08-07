@@ -143,6 +143,9 @@
     thead.thead-teal {
         @include thead-def($color-teal);
     }
+    thead.thead-teal-lighten {
+        @include thead-def($color-teal-lighten90)
+    }
     thead.thead-orange {
         @include thead-def($color-orange);
     }

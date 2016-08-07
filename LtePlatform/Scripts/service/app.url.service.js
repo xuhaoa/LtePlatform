@@ -78,6 +78,20 @@
     })
     .factory('generalHttpService', function ($q, $http, appUrlService) {
         return {
+            getMvcData: function (topic, params) {
+                var deferred = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: topic,
+                    params: params
+                }).success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (reason) {
+                    deferred.reject(reason);
+                });
+                return deferred.promise;
+            },
             getApiData: function(topic, params) {
                 var deferred = $q.defer();
                 $http({
