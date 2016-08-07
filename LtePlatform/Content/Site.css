@@ -1357,4 +1357,20 @@ div#contentWrapper {
     vertical-align: top; }
   .help-page-table tbody tr:hover td {
     background-color: #F3F3F3; }
+  .help-page-table thead.thead-blue {
+    background-color: #30a5ff;
+    color: #fff;
+    font-weight: bold; }
+  .help-page-table thead.thead-teal {
+    background-color: #1ebfae;
+    color: #fff;
+    font-weight: bold; }
+  .help-page-table thead.thead-orange {
+    background-color: #ffb53e;
+    color: #fff;
+    font-weight: bold; }
+  .help-page-table thead.thead-red {
+    background-color: #f9243f;
+    color: #fff;
+    font-weight: bold; }
 

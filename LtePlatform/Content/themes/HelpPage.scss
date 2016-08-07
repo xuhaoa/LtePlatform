@@ -1,3 +1,5 @@
+@import "_colors.scss";
+@import "_mixins.scss";
 
 %help-page-font {
     font-family: "Segoe UI Light", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
@@ -120,6 +122,18 @@
         vertical-align: top;
     }
     tbody tr:hover td {
-        background-color: #F3F3F3;
+        background-color: $color-light-gray;
+    }
+    thead.thead-blue {
+        @include thead-def($color-blue);
+    }
+    thead.thead-teal {
+        @include thead-def($color-teal);
+    }
+    thead.thead-orange {
+        @include thead-def($color-orange);
+    }
+    thead.thead-red {
+        @include thead-def($color-red);
     }
 }

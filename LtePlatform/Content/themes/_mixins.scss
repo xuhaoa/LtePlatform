@@ -25,3 +25,9 @@
         color: #ffffff;
     }
 }
+
+@mixin thead-def($color) {
+    background-color: $color;
+    color: #fff;
+    font-weight: bold;
+}
