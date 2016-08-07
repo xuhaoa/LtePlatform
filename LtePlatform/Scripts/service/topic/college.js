@@ -83,6 +83,9 @@
             },
             saveYearInfo: function(info) {
                 return generalHttpService.postApiData('CollegeQuery', info);
+            },
+            constructCollegeInfo: function(info) {
+                console.log(info);
             }
         };
     })
@@ -224,6 +227,24 @@
                 });
                 modalInstance.result.then(function (info) {
                     collegeQueryService.saveYearInfo(info).then(function() {
+                        callback();
+                    });
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            addNewCollege: function (callback) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: collegeInfrastructurePath + 'NewCollegeDialog.html',
+                    controller: 'college.new.dialog',
+                    size: 'lg',
+                    resolve: {
+                        
+                    }
+                });
+                modalInstance.result.then(function (info) {
+                    collegeQueryService.saveYearInfo(info).then(function () {
                         callback();
                     });
                 }, function () {
