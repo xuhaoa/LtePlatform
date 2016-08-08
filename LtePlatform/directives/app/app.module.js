@@ -93,6 +93,28 @@ angular.module('app.directives.district', ["ui.bootstrap", 'myApp.region'])
                 });
             }
         };
+    })
+    .directive('districtTownPlain', function (appRoot, appRegionService) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                city: '=',
+                district: '=',
+                town: '='
+            },
+            templateUrl: appRoot + 'DistrictTownPlain.Tpl.html',
+            link: function (scope) {
+                scope.$watch("district.selected", function (district) {
+                    if (district) {
+                        appRegionService.queryTowns(scope.city.selected, district).then(function (towns) {
+                            scope.town.options = towns;
+                            scope.town.selected = towns[0];
+                        });
+                    }
+                });
+            }
+        };
     });
 
 angular.module('app.directives.form', [])

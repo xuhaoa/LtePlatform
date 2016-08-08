@@ -5,22 +5,23 @@
     <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
 <form name="signup_form" novalidate class="form-horizontal">
-    <div class="form-group">
-        <label class="col-sm-2 control-label">新建校园名称</label>
-        <input ng-model="collegeName" class="form-control col-sm-6" ng-required="true"
+    <div class="col-md-8">
+        <div district-town-plain city="city" district="district" town="town"></div>
+    </div>
+    <div class="col-md-4">
+        <label class="control-label">新建校园名称</label>
+        <input ng-model="collegeName" class="form-control" ng-required="true"
                ng-minlength="6"
                form-field-error="{required: '校园名称是必须填的！'}" />
-        <div class="input-group-btn col-sm-4">
-            <button class="btn btn-success" ng-disabled="signup_form.$invalid" ng-click="matchPlace()">
-                <i class="glyphicon glyphicon-map-marker"></i>
-                地理匹配
-            </button>
-        </div>
     </div>
 </form>
 <div id="map" style="width: 100%;height: 550px;overflow: hidden;margin:0;"></div>
 
 <div class="modal-footer">
+    <button class="btn btn-success" ng-disabled="signup_form.$invalid" ng-click="matchPlace()">
+        <i class="glyphicon glyphicon-map-marker"></i>
+        地理匹配
+    </button>
     <button class="btn btn-warning" ng-click="ok()" ng-disabled="signup_form.$invalid">保存信息</button>
     <button class="btn btn-default" type="button" ng-click="cancel()">放弃保存</button>
 </div>

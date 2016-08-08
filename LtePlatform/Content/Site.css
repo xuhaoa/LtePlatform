@@ -80,6 +80,10 @@ ul.nav-navbar-list .open > a.dropdown-toggle {
   .dropdown-menu-blue-azure li > a {
     color: #fff; }
 
+.modal-content .form-horizontal {
+  padding-left: 5px;
+  padding-right: 5px; }
+
 .glyphicon-xl {
   font-size: 6em; }
 
