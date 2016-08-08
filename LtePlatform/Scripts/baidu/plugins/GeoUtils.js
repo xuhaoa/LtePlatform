@@ -271,6 +271,10 @@ var BMapLib = window.BMapLib = BMapLib || {};
 
         return EARTHRADIUS * Math.acos((Math.sin(y1) * Math.sin(y2) + Math.cos(y1) * Math.cos(y2) * Math.cos(x2 - x1)));    
     }
+
+    GeoUtils.getCircleArea=function(circle) {
+        return Math.PI * circle.getRadius() * circle.getRadius();
+    }
     
     /**
      * 计算折线或者点数组的长度

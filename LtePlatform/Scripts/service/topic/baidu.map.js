@@ -241,6 +241,9 @@
                     rectangleOptions: drawingStyleOptions //矩形的样式
                 });
             },
+            addDrawingEventListener: function(event, callback) {
+                drawingManager.addEventListener(event, callback);
+            },
             addCityBoundary: function(city) {
                 var bdary = new BMap.Boundary();
                 bdary.get(city, function(rs) { //获取行政区域

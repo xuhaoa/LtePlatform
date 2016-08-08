@@ -254,9 +254,27 @@ angular.module('college.main', ['app.common'])
     })
     .controller('college.new.dialog', function ($scope, $uibModalInstance, baiduMapService, geometryService, $timeout) {
         $scope.dialogTitle = "新建校园信息";
+        $scope.saveCircleParameters = function(circle) {
+            console.log(circle.getCenter());
+            console.log(circle.getRadius());
+            console.log(BMapLib.GeoUtils.getCircleArea(circle));
+        };
+        $scope.saveRetangleParameters = function (rect) {
+            var pts = rect.getPath();
+            console.log(pts[0]);
+            console.log(pts[1].lng);
+            console.log(BMapLib.GeoUtils.getPolygonArea(rect.getPath()));
+        };
+        $scope.savePolygonParameters = function(polygon) {
+            console.log(polygon.getPath());
+            console.log(BMapLib.GeoUtils.getPolygonArea(polygon.getPath()));
+        };
         $timeout(function() {
             baiduMapService.initializeMap('map', 12);
             baiduMapService.initializeDrawingManager();
+            baiduMapService.addDrawingEventListener('circlecomplete', $scope.saveCircleParameters);
+            baiduMapService.addDrawingEventListener('rectanglecomplete', $scope.saveRetangleParameters);
+            baiduMapService.addDrawingEventListener('polygoncomplete', $scope.savePolygonParameters);
         }, 500);
         $scope.matchPlace=function() {
             geometryService.queryBaiduPlace($scope.collegeName).then(function(result) {
