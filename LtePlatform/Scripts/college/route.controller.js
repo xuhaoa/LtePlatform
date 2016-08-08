@@ -254,20 +254,29 @@ angular.module('college.main', ['app.common'])
     })
     .controller('college.new.dialog', function ($scope, $uibModalInstance, baiduMapService, geometryService, $timeout) {
         $scope.dialogTitle = "新建校园信息";
+        $scope.collegeRegion = {
+            area: 0,
+            regionType: 0,
+            info: ""
+        };
         $scope.saveCircleParameters = function(circle) {
-            console.log(circle.getCenter());
-            console.log(circle.getRadius());
-            console.log(BMapLib.GeoUtils.getCircleArea(circle));
+            var center = circle.getCenter();
+            var radius = circle.getRadius();
+            $scope.collegeRegion.regionType = 0;
+            $scope.collegeRegion.area = BMapLib.GeoUtils.getCircleArea(circle);
+            $scope.collegeRegion.info = center.lng + ';' + center.lat + ';' + radius;
         };
         $scope.saveRetangleParameters = function (rect) {
+            $scope.collegeRegion.regionType = 1;
             var pts = rect.getPath();
-            console.log(pts[0]);
-            console.log(pts[1].lng);
-            console.log(BMapLib.GeoUtils.getPolygonArea(rect.getPath()));
+            $scope.collegeRegion.info = geometryService.getPathInfo(pts);
+            $scope.collegeRegion.area = BMapLib.GeoUtils.getPolygonArea(pts);
         };
         $scope.savePolygonParameters = function(polygon) {
-            console.log(polygon.getPath());
-            console.log(BMapLib.GeoUtils.getPolygonArea(polygon.getPath()));
+            $scope.collegeRegion.regionType = 2;
+            var pts = polygon.getPath();
+            $scope.collegeRegion.info = geometryService.getPathInfo(pts);
+            $scope.collegeRegion.area = BMapLib.GeoUtils.getPolygonArea(pts);
         };
         $timeout(function() {
             baiduMapService.initializeMap('map', 12);
@@ -285,12 +294,14 @@ angular.module('college.main', ['app.common'])
                 });
             });
         }
-        $scope.saveCollege = function() {
-
-        };
         $scope.ok = function () {
-            $uibModalInstance.close($scope.college);
-            $scope.saveCollege();
+            $scope.college = {
+                name: $scope.collegeName,
+                townId: 0,
+                collegeRegion: $scope.collegeRegion
+            };
+            console.log($scope.college);
+            //$uibModalInstance.close($scope.college);
         };
 
         $scope.cancel = function () {

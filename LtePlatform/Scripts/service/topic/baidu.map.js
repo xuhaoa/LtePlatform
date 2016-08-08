@@ -142,6 +142,14 @@
                 });
                 return circle;
             },
+            getPathInfo: function(path) {
+                var result = '';
+                angular.forEach(path, function(point, $index) {
+                    if ($index > 0) result += ';';
+                    result += point.lng + ';' + point.lat;
+                });
+                return result;
+            },
             transformToBaidu: function(longtitute, lattitute) {
                 var deferred = $q.defer();
                 $http.jsonp(baiduApiUrl + '&coords=' + longtitute + ',' + lattitute
