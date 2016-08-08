@@ -52,6 +52,7 @@
         };
         var myKey = 'LlMnTd7NcCWI1ibhDAdKeVlG';
         var baiduApiUrl = '//api.map.baidu.com/geoconv/v1/?callback=JSON_CALLBACK';
+        var baiduPlaceUrl = '//api.map.baidu.com/place/v2/suggestion?callback=JSON_CALLBACK';
         return {
             getDistance: function(p1Lat, p1Lng, p2Lat, p2Lng) {
                 return getDistanceFunc(p1Lat, p1Lng, p2Lat, p2Lng);
@@ -164,6 +165,16 @@
                         deferred.reject(reason);
                     });
                 return deferred.promise;;
+            },
+            queryBaiduPlace: function(name) {
+                var deferred = $q.defer();
+                $http.jsonp(baiduPlaceUrl + '&query=' + name + '&region=佛山市&output=json&ak=' + myKey).success(function (result) {
+                        deferred.resolve(result.result);
+                    })
+                    .error(function(reason) {
+                        deferred.reject(reason);
+                    });
+                return deferred.promise;
             },
             queryWandonglouyu: function() {
                 var deferred = $q.defer();

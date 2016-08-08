@@ -252,13 +252,21 @@ angular.module('college.main', ['app.common'])
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('college.new.dialog', function ($scope, $uibModalInstance, baiduMapService, $timeout) {
+    .controller('college.new.dialog', function ($scope, $uibModalInstance, baiduMapService, geometryService, $timeout) {
         $scope.dialogTitle = "新建校园信息";
         $timeout(function() {
             baiduMapService.initializeMap('map', 12);
             baiduMapService.initializeDrawingManager();
         }, 500);
-        
+        $scope.matchPlace=function() {
+            geometryService.queryBaiduPlace($scope.collegeName).then(function(result) {
+                angular.forEach(result, function(place) {
+                    var marker = baiduMapService.generateMarker(place.location.lng, place.location.lat);
+                    baiduMapService.addOneMarker(marker);
+                    baiduMapService.drawLabel(place.name, place.location.lng, place.location.lat);
+                });
+            });
+        }
         $scope.saveCollege = function() {
 
         };
