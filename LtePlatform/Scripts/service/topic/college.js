@@ -85,7 +85,7 @@
                 return generalHttpService.postApiData('CollegeQuery', info);
             },
             constructCollegeInfo: function(info) {
-                console.log(info);
+                return generalHttpService.postApiDataWithHeading('CollegeStat', info);
             }
         };
     })
@@ -244,7 +244,7 @@
                     }
                 });
                 modalInstance.result.then(function (info) {
-                    collegeQueryService.saveYearInfo(info).then(function () {
+                    collegeQueryService.constructCollegeInfo(info).then(function () {
                         callback();
                     });
                 }, function () {

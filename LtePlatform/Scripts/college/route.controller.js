@@ -305,7 +305,7 @@ angular.module('college.main', ['app.common'])
             baiduMapService.addDrawingEventListener('rectanglecomplete', $scope.saveRetangleParameters);
             baiduMapService.addDrawingEventListener('polygoncomplete', $scope.savePolygonParameters);
         }, 500);
-        $scope.matchPlace=function() {
+        $scope.matchPlace = function() {
             geometryService.queryBaiduPlace($scope.collegeName).then(function(result) {
                 angular.forEach(result, function(place) {
                     var marker = baiduMapService.generateMarker(place.location.lng, place.location.lat);
@@ -313,7 +313,7 @@ angular.module('college.main', ['app.common'])
                     baiduMapService.drawLabel(place.name, place.location.lng, place.location.lat);
                 });
             });
-        }
+        };
         $scope.ok = function () {
             $scope.college = {
                 name: $scope.collegeName,
@@ -323,10 +323,9 @@ angular.module('college.main', ['app.common'])
             appRegionService.queryTown($scope.city.selected, $scope.district.selected, $scope.town.selected).then(function(town) {
                 if (town) {
                     $scope.college.townId = town.id;
-                    console.log($scope.college);
+                    $uibModalInstance.close($scope.college);
                 }
             });
-            //$uibModalInstance.close($scope.college);
         };
 
         $scope.cancel = function () {
