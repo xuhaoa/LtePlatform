@@ -1,5 +1,5 @@
 ﻿angular.module('college.query', ['app.common'])
-    .controller("all.query", function($scope, collegeService, collegeQueryService, collegeDialogService) {
+    .controller("all.query", function($scope, collegeService, collegeQueryService, collegeDialogService, appFormatService) {
         $scope.collegeInfo.url = $scope.rootPath + "query";
         $scope.page.title = "基础信息查看";
         $scope.collegeYearList = [];
@@ -27,8 +27,23 @@
             });
         });
         $scope.addOneCollegeMarkerInfo = function() {
-            collegeQueryService.queryByNameAndYear($scope.collegeName, $scope.collegeInfo.year.selected - 1).then(function(item) {
-                if (item) {
+            collegeQueryService.queryByNameAndYear($scope.collegeName, $scope.collegeInfo.year.selected - 1).then(function (item) {
+                if (!item) {
+                    var begin = new Date();
+                    begin.setDate(begin.getDate() - 365 - 7);
+                    var end = new Date();
+                    end.setDate(end.getDate() - 365);
+                    collegeQueryService.queryByName($scope.collegeName).then(function(college) {
+                        item = {
+                            oldOpenDate: appFormatService.getDateString(begin, 'yyyy-MM-dd'),
+                            newOpenDate: appFormatService.getDateString(end, 'yyyy-MM-dd'),
+                            collegeId: college.id
+                        };
+                        collegeDialogService.addYearInfo(item, $scope.collegeName, $scope.collegeInfo.year.selected, function() {
+                            $scope.updateInfos($scope.collegeInfo.year.selected);
+                        });
+                    });
+                } else {
                     collegeDialogService.addYearInfo(item, $scope.collegeName, $scope.collegeInfo.year.selected, function() {
                         $scope.updateInfos($scope.collegeInfo.year.selected);
                     });
