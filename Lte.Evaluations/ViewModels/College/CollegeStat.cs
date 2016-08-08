@@ -62,7 +62,7 @@ namespace Lte.Evaluations.ViewModels.College
             Name = info.Name;
             ExpectedSubscribers = yearInfo?.ExpectedSubscribers ?? 0;
             Area = region?.Area??0;
-            Id = region?.AreaId??2;
+            Id = info.Id;
             UpdateStats(infrastructureRepository);
         }
 
