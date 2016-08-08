@@ -107,6 +107,18 @@ angular.module('college.main', ['app.common'])
         collegeService.queryNames().then(function(result) {
             $rootScope.collegeInfo.names = result;
         });
+        $rootScope.city = {
+            selected: "",
+            options: []
+        };
+        $rootScope.district = {
+            options: [],
+            selected: ""
+        };
+        $rootScope.town = {
+            options: [],
+            selected: ""
+        };
 
         var lastWeek = new Date();
         lastWeek.setDate(lastWeek.getDate() - 7);
@@ -252,13 +264,21 @@ angular.module('college.main', ['app.common'])
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('college.new.dialog', function ($scope, $uibModalInstance, baiduMapService, geometryService, $timeout) {
+    .controller('college.new.dialog', function ($scope, $uibModalInstance, baiduMapService, geometryService, appRegionService, $timeout) {
         $scope.dialogTitle = "新建校园信息";
         $scope.collegeRegion = {
             area: 0,
             regionType: 0,
             info: ""
         };
+        appRegionService.initializeCities().then(function(cities) {
+            $scope.city.options = cities;
+            $scope.city.selected = cities[0];
+            appRegionService.queryDistricts($scope.city.selected).then(function(districts) {
+                $scope.district.options = districts;
+                $scope.district.selected = districts[0];
+            });
+        });
         $scope.saveCircleParameters = function(circle) {
             var center = circle.getCenter();
             var radius = circle.getRadius();
@@ -300,7 +320,12 @@ angular.module('college.main', ['app.common'])
                 townId: 0,
                 collegeRegion: $scope.collegeRegion
             };
-            console.log($scope.college);
+            appRegionService.queryTown($scope.city.selected, $scope.district.selected, $scope.town.selected).then(function(town) {
+                if (town) {
+                    $scope.college.townId = town.id;
+                    console.log($scope.college);
+                }
+            });
             //$uibModalInstance.close($scope.college);
         };
 

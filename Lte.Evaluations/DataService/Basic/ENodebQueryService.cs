@@ -7,6 +7,7 @@ using Lte.Domain.Regular;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 
 namespace Lte.Evaluations.DataService.Basic
@@ -73,6 +74,13 @@ namespace Lte.Evaluations.DataService.Basic
             return town == null
                 ? null
                 : new Tuple<string, string, string>(town.CityName, town.DistrictName, town.TownName);
+        }
+
+        public Town GetTown(string city, string district, string town)
+        {
+            return
+                _townRepository.FirstOrDefault(
+                    x => x.CityName == city && x.DistrictName == district && x.TownName == town);
         }
     }
 }

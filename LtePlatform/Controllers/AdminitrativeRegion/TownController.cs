@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Lte.Evaluations.DataService.Basic;
+using Lte.Parameters.Entities;
 using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.AdminitrativeRegion
@@ -25,6 +26,12 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         public Tuple<string, string, string> Get(int eNodebId)
         {
             return _service.GetTownNamesByENodebId(eNodebId);
+        }
+
+        [HttpGet]
+        public Town Get(string city, string district, string town)
+        {
+            return _service.GetTown(city, district, town);
         }
     }
 }

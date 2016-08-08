@@ -26,6 +26,13 @@
                     district: districtName
                 });
             },
+            queryTown: function(city, district, town) {
+                return generalHttpService.getApiData('Town', {
+                    city: city,
+                    district: district,
+                    town: town
+                });
+            },
             queryENodebTown: function (eNodebId) {
                 return generalHttpService.getApiData('Town', {
                     eNodebId: eNodebId
