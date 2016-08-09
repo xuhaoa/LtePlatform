@@ -225,29 +225,41 @@ angular.module('college.main', ['app.common'])
 
         switch ($stateParams.type) {
         case 'lte':
-            collegeService.queryENodebs($scope.collegeName).then(function(eNodebs) {
-                parametersMapService.showENodebsElements(eNodebs, parametersDialogService.showENodebInfo);
+            collegeService.queryENodebs($scope.collegeName).then(function (eNodebs) {
+                if (eNodebs.length) {
+                    parametersMapService.showENodebsElements(eNodebs, parametersDialogService.showENodebInfo);
+                }
             });
-            collegeService.queryCells($scope.collegeName).then(function(cells) {
-                parametersMapService.showCellSectors(cells, parametersDialogService.showCollegeCellInfo);
+            collegeService.queryCells($scope.collegeName).then(function (cells) {
+                if (cells.length) {
+                    parametersMapService.showCellSectors(cells, parametersDialogService.showCollegeCellInfo);
+                }
             });
             break;
         case 'cdma':
-            collegeService.queryBtss($scope.collegeName).then(function(btss) {
-                parametersMapService.showENodebsElements(btss, parametersDialogService.showENodebInfo);
+            collegeService.queryBtss($scope.collegeName).then(function (btss) {
+                if (btss.length) {
+                    parametersMapService.showENodebsElements(btss, parametersDialogService.showENodebInfo);
+                }
             });
-            collegeService.queryCdmaCells($scope.collegeName).then(function(cells) {
-                parametersMapService.showCellSectors(cells, parametersDialogService.showCollegeCdmaCellInfo);
+            collegeService.queryCdmaCells($scope.collegeName).then(function (cells) {
+                if (cells.length) {
+                    parametersMapService.showCellSectors(cells, parametersDialogService.showCollegeCdmaCellInfo);
+                }
             });
             break;
         case 'lteDistribution':
-            collegeService.queryLteDistributions($scope.collegeName).then(function(distributions) {
-                parametersMapService.showENodebsElements(distributions, parametersDialogService.showDistributionInfo);
+            collegeService.queryLteDistributions($scope.collegeName).then(function (distributions) {
+                if (distributions.length) {
+                    parametersMapService.showENodebsElements(distributions, parametersDialogService.showDistributionInfo);
+                }
             });
             break;
         default:
-            collegeService.queryCdmaDistributions($scope.collegeName).then(function(distributions) {
-                parametersMapService.showENodebsElements(distributions, parametersDialogService.showDistributionInfo);
+            collegeService.queryCdmaDistributions($scope.collegeName).then(function (distributions) {
+                if (distributions.length) {
+                    parametersMapService.showENodebsElements(distributions, parametersDialogService.showDistributionInfo);
+                }
             });
             break;
         }

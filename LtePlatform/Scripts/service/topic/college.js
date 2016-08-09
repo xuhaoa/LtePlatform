@@ -317,17 +317,19 @@
             },
             drawCollegeArea: function (collegeId) {
                 collegeService.queryRegion(collegeId).then(function (region) {
+                    var center;
                     switch (region.regionType) {
                         case 2:
-                            baiduMapService.drawPolygon(region.info.split(';'));
+                            center = baiduMapService.drawPolygonAndGetCenter(region.info.split(';'));
                             break;
                         case 1:
-                            baiduMapService.drawRectangle(region.info.split(';'));
+                            center = baiduMapService.drawRectangleAndGetCenter(region.info.split(';'));
                             break;
                         default:
-                            baiduMapService.drawCircle(region.info.split(';'));
+                            center = baiduMapService.drawCircleAndGetCenter(region.info.split(';'));
                             break;
                     }
+                    baiduMapService.setCellFocus(center.X, center.Y);
                 });
             },
             showDtInfos: function (infos, begin, end) {
