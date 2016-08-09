@@ -34,6 +34,17 @@ angular.module('parameters.infrastructure', [])
             },
             templateUrl: parametersRoot + 'DistrictInfrastructure.Tpl.html'
         }
+    })
+    .directive('eNodebQueryButton', function (parametersRoot) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                eNodeb: '=',
+                rootPath: '='
+            },
+            templateUrl: parametersRoot + 'eNodeb/Query.html'
+        }
     });
 
 angular.module('parameters.list', ['myApp.parameters', 'huawei.mongo.parameters'])
