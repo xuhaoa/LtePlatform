@@ -12,6 +12,7 @@
             LTE小区列表
             <div class="badge">{{cellList.length}}</div>
         </div>
+        <button class="btn btn-sm btn-warning" ng-click="supplementCells()">补充小区</button>
         <div lte-cell-table items="cellList" root-path="parametersPath"></div>
     </div>
     <div uib-accordion-group heading="CDMA基站列表">

@@ -142,6 +142,9 @@
         $scope.collegeInfo.url = $scope.rootPath + "query";
         $scope.collegeName = $stateParams.name;
         $scope.parametersPath = "/Parameters/List#/";
+        $scope.supplementCells = function() {
+
+        };
         collegeService.queryENodebs($scope.collegeName).then(function(eNodebs) {
             $scope.eNodebList = eNodebs;
         });
