@@ -207,6 +207,51 @@ angular.module('parameters.list', ['myApp.parameters', 'huawei.mongo.parameters'
             }
         };
     })
+    .controller('BtsPlainController', function ($scope) {
+        $scope.gridOptions = {
+            paginationPageSizes: [20, 40, 60],
+            paginationPageSize: 20,
+            columnDefs: [
+                { field: 'btsId', name: 'CDMA基站编号' },
+                { field: 'name', name: '基站名称', width: 120 },
+                { field: 'btsId', name: 'BSC编号' },
+                { field: 'longtitute', name: '经度' },
+                { field: 'lattitute', name: '纬度' },
+                { field: 'address', name: '地址', width: 300, enableColumnResizing: false },
+                { field: 'isInUse', name: '是否在用', cellFilter: 'yesNoChinese' },
+                {
+                    name: '查询',
+                    cellTemplate: '<a ng-href="{{grid.appScope.rootPath}}btsInfo/{{row.entity.btsId}}/{{row.entity.name}}"\
+                                class="btn btn-sm" ng-class="{\'btn-default\': !row.entity.isInUse, \'btn-success\': row.entity.isInUse}">基站详细信息</a>',
+                    width: 100
+                }
+            ],
+            data: []
+        };
+    })
+    .directive('btsPlainTable', function ($compile) {
+        return {
+            controller: 'BtsPlainController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                items: '=',
+                rootPath: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 600px"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
+    })
 
     .controller('CellDialogController', function ($scope) {
         $scope.gridOptions = {

@@ -8,13 +8,6 @@
             $scope.cdmaCellList = result;
         });
     })
-    .controller("bts.list", function($scope, $stateParams, networkElementService) {
-        $scope.page.title = $stateParams.city + $stateParams.district + $stateParams.town + "CDMA基站列表";
-        $scope.currentPage = 1;
-        networkElementService.queryBtssInOneTown($stateParams.city, $stateParams.district, $stateParams.town).then(function(result) {
-            $scope.btsList = result;
-        });
-    })
     .controller("cdmaCell.info", function($scope, $stateParams, networkElementService) {
         $scope.page.title = $stateParams.name + "-" + $stateParams.sectorId + "小区信息";
         $scope.isHuaweiCell = false;
@@ -124,5 +117,11 @@
         $scope.page.title = $stateParams.city + $stateParams.district + $stateParams.town + "LTE基站列表";
         networkElementService.queryENodebsInOneTown($stateParams.city, $stateParams.district, $stateParams.town).then(function(result) {
             $scope.eNodebList = result;
+        });
+    })
+    .controller("bts.list", function($scope, $stateParams, networkElementService) {
+        $scope.page.title = $stateParams.city + $stateParams.district + $stateParams.town + "CDMA基站列表";
+        networkElementService.queryBtssInOneTown($stateParams.city, $stateParams.district, $stateParams.town).then(function(result) {
+            $scope.btsList = result;
         });
     });
