@@ -10,6 +10,7 @@ using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Evaluations.ViewModels.Precise;
+using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
@@ -24,6 +25,7 @@ namespace Lte.Evaluations.MapperService
     {
         private readonly Mock<ICellRepository> _repository = new Mock<ICellRepository>();
         private readonly Mock<IENodebRepository> _eNodebRepository = new Mock<IENodebRepository>();
+        private readonly Mock<ILteRruRepository> _rruRepository = new Mock<ILteRruRepository>();
         private CellService _service;
         private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
 
@@ -35,7 +37,7 @@ namespace Lte.Evaluations.MapperService
             BaiduMapperService.MapCellView();
             _eNodebRepository.MockThreeENodebs();
             _repository.MockRangeCells();
-            _service = new CellService(_repository.Object, _eNodebRepository.Object);
+            _service = new CellService(_repository.Object, _eNodebRepository.Object, _rruRepository.Object);
         }
 
         [Test]

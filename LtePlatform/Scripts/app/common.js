@@ -22,7 +22,6 @@
     'myApp.parameters',
     'myApp.region',
     'myApp.url',
-    'ne.geometry',
     'neighbor.mongo',
     'ngAnimate',
     'ngRoute',

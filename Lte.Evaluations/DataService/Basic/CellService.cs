@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Lte.Domain.Common;
+using Lte.Domain.Regular;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Evaluations.ViewModels.Precise;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 
@@ -15,11 +19,13 @@ namespace Lte.Evaluations.DataService.Basic
     {
         private readonly ICellRepository _repository;
         private readonly IENodebRepository _eNodebRepository;
+        private readonly ILteRruRepository _rruRepository;
 
-        public CellService(ICellRepository repository, IENodebRepository eNodebRepository)
+        public CellService(ICellRepository repository, IENodebRepository eNodebRepository, ILteRruRepository rruRepository)
         {
             _repository = repository;
             _eNodebRepository = eNodebRepository;
+            _rruRepository = rruRepository;
         }
 
         public CellView GetCell(int eNodebId, byte sectorId)
@@ -101,6 +107,19 @@ namespace Lte.Evaluations.DataService.Basic
         public IEnumerable<Precise4GSector> QuerySectors(TopPreciseViewContainer container)
         {
             return container.Views.Select(x => Precise4GSector.ConstructSector(x, _repository));
-        } 
+        }
+
+        public LteRru QueryRru(string cellName)
+        {
+            var fields = cellName.GetSplittedFields('-');
+            if (fields.Length < 2) return null;
+            var eNodebName = fields[0];
+            var sectorId = fields[1].ConvertToByte(0);
+            var eNodeb = _eNodebRepository.GetByName(eNodebName);
+            if (eNodeb == null) return null;
+            var cell = _repository.GetBySectorId(eNodeb.ENodebId, sectorId);
+            if (cell == null) return null;
+            return _rruRepository.Get(eNodeb.ENodebId, cell.LocalSectorId);
+        }
     }
 }

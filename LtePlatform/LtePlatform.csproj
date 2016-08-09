@@ -1637,7 +1637,6 @@
     <Content Include="Scripts\service\mongo\cell.huawei.js" />
     <Content Include="Scripts\service\mongo\handoff.js" />
     <Content Include="Scripts\service\mongo\neighbor.js" />
-    <Content Include="Scripts\service\ne.geometry.service.js" />
     <Content Include="Scripts\service\parameters\chart.js" />
     <Content Include="Scripts\service\parameters\map.service.js" />
     <Content Include="Scripts\service\topic\college.js" />

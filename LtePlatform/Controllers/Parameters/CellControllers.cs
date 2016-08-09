@@ -7,6 +7,7 @@ using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Evaluations.ViewModels.Precise;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 using LtePlatform.Models;
@@ -77,7 +78,7 @@ namespace LtePlatform.Controllers.Parameters
             var query = _service.GetSectorIds(eNodebName);
             return query == null ? (IHttpActionResult)BadRequest("Wrong ENodeb Name!") : Ok(query);
         }
-
+        
         [HttpGet]
         [ApiDoc("给定基站编号对应的小区视图列表")]
         [ApiParameterDoc("cellId", "基站编号")]
@@ -103,6 +104,22 @@ namespace LtePlatform.Controllers.Parameters
         public IEnumerable<Precise4GSector> Post(TopPreciseViewContainer container)
         {
             return _service.QuerySectors(container);
+        }
+    }
+
+    public class LteRruController : ApiController
+    {
+        private readonly CellService _service;
+
+        public LteRruController(CellService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public LteRru Get(string cellName)
+        {
+            return _service.QueryRru(cellName);
         }
     }
 
