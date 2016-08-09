@@ -86,6 +86,9 @@
             },
             constructCollegeInfo: function(info) {
                 return generalHttpService.postApiDataWithHeading('CollegeStat', info);
+            },
+            saveCollegeCells: function(container) {
+                return generalHttpService.postApiData('CollegeCellContainer', container);
             }
         };
     })
@@ -270,8 +273,17 @@
                     }
                 });
                 modalInstance.result.then(function (info) {
-                    console.log(info);
-                    callback();
+                    var cellNames = [];
+                    angular.forEach(info, function(cell) {
+                        cellNames.push(cell.cellName);
+                    });
+                    collegeQueryService.saveCollegeCells({
+                        collegeName: collegeName,
+                        cellNames: cellNames
+                    }).then(function() {
+                        callback();
+                    });
+
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });

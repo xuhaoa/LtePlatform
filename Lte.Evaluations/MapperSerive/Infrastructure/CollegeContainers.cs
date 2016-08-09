@@ -14,4 +14,10 @@ namespace Lte.Evaluations.MapperSerive.Infrastructure
         public IEnumerable<string> Names { get; set; }
     }
 
+    public class CollegeCellNamesContainer
+    {
+        public string CollegeName { get; set; }
+
+        public IEnumerable<string> CellNames { get; set; } 
+    }
 }

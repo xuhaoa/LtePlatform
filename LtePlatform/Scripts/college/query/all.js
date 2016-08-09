@@ -187,10 +187,10 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('cell.supplement.dialog', function ($scope, $uibModalInstance, appFormatService,
+    .controller('cell.supplement.dialog', function ($scope, $uibModalInstance, networkElementService, geometryService,
         eNodebs, cells, collegeName) {
         $scope.dialogTitle = collegeName + "LTE小区补充";
-        $scope.supplementCells = cells;
+        $scope.supplementCells = [];
         $scope.gridOptions = {
             enableRowSelection: true,
             enableSelectAll: true,
@@ -198,15 +198,40 @@
             rowHeight: 35,
             showGridFooter: true
         };
-
+        $scope.gridOptions.multiSelect = true;
         $scope.gridOptions.columnDefs = [
-          { name: 'id' },
-          { name: 'name' },
-          { name: 'age', displayName: 'Age (not focusable)', allowCellFocus: false },
-          { name: 'address.city' }
+          { name: '小区名称', field: 'cellName' },
+          { name: '方位角', field: 'azimuth' },
+          { name: '下倾角', field: 'downTilt' },
+          { name: '频点', field: 'frequency' },
+          { name: '室内外', field: 'indoor' },
+          { name: '与基站距离', field: 'distance' }
         ];
+
+        angular.forEach(eNodebs, function(eNodeb) {
+            networkElementService.queryCellInfosInOneENodeb(eNodeb.eNodebId).then(function(cellInfos) {
+                angular.forEach(cellInfos, function(dstCell) {
+                    var i;
+                    for (i = 0; i < cells.length; i++) {
+                        if (dstCell.cellName === cells[i].eNodebName + '-' + cells[i].sectorId) {
+                            break;
+                        }
+                    }
+                    if (i === cells.length) {
+                        dstCell.distance = geometryService.getDistance(eNodeb.lattitute, eNodeb.longtitute, dstCell.lattitute, dstCell.longtitute);
+                        $scope.supplementCells.push(dstCell);
+                    }
+                });
+                $scope.gridOptions.data = $scope.supplementCells;
+            });
+        });
+
+        $scope.gridOptions.onRegisterApi = function (gridApi) {
+            $scope.gridApi = gridApi;
+        };
+
         $scope.ok = function () {
-            $uibModalInstance.close(eNodebs);
+            $uibModalInstance.close($scope.gridApi.selection.getSelectedRows());
         };
 
         $scope.cancel = function () {

@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
+using Lte.Domain.Common;
+using Lte.Domain.Regular;
+using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
@@ -125,6 +129,21 @@ namespace Lte.Evaluations.DataService.College
                 ? Mapper.Map<IEnumerable<CellView>, IEnumerable<SectorView>>(
                     query.Select(x => CellView.ConstructView(x, _eNodebRepository)))
                 : null;
+        }
+
+        public async Task<int> UpdateCells(CollegeCellNamesContainer container)
+        {
+            foreach (var cell in from cellName in container.CellNames
+                                 select cellName.GetSplittedFields('-') 
+                                 into fields where fields.Length > 1
+                                 let eNodeb = _eNodebRepository.GetByName(fields[0]) where eNodeb != null
+                                 select _cellRepository.GetBySectorId(eNodeb.ENodebId, fields[1].ConvertToByte(0)) 
+                                 into cell where cell != null
+                                 select cell)
+            {
+                await _repository.InsertCollegeCell(container.CollegeName, cell.Id);
+            }
+            return _repository.SaveChanges();
         }
     }
 

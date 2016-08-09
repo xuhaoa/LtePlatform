@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Abp.EntityFramework;
 using Abp.EntityFramework.Repositories;
 using Lte.Parameters.Abstract.Infrastructure;
@@ -24,6 +25,25 @@ namespace Lte.Parameters.Concrete.Infrastructure
         public List<InfrastructureInfo> GetAllPreciseMonitor()
         {
             return GetAll().Where(x => x.HotspotType == HotspotType.TopPrecise).ToList();
+        }
+
+        public async Task InsertCollegeCell(string collegeName, int id)
+        {
+            var infrastructure =
+                FirstOrDefault(
+                    x =>
+                        x.HotspotName == collegeName && x.HotspotType == HotspotType.College &&
+                        x.InfrastructureType == InfrastructureType.Cell && x.InfrastructureId == id);
+            if (infrastructure == null)
+            {
+                await InsertAsync(new InfrastructureInfo
+                {
+                    HotspotName = collegeName,
+                    HotspotType = HotspotType.College,
+                    InfrastructureType = InfrastructureType.Cell,
+                    InfrastructureId = id
+                });
+            }
         }
 
         public int SaveChanges()

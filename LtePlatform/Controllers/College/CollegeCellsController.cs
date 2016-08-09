@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Lte.Evaluations.DataService.College;
 using Lte.Evaluations.MapperSerive.Infrastructure;
@@ -37,6 +38,22 @@ namespace LtePlatform.Controllers.College
         {
             return _service.Query(collegeNames.Names);
         }
+    }
+
+    public class CollegeCellContainerController : ApiController
+    {
+        private CollegeCellsService _service;
+
+        public CollegeCellContainerController(CollegeCellsService serive)
+        {
+            _service = serive;
+        }
+
+        [HttpPost]
+        public async Task<int> Post(CollegeCellNamesContainer container)
+        {
+            return await _service.UpdateCells(container);
+        } 
     }
 
     [ApiControl("查询校园网CDMA小区的控制器")]

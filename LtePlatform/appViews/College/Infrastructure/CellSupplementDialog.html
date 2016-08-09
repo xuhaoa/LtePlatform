@@ -8,6 +8,6 @@
     <div ui-grid="gridOptions" ui-grid-selection></div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-warning" ng-click="ok()">OK</button>
-    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-warning" ng-click="ok()" ng-disabled="!supplementCells.length">补充选定小区</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">退出</button>
 </div>
