@@ -1,15 +1,23 @@
 ﻿<h4 class="text-primary">{{collegeName}}基础信息查询与编辑</h4>
-<div uib-tabset active="active">
-    <div uib-tab index="0" heading="LTE基站列表">
+<div uib-accordion>
+    <div uib-accordion-group panel-class="panel-primary" is-open="true">
+        <div uib-accordion-heading>
+            LTE基站列表
+            <div class="badge">{{eNodebList.length}}</div>
+        </div>
         <div e-nodeb-plain-table items="eNodebList" root-path="parametersPath"></div>
     </div>
-    <div uib-tab index="1" heading="LTE小区列表">
-        <div ng-include="'/appViews/College/Infrastructure/LteCellTable.html'"></div>
+    <div uib-accordion-group panel-class="panel-success">
+        <div uib-accordion-heading>
+            LTE小区列表
+            <div class="badge">{{cellList.length}}</div>
+        </div>
+        <div lte-cell-table items="cellList" root-path="parametersPath"></div>
     </div>
-    <div uib-tab index="2" heading="CDMA基站列表">
+    <div uib-accordion-group heading="CDMA基站列表">
         <div ng-include="'/appViews/College/Infrastructure/BtsTable.html'"></div>
     </div>
-    <div uib-tab index="3" heading="CDMA小区列表">
+    <div uib-accordion-group heading="CDMA小区列表">
         <div ng-include="'/appViews/College/Infrastructure/CdmaCellTable.html'"></div>
     </div>
 </div>
