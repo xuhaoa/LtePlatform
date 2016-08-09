@@ -251,14 +251,52 @@ angular.module('parameters.list', ['myApp.parameters', 'huawei.mongo.parameters'
         };
     })
 
-    .directive('lteCellTable', function(parametersRoot) {
+    .controller('LteCellController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                {
+                    name: '小区名称',
+                    cellTemplate: '<span class="text-primary">{{row.entity.eNodebName}}-{{row.entity.sectorId}}</span>'
+                },
+                { field: 'frequency', name: '频点' },
+                { field: 'pci', name: 'PCI' },
+                { field: 'tac', name: 'TAC' },
+                { field: 'prach', name: 'PRACH' },
+                { field: 'rsPower', name: 'RS功率' },
+                { field: 'indoor', name: '室内外' },
+                { field: 'height', name: '高度' },
+                { field: 'azimuth', name: '方位角' },
+                { field: 'downTilt', name: '下倾' },
+                { field: 'antennaGain', name: '天线增益(dB)' },
+                {
+                    name: '详细信息',
+                    cellTemplate: '<a ng-href="{{grid.appScope.rootPath}}cellInfo/{{row.entity.eNodebId}}/{{row.entity.eNodebName}}/{{row.entity.sectorId}}" class="btn btn-sm btn-primary">小区信息</a>'
+                }
+            ],
+            data: []
+        };
+    })
+    .directive('lteCellTable', function ($compile) {
         return {
-            restrict: 'ECMA',
+            controller: 'LteCellController',
+            restrict: 'EA',
             replace: true,
             scope: {
-                cellList: '='
+                items: '=',
+                rootPath: '='
             },
-            templateUrl: parametersRoot + 'eNodeb/LteCellTable.html'
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
         }
     })
     .directive('cdmaCellTable', function(parametersRoot) {

@@ -1954,7 +1954,6 @@
     <None Include="Views\Parameters\AlarmImport.cshtml" />
     <Content Include="Views\Shared\_AlertPanel.cshtml" />
     <Content Include="appViews\Parameters\Region\ENodebTable.html" />
-    <Content Include="directives\parameters\eNodeb\LteCellTable.html" />
     <Content Include="appViews\Parameters\Region\BtsTable.html" />
     <Content Include="directives\parameters\cdma\CellTable.html" />
     <Content Include="appViews\College\Infrastructure\DistributionDialog.html" />
