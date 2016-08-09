@@ -191,8 +191,22 @@
         eNodebs, cells, collegeName) {
         $scope.dialogTitle = collegeName + "LTE小区补充";
         $scope.supplementCells = cells;
+        $scope.gridOptions = {
+            enableRowSelection: true,
+            enableSelectAll: true,
+            selectionRowHeaderWidth: 35,
+            rowHeight: 35,
+            showGridFooter: true
+        };
+
+        $scope.gridOptions.columnDefs = [
+          { name: 'id' },
+          { name: 'name' },
+          { name: 'age', displayName: 'Age (not focusable)', allowCellFocus: false },
+          { name: 'address.city' }
+        ];
         $scope.ok = function () {
-            $uibModalInstance.close($scope.supplementCells);
+            $uibModalInstance.close(eNodebs);
         };
 
         $scope.cancel = function () {
