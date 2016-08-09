@@ -205,7 +205,8 @@
           { name: '下倾角', field: 'downTilt' },
           { name: '频点', field: 'frequency' },
           { name: '室内外', field: 'indoor' },
-          { name: '与基站距离', field: 'distance' }
+          { name: '与基站距离', field: 'distance' },
+          { name: 'RRU名称', field: 'rruName' }
         ];
 
         angular.forEach(eNodebs, function(eNodeb) {
@@ -219,7 +220,10 @@
                     }
                     if (i === cells.length) {
                         dstCell.distance = geometryService.getDistance(eNodeb.lattitute, eNodeb.longtitute, dstCell.lattitute, dstCell.longtitute);
-                        $scope.supplementCells.push(dstCell);
+                        networkElementService.queryLteRruFromCellName(dstCell.cellName).then(function(rru) {
+                            dstCell.rruName = rru ? rru.rruName : '';
+                            $scope.supplementCells.push(dstCell);
+                        });
                     }
                 });
                 $scope.gridOptions.data = $scope.supplementCells;

@@ -49,6 +49,11 @@
                     sectorId: sectorId
                 });
             },
+            queryLteRruFromCellName: function(cellName) {
+                return generalHttpService.getApiData('LteRru', {
+                    cellName: cellName
+                });
+            },
             queryCellInfosInOneENodeb: function (eNodebId) {
                 return generalHttpService.getApiData('Cell', {
                     eNodebId: eNodebId
