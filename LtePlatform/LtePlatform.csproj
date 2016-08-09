@@ -433,7 +433,6 @@
     <Content Include="appViews\College\Infrastructure\CdmaCellTable.html" />
     <Content Include="appViews\College\Infrastructure\CollegeQuery.html" />
     <Content Include="appViews\College\Infrastructure\ENodebDialog.html" />
-    <Content Include="appViews\College\Infrastructure\ENodebTable.html" />
     <Content Include="appViews\College\Infrastructure\LteCellDialog.html" />
     <Content Include="appViews\College\Infrastructure\LteCellTable.html" />
     <Content Include="appViews\College\Infrastructure\NewCollegeDialog.html" />
