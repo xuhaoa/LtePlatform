@@ -138,19 +138,22 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller("query.name", function($scope, $stateParams, collegeService) {
+    .controller("query.name", function($scope, $stateParams, collegeService, collegeDialogService) {
         $scope.collegeInfo.url = $scope.rootPath + "query";
         $scope.collegeName = $stateParams.name;
         $scope.parametersPath = "/Parameters/List#/";
+        $scope.updateLteCells = function() {
+            collegeService.queryCells($scope.collegeName).then(function(cells) {
+                $scope.cellList = cells;
+            });
+        };
         $scope.supplementCells = function() {
-
+            collegeDialogService.supplementENodebCells($scope.eNodebList, $scope.cellList, $scope.collegeName, $scope.updateLteCells);
         };
         collegeService.queryENodebs($scope.collegeName).then(function(eNodebs) {
             $scope.eNodebList = eNodebs;
         });
-        collegeService.queryCells($scope.collegeName).then(function(cells) {
-            $scope.cellList = cells;
-        });
+        $scope.updateLteCells();
         collegeService.queryBtss($scope.collegeName).then(function(btss) {
             $scope.btsList = btss;
         });
@@ -181,6 +184,18 @@
         };
 
         $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('cell.supplement.dialog', function ($scope, $uibModalInstance, appFormatService,
+        eNodebs, cells, collegeName) {
+        $scope.dialogTitle = collegeName + "LTE小区补充";
+        $scope.supplementCells = cells;
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.supplementCells);
+        };
+
+        $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
     });

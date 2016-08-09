@@ -250,6 +250,31 @@
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
+            },
+            supplementENodebCells: function(eNodebs, cells, collegeName, callback) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: collegeInfrastructurePath + 'CellSupplementDialog.html',
+                    controller: 'cell.supplement.dialog',
+                    size: 'lg',
+                    resolve: {
+                        eNodebs: function() {
+                            return eNodebs;
+                        },
+                        cells: function() {
+                            return cells;
+                        },
+                        collegeName: function() {
+                            return collegeName;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (info) {
+                    console.log(info);
+                    callback();
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
             }
         };
     })
