@@ -1,164 +1,124 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lte.Domain.Common;
+using TraceParser.Common;
 
 namespace TraceParser.Eutra
 {
     [Serializable]
-    public class CarrierFreqCDMA2000
+    public class CarrierFreqCDMA2000 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long arfcn { get; set; }
 
         public BandclassCDMA2000 bandClass { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CarrierFreqCDMA2000>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CarrierFreqCDMA2000 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CarrierFreqCDMA2000 config, BitArrayInputStream input)
             {
-                CarrierFreqCDMA2000 qcdma = new CarrierFreqCDMA2000();
-                qcdma.InitDefaults();
-                int nBits = (input.ReadBit() == 0) ? 5 : 5;
-                qcdma.bandClass = (BandclassCDMA2000)input.ReadBits(nBits);
-                qcdma.arfcn = input.ReadBits(11);
-                return qcdma;
+                input.ReadBit();
+                config.bandClass = (BandclassCDMA2000)input.ReadBits(5);
+                config.arfcn = input.ReadBits(11);
             }
         }
     }
 
     [Serializable]
-    public class CarrierFreqEUTRA
+    public class CarrierFreqEUTRA : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long dl_CarrierFreq { get; set; }
 
         public long? ul_CarrierFreq { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CarrierFreqEUTRA>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
 
-            public CarrierFreqEUTRA Decode(BitArrayInputStream input)
+            protected override void ProcessConfig(CarrierFreqEUTRA config, BitArrayInputStream input)
             {
-                CarrierFreqEUTRA qeutra = new CarrierFreqEUTRA();
-                qeutra.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                qeutra.dl_CarrierFreq = input.ReadBits(0x10);
+                config.dl_CarrierFreq = input.ReadBits(0x10);
                 if (stream.Read())
                 {
-                    qeutra.ul_CarrierFreq = input.ReadBits(0x10);
+                    config.ul_CarrierFreq = input.ReadBits(0x10);
                 }
-                return qeutra;
             }
         }
     }
 
     [Serializable]
-    public class CarrierFreqEUTRA_v9e0
+    public class CarrierFreqEUTRA_v9e0 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long dl_CarrierFreq_v9e0 { get; set; }
 
         public long? ul_CarrierFreq_v9e0 { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CarrierFreqEUTRA_v9e0>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
 
-            public CarrierFreqEUTRA_v9e0 Decode(BitArrayInputStream input)
+            protected override void ProcessConfig(CarrierFreqEUTRA_v9e0 config, BitArrayInputStream input)
             {
-                CarrierFreqEUTRA_v9e0 _ve = new CarrierFreqEUTRA_v9e0();
-                _ve.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                _ve.dl_CarrierFreq_v9e0 = input.ReadBits(0x12);
+                config.dl_CarrierFreq_v9e0 = input.ReadBits(0x12);
                 if (stream.Read())
                 {
-                    _ve.ul_CarrierFreq_v9e0 = input.ReadBits(0x12);
+                    config.ul_CarrierFreq_v9e0 = input.ReadBits(0x12);
                 }
-                return _ve;
             }
         }
     }
 
     [Serializable]
-    public class CarrierFreqGERAN
+    public class CarrierFreqGERAN : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long arfcn { get; set; }
 
         public BandIndicatorGERAN bandIndicator { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CarrierFreqGERAN>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
 
-            public CarrierFreqGERAN Decode(BitArrayInputStream input)
+            protected override void ProcessConfig(CarrierFreqGERAN config, BitArrayInputStream input)
             {
-                CarrierFreqGERAN qgeran = new CarrierFreqGERAN();
-                qgeran.InitDefaults();
-                qgeran.arfcn = input.ReadBits(10);
-                const int nBits = 1;
-                qgeran.bandIndicator = (BandIndicatorGERAN)input.ReadBits(nBits);
-                return qgeran;
+                config.arfcn = input.ReadBits(10);
+                config.bandIndicator = (BandIndicatorGERAN)input.ReadBits(1);
             }
         }
     }
 
     [Serializable]
-    public class CarrierFreqInfoUTRA_FDD_v8h0
+    public class CarrierFreqInfoUTRA_FDD_v8h0 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public List<long> multiBandInfoList { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CarrierFreqInfoUTRA_FDD_v8h0>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CarrierFreqInfoUTRA_FDD_v8h0 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CarrierFreqInfoUTRA_FDD_v8h0 config, BitArrayInputStream input)
             {
-                CarrierFreqInfoUTRA_FDD_v8h0 _vh = new CarrierFreqInfoUTRA_FDD_v8h0();
-                _vh.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
                 if (stream.Read())
                 {
-                    _vh.multiBandInfoList = new List<long>();
-                    int nBits = 3;
-                    int num3 = input.ReadBits(nBits) + 1;
+                    config.multiBandInfoList = new List<long>();
+                    int num3 = input.ReadBits(3) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         long item = input.ReadBits(7) + 1;
-                        _vh.multiBandInfoList.Add(item);
+                        config.multiBandInfoList.Add(item);
                     }
                 }
-                return _vh;
             }
         }
     }
 
     [Serializable]
-    public class CarrierFreqsGERAN
+    public class CarrierFreqsGERAN : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public BandIndicatorGERAN bandIndicator { get; set; }
 
         public followingARFCNs_Type followingARFCNs { get; set; }
@@ -166,12 +126,8 @@ namespace TraceParser.Eutra
         public long startingARFCN { get; set; }
 
         [Serializable]
-        public class followingARFCNs_Type
+        public class followingARFCNs_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public equallySpacedARFCNs_Type equallySpacedARFCNs { get; set; }
 
             public List<long> explicitListOfARFCNs { get; set; }
@@ -179,102 +135,81 @@ namespace TraceParser.Eutra
             public string variableBitMapOfARFCNs { get; set; }
 
             [Serializable]
-            public class equallySpacedARFCNs_Type
+            public class equallySpacedARFCNs_Type : TraceConfig
             {
-                public void InitDefaults()
-                {
-                }
-
                 public long arfcn_Spacing { get; set; }
 
                 public long numberOfFollowingARFCNs { get; set; }
 
-                public class PerDecoder
+                public class PerDecoder : DecoderBase<equallySpacedARFCNs_Type>
                 {
                     public static readonly PerDecoder Instance = new PerDecoder();
-
-                    public equallySpacedARFCNs_Type Decode(BitArrayInputStream input)
+                    
+                    protected override void ProcessConfig(equallySpacedARFCNs_Type config, BitArrayInputStream input)
                     {
-                        equallySpacedARFCNs_Type type = new equallySpacedARFCNs_Type();
-                        type.InitDefaults();
-                        type.arfcn_Spacing = input.ReadBits(3) + 1;
-                        type.numberOfFollowingARFCNs = input.ReadBits(5);
-                        return type;
+                        config.arfcn_Spacing = input.ReadBits(3) + 1;
+                        config.numberOfFollowingARFCNs = input.ReadBits(5);
                     }
                 }
             }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<followingARFCNs_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
 
-                public followingARFCNs_Type Decode(BitArrayInputStream input)
+                protected override void ProcessConfig(followingARFCNs_Type config, BitArrayInputStream input)
                 {
-                    followingARFCNs_Type type = new followingARFCNs_Type();
-                    type.InitDefaults();
                     switch (input.ReadBits(2))
                     {
                         case 0:
                             {
-                                type.explicitListOfARFCNs = new List<long>();
-                                const int nBits = 5;
-                                int num4 = input.ReadBits(nBits);
+                                config.explicitListOfARFCNs = new List<long>();
+                                int num4 = input.ReadBits(5);
                                 for (int i = 0; i < num4; i++)
                                 {
                                     long item = input.ReadBits(10);
-                                    type.explicitListOfARFCNs.Add(item);
+                                    config.explicitListOfARFCNs.Add(item);
                                 }
-                                return type;
+                                return;
                             }
                         case 1:
-                            type.equallySpacedARFCNs = equallySpacedARFCNs_Type.PerDecoder.Instance.Decode(input);
-                            return type;
+                            config.equallySpacedARFCNs = equallySpacedARFCNs_Type.PerDecoder.Instance.Decode(input);
+                            return;
 
                         case 2:
                             int num = input.ReadBits(4);
-                            type.variableBitMapOfARFCNs = input.readOctetString(num + 1);
-                            return type;
+                            config.variableBitMapOfARFCNs = input.readOctetString(num + 1);
+                            return;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
                 }
             }
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CarrierFreqsGERAN>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
 
-            public CarrierFreqsGERAN Decode(BitArrayInputStream input)
+            protected override void ProcessConfig(CarrierFreqsGERAN config, BitArrayInputStream input)
             {
-                CarrierFreqsGERAN sgeran = new CarrierFreqsGERAN();
-                sgeran.InitDefaults();
-                sgeran.startingARFCN = input.ReadBits(10);
+                config.startingARFCN = input.ReadBits(10);
                 int nBits = 1;
-                sgeran.bandIndicator = (BandIndicatorGERAN)input.ReadBits(nBits);
-                sgeran.followingARFCNs = followingARFCNs_Type.PerDecoder.Instance.Decode(input);
-                return sgeran;
+                config.bandIndicator = (BandIndicatorGERAN)input.ReadBits(nBits);
+                config.followingARFCNs = followingARFCNs_Type.PerDecoder.Instance.Decode(input);
             }
         }
     }
 
     [Serializable]
-    public class CarrierFreqsInfoGERAN
+    public class CarrierFreqsInfoGERAN : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public CarrierFreqsGERAN carrierFreqs { get; set; }
 
         public commonInfo_Type commonInfo { get; set; }
 
         [Serializable]
-        public class commonInfo_Type
+        public class commonInfo_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public long? cellReselectionPriority { get; set; }
 
             public string ncc_Permitted { get; set; }
@@ -287,55 +222,45 @@ namespace TraceParser.Eutra
 
             public long threshX_Low { get; set; }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<commonInfo_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public commonInfo_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(commonInfo_Type config, BitArrayInputStream input)
                 {
-                    commonInfo_Type type = new commonInfo_Type();
-                    type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 2);
                     if (stream.Read())
                     {
-                        type.cellReselectionPriority = input.ReadBits(3);
+                        config.cellReselectionPriority = input.ReadBits(3);
                     }
-                    type.ncc_Permitted = input.ReadBitString(8);
-                    type.q_RxLevMin = input.ReadBits(6);
+                    config.ncc_Permitted = input.ReadBitString(8);
+                    config.q_RxLevMin = input.ReadBits(6);
                     if (stream.Read())
                     {
-                        type.p_MaxGERAN = input.ReadBits(6);
+                        config.p_MaxGERAN = input.ReadBits(6);
                     }
-                    type.threshX_High = input.ReadBits(5);
-                    type.threshX_Low = input.ReadBits(5);
-                    return type;
+                    config.threshX_High = input.ReadBits(5);
+                    config.threshX_Low = input.ReadBits(5);
                 }
             }
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CarrierFreqsInfoGERAN>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CarrierFreqsInfoGERAN Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CarrierFreqsInfoGERAN config, BitArrayInputStream input)
             {
-                CarrierFreqsInfoGERAN ogeran = new CarrierFreqsInfoGERAN();
-                ogeran.InitDefaults();
                 input.ReadBit();
-                ogeran.carrierFreqs = CarrierFreqsGERAN.PerDecoder.Instance.Decode(input);
-                ogeran.commonInfo = commonInfo_Type.PerDecoder.Instance.Decode(input);
-                return ogeran;
+                config.carrierFreqs = CarrierFreqsGERAN.PerDecoder.Instance.Decode(input);
+                config.commonInfo = commonInfo_Type.PerDecoder.Instance.Decode(input);
             }
         }
     }
 
     [Serializable]
-    public class CarrierFreqUTRA_FDD
+    public class CarrierFreqUTRA_FDD : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long carrierFreq { get; set; }
 
         public long? cellReselectionPriority { get; set; }
@@ -352,72 +277,58 @@ namespace TraceParser.Eutra
 
         public threshX_Q_r9_Type threshX_Q_r9 { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CarrierFreqUTRA_FDD>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CarrierFreqUTRA_FDD Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CarrierFreqUTRA_FDD config, BitArrayInputStream input)
             {
-                CarrierFreqUTRA_FDD qutra_fdd = new CarrierFreqUTRA_FDD();
-                qutra_fdd.InitDefaults();
                 bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                qutra_fdd.carrierFreq = input.ReadBits(14);
+                config.carrierFreq = input.ReadBits(14);
                 if (stream.Read())
                 {
-                    qutra_fdd.cellReselectionPriority = input.ReadBits(3);
+                    config.cellReselectionPriority = input.ReadBits(3);
                 }
-                qutra_fdd.threshX_High = input.ReadBits(5);
-                qutra_fdd.threshX_Low = input.ReadBits(5);
-                qutra_fdd.q_RxLevMin = input.ReadBits(6) + -60;
-                qutra_fdd.p_MaxUTRA = input.ReadBits(7) + -50;
-                qutra_fdd.q_QualMin = input.ReadBits(5) + -24;
+                config.threshX_High = input.ReadBits(5);
+                config.threshX_Low = input.ReadBits(5);
+                config.q_RxLevMin = input.ReadBits(6) + -60;
+                config.p_MaxUTRA = input.ReadBits(7) + -50;
+                config.q_QualMin = input.ReadBits(5) + -24;
                 if (flag)
                 {
                     BitMaskStream stream2 = new BitMaskStream(input, 1);
                     if (stream2.Read())
                     {
-                        qutra_fdd.threshX_Q_r9 = threshX_Q_r9_Type.PerDecoder.Instance.Decode(input);
+                        config.threshX_Q_r9 = threshX_Q_r9_Type.PerDecoder.Instance.Decode(input);
                     }
                 }
-                return qutra_fdd;
             }
         }
 
         [Serializable]
-        public class threshX_Q_r9_Type
+        public class threshX_Q_r9_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public long threshX_HighQ_r9 { get; set; }
 
             public long threshX_LowQ_r9 { get; set; }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<threshX_Q_r9_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public threshX_Q_r9_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(threshX_Q_r9_Type config, BitArrayInputStream input)
                 {
-                    threshX_Q_r9_Type type = new threshX_Q_r9_Type();
-                    type.InitDefaults();
-                    type.threshX_HighQ_r9 = input.ReadBits(5);
-                    type.threshX_LowQ_r9 = input.ReadBits(5);
-                    return type;
+                    config.threshX_HighQ_r9 = input.ReadBits(5);
+                    config.threshX_LowQ_r9 = input.ReadBits(5);
                 }
             }
         }
     }
 
     [Serializable]
-    public class CarrierFreqUTRA_TDD
+    public class CarrierFreqUTRA_TDD : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long carrierFreq { get; set; }
 
         public long? cellReselectionPriority { get; set; }
@@ -430,36 +341,30 @@ namespace TraceParser.Eutra
 
         public long threshX_Low { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CarrierFreqUTRA_TDD>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
+            
 
-            public CarrierFreqUTRA_TDD Decode(BitArrayInputStream input)
+            protected override void ProcessConfig(CarrierFreqUTRA_TDD config, BitArrayInputStream input)
             {
-                CarrierFreqUTRA_TDD qutra_tdd = new CarrierFreqUTRA_TDD();
-                qutra_tdd.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
-                qutra_tdd.carrierFreq = input.ReadBits(14);
+                config.carrierFreq = input.ReadBits(14);
                 if (stream.Read())
                 {
-                    qutra_tdd.cellReselectionPriority = input.ReadBits(3);
+                    config.cellReselectionPriority = input.ReadBits(3);
                 }
-                qutra_tdd.threshX_High = input.ReadBits(5);
-                qutra_tdd.threshX_Low = input.ReadBits(5);
-                qutra_tdd.q_RxLevMin = input.ReadBits(6) + -60;
-                qutra_tdd.p_MaxUTRA = input.ReadBits(7) + -50;
-                return qutra_tdd;
+                config.threshX_High = input.ReadBits(5);
+                config.threshX_Low = input.ReadBits(5);
+                config.q_RxLevMin = input.ReadBits(6) + -60;
+                config.p_MaxUTRA = input.ReadBits(7) + -50;
             }
         }
     }
 
     [Serializable]
-    public class AffectedCarrierFreq_r11
+    public class AffectedCarrierFreq_r11 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long carrierFreq_r11 { get; set; }
 
         public interferenceDirection_r11_Enum interferenceDirection_r11 { get; set; }
@@ -472,29 +377,21 @@ namespace TraceParser.Eutra
             spare
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<AffectedCarrierFreq_r11>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public AffectedCarrierFreq_r11 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(AffectedCarrierFreq_r11 config, BitArrayInputStream input)
             {
-                AffectedCarrierFreq_r11 _r = new AffectedCarrierFreq_r11();
-                _r.InitDefaults();
-                _r.carrierFreq_r11 = input.ReadBits(5) + 1;
-                const int nBits = 2;
-                _r.interferenceDirection_r11 = (interferenceDirection_r11_Enum)input.ReadBits(nBits);
-                return _r;
+                config.carrierFreq_r11 = input.ReadBits(5) + 1;
+                config.interferenceDirection_r11 = (interferenceDirection_r11_Enum)input.ReadBits(2);
             }
         }
     }
 
     [Serializable]
-    public class CarrierBandwidthEUTRA
+    public class CarrierBandwidthEUTRA : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public dl_Bandwidth_Enum dl_Bandwidth { get; set; }
 
         public ul_Bandwidth_Enum? ul_Bandwidth { get; set; }
@@ -519,23 +416,18 @@ namespace TraceParser.Eutra
             spare1
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CarrierBandwidthEUTRA>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CarrierBandwidthEUTRA Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CarrierBandwidthEUTRA config, BitArrayInputStream input)
             {
-                CarrierBandwidthEUTRA heutra = new CarrierBandwidthEUTRA();
-                heutra.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                int nBits = 4;
-                heutra.dl_Bandwidth = (dl_Bandwidth_Enum)input.ReadBits(nBits);
+                config.dl_Bandwidth = (dl_Bandwidth_Enum)input.ReadBits(4);
                 if (stream.Read())
                 {
-                    nBits = 4;
-                    heutra.ul_Bandwidth = (ul_Bandwidth_Enum)input.ReadBits(nBits);
+                    config.ul_Bandwidth = (ul_Bandwidth_Enum)input.ReadBits(4);
                 }
-                return heutra;
             }
         }
 
