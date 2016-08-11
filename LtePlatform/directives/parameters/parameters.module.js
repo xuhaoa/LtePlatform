@@ -344,14 +344,48 @@ angular.module('parameters.list', ['myApp.parameters', 'huawei.mongo.parameters'
             }
         }
     })
-    .directive('cdmaCellTable', function(parametersRoot) {
+    
+    .controller('CdmaCellController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                {
+                    name: '小区名称',
+                    cellTemplate: '<span class="text-primary">{{row.entity.btsName}}-{{row.entity.sectorId}}</span>'
+                },
+                { field: 'frequency', name: '频点' },
+                { field: 'cellType', name: '小区类别' },
+                { field: 'frequencyList', name: '频点列表' },
+                { field: 'cellId', name: '小区编号' },
+                { field: 'lac', name: 'LAC' },
+                { field: 'pn', name: 'PN' },
+                { field: 'height', name: '高度' },
+                { field: 'azimuth', name: '方位角' },
+                { field: 'downTilt', name: '下倾' },
+                { field: 'antennaGain', name: '天线增益(dB)' }
+            ],
+            data: []
+        };
+    })
+    .directive('cdmaCellTable', function ($compile) {
         return {
-            restrict: 'ECMA',
+            restrict: 'EA',
+            controller: 'CdmaCellController',
             replace: true,
             scope: {
-                cdmaCellList: '='
+                items: '='
             },
-            templateUrl: parametersRoot + 'cdma/CellTable.html'
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
         }
     })
 
