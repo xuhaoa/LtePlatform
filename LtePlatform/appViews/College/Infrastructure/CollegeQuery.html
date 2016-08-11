@@ -15,11 +15,19 @@
         <button class="btn btn-sm btn-warning" ng-click="supplementCells()">补充小区</button>
         <div lte-cell-table items="cellList" root-path="parametersPath"></div>
     </div>
-    <div uib-accordion-group heading="CDMA基站列表">
-        <div ng-include="'/appViews/College/Infrastructure/BtsTable.html'"></div>
+    <div uib-accordion-group panel-class="panel-default">
+        <div uib-accordion-heading>
+            CDMA基站列表
+            <div class="badge">{{btsList.length}}</div>
+        </div>
+        <div bts-plain-table items="btsList" root-path="parametersPath"></div>
     </div>
-    <div uib-accordion-group heading="CDMA小区列表">
-        <div ng-include="'/appViews/College/Infrastructure/CdmaCellTable.html'"></div>
+    <div uib-accordion-group panel-class="panel-warning">
+        <div uib-accordion-heading>
+            CDMA小区列表
+            <div class="badge">{{cdmaCellList.length}}</div>
+        </div>
+        <div cdma-cell-table items="cdmaCellList"></div>
     </div>
 </div>
     
