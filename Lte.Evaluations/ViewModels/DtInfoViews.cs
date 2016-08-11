@@ -1,24 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Domain.Regular;
+using Abp.EntityFramework.AutoMapper;
+using Lte.Domain.Common;
 using Lte.Domain.Regular.Attributes;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Dt;
 
 namespace Lte.Evaluations.ViewModels
 {
+    [AutoMapFrom(typeof(RasterInfo))]
     public class RasterInfoView
     {
+        [AutoMapPropertyResolve("RasterNum", typeof(RasterInfo), typeof(NullableIntTransform))]
         public int RasterNum { get; set; }
 
+        [AutoMapPropertyResolve("CsvFilesName4G", typeof(RasterInfo), typeof(SemiCommaTransform))]
         public IEnumerable<string> CsvFilesName4Gs { get; set; }
 
+        [AutoMapPropertyResolve("CsvFilesName3G", typeof(RasterInfo), typeof(SemiCommaTransform))]
         public IEnumerable<string> CsvFilesName3Gs { get; set; }
 
+        [AutoMapPropertyResolve("CsvFilesName2G", typeof(RasterInfo), typeof(SemiCommaTransform))]
         public IEnumerable<string> CsvFilesName2Gs { get; set; }
 
         public string Area { get; set; }

@@ -9,11 +9,13 @@ using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.Policy;
+using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Evaluations.ViewModels.Mr;
 using Lte.Evaluations.ViewModels.Switch;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Basic;
+using Lte.Parameters.Entities.Dt;
 using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.Entities.Neighbor;
 using Lte.Parameters.Entities.Switch;
@@ -578,6 +580,25 @@ namespace Lte.Evaluations.MapperService
             };
             var item = info.MapTo<ComplainItem>();
             item.District.ShouldBe("分公司客服中心");
+        }
+
+        [Test]
+        public void Test_RasterInfoView()
+        {
+            var info = new RasterInfo
+            {
+                Area = "135",
+                CsvFilesName2G = "a;bc;def",
+                CsvFilesName3G = "abc;de",
+                CsvFilesName4G = "a;b;c;d;e",
+                RasterNum = 15
+            };
+            var view = info.MapTo<RasterInfoView>();
+            view.Area.ShouldBe("135");
+            view.CsvFilesName2Gs.Count().ShouldBe(3);
+            view.CsvFilesName3Gs.ElementAt(1).ShouldBe("de");
+            view.CsvFilesName4Gs.ElementAt(3).ShouldBe("d");
+            view.RasterNum.ShouldBe(15);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -206,6 +207,22 @@ namespace Lte.Domain.Common
         }
     }
 
+    public class NullableIntTransform : ValueResolver<int?, int>
+    {
+        protected override int ResolveCore(int? source)
+        {
+            return source ?? -1;
+        }
+    }
+
+    public class SemiCommaTransform : ValueResolver<string, List<string>>
+    {
+        protected override List<string> ResolveCore(string source)
+        {
+            return string.IsNullOrEmpty(source) ? new List<string>() : source.Split(';').ToList();
+        }
+    }
+
     public class IpAddressTransform : ValueResolver<IpAddress, int>
     {
         protected override int ResolveCore(IpAddress source)
@@ -238,7 +255,7 @@ namespace Lte.Domain.Common
         }
     }
 
-    public class SecondLittleBracketContentsTransform : ValueResolver<String, string>
+    public class SecondLittleBracketContentsTransform : ValueResolver<string, string>
     {
         protected override string ResolveCore(string source)
         {

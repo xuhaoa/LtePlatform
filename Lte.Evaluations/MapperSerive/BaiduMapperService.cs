@@ -33,32 +33,5 @@ namespace Lte.Evaluations.MapperSerive
                                 "Cell Type: " + s.CellType + "; Cell ID: " + s.CellId + "; LAC: " + s.Lac + "; PN: " +
                                 s.Pn + "; Frequency List: " + s.FrequencyList + "; BtsId: " + s.BtsId));
         }
-
-        public static void MapDtViews()
-        {
-            Mapper.CreateMap<RasterInfo, RasterInfoView>()
-                .ForMember(d => d.RasterNum, opt => opt.MapFrom(s => s.RasterNum ?? -1))
-                .ForMember(d => d.CsvFilesName2Gs,
-                    opt =>
-                        opt.MapFrom(
-                            s =>
-                                string.IsNullOrEmpty(s.CsvFilesName2G)
-                                    ? new List<string>()
-                                    : s.CsvFilesName2G.Split(';').ToList()))
-                .ForMember(d => d.CsvFilesName3Gs,
-                    opt =>
-                        opt.MapFrom(
-                            s =>
-                                string.IsNullOrEmpty(s.CsvFilesName3G)
-                                    ? new List<string>()
-                                    : s.CsvFilesName3G.Split(';').ToList()))
-                .ForMember(d => d.CsvFilesName4Gs,
-                    opt =>
-                        opt.MapFrom(
-                            s =>
-                                string.IsNullOrEmpty(s.CsvFilesName4G)
-                                    ? new List<string>()
-                                    : s.CsvFilesName4G.Split(';').ToList()));
-        }
     }
 }

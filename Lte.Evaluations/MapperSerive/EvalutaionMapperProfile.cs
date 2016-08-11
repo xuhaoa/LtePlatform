@@ -24,7 +24,6 @@ namespace Lte.Evaluations.MapperSerive
 
             BaiduMapperService.MapCdmaCellView();
             BaiduMapperService.MapCellView();
-            BaiduMapperService.MapDtViews();
         }
     }
 }
