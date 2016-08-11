@@ -436,7 +436,8 @@
                 map.addOverlay(polygon);
                 return {
                     X: centerx,
-                    Y: centery
+                    Y: centery,
+                    points: points
                 };
             },
             drawPolygon: function(coors) {
@@ -465,16 +466,18 @@
             drawRectangleAndGetCenter: function(coors) {
                 var centerx = (parseFloat(coors[0]) + parseFloat(coors[2])) / 2;
                 var centery = (parseFloat(coors[1]) + parseFloat(coors[3])) / 2;
-                var rectangle = new BMap.Polygon([
+                var points = [
                     new BMap.Point(parseFloat(coors[0]), parseFloat(coors[1])),
                     new BMap.Point(parseFloat(coors[2]), parseFloat(coors[1])),
                     new BMap.Point(parseFloat(coors[2]), parseFloat(coors[3])),
                     new BMap.Point(parseFloat(coors[0]), parseFloat(coors[3]))
-                ], { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.2 });
+                ];
+                var rectangle = new BMap.Polygon(points, { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.2 });
                 map.addOverlay(rectangle);
                 return {
                     X: centerx,
-                    Y: centery
+                    Y: centery,
+                    points: points
                 };
             },
             drawRectangle: function(coors) {
@@ -497,13 +500,14 @@
             drawCircleAndGetCenter: function(coors) {
                 var centerx = parseFloat(coors[0]);
                 var centery = parseFloat(coors[1]);
-                var circle = new BMap.Circle(new BMap.Point(parseFloat(coors[0]), parseFloat(coors[1])),
+                var circle = new BMap.Circle(new BMap.Point(centerx, centery),
                     parseFloat(coors[2]),
                     { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.2 });
                 map.addOverlay(circle);
                 return {
                     X: centerx,
-                    Y: centery
+                    Y: centery,
+                    points: points
                 };
             },
             drawCircle: function(coors) {

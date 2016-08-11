@@ -315,7 +315,7 @@
                     });
                 });
             },
-            drawCollegeArea: function (collegeId) {
+            drawCollegeArea: function (collegeId, callback) {
                 collegeService.queryRegion(collegeId).then(function (region) {
                     var center;
                     switch (region.regionType) {
@@ -330,6 +330,7 @@
                             break;
                     }
                     baiduMapService.setCellFocus(center.X, center.Y);
+                    callback(center);
                 });
             },
             showDtInfos: function (infos, begin, end) {

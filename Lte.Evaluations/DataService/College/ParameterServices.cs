@@ -74,7 +74,7 @@ namespace Lte.Evaluations.DataService.College
             var query = ids.Select(_cellRepository.Get).Where(cell => cell != null).ToList();
             return query.Any()
                 ? query.Select(x => CellView.ConstructView(x, _eNodebRepository))
-                : null;
+                : new List<CellView>();
         }
 
     }

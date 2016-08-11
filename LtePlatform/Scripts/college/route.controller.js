@@ -217,10 +217,16 @@ angular.module('college.main', ['app.common'])
 
         $scope.collegeInfo.url = $scope.rootPath + "map";
         $scope.collegeName = $stateParams.name;
+        $scope.addENodebs = function () {
+            console.log($scope.center);
+        };
+
         baiduMapService.initializeMap("all-map", 15);
 
         collegeQueryService.queryByName($scope.collegeName).then(function(college) {
-            collegeMapService.drawCollegeArea(college.id);
+            collegeMapService.drawCollegeArea(college.id, function(center) {
+                $scope.center = center;
+            });
         });
 
         switch ($stateParams.type) {

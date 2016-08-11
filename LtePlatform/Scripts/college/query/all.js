@@ -54,6 +54,29 @@
             collegeDialogService.addNewCollege($scope.updateInfos);
         };
     })
+    .controller("query.name", function($scope, $stateParams, collegeService, collegeDialogService) {
+        $scope.collegeInfo.url = $scope.rootPath + "query";
+        $scope.collegeName = $stateParams.name;
+        $scope.parametersPath = "/Parameters/List#/";
+        $scope.updateLteCells = function() {
+            collegeService.queryCells($scope.collegeName).then(function(cells) {
+                $scope.cellList = cells;
+            });
+        };
+        $scope.supplementCells = function() {
+            collegeDialogService.supplementENodebCells($scope.eNodebList, $scope.cellList, $scope.collegeName, $scope.updateLteCells);
+        };
+        collegeService.queryENodebs($scope.collegeName).then(function(eNodebs) {
+            $scope.eNodebList = eNodebs;
+        });
+        $scope.updateLteCells();
+        collegeService.queryBtss($scope.collegeName).then(function(btss) {
+            $scope.btsList = btss;
+        });
+        collegeService.queryCdmaCells($scope.collegeName).then(function(cells) {
+            $scope.cdmaCellList = cells;
+        });
+    })
     .controller('eNodeb.dialog', function($scope, $uibModalInstance, collegeService, name, dialogTitle) {
         $scope.dialogTitle = dialogTitle;
         collegeService.queryENodebs(name).then(function(result) {
@@ -137,29 +160,6 @@
         $scope.cancel = function() {
             $uibModalInstance.dismiss('cancel');
         };
-    })
-    .controller("query.name", function($scope, $stateParams, collegeService, collegeDialogService) {
-        $scope.collegeInfo.url = $scope.rootPath + "query";
-        $scope.collegeName = $stateParams.name;
-        $scope.parametersPath = "/Parameters/List#/";
-        $scope.updateLteCells = function() {
-            collegeService.queryCells($scope.collegeName).then(function(cells) {
-                $scope.cellList = cells;
-            });
-        };
-        $scope.supplementCells = function() {
-            collegeDialogService.supplementENodebCells($scope.eNodebList, $scope.cellList, $scope.collegeName, $scope.updateLteCells);
-        };
-        collegeService.queryENodebs($scope.collegeName).then(function(eNodebs) {
-            $scope.eNodebList = eNodebs;
-        });
-        $scope.updateLteCells();
-        collegeService.queryBtss($scope.collegeName).then(function(btss) {
-            $scope.btsList = btss;
-        });
-        collegeService.queryCdmaCells($scope.collegeName).then(function(cells) {
-            $scope.cdmaCellList = cells;
-        });
     })
     .controller('year.info.dialog', function($scope, $uibModalInstance, appFormatService,
         name, year, item) {
