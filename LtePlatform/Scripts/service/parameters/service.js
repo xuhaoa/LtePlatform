@@ -144,6 +144,9 @@
                     north: range.north,
                     excludedCells: excludedIds
                 });
+            },
+            queryRangeENodebs: function(container) {
+                return generalHttpService.postApiData('ENodeb', container);
             }
         };
     })

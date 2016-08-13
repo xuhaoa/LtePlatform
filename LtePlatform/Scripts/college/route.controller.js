@@ -208,27 +208,45 @@ angular.module('college.main', ['app.common'])
         collegeMapService.showCollegeInfos(showCollegDialogs, $scope.collegeInfo.year.selected);
     })
     .controller("map.name", function($scope, $uibModal, $stateParams, $log,
-        baiduMapService,
-        collegeService,
-        collegeQueryService,
-        collegeMapService,
-        parametersMapService,
-        parametersDialogService) {
+        baiduMapService, geometryService, networkElementService,
+        collegeService, collegeQueryService, collegeMapService,
+        parametersMapService, parametersDialogService) {
 
         $scope.collegeInfo.url = $scope.rootPath + "map";
         $scope.collegeName = $stateParams.name;
         $scope.addENodebs = function () {
-            console.log($scope.center);
-            collegeService.queryRange($stateParams.name).then(function(range) {
-                console.log(range);
+            geometryService.transformToBaidu($scope.center.X, $scope.center.Y).then(function (coors) {
+                collegeService.queryRange($stateParams.name).then(function (range) {
+                    var ids = [];
+                    collegeService.queryENodebs($scope.collegeName).then(function(eNodebs) {
+                        angular.forEach(eNodebs, function(eNodeb) {
+                            ids.push(eNodeb.ENodebId);
+                        });
+                        networkElementService.queryRangeENodebs({
+                            west: range.west + $scope.center.X - coors.x,
+                            east: range.east + $scope.center.X - coors.x,
+                            south: range.south + $scope.center.Y - coors.y,
+                            north: range.north + $scope.center.Y - coors.y,
+                            excludedIds: ids
+                        }).then(function(results) {
+                            console.log(results);
+                        });
+                    });
+                });
             });
         };
 
         baiduMapService.initializeMap("all-map", 15);
 
         collegeQueryService.queryByName($scope.collegeName).then(function(college) {
-            collegeMapService.drawCollegeArea(college.id, function(center) {
-                $scope.center = center;
+            collegeMapService.drawCollegeArea(college.id, function (center) {
+                geometryService.transformToBaidu(center.X, center.Y).then(function(coors) {
+                    $scope.center = {
+                        X: 2 * center.X - coors.x,
+                        Y: 2 * center.Y - coors.y,
+                        points: center.points
+                    };
+                });
             });
         });
 
