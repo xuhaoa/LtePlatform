@@ -126,7 +126,6 @@
     <Compile Include="DataService\College\CollegeCdmaCellsServiceTest.cs" />
     <Compile Include="DataService\College\CollegeCellsServiceTest.cs" />
     <Compile Include="DataService\College\CollegeDistributionServiceTest.cs" />
-    <Compile Include="DataService\College\CollegeENodebServiceTest.cs" />
     <Compile Include="DataService\College\CollegeKpiQueries.cs" />
     <Compile Include="DataService\College\CollegeKpiServiceTest.cs" />
     <Compile Include="DataService\College\CollegePreciseServiceTest.cs" />

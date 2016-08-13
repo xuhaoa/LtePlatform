@@ -19,8 +19,6 @@ namespace Lte.Evaluations.DataService.College
     public interface ICollegeInfrastructure<out TView>
     {
         IEnumerable<TView> Query(string collegeName);
-
-        IEnumerable<TView> Query(IEnumerable<string> collegeNames);
     }
 
     public class CollegeENodebService : ICollegeInfrastructure<ENodebView>
@@ -42,14 +40,6 @@ namespace Lte.Evaluations.DataService.College
                 into eNodeb
                 where eNodeb != null
                 select Mapper.Map<ENodeb, ENodebView>(eNodeb)).ToList();
-        }
-        
-        public IEnumerable<ENodebView> Query(IEnumerable<string> collegeNames)
-        {
-            var concateIds = collegeNames.Select(x => _repository.GetCollegeInfrastructureIds(x, InfrastructureType.ENodeb));
-            var distictIds = concateIds.Aggregate((x, y) => x.Concat(y)).Distinct();
-            var items = distictIds.Select(_eNodebRepository.Get).Where(eNodeb => eNodeb != null).ToList();
-            return Mapper.Map<List<ENodeb>, IEnumerable<ENodebView>>(items);
         }
     }
 
@@ -82,16 +72,6 @@ namespace Lte.Evaluations.DataService.College
             });
             return views;
         }
-
-        public IEnumerable<CdmaBtsView> Query(IEnumerable<string> collegeNames)
-        {
-            var ids =
-                collegeNames.Select(x => _repository.GetCollegeInfrastructureIds(x, InfrastructureType.CdmaBts))
-                    .Aggregate((x, y) => x.Concat(y))
-                    .Distinct();
-            var btss = ids.Select(_btsRepository.Get).Where(bts => bts != null).ToList();
-            return Mapper.Map<List<CdmaBts>, IEnumerable<CdmaBtsView>>(btss);
-        }
     }
 
     public class CollegeCellsService : ICollegeInfrastructure<SectorView>
@@ -111,19 +91,6 @@ namespace Lte.Evaluations.DataService.College
         public IEnumerable<SectorView> Query(string collegeName)
         {
             var ids = _repository.GetCollegeInfrastructureIds(collegeName, InfrastructureType.Cell);
-            var query = ids.Select(_cellRepository.Get).Where(cell => cell != null).ToList();
-            return query.Any()
-                ? Mapper.Map<IEnumerable<CellView>, IEnumerable<SectorView>>(
-                    query.Select(x => CellView.ConstructView(x, _eNodebRepository)))
-                : null;
-        }
-
-        public IEnumerable<SectorView> Query(IEnumerable<string> collegeNames)
-        {
-            var ids =
-                collegeNames.Select(x => _repository.GetCollegeInfrastructureIds(x, InfrastructureType.Cell))
-                    .Aggregate((x, y) => x.Concat(y))
-                    .Distinct();
             var query = ids.Select(_cellRepository.Get).Where(cell => cell != null).ToList();
             return query.Any()
                 ? Mapper.Map<IEnumerable<CellView>, IEnumerable<SectorView>>(
@@ -170,19 +137,6 @@ namespace Lte.Evaluations.DataService.College
                     query.Select(x => CdmaCellView.ConstructView(x, _btsRepository)))
                 : null;
         }
-
-        public IEnumerable<SectorView> Query(IEnumerable<string> collegeNames)
-        {
-            var ids =
-                collegeNames.Select(x => _repository.GetCollegeInfrastructureIds(x, InfrastructureType.CdmaCell))
-                    .Aggregate((x, y) => x.Concat(y))
-                    .Distinct();
-            var query = ids.Select(_cellRepository.Get).Where(cell => cell != null).ToList();
-            return query.Any()
-                ? Mapper.Map<IEnumerable<CdmaCellView>, IEnumerable<SectorView>>(
-                    query.Select(x => CdmaCellView.ConstructView(x, _btsRepository)))
-                : null;
-        }
     }
 
     public class CollegeLteDistributionService : ICollegeInfrastructure<IndoorDistribution>
@@ -203,17 +157,6 @@ namespace Lte.Evaluations.DataService.College
             var distributions = ids.Select(_indoorRepository.Get).Where(distribution => distribution != null).ToList();
             return distributions;
         }
-
-        public IEnumerable<IndoorDistribution> Query(IEnumerable<string> collegeNames)
-        {
-            var ids =
-                collegeNames.Select(x => _repository.GetCollegeInfrastructureIds(x, InfrastructureType.LteIndoor))
-                    .Aggregate((x, y) => x.Concat(y))
-                    .Distinct();
-            var distributions = ids.Select(_indoorRepository.Get).Where(distribution => distribution != null).ToList();
-            return distributions;
-        }
-
     }
 
     public class CollegeCdmaDistributionService : ICollegeInfrastructure<IndoorDistribution>
@@ -231,16 +174,6 @@ namespace Lte.Evaluations.DataService.College
         public IEnumerable<IndoorDistribution> Query(string collegeName)
         {
             var ids = _repository.GetCollegeInfrastructureIds(collegeName, InfrastructureType.CdmaIndoor);
-            var distributions = ids.Select(_indoorRepository.Get).Where(distribution => distribution != null).ToList();
-            return distributions;
-        }
-
-        public IEnumerable<IndoorDistribution> Query(IEnumerable<string> collegeNames)
-        {
-            var ids =
-                collegeNames.Select(x => _repository.GetCollegeInfrastructureIds(x, InfrastructureType.CdmaIndoor))
-                    .Aggregate((x, y) => x.Concat(y))
-                    .Distinct();
             var distributions = ids.Select(_indoorRepository.Get).Where(distribution => distribution != null).ToList();
             return distributions;
         }
