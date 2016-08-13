@@ -208,31 +208,30 @@ angular.module('college.main', ['app.common'])
         collegeMapService.showCollegeInfos(showCollegDialogs, $scope.collegeInfo.year.selected);
     })
     .controller("map.name", function($scope, $uibModal, $stateParams, $log,
-        baiduMapService, geometryService, networkElementService,
-        collegeService, collegeQueryService, collegeMapService,
+        baiduMapService, geometryService, collegeService, collegeQueryService, collegeMapService,
         parametersMapService, parametersDialogService) {
 
         $scope.collegeInfo.url = $scope.rootPath + "map";
         $scope.collegeName = $stateParams.name;
         $scope.addENodebs = function () {
-            geometryService.transformToBaidu($scope.center.X, $scope.center.Y).then(function (coors) {
-                collegeService.queryRange($stateParams.name).then(function (range) {
-                    var ids = [];
-                    collegeService.queryENodebs($scope.collegeName).then(function(eNodebs) {
-                        angular.forEach(eNodebs, function(eNodeb) {
-                            ids.push(eNodeb.ENodebId);
-                        });
-                        networkElementService.queryRangeENodebs({
-                            west: range.west + $scope.center.X - coors.x,
-                            east: range.east + $scope.center.X - coors.x,
-                            south: range.south + $scope.center.Y - coors.y,
-                            north: range.north + $scope.center.Y - coors.y,
-                            excludedIds: ids
-                        }).then(function(results) {
-                            console.log(results);
-                        });
-                    });
-                });
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '/appViews/College/Infrastructure/CellSupplementDialog.html',
+                controller: 'eNodeb.supplement.dialog',
+                size: 'lg',
+                resolve: {
+                    collegeName: function () {
+                        return $scope.collegeName;
+                    },
+                    center: function () {
+                        return $scope.center;
+                    }
+                }
+            });
+            modalInstance.result.then(function (info) {
+                console.log(info);
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
             });
         };
 
