@@ -57,6 +57,23 @@ namespace Lte.Evaluations.MapperSerive.Infrastructure
         public IEnumerable<CellIdPair> ExcludedCells { get; set; }
     }
 
+    public class ENodebRangeContainer
+    {
+        [MemberDoc("西边经度")]
+        public double West { get; set; }
+
+        [MemberDoc("东边经度")]
+        public double East { get; set; }
+
+        [MemberDoc("南边纬度")]
+        public double South { get; set; }
+
+        [MemberDoc(("北边纬度"))]
+        public double North { get; set; }
+
+        public IEnumerable<int> ExcludedIds { get; set; } 
+    }
+
     [TypeDoc("小区编号和扇区编号定义 ")]
     public class CellIdPair
     {

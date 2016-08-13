@@ -219,6 +219,9 @@ angular.module('college.main', ['app.common'])
         $scope.collegeName = $stateParams.name;
         $scope.addENodebs = function () {
             console.log($scope.center);
+            collegeService.queryRange($stateParams.name).then(function(range) {
+                console.log(range);
+            });
         };
 
         baiduMapService.initializeMap("all-map", 15);
