@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Web.Http;
-using Lte.Evaluations.DataService;
 using Lte.Evaluations.DataService.Basic;
+using Lte.Evaluations.MapperSerive.Infrastructure;
+using Lte.Evaluations.ViewModels.Basic;
 using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.Parameters
@@ -51,5 +48,70 @@ namespace LtePlatform.Controllers.Parameters
             var result = _service.GetByENodebId(eNodebId);
             return result == null ? (IHttpActionResult)BadRequest("No eNodebs given the query conditions!") : Ok(result);
         }
+
+        [HttpGet]
+        [ApiDoc("获取经纬度范围内的基站视图列表")]
+        [ApiParameterDoc("west", "西边经度")]
+        [ApiParameterDoc("east", "东边经度")]
+        [ApiParameterDoc("south", "南边纬度")]
+        [ApiParameterDoc("north", "北边纬度")]
+        [ApiResponse("经纬度范围内的基站视图列表")]
+        public IEnumerable<ENodebView> Get(double west, double east, double south, double north)
+        {
+            return _service.QueryENodebViews(west, east, south, north);
+        }
+
+        [HttpPost]
+        [ApiDoc("获取经纬度范围内的除某些基站外的基站视图列表")]
+        [ApiParameterDoc("container", "指定条件范围")]
+        [ApiResponse("指定条件范围内的基站视图列表")]
+        public IEnumerable<ENodebView> Post(ENodebRangeContainer container)
+        {
+            return _service.QueryENodebViews(container);
+        }
     }
+
+    [ApiControl("查询CDMA基站的控制器")]
+    public class BtsController : ApiController
+    {
+        private readonly BtsQueryService _service;
+
+        public BtsController(BtsQueryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        [ApiDoc("根据行政区域条件查询基站列表")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiParameterDoc("town", "镇区")]
+        [ApiResponse("查询得到的基站列表结果，如果没有则会报错")]
+        public IHttpActionResult Get(string city, string district, string town)
+        {
+            var result = _service.GetByTownNames(city, district, town);
+            return result == null ? (IHttpActionResult)BadRequest("This town has no btss!") : Ok(result);
+        }
+
+        [HttpGet]
+        [ApiDoc("使用名称模糊查询，可以先后匹配基站名称、基站编号和地址")]
+        [ApiParameterDoc("name", "模糊查询的名称")]
+        [ApiResponse("查询得到的基站列表结果，如果没有则会报错")]
+        public IHttpActionResult Get(string name)
+        {
+            var result = _service.GetByGeneralName(name);
+            return result == null ? (IHttpActionResult)BadRequest("No bts given the query conditions!") : Ok(result);
+        }
+
+        [HttpGet]
+        [ApiDoc("根据基站编号条件查询基站")]
+        [ApiParameterDoc("btsId", "基站编号")]
+        [ApiResponse("查询得到的基站列表结果，如果没有则会报错")]
+        public IHttpActionResult Get(int btsId)
+        {
+            var result = _service.GetByBtsId(btsId);
+            return result == null ? (IHttpActionResult)BadRequest("No bts given the query conditions!") : Ok(result);
+        }
+    }
+
 }

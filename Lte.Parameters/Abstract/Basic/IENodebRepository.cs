@@ -12,6 +12,8 @@ namespace Lte.Parameters.Abstract.Basic
 
         List<ENodeb> GetAllInUseList();
 
+        List<ENodeb> GetAllList(double west, double east, double south, double north);
+
         int SaveChanges();
     }
 }

@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using Lte.Evaluations.DataService;
 using Lte.Evaluations.DataService.Basic;
-using Lte.Parameters.Abstract;
+using Lte.Parameters.Entities;
 using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.AdminitrativeRegion
@@ -49,6 +44,31 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         {
             var query = _service.GetTowns(city, district);
             return query.Count == 0 ? (IHttpActionResult)BadRequest("Empty Town List!") : Ok(query);
+        }
+    }
+
+    [ApiControl("镇区信息查询控制器")]
+    public class TownController : ApiController
+    {
+        private readonly TownQueryService _service;
+
+        public TownController(TownQueryService service)
+        {
+            _service = service;
+        }
+
+        [ApiDoc("根据LTE基站编号查询基站镇区信息")]
+        [ApiParameterDoc("eNodebId", "LTE基站编号")]
+        [ApiResponse("基站镇区信息，包括城市、区域、镇")]
+        public Tuple<string, string, string> Get(int eNodebId)
+        {
+            return _service.GetTownNamesByENodebId(eNodebId);
+        }
+
+        [HttpGet]
+        public Town Get(string city, string district, string town)
+        {
+            return _service.GetTown(city, district, town);
         }
     }
 }

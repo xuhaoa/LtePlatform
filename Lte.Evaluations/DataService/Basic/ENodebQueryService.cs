@@ -4,10 +4,10 @@ using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Domain.Regular;
+using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 
 namespace Lte.Evaluations.DataService.Basic
@@ -67,20 +67,23 @@ namespace Lte.Evaluations.DataService.Basic
             return item?.MapTo<ENodebView>();
         }
 
-        public Tuple<string, string, string> GetTownNamesByENodebId(int eNodebId)
+        public IEnumerable<ENodebView> QueryENodebViews(double west, double east, double south, double north)
         {
-            var item = _eNodebRepository.GetByENodebId(eNodebId);
-            var town = item == null ? null : _townRepository.Get(item.TownId);
-            return town == null
-                ? null
-                : new Tuple<string, string, string>(town.CityName, town.DistrictName, town.TownName);
+            var eNodebs = _eNodebRepository.GetAllList(west, east, south, north);
+            return eNodebs.Any() ? eNodebs.MapTo<IEnumerable<ENodebView>>() : new List<ENodebView>();
         }
 
-        public Town GetTown(string city, string district, string town)
+        public IEnumerable<ENodebView> QueryENodebViews(ENodebRangeContainer container)
         {
-            return
-                _townRepository.FirstOrDefault(
-                    x => x.CityName == city && x.DistrictName == district && x.TownName == town);
-        }
+            var eNodebs =
+                _eNodebRepository.GetAllList(container.West, container.East, container.South, container.North)
+                    .Where(x => x.IsInUse)
+                    .ToList();
+            var excludedENodebs = from eNodeb in eNodebs
+                join id in container.ExcludedIds on eNodeb.ENodebId equals id
+                select eNodeb;
+            eNodebs = eNodebs.Except(excludedENodebs).ToList();
+            return eNodebs.Any() ? eNodebs.MapTo<IEnumerable<ENodebView>>() : new List<ENodebView>();
+        } 
     }
 }

@@ -318,11 +318,9 @@
     <Compile Include="Controllers\Account\UserContextController.cs" />
     <Compile Include="Controllers\AdminitrativeRegion\CityListController.cs" />
     <Compile Include="Controllers\AdminitrativeRegion\RegionStatsController.cs" />
-    <Compile Include="Controllers\AdminitrativeRegion\TownController.cs" />
     <Compile Include="Controllers\CollegeController.cs" />
     <Compile Include="Controllers\College\CollegeTestControllers.cs" />
     <Compile Include="Controllers\College\CollegeAlarmController.cs" />
-    <Compile Include="Controllers\College\CollegeDistributionsController.cs" />
     <Compile Include="Controllers\College\CollegeCellsController.cs" />
     <Compile Include="Controllers\College\CollegeENodebController.cs" />
     <Compile Include="Controllers\College\CollegeKpiController.cs" />
@@ -365,7 +363,6 @@
     <Compile Include="Controllers\Mr\NeighborMonitorController.cs" />
     <Compile Include="Controllers\Mr\PreciseWorkItemController.cs" />
     <Compile Include="Controllers\ParametersController.cs" />
-    <Compile Include="Controllers\Parameters\BtsController.cs" />
     <Compile Include="Controllers\Parameters\CellControllers.cs" />
     <Compile Include="Controllers\Parameters\DumpAlarmController.cs" />
     <Compile Include="Controllers\Parameters\DumpBtsExcelController.cs" />
@@ -377,7 +374,6 @@
     <Compile Include="Controllers\Parameters\NearestPciCellController.cs" />
     <Compile Include="Controllers\Parameters\NewCellControllers.cs" />
     <Compile Include="Controllers\Parameters\NewENodebControllers.cs" />
-    <Compile Include="Controllers\Parameters\SectorViewController.cs" />
     <Compile Include="Controllers\RutraceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

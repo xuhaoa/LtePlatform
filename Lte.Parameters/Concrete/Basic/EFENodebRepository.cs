@@ -24,6 +24,15 @@ namespace Lte.Parameters.Concrete.Basic
             return GetAll().Where(x => x.IsInUse).ToList();
         }
 
+        public List<ENodeb> GetAllList(double west, double east, double south, double north)
+        {
+            return GetAllList(x =>
+                x.Longtitute >= west
+                && x.Longtitute <= east
+                && x.Lattitute >= south
+                && x.Lattitute <= north);
+        }
+
         public EFENodebRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
         {
         }

@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
+using Lte.Parameters.Entities;
 
 namespace Lte.Evaluations.DataService.Basic
 {
@@ -110,6 +112,22 @@ namespace Lte.Evaluations.DataService.Basic
                     TotalCdmaBts = btss.Count(),
                     TotalCdmaCells = cdmaCells.Count()
                 }).ToList();
+        }
+
+        public Town GetTown(string city, string district, string town)
+        {
+            return
+                _repository.FirstOrDefault(
+                    x => x.CityName == city && x.DistrictName == district && x.TownName == town);
+        }
+
+        public Tuple<string, string, string> GetTownNamesByENodebId(int eNodebId)
+        {
+            var item = _eNodebRepository.GetByENodebId(eNodebId);
+            var town = item == null ? null : _repository.Get(item.TownId);
+            return town == null
+                ? null
+                : new Tuple<string, string, string>(town.CityName, town.DistrictName, town.TownName);
         }
     }
 }
