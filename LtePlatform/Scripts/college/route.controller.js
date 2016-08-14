@@ -267,16 +267,16 @@ angular.module('college.main', ['app.common'])
             });
             modalInstance.result.then(function (info) {
                 var ids = [];
-                angular.forEach(info, function (eNodeb) {
-                    ids.push(eNodeb.eNodebId);
+                angular.forEach(info, function (bts) {
+                    ids.push(bts.btsId);
                 });
-                collegeQueryService.saveCollegeENodebs({
+                collegeQueryService.saveCollegeBtss({
                     collegeName: $scope.collegeName,
-                    eNodebIds: ids
+                    btsIds: ids
                 }).then(function (count) {
                     $scope.page.messages.push({
                         type: 'success',
-                        contents: '增加ENodeb' + count + '个'
+                        contents: '增加Bts' + count + '个'
                     });
                 });
             }, function () {

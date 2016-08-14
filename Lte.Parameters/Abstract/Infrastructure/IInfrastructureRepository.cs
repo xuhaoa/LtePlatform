@@ -17,6 +17,8 @@ namespace Lte.Parameters.Abstract.Infrastructure
         Task InsertCollegeCell(string collegeName, int id);
 
         Task InsertCollegeENodeb(string collegeName, int id);
+
+        Task InsertCollegeBts(string collegeName, int id);
     }
 
     public interface IIndoorDistributionRepository : IRepository<IndoorDistribution>, ISaveChanges

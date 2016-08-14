@@ -191,6 +191,14 @@ namespace Lte.Evaluations.MapperSerive.Infrastructure
         public IEnumerable<int> ENodebIds { get; set; }
     }
 
+    public class CollegeBtsIdsContainer
+    {
+        public string CollegeName { get; set; }
+
+        [MemberDoc("基站编号列表")]
+        public IEnumerable<int> BtsIds { get; set; }
+    }
+
     [TypeDoc("小区编号容器")]
     public class CellIdsContainer
     {

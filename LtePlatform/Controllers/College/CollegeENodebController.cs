@@ -39,7 +39,7 @@ namespace LtePlatform.Controllers.College
     [ApiControl("校园网CDMA基站查询控制器")]
     public class CollegeBtssController : ApiController
     {
-        private readonly ICollegeInfrastructure<CdmaBtsView> _service;
+        private readonly CollegeBtssService _service;
 
         public CollegeBtssController(CollegeBtssService service)
         {
@@ -53,6 +53,12 @@ namespace LtePlatform.Controllers.College
         public IEnumerable<CdmaBtsView> Get(string collegeName)
         {
             return _service.Query(collegeName);
+        }
+
+        [HttpPost]
+        public async Task<int> Post(CollegeBtsIdsContainer container)
+        {
+            return await _service.UpdateBtss(container);
         }
     }
 }

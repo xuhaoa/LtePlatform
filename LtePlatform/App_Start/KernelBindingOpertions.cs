@@ -174,7 +174,7 @@ namespace LtePlatform
 
             ninjectKernel.Bind<CollegeENodebService>().ToSelf();
 
-            ninjectKernel.Bind<ICollegeInfrastructure<CdmaBtsView>>().To<CollegeBtssService>();
+            ninjectKernel.Bind<CollegeBtssService>().ToSelf();
 
             ninjectKernel.Bind<IEmergencyProcessRepository>().To<EmergencyProcessRepository>();
 

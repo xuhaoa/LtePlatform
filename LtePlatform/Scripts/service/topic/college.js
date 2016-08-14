@@ -92,6 +92,9 @@
             },
             saveCollegeENodebs: function (container) {
                 return generalHttpService.postApiData('CollegeENodeb', container);
+            },
+            saveCollegeBtss: function (container) {
+                return generalHttpService.postApiData('CollegeBtss', container);
             }
         };
     })

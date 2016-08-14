@@ -61,6 +61,23 @@ namespace Lte.Parameters.Concrete.Infrastructure
             }
         }
 
+        public async Task InsertCollegeBts(string collegeName, int id)
+        {
+            var infrastructure = FirstOrDefault(x =>
+                x.HotspotType == HotspotType.College && x.HotspotName == collegeName &&
+                x.InfrastructureId == id && x.InfrastructureType == InfrastructureType.CdmaBts);
+            if (infrastructure == null)
+            {
+                await InsertAsync(new InfrastructureInfo
+                {
+                    HotspotName = collegeName,
+                    HotspotType = HotspotType.College,
+                    InfrastructureType = InfrastructureType.CdmaBts,
+                    InfrastructureId = id
+                });
+            }
+        }
+
         public int SaveChanges()
         {
             return Context.SaveChanges();

@@ -16,11 +16,6 @@ using Lte.Parameters.Entities.Basic;
 
 namespace Lte.Evaluations.DataService.College
 {
-    public interface ICollegeInfrastructure<out TView>
-    {
-        IEnumerable<TView> Query(string collegeName);
-    }
-
     public class CollegeENodebService
     {
         private readonly IInfrastructureRepository _repository;
@@ -54,7 +49,7 @@ namespace Lte.Evaluations.DataService.College
         } 
     }
 
-    public class CollegeBtssService : ICollegeInfrastructure<CdmaBtsView>
+    public class CollegeBtssService
     {
         private readonly IInfrastructureRepository _repository;
         private readonly IBtsRepository _btsRepository;
@@ -83,9 +78,20 @@ namespace Lte.Evaluations.DataService.College
             });
             return views;
         }
+
+        public async Task<int> UpdateBtss(CollegeBtsIdsContainer container)
+        {
+            foreach (var btsId in container.BtsIds)
+            {
+                var bts = _btsRepository.GetByBtsId(btsId);
+                if (bts == null) continue;
+                await _repository.InsertCollegeBts(container.CollegeName, bts.Id);
+            }
+            return _repository.SaveChanges();
+        }
     }
 
-    public class CollegeCellsService : ICollegeInfrastructure<SectorView>
+    public class CollegeCellsService
     {
         private readonly IInfrastructureRepository _repository;
         private readonly ICellRepository _cellRepository;
@@ -125,7 +131,7 @@ namespace Lte.Evaluations.DataService.College
         }
     }
 
-    public class CollegeCdmaCellsService : ICollegeInfrastructure<SectorView>
+    public class CollegeCdmaCellsService
     {
         private readonly IInfrastructureRepository _repository;
         private readonly ICdmaCellRepository _cellRepository;
@@ -150,7 +156,7 @@ namespace Lte.Evaluations.DataService.College
         }
     }
 
-    public class CollegeLteDistributionService : ICollegeInfrastructure<IndoorDistribution>
+    public class CollegeLteDistributionService
     {
         private readonly IInfrastructureRepository _repository;
         private readonly IIndoorDistributionRepository _indoorRepository;
@@ -170,7 +176,7 @@ namespace Lte.Evaluations.DataService.College
         }
     }
 
-    public class CollegeCdmaDistributionService : ICollegeInfrastructure<IndoorDistribution>
+    public class CollegeCdmaDistributionService
     {
         private readonly IInfrastructureRepository _repository;
         private readonly IIndoorDistributionRepository _indoorRepository;
