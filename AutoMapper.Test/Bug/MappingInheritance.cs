@@ -12,14 +12,17 @@ namespace AutoMapper.Test.Bug
 
         protected override void Establish_context()
         {
-            Mapper.CreateMap<Entity, ViewModel>();
-            Mapper.CreateMap<Entity, BaseModel>()
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Entity, ViewModel>();
+                cfg.CreateMap<Entity, BaseModel>()
                     .ForMember(model => model.Value1, mce => mce.MapFrom(entity => entity.Value2))
                     .ForMember(model => model.Value2, mce => mce.MapFrom(entity => entity.Value1))
                     .Include<Entity, EditModel>()
                     .Include<Entity, ViewModel>();
-            Mapper.CreateMap<Entity, EditModel>()
-                .ForMember(model => model.Value3, mce => mce.MapFrom(entity => entity.Value1 + entity.Value2));
+                cfg.CreateMap<Entity, EditModel>()
+                    .ForMember(model => model.Value3, mce => mce.MapFrom(entity => entity.Value1 + entity.Value2));
+            });
         }
 
         protected override void Because_of()
@@ -66,14 +69,14 @@ namespace AutoMapper.Test.Bug
         [Test]
         public void TestMethod1()
         {
-            Mapper.Reset();
-
-            Mapper.CreateMap<Order, OrderDto>()
-                .Include<OnlineOrder, OnlineOrderDto>()
-                .Include<MailOrder, MailOrderDto>();
-            Mapper.CreateMap<OnlineOrder, OnlineOrderDto>();
-            Mapper.CreateMap<MailOrder, MailOrderDto>();
-            Mapper.Configuration.Seal();
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Order, OrderDto>()
+                    .Include<OnlineOrder, OnlineOrderDto>()
+                    .Include<MailOrder, MailOrderDto>();
+                cfg.CreateMap<OnlineOrder, OnlineOrderDto>();
+                cfg.CreateMap<MailOrder, MailOrderDto>();
+            });
 
             //Mapper.AssertConfigurationIsValid();
 

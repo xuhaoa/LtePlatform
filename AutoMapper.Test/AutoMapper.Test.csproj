@@ -33,8 +33,8 @@
     <CodeAnalysisRuleSet />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework">
@@ -71,9 +71,7 @@
     <Compile Include="Bug\ConstructUsingReturnsNull.cs" />
     <Compile Include="Bug\ContextValuesIncorrect.cs" />
     <Compile Include="Bug\CreateMapExpressionWithIgnoredPropertyBug.cs" />
-    <Compile Include="Bug\CustomIEnumerableBug.cs" />
     <Compile Include="Bug\DeepInheritanceIssue.cs" />
-    <Compile Include="Bug\DestinationCtorCalledTwice.cs" />
     <Compile Include="Bug\DestinationValueInitializedByCtorBug.cs" />
     <Compile Include="Bug\DuplicateValuesBug.cs" />
     <Compile Include="Bug\DynamicMapArrays.cs" />
@@ -110,7 +108,6 @@
     <Compile Include="Bug\NullableIntToNullableEnum.cs" />
     <Compile Include="Bug\NullablePropertiesBug.cs" />
     <Compile Include="Bug\NullArrayBug.cs" />
-    <Compile Include="Bug\ObjectEnumToObjectEnum.cs" />
     <Compile Include="Bug\ObjectTypeMapFailure.cs" />
     <Compile Include="Bug\ParentChildResolversBug.cs" />
     <Compile Include="Bug\ProjectCollectionsBug.cs" />
@@ -120,7 +117,6 @@
     <Compile Include="Bug\ReadOnlyCollectionMappingBug.cs" />
     <Compile Include="Bug\ReadOnlyFieldMappingBug.cs" />
     <Compile Include="Bug\RecognizeIxesBug.cs" />
-    <Compile Include="Bug\RemovePrefixes.cs" />
     <Compile Include="Bug\RepeatedMappingConfigurationTest.cs" />
     <Compile Include="Bug\ReverseMapReplaceMemberName.cs" />
     <Compile Include="Bug\SelectiveConfigurationValidation.cs" />
@@ -131,7 +127,6 @@
     <Compile Include="Core\ArraysAndLists.cs" />
     <Compile Include="Core\AutoMapperTester.cs" />
     <Compile Include="Core\BeforeAfterMapping.cs" />
-    <Compile Include="Core\BidirectionalRelationships.cs" />
     <Compile Include="Core\CascadeMapperTester.cs" />
     <Compile Include="Core\CollectionMapping.cs" />
     <Compile Include="Core\ConditionalMapping.cs" />
@@ -145,7 +140,6 @@
     <Compile Include="Core\DynamicMapping.cs" />
     <Compile Include="Core\Enumerations.cs" />
     <Compile Include="Core\EnumToNullableEnum.cs" />
-    <Compile Include="Core\ExpressionBridge.cs" />
     <Compile Include="Core\ExpressionConversion.cs" />
     <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Core\FillingExistingDestination.cs" />
@@ -177,7 +171,6 @@
     <Compile Include="Membel\TesterExtensions.cs" />
     <Compile Include="Membel\TypeConverters.cs" />
     <Compile Include="Membel\TypeExtensionsTests.cs" />
-    <Compile Include="Membel\UsingEngineInsideMap.cs" />
     <Compile Include="Membel\ValueTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Should\ActionAssertionExtensions.cs" />
