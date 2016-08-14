@@ -126,10 +126,6 @@
     <Compile Include="Bug\TargetISet.cs" />
     <Compile Include="Core\ArraysAndLists.cs" />
     <Compile Include="Core\AutoMapperTester.cs" />
-    <Compile Include="Core\BeforeAfterMapping.cs" />
-    <Compile Include="Core\CascadeMapperTester.cs" />
-    <Compile Include="Core\CollectionMapping.cs" />
-    <Compile Include="Core\ConditionalMapping.cs" />
     <Compile Include="Core\ConfigurationValidation.cs" />
     <Compile Include="Core\Constructors.cs" />
     <Compile Include="Core\ContextItems.cs" />

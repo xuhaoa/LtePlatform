@@ -118,7 +118,7 @@ namespace AutoMapper.Test.Core
 
             protected override void Establish_context()
             {
-                Mapper.CreateMap<Source, Destination>();
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
             }
 
             [Test]
@@ -157,8 +157,11 @@ namespace AutoMapper.Test.Core
 
             protected override void Establish_context()
             {
-                Mapper.CreateMap<Source, Destination>();
-                Mapper.CreateMap<OtherSource, OtherDest>();
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.CreateMap<Source, Destination>();
+                    cfg.CreateMap<OtherSource, OtherDest>();
+                });
             }
 
             protected override void Because_of()
@@ -199,8 +202,8 @@ namespace AutoMapper.Test.Core
 
             protected override void Establish_context()
             {
-                Mapper.CreateMap<ModelObject, ModelDto>()
-                      .ForMember(dest => dest.Bar, opt => opt.Ignore());
+                Mapper.Initialize(cfg => cfg.CreateMap<ModelObject, ModelDto>()
+                    .ForMember(dest => dest.Bar, opt => opt.Ignore()));
             }
 
             protected override void Because_of()
@@ -247,7 +250,7 @@ namespace AutoMapper.Test.Core
 
             protected override void Establish_context()
             {
-                Mapper.CreateMap<Source, Destination>();
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
             }
 
             [Test]
@@ -282,7 +285,7 @@ namespace AutoMapper.Test.Core
 
             protected override void Establish_context()
             {
-                Mapper.CreateMap<Source, Destination>();
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
             }
 
             [Test]
@@ -311,7 +314,7 @@ namespace AutoMapper.Test.Core
 
             protected override void Establish_context()
             {
-                Mapper.CreateMap<Source, Destination>();
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
             }
 
             protected override void Because_of()
@@ -387,8 +390,8 @@ namespace AutoMapper.Test.Core
 
             protected override void Establish_context()
             {
-                Mapper.CreateMap<ModelObject, ModelDto>()
-                    .ForMember(dest => dest.Bar, opt => opt.MapFrom(src => src.Barr));
+                Mapper.Initialize(cfg => cfg.CreateMap<ModelObject, ModelDto>()
+                    .ForMember(dest => dest.Bar, opt => opt.MapFrom(src => src.Barr)));
             }
 
             [Test]
