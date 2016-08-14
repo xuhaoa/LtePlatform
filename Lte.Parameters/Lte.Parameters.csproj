@@ -134,7 +134,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\Basic\IEutranInterNFreqRepository.cs" />
-    <Compile Include="Abstract\Basic\IBtsRepository.cs" />
     <Compile Include="Abstract\Basic\MongoRepositories.cs" />
     <Compile Include="Abstract\Basic\CellRepositories.cs" />
     <Compile Include="Abstract\College\ICollegeRepository.cs" />
@@ -164,7 +163,6 @@
     <Compile Include="Concrete\Channel\CellPcRepositories.cs" />
     <Compile Include="Concrete\Channel\PDSCHCfgRepository.cs" />
     <Compile Include="Concrete\EFAlarmRepository.cs" />
-    <Compile Include="Concrete\Basic\EFBtsRepository.cs" />
     <Compile Include="Concrete\Basic\EFCdmaCellRepository.cs" />
     <Compile Include="Concrete\Basic\EFCellRepository.cs" />
     <Compile Include="Concrete\College\EFTestRepositories.cs" />

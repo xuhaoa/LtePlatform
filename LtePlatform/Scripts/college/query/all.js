@@ -320,28 +320,24 @@
         };
         $scope.gridOptions.multiSelect = true;
         $scope.gridOptions.columnDefs = [
-            { field: 'eNodebId', name: 'LTE基站编号' },
+            { field: 'btsId', name: 'CDMA基站编号' },
             { field: 'name', name: '基站名称', width: 120 },
-            { field: 'planNum', name: '规划编号' },
-            { field: 'openDate', name: '入网日期', cellFilter: 'date: "yyyy-MM-dd"' },
+            { field: 'btsId', name: 'BSC编号' },
+            { field: 'longtitute', name: '经度' },
+            { field: 'lattitute', name: '纬度' },
             { field: 'address', name: '地址', width: 300, enableColumnResizing: false },
-            { field: 'factory', name: '厂家' },
-            {
-                name: 'IP',
-                cellTemplate: '<span class="text-primary">{{row.entity.ip.addressString}}</span>',
-                width: 100
-            },
+            { field: 'isInUse', name: '是否在用', cellFilter: 'yesNoChinese' },
             { name: '与中心距离', field: 'distance', cellFilter: 'number: 2' }
         ];
 
         geometryService.transformToBaidu(center.X, center.Y).then(function (coors) {
             collegeService.queryRange(collegeName).then(function (range) {
                 var ids = [];
-                collegeService.queryENodebs(collegeName).then(function (eNodebs) {
-                    angular.forEach(eNodebs, function (eNodeb) {
-                        ids.push(eNodeb.ENodebId);
+                collegeService.queryBtss(collegeName).then(function (btss) {
+                    angular.forEach(btss, function (bts) {
+                        ids.push(bts.btsId);
                     });
-                    networkElementService.queryRangeENodebs({
+                    networkElementService.queryRangeBtss({
                         west: range.west + center.X - coors.x,
                         east: range.east + center.X - coors.x,
                         south: range.south + center.Y - coors.y,

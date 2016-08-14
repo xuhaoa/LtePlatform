@@ -112,6 +112,15 @@ namespace LtePlatform.Controllers.Parameters
             var result = _service.GetByBtsId(btsId);
             return result == null ? (IHttpActionResult)BadRequest("No bts given the query conditions!") : Ok(result);
         }
+
+        [HttpPost]
+        [ApiDoc("获取经纬度范围内的除某些基站外的基站视图列表")]
+        [ApiParameterDoc("container", "指定条件范围")]
+        [ApiResponse("指定条件范围内的基站视图列表")]
+        public IEnumerable<CdmaBtsView> Post(ENodebRangeContainer container)
+        {
+            return _service.QueryBtsViews(container);
+        }
     }
 
 }

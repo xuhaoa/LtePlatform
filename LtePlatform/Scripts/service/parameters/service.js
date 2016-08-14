@@ -147,6 +147,9 @@
             },
             queryRangeENodebs: function(container) {
                 return generalHttpService.postApiData('ENodeb', container);
+            },
+            queryRangeBtss: function (container) {
+                return generalHttpService.postApiData('Bts', container);
             }
         };
     })

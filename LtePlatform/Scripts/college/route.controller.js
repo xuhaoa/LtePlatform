@@ -266,7 +266,19 @@ angular.module('college.main', ['app.common'])
                 }
             });
             modalInstance.result.then(function (info) {
-                console.log(info);
+                var ids = [];
+                angular.forEach(info, function (eNodeb) {
+                    ids.push(eNodeb.eNodebId);
+                });
+                collegeQueryService.saveCollegeENodebs({
+                    collegeName: $scope.collegeName,
+                    eNodebIds: ids
+                }).then(function (count) {
+                    $scope.page.messages.push({
+                        type: 'success',
+                        contents: '增加ENodeb' + count + '个'
+                    });
+                });
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });

@@ -16,4 +16,17 @@ namespace Lte.Parameters.Abstract.Basic
 
         int SaveChanges();
     }
+
+    public interface IBtsRepository : IRepository<CdmaBts>
+    {
+        CdmaBts GetByBtsId(int btsId);
+
+        CdmaBts GetByName(string name);
+
+        List<CdmaBts> GetAllInUseList();
+
+        List<CdmaBts> GetAllList(double west, double east, double south, double north);
+
+        int SaveChanges();
+    }
 }

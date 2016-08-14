@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Regular;
+using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
@@ -57,6 +58,19 @@ namespace Lte.Evaluations.DataService.Basic
             view.DistrictName = town.DistrictName;
             view.TownName = town.TownName;
             return view;
+        }
+
+        public IEnumerable<CdmaBtsView> QueryBtsViews(ENodebRangeContainer container)
+        {
+            var btss =
+                _btsRepository.GetAllList(container.West, container.East, container.South, container.North)
+                    .Where(x => x.IsInUse)
+                    .ToList();
+            var excludedBtss = from bts in btss
+                                  join id in container.ExcludedIds on bts.BtsId equals id
+                                  select bts;
+            btss = btss.Except(excludedBtss).ToList();
+            return btss.Any() ? btss.MapTo<IEnumerable<CdmaBtsView>>() : new List<CdmaBtsView>();
         }
     }
 }
