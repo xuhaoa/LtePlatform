@@ -102,7 +102,8 @@ angular.module('college.main', ['app.common'])
             type: ""
         };
         $rootScope.page = {
-            title: "校园网总览"
+            title: "校园网总览",
+            messages: []
         };
         collegeService.queryNames().then(function(result) {
             $rootScope.collegeInfo.names = result;
@@ -130,6 +131,9 @@ angular.module('college.main', ['app.common'])
         $rootScope.endDate = {
             value: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8),
             opened: false
+        };
+        $rootScope.closeAlert = function($index) {
+            $rootScope.page.messages.slice($index, 1);
         };
     })
 
@@ -229,7 +233,19 @@ angular.module('college.main', ['app.common'])
                 }
             });
             modalInstance.result.then(function (info) {
-                console.log(info);
+                var ids = [];
+                angular.forEach(info, function(eNodeb) {
+                    ids.push(eNodeb.eNodebId);
+                });
+                collegeQueryService.saveCollegeENodebs({
+                    collegeName: $scope.collegeName,
+                    eNodebIds: ids
+                }).then(function(count) {
+                    $scope.page.messages.push({
+                        type: 'success',
+                        contents: '增加ENodeb' + count + '个'
+                    });
+                });
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });

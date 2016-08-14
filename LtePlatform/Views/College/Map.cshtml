@@ -8,6 +8,10 @@
         <div ui-view="collegeList"></div>
     </div>
     <div ng-class="{'col-md-9': sideBarShown, 'col-md-12': !sideBarShown}">
+        <div uib-alert ng-repeat="message in page.messages" type="{{message.type}}"
+             dismiss-on-timeout="5000" close="closeAlert($index)">
+            {{message.contents}}
+        </div>
         <div ui-view="contents"></div>
     </div>
 </div>

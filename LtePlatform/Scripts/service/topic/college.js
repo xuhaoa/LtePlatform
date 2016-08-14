@@ -89,6 +89,9 @@
             },
             saveCollegeCells: function(container) {
                 return generalHttpService.postApiData('CollegeCellContainer', container);
+            },
+            saveCollegeENodebs: function (container) {
+                return generalHttpService.postApiData('CollegeENodeb', container);
             }
         };
     })
