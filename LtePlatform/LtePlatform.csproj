@@ -1639,7 +1639,7 @@
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\spin.min.js" />
     <Content Include="Scripts\test\app\format.spec.js" />
-    <Content Include="Scripts\test\directives\app.js" />
+    <Content Include="Scripts\test\directives\app.spec.js" />
     <Content Include="Scripts\test\helpers.js" />
     <Content Include="Scripts\test\kpi\app.kpi.service.js" />
     <Content Include="Scripts\test\mock\highcharts.mock.js" />

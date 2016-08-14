@@ -5,7 +5,6 @@
 /// <reference path="../../jasmine/jasmine.js"/>
 /// <reference path="../../jasmine/jasmine-html.js"/>
 /// <reference path="../../angular-ui/ui-bootstrap-tpls.js"/>
-/// <reference path="../helpers.js"/>
 
 describe('uib-accordion', function () {
   var $animate, $scope;
@@ -163,35 +162,42 @@ describe('uib-accordion', function () {
   });
 
   describe('uib-accordion-group', function() {
-    var scope, $compile;
-    var element, groups;
-    var findGroupHeading = function(index) {
+      var scope, $compile;
+
+    var findGroupHeading = function(index, groups) {
       return groups.eq(index).find('.panel-heading').eq(0);
     };
-    var findGroupLink = function(index) {
+    var findGroupLink = function(index, groups) {
       return groups.eq(index).find('.accordion-toggle').eq(0);
     };
-    var findGroupBody = function(index) {
+    var findGroupBody = function(index, groups) {
       return groups.eq(index).find('.panel-collapse').eq(0);
     };
 
-    beforeEach(inject(function(_$rootScope_, _$compile_) {
+    beforeEach(inject(function(_$rootScope_, _$compile_, _$templateCache_) {
       scope = _$rootScope_;
       $compile = _$compile_;
+      $templateCache = _$templateCache_;
     }));
 
-    it('should allow custom templates', inject(function($templateCache) {
-      $templateCache.put('foo/bar.html', '<div>baz</div>');
+      it('should allow custom templates', function() {
+          $templateCache.put('foo/bar.html', '<div>baz</div>');
 
-      var tpl =
-        '<uib-accordion>' +
-          '<div uib-accordion-group heading="title 1" template-url="foo/bar.html"></div>' +
-        '</uib-accordion>';
+          var tpl =
+              '<uib-accordion>' +
+                  '<div uib-accordion-group heading="title 1" template-url="foo/bar.html"></div>' +
+                  '</uib-accordion>';
 
-      element = $compile(tpl)(scope);
-      scope.$digest();
-      expect(element.find('[template-url]').html()).toBe('<div>baz</div>');
-    }));
+          var element = $compile(tpl)(scope);
+          scope.$digest();
+          expect(element).toBeDefined();
+          expect(element.html()).toBe('<div role="tablist" class="panel-group" ng-transclude=""><div uib-accordion-group="" heading="title 1" template-url="foo/bar.html" class="ng-scope ng-isolate-scope">baz</div></div>');
+          expect(element.hasClass("panel-group")).toBeFalsy();
+
+          //var template = element.find('[template-url]');
+          //expect(template).toBeDefined();
+          //expect(template.html()).toBe('<div>baz</div>');
+      });
 
     describe('with static panels', function() {
       beforeEach(function() {

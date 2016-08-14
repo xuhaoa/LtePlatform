@@ -1,4 +1,16 @@
-﻿describe('work item precise chart service tests', function() {
+﻿/// <reference path="../../angular.js"/>
+/// <reference path="../../angular-mocks.js"/>
+/// <reference path="../../jasmine/boot.js"/>
+/// <reference path="../../jasmine/console.js"/>
+/// <reference path="../../jasmine/jasmine.js"/>
+/// <reference path="../../jasmine/jasmine-html.js"/>
+/// <reference path="../mock/highcharts.mock.js"/>
+/// <reference path="../mock/ui.bootstrap.mock.js"/>
+/// <reference path="../../service/app.url.service.js"/>
+/// <reference path="../../service/kpi/workitem.service.js"/>
+/// <reference path="../../mycharts/drilldown.chart.js"/>
+/// <reference path="../../mycharts/drilldownPie.js"/>
+describe('work item precise chart service tests', function () {
     var preciseChartService;
     beforeEach(module('myApp.url'));
     beforeEach(module('kpi.workitem'));
