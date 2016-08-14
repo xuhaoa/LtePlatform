@@ -1,7 +1,9 @@
 ﻿angular.module('basic.filters', [])
     .filter("percentage", function() {
         return function(input) {
-            return angular.isNumber(input) ? input * 100 : parseFloat(input) * 100;
+            return angular.isNumber(input)
+                ? (input > 1 || input < -1) ? input : input * 100
+                : parseFloat(input) * 100;
         };
     })
     .constant('formErrorDefs', {

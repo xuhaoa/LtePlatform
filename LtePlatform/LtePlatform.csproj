@@ -1638,10 +1638,11 @@
     <Content Include="Scripts\service\topic\qunit.my.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\spin.min.js" />
-    <Content Include="Scripts\test\app\format.spec.js" />
+    <Content Include="Scripts\test\services\filters.spec.js" />
+    <Content Include="Scripts\test\services\format.spec.js" />
     <Content Include="Scripts\test\directives\app.spec.js" />
     <Content Include="Scripts\test\helpers.js" />
-    <Content Include="Scripts\test\kpi\app.kpi.service.js" />
+    <Content Include="Scripts\test\services\app.kpi.spec.js" />
     <Content Include="Scripts\test\mock\highcharts.mock.js" />
     <Content Include="Scripts\test\mock\ui.bootstrap.mock.js" />
     <Content Include="Scripts\test\ui-grid\row-filtering.spec.js" />
@@ -1684,7 +1685,7 @@
     <Content Include="Scripts\test\uib\typeahead-parser.spec.js" />
     <Content Include="Scripts\test\uib\typeahead-popup.spec.js" />
     <Content Include="Scripts\test\uib\typeahead.spec.js" />
-    <Content Include="Scripts\test\workitem\precise.chart.service.js" />
+    <Content Include="Scripts\test\services\precise.chart.spec.js" />
     <Content Include="Scripts\angular-ui\ui-utils-ieshiv.js" />
     <Content Include="Scripts\angular-ui\ui-utils-ieshiv.min.js" />
     <Content Include="Scripts\angular-ui\ui-utils.js" />
@@ -1898,7 +1899,7 @@
     <Content Include="Views\College\Map.cshtml" />
     <Content Include="Views\Kpi\Index.cshtml" />
     <Content Include="Scripts\qunit\qunit.load.js" />
-    <Content Include="Scripts\test\kpi\cell.precise.service.js" />
+    <Content Include="Scripts\test\services\cell.precise.spec.js" />
     <Content Include="Scripts\service\topic\baidu.map.js" />
     <Content Include="Scripts\lang\jcs-auto-validate_ru-ru.json" />
     <Content Include="Scripts\lang\jcs-auto-validate_it-it.json" />
