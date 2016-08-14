@@ -27,10 +27,10 @@ namespace AutoMapper.Test.Core
             var beforeMapCalled = false;
             var afterMapCalled = false;
 
-            Mapper.CreateMap<Source, Destination>()
-                .BeforeMap((src, dest) => beforeMapCalled = true)
-                .AfterMap((src, dest) => afterMapCalled = true);
-
+            Mapper.Initialize(cfg =>
+                cfg.CreateMap<Source, Destination>()
+                    .BeforeMap((src, dest) => beforeMapCalled = true)
+                    .AfterMap((src, dest) => afterMapCalled = true));
             Mapper.Map<Source, Destination>(_src);
 
             beforeMapCalled.ShouldBeTrue();
@@ -62,11 +62,11 @@ namespace AutoMapper.Test.Core
             var beforeMapCount = 0;
             var afterMapCount = 0;
 
-            Mapper.CreateMap<Source, Destination>()
+            Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>()
                 .BeforeMap((src, dest) => beforeMapCount++)
                 .BeforeMap((src, dest) => beforeMapCount++)
                 .AfterMap((src, dest) => afterMapCount++)
-                .AfterMap((src, dest) => afterMapCount++);
+                .AfterMap((src, dest) => afterMapCount++));
 
             Mapper.Map<Source, Destination>(_src);
 
@@ -123,11 +123,13 @@ namespace AutoMapper.Test.Core
 
 		protected override void Establish_context()
 		{
-			Mapper.Initialize(i => i.ConstructServicesUsing(t => Activator.CreateInstance(t, 2)));
-
-			Mapper.CreateMap<Source, Destination>()
-				.BeforeMap<BeforeMapAction>()
-				.AfterMap<AfterMapAction>();
+		    Mapper.Initialize(cfg =>
+		    {
+		        cfg.ConstructServicesUsing(t => Activator.CreateInstance(t, 2));
+		        cfg.CreateMap<Source, Destination>()
+		            .BeforeMap<BeforeMapAction>()
+		            .AfterMap<AfterMapAction>();
+		    });
 		}
 
 		protected override void Because_of()

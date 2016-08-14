@@ -30,7 +30,7 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<Source, Destination>();
+			    Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
 			}
 
 			protected override void Because_of()
@@ -94,8 +94,8 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-			    Mapper.CreateMap<Source, Destination>()
-			        .ForMember(d => d.Values2, opt => opt.MapFrom(s => s.Values2.Select(x => x.ToString())));
+			    Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>()
+			        .ForMember(d => d.Values2, opt => opt.MapFrom(s => s.Values2.Select(x => x.ToString()))));
 			}
 
 			protected override void Because_of()
@@ -156,7 +156,7 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<Source, Destination>();
+			    Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
 			}
 
 			protected override void Because_of()
@@ -202,8 +202,8 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-			    Mapper.CreateMap<Source, Destination>()
-			        .ForMember(d => d.Values, opt => opt.MapFrom(s => s.Values.Select(x => x.ToString())));
+			    Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>()
+			        .ForMember(d => d.Values, opt => opt.MapFrom(s => s.Values.Select(x => x.ToString()))));
 			}
 
 			protected override void Because_of()
@@ -239,7 +239,7 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<Source, Destination>();
+			    Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
 			}
 
 			protected override void Because_of()
@@ -275,8 +275,8 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-			    Mapper.CreateMap<Source, Destination>()
-			        .ForMember(d => d.Values, opt => opt.MapFrom(s => s.Values.Select(x => x.ToString())));
+			    Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>()
+			        .ForMember(d => d.Values, opt => opt.MapFrom(s => s.Values.Select(x => x.ToString()))));
 			}
 
 			protected override void Because_of()
@@ -317,7 +317,7 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<Source, Destination>();
+			    Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
 			}
 
 			protected override void Because_of()
@@ -372,7 +372,7 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<Source, Destination>();
+			    Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
 				_source = new Source { Values = new ValueCollection(new[] { 1, 2, 3, 4 }) };
 			}
 
@@ -422,9 +422,12 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<Source, Destination>()
-					.ForMember(dest => dest.Values, opt => opt.UseDestinationValue());
-				Mapper.CreateMap<SourceItem, DestItem>();
+			    Mapper.Initialize(cfg =>
+			    {
+			        cfg.CreateMap<Source, Destination>()
+			            .ForMember(dest => dest.Values, opt => opt.UseDestinationValue());
+			        cfg.CreateMap<SourceItem, DestItem>();
+			    });
 			}
 
 			protected override void Because_of()
@@ -470,9 +473,12 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<Source, Destination>()
-					.ForMember(dest => dest.Values, opt => opt.UseDestinationValue());
-				Mapper.CreateMap<SourceItem, DestItem>();
+			    Mapper.Initialize(cfg =>
+			    {
+			        cfg.CreateMap<Source, Destination>()
+			            .ForMember(dest => dest.Values, opt => opt.UseDestinationValue());
+			        cfg.CreateMap<SourceItem, DestItem>();
+			    });
 			}
 
 			protected override void Because_of()
@@ -567,8 +573,8 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-			    Mapper.CreateMap<Source, Destination>()
-			        .ForMember(d => d.Values, opt => opt.MapFrom(s => new CustomCollection(s.Values)));
+			    Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>()
+			        .ForMember(d => d.Values, opt => opt.MapFrom(s => new CustomCollection(s.Values))));
 			}
             
 			[Test]
