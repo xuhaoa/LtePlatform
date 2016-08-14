@@ -29,11 +29,9 @@ namespace Lte.Parameters.Concrete.Infrastructure
 
         public async Task InsertCollegeCell(string collegeName, int id)
         {
-            var infrastructure =
-                FirstOrDefault(
-                    x =>
-                        x.HotspotName == collegeName && x.HotspotType == HotspotType.College &&
-                        x.InfrastructureType == InfrastructureType.Cell && x.InfrastructureId == id);
+            var infrastructure = FirstOrDefault(x =>
+                x.HotspotName == collegeName && x.HotspotType == HotspotType.College &&
+                x.InfrastructureType == InfrastructureType.Cell && x.InfrastructureId == id);
             if (infrastructure == null)
             {
                 await InsertAsync(new InfrastructureInfo
@@ -41,6 +39,23 @@ namespace Lte.Parameters.Concrete.Infrastructure
                     HotspotName = collegeName,
                     HotspotType = HotspotType.College,
                     InfrastructureType = InfrastructureType.Cell,
+                    InfrastructureId = id
+                });
+            }
+        }
+
+        public async Task InsertCollegeENodeb(string collegeName, int id)
+        {
+            var infrastructure = FirstOrDefault(x =>
+                x.HotspotType == HotspotType.College && x.HotspotName == collegeName &&
+                x.InfrastructureId == id && x.InfrastructureType == InfrastructureType.ENodeb);
+            if (infrastructure == null)
+            {
+                await InsertAsync(new InfrastructureInfo
+                {
+                    HotspotName = collegeName,
+                    HotspotType = HotspotType.College,
+                    InfrastructureType = InfrastructureType.ENodeb,
                     InfrastructureId = id
                 });
             }

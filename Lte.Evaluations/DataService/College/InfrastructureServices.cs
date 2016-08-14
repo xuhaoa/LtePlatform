@@ -21,7 +21,7 @@ namespace Lte.Evaluations.DataService.College
         IEnumerable<TView> Query(string collegeName);
     }
 
-    public class CollegeENodebService : ICollegeInfrastructure<ENodebView>
+    public class CollegeENodebService
     {
         private readonly IInfrastructureRepository _repository;
         private readonly IENodebRepository _eNodebRepository;
@@ -41,6 +41,17 @@ namespace Lte.Evaluations.DataService.College
                 where eNodeb != null
                 select Mapper.Map<ENodeb, ENodebView>(eNodeb)).ToList();
         }
+
+        public async Task<int> UpdateENodebs(CollegeENodebIdsContainer container)
+        {
+            foreach (var eNodebId in container.ENodebIds)
+            {
+                var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
+                if (eNodeb==null) continue;
+                await _repository.InsertCollegeENodeb(container.CollegeName, eNodeb.Id);
+            }
+            return _repository.SaveChanges();
+        } 
     }
 
     public class CollegeBtssService : ICollegeInfrastructure<CdmaBtsView>

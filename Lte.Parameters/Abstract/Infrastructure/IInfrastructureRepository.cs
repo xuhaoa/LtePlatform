@@ -15,6 +15,8 @@ namespace Lte.Parameters.Abstract.Infrastructure
         List<InfrastructureInfo> GetAllPreciseMonitor();
 
         Task InsertCollegeCell(string collegeName, int id);
+
+        Task InsertCollegeENodeb(string collegeName, int id);
     }
 
     public interface IIndoorDistributionRepository : IRepository<IndoorDistribution>, ISaveChanges

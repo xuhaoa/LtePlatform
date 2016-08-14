@@ -172,7 +172,7 @@ namespace LtePlatform
 
             ninjectKernel.Bind<BtsQueryService>().ToSelf();
 
-            ninjectKernel.Bind<ICollegeInfrastructure<ENodebView>>().To<CollegeENodebService>();
+            ninjectKernel.Bind<CollegeENodebService>().ToSelf();
 
             ninjectKernel.Bind<ICollegeInfrastructure<CdmaBtsView>>().To<CollegeBtssService>();
 

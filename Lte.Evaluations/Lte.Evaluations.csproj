@@ -124,7 +124,6 @@
     <Compile Include="DataService\Switch\IntraFreqHoService.cs" />
     <Compile Include="DataService\Switch\UlOpenLoopPcService.cs" />
     <Compile Include="MapperSerive\Infrastructure\BasicContainers.cs" />
-    <Compile Include="MapperSerive\Infrastructure\CollegeContainers.cs" />
     <Compile Include="Policy\MyAssemblyFinder.cs" />
     <Compile Include="ViewModels\Basic\RegionStat.cs" />
     <Compile Include="ViewModels\Channel\CellOpenLoopPcView.cs" />
@@ -147,7 +146,6 @@
     <Compile Include="MapperSerive\BaiduMapperService.cs" />
     <Compile Include="MapperSerive\EvalutaionMapperProfile.cs" />
     <Compile Include="MapperSerive\KpiMapperService.cs" />
-    <Compile Include="MapperSerive\Infrastructure\PciCell.cs" />
     <Compile Include="MapperSerive\Kpi\KpiContainer.cs" />
     <Compile Include="MapperSerive\Kpi\TopCellQueriesService.cs" />
     <Compile Include="Policy\FilterWorkItemService.cs" />
