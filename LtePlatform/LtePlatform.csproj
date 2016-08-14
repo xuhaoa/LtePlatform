@@ -1783,7 +1783,6 @@
     <Content Include="Scripts\college\coverage.viewmodel.js" />
     <Content Include="Scripts\college\kpi.controller.js" />
     <Content Include="Scripts\college\kpi.viewmodel.js" />
-    <Content Include="Scripts\college\college.viewmodel.js" />
     <Content Include="Scripts\college\precise.controller.js" />
     <Content Include="Scripts\college\precise.viewmodel.js" />
     <Content Include="Scripts\college\test.controller.js" />

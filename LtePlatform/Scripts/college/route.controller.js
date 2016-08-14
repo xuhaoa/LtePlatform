@@ -133,7 +133,7 @@ angular.module('college.main', ['app.common'])
             opened: false
         };
         $rootScope.closeAlert = function($index) {
-            $rootScope.page.messages.slice($index, 1);
+            $rootScope.page.messages.splice($index, 1);
         };
     })
 
@@ -246,6 +246,27 @@ angular.module('college.main', ['app.common'])
                         contents: '增加ENodeb' + count + '个'
                     });
                 });
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+        $scope.addBts = function() {
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '/appViews/College/Infrastructure/CellSupplementDialog.html',
+                controller: 'bts.supplement.dialog',
+                size: 'lg',
+                resolve: {
+                    collegeName: function () {
+                        return $scope.collegeName;
+                    },
+                    center: function () {
+                        return $scope.center;
+                    }
+                }
+            });
+            modalInstance.result.then(function (info) {
+                console.log(info);
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });

@@ -305,4 +305,68 @@
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
+    })
+
+    .controller('bts.supplement.dialog', function ($scope, $uibModalInstance, networkElementService, geometryService, collegeService,
+        center, collegeName) {
+        $scope.dialogTitle = collegeName + "CDMA基站补充";
+        $scope.supplementCells = [];
+        $scope.gridOptions = {
+            enableRowSelection: true,
+            enableSelectAll: true,
+            selectionRowHeaderWidth: 35,
+            rowHeight: 35,
+            showGridFooter: true
+        };
+        $scope.gridOptions.multiSelect = true;
+        $scope.gridOptions.columnDefs = [
+            { field: 'eNodebId', name: 'LTE基站编号' },
+            { field: 'name', name: '基站名称', width: 120 },
+            { field: 'planNum', name: '规划编号' },
+            { field: 'openDate', name: '入网日期', cellFilter: 'date: "yyyy-MM-dd"' },
+            { field: 'address', name: '地址', width: 300, enableColumnResizing: false },
+            { field: 'factory', name: '厂家' },
+            {
+                name: 'IP',
+                cellTemplate: '<span class="text-primary">{{row.entity.ip.addressString}}</span>',
+                width: 100
+            },
+            { name: '与中心距离', field: 'distance', cellFilter: 'number: 2' }
+        ];
+
+        geometryService.transformToBaidu(center.X, center.Y).then(function (coors) {
+            collegeService.queryRange(collegeName).then(function (range) {
+                var ids = [];
+                collegeService.queryENodebs(collegeName).then(function (eNodebs) {
+                    angular.forEach(eNodebs, function (eNodeb) {
+                        ids.push(eNodeb.ENodebId);
+                    });
+                    networkElementService.queryRangeENodebs({
+                        west: range.west + center.X - coors.x,
+                        east: range.east + center.X - coors.x,
+                        south: range.south + center.Y - coors.y,
+                        north: range.north + center.Y - coors.y,
+                        excludedIds: ids
+                    }).then(function (results) {
+                        angular.forEach(results, function (item) {
+                            item.distance = geometryService.getDistance(item.lattitute, item.longtitute, coors.y, coors.x);
+                        });
+                        $scope.supplementCells = results;
+                        $scope.gridOptions.data = results;
+                    });
+                });
+            });
+        });
+
+        $scope.gridOptions.onRegisterApi = function (gridApi) {
+            $scope.gridApi = gridApi;
+        };
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.gridApi.selection.getSelectedRows());
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
     });
