@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Evaluations.Test.DataService.Queries;
 using Lte.Evaluations.TestService;
 using Lte.MySqlFramework.Abstract;
@@ -20,6 +22,8 @@ namespace Lte.Evaluations.DataService.College
     [TestFixture]
     public class CdmaRegionStatServiceTest
     {
+        private AbpAutoMapperModule _module;
+        private TypeFinder _typeFinder;
         private readonly Mock<IRegionRepository> _regionRepository
             = new Mock<IRegionRepository>();
         private readonly Mock<ICdmaRegionStatRepository> _statRepository
@@ -29,9 +33,11 @@ namespace Lte.Evaluations.DataService.College
         [TestFixtureSetUp]
         public void FixtureSetup()
         {
+            _typeFinder = new TypeFinder(new MyAssemblyFinder());
+            _module = new AbpAutoMapperModule(_typeFinder);
+            _module.PostInitialize();
             _statRepository.MockOperation();
             _regionRepository.MockOperation();
-            KpiMapperService.MapCdmaRegionStat();
             AutoMapperHelper.CreateMap(typeof(CdmaRegionStat));
         }
 

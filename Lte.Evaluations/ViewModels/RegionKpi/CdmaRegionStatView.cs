@@ -1,8 +1,10 @@
-﻿using AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
+using AutoMapper;
 using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.ViewModels.RegionKpi
 {
+    [AutoMapFrom(typeof(CdmaRegionStat))]
     public class CdmaRegionStatView
     {
         public string Region { get; set; }

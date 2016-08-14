@@ -21,11 +21,6 @@ namespace Lte.Evaluations.MapperSerive
 {
     public static class KpiMapperService
     {
-        public static void MapCdmaRegionStat()
-        {
-            Mapper.CreateMap<CdmaRegionStat, CdmaRegionStatView>();
-        }
-
         public static void MapFlow()
         {
             Mapper.CreateMap<FlowHuawei, FlowView>();
