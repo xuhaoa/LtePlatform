@@ -650,7 +650,7 @@
     <Content Include="appViews\WorkItem\Charts.html" />
     <Content Include="appViews\WorkItem\Details.html" />
     <Content Include="appViews\WorkItem\DetailsDialog.html" />
-    <Content Include="appViews\WorkItem\DetailsTable.html" />
+    <Content Include="directives\workitem\precise\DetailsTable.html" />
     <Content Include="appViews\WorkItem\ENodebInfo.html" />
     <Content Include="appViews\WorkItem\FeedbackDialog.html" />
     <Content Include="directives\workitem\precise\Cell.html" />

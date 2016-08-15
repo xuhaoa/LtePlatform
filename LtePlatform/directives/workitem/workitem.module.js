@@ -127,12 +127,38 @@ angular.module('workitem.module.details', [])
     })
     .directive('coverageWorkItemDialogCells', function (workitemRoot) {
         return {
-            restrict: 'ECMA',
+            restrict: 'EA',
             replace: true,
             scope: {
-                cells: '=',
+                cells: '='
             },
             templateUrl: workitemRoot + 'precise/CoverageCell.html',
             transclude: true
+        };
+    })
+    .directive('workItemDetailsTable', function (workitemRoot, workitemService, workItemDialog) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                currentView: '=',
+                gobackPath: '=',
+                gobackTitle: '=',
+                rootPath: '=',
+                preventChangeParentView: '=',
+                platformInfos: '=',
+                feedbackInfos: '='
+            },
+            templateUrl: workitemRoot + 'precise/DetailsTable.html',
+            link: function(scope, element, attrs) {
+                scope.signIn = function () {
+                    workitemService.signIn(scope.currentView.serialNumber).then(function (result) {
+                        if (result) {
+                            scope.currentView = result;
+                            scope.feedbackInfos = workItemDialog.calculatePlatformInfo(scope.currentView.feedbackContents);
+                        }
+                    });
+                };
+            }
         };
     });

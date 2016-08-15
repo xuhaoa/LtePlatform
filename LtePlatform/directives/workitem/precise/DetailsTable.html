@@ -4,6 +4,10 @@
             <th style="width: 100px">项目</th>
             <th>
                 信息
+            </th>
+            <th style="width: 100px">项目</th>
+            <th>
+                信息
                 <a class="btn btn-success btn-xs" style="float:right" ng-href="{{gobackPath}}" ng-if="gobackPath">
                     {{gobackTitle}}
                 </a>
@@ -14,8 +18,6 @@
         <tr>
             <td>工单类型</td>
             <td>{{currentView.workItemType}}</td>
-        </tr>
-        <tr>
             <td>工单子类型</td>
             <td>{{currentView.workItemSubType}}</td>
         </tr>
@@ -35,8 +37,6 @@
                     CDMA基站信息
                 </a>
             </td>
-        </tr>
-        <tr>
             <td>扇区编号</td>
             <td>
                 {{currentView.sectorId}}
@@ -59,62 +59,56 @@
                 {{currentView.district}}
                 {{currentView.town}}
             </td>
-        </tr>
-        <tr>
             <td>派单时间</td>
             <td>{{currentView.beginTime}}</td>
         </tr>
         <tr>
             <td>回单期限</td>
             <td>{{currentView.deadline}}</td>
+            <td>责任人</td>
+            <td>{{currentView.staffName}}</td>
         </tr>
         <tr>
             <td>重复信息</td>
-            <td>
+            <td colspan="3">
                 重复派单次数：{{currentView.repeatTimes}}
                 ；驳回次数：{{currentView.repeatTimes}}
             </td>
         </tr>
         <tr>
-            <td>责任人</td>
-            <td>{{currentView.staffName}}</td>
-        </tr>
-        <tr>
             <td>反馈时间</td>
             <td>{{currentView.feedbackTime}}</td>
-        </tr>
-        <tr>
             <td>完成时间</td>
             <td>{{currentView.finishTime}}</td>
         </tr>
         <tr>
             <td>定位原因</td>
             <td>{{currentView.workItemCause}}</td>
-        </tr>
-        <tr>
             <td>工单状态</td>
             <td>
                 {{currentView.workItemState}}
                 <button class="btn btn-primary btn-xs" style="float: right"
                         ng-if="currentView.workItemState==='待签单' && currentView.workItemType === '自建工单'"
-                        ng-click="signIn()">签单</button>
+                        ng-click="signIn()">
+                    签单
+                </button>
             </td>
         </tr>
         <tr>
             <td>平台信息</td>
-            <td></td>
+            <td colspan="3"></td>
         </tr>
         <tr ng-repeat="info in platformInfos">
             <td>{{info.time}}</td>
-            <td>{{info.contents}}</td>
+            <td colspan="3">{{info.contents}}</td>
         </tr>
         <tr>
             <td>反馈信息</td>
-            <td></td>
+            <td colspan="3"></td>
         </tr>
         <tr ng-repeat="info in feedbackInfos">
             <td>{{info.time}}</td>
-            <td>{{info.contents}}</td>
+            <td colspan="3">{{info.contents}}</td>
         </tr>
     </tbody>
 </table>
