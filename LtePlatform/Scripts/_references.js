@@ -87,7 +87,6 @@
 /// <reference path="bootstrap.min.js" />
 /// <reference path="coffee-script.js" />
 /// <reference path="college/coverage.viewmodel.js" />
-/// <reference path="college/coverage/all.js" />
 /// <reference path="college/kpi.controller.js" />
 /// <reference path="college/kpi.viewmodel.js" />
 /// <reference path="college/precise.controller.js" />

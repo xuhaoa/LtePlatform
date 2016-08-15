@@ -1,4 +1,4 @@
-﻿angular.module('myApp', ['college.main', 'college.query', 'college.coverage', 'college.test']);
+﻿angular.module('myApp', ['college.main', 'college.query', 'college.test']);
 
 angular.module('college.main', ['app.common'])
     .config(function($stateProvider, $urlRouterProvider) {
@@ -418,4 +418,17 @@ angular.module('college.main', ['app.common'])
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
+    })
+
+    .controller("all.coverage", function ($scope, collegeMapService, collegeDtService) {
+        $scope.page.title = "校园覆盖";
+        $scope.dtInfos = [];
+
+        $scope.query = function () {
+            angular.forEach($scope.dtInfos, function (info) {
+                collegeDtService.updateFileInfo(info, $scope.beginDate.value, $scope.endDate.value);
+            });
+        };
+
+        collegeMapService.showDtInfos($scope.dtInfos, $scope.beginDate.value, $scope.endDate.value);
     });
