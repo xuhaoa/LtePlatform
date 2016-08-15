@@ -7,6 +7,7 @@ using AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToExcel.Service;
 using Lte.Domain.Regular;
+using Remotion.Data.Linq.Parsing.Structure.IntermediateModel;
 
 namespace Lte.Domain.Common
 {
@@ -215,6 +216,14 @@ namespace Lte.Domain.Common
         }
     }
 
+    public class NullableZeroTransform : ValueResolver<double?, double>
+    {
+        protected override double ResolveCore(double? source)
+        {
+            return source ?? 0;
+        }
+    }
+    
     public class SemiCommaTransform : ValueResolver<string, List<string>>
     {
         protected override List<string> ResolveCore(string source)
@@ -244,6 +253,22 @@ namespace Lte.Domain.Common
         protected override double ResolveCore(double source)
         {
             return source*2;
+        }
+    }
+
+    public class MegaTransform : ValueResolver<long, double>
+    {
+        protected override double ResolveCore(long source)
+        {
+            return (double) source/(1024*1024);
+        }
+    }
+
+    public class ThousandTransform : ValueResolver<int, double>
+    {
+        protected override double ResolveCore(int source)
+        {
+            return (double) source/1000;
         }
     }
 
@@ -292,6 +317,22 @@ namespace Lte.Domain.Common
         protected override string ResolveCore(string source)
         {
             return "[" + DateTime.Now + "]" + source;
+        }
+    }
+
+    public class StringToIntTransform : ValueResolver<string, int>
+    {
+        protected override int ResolveCore(string source)
+        {
+            return source.ConvertToInt(0);
+        }
+    }
+
+    public class StringToDoubleTransform : ValueResolver<string, double>
+    {
+        protected override double ResolveCore(string source)
+        {
+            return source.ConvertToDouble(0);
         }
     }
 }

@@ -9,11 +9,14 @@ using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.Policy;
+using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Channel;
+using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Channel;
+using Lte.Parameters.Entities.Dt;
 using Lte.Parameters.Entities.ExcelCsv;
 using NUnit.Framework;
 using Shouldly;
@@ -333,6 +336,72 @@ namespace Lte.Evaluations.MapperService
         }
 
         [Test]
+        public void Test_FileRecordCoverage2G()
+        {
+            var record = new FileRecord2G
+            {
+                Ecio = null,
+                Lattitute = 112.3344,
+                Longtitute = null,
+                RxAgc = 1.2,
+                TxPower = null
+            };
+            var view = record.MapTo<FileRecordCoverage2G>();
+            view.Ecio.ShouldBe(0);
+            view.Longtitute.ShouldBe(0);
+            view.Lattitute.ShouldBe(112.3344);
+            view.RxAgc.ShouldBe(1.2);
+            view.TxPower.ShouldBe(0);
+        }
+
+        [Test]
+        public void Test_FlowHuawei()
+        {
+            var item = new FlowHuawei
+            {
+                AverageActiveUsers = 1,
+                DownlinkAveragePrbs = 2.3,
+                StatTime = new DateTime(2016, 7, 7),
+                ButLastDownlinkDuration = 2.33,
+                DownlinkDciCceRate = 2.77,
+                AverageUsers = 233,
+                PdcpUplinkFlow = 2.79
+            };
+            var view = item.MapTo<FlowView>();
+            view.AverageActiveUsers.ShouldBe(1);
+            view.StatTime.ShouldBe(new DateTime(2016,7,7));
+            view.AverageUsers.ShouldBe(233);
+            view.PdcpUplinkFlow.ShouldBe(2.79);
+        }
+
+        [Test]
+        public void Test_FlowZte()
+        {
+            var item = new FlowZte
+            {
+                StatTime = new DateTime(2016, 8, 8),
+                ENodebId = 11223,
+                SectorId = 4,
+                DownlinkPdcpFlow = 1.23,
+                UplindPdcpFlow = 2.34,
+                AverageRrcUsers = 17,
+                MaxRrcUsers = 23,
+                MaxActiveUsers = 28,
+                AverageActiveUsers = 16
+            };
+            var view = item.MapTo<FlowView>();
+            view.StatTime.ShouldBe(new DateTime(2016,8,8));
+            view.AverageActiveUsers.ShouldBe(16);
+            view.AverageUsers.ShouldBe(17);
+            view.MaxActiveUsers.ShouldBe(28);
+            view.MaxUsers.ShouldBe(23);
+            view.ENodebId.ShouldBe(11223);
+            view.SectorId.ShouldBe((byte)4);
+            view.PdcpUplinkFlow.ShouldBe(2.34);
+            view.PdcpDownlinkFlow.ShouldBe(1.23);
+        }
+
+        [Test]
         public void Test_Item()
         {
             var cell = new Cell
@@ -512,12 +581,5 @@ namespace Lte.Evaluations.MapperService
             var dest = source.MapTo<Cell>();
             Assert.AreEqual(dest.AntennaPorts, AntennaPortsConfigure.Antenna2T2R);
         }
-
-        [Test]
-        public void Test_AutoMapperHelper()
-        {
-        }
     }
-
-    
 }

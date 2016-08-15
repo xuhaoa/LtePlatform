@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lte.Domain.Common;
 using Lte.Domain.LinqToCsv;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
+using Lte.Domain.Regular;
 
 namespace Lte.MySqlFramework.Entities
 {
@@ -17,7 +19,11 @@ namespace Lte.MySqlFramework.Entities
 
         [CsvColumn(Name = "小区")]
         public string CellInfo { get; set; }
-        
+
+        public int ENodebId => CellInfo.GetSplittedFields(", ")[3].GetSplittedFields('=')[1].ConvertToInt(0);
+
+        public byte LocalCellId => CellInfo.GetSplittedFields(", ")[1].GetSplittedFields('=')[1].ConvertToByte(0);
+
         [CsvColumn(Name = "小区PDCP层所发送的下行数据的总吞吐量 (比特)")]
         public long PdcpDownlinkFlowInByte { get; set; }
 
@@ -81,8 +87,12 @@ namespace Lte.MySqlFramework.Entities
         [CsvColumn(Name = "统计周期内上行DCI所使用的PDCCH CCE个数 (无)")]
         public long UplinkDciCces { get; set; }
 
+        public double UplinkDciCceRate => TotalCces == 0 ? 0 : (double) UplinkDciCces/TotalCces;
+
         [CsvColumn(Name = "统计周期内下行DCI所使用的PDCCH CCE个数 (无)")]
         public long DownlinkDciCces { get; set; }
+
+        public double DownlinkDciCceRate => TotalCces == 0 ? 0 : (double) DownlinkDciCces/TotalCces;
 
         [CsvColumn(Name = "统计周期内可用的PDCCH CCE的个数 (无)")]
         public long TotalCces { get; set; }

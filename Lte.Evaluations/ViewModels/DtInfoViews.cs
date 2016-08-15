@@ -62,40 +62,57 @@ namespace Lte.Evaluations.ViewModels
         public IEnumerable<int> RasterNums { get; set; }
     }
 
+    [AutoMapFrom(typeof(FileRecord2G))]
     public class FileRecordCoverage2G
     {
+        [AutoMapPropertyResolve("Longtitute", typeof(FileRecord2G), typeof(NullableZeroTransform))]
         public double Longtitute { get; set; }
 
+        [AutoMapPropertyResolve("Lattitute", typeof(FileRecord2G), typeof(NullableZeroTransform))]
         public double Lattitute { get; set; }
 
+        [AutoMapPropertyResolve("Ecio", typeof(FileRecord2G), typeof(NullableZeroTransform))]
         public double Ecio { get; set; }
 
+        [AutoMapPropertyResolve("RxAgc", typeof(FileRecord2G), typeof(NullableZeroTransform))]
         public double RxAgc { get; set; }
 
+        [AutoMapPropertyResolve("TxPower", typeof(FileRecord2G), typeof(NullableZeroTransform))]
         public double TxPower { get; set; }
     }
 
+    [AutoMapFrom(typeof(FileRecord3G))]
     public class FileRecordCoverage3G
     {
+        [AutoMapPropertyResolve("Longtitute", typeof(FileRecord3G), typeof(NullableZeroTransform))]
         public double Longtitute { get; set; }
 
+        [AutoMapPropertyResolve("Lattitute", typeof(FileRecord3G), typeof(NullableZeroTransform))]
         public double Lattitute { get; set; }
 
+        [AutoMapPropertyResolve("Sinr", typeof(FileRecord3G), typeof(NullableZeroTransform))]
         public double Sinr { get; set; }
 
+        [AutoMapPropertyResolve("RxAgc0", typeof(FileRecord3G), typeof(NullableZeroTransform))]
         public double RxAgc0 { get; set; }
 
+        [AutoMapPropertyResolve("RxAgc1", typeof(FileRecord3G), typeof(NullableZeroTransform))]
         public double RxAgc1 { get; set; }
     }
 
+    [AutoMapFrom(typeof(FileRecord4G))]
     public class FileRecordCoverage4G
     {
+        [AutoMapPropertyResolve("Longtitute", typeof(FileRecord4G), typeof(NullableZeroTransform))]
         public double Longtitute { get; set; }
 
+        [AutoMapPropertyResolve("Lattitute", typeof(FileRecord4G), typeof(NullableZeroTransform))]
         public double Lattitute { get; set; }
 
+        [AutoMapPropertyResolve("Sinr", typeof(FileRecord4G), typeof(NullableZeroTransform))]
         public double Sinr { get; set; }
 
+        [AutoMapPropertyResolve("Rsrp", typeof(FileRecord4G), typeof(NullableZeroTransform))]
         public double Rsrp { get; set; }
     }
 }

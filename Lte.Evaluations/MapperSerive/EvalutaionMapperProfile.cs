@@ -14,7 +14,6 @@ namespace Lte.Evaluations.MapperSerive
             var module = new AbpAutoMapperModule(_typeFinder);
             module.PostInitialize();
             
-            KpiMapperService.MapDtItems();
             KpiMapperService.MapFlow();
             KpiMapperService.MapAlarmStat();
             KpiMapperService.MapTopKpi();

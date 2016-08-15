@@ -23,42 +23,6 @@ namespace Lte.Evaluations.MapperSerive
     {
         public static void MapFlow()
         {
-            Mapper.CreateMap<FlowHuawei, FlowView>();
-            Mapper.CreateMap<FlowZte, FlowView>()
-                .ForMember(d => d.PdcpDownlinkFlow, opt => opt.MapFrom(s => s.DownlinkPdcpFlow))
-                .ForMember(d => d.PdcpUplinkFlow, opt => opt.MapFrom(s => s.UplindPdcpFlow))
-                .ForMember(d => d.AverageUsers, opt => opt.MapFrom(s => s.AverageRrcUsers))
-                .ForMember(d => d.MaxUsers, opt => opt.MapFrom(s => s.MaxRrcUsers));
-            Mapper.CreateMap<FlowHuaweiCsv, FlowHuawei>()
-                .ForMember(d => d.ENodebId,
-                    opt =>
-                        opt.MapFrom(s => s.CellInfo.GetSplittedFields(", ")[3].GetSplittedFields('=')[1].ConvertToInt(0)))
-                .ForMember(d => d.LocalCellId,
-                    opt =>
-                        opt.MapFrom(
-                            s => s.CellInfo.GetSplittedFields(", ")[1].GetSplittedFields('=')[1].ConvertToByte(0)))
-                .ForMember(d => d.PdcpDownlinkFlow,
-                    opt => opt.MapFrom(s => (double) s.PdcpDownlinkFlowInByte/(1024*1024)))
-                .ForMember(d => d.PdcpUplinkFlow, opt => opt.MapFrom(s => (double) s.PdcpUplinkFlowInByte/(1024*1024)))
-                .ForMember(d => d.DownlinkDuration, opt => opt.MapFrom(s => (double) s.DownlinkDurationInMs/1000))
-                .ForMember(d => d.UplinkDuration, opt => opt.MapFrom(s => (double) s.UplinkDurationInMs/1000))
-                .ForMember(d => d.PagingUsers, opt => opt.MapFrom(s => s.PagingUsersString.ConvertToInt(0)))
-                .ForMember(d => d.UplinkDciCceRate,
-                    opt => opt.MapFrom(s => s.TotalCces == 0 ? 0 : (double) s.UplinkDciCces/s.TotalCces))
-                .ForMember(d => d.DownlinkDciCceRate,
-                    opt => opt.MapFrom(s => s.TotalCces == 0 ? 0 : (double) s.DownlinkDciCces/s.TotalCces))
-                .ForMember(d => d.PucchPrbs, opt => opt.MapFrom(s => s.PucchPrbsString.ConvertToDouble(0)))
-                .ForMember(d => d.LastTtiUplinkFlow,
-                    opt => opt.MapFrom(s => (double) s.LastTtiUplinkFlowInByte/(1024*1024)))
-                .ForMember(d => d.ButLastUplinkDuration,
-                    opt => opt.MapFrom(s => (double) s.ButLastUplinkDurationInMs/1000))
-                .ForMember(d => d.LastTtiDownlinkFlow,
-                    opt => opt.MapFrom(s => (double) s.LastTtiDownlinkFlowInByte/(1024*1024)))
-                .ForMember(d => d.ButLastDownlinkDuration,
-                    opt => opt.MapFrom(s => (double) s.ButLastDownlinkDurationInMs/1000))
-                .ForMember(d => d.SchedulingRank1, opt => opt.MapFrom(s => s.SchedulingRank1String.ConvertToInt(0)))
-                .ForMember(d => d.SchedulingRank2, opt => opt.MapFrom(s => s.SchedulingRank2String.ConvertToInt(0)));
-
             Mapper.CreateMap<FlowZteCsv, FlowZte>()
                 .ForMember(d => d.UplindPdcpFlow, opt => opt.MapFrom(s => s.UplindPdcpFlowInMByte * 8))
                 .ForMember(d => d.DownlinkPdcpFlow, opt => opt.MapFrom(s => s.DownlinkPdcpFlowInMByte * 8))
@@ -207,27 +171,6 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.WorkItemSubType, opt => opt.MapFrom(s => s.Subtype.GetEnumDescription()));
             Mapper.CreateMap<WorkItemExcel, WorkItem>()
                 .ConvertUsing<WorkItemConverter>();
-        }
-
-        public static void MapDtItems()
-        {
-            Mapper.CreateMap<FileRecord2G, FileRecordCoverage2G>()
-                .ForMember(d => d.Longtitute, opt => opt.MapFrom(s => s.Longtitute ?? -1))
-                .ForMember(d => d.Lattitute, opt => opt.MapFrom(s => s.Lattitute ?? -1))
-                .ForMember(d => d.Ecio, opt => opt.MapFrom(s => s.Ecio ?? 0))
-                .ForMember(d => d.RxAgc, opt => opt.MapFrom(s => s.RxAgc ?? 0))
-                .ForMember(d => d.TxPower, opt => opt.MapFrom(s => s.TxPower ?? 0));
-            Mapper.CreateMap<FileRecord3G, FileRecordCoverage3G>()
-                .ForMember(d => d.Longtitute, opt => opt.MapFrom(s => s.Longtitute ?? -1))
-                .ForMember(d => d.Lattitute, opt => opt.MapFrom(s => s.Lattitute ?? -1))
-                .ForMember(d => d.RxAgc0, opt => opt.MapFrom(s => s.RxAgc0 ?? 0))
-                .ForMember(d => d.RxAgc1, opt => opt.MapFrom(s => s.RxAgc1 ?? 0))
-                .ForMember(d => d.Sinr, opt => opt.MapFrom(s => s.Sinr ?? 0));
-            Mapper.CreateMap<FileRecord4G, FileRecordCoverage4G>()
-                .ForMember(d => d.Longtitute, opt => opt.MapFrom(s => s.Longtitute ?? -1))
-                .ForMember(d => d.Lattitute, opt => opt.MapFrom(s => s.Lattitute ?? -1))
-                .ForMember(d => d.Rsrp, opt => opt.MapFrom(s => s.Rsrp ?? 0))
-                .ForMember(d => d.Sinr, opt => opt.MapFrom(s => s.Sinr ?? 0));
         }
     }
 }
