@@ -5,7 +5,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{25f4519e-8703-40bd-8cf2-5a29d33c4b0b}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>mr_script.py</StartupFile>
+    <StartupFile>
+    </StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -31,7 +32,7 @@
     <Compile Include="mr\huawei_test_ftp.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="mr_script.py" />
+    <Compile Include="mr\mr_script.py" />
     <Compile Include="Practise\list_test.py">
       <SubType>Code</SubType>
     </Compile>
