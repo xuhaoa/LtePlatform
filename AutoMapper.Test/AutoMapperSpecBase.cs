@@ -14,7 +14,6 @@ namespace AutoMapper.Test
     {
         protected override void Cleanup()
         {
-            Mapper.Reset();
         }
 
     }

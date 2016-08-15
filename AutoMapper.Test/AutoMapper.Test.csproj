@@ -127,7 +127,6 @@
     <Compile Include="Core\ArraysAndLists.cs" />
     <Compile Include="Core\AutoMapperTester.cs" />
     <Compile Include="Core\ConfigurationValidation.cs" />
-    <Compile Include="Core\Constructors.cs" />
     <Compile Include="Core\ContextItems.cs" />
     <Compile Include="Core\ConvensionTest.cs" />
     <Compile Include="Core\ConversionOperators.cs" />

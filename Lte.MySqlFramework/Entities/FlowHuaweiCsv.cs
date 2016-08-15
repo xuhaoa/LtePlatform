@@ -20,9 +20,25 @@ namespace Lte.MySqlFramework.Entities
         [CsvColumn(Name = "小区")]
         public string CellInfo { get; set; }
 
-        public int ENodebId => CellInfo.GetSplittedFields(", ")[3].GetSplittedFields('=')[1].ConvertToInt(0);
+        public int ENodebId 
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(CellInfo)) return 0;
+                var fields = CellInfo.GetSplittedFields(", ");
+                return fields.Length == 0 ? 0 : fields[3].GetSplittedFields('=')[1].ConvertToInt(0);
+            }
+        }
 
-        public byte LocalCellId => CellInfo.GetSplittedFields(", ")[1].GetSplittedFields('=')[1].ConvertToByte(0);
+        public byte LocalCellId
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(CellInfo)) return 0;
+                var fields = CellInfo.GetSplittedFields(", ");
+                return fields.Length == 0 ? (byte)0 : fields[1].GetSplittedFields('=')[1].ConvertToByte(0);
+            }
+        } 
 
         [CsvColumn(Name = "小区PDCP层所发送的下行数据的总吞吐量 (比特)")]
         public long PdcpDownlinkFlowInByte { get; set; }

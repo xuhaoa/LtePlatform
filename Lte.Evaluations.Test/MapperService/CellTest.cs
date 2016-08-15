@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Abp.EntityFramework.AutoMapper;
+using Abp.Net.Mail;
 using Abp.Reflection;
 using AutoMapper;
 using Lte.Domain.Common;
@@ -399,6 +400,124 @@ namespace Lte.Evaluations.MapperService
             view.SectorId.ShouldBe((byte)4);
             view.PdcpUplinkFlow.ShouldBe(2.34);
             view.PdcpDownlinkFlow.ShouldBe(1.23);
+        }
+
+        [Test]
+        public void Test_FlowHuaweiCsv_CellInfo()
+        {
+            var csv = new FlowHuaweiCsv
+            {
+                StatTime = new DateTime(2015, 10, 11),
+                CellInfo = "eNodeB名称=乐从电信LBBU75, 本地小区标识=0, 小区名称=乐从荷村百顺R_0, eNodeB标识=552778, 小区双工模式=CELL_FDD"
+            };
+            var item = csv.MapTo<FlowHuawei>();
+            item.StatTime.ShouldBe(new DateTime(2015,10,11));
+            item.ENodebId.ShouldBe(552778);
+            item.LocalCellId.ShouldBe((byte)0);
+        }
+
+        [Test]
+        public void Test_FlowHuaweiCsv_Flow()
+        {
+            var csv = new FlowHuaweiCsv
+            {
+                PdcpDownlinkFlowInByte = 12345678,
+                PdcpUplinkFlowInByte = 2345678,
+                LastTtiUplinkFlowInByte = 24681012,
+                LastTtiDownlinkFlowInByte = 135792468
+            };
+            var item = csv.MapTo<FlowHuawei>();
+            item.PdcpDownlinkFlow.ShouldBe((double)12345678/1024/1024);
+            item.PdcpUplinkFlow.ShouldBe((double)2345678/1024/1024);
+            item.LastTtiUplinkFlow.ShouldBe((double)24681012/1024/1024);
+            item.LastTtiDownlinkFlow.ShouldBe((double)135792468/1024/1024);
+        }
+
+        [Test]
+        public void Test_FlowHuaweiCsv_Users()
+        {
+            var csv = new FlowHuaweiCsv
+            {
+                AverageActiveUsers = 0,
+                MaxActiveUsers = 1,
+                AverageUsers = 2,
+                MaxUsers = 3,
+                UplinkAverageUsers = 4,
+                UplinkMaxUsers = 5,
+                DownlinkAverageUsers = 6,
+                DownlinkMaxUsers = 7
+            };
+            var item = csv.MapTo<FlowHuawei>();
+            item.AverageActiveUsers.ShouldBe(0);
+            item.MaxActiveUsers.ShouldBe(1);
+            item.AverageUsers.ShouldBe(2);
+            item.MaxUsers.ShouldBe(3);
+            item.UplinkAverageUsers.ShouldBe(4);
+            item.UplinkMaxUsers.ShouldBe(5);
+            item.DownlinkAverageUsers.ShouldBe(6);
+            item.DownlinkMaxUsers.ShouldBe(7);
+        }
+
+        [Test]
+        public void Test_FlowHuaweiCsv_Duration()
+        {
+            var csv = new FlowHuaweiCsv
+            {
+                DownlinkDurationInMs = 23000,
+                UplinkDurationInMs = 45000,
+                PagingUsersString = "12",
+                ButLastUplinkDurationInMs = 78000,
+                ButLastDownlinkDurationInMs = 95000
+            };
+            var item = csv.MapTo<FlowHuawei>();
+            item.DownlinkDuration.ShouldBe(23);
+            item.UplinkDuration.ShouldBe(45);
+            item.PagingUsers.ShouldBe(12);
+            item.ButLastUplinkDuration.ShouldBe(78);
+            item.ButLastDownlinkDuration.ShouldBe(95);
+        }
+
+        [Test]
+        public void Test_FlowHuaweiCsv_Prb()
+        {
+            var csv = new FlowHuaweiCsv
+            {
+                DownlinkAveragePrbs = 1,
+                UplinkAveragePrbs = 2,
+                DownlinkDrbPbs = 3,
+                UplinkDrbPbs = 4,
+                PucchPrbsString = "5"
+            };
+            var item = csv.MapTo<FlowHuawei>();
+            item.DownlinkAveragePrbs.ShouldBe(1);
+            item.UplinkAveragePrbs.ShouldBe(2);
+            item.PucchPrbs.ShouldBe(5);
+            item.DownlinkDrbPbs.ShouldBe(3);
+            item.UplinkDrbPbs.ShouldBe(4);
+        }
+
+        [Test]
+        public void Test_FlowHuaweiCsv_Preamble()
+        {
+            var csv = new FlowHuaweiCsv
+            {
+                DedicatedPreambles = 0,
+                GroupAPreambles = 1,
+                GroupBPreambles = 2,
+                DownlinkDciCces = 3,
+                TotalCces = 4,
+                UplinkDciCces = 5,
+                SchedulingRank1String = "6",
+                SchedulingRank2String = "7"
+            };
+            var item = csv.MapTo<FlowHuawei>();
+            item.DedicatedPreambles.ShouldBe(0);
+            item.GroupAPreambles.ShouldBe(1);
+            item.GroupBPreambles.ShouldBe(2);
+            item.DownlinkDciCceRate.ShouldBe(0.75);
+            item.UplinkDciCceRate.ShouldBe(1.25);
+            item.SchedulingRank1.ShouldBe(6);
+            item.SchedulingRank2.ShouldBe(7);
         }
 
         [Test]
