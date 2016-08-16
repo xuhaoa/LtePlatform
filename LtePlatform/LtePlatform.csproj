@@ -1962,7 +1962,6 @@
     <Content Include="appViews\Parameters\Map\BtsMapInfoBox.html" />
     <Content Include="appViews\Parameters\List.html" />
     <Content Include="appViews\Parameters\QueryMap.html" />
-    <Content Include="appViews\College\Coverage\_DtKpiSelection.cshtml" />
     <Content Include="appViews\Import\Neighbor\Index.html" />
     <Content Include="appViews\GeneralMenu.html" />
     <None Include="Views\Rutrace\Index.cshtml" />

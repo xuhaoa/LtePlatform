@@ -456,4 +456,29 @@ angular.module('college.main', ['app.common'])
             options: ['2G', '3G', '4G'],
             selected: '2G'
         };
+
+        $scope.query = function() {
+            switch ($scope.network.selected) {
+            case '2G':
+                $scope.kpi = {
+                    options: ['Ec/Io', 'RxAGC', 'TxPower'],
+                    selected: 'Ec/Io'
+                };
+                break;
+            case '3G':
+                $scope.kpi = {
+                    options: ['SINR', 'RxAGC0', 'RxAGC1'],
+                    selected: 'SINR'
+                };
+                break;
+            default:
+                $scope.kpi = {
+                    options: ['RSRP', 'SINR'],
+                    selected: 'RSRP'
+                };
+                break;
+            }
+        };
+
+        $scope.query();
     });
