@@ -449,7 +449,7 @@ angular.module('college.main', ['app.common'])
 
         collegeMapService.showDtInfos($scope.dtInfos, $scope.beginDate.value, $scope.endDate.value);
     })
-    .controller('coverage.name', function ($scope, $stateParams, collegeMapService, collegeDtService) {
+    .controller('coverage.name', function ($scope, $stateParams, collegeMapService, collegeDtService, coverageService) {
         $scope.page.title = $stateParams.name + '覆盖情况评估';
         $scope.includeAllFiles = false;
         $scope.network = {
@@ -460,6 +460,7 @@ angular.module('college.main', ['app.common'])
             options: [],
             selected: ''
         };
+        $scope.data = [];
 
         $scope.query = function() {
             switch ($scope.network.selected) {
@@ -482,17 +483,34 @@ angular.module('college.main', ['app.common'])
                 };
                 break;
             }
-            collegeDtService.queryRaster($scope.center, $scope.network.selected, $scope.beginDate.value, $scope.endDate.value, function(files) {
-                $scope.dataFile.options = files;
-                if (files.length) {
-                    $scope.dataFile.selected = files[0];
-                }
-            });
+            if ($scope.center) {
+                collegeDtService.queryRaster($scope.center, $scope.network.selected, $scope.beginDate.value, $scope.endDate.value, function(files) {
+                    $scope.dataFile.options = files;
+                    if (files.length) {
+                        $scope.dataFile.selected = files[0];
+                    }
+                });
+            }
         };
 
-        $scope.showResults=function() {
-            console.log($scope.dataFile.selected);
-        }
+        $scope.$watch('network.selected', function() {
+            $scope.query();
+        });
+
+        $scope.showResults = function () {
+            $scope.data = [];
+            if ($scope.includeAllFiles) {
+                angular.forEach($scope.dataFile.options, function(file) {
+                    coverageService.queryByRasterInfo(file, $scope.network.selected).then(function(result) {
+                        $scope.data.push.apply($scope.data, result);
+                    });
+                });
+            } else {
+                coverageService.queryByRasterInfo($scope.dataFile.selected, $scope.network.selected).then(function (result) {
+                    $scope.data = result;
+                });
+            }
+        };
 
         collegeMapService.queryCenterAndCallback($stateParams.name, function(center) {
             $scope.center = {

@@ -363,4 +363,41 @@
                 });
             }
         };
+    })
+    .factory('coverageService', function(generalHttpService) {
+        return {
+            queryByRasterInfo: function (info, type) {
+                var api;
+                switch (type) {
+                case '2G':
+                    api = "Record2G";
+                    break;
+                case '3G':
+                    api = "Record3G";
+                    break;
+                default:
+                    api = "Record4G";
+                    break;
+                }
+                return generalHttpService.postApiData(api, info);
+            },
+            querySingleRasterInfo: function(fileName, rasterNum, type) {
+                var api;
+                switch (type) {
+                    case '2G':
+                        api = "Record2G";
+                        break;
+                    case '3G':
+                        api = "Record3G";
+                        break;
+                    default:
+                        api = "Record4G";
+                        break;
+                }
+                return generalHttpService.getApiData(api, {
+                    fileName: fileName,
+                    rasterNum: rasterNum
+                });
+            }
+        }
     });
