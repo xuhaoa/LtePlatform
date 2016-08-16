@@ -210,6 +210,7 @@
 /// <reference path="spin.min.js" />
 /// <reference path="test/directives/app.spec.js" />
 /// <reference path="test/helpers.js" />
+/// <reference path="test/mock/basic.spec.js" />
 /// <reference path="test/mock/highcharts.mock.js" />
 /// <reference path="test/mock/ui.bootstrap.mock.js" />
 /// <reference path="test/services/app.kpi.spec.js" />
