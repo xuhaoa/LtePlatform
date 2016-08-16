@@ -8,9 +8,39 @@ angular.module('college.dt', ['ui.grid'])
                 { field: 'area', name: '区域面积（平方米）', cellFilter: 'number: 2' },
                 { field: 'centerX', name: '中心经度', cellFilter: 'number: 4' },
                 { field: 'centerY', name: '中心纬度', cellFilter: 'number: 4' },
-                { field: 'file2Gs.length', name: '2G文件数' },
-                { field: 'file3Gs.length', name: '3G文件数' },
-                { field: 'file4Gs.length', name: '4G文件数' }
+                {
+                    field: 'file2Gs.length',
+                    name: '2G文件数',
+                    cellTooltip: function(row, col) {
+                        var html = '';
+                        angular.forEach(row.entity.file2Gs, function(file) {
+                            html += file.csvFileName + ', 网格数: ' + file.rasterNums.length + '\n';
+                        });
+                        return html;
+                    }
+                },
+                {
+                    field: 'file3Gs.length',
+                    name: '3G文件数',
+                    cellTooltip: function (row, col) {
+                        var html = '';
+                        angular.forEach(row.entity.file3Gs, function (file) {
+                            html += file.csvFileName + ', 网格数: ' + file.rasterNums.length + '\n';
+                        });
+                        return html;
+                    }
+                },
+                {
+                    field: 'file4Gs.length',
+                    name: '4G文件数',
+                    cellTooltip: function (row, col) {
+                        var html = '';
+                        angular.forEach(row.entity.file4Gs, function (file) {
+                            html += file.csvFileName + ', 网格数: ' + file.rasterNums.length + '\n';
+                        });
+                        return html;
+                    }
+                }
             ],
             data: $scope.colleges
         };
