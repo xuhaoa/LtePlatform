@@ -327,8 +327,6 @@
     <Compile Include="Controllers\College\CollegeQueryController.cs" />
     <Compile Include="Controllers\College\CustomerControllers.cs" />
     <Compile Include="Controllers\DtController.cs" />
-    <Compile Include="Controllers\Dt\FileInfoControllers.cs" />
-    <Compile Include="Controllers\Dt\RasterInfoController.cs" />
     <Compile Include="Controllers\Dt\RecordControllers.cs" />
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

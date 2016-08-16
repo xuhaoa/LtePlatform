@@ -83,12 +83,7 @@ namespace Lte.Evaluations.DataService
         {
             _repository = repository;
         }
-
-        public IEnumerable<CsvFilesInfo> QueryAllList()
-        {
-            return _repository.CsvFilesInfos.ToList();
-        }
-
+        
         public IEnumerable<CsvFilesInfo> QueryFilesInfos(DateTime begin, DateTime end)
         {
             return _repository.GetAllList(begin, end);
