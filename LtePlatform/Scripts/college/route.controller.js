@@ -452,4 +452,8 @@ angular.module('college.main', ['app.common'])
     .controller('coverage.name', function($scope, $stateParams) {
         $scope.page.title = $stateParams.name + '覆盖情况评估';
         $scope.includeAllFiles = false;
+        $scope.network = {
+            options: ['2G', '3G', '4G'],
+            selected: '2G'
+        };
     });

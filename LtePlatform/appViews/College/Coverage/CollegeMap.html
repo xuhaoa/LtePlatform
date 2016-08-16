@@ -1,15 +1,27 @@
 ﻿<h3 class="text-primary">{{page.title}}</h3>
-<div date-span-row begin-date="beginDate" end-date="endDate">
-    <button type="button" class="btn btn-primary" ng-click="query()">
-        <i class="glyphicon glyphicon-search"></i>查询文件
-    </button>
+<div class="row">
+    <div class="col-md-4">
+        <label>网络类型</label>
+        <select class="form-control" ng-model="network.selected" ng-options="n as n for n in network.options"></select>
+    </div>
+    <div class="col-md-8">
+        <div date-span-row begin-date="beginDate" end-date="endDate">
+            <button type="button" class="btn btn-primary" ng-click="query()">
+                <i class="glyphicon glyphicon-search"></i>查询文件
+            </button>
+        </div>
+    </div>
 </div>
+
 <div class="cloudmap-wrapper">
     <div class="cloudmap-tools">
         <span class="cloudmap-city-name">测试数据文件</span>
-        <select class="cloudmap-select-city" ng-disabled="includeAllFiles" ng-model="dataFile" ng-options="c as c for c in dataFileList"></select>
-        <input type="checkbox" ng-model="includeAllFiles"/>
+        <select class="cloudmap-select-city" ng-disabled="includeAllFiles" 
+                ng-model="dataFile.selected" ng-options="c as c for c in dataFile.options"></select>
+        <input type="checkbox" ng-model="includeAllFiles" />
         <span class="cloudmap-city-name">展示全部数据</span>
+        <span class="cloudmap-city-name">&nbsp;指标选择：</span>
+        <select class="cloudmap-select-city" ng-model="kpi.selected" ng-options="c as c for c in kpi.options"></select>
         <button class="btn btn-sm btn-warning" ng-disabled="!dataFileList.length" ng-click="showResults()">统计数据</button>
         <span class="cloudmap-city-name">&nbsp;覆盖率：</span>
         <span class="cloudmap-city-name">{{coverageRate | number: 2}}</span>
@@ -19,10 +31,10 @@
         <div id="all-map" style="width: 100%;height: 600px;overflow: hidden;margin:0;"></div>
         <div class="map-w">
             <ul id="colorBar">
-                <li class="map-w-1">{{legendTitle}}</li>
+                <li class="map-w-1">{{kpi.selected}}</li>
             </ul>
         </div>
-        <div id="time-control" ng-show="coverageKpiList.length">
+        <div id="time-control" ng-show="dataFile.options.length">
             <div id="time-control-btns">
             </div>
         </div>
