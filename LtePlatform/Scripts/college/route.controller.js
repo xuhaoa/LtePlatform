@@ -449,7 +449,8 @@ angular.module('college.main', ['app.common'])
 
         collegeMapService.showDtInfos($scope.dtInfos, $scope.beginDate.value, $scope.endDate.value);
     })
-    .controller('coverage.name', function ($scope, $stateParams, collegeMapService, collegeDtService, coverageService) {
+    .controller('coverage.name', function ($scope, $stateParams, baiduMapService, collegeQueryService, geometryService,
+        collegeMapService, collegeDtService, coverageService) {
         $scope.page.title = $stateParams.name + '覆盖情况评估';
         $scope.includeAllFiles = false;
         $scope.network = {
@@ -521,10 +522,16 @@ angular.module('college.main', ['app.common'])
         };
 
         collegeMapService.queryCenterAndCallback($stateParams.name, function(center) {
-            $scope.center = {
-                centerX: center.X,
-                centerY: center.Y
-            };
+            geometryService.transformToBaidu(center.X, center.Y).then(function (coors) {
+                $scope.center = {
+                    centerX: 2 * center.X - coors.x,
+                    centerY: 2 * center.Y - coors.y
+                };
+            });
             $scope.query();
+            baiduMapService.initializeMap("all-map", 15);
+            collegeQueryService.queryByName($stateParams.name).then(function (college) {
+                collegeMapService.drawCollegeArea(college.id, function () {});
+            });
         });
     });
