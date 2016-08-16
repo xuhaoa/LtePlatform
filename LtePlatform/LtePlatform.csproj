@@ -1609,7 +1609,6 @@
     <Content Include="Scripts\parameters\import\app.js" />
     <Content Include="Scripts\parameters\import\index.controller.js" />
     <Content Include="Scripts\parameters\neighbor\import.controller.js" />
-    <Content Include="Scripts\qunit\qunit-1.20.0.js" />
     <Content Include="Scripts\rutrace\coverage\controller.js" />
     <Content Include="Scripts\rutrace\index.controller.js" />
     <Content Include="Scripts\rutrace\map\controller.js" />
@@ -1634,7 +1633,6 @@
     <Content Include="Scripts\service\topic\college.js" />
     <Content Include="Scripts\service\kpi\workitem.service.js" />
     <Content Include="Scripts\service\topic\customer.js" />
-    <Content Include="Scripts\service\topic\qunit.my.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\spin.min.js" />
     <Content Include="Scripts\test\services\filters.spec.js" />
@@ -1897,7 +1895,6 @@
     <Content Include="Views\Evaluation\RegionDef.cshtml" />
     <Content Include="Views\College\Map.cshtml" />
     <Content Include="Views\Kpi\Index.cshtml" />
-    <Content Include="Scripts\qunit\qunit.load.js" />
     <Content Include="Scripts\test\services\cell.precise.spec.js" />
     <Content Include="Scripts\service\topic\baidu.map.js" />
     <Content Include="Scripts\lang\jcs-auto-validate_ru-ru.json" />
