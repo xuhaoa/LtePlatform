@@ -256,6 +256,14 @@ namespace Lte.Domain.Common
         }
     }
 
+    public class ByteTransform : ValueResolver<double, double>
+    {
+        protected override double ResolveCore(double source)
+        {
+            return source*8;
+        }
+    }
+
     public class MegaTransform : ValueResolver<long, double>
     {
         protected override double ResolveCore(long source)

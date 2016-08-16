@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Lte.Domain.LinqToCsv;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
+using Lte.Domain.Regular;
 
 namespace Lte.MySqlFramework.Entities
 {
@@ -57,8 +58,19 @@ namespace Lte.MySqlFramework.Entities
         [CsvColumn(Name = "QCI8小区上行IP Throughput数据量低(千比特)")]
         public string Qci8UplinkIpThroughputLow { get; set; }
 
+        public double Qci8UplinkIpThroughput
+            => (string.IsNullOrEmpty(Qci8UplinkIpThroughputHigh) ? 0 : Qci8UplinkIpThroughputHigh.ConvertToInt(0))
+               +
+               (string.IsNullOrEmpty(Qci8UplinkIpThroughputLow)
+                   ? 0
+                   : Qci8UplinkIpThroughputLow.Replace(",", "").ConvertToDouble(0)/1024);
+
         [CsvColumn(Name = "QCI8小区上行IP Throughput数据传输时间(毫秒)")]
         public string Qci8UplinkIpThroughputDuration { get; set; }
+
+        public double Qci8UplinkIpDuration => string.IsNullOrEmpty(Qci8UplinkIpThroughputDuration)
+            ? 0
+            : Qci8UplinkIpThroughputDuration.ConvertToDouble(0)/1000;
 
         [CsvColumn(Name = "QCI9小区上行IP Throughput数据量高(兆比特)")]
         public string Qci9UplinkIpThroughputHigh { get; set; }
@@ -66,8 +78,20 @@ namespace Lte.MySqlFramework.Entities
         [CsvColumn(Name = "QCI9小区上行IP Throughput数据量低(千比特)")]
         public string Qci9UplinkIpThroughputLow { get; set; }
 
+        public double Qci9UplinkIpThroughput
+            => (string.IsNullOrEmpty(Qci9UplinkIpThroughputHigh) ? 0 : Qci9UplinkIpThroughputHigh.ConvertToInt(0)) +
+               (string.IsNullOrEmpty(Qci9UplinkIpThroughputLow)
+                   ? 0
+                   : Qci9UplinkIpThroughputLow.Replace(",", "").ConvertToDouble(0)/1024);
+
         [CsvColumn(Name = "QCI9小区上行IP Throughput数据传输时间(毫秒)")]
         public string Qci9UplinkIpThroughputDuration { get; set; }
+
+        public double Qci9UplinkIpDuration
+            =>
+                string.IsNullOrEmpty(Qci9UplinkIpThroughputDuration)
+                    ? 0
+                    : Qci9UplinkIpThroughputDuration.ConvertToDouble(0)/1000;
 
         [CsvColumn(Name = "QCI8小区下行IP Throughput数据量高(兆比特)")]
         public string Qci8DownlinkIpThroughputHigh { get; set; }
@@ -75,8 +99,20 @@ namespace Lte.MySqlFramework.Entities
         [CsvColumn(Name = "QCI8小区下行IP Throughput数据量低(千比特)")]
         public string Qci8DownlinkIpThroughputLow { get; set; }
 
+        public double Qci8DownlinkIpThroughput
+            => (string.IsNullOrEmpty(Qci8DownlinkIpThroughputHigh) ? 0 : Qci8DownlinkIpThroughputHigh.ConvertToInt(0)) +
+               (string.IsNullOrEmpty(Qci8DownlinkIpThroughputLow)
+                   ? 0
+                   : Qci8DownlinkIpThroughputLow.Replace(",", "").ConvertToDouble(0)/1024);
+
         [CsvColumn(Name = "QCI8小区下行IP Throughput数据传输时间(毫秒)")]
         public string Qci8DownlinkIpThroughputDuration { get; set; }
+
+        public double Qci8DownlinkIpDuration
+            =>
+                string.IsNullOrEmpty(Qci8DownlinkIpThroughputDuration)
+                    ? 0
+                    : Qci8DownlinkIpThroughputDuration.ConvertToDouble(0)/1000;
 
         [CsvColumn(Name = "QCI9小区下行IP Throughput数据量高(兆比特)")]
         public string Qci9DownlinkIpThroughputHigh { get; set; }
@@ -84,8 +120,20 @@ namespace Lte.MySqlFramework.Entities
         [CsvColumn(Name = "QCI9小区下行IP Throughput数据量低(千比特)")]
         public string Qci9DownlinkIpThroughputLow { get; set; }
 
+        public double Qci9DownlinkIpThroughput
+            => (string.IsNullOrEmpty(Qci9DownlinkIpThroughputHigh) ? 0 : Qci9DownlinkIpThroughputHigh.ConvertToInt(0)) +
+               (string.IsNullOrEmpty(Qci9DownlinkIpThroughputLow)
+                   ? 0
+                   : Qci9DownlinkIpThroughputLow.Replace(",", "").ConvertToDouble(0)/1024);
+
         [CsvColumn(Name = "QCI9小区下行IP Throughput数据传输时间(毫秒)")]
         public string Qci9DownlinkIpThroughputDuration { get; set; }
+
+        public double Qci9DownlinkIpDuration
+            =>
+                string.IsNullOrEmpty(Qci9DownlinkIpThroughputDuration)
+                    ? 0
+                    : Qci9DownlinkIpThroughputDuration.ConvertToDouble(0)/1000;
 
         [CsvColumn(Name = "下行PDSCH信道上模式3调度次数")]
         public int SchedulingTm3 { get; set; }

@@ -21,51 +21,8 @@ namespace Lte.Evaluations.MapperSerive
 {
     public static class KpiMapperService
     {
-        public static void MapFlow()
-        {
-            Mapper.CreateMap<FlowZteCsv, FlowZte>()
-                .ForMember(d => d.UplindPdcpFlow, opt => opt.MapFrom(s => s.UplindPdcpFlowInMByte * 8))
-                .ForMember(d => d.DownlinkPdcpFlow, opt => opt.MapFrom(s => s.DownlinkPdcpFlowInMByte * 8))
-                .ForMember(d => d.Qci8UplinkIpThroughput,
-                    opt =>
-                        opt.MapFrom(
-                            s =>
-                                s.Qci8UplinkIpThroughputHigh.ConvertToInt(0) +
-                                s.Qci8UplinkIpThroughputLow.Replace(",", "").ConvertToDouble(0) / 1024))
-                .ForMember(d => d.Qci8UplinkIpDuration,
-                    opt => opt.MapFrom(s => s.Qci8UplinkIpThroughputDuration.ConvertToDouble(0) / 1000))
-                .ForMember(d => d.Qci9UplinkIpThroughput,
-                    opt =>
-                        opt.MapFrom(
-                            s =>
-                                s.Qci9UplinkIpThroughputHigh.ConvertToInt(0) +
-                                s.Qci9UplinkIpThroughputLow.Replace(",", "").ConvertToDouble(0) / 1024))
-                .ForMember(d => d.Qci9UplinkIpDuration,
-                    opt => opt.MapFrom(s => s.Qci9UplinkIpThroughputDuration.ConvertToDouble(0) / 1000))
-                .ForMember(d => d.Qci8DownlinkIpThroughput,
-                    opt =>
-                        opt.MapFrom(
-                            s =>
-                                s.Qci8DownlinkIpThroughputHigh.ConvertToInt(0) +
-                                s.Qci8DownlinkIpThroughputLow.Replace(",", "").ConvertToDouble(0) / 1024))
-                .ForMember(d => d.Qci8DownlinkIpDuration,
-                    opt => opt.MapFrom(s => s.Qci8DownlinkIpThroughputDuration.ConvertToDouble(0) / 1000))
-                .ForMember(d => d.Qci9DownlinkIpThroughput,
-                    opt =>
-                        opt.MapFrom(
-                            s =>
-                                s.Qci9DownlinkIpThroughputHigh.ConvertToInt(0) +
-                                s.Qci9DownlinkIpThroughputLow.Replace(",", "").ConvertToDouble(0) / 1024))
-                .ForMember(d => d.Qci9DownlinkIpDuration,
-                    opt => opt.MapFrom(s => s.Qci9DownlinkIpThroughputDuration.ConvertToDouble(0) / 1000));
-        }
-
         public static void MapPreciseStat()
         {
-            Mapper.CreateMap<PreciseCoverage4G, Precise4GView>();
-            Mapper.CreateMap<Precise4GView, Precise4GSector>();
-            Mapper.CreateMap<TownPreciseCoverage4GStat, TownPreciseView>();
-            Mapper.CreateMap<TownPreciseView, TownPreciseCoverage4GStat>();
             Mapper.CreateMap<Cell, CellPreciseKpiView>()
                 .ForMember(d => d.Indoor, opt => opt.MapFrom(s => s.IsOutdoor ? "室外" : "室内"))
                 .ForMember(d => d.DownTilt, opt => opt.MapFrom(s => s.ETilt + s.MTilt))

@@ -2,9 +2,12 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.Policy;
 using Lte.MySqlFramework.Entities;
 using NUnit.Framework;
 
@@ -14,11 +17,15 @@ namespace Lte.Evaluations.DataService.Dump
     public class FlowServiceTest
     {
         private FlowService _service;
+        private AbpAutoMapperModule _module;
+        private TypeFinder _typeFinder;
 
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            KpiMapperService.MapFlow();
+            _typeFinder = new TypeFinder(new MyAssemblyFinder());
+            _module = new AbpAutoMapperModule(_typeFinder);
+            _module.PostInitialize();
         }
 
         [SetUp]

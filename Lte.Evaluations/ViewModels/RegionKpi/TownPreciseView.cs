@@ -1,10 +1,12 @@
 ﻿using System;
+using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.ViewModels.RegionKpi
 {
+    [AutoMap(typeof(TownPreciseCoverage4GStat))]
     public class TownPreciseView
     {
         public DateTime StatTime { get; set; }

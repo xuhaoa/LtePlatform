@@ -1,10 +1,13 @@
 ﻿using System;
+using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.ViewModels.Precise
 {
+    [AutoMapFrom(typeof(PreciseCoverage4G))]
     public class Precise4GView
     {
         public int CellId { get; set; }
@@ -41,5 +44,39 @@ namespace Lte.Evaluations.ViewModels.Precise
         public DateTime Begin { get; set; }
 
         public DateTime End { get; set; }
+    }
+
+    [AutoMapFrom(typeof(Cell), typeof(Precise4GView))]
+    public class Precise4GSector : Precise4GView
+    {
+        public double Height { get; set; }
+
+        public double Azimuth { get; set; }
+
+        public double DownTilt { get; set; }
+
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        public short Pci { get; set; }
+
+        public double RsPower { get; set; }
+
+        public static Precise4GSector ConstructSector(Precise4GView view, ICellRepository repository)
+        {
+            var sector = Mapper.Map<Precise4GView, Precise4GSector>(view);
+            var cell = repository.GetBySectorId(view.CellId, view.SectorId);
+            if (cell == null)
+            {
+                sector.Height = -1;
+            }
+            else
+            {
+                Mapper.Map(cell, sector);
+                sector.DownTilt = cell.MTilt + cell.ETilt;
+            }
+            return sector;
+        }
     }
 }

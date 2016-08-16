@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using Abp.EntityFramework.AutoMapper;
+using Lte.Domain.Common;
 
 namespace Lte.MySqlFramework.Entities
 {
+    [AutoMapFrom(typeof(FlowZteCsv))]
     public class FlowZte : Entity
     {
         public DateTime StatTime { get; set; }
@@ -31,8 +34,10 @@ namespace Lte.MySqlFramework.Entities
 
         public int PdcpDownlinkDuration { get; set; }
 
+        [AutoMapPropertyResolve("UplindPdcpFlowInMByte", typeof(FlowZteCsv), typeof(ByteTransform))]
         public double UplindPdcpFlow { get; set; }
 
+        [AutoMapPropertyResolve("DownlinkPdcpFlowInMByte", typeof(FlowZteCsv), typeof(ByteTransform))]
         public double DownlinkPdcpFlow { get; set; }
 
         public double Qci8UplinkIpThroughput { get; set; }

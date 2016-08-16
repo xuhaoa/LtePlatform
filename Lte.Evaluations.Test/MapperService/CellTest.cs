@@ -6,6 +6,7 @@ using Abp.EntityFramework.AutoMapper;
 using Abp.Net.Mail;
 using Abp.Reflection;
 using AutoMapper;
+using Castle.Windsor.Diagnostics.DebuggerViews;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.MapperSerive.Kpi;
@@ -14,11 +15,13 @@ using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Channel;
 using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Evaluations.ViewModels.Precise;
+using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Channel;
 using Lte.Parameters.Entities.Dt;
 using Lte.Parameters.Entities.ExcelCsv;
+using Lte.Parameters.Entities.Kpi;
 using NUnit.Framework;
 using Shouldly;
 
@@ -321,6 +324,130 @@ namespace Lte.Evaluations.MapperService
             Assert.AreEqual(cell.Frequency2, 78);
             Assert.AreEqual(cell.Frequency3, frequency == 37 || frequency == 78 || !frequency.IsCdmaFrequency() ? -1 : frequency);
             Assert.AreEqual(cell.AntennaGain, frequency == 37 || frequency == 78 || !frequency.IsCdmaFrequency() ? 12.8 : antennaGain);
+        }
+
+        [Test]
+        public void Test_FlowZteCsv()
+        {
+            var csv = new FlowZteCsv
+            {
+                AverageActiveUsers = 123.4,
+                AverageRrcUsers = 223.4,
+                MaxActiveUsers = 234,
+                StatTime = new DateTime(2016,3,4),
+                ENodebId = 123,
+                SectorId = 6
+            };
+            var item = csv.MapTo<FlowZte>();
+            item.AverageActiveUsers.ShouldBe(123.4);
+            item.AverageRrcUsers.ShouldBe(223.4);
+            item.MaxActiveUsers.ShouldBe(234);
+            item.StatTime.ShouldBe(new DateTime(2016,3,4));
+            item.ENodebId.ShouldBe(123);
+            item.SectorId.ShouldBe((byte)6);
+        }
+
+        [Test]
+        public void Test_FlowZteCsv_QciThroughput()
+        {
+            var csv = new FlowZteCsv
+            {
+                Qci8DownlinkIpThroughputHigh = "123000",
+                Qci8DownlinkIpThroughputLow = "2048",
+                Qci8UplinkIpThroughputHigh = "230",
+                Qci8UplinkIpThroughputLow = "3072",
+                Qci9DownlinkIpThroughputHigh = "2340",
+                Qci9DownlinkIpThroughputLow = "1024",
+                Qci9UplinkIpThroughputHigh = "45600",
+                Qci9UplinkIpThroughputLow = "4096"
+            };
+            var item = csv.MapTo<FlowZte>();
+            item.Qci8DownlinkIpThroughput.ShouldBe(123002);
+            item.Qci8UplinkIpThroughput.ShouldBe(233);
+            item.Qci9DownlinkIpThroughput.ShouldBe(2341);
+            item.Qci9UplinkIpThroughput.ShouldBe(45604);
+        }
+
+        [Test]
+        public void Test_FlowZteCsv_Duration()
+        {
+            var csv = new FlowZteCsv
+            {
+                Qci8DownlinkIpThroughputDuration = "234000",
+                Qci8UplinkIpThroughputDuration = "156000",
+                Qci9DownlinkIpThroughputDuration = "148000",
+                Qci9UplinkIpThroughputDuration = "27000",
+                SchedulingTm3 = 17,
+                SchedulingTm3Rank2 = 19,
+                PdcpDownlinkDuration = 25,
+                PdcpUplinkDuration = 112
+            };
+            var item = csv.MapTo<FlowZte>();
+            item.Qci8DownlinkIpDuration.ShouldBe(234);
+            item.Qci8UplinkIpDuration.ShouldBe(156);
+            item.Qci9DownlinkIpDuration.ShouldBe(148);
+            item.Qci9UplinkIpDuration.ShouldBe(27);
+            item.SchedulingTm3.ShouldBe(17);
+            item.SchedulingTm3Rank2.ShouldBe(19);
+            item.PdcpDownlinkDuration.ShouldBe(25);
+            item.PdcpUplinkDuration.ShouldBe(112);
+        }
+
+        [Test]
+        public void Test_FlowZteCsv_Flow()
+        {
+            var csv = new FlowZteCsv
+            {
+                MaxRrcUsers = 0,
+                DownlinkAverageActiveUsers = 1,
+                UplinkAverageActiveUsers = 2,
+                DownlinkPdcpFlowInMByte = 3,
+                UplindPdcpFlowInMByte = 4
+            };
+            var item = csv.MapTo<FlowZte>();
+            item.MaxRrcUsers.ShouldBe(0);
+            item.DownlinkAverageActiveUsers.ShouldBe(1);
+            item.UplinkAverageActiveUsers.ShouldBe(2);
+            item.DownlinkPdcpFlow.ShouldBe(24);
+            item.UplindPdcpFlow.ShouldBe(32);
+        }
+
+        [Test]
+        public void Test_TownPreciseView()
+        {
+            var stat = new TownPreciseCoverage4GStat
+            {
+                StatTime = new DateTime(2015, 7, 10),
+                FirstNeighbors = 0,
+                SecondNeighbors = 11,
+                ThirdNeighbors = 12,
+                TotalMrs = 17,
+                TownId = 3
+            };
+            var view = stat.MapTo<TownPreciseView>();
+            view.StatTime.ShouldBe(new DateTime(2015,7,10));
+            view.FirstNeighbors.ShouldBe(0);
+            view.SecondNeighbors.ShouldBe(11);
+            view.ThirdNeighbors.ShouldBe(12);
+            view.TotalMrs.ShouldBe(17);
+            view.TownId.ShouldBe(3);
+
+            view = new TownPreciseView
+            {
+                StatTime = new DateTime(2015, 6, 11),
+                FirstNeighbors = 1,
+                SecondNeighbors = 12,
+                ThirdNeighbors = 22,
+                TotalMrs = 37,
+                TownId = 4
+            };
+            stat = view.MapTo<TownPreciseCoverage4GStat>();
+            stat.StatTime.ShouldBe(new DateTime(2015, 6, 11));
+            stat.FirstNeighbors.ShouldBe(1);
+            stat.SecondNeighbors.ShouldBe(12);
+            stat.ThirdNeighbors.ShouldBe(22);
+            stat.TotalMrs.ShouldBe(37);
+            stat.TownId.ShouldBe(4);
         }
     }
 
