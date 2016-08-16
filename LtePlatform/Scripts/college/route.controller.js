@@ -490,6 +490,10 @@ angular.module('college.main', ['app.common'])
             });
         };
 
+        $scope.showResults=function() {
+            console.log($scope.dataFile.selected);
+        }
+
         collegeMapService.queryCenterAndCallback($stateParams.name, function(center) {
             $scope.center = {
                 centerX: center.X,
