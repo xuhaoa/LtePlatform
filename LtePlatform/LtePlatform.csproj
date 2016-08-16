@@ -1595,7 +1595,6 @@
     <Content Include="Scripts\parameters\menu.js" />
     <Content Include="Scripts\r.js" />
     <Content Include="Scripts\require.js" />
-    <Content Include="Scripts\service\kpi\dump.progress.js" />
     <Content Include="Scripts\app\evaluation\home.js" />
     <Content Include="Scripts\app\evaluation\route.controller.js" />
     <Content Include="Scripts\college\query\all.js" />

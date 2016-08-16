@@ -194,7 +194,6 @@
 /// <reference path="service/filters/handoff.js" />
 /// <reference path="service/kpi/basic.service.js" />
 /// <reference path="service/kpi/display.js" />
-/// <reference path="service/kpi/dump.progress.js" />
 /// <reference path="service/kpi/import.service.js" />
 /// <reference path="service/kpi/precise.js" />
 /// <reference path="service/kpi/workitem.service.js" />

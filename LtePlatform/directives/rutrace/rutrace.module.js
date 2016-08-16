@@ -169,7 +169,7 @@ angular.module('rutrace.stat', [])
         };
     });
 
-angular.module('rutrace.neighbor', ['neighbor.mongo', 'myApp.parameters', 'myApp.dumpInterference'])
+angular.module('rutrace.neighbor', ['neighbor.mongo', 'myApp.parameters', 'kpi.import'])
     .directive('dumpForwardNeighbors', function(htmlRoot, neighborDialogService) {
         return {
             restrict: 'ECMA',
