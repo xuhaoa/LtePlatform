@@ -449,12 +449,16 @@ angular.module('college.main', ['app.common'])
 
         collegeMapService.showDtInfos($scope.dtInfos, $scope.beginDate.value, $scope.endDate.value);
     })
-    .controller('coverage.name', function($scope, $stateParams) {
+    .controller('coverage.name', function ($scope, $stateParams, collegeMapService, collegeDtService) {
         $scope.page.title = $stateParams.name + '覆盖情况评估';
         $scope.includeAllFiles = false;
         $scope.network = {
             options: ['2G', '3G', '4G'],
             selected: '2G'
+        };
+        $scope.dataFile = {
+            options: [],
+            selected: ''
         };
 
         $scope.query = function() {
@@ -478,7 +482,19 @@ angular.module('college.main', ['app.common'])
                 };
                 break;
             }
+            collegeDtService.queryRaster($scope.center, $scope.network.selected, $scope.beginDate.value, $scope.endDate.value, function(files) {
+                $scope.dataFile.options = files;
+                if (files.length) {
+                    $scope.dataFile.selected = files[0];
+                }
+            });
         };
 
-        $scope.query();
+        collegeMapService.queryCenterAndCallback($stateParams.name, function(center) {
+            $scope.center = {
+                centerX: center.X,
+                centerY: center.Y
+            };
+            $scope.query();
+        });
     });

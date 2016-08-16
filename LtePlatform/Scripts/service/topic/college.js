@@ -98,15 +98,18 @@
             }
         };
     })
-    .factory('collegeDtService', function(collegeService) {
+    .factory('collegeDtService', function (collegeService) {
+        var queryRange = function(info) {
+            return {
+                west: info.centerX - 0.03,
+                east: info.centerX + 0.03,
+                south: info.centerY - 0.03,
+                north: info.centerY + 0.03
+            }
+        };
         return {
             updateFileInfo: function(info, begin, end) {
-                var range = {
-                    west: info.centerX - 0.03,
-                    east: info.centerX + 0.03,
-                    south: info.centerY - 0.03,
-                    north: info.centerY + 0.03
-                };
+                var range = queryRange(info);
                 collegeService.queryRaster('2G', range, begin, end).then(function(files) {
                     info.file2Gs = files;
                 });
@@ -115,6 +118,12 @@
                 });
                 collegeService.queryRaster('4G', range, begin, end).then(function(files) {
                     info.file4Gs = files;
+                });
+            },
+            queryRaster: function(center, type, begin, end, callback) {
+                var range = queryRange(center);
+                collegeService.queryRaster(type, range, begin, end).then(function(files) {
+                    callback(files);
                 });
             }
         };
@@ -367,6 +376,25 @@
                             infos.push(info);
                             collegeDtService.updateFileInfo(info, begin, end);
                         });
+                    });
+                });
+            },
+            queryCenterAndCallback: function(collegeName, callback) {
+                collegeQueryService.queryByName(collegeName).then(function(college) {
+                    collegeService.queryRegion(college.id).then(function(region) {
+                        var center;
+                        switch (region.regionType) {
+                        case 2:
+                            center = baiduMapService.getPolygonCenter(region.info.split(';'));
+                            break;
+                        case 1:
+                            center = baiduMapService.getRectangleCenter(region.info.split(';'));
+                            break;
+                        default:
+                            center = baiduMapService.getCircleCenter(region.info.split(';'));
+                            break;
+                        }
+                        callback(center);
                     });
                 });
             }

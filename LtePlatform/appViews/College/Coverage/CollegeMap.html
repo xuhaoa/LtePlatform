@@ -17,12 +17,12 @@
     <div class="cloudmap-tools">
         <span class="cloudmap-city-name">测试数据文件</span>
         <select class="cloudmap-select-city" ng-disabled="includeAllFiles" 
-                ng-model="dataFile.selected" ng-options="c as c for c in dataFile.options"></select>
+                ng-model="dataFile.selected" ng-options="f as c.csvFileName for c in dataFile.options"></select>
         <input type="checkbox" ng-model="includeAllFiles" />
         <span class="cloudmap-city-name">展示全部数据</span>
         <span class="cloudmap-city-name">&nbsp;指标选择：</span>
         <select class="cloudmap-select-city" ng-model="kpi.selected" ng-options="c as c for c in kpi.options"></select>
-        <button class="btn btn-sm btn-warning" ng-disabled="!dataFileList.length" ng-click="showResults()">统计数据</button>
+        <button class="btn btn-sm btn-warning" ng-disabled="!dataFile.options.length" ng-click="showResults()">统计数据</button>
         <span class="cloudmap-city-name">&nbsp;覆盖率：</span>
         <span class="cloudmap-city-name">{{coverageRate | number: 2}}</span>
         <span class="cloudmap-city-name">%</span>
