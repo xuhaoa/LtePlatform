@@ -1,10 +1,16 @@
-﻿<div class="cloudmap-wrapper">
+﻿<h3 class="text-primary">{{page.title}}</h3>
+<div date-span-row begin-date="beginDate" end-date="endDate">
+    <button type="button" class="btn btn-primary" ng-click="query()">
+        <i class="glyphicon glyphicon-search"></i>查询文件
+    </button>
+</div>
+<div class="cloudmap-wrapper">
     <div class="cloudmap-tools">
         <span class="cloudmap-city-name">测试数据文件</span>
         <select class="cloudmap-select-city" ng-disabled="includeAllFiles" ng-model="dataFile" ng-options="c as c for c in dataFileList"></select>
         <input type="checkbox" ng-model="includeAllFiles"/>
         <span class="cloudmap-city-name">展示全部数据</span>
-        <button class="btn btn-sm btn-warning" ng-disabled="!dataFileList.length" ng-click="showResults()">查询</button>
+        <button class="btn btn-sm btn-warning" ng-disabled="!dataFileList.length" ng-click="showResults()">统计数据</button>
         <span class="cloudmap-city-name">&nbsp;覆盖率：</span>
         <span class="cloudmap-city-name">{{coverageRate | number: 2}}</span>
         <span class="cloudmap-city-name">%</span>

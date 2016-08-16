@@ -84,6 +84,22 @@ angular.module('college.main', ['app.common'])
                     }
                 },
                 url: "/coverage"
+            }).state('collegeCoverage', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/GeneralMenu.html",
+                        controller: "menu.root"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "/Coverage/CollegeMap.html",
+                        controller: "coverage.name"
+                    },
+                    'collegeList': {
+                        templateUrl: viewDir + "CollegeMenu.html",
+                        controller: "college.menu"
+                    }
+                },
+                url: "/coverage/:name"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -421,6 +437,7 @@ angular.module('college.main', ['app.common'])
     })
 
     .controller("all.coverage", function ($scope, collegeMapService, collegeDtService) {
+        $scope.collegeInfo.url = $scope.rootPath + "coverage";
         $scope.page.title = "校园覆盖";
         $scope.dtInfos = [];
 
@@ -431,4 +448,8 @@ angular.module('college.main', ['app.common'])
         };
 
         collegeMapService.showDtInfos($scope.dtInfos, $scope.beginDate.value, $scope.endDate.value);
+    })
+    .controller('coverage.name', function($scope, $stateParams) {
+        $scope.page.title = $stateParams.name + '覆盖情况评估';
+        $scope.includeAllFiles = false;
     });
