@@ -8,9 +8,9 @@ angular.module('college.dt', ['ui.grid'])
                 { field: 'area', name: '区域面积（平方米）', cellFilter: 'number: 2' },
                 { field: 'centerX', name: '中心经度', cellFilter: 'number: 4' },
                 { field: 'centerY', name: '中心纬度', cellFilter: 'number: 4' },
-                { field: 'file2Gs', name: '2G文件数' },
-                { field: 'file3Gs', name: '3G文件数' },
-                { field: 'file4Gs', name: '4G文件数' }
+                { field: 'file2Gs.length', name: '2G文件数' },
+                { field: 'file3Gs.length', name: '3G文件数' },
+                { field: 'file4Gs.length', name: '4G文件数' }
             ],
             data: $scope.colleges
         };
