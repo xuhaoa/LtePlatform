@@ -495,6 +495,13 @@ namespace Lte.Domain.Common.Wireless
         }
     }
 
+    public class AlarmZteTypeTransform : EnumTransform<AlarmType>
+    {
+        public AlarmZteTypeTransform() : base(AlarmType.Others)
+        {
+        }
+    }
+
     [EnumTypeDescription(typeof(AlarmLevel), Secondary)]
     public enum AlarmLevel : byte
     {

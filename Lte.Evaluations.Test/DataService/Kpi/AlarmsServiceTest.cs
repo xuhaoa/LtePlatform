@@ -32,7 +32,6 @@ namespace Lte.Evaluations.DataService.Kpi
             var module = new AbpAutoMapperModule(_typeFinder);
             module.PostInitialize();
             _repository.MockOperations();
-            KpiMapperService.MapAlarmStat();
             _service = new AlarmsService(_repository.Object);
         }
 

@@ -2,10 +2,12 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
 using Lte.Domain.Regular;
-using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.Policy;
 using Lte.Parameters.Entities;
 using NUnit.Framework;
 
@@ -15,11 +17,13 @@ namespace Lte.Evaluations.DataService.Kpi
     public class AlarmUploadTest
     {
         private AlarmsService _service;
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
 
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            KpiMapperService.MapAlarmStat();
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
         }
 
         [SetUp]

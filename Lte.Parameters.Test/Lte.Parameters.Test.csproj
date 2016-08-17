@@ -140,11 +140,9 @@
     <Compile Include="Channel\CellPcRepositoryTest.cs" />
     <Compile Include="Channel\ChannelRepositoryTests.cs" />
     <Compile Include="Converter\WorkItemConverterTest.cs" />
-    <Compile Include="Entities\AlarmStatCsvTest.cs" />
     <Compile Include="Entities\IndoorDistributionTest.cs" />
     <Compile Include="Entities\InterferenceMatrixCsvTest.cs" />
     <Compile Include="Entities\PreciseCoverage4GTest.cs" />
-    <Compile Include="Entities\ReadAlarmStatCsvTest.cs" />
     <Compile Include="Entities\ReadNeighborCellCsvTest.cs" />
     <Compile Include="Excel\BtsExcelTest.cs" />
     <Compile Include="Excel\CdmaCellExcelTest.cs" />

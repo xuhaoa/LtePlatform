@@ -12,6 +12,7 @@ using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Dt;
+using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.Entities.Kpi;
 using Lte.Parameters.Entities.Mr;
 using Lte.Parameters.Entities.Work;
@@ -50,29 +51,7 @@ namespace Lte.Evaluations.MapperSerive
                 .ForMember(d => d.OverInterferences6Db, opt => opt.MapFrom(s => s.Over6db ?? 0))
                 .ForMember(d => d.Id, opt => opt.Ignore());
         }
-
-        public static void MapAlarmStat()
-        {
-            Mapper.CreateMap<AlarmStatCsv, AlarmStat>()
-                .ForMember(d => d.AlarmLevel, opt => opt.MapFrom(s => s.AlarmLevelDescription.GetEnumType<AlarmLevel>()))
-                .ForMember(d => d.AlarmCategory, opt => opt.MapFrom(s => s.AlarmCategoryDescription.GetEnumType<AlarmCategory>()))
-                .ForMember(d => d.AlarmType, opt => opt.MapFrom(s => s.AlarmCodeDescription.GetEnumType<AlarmType>()))
-                .ForMember(d => d.SectorId, opt => opt.MapFrom(s => s.ObjectId > 255 ? (byte)255 : (byte)s.ObjectId))
-                .ForMember(d => d.RecoverTime,
-                    opt =>
-                        opt.MapFrom(
-                            s => s.RecoverTime < new DateTime(2000, 1, 1) ? new DateTime(2200, 1, 1) : s.RecoverTime))
-                .ForMember(d => d.AlarmId, opt => opt.MapFrom(s => s.AlarmId.ConvertToInt(0)));
-
-            Mapper.CreateMap<AlarmStatHuawei, AlarmStat>()
-                .ForMember(d => d.AlarmLevel, opt => opt.MapFrom(s => s.AlarmLevelDescription.GetEnumType<AlarmLevel>()))
-                .ForMember(d => d.AlarmCategory, opt => opt.MapFrom(s => AlarmCategory.Huawei))
-                .ForMember(d => d.AlarmType, opt => opt.MapFrom(s => s.AlarmCodeDescription.GetEnumType(WirelessPublic.AlarmTypeHuaweiList)))
-                .ForMember(d => d.ENodebId, opt => opt.MapFrom(s => s.ENodebIdString.ConvertToInt(0)))
-                .ForMember(d => d.RecoverTime,
-                    opt => opt.MapFrom(s => s.RecoverTime.ConvertToDateTime(new DateTime(2200, 1, 1))));
-        }
-
+        
         public static void MapTopKpi()
         {
             Mapper.CreateMap<TopCellContainer<TopDrop2GCell>, TopDrop2GCellViewContainer>()

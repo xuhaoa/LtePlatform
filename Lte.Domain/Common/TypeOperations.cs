@@ -144,6 +144,22 @@ namespace Lte.Domain.Common
         }
     }
 
+    public class SectorIdTransform : ValueResolver<int, byte>
+    {
+        protected override byte ResolveCore(int source)
+        {
+            return source > 255 ? (byte) 255 : (byte) source;
+        }
+    }
+
+    public class DateTimeTransform : ValueResolver<DateTime, DateTime>
+    {
+        protected override DateTime ResolveCore(DateTime source)
+        {
+            return source < new DateTime(2000, 1, 1) ? new DateTime(2200, 1, 1) : source;
+        }
+    }
+
     public class IndoorDescriptionToOutdoorBoolTransform : ValueResolver<string, bool>
     {
         protected override bool ResolveCore(string source)
@@ -341,6 +357,14 @@ namespace Lte.Domain.Common
         protected override double ResolveCore(string source)
         {
             return source.ConvertToDouble(0);
+        }
+    }
+
+    public class StringToDateTimeTransform : ValueResolver<string, DateTime>
+    {
+        protected override DateTime ResolveCore(string source)
+        {
+            return source.ConvertToDateTime(new DateTime(2200, 1, 1));
         }
     }
 }
