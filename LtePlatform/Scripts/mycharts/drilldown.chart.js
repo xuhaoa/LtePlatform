@@ -55,3 +55,29 @@ DrilldownChart.prototype.addOneSeries = function (name, value, subData) {
         data: subData
     });
 };
+
+var DrilldownColumn = function () {
+
+};
+
+DrilldownColumn.prototype = new DrilldownChart();
+
+DrilldownColumn.prototype.options.chart = {
+    type: 'column'
+};
+
+DrilldownColumn.prototype.options.plotOptions.series.dataLabels.format = '{point.y:.2f}';
+
+DrilldownColumn.prototype.options.xAxis = {
+    type: 'category'
+};
+
+var DrilldownPie = function() {
+
+};
+
+DrilldownPie.prototype = new DrilldownChart();
+
+DrilldownPie.prototype.options.chart = {
+    type: 'pie'
+};

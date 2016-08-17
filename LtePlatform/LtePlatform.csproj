@@ -1692,8 +1692,6 @@
     <Content Include="Scripts\app\lz-string.min.js" />
     <Content Include="Scripts\baidu\cloud\page.js" />
     <Content Include="Scripts\baidu\cloud\timecontrol.js" />
-    <Content Include="Scripts\baidu\college.helper.js" />
-    <Content Include="Scripts\baidu\dtgenerator.js" />
     <Content Include="Scripts\baidu\plugins\baidu.tangram.js" />
     <Content Include="Scripts\baidu\plugins\InfoBox.js" />
     <Content Include="Scripts\baidu\cloud\gridmap.js" />
@@ -1836,8 +1834,6 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\mycharts\comboChart.js" />
     <Content Include="Scripts\mycharts\drilldown.chart.js" />
-    <Content Include="Scripts\mycharts\drilldownColumn.js" />
-    <Content Include="Scripts\mycharts\drilldownPie.js" />
     <Content Include="Scripts\numeric\documentation.html" />
     <Content Include="Scripts\numeric\numeric.js" />
     <Content Include="Scripts\numeric\quadprog.js" />

@@ -1,4 +1,15 @@
-﻿describe('app kpi service test', function() {
+﻿/// <reference path="../../angular.js"/>
+/// <reference path="../../angular-mocks.js"/>
+/// <reference path="../../jasmine/boot.js"/>
+/// <reference path="../../jasmine/console.js"/>
+/// <reference path="../../jasmine/jasmine.js"/>
+/// <reference path="../../jasmine/jasmine-html.js"/>
+/// <reference path="../../mycharts/drilldown.chart.js"/>
+/// <reference path="../../service/app.url.service.js"/>
+/// <reference path="../../service/app.kpi.service.js"/>
+/// <reference path="../../service/app.region.service.js"/>
+
+describe('app kpi service test', function () {
     var appKpiService;
     beforeEach(module('myApp.kpi'));
 
