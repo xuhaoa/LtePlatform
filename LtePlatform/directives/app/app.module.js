@@ -217,5 +217,17 @@ angular.module('app.directives.glyphicon', [])
 
             }
         }
+    })
+    .directive('coverageLegend', function(appRoot) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                legendTitle: '=',
+                criteria: '=',
+                sign: '='
+            },
+            templateUrl: appRoot + 'CoverageLegend.Tpl.html'
+        };
     });
     
