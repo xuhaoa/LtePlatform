@@ -450,7 +450,7 @@ angular.module('college.main', ['app.common'])
         collegeMapService.showDtInfos($scope.dtInfos, $scope.beginDate.value, $scope.endDate.value);
     })
     .controller('coverage.name', function ($scope, $stateParams, baiduMapService, collegeQueryService, geometryService,
-        collegeMapService, collegeDtService, coverageService) {
+        collegeMapService, collegeDtService, coverageService, kpiDisplayService) {
         $scope.page.title = $stateParams.name + '覆盖情况评估';
         $scope.includeAllFiles = false;
         $scope.network = {
@@ -463,27 +463,8 @@ angular.module('college.main', ['app.common'])
         };
         $scope.data = [];
 
-        $scope.query = function() {
-            switch ($scope.network.selected) {
-            case '2G':
-                $scope.kpi = {
-                    options: ['Ec/Io', 'RxAGC', 'TxPower'],
-                    selected: 'Ec/Io'
-                };
-                break;
-            case '3G':
-                $scope.kpi = {
-                    options: ['SINR', 'RxAGC0', 'RxAGC1'],
-                    selected: 'SINR'
-                };
-                break;
-            default:
-                $scope.kpi = {
-                    options: ['RSRP', 'SINR'],
-                    selected: 'RSRP'
-                };
-                break;
-            }
+        $scope.query = function () {
+            $scope.kpi = kpiDisplayService.queryKpiOptions($scope.network.selected);
             if ($scope.center) {
                 collegeDtService.queryRaster($scope.center, $scope.network.selected, $scope.beginDate.value, $scope.endDate.value, function(files) {
                     $scope.dataFile.options = files;
@@ -496,6 +477,10 @@ angular.module('college.main', ['app.common'])
 
         $scope.$watch('network.selected', function() {
             $scope.query();
+        });
+
+        $scope.$watch('kpi.selected', function (kpi) {
+            $scope.legend = kpiDisplayService.queryCoverageLegend(kpi);
         });
 
         var queryRasterInfo = function(index) {

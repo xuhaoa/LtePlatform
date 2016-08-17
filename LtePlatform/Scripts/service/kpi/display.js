@@ -32,7 +32,7 @@
         '2900-3000m',
         '3000-3100m'
     ])
-    .factory('kpiDisplayService', function(appFormatService, taDivision) {
+    .factory('kpiDisplayService', function (appFormatService, taDivision, coverageService) {
         return {
             generatePreciseBarOptions: function(districtStats, cityStat) {
                 var chart = new BarChart();
@@ -339,6 +339,69 @@
                     pre: 100 - preSum / 7,
                     post: 100 - postSum / 7
                 };
+            },
+            queryKpiOptions: function(network) {
+                switch (network) {
+                    case '2G':
+                        return  {
+                            options: ['Ec/Io', 'RxAGC', 'TxPower'],
+                            selected: 'Ec/Io'
+                        };
+                    case '3G':
+                        return {
+                            options: ['SINR(3G)', 'RxAGC0', 'RxAGC1'],
+                            selected: 'SINR(3G)'
+                        };
+                    default:
+                        return  {
+                            options: ['RSRP', 'SINR'],
+                            selected: 'RSRP'
+                        };
+                }
+            },
+            queryCoverageLegend: function(kpi) {
+                switch (kpi) {
+                    case 'Ec/Io':
+                        return {
+                            criteria: coverageService.defaultEcioCriteria,
+                            sign: true
+                        };
+                    case 'RxAGC':
+                        return {
+                            criteria: coverageService.defaultRxCriteria,
+                            sign: true
+                        };
+                    case 'TxPower':
+                        return {
+                            criteria: coverageService.defaultTxCriteria,
+                            sign: false
+                        };
+                    case 'SINR(3G)':
+                        return {
+                            criteria: coverageService.defaultSinr3GCriteria,
+                            sign: true
+                        };
+                    case 'RxAGC0':
+                        return {
+                            criteria: coverageService.defaultRxCriteria,
+                            sign: true
+                        };
+                    case 'RxAGC1':
+                        return {
+                            criteria: coverageService.defaultRxCriteria,
+                            sign: true
+                        };
+                    case 'RSRP':
+                        return {
+                            criteria: coverageService.defaultRsrpCriteria,
+                            sign: true
+                        };
+                    default:
+                        return {
+                            criteria: coverageService.defaultSinrCriteria,
+                            sign: true
+                        };
+                }
             }
         };
     });

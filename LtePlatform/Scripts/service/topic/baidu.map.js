@@ -1,4 +1,4 @@
-﻿angular.module('baidu.map', ['myApp.url', 'myApp.parameters', 'map.infrastructure'])
+﻿angular.module('baidu.map', ['myApp.url', 'myApp.parameters', "ui.bootstrap", 'handoff.parameters'])
     .factory('geometryService', function($http, $q, appUrlService) {
         var getDistanceFunc = function(p1Lat, p1Lng, p2Lat, p2Lng) {
             var earthRadiusKm = 6378.137;
@@ -554,9 +554,8 @@
                 map.addOverlay(pointCollection);  // 添加Overlay
             }
         };
-    });
+    })
 
-angular.module('map.infrastructure', ["ui.bootstrap", 'handoff.parameters'])
     .controller('map.eNodeb.dialog', function($scope, $uibModalInstance, eNodeb, dialogTitle) {
         $scope.eNodeb = eNodeb;
         $scope.dialogTitle = dialogTitle;

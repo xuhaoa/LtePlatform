@@ -2,11 +2,11 @@
     <ul id="colorBar">
         <li class="map-w-1">{{legendTitle}}</li>
         <li ng-repeat="criterion in criteria" class="map-w-i"
-            ng-style="{background-color: criterion.color; border: 1px solid criterion.color;}">
+            ng-style="{'background-color': criterion.color, 'border': criterion.color}" style="border: 1px solid">
             {{sign !== false ? "&lt;" : "&gt;"}}{{criterion.threshold}}
         </li>
         <li class="map-w-i" style="background-color: #077f07; border: 1px solid #077f07">
-            {{sign !== false ? "&gt;=" : "&lt;="}}{{criteria[i-1].threshold}}
+            {{sign !== false ? "&gt;=" : "&lt;="}}{{criteria[criteria.length-1].threshold}}
         </li>
     </ul>
 </div>
