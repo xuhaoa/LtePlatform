@@ -53,20 +53,6 @@ namespace Lte.Evaluations.MapperSerive
 
         public static void MapAlarmStat()
         {
-            Mapper.CreateMap<AlarmStat, AlarmView>()
-                .ForMember(d => d.Position,
-                    opt =>
-                        opt.MapFrom(
-                            s =>
-                                s.SectorId == 255 || s.AlarmCategory == AlarmCategory.Huawei
-                                    ? "基站级"
-                                    : "Cell-" + s.SectorId))
-                .ForMember(d => d.Duration, opt => opt.MapFrom(s => (s.RecoverTime - s.HappenTime).TotalMinutes))
-                .ForMember(d => d.AlarmLevelDescription,
-                    opt => opt.MapFrom(s => s.AlarmLevel.GetEnumDescription()))
-                .ForMember(d => d.AlarmCategoryDescription,
-                    opt => opt.MapFrom(s => s.AlarmCategory.GetEnumDescription()))
-                .ForMember(d => d.AlarmTypeDescription, opt => opt.MapFrom(s => s.AlarmType.GetEnumDescription(WirelessPublic.AlarmTypeHuaweiList)));
             Mapper.CreateMap<AlarmStatCsv, AlarmStat>()
                 .ForMember(d => d.AlarmLevel, opt => opt.MapFrom(s => s.AlarmLevelDescription.GetEnumType<AlarmLevel>()))
                 .ForMember(d => d.AlarmCategory, opt => opt.MapFrom(s => s.AlarmCategoryDescription.GetEnumType<AlarmCategory>()))

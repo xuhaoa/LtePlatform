@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.DataService.Queries;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Entities;
@@ -21,10 +24,13 @@ namespace Lte.Evaluations.DataService.Kpi
     {
         private readonly Mock<IAlarmRepository> _repository = new Mock<IAlarmRepository>();
         private AlarmsService _service;
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
 
         [TestFixtureSetUp]
         public void FixtureSetup()
         {
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
             _repository.MockOperations();
             KpiMapperService.MapAlarmStat();
             _service = new AlarmsService(_repository.Object);

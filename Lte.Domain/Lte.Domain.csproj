@@ -59,7 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Wireless\AlarmTypeDefs.cs" />
     <Compile Include="Common\BigEndianBinaryReader.cs" />
     <Compile Include="Common\BitArrayInputStream.cs" />
     <Compile Include="Common\BitMaskStream.cs" />

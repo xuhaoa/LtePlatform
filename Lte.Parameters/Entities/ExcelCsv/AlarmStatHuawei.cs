@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToCsv;
 
 namespace Lte.Parameters.Entities
@@ -11,6 +12,8 @@ namespace Lte.Parameters.Entities
     {
         [CsvColumn(Name = "级别")]
         public string AlarmLevelDescription { get; set; }
+
+        public AlarmCategory AlarmCategory => AlarmCategory.Huawei;
 
         [CsvColumn(Name = "告警源")]
         public string NetworkItem { get; set; }
