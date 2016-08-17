@@ -24,14 +24,6 @@ namespace Lte.Evaluations.MapperSerive
     {
         public static void MapPreciseStat()
         {
-            Mapper.CreateMap<Cell, CellPreciseKpiView>()
-                .ForMember(d => d.Indoor, opt => opt.MapFrom(s => s.IsOutdoor ? "室外" : "室内"))
-                .ForMember(d => d.DownTilt, opt => opt.MapFrom(s => s.ETilt + s.MTilt))
-                .ForMember(d => d.PreciseRate, opt => opt.MapFrom(s => 100.0));
-            Mapper.CreateMap<PreciseCoverage4GCsv, PreciseCoverage4G>()
-                .ForMember(d => d.ThirdNeighbors, opt => opt.MapFrom(s => (int)(s.TotalMrs * s.ThirdNeighborRate) / 100))
-                .ForMember(d => d.SecondNeighbors, opt => opt.MapFrom(s => (int)(s.TotalMrs * s.SecondNeighborRate) / 100))
-                .ForMember(d => d.FirstNeighbors, opt => opt.MapFrom(s => (int)(s.TotalMrs * s.FirstNeighborRate) / 100));
             Mapper.CreateMap<PreciseCoverage4G, TownPreciseCoverage4GStat>();
             Mapper.CreateMap<InterferenceMatrixCsv, InterferenceMatrixPci>()
                 .ForMember(d => d.ENodebId, opt => opt.MapFrom(s => s.CellRelation.Split('_')[0].ConvertToInt(0)))

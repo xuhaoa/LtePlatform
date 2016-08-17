@@ -225,7 +225,6 @@
     <Compile Include="Entities\Neighbor\NearestPciCell.cs" />
     <Compile Include="Entities\OptimizeRegion.cs" />
     <Compile Include="Entities\Kpi\PreciseCoverage4G.cs" />
-    <Compile Include="Entities\Kpi\PreciseCoverage4GCsv.cs" />
     <Compile Include="Entities\Dt\RasterInfo.cs" />
     <Compile Include="Entities\Switch\CellMeasGroupZte.cs" />
     <Compile Include="Entities\Switch\EUtranCellMeasurementZte.cs" />
@@ -236,7 +235,6 @@
     <Compile Include="Entities\Switch\IntraRatHoComm.cs" />
     <Compile Include="Entities\Switch\UeEUtranMeasurementZte.cs" />
     <Compile Include="Entities\Town.cs" />
-    <Compile Include="Entities\Kpi\TownPreciseCoverage4GStat.cs" />
     <Compile Include="Entities\Work\WorkItem.cs" />
     <Compile Include="Entities\Work\WorkItemExcel.cs" />
     <Compile Include="Migrations\201608050841211_Move_College_Test_Entity.cs" />

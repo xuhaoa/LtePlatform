@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Linq;
+using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
+using Lte.Domain.Common;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Basic;
 
 namespace Lte.Evaluations.ViewModels.Precise
 {
+    [AutoMapFrom(typeof(Cell))]
     public class CellPreciseKpiView
     {
         public string ENodebName { get; private set; }
@@ -23,13 +26,18 @@ namespace Lte.Evaluations.ViewModels.Precise
 
         public double Azimuth { get; set; }
 
+        [AutoMapPropertyResolve("IsOutdoor", typeof(Cell), typeof(OutdoorDescriptionTransform))]
         public string Indoor { get; set; }
 
-        public double DownTilt { get; set; }
+        public double ETilt { get; set; }
+
+        public double MTilt { get; set; }
+
+        public double DownTilt => ETilt + MTilt;
 
         public double AntennaGain { get; set; }
 
-        public double PreciseRate { get; set; }
+        public double PreciseRate { get; set; } = 100.0;
 
         public static CellPreciseKpiView ConstructView(Cell cell, IENodebRepository repository)
         {
