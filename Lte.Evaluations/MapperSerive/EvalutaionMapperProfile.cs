@@ -15,7 +15,6 @@ namespace Lte.Evaluations.MapperSerive
             module.PostInitialize();
             
             KpiMapperService.MapTopKpi();
-            KpiMapperService.MapPreciseStat();
             KpiMapperService.MapWorkItem();
 
             BaiduMapperService.MapCdmaCellView();

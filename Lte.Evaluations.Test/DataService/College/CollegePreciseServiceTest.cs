@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
@@ -18,6 +21,7 @@ namespace Lte.Evaluations.DataService.College
     [TestFixture]
     public class CollegePreciseServiceTest
     {
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
         private readonly Mock<IInfrastructureRepository> _repository = new Mock<IInfrastructureRepository>();
         private readonly Mock<ICellRepository> _cellRepository = new Mock<ICellRepository>();
         private readonly Mock<IENodebRepository> _eNodebRepository = new Mock<IENodebRepository>();
@@ -28,7 +32,8 @@ namespace Lte.Evaluations.DataService.College
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            KpiMapperService.MapPreciseStat();
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
             _service = new CollegePreciseService(_repository.Object, _cellRepository.Object, _eNodebRepository.Object,
                 _kpiRepository.Object);
             _repository.MockOperations();

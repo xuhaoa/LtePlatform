@@ -142,7 +142,6 @@
     <Compile Include="Converter\WorkItemConverterTest.cs" />
     <Compile Include="Entities\IndoorDistributionTest.cs" />
     <Compile Include="Entities\InterferenceMatrixCsvTest.cs" />
-    <Compile Include="Entities\PreciseCoverage4GTest.cs" />
     <Compile Include="Entities\ReadNeighborCellCsvTest.cs" />
     <Compile Include="Excel\BtsExcelTest.cs" />
     <Compile Include="Excel\CdmaCellExcelTest.cs" />
@@ -158,7 +157,6 @@
     <Compile Include="Kpi\CdmaTopKpiExcelTest.cs" />
     <Compile Include="Mr\CellDistanceRepositoryTests.cs" />
     <Compile Include="Mr\CellStasticRepositoryTests.cs" />
-    <Compile Include="Mr\InterferenceMatrixStatTest.cs" />
     <Compile Include="Mr\InterferenceMongoRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Switch\CellMeasGroupZteRepositoryTests.cs" />

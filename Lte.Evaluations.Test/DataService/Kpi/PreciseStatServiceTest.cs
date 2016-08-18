@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Domain.Common.Wireless;
-using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
@@ -19,6 +21,7 @@ namespace Lte.Evaluations.DataService.Kpi
     [TestFixture]
     public class PreciseStatServiceTest
     {
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
         private readonly Mock<IPreciseCoverage4GRepository> _repository = new Mock<IPreciseCoverage4GRepository>();
         private readonly Mock<IENodebRepository> _eNodebRepository = new Mock<IENodebRepository>();
         private readonly Mock<ICellRepository> _cellRepository = new Mock<ICellRepository>();
@@ -28,7 +31,8 @@ namespace Lte.Evaluations.DataService.Kpi
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            KpiMapperService.MapPreciseStat();
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
             _service = new PreciseStatService(_repository.Object, _eNodebRepository.Object);
             _repository.MockOperations();
             _eNodebRepository.MockOperations();

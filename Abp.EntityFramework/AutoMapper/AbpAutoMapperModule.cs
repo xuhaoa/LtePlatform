@@ -113,7 +113,9 @@ namespace Abp.EntityFramework.AutoMapper
                                 var srcName = property.Name;
                                 var destName = resolveAttribute.PeerMemberName;
                                 var resolveActionType = resolveAttribute.ResolveActionType;
-                                coreMap = coreMap.MappingCore(resolveActionType, destName, srcName);
+                                coreMap = resolveActionType == typeof (IgnoreMapAttribute)
+                                    ? coreMap.ForMember(destName, map => map.Ignore())
+                                    : coreMap.MappingCore(resolveActionType, destName, srcName);
                             }
                         }
                     }

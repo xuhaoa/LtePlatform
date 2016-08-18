@@ -1,5 +1,7 @@
-﻿using Lte.Evaluations.MapperSerive;
+﻿using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
@@ -11,15 +13,17 @@ namespace Lte.Evaluations.ViewModel
     [TestFixture]
     public class CellPreciseKpiViewTest
     {
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
         private readonly Mock<IENodebRepository> _eNodebRepository = new Mock<IENodebRepository>();
 
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
             _eNodebRepository.MockOperations();
             _eNodebRepository.MockGetId<IENodebRepository, ENodeb>();
             _eNodebRepository.MockThreeENodebs();
-            KpiMapperService.MapPreciseStat();
         }
 
         [TestCase(1, 2, 3, 1.1, 2.2, 12.3, true, 11.2, 22.34, 17.2)]

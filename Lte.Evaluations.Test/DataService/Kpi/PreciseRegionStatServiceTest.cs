@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Evaluations.Test.TestService;
 using Lte.Evaluations.TestService;
 using Lte.Evaluations.ViewModels.RegionKpi;
@@ -19,6 +21,7 @@ namespace Lte.Evaluations.DataService.Kpi
     [TestFixture]
     public class PreciseRegionStatServiceTest
     {
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
         private readonly Mock<ITownRepository> _townRepository = new Mock<ITownRepository>(); 
         private readonly Mock<ITownPreciseCoverage4GStatRepository> _statRepository =
             new Mock<ITownPreciseCoverage4GStatRepository>();
@@ -28,10 +31,11 @@ namespace Lte.Evaluations.DataService.Kpi
         [TestFixtureSetUp]
         public void FixtureSetup()
         {
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
             _statRepository.MockOperation();
             _townRepository.MockGetId<ITownRepository, Town>();
             _townRepository.MockOpertion();
-            KpiMapperService.MapPreciseStat();
             AutoMapperHelper.CreateMap(typeof(DistrictPreciseView));
         }
 

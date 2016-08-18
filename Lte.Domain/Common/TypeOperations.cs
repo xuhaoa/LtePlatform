@@ -232,6 +232,14 @@ namespace Lte.Domain.Common
         }
     }
 
+    public class NullableZeroIntTransform : ValueResolver<int?, int>
+    {
+        protected override int ResolveCore(int? source)
+        {
+            return source ?? 0;
+        }
+    }
+
     public class NullableZeroTransform : ValueResolver<double?, double>
     {
         protected override double ResolveCore(double? source)

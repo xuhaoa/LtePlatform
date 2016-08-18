@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using Abp.EntityFramework.AutoMapper;
 using Abp.Net.Mail;
 using Abp.Reflection;
@@ -26,6 +27,8 @@ using Lte.Parameters.Entities.Channel;
 using Lte.Parameters.Entities.Dt;
 using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.Entities.Kpi;
+using Lte.Parameters.Entities.Mr;
+using Newtonsoft.Json.Bson;
 using NUnit.Framework;
 using Shouldly;
 
@@ -592,6 +595,116 @@ namespace Lte.Evaluations.MapperService
             Assert.AreEqual(statList.Count, count);
         }
 
+        [Test]
+        public void Test_PreciseCoverage4G()
+        {
+            var csv = new PreciseCoverage4GCsv
+            {
+                CellId = 12345,
+                SectorId = 23,
+                TotalMrs = 1000,
+                StatTime = new DateTime(2016, 7, 9),
+                FirstNeighborRate = 12.3,
+                SecondNeighborRate = 34.5,
+                ThirdNeighborRate = 56.7
+            };
+            var info = csv.MapTo<PreciseCoverage4G>();
+            info.CellId.ShouldBe(12345);
+            info.SectorId.ShouldBe((byte)23);
+            info.StatTime.ShouldBe(new DateTime(2016, 7, 9));
+            info.FirstRate.ShouldBe(12.3);
+            info.SecondRate.ShouldBe(34.5);
+            info.ThirdRate.ShouldBe(56.7);
+        }
+
+        [Test]
+        public void Test_InterferenceMatrixMongo()
+        {
+            var info = new InterferenceMatrixMongo
+            {
+                ENodebId = 12345,
+                Over10db = 0,
+                Over6db = 1,
+                InterfLevel = 2,
+                Mod3Count = 3,
+                Mod6Count = 4,
+                NeighborPci = 5
+            };
+            var stat = info.MapTo<InterferenceMatrixStat>();
+            stat.ENodebId.ShouldBe(12345);
+            stat.OverInterferences10Db.ShouldBe(0);
+            stat.OverInterferences6Db.ShouldBe(1);
+            stat.InterferenceLevel.ShouldBe(2);
+            stat.Mod3Interferences.ShouldBe(3);
+            stat.Mod6Interferences.ShouldBe(4);
+            stat.DestPci.ShouldBe((short)5);
+            info = new InterferenceMatrixMongo
+            {
+                ENodebId = 12345,
+                Over10db = null,
+                Over6db = null,
+                InterfLevel = 2,
+                Mod3Count = null,
+                Mod6Count = 4,
+                NeighborPci = 5
+            };
+            stat = info.MapTo<InterferenceMatrixStat>();
+            stat.ENodebId.ShouldBe(12345);
+            stat.OverInterferences10Db.ShouldBe(0);
+            stat.OverInterferences6Db.ShouldBe(0);
+            stat.InterferenceLevel.ShouldBe(2);
+            stat.Mod3Interferences.ShouldBe(0);
+            stat.Mod6Interferences.ShouldBe(4);
+            stat.DestPci.ShouldBe((short)5);
+        }
+
+        [TestCase("2015-2-2", 1, 2, 100, 0.33, 0.27, 0.19)]
+        [TestCase("2015-5-2", 11, 2, 1000, 0.43, 0.27, 0.19)]
+        [TestCase("2015-2-5", 1231, 2, 1001, 0.331, 0.227, 0.139)]
+        [TestCase("2015-4-21", 1855, 2, 1002, 0.33, 0.217, 0.119)]
+        public void Test_PreciseCoverage4G_Constructor(string statTime, int cellId, byte sectorId, int totalMrs, double firstRate,
+            double secondRate, double thirdRate)
+        {
+            var info = new PreciseCoverage4GCsv
+            {
+                StatTime = DateTime.Parse(statTime),
+                CellId = cellId,
+                SectorId = sectorId,
+                TotalMrs = totalMrs,
+                FirstNeighborRate = firstRate,
+                SecondNeighborRate = secondRate,
+                ThirdNeighborRate = thirdRate
+            };
+            var stat = PreciseCoverage4G.ConstructStat(info);
+            Assert.AreEqual(stat.StatTime, DateTime.Parse(statTime));
+            Assert.AreEqual(stat.CellId, cellId);
+            Assert.AreEqual(stat.SectorId, sectorId);
+            Assert.AreEqual(stat.TotalMrs, totalMrs);
+            Assert.AreEqual(stat.FirstNeighbors, (int)(totalMrs * firstRate) / 100);
+            Assert.AreEqual(stat.SecondNeighbors, (int)(totalMrs * secondRate) / 100);
+            Assert.AreEqual(stat.ThirdNeighbors, (int)(totalMrs * thirdRate) / 100);
+        }
+
+        [Test]
+        public void TestMap_InterferenceMatrix()
+        {
+            var mongoStat = new InterferenceMatrixMongo
+            {
+                InterfLevel = 26.34,
+                CurrentDate = new DateTime(2015, 12, 30, 14, 45, 0),
+                ENodebId = 500026,
+                Pci = 88,
+                NeighborPci = 301,
+                NeighborFreq = 1825,
+                Over10db = 2
+            };
+            var stat = Mapper.Map<InterferenceMatrixMongo, InterferenceMatrixStat>(mongoStat);
+            Assert.IsNotNull(stat);
+            Assert.AreEqual(stat.ENodebId, 500026);
+            Assert.AreEqual(stat.DestPci, 301);
+            Assert.AreEqual(stat.OverInterferences10Db, 2);
+            Assert.AreEqual(stat.InterferenceLevel, 26.34);
+        }
     }
 
     [TestFixture]
