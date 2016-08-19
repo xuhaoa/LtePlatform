@@ -724,5 +724,53 @@ namespace Lte.Evaluations.MapperService
             dest.TopConnection3GTrendView.WirelessDrop.ShouldBe(6);
             dest.TopConnection3GTrendView.LinkBusyRate.ShouldBe(8);
         }
+
+        [Test]
+        public void Test_TopConnection3GCell()
+        {
+            var info = new TopConnection3GCellExcel
+            {
+                BtsId = 112,
+                CellName = "abc[12345]",
+                ConnectionAttempts = 3,
+                ConnectionFails = 4,
+                Frequency = 5,
+                LinkBusyRate = 6,
+                SectorId = 7,
+                WirelessDrop = 8,
+                StatDate = new DateTime(2016, 4, 1),
+                StatHour = 15,
+                City = "Foshan"
+            };
+            var item = info.MapTo<TopConnection3GCell>();
+            item.BtsId.ShouldBe(112);
+            item.CellId.ShouldBe(12345);
+            item.ConnectionAttempts.ShouldBe(3);
+            item.ConnectionFails.ShouldBe(4);
+            item.LinkBusyRate.ShouldBe(6);
+            item.WirelessDrop.ShouldBe(8);
+            item.StatTime.ShouldBe(new DateTime(2016, 4, 1, 15, 0, 0));
+            item.City.ShouldBe("Foshan");
+        }
+
+        [Test]
+        public void Test_TopCellContainer2()
+        {
+            var source = new TopCellContainer<TopDrop2GCell>
+            {
+                LteName = "aaa",
+                CdmaName = "bbb",
+                TopCell = new TopDrop2GCell
+                {
+                    CallAttempts = 1001,
+                    Drops = 21
+                }
+            };
+            var dest = Mapper.Map<TopCellContainer<TopDrop2GCell>, TopDrop2GCellViewContainer>(source);
+            Assert.AreEqual(dest.LteName, "aaa");
+            Assert.AreEqual(dest.CdmaName, "bbb");
+            Assert.AreEqual(dest.TopDrop2GCellView.CallAttempts, 1001);
+            Assert.AreEqual(dest.TopDrop2GCellView.Drops, 21);
+        }
     }
 }

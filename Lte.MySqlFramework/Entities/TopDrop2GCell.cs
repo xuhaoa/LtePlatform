@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Abp.Domain.Entities;
-using AutoMapper;
+using Abp.EntityFramework.AutoMapper;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
 {
+    [AutoMapFrom(typeof(TopDrop2GCellExcel))]
     public class TopDrop2GCell : Entity, IBtsIdQuery
     {
         public DateTime StatTime { get; set; }
@@ -18,6 +16,7 @@ namespace Lte.MySqlFramework.Entities
 
         public int BtsId { get; set; }
 
+        [AutoMapPropertyResolve("CellName", typeof(TopDrop2GCellExcel), typeof(FirstBracketCellIdTransform))]
         public int CellId { get; set; }
 
         public byte SectorId { get; set; }
@@ -35,6 +34,7 @@ namespace Lte.MySqlFramework.Entities
         public int CallAttempts { get; set; }
     }
 
+    [AutoMapFrom(typeof(TopConnection2GExcel))]
     public class TopConnection2GCell : Entity
     {
         public DateTime StatTime { get; set; }
@@ -43,6 +43,7 @@ namespace Lte.MySqlFramework.Entities
 
         public int BtsId { get; set; }
 
+        [AutoMapPropertyResolve("CellName", typeof(TopConnection2GExcel), typeof(FirstBracketCellIdTransform))]
         public int CellId { get; set; }
 
         public byte SectorId { get; set; }
@@ -72,6 +73,8 @@ namespace Lte.MySqlFramework.Entities
 
         [ExcelColumn("时")]
         public int StatHour { get; set; }
+
+        public DateTime StatTime => StatDate.AddHours(StatHour);
 
         [ExcelColumn("站号")]
         public int BtsId { get; set; }
@@ -113,6 +116,8 @@ namespace Lte.MySqlFramework.Entities
 
         [ExcelColumn("时")]
         public int StatHour { get; set; }
+
+        public DateTime StatTime => StatDate.AddHours(StatHour);
 
         [ExcelColumn("站号")]
         public int BtsId { get; set; }

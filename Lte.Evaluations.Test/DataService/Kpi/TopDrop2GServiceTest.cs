@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
+using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Evaluations.TestService;
 using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract.Basic;
@@ -15,6 +18,8 @@ namespace Lte.Evaluations.DataService.Kpi
     [TestFixture]
     public class TopDrop2GServiceTest
     {
+        private AbpAutoMapperModule _module;
+        private TypeFinder _typeFinder;
         private readonly Mock<ITopDrop2GCellRepository> _repository = new Mock<ITopDrop2GCellRepository>();
         private readonly Mock<IBtsRepository> _btsRepository = new Mock<IBtsRepository>();
         private readonly Mock<IENodebRepository> _eNodebRepository = new Mock<IENodebRepository>();
@@ -24,7 +29,9 @@ namespace Lte.Evaluations.DataService.Kpi
         [TestFixtureSetUp]
         public void TestFixtureService()
         {
-            KpiMapperService.MapTopKpi();
+            _typeFinder = new TypeFinder(new MyAssemblyFinder());
+            _module = new AbpAutoMapperModule(_typeFinder);
+            _module.PostInitialize();
             _service = new TopDrop2GService(_repository.Object, _btsRepository.Object, _eNodebRepository.Object);
             _testService = new TopDrop2GTestService(_repository, _btsRepository, _eNodebRepository);
             _repository.MockOperation();

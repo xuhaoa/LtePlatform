@@ -22,22 +22,6 @@ namespace Lte.Evaluations.MapperSerive
 {
     public static class KpiMapperService
     {
-        public static void MapTopKpi()
-        {
-            Mapper.CreateMap<TopConnection3GCellExcel, TopConnection3GCell>()
-                .ForMember(d => d.StatTime, opt => opt.MapFrom(s => s.StatDate.AddHours(s.StatHour)))
-                .ForMember(d => d.CellId,
-                    opt => opt.MapFrom(s => s.CellName.GetSubStringInFirstPairOfChars('[', ']').ConvertToInt(1)));
-            Mapper.CreateMap<TopDrop2GCellExcel, TopDrop2GCell>()
-                .ForMember(d => d.StatTime, opt => opt.MapFrom(s => s.StatDate.AddHours(s.StatHour)))
-                .ForMember(d => d.CellId,
-                    opt => opt.MapFrom(s => s.CellName.GetSubStringInFirstPairOfChars('[', ']').ConvertToInt(1)));
-            Mapper.CreateMap<TopConnection2GExcel, TopConnection2GCell>()
-                .ForMember(d => d.StatTime, opt => opt.MapFrom(s => s.StatDate.AddHours(s.StatHour)))
-                .ForMember(d => d.CellId,
-                    opt => opt.MapFrom(s => s.CellName.GetSubStringInFirstPairOfChars('[', ']').ConvertToInt(1)));
-        }
-
         public static void MapWorkItem()
         {
             Mapper.CreateMap<WorkItem, WorkItemView>()

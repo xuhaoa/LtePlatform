@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 
@@ -20,6 +21,7 @@ namespace Lte.MySqlFramework.Entities
 
         public int BtsId { get; set; }
 
+        [AutoMapPropertyResolve("CellName", typeof(TopConnection3GCellExcel), typeof(FirstBracketCellIdTransform))]
         public int CellId { get; set; }
 
         public byte SectorId { get; set; }
@@ -43,6 +45,8 @@ namespace Lte.MySqlFramework.Entities
 
         [ExcelColumn("时")]
         public int StatHour { get; set; }
+
+        public DateTime StatTime => StatDate.AddHours(StatHour);
 
         [ExcelColumn("站号")]
         public int BtsId { get; set; }

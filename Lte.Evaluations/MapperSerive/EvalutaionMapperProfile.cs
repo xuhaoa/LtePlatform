@@ -13,8 +13,7 @@ namespace Lte.Evaluations.MapperSerive
         {
             var module = new AbpAutoMapperModule(_typeFinder);
             module.PostInitialize();
-            
-            KpiMapperService.MapTopKpi();
+           
             KpiMapperService.MapWorkItem();
 
             BaiduMapperService.MapCdmaCellView();

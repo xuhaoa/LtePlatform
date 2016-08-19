@@ -375,4 +375,12 @@ namespace Lte.Domain.Common
             return source.ConvertToDateTime(new DateTime(2200, 1, 1));
         }
     }
+
+    public class FirstBracketCellIdTransform : ValueResolver<string, int>
+    {
+        protected override int ResolveCore(string source)
+        {
+            return source.GetSubStringInFirstPairOfChars('[', ']').ConvertToInt(1);
+        }
+    }
 }

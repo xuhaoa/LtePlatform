@@ -45,11 +45,5 @@ namespace Lte.Domain.Common
             string ipData = line.Substring(index1 + 1, index2 - index1 - 1);
             return ipData;
         }
-
-        public static string GetSubStringInFirstBracket(this string line)
-        {
-            return line.GetSubStringInFirstPairOfChars('(', ')');
-        }
-
     }
 }
