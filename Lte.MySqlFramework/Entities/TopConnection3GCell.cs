@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
 {
+    [AutoMapFrom(typeof(TopConnection3GCellExcel))]
     public class TopConnection3GCell : Entity, IBtsIdQuery
     {
         public DateTime StatTime { get; set; }

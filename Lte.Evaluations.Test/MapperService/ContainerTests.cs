@@ -8,9 +8,11 @@ using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using Lte.Evaluations.MapperSerive.Infrastructure;
+using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
+using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Evaluations.ViewModels.Mr;
 using Lte.Evaluations.ViewModels.Switch;
 using Lte.MySqlFramework.Entities;
@@ -599,6 +601,128 @@ namespace Lte.Evaluations.MapperService
             view.CsvFilesName3Gs.ElementAt(1).ShouldBe("de");
             view.CsvFilesName4Gs.ElementAt(3).ShouldBe("d");
             view.RasterNum.ShouldBe(15);
+        }
+
+        [Test]
+        public void Test_TopDrop2GCellViewContainer()
+        {
+            var source = new TopCellContainer<TopDrop2GCell>
+            {
+                LteName = "lte-1",
+                CdmaName = "cdma-2",
+                TopCell = new TopDrop2GCell
+                {
+                    BtsId = 1,
+                    CellId = 2,
+                    CallAttempts = 3,
+                    Drops = 4,
+                    Frequency = 100,
+                    MoAssignmentSuccess = 5,
+                    MtAssignmentSuccess = 6,
+                    SectorId = 7,
+                    StatTime = new DateTime(2016, 5, 5)
+                }
+            };
+            var dest = source.MapTo<TopDrop2GCellViewContainer>();
+            dest.LteName.ShouldBe("lte-1");
+            dest.CdmaName.ShouldBe("cdma-2");
+            dest.TopDrop2GCellView.CellId.ShouldBe(2);
+            dest.TopDrop2GCellView.CallAttempts.ShouldBe(3);
+            dest.TopDrop2GCellView.Drops.ShouldBe(4);
+            dest.TopDrop2GCellView.Frequency.ShouldBe((short)100);
+            dest.TopDrop2GCellView.MoAssignmentSuccess.ShouldBe(5);
+            dest.TopDrop2GCellView.MtAssignmentSuccess.ShouldBe(6);
+            dest.TopDrop2GCellView.SectorId.ShouldBe((byte)7);
+            dest.TopDrop2GCellView.StatTime.ShouldBe(new DateTime(2016, 5, 5));
+        }
+
+        [Test]
+        public void Test_TopConnection3GCellViewContainer()
+        {
+            var source = new TopCellContainer<TopConnection3GCell>
+            {
+                LteName = "lte-1",
+                CdmaName = "cdma-2",
+                TopCell = new TopConnection3GCell
+                {
+                    BtsId = 1,
+                    CellId = 2,
+                    ConnectionAttempts = 3,
+                    ConnectionFails = 4,
+                    LinkBusyRate = 5,
+                    SectorId = 7,
+                    StatTime = new DateTime(2016, 5, 5)
+                }
+            };
+            var dest = source.MapTo<TopConnection3GCellViewContainer>();
+            dest.LteName.ShouldBe("lte-1");
+            dest.CdmaName.ShouldBe("cdma-2");
+            dest.TopConnection3GCellView.CellId.ShouldBe(2);
+            dest.TopConnection3GCellView.ConnectionAttempts.ShouldBe(3);
+            dest.TopConnection3GCellView.ConnectionFails.ShouldBe(4);
+            dest.TopConnection3GCellView.LinkBusyRate.ShouldBe(5);
+            dest.TopConnection3GCellView.SectorId.ShouldBe((byte)7);
+            dest.TopConnection3GCellView.StatTime.ShouldBe(new DateTime(2016, 5, 5));
+        }
+
+        [Test]
+        public void Test_TopDrop2GTrendViewContainer()
+        {
+            var source = new TopCellContainer<TopDrop2GTrend>
+            {
+                LteName = "lte-1",
+                CdmaName = "cdma-2",
+                TopCell = new TopDrop2GTrend
+                {
+                    BtsId = 1,
+                    CellId = 2,
+                    TotalCallAttempst = 3,
+                    TopDates = 4,
+                    TotalDrops = 5,
+                    MoAssignmentSuccess = 6,
+                    SectorId = 7,
+                    MtAssignmentSuccess = 8
+                }
+            };
+            var dest = source.MapTo<TopDrop2GTrendViewContainer>();
+            dest.ENodebName.ShouldBe("lte-1");
+            dest.CellName.ShouldBe("cdma-2-7");
+            dest.TopDrop2GTrendView.CellId.ShouldBe(2);
+            dest.TopDrop2GTrendView.TotalCallAttempst.ShouldBe(3);
+            dest.TopDrop2GTrendView.TopDates.ShouldBe(4);
+            dest.TopDrop2GTrendView.TotalDrops.ShouldBe(5);
+            dest.TopDrop2GTrendView.MoAssignmentSuccess.ShouldBe(6);
+            dest.TopDrop2GTrendView.MtAssignmentSuccess.ShouldBe(8);
+        }
+
+        [Test]
+        public void Test_TopConnection3GTrendViewContainer()
+        {
+            var source = new TopCellContainer<TopConnection3GTrend>
+            {
+                LteName = "lte-1",
+                CdmaName = "cdma-2",
+                TopCell = new TopConnection3GTrend
+                {
+                    BtsId = 1,
+                    CellId = 2,
+                    ConnectionAttempts = 3,
+                    TopDates = 4,
+                    ConnectionFails = 5,
+                    WirelessDrop = 6,
+                    SectorId = 7,
+                    LinkBusyRate = 8
+                }
+            };
+            var dest = source.MapTo<TopConnection3GTrendViewContainer>();
+            dest.ENodebName.ShouldBe("lte-1");
+            dest.CellName.ShouldBe("cdma-2-7");
+            dest.TopConnection3GTrendView.CellId.ShouldBe(2);
+            dest.TopConnection3GTrendView.ConnectionAttempts.ShouldBe(3);
+            dest.TopConnection3GTrendView.TopDates.ShouldBe(4);
+            dest.TopConnection3GTrendView.ConnectionFails.ShouldBe(5);
+            dest.TopConnection3GTrendView.WirelessDrop.ShouldBe(6);
+            dest.TopConnection3GTrendView.LinkBusyRate.ShouldBe(8);
         }
     }
 }
