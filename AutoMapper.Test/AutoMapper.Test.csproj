@@ -121,6 +121,7 @@
     <Compile Include="IMappingExpression\ParentChildResolversBug.cs" />
     <Compile Include="IMappingExpression\ProjectCollectionsBug.cs" />
     <Compile Include="IMappingExpression\TargetISet.cs" />
+    <Compile Include="Membel\BeforeAfterMapping.cs" />
     <Compile Include="Membel\MemberResolution.cs" />
     <Compile Include="Membel\NestedContainers.cs" />
     <Compile Include="Membel\NullBehavior.cs" />

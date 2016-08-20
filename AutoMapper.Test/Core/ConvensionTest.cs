@@ -11,102 +11,141 @@ using Shouldly;
 namespace AutoMapper.Test.Core
 {
     [TestFixture]
-    public class CascadeMapperTester : AutoMapperSpecBase
+    public class ConvensionTest
     {
-        private Destination _destination;
-        private Source _source;
-        private CascadeDestination _cascadeDestination;
-
-        public class Source
+        public class Client
         {
-            public Destination Destination { get; set; }
+            public int ID { get; set; }
+            public string Value { get; set; }
+            public string Transval { get; set; }
         }
 
-        public class Destination
+        public class ClientDto
         {
-            public int Foo1 { get; set; }
-
-            public int Foo2 { get; set; }
+            public int ID { get; set; }
+            public string ValueTransfer { get; set; }
+            public string val { get; set; }
         }
 
-        public class CascadeDestination
+        [Test]
+        public void Fact()
         {
-            public Destination Destination { get; set; }
-        }
-
-        public class ExtendedDestination
-        {
-            public int Foo1 { get; set; }
-
-            public int Foo2 { get; set; }
-
-            public int Foo3 { get; set; }
-        }
-
-        public class ExtendedCascadeDestination
-        {
-            public ExtendedDestination ExtendedDestination { get; set; }
-        }
-
-        protected override void Establish_context()
-        {
-            Mapper.Initialize(cfg =>
+            var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Destination, Destination>();
-                cfg.CreateMap<Source, CascadeDestination>();
-                cfg.CreateMap<Destination, ExtendedDestination>();
-                cfg.CreateMap<Source, ExtendedCascadeDestination>()
-                    .ForMember(d => d.ExtendedDestination,
-                        opt => opt.MapFrom(s => Mapper.Map<Destination, ExtendedDestination>(s.Destination)));
-            });
-        }
-
-        protected override void Because_of()
-        {
-            _source = new Source
-            {
-                Destination = new Destination
+                cfg.CreateProfile("New Profile", profile =>
                 {
-                    Foo1 = 11,
-                    Foo2 = 22
-                }
-            };
+                    profile.AddMemberConfiguration().AddName<PrePostfixName>(
+                            _ => _.AddStrings(p => p.DestinationPostfixes, "Transfer")
+                                .AddStrings(p => p.Postfixes, "Transfer")
+                                .AddStrings(p => p.DestinationPrefixes, "Trans")
+                                .AddStrings(p => p.Prefixes, "Trans"));
+                    profile.AddConditionalObjectMapper().Where((s, d) => s.Name.Contains(d.Name) || d.Name.Contains(s.Name));
+                });
+            });
+
+            var mapper = config.CreateMapper();
+            var a2 = mapper.Map<ClientDto>(new Client() { Value = "Test", Transval = "test" });
+            a2.ValueTransfer.ShouldBe("Test");
+            a2.val.ShouldBe("test");
+
+            var a = mapper.Map<Client>(new ClientDto() { ValueTransfer = "TestTransfer", val = "testTransfer" });
+            a.Value.ShouldBe("TestTransfer");
+            a.Transval.ShouldBe("testTransfer");
+
+            var clients = mapper.Map<Client[]>(new[] { new ClientDto() });
+            Expression<Func<Client, bool>> expr = c => c.ID < 5;
+            var clientExp = mapper.Map<Expression<Func<ClientDto, bool>>>(expr);
         }
 
-        [Test]
-        public void Test_plane_case()
+        public class ConventionProfile : Profile
         {
-            _destination = Mapper.Map<Destination, Destination>(_source.Destination);
-            _destination.Foo1.ShouldBe(11);
-            _destination.Foo2.ShouldBe(22);
-        }
-
-        [Test]
-        public void Test_cascade_case()
-        {
-            _cascadeDestination = Mapper.Map<Source, CascadeDestination>(_source);
-            _cascadeDestination.Destination.Foo1.ShouldBe(11);
-            _cascadeDestination.Destination.Foo2.ShouldBe(22);
-        }
-
-        [Test]
-        public void Test_extended_cascade_case()
-        {
-            var extended = Mapper.Map<Source, ExtendedCascadeDestination>(_source);
-            extended.ExtendedDestination.Foo1.ShouldBe(11);
-            extended.ExtendedDestination.Foo2.ShouldBe(22);
-        }
-
-        [Test]
-        public void Test_extended_cascade_case_list()
-        {
-            var sources = new List<Source>
+            protected override void Configure()
             {
-                _source
-            };
-            var extended = Mapper.Map<List<Source>, IEnumerable<ExtendedCascadeDestination>>(sources);
-            extended.ElementAt(0).ExtendedDestination.Foo1.ShouldBe(11);
-            extended.ElementAt(0).ExtendedDestination.Foo2.ShouldBe(22);
+                AddMemberConfiguration().AddName<PrePostfixName>(
+                        _ => _.AddStrings(p => p.DestinationPostfixes, "Transfer")
+                            .AddStrings(p => p.Postfixes, "Transfer")
+                            .AddStrings(p => p.DestinationPrefixes, "Trans")
+                            .AddStrings(p => p.Prefixes, "Trans"));
+                AddConditionalObjectMapper().Where((s, d) => s.Name.Contains(d.Name) || d.Name.Contains(s.Name));
+            }
+        }
+
+        public class ToDTO : Profile
+        {
+            protected override void Configure()
+            {
+                AddMemberConfiguration().AddName<PrePostfixName>(
+                        _ => _.AddStrings(p => p.Postfixes, "Transfer")
+                            .AddStrings(p => p.DestinationPrefixes, "Trans")).NameMapper.GetMembers.AddCondition(_ => _ is PropertyInfo);
+                AddConditionalObjectMapper().Where((s, d) => s.Name == d.Name + "Dto");
+            }
+        }
+        public class FromDTO : Profile
+        {
+            protected override void Configure()
+            {
+                AddMemberConfiguration().AddName<PrePostfixName>(
+                        _ => _.AddStrings(p => p.DestinationPostfixes, "Transfer")
+                            .AddStrings(p => p.Prefixes, "Trans")).NameMapper.GetMembers.AddCondition(_ => _ is PropertyInfo);
+                AddConditionalObjectMapper().Where((s, d) => d.Name == s.Name + "Dto");
+            }
+        }
+
+        public void Fact2()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<ConventionProfile>();
+            });
+
+            var mapper = config.CreateMapper();
+            var a2 = mapper.Map<ClientDto>(new Client() { Value = "Test", Transval = "test" });
+            a2.ValueTransfer.ShouldBe("Test");
+            a2.val.ShouldBe("test");
+
+            var a = mapper.Map<Client>(new ClientDto() { ValueTransfer = "TestTransfer", val = "testTransfer" });
+            a.Value.ShouldBe("TestTransfer");
+            a.Transval.ShouldBe("testTransfer");
+
+            var clients = mapper.Map<Client[]>(new[] { new ClientDto() });
+            Expression<Func<Client, bool>> expr = c => c.ID < 5;
+            var clientExp = mapper.Map<Expression<Func<ClientDto, bool>>>(expr);
+        }
+
+        [Test]
+        public void Fact3()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<ToDTO>();
+                cfg.AddProfile<FromDTO>();
+            });
+
+            var mapper = config.CreateMapper();
+            var a2 = mapper.Map<ClientDto>(new Client() { Value = "Test", Transval = "test" });
+            a2.ValueTransfer.ShouldBe("Test");
+            a2.val.ShouldBe("test");
+
+            var a = mapper.Map<Client>(new ClientDto() { ValueTransfer = "TestTransfer", val = "testTransfer" });
+            a.Value.ShouldBe("TestTransfer");
+            a.Transval.ShouldBe("testTransfer");
+
+            var clients = mapper.Map<Client[]>(new[] { new ClientDto() });
+            Expression<Func<Client, bool>> expr = c => c.ID < 5;
+            var clientExp = mapper.Map<Expression<Func<ClientDto, bool>>>(expr);
+        }
+
+        [Test]
+        public void Should_Work_Without_Explicitly_Mapping_Before_Hand()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<ToDTO>();
+                cfg.AddProfile<FromDTO>();
+            });
+
+            Expression<Func<Client, bool>> expr = c => c.ID < 5;
+            var clientExp = config.CreateMapper().Map<Expression<Func<ClientDto, bool>>>(expr);
         }
     }
 }

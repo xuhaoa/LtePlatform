@@ -4,7 +4,7 @@ using Shouldly;
 namespace AutoMapper.Test.Core
 {
     [TestFixture]
-    public class When_mapping_to_classes_with_implicit_conversion_operators_on_the_destination : AutoMapperSpecBase
+    public class When_mapping_to_classes_with_implicit_conversion_operators_on_the_destination
     {
         private Bar _bar;
 
@@ -27,22 +27,20 @@ namespace AutoMapper.Test.Core
 
         }
 
-        protected override void Because_of()
-        {
-            var source = new Foo { Value = "Hello" };
-
-            _bar = Mapper.Map<Foo, Bar>(source);
-        }
-
         [Test]
         public void Should_use_the_implicit_conversion_operator()
         {
+            var source = new Foo { Value = "Hello" };
+            var config = new MapperConfiguration(cfg => { });
+
+            _bar = config.CreateMapper().Map<Foo, Bar>(source);
+
             _bar.OtherValue.ShouldBe("Hello");
         }
     }
 
     [TestFixture]
-    public class When_mapping_to_classes_with_implicit_conversion_operators_on_the_source : AutoMapperSpecBase
+    public class When_mapping_to_classes_with_implicit_conversion_operators_on_the_source
     {
         private Bar _bar;
 
@@ -70,22 +68,20 @@ namespace AutoMapper.Test.Core
             public string OtherValue { get; set; }
         }
 
-        protected override void Because_of()
-        {
-            var source = new Foo { Value = "Hello" };
-
-            _bar = Mapper.Map<Foo, Bar>(source);
-        }
-
         [Test]
         public void Should_use_the_implicit_conversion_operator()
         {
+            var source = new Foo { Value = "Hello" };
+
+            var config = new MapperConfiguration(cfg => { });
+            _bar = config.CreateMapper().Map<Foo, Bar>(source);
+
             _bar.OtherValue.ShouldBe("Hello");
         }
     }
 
     [TestFixture]
-    public class When_mapping_to_classes_with_explicit_conversion_operator_on_the_destination : AutoMapperSpecBase
+    public class When_mapping_to_classes_with_explicit_conversion_operator_on_the_destination
     {
         private Bar _bar;
 
@@ -107,20 +103,17 @@ namespace AutoMapper.Test.Core
             }
         }
 
-        protected override void Because_of()
-        {
-            _bar = Mapper.Map<Foo, Bar>(new Foo { Value = "Hello" });
-        }
-
         [Test]
         public void Should_use_the_explicit_conversion_operator()
         {
+            var config = new MapperConfiguration(cfg => { });
+            _bar = config.CreateMapper().Map<Foo, Bar>(new Foo { Value = "Hello" });
             _bar.OtherValue.ShouldBe("Hello");
         }
     }
 
     [TestFixture]
-    public class When_mapping_to_classes_with_explicit_conversion_operator_on_the_source : AutoMapperSpecBase
+    public class When_mapping_to_classes_with_explicit_conversion_operator_on_the_source
     {
         private Bar _bar;
 
@@ -142,14 +135,11 @@ namespace AutoMapper.Test.Core
             public string OtherValue { get; set; }
         }
 
-        protected override void Because_of()
-        {
-            _bar = Mapper.Map<Foo, Bar>(new Foo { Value = "Hello" });
-        }
-
         [Test]
         public void Should_use_the_explicit_conversion_operator()
         {
+            var config = new MapperConfiguration(cfg => { });
+            _bar = config.CreateMapper().Map<Foo, Bar>(new Foo { Value = "Hello" });
             _bar.OtherValue.ShouldBe("Hello");
         }
     }
