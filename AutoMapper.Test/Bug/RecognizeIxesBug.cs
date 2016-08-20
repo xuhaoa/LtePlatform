@@ -1,67 +1,63 @@
+using AutoMapper;
+using AutoMapper.Test;
 using NUnit.Framework;
 using Shouldly;
 
-namespace AutoMapper.Test.Bug
+namespace RecognizeIxesBug
 {
-    namespace RecognizeIxesBug
+    [TestFixture]
+    public class IxesTest : AutoMapperSpecBase
     {
-        [TestFixture]
-        public class IxesTest : AutoMapperSpecBase
+        private Stuff _source;
+        private StuffView _dest;
+
+        protected override MapperConfiguration Configuration { get; } = new MapperConfiguration(cfg =>
         {
-            private Stuff _source;
-            private StuffView _dest;
+            cfg.RecognizeDestinationPostfixes("CodeKey", "Key");
+            cfg.CreateMap<Stuff, StuffView>();
+        });
 
-            protected override void Establish_context()
+        protected override void Because_of()
+        {
+            _source = new Stuff
             {
-                Mapper.Initialize(cfg =>
-                {
-                    cfg.RecognizeDestinationPostfixes("CodeKey", "Key");
-                    cfg.CreateMap<Stuff, StuffView>();
-                });
-            }
+                Id = 4,
+                Name = "Foo",
+                RankCode = "Bar"
+            };
+            _dest = Mapper.Map<Stuff, StuffView>(_source);
+        }
 
-            protected override void Because_of()
-            {
-                _source = new Stuff
-                {
-                    Id = 4,
-                    Name = "Foo",
-                    RankCode = "Bar"
-                };
-                _dest = Mapper.Map<Stuff, StuffView>(_source);
-            }
+        [Test]
+        public void Should_recognize_a_full_prefix()
+        {
+            _dest.IdCodeKey.ShouldBe(_source.Id);
+        }
 
-            [Test]
-            public void Should_recognize_a_full_prefix()
-            {
-                _dest.IdCodeKey.ShouldBe(_source.Id);
-            }
+        [Test]
+        public void Should_recognize_a_partial_prefix()
+        {
+            _dest.NameKey.ShouldBe(_source.Name);
+        }
 
-            [Test]
-            public void Should_recognize_a_partial_prefix()
-            {
-                _dest.NameKey.ShouldBe(_source.Name);
-            }
+        [Test]
+        public void Should_recognize_a_partial_match_prefix()
+        {
+            _dest.RankCodeKey.ShouldBe(_source.RankCode);
+        }
 
-            [Test]
-            public void Should_recognize_a_partial_match_prefix()
-            {
-                _dest.RankCodeKey.ShouldBe(_source.RankCode);
-            }
+        public class Stuff
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string RankCode { get; set; }
+        }
 
-            public class Stuff
-            {
-                public int Id { get; set; }
-                public string Name { get; set; }
-                public string RankCode { get; set; }
-            }
-
-            public class StuffView
-            {
-                public int IdCodeKey { get; set; }
-                public string NameKey { get; set; }
-                public string RankCodeKey { get; set; }
-            }
+        public class StuffView
+        {
+            public int IdCodeKey { get; set; }
+            public string NameKey { get; set; }
+            public string RankCodeKey { get; set; }
         }
     }
 }
