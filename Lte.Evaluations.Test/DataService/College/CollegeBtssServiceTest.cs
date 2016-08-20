@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Evaluations.TestService;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
@@ -15,6 +17,8 @@ namespace Lte.Evaluations.DataService.College
     [TestFixture]
     public class CollegeBtssServiceTest
     {
+        private AbpAutoMapperModule _module;
+        private TypeFinder _typeFinder;
         private readonly Mock<IInfrastructureRepository> _repository = new Mock<IInfrastructureRepository>();
         private readonly Mock<IBtsRepository> _btsRepository = new Mock<IBtsRepository>();
         private readonly Mock<ITownRepository> _townRepository = new Mock<ITownRepository>();
@@ -24,7 +28,9 @@ namespace Lte.Evaluations.DataService.College
         [TestFixtureSetUp]
         public void TestFixtureService()
         {
-            AutoMapperHelper.CreateMap(typeof(CdmaBtsView));
+            _typeFinder = new TypeFinder(new MyAssemblyFinder());
+            _module = new AbpAutoMapperModule(_typeFinder);
+            _module.PostInitialize();
             _btsRepository.MockOperation();
             _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
             _btsRepository.MockThreeBtss();

@@ -39,7 +39,6 @@ namespace Lte.Evaluations.DataService.Dump
             _townRepository.MockOpertion();
             _townRepository.MockGetId<ITownRepository, Town>();
             _townRepository.MockSixTowns();
-            AutoMapperHelper.CreateMap(typeof(BtsExcel));
         }
 
         [SetUp]

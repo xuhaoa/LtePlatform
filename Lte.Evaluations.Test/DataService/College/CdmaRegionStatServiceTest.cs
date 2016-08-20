@@ -4,13 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
-using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.Test.DataService.Queries;
 using Lte.Evaluations.TestService;
 using Lte.MySqlFramework.Abstract;
-using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
 using Lte.Parameters.MockOperations;
@@ -38,7 +36,6 @@ namespace Lte.Evaluations.DataService.College
             _module.PostInitialize();
             _statRepository.MockOperation();
             _regionRepository.MockOperation();
-            AutoMapperHelper.CreateMap(typeof(CdmaRegionStat));
         }
 
         [SetUp]

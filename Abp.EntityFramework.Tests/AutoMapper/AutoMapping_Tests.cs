@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Abp.EntityFramework.AutoMapper;
+using AutoMapper;
 using Shouldly;
 using Xunit;
 
@@ -9,9 +10,11 @@ namespace Abp.EntityFramework.Tests.AutoMapper
     {
         static AutoMapping_Tests()
         {
-            //ABP will automatically find and create these mappings normally. This is just for test purposes.
-            AutoMapperHelper.CreateMap(typeof(MyClass1));
-            AutoMapperHelper.CreateMap(typeof(MyClass2));
+            Mapper.Initialize(cfg =>
+            {
+                AutoMapperHelper.CreateMap(typeof (MyClass1), cfg);
+                AutoMapperHelper.CreateMap(typeof (MyClass2), cfg);
+            });
         }
 
         [Fact]

@@ -96,10 +96,15 @@ namespace Lte.Evaluations.MapperService
     [TestFixture]
     public class CdmaRegionMapperTest
     {
-        [SetUp]
+        private AbpAutoMapperModule _module;
+        private TypeFinder _typeFinder;
+
+        [TestFixtureSetUp]
         public void Setup()
         {
-            AutoMapperHelper.CreateMap(typeof(CdmaRegionStat));
+            _typeFinder = new TypeFinder(new MyAssemblyFinder());
+            _module = new AbpAutoMapperModule(_typeFinder);
+            _module.PostInitialize();
         }
 
         [Test]

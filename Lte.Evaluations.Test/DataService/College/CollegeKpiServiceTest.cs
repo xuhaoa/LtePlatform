@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.College;
 using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract.College;
@@ -14,6 +16,8 @@ namespace Lte.Evaluations.DataService.College
     [TestFixture]
     public class CollegeKpiServiceTest
     {
+        private AbpAutoMapperModule _module;
+        private TypeFinder _typeFinder;
         private readonly Mock<ICollegeKpiRepository> _repository = new Mock<ICollegeKpiRepository>();
         private readonly Mock<ICollegeRepository> _collegeRepository = new Mock<ICollegeRepository>();
         private CollegeKpiService _service;
@@ -21,12 +25,14 @@ namespace Lte.Evaluations.DataService.College
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
+            _typeFinder = new TypeFinder(new MyAssemblyFinder());
+            _module = new AbpAutoMapperModule(_typeFinder);
+            _module.PostInitialize();
             _service = new CollegeKpiService(_repository.Object, _collegeRepository.Object);
             _collegeRepository.MockThreeColleges();
             _collegeRepository.MockOpertions();
             _collegeRepository.MockGetId<ICollegeRepository, CollegeInfo>();
             _repository.MockOperations();
-            AutoMapperHelper.CreateMap(typeof(CollegeKpiView));
         }
 
         [TestCase(1, "2015-10-10", 4, 1.5)]

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
+using AutoMapper;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.ExcelCsv;
 using NUnit.Framework;
@@ -14,7 +15,7 @@ namespace Abp.EntityFramework.Tests.AutoMapper
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            AutoMapperHelper.CreateMap(typeof(BtsExcel));
+            Mapper.Initialize(cfg => AutoMapperHelper.CreateMap(typeof (BtsExcel), cfg));
         }
 
         [Test]

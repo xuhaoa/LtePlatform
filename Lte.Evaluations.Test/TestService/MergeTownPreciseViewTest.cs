@@ -1,18 +1,24 @@
 ﻿using System.Linq;
 using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.DataService.Kpi;
+using Lte.Evaluations.Policy;
+using Lte.Evaluations.Test.TestService;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.TestService
+namespace Lte.Evaluations.TestService
 {
     [TestFixture]
     public class MergeTownPreciseViewTest
     {
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
+
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            AutoMapperHelper.CreateMap(typeof(DistrictPreciseView));
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
         }
 
         [TestCase("Foshan", "Chancheng", new[] {"town-1", "town-2"}, 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
+using AutoMapper;
 using Lte.Parameters.Entities;
 using NUnit.Framework;
 using Shouldly;
@@ -13,7 +14,7 @@ namespace Abp.EntityFramework.Tests.AutoMapper
         [SetUp]
         public void Setup()
         {
-            AutoMapperHelper.CreateMap(typeof (IndoorDistributionExcel));
+            Mapper.Initialize(cfg => AutoMapperHelper.CreateMap(typeof (IndoorDistributionExcel), cfg));
         }
 
         [Test]

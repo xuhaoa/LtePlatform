@@ -1,4 +1,5 @@
 ﻿using Abp.EntityFramework.AutoMapper;
+using AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Parameters.Entities;
 using NUnit.Framework;
@@ -11,7 +12,7 @@ namespace Lte.Parameters.Test.Entities
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            AutoMapperHelper.CreateMap(typeof(IndoorDistributionExcel));
+            Mapper.Initialize(cfg=>AutoMapperHelper.CreateMap(typeof(IndoorDistributionExcel), cfg));
         }
 
         [TestCase("adkdj", 113.44, 23.11)]

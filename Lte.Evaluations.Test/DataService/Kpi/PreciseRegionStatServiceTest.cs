@@ -36,7 +36,6 @@ namespace Lte.Evaluations.DataService.Kpi
             _statRepository.MockOperation();
             _townRepository.MockGetId<ITownRepository, Town>();
             _townRepository.MockOpertion();
-            AutoMapperHelper.CreateMap(typeof(DistrictPreciseView));
         }
 
         [SetUp]

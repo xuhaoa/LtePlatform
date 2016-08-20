@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.MapperSerive.Infrastructure;
+using Lte.Evaluations.Policy;
 using NUnit.Framework;
 using Shouldly;
 
@@ -10,10 +12,13 @@ namespace Lte.Evaluations.MapperService
     [TestFixture]
     public class PciCellPairListTest
     {
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
+
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            AutoMapperHelper.CreateMap(typeof (PciCellPair));
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
         }
 
         [Test]

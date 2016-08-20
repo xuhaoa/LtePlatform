@@ -31,10 +31,11 @@ namespace Abp.EntityFramework.AutoMapper
 
         public override void PostInitialize()
         {
-            CreateMappings();
+            Mapper.Initialize(CreateMappings);
+            
         }
 
-        private void CreateMappings()
+        private void CreateMappings(IMapperConfiguration cfg)
         {
             lock (_syncObj)
             {
@@ -44,14 +45,14 @@ namespace Abp.EntityFramework.AutoMapper
                     return;
                 }
 
-                FindAndAutoMapTypes();
-                CreateOtherMappings();
+                FindAndAutoMapTypes(cfg);
+                CreateOtherMappings(cfg);
 
                 _createdMappingsBefore = true;
             }
         }
 
-        private void FindAndAutoMapTypes()
+        private void FindAndAutoMapTypes(IMapperConfiguration cfg)
         {
             var types = _typeFinder.Find(type =>
                 type.IsDefined(typeof(AutoMapAttribute)) ||
@@ -63,28 +64,40 @@ namespace Abp.EntityFramework.AutoMapper
             foreach (var type in types)
             {
                 Logger.Debug(type.FullName);
-                AutoMapperHelper.CreateMap(type);
+                AutoMapperHelper.CreateMap(type, cfg);
             }
         }
 
-        private void CreateOtherMappings()
+        private void CreateOtherMappings(IMapperConfiguration cfg)
         {
+            var types = _typeFinder.Find(type => type.IsDefined(typeof (AutoMapConverterAttribute)));
+            if (types.Length > 0)
+            {
+                var destType = types[0];
+                var attribute = destType.GetCustomAttribute<AutoMapConverterAttribute>();
+                if (attribute != null)
+                {
+                    var sourceType = attribute.SourceType;
+                    var converterType = attribute.ConverterType;
+                    cfg.CreateMap(sourceType,destType).ConvertUsing(converterType);
+                }
+            }
             if (IocManager == null) return;
             var localizationManager = IocManager.Resolve<ILocalizationManager>();
-            Mapper.CreateMap<LocalizableString, string>().ConvertUsing(ls => localizationManager.GetString(ls));
+            cfg.CreateMap<LocalizableString, string>().ConvertUsing(ls => localizationManager.GetString(ls));
         }
     }
 
     public static class AutoMapperHelper
     {
-        public static void CreateMap(Type type)
+        public static void CreateMap(Type type, IMapperConfiguration cfg)
         {
-            CreateMap<AutoMapFromAttribute>(type);
-            CreateMap<AutoMapToAttribute>(type);
-            CreateMap<AutoMapAttribute>(type);
+            CreateMap<AutoMapFromAttribute>(type, cfg);
+            CreateMap<AutoMapToAttribute>(type, cfg);
+            CreateMap<AutoMapAttribute>(type, cfg);
         }
 
-        public static void CreateMap<TAttribute>(Type type)
+        public static void CreateMap<TAttribute>(Type type, IMapperConfiguration cfg)
             where TAttribute : AutoMapAttribute
         {
             if (!type.IsDefined(typeof(TAttribute)))
@@ -103,7 +116,7 @@ namespace Abp.EntityFramework.AutoMapper
                 {
                     if (autoMapToAttribute.Direction.HasFlag(AutoMapDirection.To))
                     {
-                        var coreMap = Mapper.CreateMap(type, targetType);
+                        var coreMap = cfg.CreateMap(type, targetType);
                         foreach (var property in type.GetProperties())
                         {
                             var resolveAttributes = property.GetCustomAttributes<AutoMapPropertyResolveAttribute>();
@@ -122,7 +135,7 @@ namespace Abp.EntityFramework.AutoMapper
 
                     if (autoMapToAttribute.Direction.HasFlag(AutoMapDirection.From))
                     {
-                        var coreMap = Mapper.CreateMap(targetType, type);
+                        var coreMap = cfg.CreateMap(targetType, type);
                         foreach (var property in type.GetProperties())
                         {
                             var resolveAttributes = property.GetCustomAttributes<AutoMapPropertyResolveAttribute>();

@@ -1,4 +1,5 @@
 ﻿using Abp.EntityFramework.AutoMapper;
+using AutoMapper;
 using Shouldly;
 using Xunit;
 
@@ -8,9 +9,13 @@ namespace Abp.EntityFramework.Tests.AutoMapper
     {
         public AutoMapper_Inheritance_Tests()
         {
-            AutoMapperHelper.CreateMap(typeof(MyTargetClassToMap));
-            AutoMapperHelper.CreateMap(typeof(EntityDto));
-            AutoMapperHelper.CreateMap(typeof(DerivedEntityDto));
+            Mapper.Initialize(cfg =>
+            {
+                AutoMapperHelper.CreateMap(typeof (MyTargetClassToMap), cfg);
+                AutoMapperHelper.CreateMap(typeof (EntityDto), cfg);
+                AutoMapperHelper.CreateMap(typeof (DerivedEntityDto), cfg);
+            });
+
         }
 
         [Fact]

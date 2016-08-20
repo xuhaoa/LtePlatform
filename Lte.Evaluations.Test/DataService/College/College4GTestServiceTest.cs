@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.College;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
@@ -18,6 +20,8 @@ namespace Lte.Evaluations.DataService.College
     [TestFixture]
     public class College4GTestServiceTest
     {
+        private AbpAutoMapperModule _module;
+        private TypeFinder _typeFinder;
         private readonly Mock<ICollege4GTestRepository> _repository = new Mock<ICollege4GTestRepository>();
         private readonly Mock<ICollegeRepository> _collegeRepository = new Mock<ICollegeRepository>();
         private readonly Mock<IENodebRepository> _eNodebRepository = new Mock<IENodebRepository>();
@@ -27,6 +31,9 @@ namespace Lte.Evaluations.DataService.College
         [TestFixtureSetUp]
         public void TfSetup()
         {
+            _typeFinder = new TypeFinder(new MyAssemblyFinder());
+            _module = new AbpAutoMapperModule(_typeFinder);
+            _module.PostInitialize();
             _service = new College4GTestService(_repository.Object, _collegeRepository.Object,
                 _eNodebRepository.Object, _cellRepository.Object);
             _collegeRepository.MockThreeColleges();
@@ -36,7 +43,6 @@ namespace Lte.Evaluations.DataService.College
                     Id = id,
                     Name = "college-1"
                 });
-            AutoMapperHelper.CreateMap(typeof(College4GTestView));
         }
 
         [Test]

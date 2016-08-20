@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
+using Abp.Reflection;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.MockItems;
+using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
@@ -16,6 +18,7 @@ namespace Lte.Evaluations.DataService.Queries
     [TestFixture]
     public class ENodebQueryServiceTest
     {
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
         private readonly Mock<ITownRepository> _townRepository = new Mock<ITownRepository>();
         private readonly Mock<IENodebRepository> _eNodebRepository = new Mock<IENodebRepository>();
         private ENodebQueryService _service;
@@ -23,11 +26,12 @@ namespace Lte.Evaluations.DataService.Queries
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
             _service = new ENodebQueryService(_townRepository.Object, _eNodebRepository.Object);
             _townRepository.MockSixTowns();
             _townRepository.MockGetId<ITownRepository, Town>();
             _townRepository.MockOpertion();
-            AutoMapperHelper.CreateMap(typeof (ENodebView));
         }
 
         [TestCase(1, 1)]

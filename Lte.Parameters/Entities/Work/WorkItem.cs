@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using Lte.Domain.Regular.Attributes;
+using Lte.Parameters.MockOperations;
 
 namespace Lte.Parameters.Entities.Work
 {
     [TypeDoc("存储于数据库的工单信息")]
+    [AutoMapConverter(typeof(WorkItemExcel), typeof(WorkItemConverter))]
     public class WorkItem : Entity
     {
         [MemberDoc("工单编号")]

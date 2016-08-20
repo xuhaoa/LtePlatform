@@ -193,10 +193,13 @@ namespace Lte.Evaluations.MapperService
     [TestFixture]
     public class BtsViewMapperTest
     {
-        [SetUp]
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
+
+        [TestFixtureSetUp]
         public void Setup()
         {
-            AutoMapperHelper.CreateMap(typeof(CdmaBtsView));
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
         }
 
         [Test]
@@ -241,10 +244,13 @@ namespace Lte.Evaluations.MapperService
     [TestFixture]
     public class ENodebViewMapperTest
     {
-        [SetUp]
+        private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
+
+        [TestFixtureSetUp]
         public void Setup()
         {
-            AutoMapperHelper.CreateMap(typeof(ENodebView));
+            var module = new AbpAutoMapperModule(_typeFinder);
+            module.PostInitialize();
         }
 
         [Test]
