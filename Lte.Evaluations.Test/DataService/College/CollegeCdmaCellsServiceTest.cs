@@ -1,10 +1,8 @@
 ﻿using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
-using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
-using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
@@ -31,7 +29,6 @@ namespace Lte.Evaluations.DataService.College
             _service = new CollegeCdmaCellsService(_repository.Object, _cellRepository.Object, _btsRepository.Object);
             _viewService = new CollegeCdmaCellViewService(_repository.Object, _cellRepository.Object,
                 _btsRepository.Object);
-            BaiduMapperService.MapCdmaCellView();
             _repository.MockOperations();
             _repository.MockSixCollegeCdmaCells();
             _cellRepository.MockGetId<ICdmaCellRepository, CdmaCell>();

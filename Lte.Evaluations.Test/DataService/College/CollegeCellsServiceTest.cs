@@ -32,7 +32,6 @@ namespace Lte.Evaluations.DataService.College
             _service = new CollegeCellsService(_repository.Object, _cellRepository.Object, _eNodebRepository.Object);
             _viewService = new CollegeCellViewService(_repository.Object, _cellRepository.Object,
                 _eNodebRepository.Object);
-            BaiduMapperService.MapCellView();
             _repository.MockOperations();
             _repository.MockSixCollegeCells();
             _cellRepository.MockGetId<ICellRepository, Cell>();

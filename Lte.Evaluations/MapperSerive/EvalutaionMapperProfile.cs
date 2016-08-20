@@ -17,9 +17,6 @@ namespace Lte.Evaluations.MapperSerive
             module.PostInitialize();
 
             Mapper.CreateMap(typeof(WorkItemExcel), typeof(WorkItem)).ConvertUsing<WorkItemConverter>();
-
-            BaiduMapperService.MapCdmaCellView();
-            BaiduMapperService.MapCellView();
         }
     }
 }
