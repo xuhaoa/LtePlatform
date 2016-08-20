@@ -5,8 +5,8 @@ using NUnit.Framework;
 namespace AutoMapper.Test.Bug
 {
     [TestFixture]
-	public class DestinationValueInitializedByCtorBug : AutoMapperSpecBase
-	{
+    public class DestinationValueInitializedByCtorBug : AutoMapperSpecBase
+    {
         public class ItemToMapDto
         {
             public ItemToMapDto()
@@ -33,23 +33,20 @@ namespace AutoMapper.Test.Bug
             public bool IsTrue { get; set; }
         }
 
-	    protected override void Establish_context()
-	    {
-            Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<ItemToMap, ItemToMapDto>();
-                cfg.CreateMap<Tag, TagDto>();
-            });
-        }
+        protected override MapperConfiguration Configuration { get; } = new MapperConfiguration(cfg =>
+        {
+            cfg.CreateMap<ItemToMap, ItemToMapDto>();
+            cfg.CreateMap<Tag, TagDto>();
+        });
 
         [Test]
-		public void Should_map_all_null_values_to_its_substitute()
-		{
+        public void Should_map_all_null_values_to_its_substitute()
+        {
             var tag = new Tag();
 
-            var entities = new List<ItemToMap>();
+            List<ItemToMap> entities = new List<ItemToMap>();
 
-            for (var i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 entities.Add(new ItemToMap()
                 {
@@ -58,8 +55,8 @@ namespace AutoMapper.Test.Bug
                 });
             }
 
-		    Mapper.Map<List<ItemToMap>, List<ItemToMapDto>>(entities);
+            Mapper.Map<List<ItemToMap>, List<ItemToMapDto>>(entities);
             typeof(AutoMapperMappingException).ShouldNotBeThrownBy(() => Mapper.Map<List<ItemToMap>, List<ItemToMapDto>>(entities));
-		}
-	}
+        }
+    }
 }

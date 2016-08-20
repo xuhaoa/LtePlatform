@@ -26,7 +26,7 @@ namespace AutoMapper.Test.Core
 			{
 				base.Establish_context();
 
-				Mapper.CreateMap<Source, Destination>();
+			    Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
 
 				_source = new Source
 				{

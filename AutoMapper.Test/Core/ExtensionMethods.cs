@@ -31,8 +31,11 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-                Mapper.Initialize(config => config.IncludeSourceExtensionMethods(Assembly.GetExecutingAssembly()));
-				Mapper.CreateMap<Source, Destination>();
+			    Mapper.Initialize(config =>
+			    {
+			        config.IncludeSourceExtensionMethods(Assembly.GetExecutingAssembly().GetType());
+                    config.CreateMap<Source, Destination>();
+			    });
 			}
 
 			protected override void Because_of()
@@ -84,8 +87,11 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.Initialize(config => config.IncludeSourceExtensionMethods(Assembly.GetExecutingAssembly()));
-				Mapper.CreateMap<Source, Destination>();
+				Mapper.Initialize(config =>
+				{
+				    config.IncludeSourceExtensionMethods(Assembly.GetExecutingAssembly().GetType());
+                    config.CreateMap<Source, Destination>();
+				});
 			}
 
 			protected override void Because_of()

@@ -18,7 +18,7 @@ namespace AutoMapper.Test.Membel
         public class CatProxy : Cat
         {
             public Type ToConvert { get; set; }
-            
+
         }
         public class DogProxy : Dog { }
 
@@ -31,24 +31,21 @@ namespace AutoMapper.Test.Membel
         {
             private AnimalDto _animalDto;
 
-            protected override void Establish_context()
+            protected override MapperConfiguration Configuration { get; } = new MapperConfiguration(cfg =>
             {
-                Mapper.Initialize(cfg =>
-                {
-                    cfg.CreateMap<Animal, AnimalDto>()
-                        .Substitute(CastToEntity)
-                        .Include<Cat, CatDto>()
-                        .Include<Dog, DogDto>();
-                    cfg.CreateMap<Cat, CatDto>();
-                    cfg.CreateMap<Dog, DogDto>();
-                });
-            }
+                cfg.CreateMap<Animal, AnimalDto>()
+                    .Substitute(CastToEntity)
+                    .Include<Cat, CatDto>()
+                    .Include<Dog, DogDto>();
+                cfg.CreateMap<Cat, CatDto>();
+                cfg.CreateMap<Dog, DogDto>();
+            });
 
             protected override void Because_of()
             {
                 var proxy = new CatProxy
                 {
-                    ToConvert = typeof (Cat)
+                    ToConvert = typeof(Cat)
                 };
                 _animalDto = Mapper.Map<Animal, AnimalDto>(proxy);
             }

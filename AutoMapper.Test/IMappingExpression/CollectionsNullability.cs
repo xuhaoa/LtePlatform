@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Shouldly;
 
-namespace AutoMapper.Test.Bug
+namespace AutoMapper.Test.IMappingExpression
 {
-    [TestFixture]
     public class CollectionsNullability : AutoMapperSpecBase
     {
         Holder _destination;
@@ -19,15 +22,15 @@ namespace AutoMapper.Test.Bug
             public Container[] Containers { get; set; }
         }
 
-        protected override void Establish_context()
+        protected override MapperConfiguration Configuration { get; } = new MapperConfiguration(cfg =>
         {
-            Mapper.CreateMap<Holder, Holder>();
-            Mapper.CreateMap<Container, Container>();
-        }
+            cfg.CreateMap<Holder, Holder>();
+            cfg.CreateMap<Container, Container>();
+        });
 
         protected override void Because_of()
         {
-            var from = new Holder { Containers = new[] { new Container() } };
+            var from = new Holder {Containers = new[] {new Container()}};
             _destination = Mapper.Map<Holder>(from);
         }
 

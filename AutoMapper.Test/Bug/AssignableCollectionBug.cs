@@ -62,9 +62,12 @@ namespace AutoMapper.Test.Bug
 				var source = new PersonOne { Name = "A Name", Addresses = adrList };
 
 				// I thought these mappings would be enough. I tried various others, without success.
-				Mapper.CreateMap<PersonOne, PersonTwo>();
-				Mapper.CreateMap<AddressOne, AddressTwo>();
-				Mapper.CreateMap<AddressOne, IAddress>().ConvertUsing(Mapper.Map<AddressOne, AddressTwo>);
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.CreateMap<PersonOne, PersonTwo>();
+                    cfg.CreateMap<AddressOne, AddressTwo>();
+                    cfg.CreateMap<AddressOne, IAddress>().ConvertUsing(Mapper.Map<AddressOne, AddressTwo>);
+                });
 				Mapper.AssertConfigurationIsValid();
 				var result = Mapper.Map<PersonOne, PersonTwo>(source);
 
@@ -83,47 +86,7 @@ namespace AutoMapper.Test.Bug
 		}
 
 	}
-
-    namespace ByteArrayBug
-    {
-        [TestFixture]
-        public class When_mapping_byte_arrays : AutoMapperSpecBase
-        {
-            private Picture _source;
-            private PictureDto _dest;
-
-            public class Picture
-            {
-                public int Id { get; set; }
-                public string Description { get; set; }
-                public byte[] ImageData { get; set; }
-            }
-
-            public class PictureDto
-            {
-                public string Description { get; set; }
-                public byte[] ImageData { get; set; }
-            }
-
-            protected override void Establish_context()
-            {
-                Mapper.Initialize(cfg => cfg.CreateMap<Picture, PictureDto>());
-            }
-
-            protected override void Because_of()
-            {
-                _source = new Picture {ImageData = new byte[100]};
-                _dest = Mapper.Map<Picture, PictureDto>(_source);
-            }
-
-            [Test]
-            public void Should_copy_array()
-            {
-                _dest.ImageData.ShouldBeSameAs(_source.ImageData);
-            }
-        }
-    }
-
+    
     namespace AssignableLists
     {
         [TestFixture]
@@ -133,8 +96,7 @@ namespace AutoMapper.Test.Bug
             public void ListShouldNotMapAsReference()
             {
                 // arrange
-                Mapper.Reset();
-                Mapper.CreateMap<A, B>();
+                Mapper.Initialize(cfg => cfg.CreateMap<A, B>());
                 var source = new A { Images = new List<string>() };
 
                 // act

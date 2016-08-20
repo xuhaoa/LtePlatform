@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using Shouldly;
 
 namespace AutoMapper.Test.Bug
@@ -34,8 +35,11 @@ namespace AutoMapper.Test.Bug
         [Test]
         public void base_has_include_of_source_but_mapping_with_both_sides_being_unmapped_types_from_the_base_fails()
         {
-            Mapper.CreateMap<A, ADTO>().Include<B, BDTO>();
-            Mapper.CreateMap<B, BDTO>();
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<A, ADTO>().Include<B, BDTO>();
+                cfg.CreateMap<B, BDTO>();
+            });
             var a = Mapper.Map<A, ADTO>(new B(), new BDTO2()); // Throws invalid cast exception trying to convert BDTO2 to BDTO
         }
     }
@@ -119,4 +123,37 @@ namespace AutoMapper.Test.Bug
 
         }
     }
+
+    [TestFixture]
+    public class CannotConvertEnumToNullable
+    {
+        public enum DummyTypes
+        {
+            Foo = 1,
+            Bar = 2
+        }
+
+        public class DummySource
+        {
+            public DummyTypes Dummy { get; set; }
+        }
+
+        public class DummyDestination
+        {
+            public int? Dummy { get; set; }
+        }
+
+        [Test]
+        public void Should_map_enum_to_nullable()
+        {
+            Mapper.Initialize(cfg => cfg.CreateMap<DummySource, DummyDestination>());
+            Mapper.AssertConfigurationIsValid();
+            var src = new DummySource() { Dummy = DummyTypes.Bar };
+
+            var destination = Mapper.Map<DummySource, DummyDestination>(src);
+
+            destination.Dummy.ShouldBe((int)DummyTypes.Bar);
+        }
+    }
+    
 }

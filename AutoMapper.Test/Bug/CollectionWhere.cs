@@ -9,7 +9,7 @@ namespace AutoMapper.Test.Bug
     public class CollectionWhere : AutoMapperSpecBase
     {
         private Destination _destination;
-        private readonly List<int> _sourceList = new List<int>() { 1, 2, 3 };
+        private List<int> _sourceList = new List<int>() { 1, 2, 3 };
 
         class Source
         {
@@ -25,13 +25,10 @@ namespace AutoMapper.Test.Bug
             public IEnumerable<int> ListProperty { get; set; }
         }
 
-        protected override void Establish_context()
+        protected override MapperConfiguration Configuration { get; } = new MapperConfiguration(cfg =>
         {
-            Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<Source, Destination>();
-            });
-        }
+            cfg.CreateMap<Source, Destination>();
+        });
 
         protected override void Because_of()
         {
@@ -43,15 +40,15 @@ namespace AutoMapper.Test.Bug
             _destination = new Destination()
             {
                 Id = 2,
-                ListProperty = new List<int>() { 4, 5, 6 }.Where(a=>true)
+                ListProperty = new List<int>() { 4, 5, 6 }.Where(a => true).ToArray()
             };
-            _destination = Mapper.Map(source, _destination);
+            _destination = Mapper.Map<Source, Destination>(source, _destination);
         }
 
         [Test]
         public void Should_map_collections_with_where()
         {
-            _destination.ListProperty.SequenceEqual(_sourceList).ShouldBeTrue();
+            Enumerable.SequenceEqual(_destination.ListProperty, _sourceList).ShouldBeTrue();
         }
     }
 }

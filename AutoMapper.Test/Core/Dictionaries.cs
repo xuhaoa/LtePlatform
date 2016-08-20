@@ -26,7 +26,7 @@ namespace AutoMapper.Test.Core
 
             protected override void Establish_context()
             {
-                Mapper.CreateMap<Source, Destination>();
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
             }
             
             [Test]
@@ -77,8 +77,11 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<Source, Destination>();
-				Mapper.CreateMap<SourceValue, DestinationValue>();
+				Mapper.Initialize(cfg =>
+				{
+				    cfg.CreateMap<Source, Destination>();
+                    cfg.CreateMap<SourceValue, DestinationValue>();
+				});
 			}
 
 			protected override void Because_of()
@@ -132,8 +135,11 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<Source, Destination>();
-				Mapper.CreateMap<SourceValue, DestinationValue>();
+				Mapper.Initialize(cfg =>
+				{
+				    cfg.CreateMap<Source, Destination>();
+                    cfg.CreateMap<SourceValue, DestinationValue>();
+				});
 			}
 
 			protected override void Because_of()
@@ -177,9 +183,11 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.AllowNullDestinationValues = false;
-				Mapper.CreateMap<Foo, FooDto>();
-				Mapper.CreateMap<FooDto, Foo>();
+				Mapper.Initialize(cfg =>
+				{
+				    cfg.CreateMap<Foo, FooDto>();
+                    cfg.CreateMap<FooDto, Foo>();
+				});
 			}
 
 			protected override void Because_of()
@@ -220,8 +228,8 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<SourceDto, DestDto>()
-					.ForMember(d => d.Items, opt => opt.MapFrom(s => s.Items));
+			    Mapper.Initialize(cfg => cfg.CreateMap<SourceDto, DestDto>()
+			        .ForMember(d => d.Items, opt => opt.MapFrom(s => s.Items)));
 			}
 
 			protected override void Because_of()
@@ -425,9 +433,12 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<FooDto, FooObject>();
-				Mapper.CreateMap<DestinationValuePair, KeyValuePair<string, string>>()
-					.ConvertUsing(src => new KeyValuePair<string, string>(src.Key, src.Value));
+			    Mapper.Initialize(cfg =>
+			    {
+			        cfg.CreateMap<FooDto, FooObject>();
+			        cfg.CreateMap<DestinationValuePair, KeyValuePair<string, string>>()
+			            .ConvertUsing(src => new KeyValuePair<string, string>(src.Key, src.Value));
+			    });
 			}
 
 			protected override void Because_of()

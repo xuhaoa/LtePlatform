@@ -9,7 +9,7 @@ namespace AutoMapper.Test.Bug
     public class CollectionBaseClassGetConvention : AutoMapperSpecBase
     {
         Destination _destination;
-        static readonly int[] SomeCollection = { 1, 2, 3 };
+        static int[] SomeCollection = new[] { 1, 2, 3 };
 
         public abstract class SourceBase
         {
@@ -28,10 +28,10 @@ namespace AutoMapper.Test.Bug
             public IEnumerable<int> Items { get; set; }
         }
 
-        protected override void Establish_context()
+        protected override MapperConfiguration Configuration { get; } = new MapperConfiguration(cfg =>
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
-        }
+            cfg.CreateMap<Source, Destination>();
+        });
 
         protected override void Because_of()
         {

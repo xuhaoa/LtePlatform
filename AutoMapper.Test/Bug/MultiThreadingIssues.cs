@@ -1,8 +1,12 @@
 ﻿#if !SILVERLIGHT && !NETFX_CORE
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using AutoMapper.Test;
 using NUnit.Framework;
 using Shouldly;
 
@@ -75,7 +79,7 @@ namespace AutoMapper.Test.Bug
 
     		Console.WriteLine( @"Mapping {0} on thread {1}", source.GetType( ), Thread.CurrentThread.ManagedThreadId ) ;
 
-    		Mapper.CreateMap( source.GetType( ), typeof( DestType ) ) ;
+    	    Mapper.Initialize(cfg => cfg.CreateMap(source.GetType(), typeof (DestType)));
 
     		var t2 = (DestType)Mapper.Map(source, source.GetType(  ), typeof( DestType ) )  ;
     	}
@@ -122,214 +126,213 @@ namespace AutoMapper.Test.Bug
     }
 
     [TestFixture]
-    public class DynamicMapThreadingIssues
+    public class NestedMappingProjectionsExplicitExpanding : AutoMapperSpecBase
     {
-        public class SomeDtoA
+        Fu _destination;
+        int _propValue = 23;
+
+        public class FuEntity
         {
-            private string Property1 { get; set; }
-            private string Property21 { get; set; }
-            private string Property3 { get; set; }
-            private string Property4 { get; set; }
-            private string Property5 { get; set; }
-            private string Property6 { get; set; }
-            private string Property7 { get; set; }
-            private string Property8 { get; set; }
-            private string Property9 { get; set; }
-            private string Property10 { get; set; }
-            private string Property11 { get; set; }
+            public ManEntity Man { get; set; }
         }
 
-        public class SomeDtoB
+        public class ManEntity
         {
-            private string Property1 { get; set; }
-            private string Property21 { get; set; }
-            private string Property3 { get; set; }
-            private string Property4 { get; set; }
-            private string Property5 { get; set; }
-            private string Property6 { get; set; }
-            private string Property7 { get; set; }
-            private string Property8 { get; set; }
-            private string Property9 { get; set; }
-            private string Property10 { get; set; }
-            private string Property11 { get; set; }
+            public ChuEntity Chu { get; set; }
         }
 
-        public class SomeDtoC
+        public class ChuEntity
         {
-            private string Property1 { get; set; }
-            private string Property21 { get; set; }
-            private string Property3 { get; set; }
-            private string Property4 { get; set; }
-            private string Property5 { get; set; }
-            private string Property6 { get; set; }
-            private string Property7 { get; set; }
-            private string Property8 { get; set; }
-            private string Property9 { get; set; }
-            private string Property10 { get; set; }
-            private string Property11 { get; set; }
+            public int Prop { get; set; }
         }
 
-        public class SomeDtoD
+        public class Fu
         {
-            private string Property1 { get; set; }
-            private string Property21 { get; set; }
-            private string Property3 { get; set; }
-            private string Property4 { get; set; }
-            private string Property5 { get; set; }
-            private string Property6 { get; set; }
-            private string Property7 { get; set; }
-            private string Property8 { get; set; }
-            private string Property9 { get; set; }
-            private string Property10 { get; set; }
-            private string Property11 { get; set; }
+            public Man Man { get; set; }
+        }
+
+        public class Man
+        {
+            public Chu Chu { get; set; }
+        }
+
+        public class Chu
+        {
+            public int Prop { get; set; }
+        }
+
+        protected override void Establish_context()
+        {
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<FuEntity, Fu>().ForMember(dest => dest.Man, opt => opt.ExplicitExpansion());
+                cfg.CreateMap<ManEntity, Man>().ForMember(dest => dest.Chu, opt => opt.ExplicitExpansion());
+                cfg.CreateMap<ChuEntity, Chu>();
+            });
+        }
+
+        protected override void Because_of()
+        {
+            var fuEntity = new FuEntity { Man = new ManEntity { Chu = new ChuEntity { Prop = _propValue } } };
+            _destination = new[] { fuEntity }.AsQueryable().ProjectTo<Fu>(m => m.Man, m => m.Man.Chu).First();
         }
 
         [Test]
-        public void Should_not_fail()
+        public void Should_map_nested_classes()
         {
-            Mapper.Reset();
-
-            var tasks = Enumerable.Range(0, 5).Select(
-          i =>
-              Task.Factory.StartNew(
-                  () =>
-                  {
-                      Mapper.DynamicMap<SomeDtoA, SomeDtoB>(new SomeDtoA());
-                      Mapper.DynamicMap<SomeDtoB, SomeDtoA>(new SomeDtoB());
-                      Mapper.DynamicMap<SomeDtoC, SomeDtoD>(new SomeDtoC());
-                      Mapper.DynamicMap<SomeDtoD, SomeDtoC>(new SomeDtoD());
-                  }))
-          .ToArray();
-            Exception exception = null;
-            try
-            {
-                Task.WaitAll(tasks);
-            }
-            catch (Exception e)
-            {
-                exception = e;
-            }
-            exception.ShouldBeNull();
-            //typeof(Exception).ShouldNotBeThrownBy(() => Task.WaitAll(tasks));
-        }
-
-        [Test]
-        public void Should_not_fail_with_create_map()
-        {
-            Mapper.Reset();
-
-            var tasks = Enumerable.Range(0, 5).Select(
-          i =>
-              Task.Factory.StartNew(
-                  () =>
-                  {
-                      Mapper.CreateMap<SomeDtoA, SomeDtoB>();
-                      Mapper.CreateMap<SomeDtoB, SomeDtoA>();
-                      Mapper.CreateMap<SomeDtoC, SomeDtoD>();
-                      Mapper.CreateMap<SomeDtoD, SomeDtoC>();
-                  }))
-          .ToArray();
-            Exception exception = null;
-            try
-            {
-                Task.WaitAll(tasks);
-            }
-            catch (Exception e)
-            {
-                exception = e;
-            }
-            exception.ShouldBeNull();
-            //typeof(Exception).ShouldNotBeThrownBy(() => Task.WaitAll(tasks));
+            _destination.Man.Chu.Prop.ShouldBe(_propValue);
         }
     }
+    
 }
 #endif
 
-// The three exceptions I saw while running the multithreading tests for DynamicMap (lbargaoanu)
+namespace AutoMapperIssue
+{
+    [TestFixture]
+    public class TestProblem
+    {
+        [Test]
+        public void Example()
+        {
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<int?, Entity>().ConvertUsing<NullableIntToEntityConverter>();
+                cfg.CreateMap<int, Entity>().ConvertUsing<IntToEntityConverter>();
+            });
+            var guids = new List<int?>()
+                    {
+                        1,
+                        2,
+                        null
+                    };
 
-//Unhandled Exception: System.AggregateException: One or more errors occurred. ---> AutoMapper.AutoMapperMappingException:
+            var result = Mapper.Map<List<Entity>>(guids);
 
-//Mapping types:
-//SomeDtoB -> SomeDtoA
-//TestConsole.Program+SomeDtoB -> TestConsole.Program+SomeDtoA
+            result[2].ShouldBeNull();
+        }
+    }
 
-//Destination path:
-//SomeDtoA
+    public class IntToEntityConverter : ITypeConverter<int, Entity>
+    {
+        public Entity Convert(int source, Entity destination, ResolutionContext context)
+        {
+            return new Entity() { Id = source };
+        }
+    }
 
-//Source value:
-//TestConsole.Program+SomeDtoB ---> System.NullReferenceException: Object reference not set to an instance of an object.
-//   at AutoMapper.MappingEngine.AutoMapper.IMappingEngineRunner.Map(ResolutionContext context) in D:\Projects\AutoMapper\src\AutoMapper\MappingEngine.c
-//s:line 256
-//   --- End of inner exception stack trace ---
-//   at AutoMapper.MappingEngine.AutoMapper.IMappingEngineRunner.Map(ResolutionContext context) in D:\Projects\AutoMapper\src\AutoMapper\MappingEngine.c
-//s:line 264
-//   at AutoMapper.MappingEngine.DynamicMap(Object source, Type sourceType, Type destinationType) in D:\Projects\AutoMapper\src\AutoMapper\MappingEngine
-//.cs:line 199
-//   at AutoMapper.MappingEngine.DynamicMap[TSource, TDestination](TSource source) in D:\Projects\AutoMapper\src\AutoMapper\MappingEngine.cs:line 170
-//   at AutoMapper.Mapper.DynamicMap[TSource, TDestination](TSource source) in D:\Projects\AutoMapper\src\AutoMapper\Mapper.cs:line 174
-//   at TestConsole.Program.<>c.<Main>b__6_1() in D:\Projects\TestConsole\TestConsole\Program.cs:line 141
-//   at System.Threading.Tasks.Task.Execute()
-//   --- End of inner exception stack trace ---
-//   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)
-//   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout)
-//   at System.Threading.Tasks.Task.WaitAll(Task[] tasks)
-//   at TestConsole.Program.Main(String[] args) in D:\Projects\TestConsole\TestConsole\Program.cs:line 146
+    public class NullableIntToEntityConverter : ITypeConverter<int?, Entity>
+    {
+        public Entity Convert(int? source, Entity destination, ResolutionContext context)
+        {
+            if (source.HasValue)
+            {
+                return new Entity() { Id = source.Value };
+            }
 
-//Unhandled Exception: System.AggregateException: One or more errors occurred. ---> AutoMapper.AutoMapperMappingException:
+            return null;
+        }
+    }
 
-//Mapping types:
-//SomeDtoB -> SomeDtoA
-//TestConsole.Program+SomeDtoB -> TestConsole.Program+SomeDtoA
+    public class Entity
+    {
+        public int Id { get; set; }
 
-//Destination path:
-//SomeDtoA
+        public override string ToString()
+        {
+            return Id.ToString();
+        }
+    }
 
-//Source value:
-//TestConsole.Program+SomeDtoB ---> System.NullReferenceException: Object reference not set to an instance of an object.
-//   at AutoMapper.Mappers.TypeMapMapper.Map(ResolutionContext context, IMappingEngineRunner mapper) in D:\Projects\AutoMapper\src\AutoMapper\Mappers\Ty
-//peMapMapper.cs:line 17
-//   at AutoMapper.MappingEngine.AutoMapper.IMappingEngineRunner.Map(ResolutionContext context) in D:\Projects\AutoMapper\src\AutoMapper\MappingEngine.c
-//s:line 260
-//   --- End of inner exception stack trace ---
-//   at AutoMapper.MappingEngine.AutoMapper.IMappingEngineRunner.Map(ResolutionContext context) in D:\Projects\AutoMapper\src\AutoMapper\MappingEngine.c
-//s:line 268
-//   at AutoMapper.MappingEngine.DynamicMap(Object source, Type sourceType, Type destinationType) in D:\Projects\AutoMapper\src\AutoMapper\MappingEngine
-//.cs:line 199
-//   at AutoMapper.MappingEngine.DynamicMap[TSource, TDestination](TSource source) in D:\Projects\AutoMapper\src\AutoMapper\MappingEngine.cs:line 170
-//   at AutoMapper.Mapper.DynamicMap[TSource, TDestination](TSource source) in D:\Projects\AutoMapper\src\AutoMapper\Mapper.cs:line 174
-//   at TestConsole.Program.<>c.<Main>b__6_1() in D:\Projects\TestConsole\TestConsole\Program.cs:line 141
-//   at System.Threading.Tasks.Task.Execute()
-//   --- End of inner exception stack trace ---
-//   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)
-//   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout)
-//   at System.Threading.Tasks.Task.WaitAll(Task[] tasks)
-//   at TestConsole.Program.Main(String[] args) in D:\Projects\TestConsole\TestConsole\Program.cs:line 145
+    [TestFixture]
+    public class NullableEnums : AutoMapperSpecBase
+    {
+        public class Src { public EnumType? A { get; set; } }
+        public class Dst { public EnumType? A { get; set; } }
 
-//Unhandled Exception: System.AggregateException: One or more errors occurred. ---> System.Collections.Generic.KeyNotFoundException: The given key was n
-//ot present in the dictionary.
-//   at System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
-//   at AutoMapper.Internal.DictionaryFactoryOverride.ConcurrentDictionaryImpl`2.get_Item(TKey key) in D:\Projects\AutoMapper\src\AutoMapper\Internal\Co
-//ncurrentDictionaryFactory.cs:line 42
-//   at AutoMapper.ConfigurationStore.<ResolveTypeMap>b__87_1(TypePair tp) in D:\Projects\AutoMapper\src\AutoMapper\ConfigurationStore.cs:line 356
-//   at System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
-//   at System.Linq.Enumerable.FirstOrDefault[TSource](IEnumerable`1 source, Func`2 predicate)
-//   at AutoMapper.ConfigurationStore.<ResolveTypeMap>b__87_0(TypePair _) in D:\Projects\AutoMapper\src\AutoMapper\ConfigurationStore.cs:line 353
-//   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
-//   at AutoMapper.Internal.DictionaryFactoryOverride.ConcurrentDictionaryImpl`2.GetOrAdd(TKey key, Func`2 valueFactory) in D:\Projects\AutoMapper\src\A
-//utoMapper\Internal\ConcurrentDictionaryFactory.cs:line 37
-//   at AutoMapper.ConfigurationStore.ResolveTypeMap(TypePair typePair) in D:\Projects\AutoMapper\src\AutoMapper\ConfigurationStore.cs:line 351
-//   at AutoMapper.ConfigurationStore.ResolveTypeMap(Type sourceType, Type destinationType) in D:\Projects\AutoMapper\src\AutoMapper\ConfigurationStore.
-//cs:line 346
-//   at AutoMapper.ConfigurationStore.ResolveTypeMap(Object source, Object destination, Type sourceType, Type destinationType) in D:\Projects\AutoMapper
-//\src\AutoMapper\ConfigurationStore.cs:line 364
-//   at AutoMapper.MappingEngine.DynamicMap(Object source, Type sourceType, Type destinationType) in D:\Projects\AutoMapper\src\AutoMapper\MappingEngine
-//.cs:line 191
-//   at AutoMapper.MappingEngine.DynamicMap[TSource, TDestination](TSource source) in D:\Projects\AutoMapper\src\AutoMapper\MappingEngine.cs:line 170
-//   at AutoMapper.Mapper.DynamicMap[TSource, TDestination](TSource source) in D:\Projects\AutoMapper\src\AutoMapper\Mapper.cs:line 174
-//   at TestConsole.Program.<>c.<Main>b__6_1() in D:\Projects\TestConsole\TestConsole\Program.cs:line 143
-//   at System.Threading.Tasks.Task.Execute()
-//   --- End of inner exception stack trace ---
-//   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)
-//   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout)
-//   at System.Threading.Tasks.Task.WaitAll(Task[] tasks)
-//   at TestConsole.Program.Main(String[] args) in D:\Projects\TestConsole\TestConsole\Program.cs:line 145
+        public enum EnumType { One, Two }
+
+        protected override void Establish_context()
+        {
+            Mapper.Initialize(cfg => cfg.CreateMap<Src, Dst>());
+        }
+
+        [Test]
+        public void TestNullableEnum()
+        {
+            var d = Mapper.Map(new Src { A = null }, new Dst { A = EnumType.One });
+
+            d.A.ShouldBeNull();
+        }
+    }
+
+    public class NullableEnumToNullableValueType
+    {
+        [TestFixture]
+        public class CannotConvertEnumToNullableWhenPassedNull : AutoMapperSpecBase
+        {
+            public enum DummyTypes : int
+            {
+                Foo = 1,
+                Bar = 2
+            }
+
+            public class DummySource
+            {
+                public DummyTypes? Dummy { get; set; }
+            }
+
+            public class DummyDestination
+            {
+                public int? Dummy { get; set; }
+            }
+
+            protected override void Establish_context()
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<DummySource, DummyDestination>());
+            }
+
+            [Test]
+            public void Should_map_null_enum_to_nullable_base_type()
+            {
+                var src = new DummySource() { Dummy = null };
+
+                var destination = Mapper.Map<DummySource, DummyDestination>(src);
+
+                destination.Dummy.ShouldBeNull();
+            }
+        }
+
+        [TestFixture]
+        public class ObjectTypeMapFailure : NonValidatingSpecBase
+        {
+            [Test]
+            public void Should_map_the_object_type()
+            {
+                var displayModel = new DisplayModel
+                {
+                    Radius = 300
+                };
+                object vm = new SomeViewModel();
+                Mapper.Initialize(cfg => cfg.CreateMap<DisplayModel, SomeViewModel>());
+
+                Mapper.Map(displayModel, vm);
+                ((SomeViewModel)vm).Radius.ShouldBe(300); // fails
+
+                var vm2 = new SomeViewModel();
+                Mapper.Map(displayModel, vm2);
+                vm2.Radius.ShouldBe(300); // succeeds
+            }
+
+            public class SomeViewModel
+            {
+                public int Radius { get; set; }
+            }
+
+            public class DisplayModel
+            {
+                public int Radius { get; set; }
+            }
+        }
+    }
+}

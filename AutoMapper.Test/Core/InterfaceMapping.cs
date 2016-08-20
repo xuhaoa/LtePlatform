@@ -45,8 +45,6 @@ namespace AutoMapper.Test.Core
 
             protected override void Establish_context()
             {
-                Mapper.Reset();
-
                 var model = new ModelObject
                 {
                     Child = new SubChildModelObject {ChildProperty = "child property value"}
@@ -104,7 +102,7 @@ namespace AutoMapper.Test.Core
 
             protected override void Establish_context()
             {
-                Mapper.CreateMap<Source, Destination>();
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
             }
 
             protected override void Because_of()
@@ -161,7 +159,7 @@ namespace AutoMapper.Test.Core
 
             protected override void Establish_context()
             {
-                Mapper.CreateMap<Source, Destination>();
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
             }
 
             protected override void Because_of()
@@ -252,7 +250,7 @@ namespace AutoMapper.Test.Core
 
             protected override void Establish_context()
             {
-                Mapper.CreateMap<ISource, Destination>();
+                Mapper.Initialize(cfg => cfg.CreateMap<ISource, Destination>());
             }
 
             protected override void Because_of()
@@ -323,7 +321,7 @@ namespace AutoMapper.Test.Core
 
             protected override void Establish_context()
             {
-                Mapper.CreateMap<ISource, Destination>();
+                Mapper.Initialize(cfg => cfg.CreateMap<ISource, Destination>());
             }
 
             protected override void Because_of()
@@ -373,7 +371,7 @@ namespace AutoMapper.Test.Core
 
             protected override void Establish_context()
             {
-                Mapper.CreateMap<Source, Destination>();
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
             }
 
             protected override void Because_of()
@@ -434,12 +432,6 @@ namespace AutoMapper.Test.Core
         [TestFixture, Explicit]
         public class MappingToInterfacesPolymorphic
         {
-            [SetUp]
-            public void SetUp()
-            {
-                Mapper.Reset();
-            }
-
             public interface DomainInterface
             {
                 Guid Id { get; set; }
@@ -487,12 +479,15 @@ namespace AutoMapper.Test.Core
             [ExpectedException(typeof(ArgumentException))]
             public void CanMapToDomainInterface()
             {
-                Mapper.CreateMap<DomainInterface, Dto>()
-                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Nested.Name))
-                    .ForMember(dest => dest.DecimalValue, opt => opt.MapFrom(src => src.Nested.DecimalValue));
-                Mapper.CreateMap<Dto, DomainInterface>()
-                    .ForMember(dest => dest.Nested.Name, opt => opt.MapFrom(src => src.Name))
-                    .ForMember(dest => dest.Nested.DecimalValue, opt => opt.MapFrom(src => src.DecimalValue));
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.CreateMap<DomainInterface, Dto>()
+                        .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Nested.Name))
+                        .ForMember(dest => dest.DecimalValue, opt => opt.MapFrom(src => src.Nested.DecimalValue));
+                    cfg.CreateMap<Dto, DomainInterface>()
+                        .ForMember(dest => dest.Nested.Name, opt => opt.MapFrom(src => src.Name))
+                        .ForMember(dest => dest.Nested.DecimalValue, opt => opt.MapFrom(src => src.DecimalValue));
+                });
 
                 var domainInstance1 = new DomainImplA();
                 var domainInstance2 = new DomainImplB();
@@ -530,6 +525,213 @@ namespace AutoMapper.Test.Core
                 dtoCollection[0].Name.ShouldBe(domainInstance1.Nested.Name);
                 dtoCollection[1].Name.ShouldBe(domainInstance2.Nested.Name);
                 dtoCollection[2].Name.ShouldBe(domainInstance3.Nested.Name);
+            }
+        }
+
+        [TestFixture]
+        public class When_encountering_a_member_mapping_problem_during_mapping : NonValidatingSpecBase
+        {
+            public class Source
+            {
+                public string Value { get; set; }
+            }
+
+            public class Dest
+            {
+                public int Value { get; set; }
+            }
+
+            protected override void Establish_context()
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Dest>());
+            }
+
+            [Test]
+            public void Should_provide_a_contextual_exception()
+            {
+                var source = new Source { Value = "adsf" };
+                typeof(AutoMapperMappingException).ShouldBeThrownBy(() => Mapper.Map<Source, Dest>(source));
+            }
+
+            [Test]
+            public void Should_have_contextual_mapping_information()
+            {
+                var source = new Source { Value = "adsf" };
+                AutoMapperMappingException thrown = null;
+                try
+                {
+                    Mapper.Map<Source, Dest>(source);
+                }
+                catch (AutoMapperMappingException ex)
+                {
+                    thrown = ex;
+                }
+                thrown.ShouldNotBeNull();
+            }
+        }
+
+        [TestFixture]
+        public class When_specifying_a_mapping_order_for_source_members : AutoMapperSpecBase
+        {
+            private Destination _result;
+
+            public class Source
+            {
+                private int _startValue;
+
+                public Source(int startValue)
+                {
+                    _startValue = startValue;
+                }
+
+                public int GetValue1()
+                {
+                    _startValue += 10;
+                    return _startValue;
+                }
+
+                public int GetValue2()
+                {
+                    _startValue += 5;
+                    return _startValue;
+                }
+            }
+
+            public class Destination
+            {
+                public int Value1 { get; set; }
+                public int Value2 { get; set; }
+            }
+
+            protected override void Establish_context()
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>()
+                    .ForMember(src => src.Value1, opt => opt.SetMappingOrder(2))
+                    .ForMember(src => src.Value2, opt => opt.SetMappingOrder(1)));
+            }
+
+            protected override void Because_of()
+            {
+                _result = Mapper.Map<Source, Destination>(new Source(10));
+            }
+
+            [Test]
+            public void Should_perform_the_mapping_in_the_order_specified()
+            {
+                _result.Value2.ShouldBe(15);
+                _result.Value1.ShouldBe(25);
+            }
+        }
+
+        [TestFixture]
+        public class MaxDepthTests
+        {
+            public class Source
+            {
+                public int Level { get; set; }
+                public IList<Source> Children { get; set; }
+                public Source Parent { get; set; }
+
+                public Source(int level)
+                {
+                    Children = new List<Source>();
+                    Level = level;
+                }
+
+                public void AddChild(Source child)
+                {
+                    Children.Add(child);
+                    child.Parent = this;
+                }
+            }
+
+            public class Destination
+            {
+                public int Level { get; set; }
+                public IList<Destination> Children { get; set; }
+                public Destination Parent { get; set; }
+            }
+
+            private Source _source;
+
+            public MaxDepthTests()
+            {
+                Initializer();
+            }
+            public void Initializer()
+            {
+                var nest = new Source(1);
+
+                nest.AddChild(new Source(2));
+                nest.Children[0].AddChild(new Source(3));
+                nest.Children[0].AddChild(new Source(3));
+                nest.Children[0].Children[1].AddChild(new Source(4));
+                nest.Children[0].Children[1].AddChild(new Source(4));
+                nest.Children[0].Children[1].AddChild(new Source(4));
+
+                nest.AddChild(new Source(2));
+                nest.Children[1].AddChild(new Source(3));
+
+                nest.AddChild(new Source(2));
+                nest.Children[2].AddChild(new Source(3));
+
+                _source = nest;
+            }
+
+            [Test]
+            public void Second_level_children_are_null_with_max_depth_1()
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>().MaxDepth(1));
+                var destination = Mapper.Map<Source, Destination>(_source);
+                foreach (var child in destination.Children)
+                {
+                    child.ShouldBeNull();
+                }
+            }
+
+            [Test]
+            public void Second_level_children_are_not_null_with_max_depth_2()
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>().MaxDepth(2));
+                var destination = Mapper.Map<Source, Destination>(_source);
+                foreach (var child in destination.Children)
+                {
+                    2.ShouldBe(child.Level);
+                    child.ShouldNotBeNull();
+                    destination.ShouldBe(child.Parent);
+                }
+            }
+
+            [Test]
+            public void Third_level_children_are_null_with_max_depth_2()
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>().MaxDepth(2));
+                var destination = Mapper.Map<Source, Destination>(_source);
+                foreach (var child in destination.Children)
+                {
+                    child.Children.ShouldNotBeNull();
+                    foreach (var subChild in child.Children)
+                    {
+                        subChild.ShouldBeNull();
+                    }
+                }
+            }
+
+            [Test]
+            public void Third_level_children_are_not_null_max_depth_3()
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>().MaxDepth(3));
+                var destination = Mapper.Map<Source, Destination>(_source);
+                foreach (var child in destination.Children)
+                {
+                    child.Children.ShouldNotBeNull();
+                    foreach (var subChild in child.Children)
+                    {
+                        3.ShouldBe(subChild.Level);
+                        subChild.Children.ShouldNotBeNull();
+                        child.ShouldBe(subChild.Parent);
+                    }
+                }
             }
         }
     }

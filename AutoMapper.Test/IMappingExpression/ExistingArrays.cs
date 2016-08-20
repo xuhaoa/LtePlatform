@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace AutoMapper.Test.Bug
+namespace AutoMapper.Test.IMappingExpression
 {
     [TestFixture]
     public class ExistingArrays : AutoMapperSpecBase
     {
-        protected override void Establish_context()
+        protected override MapperConfiguration Configuration { get; } = new MapperConfiguration(cfg =>
         {
-            Mapper.CreateMap<Source, Dest>();
-            Mapper.CreateMap<Source, DestWithIEnumerableInitializer>();
-        }
+            cfg.CreateMap<Source, Dest>();
+            cfg.CreateMap<Source, DestWithIEnumerableInitializer>();
+        });
 
         [Test]
         public void should_map_array_inside_object()

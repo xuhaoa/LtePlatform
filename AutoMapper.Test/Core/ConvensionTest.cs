@@ -3,135 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using AutoMapper.Configuration.Conventions;
 using AutoMapper.Mappers;
 using NUnit.Framework;
 using Shouldly;
 
 namespace AutoMapper.Test.Core
 {
-    [TestFixture]
-    public class ConvensionTest : AutoMapperSpecBase
-    {
-        public class Client
-        {
-            public int ID { get; set; }
-            public string Value { get; set; }
-            public string Transval { get; set; }
-        }
-
-        public class ClientDto
-        {
-            public int ID { get; set; }
-            public string ValueTransfer { get; set; }
-            public string val { get; set; }
-        }
-
-        [Test]
-        public void Fact()
-        {
-            Mapper.Initialize(cfg =>
-            {
-                var profile = cfg.CreateProfile("New Profile");
-                profile.AddMemberConfiguration().AddName<PrePostfixName>(
-                        _ => _.AddStrings(p => p.DestinationPostfixes, "Transfer")
-                            .AddStrings(p => p.Postfixes, "Transfer")
-                            .AddStrings(p => p.DestinationPrefixes, "Trans")
-                            .AddStrings(p => p.Prefixes, "Trans"));
-                profile.AddConditionalObjectMapper().Where((s, d) => s.Name.Contains(d.Name) || d.Name.Contains(s.Name));
-            });
-
-            var a2 = Mapper.Map<ClientDto>(new Client() { Value= "Test", Transval = "test"});
-            a2.ValueTransfer.ShouldBe("Test");
-            a2.val.ShouldBe("test");
-
-            var a = Mapper.Map<Client>(new ClientDto() { ValueTransfer = "TestTransfer", val = "testTransfer"});
-            a.Value.ShouldBe("TestTransfer");
-            a.Transval.ShouldBe("testTransfer");
-
-            var clients = Mapper.Map<Client[]>(new[] { new ClientDto() });
-            Expression<Func<Client, bool>> expr = c => c.ID < 5;
-            var clientExp = Mapper.Map<Expression<Func<ClientDto,bool>>>(expr);
-        }
-
-        public class ConventionProfile : Profile
-        {
-            protected override void Configure()
-            {
-                AddMemberConfiguration().AddName<PrePostfixName>(
-                        _ => _.AddStrings(p => p.DestinationPostfixes, "Transfer")
-                            .AddStrings(p => p.Postfixes, "Transfer")
-                            .AddStrings(p => p.DestinationPrefixes, "Trans")
-                            .AddStrings(p => p.Prefixes, "Trans"));
-                AddConditionalObjectMapper().Where((s, d) => s.Name.Contains(d.Name) || d.Name.Contains(s.Name));
-            }
-        }
-
-        public class ToDTO : Profile
-        {
-            protected override void Configure()
-            {
-                AddMemberConfiguration().AddName<PrePostfixName>(
-                        _ => _.AddStrings(p => p.Postfixes, "Transfer")
-                            .AddStrings(p => p.DestinationPrefixes, "Trans")).NameMapper.GetMembers.AddCondition(_ => _ is PropertyInfo);
-                AddConditionalObjectMapper().Where((s, d) => s.Name == d.Name + "Dto");
-            }
-        }
-
-        public class FromDTO : Profile
-        {
-            protected override void Configure()
-            {
-                AddMemberConfiguration().AddName<PrePostfixName>(
-                        _ => _.AddStrings(p => p.DestinationPostfixes, "Transfer")
-                            .AddStrings(p => p.Prefixes, "Trans")).NameMapper.GetMembers.AddCondition(_ => _ is PropertyInfo);
-                AddConditionalObjectMapper().Where((s, d) => d.Name == s.Name + "Dto");
-            }
-        }
-
-        [Test]
-        public void Fact2()
-        {
-            Mapper.Initialize(cfg =>
-            {
-                cfg.AddProfile<ConventionProfile>();
-            });
-
-            var a2 = Mapper.Map<ClientDto>(new Client() { Value = "Test", Transval = "test" });
-            a2.ValueTransfer.ShouldBe("Test");
-            a2.val.ShouldBe("test");
-
-            var a = Mapper.Map<Client>(new ClientDto() { ValueTransfer = "TestTransfer", val = "testTransfer" });
-            a.Value.ShouldBe("TestTransfer");
-            a.Transval.ShouldBe("testTransfer");
-
-            var clients = Mapper.Map<Client[]>(new[] { new ClientDto() });
-            Expression<Func<Client, bool>> expr = c => c.ID < 5;
-            var clientExp = Mapper.Map<Expression<Func<ClientDto, bool>>>(expr);
-        }
-
-        [Test]
-        public void Fact3()
-        {
-            Mapper.Initialize(cfg =>
-            {
-                cfg.AddProfile<ToDTO>();
-                cfg.AddProfile<FromDTO>();
-            });
-
-            var a2 = Mapper.Map<ClientDto>(new Client() { Value = "Test", Transval = "test" });
-            a2.ValueTransfer.ShouldBe("Test");
-            a2.val.ShouldBe("test");
-
-            var a = Mapper.Map<Client>(new ClientDto() { ValueTransfer = "TestTransfer", val = "testTransfer" });
-            a.Value.ShouldBe("TestTransfer");
-            a.Transval.ShouldBe("testTransfer");
-
-            var clients = Mapper.Map<Client[]>(new[] { new ClientDto() });
-            Expression<Func<Client, bool>> expr = c => c.ID < 5;
-            var clientExp = Mapper.Map<Expression<Func<ClientDto, bool>>>(expr);
-        }
-    }
-
     [TestFixture]
     public class CascadeMapperTester : AutoMapperSpecBase
     {

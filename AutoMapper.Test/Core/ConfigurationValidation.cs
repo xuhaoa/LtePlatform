@@ -328,47 +328,7 @@ namespace AutoMapper.Test.Core
                 typeof(AutoMapperConfigurationException).ShouldNotBeThrownBy(Mapper.AssertConfigurationIsValid);
             }
         }
-
-        [TestFixture]
-        public class When_testing_a_dto_in_a_specfic_profile : NonValidatingSpecBase
-        {
-            public class GoodSource
-            {
-                public int Value { get; set; }
-            }
-
-            public class GoodDest
-            {
-                public int Value { get; set; }
-            }
-
-            public class BadDest
-            {
-                public int Valufffff { get; set; }
-            }
-
-            protected override void Because_of()
-            {
-                Mapper.Initialize(cfg =>
-                {
-                    cfg.CreateProfile("Good", profile =>
-                    {
-                        profile.CreateMap<GoodSource, GoodDest>();
-                    });
-                    cfg.CreateProfile("Bad", profile =>
-                    {
-                        profile.CreateMap<GoodSource, BadDest>();
-                    });
-                });
-            }
-
-            [Test]
-            public void Should_ignore_bad_dtos_in_other_profiles()
-            {
-                typeof(AutoMapperConfigurationException).ShouldNotBeThrownBy(() => Mapper.AssertConfigurationIsValid("Good"));
-            }
-        }
-
+        
         [TestFixture]
         public class When_testing_a_dto_with_mismatched_custom_member_mapping : NonValidatingSpecBase
         {

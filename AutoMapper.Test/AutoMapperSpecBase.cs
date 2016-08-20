@@ -1,32 +1,38 @@
 using System;
+using NUnit.Framework;
 
 namespace AutoMapper.Test
 {
-    public class AutoMapperSpecBase : NonValidatingSpecBase
+    public abstract class AutoMapperSpecBase : NonValidatingSpecBase
     {
+        [Test]
         public void Should_have_valid_configuration()
         {
-            Mapper.AssertConfigurationIsValid();
+            Configuration.AssertConfigurationIsValid();
         }
+
     }
 
-    public class NonValidatingSpecBase : SpecBase
+    public abstract class NonValidatingSpecBase : SpecBase
     {
-        protected override void Cleanup()
-        {
-        }
+        private IMapper mapper;
 
+        protected abstract MapperConfiguration Configuration { get; }
+
+        protected IConfigurationProvider ConfigProvider => Configuration;
+
+        protected IMapper Mapper => mapper ?? (mapper = Configuration.CreateMapper());
     }
 
     public abstract class SpecBaseBase
     {
-        protected virtual void MainSetup()
+        public virtual void MainSetup()
         {
             Establish_context();
             Because_of();
         }
 
-        protected virtual void MainTeardown()
+        public virtual void MainTeardown()
         {
             Cleanup();
         }
@@ -42,7 +48,6 @@ namespace AutoMapper.Test
         protected virtual void Cleanup()
         {
         }
-
     }
     public abstract class SpecBase : SpecBaseBase, IDisposable
     {

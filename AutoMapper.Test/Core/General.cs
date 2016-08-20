@@ -22,7 +22,7 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<ModelObject, ModelDto>();
+			    Mapper.Initialize(cfg => cfg.CreateMap<ModelObject, ModelDto>());
 			}
 
 			[Test]
@@ -49,8 +49,7 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.AllowNullDestinationValues = false;
-				Mapper.CreateMap<ModelObject, ModelDto>();
+			    Mapper.Initialize(cfg => cfg.CreateMap<ModelObject, ModelDto>());
 
 				_result = Mapper.Map<ModelObject, ModelDto>(null);
 			}
@@ -83,7 +82,7 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<ModelObject, ModelDto>();
+			    Mapper.Initialize(cfg => cfg.CreateMap<ModelObject, ModelDto>());
 
 				var model = new ModelObject
 				{
@@ -122,8 +121,8 @@ namespace AutoMapper.Test.Core
 					NotAString = 5
 				};
 
-				Mapper.CreateMap<ModelObject, ModelDto>()
-                    .ForMember(d=>d.NotAString, opt=>opt.MapFrom(s=>s.NotAString.ToString()));
+			    Mapper.Initialize(cfg => cfg.CreateMap<ModelObject, ModelDto>()
+			        .ForMember(d => d.NotAString, opt => opt.MapFrom(s => s.NotAString.ToString())));
 
 				_result = Mapper.Map<ModelObject, ModelDto>(model);
 			}
@@ -157,8 +156,8 @@ namespace AutoMapper.Test.Core
 			{
 				var model = new ModelObject();
 
-				Mapper.CreateMap<ModelObject, ModelDto>()
-                    .ForMember(d=>d.SomeCoolValues, opt=>opt.MapFrom(s=>s.GetSomeCoolValues().Select(x=>x.ToString())));
+			    Mapper.Initialize(cfg => cfg.CreateMap<ModelObject, ModelDto>()
+			        .ForMember(d => d.SomeCoolValues, opt => opt.MapFrom(s => s.GetSomeCoolValues().Select(x => x.ToString()))));
 
 				_result = Mapper.Map<ModelObject, ModelDto>(model);
 			}
@@ -187,7 +186,7 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<ModelObject, ModelDto>();
+			    Mapper.Initialize(cfg => cfg.CreateMap<ModelObject, ModelDto>());
 			}
 
 			[Test]
@@ -218,7 +217,7 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<ModelObject, ModelDto>();
+			    Mapper.Initialize(cfg => cfg.CreateMap<ModelObject, ModelDto>());
 
 				_model = new[] { new ModelObject { SomeValue = "First" }, new ModelObject { SomeValue = "Second" } };
 				_dto = (ModelDto[])Mapper.Map(_model, typeof(ModelObject[]), typeof(ModelDto[]));
@@ -256,7 +255,7 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<ModelObject, ModelDto>();
+			    Mapper.Initialize(cfg => cfg.CreateMap<ModelObject, ModelDto>());
 
 				_model = new List<ModelObject> { new ModelObject { SomeValue = "First" }, new ModelObject { SomeValue = "Second" } };
 				_dto = (ModelDto[])Mapper.Map(_model, typeof(ModelObject[]), typeof(ModelDto[]));
@@ -296,7 +295,7 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<ModelObject, ModelDto>();
+			    Mapper.Initialize(cfg => cfg.CreateMap<ModelObject, ModelDto>());
 			}
 
             protected override void Because_of()
@@ -338,7 +337,7 @@ namespace AutoMapper.Test.Core
 
 			protected override void Establish_context()
 			{
-				Mapper.CreateMap<ModelObject, ModelDto>();
+			    Mapper.Initialize(cfg => cfg.CreateMap<ModelObject, ModelDto>());
 
 				_model = new ModelObject { SomeValue = 2 };
 			}
@@ -382,8 +381,8 @@ namespace AutoMapper.Test.Core
 
             protected override void Establish_context()
             {
-                Mapper.CreateMap<ModelObject, ModelDto>()
-                    .ForMember(dest => dest.SomeOtherValue2, opt => opt.MapFrom(src => src.SomeOtherValue));
+                Mapper.Initialize(cfg => cfg.CreateMap<ModelObject, ModelDto>()
+                    .ForMember(dest => dest.SomeOtherValue2, opt => opt.MapFrom(src => src.SomeOtherValue)));
 
                 _model = new ModelObject();
             }
@@ -423,7 +422,7 @@ namespace AutoMapper.Test.Core
 
 	        protected override void Establish_context()
 	        {
-	            Mapper.CreateMap<Source, Dest>();
+	            Mapper.Initialize(cfg => cfg.CreateMap<Source, Dest>());
 	        }
 
 	        protected override void Because_of()
@@ -443,5 +442,201 @@ namespace AutoMapper.Test.Core
                 _dest.Value.Item2.ShouldBe(11);
 	        }
 	    }
+
+        [TestFixture]
+        public class IgnoreAllTests
+        {
+            public class Source
+            {
+                public string ShouldBeMapped { get; set; }
+            }
+
+            public class Destination
+            {
+                public string ShouldBeMapped { get; set; }
+                public string StartingWith_ShouldNotBeMapped { get; set; }
+                public List<string> StartingWith_ShouldBeNullAfterwards { get; set; }
+                public string AnotherString_ShouldBeNullAfterwards { get; set; }
+            }
+
+            public class DestinationWrongType
+            {
+                public Destination ShouldBeMapped { get; set; }
+            }
+
+            [Test]
+            public void GlobalIgnore_ignores_all_properties_beginning_with_string()
+            {
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.AddGlobalIgnore("StartingWith");
+                    cfg.CreateMap<Source, Destination>()
+                        .ForMember(dest => dest.AnotherString_ShouldBeNullAfterwards, opt => opt.Ignore());
+                });
+
+                Mapper.Map<Source, Destination>(new Source { ShouldBeMapped = "true" });
+                Mapper.AssertConfigurationIsValid();
+            }
+
+            [Test]
+            public void GlobalIgnore_ignores_properties_with_names_matching_but_different_types()
+            {
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.AddGlobalIgnore("ShouldBeMapped");
+                    cfg.CreateMap<Source, DestinationWrongType>();
+                });
+
+                Mapper.Map<Source, DestinationWrongType>(new Source { ShouldBeMapped = "true" });
+                Mapper.AssertConfigurationIsValid();
+            }
+
+            [Test]
+            public void Ignored_properties_should_be_default_value()
+            {
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.AddGlobalIgnore("StartingWith");
+                    cfg.CreateMap<Source, Destination>()
+                        .ForMember(dest => dest.AnotherString_ShouldBeNullAfterwards, opt => opt.Ignore());
+                });
+
+                Destination destination = Mapper.Map<Source, Destination>(new Source { ShouldBeMapped = "true" });
+                destination.StartingWith_ShouldBeNullAfterwards.ShouldBe(null);
+                destination.StartingWith_ShouldNotBeMapped.ShouldBe(null);
+            }
+
+            [Test]
+            public void Ignore_supports_two_different_values()
+            {
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.AddGlobalIgnore("StartingWith");
+                    cfg.AddGlobalIgnore("AnotherString");
+                    cfg.CreateMap<Source, Destination>();
+                });
+
+                Destination destination = Mapper.Map<Source, Destination>(new Source { ShouldBeMapped = "true" });
+                destination.AnotherString_ShouldBeNullAfterwards.ShouldBe(null);
+                destination.StartingWith_ShouldNotBeMapped.ShouldBe(null);
+            }
+        }
+
+        [TestFixture]
+        public class IgnoreAttributeTests
+        {
+            public class Source
+            {
+                public string ShouldBeMapped { get; set; }
+                public string ShouldNotBeMapped { get; set; }
+            }
+
+            public class Destination
+            {
+                public string ShouldBeMapped { get; set; }
+                [IgnoreMap]
+                public string ShouldNotBeMapped { get; set; }
+            }
+
+            [Test]
+            public void Ignore_On_Source_Field()
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
+                Mapper.AssertConfigurationIsValid();
+
+                Source source = new Source
+                {
+                    ShouldBeMapped = "Value1",
+                    ShouldNotBeMapped = "Value2"
+                };
+
+                Destination destination = Mapper.Map<Source, Destination>(source);
+                destination.ShouldNotBeMapped.ShouldBe(null);
+            }
+        }
+
+        [TestFixture]
+        public class ReverseMapIgnoreAttributeTests
+        {
+            public class Source
+            {
+                public string ShouldBeMapped { get; set; }
+                public string ShouldNotBeMapped { get; set; }
+            }
+
+            public class Destination
+            {
+                public string ShouldBeMapped { get; set; }
+
+                [IgnoreMap]
+                public string ShouldNotBeMapped { get; set; }
+            }
+
+            [Test]
+            public void Ignore_On_Source_Field()
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>().ReverseMap());
+                Mapper.AssertConfigurationIsValid();
+
+                Destination source = new Destination
+                {
+                    ShouldBeMapped = "Value1",
+                    ShouldNotBeMapped = "Value2"
+                };
+
+                Source destination = Mapper.Map<Destination, Source>(source);
+                destination.ShouldNotBeMapped.ShouldBe(null);
+
+            }
+        }
+
+        [TestFixture]
+        public class When_mapping_to_a_destination_with_an_indexer_property : AutoMapperSpecBase
+        {
+            private Destination _result;
+
+            public class Source
+            {
+                public string Value { get; set; }
+            }
+
+            public class Destination
+            {
+                public string Value { get; set; }
+                public string this[string key] { get { return null; } }
+            }
+
+            protected override void Establish_context()
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<Source, Destination>());
+            }
+
+            protected override void Because_of()
+            {
+                _result = Mapper.Map<Source, Destination>(new Source { Value = "Bob" });
+            }
+
+            [Test]
+            public void Should_ignore_indexers_and_map_successfully()
+            {
+                _result.Value.ShouldBe("Bob");
+            }
+
+            [Test]
+            public void Should_pass_configuration_check()
+            {
+                Exception thrown = null;
+                try
+                {
+                    Mapper.AssertConfigurationIsValid();
+                }
+                catch (Exception ex)
+                {
+                    thrown = ex;
+                }
+
+                thrown.ShouldBeNull();
+            }
+        }
     }
 }
