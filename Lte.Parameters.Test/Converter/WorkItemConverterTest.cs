@@ -1,8 +1,8 @@
 ﻿using System;
 using AutoMapper;
 using Lte.Domain.Common.Wireless;
-using Lte.Evaluations.MapperSerive;
 using Lte.Parameters.Entities.Work;
+using Lte.Parameters.MockOperations;
 using NUnit.Framework;
 using Shouldly;
 
@@ -14,7 +14,7 @@ namespace Lte.Parameters.Test.Converter
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            KpiMapperService.MapWorkItem();
+            Mapper.CreateMap(typeof(WorkItemExcel), typeof(WorkItem)).ConvertUsing<WorkItemConverter>();
         }
 
         [Test]

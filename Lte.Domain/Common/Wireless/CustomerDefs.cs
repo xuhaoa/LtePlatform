@@ -548,4 +548,211 @@ namespace Lte.Domain.Common.Wireless
         {
         }
     }
+
+    [EnumTypeDescription(typeof(OrderPreciseStatPolicy), OrderBySecondRate)]
+    public enum OrderPreciseStatPolicy : byte
+    {
+        OrderBySecondRate,
+        OrderBySecondNeighborsDescending,
+        OrderByFirstRate,
+        OrderByFirstNeighborsDescending,
+        OrderByTotalMrsDescending,
+        OrderByTopDatesDescending
+    }
+
+    public class OrderPreciseStatPolicyDescriptionTransform : DescriptionTransform<OrderPreciseStatPolicy>
+    {
+        
+    }
+
+    public class OrderPreciseStatPolicyTransform : EnumTransform<OrderPreciseStatPolicy>
+    {
+        public OrderPreciseStatPolicyTransform() : base(OrderPreciseStatPolicy.OrderBySecondRate)
+        {
+        }
+    }
+
+    [EnumTypeDescription(typeof(OrderTopConnection3GPolicy), OrderByConnectionRate)]
+    public enum OrderTopConnection3GPolicy
+    {
+        OrderByConnectionFailsDescending,
+        OrderByConnectionRate,
+        OrderByTopDatesDescending
+    }
+
+    public class OrderTopConnection3GPolicyDescriptionTransform : DescriptionTransform<OrderTopConnection3GPolicy>
+    {
+        
+    }
+
+    public class OrderTopConnection3GPolicyTransform : EnumTransform<OrderTopConnection3GPolicy>
+    {
+        public OrderTopConnection3GPolicyTransform() : base(OrderTopConnection3GPolicy.OrderByConnectionRate)
+        {
+        }
+    }
+
+    [EnumTypeDescription(typeof(OrderTopDrop2GPolicy), OrderByDropRateDescending)]
+    public enum OrderTopDrop2GPolicy
+    {
+        OrderByDropsDescending,
+        OrderByDropRateDescending,
+        OrderByTopDatesDescending
+    }
+
+    public class OrderTopDrop2GPolicyDescriptionTransform : DescriptionTransform<OrderTopDrop2GPolicy>
+    {
+        
+    }
+
+    public class OrderTopDrop2GPolicyTransform : EnumTransform<OrderTopDrop2GPolicy>
+    {
+        public OrderTopDrop2GPolicyTransform() : base(OrderTopDrop2GPolicy.OrderByDropRateDescending)
+        {
+        }
+    }
+
+    [EnumTypeDescription(typeof(WorkItemType), Others)]
+    public enum WorkItemType : byte
+    {
+        Kpi2G,
+        Kpi4G,
+        Infrastructure4G,
+        Interference4G,
+        RrcConnection,
+        NetworkProblem,
+        Others,
+        DailyTask,
+        DailyReport,
+        Yilutong,
+        KeySite,
+        SelfConstruction
+    }
+
+    public class WorkItemTypeDescriptionTransform : DescriptionTransform<WorkItemType>
+    {
+        
+    }
+
+    public class WorkItemTypeTransform : EnumTransform<WorkItemType>
+    {
+        public WorkItemTypeTransform() : base(WorkItemType.Others)
+        {
+        }
+    }
+
+    [EnumTypeDescription(typeof(WorkItemSubtype), Others)]
+    public enum WorkItemSubtype : short
+    {
+        Drop2G,
+        CallSetup,
+        PrbUplinkInterference,
+        PrbUplinkSevereInterference,
+        Rssi,
+        DataMaintainence,
+        ErabDrop,
+        ErabConnection,
+        RrcConnection,
+        PreciseRate,
+        UplinkInterference,
+        UplinkSevereInterference,
+        Others,
+        AutomaticDt,
+        ResourceOptimize,
+        ProjectOptimization,
+        CommunicationSustain,
+        OptimizationWorkItem,
+        KpiAlarm,
+        RectifyDemand,
+        NetworkPlan,
+        SpecialData,
+        Dispossessed,
+        ParameterCheck,
+        ClusterRf,
+        CoverageEvaluation,
+        InterferenceCheck,
+        EngineeringOptimization,
+        PlanDemandLibrary,
+        EngineeringParameters,
+        MarketSustain,
+        CapacityEvaluation,
+        CustomerComplain,
+        WeeklyAnalysis,
+        DailyTest
+    }
+
+    public class WorkItemSubtypeDescriptionTransform : DescriptionTransform<WorkItemSubtype>
+    {
+        
+    }
+
+    public class WorkItemSubtypeTransform : EnumTransform<WorkItemSubtype>
+    {
+        public WorkItemSubtypeTransform() : base(WorkItemSubtype.Others)
+        {
+        }
+    }
+
+    [EnumTypeDescription(typeof(WorkItemState), ToBeSigned)]
+    public enum WorkItemState : byte
+    {
+        Processing,
+        Processed,
+        Finished,
+        ToBeSigned,
+        Auditing
+    }
+
+    public class WorkItemStateDescriptionTransform : DescriptionTransform<WorkItemState>
+    {
+        
+    }
+
+    public class WorkItemStateTransform : EnumTransform<WorkItemState>
+    {
+        public WorkItemStateTransform() : base(WorkItemState.ToBeSigned)
+        {
+        }
+    }
+
+    [EnumTypeDescription(typeof(WorkItemCause), Others)]
+    public enum WorkItemCause : short
+    {
+        Rssi,
+        ParameterConfig,
+        TrunkProblem,
+        PilotPolution,
+        Overload,
+        InterferenceCoverage,
+        ImproperPower,
+        FeedAppliance,
+        NeighborCell,
+        Others,
+        WeakCoverage,
+        ApplianceProblem,
+        IndoorDistribution,
+        AntennaFeedline,
+        Antenna,
+        OuterInterference,
+        WrongDownTilt,
+        PagingChannelBusy,
+        HardSwitch,
+        Jamming,
+        OverCoverage,
+        InvisibleAlarm,
+        MainAlarm,
+        ResouceJamming
+    }
+
+    public class WorkItemCauseDescriptionTransform : DescriptionTransform<WorkItemCause>
+    {
+        
+    }
+
+    public class WorkItemCauseTransform : EnumTransform<WorkItemCause>
+    {
+        public WorkItemCauseTransform() : base(WorkItemCause.Others)
+        {
+        }
+    }
 }

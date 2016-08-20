@@ -21,6 +21,7 @@ using Lte.Parameters.Entities.Dt;
 using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.Entities.Neighbor;
 using Lte.Parameters.Entities.Switch;
+using Lte.Parameters.Entities.Work;
 using NUnit.Framework;
 using Shouldly;
 
@@ -771,6 +772,47 @@ namespace Lte.Evaluations.MapperService
             Assert.AreEqual(dest.CdmaName, "bbb");
             Assert.AreEqual(dest.TopDrop2GCellView.CallAttempts, 1001);
             Assert.AreEqual(dest.TopDrop2GCellView.Drops, 21);
+        }
+
+        [Test]
+        public void Test_WorkItemView()
+        {
+            var info = new WorkItem
+            {
+                BeginTime = new DateTime(2016, 3, 4),
+                Cause = WorkItemCause.Antenna,
+                Comments = "abc",
+                Deadline = new DateTime(2016, 4, 4),
+                ENodebId = 12345,
+                FeedbackTime = new DateTime(2016, 4, 4),
+                FeedbackContents = "defg123",
+                FinishTime = new DateTime(2016, 3, 6),
+                RejectTimes = 34,
+                SectorId = 3,
+                SerialNumber = "123",
+                StaffName = "ere",
+                State = WorkItemState.Finished,
+                Subtype = WorkItemSubtype.CallSetup,
+                Type = WorkItemType.DailyTask,
+                RepeatTimes = 19
+            };
+            var view = info.MapTo<WorkItemView>();
+            view.BeginTime.ShouldBe(new DateTime(2016,3,4));
+            view.WorkItemCause.ShouldBe(WorkItemCause.Antenna.GetEnumDescription());
+            view.Comments.ShouldBe("abc");
+            view.Deadline.ShouldBe(new DateTime(2016, 4, 4));
+            view.ENodebId.ShouldBe(12345);
+            view.FeedbackTime.ShouldBe(new DateTime(2016, 4, 4));
+            view.FeedbackContents.ShouldBe("defg123");
+            view.FinishTime.ShouldBe(new DateTime(2016, 3, 6));
+            view.RejectTimes.ShouldBe((short)34);
+            view.SectorId.ShouldBe((byte)3);
+            view.SerialNumber.ShouldBe("123");
+            view.StaffName.ShouldBe("ere");
+            view.WorkItemState.ShouldBe(WorkItemState.Finished.GetEnumDescription());
+            view.WorkItemSubType.ShouldBe(WorkItemSubtype.CallSetup.GetEnumDescription());
+            view.WorkItemType.ShouldBe(WorkItemType.DailyTask.GetEnumDescription());
+            view.RepeatTimes.ShouldBe((short)19);
         }
     }
 }

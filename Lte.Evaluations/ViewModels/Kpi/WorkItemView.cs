@@ -1,21 +1,27 @@
 ﻿using System;
 using Abp.EntityFramework.AutoMapper;
+using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities.Work;
 
 namespace Lte.Evaluations.ViewModels.Kpi
 {
     [TypeDoc("工单信息视图")]
+    [AutoMapFrom(typeof(WorkItem))]
     public class WorkItemView
     {
         [MemberDoc("工单编号")]
         public string SerialNumber { get; set; }
 
         [MemberDoc("工单类型")]
+        [AutoMapPropertyResolve("Type", typeof(WorkItem), typeof(WorkItemTypeDescriptionTransform))]
         public string WorkItemType { get; set; }
 
         [MemberDoc("工单子类型")]
+        [AutoMapPropertyResolve("Subtype", typeof(WorkItem), typeof(WorkItemSubtypeDescriptionTransform))]
         public string WorkItemSubType { get; set; }
 
         [MemberDoc("基站编号")]
@@ -55,9 +61,11 @@ namespace Lte.Evaluations.ViewModels.Kpi
         public DateTime? FinishTime { get; set; }
 
         [MemberDoc("定位原因")]
+        [AutoMapPropertyResolve("Cause", typeof(WorkItem), typeof(WorkItemCauseDescriptionTransform))]
         public string WorkItemCause { get; set; }
 
         [MemberDoc("工单状态")]
+        [AutoMapPropertyResolve("State", typeof(WorkItem), typeof(WorkItemStateDescriptionTransform))]
         public string WorkItemState { get; set; }
 
         [MemberDoc("省中心平台反馈信息")]

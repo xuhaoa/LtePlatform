@@ -2,6 +2,8 @@
 using Abp.Reflection;
 using AutoMapper;
 using Lte.Evaluations.Policy;
+using Lte.Parameters.Entities.Work;
+using Lte.Parameters.MockOperations;
 
 namespace Lte.Evaluations.MapperSerive
 {
@@ -13,8 +15,8 @@ namespace Lte.Evaluations.MapperSerive
         {
             var module = new AbpAutoMapperModule(_typeFinder);
             module.PostInitialize();
-           
-            KpiMapperService.MapWorkItem();
+
+            Mapper.CreateMap(typeof(WorkItemExcel), typeof(WorkItem)).ConvertUsing<WorkItemConverter>();
 
             BaiduMapperService.MapCdmaCellView();
             BaiduMapperService.MapCellView();

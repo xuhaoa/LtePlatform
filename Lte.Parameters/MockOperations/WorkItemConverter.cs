@@ -20,7 +20,9 @@ namespace Lte.Parameters.MockOperations
                 FinishTime = source.FinishTime,
                 Deadline = source.Deadline,
                 Cause = source.CauseDescription.GetEnumType<WorkItemCause>(),
-                State = source.StateDescription.GetEnumType<WorkItemState>()
+                State = source.StateDescription.GetEnumType<WorkItemState>(),
+                RejectTimes = source.RejectTimes,
+                StaffName = source.StaffName
             };
 
             var title = source.Title ?? "";
