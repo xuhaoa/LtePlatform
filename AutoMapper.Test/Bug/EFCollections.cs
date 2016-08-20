@@ -27,19 +27,16 @@ namespace AutoMapper.Test.Bug
 
         public class Dest
         {
-            public ICollection<DestChild> Children { get; set; } 
+            public ICollection<DestChild> Children { get; set; }
         }
 
-        public class DestChild {}
+        public class DestChild { }
 
-        protected override void Establish_context()
+        protected override MapperConfiguration Configuration { get; } = new MapperConfiguration(cfg =>
         {
-            Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<Source, Dest>();
-                cfg.CreateMap<Child, DestChild>();
-            });
-        }
+            cfg.CreateMap<Source, Dest>();
+            cfg.CreateMap<Child, DestChild>();
+        });
 
         protected override void Because_of()
         {

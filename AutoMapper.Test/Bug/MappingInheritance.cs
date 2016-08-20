@@ -6,24 +6,21 @@ namespace AutoMapper.Test.Bug
 {
     [TestFixture]
     public class MappingInheritance : AutoMapperSpecBase
-	{
-		private Entity testEntity;
-		private EditModel testModel;
+    {
+        private Entity testEntity;
+        private EditModel testModel;
 
-        protected override void Establish_context()
+        protected override MapperConfiguration Configuration { get; } = new MapperConfiguration(cfg =>
         {
-            Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<Entity, ViewModel>();
-                cfg.CreateMap<Entity, BaseModel>()
-                    .ForMember(model => model.Value1, mce => mce.MapFrom(entity => entity.Value2))
-                    .ForMember(model => model.Value2, mce => mce.MapFrom(entity => entity.Value1))
-                    .Include<Entity, EditModel>()
-                    .Include<Entity, ViewModel>();
-                cfg.CreateMap<Entity, EditModel>()
-                    .ForMember(model => model.Value3, mce => mce.MapFrom(entity => entity.Value1 + entity.Value2));
-            });
-        }
+            cfg.CreateMap<Entity, ViewModel>();
+            cfg.CreateMap<Entity, BaseModel>()
+                .ForMember(model => model.Value1, mce => mce.MapFrom(entity => entity.Value2))
+                .ForMember(model => model.Value2, mce => mce.MapFrom(entity => entity.Value1))
+                .Include<Entity, EditModel>()
+                .Include<Entity, ViewModel>();
+            cfg.CreateMap<Entity, EditModel>()
+                .ForMember(model => model.Value3, mce => mce.MapFrom(entity => entity.Value1 + entity.Value2));
+        });
 
         protected override void Because_of()
         {
@@ -36,8 +33,8 @@ namespace AutoMapper.Test.Bug
         }
 
         [Test]
-		public void AutoMapper_should_map_derived_types_properly()
-		{
+        public void AutoMapper_should_map_derived_types_properly()
+        {
             testEntity.Value1.ShouldBe(testModel.Value2);
             testEntity.Value2.ShouldBe(testModel.Value1);
             (testEntity.Value1 + testEntity.Value2).ShouldBe(testModel.Value3);
@@ -69,7 +66,7 @@ namespace AutoMapper.Test.Bug
         [Test]
         public void TestMethod1()
         {
-            Mapper.Initialize(cfg =>
+            var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Order, OrderDto>()
                     .Include<OnlineOrder, OnlineOrderDto>()
@@ -78,10 +75,10 @@ namespace AutoMapper.Test.Bug
                 cfg.CreateMap<MailOrder, MailOrderDto>();
             });
 
-            //Mapper.AssertConfigurationIsValid();
+            var mapper = config.CreateMapper();
 
             var mailOrder = new MailOrder() { NewId = 1 };
-            var mapped = Mapper.Map<OrderDto>(mailOrder);
+            var mapped = mapper.Map<OrderDto>(mailOrder);
 
             mapped.ShouldBeOfType<MailOrderDto>();
         }
@@ -91,9 +88,7 @@ namespace AutoMapper.Test.Bug
         }
 
         public class Order : Base<Order> { }
-
-        public abstract class OnlineOrder : Order { }
-
+        public class OnlineOrder : Order { }
         public class MailOrder : Order
         {
             public int NewId { get; set; }

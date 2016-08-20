@@ -34,14 +34,11 @@ namespace AutoMapper.Test.Bug
         {
         }
 
-        protected override void Establish_context()
+        protected override MapperConfiguration Configuration { get; } = new MapperConfiguration(cfg =>
         {
-            Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<Thing, ThingDto>();
-                cfg.CreateMap<IItem, ItemDto>();
-            });
-        }
+            cfg.CreateMap<Thing, ThingDto>();
+            cfg.CreateMap<IItem, ItemDto>();
+        });
 
         protected override void Because_of()
         {

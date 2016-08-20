@@ -108,9 +108,13 @@
     <Compile Include="Core\When_configuring_a_member_to_skip_based_on_the_property_value_with_custom_mapping.cs" />
     <Compile Include="IMappingExpression\ByteArrayBug.cs" />
     <Compile Include="IMappingExpression\CollectionsNullability.cs" />
+    <Compile Include="IMappingExpression\EmptyNullSubstituteBug.cs" />
     <Compile Include="IMappingExpression\ExistingArrays.cs" />
     <Compile Include="IMappingExpression\ForCtorParam.cs" />
     <Compile Include="IMappingExpression\MemberNameReplacers.cs" />
+    <Compile Include="IMappingExpression\NestedMappingProjectionsExplicitExpanding.cs" />
+    <Compile Include="IMappingExpression\NullableEnums.cs" />
+    <Compile Include="IMappingExpression\NullableEnumToNullableValueType.cs" />
     <Compile Include="Membel\MemberResolution.cs" />
     <Compile Include="Membel\NestedContainers.cs" />
     <Compile Include="Membel\NullBehavior.cs" />
