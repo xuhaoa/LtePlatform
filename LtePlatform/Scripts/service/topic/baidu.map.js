@@ -165,9 +165,10 @@
                 var deferred = $q.defer();
                 $http.jsonp(baiduApiUrl + '&coords=' + coors.longtitute + ',' + coors.lattitute
                         + '&from=1&to=5&ak=' + myKey).success(function(result) {
-                        coors.longtitute = result.result[0].x;
-                        coors.lattitute = result.result[0].y;
-                        deferred.resolve(coors);
+                        deferred.resolve({
+                            longtitute: result.result[0].x,
+                            lattitute: result.result[0].y
+                        });
                     })
                     .error(function(reason) {
                         deferred.reject(reason);
@@ -552,6 +553,7 @@
                 if (callback)
                     pointCollection.addEventListener('click', callback);
                 map.addOverlay(pointCollection);  // 添加Overlay
+                return pointCollection;
             }
         };
     })

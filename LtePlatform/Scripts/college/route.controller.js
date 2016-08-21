@@ -462,6 +462,7 @@ angular.module('college.main', ['app.common'])
             selected: ''
         };
         $scope.data = [];
+        $scope.coverageOverlays = [];
 
         $scope.query = function () {
             $scope.kpi = kpiDisplayService.queryKpiOptions($scope.network.selected);
@@ -486,7 +487,19 @@ angular.module('college.main', ['app.common'])
         $scope.showDtPoints = function() {
             $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
             kpiDisplayService.generateCoveragePoints($scope.coveragePoints, $scope.data, $scope.kpi.selected);
-            console.log($scope.coveragePoints);
+            angular.forEach($scope.coverageOverlays, function(overlay) {
+                baiduMapService.removeOverlay(overlay);
+            });
+            angular.forEach($scope.coveragePoints.intervals, function(interval) {
+                var coors = interval.coors;
+                if (coors.length > 0) {
+                    geometryService.transformBaiduCoors(coors[0]).then(function(newCoor) {
+                        var xoffset = coors[0].longtitute - newCoor.longtitute;
+                        var yoffset = coors[0].lattitute - newCoor.lattitute;
+                        $scope.coverageOverlays.push(baiduMapService.drawMultiPoints(coors, interval.color, xoffset, yoffset));
+                    });
+                }
+            });
         };
 
         var queryRasterInfo = function(index) {

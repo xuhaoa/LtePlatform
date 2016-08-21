@@ -101,9 +101,9 @@
     .factory('collegeDtService', function (collegeService) {
         var queryRange = function(info) {
             return {
-                west: info.centerX - 0.03,
-                east: info.centerX + 0.03,
-                south: info.centerY - 0.03,
+                west: info.centerX - 0.02,
+                east: info.centerX + 0.02,
+                south: info.centerY - 0.02,
                 north: info.centerY + 0.03
             }
         };
