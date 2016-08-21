@@ -483,13 +483,18 @@ angular.module('college.main', ['app.common'])
             $scope.legend = kpiDisplayService.queryCoverageLegend(kpi);
         });
 
+        $scope.showDtPoints = function() {
+            console.log($scope.data);
+            $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+        };
+
         var queryRasterInfo = function(index) {
             coverageService.queryByRasterInfo($scope.dataFile.options[index], $scope.network.selected).then(function(result) {
                 $scope.data.push.apply($scope.data, result);
                 if (index < $scope.dataFile.options.length - 1) {
                     queryRasterInfo(index + 1);
                 } else {
-                    console.log($scope.data);
+                    $scope.showDtPoints();
                 }
             });
         };
@@ -501,7 +506,7 @@ angular.module('college.main', ['app.common'])
             } else {
                 coverageService.queryByRasterInfo($scope.dataFile.selected, $scope.network.selected).then(function (result) {
                     $scope.data = result;
-                    console.log($scope.data);
+                    $scope.showDtPoints();
                 });
             }
         };

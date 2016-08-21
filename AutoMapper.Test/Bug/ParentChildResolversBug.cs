@@ -80,6 +80,30 @@ namespace AutoMapper.Test.Bug
             }
         }
         
+        [TestFixture]
+        public class ValueResolverTest : AutoMapperSpecBase
+        {
+            protected override MapperConfiguration Configuration { get; }
+                = new MapperConfiguration(cfg
+                    =>
+                    cfg.CreateMap(typeof (Source), typeof (Dest))
+                        .ForMember("field", map => map.ResolveUsing(typeof (Resolver))));
+
+            [TestCase("testa", DestEnum.a)]
+            [TestCase("testb", DestEnum.b)]
+            [TestCase("testc", DestEnum.c)]
+            [TestCase("testd", null)]
+            public void TestMapper(string code, DestEnum? destEnum)
+            {
+                var source = new Source
+                {
+                    fieldCode = code
+                };
+                var destination = Mapper.Map<Source, Dest>(source);
+                destination.field.ShouldBe(destEnum);
+            }
+        }
+        
     }
 
 }

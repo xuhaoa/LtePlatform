@@ -1641,6 +1641,7 @@
     <Content Include="Scripts\test\services\app.kpi.spec.js" />
     <Content Include="Scripts\test\mock\highcharts.mock.js" />
     <Content Include="Scripts\test\mock\ui.bootstrap.mock.js" />
+    <Content Include="Scripts\test\services\kpi.display.spec.js" />
     <Content Include="Scripts\test\ui-grid\row-filtering.spec.js" />
     <Content Include="Scripts\test\ui-grid\row-sorting.spec.js" />
     <Content Include="Scripts\test\ui-grid\ui-grid-column-menu.spec.js" />
@@ -1775,7 +1776,6 @@
     <None Include="Properties\PublishProfiles\Lte-ftp-219.pubxml" />
     <None Include="Properties\PublishProfiles\Lte2.pubxml" />
     <Content Include="Scripts\coffee-script.js" />
-    <Content Include="Scripts\college\coverage.viewmodel.js" />
     <Content Include="Scripts\college\kpi.controller.js" />
     <Content Include="Scripts\college\kpi.viewmodel.js" />
     <Content Include="Scripts\college\precise.controller.js" />

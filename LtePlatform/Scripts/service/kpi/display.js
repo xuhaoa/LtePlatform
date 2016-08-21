@@ -402,6 +402,66 @@
                             sign: true
                         };
                 }
+            },
+            initializeCoveragePoints: function(legend) {
+                var pointDef = {
+                    sign: legend.sign,
+                    intervals: []
+                };
+                angular.forEach(legend.criteria, function(interval) {
+                    pointDef.intervals.push({
+                        color: interval.color,
+                        threshold: interval.threshold,
+                        coors: []
+                    });
+                });
+                pointDef.intervals.push({
+                    color: "#077f07",
+                    threshold: legend.sign ? 10000 : -10000,
+                    coors: []
+                });
+                return pointDef;
+            },
+            generateCoveragePoints: function(pointDef, points, kpi) {
+                var intervals = pointDef.intervals;
+                angular.forEach(points, function(point) {
+                    var value = 0;
+                    switch (kpi) {
+                        case 'Ec/Io':
+                            value = point.ecio;
+                            break;
+                        case 'RxAGC':
+                            value = point.rxAgc;
+                            break;
+                        case 'TxPower':
+                            value = point.txPower;
+                            break;
+                        case 'SINR(3G)':
+                            value = point.sinr;
+                            break;
+                        case 'RxAGC0':
+                            value = point.rxAgc0;
+                            break;
+                        case 'RxAGC1':
+                            value = point.rxAgc1;
+                            break;
+                        case 'RSRP':
+                            value = point.rsrp;
+                            break;
+                        default:
+                            value = point.sinr;
+                            break;
+                    }
+                    for (var i = 0; i < intervals.length; i++) {
+                        if ((pointDef.sign && value < intervals[i].threshold) || (!pointDef.sign && value > intervals[i].threshold)) {
+                            intervals[i].coors.push({
+                                longtitute: point.longtitute,
+                                lattitute: point.lattitute
+                            });
+                            break;
+                        }
+                    }
+                });
             }
         };
     });
