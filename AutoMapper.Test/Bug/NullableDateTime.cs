@@ -5,6 +5,7 @@ using Shouldly;
 
 namespace AutoMapper.Test.Bug
 {
+    [TestFixture]
     public class NullableDateTimeMapFromArray : AutoMapperSpecBase
     {
         public class Source

@@ -5,6 +5,7 @@ using Shouldly;
 
 namespace AutoMapper.Test.Core
 {
+    [TestFixture]
     public class When_using_a_type_converter : AutoMapperSpecBase
     {
         public class A
@@ -20,6 +21,7 @@ namespace AutoMapper.Test.Core
         protected override MapperConfiguration Configuration => new MapperConfiguration(cfg => cfg.CreateMap<A, B>().ConvertUsing(x => new B { Foo = new C() }));
     }
 
+    [TestFixture]
     public class When_using_a_type_converter_class : AutoMapperSpecBase
     {
         public class A

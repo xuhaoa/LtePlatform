@@ -173,7 +173,7 @@ namespace AutoMapper.Test.Membel
         [Test]
         public void Should_convert_type_using_Func_that_returns_instance()
         {
-            _result.Value3.ShouldBe(typeof(Destination));
+            _result.ShouldBeOfType(typeof(Destination));
         }
     }
 
