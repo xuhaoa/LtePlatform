@@ -262,5 +262,51 @@ describe('kpi display service test', function() {
         });
     });
 
-    it('should')
+    it('should initialize and update one point for the Ec/Io kpi valued -18dB', function() {
+        var legend = kpiDisplayService.queryCoverageLegend('Ec/Io');
+        var pointDef = kpiDisplayService.initializeCoveragePoints(legend);
+        var points = [
+            {
+                ecio: -18,
+                longtitute: 112.123,
+                lattitute: 23.123
+            }
+        ];
+        kpiDisplayService.generateCoveragePoints(pointDef, points, 'Ec/Io');
+        var intervals = pointDef.intervals;
+        expect(intervals).toContain({
+            threshold: -15,
+            color: "#ff0000",
+            coors: [
+                {
+                    longtitute: 112.123,
+                    lattitute: 23.123
+                }
+            ]
+        });
+    });
+
+    it('should initialize and update one point for the Ec/Io kpi valued -14dB', function () {
+        var legend = kpiDisplayService.queryCoverageLegend('Ec/Io');
+        var pointDef = kpiDisplayService.initializeCoveragePoints(legend);
+        var points = [
+            {
+                ecio: -14,
+                longtitute: 112.123,
+                lattitute: 23.123
+            }
+        ];
+        kpiDisplayService.generateCoveragePoints(pointDef, points, 'Ec/Io');
+        var intervals = pointDef.intervals;
+        expect(intervals).toContain({
+            threshold: -12,
+            color: "#7f0808",
+            coors: [
+                {
+                    longtitute: 112.123,
+                    lattitute: 23.123
+                }
+            ]
+        });
+    });
 });

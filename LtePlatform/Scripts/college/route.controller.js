@@ -484,8 +484,9 @@ angular.module('college.main', ['app.common'])
         });
 
         $scope.showDtPoints = function() {
-            console.log($scope.data);
             $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+            kpiDisplayService.generateCoveragePoints($scope.coveragePoints, $scope.data, $scope.kpi.selected);
+            console.log($scope.coveragePoints);
         };
 
         var queryRasterInfo = function(index) {
