@@ -386,6 +386,19 @@ namespace Lte.Evaluations.MapperService
         }
 
         [Test]
+        public void Test_ENodebBtsIdPair_2()
+        {
+            var info = new CellExcel
+            {
+                ENodebId = 11223,
+                ShareCdmaInfo = null
+            };
+            var item = info.MapTo<ENodebBtsIdPair>();
+            item.ENodebId.ShouldBe(11223);
+            item.BtsId.ShouldBe(0);
+        }
+
+        [Test]
         public void Test_BtsWithTownIdContainer()
         {
             var excelContainer = new BtsExcelWithTownIdContainer

@@ -174,16 +174,16 @@ angular.module('college.main', ['app.common'])
                     }
                 ]
             }, {
-                displayName: "日常管理",
+                displayName: "容量质量",
                 tag: "management",
                 isActive: true,
                 subItems: [
                     {
-                        displayName: "测试报告",
-                        url: rootUrl + "/test"
+                        displayName: "支撑任务",
+                        url: rootUrl + "/support"
                     }, {
-                        displayName: "指标报告",
-                        url: rootUrl + "/kpi"
+                        displayName: "流量分析",
+                        url: rootUrl + "/flow"
                     }, {
                         displayName: "精确覆盖",
                         url: rootUrl + "/precise"

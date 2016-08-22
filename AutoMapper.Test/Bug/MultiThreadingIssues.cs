@@ -1,6 +1,7 @@
 ﻿#if !SILVERLIGHT && !NETFX_CORE
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -137,6 +138,26 @@ namespace AutoMapperIssue
             {
                 cfg.CreateMap<int?, Entity>().ConvertUsing<NullableIntToEntityConverter>();
                 cfg.CreateMap<int, Entity>().ConvertUsing<IntToEntityConverter>();
+            });
+            var guids = new List<int?>()
+                    {
+                        1,
+                        2,
+                        null
+                    };
+
+            var result = Mapper.Map<List<Entity>>(guids);
+
+            result[2].ShouldBeNull();
+        }
+
+        [Test]
+        public void Example2()
+        {
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<int?, Entity>().ConvertUsing(new NullableIntToEntityConverter());
+                cfg.CreateMap<int, Entity>().ConvertUsing(new IntToEntityConverter());
             });
             var guids = new List<int?>()
                     {

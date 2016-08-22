@@ -1178,9 +1178,12 @@ namespace Lte.Evaluations.MapperService
         [Test]
         public void Test_AntennaPortsConfigureTransform()
         {
-            var coreMap = Mapper.CreateMap(typeof (SourceCell), typeof (Cell));
-            coreMap =   coreMap.ForMember("AntennaPorts",
+            Mapper.Initialize(cfg =>
+            {
+                var coreMap = cfg.CreateMap(typeof (SourceCell), typeof (Cell));
+                coreMap.ForMember("AntennaPorts",
                     map => map.ResolveUsing(typeof (AntennaPortsConfigureTransform)).FromMember("TransmitReceive"));
+            });
             var source = new SourceCell
             {
                 TransmitReceive = "2T2R"

@@ -10,6 +10,7 @@ using Lte.MySqlFramework.Entities;
 using Abp.EntityFramework.Repositories;
 using AutoMapper;
 using Lte.Domain.Common.Geo;
+using Lte.Domain.Common.Wireless;
 using Lte.Parameters.Abstract;
 
 namespace Lte.Evaluations.DataService.College
@@ -275,6 +276,24 @@ namespace Lte.Evaluations.DataService.College
         {
             var result =
                 Mapper.Map<VipDemand, VipDemandDto>(_repository.FirstOrDefault(x => x.SerialNumber == serialNumber));
+            var town = _townRepository.Get(result.TownId);
+            if (town != null)
+            {
+                result.District = town.DistrictName;
+                result.Town = town.TownName;
+            }
+            return result;
+        }
+
+        public VipDemandDto QueryYearDemand(string collegeName, int year)
+        {
+            var item =
+                _repository.FirstOrDefault(
+                    x =>
+                        x.ProjectContents == collegeName + "校园秋营" && x.BeginDate >= new DateTime(year, 1, 1) &&
+                        x.BeginDate < new DateTime(year, 12, 31) && x.MarketTheme == MarketTheme.CollegeAutumn);
+            if (item == null) return null;
+            var result = item.MapTo<VipDemandDto>();
             var town = _townRepository.Get(result.TownId);
             if (town != null)
             {

@@ -153,6 +153,22 @@ namespace LtePlatform.Controllers.College
         }
     }
 
+    public class CollegeVipDemandController : ApiController
+    {
+        private readonly VipDemandService _service;
+
+        public CollegeVipDemandController(VipDemandService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public VipDemandDto Get(string collegeName, int year)
+        {
+            return _service.QueryYearDemand(collegeName, year);
+        }
+    }
+
     public class VipProcessController : ApiController
     {
         private readonly VipDemandService _service;
