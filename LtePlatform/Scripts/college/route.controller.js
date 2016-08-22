@@ -100,6 +100,22 @@ angular.module('college.main', ['app.common'])
                     }
                 },
                 url: "/coverage/:name"
+            }).state('support', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/GeneralMenu.html",
+                        controller: "menu.root"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "/Coverage/Support.html",
+                        controller: "all.support"
+                    },
+                    'collegeList': {
+                        templateUrl: viewDir + "CollegeMenu.html",
+                        controller: "support.menu"
+                    }
+                },
+                url: "/support"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -195,6 +211,9 @@ angular.module('college.main', ['app.common'])
     .controller("college.menu", function ($scope, $stateParams) {
         $scope.collegeInfo.type = $stateParams.type || 'lte';
         $scope.collegeName = $stateParams.name;
+    })
+    .controller("support.menu", function($scope) {
+        
     })
     .controller("all.map", function($scope, $uibModal, $log, baiduMapService, collegeMapService) {
         $scope.collegeInfo.url = $scope.rootPath + "map";
@@ -538,4 +557,7 @@ angular.module('college.main', ['app.common'])
                 collegeMapService.drawCollegeArea(college.id, function () {});
             });
         });
+    })
+    .controller("all.support", function($scope) {
+        $scope.page.title = "支撑任务";
     });
