@@ -1,5 +1,47 @@
 ﻿angular.module('myApp.kpi', ['myApp.url', 'myApp.region'])
-    .factory('appKpiService', function () {
+    .factory('chartCalculateService', function() {
+        return {
+            generateDrillDownData: function (districtStats, townStats, queryFunction) {
+                var results = [];
+                angular.forEach(districtStats, function(districtStat) {
+                    var subData = [];
+                    var district = districtStat.district;
+                    var districtData = queryFunction(districtStat);
+                    angular.forEach(townStats, function(townStat) {
+                        if (townStat.district === district) {
+                            subData.push([townStat.town, queryFunction(townStat)]);
+                        }
+                    });
+                    
+                    results.push({
+                        district: district,
+                        districtData: districtData,
+                        subData: subData
+                    });
+                });
+                return results;
+            },
+            generateDateDistrictStats: function(stats, districts, queryFunction) {
+                var statDates = [];
+                var districtStats = [];
+                angular.forEach(stats, function(stat, index) {
+                    statDates.push(stat.statDate);
+                    for (var j = 0; j < districts.length; j++) {
+                        if (index === 0) {
+                            districtStats.push([queryFunction(stat.values[j])]);
+                        } else {
+                            districtStats[j].push(queryFunction(stat.values[j]));
+                        }
+                    }
+                });
+                return{
+                    statDates: statDates,
+                    districtStats: districtStats
+                };
+            }
+        };
+    })
+    .factory('appKpiService', function (chartCalculateService) {
         var accumulatePreciseStat = function (source, accumulate) {
             source.totalMrs += accumulate.totalMrs;
             source.firstNeighbors += accumulate.firstNeighbors;
@@ -33,38 +75,7 @@
             }
             return 0;
         };
-        var generateDrillDownData = function(chart, districtStats, townStats, queryFunction) {
-            angular.forEach(districtStats, function(districtStat) {
-                var subData = [];
-                var district = districtStat.district;
-                var districtData = queryFunction(districtStat);
-                angular.forEach(townStats, function(townStat) {
-                    if (townStat.district === district) {
-                        subData.push([townStat.town, queryFunction(townStat)]);
-                    }
-                });
-                chart.addOneSeries(district, districtData, subData);
-            });
-        };
-        var generateDateDistrictStats = function(stats, districts, queryFunction) {
-            var statDates = [];
-            var districtStats = [];
-            angular.forEach(stats, function (stat, index) {
-                statDates.push(stat.statDate);
-                for (var j = 0; j < districts.length; j++) {
-                    if (index === 0) {
-                        districtStats.push([queryFunction(stat.values[j])]);
-                    } else {
-                        districtStats[j].push(queryFunction(stat.values[j]));
-                    }
-                }
-            });
-            return{
-                statDates: statDates,
-                districtStats: districtStats
-            };
-        };
-
+        
         return {
             getDownSwitchRate: function (stats) {
                 var flow3G = 0;
@@ -110,10 +121,14 @@
                 chart.series[0].data = [];
                 chart.drilldown.series = [];
                 chart.series[0].name = "区域";
-                var queryFunction = function(stat) {
+
+                var results = chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
                     return stat.totalMrs;
-                };
-                generateDrillDownData(chart, districtStats, townStats, queryFunction);
+                });
+                angular.forEach(results, function(data) {
+                    chart.addOneSeries(data.district, data.districtData, data.subData);
+                });
+                
                 return chart.options;
             },
             getPreciseRateOptions: function (districtStats, townStats) {
@@ -122,10 +137,14 @@
                 chart.series[0].data = [];
                 chart.drilldown.series = [];
                 chart.series[0].name = "区域";
-                var queryFunction = function(stat) {
+
+                var results = chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
                     return stat.preciseRate;
-                };
-                generateDrillDownData(chart, districtStats, townStats, queryFunction);
+                });
+                angular.forEach(results, function (data) {
+                    chart.addOneSeries(data.district, data.districtData, data.subData);
+                });
+
                 return chart.options;
             },
             getMrsDistrictOptions: function(stats, inputDistricts){
@@ -135,7 +154,7 @@
                     return stat.mr;
                 };
                 var districts = inputDistricts.concat("全网");
-                var result = generateDateDistrictStats(stats, districts, queryFunction);
+                var result = chartCalculateService.generateDateDistrictStats(stats, districts, queryFunction);
                 chart.xAxis[0].categories = result.statDates;
                 chart.yAxis[0].title.text = "MR总数";
                 chart.xAxis[0].title.text = '日期';
@@ -155,7 +174,7 @@
                     return stat.precise;
                 };
                 var districts = inputDistricts.concat("全网");
-                var result = generateDateDistrictStats(stats, districts, queryFunction);
+                var result = chartCalculateService.generateDateDistrictStats(stats, districts, queryFunction);
                 chart.xAxis[0].categories = result.statDates;
                 chart.yAxis[0].title.text = "精确覆盖率";
                 chart.xAxis[0].title.text = '日期';

@@ -5,9 +5,10 @@
 /// <reference path="../../jasmine/jasmine.js"/>
 /// <reference path="../../jasmine/jasmine-html.js"/>
 /// <reference path="../../mycharts/drilldown.chart.js"/>
-/// <reference path="../../service/app.url.service.js"/>
 /// <reference path="../../service/app.kpi.service.js"/>
-/// <reference path="../../service/app.region.service.js"/>
+
+angular.module('myApp.url', []);
+angular.module('myApp.region', []);
 
 describe('app kpi service test', function () {
     var appKpiService;
@@ -105,4 +106,68 @@ describe('app kpi service test', function () {
         var result = appKpiService.getDownSwitchRate(stats);
         expect(result).toBe(14);
     });
+});
+
+describe('chartCalculateService test', function() {
+    var chartCalculateService;
+    beforeEach(module('myApp.kpi'));
+
+    beforeEach(inject(function(_chartCalculateService_) {
+        chartCalculateService = _chartCalculateService_;
+    }));
+
+    it('should generateDrillDownData', function() {
+        var districtStats = [
+            {
+                district: 'district1',
+                value: 12
+            }, {
+                district: 'district2',
+                value: 13
+            }, {
+                district: 'district3',
+                value: 14
+            }
+        ];
+        var townStats = [
+            {
+                district: 'district1',
+                town: 'town11',
+                value: 4
+            }, {
+                district: 'district1',
+                town: 'town12',
+                value: 5
+            }, {
+                district: 'district2',
+                town: 'town21',
+                value: 6
+            }, {
+                district: 'district3',
+                town: 'town31',
+                value: 7
+            }, {
+                district: 'district3',
+                town: 'town32',
+                value: 8
+            }, {
+                district: 'district2',
+                town: 'town33',
+                value: 9
+            }
+        ];
+
+        var results = chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
+            return stat.value;
+        });
+
+        expect(results).not.toBeNull();
+        expect(results.length).toBe(3);
+        expect(results).toContain({
+            district: 'district1',
+            districtData: 12,
+            subData: [['town11', 4], ['town12', 5]]
+        });
+    });
+
 });
