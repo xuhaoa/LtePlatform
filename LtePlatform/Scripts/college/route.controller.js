@@ -117,7 +117,7 @@
             });
         $urlRouterProvider.otherwise('/');
     })
-    .run(function($rootScope, collegeService) {
+    .run(function ($rootScope, collegeService, appRegionService) {
         var rootUrl = "/College/Map#";
         $rootScope.menuItems = [];
         $rootScope.rootPath = rootUrl + "/";
@@ -139,18 +139,22 @@
         collegeService.queryNames().then(function(result) {
             $rootScope.collegeInfo.names = result;
         });
-        $rootScope.city = {
-            selected: "",
-            options: []
-        };
-        $rootScope.district = {
-            options: [],
-            selected: ""
-        };
         $rootScope.town = {
             options: [],
             selected: ""
         };
+        appRegionService.initializeCities().then(function (cities) {
+            $rootScope.city = {
+                selected: cities[0],
+                options: cities
+            };
+            appRegionService.queryDistricts(cities[0]).then(function (districts) {
+                $rootScope.district = {
+                    options: districts,
+                    selected: districts[0]
+                };
+            });
+        });
 
         var lastWeek = new Date();
         lastWeek.setDate(lastWeek.getDate() - 7);
@@ -946,5 +950,18 @@
 
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('college.supplement.dialog', function ($scope, $uibModalInstance,
+        customerQueryService, appFormatService,dialogTitle, view) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.view = view;
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+        $scope.ok = function () {
+            $scope.view.district = $scope.district.selected;
+            $scope.view.town = $scope.town.selected;
+            $uibModalInstance.close($scope.view);
         };
     });

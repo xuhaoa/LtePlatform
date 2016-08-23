@@ -76,6 +76,33 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
+            supplementCollegeDemandInfo: function (view, messages) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Customer/Dialog/CollegeSupplement.html',
+                    controller: 'college.supplement.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "补充校园网支撑需求信息";
+                        },
+                        view: function () {
+                            return view;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (dto) {
+                    customerQueryService.updateVip(dto).then(function () {
+                        messages.push({
+                            type: 'success',
+                            contents: '完成校园网支撑需求：' + dto.serialNumber + '的补充'
+                        });
+                    });
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
             constructFiberItem: function(id, num, callback, messages) {
                 var modalInstance = $uibModal.open({
                     animation: true,

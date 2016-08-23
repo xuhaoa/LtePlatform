@@ -441,6 +441,7 @@
     <Content Include="appViews\Customer\Complain\List.html" />
     <Content Include="appViews\Customer\Complain\Online.html" />
     <Content Include="appViews\Customer\Complain\Stat.html" />
+    <Content Include="appViews\Customer\Dialog\CollegeSupplement.html" />
     <Content Include="appViews\Customer\Dialog\Complain.html" />
     <Content Include="appViews\Customer\Dialog\Fiber.html" />
     <Content Include="appViews\Customer\Dialog\VipSupplement.html" />

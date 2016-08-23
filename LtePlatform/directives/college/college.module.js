@@ -101,7 +101,7 @@ angular.module('college.info', ['customer.service'])
             }
         };
     })
-    .controller('CollegeSupportController', function ($scope, emergencyService) {
+    .controller('CollegeSupportController', function ($scope, emergencyService, customerDialogService) {
         $scope.gridOptions = {
             columnDefs: [
                 { field: 'name', name: '校园名称', width: 200, enableColumnResizing: false },
@@ -128,7 +128,7 @@ angular.module('college.info', ['customer.service'])
                         $scope.query();
                     });
                 } else {
-                    console.log(item);
+                    customerDialogService.supplementCollegeDemandInfo(item, $scope.messages);
                 }
                 
             });
