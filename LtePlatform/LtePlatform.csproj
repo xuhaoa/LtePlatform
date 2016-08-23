@@ -811,7 +811,6 @@
     <Content Include="Scripts\baidu\plugins\GeoUtils.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\college\test\controller.js" />
     <Content Include="Scripts\customer\index.controller.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
@@ -1600,7 +1599,6 @@
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\app\evaluation\home.js" />
     <Content Include="Scripts\app\evaluation\route.controller.js" />
-    <Content Include="Scripts\college\query\all.js" />
     <Content Include="Scripts\college\route.controller.js" />
     <Content Include="Scripts\kpi\basic\index.controller.js" />
     <Content Include="Scripts\kpi\precise.import.js" />
