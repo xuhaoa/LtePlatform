@@ -62,7 +62,7 @@ angular.module('college.dt', ['ui.grid'])
         };
     });
 
-angular.module('college.info', ['customer.service'])
+angular.module('college.info', ['customer.service', 'myApp.region'])
     .controller('CollegeInfoController', function($scope) {
         $scope.gridOptions = {
             columnDefs: [
@@ -101,7 +101,7 @@ angular.module('college.info', ['customer.service'])
             }
         };
     })
-    .controller('CollegeSupportController', function ($scope, emergencyService, customerDialogService) {
+    .controller('CollegeSupportController', function ($scope, emergencyService, customerDialogService, appRegionService) {
         $scope.gridOptions = {
             columnDefs: [
                 { field: 'name', name: '校园名称', width: 200, enableColumnResizing: false },
@@ -117,7 +117,7 @@ angular.module('college.info', ['customer.service'])
             ],
             data: []
         };
-        $scope.constructSupport = function(college) {
+        $scope.constructSupport = function (college) {
             emergencyService.queryCollegeVipDemand($scope.year, college.name).then(function(item) {
                 if (!item) {
                     emergencyService.constructCollegeVipDemand(college).then(function(count) {
@@ -128,7 +128,26 @@ angular.module('college.info', ['customer.service'])
                         $scope.query();
                     });
                 } else {
-                    customerDialogService.supplementCollegeDemandInfo(item, $scope.messages);
+                    if (item.district) {
+                        angular.forEach($scope.district.options, function (district) {
+                            if (district === item.district) {
+                                $scope.district.selected = item.district;
+                            }
+                        });
+                        
+                        appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function (towns) {
+                            $scope.town.options = towns;
+                            $scope.town.selected = towns[0];
+                            angular.forEach(towns, function(town) {
+                                if (town === item.town) {
+                                    $scope.town.selected = town;
+                                }
+                            });
+                            customerDialogService.supplementCollegeDemandInfo(item, $scope.messages);
+                        });
+                    } else {
+                        customerDialogService.supplementCollegeDemandInfo(item, $scope.messages);
+                    }
                 }
                 
             });
@@ -143,7 +162,10 @@ angular.module('college.info', ['customer.service'])
                 colleges: '=',
                 year: '=',
                 messages: '=',
-                query: '&'
+                query: '&',
+                city: '=',
+                district: '=',
+                town: '='
             },
             template: '<div></div>',
             link: function (scope, element, attrs) {
