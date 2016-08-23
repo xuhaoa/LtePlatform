@@ -114,6 +114,22 @@
                     }
                 },
                 url: "/support"
+            }).state('collegeSupport', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/GeneralMenu.html",
+                        controller: "menu.root"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "/Coverage/CollegeSupport.html",
+                        controller: "support.name"
+                    },
+                    'collegeList': {
+                        templateUrl: viewDir + "/Coverage/SupportMenu.html",
+                        controller: "support.menu"
+                    }
+                },
+                url: "/support/:number"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -215,9 +231,8 @@
         $scope.collegeInfo.type = $stateParams.type || 'lte';
         $scope.collegeName = $stateParams.name;
     })
-    .controller("support.menu", function ($scope, $stateParams, emergencyService) {
-        $scope.url = $scope.rootPath + "support";
-        $scope.projectName = $stateParams.name;
+    .controller("support.menu", function ($scope, emergencyService) {
+        $scope.collegeInfo.url = $scope.rootPath + "support";
         emergencyService.queryCollegeVipDemands($scope.collegeInfo.year.selected).then(function(items) {
             $scope.collegeInfo.supportInfos = items;
         });
@@ -581,6 +596,9 @@
         $scope.$watch('collegeInfo.year.selected', function (year) {
             $scope.updateInfos(year);
         });
+    })
+    .controller("support.name", function($scope) {
+        
     })
     .controller('college.test', function ($scope) {
 
