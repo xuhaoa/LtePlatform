@@ -9,7 +9,7 @@
                         controller: "menu.root"
                     },
                     "contents": {
-                        templateUrl: viewDir + "AllMap.html",
+                        template: '<div id="all-map" style="width: 100%;height: 600px;overflow: hidden;margin:0;"></div>',
                         controller: "all.map"
                     },
                     'collegeList': {
