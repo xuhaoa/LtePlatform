@@ -111,7 +111,7 @@ angular.module('college.main', ['app.common'])
                         controller: "all.support"
                     },
                     'collegeList': {
-                        templateUrl: viewDir + "CollegeMenu.html",
+                        templateUrl: viewDir + "/Coverage/SupportMenu.html",
                         controller: "support.menu"
                     }
                 },
@@ -131,7 +131,8 @@ angular.module('college.main', ['app.common'])
             },
             url: $rootScope.rootPath + "map",
             names: [],
-            type: ""
+            type: "",
+            supportInfos: []
         };
         $rootScope.page = {
             title: "校园网总览",
@@ -212,8 +213,9 @@ angular.module('college.main', ['app.common'])
         $scope.collegeInfo.type = $stateParams.type || 'lte';
         $scope.collegeName = $stateParams.name;
     })
-    .controller("support.menu", function($scope) {
-        
+    .controller("support.menu", function ($scope, $stateParams) {
+        $scope.url = $scope.rootPath + "support";
+        $scope.projectName = $stateParams.name;
     })
     .controller("all.map", function($scope, $uibModal, $log, baiduMapService, collegeMapService) {
         $scope.collegeInfo.url = $scope.rootPath + "map";

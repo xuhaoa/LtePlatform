@@ -303,6 +303,24 @@ namespace Lte.Evaluations.DataService.College
             return result;
         }
 
+        public IEnumerable<VipDemandDto> QueryYearDemands(int year)
+        {
+            var items = _repository.GetAllList(x => x.BeginDate >= new DateTime(year, 1, 1) &&
+                                                    x.BeginDate < new DateTime(year, 12, 31) &&
+                                                    x.MarketTheme == MarketTheme.CollegeAutumn);
+            var results = items.MapTo<List<VipDemandDto>>();
+            foreach (var result in results)
+            {
+                var town = _townRepository.Get(result.TownId);
+                if (town != null)
+                {
+                    result.District = town.DistrictName;
+                    result.Town = town.TownName;
+                }
+            }
+            return results;
+        } 
+
         public List<VipDemand> QueryItems(DateTime begin, DateTime end)
         {
             return _repository.GetAllList(begin, end);

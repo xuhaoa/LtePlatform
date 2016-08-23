@@ -167,6 +167,12 @@ namespace LtePlatform.Controllers.College
         {
             return _service.QueryYearDemand(collegeName, year);
         }
+
+        [HttpGet]
+        public IEnumerable<VipDemandDto> Get(int year)
+        {
+            return _service.QueryYearDemands(year);
+        } 
     }
 
     public class VipProcessController : ApiController
