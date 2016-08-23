@@ -234,6 +234,12 @@
                     year: year
                 });
             },
+            queryCollegeVipDemand: function (year, collegeName) {
+                return generalHttpService.getApiData('CollegeVipDemand', {
+                    collegeName: collegeName,
+                    year: year
+                });
+            },
             queryVipProcessList: function(number) {
                 return generalHttpService.getApiData('VipProcess', {
                     serialNumber: number

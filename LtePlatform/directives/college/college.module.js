@@ -62,7 +62,7 @@ angular.module('college.dt', ['ui.grid'])
         };
     });
 
-angular.module('college.info', [])
+angular.module('college.info', ['customer.service'])
     .controller('CollegeInfoController', function($scope) {
         $scope.gridOptions = {
             columnDefs: [
@@ -101,7 +101,7 @@ angular.module('college.info', [])
             }
         };
     })
-    .controller('CollegeSupportController', function ($scope) {
+    .controller('CollegeSupportController', function ($scope, emergencyService) {
         $scope.gridOptions = {
             columnDefs: [
                 { field: 'name', name: '校园名称', width: 200, enableColumnResizing: false },
@@ -109,9 +109,19 @@ angular.module('college.info', [])
                 { field: 'newSubscribers', name: '新发展用户数' },
                 { field: 'expectedSubscribers', name: '预计到达用户数' },
                 { field: 'oldOpenDate', name: '老生开学日期', cellFilter: 'date: "yyyy-MM-dd"' },
-                { field: 'newOpenDate', name: '新生开学日期', cellFilter: 'date: "yyyy-MM-dd"' }
+                { field: 'newOpenDate', name: '新生开学日期', cellFilter: 'date: "yyyy-MM-dd"' },
+                {
+                    name: '支撑任务',
+                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="grid.appScope.constructSupport(row.entity)">新增/修改</button>'
+                }
             ],
             data: []
+        };
+        $scope.constructSupport = function(college) {
+            console.log(college);
+            emergencyService.queryCollegeVipDemand($scope.year, college.name).then(function(items) {
+                console.log(items);
+            });
         };
     })
     .directive('collegeSupportList', function ($compile) {
@@ -120,7 +130,8 @@ angular.module('college.info', [])
             restrict: 'EA',
             replace: true,
             scope: {
-                colleges: '='
+                colleges: '=',
+                year: '='
             },
             template: '<div></div>',
             link: function (scope, element, attrs) {
