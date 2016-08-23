@@ -2,12 +2,11 @@
     .config(function($stateProvider, $urlRouterProvider) {
         var viewDir = "/appViews/College/";
         $stateProvider
-            .state('map', {
+            .state('root', {
+                templateUrl: viewDir + "Root.html"
+            })
+            .state('root.map', {
                 views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.root"
-                    },
                     "contents": {
                         template: '<div id="all-map" style="width: 100%;height: 600px;overflow: hidden;margin:0;"></div>',
                         controller: "all.map"
@@ -18,12 +17,8 @@
                     }
                 },
                 url: "/"
-            }).state('collegeMap', {
+            }).state('root.collegeMap', {
                 views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.root"
-                    },
                     "contents": {
                         templateUrl: viewDir + "CollegeMap.html",
                         controller: "map.name"
@@ -34,12 +29,8 @@
                     }
                 },
                 url: "/map/:name/:type"
-            }).state('query', {
+            }).state('root.query', {
                 views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.root"
-                    },
                     "contents": {
                         templateUrl: viewDir + "Stat.html",
                         controller: "all.query"
@@ -50,12 +41,8 @@
                     }
                 },
                 url: "/query"
-            }).state('collegeQuery', {
+            }).state('root.collegeQuery', {
                 views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.root"
-                    },
                     "contents": {
                         templateUrl: viewDir + "/Infrastructure/CollegeQuery.html",
                         controller: "query.name"
@@ -66,12 +53,8 @@
                     }
                 },
                 url: "/query/:name"
-            }).state('coverage', {
+            }).state('root.coverage', {
                 views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.root"
-                    },
                     "contents": {
                         templateUrl: viewDir + "/Coverage/All.html",
                         controller: "all.coverage"
@@ -82,12 +65,8 @@
                     }
                 },
                 url: "/coverage"
-            }).state('collegeCoverage', {
+            }).state('root.collegeCoverage', {
                 views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.root"
-                    },
                     "contents": {
                         templateUrl: viewDir + "/Coverage/CollegeMap.html",
                         controller: "coverage.name"
@@ -98,12 +77,8 @@
                     }
                 },
                 url: "/coverage/:name"
-            }).state('support', {
+            }).state('root.support', {
                 views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.root"
-                    },
                     "contents": {
                         templateUrl: viewDir + "/Coverage/Support.html",
                         controller: "all.support"
@@ -114,12 +89,8 @@
                     }
                 },
                 url: "/support"
-            }).state('collegeSupport', {
+            }).state('root.collegeSupport', {
                 views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.root"
-                    },
                     "contents": {
                         templateUrl: viewDir + "/Coverage/CollegeSupport.html",
                         controller: "support.name"
@@ -134,9 +105,45 @@
         $urlRouterProvider.otherwise('/');
     })
     .run(function ($rootScope, collegeService, appRegionService) {
+        $rootScope.menuTitle = "功能列表";
         var rootUrl = "/College/Map#";
-        $rootScope.menuItems = [];
+        $rootScope.menuItems = [
+            {
+                displayName: "覆盖情况",
+                tag: "coverage",
+                isActive: true,
+                subItems: [
+                    {
+                        displayName: "校园网总览",
+                        url: rootUrl + "/"
+                    }, {
+                        displayName: "基础信息查看",
+                        url: rootUrl + "/query"
+                    }, {
+                        displayName: "校园覆盖",
+                        url: rootUrl + "/coverage"
+                    }
+                ]
+            }, {
+                displayName: "容量质量",
+                tag: "management",
+                isActive: true,
+                subItems: [
+                    {
+                        displayName: "支撑任务",
+                        url: rootUrl + "/support"
+                    }, {
+                        displayName: "流量分析",
+                        url: rootUrl + "/flow"
+                    }, {
+                        displayName: "精确覆盖",
+                        url: rootUrl + "/precise"
+                    }
+                ]
+            }
+        ];
         $rootScope.rootPath = rootUrl + "/";
+        $rootScope.menuPath = "/appViews/GeneralMenu.html";
 
         $rootScope.collegeInfo = {
             year: {
@@ -188,45 +195,6 @@
         };
     })
 
-    .controller("menu.root", function ($scope) {
-        $scope.menuTitle = "功能列表";
-        var rootUrl = "/College/Map#";
-        $scope.menuItems = [
-            {
-                displayName: "覆盖情况",
-                tag: "coverage",
-                isActive: true,
-                subItems: [
-                    {
-                        displayName: "校园网总览",
-                        url: rootUrl + "/"
-                    }, {
-                        displayName: "基础信息查看",
-                        url: rootUrl + "/query"
-                    }, {
-                        displayName: "校园覆盖",
-                        url: rootUrl + "/coverage"
-                    }
-                ]
-            }, {
-                displayName: "容量质量",
-                tag: "management",
-                isActive: true,
-                subItems: [
-                    {
-                        displayName: "支撑任务",
-                        url: rootUrl + "/support"
-                    }, {
-                        displayName: "流量分析",
-                        url: rootUrl + "/flow"
-                    }, {
-                        displayName: "精确覆盖",
-                        url: rootUrl + "/precise"
-                    }
-                ]
-            }
-        ];
-    })
     .controller("college.menu", function ($scope, $stateParams) {
         $scope.collegeInfo.type = $stateParams.type || 'lte';
         $scope.collegeName = $stateParams.name;
