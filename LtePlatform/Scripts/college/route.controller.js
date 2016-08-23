@@ -213,9 +213,12 @@ angular.module('college.main', ['app.common'])
         $scope.collegeInfo.type = $stateParams.type || 'lte';
         $scope.collegeName = $stateParams.name;
     })
-    .controller("support.menu", function ($scope, $stateParams) {
+    .controller("support.menu", function ($scope, $stateParams, emergencyService) {
         $scope.url = $scope.rootPath + "support";
         $scope.projectName = $stateParams.name;
+        emergencyService.queryCollegeVipDemands($scope.collegeInfo.year.selected).then(function(items) {
+            $scope.collegeInfo.supportInfos = items;
+        });
     })
     .controller("all.map", function($scope, $uibModal, $log, baiduMapService, collegeMapService) {
         $scope.collegeInfo.url = $scope.rootPath + "map";
