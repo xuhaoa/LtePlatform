@@ -11,6 +11,7 @@ using Abp.EntityFramework.Repositories;
 using AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
+using Lte.Evaluations.ViewModels.College;
 using Lte.Parameters.Abstract;
 
 namespace Lte.Evaluations.DataService.College
@@ -290,18 +291,36 @@ namespace Lte.Evaluations.DataService.College
             var item =
                 _repository.FirstOrDefault(
                     x =>
-                        x.ProjectContents == collegeName + "校园秋营" && x.BeginDate >= new DateTime(year, 1, 1) &&
+                        x.ProjectName == collegeName + "校园秋营" && x.BeginDate >= new DateTime(year, 1, 1) &&
                         x.BeginDate < new DateTime(year, 12, 31) && x.MarketTheme == MarketTheme.CollegeAutumn);
             if (item == null) return null;
             var result = item.MapTo<VipDemandDto>();
+            if (result.TownId <= 0) return result;
             var town = _townRepository.Get(result.TownId);
-            if (town != null)
-            {
-                result.District = town.DistrictName;
-                result.Town = town.TownName;
-            }
+            if (town == null) return result;
+            result.District = town.DistrictName;
+            result.Town = town.TownName;
             return result;
         }
+
+        public async Task<int> ConstructCollegeDemand(CollegeYearView stat, string userName)
+        {
+            await _repository.InsertAsync(new VipDemand
+            {
+                SerialNumber = "FS-" + DateTime.Now.ToString("yyyyMMddHHmmss"),
+                ProjectName = stat.Name + "校园秋营",
+                ProjectContents = stat.Name + "校园秋营",
+                Area = stat.Name,
+                ContactPerson = userName,
+                MarketTheme = MarketTheme.CollegeAutumn,
+                BeginDate = stat.OldOpenDate.AddDays(-30),
+                PlanDate = stat.NewOpenDate.AddDays(30),
+                NetworkType = NetworkType.With2G3G4G4GPlus,
+                VipState = VipState.Begin,
+                DemandLevel = DemandLevel.LevelA
+            });
+            return _repository.SaveChanges();
+        } 
 
         public IEnumerable<VipDemandDto> QueryYearDemands(int year)
         {
@@ -311,12 +330,11 @@ namespace Lte.Evaluations.DataService.College
             var results = items.MapTo<List<VipDemandDto>>();
             foreach (var result in results)
             {
+                if (result.TownId <= 0) continue;
                 var town = _townRepository.Get(result.TownId);
-                if (town != null)
-                {
-                    result.District = town.DistrictName;
-                    result.Town = town.TownName;
-                }
+                if (town == null) continue;
+                result.District = town.DistrictName;
+                result.Town = town.TownName;
             }
             return results;
         } 

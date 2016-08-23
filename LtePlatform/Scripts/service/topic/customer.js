@@ -244,6 +244,9 @@
                 return generalHttpService.getApiData('VipProcess', {
                     serialNumber: number
                 });
+            },
+            constructCollegeVipDemand: function(stat) {
+                return generalHttpService.postApiDataWithHeading('CollegeVipDemand', stat);
             }
         };
     })

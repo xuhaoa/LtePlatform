@@ -561,11 +561,16 @@
             });
         });
     })
-    .controller("all.support", function ($scope, collegeQueryService) {
+    .controller("all.support", function ($scope, collegeQueryService, emergencyService) {
         $scope.page.title = "支撑任务";
         $scope.updateInfos = function (year) {
             collegeQueryService.queryYearList(year).then(function (colleges) {
                 $scope.collegeYearList = colleges;
+            });
+        };
+        $scope.query = function() {
+            emergencyService.queryCollegeVipDemands($scope.collegeInfo.year.selected).then(function(items) {
+                $scope.collegeInfo.supportInfos = items;
             });
         };
 

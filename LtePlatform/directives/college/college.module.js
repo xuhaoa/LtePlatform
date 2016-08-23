@@ -119,8 +119,18 @@ angular.module('college.info', ['customer.service'])
         };
         $scope.constructSupport = function(college) {
             console.log(college);
-            emergencyService.queryCollegeVipDemand($scope.year, college.name).then(function(items) {
-                console.log(items);
+            emergencyService.queryCollegeVipDemand($scope.year, college.name).then(function(item) {
+                if (!item) {
+                    emergencyService.constructCollegeVipDemand(college).then(function(count) {
+                        $scope.messages.push({
+                            type: 'success',
+                            contents: '生成支撑任务工单：' + college.name
+                        });
+                    });
+                } else {
+                    console.log(item);
+                }
+                
             });
         };
     })
@@ -131,7 +141,9 @@ angular.module('college.info', ['customer.service'])
             replace: true,
             scope: {
                 colleges: '=',
-                year: '='
+                year: '=',
+                messages: '=',
+                query: '&'
             },
             template: '<div></div>',
             link: function (scope, element, attrs) {

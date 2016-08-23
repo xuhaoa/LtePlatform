@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Lte.Evaluations.DataService.College;
+using Lte.Evaluations.ViewModels.College;
 using Lte.MySqlFramework.Entities;
 using LtePlatform.Models;
 
@@ -172,7 +173,14 @@ namespace LtePlatform.Controllers.College
         public IEnumerable<VipDemandDto> Get(int year)
         {
             return _service.QueryYearDemands(year);
-        } 
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<int> Post(CollegeYearView stat)
+        {
+            return await _service.ConstructCollegeDemand(stat, User.Identity.Name);
+        }
     }
 
     public class VipProcessController : ApiController

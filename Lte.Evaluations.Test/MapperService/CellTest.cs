@@ -988,19 +988,23 @@ namespace Lte.Evaluations.MapperService
         {
             var targetType = typeof (CellExcel);
             var type = typeof (Cell);
-            var coreMap = Mapper.CreateMap(targetType, type);
-            foreach (var property in type.GetProperties())
+            Mapper.Initialize(cfg =>
             {
-                var resolveAttributes = property.GetCustomAttributes<AutoMapPropertyResolveAttribute>();
-                foreach (var resolveAttribute in resolveAttributes)
+                var coreMap = cfg.CreateMap(targetType, type);
+                foreach (var property in type.GetProperties())
                 {
-                    if (resolveAttribute.TargetType != targetType) continue;
-                    var srcName = resolveAttribute.PeerMemberName;
-                    var destName = property.Name;
-                    var resolveActionType = resolveAttribute.ResolveActionType;
-                    coreMap = MappingCore(coreMap, resolveActionType, destName, srcName);
+                    var resolveAttributes = property.GetCustomAttributes<AutoMapPropertyResolveAttribute>();
+                    foreach (var resolveAttribute in resolveAttributes)
+                    {
+                        if (resolveAttribute.TargetType != targetType) continue;
+                        var srcName = resolveAttribute.PeerMemberName;
+                        var destName = property.Name;
+                        var resolveActionType = resolveAttribute.ResolveActionType;
+                        coreMap = MappingCore(coreMap, resolveActionType, destName, srcName);
+                    }
                 }
-            }
+            });
+
         }
 
         [Test]
