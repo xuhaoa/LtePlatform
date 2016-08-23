@@ -100,6 +100,41 @@ angular.module('college.info', [])
                 });
             }
         };
+    })
+    .controller('CollegeSupportController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'name', name: '校园名称', width: 200, enableColumnResizing: false },
+                { field: 'currentSubscribers', name: '当前用户数' },
+                { field: 'newSubscribers', name: '新发展用户数' },
+                { field: 'expectedSubscribers', name: '预计到达用户数' },
+                { field: 'oldOpenDate', name: '老生开学日期', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'newOpenDate', name: '新生开学日期', cellFilter: 'date: "yyyy-MM-dd"' }
+            ],
+            data: []
+        };
+    })
+    .directive('collegeSupportList', function ($compile) {
+        return {
+            controller: 'CollegeSupportController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                colleges: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('colleges', function (colleges) {
+                    scope.gridOptions.data = colleges;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
     });
 
 angular.module('college.infrastructure', ['college.service'])
