@@ -118,7 +118,6 @@ angular.module('college.info', ['customer.service'])
             data: []
         };
         $scope.constructSupport = function(college) {
-            console.log(college);
             emergencyService.queryCollegeVipDemand($scope.year, college.name).then(function(item) {
                 if (!item) {
                     emergencyService.constructCollegeVipDemand(college).then(function(count) {
@@ -126,6 +125,7 @@ angular.module('college.info', ['customer.service'])
                             type: 'success',
                             contents: '生成支撑任务工单：' + college.name
                         });
+                        $scope.query();
                     });
                 } else {
                     console.log(item);

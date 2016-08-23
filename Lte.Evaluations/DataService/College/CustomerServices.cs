@@ -317,7 +317,8 @@ namespace Lte.Evaluations.DataService.College
                 PlanDate = stat.NewOpenDate.AddDays(30),
                 NetworkType = NetworkType.With2G3G4G4GPlus,
                 VipState = VipState.Begin,
-                DemandLevel = DemandLevel.LevelA
+                DemandLevel = DemandLevel.LevelA,
+                SubscriberGotten = stat.NewSubscribers
             });
             return _repository.SaveChanges();
         } 
