@@ -271,6 +271,14 @@ namespace Lte.Evaluations.DataService.College
         public async Task<int> UpdateAsync(VipProcessDto dto)
         {
             return await _processRepository.UpdateOne<IVipProcessRepository, VipProcess, VipProcessDto>(dto);
+        }
+
+        public async Task<int> FinishAsync(VipProcessDto dto, string userName)
+        {
+            dto.ProcessTime=DateTime.Now;
+            dto.ProcessPerson = userName;
+            dto.ProcessInfo = "已完成" + dto.VipStateDescription;
+            return await _processRepository.UpdateOne<IVipProcessRepository, VipProcess, VipProcessDto>(dto);
         } 
 
         public VipDemandDto QuerySingle(string serialNumber)

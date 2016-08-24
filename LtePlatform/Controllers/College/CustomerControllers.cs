@@ -212,6 +212,23 @@ namespace LtePlatform.Controllers.College
         }
     }
 
+    public class VipProcessFinishController : ApiController
+    {
+        private readonly VipDemandService _service;
+
+        public VipProcessFinishController(VipDemandService service)
+        {
+            _service = service;
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<int> Post(VipProcessDto dto)
+        {
+            return await _service.FinishAsync(dto, User.Identity.Name);
+        } 
+    }
+
     [ApiControl("抱怨量位置更新控制器")]
     public class ComplainPositionController : ApiController
     {

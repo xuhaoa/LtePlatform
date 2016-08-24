@@ -158,7 +158,11 @@ angular.module('customer.emergency', ['customer.service'])
 
     .controller('VipProcessController', function ($scope) {
         $scope.updateProcess = function(item) {
-            console.log(item);
+            if ($scope.collegeName && item.vipStateDescription === '现场测试') {
+
+            } else {
+                
+            }
         };
         $scope.gridOptions = {
             columnDefs: [
@@ -182,7 +186,8 @@ angular.module('customer.emergency', ['customer.service'])
             controller: 'VipProcessController',
             replace: true,
             scope: {
-                items: '='
+                items: '=',
+                collegeName: '='
             },
             template: '<div></div>',
             link: function (scope, element, attrs) {

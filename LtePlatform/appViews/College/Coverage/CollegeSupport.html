@@ -21,13 +21,14 @@
                 <div class="input-group">
                     <input type="text" ng-model="processInfo" class="form-control" />
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-primary" ng-click="createProcess()" ng-disabled="!item.nextStateDescription">
+                        <button type="button" class="btn btn-primary" ng-click="createProcess()" 
+                                ng-disabled="!item.nextStateDescription || ((!processItems[processItems.length - 1].processInfo) && processItems.length > 0)">
                             生成流程
                         </button>
                     </span>
                 </div>
             </div>
         </div>
-        <div vip-process-list items="processItems"></div>
+        <div vip-process-list items="processItems" college-name="item.area"></div>
     </div>
 </div>
