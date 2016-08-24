@@ -157,7 +157,8 @@
         };
         $rootScope.page = {
             title: "校园网总览",
-            messages: []
+            messages: [],
+            projecteName: ""
         };
         collegeService.queryNames().then(function(result) {
             $rootScope.collegeInfo.names = result;
@@ -565,8 +566,11 @@
             $scope.updateInfos(year);
         });
     })
-    .controller("support.name", function($scope) {
-        
+    .controller("support.name", function ($scope, $stateParams, customerQueryService) {
+        customerQueryService.queryOneVip($stateParams.number).then(function(item) {
+            $scope.item = item;
+            $scope.page.projectName = item.projectName;
+        });
     })
     .controller('college.test', function ($scope) {
 
