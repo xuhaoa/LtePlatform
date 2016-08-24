@@ -151,7 +151,7 @@ describe('chartCalculateService test', function() {
                 town: 'town32',
                 value: 8
             }, {
-                district: 'district2',
+                district: 'district3',
                 town: 'town33',
                 value: 9
             }
@@ -168,6 +168,40 @@ describe('chartCalculateService test', function() {
             districtData: 12,
             subData: [['town11', 4], ['town12', 5]]
         });
+        expect(results).toContain({
+            district: 'district2',
+            districtData: 13,
+            subData: [['town21', 6]]
+        });
+        expect(results).toContain({
+            district: 'district3',
+            districtData: 14,
+            subData: [['town31', 7], ['town32', 8], ['town33', 9]]
+        });
     });
 
+    it('should generateDateDistrictStats', function() {
+        var stats = [
+            {
+                statDate: "20160101",
+                values: [{ value: 1 }, { value: 2 }, { value: 3 }]
+            }, {
+                statDate: "20160102",
+                values: [{ value: 4 }, { value: 5 }]
+            }, {
+                statDate: "20160103",
+                values: [{ value: 7 }, { value: 8 }, { value: 9 }]
+            }
+        ];
+        var results = chartCalculateService.generateDateDistrictStats(stats, 3, function(stat) {
+            return stat.value;
+        });
+        expect(results).not.toBeNull();
+        expect(results.statDates.length).toBe(3);
+        expect(results.statDates).toContain("20160102");
+        expect(results.districtStats.length).toBe(3);
+        expect(results.districtStats).toContain([1, 4, 7]);
+        expect(results.districtStats).toContain([2, 5, 8]);
+        expect(results.districtStats).toContain([3, 0, 9]);
+    });
 });

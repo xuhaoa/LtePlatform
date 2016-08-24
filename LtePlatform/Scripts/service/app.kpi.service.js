@@ -21,16 +21,17 @@
                 });
                 return results;
             },
-            generateDateDistrictStats: function(stats, districts, queryFunction) {
+            generateDateDistrictStats: function(stats, districtLength, queryFunction) {
                 var statDates = [];
                 var districtStats = [];
                 angular.forEach(stats, function(stat, index) {
                     statDates.push(stat.statDate);
-                    for (var j = 0; j < districts.length; j++) {
+                    for (var j = 0; j < districtLength; j++) {
+                        var statValue = stat.values[j] ? queryFunction(stat.values[j]) : 0;
                         if (index === 0) {
-                            districtStats.push([queryFunction(stat.values[j])]);
+                            districtStats.push([statValue]);
                         } else {
-                            districtStats[j].push(queryFunction(stat.values[j]));
+                            districtStats[j].push(statValue);
                         }
                     }
                 });
@@ -154,7 +155,7 @@
                     return stat.mr;
                 };
                 var districts = inputDistricts.concat("全网");
-                var result = chartCalculateService.generateDateDistrictStats(stats, districts, queryFunction);
+                var result = chartCalculateService.generateDateDistrictStats(stats, districts.length, queryFunction);
                 chart.xAxis[0].categories = result.statDates;
                 chart.yAxis[0].title.text = "MR总数";
                 chart.xAxis[0].title.text = '日期';
@@ -174,7 +175,7 @@
                     return stat.precise;
                 };
                 var districts = inputDistricts.concat("全网");
-                var result = chartCalculateService.generateDateDistrictStats(stats, districts, queryFunction);
+                var result = chartCalculateService.generateDateDistrictStats(stats, districts.length, queryFunction);
                 chart.xAxis[0].categories = result.statDates;
                 chart.yAxis[0].title.text = "精确覆盖率";
                 chart.xAxis[0].title.text = '日期';
