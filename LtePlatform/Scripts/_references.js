@@ -90,7 +90,6 @@
 /// <reference path="college/precise.viewmodel.js" />
 /// <reference path="college/route.controller.js" />
 /// <reference path="college/test.controller.js" />
-/// <reference path="college/test.viewmodel.js" />
 /// <reference path="customer/index.controller.js" />
 /// <reference path="highcharts/adapters/standalone-framework.js" />
 /// <reference path="highcharts/adapters/standalone-framework.src.js" />

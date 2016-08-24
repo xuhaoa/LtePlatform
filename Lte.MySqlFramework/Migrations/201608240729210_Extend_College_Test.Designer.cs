@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Add_LteRru : IMigrationMetadata
+    public sealed partial class Extend_College_Test : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_LteRru));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Extend_College_Test));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608011315497_Add_LteRru"; }
+            get { return "201608240729210_Extend_College_Test"; }
         }
         
         string IMigrationMetadata.Source

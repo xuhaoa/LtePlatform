@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
+using AutoMapper;
 using Lte.Evaluations.ViewModels.College;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
@@ -22,38 +23,16 @@ namespace Lte.Evaluations.DataService.College
             _collegeRepository = collegeRepository;
         }
 
-        public IEnumerable<College3GTestView> GetViews(DateTime date, int hour)
-        {
-            var statTime = date.AddHours(hour);
-            var results = _repository.GetAll().Where(x => x.TestTime == statTime).ToList();
-            if (!results.Any()) return new List<College3GTestView>();
-            return results.Select(x =>
-            {
-                var college = _collegeRepository.Get(x.CollegeId);
-                var view = x.MapTo<College3GTestView>();
-                view.CollegeName = college?.Name;
-                return view;
-            });
-        }
-
-        public College3GTestResults GetResult(DateTime date, int hour, string name)
+        public IEnumerable<College3GTestView> GetViews(DateTime begin, DateTime end, string name)
         {
             var college = _collegeRepository.GetByName(name);
-            if (college == null) return null;
-            var time = date.AddHours(hour);
-            var result = _repository.GetByCollegeIdAndTime(college.Id, time);
-            return result ?? new College3GTestResults
-            {
-                TestTime = date.AddHours(hour),
-                CollegeId = college.Id,
-                AccessUsers = 10,
-                DownloadRate = 500,
-                MinRssi = -110,
-                MaxRssi = -100,
-                Vswr = 1.4
-            };
+            if (college == null) return new List<College3GTestView>();
+            var results =
+                _repository.GetAllList(x => x.TestTime >= begin && x.TestTime < end).MapTo<List<College3GTestView>>();
+            results.ForEach(x=>x.CollegeName=name);
+            return results;
         }
-
+        
         public Dictionary<string, double> GetAverageRates(DateTime begin, DateTime end)
         {
             var results = _repository.GetAllList(begin, end);
@@ -99,22 +78,19 @@ namespace Lte.Evaluations.DataService.College
             return query.GroupBy(x => x.Name).ToDictionary(s => s.Key, t => t.Average(x => x.Vswr));
         }
 
-        public async Task<int> Post(College3GTestResults result)
+        public async Task<int> Post(College3GTestView view)
         {
+            var college = _collegeRepository.GetByName(view.CollegeName);
+            if (college == null) return 0;
+            view.TestTime = DateTime.Today.AddHours(DateTime.Now.Hour);
+            var result =
+                _repository.FirstOrDefault(
+                    x => x.TestTime == view.TestTime && x.CollegeId == college.Id && x.Place == view.Place);
+            if (result != null) Mapper.Map(view, result);
+            result = view.MapTo<College3GTestResults>();
+            result.CollegeId = college.Id;
             await _repository.InsertOrUpdateAsync(result);
             return _repository.SaveChanges();
-        }
-
-        public async Task<int> Delete(College3GTestResults result)
-        {
-            await _repository.DeleteAsync(result);
-            return _repository.SaveChanges();
-        }
-
-        public College3GTestResults GetRecordResult(DateTime time, string name)
-        {
-            var college = _collegeRepository.GetByName(name);
-            return college == null ? null : _repository.GetByCollegeIdAndTime(college.Id, time);
         }
     }
 

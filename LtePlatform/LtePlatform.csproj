@@ -1786,7 +1786,6 @@
     <Content Include="Scripts\college\precise.controller.js" />
     <Content Include="Scripts\college\precise.viewmodel.js" />
     <Content Include="Scripts\college\test.controller.js" />
-    <Content Include="Scripts\college\test.viewmodel.js" />
     <Content Include="Scripts\app\dt\list.viewmodel.js" />
     <Content Include="Scripts\highcharts\adapters\standalone-framework.js" />
     <Content Include="Scripts\highcharts\adapters\standalone-framework.src.js" />

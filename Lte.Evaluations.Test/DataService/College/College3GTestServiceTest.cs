@@ -4,7 +4,6 @@ using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
-using Lte.Evaluations.ViewModels.College;
 using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Entities.College;
@@ -46,75 +45,7 @@ namespace Lte.Evaluations.DataService.College
             Assert.IsNotNull(_collegeRepository.Object.GetByName("college-2"));
             Assert.IsNotNull(_collegeRepository.Object.GetByName("college-3"));
         }
-
-        [TestCase(3, "2015-3-3")]
-        [TestCase(4, "2015-4-7 12:33")]
-        [TestCase(7, "2012-3-7 11:38")]
-        public void Test_MockTestRepository(int id, string time)
-        {
-            _repository.MockOneItem(id, time);
-            Assert.IsNotNull(_repository.Object.GetByCollegeIdAndTime(id, DateTime.Parse(time)));
-        }
         
-        [TestCase(1, "2015-10-10", 4, 15)]
-        [TestCase(2, "2015-11-10", 3, 3450)]
-        [TestCase(3, "2015-08-07", 11, 2132)]
-        public void Test_GetViews_OneTestItem(int collegeId, string testDate, int hour, int users)
-        {
-            _repository.MockOneItem(collegeId, DateTime.Parse(testDate).AddHours(hour), users);
-
-            var views = _service.GetViews(DateTime.Parse(testDate), hour).ToList();
-            Assert.IsNotNull(views);
-            Assert.AreEqual(views.Count,1);
-            views[0].AssertUsers(collegeId, users);
-        }
-
-        [TestCase(1, "2015-10-10", 4, 15)]
-        [TestCase(2, "2015-11-10", 3, 3450)]
-        [TestCase(3, "2015-08-07", 11, 2132)]
-        public void Test_GetResult_OneTestItem(int collegeId, string testDate, int hour, int users)
-        {
-            _repository.MockOneItem(collegeId, DateTime.Parse(testDate).AddHours(hour), users);
-
-            var result = _service.GetResult(DateTime.Parse(testDate), hour, "college-" + collegeId);
-            Assert.IsNotNull(result, "the result is null");
-            result.AssertUsers(users);
-        }
-
-        [TestCase(1, new[] {1, 2}, "2015-10-10", 4, new[] {15, 11})]
-        [TestCase(2, new[] { 2, 3 }, "2015-10-10", 4, new[] { 15, 11 })]
-        [TestCase(3, new[] { 1, 2, 3 }, "2015-7-10", 4, new[] { 15, 11, 18 })]
-        [TestCase(4, new[] { 2, 3, 1 }, "2015-6-10", 9, new[] { 14, 11, 88 })]
-        public void Test_GetViews_MultiItems_SingleTestDate(int testNo, int[] collegeIds, string testDate, int hour,
-            int[] users)
-        {
-            _repository.MockItems(collegeIds, DateTime.Parse(testDate).AddHours(hour), users);
-            var views = _service.GetViews(DateTime.Parse(testDate), hour).ToList();
-            Assert.IsNotNull(views);
-            Assert.AreEqual(views.Count, collegeIds.Length);
-            for (var i = 0; i < collegeIds.Length; i++)
-            {
-                views[i].AssertUsers(collegeIds[i], users[i]);
-            }
-        }
-
-        [TestCase(1, new[] { 1, 2 }, new[] { "2015-10-10", "2015-4-7"}, 4, new[] { 15, 11 })]
-        [TestCase(2, new[] { 2, 3 }, new[] { "2015-10-10", "2015-4-7" }, 4, new[] { 15, 11 })]
-        [TestCase(3, new[] { 1, 2, 3 }, new[] { "2015-10-10", "2015-4-7", "2015-9-9" }, 4, new[] { 15, 11, 18 })]
-        [TestCase(4, new[] { 2, 3, 1 }, new[] { "2015-10-10", "2015-4-7", "2015-7-8" }, 9, new[] { 14, 11, 88 })]
-        public void Test_GetResult_MultiItems_SingleTestDate(int testNo, int[] collegeIds, string[] testDates, int hour,
-            int[] users)
-        {
-            _repository.MockItems(collegeIds, testDates.Select(x => DateTime.Parse(x).AddHours(hour)).ToArray(), users);
-
-            for (var i = 0; i < collegeIds.Length; i++)
-            {
-                var result = _service.GetResult(DateTime.Parse(testDates[i]), hour, "college-" + collegeIds[i]);
-                Assert.IsNotNull(result, "the result is null");
-                result.AssertUsers(users[i]);
-            }
-        }
-
         [TestCase(1, new[] { 1, 2 }, new[] { "2015-10-10", "2015-4-7" }, 4, new[] { 15, 11.0 }, "2015-4-1", "2015-10-11", 2)]
         [TestCase(2, new[] { 2, 3 }, new[] { "2015-10-10", "2015-4-7" }, 4, new[] { 15.0, 11 }, "2015-5-2", "2015-10-12", 1)]
         [TestCase(3, new[] { 1, 2, 3 }, new[] { "2015-10-10", "2015-4-7", "2015-9-9" }, 4, new[] { 15, 11.0, 18 }, "2015-3-1", "2015-10-17", 3)]

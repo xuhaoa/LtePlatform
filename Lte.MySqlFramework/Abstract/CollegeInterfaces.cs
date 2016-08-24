@@ -27,8 +27,6 @@ namespace Lte.MySqlFramework.Abstract
 
     public interface ICollege3GTestRepository : IRepository<College3GTestResults>, ISaveChanges
     {
-        College3GTestResults GetByCollegeIdAndTime(int collegeId, DateTime time);
-
         List<College3GTestResults> GetAllList(DateTime begin, DateTime end);
     }
 

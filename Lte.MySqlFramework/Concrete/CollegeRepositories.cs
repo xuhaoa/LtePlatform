@@ -61,11 +61,6 @@ namespace Lte.MySqlFramework.Concrete
 
     public class EFCollege3GTestRepository : EfRepositoryBase<MySqlContext, College3GTestResults>, ICollege3GTestRepository
     {
-        public College3GTestResults GetByCollegeIdAndTime(int collegeId, DateTime time)
-        {
-            return FirstOrDefault(x => x.CollegeId == collegeId && x.TestTime == time);
-        }
-
         public List<College3GTestResults> GetAllList(DateTime begin, DateTime end)
         {
             return GetAllList(x => x.TestTime >= begin && x.TestTime < end);
