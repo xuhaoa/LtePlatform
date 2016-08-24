@@ -371,6 +371,16 @@ angular.module('customer.vip', ['customer.service'])
             },
             templateUrl: customerRoot + 'vip/DemandList.html'
         };
+    })
+    .directive('vipDemandInfo', function (customerRoot) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                item: '='
+            },
+            templateUrl: customerRoot + 'vip/VipInfo.html'
+        };
     });
 
 angular.module('customer.complain', ['customer.service'])
