@@ -156,12 +156,14 @@ angular.module('customer.emergency', ['customer.service'])
         };
     })
 
-    .controller('VipProcessController', function ($scope) {
+    .controller('VipProcessController', function ($scope, emergencyService) {
         $scope.updateProcess = function(item) {
             if ($scope.collegeName && item.vipStateDescription === '现场测试') {
 
             } else {
-                
+                emergencyService.finishVipProcess(item).then(function() {
+                    $scope.query();
+                });
             }
         };
         $scope.gridOptions = {
@@ -187,7 +189,8 @@ angular.module('customer.emergency', ['customer.service'])
             replace: true,
             scope: {
                 items: '=',
-                collegeName: '='
+                collegeName: '=',
+                query: '&'
             },
             template: '<div></div>',
             link: function (scope, element, attrs) {

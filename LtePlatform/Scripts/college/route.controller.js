@@ -567,6 +567,11 @@
         });
     })
     .controller("support.name", function ($scope, $stateParams, customerQueryService, emergencyService) {
+        $scope.queryProcessList = function() {
+            emergencyService.queryVipProcessList($stateParams.number).then(function(items) {
+                $scope.processItems = items;
+            });
+        };
         $scope.query = function() {
             customerQueryService.queryOneVip($stateParams.number).then(function(item) {
                 $scope.item = item;
@@ -577,9 +582,7 @@
                     $scope.processInfo = "";
                 }
             });
-            emergencyService.queryVipProcessList($stateParams.number).then(function (items) {
-                $scope.processItems = items;
-            });
+            $scope.queryProcessList();
         };
         $scope.createProcess = function () {
             emergencyService.createVipProcess($scope.item).then(function (process) {

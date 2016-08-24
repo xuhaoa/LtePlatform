@@ -242,6 +242,9 @@
             updateVipProcess: function (process) {
                 return generalHttpService.putApiData('VipProcess', process);
             },
+            finishVipProcess: function (process) {
+                return generalHttpService.postApiDataWithHeading('VipProcessFinish', process);
+            },
             createFiberItem: function(item) {
                 return generalHttpService.postApiData('EmergencyFiber', item);
             },
