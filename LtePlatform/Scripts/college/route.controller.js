@@ -566,14 +566,33 @@
             $scope.updateInfos(year);
         });
     })
-    .controller("support.name", function ($scope, $stateParams, customerQueryService) {
-        customerQueryService.queryOneVip($stateParams.number).then(function(item) {
-            $scope.item = item;
-            $scope.page.projectName = item.projectName;
-        });
-    })
-    .controller('college.test', function ($scope) {
+    .controller("support.name", function ($scope, $stateParams, customerQueryService, emergencyService) {
+        $scope.query = function() {
+            customerQueryService.queryOneVip($stateParams.number).then(function(item) {
+                $scope.item = item;
+                $scope.page.projectName = item.projectName;
+                if ($scope.item.nextStateDescription) {
+                    $scope.processInfo = "已完成" + $scope.item.nextStateDescription;
+                } else {
+                    $scope.processInfo = "";
+                }
+            });
+            emergencyService.queryVipProcessList($stateParams.number).then(function (items) {
+                $scope.processItems = items;
+            });
+        };
+        $scope.createProcess = function () {
+            emergencyService.createVipProcess($scope.item).then(function (process) {
+                if (process) {
+                    process.beginInfo = $scope.processInfo;
+                    emergencyService.updateVipProcess(process).then(function () {
+                        $scope.query();
+                    });
+                }
+            });
+        };
 
+        $scope.query();
     })
     .controller("all.query", function ($scope, collegeService, collegeQueryService, collegeDialogService, appFormatService) {
         $scope.collegeInfo.url = $scope.rootPath + "query";
