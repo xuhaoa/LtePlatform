@@ -1785,7 +1785,6 @@
     <Content Include="Scripts\college\kpi.viewmodel.js" />
     <Content Include="Scripts\college\precise.controller.js" />
     <Content Include="Scripts\college\precise.viewmodel.js" />
-    <Content Include="Scripts\college\test.controller.js" />
     <Content Include="Scripts\app\dt\list.viewmodel.js" />
     <Content Include="Scripts\highcharts\adapters\standalone-framework.js" />
     <Content Include="Scripts\highcharts\adapters\standalone-framework.src.js" />
@@ -1915,7 +1914,7 @@
     <Content Include="appViews\College\Test\Report.html" />
     <Content Include="appViews\College\Test\College3GTest.html" />
     <Content Include="appViews\College\Test\College4GTest.html" />
-    <Content Include="Views\College\_Edit3GTest.cshtml" />
+    <Content Include="appViews\College\Test\Construct3GTest.html" />
     <Content Include="Views\College\_Edit4GTest.cshtml" />
     <Content Include="Views\College\_KpiReport.cshtml" />
     <Content Include="Views\College\_EditKpi.cshtml" />

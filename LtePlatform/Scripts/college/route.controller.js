@@ -566,7 +566,7 @@
             $scope.updateInfos(year);
         });
     })
-    .controller("support.name", function ($scope, $stateParams, customerQueryService, emergencyService) {
+    .controller("support.name", function ($scope, $stateParams, customerQueryService, emergencyService, collegeDialogService) {
         $scope.queryProcessList = function() {
             emergencyService.queryVipProcessList($stateParams.number).then(function(items) {
                 $scope.processItems = items;
@@ -593,6 +593,9 @@
                     });
                 }
             });
+        };
+        $scope.construct3GTest = function() {
+            collegeDialogService.construct3GTest($scope.item.area);
         };
 
         $scope.query();
@@ -976,4 +979,7 @@
             $scope.view.town = $scope.town.selected;
             $uibModalInstance.close($scope.view);
         };
+    })
+    .controller('college.test3G.dialog', function($scope, collegeName) {
+        $scope.dialogTitle = collegeName + "-3G测试结果上报";
     });

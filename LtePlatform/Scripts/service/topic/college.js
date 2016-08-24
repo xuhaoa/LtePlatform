@@ -95,6 +95,9 @@
             },
             saveCollegeBtss: function (container) {
                 return generalHttpService.postApiData('CollegeBtss', container);
+            },
+            saveCollege3GTest: function(view) {
+                return generalHttpService.postApiData('College3GTest', view);
             }
         };
     })
@@ -129,7 +132,9 @@
         };
     })
     .value('collegeInfrastructurePath', '/appViews/College/Infrastructure/')
-    .factory('collegeDialogService', function (collegeInfrastructurePath, collegeQueryService, $uibModal, $log) {
+    .value('collegeTestPath', '/appViews/College/Test/')
+    .factory('collegeDialogService', function (collegeInfrastructurePath, collegeTestPath,
+        collegeQueryService, $uibModal, $log) {
         var resolveScope = function(name, topic) {
             return {
                 dialogTitle: function() {
@@ -298,6 +303,24 @@
                     }).then(function() {
                         callback();
                     });
+
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            construct3GTest: function(collegeName) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: collegeTestPath + 'Construct3GTest.html',
+                    controller: 'college.test3G.dialog',
+                    size: 'lg',
+                    resolve: {
+                        collegeName: function () {
+                            return collegeName;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (info) {
 
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
