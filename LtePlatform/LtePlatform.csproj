@@ -1915,7 +1915,7 @@
     <Content Include="appViews\College\Test\College3GTest.html" />
     <Content Include="appViews\College\Test\College4GTest.html" />
     <Content Include="appViews\College\Test\Construct3GTest.html" />
-    <Content Include="Views\College\_Edit4GTest.cshtml" />
+    <Content Include="appViews\College\Test\Construct4GTest.html" />
     <Content Include="Views\College\_KpiReport.cshtml" />
     <Content Include="Views\College\_EditKpi.cshtml" />
     <Content Include="Views\College\_PreciseKpi.cshtml" />

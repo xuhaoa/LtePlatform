@@ -597,6 +597,9 @@
         $scope.construct3GTest = function() {
             collegeDialogService.construct3GTest($scope.item.area);
         };
+        $scope.construct4GTest = function () {
+            collegeDialogService.construct4GTest($scope.item.area);
+        };
 
         $scope.query();
     })
@@ -987,6 +990,19 @@
         $scope.item = collegeDtService.default3GTestView(collegeName, '饭堂', '许良镇');
 
         $scope.ok = function () {
+            $uibModalInstance.close($scope.item);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('college.test4G.dialog', function ($scope, $uibModalInstance, collegeName, collegeDtService) {
+        $scope.dialogTitle = collegeName + "-4G测试结果上报";
+        //$scope.item = collegeDtService.default4GTestView(collegeName, '饭堂', '许良镇');
+
+        $scope.ok = function () {
+            $scope.item.cellName = $scope.cellName.selected;
             $uibModalInstance.close($scope.item);
         };
 

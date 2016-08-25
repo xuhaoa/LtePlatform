@@ -98,6 +98,9 @@
             },
             saveCollege3GTest: function(view) {
                 return generalHttpService.postApiData('College3GTest', view);
+            },
+            saveCollege4GTest: function (view) {
+                return generalHttpService.postApiData('College4GTest', view);
             }
         };
     })
@@ -335,6 +338,26 @@
                 });
                 modalInstance.result.then(function (info) {
                     collegeQueryService.saveCollege3GTest(info).then(function() {
+                        console.log(info);
+                    });
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            construct4GTest: function (collegeName) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: collegeTestPath + 'Construct4GTest.html',
+                    controller: 'college.test4G.dialog',
+                    size: 'lg',
+                    resolve: {
+                        collegeName: function () {
+                            return collegeName;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (info) {
+                    collegeQueryService.saveCollege4GTest(info).then(function () {
                         console.log(info);
                     });
                 }, function () {
