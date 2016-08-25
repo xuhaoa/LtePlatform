@@ -129,6 +129,13 @@ namespace Lte.Evaluations.DataService
             return query.Aggregate((x, y) => x.Concat(y));
         }
 
+        public IEnumerable<FileRecord2G> GetFileRecord2Gs(FileRasterInfoView infoView)
+        {
+            var query =
+                infoView.RasterNums.Select(x => GetFileRecord2Gs(infoView.CsvFileName, x));
+            return query.Aggregate((x, y) => x.Concat(y));
+        }
+
         public IEnumerable<FileRecordCoverage3G> GetCoverage3Gs(FileRasterInfoView infoView)
         {
             var query =
@@ -136,6 +143,13 @@ namespace Lte.Evaluations.DataService
                     x =>
                         Mapper.Map<IEnumerable<FileRecord3G>, IEnumerable<FileRecordCoverage3G>>(
                             GetFileRecord3Gs(infoView.CsvFileName, x)));
+            return query.Aggregate((x, y) => x.Concat(y));
+        }
+
+        public IEnumerable<FileRecord3G> GetFileRecord3Gs(FileRasterInfoView infoView)
+        {
+            var query =
+                infoView.RasterNums.Select(x => GetFileRecord3Gs(infoView.CsvFileName, x));
             return query.Aggregate((x, y) => x.Concat(y));
         }
 
@@ -148,5 +162,13 @@ namespace Lte.Evaluations.DataService
                             GetFileRecord4Gs(infoView.CsvFileName, x)));
             return query.Aggregate((x, y) => x.Concat(y));
         }
+
+        public IEnumerable<FileRecord4G> GetFileRecord4Gs(FileRasterInfoView infoView)
+        {
+            var query =
+                infoView.RasterNums.Select(x => GetFileRecord4Gs(infoView.CsvFileName, x));
+            return query.Aggregate((x, y) => x.Concat(y));
+        }
+
     }
 }

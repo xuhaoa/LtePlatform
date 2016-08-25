@@ -998,7 +998,7 @@
         };
     })
     .controller('college.test4G.dialog', function ($scope, $uibModalInstance, collegeName,
-        collegeDtService, collegeService, networkElementService, collegeMapService, geometryService) {
+        collegeDtService, collegeService, networkElementService, collegeMapService, geometryService, coverageService) {
         $scope.dialogTitle = collegeName + "-4G测试结果上报";
         $scope.item = collegeDtService.default4GTestView(collegeName, '饭堂', '许良镇');
         collegeService.queryCells(collegeName).then(function(cellList) {
@@ -1027,8 +1027,26 @@
             }
         });
 
+        var queryRasterInfo = function (files, index, data, callback) {
+            coverageService.queryByRasterInfo(files[index], '4G').then(function (result) {
+                data.push.apply(data, result);
+                if (index < files.length - 1) {
+                    queryRasterInfo(files, index + 1, data, callback);
+                } else {
+                    callback(data);
+                }
+            });
+        };
+
         $scope.matchCoverage = function() {
-            console.log($scope.center);
+            collegeDtService.queryRaster($scope.center, '4G', $scope.beginDate.value, $scope.endDate.value, function (files) {
+                if (files.length) {
+                    var data = [];
+                    queryRasterInfo(files, 0, data, function(result) {
+                        console.log(result);
+                    });
+                }
+            });
         };
 
         $scope.ok = function () {
