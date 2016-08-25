@@ -144,6 +144,19 @@
                     maxRssi: -99,
                     vswr: 1.11
                 };
+            },
+            default4GTestView: function (collegeName, place, tester) {
+                return {
+                    testTime: new Date(),
+                    collegeName: collegeName,
+                    place: place,
+                    tester: tester,
+                    downloadRate: 38024,
+                    uploadRate: 21024,
+                    accessUsers: 33,
+                    rsrp: -109,
+                    sinr: 12
+                };
             }
         };
     })

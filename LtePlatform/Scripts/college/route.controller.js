@@ -999,7 +999,7 @@
     })
     .controller('college.test4G.dialog', function ($scope, $uibModalInstance, collegeName, collegeDtService) {
         $scope.dialogTitle = collegeName + "-4G测试结果上报";
-        //$scope.item = collegeDtService.default4GTestView(collegeName, '饭堂', '许良镇');
+        $scope.item = collegeDtService.default4GTestView(collegeName, '饭堂', '许良镇');
 
         $scope.ok = function () {
             $scope.item.cellName = $scope.cellName.selected;
