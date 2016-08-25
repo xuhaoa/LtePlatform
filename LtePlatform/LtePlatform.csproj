@@ -1911,9 +1911,6 @@
     <Content Include="appViews\BasicKpi\Index.html" />
     <Content Include="appViews\BasicKpi\KpiTable.html" />
     <Content Include="appViews\College\CollegeMenu.html" />
-    <Content Include="appViews\College\Test\Report.html" />
-    <Content Include="appViews\College\Test\College3GTest.html" />
-    <Content Include="appViews\College\Test\College4GTest.html" />
     <Content Include="appViews\College\Test\Construct3GTest.html" />
     <Content Include="appViews\College\Test\Construct4GTest.html" />
     <Content Include="Views\College\_KpiReport.cshtml" />
