@@ -154,6 +154,25 @@
                     }
                 }
                 return null;
+            },
+            calculateAverages: function(data, queryFunctions) {
+                var outputs = [];
+                angular.forEach(queryFunctions, function(func) {
+                    outputs.push({
+                        sum: 0,
+                        count: 0
+                    });
+                });
+                angular.forEach(data, function(item) {
+                    angular.forEach(queryFunctions, function(func, index) {
+                        var value = func(item);
+                        if (value !== 0) {
+                            outputs[index].sum += value;
+                            outputs[index].count += 1;
+                        }
+                    });
+                });
+                return outputs;
             }
         }
     });

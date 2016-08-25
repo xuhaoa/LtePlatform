@@ -59,4 +59,38 @@ describe('App format test', function () {
         var dateString1 = appFormatService.getDateString(date, "yyyy-MM-dd");
         expect(dateString1).toEqual("2016-05-28");
     });
+
+    it('should be able to calculate Averages', function() {
+        var data = [
+            {
+                value1: 2,
+                value2: 3
+            }, {
+                value1: 0,
+                value2: 3
+            }, {
+                value1: 2,
+                value2: 0
+            }, {
+                value1: 4,
+                value2: 4
+            }
+        ];
+        var averages = appFormatService.calculateAverages(data, [
+            function(item) {
+                return item.value1;
+            }, function(item) {
+                return item.value2;
+            }
+        ]);
+        expect(averages.length).toEqual(2);
+        expect(averages).toContain({
+            sum: 8,
+            count: 3
+        });
+        expect(averages).toContain({
+            sum: 10,
+            count: 3
+        });
+    });
 });

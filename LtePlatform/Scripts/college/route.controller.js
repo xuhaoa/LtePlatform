@@ -998,7 +998,7 @@
         };
     })
     .controller('college.test4G.dialog', function ($scope, $uibModalInstance, collegeName,
-        collegeDtService, collegeService, networkElementService, collegeMapService, geometryService, coverageService) {
+        collegeDtService, collegeService, networkElementService, collegeMapService, geometryService, coverageService, appFormatService) {
         $scope.dialogTitle = collegeName + "-4G测试结果上报";
         $scope.item = collegeDtService.default4GTestView(collegeName, '饭堂', '许良镇');
         collegeService.queryCells(collegeName).then(function(cellList) {
@@ -1043,7 +1043,18 @@
                 if (files.length) {
                     var data = [];
                     queryRasterInfo(files, 0, data, function(result) {
-                        console.log(result);
+                        var testEvaluations = appFormatService.calculateAverages(result, [
+                            function(point) {
+                                return point.rsrp;
+                            }, function(point) {
+                                return point.sinr;
+                            }, function(point) {
+                                return point.pdcpThroughputDl > 10 ? point.pdcpThroughputDl : 0;
+                            }, function(point) {
+                                return point.pdcpThroughputUl > 1 ? point.pdcpThroughputUl : 0;
+                            }
+                        ]);
+                        console.log(testEvaluations);
                     });
                 }
             });
