@@ -78,11 +78,6 @@ namespace Lte.MySqlFramework.Concrete
 
     public class EFCollege4GTestRepository : EfRepositoryBase<MySqlContext, College4GTestResults>, ICollege4GTestRepository
     {
-        public College4GTestResults GetByCollegeIdAndTime(int collegeId, DateTime time)
-        {
-            return FirstOrDefault(x => x.CollegeId == collegeId && x.TestTime == time);
-        }
-
         public int SaveChanges()
         {
             return Context.SaveChanges();

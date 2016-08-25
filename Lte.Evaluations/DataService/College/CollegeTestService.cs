@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
+using Lte.Domain.Common;
+using Lte.Domain.Regular;
 using Lte.Evaluations.ViewModels.College;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
@@ -110,10 +112,9 @@ namespace Lte.Evaluations.DataService.College
             _cellRepository = cellRepository;
         }
 
-        public IEnumerable<College4GTestView> GetViews(DateTime date, int hour)
+        public IEnumerable<College4GTestView> GetViews(DateTime begin, DateTime end)
         {
-            var statTime = date.AddHours(hour);
-            var results = _repository.GetAllList().Where(x => x.TestTime == statTime).ToList();
+            var results = _repository.GetAllList(x => x.TestTime >= begin && x.TestTime < end);
             if (!results.Any()) return new List<College4GTestView>();
             return results.Select(x =>
             {
@@ -130,30 +131,26 @@ namespace Lte.Evaluations.DataService.College
             });
         }
 
-        public College4GTestResults GetResult(DateTime date, int hour, string name, string eNodebName, byte sectorId)
+        public IEnumerable<College4GTestView> GetResult(DateTime begin, DateTime end, string name)
         {
             var college = _collegeRepository.GetByName(name);
-            if (college == null) return null;
-            var eNodeb = _eNodebRepository.GetByName(eNodebName);
-            if (eNodeb == null) return null;
-            var time = date.AddHours(hour);
-            var result = _repository.GetByCollegeIdAndTime(college.Id, time);
-            if (result == null)
-                return new College4GTestResults
-                {
-                    TestTime = date.AddHours(hour),
-                    CollegeId = college.Id,
-                    ENodebId = eNodeb.ENodebId,
-                    AccessUsers = 20,
-                    DownloadRate = 8000,
-                    UploadRate = 3000,
-                    SectorId = sectorId,
-                    Rsrp = -90,
-                    Sinr = 14
-                };
-            result.ENodebId = eNodeb.ENodebId;
-            result.SectorId = sectorId;
-            return result;
+            if (college == null) return new List<College4GTestView>();
+
+            var result =
+                _repository.GetAllList(x => x.TestTime >= begin && x.TestTime < end && x.CollegeId == college.Id);
+            var views = result.MapTo<IEnumerable<College4GTestView>>().Select(x =>
+            {
+                var eNodeb = _eNodebRepository.GetByENodebId(x.ENodebId);
+                var cell = eNodeb == null
+                    ? null
+                    : _cellRepository.GetBySectorId(x.ENodebId, x.SectorId);
+                var view = x.MapTo<College4GTestView>();
+                view.CollegeName = name;
+                view.CellName = eNodeb?.Name + "-" + x.SectorId;
+                view.Pci = cell?.Pci ?? -1;
+                return view;
+            });
+            return views;
         }
 
         public Dictionary<string, double> GetAverageRates(DateTime begin, DateTime end, byte upload)
@@ -192,22 +189,29 @@ namespace Lte.Evaluations.DataService.College
             return query.GroupBy(x => x.Name).ToDictionary(s => s.Key, t => t.Average(x => x.Sinr));
         }
 
-        public async Task<int> Post(College4GTestResults result)
+        public async Task<int> Post(College4GTestView view)
         {
+            var college = _collegeRepository.GetByName(view.CollegeName);
+            if (college == null) return 0;
+            view.TestTime = DateTime.Today.AddHours(DateTime.Now.Hour);
+            var result =
+                _repository.FirstOrDefault(
+                    x => x.TestTime == view.TestTime && x.CollegeId == college.Id && x.Place == view.Place);
+            if (result != null) Mapper.Map(view, result);
+            result = view.MapTo<College4GTestResults>();
+            result.CollegeId = college.Id;
+            var fields = view.CellName.GetSplittedFields('-');
+            if (fields.Length > 1)
+            {
+                var eNodeb = _eNodebRepository.GetByName(fields[0]);
+                if (eNodeb != null)
+                {
+                    result.ENodebId = eNodeb.ENodebId;
+                    result.SectorId = fields[1].ConvertToByte(0);
+                }
+            }
             await _repository.InsertOrUpdateAsync(result);
             return _repository.SaveChanges();
-        }
-
-        public async Task<int> Delete(College4GTestResults result)
-        {
-            await _repository.DeleteAsync(result);
-            return _repository.SaveChanges();
-        }
-
-        public College4GTestResults GetRecordResult(DateTime time, string name)
-        {
-            var college = _collegeRepository.GetByName(name);
-            return college == null ? null : _repository.GetByCollegeIdAndTime(college.Id, time);
         }
     }
 }

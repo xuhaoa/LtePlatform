@@ -120,8 +120,7 @@
     <Compile Include="DataService\College\CdmaRegionStatServiceTest.cs" />
     <Compile Include="DataService\Queries\CdmaRegionViewQueries.cs" />
     <Compile Include="DataService\College\College3GTestQueries.cs" />
-    <Compile Include="DataService\College\College3GTestServiceTest.cs" />
-    <Compile Include="DataService\College\College4GTestServiceTest.cs" />
+    <Compile Include="DataService\College\CollegeTestServiceTest.cs" />
     <Compile Include="DataService\College\CollegeBtssServiceTest.cs" />
     <Compile Include="DataService\College\CollegeCdmaCellsServiceTest.cs" />
     <Compile Include="DataService\College\CollegeCellsServiceTest.cs" />

@@ -334,7 +334,9 @@
                     }
                 });
                 modalInstance.result.then(function (info) {
-                    console.log(info);
+                    collegeQueryService.saveCollege3GTest(info).then(function() {
+                        console.log(info);
+                    });
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });

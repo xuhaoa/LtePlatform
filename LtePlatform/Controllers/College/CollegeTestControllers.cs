@@ -62,12 +62,11 @@ namespace LtePlatform.Controllers.College
 
         [HttpPost]
         [ApiDoc("保存校园网3G测试记录")]
-        [ApiParameterDoc("result", "校园网3G测试记录")]
+        [ApiParameterDoc("view", "校园网3G测试记录")]
         [ApiResponse("保存结果")]
-        public async Task<IHttpActionResult> Post(College3GTestView view)
+        public async Task<int> Post(College3GTestView view)
         {
-            await _service.Post(view);
-            return Ok();
+            return await _service.Post(view);
         }
     }
 
@@ -80,36 +79,26 @@ namespace LtePlatform.Controllers.College
         {
             _service = service;
         }
-
-        /// <summary>
-        /// 获取4G测试记录集合
-        /// </summary>
-        /// <param name="date">指定日期</param>
-        /// <param name="hour">指定时段</param>
-        /// <returns></returns>
+        
         [HttpGet]
         [ApiDoc("获取所有校园的4G测试记录集合")]
-        [ApiParameterDoc("date", "指定日期")]
-        [ApiParameterDoc("hour", "指定时段")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
         [ApiResponse("4G测试记录集合")]
-        public IEnumerable<College4GTestView> Get(DateTime date, int hour)
+        public IEnumerable<College4GTestView> Get(DateTime begin, DateTime end)
         {
-            return _service.GetViews(date, hour);
+            return _service.GetViews(begin, end);
         }
 
         [HttpGet]
         [ApiDoc("获取指定校园、指定小区的4G测试记录集合")]
-        [ApiParameterDoc("date", "指定日期")]
-        [ApiParameterDoc("hour", "指定时段")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
         [ApiParameterDoc("name", "校园名称")]
-        [ApiParameterDoc("eNodebName", "基站名称")]
-        [ApiParameterDoc("sectorId", "扇区编号")]
         [ApiResponse("4G测试记录集合查询结果，或错误输出信息")]
-        public IHttpActionResult Get(DateTime date, int hour, string name, string eNodebName, byte sectorId)
+        public IEnumerable<College4GTestView> GetViews(DateTime begin, DateTime end, string name)
         {
-            var result = _service.GetResult(date, hour, name, eNodebName, sectorId);
-            return result == null ? (IHttpActionResult)BadRequest("Illegal input arguments!") :
-                Ok(result);
+            return _service.GetResult(begin, end, name);
         }
 
         [HttpGet]
@@ -144,28 +133,11 @@ namespace LtePlatform.Controllers.College
 
         [HttpPost]
         [ApiDoc("保存4G测试结果信息")]
-        [ApiParameterDoc("result", "测试记录信息")]
+        [ApiParameterDoc("view", "测试记录信息")]
         [ApiResponse("保存结果")]
-        public async Task<IHttpActionResult> Post(College4GTestResults result)
+        public async Task<int> Post(College4GTestView view)
         {
-            if (ModelState.IsValid)
-            {
-                await _service.Post(result);
-                return Ok();
-            }
-            return BadRequest(ModelState);
-        }
-
-        [HttpDelete]
-        [ApiDoc("删除4G测试记录")]
-        [ApiParameterDoc("view", "待删除的测试记录")]
-        [ApiResponse("删除结果")]
-        public async Task<IHttpActionResult> Delete(College4GTestView view)
-        {
-            var result = _service.GetRecordResult(view.TestTime, view.CollegeName);
-            if (result == null) return BadRequest("The test record does not exist!");
-            await _service.Delete(result);
-            return Ok();
+            return await _service.Post(view);
         }
     }
 }
