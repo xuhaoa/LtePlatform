@@ -381,6 +381,21 @@
                 }
                 return generalHttpService.postApiData(api, info);
             },
+            queryDetailsByRasterInfo: function (info, type) {
+                var api;
+                switch (type) {
+                    case '2G':
+                        api = "Record2GDetails";
+                        break;
+                    case '3G':
+                        api = "Record3GDetails";
+                        break;
+                    default:
+                        api = "Record4GDetails";
+                        break;
+                }
+                return generalHttpService.postApiData(api, info);
+            },
             querySingleRasterInfo: function(fileName, rasterNum, type) {
                 var api;
                 switch (type) {

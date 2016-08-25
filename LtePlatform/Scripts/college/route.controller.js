@@ -1028,7 +1028,7 @@
         });
 
         var queryRasterInfo = function (files, index, data, callback) {
-            coverageService.queryByRasterInfo(files[index], '4G').then(function (result) {
+            coverageService.queryDetailsByRasterInfo(files[index], '4G').then(function (result) {
                 data.push.apply(data, result);
                 if (index < files.length - 1) {
                     queryRasterInfo(files, index + 1, data, callback);
