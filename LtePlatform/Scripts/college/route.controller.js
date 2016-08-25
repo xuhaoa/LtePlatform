@@ -998,7 +998,7 @@
         };
     })
     .controller('college.test4G.dialog', function ($scope, $uibModalInstance, collegeName,
-        collegeDtService, collegeService, networkElementService) {
+        collegeDtService, collegeService, networkElementService, collegeMapService, geometryService) {
         $scope.dialogTitle = collegeName + "-4G测试结果上报";
         $scope.item = collegeDtService.default4GTestView(collegeName, '饭堂', '许良镇');
         collegeService.queryCells(collegeName).then(function(cellList) {
@@ -1011,6 +1011,14 @@
                 selected: names[0]
             };
         });
+        collegeMapService.queryCenterAndCallback(collegeName, function (center) {
+            geometryService.transformToBaidu(center.X, center.Y).then(function (coors) {
+                $scope.center = {
+                    centerX: 2 * center.X - coors.x,
+                    centerY: 2 * center.Y - coors.y
+                };
+            });
+        });
         $scope.$watch('cellName.selected', function (cellName) {
             if (cellName) {
                 networkElementService.queryLteRruFromCellName(cellName).then(function(rru) {
@@ -1018,6 +1026,10 @@
                 });
             }
         });
+
+        $scope.matchCoverage = function() {
+            console.log($scope.center);
+        };
 
         $scope.ok = function () {
             $scope.item.cellName = $scope.cellName.selected;
