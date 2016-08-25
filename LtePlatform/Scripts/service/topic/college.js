@@ -128,6 +128,19 @@
                 collegeService.queryRaster(type, range, begin, end).then(function(files) {
                     callback(files);
                 });
+            },
+            default3GTestView: function(collegeName, place, tester) {
+                return {
+                    testTime: new Date(),
+                    collegeName: collegeName,
+                    place: place,
+                    tester: tester,
+                    downloadRate: 1024,
+                    accessUsers: 23,
+                    minRssi: -109,
+                    maxRssi: -99,
+                    vswr: 1.11
+                };
             }
         };
     })
@@ -321,7 +334,7 @@
                     }
                 });
                 modalInstance.result.then(function (info) {
-
+                    console.log(info);
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });

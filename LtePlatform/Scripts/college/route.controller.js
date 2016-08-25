@@ -971,15 +971,26 @@
         customerQueryService, appFormatService,dialogTitle, view) {
         $scope.dialogTitle = dialogTitle;
         $scope.view = view;
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
+
         $scope.ok = function () {
             $scope.view.district = $scope.district.selected;
             $scope.view.town = $scope.town.selected;
             $uibModalInstance.close($scope.view);
         };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
     })
-    .controller('college.test3G.dialog', function($scope, collegeName) {
+    .controller('college.test3G.dialog', function ($scope, $uibModalInstance, collegeName, collegeDtService) {
         $scope.dialogTitle = collegeName + "-3G测试结果上报";
+        $scope.item = collegeDtService.default3GTestView(collegeName, '饭堂', '许良镇');
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.item);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
     });
