@@ -997,9 +997,19 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('college.test4G.dialog', function ($scope, $uibModalInstance, collegeName, collegeDtService) {
+    .controller('college.test4G.dialog', function ($scope, $uibModalInstance, collegeName, collegeDtService, collegeService) {
         $scope.dialogTitle = collegeName + "-4G测试结果上报";
         $scope.item = collegeDtService.default4GTestView(collegeName, '饭堂', '许良镇');
+        collegeService.queryCells(collegeName).then(function(cellList) {
+            var names = [];
+            angular.forEach(cellList, function(cell) {
+                names.push(cell.cellName);
+            });
+            $scope.cellName = {
+                options: names,
+                selected: names[0]
+            };
+        });
 
         $scope.ok = function () {
             $scope.item.cellName = $scope.cellName.selected;

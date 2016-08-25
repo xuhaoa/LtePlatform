@@ -33,6 +33,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [TypeDoc("校园网4G测试结果")]
+    [AutoMapFrom(typeof(College4GTestView))]
     public class College4GTestResults : Entity
     {
         [MemberDoc("校园编号")]

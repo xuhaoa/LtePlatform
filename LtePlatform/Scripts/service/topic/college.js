@@ -155,7 +155,9 @@
                     uploadRate: 21024,
                     accessUsers: 33,
                     rsrp: -109,
-                    sinr: 12
+                    sinr: 12,
+                    cellName: "",
+                    pci: 0
                 };
             }
         };
