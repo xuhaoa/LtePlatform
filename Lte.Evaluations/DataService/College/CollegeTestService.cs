@@ -88,8 +88,10 @@ namespace Lte.Evaluations.DataService.College
             var result =
                 _repository.FirstOrDefault(
                     x => x.TestTime == view.TestTime && x.CollegeId == college.Id && x.Place == view.Place);
-            if (result != null) Mapper.Map(view, result);
-            result = view.MapTo<College3GTestResults>();
+            if (result != null)
+                Mapper.Map(view, result);
+            else
+                result = view.MapTo<College3GTestResults>();
             result.CollegeId = college.Id;
             await _repository.InsertOrUpdateAsync(result);
             return _repository.SaveChanges();
@@ -197,8 +199,10 @@ namespace Lte.Evaluations.DataService.College
             var result =
                 _repository.FirstOrDefault(
                     x => x.TestTime == view.TestTime && x.CollegeId == college.Id && x.Place == view.Place);
-            if (result != null) Mapper.Map(view, result);
-            result = view.MapTo<College4GTestResults>();
+            if (result != null)
+                Mapper.Map(view, result);
+            else
+                result = view.MapTo<College4GTestResults>();
             result.CollegeId = college.Id;
             var fields = view.CellName.GetSplittedFields('-');
             if (fields.Length > 1)

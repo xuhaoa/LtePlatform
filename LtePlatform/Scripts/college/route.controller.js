@@ -997,7 +997,8 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('college.test4G.dialog', function ($scope, $uibModalInstance, collegeName, collegeDtService, collegeService) {
+    .controller('college.test4G.dialog', function ($scope, $uibModalInstance, collegeName,
+        collegeDtService, collegeService, networkElementService) {
         $scope.dialogTitle = collegeName + "-4G测试结果上报";
         $scope.item = collegeDtService.default4GTestView(collegeName, '饭堂', '许良镇');
         collegeService.queryCells(collegeName).then(function(cellList) {
@@ -1009,6 +1010,13 @@
                 options: names,
                 selected: names[0]
             };
+        });
+        $scope.$watch('cellName.selected', function (cellName) {
+            if (cellName) {
+                networkElementService.queryLteRruFromCellName(cellName).then(function(rru) {
+                    $scope.rru = rru;
+                });
+            }
         });
 
         $scope.ok = function () {

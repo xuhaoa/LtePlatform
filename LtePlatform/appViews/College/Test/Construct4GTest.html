@@ -28,22 +28,26 @@
         </div>
         <div class="form-group">
             <label for="accessUsers" class="col-sm-2 control-label">接入用户数：</label>
-            <div class="col-sm-4">
+            <div class="col-sm-2">
                 <input type="number" class="form-control" id="accessUsers" ng-model="item.accessUsers" ng-required="true" form-field-error />
             </div>
+            <label for="rsrp" class="col-sm-2 control-label">RSRP(dBm)：</label>
+            <div class="col-sm-2">
+                <input type="number" class="form-control" id="rsrp" ng-model="item.rsrp" ng-required="true" form-field-error />
+            </div>
+            <label for="sinr" class="col-sm-2 control-label">SINR(dBm)：</label>
+            <div class="col-sm-2">
+                <input type="number" class="form-control" id="sinr" ng-model="item.sinr" ng-required="true" form-field-error />
+            </div>
+        </div>
+        <div class="form-group">
             <label for="cellName" class="col-sm-2 control-label">小区选择：</label>
             <div class="col-sm-4">
                 <select class="form-control" id="cellName" ng-model="cellName.selected" ng-options="c for c in cellName.options"></select>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="rsrp" class="col-sm-2 control-label">RSRP(dBm)：</label>
+            <label class="col-sm-2 control-label">RRU信息：</label>
             <div class="col-sm-4">
-                <input type="number" class="form-control" id="rsrp" ng-model="item.rsrp" ng-required="true" form-field-error />
-            </div>
-            <label for="sinr" class="col-sm-2 control-label">SINR(dBm)：</label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control" id="sinr" ng-model="item.sinr" ng-required="true" form-field-error />
+               <span class="form-control" >{{rru.rruName}}({{rru.antennaModel}})</span>
             </div>
         </div>
     </form>
