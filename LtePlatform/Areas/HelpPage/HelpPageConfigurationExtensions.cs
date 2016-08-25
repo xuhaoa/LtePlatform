@@ -242,7 +242,7 @@ namespace LtePlatform.Areas.HelpPage
             var sampleGenerator = config.GetHelpPageSampleGenerator();
             apiModel.UriParameters = apiModel.ApiDescription.GenerateUriParameters(modelGenerator);
             apiModel.RequestModelDescription = apiModel.ApiDescription.GenerateRequestModelDescription(modelGenerator, sampleGenerator);
-            apiModel.ResourceDescription = apiModel.ApiDescription.GenerateResourceDescription(modelGenerator);
+            apiModel.ResourceDescription = apiModel.ApiDescription.GenerateResponseDescription(modelGenerator);
             GenerateSamples(apiModel, sampleGenerator);
 
             return apiModel;
@@ -366,7 +366,7 @@ namespace LtePlatform.Areas.HelpPage
             return null;
         }
 
-        public static ModelDescription GenerateResourceDescription(this ApiDescription apiDescription, 
+        public static ModelDescription GenerateResponseDescription(this ApiDescription apiDescription, 
             ModelDescriptionGenerator modelGenerator)
         {
             var response = apiDescription.ResponseDescription;

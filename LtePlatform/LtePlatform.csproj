@@ -306,7 +306,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\ObjectGenerator.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
-    <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Areas\TestPage\Controllers\AngularTestController.cs" />
     <Compile Include="Areas\TestPage\Controllers\SimpleTypeTestSumController.cs" />
     <Compile Include="Areas\TestPage\Controllers\TestPostOriginENodebsController.cs" />

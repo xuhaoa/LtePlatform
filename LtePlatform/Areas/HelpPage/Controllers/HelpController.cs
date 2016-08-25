@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using LtePlatform.Areas.HelpPage.ModelDescriptions;
 using LtePlatform.Areas.HelpPage.Models;
+using LtePlatform.Models;
 
 namespace LtePlatform.Areas.HelpPage.Controllers
 {
@@ -56,7 +57,8 @@ namespace LtePlatform.Areas.HelpPage.Controllers
                 MethodName = api.HttpMethod.Method,
                 RelativePath = api.RelativePath,
                 Documentation = api.Documentation,
-                ResponseName = api.GenerateResourceDescription(modelGenerator)?.Name
+                ResponseName = api.GenerateResponseDescription(modelGenerator)?.Name,
+                ResponseDocumentation = Configuration.Services.GetDocumentationProvider().GetResponseDocumentation(api.ActionDescriptor)
             }), 
                 JsonRequestBehavior.AllowGet);
         }
@@ -75,7 +77,7 @@ namespace LtePlatform.Areas.HelpPage.Controllers
             var sampleGenerator = Configuration.GetHelpPageSampleGenerator();
             var parametersDescriptions = description.GenerateUriParameters(modelGenerator);
             var requestModelDescription = description.GenerateRequestModelDescription(modelGenerator, sampleGenerator);
-            var responseModel = description.GenerateResourceDescription(modelGenerator);
+            var responseModel = description.GenerateResponseDescription(modelGenerator);
             var responseDescription = responseModel?.GetParameterDescriptions();
             return Json(new
             {
@@ -97,7 +99,7 @@ namespace LtePlatform.Areas.HelpPage.Controllers
                 ResponseModel = responseModel==null?null: new
                 {
                     responseModel.Name,
-                    responseModel.Documentation,
+                    Documentation = Configuration.Services.GetDocumentationProvider().GetResponseDocumentation(description.ActionDescriptor),
                     responseModel.ParameterDocumentation,
                     Descriptions = responseDescription?.Select(x => new
                     {

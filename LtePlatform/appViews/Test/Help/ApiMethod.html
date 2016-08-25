@@ -4,8 +4,9 @@
         <tr>
             <th>Method Name</th>
             <th>Relative Path</th>
-            <th>Method descriptions</th>
+            <th>Method Descriptions</th>
             <th>Response Info</th>
+            <th>Response Descriptions</th>
             <th>API infos</th>
         </tr>
     </thead>
@@ -13,8 +14,9 @@
         <tr ng-repeat="method in methods">
             <td>{{method.MethodName}}</td>
             <td>{{method.RelativePath}}</td>
-            <td class="parameter-documentation">{{method.Documentation}}</td>
+            <td class="parameter-type">{{method.Documentation}}</td>
             <td class="parameter-type">{{method.ResponseName}}</td>
+            <td class="parameter-type">{{method.ResponseDocumentation}}</td>
             <td>
                 <a ng-href="{{rootPath}}api/{{method.FriendlyId}}/{{page.title}}">Details</a>
             </td>

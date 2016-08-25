@@ -23,6 +23,7 @@ namespace LtePlatform.Controllers.Mr
         [ApiParameterDoc("eNodebId", "基站编号")]
         [ApiParameterDoc("sectorId", "扇区编号")]
         [ApiParameterDoc("date", "统计日期")]
+        [ApiResponse("指定日期的平均RSRP按照TA分布")]
         [HttpGet]
         public List<double> Get(int eNodebId, byte sectorId, DateTime date)
         {
