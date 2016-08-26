@@ -49,17 +49,24 @@ namespace LtePlatform.Areas.HelpPage.Controllers
             var description =
                 Configuration.Services.GetApiExplorer()
                     .ApiDescriptions.Where(
-                        api => api.ActionDescriptor.ControllerDescriptor.ControllerName == controllerName);
+                        api => api.ActionDescriptor.ControllerDescriptor.ControllerName == controllerName).ToList();
+            var provider = Configuration.Services.GetDocumentationProvider();
             var modelGenerator = Configuration.GetModelDescriptionGenerator();
-            return Json(description.Select(api => new
+            var self = description.FirstOrDefault()?.ActionDescriptor?.ControllerDescriptor;
+            return Json(new
             {
-                FriendlyId = api.GetFriendlyId(),
-                MethodName = api.HttpMethod.Method,
-                RelativePath = api.RelativePath,
-                Documentation = api.Documentation,
-                ResponseName = api.GenerateResponseDescription(modelGenerator)?.Name,
-                ResponseDocumentation = Configuration.Services.GetDocumentationProvider().GetResponseDocumentation(api.ActionDescriptor)
-            }), 
+                FullPath = self?.ControllerType,
+                Documentation = self != null ? provider.GetDocumentation(self) : "",
+                ActionList = description.Select(api => new
+                {
+                    FriendlyId = api.GetFriendlyId(),
+                    MethodName = api.HttpMethod.Method,
+                    RelativePath = api.RelativePath,
+                    Documentation = api.Documentation,
+                    ResponseName = api.GenerateResponseDescription(modelGenerator)?.Name,
+                    ResponseDocumentation = provider.GetResponseDocumentation(api.ActionDescriptor)
+                })
+            },
                 JsonRequestBehavior.AllowGet);
         }
 
