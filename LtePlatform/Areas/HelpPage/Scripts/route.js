@@ -53,6 +53,7 @@
         generalHttpService.getMvcData('/Help/ApiMethod', {
             controllerName: $routeParams.name
         }).then(function(result) {
-            $scope.methods = result;
+            $scope.methods = result.ActionList;
+            $scope.page.introduction = $routeParams.name + '(' + result.FullPath + '): ' + result.Documentation;
         });
     });
