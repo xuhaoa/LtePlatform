@@ -55,7 +55,7 @@ namespace Lte.Parameters.MockOperations
             where T : Entity, IWorkItemCell, new()
             where TRepository : class, IRepository<T>
         {
-            Mapper.CreateMap<T, T>();
+            Mapper.Initialize(cfg => cfg.CreateMap<T, T>());
             repository.Setup(x => x.Update(It.IsAny<T>())).Callback<T>(
                 e =>
                 {

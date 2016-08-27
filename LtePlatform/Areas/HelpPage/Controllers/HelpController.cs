@@ -52,10 +52,13 @@ namespace LtePlatform.Areas.HelpPage.Controllers
                         api => api.ActionDescriptor.ControllerDescriptor.ControllerName == controllerName).ToList();
             var provider = Configuration.Services.GetDocumentationProvider();
             var modelGenerator = Configuration.GetModelDescriptionGenerator();
-            var self = description.FirstOrDefault()?.ActionDescriptor?.ControllerDescriptor;
+            var self = Configuration.Services.GetApiExplorer()
+                .ApiDescriptions.FirstOrDefault(
+                    api => api.ActionDescriptor.ControllerDescriptor.ControllerName == controllerName)?
+                .ActionDescriptor?.ControllerDescriptor;
             return Json(new
             {
-                FullPath = self?.ControllerType,
+                FullPath = self != null ? self.ControllerType.ToString() : "",
                 Documentation = self != null ? provider.GetDocumentation(self) : "",
                 ActionList = description.Select(api => new
                 {
