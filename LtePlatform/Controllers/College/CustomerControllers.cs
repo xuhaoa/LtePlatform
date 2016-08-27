@@ -340,6 +340,7 @@ namespace LtePlatform.Controllers.College
         [HttpGet]
         [ApiDoc("查询到指定日期当月发生的分公司需求数")]
         [ApiParameterDoc("today", "指定统计日期")]
+        [ApiResponse("到指定日期当月发生的分公司需求数")]
         public async Task<int> GetCount(DateTime today)
         {
             return await _service.QueryCount<BranchDemandService, BranchDemand>(today);

@@ -31,6 +31,7 @@ namespace LtePlatform.Controllers.Account
         [HttpPost]
         [ApiDoc("批量向用户添加某个角色")]
         [ApiParameterDoc("dto", "角色添加信息，包含角色名称和待添加的用户列表")]
+        [ApiResponse("无返回")]
         public void Post(RoleUsersDto dto)
         {
             var context = ApplicationDbContext.Create();

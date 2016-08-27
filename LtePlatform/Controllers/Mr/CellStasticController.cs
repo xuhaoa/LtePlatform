@@ -47,6 +47,11 @@ namespace LtePlatform.Controllers.Mr
         }
 
         [HttpGet]
+        [ApiDoc("查询指定日期的单个小区聚合小区覆盖信息统计")]
+        [ApiParameterDoc("eNodebId", "小区基站编号")]
+        [ApiParameterDoc("sectorId", "扇区编号")]
+        [ApiParameterDoc("date", "指定日期")]
+        [ApiResponse("单个小区聚合小区覆盖信息统计")]
         public List<CellStastic> Get(int eNodebId, byte sectorId, DateTime date)
         {
             return _service.QueryOneDayStats(eNodebId, sectorId, date.Date);
