@@ -101,6 +101,20 @@
             },
             saveCollege4GTest: function (view) {
                 return generalHttpService.postApiData('College4GTest', view);
+            },
+            queryCollege3GTestList: function(begin, end, name) {
+                return generalHttpService.getApiData('College3GTest', {
+                    begin: begin,
+                    end: end,
+                    name: name
+                });
+            },
+            queryCollege4GTestList: function (begin, end, name) {
+                return generalHttpService.getApiData('College4GTest', {
+                    begin: begin,
+                    end: end,
+                    name: name
+                });
             }
         };
     })
@@ -375,6 +389,24 @@
                     collegeQueryService.saveCollege4GTest(info).then(function () {
                         console.log(info);
                     });
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            processTest: function (collegeName) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: collegeTestPath + 'Process.html',
+                    controller: 'test.process.dialog',
+                    size: 'lg',
+                    resolve: {
+                        collegeName: function () {
+                            return collegeName;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (info) {
+                    console.log(info);
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });

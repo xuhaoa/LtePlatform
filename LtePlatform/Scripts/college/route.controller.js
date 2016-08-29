@@ -1116,4 +1116,15 @@
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
+    })
+    .controller('test.process.dialog', function ($scope, $uibModalInstance, collegeName) {
+        $scope.dialogTitle = collegeName + "校园网测试信息确认";
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.item);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
     });
