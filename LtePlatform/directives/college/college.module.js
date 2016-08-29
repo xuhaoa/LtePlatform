@@ -60,6 +60,81 @@ angular.module('college.dt', ['ui.grid'])
                 element.append(linkDom);
             }
         };
+    })
+    .controller('College3GController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'place', name: '测试地点' },
+                { field: 'tester', name: '测试人员' },
+                { field: 'testTime', name: '测试时间', cellFilter: 'date: "yyyy-MM-dd HH"' },
+                { field: 'accessUsers', name: '接入用户数' },
+                { field: 'downloadRate', name: '下载速率（kbps）', cellFilter: 'number: 2' },
+                { field: 'maxRssi', name: 'RSSI最大值' },
+                { field: 'minRssi', name: 'RSSI最小值' },
+                { field: 'vswr', name: '驻波比' }
+            ],
+            data: []
+        };
+    })
+    .directive('collegeTest3List', function ($compile) {
+        return {
+            controller: 'College3GController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                items: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
+    })
+    .controller('College4GController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'place', name: '测试地点' },
+                { field: 'tester', name: '测试人员' },
+                { field: 'testTime', name: '测试时间', cellFilter: 'date: "yyyy-MM-dd HH"' },
+                { field: 'accessUsers', name: '接入用户数' },
+                { field: 'downloadRate', name: '下载速率（kbps）', cellFilter: 'number: 2' },
+                { field: 'uploadRate', name: '上传速率（kbps）', cellFilter: 'number: 2' },
+                { field: 'cellName', name: '小区名称' },
+                { field: 'rsrp', name: 'RSRP(dBm)' },
+                { field: 'sinr', name: 'SINR(dB)' }
+            ],
+            data: []
+        };
+    })
+    .directive('collegeTest4List', function ($compile) {
+        return {
+            controller: 'College4GController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                items: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
     });
 
 angular.module('college.info', ['customer.service', 'myApp.region'])

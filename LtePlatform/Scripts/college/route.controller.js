@@ -1122,10 +1122,10 @@
 
         $scope.query = function() {
             collegeQueryService.queryCollege3GTestList($scope.beginDate.value, $scope.endDate.value, collegeName).then(function(test3G) {
-                console.log(test3G);
+                $scope.items3G = test3G;
             });
             collegeQueryService.queryCollege4GTestList($scope.beginDate.value, $scope.endDate.value, collegeName).then(function (test4G) {
-                console.log(test4G);
+                $scope.items4G = test4G;
             });
         };
         $scope.query();
