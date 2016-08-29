@@ -61,17 +61,19 @@ angular.module('college.dt', ['ui.grid'])
             }
         };
     })
-    .controller('College3GController', function ($scope) {
+    .controller('College3GController', function ($scope, uiGridConstants) {
         $scope.gridOptions = {
+            showGridFooter: true,
+            showColumnFooter: true,
             columnDefs: [
                 { field: 'place', name: '测试地点' },
                 { field: 'tester', name: '测试人员' },
                 { field: 'testTime', name: '测试时间', cellFilter: 'date: "yyyy-MM-dd HH"' },
-                { field: 'accessUsers', name: '接入用户数' },
-                { field: 'downloadRate', name: '下载速率（kbps）', cellFilter: 'number: 2' },
-                { field: 'maxRssi', name: 'RSSI最大值' },
-                { field: 'minRssi', name: 'RSSI最小值' },
-                { field: 'vswr', name: '驻波比' }
+                { field: 'accessUsers', name: '接入用户数', aggregationType: uiGridConstants.aggregationTypes.avg, aggregationHideLabel: true },
+                { field: 'downloadRate', name: '下载速率（kbps）', cellFilter: 'number: 2', aggregationType: uiGridConstants.aggregationTypes.avg, aggregationHideLabel: true },
+                { field: 'maxRssi', name: 'RSSI最大值', aggregationType: uiGridConstants.aggregationTypes.avg, aggregationHideLabel: true },
+                { field: 'minRssi', name: 'RSSI最小值', aggregationType: uiGridConstants.aggregationTypes.avg, aggregationHideLabel: true },
+                { field: 'vswr', name: '驻波比', aggregationType: uiGridConstants.aggregationTypes.avg, aggregationHideLabel: true }
             ],
             data: []
         };
@@ -98,18 +100,20 @@ angular.module('college.dt', ['ui.grid'])
             }
         };
     })
-    .controller('College4GController', function ($scope) {
+    .controller('College4GController', function ($scope, uiGridConstants) {
         $scope.gridOptions = {
+            showGridFooter: true,
+            showColumnFooter: true,
             columnDefs: [
                 { field: 'place', name: '测试地点' },
                 { field: 'tester', name: '测试人员' },
                 { field: 'testTime', name: '测试时间', cellFilter: 'date: "yyyy-MM-dd HH"' },
-                { field: 'accessUsers', name: '接入用户数' },
-                { field: 'downloadRate', name: '下载速率（kbps）', cellFilter: 'number: 2' },
-                { field: 'uploadRate', name: '上传速率（kbps）', cellFilter: 'number: 2' },
+                { field: 'accessUsers', name: '接入用户数', aggregationType: uiGridConstants.aggregationTypes.avg, aggregationHideLabel: true },
+                { field: 'downloadRate', name: '下载速率（kbps）', cellFilter: 'number: 2', aggregationType: uiGridConstants.aggregationTypes.avg, aggregationHideLabel: true },
+                { field: 'uploadRate', name: '上传速率（kbps）', cellFilter: 'number: 2', aggregationType: uiGridConstants.aggregationTypes.avg, aggregationHideLabel: true },
                 { field: 'cellName', name: '小区名称' },
-                { field: 'rsrp', name: 'RSRP(dBm)' },
-                { field: 'sinr', name: 'SINR(dB)' }
+                { field: 'rsrp', name: 'RSRP(dBm)', cellFilter: 'number: 2', aggregationType: uiGridConstants.aggregationTypes.avg, aggregationHideLabel: true },
+                { field: 'sinr', name: 'SINR(dB)', cellFilter: 'number: 2', aggregationType: uiGridConstants.aggregationTypes.avg, aggregationHideLabel: true }
             ],
             data: []
         };
