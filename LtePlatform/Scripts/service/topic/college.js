@@ -393,7 +393,7 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
-            processTest: function (collegeName) {
+            processTest: function (collegeName, callback) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: collegeTestPath + 'Process.html',
@@ -406,7 +406,7 @@
                     }
                 });
                 modalInstance.result.then(function (info) {
-                    console.log(info);
+                    callback(info);
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });

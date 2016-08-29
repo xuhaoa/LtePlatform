@@ -159,7 +159,12 @@ angular.module('customer.emergency', ['customer.service'])
     .controller('VipProcessController', function ($scope, emergencyService, collegeDialogService) {
         $scope.updateProcess = function(item) {
             if ($scope.collegeName && item.vipStateDescription === '现场测试') {
-                collegeDialogService.processTest($scope.collegeName);
+                collegeDialogService.processTest($scope.collegeName, function(info) {
+                    item.processInfo = info;
+                    emergencyService.finishVipProcess(item).then(function () {
+                        $scope.query();
+                    });
+                });
             } else {
                 emergencyService.finishVipProcess(item).then(function() {
                     $scope.query();
