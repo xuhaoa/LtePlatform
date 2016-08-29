@@ -1146,7 +1146,7 @@
         $scope.query();
 
         $scope.ok = function () {
-            $uibModalInstance.close($scope.item);
+            $uibModalInstance.close($("#reports").html());
         };
 
         $scope.cancel = function () {

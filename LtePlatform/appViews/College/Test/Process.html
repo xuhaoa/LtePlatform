@@ -29,7 +29,7 @@
             <div uib-accordion-heading>
                 测试总结
             </div>
-            <pre class="alert alert-info">
+            <pre class="alert alert-info" id="reports">
 在{{beginDate.value | date: 'yyyy-MM-dd'}}-{{endDate.value | date: 'yyyy-MM-dd'}}期间，共完成3G测试{{items3G.length}}次，4G测试{{items4G.length}}次。
 其中4G平均下载速率{{averageDownloadRate | number: 2}}kbit/s，平均上传速率{{averageUploadRate | number: 2}}kbit/s，平均RSRP{{averageRsrp | number: 2}}dBm，平均SINR{{averageSinr | number: 2}}dB。
             </pre>
@@ -37,6 +37,6 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-warning" ng-click="ok()" ng-disabled="!items3G.length||!items4G.length">保存信息</button>
+    <button class="btn btn-warning" ng-click="ok()" ng-disabled="items3G.length<3 || items4G.length<3">保存信息</button>
     <button class="btn btn-default" type="button" ng-click="cancel()">放弃保存</button>
 </div>
