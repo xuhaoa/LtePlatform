@@ -5,7 +5,9 @@
     <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
 <div class="modal-body ">
-    <div date-span-row begin-date="beginDate" end-date="endDate"></div>
+    <div date-span-row begin-date="beginDate" end-date="endDate">
+        <i class="glyphicon glyphicon-search" ng-click="query()"></i>
+    </div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-warning" ng-click="ok()">保存信息</button>

@@ -1117,8 +1117,18 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('test.process.dialog', function ($scope, $uibModalInstance, collegeName) {
+    .controller('test.process.dialog', function ($scope, $uibModalInstance, collegeName, collegeQueryService) {
         $scope.dialogTitle = collegeName + "校园网测试信息确认";
+
+        $scope.query = function() {
+            collegeQueryService.queryCollege3GTestList($scope.beginDate.value, $scope.endDate.value, collegeName).then(function(test3G) {
+                console.log(test3G);
+            });
+            collegeQueryService.queryCollege4GTestList($scope.beginDate.value, $scope.endDate.value, collegeName).then(function (test4G) {
+                console.log(test4G);
+            });
+        };
+        $scope.query();
 
         $scope.ok = function () {
             $uibModalInstance.close($scope.item);
