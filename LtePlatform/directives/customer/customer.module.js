@@ -161,10 +161,12 @@ angular.module('customer.emergency', ['customer.service'])
             if ($scope.collegeName && item.vipStateDescription === '现场测试') {
                 collegeDialogService.processTest($scope.collegeName, function(info) {
                     item.processInfo = info;
-                    emergencyService.finishVipProcess(item).then(function () {
+                    emergencyService.finishVipProcess(item).then(function() {
                         $scope.query();
                     });
                 });
+            } else if ($scope.collegeName && item.vipStateDescription === '通信车需求') {
+
             } else {
                 emergencyService.finishVipProcess(item).then(function() {
                     $scope.query();

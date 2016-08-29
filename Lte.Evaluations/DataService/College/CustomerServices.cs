@@ -277,7 +277,8 @@ namespace Lte.Evaluations.DataService.College
         {
             dto.ProcessTime=DateTime.Now;
             dto.ProcessPerson = userName;
-            dto.ProcessInfo = "已完成" + dto.VipStateDescription;
+            if (string.IsNullOrEmpty(dto.ProcessInfo))
+                dto.ProcessInfo = "已完成" + dto.VipStateDescription;
             return await _processRepository.UpdateOne<IVipProcessRepository, VipProcess, VipProcessDto>(dto);
         } 
 
