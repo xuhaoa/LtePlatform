@@ -1117,7 +1117,7 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('test.process.dialog', function ($scope, $uibModalInstance, collegeName, collegeQueryService) {
+    .controller('test.process.dialog', function ($scope, $uibModalInstance, collegeName, collegeQueryService, appFormatService) {
         $scope.dialogTitle = collegeName + "校园网测试信息确认";
 
         $scope.query = function() {
@@ -1126,6 +1126,21 @@
             });
             collegeQueryService.queryCollege4GTestList($scope.beginDate.value, $scope.endDate.value, collegeName).then(function (test4G) {
                 $scope.items4G = test4G;
+                var testEvaluations = appFormatService.calculateAverages(test4G, [
+                    function(point) {
+                        return point.rsrp;
+                    }, function(point) {
+                        return point.sinr;
+                    }, function(point) {
+                        return point.downloadRate;
+                    }, function(point) {
+                        return point.uploadRate;
+                    }
+                ]);
+                $scope.averageRsrp = testEvaluations[0].sum / testEvaluations[0].count;
+                $scope.averageSinr = testEvaluations[1].sum / testEvaluations[1].count;
+                $scope.averageDownloadRate = testEvaluations[2].sum / testEvaluations[2].count;
+                $scope.averageUploadRate = testEvaluations[3].sum / testEvaluations[3].count;
             });
         };
         $scope.query();

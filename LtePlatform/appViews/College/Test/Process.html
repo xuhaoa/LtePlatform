@@ -25,6 +25,15 @@
             </div>
             <div college-test4-list items="items4G"></div>
         </div>
+        <div uib-accordion-group panel-class="panel-warning">
+            <div uib-accordion-heading>
+                测试总结
+            </div>
+            <pre class="alert alert-info">
+在{{beginDate.value | date: 'yyyy-MM-dd'}}-{{endDate.value | date: 'yyyy-MM-dd'}}期间，共完成3G测试{{items3G.length}}次，4G测试{{items4G.length}}次。
+其中4G平均下载速率{{averageDownloadRate | number: 2}}kbit/s，平均上传速率{{averageUploadRate | number: 2}}kbit/s，平均RSRP{{averageRsrp | number: 2}}dBm，平均SINR{{averageSinr | number: 2}}dB。
+            </pre>
+        </div>
     </div>
 </div>
 <div class="modal-footer">
