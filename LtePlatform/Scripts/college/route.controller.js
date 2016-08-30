@@ -1139,7 +1139,7 @@
             options: electrictOptions,
             selected: electrictOptions[0]
         };
-        collegeQueryService.queryByNameAndYear(collegeName, $scope.collegeInfo.year.selected - 1).then(function(item) {
+        collegeQueryService.queryByNameAndYear(collegeName, $scope.collegeInfo.year.selected).then(function(item) {
             $scope.itemBeginDate = {
                 value: appFormatService.getDate(item.oldOpenDate),
                 opened: false
