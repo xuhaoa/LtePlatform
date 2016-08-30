@@ -156,7 +156,7 @@ angular.module('customer.emergency', ['customer.service'])
         };
     })
 
-    .controller('VipProcessController', function ($scope, emergencyService, collegeDialogService) {
+    .controller('VipProcessController', function ($scope, emergencyService, collegeDialogService, customerDialogService) {
         $scope.updateProcess = function(item) {
             if ($scope.collegeName && item.vipStateDescription === '现场测试') {
                 collegeDialogService.processTest($scope.collegeName, function(info) {
@@ -166,7 +166,9 @@ angular.module('customer.emergency', ['customer.service'])
                     });
                 });
             } else if ($scope.collegeName && item.vipStateDescription === '通信车需求') {
-
+                customerDialogService.constructEmergencyCollege(item.serialNumber, $scope.collegeName, function() {
+                    $scope.query();
+                });
             } else {
                 emergencyService.finishVipProcess(item).then(function() {
                     $scope.query();

@@ -1117,6 +1117,17 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
+    .controller('emergency.college.dialog', function($scope, $uibModalInstance, serialNumber, collegeName) {
+        $scope.dialogTitle = collegeName + "应急通信车申请-" + serialNumber;
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.item);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .controller('test.process.dialog', function ($scope, $uibModalInstance, collegeName, collegeQueryService, appFormatService) {
         $scope.dialogTitle = collegeName + "校园网测试信息确认";
 

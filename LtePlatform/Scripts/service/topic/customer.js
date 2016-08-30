@@ -42,6 +42,30 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
+            constructEmergencyCollege: function (serialNumber, collegeName, callback) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Customer/Dialog/Emergency.html',
+                    controller: 'emergency.college.dialog',
+                    size: 'lg',
+                    resolve: {
+                        serialNumber: function () {
+                            return serialNumber;
+                        },
+                        collegeName: function () {
+                            return collegeName;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (dto) {
+                    customerQueryService.postDto(dto).then(function (result) {
+                        callback();
+                    });
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
             supplementVipDemandInfo: function(view, city, district, messages, callback) {
                 var modalInstance = $uibModal.open({
                     animation: true,
