@@ -1779,7 +1779,6 @@
     <None Include="Properties\PublishProfiles\Lte-ftp-219.pubxml" />
     <None Include="Properties\PublishProfiles\Lte2.pubxml" />
     <Content Include="Scripts\coffee-script.js" />
-    <Content Include="Scripts\college\kpi.controller.js" />
     <Content Include="Scripts\college\kpi.viewmodel.js" />
     <Content Include="Scripts\college\precise.controller.js" />
     <Content Include="Scripts\college\precise.viewmodel.js" />

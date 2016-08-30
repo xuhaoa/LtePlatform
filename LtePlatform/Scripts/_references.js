@@ -84,7 +84,6 @@
 /// <reference path="baidu/plugins/infobox.js" />
 /// <reference path="bootstrap.min.js" />
 /// <reference path="coffee-script.js" />
-/// <reference path="college/kpi.controller.js" />
 /// <reference path="college/kpi.viewmodel.js" />
 /// <reference path="college/precise.controller.js" />
 /// <reference path="college/precise.viewmodel.js" />

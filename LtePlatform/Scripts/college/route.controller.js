@@ -1015,21 +1015,6 @@
                     var data = [];
                     queryRasterInfo(files, 0, data, function (result) {
                         console.log(result);
-                        //var testEvaluations = appFormatService.calculateAverages(result, [
-                        //    function (point) {
-                        //        return point.rsrp;
-                        //    }, function (point) {
-                        //        return point.sinr;
-                        //    }, function (point) {
-                        //        return point.pdcpThroughputDl > 10 ? point.pdcpThroughputDl : 0;
-                        //    }, function (point) {
-                        //        return point.pdcpThroughputUl > 1 ? point.pdcpThroughputUl : 0;
-                        //    }
-                        //]);
-                        //$scope.item.rsrp = testEvaluations[0].sum / testEvaluations[0].count;
-                        //$scope.item.sinr = testEvaluations[1].sum / testEvaluations[1].count;
-                        //$scope.item.downloadRate = testEvaluations[2].sum / testEvaluations[2].count * 1024;
-                        //$scope.item.uploadRate = testEvaluations[3].sum / testEvaluations[3].count * 1024;
                     });
                 }
             });
@@ -1117,11 +1102,73 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('emergency.college.dialog', function($scope, $uibModalInstance, serialNumber, collegeName) {
+    .controller('emergency.college.dialog', function ($scope, $uibModalInstance, serialNumber, collegeName,
+        collegeQueryService, appFormatService, customerQueryService, appRegionService) {
         $scope.dialogTitle = collegeName + "应急通信车申请-" + serialNumber;
+        $scope.dto = {
+            projectName: collegeName + "应急通信车申请",
+            expectedPeople: 500000,
+            vehicles: 1,
+            area: collegeName,
+            department: "南海区分公司客响维护部",
+            person: "刘文清",
+            phone: "13392293722",
+            vehicleLocation: "门口东边100米处",
+            otherDescription: "应急通信车申请。",
+            townId: 1
+        };
+        customerQueryService.queryDemandLevelOptions().then(function (options) {
+            $scope.demandLevel = {
+                options: options,
+                selected: options[0]
+            };
+        });
+        customerQueryService.queryVehicleTypeOptions().then(function (options) {
+            $scope.vehicularType = {
+                options: options,
+                selected: options[17]
+            };
+        });
+        var transmitOptions = customerQueryService.queryTransmitFunctionOptions();
+        $scope.transmitFunction = {
+            options: transmitOptions,
+            selected: transmitOptions[0]
+        };
+        var electrictOptions = customerQueryService.queryElectricSupplyOptions();
+        $scope.electricSupply = {
+            options: electrictOptions,
+            selected: electrictOptions[0]
+        };
+        collegeQueryService.queryByNameAndYear(collegeName, $scope.collegeInfo.year.selected - 1).then(function(item) {
+            $scope.itemBeginDate = {
+                value: appFormatService.getDate(item.oldOpenDate),
+                opened: false
+            };
+            $scope.itemEndDate = {
+                value: appFormatService.getDate(item.newOpenDate),
+                opened: false
+            };
+            $scope.dto.expectedPeople = item.expectedSubscribers;
+        });
+        customerQueryService.queryOneVip(serialNumber).then(function(item) {
+            angular.forEach($scope.district.options, function (district) {
+                if (district === item.district) {
+                    $scope.district.selected = item.district;
+                }
+            });
+            appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function(towns) {
+                $scope.town.options = towns;
+                $scope.town.selected = towns[0];
+                angular.forEach(towns, function (town) {
+                    if (town === item.town) {
+                        $scope.town.selected = town;
+                    }
+                });
+            });
+        });
 
         $scope.ok = function () {
-            $uibModalInstance.close($scope.item);
+            $uibModalInstance.close($scope.dto);
         };
 
         $scope.cancel = function () {
