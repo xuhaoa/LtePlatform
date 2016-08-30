@@ -36,7 +36,7 @@ namespace Lte.MySqlFramework.Concrete
 
         public EmergencyCommunication Match(EmergencyCommunicationDto stat)
         {
-            return Get(stat.Id);
+            return stat.Id <= 0 ? FirstOrDefault(x => x.ProjectName == stat.ProjectName) : Get(stat.Id);
         }
     }
 

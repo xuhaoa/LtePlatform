@@ -167,7 +167,9 @@ angular.module('customer.emergency', ['customer.service'])
                 });
             } else if ($scope.collegeName && item.vipStateDescription === '通信车需求') {
                 customerDialogService.constructEmergencyCollege(item.serialNumber, $scope.collegeName, function() {
-                    $scope.query();
+                    emergencyService.finishVipProcess(item).then(function () {
+                        $scope.query();
+                    });
                 });
             } else {
                 emergencyService.finishVipProcess(item).then(function() {

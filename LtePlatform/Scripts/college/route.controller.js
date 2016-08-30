@@ -1168,6 +1168,14 @@
         });
 
         $scope.ok = function () {
+            $scope.dto.demandLevelDescription = $scope.demandLevel.selected;
+            $scope.dto.beginDate = $scope.itemBeginDate.value;
+            $scope.dto.endDate = $scope.itemEndDate.value;
+            $scope.dto.vehicularTypeDescription = $scope.vehicularType.selected;
+            $scope.dto.transmitFunction = $scope.transmitFunction.selected;
+            $scope.dto.district = $scope.district.selected;
+            $scope.dto.town = $scope.town.selected;
+            $scope.dto.electricSupply = $scope.electricSupply.selected;
             $uibModalInstance.close($scope.dto);
         };
 
