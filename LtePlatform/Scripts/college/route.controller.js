@@ -113,6 +113,18 @@
                     }
                 },
                 url: "/flow"
+            }).state('root.collegeFlow', {
+                views: {
+                    "contents": {
+                        templateUrl: viewDir + "/Test/CollegeFlow.html",
+                        controller: "flow.name"
+                    },
+                    'collegeList': {
+                        templateUrl: viewDir + "CollegeMenu.html",
+                        controller: "college.menu"
+                    }
+                },
+                url: "/flow/:name"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -484,8 +496,12 @@
 
 
     .controller("all.flow", function ($scope) {
-        $scope.collegeInfo.url = $scope.rootPath + "coverage";
+        $scope.collegeInfo.url = $scope.rootPath + "flow";
         $scope.page.title = "流量分析";
+    })
+    .controller("flow.name", function ($scope, $stateParams) {
+        $scope.collegeInfo.url = $scope.rootPath + "flow";
+        $scope.page.title = $stateParams.name + "流量分析";
     })
     .controller("all.support", function ($scope, collegeQueryService, emergencyService) {
         $scope.page.title = "支撑任务";
