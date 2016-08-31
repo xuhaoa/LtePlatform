@@ -52,4 +52,22 @@ namespace Lte.Evaluations.ViewModels.Kpi
             };
         }
     }
+
+    [AutoMapFrom(typeof(FlowView))]
+    public class AggregateFlowView
+    {
+        public int CellCount { get; set; }
+
+        public double PdcpDownlinkFlow { get; set; }
+        
+        public double PdcpUplinkFlow { get; set; }
+        
+        public double AverageUsers { get; set; }
+        
+        public int MaxUsers { get; set; }
+
+        public double AverageActiveUsers { get; set; }
+
+        public int MaxActiveUsers { get; set; }
+    }
 }

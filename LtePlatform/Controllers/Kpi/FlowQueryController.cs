@@ -4,6 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Abp.EntityFramework.AutoMapper;
+using Lte.Domain.Regular;
+using Lte.Evaluations.DataService.College;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.ViewModels.Kpi;
 
@@ -28,6 +31,30 @@ namespace LtePlatform.Controllers.Kpi
         public FlowView GetAverage(int eNodebId, byte sectorId, DateTime beginDate, DateTime endDate)
         {
             return _service.QueryAverageView(eNodebId, sectorId, beginDate, endDate);
+        }
+    }
+
+    public class CollegeFlowController : ApiController
+    {
+        private readonly FlowQueryService _service;
+        private readonly CollegeCellViewService _collegeCellViewService;
+
+        public CollegeFlowController(FlowQueryService service, CollegeCellViewService collegeCellViewService)
+        {
+            _service = service;
+            _collegeCellViewService = collegeCellViewService;
+        }
+
+        public AggregateFlowView Get(string collegeName, DateTime begin, DateTime end)
+        {
+            var cells = _collegeCellViewService.GetViews(collegeName);
+            var stats =
+                cells.Select(cell => _service.QueryAverageView(cell.ENodebId, cell.SectorId, begin, end))
+                    .Where(view => view != null)
+                    .ToList();
+            var result = stats.ArraySum().MapTo<AggregateFlowView>();
+            result.CellCount = stats.Count;
+            return result;
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Linq;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
 
@@ -12,15 +11,13 @@ namespace Lte.Evaluations.DataService.College
 {
     public class CollegeAlarmService
     {
-        private readonly ICollegeRepository _repository;
         private readonly IInfrastructureRepository _infrastructureRepository;
         private readonly IENodebRepository _eNodebRepository;
         private readonly IAlarmRepository _alarmRepository;
 
-        public CollegeAlarmService(ICollegeRepository repository, IInfrastructureRepository infrastructureRepository,
+        public CollegeAlarmService(IInfrastructureRepository infrastructureRepository,
             IENodebRepository eNodebRepository, IAlarmRepository alarmRepository)
         {
-            _repository = repository;
             _infrastructureRepository = infrastructureRepository;
             _eNodebRepository = eNodebRepository;
             _alarmRepository = alarmRepository;
@@ -36,21 +33,6 @@ namespace Lte.Evaluations.DataService.College
                     where eNodeb != null
                     let stats = _alarmRepository.GetAllList(begin, end, eNodeb.ENodebId)
                     select new Tuple<string, IEnumerable<AlarmStat>>(eNodeb.Name, stats)).ToList();
-        }
-
-        public Dictionary<string, IEnumerable<Tuple<string, int>>> GetAlarmCounts(DateTime begin, DateTime end)
-        {
-            var colleges = _repository.GetAllList().Select(x => x.Name);
-            var results = new Dictionary<string, IEnumerable<Tuple<string, int>>>();
-            foreach (var college in colleges)
-            {
-                var alarms = QueryCollegeENodebAlarms(college, begin, end).ToArray();
-                if (alarms.Any())
-                {
-                    results.Add(college, alarms.Select(x => new Tuple<string, int>(x.Item1, x.Item2.Count())));
-                }
-            }
-            return results;
         }
     }
 

@@ -115,6 +115,13 @@
                     end: end,
                     name: name
                 });
+            },
+            queryCollegeFlow: function(collgeName, begin, end) {
+                return generalHttpService.getApiData('CollegeFlow', {
+                    collegeName: collegeName,
+                    begin: begin,
+                    end: end
+                });
             }
         };
     })
