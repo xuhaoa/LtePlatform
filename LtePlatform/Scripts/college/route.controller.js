@@ -101,6 +101,18 @@
                     }
                 },
                 url: "/support/:number"
+            }).state('root.flow', {
+                views: {
+                    "contents": {
+                        templateUrl: viewDir + "/Test/Flow.html",
+                        controller: "all.flow"
+                    },
+                    'collegeList': {
+                        templateUrl: viewDir + "CollegeMenu.html",
+                        controller: "college.menu"
+                    }
+                },
+                url: "/flow"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -365,86 +377,6 @@
             break;
         }
     })
-    .controller('map.college.dialog', function($scope, $uibModalInstance, college, dialogTitle) {
-        $scope.college = college;
-        $scope.dialogTitle = dialogTitle;
-
-        $scope.ok = function() {
-            $uibModalInstance.close($scope.college);
-        };
-
-        $scope.cancel = function() {
-            $uibModalInstance.dismiss('cancel');
-        };
-    })
-    .controller('college.new.dialog', function ($scope, $uibModalInstance, baiduMapService, geometryService, appRegionService, $timeout) {
-        $scope.dialogTitle = "新建校园信息";
-        $scope.collegeRegion = {
-            area: 0,
-            regionType: 0,
-            info: ""
-        };
-        appRegionService.initializeCities().then(function(cities) {
-            $scope.city.options = cities;
-            $scope.city.selected = cities[0];
-            appRegionService.queryDistricts($scope.city.selected).then(function(districts) {
-                $scope.district.options = districts;
-                $scope.district.selected = districts[0];
-            });
-        });
-        $scope.saveCircleParameters = function(circle) {
-            var center = circle.getCenter();
-            var radius = circle.getRadius();
-            $scope.collegeRegion.regionType = 0;
-            $scope.collegeRegion.area = BMapLib.GeoUtils.getCircleArea(circle);
-            $scope.collegeRegion.info = center.lng + ';' + center.lat + ';' + radius;
-        };
-        $scope.saveRetangleParameters = function (rect) {
-            $scope.collegeRegion.regionType = 1;
-            var pts = rect.getPath();
-            $scope.collegeRegion.info = geometryService.getPathInfo(pts);
-            $scope.collegeRegion.area = BMapLib.GeoUtils.getPolygonArea(pts);
-        };
-        $scope.savePolygonParameters = function(polygon) {
-            $scope.collegeRegion.regionType = 2;
-            var pts = polygon.getPath();
-            $scope.collegeRegion.info = geometryService.getPathInfo(pts);
-            $scope.collegeRegion.area = BMapLib.GeoUtils.getPolygonArea(pts);
-        };
-        $timeout(function() {
-            baiduMapService.initializeMap('map', 12);
-            baiduMapService.initializeDrawingManager();
-            baiduMapService.addDrawingEventListener('circlecomplete', $scope.saveCircleParameters);
-            baiduMapService.addDrawingEventListener('rectanglecomplete', $scope.saveRetangleParameters);
-            baiduMapService.addDrawingEventListener('polygoncomplete', $scope.savePolygonParameters);
-        }, 500);
-        $scope.matchPlace = function() {
-            geometryService.queryBaiduPlace($scope.collegeName).then(function(result) {
-                angular.forEach(result, function(place) {
-                    var marker = baiduMapService.generateMarker(place.location.lng, place.location.lat);
-                    baiduMapService.addOneMarker(marker);
-                    baiduMapService.drawLabel(place.name, place.location.lng, place.location.lat);
-                });
-            });
-        };
-        $scope.ok = function () {
-            $scope.college = {
-                name: $scope.collegeName,
-                townId: 0,
-                collegeRegion: $scope.collegeRegion
-            };
-            appRegionService.queryTown($scope.city.selected, $scope.district.selected, $scope.town.selected).then(function(town) {
-                if (town) {
-                    $scope.college.townId = town.id;
-                    $uibModalInstance.close($scope.college);
-                }
-            });
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    })
 
     .controller("all.coverage", function ($scope, collegeMapService, collegeDtService) {
         $scope.collegeInfo.url = $scope.rootPath + "coverage";
@@ -548,6 +480,12 @@
                 collegeMapService.drawCollegeArea(college.id, function () {});
             });
         });
+    })
+
+
+    .controller("all.flow", function ($scope) {
+        $scope.collegeInfo.url = $scope.rootPath + "coverage";
+        $scope.page.title = "流量分析";
     })
     .controller("all.support", function ($scope, collegeQueryService, emergencyService) {
         $scope.page.title = "支撑任务";
@@ -1213,6 +1151,86 @@
 
         $scope.ok = function () {
             $uibModalInstance.close($("#reports").html());
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('map.college.dialog', function ($scope, $uibModalInstance, college, dialogTitle) {
+        $scope.college = college;
+        $scope.dialogTitle = dialogTitle;
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.college);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('college.new.dialog', function ($scope, $uibModalInstance, baiduMapService, geometryService, appRegionService, $timeout) {
+        $scope.dialogTitle = "新建校园信息";
+        $scope.collegeRegion = {
+            area: 0,
+            regionType: 0,
+            info: ""
+        };
+        appRegionService.initializeCities().then(function (cities) {
+            $scope.city.options = cities;
+            $scope.city.selected = cities[0];
+            appRegionService.queryDistricts($scope.city.selected).then(function (districts) {
+                $scope.district.options = districts;
+                $scope.district.selected = districts[0];
+            });
+        });
+        $scope.saveCircleParameters = function (circle) {
+            var center = circle.getCenter();
+            var radius = circle.getRadius();
+            $scope.collegeRegion.regionType = 0;
+            $scope.collegeRegion.area = BMapLib.GeoUtils.getCircleArea(circle);
+            $scope.collegeRegion.info = center.lng + ';' + center.lat + ';' + radius;
+        };
+        $scope.saveRetangleParameters = function (rect) {
+            $scope.collegeRegion.regionType = 1;
+            var pts = rect.getPath();
+            $scope.collegeRegion.info = geometryService.getPathInfo(pts);
+            $scope.collegeRegion.area = BMapLib.GeoUtils.getPolygonArea(pts);
+        };
+        $scope.savePolygonParameters = function (polygon) {
+            $scope.collegeRegion.regionType = 2;
+            var pts = polygon.getPath();
+            $scope.collegeRegion.info = geometryService.getPathInfo(pts);
+            $scope.collegeRegion.area = BMapLib.GeoUtils.getPolygonArea(pts);
+        };
+        $timeout(function () {
+            baiduMapService.initializeMap('map', 12);
+            baiduMapService.initializeDrawingManager();
+            baiduMapService.addDrawingEventListener('circlecomplete', $scope.saveCircleParameters);
+            baiduMapService.addDrawingEventListener('rectanglecomplete', $scope.saveRetangleParameters);
+            baiduMapService.addDrawingEventListener('polygoncomplete', $scope.savePolygonParameters);
+        }, 500);
+        $scope.matchPlace = function () {
+            geometryService.queryBaiduPlace($scope.collegeName).then(function (result) {
+                angular.forEach(result, function (place) {
+                    var marker = baiduMapService.generateMarker(place.location.lng, place.location.lat);
+                    baiduMapService.addOneMarker(marker);
+                    baiduMapService.drawLabel(place.name, place.location.lng, place.location.lat);
+                });
+            });
+        };
+        $scope.ok = function () {
+            $scope.college = {
+                name: $scope.collegeName,
+                townId: 0,
+                collegeRegion: $scope.collegeRegion
+            };
+            appRegionService.queryTown($scope.city.selected, $scope.district.selected, $scope.town.selected).then(function (town) {
+                if (town) {
+                    $scope.college.townId = town.id;
+                    $uibModalInstance.close($scope.college);
+                }
+            });
         };
 
         $scope.cancel = function () {
