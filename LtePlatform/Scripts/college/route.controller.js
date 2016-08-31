@@ -431,7 +431,7 @@
         $scope.collegeInfo.url = $scope.rootPath + "flow";
         $scope.page.title = "流量分析";
     })
-    .controller("flow.name", function ($scope, $stateParams, collegeService, flowService) {
+    .controller("flow.name", function ($scope, $stateParams, collegeService, flowService, networkElementService) {
         $scope.collegeInfo.url = $scope.rootPath + "flow";
         $scope.page.title = $stateParams.name + "流量分析";
         $scope.query = function() {
@@ -440,6 +440,9 @@
                     cell.pdcpDownlinkFlow = stat.pdcpDownlinkFlow;
                     cell.pdcpUplinkFlow = stat.pdcpUplinkFlow;
                     cell.averageUsers = stat.averageUsers;
+                });
+                networkElementService.queryLteRruFromCellName(cell.eNodebName+'-'+cell.sectorId).then(function (rru) {
+                    cell.rruName = rru ? rru.rruName : '';
                 });
             });
         };

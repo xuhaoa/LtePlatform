@@ -353,6 +353,12 @@ angular.module('parameters.list', ['myApp.parameters', 'huawei.mongo.parameters'
                     cellTemplate: '<span class="text-primary">{{row.entity.eNodebName}}-{{row.entity.sectorId}}</span>'
                 },
                 { field: 'frequency', name: '频点' },
+                {
+                    field: 'rruName', name: 'RRU名称',
+                    cellTooltip: function (row) {
+                        return row.entity.rruName;
+                    }
+                },
                 { field: 'rsPower', name: 'RS功率' },
                 { field: 'indoor', name: '室内外' },
                 { field: 'height', name: '高度' },
