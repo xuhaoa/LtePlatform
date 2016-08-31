@@ -2103,6 +2103,11 @@
             List of selectors to select classes/interfaces which should be audited as default.
             </summary>
         </member>
+        <member name="P:Abp.Auditing.IAuditingConfiguration.IgnoredTypes">
+            <summary>
+            Ignored types for serialization on audit logging.
+            </summary>
+        </member>
         <member name="T:Abp.Auditing.IAuditingSelectorList">
             <summary>
             List of selector functions to select classes/interfaces to be audited.
@@ -3679,7 +3684,7 @@
         <member name="T:Abp.Configuration.SettingDefinitionGroup">
             <summary>
             A setting group is used to group some settings togehter.
-            A group can be child of another group and can has child groups.
+            A group can be child of another group and can have child groups.
             </summary>
         </member>
         <member name="P:Abp.Configuration.SettingDefinitionGroup.Name">
@@ -4096,6 +4101,11 @@
             Used to configure authorization.
             </summary>
         </member>
+        <member name="P:Abp.Configuration.Startup.AbpStartupConfiguration.Validation">
+            <summary>
+            Used to configure validation.
+            </summary>
+        </member>
         <member name="P:Abp.Configuration.Startup.AbpStartupConfiguration.Settings">
             <summary>
             Used to configure settings.
@@ -4224,6 +4234,11 @@
         <member name="P:Abp.Configuration.Startup.IAbpStartupConfiguration.Authorization">
             <summary>
             Used to configure authorization.
+            </summary>
+        </member>
+        <member name="P:Abp.Configuration.Startup.IAbpStartupConfiguration.Validation">
+            <summary>
+            Used to configure validation.
             </summary>
         </member>
         <member name="P:Abp.Configuration.Startup.IAbpStartupConfiguration.Settings">
@@ -7693,8 +7708,8 @@
             </summary>
         </member>
         <member name="M:Abp.Localization.LocalizableString.#ctor(System.String,System.String)">
-            <param name="name">Unique name of the localization source</param>
-            <param name="sourceName">Unique Name of the string to be localized</param>
+            <param name="name">Unique Name of the string to be localized</param>
+            <param name="sourceName">Unique name of the localization source</param>
         </member>
         <member name="T:Abp.Localization.LocalizableStringToStringJsonConverter">
             <summary>
@@ -8330,6 +8345,11 @@
             Gets a reference to the ABP configuration.
             </summary>
         </member>
+        <member name="P:Abp.Modules.AbpModule.Logger">
+            <summary>
+            Gets or sets the logger.
+            </summary>
+        </member>
         <member name="M:Abp.Modules.AbpModule.PreInitialize">
             <summary>
             This is the first event called on application startup. 
@@ -8437,6 +8457,11 @@
             Used to define dependencies of an ABP module to other modules.
             </summary>
             <param name="dependedModuleTypes">Types of depended modules</param>
+        </member>
+        <member name="F:Abp.MultiTenancy.MultiTenancyConsts.DefaultTenantId">
+            <summary>
+            Default tenant id: 1.
+            </summary>
         </member>
         <member name="T:Abp.MultiTenancy.MultiTenancyExtensions">
             <summary>
@@ -10212,6 +10237,12 @@
             Some simple type-checking methods used internally.
             </summary>
         </member>
+        <member name="M:Abp.Reflection.Extensions.AssemblyExtensions.GetDirectoryPathOrNull(System.Reflection.Assembly)">
+            <summary>
+            Gets directory path of given assembly or returns null if can not find.
+            </summary>
+            <param name="assembly">The assembly.</param>
+        </member>
         <member name="T:Abp.Reflection.Extensions.MemberInfoExtensions">
             <summary>
             Extensions to <see cref="T:System.Reflection.MemberInfo"/>.
@@ -10382,7 +10413,14 @@
         <member name="P:Abp.Runtime.Caching.ICache.DefaultSlidingExpireTime">
             <summary>
             Default sliding expire time of cache items.
-            Default value: 60 minutes. Can be changed by configuration.
+            Default value: 60 minutes (1 hour).
+            Can be changed by configuration.
+            </summary>
+        </member>
+        <member name="P:Abp.Runtime.Caching.ICache.DefaultAbsoluteExpireTime">
+            <summary>
+            Default absolute expire time of cache items.
+            Default value: null (not used).
             </summary>
         </member>
         <member name="M:Abp.Runtime.Caching.ICache.Get(System.String,System.Func{System.String,System.Object})">
@@ -10415,21 +10453,31 @@
             <param name="key">Key</param>
             <returns>Cached item or null if not found</returns>
         </member>
-        <member name="M:Abp.Runtime.Caching.ICache.Set(System.String,System.Object,System.Nullable{System.TimeSpan})">
+        <member name="M:Abp.Runtime.Caching.ICache.Set(System.String,System.Object,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">
             <summary>
             Saves/Overrides an item in the cache by a key.
+            Use one of the expire times at most (<see cref="!:slidingExpireTime"/> or <see cref="!:absoluteExpireTime"/>).
+            If none of them is specified, then
+            <see cref="P:Abp.Runtime.Caching.ICache.DefaultAbsoluteExpireTime"/> will be used if it's not null. Othewise, <see cref="P:Abp.Runtime.Caching.ICache.DefaultSlidingExpireTime"/>
+            will be used.
             </summary>
             <param name="key">Key</param>
             <param name="value">Value</param>
             <param name="slidingExpireTime">Sliding expire time</param>
+            <param name="absoluteExpireTime">Absolute expire time</param>
         </member>
-        <member name="M:Abp.Runtime.Caching.ICache.SetAsync(System.String,System.Object,System.Nullable{System.TimeSpan})">
+        <member name="M:Abp.Runtime.Caching.ICache.SetAsync(System.String,System.Object,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">
             <summary>
             Saves/Overrides an item in the cache by a key.
+            Use one of the expire times at most (<see cref="!:slidingExpireTime"/> or <see cref="!:absoluteExpireTime"/>).
+            If none of them is specified, then
+            <see cref="P:Abp.Runtime.Caching.ICache.DefaultAbsoluteExpireTime"/> will be used if it's not null. Othewise, <see cref="P:Abp.Runtime.Caching.ICache.DefaultSlidingExpireTime"/>
+            will be used.
             </summary>
             <param name="key">Key</param>
             <param name="value">Value</param>
             <param name="slidingExpireTime">Sliding expire time</param>
+            <param name="absoluteExpireTime">Absolute expire time</param>
         </member>
         <member name="M:Abp.Runtime.Caching.ICache.Remove(System.String)">
             <summary>
@@ -11025,11 +11073,6 @@
             Implements <see cref="T:Abp.Runtime.Session.IAbpSession"/> to get session properties from claims of <see cref="P:System.Threading.Thread.CurrentPrincipal"/>.
             </summary>
         </member>
-        <member name="M:Abp.Runtime.Session.ClaimsAbpSession.#ctor(Abp.Configuration.Startup.IMultiTenancyConfig)">
-            <summary>
-            Constructor.
-            </summary>
-        </member>
         <member name="T:Abp.Runtime.Session.IAbpSession">
             <summary>
             Defines some session information that can be useful for applications.
@@ -11176,7 +11219,7 @@
             This class is used to validate a method call (invocation) for method arguments.
             </summary>
         </member>
-        <member name="M:Abp.Runtime.Validation.Interception.MethodInvocationValidator.#ctor">
+        <member name="M:Abp.Runtime.Validation.Interception.MethodInvocationValidator.#ctor(Abp.Configuration.Startup.IValidationConfiguration)">
             <summary>
             Creates a new <see cref="T:Abp.Runtime.Validation.Interception.MethodInvocationValidator"/> instance.
             </summary>
@@ -11571,12 +11614,17 @@
         <member name="P:Abp.Timing.Clock.Provider">
             <summary>
             This object is used to perform all <see cref="T:Abp.Timing.Clock"/> operations.
-            Default value: <see cref="T:Abp.Timing.LocalClockProvider"/>.
+            Default value: <see cref="T:Abp.Timing.UnspecifiedClockProvider"/>.
             </summary>
         </member>
         <member name="P:Abp.Timing.Clock.Now">
             <summary>
             Gets Now using current <see cref="P:Abp.Timing.Clock.Provider"/>.
+            </summary>
+        </member>
+        <member name="P:Abp.Timing.Clock.SupportsMultipleTimezone">
+            <summary>
+            Returns true if multiple timezone is supported, returns false if not.
             </summary>
         </member>
         <member name="M:Abp.Timing.Clock.Normalize(System.DateTime)">
@@ -11585,12 +11633,6 @@
             </summary>
             <param name="dateTime">DateTime to be normalized.</param>
             <returns>Normalized DateTime</returns>
-        </member>
-        <member name="M:Abp.Timing.Clock.SupportsMultipleTimezone">
-            <summary>
-            Returns true if multiple timezone is supported, returns false if not.
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:Abp.Timing.DateTimeRange">
             <summary>
@@ -11711,18 +11753,17 @@
             Gets kind.
             </summary>
         </member>
+        <member name="P:Abp.Timing.IClockProvider.SupportsMultipleTimezone">
+            <summary>
+            Is that provider supports multiple time zone.
+            </summary>
+        </member>
         <member name="M:Abp.Timing.IClockProvider.Normalize(System.DateTime)">
             <summary>
             Normalizes given <see cref="T:System.DateTime"/>.
             </summary>
             <param name="dateTime">DateTime to be normalized.</param>
             <returns>Normalized DateTime</returns>
-        </member>
-        <member name="M:Abp.Timing.IClockProvider.SupportsMultipleTimezone">
-            <summary>
-            
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:Abp.Timing.IDateTimeRange">
             <summary>

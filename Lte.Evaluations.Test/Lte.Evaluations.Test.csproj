@@ -34,8 +34,8 @@
     <CodeAnalysisRuleSet />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Abp, Version=0.10.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Abp.0.10.3.0\lib\net452\Abp.dll</HintPath>
+    <Reference Include="Abp, Version=0.11.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Abp.0.11.1.0\lib\net452\Abp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">

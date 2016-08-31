@@ -435,11 +435,11 @@
         $scope.collegeInfo.url = $scope.rootPath + "flow";
         $scope.page.title = $stateParams.name + "流量分析";
         $scope.query = function() {
-            collegeService.queryCells($stateParams.name).then(function(cells) {
-                $scope.cellList = cells;
-            });
+            
         };
-
+        collegeService.queryCells($stateParams.name).then(function(cells) {
+            $scope.cellList = cells;
+        });
         $scope.query();
     })
     .controller("all.support", function ($scope, collegeQueryService, emergencyService) {
