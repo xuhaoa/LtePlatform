@@ -437,7 +437,9 @@
         $scope.query = function() {
             angular.forEach($scope.cellList, function(cell) {
                 flowService.queryAverageFlowByDateSpan(cell.eNodebId, cell.sectorId, $scope.beginDate.value, $scope.endDate.value).then(function(stat) {
-                    console.log(stat);
+                    cell.pdcpDownlinkFlow = stat.pdcpDownlinkFlow;
+                    cell.pdcpUplinkFlow = stat.pdcpUplinkFlow;
+                    cell.averageUsers = stat.averageUsers;
                 });
             });
         };
