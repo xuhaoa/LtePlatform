@@ -430,8 +430,16 @@
     .controller("all.flow", function ($scope, collegeQueryService) {
         $scope.collegeInfo.url = $scope.rootPath + "flow";
         $scope.page.title = "流量分析";
+        $scope.query = function() {
+            angular.forEach($scope.collegeList, function(college) {
+                collegeQueryService.queryCollegeFlow(college.name, $scope.beginDate.value, $scope.endDate.value).then(function(stat) {
+                    console.log(stat);
+                });
+            });
+        };
         collegeQueryService.queryYearList($scope.collegeInfo.year.selected).then(function (colleges) {
             $scope.collegeList = colleges;
+            $scope.query();
         });
     })
     .controller("flow.name", function ($scope, $stateParams, collegeService, flowService, networkElementService) {

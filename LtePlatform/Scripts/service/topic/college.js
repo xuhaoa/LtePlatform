@@ -116,7 +116,7 @@
                     name: name
                 });
             },
-            queryCollegeFlow: function(collgeName, begin, end) {
+            queryCollegeFlow: function(collegeName, begin, end) {
                 return generalHttpService.getApiData('CollegeFlow', {
                     collegeName: collegeName,
                     begin: begin,
