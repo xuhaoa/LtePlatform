@@ -11,7 +11,7 @@ namespace LtePlatform.Controllers.Kpi
 {
     public class FlowQueryController : ApiController
     {
-        private FlowQueryService _service;
+        private readonly FlowQueryService _service;
 
         public FlowQueryController(FlowQueryService service)
         {
@@ -22,6 +22,12 @@ namespace LtePlatform.Controllers.Kpi
         public List<FlowView> Get(int eNodebId, byte sectorId, DateTime begin, DateTime end)
         {
             return _service.QueryFlow(eNodebId, sectorId, begin.Date, end.Date);
+        }
+
+        [HttpGet]
+        public FlowView GetAverage(int eNodebId, byte sectorId, DateTime beginDate, DateTime endDate)
+        {
+            return _service.QueryAverageView(eNodebId, sectorId, beginDate, endDate);
         }
     }
 }

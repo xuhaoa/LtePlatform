@@ -361,6 +361,14 @@
                     begin: begin,
                     end: end
                 });
+            },
+            queryAverageFlowByDateSpan: function (eNodebId, sectorId, begin, end) {
+                return generalHttpService.getApiData('FlowQuery', {
+                    eNodebId: eNodebId,
+                    sectorId: sectorId,
+                    beginDate: begin,
+                    endDate: end
+                });
             }
         };
     })

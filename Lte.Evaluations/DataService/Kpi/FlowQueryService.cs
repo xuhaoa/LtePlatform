@@ -43,6 +43,12 @@ namespace Lte.Evaluations.DataService.Kpi
             var query = ConstructQuery(eNodebId, sectorId);
             return query?.Query(begin, end);
         }
+
+        public FlowView QueryAverageView(int eNodebId, byte sectorId, DateTime begin, DateTime end)
+        {
+            var query = ConstructQuery(eNodebId, sectorId);
+            return FlowView.Average(query?.Query(begin, end));
+        }
     }
 
     internal class HuaweiFlowQuery : IDateSpanQuery<List<FlowView>>

@@ -33,5 +33,23 @@ namespace Lte.Evaluations.ViewModels.Kpi
         public double AverageActiveUsers { get; set; }
 
         public int MaxActiveUsers { get; set; }
+
+        public static FlowView Average(IEnumerable<FlowView> views)
+        {
+            if (views == null || !views.Any()) return null;
+            var first = views.FirstOrDefault();
+            return new FlowView
+            {
+                StatTime = first.StatTime,
+                ENodebId = first.ENodebId,
+                SectorId = first.SectorId,
+                PdcpUplinkFlow = views.Average(x => x.PdcpUplinkFlow),
+                PdcpDownlinkFlow = views.Average(x => x.PdcpDownlinkFlow),
+                AverageUsers = views.Average(x => x.AverageUsers),
+                MaxUsers = views.Max(x => x.MaxUsers),
+                AverageActiveUsers = views.Average(x => x.AverageActiveUsers),
+                MaxActiveUsers = views.Max(x => x.MaxActiveUsers)
+            };
+        }
     }
 }
