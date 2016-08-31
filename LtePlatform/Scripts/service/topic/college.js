@@ -410,6 +410,87 @@
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
+            },
+            showCollegDialog: function(college) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/College/Table/CollegeMapInfoBox.html',
+                    controller: 'map.college.dialog',
+                    size: 'sm',
+                    resolve: {
+                        dialogTitle: function() {
+                            return college.name + "-" + "基本信息";
+                        },
+                        college: function() {
+                            return college;
+                        }
+                    }
+                });
+                modalInstance.result.then(function(info) {
+                    console.log(info);
+                }, function() {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            addENodeb: function (collegeName, center, callback) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/College/Infrastructure/CellSupplementDialog.html',
+                    controller: 'eNodeb.supplement.dialog',
+                    size: 'lg',
+                    resolve: {
+                        collegeName: function () {
+                            return collegeName;
+                        },
+                        center: function () {
+                            return center;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (info) {
+                    var ids = [];
+                    angular.forEach(info, function (eNodeb) {
+                        ids.push(eNodeb.eNodebId);
+                    });
+                    collegeQueryService.saveCollegeENodebs({
+                        collegeName: collegeName,
+                        eNodebIds: ids
+                    }).then(function (count) {
+                        callback(count);
+                    });
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            addBts: function (collegeName, center, callback) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/College/Infrastructure/CellSupplementDialog.html',
+                    controller: 'bts.supplement.dialog',
+                    size: 'lg',
+                    resolve: {
+                        collegeName: function () {
+                            return collegeName;
+                        },
+                        center: function () {
+                            return center;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (info) {
+                    var ids = [];
+                    angular.forEach(info, function (bts) {
+                        ids.push(bts.btsId);
+                    });
+                    collegeQueryService.saveCollegeBtss({
+                        collegeName: collegeName,
+                        btsIds: ids
+                    }).then(function (count) {
+                        callback(count);
+                    });
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
             }
         };
     })

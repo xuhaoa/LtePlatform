@@ -230,30 +230,12 @@
             $scope.collegeInfo.supportInfos = items;
         });
     })
-    .controller("all.map", function($scope, $uibModal, $log, baiduMapService, collegeMapService) {
+    .controller("all.map", function($scope, collegeDialogService, baiduMapService, collegeMapService) {
         $scope.collegeInfo.url = $scope.rootPath + "map";
         $scope.page.title = "校园网总览";
 
         var showCollegDialogs = function(college) {
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: '/appViews/College/Table/CollegeMapInfoBox.html',
-                controller: 'map.college.dialog',
-                size: 'sm',
-                resolve: {
-                    dialogTitle: function() {
-                        return college.name + "-" + "基本信息";
-                    },
-                    college: function() {
-                        return college;
-                    }
-                }
-            });
-            modalInstance.result.then(function(info) {
-                console.log(info);
-            }, function() {
-                $log.info('Modal dismissed at: ' + new Date());
-            });
+            collegeDialogService.showCollegDialog(college);
         };
 
         baiduMapService.initializeMap("all-map", 11);
@@ -261,76 +243,26 @@
 
         collegeMapService.showCollegeInfos(showCollegDialogs, $scope.collegeInfo.year.selected);
     })
-    .controller("map.name", function($scope, $uibModal, $stateParams, $log,
+    .controller("map.name", function($scope, $stateParams,
         baiduMapService, geometryService, collegeService, collegeQueryService, collegeMapService,
-        parametersMapService, parametersDialogService) {
+        parametersMapService, parametersDialogService, collegeDialogService) {
 
         $scope.collegeInfo.url = $scope.rootPath + "map";
         $scope.collegeName = $stateParams.name;
         $scope.addENodebs = function () {
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: '/appViews/College/Infrastructure/CellSupplementDialog.html',
-                controller: 'eNodeb.supplement.dialog',
-                size: 'lg',
-                resolve: {
-                    collegeName: function () {
-                        return $scope.collegeName;
-                    },
-                    center: function () {
-                        return $scope.center;
-                    }
-                }
-            });
-            modalInstance.result.then(function (info) {
-                var ids = [];
-                angular.forEach(info, function(eNodeb) {
-                    ids.push(eNodeb.eNodebId);
+            collegeDialogService.addENodeb($scope.collegeName, $scope.center, function (count) {
+                $scope.page.messages.push({
+                    type: 'success',
+                    contents: '增加ENodeb' + count + '个'
                 });
-                collegeQueryService.saveCollegeENodebs({
-                    collegeName: $scope.collegeName,
-                    eNodebIds: ids
-                }).then(function(count) {
-                    $scope.page.messages.push({
-                        type: 'success',
-                        contents: '增加ENodeb' + count + '个'
-                    });
-                });
-            }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
             });
         };
         $scope.addBts = function() {
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: '/appViews/College/Infrastructure/CellSupplementDialog.html',
-                controller: 'bts.supplement.dialog',
-                size: 'lg',
-                resolve: {
-                    collegeName: function () {
-                        return $scope.collegeName;
-                    },
-                    center: function () {
-                        return $scope.center;
-                    }
-                }
-            });
-            modalInstance.result.then(function (info) {
-                var ids = [];
-                angular.forEach(info, function (bts) {
-                    ids.push(bts.btsId);
+            collegeDialogService.addBts($scope.collegeName, $scope.center, function (count) {
+                $scope.page.messages.push({
+                    type: 'success',
+                    contents: '增加Bts' + count + '个'
                 });
-                collegeQueryService.saveCollegeBtss({
-                    collegeName: $scope.collegeName,
-                    btsIds: ids
-                }).then(function (count) {
-                    $scope.page.messages.push({
-                        type: 'success',
-                        contents: '增加Bts' + count + '个'
-                    });
-                });
-            }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
             });
         };
 
