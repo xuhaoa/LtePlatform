@@ -431,9 +431,16 @@
         $scope.collegeInfo.url = $scope.rootPath + "flow";
         $scope.page.title = "流量分析";
     })
-    .controller("flow.name", function ($scope, $stateParams) {
+    .controller("flow.name", function ($scope, $stateParams, collegeService) {
         $scope.collegeInfo.url = $scope.rootPath + "flow";
         $scope.page.title = $stateParams.name + "流量分析";
+        $scope.query = function() {
+            collegeService.queryCells($stateParams.name).then(function(cells) {
+                $scope.cellList = cells;
+            });
+        };
+
+        $scope.query();
     })
     .controller("all.support", function ($scope, collegeQueryService, emergencyService) {
         $scope.page.title = "支撑任务";
