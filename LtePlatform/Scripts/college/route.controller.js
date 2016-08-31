@@ -427,9 +427,12 @@
     })
 
 
-    .controller("all.flow", function ($scope) {
+    .controller("all.flow", function ($scope, collegeQueryService) {
         $scope.collegeInfo.url = $scope.rootPath + "flow";
         $scope.page.title = "流量分析";
+        collegeQueryService.queryYearList($scope.collegeInfo.year.selected).then(function (colleges) {
+            $scope.collegeList = colleges;
+        });
     })
     .controller("flow.name", function ($scope, $stateParams, collegeService, flowService, networkElementService) {
         $scope.collegeInfo.url = $scope.rootPath + "flow";

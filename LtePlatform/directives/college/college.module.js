@@ -210,6 +210,42 @@ angular.module('college.info', ['customer.service', 'myApp.region'])
             }
         };
     })
+
+    .controller('CollegeFlowController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'name', name: '校园名称', width: 200, enableColumnResizing: false },
+                { field: 'totalStudents', name: '在校学生数' },
+                { field: 'expectedSubscribers', name: '预计到达用户数' },
+                { field: 'oldOpenDate', name: '老生开学日期', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'newOpenDate', name: '新生开学日期', cellFilter: 'date: "yyyy-MM-dd"' }
+            ],
+            data: []
+        };
+    })
+    .directive('collegeFlowList', function ($compile) {
+        return {
+            controller: 'CollegeFlowController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                colleges: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('colleges', function (colleges) {
+                    scope.gridOptions.data = colleges;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
+    })
+
     .controller('CollegeSupportController', function ($scope, emergencyService, customerDialogService, appRegionService) {
         $scope.gridOptions = {
             columnDefs: [
