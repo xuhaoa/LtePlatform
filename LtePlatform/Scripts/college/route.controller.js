@@ -1177,7 +1177,7 @@
         };
     })
     .controller('map.college.dialog', function ($scope, $uibModalInstance, college, dialogTitle,
-        collegeQueryService, generalChartService, parametersChartService) {
+        collegeQueryService, generalChartService, parametersChartService, emergencyService) {
         $scope.college = college;
         $scope.dialogTitle = dialogTitle;
         $scope.query = function() {
@@ -1200,10 +1200,18 @@
             });
         };
         $scope.query();
-        collegeQueryService.queryByNameAndYear(college.name, $scope.collegeInfo.year.selected).then(function(info) {
-            $scope.college.expectedSubscribers = info.expectedSubscribers;
-            $scope.college.oldOpenDate = info.oldOpenDate;
-            $scope.college.newOpenDate = info.newOpenDate;
+        collegeQueryService.queryByNameAndYear(college.name, $scope.collegeInfo.year.selected).then(function (info) {
+            if (info) {
+                $scope.college.expectedSubscribers = info.expectedSubscribers;
+                $scope.college.oldOpenDate = info.oldOpenDate;
+                $scope.college.newOpenDate = info.newOpenDate;
+            }
+        });
+        emergencyService.queryCollegeVipDemand($scope.collegeInfo.year.selected, college.name).then(function (item) {
+            if (item) {
+                $scope.college.serialNumber = item.serialNumber;
+                $scope.college.currentStateDescription = item.currentStateDescription;
+            }
         });
 
         $scope.ok = function () {
