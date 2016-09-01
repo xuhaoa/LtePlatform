@@ -438,6 +438,7 @@
                     college.pdcpUplinkFlow = stat.pdcpUplinkFlow;
                     college.averageUsers = stat.averageUsers;
                     college.cellCount = stat.cellCount;
+                    college.maxActiveUsers = stat.maxActiveUsers;
                     $scope.collegeStatCount += 1;
                 });
             });
@@ -445,6 +446,9 @@
         $scope.$watch('collegeStatCount', function(count) {
             if (count === $scope.collegeList.length && count > 0) {
                 $("#downloadFlowConfig").highcharts(parametersChartService.getCollegeDistributionForDownlinkFlow($scope.collegeList));
+                $("#uploadFlowConfig").highcharts(parametersChartService.getCollegeDistributionForUplinkFlow($scope.collegeList));
+                $("#averageUsersConfig").highcharts(parametersChartService.getCollegeDistributionForAverageUsers($scope.collegeList));
+                $("#activeUsersConfig").highcharts(parametersChartService.getCollegeDistributionForActiveUsers($scope.collegeList));
                 $scope.collegeStatCount = 0;
             }
         });

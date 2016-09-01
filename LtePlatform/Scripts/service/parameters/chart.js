@@ -106,6 +106,36 @@
                 }, function(subData) {
                     return subData.pdcpDownlinkFlow;
                 });
+            },
+            getCollegeDistributionForUplinkFlow(data) {
+                return generalChartService.getPieOptions(data, {
+                    title: "校园网上行流量分布",
+                    seriesTitle: "上行流量(MB)"
+                }, function (subData) {
+                    return subData.name;
+                }, function (subData) {
+                    return subData.pdcpUplinkFlow;
+                });
+            },
+            getCollegeDistributionForAverageUsers(data) {
+                return generalChartService.getPieOptions(data, {
+                    title: "校园网平均用户数分布",
+                    seriesTitle: "平均用户数"
+                }, function (subData) {
+                    return subData.name;
+                }, function (subData) {
+                    return subData.averageUsers;
+                });
+            },
+            getCollegeDistributionForActiveUsers(data) {
+                return generalChartService.getPieOptions(data, {
+                    title: "校园网最大激活用户数分布",
+                    seriesTitle: "最大激活用户数"
+                }, function (subData) {
+                    return subData.name;
+                }, function (subData) {
+                    return subData.maxActiveUsers;
+                });
             }
         };
     })
