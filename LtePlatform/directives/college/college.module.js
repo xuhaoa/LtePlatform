@@ -218,7 +218,11 @@ angular.module('college.info', ['customer.service', 'myApp.region'])
                 { field: 'totalStudents', name: '在校学生数' },
                 { field: 'expectedSubscribers', name: '预计到达用户数' },
                 { field: 'oldOpenDate', name: '老生开学日期', cellFilter: 'date: "yyyy-MM-dd"' },
-                { field: 'newOpenDate', name: '新生开学日期', cellFilter: 'date: "yyyy-MM-dd"' }
+                { field: 'newOpenDate', name: '新生开学日期', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'cellCount', name: '小区数' },
+                { field: 'pdcpDownlinkFlow', name: '平均下行流量(MB)', cellFilter: 'number: 1' },
+                { field: 'pdcpUplinkFlow', name: '平均上行流量(MB)', cellFilter: 'number: 1' },
+                { field: 'averageUsers', name: '平均用户数', cellFilter: 'number: 1' }
             ],
             data: []
         };

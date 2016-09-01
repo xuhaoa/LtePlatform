@@ -433,7 +433,10 @@
         $scope.query = function() {
             angular.forEach($scope.collegeList, function(college) {
                 collegeQueryService.queryCollegeFlow(college.name, $scope.beginDate.value, $scope.endDate.value).then(function(stat) {
-                    console.log(stat);
+                    college.pdcpDownlinkFlow = stat.pdcpDownlinkFlow;
+                    college.pdcpUplinkFlow = stat.pdcpUplinkFlow;
+                    college.averageUsers = stat.averageUsers;
+                    college.cellCount = stat.cellCount;
                 });
             });
         };
