@@ -1177,7 +1177,7 @@
         };
     })
     .controller('map.college.dialog', function ($scope, $uibModalInstance, college, dialogTitle,
-        collegeQueryService, generalChartService, appFormatService) {
+        collegeQueryService, generalChartService, parametersChartService) {
         $scope.college = college;
         $scope.dialogTitle = dialogTitle;
         $scope.query = function() {
@@ -1195,6 +1195,8 @@
                         return stat.maxActiveUsers;
                     }
                 ]);
+                $("#flowConfig").highcharts(parametersChartService.getDateFlowOptions(result, 0, 1));
+                $("#usersConfig").highcharts(parametersChartService.getDateUsersOptions(result, 2, 3));
             });
         };
         $scope.query();
