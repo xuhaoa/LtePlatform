@@ -1176,9 +1176,33 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('map.college.dialog', function ($scope, $uibModalInstance, college, dialogTitle) {
+    .controller('map.college.dialog', function ($scope, $uibModalInstance, college, dialogTitle,
+        collegeQueryService, generalChartService, appFormatService) {
         $scope.college = college;
         $scope.dialogTitle = dialogTitle;
+        $scope.query = function() {
+            collegeQueryService.queryCollegeDateFlows(college.name, $scope.beginDate.value, $scope.endDate.value).then(function(stats) {
+                var result = generalChartService.generateColumnData(stats, function (stat) {
+                    return stat.statTime;
+                }, [
+                    function (stat) {
+                        return stat.pdcpDownlinkFlow;
+                    }, function (stat) {
+                        return stat.pdcpUplinkFlow;
+                    }, function (stat) {
+                        return stat.averageUsers;
+                    }, function (stat) {
+                        return stat.maxActiveUsers;
+                    }
+                ]);
+            });
+        };
+        $scope.query();
+        collegeQueryService.queryByNameAndYear(college.name, $scope.collegeInfo.year.selected).then(function(info) {
+            $scope.college.expectedSubscribers = info.expectedSubscribers;
+            $scope.college.oldOpenDate = info.oldOpenDate;
+            $scope.college.newOpenDate = info.newOpenDate;
+        });
 
         $scope.ok = function () {
             $uibModalInstance.close($scope.college);

@@ -39,6 +39,24 @@
                 });
                 return chart.options;
             },
+            queryDoubleColumnOptions: function (setting, categories, data1, data2) {
+                var chart = new ComboChart();
+                chart.title.text = setting.title;
+                chart.xAxis[0].title.text = setting.xtitle;
+                chart.yAxis[0].title.text = setting.ytitle;
+                chart.xAxis[0].categories = categories;
+                chart.series.push({
+                    type: "column",
+                    name: setting.ytitle1,
+                    data: data1
+                });
+                chart.series.push({
+                    type: "column",
+                    name: setting.ytitle2,
+                    data: data2
+                });
+                return chart.options;
+            },
             generateColumnData: function(stats, categoriesFunc, dataFuncs) {
                 var result = {
                     categories: [],

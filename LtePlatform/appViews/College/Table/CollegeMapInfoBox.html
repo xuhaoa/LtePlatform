@@ -4,8 +4,8 @@
     </button>
     <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
-<div class="modal-body">
-    <div class="infoBoxContent">
+<div class="modal-body row">
+    <div class="infoBoxContent col-md-4">
         <div class="title">
             <strong>校园基本信息: </strong>
         </div>
@@ -47,8 +47,29 @@
                     <div class="left">CDMA室内分布数: </div>
                     <div class="rmb">{{college.totalCdmaIndoors}}</div>
                 </li>
+                <li>
+                    <div class="left">目标到达用户数: </div>
+                    <div class="rmb">{{college.expectedSubscribers}}</div>
+                </li>
+                <li>
+                    <div class="left">老生开学日期: </div>
+                    <div class="rmb">{{college.oldOpenDate | date: 'yyyy-MM-dd'}}</div>
+                </li>
+                <li>
+                    <div class="left">新生开学日期: </div>
+                    <div class="rmb">{{college.newOpenDate | date: 'yyyy-MM-dd'}}</div>
+                </li>
             </ul>
         </div>
+    </div>
+    <div class="col-md-8">
+        <div date-span-row begin-date="beginDate" end-date="endDate">
+            <button type="button" class="btn btn-primary" ng-click="query()">
+                <i class="glyphicon glyphicon-search" title="统计"></i>查询
+            </button>
+        </div>
+        <div style="min-height: 300px" id="flowConfig"></div>
+        <div style="min-height: 300px" id="usersConfig"></div>
     </div>
 </div>
 <div class="modal-footer">
