@@ -179,7 +179,34 @@
                     return subData.maxActiveUsers;
                 });
             },
-            getCellDistributionFor
+            getCellDistributionForDownlinkFlow(data, index) {
+                return generalChartService.queryColumnOptions({
+                    title: "小区下行流量分布",
+                    xtitle: "小区名称",
+                    ytitle: "下行流量(MB)"
+                }, data.categories, data.dataList[index]);
+            },
+            getCellDistributionForUplinkFlow(data, index) {
+                return generalChartService.queryColumnOptions({
+                    title: "小区上行流量分布",
+                    xtitle: "小区名称",
+                    ytitle: "上行流量(MB)"
+                }, data.categories, data.dataList[index]);
+            },
+            getCellDistributionForAverageUsers(data, index) {
+                return generalChartService.queryColumnOptions({
+                    title: "平均用户数分布",
+                    xtitle: "小区名称",
+                    ytitle: "平均用户数"
+                }, data.categories, data.dataList[index]);
+            },
+            getCellDistributionForActiveUsers(data, index) {
+                return generalChartService.queryColumnOptions({
+                    title: "最大激活用户数分布",
+                    xtitle: "小区名称",
+                    ytitle: "最大激活用户数"
+                }, data.categories, data.dataList[index]);
+            }
         };
     })
     .factory('neGeometryService', function () {

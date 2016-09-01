@@ -444,7 +444,7 @@
             });
         };
         $scope.$watch('collegeStatCount', function(count) {
-            if (count === $scope.collegeList.length && count > 0) {
+            if ($scope.collegeList && count === $scope.collegeList.length && count > 0) {
                 $("#downloadFlowConfig").highcharts(parametersChartService.getCollegeDistributionForDownlinkFlow($scope.collegeList));
                 $("#uploadFlowConfig").highcharts(parametersChartService.getCollegeDistributionForUplinkFlow($scope.collegeList));
                 $("#averageUsersConfig").highcharts(parametersChartService.getCollegeDistributionForAverageUsers($scope.collegeList));
@@ -457,22 +457,50 @@
             $scope.query();
         });
     })
-    .controller("flow.name", function ($scope, $stateParams, collegeService, flowService, networkElementService) {
+    .controller("flow.name", function ($scope, $stateParams, collegeService, flowService,
+        networkElementService, generalChartService, parametersChartService) {
         $scope.collegeInfo.url = $scope.rootPath + "flow";
         $scope.page.title = $stateParams.name + "流量分析";
+        $scope.cellStatCount = 0;
         $scope.query = function() {
             angular.forEach($scope.cellList, function(cell) {
-                flowService.queryAverageFlowByDateSpan(cell.eNodebId, cell.sectorId, $scope.beginDate.value, $scope.endDate.value).then(function(stat) {
-                    cell.pdcpDownlinkFlow = stat.pdcpDownlinkFlow;
-                    cell.pdcpUplinkFlow = stat.pdcpUplinkFlow;
-                    cell.averageUsers = stat.averageUsers;
-                    cell.maxActiveUsers = stat.maxActiveUsers;
+                flowService.queryAverageFlowByDateSpan(cell.eNodebId, cell.sectorId, $scope.beginDate.value, $scope.endDate.value).then(function (stat) {
+                    if (stat) {
+                        cell.pdcpDownlinkFlow = stat.pdcpDownlinkFlow;
+                        cell.pdcpUplinkFlow = stat.pdcpUplinkFlow;
+                        cell.averageUsers = stat.averageUsers;
+                        cell.maxActiveUsers = stat.maxActiveUsers;
+                    }
+
+                    $scope.cellStatCount += 1;
                 });
                 networkElementService.queryLteRruFromCellName(cell.eNodebName+'-'+cell.sectorId).then(function (rru) {
                     cell.rruName = rru ? rru.rruName : '';
                 });
             });
         };
+        $scope.$watch('cellStatCount', function (count) {
+            if ($scope.cellList && count === $scope.cellList.length && count > 0) {
+                var result = generalChartService.generateColumnData($scope.cellList, function(stat) {
+                    return stat.eNodebName + '-' + stat.sectorId;
+                }, [
+                    function(stat) {
+                        return stat.pdcpDownlinkFlow;
+                    }, function (stat) {
+                        return stat.pdcpUplinkFlow;
+                    }, function (stat) {
+                        return stat.averageUsers;
+                    }, function (stat) {
+                        return stat.maxActiveUsers;
+                    }
+                ]);
+                $("#downloadFlowConfig").highcharts(parametersChartService.getCellDistributionForDownlinkFlow(result, 0));
+                $("#uploadFlowConfig").highcharts(parametersChartService.getCellDistributionForUplinkFlow(result, 1));
+                $("#averageUsersConfig").highcharts(parametersChartService.getCellDistributionForAverageUsers(result, 2));
+                $("#activeUsersConfig").highcharts(parametersChartService.getCellDistributionForActiveUsers(result, 3));
+                $scope.cellStatCount = 0;
+            }
+        });
         collegeService.queryCells($stateParams.name).then(function(cells) {
             $scope.cellList = cells;
             $scope.query();
