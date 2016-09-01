@@ -1,101 +1,111 @@
 ﻿angular.module('parameters.chart', [])
-    .factory('parametersChartService', function() {
+    .factory('generalChartService', function() {
+        return {
+            getPieOptions: function(data, setting, subNameFunc, subDataFunc) {
+                var chart = new GradientPie();
+                chart.title.text = setting.title;
+                chart.series[0].name = setting.seriesTitle;
+                angular.forEach(data, function(subData) {
+                    chart.series[0].data.push({
+                        name: subNameFunc(subData),
+                        y: subDataFunc(subData)
+                    });
+                });
+                return chart.options;
+            }
+        };
+    })
+    .factory('parametersChartService', function (generalChartService) {
         return {
             getDistrictLteENodebPieOptions: function(data, city) {
-                var chart = new GradientPie();
-                chart.title.text = city + "各区LTE基站数分布";
-                chart.series[0].name = "区域";
-                for (var i = 0; i < data.length; i++) {
-                    chart.series[0].data.push({
-                        name: data[i].district,
-                        y: data[i].totalLteENodebs
-                    });
-                }
-                return chart.options;
+                return generalChartService.getPieOptions(data, {
+                    title: city + "各区LTE基站数分布",
+                    seriesTitle: "区域"
+                }, function(subData) {
+                    return subData.district;
+                }, function(subData) {
+                    return subData.totalLteENodebs;
+                });
             },
             getDistrictLteCellPieOptions: function(data, city) {
-                var chart = new GradientPie();
-                chart.title.text = city + "各区LTE小区数分布";
-                chart.series[0].name = "区域";
-                for (var i = 0; i < data.length; i++) {
-                    chart.series[0].data.push({
-                        name: data[i].district,
-                        y: data[i].totalLteCells
-                    });
-                }
-                return chart.options;
+                return generalChartService.getPieOptions(data, {
+                    title: city + "各区LTE小区数分布",
+                    seriesTitle: "区域"
+                }, function (subData) {
+                    return subData.district;
+                }, function (subData) {
+                    return subData.totalLteCells;
+                });
             },
             getDistrictCdmaBtsPieOptions: function (data, city) {
-                var chart = new GradientPie();
-                chart.title.text = city + "各区CDMA基站数分布";
-                chart.series[0].name = "区域";
-                for (var i = 0; i < data.length; i++) {
-                    chart.series[0].data.push({
-                        name: data[i].district,
-                        y: data[i].totalCdmaBts
-                    });
-                }
-                return chart.options;
+                return generalChartService.getPieOptions(data, {
+                    title: city + "各区CDMA基站数分布",
+                    seriesTitle: "区域"
+                }, function (subData) {
+                    return subData.district;
+                }, function (subData) {
+                    return subData.totalCdmaBts;
+                });
             },
             getDistrictCdmaCellPieOptions: function (data, city) {
-                var chart = new GradientPie();
-                chart.title.text = city + "各区CDMA小区数分布";
-                chart.series[0].name = "区域";
-                for (var i = 0; i < data.length; i++) {
-                    chart.series[0].data.push({
-                        name: data[i].district,
-                        y: data[i].totalCdmaCells
-                    });
-                }
-                return chart.options;
+                return generalChartService.getPieOptions(data, {
+                    title: city + "各区CDMA小区数分布",
+                    seriesTitle: "区域"
+                }, function (subData) {
+                    return subData.district;
+                }, function (subData) {
+                    return subData.totalCdmaCells;
+                });
             },
             getTownLteENodebPieOptions: function (data, district) {
-                var chart = new GradientPie();
-                chart.title.text = district + "各镇LTE基站数分布";
-                chart.series[0].name = "镇";
-                for (var i = 0; i < data.length; i++) {
-                    chart.series[0].data.push({
-                        name: data[i].town,
-                        y: data[i].totalLteENodebs
-                    });
-                }
-                return chart.options;
+                return generalChartService.getPieOptions(data, {
+                    title: district + "各镇LTE基站数分布",
+                    seriesTitle: "镇"
+                }, function (subData) {
+                    return subData.town;
+                }, function (subData) {
+                    return subData.totalLteENodebs;
+                });
             },
             getTownLteCellPieOptions: function (data, district) {
-                var chart = new GradientPie();
-                chart.title.text = district + "各镇LTE小区数分布";
-                chart.series[0].name = "镇";
-                for (var i = 0; i < data.length; i++) {
-                    chart.series[0].data.push({
-                        name: data[i].town,
-                        y: data[i].totalLteCells
-                    });
-                }
-                return chart.options;
+                return generalChartService.getPieOptions(data, {
+                    title: district + "各镇LTE小区数分布",
+                    seriesTitle: "镇"
+                }, function (subData) {
+                    return subData.town;
+                }, function (subData) {
+                    return subData.totalLteCells;
+                });
             },
             getTownCdmaBtsPieOptions: function (data, district) {
-                var chart = new GradientPie();
-                chart.title.text = district + "各镇CDMA基站数分布";
-                chart.series[0].name = "镇";
-                for (var i = 0; i < data.length; i++) {
-                    chart.series[0].data.push({
-                        name: data[i].town,
-                        y: data[i].totalCdmaBts
-                    });
-                }
-                return chart.options;
+                return generalChartService.getPieOptions(data, {
+                    title: district + "各镇CDMA基站数分布",
+                    seriesTitle: "镇"
+                }, function (subData) {
+                    return subData.town;
+                }, function (subData) {
+                    return subData.totalCdmaBts;
+                });
             },
             getTownCdmaCellPieOptions: function (data, district) {
-                var chart = new GradientPie();
-                chart.title.text = district + "各镇CDMA小区数分布";
-                chart.series[0].name = "镇";
-                for (var i = 0; i < data.length; i++) {
-                    chart.series[0].data.push({
-                        name: data[i].town,
-                        y: data[i].totalCdmaCells
-                    });
-                }
-                return chart.options;
+                return generalChartService.getPieOptions(data, {
+                    title: district + "各镇CDMA小区数分布",
+                    seriesTitle: "镇"
+                }, function (subData) {
+                    return subData.town;
+                }, function (subData) {
+                    return subData.totalCdmaCells;
+                });
+            },
+            getCollegeDistributionForDownlinkFlow(data) {
+                return generalChartService.getPieOptions(data, {
+                    title: "校园网下行流量分布",
+                    seriesTitle: "下行流量(MB)"
+                }, function(subData) {
+                    return subData.name;
+                }, function(subData) {
+                    return subData.pdcpDownlinkFlow;
+                });
             }
         };
     })

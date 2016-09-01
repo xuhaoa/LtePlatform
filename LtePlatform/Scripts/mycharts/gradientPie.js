@@ -10,7 +10,7 @@
         text: 'Browser market shares. January, 2015 to May, 2015'
     };
     self.tooltip = {
-        pointFormat: '{series.name}: <b>{point.y}, 占比{point.percentage:.1f}%</b>'
+        pointFormat: '{series.name}: <b>{point.y: .1f}, 占比{point.percentage:.1f}%</b>'
     };
     self.plotOptions = {
         pie: {

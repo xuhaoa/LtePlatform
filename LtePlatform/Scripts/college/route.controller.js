@@ -427,9 +427,10 @@
     })
 
 
-    .controller("all.flow", function ($scope, collegeQueryService) {
+    .controller("all.flow", function ($scope, collegeQueryService, parametersChartService) {
         $scope.collegeInfo.url = $scope.rootPath + "flow";
         $scope.page.title = "流量分析";
+        $scope.collegeStatCount = 0;
         $scope.query = function() {
             angular.forEach($scope.collegeList, function(college) {
                 collegeQueryService.queryCollegeFlow(college.name, $scope.beginDate.value, $scope.endDate.value).then(function(stat) {
@@ -437,9 +438,16 @@
                     college.pdcpUplinkFlow = stat.pdcpUplinkFlow;
                     college.averageUsers = stat.averageUsers;
                     college.cellCount = stat.cellCount;
+                    $scope.collegeStatCount += 1;
                 });
             });
         };
+        $scope.$watch('collegeStatCount', function(count) {
+            if (count === $scope.collegeList.length && count > 0) {
+                $("#downloadFlowConfig").highcharts(parametersChartService.getCollegeDistributionForDownlinkFlow($scope.collegeList));
+                $scope.collegeStatCount = 0;
+            }
+        });
         collegeQueryService.queryYearList($scope.collegeInfo.year.selected).then(function (colleges) {
             $scope.collegeList = colleges;
             $scope.query();
