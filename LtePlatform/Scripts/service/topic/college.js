@@ -122,6 +122,13 @@
                     begin: begin,
                     end: end
                 });
+            },
+            queryCollegeDateFlows: function (collegeName, begin, end) {
+                return generalHttpService.getApiData('CollegeFlow', {
+                    collegeName: collegeName,
+                    beginDate: begin,
+                    endDate: end
+                });
             }
         };
     })
@@ -423,7 +430,7 @@
                     animation: true,
                     templateUrl: '/appViews/College/Table/CollegeMapInfoBox.html',
                     controller: 'map.college.dialog',
-                    size: 'sm',
+                    size: 'lg',
                     resolve: {
                         dialogTitle: function() {
                             return college.name + "-" + "基本信息";

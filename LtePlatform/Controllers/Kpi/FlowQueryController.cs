@@ -45,6 +45,7 @@ namespace LtePlatform.Controllers.Kpi
             _collegeCellViewService = collegeCellViewService;
         }
 
+        [HttpGet]
         public AggregateFlowView Get(string collegeName, DateTime begin, DateTime end)
         {
             var cells = _collegeCellViewService.GetViews(collegeName);
@@ -56,5 +57,20 @@ namespace LtePlatform.Controllers.Kpi
             result.CellCount = stats.Count;
             return result;
         }
+
+        [HttpGet]
+        public IEnumerable<FlowView> GetDateViews(string collegeName, DateTime beginDate, DateTime endDate)
+        {
+            var cells = _collegeCellViewService.GetViews(collegeName);
+            var viewList = cells.Select(cell => _service.QueryFlow(cell.ENodebId, cell.SectorId, beginDate, endDate))
+                .Where(views => views != null)
+                .Aggregate((x, y) => x.Concat(y).ToList());
+            return viewList.GroupBy(x => x.StatTime).Select(x =>
+            {
+                var stat = x.ArraySum();
+                stat.StatTime = x.Key;
+                return stat;
+            }).OrderBy(x=>x.StatTime);
+        } 
     }
 }
