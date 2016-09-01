@@ -466,6 +466,7 @@
                     cell.pdcpDownlinkFlow = stat.pdcpDownlinkFlow;
                     cell.pdcpUplinkFlow = stat.pdcpUplinkFlow;
                     cell.averageUsers = stat.averageUsers;
+                    cell.maxActiveUsers = stat.maxActiveUsers;
                 });
                 networkElementService.queryLteRruFromCellName(cell.eNodebName+'-'+cell.sectorId).then(function (rru) {
                     cell.rruName = rru ? rru.rruName : '';

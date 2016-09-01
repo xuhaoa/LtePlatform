@@ -12,8 +12,50 @@
                     });
                 });
                 return chart.options;
+            },
+            getColumnOptions: function(stat, setting, categoriesFunc, dataFunc) {
+                var chart = new ComboChart();
+                chart.title.text = setting.title;
+                chart.xAxis[0].title.text = setting.xtitle;
+                chart.yAxis[0].title.text = setting.ytitle;
+                chart.xAxis[0].categories = categoriesFunc(stat);
+                chart.series.push({
+                    type: "column",
+                    name: setting.ytitle,
+                    data: dataFunc(stat)
+                });
+                return chart.options;
+            },
+            queryColumnOptions: function (setting, categories, data) {
+                var chart = new ComboChart();
+                chart.title.text = setting.title;
+                chart.xAxis[0].title.text = setting.xtitle;
+                chart.yAxis[0].title.text = setting.ytitle;
+                chart.xAxis[0].categories = categories;
+                chart.series.push({
+                    type: "column",
+                    name: setting.ytitle,
+                    data: data
+                });
+                return chart.options;
+            },
+            generateColumnData: function(stats, categoriesFunc, dataFuncs) {
+                var result = {
+                    categories: [],
+                    dataList: []
+                };
+                angular.forEach(dataFuncs, function(func) {
+                    result.dataList.push([]);
+                });
+                angular.forEach(stats, function(stat) {
+                    result.categories.push(categoriesFunc(stat));
+                    angular.forEach(dataFuncs, function(func, index) {
+                        result.dataList[index].push(func(stat));
+                    });
+                });
+                return result;
             }
-        };
+    };
     })
     .factory('parametersChartService', function (generalChartService) {
         return {
@@ -136,7 +178,8 @@
                 }, function (subData) {
                     return subData.maxActiveUsers;
                 });
-            }
+            },
+            getCellDistributionFor
         };
     })
     .factory('neGeometryService', function () {

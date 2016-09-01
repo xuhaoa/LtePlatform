@@ -1,4 +1,4 @@
-﻿angular.module('myApp.kpi', ['myApp.url', 'myApp.region'])
+﻿angular.module('myApp.kpi', ['myApp.url', 'myApp.region', 'parameters.chart'])
     .factory('chartCalculateService', function() {
         return {
             generateDrillDownData: function (districtStats, townStats, queryFunction) {
@@ -42,7 +42,7 @@
             }
         };
     })
-    .factory('appKpiService', function (chartCalculateService) {
+    .factory('appKpiService', function (chartCalculateService, generalChartService) {
         var accumulatePreciseStat = function (source, accumulate) {
             source.totalMrs += accumulate.totalMrs;
             source.firstNeighbors += accumulate.firstNeighbors;
@@ -316,18 +316,16 @@
                 chart.enableLegend = true;
                 return chart.options;
             },
-            generateColumnOptions: function(stat, title, xtitle, ytitle) {
-                var chart = new ComboChart();
-                chart.title.text = title;
-                chart.xAxis[0].title.text = xtitle;
-                chart.yAxis[0].title.text = ytitle;
-                chart.xAxis[0].categories = stat.item1;
-                chart.series.push({
-                    type: "column",
-                    name: ytitle,
-                    data: stat.item2
+            generateColumnOptions: function (stat, title, xtitle, ytitle) {
+                return generalChartService.getColumnOptions(stat, {
+                    title: title,
+                    xtitle: xtitle,
+                    ytitle: ytitle
+                }, function(data) {
+                    return data.item1;
+                }, function(data) {
+                    return data.item2;
                 });
-                return chart.options;
             }
         }
     })
