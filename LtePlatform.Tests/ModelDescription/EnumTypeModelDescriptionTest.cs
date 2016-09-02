@@ -10,6 +10,7 @@ using System.Web.Http.Description;
 using LtePlatform.Areas.HelpPage;
 using LtePlatform.Areas.HelpPage.ModelDescriptions;
 using NUnit.Framework;
+using Lte.Parameters.Entities.Basic;
 
 namespace LtePlatform.Tests.ModelDescription
 {
@@ -100,6 +101,21 @@ namespace LtePlatform.Tests.ModelDescription
             Assert.AreEqual(description.Name, "SimpleEnum");
             Assert.AreEqual(description.ModelType, typeof(SimpleEnum));
             Assert.AreEqual(description.Documentation, "This is a simple type documentation.");
+        }
+    }
+
+    [TestFixture]
+    public class CollectionModelDescriptionTest
+    {
+        [Test]
+        public void Test_First()
+        {
+            var generator = new ModelDescriptionGenerator(new HttpConfiguration());
+            var modelDescription = generator.GetOrCreateModelDescription(typeof (Cell));
+            Assert.IsNotNull(modelDescription);
+            Assert.AreEqual(modelDescription.Name, "Cell");
+            Assert.AreEqual(modelDescription.Documentation, null);
+            Assert.AreEqual(modelDescription.ParameterDocumentation, null);
         }
     }
 }

@@ -88,7 +88,8 @@ namespace LtePlatform.Areas.HelpPage.Controllers
             var parametersDescriptions = description.GenerateUriParameters(modelGenerator);
             var requestModelDescription = description.GenerateRequestModelDescription(modelGenerator, sampleGenerator);
             var responseModel = description.GenerateResponseDescription(modelGenerator);
-            var responseDescription = responseModel?.GetParameterDescriptions();
+            var modelDescription = modelGenerator.GetOrCreateModelDescription(responseModel.ModelType);
+            var responseDescription = responseModel.GetParameterDescriptions();
             return Json(new
             {
                 ParameterDescriptions = parametersDescriptions.Select(x => new
@@ -106,11 +107,12 @@ namespace LtePlatform.Areas.HelpPage.Controllers
                     requestModelDescription.Documentation,
                     requestModelDescription.ParameterDocumentation
                 },
-                ResponseModel = responseModel==null?null: new
+                ResponseModel = new
                 {
                     responseModel.Name,
                     Documentation = Configuration.Services.GetDocumentationProvider().GetResponseDocumentation(description.ActionDescriptor),
                     responseModel.ParameterDocumentation,
+                    ModelDescription = modelDescription?.ParameterDocumentation,
                     Descriptions = responseDescription?.Select(x => new
                     {
                         x.Name,
