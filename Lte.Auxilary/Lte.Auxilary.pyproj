@@ -33,6 +33,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="mr\mr_script.py" />
+    <Compile Include="mr\time_test.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mr\customize_utilities.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Practise\list_test.py">
       <SubType>Code</SubType>
     </Compile>
