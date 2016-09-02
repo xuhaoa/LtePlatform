@@ -57,7 +57,7 @@ for host_ip in HOST_HW:
                     # 2, 判断是否超过三层，超过三层文件夹不处理
                     # 3， 不处理当天日期
                     if root.count('/') < 3 and not root.endswith(tuple(DDlist)) and not root.endswith(date.today().strftime('%Y%m%d')):     # 判断是否已在下载列表和是否超过三层，如果已存在或已超过，则不处理
-                        # print(len(files))     # 获得文件数量
+                        print(len(files))     # 获得文件数量
                         for name in files:
                             host.chdir(root)
                             # 判断文件是否已经存在于数据库

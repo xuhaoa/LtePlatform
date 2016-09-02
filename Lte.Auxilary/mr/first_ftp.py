@@ -3,6 +3,7 @@ import os
 import shutil
 import pymongo
 from pymongo import MongoClient
+from customize_utilities import *
 
 # 从数据库获取已下载列表
 db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
@@ -18,24 +19,29 @@ os.chdir('temp')
 _tmpfolder = []
 _tmpfile = []
 
-for root, dirs, files in host.walk('/MR_HW_SOURCE_D/20160815/201608150215'):
-    print('Root path: ' + root)
-    print('Directories: ')
-    print(dirs)
+ftpdir=generate_time_dir(prefix = "/MR_HW_SOURCE_D/")
+print(ftpdir)
+for root, dirs, files in host.walk(ftpdir):
     print('Files: ')
     print(files)
     host.chdir(root)
     for name in files:
         print('File: ' + os.path.join(root, name))
-        # 判断文件是否已经存在于数据库
-        if name in DFList:
-            pass
-        else:
-            try:
-                host.download(name, name)
-            except:
+        if name.endswith('.gz') and int(name.split('_')[-2]) in (range(550912, 552959) or range(499712, 503807)):
+        
+            if name in DFList:
                 pass
-            DFList.append(name)
-            db['DFlist'].insert({'dfName': name})
-            print('Download finished: ' + os.path.join(root, name))
+            else:
+                status=False
+                while not status:
+                    try:
+                        host.download(name, name)
+                        status=True
+                    except:
+                        continue
+                    DFList.append(name)
+                    db['DFlist'].insert({'dfName': name})
+                    print('Download finished: ' + os.path.join(root, name))
+
+host.close()
         
