@@ -29,9 +29,13 @@
     <Compile Include="mr\first_ftp.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mr\ftp_huawei.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\huawei_test_ftp.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mr\hwMrDownloadAndAnalysis.py" />
     <Compile Include="mr\mr_script.py" />
     <Compile Include="mr\time_test.py">
       <SubType>Code</SubType>

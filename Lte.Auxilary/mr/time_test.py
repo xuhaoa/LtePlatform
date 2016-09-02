@@ -26,3 +26,5 @@ print(generate_time_dir(now=datetime.datetime(2016,5,3,17,59,0)))
 print(generate_time_dir(now=datetime.datetime(2016,5,1,0,17,0)))
 print(generate_time_dir(now=datetime.datetime(2016,1,1,0,23,0)))
 print(generate_time_dir(now=datetime.datetime(2016,3,1,0,17,0)))
+
+print(is_foshan_filename('aaaa_499998_20160889.xml.gz'))

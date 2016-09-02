@@ -27,7 +27,7 @@ for root, dirs, files in host.walk(ftpdir):
     host.chdir(root)
     for name in files:
         print('File: ' + os.path.join(root, name))
-        if name.endswith('.gz') and int(name.split('_')[-2]) in (range(550912, 552959) or range(499712, 503807)):
+        if name.endswith('.gz') and is_foshan_filename(name):
         
             if name in DFList:
                 pass
