@@ -31,6 +31,7 @@ namespace LtePlatform.Controllers.College
         }
     }
 
+    [ApiControl("校园网小区批量更新控制器")]
     public class CollegeCellContainerController : ApiController
     {
         private readonly CollegeCellsService _service;
@@ -41,6 +42,8 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpPost]
+        [ApiDoc("校园网小区批量更新")]
+        [ApiParameterDoc("container", "批量更新信息")]
         public async Task<int> Post(CollegeCellNamesContainer container)
         {
             return await _service.UpdateCells(container);
