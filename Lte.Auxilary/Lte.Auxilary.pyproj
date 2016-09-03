@@ -49,10 +49,19 @@
     <Compile Include="Practise\list_test.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Practise\thread-classes.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Practise\thread-count-mutex.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Practise\thread-count-wait1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Practise\thread-count-wait2.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Practise\thread-count-wait3.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Practise\thread-count.py">
