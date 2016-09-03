@@ -43,7 +43,25 @@
     <Compile Include="mr\customize_utilities.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Practise\fork1.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Practise\list_test.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Practise\thread-count-mutex.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Practise\thread-count-wait1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Practise\thread-count.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Practise\thread1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Practise\thread2.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
