@@ -32,6 +32,9 @@
     <Compile Include="mr\ftp_huawei.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mr\gzip_test.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\huawei_test_ftp.py">
       <SubType>Code</SubType>
     </Compile>
@@ -84,6 +87,7 @@
     <Content Include="Db\sp_get2GFileContentsRasterConsidered.sql" />
     <Content Include="Db\sp_get3GFileContentsRasterConsidered.sql" />
     <Content Include="Db\sp_get4GFileContentsRasterConsidered.sql" />
+    <Content Include="mr\huawei_download_mro.sh" />
     <Content Include="phpApi\encode_json.php" />
     <Content Include="phpApi\test.php" />
     <Content Include="phpApi\wandonglouyu.php" />

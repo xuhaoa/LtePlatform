@@ -11,9 +11,13 @@ DFList = [item.get('dfName') for item in _DFlist]
 HOST_HW = ['132.122.152.115', '132.122.152.112', '132.122.152.124']    
 FOLDER_HW = ['/MR_HW_SOURCE_D/', '/MR_HW_SOURCE_E/']
 
-if not os.path.isdir('temp'):
-    os.mkdir('temp')
-os.chdir('temp')
+if not os.path.isdir('huawei_mro'):
+    os.mkdir('huawei_mro')
+os.chdir('huawei_mro')
+date_dir=generate_date_str()
+if not os.path.isdir(date_dir):
+    os.mkdir(date_dir)
+os.chdir(date_dir)
 
 for host_ip in HOST_HW:
     print(host_ip)
@@ -29,7 +33,7 @@ for host_ip in HOST_HW:
                     host.chdir(root)
                     for name in files:
                         print(name)
-                        if name.endswith('.gz') and is_foshan_filename(name):        
+                        if name.endswith('.gz') and is_foshan_filename(name) and is_mro_filename(name):        
                             if name in DFList:
                                 pass
                             else:
