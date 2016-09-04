@@ -87,11 +87,13 @@
     <Content Include="Db\sp_get2GFileContentsRasterConsidered.sql" />
     <Content Include="Db\sp_get3GFileContentsRasterConsidered.sql" />
     <Content Include="Db\sp_get4GFileContentsRasterConsidered.sql" />
+    <Content Include="Practise\ftp_test.py" />
     <Content Include="mr\huawei_download_mro.sh" />
     <Content Include="phpApi\encode_json.php" />
     <Content Include="phpApi\test.php" />
     <Content Include="phpApi\wandonglouyu.php" />
     <Content Include="phpApi\zonghexinxiConnection.php" />
+    <Content Include="Practise\ftp_test.sh" />
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />

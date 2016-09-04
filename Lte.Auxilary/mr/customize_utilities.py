@@ -6,8 +6,8 @@ def generate_time_dir(now=datetime.datetime.now(), prefix = "/MR_HW_SOURCE_D/"):
     past=past.replace(minute=int(past.minute/15)*15,second=0)
     return prefix+past.strftime("%Y%m%d")+"/"+past.strftime("%Y%m%d%H%M")
 
-def generate_date_str(now=datetime.date.today()):
-    date_delta=datetime.timedelta(days=-1)
+def generate_date_twohours_ago(now=datetime.datetime.now()):
+    date_delta=datetime.timedelta(hours=-2)
     past=now+date_delta
     return past.strftime("%Y%m%d")
 
