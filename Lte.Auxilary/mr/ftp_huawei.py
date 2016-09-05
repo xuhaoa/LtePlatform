@@ -45,13 +45,13 @@ for host_ip in HOST_HW:
                                 try:
                                     host.download(name, name)
                                     times=3
+                                    DFList.append(name)
+                                    db['DFlist'].insert({'dfName': name})
+                                    print('Download finished: ', host_ip, '/', os.path.join(root, name))
                                 except:
                                     times+=1
                                     print('Times: '+ times)
                                     continue
-                                DFList.append(name)
-                                db['DFlist'].insert({'dfName': name})
-                                print('Download finished: ', host_ip, '/', os.path.join(root, name))
         host.close()
     except:
         continue
