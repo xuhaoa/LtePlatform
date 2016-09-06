@@ -6,6 +6,12 @@ def generate_time_dir(now=datetime.datetime.now(), prefix = "/MR_HW_SOURCE_D/"):
     past=past.replace(minute=int(past.minute/15)*15,second=0)
     return prefix+past.strftime("%Y%m%d")+"/"+past.strftime("%Y%m%d%H%M")
 
+def generate_time_dir_shift(now=datetime.datetime.now(), prefix = "/MR_HW_SOURCE_D/", shift=-2):
+    time_delta=datetime.timedelta(hours=shift)
+    past=now+time_delta
+    past=past.replace(minute=int(past.minute/15)*15,second=0)
+    return prefix+past.strftime("%Y%m%d")+"/"+past.strftime("%Y%m%d%H%M")
+
 def generate_date_twohours_ago(now=datetime.datetime.now()):
     date_delta=datetime.timedelta(hours=-2)
     past=now+date_delta
