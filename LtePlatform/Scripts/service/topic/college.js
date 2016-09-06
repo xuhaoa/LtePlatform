@@ -367,6 +367,34 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
+            supplementPositionCells: function (collegeName, callback) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: collegeInfrastructurePath + 'CellSupplementDialog.html',
+                    controller: 'cell.position.supplement.dialog',
+                    size: 'lg',
+                    resolve: {
+                        collegeName: function () {
+                            return collegeName;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (info) {
+                    var cellNames = [];
+                    angular.forEach(info, function (cell) {
+                        cellNames.push(cell.cellName);
+                    });
+                    collegeQueryService.saveCollegeCells({
+                        collegeName: collegeName,
+                        cellNames: cellNames
+                    }).then(function () {
+                        callback();
+                    });
+
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
             construct3GTest: function(collegeName) {
                 var modalInstance = $uibModal.open({
                     animation: true,

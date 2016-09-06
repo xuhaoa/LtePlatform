@@ -627,6 +627,9 @@
         $scope.supplementCells = function () {
             collegeDialogService.supplementENodebCells($scope.eNodebList, $scope.cellList, $scope.collegeName, $scope.updateLteCells);
         };
+        $scope.supplementLonelyCells = function() {
+            collegeDialogService.supplementPositionCells($scope.collegeName, $scope.updateLteCells);
+        };
         collegeService.queryENodebs($scope.collegeName).then(function (eNodebs) {
             $scope.eNodebList = eNodebs;
         });
@@ -804,6 +807,23 @@
         };
     })
 
+    .controller('cell.position.supplement.dialog', function ($scope, $uibModalInstance, collegeMapService, geometryService, collegeName) {
+        $scope.dialogTitle = collegeName + "LTE小区补充";
+        $scope.supplementCells = [];
+
+        collegeMapService.queryCenterAndCallback(collegeName, function(center) {
+            console.log(center);
+        });
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.gridApi.selection.getSelectedRows());
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+
     .controller('eNodeb.supplement.dialog', function ($scope, $uibModalInstance, networkElementService, geometryService, collegeService,
         center, collegeName) {
         $scope.dialogTitle = collegeName + "LTE基站补充";
@@ -836,7 +856,7 @@
                 var ids = [];
                 collegeService.queryENodebs(collegeName).then(function (eNodebs) {
                     angular.forEach(eNodebs, function (eNodeb) {
-                        ids.push(eNodeb.ENodebId);
+                        ids.push(eNodeb.eNodebId);
                     });
                     networkElementService.queryRangeENodebs({
                         west: range.west + center.X - coors.x,
