@@ -848,7 +848,6 @@
                         angular.forEach(results, function (item) {
                             item.distance = geometryService.getDistance(item.lattitute, item.longtitute, coors.y, coors.x);
                         });
-                        $scope.supplementCells = results;
                         $scope.gridOptions.data = results;
                     });
                 });
@@ -1229,14 +1228,6 @@
             regionType: 0,
             info: ""
         };
-        appRegionService.initializeCities().then(function (cities) {
-            $scope.city.options = cities;
-            $scope.city.selected = cities[0];
-            appRegionService.queryDistricts($scope.city.selected).then(function (districts) {
-                $scope.district.options = districts;
-                $scope.district.selected = districts[0];
-            });
-        });
         $scope.saveCircleParameters = function (circle) {
             var center = circle.getCenter();
             var radius = circle.getRadius();
