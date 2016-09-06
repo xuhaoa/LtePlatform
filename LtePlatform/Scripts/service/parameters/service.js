@@ -145,6 +145,14 @@
                     excludedCells: excludedIds
                 });
             },
+            queryRangeCells: function (range) {
+                return generalHttpService.getApiData('Cell', {
+                    west: range.west,
+                    east: range.east,
+                    south: range.south,
+                    north: range.north
+                });
+            },
             queryRangeENodebs: function(container) {
                 return generalHttpService.postApiData('ENodeb', container);
             },

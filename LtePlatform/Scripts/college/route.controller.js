@@ -807,12 +807,49 @@
         };
     })
 
-    .controller('cell.position.supplement.dialog', function ($scope, $uibModalInstance, collegeMapService, geometryService, collegeName) {
+    .controller('cell.position.supplement.dialog', function ($scope, $uibModalInstance, collegeMapService, geometryService, collegeService,
+        networkElementService, collegeName) {
         $scope.dialogTitle = collegeName + "LTE小区补充";
         $scope.supplementCells = [];
+        $scope.gridOptions = {
+            enableRowSelection: true,
+            enableSelectAll: true,
+            selectionRowHeaderWidth: 35,
+            rowHeight: 35,
+            showGridFooter: true
+        };
+        $scope.gridOptions.multiSelect = true;
+        $scope.gridOptions.columnDefs = [
+          { name: '小区名称', field: 'cellName' },
+          { name: '方位角', field: 'azimuth' },
+          { name: '下倾角', field: 'downTilt' },
+          { name: '频点', field: 'frequency' },
+          { name: '室内外', field: 'indoor' },
+          { name: 'RRU名称', field: 'rruName' }
+        ];
 
         collegeMapService.queryCenterAndCallback(collegeName, function(center) {
-            console.log(center);
+            var ids = [];
+            collegeService.queryCells(collegeName).then(function(cells) {
+                angular.forEach(cells, function(cell) {
+                    ids.push({
+                        eNodebId: cell.eNodebId,
+                        sectorId: cell.sectorId
+                    });
+                });
+                geometryService.transformToBaidu(center.X, center.Y).then(function(coors) {
+                    collegeService.queryRange(collegeName).then(function(range) {
+                        networkElementService.queryRangeCells({
+                            west: range.west + center.X - coors.x,
+                            east: range.east + center.X - coors.x,
+                            south: range.south + center.Y - coors.y,
+                            north: range.north + center.Y - coors.y
+                        }).then(function(results) {
+                            console.log(results);
+                        });
+                    });
+                });
+            });
         });
 
         $scope.ok = function () {
