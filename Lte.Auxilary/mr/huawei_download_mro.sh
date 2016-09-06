@@ -1,1 +1,1 @@
-time /home/wireless/env/py3env/bin/python /home/wireless/Public/ftp_huawei.py
+/home/wireless/env/py3env/bin/python /home/wireless/Public/ftp_huawei.py
