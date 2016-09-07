@@ -824,6 +824,7 @@
           { name: '方位角', field: 'azimuth' },
           { name: '下倾角', field: 'downTilt' },
           { name: '频点', field: 'frequency' },
+          { name: '天线挂高', field: 'height' },
           { name: '室内外', field: 'indoor' },
           { name: 'RRU名称', field: 'rruName' }
         ];
@@ -844,13 +845,33 @@
                             east: range.east + center.X - coors.x,
                             south: range.south + center.Y - coors.y,
                             north: range.north + center.Y - coors.y
-                        }).then(function(results) {
-                            console.log(results);
+                        }).then(function (results) {
+                            angular.forEach(results, function(item) {
+                                var i;
+                                for (i = 0; i < ids.length; i++) {
+                                    if (ids[i].eNodebId === item.eNodebId && ids[i].sectorId === item.sectorId) {
+                                        break;
+                                    }
+                                }
+                                if (i === ids.length) {
+                                    networkElementService.queryCellInfo(item.eNodebId,item.sectorId).then(function(view) {
+                                        networkElementService.queryLteRruFromCellName(view.cellName).then(function(rru) {
+                                            view.rruName = rru ? rru.rruName : '';
+                                            $scope.supplementCells.push(view);
+                                        });
+                                    });
+                                }
+                            });
                         });
+                        $scope.gridOptions.data = $scope.supplementCells;
                     });
                 });
             });
         });
+
+        $scope.gridOptions.onRegisterApi = function (gridApi) {
+            $scope.gridApi = gridApi;
+        };
 
         $scope.ok = function () {
             $uibModalInstance.close($scope.gridApi.selection.getSelectedRows());
