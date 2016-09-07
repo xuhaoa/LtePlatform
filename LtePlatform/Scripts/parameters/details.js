@@ -20,10 +20,12 @@
         $scope.isHuaweiCell = false;
         $scope.eNodebId = $stateParams.eNodebId;
         $scope.sectorId = $stateParams.sectorId;
+        $scope.showNeighbors = function() {
+            neighborMongoService.queryNeighbors($stateParams.eNodebId, $stateParams.sectorId).then(function(result) {
+                $scope.mongoNeighbors = result;
+            });
+        };
 
-        neighborMongoService.queryNeighbors($stateParams.eNodebId, $stateParams.sectorId).then(function(result) {
-            $scope.mongoNeighbors = result;
-        });
     })
     .controller("eNodeb.alarm", function($scope, $stateParams, alarmsService) {
         $scope.eNodebName = $stateParams.name;

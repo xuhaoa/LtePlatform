@@ -7,6 +7,7 @@
         <div cell-inter-freq e-nodeb-id="eNodebId" sector-id="sectorId"></div>
     </div>
     <div uib-tab index="1" heading="邻区列表">
+        <button class="btn btn-success" ng-click="showNeighbors()">查询邻区</button>
         <div mongo-neighbor-list mongo-neighbors="mongoNeighbors"></div>
     </div>
     <div uib-tab index="2" heading="功率参数">
