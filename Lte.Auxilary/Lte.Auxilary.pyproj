@@ -38,6 +38,9 @@
     <Compile Include="mr\ftp_huawei_124.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mr\ftp_huawei_mre.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\gzip_test.py">
       <SubType>Code</SubType>
     </Compile>
@@ -96,6 +99,9 @@
     <Content Include="Db\sp_get2GFileContentsRasterConsidered.sql" />
     <Content Include="Db\sp_get3GFileContentsRasterConsidered.sql" />
     <Content Include="Db\sp_get4GFileContentsRasterConsidered.sql" />
+    <Content Include="mr\huawei_download_mre.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="mr\huawei_download_mro_124.sh">
       <SubType>Code</SubType>
     </Content>

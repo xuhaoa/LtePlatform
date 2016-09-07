@@ -4,6 +4,18 @@ import gzip
 from lxml import etree
 import dateutil.parser
 
+def update_ta_distribution(ta_distribution, item_dict):
+    ta_dist={}
+    for dist in ta_distribution:
+        if dist['id']==item_dict['id']:
+            ta_dist=dist
+            pass
+    if ta_dist.get('id')==None:
+        ta_dist={'id': item_dict['id'], 'counts': [ 0 for x in range(64)]}
+        ta_distribution.append(ta_dist)
+    if item_dict['Ta']>=0:
+        ta_dist['counts'][item_dict['Ta']]+=1
+
 os.chdir('D:\\LtePlatform\\Lte.Auxilary\\mr')
 os.listdir('D:\\LtePlatform\\Lte.Auxilary\\mr')
 
@@ -19,6 +31,7 @@ for item in root.iterchildren():
     elif item.tag == 'eNB':
         item_id = item.attrib.get('id')
         for item_measurement in item.iterchildren():
+            ta_distribution=[]
             for item_element in item_measurement:
                 if item_element.tag == 'smr':
                     item_key = item_element.text.replace('MR.', '').split(' ')
@@ -46,5 +59,6 @@ for item in root.iterchildren():
                             item_dict.update({'Ta': _item_sub_dict['LteScTadv']})
                             centerFilled=True
                     item_dict.update({'NeighborList': neighbor_list})
-                    print(item_dict)
+                    update_ta_distribution(ta_distribution,item_dict)
+            print(ta_distribution)
 gFile.close()

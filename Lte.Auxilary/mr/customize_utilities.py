@@ -24,3 +24,7 @@ def is_foshan_filename(name):
 def is_mro_filename(name):
     type=name.split('_')[-4]
     return type=='MRO'
+
+def is_mre_filename(name):
+    type=name.split('_')[-4]
+    return type=='MRE'
