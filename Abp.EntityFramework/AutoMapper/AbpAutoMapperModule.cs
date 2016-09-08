@@ -16,8 +16,6 @@ namespace Abp.EntityFramework.AutoMapper
     [DependsOn(typeof (AbpKernelModule))]
     public class AbpAutoMapperModule : AbpModule
     {
-        public ILogger Logger { get; set; }
-
         private readonly ITypeFinder _typeFinder;
 
         private static bool _createdMappingsBefore;

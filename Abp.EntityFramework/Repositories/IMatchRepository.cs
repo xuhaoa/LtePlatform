@@ -83,6 +83,10 @@ namespace Abp.EntityFramework.Repositories
                         info.TownId = town.Id;
                     repository.Insert(info);
                 }
+                else
+                {
+                    Mapper.Map(stat, info);
+                }
             }
             return repository.SaveChanges();
         }

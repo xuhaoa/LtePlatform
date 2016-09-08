@@ -25,6 +25,7 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly IComplainItemRepository _complainItemRepository;
         private readonly IBranchDemandRepository _branchDemandRepository;
         private readonly IOnlineSustainRepository _onlineSustainRepository;
+        private readonly IPlanningSiteRepository _planningSiteRepository;
         private readonly List<Town> _towns; 
 
         public KpiImportService(ICdmaRegionStatRepository regionStatRepository,
@@ -32,7 +33,8 @@ namespace Lte.Evaluations.DataService.Kpi
             ITopConnection2GRepository topConnection2GRepository,
             IDownSwitchFlowRepository downSwitchRepository, IVipDemandRepository vipDemandRepository,
             IComplainItemRepository complainItemRepository, IBranchDemandRepository branchDemandRepository,
-            IOnlineSustainRepository onlineSustainRepository, ITownRepository townRepository)
+            IOnlineSustainRepository onlineSustainRepository, IPlanningSiteRepository planningSiteRepository, 
+            ITownRepository townRepository)
         {
             _regionStatRepository = regionStatRepository;
             _top2GRepository = top2GRepository;
@@ -43,6 +45,7 @@ namespace Lte.Evaluations.DataService.Kpi
             _complainItemRepository = complainItemRepository;
             _branchDemandRepository = branchDemandRepository;
             _onlineSustainRepository = onlineSustainRepository;
+            _planningSiteRepository = planningSiteRepository;
             _towns = townRepository.GetAllList();
         }
         public List<string> Import(string path, IEnumerable<string> regions)
@@ -134,6 +137,15 @@ namespace Lte.Evaluations.DataService.Kpi
             var count =
                 _onlineSustainRepository.Import<IOnlineSustainRepository, OnlineSustain, OnlineSustainExcel>(stats);
             return "完成在线支撑信息导入" + count + "条";
+        }
+
+        public string ImportPlanningSite(string path)
+        {
+            var factory = new ExcelQueryFactory { FileName = path };
+            var stats = (from c in factory.Worksheet<PlanningSiteExcel>("16年谈点清单（124+764+376）") select c).ToList();
+            var count =
+                _planningSiteRepository.Import<IPlanningSiteRepository, PlanningSite, PlanningSiteExcel, Town>(stats, _towns);
+            return "完成规则站点信息导入" + count + "条";
         }
     }
 }
