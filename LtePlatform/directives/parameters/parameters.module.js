@@ -104,6 +104,43 @@ angular.module('parameters.list', ['myApp.parameters', 'huawei.mongo.parameters'
             }
         };
     })
+    .controller('PlanningSiteController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'district', name: '区县' },
+                { field: 'town', name: '镇街' },
+                { field: 'formalName', name: '正式名称' },
+                { field: 'contractDate', name: '合同日期', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'finishedDate', name: '完工日期', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'planNum', name: '规划编号' },
+                { field: 'antennaHeight', name: '天线挂高（米）' },
+                { field: 'towerType', name: '杆塔类型' }
+            ],
+            data: []
+        };
+    })
+    .directive('planningSiteTable', function ($compile) {
+        return {
+            controller: 'PlanningSiteController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                items: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
+    })
     .controller('ENodebPlainController', function ($scope) {
         $scope.gridOptions = {
             paginationPageSizes: [20, 40, 60],

@@ -1266,7 +1266,7 @@
                         south: range.south + center.Y - coors.y,
                         north: range.north + center.Y - coors.y
                     }).then(function (results) {
-                        console.log(results);
+                        $scope.items = results;
                     });
                 });
             });
