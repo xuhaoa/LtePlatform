@@ -534,7 +534,7 @@
                 $scope.item = item;
                 $scope.page.projectName = item.projectName;
                 if ($scope.item.nextStateDescription) {
-                    $scope.processInfo = "已完成" + $scope.item.nextStateDescription;
+                    $scope.processInfo = "已发起" + $scope.item.nextStateDescription + "流程";
                 } else {
                     $scope.processInfo = "";
                 }
