@@ -123,4 +123,19 @@ namespace LtePlatform.Controllers.Parameters
         }
     }
 
+    public class PlanningSiteController : ApiController
+    {
+        private readonly PlanningQueryService _service;
+
+        public PlanningSiteController(PlanningQueryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<PlanningSiteView> Get(double west, double east, double south, double north)
+        {
+            return _service.QueryPlanningSiteViews(west, east, south, north);
+        } 
+    }
 }

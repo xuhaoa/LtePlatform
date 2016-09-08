@@ -285,6 +285,8 @@ namespace LtePlatform
             ninjectKernel.Bind<UlOpenLoopPcService>().ToSelf();
 
             ninjectKernel.Bind<ComplainService>().ToSelf();
+
+            ninjectKernel.Bind<PlanningQueryService>().ToSelf();
         }
     }
 }

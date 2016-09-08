@@ -6,6 +6,7 @@ using AutoMapper;
 using Lte.Domain.Regular;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.ViewModels.Basic;
+using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
@@ -85,5 +86,35 @@ namespace Lte.Evaluations.DataService.Basic
             eNodebs = eNodebs.Except(excludedENodebs).ToList();
             return eNodebs.Any() ? eNodebs.MapTo<IEnumerable<ENodebView>>() : new List<ENodebView>();
         } 
+    }
+
+    public class PlanningQueryService
+    {
+        private readonly ITownRepository _townRepository;
+        private readonly IPlanningSiteRepository _planningSiteRepository;
+
+        public PlanningQueryService(ITownRepository townRepository, IPlanningSiteRepository planningSiteRepository)
+        {
+            _townRepository = townRepository;
+            _planningSiteRepository = planningSiteRepository;
+        }
+
+        public IEnumerable<PlanningSiteView> QueryPlanningSiteViews(double west, double east, double south, double north)
+        {
+            var sites =
+                _planningSiteRepository.GetAllList(
+                    x => x.Longtitute >= west && x.Longtitute <= east && x.Lattitute >= south && x.Lattitute <= north);
+            var views = sites.MapTo<List<PlanningSiteView>>();
+            views.ForEach(view =>
+            {
+                var town = view.TownId <= 0 ? null : _townRepository.Get(view.TownId);
+                if (town != null)
+                {
+                    view.District = town.DistrictName;
+                    view.Town = town.TownName;
+                }
+            });
+            return views;
+        }
     }
 }
