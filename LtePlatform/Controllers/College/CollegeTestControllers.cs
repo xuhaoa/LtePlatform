@@ -26,7 +26,8 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("3G测试记录")]
         public IEnumerable<College3GTestView> GetViews(DateTime begin, DateTime end, string name)
         {
-            return _service.GetViews(begin, end, name);
+            var endDate = end.AddDays(1);
+            return _service.GetViews(begin, endDate, name);
         }
 
         [HttpGet]
@@ -98,7 +99,8 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("4G测试记录集合查询结果，或错误输出信息")]
         public IEnumerable<College4GTestView> GetViews(DateTime begin, DateTime end, string name)
         {
-            return _service.GetResult(begin, end, name);
+            var endDate = end.AddDays(1);
+            return _service.GetResult(begin, endDate, name);
         }
 
         [HttpGet]

@@ -30,7 +30,8 @@ namespace Lte.Evaluations.DataService.College
             var college = _collegeRepository.GetByName(name);
             if (college == null) return new List<College3GTestView>();
             var results =
-                _repository.GetAllList(x => x.TestTime >= begin && x.TestTime < end).MapTo<List<College3GTestView>>();
+                _repository.GetAllList(x => x.TestTime >= begin && x.TestTime < end && x.CollegeId == college.Id)
+                    .MapTo<List<College3GTestView>>();
             results.ForEach(x=>x.CollegeName=name);
             return results;
         }
