@@ -153,6 +153,14 @@
                     north: range.north
                 });
             },
+            queryRangePlanningSites: function (range) {
+                return generalHttpService.getApiData('PlanningSite', {
+                    west: range.west,
+                    east: range.east,
+                    south: range.south,
+                    north: range.north
+                });
+            },
             queryRangeENodebs: function(container) {
                 return generalHttpService.postApiData('ENodeb', container);
             },

@@ -1253,8 +1253,24 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('trace.planning.dialog', function($scope, $uibModalInstance, collegeName) {
+    .controller('trace.planning.dialog', function($scope, $uibModalInstance, collegeName,
+    geometryService, collegeService, networkElementService, collegeMapService) {
         $scope.dialogTitle = collegeName + "校园网规划站点跟踪";
+
+        collegeMapService.queryCenterAndCallback(collegeName, function(center) {
+            geometryService.transformToBaidu(center.X, center.Y).then(function (coors) {
+                collegeService.queryRange(collegeName).then(function (range) {
+                    networkElementService.queryRangePlanningSites({
+                        west: range.west + center.X - coors.x,
+                        east: range.east + center.X - coors.x,
+                        south: range.south + center.Y - coors.y,
+                        north: range.north + center.Y - coors.y
+                    }).then(function (results) {
+                        console.log(results);
+                    });
+                });
+            });
+        });
 
         $scope.ok = function () {
             $uibModalInstance.close($("#reports").html());
