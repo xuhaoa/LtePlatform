@@ -453,6 +453,24 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
+            tracePlanning: function (collegeName, callback) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: collegeTestPath + 'Planning.html',
+                    controller: 'trace.planning.dialog',
+                    size: 'lg',
+                    resolve: {
+                        collegeName: function () {
+                            return collegeName;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (info) {
+                    callback(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
             showCollegDialog: function(college) {
                 var modalInstance = $uibModal.open({
                     animation: true,

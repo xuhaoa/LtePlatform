@@ -171,6 +171,13 @@ angular.module('customer.emergency', ['customer.service'])
                         $scope.query();
                     });
                 });
+            } else if ($scope.collegeName && item.vipStateDescription === '测试评估') {
+                collegeDialogService.tracePlanning($scope.collegeName, function (info) {
+                    item.processInfo = info;
+                    emergencyService.finishVipProcess(item).then(function () {
+                        $scope.query();
+                    });
+                });
             } else {
                 emergencyService.finishVipProcess(item).then(function() {
                     $scope.query();

@@ -435,6 +435,7 @@
     <Content Include="appViews\College\Table\CollegeCellInfoBox.html" />
     <Content Include="appViews\College\Test\CollegeFlow.html" />
     <Content Include="appViews\College\Test\Flow.html" />
+    <Content Include="appViews\College\Test\Planning.html" />
     <Content Include="appViews\College\Test\Process.html" />
     <Content Include="appViews\Customer\Complain\Adjust.html" />
     <Content Include="appViews\Customer\Complain\Branch.html" />

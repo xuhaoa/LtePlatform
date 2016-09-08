@@ -1253,6 +1253,17 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
+    .controller('trace.planning.dialog', function($scope, $uibModalInstance, collegeName) {
+        $scope.dialogTitle = collegeName + "校园网规划站点跟踪";
+
+        $scope.ok = function () {
+            $uibModalInstance.close($("#reports").html());
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .controller('map.college.dialog', function ($scope, $uibModalInstance, college, dialogTitle,
         collegeQueryService, generalChartService, parametersChartService, emergencyService) {
         $scope.college = college;
