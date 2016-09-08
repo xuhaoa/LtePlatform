@@ -62,5 +62,6 @@ namespace Lte.MySqlFramework.Concrete
 
         public DbSet<CollegeKpi> CollegeKpis { get; set; }
 
+        public DbSet<PlanningSite> PlanningSites { get; set; }
     }
 }

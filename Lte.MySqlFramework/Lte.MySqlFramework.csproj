@@ -134,13 +134,13 @@
     <Compile Include="Entities\TopConnection3GCell.cs" />
     <Compile Include="Entities\TopDrop2GCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201608050836340_Move_College_Test_Entity.cs" />
-    <Compile Include="Migrations\201608050836340_Move_College_Test_Entity.Designer.cs">
-      <DependentUpon>201608050836340_Move_College_Test_Entity.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201608240729210_Extend_College_Test.cs" />
     <Compile Include="Migrations\201608240729210_Extend_College_Test.Designer.cs">
       <DependentUpon>201608240729210_Extend_College_Test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609080535585_Add_PlanningSite.cs" />
+    <Compile Include="Migrations\201609080535585_Add_PlanningSite.Designer.cs">
+      <DependentUpon>201609080535585_Add_PlanningSite.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -150,11 +150,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608050836340_Move_College_Test_Entity.resx">
-      <DependentUpon>201608050836340_Move_College_Test_Entity.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608240729210_Extend_College_Test.resx">
       <DependentUpon>201608240729210_Extend_College_Test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609080535585_Add_PlanningSite.resx">
+      <DependentUpon>201609080535585_Add_PlanningSite.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
