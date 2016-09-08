@@ -3,7 +3,6 @@ using Lte.Domain.Common;
 using Lte.Evaluations.MockItems;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
-using Lte.Parameters.Entities.ExcelCsv;
 using NUnit.Framework;
 using Shouldly;
 

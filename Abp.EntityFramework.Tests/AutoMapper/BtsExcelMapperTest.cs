@@ -3,7 +3,6 @@ using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Parameters.Entities.Basic;
-using Lte.Parameters.Entities.ExcelCsv;
 using NUnit.Framework;
 using Shouldly;
 

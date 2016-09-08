@@ -9,6 +9,7 @@ using Lte.Domain.LinqToCsv.Description;
 using Lte.Domain.Regular;
 using Lte.Evaluations.Policy;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Kpi;
 using NUnit.Framework;
 
 namespace Lte.Evaluations.DataService.Kpi

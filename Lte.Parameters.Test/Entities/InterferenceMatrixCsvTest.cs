@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
-using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.Entities.Mr;
 using NUnit.Framework;
 

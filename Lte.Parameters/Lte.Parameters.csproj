@@ -201,7 +201,7 @@
     <Compile Include="Concrete\Switch\IntraFreqHoGroupRepository.cs" />
     <Compile Include="Concrete\Switch\IntraRatHoCommRepository.cs" />
     <Compile Include="Concrete\Switch\UeEUtranMeasurementRepository.cs" />
-    <Compile Include="Entities\AlarmStat.cs" />
+    <Compile Include="Entities\Kpi\AlarmStat.cs" />
     <Compile Include="Entities\Basic\CellHuaweiMongo.cs" />
     <Compile Include="Entities\Basic\CommonFormats.cs" />
     <Compile Include="Entities\Basic\Cell.cs" />
@@ -209,13 +209,11 @@
     <Compile Include="Abstract\IAlarmRepository.cs" />
     <Compile Include="Entities\Dt\DtFilesInfo.cs" />
     <Compile Include="Entities\Basic\ENodeb.cs" />
-    <Compile Include="Entities\ExcelCsv\ENodebExcel.cs" />
     <Compile Include="Entities\Dt\FileRecords.cs" />
     <Compile Include="Entities\IndoorDistribution.cs" />
     <Compile Include="Entities\IndoorDistributionExcel.cs" />
     <Compile Include="Entities\InfrastructureDefs.cs" />
     <Compile Include="Entities\InfrastructureInfo.cs" />
-    <Compile Include="Entities\ExcelCsv\LteCellRelationCsv.cs" />
     <Compile Include="Entities\Mr\InterferenceMatrixStat.cs" />
     <Compile Include="Entities\Neighbor\EutranInterNFreq.cs" />
     <Compile Include="Entities\Neighbor\EutranIntraFreqNCell.cs" />

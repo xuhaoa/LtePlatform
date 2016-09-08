@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
-using Lte.Parameters.Entities.ExcelCsv;
+using Lte.Parameters.Entities.Neighbor;
 using NUnit.Framework;
 
 namespace Lte.Parameters.Test.Entities

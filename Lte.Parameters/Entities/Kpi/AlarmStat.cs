@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
-using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToCsv;
-using Lte.Domain.Regular;
 using Lte.Domain.Regular.Attributes;
-using Lte.Parameters.Entities.ExcelCsv;
 
-namespace Lte.Parameters.Entities
+namespace Lte.Parameters.Entities.Kpi
 {
     [TypeDoc("告警统计实体（在Sqlserver数据库中）")]
     [AutoMapFrom(typeof(AlarmStatCsv), typeof(AlarmStatHuawei))]

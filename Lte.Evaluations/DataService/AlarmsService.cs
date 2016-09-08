@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToCsv.Context;
@@ -11,8 +9,7 @@ using Lte.Domain.LinqToCsv.Description;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.ViewModels;
 using Lte.Parameters.Abstract;
-using Lte.Parameters.Entities;
-using Lte.Parameters.Entities.ExcelCsv;
+using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.DataService
 {

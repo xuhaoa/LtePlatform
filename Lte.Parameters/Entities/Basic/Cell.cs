@@ -5,7 +5,6 @@ using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
-using Lte.Parameters.Entities.ExcelCsv;
 
 namespace Lte.Parameters.Entities.Basic
 {

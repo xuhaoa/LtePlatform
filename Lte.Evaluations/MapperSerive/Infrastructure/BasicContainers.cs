@@ -6,7 +6,6 @@ using Lte.Domain.Regular;
 using Lte.Domain.Regular.Attributes;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Entities.Basic;
-using Lte.Parameters.Entities.ExcelCsv;
 using Lte.Parameters.Entities.Neighbor;
 
 namespace Lte.Evaluations.MapperSerive.Infrastructure

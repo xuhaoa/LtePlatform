@@ -5,9 +5,7 @@ using AutoMapper;
 using Lte.Evaluations.DataService.Dump;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Parameters.Abstract;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
-using Lte.Parameters.Entities.ExcelCsv;
 using LtePlatform.Models;
 
 namespace LtePlatform.Areas.TestPage.Controllers

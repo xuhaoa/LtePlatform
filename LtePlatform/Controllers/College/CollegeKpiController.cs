@@ -7,6 +7,7 @@ using Lte.Evaluations.ViewModels.College;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Kpi;
 using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.College

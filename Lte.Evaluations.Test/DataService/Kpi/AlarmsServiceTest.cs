@@ -12,6 +12,7 @@ using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Kpi;
 using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;

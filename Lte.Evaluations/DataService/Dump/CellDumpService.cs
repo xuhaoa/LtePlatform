@@ -6,14 +6,11 @@ using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.Basic;
-using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
-using Lte.Parameters.Entities.ExcelCsv;
 
 namespace Lte.Evaluations.DataService.Dump
 {

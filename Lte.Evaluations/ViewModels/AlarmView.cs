@@ -9,6 +9,7 @@ using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using Lte.Domain.Regular.Attributes;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.ViewModels
 {

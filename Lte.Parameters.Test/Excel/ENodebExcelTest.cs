@@ -3,8 +3,7 @@ using System.IO;
 using System.Linq;
 using Lte.Domain.LinqToExcel;
 using Lte.Domain.Test.LinqToExcel;
-using Lte.Parameters.Entities;
-using Lte.Parameters.Entities.ExcelCsv;
+using Lte.Parameters.Entities.Basic;
 using NUnit.Framework;
 using Shouldly;
 

@@ -2,7 +2,7 @@
 using System.Web.Http;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.DataService.Dump;
-using Lte.Parameters.Entities.ExcelCsv;
+using Lte.Parameters.Entities.Basic;
 
 namespace LtePlatform.Controllers.Parameters
 {
