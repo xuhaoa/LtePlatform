@@ -126,10 +126,9 @@
     <Compile Include="Entities\DownSwitchFlow.cs" />
     <Compile Include="Entities\EmergencyCommunication.cs" />
     <Compile Include="Entities\FlowHuawei.cs" />
-    <Compile Include="Entities\FlowHuaweiCsv.cs" />
     <Compile Include="Entities\FlowZte.cs" />
-    <Compile Include="Entities\FlowZteCsv.cs" />
     <Compile Include="Entities\OnlineSustain.cs" />
+    <Compile Include="Entities\PlanningSite.cs" />
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopConnection3GCell.cs" />
