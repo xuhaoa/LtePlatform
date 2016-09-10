@@ -64,6 +64,15 @@
     <Compile Include="mr\customize_utilities.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="oop\note.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="oop\note_test.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="oop\Point_Test.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Practise\fork1.py">
       <SubType>Code</SubType>
     </Compile>
@@ -98,6 +107,7 @@
   <ItemGroup>
     <Folder Include="mr\" />
     <Folder Include="Db\" />
+    <Folder Include="oop\" />
     <Folder Include="Practise\" />
     <Folder Include="phpApi\" />
   </ItemGroup>
