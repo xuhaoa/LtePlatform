@@ -64,7 +64,19 @@
     <Compile Include="mr\customize_utilities.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="oop\get_valid_input_test.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="oop\House.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="oop\house_test.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="oop\note.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="oop\note_menu.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="oop\note_test.py">
