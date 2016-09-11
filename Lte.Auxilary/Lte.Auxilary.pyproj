@@ -57,7 +57,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="mr\hwMrDownloadAndAnalysis.py" />
+    <Compile Include="mr\mro_reader_test.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\mr_script.py" />
+    <Compile Include="mr\mr_service.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\time_test.py">
       <SubType>Code</SubType>
     </Compile>

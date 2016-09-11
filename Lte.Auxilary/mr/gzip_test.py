@@ -59,6 +59,7 @@ for item in root.iterchildren():
                             item_dict.update({'Ta': _item_sub_dict['LteScTadv']})
                             centerFilled=True
                     item_dict.update({'NeighborList': neighbor_list})
+                    print(item_dict)
                     update_ta_distribution(ta_distribution,item_dict)
             print(ta_distribution)
 gFile.close()
