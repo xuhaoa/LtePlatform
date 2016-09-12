@@ -53,9 +53,23 @@ class MroReader:
         return list(map(lambda item: {
             'CellId': item['id'],
             'NeighborPci': item['NeighborList'][index-1]['Pci'],
-            'RsrpDiff': item['Rsrp']-item['NeighborList'][index-1]['Rsrp']
+            'RsrpDiff': item['Rsrp']-item['NeighborList'][index-1]['Rsrp'],
+            'Pci': item['Pci']
         }, measureList))
 
     def map_rsrp_diff(self):
         diff_list=list(map(lambda index: self._map_neighbor_rsrp_diff(index+1), list(range(6))))
-        return DataFrame(reduce(lambda first,second: first+second,diff_list,[]))
+        combined_list=reduce(lambda first,second: first+second,diff_list,[])
+        stat_list=list(map(lambda item: {
+            'CellId': item['CellId'],
+            'NeighborPci': item['NeighborPci'],
+            'Pci': item['Pci'],
+            'Diff0': 1 if item['RsrpDiff']<=0 else 0,
+            'Diff3': 1 if item['RsrpDiff']<=3 and item['RsrpDiff']>0 else 0,
+            'Diff6': 1 if item['RsrpDiff']<=6 and item['RsrpDiff']>3 else 0,
+            'Diff9': 1 if item['RsrpDiff']<=9 and item['RsrpDiff']>6 else 0,
+            'Diff12': 1 if item['RsrpDiff']<=12 and item['RsrpDiff']>9 else 0,
+            'DiffLarge': 1 if item['RsrpDiff']>12 else 0
+        }, combined_list))
+        df = DataFrame(stat_list)
+        return df.groupby(['CellId','Pci','NeighborPci']).sum().reset_index()

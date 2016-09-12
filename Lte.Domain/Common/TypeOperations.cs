@@ -394,7 +394,7 @@ namespace Lte.Domain.Common
     {
         protected override int ResolveCore(string source)
         {
-            return source.GetSubStringInFirstPairOfChars('[', ']').ConvertToInt(1);
+            return string.IsNullOrEmpty(source) ? 0 : source.GetSubStringInFirstPairOfChars('[', ']').ConvertToInt(1);
         }
     }
 }
