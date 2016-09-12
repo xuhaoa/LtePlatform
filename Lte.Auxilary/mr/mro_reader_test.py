@@ -25,3 +25,4 @@ for item in root.iterchildren():
             reader.read(item_measurement, item_id)
 
 reader.display()
+print(reader.map_rsrp_diff())

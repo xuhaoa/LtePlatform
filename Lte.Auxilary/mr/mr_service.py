@@ -1,5 +1,8 @@
 from lxml import etree
 import dateutil.parser
+from pandas import DataFrame, Series
+import pandas as pd
+from functools import reduce
 
 class MroReader:
     def __init__(self, afilter, **kwargs):
@@ -37,6 +40,22 @@ class MroReader:
                         item_dict.update({'Rsrp': _item_sub_dict['LteScRSRP']})
                         item_dict.update({'SinrUl': _item_sub_dict['LteScSinrUL']})
                         item_dict.update({'Ta': _item_sub_dict['LteScTadv']})
+                        item_dict.update({'Pci': _item_sub_dict['LteScPci']})
                         centerFilled=True
                 item_dict.update({'NeighborList': neighbor_list})
                 self.item_dicts.append(item_dict)
+
+    def _filter_by_neighbor_len(self, length):
+        return list(filter(lambda x: True if len(x['NeighborList'])==length else False, self.item_dicts))
+
+    def _map_neighbor_rsrp_diff(self, index):
+        measureList=self._filter_by_neighbor_len(index)
+        return list(map(lambda item: {
+            'CellId': item['id'],
+            'NeighborPci': item['NeighborList'][index-1]['Pci'],
+            'RsrpDiff': item['Rsrp']-item['NeighborList'][index-1]['Rsrp']
+        }, measureList))
+
+    def map_rsrp_diff(self):
+        diff_list=list(map(lambda index: self._map_neighbor_rsrp_diff(index+1), list(range(6))))
+        return DataFrame(reduce(lambda first,second: first+second,diff_list,[]))
