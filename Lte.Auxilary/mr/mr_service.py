@@ -54,7 +54,9 @@ class MroReader:
             'CellId': item['id'],
             'NeighborPci': item['NeighborList'][index-1]['Pci'],
             'RsrpDiff': item['Rsrp']-item['NeighborList'][index-1]['Rsrp'],
-            'Pci': item['Pci']
+            'Rsrp': item['Rsrp'],
+            'Pci': item['Pci'],
+            'Ta': item['Ta']
         }, measureList))
 
     def map_rsrp_diff(self):
@@ -69,7 +71,25 @@ class MroReader:
             'Diff6': 1 if item['RsrpDiff']<=6 and item['RsrpDiff']>3 else 0,
             'Diff9': 1 if item['RsrpDiff']<=9 and item['RsrpDiff']>6 else 0,
             'Diff12': 1 if item['RsrpDiff']<=12 and item['RsrpDiff']>9 else 0,
-            'DiffLarge': 1 if item['RsrpDiff']>12 else 0
+            'DiffLarge': 1 if item['RsrpDiff']>12 else 0,
+            'RsrpBelow120': 1 if item['Rsrp']<20 else 0,
+            'RsrpBetween120110': 1 if item['Rsrp']<30 and item['Rsrp']>=20 else 0,
+            'RsrpBetween110105': 1 if item['Rsrp']<35 and item['Rsrp']>=30 else 0,
+            'RsrpBetween105100': 1 if item['Rsrp']<40 and item['Rsrp']>=35 else 0,
+            'RsrpBetween10090': 1 if item['Rsrp']<50 and item['Rsrp']>=40 else 0,
+            'RsrpAbove90': 1 if item['Rsrp']>=50 else 0,
+            'Ta0or1': 1 if item['Ta']==0 or item['Ta']==1 else 0,
+            'Ta2or3': 1 if item['Ta']==2 or item['Ta']==3 else 0,
+            'Ta4or5': 1 if item['Ta']==4 or item['Ta']==5 else 0,
+            'Ta6or7': 1 if item['Ta']==6 or item['Ta']==7 else 0,
+            'Ta8or9': 1 if item['Ta']==8 or item['Ta']==9 else 0,
+            'Ta10to12': 1 if item['Ta']>=10 and item['Ta']<=12 else 0,
+            'Ta13to15': 1 if item['Ta']>=13 and item['Ta']<=15 else 0,
+            'Ta16to19': 1 if item['Ta']>=16 and item['Ta']<=19 else 0,
+            'Ta20to24': 1 if item['Ta']>=20 and item['Ta']<=24 else 0,
+            'Ta25to29': 1 if item['Ta']>=25 and item['Ta']<=29 else 0,
+            'Ta30to39': 1 if item['Ta']>=30 and item['Ta']<=39 else 0,
+            'TaAbove40': 1 if item['Ta']>=40 else 0
         }, combined_list))
         df = DataFrame(stat_list)
         return df.groupby(['CellId','Pci','NeighborPci']).sum().reset_index()
