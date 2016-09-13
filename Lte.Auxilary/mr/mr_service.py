@@ -56,7 +56,8 @@ class MroReader:
             'RsrpDiff': item['Rsrp']-item['NeighborList'][index-1]['Rsrp'],
             'Rsrp': item['Rsrp'],
             'Pci': item['Pci'],
-            'Ta': item['Ta']
+            'Ta': item['Ta'],
+            'SinrUl': item['SinrUl']
         }, measureList))
 
     def map_rsrp_diff(self):
@@ -89,7 +90,13 @@ class MroReader:
             'Ta20to24': 1 if item['Ta']>=20 and item['Ta']<=24 else 0,
             'Ta25to29': 1 if item['Ta']>=25 and item['Ta']<=29 else 0,
             'Ta30to39': 1 if item['Ta']>=30 and item['Ta']<=39 else 0,
-            'TaAbove40': 1 if item['Ta']>=40 else 0
+            'TaAbove40': 1 if item['Ta']>=40 else 0,
+            'SinrUl0to9': 1 if item['SinrUl']>=0 and item['SinrUl']<=9 else 0,
+            'SinrUl10to19': 1 if item['SinrUl']>=10 and item['SinrUl']<=19 else 0,
+            'SinrUl20to24': 1 if item['SinrUl']>=20 and item['SinrUl']<=24 else 0,
+            'SinrUl25to29': 1 if item['SinrUl']>=25 and item['SinrUl']<=29 else 0,
+            'SinrUl30to34': 1 if item['SinrUl']>=30 and item['SinrUl']<=34 else 0,
+            'SinrUlAbove35': 1 if item['SinrUl']>=35 else 0
         }, combined_list))
         df = DataFrame(stat_list)
         return df.groupby(['CellId','Pci','NeighborPci']).sum().reset_index()

@@ -64,6 +64,9 @@
     <Compile Include="mr\mr_service.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mr\process_huawei_mro.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\time_test.py">
       <SubType>Code</SubType>
     </Compile>
@@ -143,6 +146,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\huawei_download_mro_124.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\process_huawei_mro.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Practise\ftp_test.py" />
