@@ -6,8 +6,6 @@ from pymongo import MongoClient
 from customize_utilities import *
 
 db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
-_DFlist = list(db['DFlist'].find({}, {'dfName': 1, '_id': 0}))      
-DFList = [item.get('dfName') for item in _DFlist]
 
 HOST_HW = ['132.122.152.115', '132.122.152.112', '132.122.152.124']  
 host_ip = '132.122.152.124'
@@ -18,6 +16,8 @@ if not os.path.isdir('huawei_mro'):
     os.mkdir('huawei_mro')
 os.chdir('huawei_mro')
 date_dir=generate_date_twohours_ago()
+_DFlist = list(db['DFlist_'+date_dir].find({}, {'dfName': 1, '_id': 0}))      
+DFList = [item.get('dfName') for item in _DFlist]
 if not os.path.isdir(date_dir):
     os.mkdir(date_dir)
 os.chdir(date_dir)
@@ -71,7 +71,7 @@ try:
                                 host.download(name, name)
                                 times=3
                                 DFList.append(name)
-                                db['DFlist'].insert({'dfName': name})
+                                db['DFlist_'+date_dir].insert({'dfName': name})
                                 print('Download finished: ', host_ip, '/', os.path.join(root, name))
                             except:
                                 times+=1
