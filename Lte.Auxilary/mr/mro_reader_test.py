@@ -18,12 +18,16 @@ root = etree.fromstring(gFile.read())
 for item in root.iterchildren():
     item_key = []
     if item.tag == 'fileHeader':
-        startTime= item.attrib['startTime']
-        print(dateutil.parser.parse(startTime))
+        startTime= dateutil.parser.parse(item.attrib['startTime'])
+        print(startTime)
     elif item.tag == 'eNB':
         item_id = item.attrib.get('id')
         for item_measurement in item.iterchildren():
             reader.read(item_measurement, item_id)
 stat=reader.map_rsrp_diff()
-mro_output=json.loads(stat.T.to_json())
-print(mro_output.values())
+mro_output=json.loads(stat.T.to_json()).values()
+print(startTime)
+for item in mro_output:
+    item.update({'StartTime': startTime})
+
+print(mro_output)

@@ -3,6 +3,7 @@ import dateutil.parser
 from pandas import DataFrame, Series
 import pandas as pd
 from functools import reduce
+import json
 
 class MroReader:
     def __init__(self, afilter, **kwargs):
@@ -50,6 +51,8 @@ class MroReader:
 
     def _map_neighbor_rsrp_diff(self, index):
         measureList=self._filter_by_neighbor_len(index)
+        if len(measureList)==0:
+            return []
         return list(map(lambda item: {
             'CellId': item['id'],
             'NeighborPci': item['NeighborList'][index-1]['Pci'],
@@ -63,6 +66,8 @@ class MroReader:
     def map_rsrp_diff(self):
         diff_list=list(map(lambda index: self._map_neighbor_rsrp_diff(index+1), list(range(6))))
         combined_list=reduce(lambda first,second: first+second,diff_list,[])
+        if len(combined_list)==0:
+            return []
         stat_list=list(map(lambda item: {
             'CellId': item['CellId'],
             'NeighborPci': item['NeighborPci'],
@@ -99,4 +104,5 @@ class MroReader:
             'SinrUlAbove35': 1 if item['SinrUl']>=35 else 0
         }, combined_list))
         df = DataFrame(stat_list)
-        return df.groupby(['CellId','Pci','NeighborPci']).sum().reset_index()
+        stat=df.groupby(['CellId','Pci','NeighborPci']).sum().reset_index()
+        return json.loads(stat.T.to_json()).values()
