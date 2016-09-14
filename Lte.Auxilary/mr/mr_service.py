@@ -22,10 +22,7 @@ class MroReader:
             else:
                 centerFilled=False
                 item_dict = {}
-                item_dict.update({'eNodebId': int(item_id)})
                 item_dict.update(item_element.attrib)
-                if item_dict.get('TimeStamp'):
-                    item_dict.update({'TimeStamp': dateutil.parser.parse(item_dict.get('TimeStamp'))})
                 neighbor_list=[]
                 for item_v in item_element:
                     item_value = item_v.text.replace('NIL', '-1').split(' ')
@@ -34,7 +31,6 @@ class MroReader:
                     if _item_sub_dict['LteNcPci']>0:
                         _neighbor={}
                         _neighbor.update({'Pci': _item_sub_dict['LteNcPci']})
-                        _neighbor.update({'Earfcn': _item_sub_dict['LteNcEarfcn']})
                         _neighbor.update({'Rsrp': _item_sub_dict['LteNcRSRP']})
                         neighbor_list.append(_neighbor)
                     if not centerFilled:

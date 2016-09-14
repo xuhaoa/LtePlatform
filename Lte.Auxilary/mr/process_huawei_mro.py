@@ -15,13 +15,20 @@ afilter = ['Qci', 'Utra', 'Gsm', 'Tdd']
 _startTime=''
 db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
 
+if db['mro_'+date_dir].index_information().get('Pci_1')==None:
+    db['mro_'+date_dir].create_index([("Pci", pymongo.ASCENDING)],background=True)
+
 for root, dirs_no, files in os.walk(date_dir):
     currrent_dir=os.path.join(root, '')
     for name in files:
+        if not name.endswith('0000.xml.gz'):
+            continue
         reader=MroReader(afilter)
+        print(datetime.datetime.now())
         gFile=gzip.GzipFile(currrent_dir + name, 'r')
         root = etree.fromstring(gFile.read())
         item_id=''
+        print(datetime.datetime.now())
         for item in root.iterchildren():
             item_key = []
             if item.tag == 'fileHeader':
@@ -30,11 +37,13 @@ for root, dirs_no, files in os.walk(date_dir):
                 item_id = item.attrib.get('id')
                 for item_measurement in item.iterchildren():
                     reader.read(item_measurement, item_id)
+        print(datetime.datetime.now())
         if (item_id!=''):
             mro_output=reader.map_rsrp_diff()
             if len(mro_output)>0:
                 for item in mro_output:
                     item.update({'StartTime': startTime})
                 db['mro_'+date_dir].insert_many(mro_output)
-            print('insert from ', currrent_dir + name)
+        print(datetime.datetime.now())
+        print('insert from ', currrent_dir + name)
         os.remove(currrent_dir + name)
