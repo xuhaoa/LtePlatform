@@ -4,7 +4,6 @@ import gzip
 from lxml import etree
 import dateutil.parser
 from mr_service import MroReader
-import json
 
 os.chdir('D:\\LtePlatform\\Lte.Auxilary\\mr')
 os.listdir('D:\\LtePlatform\\Lte.Auxilary\\mr')
@@ -24,8 +23,7 @@ for item in root.iterchildren():
         item_id = item.attrib.get('id')
         for item_measurement in item.iterchildren():
             reader.read(item_measurement, item_id)
-stat=reader.map_rsrp_diff()
-mro_output=json.loads(stat.T.to_json()).values()
+mro_output=reader.map_rsrp_diff()
 print(startTime)
 for item in mro_output:
     item.update({'StartTime': startTime})

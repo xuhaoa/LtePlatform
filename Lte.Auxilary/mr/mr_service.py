@@ -22,7 +22,6 @@ class MroReader:
             else:
                 centerFilled=False
                 item_dict = {}
-                item_dict.update(item_element.attrib)
                 neighbor_list=[]
                 for item_v in item_element:
                     item_value = item_v.text.replace('NIL', '-1').split(' ')
@@ -33,14 +32,18 @@ class MroReader:
                         _neighbor.update({'Pci': _item_sub_dict['LteNcPci']})
                         _neighbor.update({'Rsrp': _item_sub_dict['LteNcRSRP']})
                         neighbor_list.append(_neighbor)
+                    else:
+                        break
                     if not centerFilled:
+                        item_dict.update(item_element.attrib)
                         item_dict.update({'Rsrp': _item_sub_dict['LteScRSRP']})
                         item_dict.update({'SinrUl': _item_sub_dict['LteScSinrUL']})
                         item_dict.update({'Ta': _item_sub_dict['LteScTadv']})
                         item_dict.update({'Pci': _item_sub_dict['LteScPci']})
                         centerFilled=True
-                item_dict.update({'NeighborList': neighbor_list})
-                self.item_dicts.append(item_dict)
+                if len(neighbor_list)>0:
+                    item_dict.update({'NeighborList': neighbor_list})
+                    self.item_dicts.append(item_dict)
 
     def _filter_by_neighbor_len(self, length):
         return list(filter(lambda x: True if len(x['NeighborList'])==length else False, self.item_dicts))
