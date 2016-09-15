@@ -26,57 +26,14 @@ print(host_ip)
 try:
     print("######")
     host = ftputil.FTPHost(host_ip, 'ouyh18', 'O123#')
+    downloader=MrDownloader(host,sub_ips,DFList,db,host_ip)
     for folder in FOLDER_HW:
         ftpdir=generate_time_dir(prefix = folder)
         print(ftpdir)
-        for root, dirs, files in host.walk(ftpdir):
-            sub_ip=root.split('/')[-1]
-            if sub_ip not in sub_ips:
-                continue
-            host.chdir(root)                
-            for name in files:
-                print(name)
-                if name.endswith('.gz') and is_foshan_filename(name) and is_mre_filename(name): 
-                    if name in DFList:
-                        pass
-                    else:
-                        times=0
-                        while times<3:
-                            try:
-                                host.download(name, name)
-                                times=3
-                                DFList.append(name)
-                                db['DFlist'].insert({'dfName': name})
-                                print('Download finished: ', host_ip, '/', os.path.join(root, name))
-                            except:
-                                times+=1
-                                print('Times: '+ times)
-                                continue
+        downloader.download(ftpdir)
         ftpdir=generate_time_dir_shift(prefix = folder, shift=-3)
         print(ftpdir)
-        for root, dirs, files in host.walk(ftpdir):
-            sub_ip=root.split('/')[-1]
-            if sub_ip not in sub_ips:
-                continue
-            host.chdir(root)                
-            for name in files:
-                print(name)
-                if name.endswith('.gz') and is_foshan_filename(name) and is_mro_filename(name): 
-                    if name in DFList:
-                        pass
-                    else:
-                        times=0
-                        while times<3:
-                            try:
-                                host.download(name, name)
-                                times=3
-                                DFList.append(name)
-                                db['DFlist_'+date_dir].insert({'dfName': name})
-                                print('Download finished: ', host_ip, '/', os.path.join(root, name))
-                            except:
-                                times+=1
-                                print('Times: '+ times)
-                                continue
+        downloader.download(ftpdir)
     host.close()
 except:
     print('Cannot connect to', host_ip)

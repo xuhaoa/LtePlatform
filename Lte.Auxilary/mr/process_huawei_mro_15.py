@@ -24,7 +24,7 @@ except:
 for root, dirs_no, files in os.walk('/home/wireless/huawei_mro/'+date_dir):
     currrent_dir=os.path.join(root, '')
     for name in files:
-        if not name.endswith('0000.xml.gz'):
+        if not name.endswith('1500.xml.gz'):
             continue
         reader=MroReader(afilter)
         gFile=gzip.GzipFile(currrent_dir + name, 'r')

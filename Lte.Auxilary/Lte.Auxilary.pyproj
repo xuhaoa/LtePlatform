@@ -67,6 +67,15 @@
     <Compile Include="mr\process_huawei_mro.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mr\process_huawei_mro_15.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mr\process_huawei_mro_30.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mr\process_huawei_mro_45.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\time_test.py">
       <SubType>Code</SubType>
     </Compile>
@@ -149,6 +158,15 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\process_huawei_mro.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\process_huawei_mro_15.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\process_huawei_mro_30.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\process_huawei_mro_45.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Practise\ftp_test.py" />

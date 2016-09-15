@@ -1,4 +1,8 @@
 import datetime
+import os
+import ftputil
+import pymongo
+from pymongo import MongoClient
 
 def generate_time_dir(now=datetime.datetime.now(), prefix = "/MR_HW_SOURCE_D/"):
     time_delta=datetime.timedelta(hours=-2)
@@ -28,3 +32,38 @@ def is_mro_filename(name):
 def is_mre_filename(name):
     type=name.split('_')[-4]
     return type=='MRE'
+
+class MrDownloader:
+    def __init__(self, host, sub_ips, DFList, db, host_ip):
+        self.host=host
+        self.sub_ips=sub_ips
+        self.DFList=DFList
+        self.db=db
+        self.host_ip=host_ip
+
+    def download(self, ftpdir):
+        for root, dirs, files in self.host.walk(ftpdir):
+            sub_ip=root.split('/')[-1]
+            if sub_ip not in self.sub_ips:
+                continue
+            print('The current IP:', sub_ip)
+            print('The root directory:', root)
+            self.host.chdir(root)                
+            for name in files:
+                print(name)
+                if name.endswith('.gz') and is_foshan_filename(name) and is_mro_filename(name): 
+                    if name in self.DFList:
+                        pass
+                    else:
+                        times=0
+                        while times<3:
+                            try:
+                                self.host.download(name, name)
+                                times=3
+                                self.DFList.append(name)
+                                self.db['DFlist'].insert({'dfName': name})
+                                print('Download finished: ', self.host_ip, '/', os.path.join(root, name))
+                            except:
+                                times+=1
+                                print('Times: '+ times)
+                                continue
