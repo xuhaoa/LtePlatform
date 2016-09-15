@@ -30,10 +30,10 @@ try:
     for folder in FOLDER_HW:
         ftpdir=generate_time_dir(prefix = folder)
         print(ftpdir)
-        downloader.download(ftpdir)
+        downloader.download_mre(ftpdir)
         ftpdir=generate_time_dir_shift(prefix = folder, shift=-3)
         print(ftpdir)
-        downloader.download(ftpdir)
+        downloader.download_mre(ftpdir)
     host.close()
 except:
     print('Cannot connect to', host_ip)
