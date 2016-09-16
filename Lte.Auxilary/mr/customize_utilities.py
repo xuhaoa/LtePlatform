@@ -21,6 +21,11 @@ def generate_date_twohours_ago(now=datetime.datetime.now()):
     past=now+date_delta
     return past.strftime("%Y%m%d")
 
+def generate_date_hours_shift(now=datetime.datetime.now(),shift=-2):
+    date_delta=datetime.timedelta(hours=shift)
+    past=now+date_delta
+    return past.strftime("%Y%m%d")
+
 def is_foshan_filename(name):
     enodebid=int(name.split('_')[-2])
     return enodebid in range(550912, 552959) or enodebid in range(499712, 503807)

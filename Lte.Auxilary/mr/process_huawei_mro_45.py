@@ -10,7 +10,7 @@ import pymongo
 from pymongo import MongoClient
 
 os.chdir('/home/wireless/huawei_mro')
-date_dir=generate_date_twohours_ago()
+date_dir=generate_date_hours_shift(shift=-4)
 afilter = ['Qci', 'Utra', 'Gsm', 'Tdd']
 _startTime=''
 db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
@@ -27,8 +27,13 @@ for root, dirs_no, files in os.walk('/home/wireless/huawei_mro/'+date_dir):
         if not name.endswith('4500.xml.gz'):
             continue
         reader=MroReader(afilter)
-        gFile=gzip.GzipFile(currrent_dir + name, 'r')
-        root = etree.fromstring(gFile.read())
+        print(name)
+        try:
+            gFile=gzip.GzipFile(currrent_dir + name, 'r')
+            root = etree.fromstring(gFile.read())
+        except:
+            print('Unzip failed. Continue to unzip other files')
+            continue
         item_id=''
         for item in root.iterchildren():
             item_key = []
