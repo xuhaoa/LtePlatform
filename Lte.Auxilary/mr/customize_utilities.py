@@ -51,6 +51,7 @@ class MrDownloader:
         self.host_ip=host_ip
 
     def download(self, ftpdir):
+        datestr=ftpdir.split('/')[-2]
         for root, dirs, files in self.host.walk(ftpdir):
             sub_ip=root.split('/')[-1]
             if sub_ip not in self.sub_ips:
@@ -70,7 +71,7 @@ class MrDownloader:
                                 self.host.download(name, name)
                                 times=3
                                 self.DFList.append(name)
-                                self.db['DFlist'].insert({'dfName': name})
+                                self.db['DFlist_'+datestr].insert({'dfName': name})
                                 print('Download finished: ', self.host_ip, '/', os.path.join(root, name))
                             except:
                                 times+=1
@@ -78,6 +79,7 @@ class MrDownloader:
                                 continue
 
     def download_mre(self, ftpdir):
+        datestr=ftpdir.split('/')[-2]
         for root, dirs, files in self.host.walk(ftpdir):
             sub_ip=root.split('/')[-1]
             if sub_ip not in self.sub_ips:
@@ -97,7 +99,7 @@ class MrDownloader:
                                 self.host.download(name, name)
                                 times=3
                                 self.DFList.append(name)
-                                self.db['DFlist'].insert({'dfName': name})
+                                self.db['DFlist_'+datestr].insert({'dfName': name})
                                 print('Download finished: ', self.host_ip, '/', os.path.join(root, name))
                             except:
                                 times+=1
@@ -105,6 +107,7 @@ class MrDownloader:
                                 continue
 
     def download_mrs(self, ftpdir):
+        datestr=ftpdir.split('/')[-2]
         for root, dirs, files in self.host.walk(ftpdir):
             sub_ip=root.split('/')[-1]
             if sub_ip not in self.sub_ips:
@@ -124,7 +127,7 @@ class MrDownloader:
                                 self.host.download(name, name)
                                 times=3
                                 self.DFList.append(name)
-                                self.db['DFlist'].insert({'dfName': name})
+                                self.db['DFlist_'+datestr].insert({'dfName': name})
                                 print('Download finished: ', self.host_ip, '/', os.path.join(root, name))
                             except:
                                 times+=1

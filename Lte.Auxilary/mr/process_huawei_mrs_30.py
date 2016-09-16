@@ -23,7 +23,7 @@ for mrName in mrNames:
 for root, dirs_no, files in os.walk('/home/wireless/huawei_mrs/'+date_dir):
     currrent_dir=os.path.join(root, '')
     for name in files:
-        if not name.endswith('0000.xml.gz'):
+        if not name.endswith('3000.xml.gz'):
             continue
         print(name)
         try:
