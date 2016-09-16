@@ -4,6 +4,8 @@ from pandas import DataFrame, Series
 import pandas as pd
 from functools import reduce
 import json
+import pymongo
+from pymongo import MongoClient
 
 class MroReader:
     def __init__(self, afilter, **kwargs):
@@ -105,3 +107,28 @@ class MroReader:
         df = DataFrame(stat_list)
         stat=df.groupby(['CellId','Pci','NeighborPci']).sum().reset_index()
         return json.loads(stat.T.to_json()).values()
+
+class MrsReader:
+    def __init__(self, mrNames, startTime, date_dir, db, **kwargs):
+        self.mrNames=mrNames
+        self.startTime=startTime
+        self.date_dir=date_dir
+        self.db=db
+        return super().__init__(**kwargs)
+
+    def read(self, item_measurement):
+        mrName=item_measurement.attrib['mrName'].replace('MR.','')
+        if mrName in self.mrNames:
+            item_dicts=[]
+            for item_element in item_measurement.iterchildren():
+                if item_element.tag == 'smr':
+                    item_key = item_element.text.replace('MR.', '').replace('.','_').split(' ')
+                else:
+                    item_dict={}
+                    item_dict.update({'CellId': item_element.attrib['id']})
+                    item_value = item_element[0].text.split(' ')
+                    item_dict.update(dict(zip(item_key, map(int, item_value))))
+                    item_dict.update({'StartTime': self.startTime})
+                    item_dicts.append(item_dict)
+            if len(item_dicts)>0:
+                self.db['mrs_'+mrName+'_'+self.date_dir].insert_many(item_dicts)

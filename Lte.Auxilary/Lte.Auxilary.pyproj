@@ -69,6 +69,9 @@
     <Compile Include="mr\mro_reader_test.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mr\mrs_reader_test.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\mr_script.py" />
     <Compile Include="mr\mr_service.py">
       <SubType>Code</SubType>
@@ -83,6 +86,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="mr\process_huawei_mro_45.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mr\process_huawei_mrs.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="mr\time_test.py">
@@ -185,6 +191,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\process_huawei_mro_45.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\process_huawei_mrs.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Practise\ftp_test.py" />
