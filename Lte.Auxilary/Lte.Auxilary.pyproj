@@ -121,6 +121,18 @@
     <Compile Include="mr\process_huawei_mrs_45.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mr\process_zte_mro.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mr\process_zte_mro_15.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mr\process_zte_mro_30.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mr\process_zte_mro_45.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\time_test.py">
       <SubType>Code</SubType>
     </Compile>
@@ -148,6 +160,7 @@
     <Compile Include="oop\Point_Test.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="para\dealzx.py" />
     <Compile Include="Practise\fork1.py">
       <SubType>Code</SubType>
     </Compile>
@@ -182,6 +195,7 @@
   <ItemGroup>
     <Folder Include="mr\" />
     <Folder Include="Db\" />
+    <Folder Include="para\" />
     <Folder Include="oop\" />
     <Folder Include="Practise\" />
     <Folder Include="phpApi\" />
@@ -235,6 +249,18 @@
     <Content Include="mr\process_huawei_mrs_45.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="mr\process_zte_mro.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\process_zte_mro_15.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\process_zte_mro_30.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\process_zte_mro_45.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="mr\zte_download_mre.sh">
       <SubType>Code</SubType>
     </Content>
@@ -253,6 +279,7 @@
     <Content Include="mr\zte_download_mrs_125.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="para\zx.sh" />
     <Content Include="Practise\ftp_test.py" />
     <Content Include="mr\huawei_download_mro.sh" />
     <Content Include="phpApi\encode_json.php" />
