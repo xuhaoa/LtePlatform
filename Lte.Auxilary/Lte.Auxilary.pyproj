@@ -56,6 +56,15 @@
     <Compile Include="mr\ftp_huawei_mrs_124.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mr\ftp_zte.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mr\ftp_zte_125.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mr\ftp_zte_mre.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\gzip_test.py">
       <SubType>Code</SubType>
     </Compile>
@@ -212,6 +221,15 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\process_huawei_mrs_45.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\zte_download_mre.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\zte_download_mro.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\zte_download_mro_125.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Practise\ftp_test.py" />
