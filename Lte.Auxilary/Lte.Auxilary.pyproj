@@ -68,6 +68,12 @@
     <Compile Include="mr\ftp_zte_mre_125.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mr\ftp_zte_mrs.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mr\ftp_zte_mrs_125.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\gzip_test.py">
       <SubType>Code</SubType>
     </Compile>
@@ -236,6 +242,12 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\zte_download_mro_125.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\zte_download_mrs.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\zte_download_mrs_125.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Practise\ftp_test.py" />

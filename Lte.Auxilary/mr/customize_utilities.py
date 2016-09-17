@@ -53,6 +53,10 @@ def is_mrs_filename(name):
     type=name.split('_')[-4]
     return type=='MRS'
 
+def is_mrs_filename_zte(name):
+    type=name.split('_')[-5]
+    return type=='MRS'
+
 class MrDownloader:
     def __init__(self, host, sub_ips, DFList, db, host_ip):
         self.host=host
@@ -185,6 +189,34 @@ class MrDownloader:
             for name in files:
                 print(name)
                 if name.endswith('.gz') and is_foshan_filename(name) and is_mrs_filename(name): 
+                    if name in self.DFList:
+                        pass
+                    else:
+                        times=0
+                        while times<3:
+                            try:
+                                self.host.download(name, name)
+                                times=3
+                                self.DFList.append(name)
+                                self.db['DFlist_'+datestr].insert({'dfName': name})
+                                print('Download finished: ', self.host_ip, '/', os.path.join(root, name))
+                            except:
+                                times+=1
+                                print('Times: '+ times)
+                                continue
+
+    def download_mrs_zte(self, ftpdir):
+        datestr=ftpdir.split('/')[-2]
+        for root, dirs, files in self.host.walk(ftpdir):
+            sub_ip=root.split('/')[-1]
+            if sub_ip not in self.sub_ips:
+                continue
+            print('The current IP:', sub_ip)
+            print('The root directory:', root)
+            self.host.chdir(root)                
+            for name in files:
+                print(name)
+                if name.endswith('.zip') and is_foshan_filename(name) and is_mrs_filename_zte(name): 
                     if name in self.DFList:
                         pass
                     else:
