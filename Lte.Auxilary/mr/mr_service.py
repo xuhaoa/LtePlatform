@@ -29,7 +29,7 @@ class MroReader:
                     item_value = item_v.text.replace('NIL', '-1').split(' ')
                     _item_sub_dict = dict(zip(item_key, map(int, item_value)))
                     _item_sub_dict = {k: v for k, v in _item_sub_dict.items() if not any(ext in k for ext in self.afilter)}
-                    if _item_sub_dict['LteNcPci']>0:
+                    if _item_sub_dict['LteNcPci']>=0:
                         _neighbor={}
                         _neighbor.update({'Pci': _item_sub_dict['LteNcPci']})
                         _neighbor.update({'Rsrp': _item_sub_dict['LteNcRSRP']})
@@ -38,6 +38,38 @@ class MroReader:
                         break
                     if not centerFilled:
                         item_dict.update(item_element.attrib)
+                        item_dict.update({'Rsrp': _item_sub_dict['LteScRSRP']})
+                        item_dict.update({'SinrUl': _item_sub_dict['LteScSinrUL']})
+                        item_dict.update({'Ta': _item_sub_dict['LteScTadv']})
+                        item_dict.update({'Pci': _item_sub_dict['LteScPci']})
+                        centerFilled=True
+                if len(neighbor_list)>0:
+                    item_dict.update({'NeighborList': neighbor_list})
+                    self.item_dicts.append(item_dict)
+
+    def read_zte(self, item_measurement, item_id):
+        for item_element in item_measurement:
+            if item_element.tag == 'smr':
+                item_key = item_element.text.replace('MR.', '').split(' ')
+                if 'LteScEarfcn' not in item_key:
+                    return
+            else:
+                centerFilled=False
+                item_dict = {}
+                neighbor_list=[]
+                for item_v in item_element:
+                    item_value = item_v.text.replace('NIL', '-1').split(' ')
+                    _item_sub_dict = dict(zip(item_key, map(int, item_value)))
+                    _item_sub_dict = {k: v for k, v in _item_sub_dict.items() if not any(ext in k for ext in self.afilter)}
+                    if _item_sub_dict['LteNcPci']>=0:
+                        _neighbor={}
+                        _neighbor.update({'Pci': _item_sub_dict['LteNcPci']})
+                        _neighbor.update({'Rsrp': _item_sub_dict['LteNcRSRP']})
+                        neighbor_list.append(_neighbor)
+                    else:
+                        break
+                    if not centerFilled:
+                        item_dict.update({'id': item_id+'-'+item_element.attrib['MR.objectId']})
                         item_dict.update({'Rsrp': _item_sub_dict['LteScRSRP']})
                         item_dict.update({'SinrUl': _item_sub_dict['LteScSinrUL']})
                         item_dict.update({'Ta': _item_sub_dict['LteScTadv']})
