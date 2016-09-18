@@ -9,7 +9,7 @@ using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Neighbor
 {
-    public class EutranInterNFreq : IEntity<ObjectId>, IHuaweiMongo
+    public class EutranInterNFreq : IEntity<ObjectId>, IHuaweiCellMongo
     {
         public string iDate { get; set; }
 

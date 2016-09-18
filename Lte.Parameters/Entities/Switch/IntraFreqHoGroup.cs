@@ -9,7 +9,7 @@ using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Switch
 {
-    public class IntraFreqHoGroup : IEntity<ObjectId>, IHuaweiMongo
+    public class IntraFreqHoGroup : IEntity<ObjectId>, IHuaweiCellMongo
     {
         public ObjectId Id { get; set; }
 

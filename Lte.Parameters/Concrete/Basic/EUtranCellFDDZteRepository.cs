@@ -33,4 +33,22 @@ namespace Lte.Parameters.Concrete.Basic
             return list.FirstOrDefault(x => x.iDate == recentDate);
         }
     }
+
+    public class PrachFDDZteRepository : MongoDbRepositoryBase<PrachFDDZte, ObjectId>, IPrachFDDZteRepository
+    {
+        public PrachFDDZteRepository(IMongoDatabaseProvider databaseProvider) : base(databaseProvider)
+        {
+            CollectionName = "PrachFDD";
+        }
+
+        public PrachFDDZteRepository() : this(new MyMongoProvider("fangww"))
+        {
+
+        }
+
+        public PrachFDDZte GetRecent(int eNodebId, byte sectorId)
+        {
+            return this.QueryRecent(eNodebId, sectorId);
+        }
+    }
 }

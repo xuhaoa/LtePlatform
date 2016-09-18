@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Abp.MongoDb;
 using Abp.MongoDb.Repositories;
 using Lte.Parameters.Abstract.Neighbor;
+using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Neighbor;
 using MongoDB.Bson;
 
@@ -25,12 +26,7 @@ namespace Lte.Parameters.Concrete.Neighbor
 
         public List<EutranIntraFreqNCell> GetRecentList(int eNodebId, byte localCellId)
         {
-            var query =
-                MongoDB.Driver.Builders.Query<EutranIntraFreqNCell>.Where(
-                    e => e.eNodeB_Id == eNodebId && e.LocalCellId == localCellId);
-            var list = Collection.Find(query).AsQueryable();
-            var recentDate = list.Max(x => x.iDate);
-            return list.Where(x => x.iDate == recentDate).ToList();
+            return this.QueryRecentList(eNodebId, localCellId);
         }
 
         public List<EutranIntraFreqNCell> GetReverseList(int destENodebId, byte destSectorId)
