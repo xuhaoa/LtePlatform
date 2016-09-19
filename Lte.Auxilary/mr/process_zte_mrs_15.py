@@ -3,29 +3,28 @@ import io
 import zipfile
 from lxml import etree
 import dateutil.parser
-from mr_service import MroReader
+from mr_service import MrsReader
 import json
 from customize_utilities import *
 import pymongo
 from pymongo import MongoClient
 
-os.chdir('/home/wireless/huawei_mro')
+os.chdir('/home/wireless/zte_mrs')
 date_dir=generate_date_hours_shift(shift=-4)
-afilter = ['CDMA']
+mrNames=['RSRP','Tadv','PowerHeadRoom','SinrUL','TadvRsrp']
 db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
+for mrName in mrNames:
+    try:
+        if db['mrs_'+mrName+'_'+date_dir].index_information().get('CellId_1')==None:
+            db['mrs_'+mrName+'_'+date_dir].create_index([("CellId", pymongo.ASCENDING)],background=True)
+    except:
+        print('The colletion is initialized')
 
-try:
-    if db['mro_'+date_dir].index_information().get('Pci_1_NeighborPci_1')==None:
-        db['mro_'+date_dir].create_index([("Pci", pymongo.ASCENDING), ("NeighborPci", pymongo.ASCENDING)],background=True)
-except:
-    print('The colletion is initialized')
-
-for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
+for root, dirs_no, files in os.walk('/home/wireless/zte_mrs/'+date_dir):
     currrent_dir=os.path.join(root, '')
     for name in files:
         if not name.endswith('1500.zip'):
             continue
-        reader=MroReader(afilter)
         print(name)
         try:
             zFile=zipfile.ZipFile(currrent_dir + name, 'r')
@@ -33,20 +32,13 @@ for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
         except:
             print('Unzip failed. Continue to unzip other files')
             continue
-        item_id=''
         for item in root.iterchildren():
-            item_key = []
             if item.tag == 'fileHeader':
                 startTime= item.attrib['startTime']
             elif item.tag == 'eNB':
+                reader=MrsReader(mrNames,startTime,date_dir,db)
                 item_id = item.attrib.get('MR.eNBId')
                 for item_measurement in item.iterchildren():
                     reader.read_zte(item_measurement, item_id)
-        if (item_id!=''):
-            mro_output=reader.map_rsrp_diff()
-            if len(mro_output)>0:
-                for item in mro_output:
-                    item.update({'StartTime': startTime})
-                db['mro_'+date_dir].insert_many(mro_output)
         print('insert from ', currrent_dir + name)
         os.remove(currrent_dir + name)

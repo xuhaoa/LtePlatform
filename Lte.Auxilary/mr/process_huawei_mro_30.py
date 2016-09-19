@@ -16,7 +16,7 @@ _startTime=''
 db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
 
 try:
-    if db['mro_'+date_dir].index_information().get('Pci_1')==None:
+    if db['mro_'+date_dir].index_information().get('Pci_1_NeighborPci_1')==None:
         db['mro_'+date_dir].create_index([("Pci", pymongo.ASCENDING), ("NeighborPci", pymongo.ASCENDING)],background=True)
 except:
     print('The colletion is initialized')
