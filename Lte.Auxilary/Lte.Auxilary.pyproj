@@ -145,6 +145,12 @@
     <Compile Include="mr\process_zte_mrs_15.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mr\process_zte_mrs_30.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mr\process_zte_mrs_45.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\time_test.py">
       <SubType>Code</SubType>
     </Compile>
@@ -280,6 +286,12 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\process_zte_mrs_15.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\process_zte_mrs_30.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\process_zte_mrs_45.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\zte_download_mre.sh">
