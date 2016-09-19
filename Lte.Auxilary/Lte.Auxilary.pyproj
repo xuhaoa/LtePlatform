@@ -25,6 +25,12 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Db\mro_combined.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Db\mro_combined_test.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\final.py" />
     <Compile Include="mr\first_ftp.py">
       <SubType>Code</SubType>
@@ -201,6 +207,9 @@
     <Folder Include="phpApi\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Db\mro_combined.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Db\sp_get2GFileContentsRasterConsidered.sql" />
     <Content Include="Db\sp_get3GFileContentsRasterConsidered.sql" />
     <Content Include="Db\sp_get4GFileContentsRasterConsidered.sql" />

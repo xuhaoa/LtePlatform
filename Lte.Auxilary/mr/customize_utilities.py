@@ -31,7 +31,7 @@ def is_foshan_filename(name):
         enodebid=int(name.split('_')[-2])
     except:
         return False
-    return enodebid in range(550912, 552959) or enodebid in range(499712, 503807)
+    return enodebid in range(550912, 552960) or enodebid in range(499712, 503808) or enodebid in range(868352,870400)
 
 def is_mro_filename(name):
     type=name.split('_')[-4]
