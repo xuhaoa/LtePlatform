@@ -164,3 +164,20 @@ class MrsReader:
                     item_dicts.append(item_dict)
             if len(item_dicts)>0:
                 self.db['mrs_'+mrName+'_'+self.date_dir].insert_many(item_dicts)
+
+    def read_zte(self, item_measurement, eNodebId):
+        mrName=item_measurement.attrib['mrName'].replace('MR.','')
+        if mrName in self.mrNames:
+            item_dicts=[]
+            for item_element in item_measurement.iterchildren():
+                if item_element.tag == 'smr':
+                    item_key = item_element.text.replace('MR.', '').replace('.','_').split(' ')
+                else:
+                    item_dict={}
+                    item_dict.update({'CellId': eNodebId+'-'+item_element.attrib['MR.objectId']})
+                    item_value = item_element[0].text.split(' ')
+                    item_dict.update(dict(zip(item_key, map(int, item_value))))
+                    item_dict.update({'StartTime': self.startTime})
+                    item_dicts.append(item_dict)
+            if len(item_dicts)>0:
+                self.db['mrs_'+mrName+'_'+self.date_dir].insert_many(item_dicts)
