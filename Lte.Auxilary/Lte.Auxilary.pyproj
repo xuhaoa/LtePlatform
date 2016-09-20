@@ -31,6 +31,9 @@
     <Compile Include="Db\mro_combined_test.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Db\mrs_combined.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\final.py" />
     <Compile Include="mr\first_ftp.py">
       <SubType>Code</SubType>
@@ -220,6 +223,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Db\mro_combined.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Db\mrs_combined.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Db\sp_get2GFileContentsRasterConsidered.sql" />
