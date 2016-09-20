@@ -19,8 +19,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="record in beginRecords">
-                    <td>{{record.begin | begin: "yyyy-MM-dd"}}</td>
+                <tr ng-repeat="record in dateRecords">
+                    <td>{{record.date | date: "yyyy-MM-dd"}}</td>
                     <td>{{record.existedRecords}}</td>
                     <td>{{record.mongoRecords.length}}</td>
                     <td>{{record.mrsRsrpStats}}</td>
@@ -28,7 +28,7 @@
                     <td>{{record.mrsPhrStats}}</td>
                     <td>{{record.mrsTaRsrpStats}}</td>
                     <td style="min-width:150px">
-                        <button class="btn btn-sm btn-default" ng-click="upbeginDetails(record.mongoRecords)">详情</button>
+                        <button class="btn btn-sm btn-default" ng-click="updateDetails(record.mongoRecords)">详情</button>
                     </td>
                 </tr>
             </tbody>

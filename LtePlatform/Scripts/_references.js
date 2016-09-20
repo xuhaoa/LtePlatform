@@ -169,7 +169,6 @@
 /// <reference path="r.js" />
 /// <reference path="require.js" />
 /// <reference path="respond.js" />
-/// <reference path="rutrace/coverage/controller.js" />
 /// <reference path="rutrace/index.controller.js" />
 /// <reference path="rutrace/interference/controller.js" />
 /// <reference path="rutrace/precise.controller.js" />
