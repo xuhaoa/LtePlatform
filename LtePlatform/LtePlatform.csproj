@@ -1614,7 +1614,6 @@
     <Content Include="Scripts\parameters\neighbor\import.controller.js" />
     <Content Include="Scripts\rutrace\coverage\controller.js" />
     <Content Include="Scripts\rutrace\index.controller.js" />
-    <Content Include="Scripts\rutrace\map\controller.js" />
     <Content Include="Scripts\rutrace\precise.controller.js" />
     <Content Include="Scripts\rutrace\workitem\controller.js" />
     <Content Include="Scripts\service\app.authorize.service.js" />

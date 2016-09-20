@@ -10,11 +10,12 @@
             <thead>
                 <tr>
                     <th>日期</th>
-                    <th>已导入数</th>
-                    <th>Mongo记录数</th>
-                    <th>已导入小区统计</th>
-                    <th>Mongo小区统计</th>
-                    <th>操作</th>
+                    <th>导入MRO记录数</th>
+                    <th>MRO记录数</th>
+                    <th>MRS-RSRP记录数</th>
+                    <th>MRS-TA记录数</th>
+                    <th>MRS-PHR记录数</th>
+                    <th>TA-RSRP记录数</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,8 +23,10 @@
                     <td>{{record.begin | begin: "yyyy-MM-dd"}}</td>
                     <td>{{record.existedRecords}}</td>
                     <td>{{record.mongoRecords.length}}</td>
-                    <td>{{record.existedStat ? '是': '否'}}</td>
-                    <td>{{record.mongoStat ? '有' : '无'}}</td>
+                    <td>{{record.mrsRsrpStats}}</td>
+                    <td>{{record.mrsTaStats}}</td>
+                    <td>{{record.mrsPhrStats}}</td>
+                    <td>{{record.mrsTaRsrpStats}}</td>
                     <td style="min-width:150px">
                         <div class="btn-group-sm">
                             <button class="btn btn-sm btn-default" ng-click="upbeginDetails(record.mongoRecords)">详情</button>

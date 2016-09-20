@@ -1,4 +1,4 @@
-﻿angular.module('myApp', ['rutrace.main', 'rutrace.precise', 'precise.coverage', 'precise.interference', 'precise.map', 'precise.workitem']);
+﻿angular.module('myApp', ['rutrace.main', 'rutrace.precise', 'precise.coverage', 'precise.interference', 'precise.workitem']);
 
 angular.module('rutrace.main', ['app.common'])
     .config([
