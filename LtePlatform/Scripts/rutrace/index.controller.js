@@ -270,18 +270,6 @@ angular.module('rutrace.main', ['app.common'])
             $scope.currentDetails = records;
         };
 
-        $scope.dumpRecords = function(record) {
-            if (record.mongoRecords.length > record.existedRecords) {
-                dumpPreciseService.dumpRecords(record.mongoRecords, 0, eNodebId, sectorId, $scope.queryRecords);
-            }
-            if (!record.existedStat && record.mongoStat) {
-                dumpProgress.dumpCellStat(record.mongoStat).then(function() {
-                    $scope.queryRecords();
-                });
-            }
-
-        };
-
         $scope.dumpAllRecords = function() {
             dumpPreciseService.dumpAllRecords($scope.dateRecords, 0, 0, eNodebId, sectorId, $scope.queryRecords);
         };

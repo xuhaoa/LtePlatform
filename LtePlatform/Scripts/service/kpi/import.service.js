@@ -112,23 +112,6 @@
     })
     .factory('dumpPreciseService', function (dumpProgress, neighborService) {
         var serviceInstance = {};
-        serviceInstance.dumpRecords = function (records, index, eNodebId, sectorId, queryFunc) {
-            if (index < records.length) {
-                var stat = records[index];
-                stat.sectorId = sectorId;
-                neighborService.querySystemNeighborCell(eNodebId, sectorId, stat.destPci).then(function (neighbor) {
-                    if (neighbor) {
-                        stat.destENodebId = neighbor.nearestCellId;
-                        stat.destSectorId = neighbor.nearestSectorId;
-                    }
-                    dumpProgress.dumpMongo(stat).then(function () {
-                        serviceInstance.dumpRecords(records, index + 1, eNodebId, sectorId, queryFunc);
-                    });
-                });
-            } else {
-                queryFunc();
-            }
-        };
         serviceInstance.dumpAllRecords = function (records, outerIndex, innerIndex, eNodebId, sectorId, queryFunc) {
             if (outerIndex >= records.length) {
                 if (queryFunc !== undefined)

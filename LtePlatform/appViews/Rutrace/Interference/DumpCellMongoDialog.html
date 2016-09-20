@@ -28,18 +28,13 @@
                     <td>{{record.mrsPhrStats}}</td>
                     <td>{{record.mrsTaRsrpStats}}</td>
                     <td style="min-width:150px">
-                        <div class="btn-group-sm">
-                            <button class="btn btn-sm btn-default" ng-click="upbeginDetails(record.mongoRecords)">详情</button>
-                            <button class="btn btn-sm btn-primary" ng-click="dumpRecords(record)" ng-show="record.mongoRecords.length || record.mongoStat">
-                                导入
-                            </button>
-                        </div>
+                        <button class="btn btn-sm btn-default" ng-click="upbeginDetails(record.mongoRecords)">详情</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <div uib-tab index="1" heading="详情">
+    <div uib-tab index="1" heading="MRO详情">
         <table class="table table-striped">
             <thead>
                 <tr>
