@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Evaluations.MapperSerive.Infrastructure;
-using Lte.MySqlFramework.Abstract;
-using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
@@ -19,21 +17,16 @@ namespace Lte.Evaluations.DataService.Mr
     {
         private readonly IInterferenceMatrixRepository _repository;
         private readonly IInterferenceMongoRepository _mongoRepository;
-        private readonly ICellStatMysqlRepository _statRepository;
-        private readonly ICellStasticRepository _mongoStatRepository;
 
         private static Stack<InterferenceMatrixStat> InterferenceMatrixStats { get; set; }
 
         public static List<PciCell> PciCellList { get; private set; }
         
         public InterferenceMatrixService(IInterferenceMatrixRepository repository, ICellRepository cellRepository,
-            IInfrastructureRepository infrastructureRepository, IInterferenceMongoRepository mongoRepository,
-            ICellStatMysqlRepository statRepository, ICellStasticRepository mongoStatRepository)
+            IInfrastructureRepository infrastructureRepository, IInterferenceMongoRepository mongoRepository)
         {
             _repository = repository;
             _mongoRepository = mongoRepository;
-            _statRepository = statRepository;
-            _mongoStatRepository = mongoStatRepository;
             if (InterferenceMatrixStats == null)
                 InterferenceMatrixStats = new Stack<InterferenceMatrixStat>();
             if (PciCellList == null)
@@ -46,14 +39,13 @@ namespace Lte.Evaluations.DataService.Mr
             }
         }
 
-        public Tuple<int, bool> QueryExistedStatsCount(int eNodebId, byte sectorId, DateTime date)
+        public int QueryExistedStatsCount(int eNodebId, byte sectorId, DateTime date)
         {
             var beginDay = date.Date;
             var nextDay = date.AddDays(1).Date;
-            return new Tuple<int, bool>(_repository.Count(
-                x =>
+            return _repository.Count(x =>
                     x.ENodebId == eNodebId && x.SectorId == sectorId && x.RecordTime >= beginDay &&
-                    x.RecordTime < nextDay), _statRepository.Get(eNodebId, sectorId, beginDay) != null);
+                    x.RecordTime < nextDay);
         }
         
         public int DumpMongoStats(InterferenceMatrixStat stat)
@@ -69,17 +61,7 @@ namespace Lte.Evaluations.DataService.Mr
 
             return _repository.SaveChanges();
         }
-
-        public int DumpCellStat(CellStatMysql cellStat)
-        {
-            var existedStat =
-                _statRepository.FirstOrDefault(x => x.ENodebId == cellStat.ENodebId && x.SectorId == cellStat.SectorId
-                                                    && x.CurrentDate == cellStat.CurrentDate);
-            if (existedStat == null)
-                _statRepository.Insert(cellStat);
-            return _statRepository.SaveChanges();
-        }
-
+        
         public void TestDumpOneStat(int eNodebId, byte sectorId, DateTime date, double interference)
         {
             _repository.Insert(new InterferenceMatrixStat
@@ -101,26 +83,6 @@ namespace Lte.Evaluations.DataService.Mr
         {
             var cellList = await _mongoRepository.GetListAsync(eNodebId, pci, date);
             return cellList;
-        }
-
-        public CellStatMysql QueryCellStat(int eNodebId, short pci, DateTime date)
-        {
-            var cellStatList = _mongoStatRepository.GetList(eNodebId, pci, date);
-            return !cellStatList.Any()
-                ? null
-                : new CellStatMysql
-                {
-                    ENodebId = eNodebId,
-                    SectorId = PciCellList.FirstOrDefault(x => x.ENodebId == eNodebId && x.Pci == pci)?.SectorId ?? 0,
-                    Pci = pci,
-                    CurrentDate = date,
-                    Mod3Count = cellStatList.Sum(x => x.Mod3Count),
-                    Mod6Count = cellStatList.Sum(x => x.Mod6Count),
-                    MrCount = cellStatList.Sum(x => x.MrCount),
-                    OverCoverCount = cellStatList.Sum(x => x.OverCoverCount),
-                    PreciseCount = cellStatList.Sum(x => x.PreciseCount),
-                    WeakCoverCount = cellStatList.Sum(x => x.WeakCoverCount)
-                };
         }
 
         public async Task<List<InterferenceMatrixStat>> QueryStats(int eNodebId, short pci, DateTime time)

@@ -67,7 +67,7 @@ namespace LtePlatform.Controllers.Kpi
         }
 
         [HttpGet]
-        public Tuple<int, bool> GetExisted(int eNodebId, byte sectorId, DateTime date)
+        public int GetExisted(int eNodebId, byte sectorId, DateTime date)
         {
             return _service.QueryExistedStatsCount(eNodebId, sectorId, date);
         }
@@ -86,28 +86,6 @@ namespace LtePlatform.Controllers.Kpi
         public void Delete()
         {
             _service.ClearStats();
-        }
-    }
-
-    public class DumpCellStatController : ApiController
-    {
-        private readonly InterferenceMatrixService _service;
-
-        public DumpCellStatController(InterferenceMatrixService service)
-        {
-            _service = service;
-        }
-
-        [HttpGet]
-        public CellStatMysql Get(int eNodebId, short pci, DateTime date)
-        {
-            return _service.QueryCellStat(eNodebId, pci, date);
-        }
-
-        [HttpPost]
-        public int Post(CellStatMysql stat)
-        {
-            return _service.DumpCellStat(stat);
         }
     }
 }

@@ -108,7 +108,6 @@
     <Compile Include="Abstract\CdmaStatRepositories.cs" />
     <Compile Include="Abstract\StatInterfaces.cs" />
     <Compile Include="Concrete\CdmaRepositories.cs" />
-    <Compile Include="Concrete\CellStatMysqlRepository.cs" />
     <Compile Include="Concrete\CollegeRepositories.cs" />
     <Compile Include="Concrete\CustomerRepositories.cs" />
     <Compile Include="Concrete\FlowHuaweiRepository.cs" />
@@ -117,7 +116,6 @@
     <Compile Include="Concrete\StatRepositroies.cs" />
     <Compile Include="Entities\BranchDemand.cs" />
     <Compile Include="Entities\CdmaRegionStat.cs" />
-    <Compile Include="Entities\CellStatMysql.cs" />
     <Compile Include="Entities\CollegeTestInfos.cs" />
     <Compile Include="Entities\CollegeYearInfo.cs" />
     <Compile Include="Entities\ComplainItem.cs" />
@@ -132,13 +130,13 @@
     <Compile Include="Entities\TopConnection3GCell.cs" />
     <Compile Include="Entities\TopDrop2GCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201608240729210_Extend_College_Test.cs" />
-    <Compile Include="Migrations\201608240729210_Extend_College_Test.Designer.cs">
-      <DependentUpon>201608240729210_Extend_College_Test.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201609080535585_Add_PlanningSite.cs" />
     <Compile Include="Migrations\201609080535585_Add_PlanningSite.Designer.cs">
       <DependentUpon>201609080535585_Add_PlanningSite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609200811303_Delete_CellStastic.cs" />
+    <Compile Include="Migrations\201609200811303_Delete_CellStastic.Designer.cs">
+      <DependentUpon>201609200811303_Delete_CellStastic.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -148,11 +146,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608240729210_Extend_College_Test.resx">
-      <DependentUpon>201608240729210_Extend_College_Test.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609080535585_Add_PlanningSite.resx">
       <DependentUpon>201609080535585_Add_PlanningSite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609200811303_Delete_CellStastic.resx">
+      <DependentUpon>201609200811303_Delete_CellStastic.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

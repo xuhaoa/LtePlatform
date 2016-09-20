@@ -241,8 +241,7 @@ angular.module('rutrace.main', ['app.common'])
                 dumpProgress.queryExistedItems(eNodebId, sectorId, record.date).then(function(result) {
                     for (var i = 0; i < $scope.dateRecords.length; i++) {
                         if ($scope.dateRecords[i].date === record.date) {
-                            $scope.dateRecords[i].existedRecords = result.item1;
-                            $scope.dateRecords[i].existedStat = result.item2;
+                            $scope.dateRecords[i].existedRecords = result;
                             break;
                         }
                     }
@@ -251,14 +250,6 @@ angular.module('rutrace.main', ['app.common'])
                     for (var i = 0; i < $scope.dateRecords.length; i++) {
                         if ($scope.dateRecords[i].date === record.date) {
                             $scope.dateRecords[i].mongoRecords = result;
-                            break;
-                        }
-                    }
-                });
-                dumpProgress.queryMongoCellStat(eNodebId, pci, record.date).then(function(result) {
-                    for (var i = 0; i < $scope.dateRecords.length; i++) {
-                        if ($scope.dateRecords[i].date === record.date) {
-                            $scope.dateRecords[i].mongoStat = result;
                             break;
                         }
                     }

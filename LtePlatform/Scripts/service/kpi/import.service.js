@@ -91,14 +91,6 @@
             });
         };
 
-        serviceInstance.queryMongoCellStat = function (eNodebId, pci, date) {
-            return generalHttpService.getApiData('DumpCellStat', {
-                eNodebId: eNodebId,
-                pci: pci,
-                date: date
-            });
-        };
-
         serviceInstance.queryNeighborMongoItem = function (eNodebId, pci, neighborPci, date) {
             return generalHttpService.getApiData('DumpInterference', {
                 eNodebId: eNodebId,

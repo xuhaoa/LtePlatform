@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Extend_College_Test : IMigrationMetadata
+    public sealed partial class Delete_CellStastic : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Extend_College_Test));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Delete_CellStastic));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608240729210_Extend_College_Test"; }
+            get { return "201609200811303_Delete_CellStastic"; }
         }
         
         string IMigrationMetadata.Source

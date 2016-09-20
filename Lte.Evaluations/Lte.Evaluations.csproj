@@ -114,7 +114,6 @@
     <Compile Include="DataService\Kpi\FlowQueryService.cs" />
     <Compile Include="DataService\Kpi\FlowService.cs" />
     <Compile Include="DataService\Mr\CellDistanceService.cs" />
-    <Compile Include="DataService\Mr\CellStasticService.cs" />
     <Compile Include="DataService\Mr\InterferenceMatrixService.cs" />
     <Compile Include="DataService\Kpi\TopConnection3GService.cs" />
     <Compile Include="DataService\Mr\NeighborCellMongoService.cs" />

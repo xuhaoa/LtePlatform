@@ -136,8 +136,6 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IFlowZteRepository>().To<FlowZteRepository>();
 
-            ninjectKernel.Bind<ICellStatMysqlRepository>().To<CellStatMysqlRepository>();
-
             ninjectKernel.Bind<ICellDistanceRepository>().To<CellDistanceRepository>();
 
             ninjectKernel.Bind<IPreciseWorkItemCellRepository>().To<PreciseWorkItemCellRepositroy>();
@@ -263,9 +261,7 @@ namespace LtePlatform
             ninjectKernel.Bind<InterFreqHoService>().ToSelf();
 
             ninjectKernel.Bind<NeighborCellMongoService>().ToSelf();
-
-            ninjectKernel.Bind<CellStasticService>().ToSelf();
-
+            
             ninjectKernel.Bind<FlowService>().ToSelf();
 
             ninjectKernel.Bind<CellDistanceService>().ToSelf();
