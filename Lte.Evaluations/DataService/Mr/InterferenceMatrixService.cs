@@ -17,17 +17,15 @@ namespace Lte.Evaluations.DataService.Mr
     public class InterferenceMatrixService
     {
         private readonly IInterferenceMatrixRepository _repository;
-        private readonly IInterferenceMongoRepository _mongoRepository;
 
         private static Stack<InterferenceMatrixStat> InterferenceMatrixStats { get; set; }
 
         public static List<PciCell> PciCellList { get; private set; }
         
         public InterferenceMatrixService(IInterferenceMatrixRepository repository, ICellRepository cellRepository,
-            IInfrastructureRepository infrastructureRepository, IInterferenceMongoRepository mongoRepository)
+            IInfrastructureRepository infrastructureRepository)
         {
             _repository = repository;
-            _mongoRepository = mongoRepository;
             if (InterferenceMatrixStats == null)
                 InterferenceMatrixStats = new Stack<InterferenceMatrixStat>();
             if (PciCellList == null)
@@ -62,65 +60,6 @@ namespace Lte.Evaluations.DataService.Mr
             return _repository.SaveChanges();
         }
         
-        public void TestDumpOneStat(int eNodebId, byte sectorId, DateTime date, double interference)
-        {
-            _repository.Insert(new InterferenceMatrixStat
-            {
-                CellId = eNodebId+"-"+sectorId,
-                StatTime = date,
-                RsrpBetween10090 = (int)interference
-            });
-            _repository.SaveChanges();
-        }
-
-        public InterferenceMatrixMongo QueryMongo(int eNodebId, short pci)
-        {
-            return _mongoRepository.GetOne(eNodebId, pci);
-        }
-        
-        public async Task<List<InterferenceMatrixMongo>> QueryMongoList(int eNodebId, short pci, DateTime date)
-        {
-            var cellList = await _mongoRepository.GetListAsync(eNodebId, pci, date);
-            return cellList;
-        }
-
-        public async Task<List<InterferenceMatrixStat>> QueryStats(int eNodebId, short pci, DateTime time)
-        {
-            var statList = await _mongoRepository.GetListAsync(eNodebId, pci, time);
-            return !statList.Any() ? new List<InterferenceMatrixStat>() : GenereateStatList(time, statList);
-        }
-
-        public InterferenceMatrixStat QueryStat(int eNodebId, short pci, short neighborPci, DateTime time)
-        {
-            var statList = _mongoRepository.GetList(eNodebId, pci, neighborPci, time);
-            if (!statList.Any()) return null;
-            return statList.ArraySum().MapTo<InterferenceMatrixStat>();
-        }
-
-        public async Task<List<InterferenceMatrixStat>> QueryStats(int eNodebId, short pci)
-        {
-            var stats = await _mongoRepository.GetListAsync(eNodebId, pci);
-            return !stats.Any() ? new List<InterferenceMatrixStat>() : GenereateStatList(stats);
-        }
-
-        private static List<InterferenceMatrixStat> GenereateStatList(DateTime time, IEnumerable<InterferenceMatrixMongo> statList)
-        {
-            var results = Mapper.Map<IEnumerable<InterferenceMatrixMongo>, IEnumerable<InterferenceMatrixStat>>(statList);
-            return (from s in results
-                group s by new {s.NeighborPci, s.ENodebId}
-                into g
-                select g.Select(x=>x).ArraySum()).ToList();
-        }
-
-        private static List<InterferenceMatrixStat> GenereateStatList(List<InterferenceMatrixMongo> statList)
-        {
-            var results = Mapper.Map<List<InterferenceMatrixMongo>, IEnumerable<InterferenceMatrixStat>>(statList);
-            return (from s in results
-                    group s by new { s.NeighborPci, s.ENodebId, RecordDate = s.StatTime.Date }
-                into g
-                    select g.Select(x => x).ArraySum()).ToList();
-        }
-
         public async Task<bool> DumpOneStat()
         {
             var stat = InterferenceMatrixStats.Pop();
@@ -147,5 +86,62 @@ namespace Lte.Evaluations.DataService.Mr
             InterferenceMatrixStats.Clear();
         }
     }
-    
+
+    public class InterferenceMongoService
+    {
+        private readonly IInterferenceMongoRepository _mongoRepository;
+
+        public InterferenceMongoService(IInterferenceMongoRepository mongoRepository)
+        {
+            _mongoRepository = mongoRepository;
+        }
+
+        public InterferenceMatrixMongo QueryMongo(int eNodebId, byte sectorId)
+        {
+            return _mongoRepository.GetOne(eNodebId + "-" + sectorId);
+        }
+
+        private static List<InterferenceMatrixStat> GenereateOverallStatList(IEnumerable<InterferenceMatrixMongo> statList)
+        {
+            var results = Mapper.Map<IEnumerable<InterferenceMatrixMongo>, IEnumerable<InterferenceMatrixStat>>(statList);
+            return (from s in results
+                group s by new { s.NeighborPci, s.ENodebId }
+                into g
+                select g.Select(x => x).ArraySum()).ToList();
+        }
+
+        private static List<InterferenceMatrixStat> GenereateStatList(List<InterferenceMatrixMongo> statList)
+        {
+            var results = Mapper.Map<List<InterferenceMatrixMongo>, IEnumerable<InterferenceMatrixStat>>(statList);
+            return (from s in results
+                group s by new { s.NeighborPci, s.ENodebId, RecordDate = s.StatTime.Date }
+                into g
+                select g.Select(x => x).ArraySum()).ToList();
+        }
+
+        public async Task<List<InterferenceMatrixMongo>> QueryMongoList(int eNodebId, byte sectorId, DateTime date)
+        {
+            var cellList = await _mongoRepository.GetListAsync(eNodebId + "-" + sectorId, date);
+            return cellList;
+        }
+
+        public async Task<List<InterferenceMatrixStat>> QueryStats(int eNodebId, byte sectorId, DateTime time)
+        {
+            var statList = await _mongoRepository.GetListAsync(eNodebId + "-" + sectorId, time);
+            return !statList.Any() ? new List<InterferenceMatrixStat>() : GenereateOverallStatList(statList);
+        }
+
+        public InterferenceMatrixStat QueryStat(int eNodebId, byte sectorId, short neighborPci, DateTime time)
+        {
+            var statList = _mongoRepository.GetList(eNodebId + "-" + sectorId, neighborPci, time);
+            if (!statList.Any()) return null;
+            return statList.ArraySum().MapTo<InterferenceMatrixStat>();
+        }
+
+        public async Task<List<InterferenceMatrixStat>> QueryStats(int eNodebId, byte sectorId)
+        {
+            var stats = await _mongoRepository.GetListAsync(eNodebId + "-" + sectorId);
+            return !stats.Any() ? new List<InterferenceMatrixStat>() : GenereateStatList(stats);
+        }
+    }
 }

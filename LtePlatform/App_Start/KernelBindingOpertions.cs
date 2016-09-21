@@ -125,9 +125,7 @@ namespace LtePlatform
             ninjectKernel.Bind<IPrachFDDZteRepository>().To<PrachFDDZteRepository>();
 
             ninjectKernel.Bind<IPowerControlDLZteRepository>().To<PowerControlDLZteRepository>();
-
-            ninjectKernel.Bind<ICellStasticRepository>().To<CellStasticRepository>();
-
+            
             ninjectKernel.Bind<IPDSCHCfgRepository>().To<PDSCHCfgRepository>();
 
             ninjectKernel.Bind<ICellDlpcPdschPaRepository>().To<CellDlpcPdschPaRepository>();
@@ -135,9 +133,7 @@ namespace LtePlatform
             ninjectKernel.Bind<IFlowHuaweiRepository>().To<FlowHuaweiRepository>();
 
             ninjectKernel.Bind<IFlowZteRepository>().To<FlowZteRepository>();
-
-            ninjectKernel.Bind<ICellDistanceRepository>().To<CellDistanceRepository>();
-
+            
             ninjectKernel.Bind<IPreciseWorkItemCellRepository>().To<PreciseWorkItemCellRepositroy>();
 
             ninjectKernel.Bind<ICellPowerService>().To<CellPowerService>();
@@ -254,6 +250,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<InterferenceNeighborService>().ToSelf();
 
+            ninjectKernel.Bind<InterferenceMongoService>().ToSelf();
+
             ninjectKernel.Bind<CellHuaweiMongoService>().ToSelf();
 
             ninjectKernel.Bind<IntraFreqHoService>().ToSelf();
@@ -263,8 +261,6 @@ namespace LtePlatform
             ninjectKernel.Bind<NeighborCellMongoService>().ToSelf();
             
             ninjectKernel.Bind<FlowService>().ToSelf();
-
-            ninjectKernel.Bind<CellDistanceService>().ToSelf();
 
             ninjectKernel.Bind<FlowQueryService>().ToSelf();
 

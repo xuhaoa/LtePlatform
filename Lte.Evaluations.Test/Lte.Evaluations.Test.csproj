@@ -137,7 +137,6 @@
     <Compile Include="DataService\Switch\IntraFreqHoServiceTests.cs" />
     <Compile Include="DataService\Kpi\TopDrop2GServiceTest.cs" />
     <Compile Include="DataService\Kpi\TopDrop2GTestQueries.cs" />
-    <Compile Include="MapperService\CellDistanceTransformTest.cs" />
     <Compile Include="MapperService\ContainerTests.cs" />
     <Compile Include="MapperService\PciCellPairListTest.cs" />
     <Compile Include="MapperService\InfrastructureTests.cs" />
