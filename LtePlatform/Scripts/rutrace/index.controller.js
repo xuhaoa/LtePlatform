@@ -246,7 +246,7 @@ angular.module('rutrace.main', ['app.common'])
                         }
                     }
                 });
-                dumpProgress.queryMongoItems(eNodebId, pci, record.date).then(function(result) {
+                dumpProgress.queryMongoItems(eNodebId, sectorId, record.date).then(function(result) {
                     for (var i = 0; i < $scope.dateRecords.length; i++) {
                         if ($scope.dateRecords[i].date === record.date) {
                             $scope.dateRecords[i].mongoRecords = result;

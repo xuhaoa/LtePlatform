@@ -83,10 +83,10 @@
             });
         };
 
-        serviceInstance.queryMongoItems = function (eNodebId, pci, date) {
-            return generalHttpService.getApiData('DumpInterference', {
+        serviceInstance.queryMongoItems = function (eNodebId, sectorId, date) {
+            return generalHttpService.getApiData('InterferenceMongo', {
                 eNodebId: eNodebId,
-                pci: pci,
+                sectorId: sectorId,
                 date: date
             });
         };
