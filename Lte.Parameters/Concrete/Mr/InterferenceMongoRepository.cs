@@ -62,9 +62,10 @@ namespace Lte.Parameters.Concrete.Mr
         public async Task<List<InterferenceMatrixMongo>> GetListAsync(int eNodebId, short pci, DateTime date)
         {
             var nextDate = date.AddDays(1);
+            var eNodebIdString = eNodebId.ToString();
             var query =
                 MongoDB.Driver.Builders.Query<InterferenceMatrixMongo>.Where(
-                    e => e.CellId.StartsWith(eNodebId.ToString()) 
+                    e => e.CellId.StartsWith(eNodebIdString) 
                     && e.Pci == pci && e.StatDate >= date && e.StatDate < nextDate);
             return await Task.Run(() => Collection.Find(query).AsQueryable().ToList());
         }

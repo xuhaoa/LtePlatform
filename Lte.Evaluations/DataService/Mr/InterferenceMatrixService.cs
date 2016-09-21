@@ -44,19 +44,18 @@ namespace Lte.Evaluations.DataService.Mr
         {
             var beginDay = date.Date;
             var nextDay = date.AddDays(1).Date;
+            var cellId = eNodebId + "-" + sectorId;
             return _repository.Count(x =>
-                    x.ENodebId == eNodebId && x.SectorId == sectorId && x.StatTime >= beginDay &&
-                    x.StatTime < nextDay);
+                    x.CellId == cellId && x.StatTime >= beginDay && x.StatTime < nextDay);
         }
         
         public int DumpMongoStats(InterferenceMatrixStat stat)
         {
             stat.StatTime = stat.StatTime.Date;
+            var cellId = stat.ENodebId + "-" + stat.SectorId;
             var existedStat =
                 _repository.FirstOrDefault(
-                    x =>
-                        x.ENodebId == stat.ENodebId && x.SectorId == stat.SectorId
-                        && x.NeighborPci == stat.NeighborPci && x.StatTime == stat.StatTime);
+                    x => x.CellId == cellId && x.NeighborPci == stat.NeighborPci && x.StatTime == stat.StatTime);
             if (existedStat == null)
                 _repository.Insert(stat);
 
@@ -126,11 +125,10 @@ namespace Lte.Evaluations.DataService.Mr
         {
             var stat = InterferenceMatrixStats.Pop();
             if (stat == null) return false;
+            var cellId = stat.ENodebId + "-" + stat.SectorId;
             var item =
                 _repository.FirstOrDefault(
-                    x =>
-                        x.ENodebId == stat.ENodebId && x.SectorId == stat.SectorId && x.NeighborPci == stat.NeighborPci &&
-                        x.StatTime == stat.StatTime);
+                    x => x.CellId == cellId && x.NeighborPci == stat.NeighborPci && x.StatTime == stat.StatTime);
             if (item == null)
             {
                 await _repository.InsertAsync(stat);
