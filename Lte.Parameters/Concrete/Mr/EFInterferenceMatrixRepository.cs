@@ -25,7 +25,7 @@ namespace Lte.Parameters.Concrete.Mr
         {
             return GetAll()
                 .Where(
-                    x => x.ENodebId == eNodebId && x.SectorId == sectorId && x.DestPci == destPci && x.DestENodebId == 0)
+                    x => x.ENodebId == eNodebId && x.SectorId == sectorId && x.NeighborPci == destPci && x.DestENodebId == 0)
                 .UpdateAsync(
                     t =>
                         new InterferenceMatrixStat
@@ -41,7 +41,7 @@ namespace Lte.Parameters.Concrete.Mr
                 GetAll()
                     .Where(
                         x =>
-                            x.RecordTime >= begin && x.RecordTime < end && x.ENodebId == cellId &&
+                            x.StatTime >= begin && x.StatTime < end && x.ENodebId == cellId &&
                             x.SectorId == sectorId)
                     .ToList();
         }
@@ -52,7 +52,7 @@ namespace Lte.Parameters.Concrete.Mr
                 GetAll()
                     .Where(
                         x =>
-                            x.RecordTime >= begin && x.RecordTime < end && x.DestENodebId == cellId &&
+                            x.StatTime >= begin && x.StatTime < end && x.DestENodebId == cellId &&
                             x.DestSectorId == sectorId)
                     .ToList();
         }

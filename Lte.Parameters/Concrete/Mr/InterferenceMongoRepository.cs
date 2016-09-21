@@ -17,7 +17,7 @@ namespace Lte.Parameters.Concrete.Mr
     {
         public InterferenceMongoRepository(IMongoDatabaseProvider databaseProvider) : base(databaseProvider)
         {
-            CollectionName = "CellInterfMatrix";
+            CollectionName = "mro_combined";
         }
 
         public InterferenceMongoRepository() : this(new MyMongoProvider("yaoyq"))
@@ -29,7 +29,7 @@ namespace Lte.Parameters.Concrete.Mr
         {
             var query =
                 MongoDB.Driver.Builders.Query<InterferenceMatrixMongo>.Where(
-                    e => e.ENodebId == eNodebId && e.Pci == pci);
+                    e => e.CellId.StartsWith(eNodebId.ToString()) && e.Pci == pci);
             return Collection.FindOne(query);
         }
         
@@ -37,7 +37,7 @@ namespace Lte.Parameters.Concrete.Mr
         {
             var query =
                 MongoDB.Driver.Builders.Query<InterferenceMatrixMongo>.Where(
-                    e => e.ENodebId == eNodebId && e.Pci == pci);
+                    e => e.CellId.StartsWith(eNodebId.ToString()) && e.Pci == pci);
             return Collection.Find(query).AsQueryable().ToList();
         }
 
@@ -45,7 +45,7 @@ namespace Lte.Parameters.Concrete.Mr
         {
             var query =
                 MongoDB.Driver.Builders.Query<InterferenceMatrixMongo>.Where(
-                    e => e.ENodebId == eNodebId && e.Pci == pci);
+                    e => e.CellId.StartsWith(eNodebId.ToString()) && e.Pci == pci);
             return await Task.Run(() => Collection.Find(query).AsQueryable().ToList());
         }
 
@@ -54,8 +54,8 @@ namespace Lte.Parameters.Concrete.Mr
             var nextDate = date.AddDays(1);
             var query =
                 MongoDB.Driver.Builders.Query<InterferenceMatrixMongo>.Where(
-                    e => e.ENodebId == eNodebId && e.Pci == pci && e.NeighborPci == neighborPci 
-                    && e.CurrentDate >= date && e.CurrentDate < nextDate);
+                    e => e.CellId.StartsWith(eNodebId.ToString()) && e.Pci == pci && e.NeighborPci == neighborPci 
+                    && e.StatDate >= date && e.StatDate < nextDate);
             return Collection.Find(query).AsQueryable().ToList();
         }
 
@@ -64,7 +64,8 @@ namespace Lte.Parameters.Concrete.Mr
             var nextDate = date.AddDays(1);
             var query =
                 MongoDB.Driver.Builders.Query<InterferenceMatrixMongo>.Where(
-                    e => e.ENodebId == eNodebId && e.Pci == pci && e.CurrentDate >= date && e.CurrentDate < nextDate);
+                    e => e.CellId.StartsWith(eNodebId.ToString()) 
+                    && e.Pci == pci && e.StatDate >= date && e.StatDate < nextDate);
             return await Task.Run(() => Collection.Find(query).AsQueryable().ToList());
         }
     }

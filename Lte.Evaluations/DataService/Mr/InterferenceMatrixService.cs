@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
+using Lte.Domain.Regular;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
@@ -44,18 +45,18 @@ namespace Lte.Evaluations.DataService.Mr
             var beginDay = date.Date;
             var nextDay = date.AddDays(1).Date;
             return _repository.Count(x =>
-                    x.ENodebId == eNodebId && x.SectorId == sectorId && x.RecordTime >= beginDay &&
-                    x.RecordTime < nextDay);
+                    x.ENodebId == eNodebId && x.SectorId == sectorId && x.StatTime >= beginDay &&
+                    x.StatTime < nextDay);
         }
         
         public int DumpMongoStats(InterferenceMatrixStat stat)
         {
-            stat.RecordTime = stat.RecordTime.Date;
+            stat.StatTime = stat.StatTime.Date;
             var existedStat =
                 _repository.FirstOrDefault(
                     x =>
                         x.ENodebId == stat.ENodebId && x.SectorId == stat.SectorId
-                        && x.DestPci == stat.DestPci && x.RecordTime == stat.RecordTime);
+                        && x.NeighborPci == stat.NeighborPci && x.StatTime == stat.StatTime);
             if (existedStat == null)
                 _repository.Insert(stat);
 
@@ -66,10 +67,9 @@ namespace Lte.Evaluations.DataService.Mr
         {
             _repository.Insert(new InterferenceMatrixStat
             {
-                ENodebId = eNodebId,
-                SectorId = sectorId,
-                RecordTime = date,
-                InterferenceLevel = interference
+                CellId = eNodebId+"-"+sectorId,
+                StatTime = date,
+                RsrpBetween10090 = (int)interference
             });
             _repository.SaveChanges();
         }
@@ -95,17 +95,7 @@ namespace Lte.Evaluations.DataService.Mr
         {
             var statList = _mongoRepository.GetList(eNodebId, pci, neighborPci, time);
             if (!statList.Any()) return null;
-            return new InterferenceMatrixStat
-            {
-                ENodebId = eNodebId,
-                DestPci = neighborPci,
-                InterferenceLevel = statList.Sum(x => x.InterfLevel ?? 0),
-                Mod3Interferences = statList.Sum(x => x.Mod3Count ?? 0),
-                Mod6Interferences = statList.Sum(x => x.Mod6Count ?? 0),
-                OverInterferences10Db = statList.Sum(x => x.Over10db ?? 0),
-                OverInterferences6Db = statList.Sum(x => x.Over6db ?? 0),
-                RecordTime = time
-            };
+            return statList.ArraySum().MapTo<InterferenceMatrixStat>();
         }
 
         public async Task<List<InterferenceMatrixStat>> QueryStats(int eNodebId, short pci)
@@ -118,38 +108,18 @@ namespace Lte.Evaluations.DataService.Mr
         {
             var results = Mapper.Map<IEnumerable<InterferenceMatrixMongo>, IEnumerable<InterferenceMatrixStat>>(statList);
             return (from s in results
-                group s by new {s.DestPci, s.ENodebId}
+                group s by new {s.NeighborPci, s.ENodebId}
                 into g
-                select new InterferenceMatrixStat
-                {
-                    ENodebId = g.Key.ENodebId,
-                    DestPci = g.Key.DestPci,
-                    InterferenceLevel = g.Sum(x => x.InterferenceLevel),
-                    Mod3Interferences = g.Sum(x => x.Mod3Interferences),
-                    Mod6Interferences = g.Sum(x => x.Mod6Interferences),
-                    OverInterferences10Db = g.Sum(x => x.OverInterferences10Db),
-                    OverInterferences6Db = g.Sum(x => x.OverInterferences6Db),
-                    RecordTime = time
-                }).ToList();
+                select g.Select(x=>x).ArraySum()).ToList();
         }
 
         private static List<InterferenceMatrixStat> GenereateStatList(List<InterferenceMatrixMongo> statList)
         {
             var results = Mapper.Map<List<InterferenceMatrixMongo>, IEnumerable<InterferenceMatrixStat>>(statList);
             return (from s in results
-                    group s by new { s.DestPci, s.ENodebId, RecordDate = s.RecordTime.Date }
+                    group s by new { s.NeighborPci, s.ENodebId, RecordDate = s.StatTime.Date }
                 into g
-                    select new InterferenceMatrixStat
-                    {
-                        ENodebId = g.Key.ENodebId,
-                        DestPci = g.Key.DestPci,
-                        InterferenceLevel = g.Sum(x => x.InterferenceLevel),
-                        Mod3Interferences = g.Sum(x => x.Mod3Interferences),
-                        Mod6Interferences = g.Sum(x => x.Mod6Interferences),
-                        OverInterferences10Db = g.Sum(x => x.OverInterferences10Db),
-                        OverInterferences6Db = g.Sum(x => x.OverInterferences6Db),
-                        RecordTime = g.Key.RecordDate
-                    }).ToList();
+                    select g.Select(x => x).ArraySum()).ToList();
         }
 
         public async Task<bool> DumpOneStat()
@@ -159,7 +129,8 @@ namespace Lte.Evaluations.DataService.Mr
             var item =
                 _repository.FirstOrDefault(
                     x =>
-                        x.ENodebId == stat.ENodebId && x.SectorId == stat.SectorId && x.DestPci == stat.DestPci && x.RecordTime == stat.RecordTime);
+                        x.ENodebId == stat.ENodebId && x.SectorId == stat.SectorId && x.NeighborPci == stat.NeighborPci &&
+                        x.StatTime == stat.StatTime);
             if (item == null)
             {
                 await _repository.InsertAsync(stat);

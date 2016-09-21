@@ -9,83 +9,87 @@ using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Mr
 {
-    [AutoMapFrom(typeof(InterferenceMatrixPci))]
     public class InterferenceMatrixStat : Entity
     {
-        public DateTime RecordTime { get; set; }
+        public DateTime StatTime { get; set; }
 
-        public int ENodebId { get; set; }
+        public int ENodebId => CellId.GetSplittedFields('-')[0].ConvertToInt(0);
 
-        public byte SectorId { get; set; }
+        public byte SectorId => CellId.GetSplittedFields('-')[1].ConvertToByte(0);
 
-        public short DestPci { get; set; }
+        public string CellId { get; set; }
+
+        public short Pci { get; set; }
+
+        public short NeighborPci { get; set; }
 
         public int DestENodebId { get; set; }
 
         public byte DestSectorId { get; set; }
 
-        public int Mod3Interferences { get; set; }
+        public DateTime StatDate { get; set; }
 
-        public int Mod6Interferences { get; set; }
+        public int Diff0 { get; set; }
 
-        public int OverInterferences6Db { get; set; }
+        public int Diff3 { get; set; }
 
-        public int OverInterferences10Db { get; set; }
+        public int Diff6 { get; set; }
 
-        public double InterferenceLevel { get; set; }
+        public int Diff9 { get; set; }
+
+        public int Diff12 { get; set; }
+
+        public int DiffLarge { get; set; }
+
+        public int SinrUl0to9 { get; set; }
+
+        public int SinrUl10to19 { get; set; }
+
+        public int SinrUl20to24 { get; set; }
+
+        public int SinrUl25to29 { get; set; }
+
+        public int SinrUl30to34 { get; set; }
+
+        public int SinrUlAbove35 { get; set; }
+
+        public int RsrpBelow120 { get; set; }
+
+        public int RsrpBetween120110 { get; set; }
+
+        public int RsrpBetween110105 { get; set; }
+
+        public int RsrpBetween105100 { get; set; }
+
+        public int RsrpBetween10090 { get; set; }
+
+        public int RsrpAbove90 { get; set; }
+
+        public int Ta0or1 { get; set; }
+
+        public int Ta2or3 { get; set; }
+
+        public int Ta4or5 { get; set; }
+
+        public int Ta6or7 { get; set; }
+
+        public int Ta8or9 { get; set; }
+
+        public int Ta10to12 { get; set; }
+
+        public int Ta13to15 { get; set; }
+
+        public int Ta16to19 { get; set; }
+
+        public int Ta20to24 { get; set; }
+
+        public int Ta25to29 { get; set; }
+
+        public int Ta30to39 { get; set; }
+
+        public int TaAbove40 { get; set; }
     }
-
-    public class InterferenceMatrixCsv
-    {
-        [CsvColumn(Name = "ENODEBID_源PCI_邻PCI_邻频点")]
-        public string CellRelation { get; set; }
-
-        public int ENodebId => CellRelation.Split('_')[0].ConvertToInt(0);
-
-        public short SourcePci => CellRelation.GetSplittedFields('_')[1].ConvertToShort(0);
-
-        public short DestPci => CellRelation.GetSplittedFields('_')[2].ConvertToShort(0);
-
-        public int Frequency => CellRelation.GetSplittedFields('_')[3].ConvertToInt(100);
-
-        [CsvColumn(Name = "MOD3干扰数")]
-        public int Mod3Interferences { get; set; }
-
-        [CsvColumn(Name = "MOD6干扰数")]
-        public int Mod6Interferences { get; set; }
-
-        [CsvColumn(Name = "过覆盖数同频6db")]
-        public int OverInterferences6Db { get; set; }
-
-        [CsvColumn(Name = "过覆盖数同频10db")]
-        public int OverInterferences10Db { get; set; }
-
-        [CsvColumn(Name = "干扰值只有同频")]
-        public double InterferenceLevel { get; set; }
-    }
-
-    [AutoMapFrom(typeof(InterferenceMatrixCsv))]
-    public class InterferenceMatrixPci
-    {
-        public int ENodebId { get; set; }
-
-        public short SourcePci { get; set; }
-
-        public short DestPci { get; set; }
-
-        public int Frequency { get; set; }
-
-        public int Mod3Interferences { get; set; }
-
-        public int Mod6Interferences { get; set; }
-
-        public int OverInterferences6Db { get; set; }
-
-        public int OverInterferences10Db { get; set; }
-
-        public double InterferenceLevel { get; set; }
-    }
-
+    
     [AutoMapTo(typeof(InterferenceMatrixStat))]
     public class InterferenceMatrixMongo : IEntity<ObjectId>
     {
@@ -97,30 +101,72 @@ namespace Lte.Parameters.Entities.Mr
             return false;
         }
 
-        public int ENodebId { get; set; }
+        public string CellId { get; set; }
 
         public int Pci { get; set; }
-
-        [AutoMapPropertyResolve("OverInterferences10Db", typeof(InterferenceMatrixStat), typeof(NullableZeroIntTransform))]
-        public int? Over10db { get; set; }
-
-        [AutoMapPropertyResolve("Mod3Interferences", typeof(InterferenceMatrixStat), typeof(NullableZeroIntTransform))]
-        public int? Mod3Count { get; set; }
-
-        [AutoMapPropertyResolve("OverInterferences6Db", typeof(InterferenceMatrixStat), typeof(NullableZeroIntTransform))]
-        public int? Over6db { get; set; }
-
-        [AutoMapPropertyResolve("Mod6Interferences", typeof(InterferenceMatrixStat), typeof(NullableZeroIntTransform))]
-        public int? Mod6Count { get; set; }
-
-        public DateTime CurrentDate { get; set; }
-
-        [AutoMapPropertyResolve("InterferenceLevel", typeof(InterferenceMatrixStat), typeof(NullableZeroTransform))]
-        public double? InterfLevel { get; set; }
-
-        public int NeighborFreq { get; set; }
-
-        [AutoMapPropertyResolve("DestPci", typeof(InterferenceMatrixStat))]
+        
         public int NeighborPci { get; set; }
+
+        public DateTime StatDate { get; set; }
+
+        public int Diff0 { get; set; }
+
+        public int Diff3 { get; set; }
+
+        public int Diff6 { get; set; }
+
+        public int Diff9 { get; set; }
+
+        public int Diff12 { get; set; }
+
+        public int DiffLarge { get; set; }
+
+        public int SinrUl0to9 { get; set; }
+
+        public int SinrUl10to19 { get; set; }
+
+        public int SinrUl20to24 { get; set; }
+
+        public int SinrUl25to29 { get; set; }
+
+        public int SinrUl30to34 { get; set; }
+
+        public int SinrUlAbove35 { get; set; }
+
+        public int RsrpBelow120 { get; set; }
+
+        public int RsrpBetween120110 { get; set; }
+
+        public int RsrpBetween110105 { get; set; }
+
+        public int RsrpBetween105100 { get; set; }
+
+        public int RsrpBetween10090 { get; set; }
+
+        public int RsrpAbove90 { get; set; }
+
+        public int Ta0or1 { get; set; }
+
+        public int Ta2or3 { get; set; }
+
+        public int Ta4or5 { get; set; }
+
+        public int Ta6or7 { get; set; }
+
+        public int Ta8or9 { get; set; }
+
+        public int Ta10to12 { get; set; }
+
+        public int Ta13to15 { get; set; }
+
+        public int Ta16to19 { get; set; }
+
+        public int Ta20to24 { get; set; }
+
+        public int Ta25to29 { get; set; }
+
+        public int Ta30to39 { get; set; }
+
+        public int TaAbove40 { get; set; }
     }
 }

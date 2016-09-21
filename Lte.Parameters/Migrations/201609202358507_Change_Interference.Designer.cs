@@ -7,13 +7,13 @@ namespace Lte.Parameters.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Move_College_Test_Entity : IMigrationMetadata
+    public sealed partial class Change_Interference : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Move_College_Test_Entity));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Change_Interference));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608050841211_Move_College_Test_Entity"; }
+            get { return "201609202358507_Change_Interference"; }
         }
         
         string IMigrationMetadata.Source

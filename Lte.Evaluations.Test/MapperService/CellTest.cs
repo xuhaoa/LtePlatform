@@ -610,48 +610,7 @@ namespace Lte.Evaluations.MapperService
             info.SecondRate.ShouldBe(34.5);
             info.ThirdRate.ShouldBe(56.7);
         }
-
-        [Test]
-        public void Test_InterferenceMatrixMongo()
-        {
-            var info = new InterferenceMatrixMongo
-            {
-                ENodebId = 12345,
-                Over10db = 0,
-                Over6db = 1,
-                InterfLevel = 2,
-                Mod3Count = 3,
-                Mod6Count = 4,
-                NeighborPci = 5
-            };
-            var stat = info.MapTo<InterferenceMatrixStat>();
-            stat.ENodebId.ShouldBe(12345);
-            stat.OverInterferences10Db.ShouldBe(0);
-            stat.OverInterferences6Db.ShouldBe(1);
-            stat.InterferenceLevel.ShouldBe(2);
-            stat.Mod3Interferences.ShouldBe(3);
-            stat.Mod6Interferences.ShouldBe(4);
-            stat.DestPci.ShouldBe((short)5);
-            info = new InterferenceMatrixMongo
-            {
-                ENodebId = 12345,
-                Over10db = null,
-                Over6db = null,
-                InterfLevel = 2,
-                Mod3Count = null,
-                Mod6Count = 4,
-                NeighborPci = 5
-            };
-            stat = info.MapTo<InterferenceMatrixStat>();
-            stat.ENodebId.ShouldBe(12345);
-            stat.OverInterferences10Db.ShouldBe(0);
-            stat.OverInterferences6Db.ShouldBe(0);
-            stat.InterferenceLevel.ShouldBe(2);
-            stat.Mod3Interferences.ShouldBe(0);
-            stat.Mod6Interferences.ShouldBe(4);
-            stat.DestPci.ShouldBe((short)5);
-        }
-
+        
         [TestCase("2015-2-2", 1, 2, 100, 0.33, 0.27, 0.19)]
         [TestCase("2015-5-2", 11, 2, 1000, 0.43, 0.27, 0.19)]
         [TestCase("2015-2-5", 1231, 2, 1001, 0.331, 0.227, 0.139)]
@@ -678,27 +637,7 @@ namespace Lte.Evaluations.MapperService
             Assert.AreEqual(stat.SecondNeighbors, (int)(totalMrs * secondRate) / 100);
             Assert.AreEqual(stat.ThirdNeighbors, (int)(totalMrs * thirdRate) / 100);
         }
-
-        [Test]
-        public void TestMap_InterferenceMatrix()
-        {
-            var mongoStat = new InterferenceMatrixMongo
-            {
-                InterfLevel = 26.34,
-                CurrentDate = new DateTime(2015, 12, 30, 14, 45, 0),
-                ENodebId = 500026,
-                Pci = 88,
-                NeighborPci = 301,
-                NeighborFreq = 1825,
-                Over10db = 2
-            };
-            var stat = Mapper.Map<InterferenceMatrixMongo, InterferenceMatrixStat>(mongoStat);
-            Assert.IsNotNull(stat);
-            Assert.AreEqual(stat.ENodebId, 500026);
-            Assert.AreEqual(stat.DestPci, 301);
-            Assert.AreEqual(stat.OverInterferences10Db, 2);
-            Assert.AreEqual(stat.InterferenceLevel, 26.34);
-        }
+        
     }
 
     [TestFixture]
