@@ -330,6 +330,16 @@ angular.module('rutrace.interference', ['neighbor.mongo', 'myApp.parameters'])
             },
             templateUrl: htmlRoot + 'interference/MroInterferenceList.html'
         };
+    })
+    .directive('mroRsrpTable', function (htmlRoot) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                currentDetails: '='
+            },
+            templateUrl: htmlRoot + 'interference/MroRsrpList.html'
+        };
     });
 
 angular.module('rutrace.trend', [])
