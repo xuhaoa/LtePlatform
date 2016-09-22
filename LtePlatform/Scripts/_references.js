@@ -171,7 +171,6 @@
 /// <reference path="respond.js" />
 /// <reference path="rutrace/index.controller.js" />
 /// <reference path="rutrace/interference/controller.js" />
-/// <reference path="rutrace/precise.controller.js" />
 /// <reference path="rutrace/workitem/controller.js" />
 /// <reference path="service/app.authorize.service.js" />
 /// <reference path="service/app.kpi.service.js" />

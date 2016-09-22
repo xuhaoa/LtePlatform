@@ -1612,7 +1612,6 @@
     <Content Include="Scripts\parameters\import\index.controller.js" />
     <Content Include="Scripts\parameters\neighbor\import.controller.js" />
     <Content Include="Scripts\rutrace\index.controller.js" />
-    <Content Include="Scripts\rutrace\precise.controller.js" />
     <Content Include="Scripts\rutrace\workitem\controller.js" />
     <Content Include="Scripts\service\app.authorize.service.js" />
     <Content Include="Scripts\service\app.kpi.service.js" />
