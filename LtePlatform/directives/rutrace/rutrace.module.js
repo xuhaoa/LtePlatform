@@ -320,6 +320,16 @@ angular.module('rutrace.interference', ['neighbor.mongo', 'myApp.parameters'])
                 };
             }
         };
+    })
+    .directive('mroInterferenceTable', function (htmlRoot) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                currentDetails: '='
+            },
+            templateUrl: htmlRoot + 'interference/MroInterferenceList.html'
+        };
     });
 
 angular.module('rutrace.trend', [])

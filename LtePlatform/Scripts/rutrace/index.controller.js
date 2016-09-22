@@ -257,8 +257,9 @@ angular.module('rutrace.main', ['app.common'])
             });
         };
 
-        $scope.updateDetails = function(records) {
+        $scope.updateDetails = function(records, recordDate) {
             $scope.currentDetails = records;
+            $scope.recordDate = recordDate;
         };
 
         $scope.dumpAllRecords = function() {

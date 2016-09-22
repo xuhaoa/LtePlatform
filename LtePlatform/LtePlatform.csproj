@@ -609,6 +609,7 @@
     <Content Include="appViews\Rutrace\Interference\Index.html" />
     <Content Include="appViews\Rutrace\Interference\CoverageDialog.html" />
     <Content Include="directives\rutrace\interference\MongoNeighbors.html" />
+    <Content Include="directives\rutrace\interference\MroInterferenceList.html" />
     <Content Include="directives\rutrace\interference\SourceDialogList.html" />
     <Content Include="directives\rutrace\interference\SourceList.html" />
     <Content Include="appViews\Rutrace\Interference\SourceDbChartDialog.html" />
