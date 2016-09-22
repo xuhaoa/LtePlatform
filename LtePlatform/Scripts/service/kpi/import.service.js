@@ -121,8 +121,7 @@
                             stat.destSectorId = 0;
                         }
                         dumpProgress.dumpMongo(stat).then(function () {
-                            console.log(stat);
-                            //serviceInstance.dumpAllRecords(records, outerIndex, innerIndex + 1, eNodebId, sectorId, queryFunc);
+                            serviceInstance.dumpAllRecords(records, outerIndex, innerIndex + 1, eNodebId, sectorId, queryFunc);
                         });
                     });
                 } else
