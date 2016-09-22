@@ -11,8 +11,6 @@ namespace Lte.Parameters.Entities.Mr
 {
     public class InterferenceMatrixStat : Entity
     {
-        public DateTime StatTime { get; set; }
-
         public int ENodebId => CellId.GetSplittedFields('-')[0].ConvertToInt(0);
 
         public byte SectorId => CellId.GetSplittedFields('-')[1].ConvertToByte(0);

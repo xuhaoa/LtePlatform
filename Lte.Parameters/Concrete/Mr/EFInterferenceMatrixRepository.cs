@@ -41,7 +41,7 @@ namespace Lte.Parameters.Concrete.Mr
                 GetAll()
                     .Where(
                         x =>
-                            x.StatTime >= begin && x.StatTime < end && x.ENodebId == cellId &&
+                            x.StatDate >= begin && x.StatDate < end && x.ENodebId == cellId &&
                             x.SectorId == sectorId)
                     .ToList();
         }
@@ -52,7 +52,7 @@ namespace Lte.Parameters.Concrete.Mr
                 GetAll()
                     .Where(
                         x =>
-                            x.StatTime >= begin && x.StatTime < end && x.DestENodebId == cellId &&
+                            x.StatDate >= begin && x.StatDate < end && x.DestENodebId == cellId &&
                             x.DestSectorId == sectorId)
                     .ToList();
         }

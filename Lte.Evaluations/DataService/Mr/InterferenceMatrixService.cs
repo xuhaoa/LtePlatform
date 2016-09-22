@@ -44,16 +44,16 @@ namespace Lte.Evaluations.DataService.Mr
             var nextDay = date.AddDays(1).Date;
             var cellId = eNodebId + "-" + sectorId;
             return _repository.Count(x =>
-                    x.CellId == cellId && x.StatTime >= beginDay && x.StatTime < nextDay);
+                    x.CellId == cellId && x.StatDate >= beginDay && x.StatDate < nextDay);
         }
         
         public int DumpMongoStats(InterferenceMatrixStat stat)
         {
-            stat.StatTime = stat.StatTime.Date;
+            stat.StatDate = stat.StatDate.Date;
             var cellId = stat.ENodebId + "-" + stat.SectorId;
             var existedStat =
                 _repository.FirstOrDefault(
-                    x => x.CellId == cellId && x.NeighborPci == stat.NeighborPci && x.StatTime == stat.StatTime);
+                    x => x.CellId == cellId && x.NeighborPci == stat.NeighborPci && x.StatDate == stat.StatDate);
             if (existedStat == null)
                 _repository.Insert(stat);
 
@@ -67,7 +67,7 @@ namespace Lte.Evaluations.DataService.Mr
             var cellId = stat.ENodebId + "-" + stat.SectorId;
             var item =
                 _repository.FirstOrDefault(
-                    x => x.CellId == cellId && x.NeighborPci == stat.NeighborPci && x.StatTime == stat.StatTime);
+                    x => x.CellId == cellId && x.NeighborPci == stat.NeighborPci && x.StatDate == stat.StatDate);
             if (item == null)
             {
                 await _repository.InsertAsync(stat);
@@ -114,7 +114,7 @@ namespace Lte.Evaluations.DataService.Mr
         {
             var results = Mapper.Map<List<InterferenceMatrixMongo>, IEnumerable<InterferenceMatrixStat>>(statList);
             return (from s in results
-                group s by new { s.NeighborPci, s.ENodebId, RecordDate = s.StatTime.Date }
+                group s by new { s.NeighborPci, s.ENodebId, RecordDate = s.StatDate.Date }
                 into g
                 select g.Select(x => x).ArraySum()).ToList();
         }

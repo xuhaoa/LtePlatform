@@ -112,14 +112,17 @@
                 var subRecord = records[outerIndex];
                 if (subRecord.existedRecords < subRecord.mongoRecords.length && innerIndex < subRecord.mongoRecords.length) {
                     var stat = subRecord.mongoRecords[innerIndex];
-                    stat.sectorId = sectorId;
-                    neighborService.querySystemNeighborCell(eNodebId, sectorId, stat.destPci).then(function (neighbor) {
+                    neighborService.querySystemNeighborCell(eNodebId, sectorId, stat.neighborPci).then(function (neighbor) {
                         if (neighbor) {
                             stat.destENodebId = neighbor.nearestCellId;
                             stat.destSectorId = neighbor.nearestSectorId;
+                        } else {
+                            stat.destENodebId = 0;
+                            stat.destSectorId = 0;
                         }
                         dumpProgress.dumpMongo(stat).then(function () {
-                            serviceInstance.dumpAllRecords(records, outerIndex, innerIndex + 1, eNodebId, sectorId, queryFunc);
+                            console.log(stat);
+                            //serviceInstance.dumpAllRecords(records, outerIndex, innerIndex + 1, eNodebId, sectorId, queryFunc);
                         });
                     });
                 } else
