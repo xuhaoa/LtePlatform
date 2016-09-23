@@ -91,10 +91,10 @@
             });
         };
 
-        serviceInstance.queryNeighborMongoItem = function (eNodebId, pci, neighborPci, date) {
-            return generalHttpService.getApiData('DumpInterference', {
+        serviceInstance.queryNeighborMongoItem = function (eNodebId, sectorId, neighborPci, date) {
+            return generalHttpService.getApiData('InterferenceMatrix', {
                 eNodebId: eNodebId,
-                pci: pci,
+                sectorId: sectorId,
                 neighborPci: neighborPci,
                 date: date
             });
@@ -129,23 +129,24 @@
             }
 
         };
-        serviceInstance.dumpDateSpanSingleNeighborRecords = function (eNodebId, sectorId, pci, destENodebId, destSectorId, destPci, date, end) {
+        serviceInstance.dumpDateSpanSingleNeighborRecords = function (cell, date, end) {
             if (date < end) {
-                dumpProgress.queryNeighborMongoItem(eNodebId, pci, destPci, date).then(function (result) {
+                dumpProgress.queryNeighborMongoItem(cell.cellId, cell.sectorId, cell.neighborPci, date).then(function(result) {
                     var stat = result;
                     var nextDate = date;
                     nextDate.setDate(nextDate.getDate() + 1);
                     if (stat) {
-                        stat.sectorId = sectorId;
-                        stat.destENodebId = destENodebId;
-                        stat.destSectorId = destSectorId;
-                        dumpProgress.dumpMongo(stat).then(function () {
-                            serviceInstance.dumpDateSpanSingleNeighborRecords(eNodebId, sectorId, pci, destENodebId, destSectorId, destPci, nextDate, end);
+                        stat.destENodebId = cell.destENodebId;
+                        stat.destSectorId = cell.destSectorId;
+                        dumpProgress.dumpMongo(stat).then(function() {
+                            serviceInstance.dumpDateSpanSingleNeighborRecords(cell, nextDate, end);
                         });
                     } else {
-                        serviceInstance.dumpDateSpanSingleNeighborRecords(eNodebId, sectorId, pci, destENodebId, destSectorId, destPci, nextDate, end);
+                        serviceInstance.dumpDateSpanSingleNeighborRecords(cell, nextDate, end);
                     }
                 });
+            } else {
+                cell.finished = true;
             }
         };
 

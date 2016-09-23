@@ -9,6 +9,7 @@
             <th>基站名称</th>
             <th>是否监控</th>
             <th>导入情况</th>
+            <th>操作</th>
         </tr>
     </thead>
     <tbody>
@@ -23,8 +24,10 @@
                 <span ng-if="neighbor.isMonitored">已监控</span>
                 <span ng-if="!neighbor.isMonitored" style="color: red">未监控</span>
             </td>
-            <td style="min-width:200px">
-                <button class="btn btn-sm btn-default" ng-click="dumpReverseMongo(neighbor)">导入数据</button>
+            <td>
+                <span ng-if="neighbor.finished">已完成</span>
+            </td>
+            <td>
                 <button class="btn btn-sm btn-primary" ng-show="$index===0" ng-click="dumpAll()">导入所有</button>
             </td>
         </tr>

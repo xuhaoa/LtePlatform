@@ -133,9 +133,8 @@ namespace Lte.Evaluations.DataService.Mr
 
         public InterferenceMatrixStat QueryStat(int eNodebId, byte sectorId, short neighborPci, DateTime time)
         {
-            var statList = _mongoRepository.GetList(eNodebId + "-" + sectorId, neighborPci, time);
-            if (!statList.Any()) return null;
-            return statList.ArraySum().MapTo<InterferenceMatrixStat>();
+            var stat = _mongoRepository.Get(eNodebId + "-" + sectorId, neighborPci, time);
+            return stat?.MapTo<InterferenceMatrixStat>();
         }
 
         public async Task<List<InterferenceMatrixStat>> QueryStats(int eNodebId, byte sectorId)

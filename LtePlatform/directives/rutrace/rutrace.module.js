@@ -194,10 +194,7 @@ angular.module('rutrace.neighbor', ['neighbor.mongo', 'myApp.parameters', 'kpi.i
     })
     .directive('dumpBackwardNeighbors', function(htmlRoot, networkElementService, dumpPreciseService) {
         var dumpSingleCell = function(cell, begin, end) {
-            networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function(info) {
-                dumpPreciseService.dumpDateSpanSingleNeighborRecords(cell.cellId, cell.sectorId, info.pci, cell.neighborCellId,
-                    cell.neighborSectorId, cell.neighborPci, begin, end);
-            });
+            dumpPreciseService.dumpDateSpanSingleNeighborRecords(cell, begin, end);
         };
         return {
             restrict: 'ECMA',
@@ -208,12 +205,7 @@ angular.module('rutrace.neighbor', ['neighbor.mongo', 'myApp.parameters', 'kpi.i
                 endDate: '='
             },
             templateUrl: htmlRoot + 'import/BackwardNeighbors.html',
-            link: function(scope, element, attrs) {
-                scope.dumpReverseMongo = function(cell) {
-                    var begin = new Date(scope.beginDate.value);
-                    var end = new Date(scope.endDate.value);
-                    dumpSingleCell(cell, begin, end);
-                };
+            link: function (scope, element, attrs) {
                 scope.dumpAll = function() {
                     angular.forEach(scope.neighborCells, function(cell) {
                         dumpSingleCell(cell, new Date(scope.beginDate.value), new Date(scope.endDate.value));

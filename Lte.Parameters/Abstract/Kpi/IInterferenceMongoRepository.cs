@@ -15,7 +15,7 @@ namespace Lte.Parameters.Abstract.Kpi
 
         Task<List<InterferenceMatrixMongo>> GetListAsync(string cellId, DateTime date);
 
-        List<InterferenceMatrixMongo> GetList(string cellId, short neighborPci, DateTime date);
+        InterferenceMatrixMongo Get(string cellId, short neighborPci, DateTime date);
 
         InterferenceMatrixMongo GetOne(string cellId);
     }

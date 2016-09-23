@@ -46,14 +46,14 @@ namespace Lte.Parameters.Concrete.Mr
             return await Task.Run(() => Collection.Find(query).AsQueryable().ToList());
         }
 
-        public List<InterferenceMatrixMongo> GetList(string cellId, short neighborPci, DateTime date)
+        public InterferenceMatrixMongo Get(string cellId, short neighborPci, DateTime date)
         {
             var nextDate = date.AddDays(1);
             var query =
                 MongoDB.Driver.Builders.Query<InterferenceMatrixMongo>.Where(
                     e => e.CellId == cellId && e.NeighborPci == neighborPci
                          && e.StatDate >= date && e.StatDate < nextDate);
-            return Collection.Find(query).AsQueryable().ToList();
+            return Collection.FindOne(query);
         }
 
         public async Task<List<InterferenceMatrixMongo>> GetListAsync(string cellId, DateTime date)
