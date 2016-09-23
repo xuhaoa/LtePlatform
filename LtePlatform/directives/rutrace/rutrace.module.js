@@ -340,6 +340,16 @@ angular.module('rutrace.interference', ['neighbor.mongo', 'myApp.parameters'])
             },
             templateUrl: htmlRoot + 'interference/MroRsrpList.html'
         };
+    })
+    .directive('mroTaTable', function (htmlRoot) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                currentDetails: '='
+            },
+            templateUrl: htmlRoot + 'interference/MroTaList.html'
+        };
     });
 
 angular.module('rutrace.trend', [])
