@@ -6,9 +6,9 @@ using Abp.EntityFramework;
 using Abp.EntityFramework.Repositories;
 using EntityFramework.Extensions;
 using Lte.Parameters.Abstract;
-using Lte.Parameters.Entities.Mr;
+using Lte.Parameters.Entities.Kpi;
 
-namespace Lte.Parameters.Concrete.Mr
+namespace Lte.Parameters.Concrete.Kpi
 {
     public class EFInterferenceMatrixRepository : EfRepositoryBase<EFParametersContext, InterferenceMatrixStat>, IInterferenceMatrixRepository
     {

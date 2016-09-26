@@ -26,6 +26,12 @@ namespace Abp.EntityFramework.Dependency
         DateTime StatDate { get; set; }
     }
 
+    public interface IStatDateCellRepository<out TEntity>
+            where TEntity : class, IStatDateCell, IEntity<ObjectId>
+    {
+        TEntity Get(string cellId, DateTime statDate);
+    }
+
     public static class StatDateCellQueries
     {
         public static TEntity Query<TEntity>(this MongoDbRepositoryBase<TEntity, ObjectId> repository,

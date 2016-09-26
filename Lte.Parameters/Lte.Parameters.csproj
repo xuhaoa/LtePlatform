@@ -160,13 +160,13 @@
     <Compile Include="Concrete\Channel\CellPcRepositories.cs" />
     <Compile Include="Concrete\Channel\PDSCHCfgRepository.cs" />
     <Compile Include="Concrete\EFAlarmRepository.cs" />
-    <Compile Include="Concrete\Basic\EFCdmaCellRepository.cs" />
     <Compile Include="Concrete\Basic\EFCellRepository.cs" />
     <Compile Include="Concrete\College\EFTestRepositories.cs" />
     <Compile Include="Concrete\College\EFCollegeRepository.cs" />
     <Compile Include="Concrete\Basic\EFENodebRepository.cs" />
     <Compile Include="Concrete\Infrastructure\EFInfrastructureRepository.cs" />
-    <Compile Include="Concrete\Mr\EFInterferenceMatrixRepository.cs" />
+    <Compile Include="Concrete\Kpi\EFInterferenceMatrixRepository.cs" />
+    <Compile Include="Concrete\Kpi\MrsRepositories.cs" />
     <Compile Include="Concrete\Neighbor\EFLteNeighborCellRepository.cs" />
     <Compile Include="Concrete\EFParametersContext.cs" />
     <Compile Include="Concrete\Kpi\EFPreciseCoverage4GRepository.cs" />
@@ -174,7 +174,7 @@
     <Compile Include="Concrete\Infrastructure\EFTownRepository.cs" />
     <Compile Include="Concrete\EFWorkItemRepository.cs" />
     <Compile Include="Concrete\MasterTestContext.cs" />
-    <Compile Include="Concrete\Mr\InterferenceMongoRepository.cs" />
+    <Compile Include="Concrete\Kpi\InterferenceMongoRepository.cs" />
     <Compile Include="Concrete\MyMongoProvider.cs" />
     <Compile Include="Concrete\Neighbor\EutranInterNFreqRepository.cs" />
     <Compile Include="Concrete\Neighbor\EutranIntraFreqNCellRepository.cs" />
@@ -189,7 +189,7 @@
     <Compile Include="Entities\Channel\PDSCHCfg.cs" />
     <Compile Include="Entities\Channel\PowerControlDLZte.cs" />
     <Compile Include="Entities\Channel\PowerControlULZte.cs" />
-    <Compile Include="Entities\Mr\MrsStats.cs" />
+    <Compile Include="Entities\Kpi\MrsStats.cs" />
     <Compile Include="Entities\Neighbor\ExternalEUtranCellFDDZte.cs" />
     <Compile Include="Concrete\Switch\CellMeasGroupZteRepository.cs" />
     <Compile Include="Concrete\Switch\InterFreqHoGroupRepository.cs" />
@@ -209,7 +209,7 @@
     <Compile Include="Entities\IndoorDistributionExcel.cs" />
     <Compile Include="Entities\InfrastructureDefs.cs" />
     <Compile Include="Entities\InfrastructureInfo.cs" />
-    <Compile Include="Entities\Mr\InterferenceMatrixStat.cs" />
+    <Compile Include="Entities\Kpi\InterferenceMatrixStat.cs" />
     <Compile Include="Entities\Neighbor\EutranInterNFreq.cs" />
     <Compile Include="Entities\Neighbor\EutranIntraFreqNCell.cs" />
     <Compile Include="Entities\Neighbor\EUtranRelationZte.cs" />

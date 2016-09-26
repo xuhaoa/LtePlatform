@@ -21,7 +21,6 @@ using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Channel;
 using Lte.Parameters.Entities.Dt;
 using Lte.Parameters.Entities.Kpi;
-using Lte.Parameters.Entities.Mr;
 using Lte.Parameters.Entities.Work;
 using NUnit.Framework;
 using Shouldly;

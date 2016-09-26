@@ -10,7 +10,7 @@ using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
-using Lte.Parameters.Entities.Mr;
+using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.DataService.Mr
 {

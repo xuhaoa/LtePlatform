@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lte.Parameters.Entities.Mr;
+using Lte.Parameters.Entities.Kpi;
 using MongoDB.Bson;
 
 namespace MongoDB.Driver.Legacy.TestHelpers

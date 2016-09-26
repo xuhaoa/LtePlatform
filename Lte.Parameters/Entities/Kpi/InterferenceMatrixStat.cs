@@ -2,14 +2,12 @@
 using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Dependency;
-using Abp.MongoDb;
 using AutoMapper;
 using Lte.Domain.Common;
-using Lte.Domain.LinqToCsv;
 using Lte.Domain.Regular;
 using MongoDB.Bson;
 
-namespace Lte.Parameters.Entities.Mr
+namespace Lte.Parameters.Entities.Kpi
 {
     public class InterferenceMatrixStat : Entity
     {

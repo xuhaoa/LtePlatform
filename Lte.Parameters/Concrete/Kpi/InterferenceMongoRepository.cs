@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Abp.EntityFramework.Dependency;
 using Abp.EntityFramework.Repositories;
-using Abp.MongoDb;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Kpi;
-using Lte.Parameters.Entities.Mr;
+using Lte.Parameters.Entities.Kpi;
 using MongoDB.Bson;
 
-namespace Lte.Parameters.Concrete.Mr
+namespace Lte.Parameters.Concrete.Kpi
 {
     public class InterferenceMongoRepository : MongoDbRepositoryBase<InterferenceMatrixMongo, ObjectId>, IInterferenceMongoRepository
     {

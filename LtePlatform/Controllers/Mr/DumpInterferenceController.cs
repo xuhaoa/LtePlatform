@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Lte.Evaluations.DataService.Mr;
 using Lte.Evaluations.MapperSerive.Infrastructure;
-using Lte.Parameters.Entities.Mr;
+using Lte.Parameters.Entities.Kpi;
 using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.Mr

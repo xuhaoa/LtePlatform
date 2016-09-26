@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
-using Lte.Parameters.Entities.Mr;
+using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Parameters.Abstract
 {
