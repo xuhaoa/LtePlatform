@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using Abp.EntityFramework.Dependency;
+using Abp.MongoDb;
 using Lte.Parameters.Entities.Switch;
 using MongoDB.Bson;
 

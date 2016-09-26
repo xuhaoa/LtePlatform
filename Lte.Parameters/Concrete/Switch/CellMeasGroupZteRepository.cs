@@ -1,6 +1,7 @@
 ﻿using System.Linq;
+using Abp.EntityFramework.Dependency;
+using Abp.EntityFramework.Repositories;
 using Abp.MongoDb;
-using Abp.MongoDb.Repositories;
 using Lte.Parameters.Abstract.Switch;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Switch;

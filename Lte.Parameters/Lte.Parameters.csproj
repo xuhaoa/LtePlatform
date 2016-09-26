@@ -140,11 +140,11 @@
     <Compile Include="Abstract\Basic\IENodebRepository.cs" />
     <Compile Include="Abstract\Infrastructure\IInfrastructureRepository.cs" />
     <Compile Include="Abstract\IInterferenceMatrixRepository.cs" />
-    <Compile Include="Abstract\Kpi\IInterferenceMongoRepository.cs" />
+    <Compile Include="Abstract\Kpi\MrMongoInterfaces.cs" />
     <Compile Include="Abstract\Neighbor\HuaweiRepositories.cs" />
     <Compile Include="Abstract\Neighbor\ZteRepositories.cs" />
     <Compile Include="Abstract\IPagingRepository.cs" />
-    <Compile Include="Abstract\Kpi\IPreciseCoverage4GRepository.cs" />
+    <Compile Include="Abstract\Kpi\PreciseInterfaces.cs" />
     <Compile Include="Abstract\Infrastructure\IRegionRepository.cs" />
     <Compile Include="Abstract\Infrastructure\ITownRepository.cs" />
     <Compile Include="Abstract\IWorkItemRepository.cs" />
@@ -199,7 +199,6 @@
     <Compile Include="Concrete\Switch\UeEUtranMeasurementRepository.cs" />
     <Compile Include="Entities\Kpi\AlarmStat.cs" />
     <Compile Include="Entities\Basic\CellHuaweiMongo.cs" />
-    <Compile Include="Entities\Basic\CommonFormats.cs" />
     <Compile Include="Entities\Basic\Cell.cs" />
     <Compile Include="Entities\College\CollegeInfo.cs" />
     <Compile Include="Abstract\IAlarmRepository.cs" />

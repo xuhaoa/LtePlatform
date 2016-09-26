@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
+using Abp.EntityFramework.Dependency;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
-namespace Abp.MongoDb.Repositories
+namespace Abp.EntityFramework.Repositories
 {
     /// <summary>
     /// Implements IRepository for MongoDB.
@@ -47,6 +44,11 @@ namespace Abp.MongoDb.Repositories
         public IQueryable<TEntity> QueryCursor(IMongoQuery query)
         {
             return Collection.Find(query).AsQueryable();
+        }
+
+        public TEntity QueryOne(IMongoQuery query)
+        {
+            return Collection.FindOne(query);
         }
 
         public override IQueryable<TEntity> GetAll()
