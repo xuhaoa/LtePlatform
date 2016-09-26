@@ -334,7 +334,6 @@
     <Compile Include="Controllers\Kpi\AlarmsController.cs" />
     <Compile Include="Controllers\Kpi\DownSwitchFlowController.cs" />
     <Compile Include="Controllers\Kpi\DumpFlowController.cs" />
-    <Compile Include="Controllers\Mr\DumpInterferenceController.cs" />
     <Compile Include="Controllers\Kpi\FlowQueryController.cs" />
     <Compile Include="Controllers\Kpi\KpiDataListController.cs" />
     <Compile Include="Controllers\Kpi\KpiOptionsController.cs" />
@@ -352,7 +351,8 @@
     <Compile Include="Controllers\Mongo\InterFreqHoController.cs" />
     <Compile Include="Controllers\Mongo\IntraFreqHoController.cs" />
     <Compile Include="Controllers\Mongo\NeighborCellMongoController.cs" />
-    <Compile Include="Controllers\Mr\InterferenceNeighborController.cs" />
+    <Compile Include="Controllers\Mr\InterferenceControllers.cs" />
+    <Compile Include="Controllers\Mr\MrsControllers.cs" />
     <Compile Include="Controllers\Mr\NeighborMonitorController.cs" />
     <Compile Include="Controllers\Mr\PreciseWorkItemController.cs" />
     <Compile Include="Controllers\ParametersController.cs" />

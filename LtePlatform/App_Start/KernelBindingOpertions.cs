@@ -159,6 +159,16 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IPlanningSiteRepository>().To<PlanningSiteRepository>();
 
+            ninjectKernel.Bind<IMrsTadvRepository>().To<MrsTadvRepository>();
+
+            ninjectKernel.Bind<IMrsPhrRepository>().To<MrsPhrRepository>();
+
+            ninjectKernel.Bind<IMrsRsrpRepository>().To<MrsRsrpRepository>();
+
+            ninjectKernel.Bind<IMrsSinrUlRepository>().To<MrsSinrUlRepository>();
+
+            ninjectKernel.Bind<IMrsTadvRsrpRepository>().To<MrsTadvRsrpRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();
@@ -278,6 +288,8 @@ namespace LtePlatform
             ninjectKernel.Bind<ComplainService>().ToSelf();
 
             ninjectKernel.Bind<PlanningQueryService>().ToSelf();
+
+            ninjectKernel.Bind<MrsService>().ToSelf();
         }
     }
 }
