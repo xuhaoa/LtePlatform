@@ -1,3 +1,4 @@
+using System;
 using MongoDB.Driver;
 
 namespace Abp.MongoDb
@@ -11,5 +12,12 @@ namespace Abp.MongoDb
         /// Gets the <see cref="MongoDatabase"/>.
         /// </summary>
         MongoDatabase Database { get; }
+    }
+
+    public interface IStatDateCell
+    {
+        string CellId { get; set; }
+
+        DateTime StatDate { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
+using Abp.MongoDb;
 using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.LinqToCsv;
@@ -89,7 +90,7 @@ namespace Lte.Parameters.Entities.Mr
     }
     
     [AutoMapTo(typeof(InterferenceMatrixStat))]
-    public class InterferenceMatrixMongo : IEntity<ObjectId>
+    public class InterferenceMatrixMongo : IEntity<ObjectId>, IStatDateCell
     {
         [AutoMapPropertyResolve("Id", typeof(InterferenceMatrixStat), typeof(IgnoreMapAttribute))]
         public ObjectId Id { get; set; }

@@ -141,6 +141,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Abp.EntityFramework\Abp.EntityFramework.csproj">
+      <Project>{8e0c8a21-369e-4d30-8e1d-a51ec5ca934f}</Project>
+      <Name>Abp.EntityFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lte.Parameters\Lte.Parameters.csproj">
       <Project>{25b6ccb6-4b12-4df2-b4c9-2d30ae6bd254}</Project>
       <Name>Lte.Parameters</Name>
