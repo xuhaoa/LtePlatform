@@ -24,8 +24,7 @@ namespace Lte.Parameters.Concrete.Kpi
         public Task<int> UpdateItemsAsync(int eNodebId, byte sectorId, short destPci, int destENodebId, byte destSectorId)
         {
             return GetAll()
-                .Where(
-                    x => x.ENodebId == eNodebId && x.SectorId == sectorId && x.NeighborPci == destPci && x.DestENodebId == 0)
+                .Where(x => x.CellId == eNodebId + "-" + sectorId && x.NeighborPci == destPci && x.DestENodebId == 0)
                 .UpdateAsync(
                     t =>
                         new InterferenceMatrixStat
@@ -41,8 +40,7 @@ namespace Lte.Parameters.Concrete.Kpi
                 GetAll()
                     .Where(
                         x =>
-                            x.StatDate >= begin && x.StatDate < end && x.ENodebId == cellId &&
-                            x.SectorId == sectorId)
+                            x.StatDate >= begin && x.StatDate < end && x.CellId == cellId + "-" + sectorId)
                     .ToList();
         }
 
