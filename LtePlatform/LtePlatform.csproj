@@ -777,6 +777,9 @@
     <Content Include="Content\themes\baidu\box.scss" />
     <None Include=".bin\compass.bat" />
     <Content Include="Content\themes\_colors.scss" />
+    <Content Include="Content\ui-grid.woff" />
+    <Content Include="Content\ui-grid.ttf" />
+    <Content Include="Content\ui-grid.eot" />
     <None Include="Content\_components.scss" />
     <Content Include="Content\themes\baidu\close.png" />
     <Content Include="Content\themes\baidu\tipbox.jpg" />
@@ -1778,9 +1781,6 @@
     <None Include="Areas\TestPage\Views\AngularTest\Index.cshtml" />
     <None Include="Areas\TestPage\Views\WebApiTest\SimpleType.cshtml" />
     <Content Include="Areas\TestPage\Views\WebApiTest\_BasicPost.cshtml" />
-    <Content Include="Content\ui-grid.woff" />
-    <Content Include="Content\ui-grid.ttf" />
-    <Content Include="Content\ui-grid.eot" />
     <None Include="Properties\PublishProfiles\Lte-ftp-219.pubxml" />
     <None Include="Properties\PublishProfiles\Lte2.pubxml" />
     <Content Include="Scripts\coffee-script.js" />
