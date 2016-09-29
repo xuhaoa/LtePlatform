@@ -1144,27 +1144,12 @@
             Used to manage navigation for users.
             </summary>
         </member>
-        <member name="M:Abp.Application.Navigation.IUserNavigationManager.GetMenuAsync(System.String,System.Nullable{System.Int64},System.Nullable{System.Int32})">
-            <summary>
-            Gets a menu specialized for given user.
-            </summary>
-            <param name="menuName">Unique name of the menu</param>
-            <param name="userId">User id or null for anonymous users</param>
-            <param name="tenantId">Tenant id (optional). Uses current tenant if not provided.</param>
-        </member>
         <member name="M:Abp.Application.Navigation.IUserNavigationManager.GetMenuAsync(System.String,Abp.UserIdentifier)">
             <summary>
             Gets a menu specialized for given user.
             </summary>
             <param name="menuName">Unique name of the menu</param>
             <param name="user">The user, or null for anonymous users</param>
-        </member>
-        <member name="M:Abp.Application.Navigation.IUserNavigationManager.GetMenusAsync(System.Nullable{System.Int64},System.Nullable{System.Int32})">
-            <summary>
-            Gets all menus specialized for given user.
-            </summary>
-            <param name="userId">User id or null for anonymous users</param>
-            <param name="tenantId">Tenant id (optional). Uses current tenant if not provided.</param>
         </member>
         <member name="M:Abp.Application.Navigation.IUserNavigationManager.GetMenusAsync(Abp.UserIdentifier)">
             <summary>
@@ -1449,11 +1434,6 @@
             Reference to the feature checker.
             </summary>
         </member>
-        <member name="P:Abp.Application.Services.ApplicationService.CurrentSession">
-            <summary>
-            Gets current session information.
-            </summary>
-        </member>
         <member name="P:Abp.Application.Services.ApplicationService.AppliedCrossCuttingConcerns">
             <summary>
             Gets the applied cross cutting concerns.
@@ -1490,9 +1470,69 @@
             <param name="featureName">Name of the feature</param>
             <returns></returns>
         </member>
+        <member name="T:Abp.Application.Services.CrudAppServiceBase`6">
+            <summary>
+            This is a common base class for CrudAppService and AsyncCrudAppService classes.
+            Inherit either from CrudAppService or AsyncCrudAppService, not from this class.
+            </summary>
+        </member>
+        <member name="M:Abp.Application.Services.CrudAppServiceBase`6.ApplySorting(System.Linq.IQueryable{`0},`3)">
+            <summary>
+            Should apply sorting if needed.
+            </summary>
+            <param name="query">The query.</param>
+            <param name="input">The input.</param>
+        </member>
+        <member name="M:Abp.Application.Services.CrudAppServiceBase`6.ApplyPaging(System.Linq.IQueryable{`0},`3)">
+            <summary>
+            Should apply paging if needed.
+            </summary>
+            <param name="query">The query.</param>
+            <param name="input">The input.</param>
+        </member>
+        <member name="M:Abp.Application.Services.CrudAppServiceBase`6.CreateFilteredQuery(`3)">
+            <summary>
+            This method should create <see cref="T:System.Linq.IQueryable`1"/> based on given input.
+            It should filter query if needed, but should not do sorting or paging.
+            Sorting should be done in <see cref="M:Abp.Application.Services.CrudAppServiceBase`6.ApplySorting(System.Linq.IQueryable{`0},`3)"/> and paging should be done in <see cref="M:Abp.Application.Services.CrudAppServiceBase`6.ApplyPaging(System.Linq.IQueryable{`0},`3)"/>
+            methods.
+            </summary>
+            <param name="input">The input.</param>
+        </member>
+        <member name="M:Abp.Application.Services.CrudAppServiceBase`6.MapToEntityDto(`0)">
+            <summary>
+            Maps <see cref="!:TEntity"/> to <see cref="!:TEntityDto"/>.
+            It uses <see cref="T:Abp.ObjectMapping.IObjectMapper"/> by default.
+            It can be overrided for custom mapping.
+            </summary>
+        </member>
+        <member name="M:Abp.Application.Services.CrudAppServiceBase`6.MapToEntity(`4)">
+            <summary>
+            Maps <see cref="!:TEntityDto"/> to <see cref="!:TEntity"/> to create a new entity.
+            It uses <see cref="T:Abp.ObjectMapping.IObjectMapper"/> by default.
+            It can be overrided for custom mapping.
+            </summary>
+        </member>
+        <member name="M:Abp.Application.Services.CrudAppServiceBase`6.MapToEntity(`5,`0)">
+            <summary>
+            Maps <see cref="!:TUpdateInput"/> to <see cref="!:TEntity"/> to update the entity.
+            It uses <see cref="T:Abp.ObjectMapping.IObjectMapper"/> by default.
+            It can be overrided for custom mapping.
+            </summary>
+        </member>
         <member name="T:Abp.Application.Services.IApplicationService">
             <summary>
             This interface must be implemented by all application services to identify them by convention.
+            </summary>
+        </member>
+        <member name="P:Abp.Application.Services.RemoteServiceAttribute.IsEnabled">
+            <summary>
+            Default: true.
+            </summary>
+        </member>
+        <member name="P:Abp.Application.Services.RemoteServiceAttribute.IsMetadataEnabled">
+            <summary>
+            Default: true.
             </summary>
         </member>
         <member name="T:Abp.Application.Services.Dto.AuditedEntityDto">
@@ -1612,72 +1652,6 @@
             </summary>
             <param name="id">Id of the entity</param>
         </member>
-        <member name="T:Abp.Application.Services.Dto.EntityRequestInput">
-            <summary>
-            This <see cref="T:Abp.Application.Services.Dto.IInputDto"/> can be used to send Id of an entity to an <see cref="T:Abp.Application.Services.IApplicationService"/> method.
-            </summary>
-        </member>
-        <member name="M:Abp.Application.Services.Dto.EntityRequestInput.#ctor">
-            <summary>
-            Creates a new <see cref="T:Abp.Application.Services.Dto.EntityRequestInput"/> object.
-            </summary>
-        </member>
-        <member name="M:Abp.Application.Services.Dto.EntityRequestInput.#ctor(System.Int32)">
-            <summary>
-            Creates a new <see cref="T:Abp.Application.Services.Dto.EntityRequestInput"/> object.
-            </summary>
-            <param name="id">Id of the entity</param>
-        </member>
-        <member name="T:Abp.Application.Services.Dto.EntityRequestInput`1">
-            <summary>
-            This DTO can be used to send Id of an entity to an <see cref="T:Abp.Application.Services.IApplicationService"/> method.
-            </summary>
-            <typeparam name="TPrimaryKey">Type of the primary key of entity</typeparam>
-        </member>
-        <member name="M:Abp.Application.Services.Dto.EntityRequestInput`1.#ctor">
-            <summary>
-            Creates a new <see cref="T:Abp.Application.Services.Dto.EntityRequestInput`1"/> object.
-            </summary>
-        </member>
-        <member name="M:Abp.Application.Services.Dto.EntityRequestInput`1.#ctor(`0)">
-            <summary>
-            Creates a new <see cref="T:Abp.Application.Services.Dto.EntityRequestInput`1"/> object.
-            </summary>
-            <param name="id">Id of the entity</param>
-        </member>
-        <member name="T:Abp.Application.Services.Dto.EntityResultOutput">
-            <summary>
-            This <see cref="T:Abp.Application.Services.Dto.IOutputDto"/> can be used to send Id of an entity as response from an <see cref="T:Abp.Application.Services.IApplicationService"/> method.
-            </summary>
-        </member>
-        <member name="M:Abp.Application.Services.Dto.EntityResultOutput.#ctor">
-            <summary>
-            Creates a new <see cref="T:Abp.Application.Services.Dto.EntityResultOutput"/> object.
-            </summary>
-        </member>
-        <member name="M:Abp.Application.Services.Dto.EntityResultOutput.#ctor(System.Int32)">
-            <summary>
-            Creates a new <see cref="T:Abp.Application.Services.Dto.EntityResultOutput"/> object.
-            </summary>
-            <param name="id">Id of the entity</param>
-        </member>
-        <member name="T:Abp.Application.Services.Dto.EntityResultOutput`1">
-            <summary>
-            This DTO can be used to send Id of an entity as response from an <see cref="T:Abp.Application.Services.IApplicationService"/> method.
-            </summary>
-            <typeparam name="TPrimaryKey">Type of the primary key of entity</typeparam>
-        </member>
-        <member name="M:Abp.Application.Services.Dto.EntityResultOutput`1.#ctor">
-            <summary>
-            Creates a new <see cref="T:Abp.Application.Services.Dto.EntityResultOutput`1"/> object.
-            </summary>
-        </member>
-        <member name="M:Abp.Application.Services.Dto.EntityResultOutput`1.#ctor(`0)">
-            <summary>
-            Creates a new <see cref="T:Abp.Application.Services.Dto.EntityResultOutput`1"/> object.
-            </summary>
-            <param name="id">Id of the entity</param>
-        </member>
         <member name="T:Abp.Application.Services.Dto.FullAuditedEntityDto">
             <summary>
             A shortcut of <see cref="T:Abp.Application.Services.Dto.FullAuditedEntityDto`1"/> for most used primary key type (<see cref="T:System.Int32"/>).
@@ -1702,28 +1676,6 @@
         <member name="P:Abp.Application.Services.Dto.FullAuditedEntityDto`1.DeletionTime">
             <summary>
             Deletion time, if this entity is deleted,
-            </summary>
-        </member>
-        <member name="T:Abp.Application.Services.Dto.IdInput`1">
-            <summary>
-            This DTO can be directly used (or inherited)
-            to pass an Id value to an application service method.
-            </summary>
-            <typeparam name="TId">Type of the Id</typeparam>
-        </member>
-        <member name="T:Abp.Application.Services.Dto.IdInput">
-            <summary>
-            A shortcut of <see cref="T:Abp.Application.Services.Dto.IdInput`1"/> for <see cref="T:System.Int32"/>.
-            </summary>
-        </member>
-        <member name="T:Abp.Application.Services.Dto.IDoubleWayDto">
-            <summary>
-            This interface can be used to mark a DTO as both of <see cref="T:Abp.Application.Services.Dto.IInputDto"/> and <see cref="T:Abp.Application.Services.Dto.IOutputDto"/>.
-            </summary>
-        </member>
-        <member name="T:Abp.Application.Services.Dto.IDto">
-            <summary>
-            This interface must be implemented by all DTO classes to identify them by convention.
             </summary>
         </member>
         <member name="T:Abp.Application.Services.Dto.IEntityDto">
@@ -1762,11 +1714,6 @@
             Total count of Items.
             </summary>
         </member>
-        <member name="T:Abp.Application.Services.Dto.IInputDto">
-            <summary>
-            This interface is used to define DTOs those are used as input parameters.
-            </summary>
-        </member>
         <member name="T:Abp.Application.Services.Dto.ILimitedResultRequest">
             <summary>
             This interface is defined to standardize to request a limited result.
@@ -1788,9 +1735,9 @@
             List of items.
             </summary>
         </member>
-        <member name="T:Abp.Application.Services.Dto.IOutputDto">
+        <member name="T:Abp.Application.Services.Dto.IPagedAndSortedResultRequest">
             <summary>
-            This interface is used to define DTOs those are used as output parameters.
+            This interface is defined to standardize to request a paged and sorted result.
             </summary>
         </member>
         <member name="T:Abp.Application.Services.Dto.IPagedResult`1">
@@ -1827,6 +1774,11 @@
             "Name ASC, Age DESC"
             </example>
         </member>
+        <member name="T:Abp.Application.Services.Dto.LimitedResultRequestDto">
+            <summary>
+            Simply implements <see cref="T:Abp.Application.Services.Dto.ILimitedResultRequest"/>.
+            </summary>
+        </member>
         <member name="T:Abp.Application.Services.Dto.ListResultDto`1">
             <summary>
             Implements <see cref="T:Abp.Application.Services.Dto.IListResult`1"/>.
@@ -1846,23 +1798,6 @@
         <member name="M:Abp.Application.Services.Dto.ListResultDto`1.#ctor(System.Collections.Generic.IReadOnlyList{`0})">
             <summary>
             Creates a new <see cref="T:Abp.Application.Services.Dto.ListResultDto`1"/> object.
-            </summary>
-            <param name="items">List of items</param>
-        </member>
-        <member name="T:Abp.Application.Services.Dto.ListResultOutput`1">
-            <summary>
-            This class can be used to return a list from an <see cref="T:Abp.Application.Services.IApplicationService"/> method.
-            </summary>
-            <typeparam name="T">Type of the items in the <see cref="P:Abp.Application.Services.Dto.ListResultDto`1.Items"/> list</typeparam>
-        </member>
-        <member name="M:Abp.Application.Services.Dto.ListResultOutput`1.#ctor">
-            <summary>
-            Creates a new <see cref="T:Abp.Application.Services.Dto.ListResultOutput`1"/> object.
-            </summary>
-        </member>
-        <member name="M:Abp.Application.Services.Dto.ListResultOutput`1.#ctor(System.Collections.Generic.IReadOnlyList{`0})">
-            <summary>
-            Creates a new <see cref="T:Abp.Application.Services.Dto.ListResultOutput`1"/> object.
             </summary>
             <param name="items">List of items</param>
         </member>
@@ -1908,16 +1843,21 @@
             </summary>
             <param name="nameValue">A <see cref="T:Abp.NameValue"/> object to get it's name and value</param>
         </member>
-        <member name="T:Abp.Application.Services.Dto.NullableIdInput`1">
+        <member name="T:Abp.Application.Services.Dto.NullableIdDto`1">
             <summary>
             This DTO can be directly used (or inherited)
             to pass an nullable Id value to an application service method.
             </summary>
             <typeparam name="TId">Type of the Id</typeparam>
         </member>
-        <member name="T:Abp.Application.Services.Dto.NullableIdInput">
+        <member name="T:Abp.Application.Services.Dto.NullableIdDto">
             <summary>
-            A shortcut of <see cref="T:Abp.Application.Services.Dto.NullableIdInput`1"/> for <see cref="T:System.Int32"/>.
+            A shortcut of <see cref="T:Abp.Application.Services.Dto.NullableIdDto`1"/> for <see cref="T:System.Int32"/>.
+            </summary>
+        </member>
+        <member name="T:Abp.Application.Services.Dto.PagedAndSortedResultRequestDto">
+            <summary>
+            Simply implements <see cref="T:Abp.Application.Services.Dto.IPagedAndSortedResultRequest"/>.
             </summary>
         </member>
         <member name="T:Abp.Application.Services.Dto.PagedResultDto`1">
@@ -1943,23 +1883,10 @@
             <param name="totalCount">Total count of Items</param>
             <param name="items">List of items in current page</param>
         </member>
-        <member name="T:Abp.Application.Services.Dto.PagedResultOutput`1">
+        <member name="T:Abp.Application.Services.Dto.PagedResultRequestDto">
             <summary>
-            This class can be used to return a paged list from an <see cref="T:Abp.Application.Services.IApplicationService"/> method.
+            Simply implements <see cref="T:Abp.Application.Services.Dto.IPagedResultRequest"/>.
             </summary>
-            <typeparam name="T">Type of the items in the <see cref="P:Abp.Application.Services.Dto.ListResultDto`1.Items"/> list</typeparam>
-        </member>
-        <member name="M:Abp.Application.Services.Dto.PagedResultOutput`1.#ctor">
-            <summary>
-            Creates a new <see cref="T:Abp.Application.Services.Dto.PagedResultOutput`1"/> object.
-            </summary>
-        </member>
-        <member name="M:Abp.Application.Services.Dto.PagedResultOutput`1.#ctor(System.Int32,System.Collections.Generic.IReadOnlyList{`0})">
-            <summary>
-            Creates a new <see cref="T:Abp.Application.Services.Dto.PagedResultOutput`1"/> object.
-            </summary>
-            <param name="totalCount">Total count of Items</param>
-            <param name="items">List of items in current page</param>
         </member>
         <member name="T:Abp.Auditing.AuditedAttribute">
             <summary>
@@ -2093,11 +2020,6 @@
             Default: false.
             </summary>
         </member>
-        <member name="P:Abp.Auditing.IAuditingConfiguration.MvcControllers">
-            <summary>
-            Used to configure auditing for MVC Controllers.
-            </summary>
-        </member>
         <member name="P:Abp.Auditing.IAuditingConfiguration.Selectors">
             <summary>
             List of selectors to select classes/interfaces which should be audited as default.
@@ -2133,31 +2055,9 @@
             </summary>
             <param name="auditInfo">Audit informations</param>
         </member>
-        <member name="T:Abp.Auditing.IMvcControllersAuditingConfiguration">
+        <member name="T:Abp.Auditing.DefaultAuditInfoProvider">
             <summary>
-            Defines MVC Controller auditing configurations
-            </summary>
-        </member>
-        <member name="P:Abp.Auditing.IMvcControllersAuditingConfiguration.IsEnabled">
-            <summary>
-            Used to enable/disable auditing for MVC controllers.
-            Default: true.
-            </summary>
-        </member>
-        <member name="P:Abp.Auditing.IMvcControllersAuditingConfiguration.IsEnabledForChildActions">
-            <summary>
-            Used to enable/disable auditing for child MVC actions.
-            Default: false.
-            </summary>
-        </member>
-        <member name="T:Abp.Auditing.NullAuditInfoProvider">
-            <summary>
-            Null implementation of <see cref="T:Abp.Auditing.IAuditInfoProvider"/>.
-            </summary>
-        </member>
-        <member name="P:Abp.Auditing.NullAuditInfoProvider.Instance">
-            <summary>
-            Singleton instance.
+            Default implementation of <see cref="T:Abp.Auditing.IAuditInfoProvider" />.
             </summary>
         </member>
         <member name="T:Abp.Auditing.SimpleLogAuditingStore">
@@ -2284,13 +2184,6 @@
             </summary>
             <param name="permissionName">Name of the permission</param>
         </member>
-        <member name="M:Abp.Authorization.IPermissionChecker.IsGrantedAsync(System.Int64,System.String)">
-            <summary>
-            Checks if a user is granted for a permission.
-            </summary>
-            <param name="userId">Id of the user to check</param>
-            <param name="permissionName">Name of the permission</param>
-        </member>
         <member name="M:Abp.Authorization.IPermissionChecker.IsGrantedAsync(Abp.UserIdentifier,System.String)">
             <summary>
             Checks if a user is granted for a permission.
@@ -2303,13 +2196,12 @@
             This context is used on <see cref="M:Abp.Authorization.AuthorizationProvider.SetPermissions(Abp.Authorization.IPermissionDefinitionContext)"/> method.
             </summary>
         </member>
-        <member name="M:Abp.Authorization.IPermissionDefinitionContext.CreatePermission(System.String,Abp.Localization.ILocalizableString,System.Boolean,Abp.Localization.ILocalizableString,Abp.MultiTenancy.MultiTenancySides,Abp.Application.Features.IFeatureDependency)">
+        <member name="M:Abp.Authorization.IPermissionDefinitionContext.CreatePermission(System.String,Abp.Localization.ILocalizableString,Abp.Localization.ILocalizableString,Abp.MultiTenancy.MultiTenancySides,Abp.Application.Features.IFeatureDependency)">
             <summary>
             Creates a new permission under this group.
             </summary>
             <param name="name">Unique name of the permission</param>
             <param name="displayName">Display name of the permission</param>
-            <param name="isGrantedByDefault">Is this permission granted by default. Default value: false.</param>
             <param name="description">A brief description for this permission</param>
             <param name="multiTenancySides">Which side can use this permission</param>
             <param name="featureDependency">Depended feature(s) of this permission</param>
@@ -2400,14 +2292,6 @@
             Singleton instance.
             </summary>
         </member>
-        <member name="M:Abp.Authorization.NullPermissionChecker.IsGrantedAsync(System.Int64,System.String)">
-            <summary>
-            Checks if a user is granted for a permission.
-            </summary>
-            <param name="userId">Id of the user to check</param>
-            <param name="permissionName">Name of the permission</param>
-            <returns><c>true</c> if this instance is granted the specified userId permissionName; otherwise, <c>false</c>.</returns>
-        </member>
         <member name="T:Abp.Authorization.Permission">
             <summary>
             Represents a permission.
@@ -2437,12 +2321,6 @@
             A brief description for this permission.
             </summary>
         </member>
-        <member name="P:Abp.Authorization.Permission.IsGrantedByDefault">
-            <summary>
-            Is this permission granted by default.
-            Default value: false.
-            </summary>
-        </member>
         <member name="P:Abp.Authorization.Permission.MultiTenancySides">
             <summary>
             Which side can use this permission.
@@ -2458,18 +2336,17 @@
             List of child permissions. A child permission can be granted only if parent is granted.
             </summary>
         </member>
-        <member name="M:Abp.Authorization.Permission.#ctor(System.String,Abp.Localization.ILocalizableString,System.Boolean,Abp.Localization.ILocalizableString,Abp.MultiTenancy.MultiTenancySides,Abp.Application.Features.IFeatureDependency)">
+        <member name="M:Abp.Authorization.Permission.#ctor(System.String,Abp.Localization.ILocalizableString,Abp.Localization.ILocalizableString,Abp.MultiTenancy.MultiTenancySides,Abp.Application.Features.IFeatureDependency)">
             <summary>
             Creates a new Permission.
             </summary>
             <param name="name">Unique name of the permission</param>
             <param name="displayName">Display name of the permission</param>
-            <param name="isGrantedByDefault">Is this permission granted by default. Default value: false.</param>
             <param name="description">A brief description for this permission</param>
             <param name="multiTenancySides">Which side can use this permission</param>
             <param name="featureDependency">Depended feature(s) of this permission</param>
         </member>
-        <member name="M:Abp.Authorization.Permission.CreateChildPermission(System.String,Abp.Localization.ILocalizableString,System.Boolean,Abp.Localization.ILocalizableString,Abp.MultiTenancy.MultiTenancySides,Abp.Application.Features.IFeatureDependency)">
+        <member name="M:Abp.Authorization.Permission.CreateChildPermission(System.String,Abp.Localization.ILocalizableString,Abp.Localization.ILocalizableString,Abp.MultiTenancy.MultiTenancySides,Abp.Application.Features.IFeatureDependency)">
             <summary>
             Adds a child permission.
             A child permission can be granted only if parent is granted.
@@ -2488,14 +2365,6 @@
             <param name="permissionChecker">Permission checker</param>
             <param name="permissionName">Name of the permission</param>
         </member>
-        <member name="M:Abp.Authorization.PermissionCheckerExtensions.IsGranted(Abp.Authorization.IPermissionChecker,System.Int64,System.String)">
-            <summary>
-            Checks if a user is granted for a permission.
-            </summary>
-            <param name="permissionChecker">Permission checker</param>
-            <param name="userId">Id of the user to check</param>
-            <param name="permissionName">Name of the permission</param>
-        </member>
         <member name="M:Abp.Authorization.PermissionCheckerExtensions.IsGranted(Abp.Authorization.IPermissionChecker,Abp.UserIdentifier,System.String)">
             <summary>
             Checks if a user is granted for a permission.
@@ -2504,30 +2373,12 @@
             <param name="user">User to check</param>
             <param name="permissionName">Name of the permission</param>
         </member>
-        <member name="M:Abp.Authorization.PermissionCheckerExtensions.IsGranted(Abp.Authorization.IPermissionChecker,System.Int64,System.Boolean,System.String[])">
-            <summary>
-            Checks if given user is granted for given permission.
-            </summary>
-            <param name="permissionChecker">Permission checker</param>
-            <param name="userId">User id</param>
-            <param name="requiresAll">True, to require all given permissions are granted. False, to require one or more.</param>
-            <param name="permissionNames">Name of the permissions</param>
-        </member>
         <member name="M:Abp.Authorization.PermissionCheckerExtensions.IsGranted(Abp.Authorization.IPermissionChecker,Abp.UserIdentifier,System.Boolean,System.String[])">
             <summary>
             Checks if given user is granted for given permission.
             </summary>
             <param name="permissionChecker">Permission checker</param>
             <param name="user">User</param>
-            <param name="requiresAll">True, to require all given permissions are granted. False, to require one or more.</param>
-            <param name="permissionNames">Name of the permissions</param>
-        </member>
-        <member name="M:Abp.Authorization.PermissionCheckerExtensions.IsGrantedAsync(Abp.Authorization.IPermissionChecker,System.Int64,System.Boolean,System.String[])">
-            <summary>
-            Checks if given user is granted for given permission.
-            </summary>
-            <param name="permissionChecker">Permission checker</param>
-            <param name="userId">User id</param>
             <param name="requiresAll">True, to require all given permissions are granted. False, to require one or more.</param>
             <param name="permissionNames">Name of the permissions</param>
         </member>
@@ -3505,16 +3356,6 @@
             <param name="tenantId">Tenant to get settings</param>
             <returns>List of setting values</returns>
         </member>
-        <member name="M:Abp.Configuration.ISettingManager.GetAllSettingValuesForUserAsync(System.Int64)">
-            <summary>
-            Gets a list of all setting values specified for a user.
-            It returns only settings those are explicitly set for the user.
-            If a setting's value is not set for the user (for example if user uses the default value), it's not included the result list.
-            If you want to get current values of all settings, use <see cref="M:Abp.Configuration.ISettingManager.GetAllSettingValuesAsync"/> method.
-            </summary>
-            <param name="userId">User to get settings</param>
-            <returns>All settings of the user</returns>
-        </member>
         <member name="M:Abp.Configuration.ISettingManager.GetAllSettingValuesForUserAsync(Abp.UserIdentifier)">
             <summary>
             Gets a list of all setting values specified for a user.
@@ -3537,14 +3378,6 @@
             Changes setting for a Tenant.
             </summary>
             <param name="tenantId">TenantId</param>
-            <param name="name">Unique name of the setting</param>
-            <param name="value">Value of the setting</param>
-        </member>
-        <member name="M:Abp.Configuration.ISettingManager.ChangeSettingForUserAsync(System.Int64,System.String,System.String)">
-            <summary>
-            Changes setting for a user.
-            </summary>
-            <param name="userId">UserId</param>
             <param name="name">Unique name of the setting</param>
             <param name="value">Value of the setting</param>
         </member>
@@ -3736,27 +3569,6 @@
             <summary>
             The context that is used in setting providers.
             </summary>
-        </member>
-        <member name="T:Abp.Configuration.SettingHelper">
-            <summary>
-            This class is used to simplify getting settings from anywhere.
-            </summary>
-        </member>
-        <member name="M:Abp.Configuration.SettingHelper.GetSettingValue(System.String)">
-            <summary>
-            Gets current value of a setting.
-            It gets the setting value, overwrited by application and the current user if exists.
-            </summary>
-            <param name="name">Unique name of the setting</param>
-            <returns>Current value of the setting</returns>
-        </member>
-        <member name="M:Abp.Configuration.SettingHelper.GetSettingValue``1(System.String)">
-            <summary>
-            Gets value of a setting.
-            </summary>
-            <typeparam name="T">Type of the setting to get</typeparam>
-            <param name="name">Unique name of the setting</param>
-            <returns>Value of the setting</returns>
         </member>
         <member name="T:Abp.Configuration.SettingInfo">
             <summary>
@@ -3992,17 +3804,6 @@
             <param name="tenantId">Tenant to get settings</param>
             <returns>List of setting values</returns>
         </member>
-        <member name="M:Abp.Configuration.SettingManagerExtensions.GetAllSettingValuesForUser(Abp.Configuration.ISettingManager,System.Int64)">
-            <summary>
-            Gets a list of all setting values specified for a user.
-            It returns only settings those are explicitly set for the user.
-            If a setting's value is not set for the user (for example if user uses the default value), it's not included the result list.
-            If you want to get current values of all settings, use <see cref="M:Abp.Configuration.SettingManagerExtensions.GetAllSettingValues(Abp.Configuration.ISettingManager)"/> method.
-            </summary>
-            <param name="settingManager">Setting manager</param>
-            <param name="userId">User to get settings</param>
-            <returns>All settings of the user</returns>
-        </member>
         <member name="M:Abp.Configuration.SettingManagerExtensions.GetAllSettingValuesForUser(Abp.Configuration.ISettingManager,Abp.UserIdentifier)">
             <summary>
             Gets a list of all setting values specified for a user.
@@ -4028,15 +3829,6 @@
             </summary>
             <param name="settingManager">Setting manager</param>
             <param name="tenantId">TenantId</param>
-            <param name="name">Unique name of the setting</param>
-            <param name="value">Value of the setting</param>
-        </member>
-        <member name="M:Abp.Configuration.SettingManagerExtensions.ChangeSettingForUser(Abp.Configuration.ISettingManager,System.Int64,System.String,System.String)">
-            <summary>
-            Changes setting for a user.
-            </summary>
-            <param name="settingManager">Setting manager</param>
-            <param name="userId">UserId</param>
             <param name="name">Unique name of the setting</param>
             <param name="value">Value of the setting</param>
         </member>
@@ -4191,6 +3983,14 @@
             <param name="configuration">The configuration.</param>
             <param name="lifeStyle">Life style.</param>
         </member>
+        <member name="M:Abp.Configuration.Startup.AbpStartupConfigurationExtensions.ReplaceService``1(Abp.Configuration.Startup.IAbpStartupConfiguration,System.Action)">
+            <summary>
+            Used to replace a service type.
+            </summary>
+            <typeparam name="TType">Type of the service.</typeparam>
+            <param name="configuration">The configuration.</param>
+            <param name="replaceAction">Replace action.</param>
+        </member>
         <member name="T:Abp.Configuration.Startup.IAbpStartupConfiguration">
             <summary>
             Used to configure ABP and modules on startup.
@@ -4299,6 +4099,12 @@
         <member name="P:Abp.Configuration.Startup.IAuthorizationConfiguration.Providers">
             <summary>
             List of authorization providers.
+            </summary>
+        </member>
+        <member name="P:Abp.Configuration.Startup.IAuthorizationConfiguration.IsEnabled">
+            <summary>
+            Enables/Disables attribute based authentication and authorization.
+            Default: true.
             </summary>
         </member>
         <member name="T:Abp.Configuration.Startup.IEventBusConfiguration">
@@ -5012,6 +4818,16 @@
             <param name="iocResolver">IIocResolver object</param>
             <param name="action">An action that can use the resolved object</param>
         </member>
+        <member name="M:Abp.Dependency.IocResolverExtensions.Using``2(Abp.Dependency.IIocResolver,System.Func{``0,``1})">
+            <summary>
+            This method can be used to resolve and release an object automatically.
+            You can use the object in <see cref="!:func"/> and return a value.
+            </summary> 
+            <typeparam name="TService">Type of the service to use</typeparam>
+            <typeparam name="TReturn">Return type</typeparam>
+            <param name="iocResolver">IIocResolver object</param>
+            <param name="func">A function that can use the resolved object</param>
+        </member>
         <member name="T:Abp.Dependency.ISingletonDependency">
             <summary>
             All classes implement this interface are automatically registered to dependency injection as singleton object.
@@ -5041,6 +4857,39 @@
             <summary>
             A shortcut of <see cref="T:Abp.Domain.Entities.Entity`1"/> for most used primary key type (<see cref="T:System.Int32"/>).
             </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.Entity`1">
+            <summary>
+            Basic implementation of IEntity interface.
+            An entity can inherit this class of directly implement to IEntity interface.
+            </summary>
+            <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
+        </member>
+        <member name="P:Abp.Domain.Entities.Entity`1.Id">
+            <summary>
+            Unique identifier for this entity.
+            </summary>
+        </member>
+        <member name="M:Abp.Domain.Entities.Entity`1.IsTransient">
+            <summary>
+            Checks if this entity is transient (it has not an Id).
+            </summary>
+            <returns>True, if this entity is transient</returns>
+        </member>
+        <member name="M:Abp.Domain.Entities.Entity`1.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Domain.Entities.Entity`1.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Domain.Entities.Entity`1.op_Equality(Abp.Domain.Entities.Entity{`0},Abp.Domain.Entities.Entity{`0})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Domain.Entities.Entity`1.op_Inequality(Abp.Domain.Entities.Entity{`0},Abp.Domain.Entities.Entity{`0})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Domain.Entities.Entity`1.ToString">
+            <inheritdoc/>
         </member>
         <member name="T:Abp.Domain.Entities.EntityExtensions">
             <summary>
@@ -5096,38 +4945,53 @@
             <param name="type">Entity type.</param>
             <param name="id">Id of the entity.</param>
         </member>
-        <member name="T:Abp.Domain.Entities.Entity`1">
+        <member name="T:Abp.Domain.Entities.EntityNotFoundException">
             <summary>
-            Basic implementation of IEntity interface.
-            An entity can inherit this class of directly implement to IEntity interface.
-            </summary>
-            <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
-        </member>
-        <member name="P:Abp.Domain.Entities.Entity`1.Id">
-            <summary>
-            Unique identifier for this entity.
+            This exception is thrown if an entity excepted to be found but not found.
             </summary>
         </member>
-        <member name="M:Abp.Domain.Entities.Entity`1.IsTransient">
+        <member name="P:Abp.Domain.Entities.EntityNotFoundException.EntityType">
             <summary>
-            Checks if this entity is transient (it has not an Id).
+            Type of the entity.
             </summary>
-            <returns>True, if this entity is transient</returns>
         </member>
-        <member name="M:Abp.Domain.Entities.Entity`1.Equals(System.Object)">
-            <inheritdoc/>
+        <member name="P:Abp.Domain.Entities.EntityNotFoundException.Id">
+            <summary>
+            Id of the Entity.
+            </summary>
         </member>
-        <member name="M:Abp.Domain.Entities.Entity`1.GetHashCode">
-            <inheritdoc/>
+        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor">
+            <summary>
+            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
+            </summary>
         </member>
-        <member name="M:Abp.Domain.Entities.Entity`1.op_Equality(Abp.Domain.Entities.Entity{`0},Abp.Domain.Entities.Entity{`0})">
-            <inheritdoc/>
+        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
+            </summary>
         </member>
-        <member name="M:Abp.Domain.Entities.Entity`1.op_Inequality(Abp.Domain.Entities.Entity{`0},Abp.Domain.Entities.Entity{`0})">
-            <inheritdoc/>
+        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor(System.Type,System.Object)">
+            <summary>
+            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
+            </summary>
         </member>
-        <member name="M:Abp.Domain.Entities.Entity`1.ToString">
-            <inheritdoc/>
+        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor(System.Type,System.Object,System.Exception)">
+            <summary>
+            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
+            </summary>
+        </member>
+        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor(System.String)">
+            <summary>
+            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
+            </summary>
+            <param name="message">Exception message</param>
+        </member>
+        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor(System.String,System.Exception)">
+            <summary>
+            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
+            </summary>
+            <param name="message">Exception message</param>
+            <param name="innerException">Inner exception</param>
         </member>
         <member name="T:Abp.Domain.Entities.IEntity">
             <summary>
@@ -5195,6 +5059,44 @@
             Used to mark an Entity as 'Deleted'. 
             </summary>
         </member>
+        <member name="T:Abp.Domain.Entities.Auditing.AuditedAggregateRoot">
+            <summary>
+            A shortcut of <see cref="T:Abp.Domain.Entities.Auditing.AuditedAggregateRoot`1"/> for most used primary key type (<see cref="T:System.Int32"/>).
+            </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.Auditing.AuditedAggregateRoot`1">
+            <summary>
+            This class can be used to simplify implementing <see cref="T:Abp.Domain.Entities.Auditing.IAudited"/> for aggregate roots.
+            </summary>
+            <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
+        </member>
+        <member name="P:Abp.Domain.Entities.Auditing.AuditedAggregateRoot`1.LastModificationTime">
+            <summary>
+            Last modification date of this entity.
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.Auditing.AuditedAggregateRoot`1.LastModifierUserId">
+            <summary>
+            Last modifier user of this entity.
+            </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.Auditing.AuditedAggregateRoot`2">
+            <summary>
+            This class can be used to simplify implementing <see cref="T:Abp.Domain.Entities.Auditing.IAudited`1"/> for aggregate roots.
+            </summary>
+            <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
+            <typeparam name="TUser">Type of the user</typeparam>
+        </member>
+        <member name="P:Abp.Domain.Entities.Auditing.AuditedAggregateRoot`2.CreatorUser">
+            <summary>
+            Reference to the creator user of this entity.
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.Auditing.AuditedAggregateRoot`2.LastModifierUser">
+            <summary>
+            Reference to the last modifier user of this entity.
+            </summary>
+        </member>
         <member name="T:Abp.Domain.Entities.Auditing.AuditedEntity">
             <summary>
             A shortcut of <see cref="T:Abp.Domain.Entities.Auditing.AuditedEntity`1"/> for most used primary key type (<see cref="T:System.Int32"/>).
@@ -5233,6 +5135,44 @@
             Reference to the last modifier user of this entity.
             </summary>
         </member>
+        <member name="T:Abp.Domain.Entities.Auditing.CreationAuditedAggregateRoot">
+            <summary>
+            A shortcut of <see cref="T:Abp.Domain.Entities.Auditing.CreationAuditedAggregateRoot`1"/> for most used primary key type (<see cref="T:System.Int32"/>).
+            </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.Auditing.CreationAuditedAggregateRoot`1">
+            <summary>
+            This class can be used to simplify implementing <see cref="T:Abp.Domain.Entities.Auditing.ICreationAudited"/> for aggregate roots.
+            </summary>
+            <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
+        </member>
+        <member name="P:Abp.Domain.Entities.Auditing.CreationAuditedAggregateRoot`1.CreationTime">
+            <summary>
+            Creation time of this entity.
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.Auditing.CreationAuditedAggregateRoot`1.CreatorUserId">
+            <summary>
+            Creator of this entity.
+            </summary>
+        </member>
+        <member name="M:Abp.Domain.Entities.Auditing.CreationAuditedAggregateRoot`1.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.Auditing.CreationAuditedAggregateRoot`2">
+            <summary>
+            This class can be used to simplify implementing <see cref="T:Abp.Domain.Entities.Auditing.ICreationAudited`1"/> for aggregate roots.
+            </summary>
+            <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
+            <typeparam name="TUser">Type of the user</typeparam>
+        </member>
+        <member name="P:Abp.Domain.Entities.Auditing.CreationAuditedAggregateRoot`2.CreatorUser">
+            <summary>
+            Reference to the creator user of this entity.
+            </summary>
+        </member>
         <member name="T:Abp.Domain.Entities.Auditing.CreationAuditedEntity">
             <summary>
             A shortcut of <see cref="T:Abp.Domain.Entities.Auditing.CreationAuditedEntity`1"/> for most used primary key type (<see cref="T:System.Int32"/>).
@@ -5269,6 +5209,59 @@
         <member name="P:Abp.Domain.Entities.Auditing.CreationAuditedEntity`2.CreatorUser">
             <summary>
             Reference to the creator user of this entity.
+            </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.Auditing.FullAuditedAggregateRoot">
+            <summary>
+            A shortcut of <see cref="T:Abp.Domain.Entities.Auditing.FullAuditedAggregateRoot`1"/> for most used primary key type (<see cref="T:System.Int32"/>).
+            </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.Auditing.FullAuditedAggregateRoot`1">
+            <summary>
+            Implements <see cref="T:Abp.Domain.Entities.Auditing.IFullAudited"/> to be a base class for full-audited aggregate roots.
+            </summary>
+            <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
+        </member>
+        <member name="P:Abp.Domain.Entities.Auditing.FullAuditedAggregateRoot`1.IsDeleted">
+            <summary>
+            Is this entity Deleted?
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.Auditing.FullAuditedAggregateRoot`1.DeleterUserId">
+            <summary>
+            Which user deleted this entity?
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.Auditing.FullAuditedAggregateRoot`1.DeletionTime">
+            <summary>
+            Deletion time of this entity.
+            </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.Auditing.FullAuditedAggregateRoot`2">
+            <summary>
+            Implements <see cref="T:Abp.Domain.Entities.Auditing.IFullAudited`1"/> to be a base class for full-audited aggregate roots.
+            </summary>
+            <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
+            <typeparam name="TUser">Type of the user</typeparam>
+        </member>
+        <member name="P:Abp.Domain.Entities.Auditing.FullAuditedAggregateRoot`2.IsDeleted">
+            <summary>
+            Is this entity Deleted?
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.Auditing.FullAuditedAggregateRoot`2.DeleterUser">
+            <summary>
+            Reference to the deleter user of this entity.
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.Auditing.FullAuditedAggregateRoot`2.DeleterUserId">
+            <summary>
+            Which user deleted this entity?
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.Auditing.FullAuditedAggregateRoot`2.DeletionTime">
+            <summary>
+            Deletion time of this entity.
             </summary>
         </member>
         <member name="T:Abp.Domain.Entities.Auditing.FullAuditedEntity">
@@ -6264,7 +6257,7 @@
             A reference to the exception if this unit of work failed.
             </summary>
         </member>
-        <member name="M:Abp.Domain.Uow.UnitOfWorkBase.#ctor(Abp.Domain.Uow.IConnectionStringResolver,Abp.Domain.Uow.IUnitOfWorkDefaultOptions)">
+        <member name="M:Abp.Domain.Uow.UnitOfWorkBase.#ctor(Abp.Domain.Uow.IConnectionStringResolver,Abp.Domain.Uow.IUnitOfWorkDefaultOptions,Abp.Domain.Uow.IUnitOfWorkFilterExecuter)">
             <summary>
             Constructor.
             </summary>
@@ -6317,29 +6310,6 @@
         <member name="M:Abp.Domain.Uow.UnitOfWorkBase.DisposeUow">
             <summary>
             Should be implemented by derived classes to dispose UOW.
-            </summary>
-        </member>
-        <member name="M:Abp.Domain.Uow.UnitOfWorkBase.ApplyDisableFilter(System.String)">
-            <summary>
-            Concrete Unit of work classes should implement this
-            method in order to disable a filter.
-            Should not call base method since it throws <see cref="T:System.NotImplementedException"/>.
-            </summary>
-            <param name="filterName">Filter name</param>
-        </member>
-        <member name="M:Abp.Domain.Uow.UnitOfWorkBase.ApplyEnableFilter(System.String)">
-            <summary>
-            Concrete Unit of work classes should implement this
-            method in order to enable a filter.
-            Should not call base method since it throws <see cref="T:System.NotImplementedException"/>.
-            </summary>
-            <param name="filterName">Filter name</param>
-        </member>
-        <member name="M:Abp.Domain.Uow.UnitOfWorkBase.ApplyFilterParameterValue(System.String,System.String,System.Object)">
-            <summary>
-            Concrete Unit of work classes should implement this
-            method in order to set a parameter's value.
-            Should not call base method since it throws <see cref="T:System.NotImplementedException"/>.
             </summary>
         </member>
         <member name="M:Abp.Domain.Uow.UnitOfWorkBase.OnCompleted">
@@ -6477,6 +6447,12 @@
             </summary>
             <param name="iocManager">IOC manager</param>
         </member>
+        <member name="T:Abp.Domain.Values.ValueObject`1">
+            <summary>
+            Base class for value objects.
+            </summary>
+            <typeparam name="TValueObject">The type of the value object.</typeparam>
+        </member>
         <member name="T:Abp.Events.Bus.EventBus">
             <summary>
             Implements EventBus as Singleton pattern.
@@ -6580,7 +6556,7 @@
         </member>
         <member name="P:Abp.Events.Bus.EventData.EventTime">
             <summary>
-            The time when the event occured.
+            The time when the event occurred.
             </summary>
         </member>
         <member name="P:Abp.Events.Bus.EventData.EventSource">
@@ -7524,6 +7500,11 @@
             Deserializes an object serialized with <see cref="M:Abp.Json.JsonSerializationHelper.SerializeWithType(System.Object)"/> methods.
             </summary>
         </member>
+        <member name="T:Abp.Linq.IAsyncQueryableExecuter">
+            <summary>
+            This interface is intended to be used by ABP.
+            </summary>
+        </member>
         <member name="T:Abp.Linq.Extensions.QueryableExtensions">
             <summary>
             Some useful extension methods for <see cref="T:System.Linq.IQueryable`1"/>.
@@ -7618,17 +7599,6 @@
             <summary>
             This interface is used to manage localization system.
             </summary>
-        </member>
-        <member name="P:Abp.Localization.ILocalizationManager.CurrentLanguage">
-            <summary>
-            Gets current language for the application.
-            </summary>
-        </member>
-        <member name="M:Abp.Localization.ILocalizationManager.GetAllLanguages">
-            <summary>
-            Gets all available languages for the application.
-            </summary>
-            <returns>List of languages</returns>
         </member>
         <member name="M:Abp.Localization.ILocalizationManager.GetSource(System.String)">
             <summary>
@@ -7761,11 +7731,6 @@
             <param name="name">Key name to get localized string</param>
             <param name="culture">culture</param>
             <returns>Localized string</returns>
-        </member>
-        <member name="P:Abp.Localization.LocalizationManager.CurrentLanguage">
-            <summary>
-            Gets current language for the application.
-            </summary>
         </member>
         <member name="M:Abp.Localization.LocalizationManager.#ctor(Abp.Localization.ILanguageManager,Abp.Configuration.Startup.ILocalizationConfiguration,Abp.Dependency.IIocResolver)">
             <summary>
@@ -8256,19 +8221,6 @@
             Gets all strings in specified culture.
             </summary>
         </member>
-        <member name="T:Abp.Localization.Sources.Xml.XmlLocalizationSource">
-            <summary>
-            XML based localization source.
-            It uses XML files to read localized strings.
-            </summary>
-        </member>
-        <member name="M:Abp.Localization.Sources.Xml.XmlLocalizationSource.#ctor(System.String,System.String)">
-            <summary>
-            Creates an Xml based localization source.
-            </summary>
-            <param name="name">Unique Name of the source</param>
-            <param name="directoryPath">Directory path of the localization XML files</param>
-        </member>
         <member name="T:Abp.Logging.IHasLogSeverity">
             <summary>
             Interface to define a <see cref="P:Abp.Logging.IHasLogSeverity.Severity"/> property (see <see cref="T:Abp.Logging.LogSeverity"/>).
@@ -8379,12 +8331,7 @@
         </member>
         <member name="M:Abp.Modules.AbpModule.FindDependedModuleTypes(System.Type)">
             <summary>
-            Finds direct depended modules of a module.
-            </summary>
-        </member>
-        <member name="M:Abp.Modules.AbpModule.FindDependedModuleTypesRecursively(System.Type)">
-            <summary>
-            Finds all depended modules (and their dependencies recursively) for a module.
+            Finds direct depended modules of a module (excluding given module).
             </summary>
         </member>
         <member name="T:Abp.Modules.AbpModuleCollection">
@@ -8882,7 +8829,7 @@
             <param name="severity">Notification severity</param>
             <param name="userIds">
             Target user id(s). 
-            Used to send notification to specific user(s). 
+            Used to send notification to specific user(s) (without checking the subscription). 
             If this is null/empty, the notification is sent to subscribed users.
             </param>
             <param name="excludedUserIds">
@@ -10701,243 +10648,6 @@
             Constructor.
             </summary>
         </member>
-        <member name="T:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1">
-            <summary>
-            This class is used to store items to a thread safe and generic cache in a simple manner.
-            It uses async pattern.
-            </summary>
-            <typeparam name="TValue">Value type</typeparam>
-        </member>
-        <member name="F:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1._cache">
-            <summary>
-            The real cache object to store items.
-            </summary>
-        </member>
-        <member name="F:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1._defaultCacheItemPolicy">
-            <summary>
-            <see cref="F:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1._defaultCacheItemPolicy"/> is used if no policy is specified.
-            </summary>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1.#ctor(System.Runtime.Caching.ObjectCache)">
-            <summary>
-            Creates a new <see cref="T:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1"/> object.
-            </summary>
-            <param name="cache">The real cache object to store items</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1.#ctor(System.Runtime.Caching.ObjectCache,System.TimeSpan)">
-            <summary>
-            Creates a new <see cref="T:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1"/> object.
-            </summary>
-            <param name="cache">The real cache object</param>
-            <param name="slidingExpiration">Default cache policy as sliding expiration</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1.#ctor(System.Runtime.Caching.ObjectCache,System.DateTimeOffset)">
-            <summary>
-            Creates a new <see cref="T:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1"/> object.
-            </summary>
-            <param name="cache">The real cache object</param>
-            <param name="absoluteExpiration">Default cache policy as absolute expiration</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1.#ctor(System.Runtime.Caching.ObjectCache,System.Runtime.Caching.CacheItemPolicy)">
-            <summary>
-            Creates a new <see cref="T:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1"/> object.
-            </summary>
-            <param name="cache">The real cache object</param>
-            <param name="defaultCacheItemPolicy">Default cache policy</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1.Get(System.String)">
-            <summary>
-            Gets an item from cache if exists, or null.
-            </summary>
-            <param name="key">Key to get item</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1.GetAsync(System.String,System.Func{System.Threading.Tasks.Task{`0}})">
-            <summary>
-            Gets an item from cache if exists, or calls <paramref name="factoryMethod"/> to create cache item and return it.
-            </summary>
-            <param name="key">Key to get item</param>
-            <param name="factoryMethod">A factory method to create item if it's not exists in cache</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1.GetAsync(System.String,System.TimeSpan,System.Func{System.Threading.Tasks.Task{`0}})">
-            <summary>
-            Gets an item from cache if exists, or calls <paramref name="factoryMethod"/> to create cache item and return it.
-            </summary>
-            <param name="key">Key to get item</param>
-            <param name="slidingExpiration">Sliding expiration policy</param>
-            <param name="factoryMethod">A factory method to create item if it's not exists in cache</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1.GetAsync(System.String,System.DateTimeOffset,System.Func{System.Threading.Tasks.Task{`0}})">
-            <summary>
-            Gets an item from cache if exists, or calls <paramref name="factoryMethod"/> to create cache item and return it.
-            </summary>
-            <param name="key">Key to get item</param>
-            <param name="absoluteExpiration">Absolute expiration policy</param>
-            <param name="factoryMethod">A factory method to create item if it's not exists in cache</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1.GetAsync(System.String,System.Func{System.Runtime.Caching.CacheItemPolicy},System.Func{System.Threading.Tasks.Task{`0}})">
-            <summary>
-            Gets an item from cache if exists, or calls <paramref name="factoryMethod"/> to create cache item and return it.
-            </summary>
-            <param name="key">Key to get item</param>
-            <param name="cacheItemPolicy">Cache policy creation method (called only if item is being added to the cache)</param>
-            <param name="factoryMethod">A factory method to create item if it's not exists in cache</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1.Set(System.String,`0)">
-            <summary>
-            Adds/replaces an item in the cache.
-            </summary>
-            <param name="key">Key of the item</param>
-            <param name="value">Value of the item</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1.Set(System.String,`0,System.TimeSpan)">
-            <summary>
-            Adds/replaces an item in the cache.
-            </summary>
-            <param name="key">Key of the item</param>
-            <param name="value">Value of the item</param>
-            <param name="slidingExpiration">Sliding expiration policy</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1.Set(System.String,`0,System.DateTimeOffset)">
-            <summary>
-            Adds/replaces an item in the cache.
-            </summary>
-            <param name="key">Key of the item</param>
-            <param name="value">Value of the item</param>
-            <param name="absoluteExpiration">Absolute expiration policy</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1.Set(System.String,`0,System.Runtime.Caching.CacheItemPolicy)">
-            <summary>
-            Adds/replaces an item in the cache.
-            </summary>
-            <param name="key">Key of the item</param>
-            <param name="value">Value of the item</param>
-            <param name="cacheItemPolicy">Cache item policy</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.AsyncThreadSafeObjectCache`1.Remove(System.String)">
-            <summary>
-            Removes an item from the cache (if it exists).
-            </summary>
-            <param name="key">Key of the item</param>
-            <returns>Removed item (if it exists)</returns>
-        </member>
-        <member name="T:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1">
-            <summary>
-            This class is used to store items to a thread safe and generic cache in a simple manner.
-            </summary>
-            <typeparam name="TValue">Value type</typeparam>
-        </member>
-        <member name="F:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1._cache">
-            <summary>
-            The real cache object to store items.
-            </summary>
-        </member>
-        <member name="F:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1._defaultCacheItemPolicy">
-            <summary>
-            <see cref="F:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1._defaultCacheItemPolicy"/> is used if no policy is specified.
-            </summary>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1.#ctor(System.Runtime.Caching.ObjectCache)">
-            <summary>
-            Creates a new <see cref="T:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1"/> object.
-            </summary>
-            <param name="cache">The real cache object to store items</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1.#ctor(System.Runtime.Caching.ObjectCache,System.TimeSpan)">
-            <summary>
-            Creates a new <see cref="T:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1"/> object.
-            </summary>
-            <param name="cache">The real cache object</param>
-            <param name="slidingExpiration">Default cache policy as sliding expiration</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1.#ctor(System.Runtime.Caching.ObjectCache,System.DateTimeOffset)">
-            <summary>
-            Creates a new <see cref="T:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1"/> object.
-            </summary>
-            <param name="cache">The real cache object</param>
-            <param name="absoluteExpiration">Default cache policy as absolute expiration</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1.#ctor(System.Runtime.Caching.ObjectCache,System.Runtime.Caching.CacheItemPolicy)">
-            <summary>
-            Creates a new <see cref="T:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1"/> object.
-            </summary>
-            <param name="cache">The real cache object</param>
-            <param name="defaultCacheItemPolicy">Default cache policy</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1.Get(System.String)">
-            <summary>
-            Gets an item from cache if exists, or null.
-            </summary>
-            <param name="key">Key to get item</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1.Get(System.String,System.Func{`0})">
-            <summary>
-            Gets an item from cache if exists, or calls <paramref name="factoryMethod"/> to create cache item and return it.
-            </summary>
-            <param name="key">Key to get item</param>
-            <param name="factoryMethod">A factory method to create item if it's not exists in cache</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1.Get(System.String,System.TimeSpan,System.Func{`0})">
-            <summary>
-            Gets an item from cache if exists, or calls <paramref name="factoryMethod"/> to create cache item and return it.
-            </summary>
-            <param name="key">Key to get item</param>
-            <param name="slidingExpiration">Sliding expiration policy</param>
-            <param name="factoryMethod">A factory method to create item if it's not exists in cache</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1.Get(System.String,System.DateTimeOffset,System.Func{`0})">
-            <summary>
-            Gets an item from cache if exists, or calls <paramref name="factoryMethod"/> to create cache item and return it.
-            </summary>
-            <param name="key">Key to get item</param>
-            <param name="absoluteExpiration">Absolute expiration policy</param>
-            <param name="factoryMethod">A factory method to create item if it's not exists in cache</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1.Get(System.String,System.Func{System.Runtime.Caching.CacheItemPolicy},System.Func{`0})">
-            <summary>
-            Gets an item from cache if exists, or calls <paramref name="factoryMethod"/> to create cache item and return it.
-            </summary>
-            <param name="key">Key to get item</param>
-            <param name="cacheItemPolicy">Cache policy creation method (called only if item is being added to the cache)</param>
-            <param name="factoryMethod">A factory method to create item if it's not exists in cache</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1.Set(System.String,`0)">
-            <summary>
-            Adds/replaces an item in the cache.
-            </summary>
-            <param name="key">Key of the item</param>
-            <param name="value">Value of the item</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1.Set(System.String,`0,System.TimeSpan)">
-            <summary>
-            Adds/replaces an item in the cache.
-            </summary>
-            <param name="key">Key of the item</param>
-            <param name="value">Value of the item</param>
-            <param name="slidingExpiration">Sliding expiration policy</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1.Set(System.String,`0,System.DateTimeOffset)">
-            <summary>
-            Adds/replaces an item in the cache.
-            </summary>
-            <param name="key">Key of the item</param>
-            <param name="value">Value of the item</param>
-            <param name="absoluteExpiration">Absolute expiration policy</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1.Set(System.String,`0,System.Runtime.Caching.CacheItemPolicy)">
-            <summary>
-            Adds/replaces an item in the cache.
-            </summary>
-            <param name="key">Key of the item</param>
-            <param name="value">Value of the item</param>
-            <param name="cacheItemPolicy">Cache item policy</param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Memory.ThreadSafeObjectCache`1.Remove(System.String)">
-            <summary>
-            Removes an item from the cache (if it exists).
-            </summary>
-            <param name="key">Key of the item</param>
-            <returns>Removed item (if it exists)</returns>
-        </member>
         <member name="T:Abp.Runtime.Security.AbpClaimTypes">
             <summary>
             Used to get ABP-specific claim type names.
@@ -11170,6 +10880,16 @@
             <param name="message">Exception message</param>
             <param name="innerException">Inner exception</param>
         </member>
+        <member name="P:Abp.Runtime.Validation.CustomValidationContext.Results">
+            <summary>
+            List of validation results (errors). Add validation errors to this list.
+            </summary>
+        </member>
+        <member name="P:Abp.Runtime.Validation.CustomValidationContext.IocResolver">
+            <summary>
+            Can be used to resolve dependencies on validation.
+            </summary>
+        </member>
         <member name="T:Abp.Runtime.Validation.DisableValidationAttribute">
             <summary>
             Can be added to a method to disable auto validation.
@@ -11186,11 +10906,11 @@
             So, implementing class can define it's own validation logic.
             </summary>
         </member>
-        <member name="M:Abp.Runtime.Validation.ICustomValidate.AddValidationErrors(System.Collections.Generic.List{System.ComponentModel.DataAnnotations.ValidationResult})">
+        <member name="M:Abp.Runtime.Validation.ICustomValidate.AddValidationErrors(Abp.Runtime.Validation.CustomValidationContext)">
             <summary>
             This method is used to validate the object.
             </summary>
-            <param name="results">List of validation results (errors). Add validation errors to this list.</param>
+            <param name="context">Validation context.</param>
         </member>
         <member name="T:Abp.Runtime.Validation.IShouldNormalize">
             <summary>
@@ -11219,7 +10939,7 @@
             This class is used to validate a method call (invocation) for method arguments.
             </summary>
         </member>
-        <member name="M:Abp.Runtime.Validation.Interception.MethodInvocationValidator.#ctor(Abp.Configuration.Startup.IValidationConfiguration)">
+        <member name="M:Abp.Runtime.Validation.Interception.MethodInvocationValidator.#ctor(Abp.Configuration.Startup.IValidationConfiguration,Abp.Dependency.IIocResolver)">
             <summary>
             Creates a new <see cref="T:Abp.Runtime.Validation.Interception.MethodInvocationValidator"/> instance.
             </summary>

@@ -50,7 +50,7 @@
                 tooltip: "包括万栋楼宇等室内外场景优化；根据各小区的工程参数模拟覆盖范围，主要覆盖指标（RSRP、SINR）进行分析和呈现"
             }, {
                 displayName: "规划辅助",
-                url: appUrlService.getPlanUrlHost() + 'guihuafuzhu/index.php'
+                url: appUrlService.getPlanUrlHost() + 'guihuafuzhu/index/index.php'
             }, {
                 displayName: "路测管理",
                 url: appUrlService.getDtUrlHost() + 'admin'
@@ -63,8 +63,8 @@
                 url: "/Parameters/List",
                 tooltip: "全网LTE和CDMA基站、小区列表和地理化显示、对全网的基站按照基站名称、地址等信息进行查询，并进行个别基站小区的增删、修改信息的操作"
             }, {
-                displayName: "小区流量分析",
-                url: "/Kpi/Flow"
+                displayName: "负荷评估",
+                url: appUrlService.getParameterUrlHost() + 'ltecapability.html'
             }]
         }, {
             displayName: "质量分析",
@@ -91,7 +91,10 @@
                 tooltip: "按照区域或专题查看已导入的DT基础信息"
             }, {
                 displayName: "基础信息管理",
-                url: appUrlService.getParameterUrlHost() + 'index.php'
+                url: appUrlService.getParameterUrlHost() + 'cellInfo.html'
+            }, {
+                displayName: "边界漫游信息",
+                url: appUrlService.getParameterUrlHost() + 'lteboundary.html'
             }]
         }
     ];
