@@ -114,11 +114,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BsonHelper\BsonArrayAssertions.cs" />
-    <Compile Include="BsonHelper\BsonAssertionExtensions.cs" />
-    <Compile Include="BsonHelper\BsonDocumentAssertions.cs" />
-    <Compile Include="BsonHelper\BsonValueAssertions.cs" />
-    <Compile Include="BsonHelper\BsonValueEquivalencyComparer.cs" />
     <Compile Include="BsonHelper\EqualityComparers\EnumerableEqualityComparer.cs" />
     <Compile Include="BsonHelper\EqualityComparers\EnumerableEqualityComparerFactory.cs" />
     <Compile Include="BsonHelper\EqualityComparers\EqualityComparerRegistry.cs" />
@@ -133,14 +128,7 @@
     <Compile Include="BsonHelper\EqualityComparers\NonGenericEqualityComparerAdapter.cs" />
     <Compile Include="BsonHelper\EqualityComparers\ObjectAssertionsExtensions.cs" />
     <Compile Include="BsonHelper\EqualityComparers\ReferenceEqualsEqualityComparer.cs" />
-    <Compile Include="BsonHelper\IO\NullBsonStream.cs" />
-    <Compile Include="BsonHelper\Requires64BitProcessAttribute.cs" />
-    <Compile Include="CoreHelper\CoreTestConfiguration.cs" />
-    <Compile Include="CoreHelper\EventCapturer.cs" />
-    <Compile Include="CoreHelper\RequiresServerAttribute.cs" />
-    <Compile Include="DriverHelper\DriverTestConfiguration.cs" />
     <Compile Include="ExpectedErrorMessage.cs" />
-    <Compile Include="LegacyTestConfiguration.cs" />
     <Compile Include="MrMongoTestHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -241,11 +241,6 @@
             A builder for specifying which fields of a document the server should return.
             </summary>
         </member>
-        <member name="P:MongoDB.Driver.Builders.Fields.Null">
-            <summary>
-            Gets a null value with a type of IMongoFields.
-            </summary>
-        </member>
         <member name="M:MongoDB.Driver.Builders.Fields.ElemMatch(System.String,MongoDB.Driver.IMongoQuery)">
             <summary>
             Returns the first matching element in the array specified by name.
@@ -359,11 +354,6 @@
             A builder for specifying which fields of a document the server should return.
             </summary>
             <typeparam name="TDocument">The type of the document.</typeparam>
-        </member>
-        <member name="P:MongoDB.Driver.Builders.Fields`1.Null">
-            <summary>
-            Gets a null value with a type of IMongoFields.
-            </summary>
         </member>
         <member name="M:MongoDB.Driver.Builders.Fields`1.ElemMatch``1(System.Linq.Expressions.Expression{System.Func{`0,System.Collections.Generic.IEnumerable{``0}}},System.Func{MongoDB.Driver.Builders.QueryBuilder{``0},MongoDB.Driver.IMongoQuery})">
             <summary>
@@ -479,38 +469,6 @@
             Converts this object to a BsonDocument.
             </summary>
             <returns>A BsonDocument.</returns>
-        </member>
-        <member name="T:MongoDB.Driver.Builders.GeoHaystackSearchOptions">
-            <summary>
-            A builder for the options of the GeoHaystackSearch command.
-            </summary>
-        </member>
-        <member name="P:MongoDB.Driver.Builders.GeoHaystackSearchOptions.Null">
-            <summary>
-            Gets a null value with a type of IMongoGeoHaystackSearchOptions.
-            </summary>
-        </member>
-        <member name="M:MongoDB.Driver.Builders.GeoHaystackSearchOptions.SetLimit(System.Int32)">
-            <summary>
-            Sets the maximum number of results to return.
-            </summary>
-            <param name="value">The maximum number of results to return.</param>
-            <returns>The builder (so method calls can be chained).</returns>
-        </member>
-        <member name="M:MongoDB.Driver.Builders.GeoHaystackSearchOptions.SetMaxDistance(System.Double)">
-            <summary>
-            Sets the max distance.
-            </summary>
-            <param name="value">The max distance.</param>
-            <returns>The builder (so method calls can be chained).</returns>
-        </member>
-        <member name="M:MongoDB.Driver.Builders.GeoHaystackSearchOptions.SetQuery(System.String,MongoDB.Bson.BsonValue)">
-            <summary>
-            Sets the query on the optional additional field.
-            </summary>
-            <param name="additionalFieldName">The name of the additional field.</param>
-            <param name="value">The value fo the additional field.</param>
-            <returns>The builder (so method calls can be chained).</returns>
         </member>
         <member name="T:MongoDB.Driver.Builders.GeoHaystackSearchOptionsBuilder">
             <summary>

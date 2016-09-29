@@ -26,61 +26,13 @@ namespace MongoDB.Driver.Builders
     /// <summary>
     /// A builder for the options of the GeoHaystackSearch command.
     /// </summary>
-    [Obsolete("Use GeoHaystackSearchArgs instead.")]
-    public static class GeoHaystackSearchOptions
-    {
-        // public static properties
-        /// <summary>
-        /// Gets a null value with a type of IMongoGeoHaystackSearchOptions.
-        /// </summary>
-        public static IMongoGeoHaystackSearchOptions Null
-        {
-            get { return null; }
-        }
-
-        // public static methods
-        /// <summary>
-        /// Sets the maximum number of results to return.
-        /// </summary>
-        /// <param name="value">The maximum number of results to return.</param>
-        /// <returns>The builder (so method calls can be chained).</returns>
-        public static GeoHaystackSearchOptionsBuilder SetLimit(int value)
-        {
-            return new GeoHaystackSearchOptionsBuilder().SetLimit(value);
-        }
-
-        /// <summary>
-        /// Sets the max distance.
-        /// </summary>
-        /// <param name="value">The max distance.</param>
-        /// <returns>The builder (so method calls can be chained).</returns>
-        public static GeoHaystackSearchOptionsBuilder SetMaxDistance(double value)
-        {
-            return new GeoHaystackSearchOptionsBuilder().SetMaxDistance(value);
-        }
-
-        /// <summary>
-        /// Sets the query on the optional additional field.
-        /// </summary>
-        /// <param name="additionalFieldName">The name of the additional field.</param>
-        /// <param name="value">The value fo the additional field.</param>
-        /// <returns>The builder (so method calls can be chained).</returns>
-        public static GeoHaystackSearchOptionsBuilder SetQuery(string additionalFieldName, BsonValue value)
-        {
-            return new GeoHaystackSearchOptionsBuilder().SetQuery(additionalFieldName, value);
-        }
-    }
-
-    /// <summary>
-    /// A builder for the options of the GeoHaystackSearch command.
-    /// </summary>
     [Serializable]
     [Obsolete("Use GeoHaystackSearchArgs instead.")]
-    [BsonSerializer(typeof(GeoHaystackSearchOptionsBuilder.Serializer))]
+    [BsonSerializer(typeof(Serializer))]
     public class GeoHaystackSearchOptionsBuilder : BuilderBase, IMongoGeoHaystackSearchOptions
     {
         // private fields
-        private BsonDocument _document;
+        private readonly BsonDocument _document;
 
         // constructors
         /// <summary>

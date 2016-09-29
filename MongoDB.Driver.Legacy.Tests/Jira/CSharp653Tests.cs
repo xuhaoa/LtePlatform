@@ -68,29 +68,7 @@ namespace MongoDB.Driver.Tests.Jira.CSharp653
             var expected = "{ 'Name' : 'John' }".Replace("'", "\"");
             Assert.AreEqual(expected, query.ToJson());
         }
-
-        [Test]
-        public void TestLinqCount()
-        {
-            var collection = LegacyTestConfiguration.GetCollection<Entity>();
-            if (collection.Exists()) { collection.Drop(); }
-
-            for (int i = 0; i < 100; ++i)
-            {
-                var e = new Entity() { Name = "Name_" + i };
-                collection.Insert(e.GetType(), e, WriteConcern.Acknowledged);
-            }
-
-#pragma warning disable 429 // unreachable code
-            var query = (from e in collection.AsQueryable<Entity>()
-                         where true || e.Name == "Name_22"
-                         select e);
-#pragma warning restore
-            var count = query.Count();
-
-            Assert.AreEqual(100, count);
-        }
-
+        
         [Test]
         public void TestOrWithAll()
         {

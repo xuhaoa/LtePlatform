@@ -31,13 +31,6 @@ namespace MongoDB.Driver.Builders
     public static class Fields
     {
         // public static properties
-        /// <summary>
-        /// Gets a null value with a type of IMongoFields.
-        /// </summary>
-        public static IMongoFields Null
-        {
-            get { return null; }
-        }
 
         // public static methods
         /// <summary>
@@ -109,11 +102,11 @@ namespace MongoDB.Driver.Builders
     /// A builder for specifying which fields of a document the server should return.
     /// </summary>
     [Serializable]
-    [BsonSerializer(typeof(FieldsBuilder.Serializer))]
+    [BsonSerializer(typeof(Serializer))]
     public class FieldsBuilder : BuilderBase, IMongoFields
     {
         // private fields
-        private BsonDocument _document;
+        private readonly BsonDocument _document;
 
         // constructors
         /// <summary>
@@ -212,7 +205,7 @@ namespace MongoDB.Driver.Builders
         }
 
         // nested classes
-        new internal class Serializer : SerializerBase<FieldsBuilder>
+        private new class Serializer : SerializerBase<FieldsBuilder>
         {
             public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, FieldsBuilder value)
             {
@@ -228,13 +221,6 @@ namespace MongoDB.Driver.Builders
     public static class Fields<TDocument>
     {
         // public static properties
-        /// <summary>
-        /// Gets a null value with a type of IMongoFields.
-        /// </summary>
-        public static IMongoFields Null
-        {
-            get { return null; }
-        }
 
         // public static methods
         /// <summary>
@@ -246,7 +232,7 @@ namespace MongoDB.Driver.Builders
         /// <returns>The build (so method calls can be chained).</returns>
         public static FieldsBuilder<TDocument> ElemMatch<TValue>(Expression<Func<TDocument, IEnumerable<TValue>>> memberExpression, Func<QueryBuilder<TValue>, IMongoQuery> elementQueryBuilderFunction)
         {
-            return new FieldsBuilder<TDocument>().ElemMatch<TValue>(memberExpression, elementQueryBuilderFunction);
+            return new FieldsBuilder<TDocument>().ElemMatch(memberExpression, elementQueryBuilderFunction);
         }
 
         /// <summary>
@@ -313,8 +299,9 @@ namespace MongoDB.Driver.Builders
     [BsonSerializer(typeof(FieldsBuilder<>.Serializer))]
     public class FieldsBuilder<TDocument> : BuilderBase, IMongoFields
     {
-        // private fields
+        [NonSerialized]
         private readonly BsonSerializationInfoHelper _serializationInfoHelper;
+
         private FieldsBuilder _fieldsBuilder;
 
         // constructors
@@ -429,7 +416,7 @@ namespace MongoDB.Driver.Builders
         }
 
         // nested classes
-        new internal class Serializer : SerializerBase<FieldsBuilder<TDocument>>
+        private new class Serializer : SerializerBase<FieldsBuilder<TDocument>>
         {
             public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, FieldsBuilder<TDocument> value)
             {
