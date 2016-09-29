@@ -156,8 +156,9 @@ namespace MongoDB.Driver.Builders
     [BsonSerializer(typeof(GeoHaystackSearchOptionsBuilder<>.Serializer))]
     public class GeoHaystackSearchOptionsBuilder<TDocument> : BuilderBase, IMongoGeoHaystackSearchOptions
     {
-        // private fields
+        [NonSerialized]
         private readonly BsonSerializationInfoHelper _serializationInfoHelper;
+
         private GeoHaystackSearchOptionsBuilder _geoHaystackBuilder;
 
         // constructors

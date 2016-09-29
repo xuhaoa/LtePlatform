@@ -30,7 +30,7 @@ namespace MongoDB.Driver
     [Serializable]
     public abstract class GeoNearResult : CommandResult
     {
-        // private fields
+        [NonSerialized]
         private GeoNearStats _stats;
 
         // constructors
@@ -275,7 +275,7 @@ namespace MongoDB.Driver
     [BsonSerializer(typeof(GeoNearResult<>.Serializer))]
     public class GeoNearResult<TDocument> : GeoNearResult
     {
-        // private fields
+        [NonSerialized]
         private GeoNearHits _hits;
 
         // constructors

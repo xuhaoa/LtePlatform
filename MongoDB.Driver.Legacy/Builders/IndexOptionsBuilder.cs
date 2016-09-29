@@ -559,8 +559,9 @@ namespace MongoDB.Driver.Builders
     [BsonSerializer(typeof(IndexOptionsBuilder<>.Serializer))]
     public class IndexOptionsBuilder<TDocument> : BuilderBase, IMongoIndexOptions
     {
-        // private fields
+        [NonSerialized]
         private readonly BsonSerializationInfoHelper _serializationInfoHelper;
+
         private IndexOptionsBuilder _indexOptionsBuilder;
 
         // constructors

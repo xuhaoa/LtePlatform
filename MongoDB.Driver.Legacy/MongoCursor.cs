@@ -22,8 +22,6 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver.Builders;
-using MongoDB.Driver.Core.Clusters;
-using MongoDB.Driver.Core.Misc;
 using MongoDB.Driver.Core.Operations;
 
 namespace MongoDB.Driver
@@ -43,7 +41,7 @@ namespace MongoDB.Driver
         private BsonDocument _options;
         private QueryFlags _flags;
         private TimeSpan? _maxAwaitTime;
-        private ReadConcern _readConcern = ReadConcern.Default;
+        private readonly ReadConcern _readConcern = ReadConcern.Default;
         private ReadPreference _readPreference;
         private IBsonSerializer _serializer;
         private int _skip;

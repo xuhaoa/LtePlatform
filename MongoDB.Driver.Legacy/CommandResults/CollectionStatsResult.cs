@@ -60,7 +60,7 @@ namespace MongoDB.Driver
     [BsonSerializer(typeof(CommandResultSerializer<CollectionStatsResult>))]
     public class CollectionStatsResult : CommandResult
     {
-        // private fields
+        [NonSerialized]
         private IndexSizesResult _indexSizes;
 
         // constructors

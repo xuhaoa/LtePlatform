@@ -95,7 +95,7 @@ namespace MongoDB.Driver
         /// Gets the default GridFS instance for this database. The default GridFS instance uses default GridFS
         /// settings. See also GetGridFS if you need to use GridFS with custom settings.
         /// </summary>
-        public virtual MongoGridFS GridFS => GetGridFS(new MongoGridFSSettings());
+        public virtual MongoGridFS GridFS => GetGridFS(new MongoGridFsSettings());
 
         /// <summary>
         /// Gets the name of this database.
@@ -553,7 +553,7 @@ namespace MongoDB.Driver
         /// </summary>
         /// <param name="gridFSSettings">The GridFS settings to use.</param>
         /// <returns>An instance of MongoGridFS.</returns>
-        public virtual MongoGridFS GetGridFS(MongoGridFSSettings gridFSSettings)
+        public virtual MongoGridFS GetGridFS(MongoGridFsSettings gridFSSettings)
         {
             var clonedSettings = gridFSSettings.Clone();
             clonedSettings.ApplyDefaultValues(_settings);

@@ -406,8 +406,9 @@ namespace MongoDB.Driver.Builders
     [BsonSerializer(typeof(IndexKeysBuilder<>.Serializer))]
     public class IndexKeysBuilder<TDocument> : BuilderBase, IMongoIndexKeys
     {
-        // private fields
+        [NonSerialized]
         private readonly BsonSerializationInfoHelper _serializationInfoHelper;
+
         private IndexKeysBuilder _indexKeysBuilder;
 
         // constructors

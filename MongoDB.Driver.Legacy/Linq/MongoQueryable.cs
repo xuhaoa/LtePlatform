@@ -26,7 +26,7 @@ namespace MongoDB.Driver.Linq
     /// This class has been named MongoQueryable instead of MongoQuery to avoid confusion with IMongoQuery.
     /// </summary>
     /// <typeparam name="T">The type of the documents being queried.</typeparam>
-    public class MongoQueryable<T> : IOrderedQueryable<T>
+    public sealed class MongoQueryable<T> : IOrderedQueryable<T>
     {
         // private fields
         private readonly MongoQueryProvider _provider;
@@ -78,15 +78,6 @@ namespace MongoDB.Driver.Linq
         public IEnumerator<T> GetEnumerator()
         {
             return ((IEnumerable<T>)_provider.Execute(_expression)).GetEnumerator();
-        }
-
-        /// <summary>
-        /// Gets the MongoDB query that will be sent to the server when this LINQ query is executed.
-        /// </summary>
-        /// <returns>The MongoDB query.</returns>
-        public IMongoQuery GetMongoQuery()
-        {
-            return _provider.BuildMongoQuery(this);
         }
 
         // explicit implementation of IEnumerable

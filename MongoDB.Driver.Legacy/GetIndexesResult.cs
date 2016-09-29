@@ -24,11 +24,11 @@ namespace MongoDB.Driver
     /// <summary>
     /// Represents the result of GetIndexes.
     /// </summary>
-    public class GetIndexesResult : IEnumerable<IndexInfo>
+    public sealed class GetIndexesResult : IEnumerable<IndexInfo>
     {
         // private fields
-        private BsonDocument[] _documents;
-        private IndexInfo[] _indexes;
+        private readonly BsonDocument[] _documents;
+        private readonly IndexInfo[] _indexes;
 
         // constructors
         /// <summary>

@@ -30,7 +30,7 @@ namespace MongoDB.Driver
     [Serializable]
     public abstract class GeoHaystackSearchResult : CommandResult
     {
-        // private fields
+        [NonSerialized]
         private GeoHaystackSearchStats _stats;
 
         // constructors
@@ -233,7 +233,7 @@ namespace MongoDB.Driver
     [BsonSerializer(typeof(GeoHaystackSearchResult<>.Serializer))]
     public class GeoHaystackSearchResult<TDocument> : GeoHaystackSearchResult
     {
-        // private fields
+        [NonSerialized]
         private GeoHaystackSearchHits _hits;
 
         // constructors

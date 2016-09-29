@@ -48,7 +48,7 @@ namespace MongoDB.Driver.GridFS
         private readonly MongoServer _server;
         private readonly MongoServerInstance _serverInstance;
         private readonly string _databaseName;
-        private readonly MongoGridFSSettings _settings;
+        private readonly MongoGridFsSettings _settings;
         private bool _cached; // true if info came from database
         private bool _exists;
 
@@ -105,7 +105,7 @@ namespace MongoDB.Driver.GridFS
             MongoServer server,
             MongoServerInstance serverInstance,
             string databaseName,
-            MongoGridFSSettings gridFSSettings)
+            MongoGridFsSettings gridFSSettings)
         {
             if (server == null)
             {
@@ -138,7 +138,7 @@ namespace MongoDB.Driver.GridFS
             MongoServer server,
             MongoServerInstance serverInstance,
             string databaseName,
-            MongoGridFSSettings gridFSSettings,
+            MongoGridFsSettings gridFSSettings,
             string remoteFileName)
             : this(server, serverInstance, databaseName, gridFSSettings)
         {
@@ -163,7 +163,7 @@ namespace MongoDB.Driver.GridFS
             MongoServer server,
             MongoServerInstance serverInstance,
             string databaseName,
-            MongoGridFSSettings gridFSSettings,
+            MongoGridFsSettings gridFSSettings,
             BsonDocument fileInfo)
             : this(server, serverInstance, databaseName, gridFSSettings)
         {
@@ -189,7 +189,7 @@ namespace MongoDB.Driver.GridFS
             MongoServer server,
             MongoServerInstance serverInstance,
             string databaseName,
-            MongoGridFSSettings gridFSSettings,
+            MongoGridFsSettings gridFSSettings,
             string remoteFileName,
             MongoGridFSCreateOptions createOptions)
             : this(server, serverInstance, databaseName, gridFSSettings)
@@ -281,7 +281,7 @@ namespace MongoDB.Driver.GridFS
         /// <summary>
         /// Gets the GridFS settings.
         /// </summary>
-        public MongoGridFSSettings GridFSSettings
+        public MongoGridFsSettings GridFSSettings
         {
             get { return _settings; }
         }
@@ -420,7 +420,7 @@ namespace MongoDB.Driver.GridFS
             return gridFS.DatabaseName;
         }
 
-        private static MongoGridFSSettings GetGridFSSettings(MongoGridFS gridFS)
+        private static MongoGridFsSettings GetGridFSSettings(MongoGridFS gridFS)
         {
             if (gridFS == null)
             {
@@ -792,14 +792,14 @@ namespace MongoDB.Driver.GridFS
         private readonly MongoServer _server;
         private readonly MongoServerInstance _serverInstance;
         private readonly string _databaseName;
-        private readonly MongoGridFSSettings _gridFSSettings;
+        private readonly MongoGridFsSettings _gridFSSettings;
 
         // constructors
         public MongoGridFSFileInfoSerializer(
             MongoServer server,
             MongoServerInstance serverInstance,
             string databaseName,
-            MongoGridFSSettings gridFSSettings)
+            MongoGridFsSettings gridFSSettings)
         {
             _server = server;
             _serverInstance = serverInstance;

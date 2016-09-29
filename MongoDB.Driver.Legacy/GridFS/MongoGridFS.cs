@@ -30,7 +30,7 @@ namespace MongoDB.Driver.GridFS
         // private fields
         private readonly string _databaseName;
         private readonly MongoServer _server;
-        private readonly MongoGridFSSettings _settings;
+        private readonly MongoGridFsSettings _settings;
 
         // constructors
         /// <summary>
@@ -39,7 +39,7 @@ namespace MongoDB.Driver.GridFS
         /// <param name="database">The database containing the GridFS collections.</param>
         [Obsolete("Use a different constructor instead.")]
         public MongoGridFS(MongoDatabase database)
-            : this(database, new MongoGridFSSettings())
+            : this(database, new MongoGridFsSettings())
         {
         }
         
@@ -49,7 +49,7 @@ namespace MongoDB.Driver.GridFS
         /// <param name="database">The database containing the GridFS collections.</param>
         /// <param name="settings">The GridFS settings.</param>
         [Obsolete("Use a different constructor instead.")]
-        public MongoGridFS(MongoDatabase database, MongoGridFSSettings settings)
+        public MongoGridFS(MongoDatabase database, MongoGridFsSettings settings)
             : this(GetServer(database), GetDatabaseName(database), ApplyDefaultValues(settings, database))
         {
         }
@@ -60,7 +60,7 @@ namespace MongoDB.Driver.GridFS
         /// <param name="server">The server.</param>
         /// <param name="databaseName">The name of the database.</param>
         /// <param name="settings">The settings.</param>
-        public MongoGridFS(MongoServer server, string databaseName, MongoGridFSSettings settings)
+        public MongoGridFS(MongoServer server, string databaseName, MongoGridFsSettings settings)
         {
             if (server == null)
             {
@@ -136,13 +136,13 @@ namespace MongoDB.Driver.GridFS
         /// <summary>
         /// Gets the GridFS settings.
         /// </summary>
-        public MongoGridFSSettings Settings
+        public MongoGridFsSettings Settings
         {
             get { return _settings; }
         }
 
         // private static methods
-        private static MongoGridFSSettings ApplyDefaultValues(MongoGridFSSettings settings, MongoDatabase database)
+        private static MongoGridFsSettings ApplyDefaultValues(MongoGridFsSettings settings, MongoDatabase database)
         {
             if (settings == null)
             {
@@ -418,7 +418,7 @@ namespace MongoDB.Driver.GridFS
             {
                 var connectionId = _server.RequestConnectionId;
 
-                if (_settings.VerifyMD5 && fileInfo.MD5 == null)
+                if (_settings.VerifyMd5 && fileInfo.MD5 == null)
                 {
                     throw new MongoGridFSException(connectionId, "VerifyMD5 is true and file being downloaded has no MD5 hash.");
                 }
@@ -427,7 +427,7 @@ namespace MongoDB.Driver.GridFS
                 var chunksCollection = GetChunksCollection(database);
 
                 string md5Client = null;
-                using (var md5Algorithm = _settings.VerifyMD5 ? MD5.Create() : null)
+                using (var md5Algorithm = _settings.VerifyMd5 ? MD5.Create() : null)
                 {
                     var numberOfChunks = (fileInfo.Length + fileInfo.ChunkSize - 1) / fileInfo.ChunkSize;
                     for (var n = 0L; n < numberOfChunks; n++)
@@ -450,20 +450,20 @@ namespace MongoDB.Driver.GridFS
                             }
                         }
                         stream.Write(data.Bytes, 0, data.Bytes.Length);
-                        if (_settings.VerifyMD5)
+                        if (_settings.VerifyMd5)
                         {
                             md5Algorithm.TransformBlock(data.Bytes, 0, data.Bytes.Length, null, 0);
                         }
                     }
 
-                    if (_settings.VerifyMD5)
+                    if (_settings.VerifyMd5)
                     {
                         md5Algorithm.TransformFinalBlock(new byte[0], 0, 0);
                         md5Client = BsonUtils.ToHexString(md5Algorithm.Hash);
                     }
                 }
 
-                if (_settings.VerifyMD5 && !md5Client.Equals(fileInfo.MD5, StringComparison.OrdinalIgnoreCase))
+                if (_settings.VerifyMd5 && !md5Client.Equals(fileInfo.MD5, StringComparison.OrdinalIgnoreCase))
                 {
                     throw new MongoGridFSException(connectionId, "Download client and server MD5 hashes are not equal.");
                 }
@@ -994,7 +994,7 @@ namespace MongoDB.Driver.GridFS
 
                 var length = 0L;
                 string md5Client = null;
-                using (var md5Algorithm = _settings.VerifyMD5 ? MD5.Create() : null)
+                using (var md5Algorithm = _settings.VerifyMd5 ? MD5.Create() : null)
                 {
                     for (var n = 0L; true; n++)
                     {
@@ -1033,7 +1033,7 @@ namespace MongoDB.Driver.GridFS
                         };
                         chunksCollection.Insert(chunk, _settings.WriteConcern);
 
-                        if (_settings.VerifyMD5)
+                        if (_settings.VerifyMd5)
                         {
                             md5Algorithm.TransformBlock(data, 0, data.Length, null, 0);
                         }
@@ -1044,7 +1044,7 @@ namespace MongoDB.Driver.GridFS
                         }
                     }
 
-                    if (_settings.VerifyMD5)
+                    if (_settings.VerifyMd5)
                     {
                         md5Algorithm.TransformFinalBlock(new byte[0], 0, 0);
                         md5Client = BsonUtils.ToHexString(md5Algorithm.Hash);
@@ -1052,7 +1052,7 @@ namespace MongoDB.Driver.GridFS
                 }
 
                 string md5Server = null;
-                if (_settings.UpdateMD5 || _settings.VerifyMD5)
+                if (_settings.UpdateMd5 || _settings.VerifyMd5)
                 {
                     var md5Command = new CommandDocument
                     {
@@ -1063,7 +1063,7 @@ namespace MongoDB.Driver.GridFS
                     md5Server = md5Result.Response["md5"].AsString;
                 }
 
-                if ( _settings.VerifyMD5 && !md5Client.Equals(md5Server, StringComparison.OrdinalIgnoreCase))
+                if ( _settings.VerifyMd5 && !md5Client.Equals(md5Server, StringComparison.OrdinalIgnoreCase))
                 {
                     throw new MongoGridFSException(connectionId, "Upload client and server MD5 hashes are not equal.");
                 }

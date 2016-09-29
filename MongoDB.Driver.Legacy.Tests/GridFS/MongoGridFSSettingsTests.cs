@@ -26,11 +26,11 @@ namespace MongoDB.Driver.Tests.GridFS
         [Test]
         public void TestDefaults()
         {
-            var settings = MongoGridFSSettings.Defaults;
+            var settings = MongoGridFsSettings.Defaults;
             Assert.AreEqual(255 * 1024, settings.ChunkSize);
             Assert.AreEqual("fs", settings.Root);
-            Assert.AreEqual(true, settings.UpdateMD5);
-            Assert.AreEqual(true, settings.VerifyMD5);
+            Assert.AreEqual(true, settings.UpdateMd5);
+            Assert.AreEqual(true, settings.VerifyMd5);
             Assert.AreEqual(true, settings.IsFrozen);
             Assert.AreEqual(null, settings.WriteConcern);
         }
@@ -39,7 +39,7 @@ namespace MongoDB.Driver.Tests.GridFS
         public void TestDefaultsObsolete()
         {
 #pragma warning disable 618
-            var settings = new MongoGridFSSettings();
+            var settings = new MongoGridFsSettings();
             Assert.IsFalse(settings.IsFrozen);
             Assert.AreEqual(0, settings.ChunkSize);
             Assert.AreEqual(null, settings.Root);
@@ -49,18 +49,18 @@ namespace MongoDB.Driver.Tests.GridFS
 
         public void TestCreation()
         {
-            var settings = new MongoGridFSSettings()
+            var settings = new MongoGridFsSettings()
             {
                 ChunkSize = 64 * 1024,
                 Root = "root",
-                UpdateMD5 = true,
-                VerifyMD5 = true,
+                UpdateMd5 = true,
+                VerifyMd5 = true,
                 WriteConcern = WriteConcern.Acknowledged
             };
             Assert.AreEqual(64 * 1024, settings.ChunkSize);
             Assert.AreEqual("root", settings.Root);
-            Assert.AreEqual(true, settings.UpdateMD5);
-            Assert.AreEqual(true, settings.VerifyMD5);
+            Assert.AreEqual(true, settings.UpdateMd5);
+            Assert.AreEqual(true, settings.VerifyMd5);
             Assert.AreEqual(WriteConcern.Acknowledged, settings.WriteConcern);
             Assert.AreEqual(false, settings.IsFrozen);
         }
@@ -68,11 +68,11 @@ namespace MongoDB.Driver.Tests.GridFS
         [Test]
         public void TestCreationEmpty()
         {
-            var settings = new MongoGridFSSettings();
+            var settings = new MongoGridFsSettings();
             Assert.AreEqual(0, settings.ChunkSize);
             Assert.AreEqual(null, settings.Root);
-            Assert.AreEqual(false, settings.UpdateMD5);
-            Assert.AreEqual(false, settings.VerifyMD5);
+            Assert.AreEqual(false, settings.UpdateMd5);
+            Assert.AreEqual(false, settings.VerifyMd5);
             Assert.AreEqual(false, settings.IsFrozen);
             Assert.AreEqual(null, settings.WriteConcern);
         }
@@ -81,7 +81,7 @@ namespace MongoDB.Driver.Tests.GridFS
         public void TestCreationObsolete()
         {
 #pragma warning disable 618
-            var settings = new MongoGridFSSettings
+            var settings = new MongoGridFsSettings
             {
                 ChunkSize = 64 * 1024,
                 Root = "root",
@@ -99,12 +99,12 @@ namespace MongoDB.Driver.Tests.GridFS
         [Test]
         public void TestCloneAndEquals()
         {
-            var settings = new MongoGridFSSettings()
+            var settings = new MongoGridFsSettings()
             {
                 ChunkSize = 64 * 1024,
                 Root = "root",
-                UpdateMD5 = false,
-                VerifyMD5 = false,
+                UpdateMd5 = false,
+                VerifyMd5 = false,
                 WriteConcern = WriteConcern.Acknowledged
             };
             var clone = settings.Clone();
@@ -115,9 +115,9 @@ namespace MongoDB.Driver.Tests.GridFS
         [Test]
         public void TestEquals()
         {
-            var a = new MongoGridFSSettings() { ChunkSize = 123 };
-            var b = new MongoGridFSSettings() { ChunkSize = 123 };
-            var c = new MongoGridFSSettings() { ChunkSize = 345 };
+            var a = new MongoGridFsSettings() { ChunkSize = 123 };
+            var b = new MongoGridFsSettings() { ChunkSize = 123 };
+            var c = new MongoGridFsSettings() { ChunkSize = 345 };
             var n = (WriteConcern)null;
 
             Assert.IsTrue(object.Equals(a, b));
@@ -143,7 +143,7 @@ namespace MongoDB.Driver.Tests.GridFS
         [Test]
         public void TestFreeze()
         {
-            var settings = new MongoGridFSSettings();
+            var settings = new MongoGridFsSettings();
             Assert.IsFalse(settings.IsFrozen);
             settings.Freeze();
             Assert.IsTrue(settings.IsFrozen);
@@ -151,8 +151,8 @@ namespace MongoDB.Driver.Tests.GridFS
             Assert.IsTrue(settings.IsFrozen);
             Assert.Throws<InvalidOperationException>(() => settings.ChunkSize = 64 * 1024);
             Assert.Throws<InvalidOperationException>(() => settings.Root = "root");
-            Assert.Throws<InvalidOperationException>(() => settings.UpdateMD5 = true);
-            Assert.Throws<InvalidOperationException>(() => settings.VerifyMD5 = true);
+            Assert.Throws<InvalidOperationException>(() => settings.UpdateMd5 = true);
+            Assert.Throws<InvalidOperationException>(() => settings.VerifyMd5 = true);
             Assert.Throws<InvalidOperationException>(() => settings.WriteConcern = WriteConcern.Acknowledged);
         }
     }

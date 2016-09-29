@@ -6491,14 +6491,14 @@
             </summary>
             <param name="database">The database containing the GridFS collections.</param>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFS.#ctor(MongoDB.Driver.MongoDatabase,MongoDB.Driver.GridFS.MongoGridFSSettings)">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFS.#ctor(MongoDB.Driver.MongoDatabase,MongoDB.Driver.GridFS.MongoGridFsSettings)">
             <summary>
             Initializes a new instance of the MongoGridFS class.
             </summary>
             <param name="database">The database containing the GridFS collections.</param>
             <param name="settings">The GridFS settings.</param>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFS.#ctor(MongoDB.Driver.MongoServer,System.String,MongoDB.Driver.GridFS.MongoGridFSSettings)">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFS.#ctor(MongoDB.Driver.MongoServer,System.String,MongoDB.Driver.GridFS.MongoGridFsSettings)">
             <summary>
             Initializes a new instance of the <see cref="T:MongoDB.Driver.GridFS.MongoGridFS"/> class.
             </summary>
@@ -6995,7 +6995,7 @@
             <param name="remoteFileName">The remote file name.</param>
             <param name="createOptions">The create options.</param>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFSFileInfo.#ctor(MongoDB.Driver.MongoServer,MongoDB.Driver.MongoServerInstance,System.String,MongoDB.Driver.GridFS.MongoGridFSSettings)">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFSFileInfo.#ctor(MongoDB.Driver.MongoServer,MongoDB.Driver.MongoServerInstance,System.String,MongoDB.Driver.GridFS.MongoGridFsSettings)">
             <summary>
             Initializes a new instance of the <see cref="T:MongoDB.Driver.GridFS.MongoGridFSFileInfo"/> class.
             </summary>
@@ -7004,7 +7004,7 @@
             <param name="databaseName">Name of the database.</param>
             <param name="gridFSSettings">The GridFS settings.</param>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFSFileInfo.#ctor(MongoDB.Driver.MongoServer,MongoDB.Driver.MongoServerInstance,System.String,MongoDB.Driver.GridFS.MongoGridFSSettings,System.String)">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFSFileInfo.#ctor(MongoDB.Driver.MongoServer,MongoDB.Driver.MongoServerInstance,System.String,MongoDB.Driver.GridFS.MongoGridFsSettings,System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:MongoDB.Driver.GridFS.MongoGridFSFileInfo"/> class.
             </summary>
@@ -7014,7 +7014,7 @@
             <param name="gridFSSettings">The GridFS settings.</param>
             <param name="remoteFileName">The remote file name.</param>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFSFileInfo.#ctor(MongoDB.Driver.MongoServer,MongoDB.Driver.MongoServerInstance,System.String,MongoDB.Driver.GridFS.MongoGridFSSettings,MongoDB.Bson.BsonDocument)">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFSFileInfo.#ctor(MongoDB.Driver.MongoServer,MongoDB.Driver.MongoServerInstance,System.String,MongoDB.Driver.GridFS.MongoGridFsSettings,MongoDB.Bson.BsonDocument)">
             <summary>
             Initializes a new instance of the <see cref="T:MongoDB.Driver.GridFS.MongoGridFSFileInfo"/> class.
             </summary>
@@ -7024,7 +7024,7 @@
             <param name="gridFSSettings">The GridFS settings.</param>
             <param name="fileInfo">The fileInfo.</param>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFSFileInfo.#ctor(MongoDB.Driver.MongoServer,MongoDB.Driver.MongoServerInstance,System.String,MongoDB.Driver.GridFS.MongoGridFSSettings,System.String,MongoDB.Driver.GridFS.MongoGridFSCreateOptions)">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFSFileInfo.#ctor(MongoDB.Driver.MongoServer,MongoDB.Driver.MongoServerInstance,System.String,MongoDB.Driver.GridFS.MongoGridFsSettings,System.String,MongoDB.Driver.GridFS.MongoGridFSCreateOptions)">
             <summary>
             Initializes a new instance of the <see cref="T:MongoDB.Driver.GridFS.MongoGridFSFileInfo"/> class.
             </summary>
@@ -7236,23 +7236,23 @@
             Refreshes the GridFS file info from the server.
             </summary>
         </member>
-        <member name="T:MongoDB.Driver.GridFS.MongoGridFSSettings">
+        <member name="T:MongoDB.Driver.GridFS.MongoGridFsSettings">
             <summary>
             Represents setting for GridFS.
             </summary>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFSSettings.#ctor">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFsSettings.#ctor">
             <summary>
             Initializes a new instance of the MongoGridFSSettings class.
             </summary>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFSSettings.#ctor(MongoDB.Driver.MongoDatabase)">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFsSettings.#ctor(MongoDB.Driver.MongoDatabase)">
             <summary>
             Initializes a new instance of the MongoGridFSSettings class.
             </summary>
             <param name="database">The database from which to inherit some of the settings.</param>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFSSettings.#ctor(System.Int32,System.String,MongoDB.Driver.WriteConcern)">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFsSettings.#ctor(System.Int32,System.String,MongoDB.Driver.WriteConcern)">
             <summary>
             Initializes a new instance of the MongoGridFSSettings class.
             </summary>
@@ -7260,72 +7260,72 @@
             <param name="root">The root collection name.</param>
             <param name="writeConcern">The write concern.</param>
         </member>
-        <member name="P:MongoDB.Driver.GridFS.MongoGridFSSettings.Defaults">
+        <member name="P:MongoDB.Driver.GridFS.MongoGridFsSettings.Defaults">
             <summary>
             Gets or sets the default GridFS settings.
             </summary>
         </member>
-        <member name="P:MongoDB.Driver.GridFS.MongoGridFSSettings.ChunksCollectionName">
+        <member name="P:MongoDB.Driver.GridFS.MongoGridFsSettings.ChunksCollectionName">
             <summary>
             Gets the chunks collection name.
             </summary>
         </member>
-        <member name="P:MongoDB.Driver.GridFS.MongoGridFSSettings.ChunkSize">
+        <member name="P:MongoDB.Driver.GridFS.MongoGridFsSettings.ChunkSize">
             <summary>
             Gets or sets the chunk size.
             </summary>
         </member>
-        <member name="P:MongoDB.Driver.GridFS.MongoGridFSSettings.FilesCollectionName">
+        <member name="P:MongoDB.Driver.GridFS.MongoGridFsSettings.FilesCollectionName">
             <summary>
             Gets the files collection name.
             </summary>
         </member>
-        <member name="P:MongoDB.Driver.GridFS.MongoGridFSSettings.GuidRepresentation">
+        <member name="P:MongoDB.Driver.GridFS.MongoGridFsSettings.GuidRepresentation">
             <summary>
             Gets or sets the GuidRepresentation.
             </summary>
         </member>
-        <member name="P:MongoDB.Driver.GridFS.MongoGridFSSettings.IsFrozen">
+        <member name="P:MongoDB.Driver.GridFS.MongoGridFsSettings.IsFrozen">
             <summary>
             Gets a value indicating whether the settings are frozen.
             </summary>
         </member>
-        <member name="P:MongoDB.Driver.GridFS.MongoGridFSSettings.ReadEncoding">
+        <member name="P:MongoDB.Driver.GridFS.MongoGridFsSettings.ReadEncoding">
             <summary>
             Gets or sets the read encoding.
             </summary>
         </member>
-        <member name="P:MongoDB.Driver.GridFS.MongoGridFSSettings.ReadPreference">
+        <member name="P:MongoDB.Driver.GridFS.MongoGridFsSettings.ReadPreference">
             <summary>
             Gets or sets the ReadPreference.
             </summary>
         </member>
-        <member name="P:MongoDB.Driver.GridFS.MongoGridFSSettings.Root">
+        <member name="P:MongoDB.Driver.GridFS.MongoGridFsSettings.Root">
             <summary>
             Gets or sets the root collection name (the files and chunks collection names are derived from the root).
             </summary>
         </member>
-        <member name="P:MongoDB.Driver.GridFS.MongoGridFSSettings.UpdateMD5">
+        <member name="P:MongoDB.Driver.GridFS.MongoGridFsSettings.UpdateMd5">
             <summary>
             Gets or sets a value indicating whether to udpate the MD5 hash on the server when a file is uploaded or modified.
             </summary>
         </member>
-        <member name="P:MongoDB.Driver.GridFS.MongoGridFSSettings.VerifyMD5">
+        <member name="P:MongoDB.Driver.GridFS.MongoGridFsSettings.VerifyMd5">
             <summary>
             Gets or sets a value indicating whether to verify the MD5 hash when a file is uploaded or downloaded.
             </summary>
         </member>
-        <member name="P:MongoDB.Driver.GridFS.MongoGridFSSettings.WriteConcern">
+        <member name="P:MongoDB.Driver.GridFS.MongoGridFsSettings.WriteConcern">
             <summary>
             Gets or sets the WriteConcern.
             </summary>
         </member>
-        <member name="P:MongoDB.Driver.GridFS.MongoGridFSSettings.WriteEncoding">
+        <member name="P:MongoDB.Driver.GridFS.MongoGridFsSettings.WriteEncoding">
             <summary>
             Gets or sets the write encoding.
             </summary>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFSSettings.op_Inequality(MongoDB.Driver.GridFS.MongoGridFSSettings,MongoDB.Driver.GridFS.MongoGridFSSettings)">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFsSettings.op_Inequality(MongoDB.Driver.GridFS.MongoGridFsSettings,MongoDB.Driver.GridFS.MongoGridFsSettings)">
             <summary>
             Compares two MongoGridFSSettings.
             </summary>
@@ -7333,7 +7333,7 @@
             <param name="rhs">The other MongoGridFSSettings.</param>
             <returns>True if the two MongoGridFSSettings are not equal (or one is null and the other is not).</returns>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFSSettings.op_Equality(MongoDB.Driver.GridFS.MongoGridFSSettings,MongoDB.Driver.GridFS.MongoGridFSSettings)">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFsSettings.op_Equality(MongoDB.Driver.GridFS.MongoGridFsSettings,MongoDB.Driver.GridFS.MongoGridFsSettings)">
             <summary>
             Compares two MongoGridFSSettings.
             </summary>
@@ -7341,39 +7341,39 @@
             <param name="rhs">The other MongoGridFSSettings.</param>
             <returns>True if the two MongoGridFSSettings are equal (or both null).</returns>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFSSettings.Clone">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFsSettings.Clone">
             <summary>
             Creates a clone of the settings.
             </summary>
             <returns>A clone of the settings.</returns>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFSSettings.Equals(MongoDB.Driver.GridFS.MongoGridFSSettings)">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFsSettings.Equals(MongoDB.Driver.GridFS.MongoGridFsSettings)">
             <summary>
             Compares this MongoGridFSSettings to another one.
             </summary>
             <param name="rhs">The other MongoGridFSSettings.</param>
             <returns>True if the two settings are equal.</returns>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFSSettings.Equals(System.Object)">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFsSettings.Equals(System.Object)">
             <summary>
             Compares this MongoGridFSSettings to another object.
             </summary>
             <param name="obj">The other object.</param>
             <returns>True if the other objects is a MongoGridFSSettings and is equal to this one.</returns>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFSSettings.Freeze">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFsSettings.Freeze">
             <summary>
             Freezes the settings.
             </summary>
             <returns>The frozen settings.</returns>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFSSettings.FrozenCopy">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFsSettings.FrozenCopy">
             <summary>
             Returns a frozen copy of the settings.
             </summary>
             <returns>A frozen copy of the settings.</returns>
         </member>
-        <member name="M:MongoDB.Driver.GridFS.MongoGridFSSettings.GetHashCode">
+        <member name="M:MongoDB.Driver.GridFS.MongoGridFsSettings.GetHashCode">
             <summary>
             Gets the hash code.
             </summary>
@@ -8434,12 +8434,6 @@
             Gets an enumerator for the results of a MongoDB LINQ query.
             </summary>
             <returns>An enumerator for the results of a MongoDB LINQ query.</returns>
-        </member>
-        <member name="M:MongoDB.Driver.Linq.MongoQueryable`1.GetMongoQuery">
-            <summary>
-            Gets the MongoDB query that will be sent to the server when this LINQ query is executed.
-            </summary>
-            <returns>The MongoDB query.</returns>
         </member>
         <member name="T:MongoDB.Driver.Linq.MongoQueryProvider">
             <summary>
@@ -10849,7 +10843,7 @@
             </summary>
             <returns>The current operation.</returns>
         </member>
-        <member name="M:MongoDB.Driver.MongoDatabase.GetGridFS(MongoDB.Driver.GridFS.MongoGridFSSettings)">
+        <member name="M:MongoDB.Driver.MongoDatabase.GetGridFS(MongoDB.Driver.GridFS.MongoGridFsSettings)">
             <summary>
             Gets an instance of MongoGridFS for this database using custom GridFS settings.
             </summary>

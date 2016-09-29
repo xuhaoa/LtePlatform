@@ -23,43 +23,59 @@ namespace MongoDB.Driver.GridFS
     /// Represents setting for GridFS.
     /// </summary>
     [Serializable]
-    public class MongoGridFSSettings : IEquatable<MongoGridFSSettings>
+    public class MongoGridFsSettings : IEquatable<MongoGridFsSettings>
     {
         // private static fields
-        private static MongoGridFSSettings __defaults = new MongoGridFSSettings();
+        private static MongoGridFsSettings _defaults;
 
-        // private fields
+        [NonSerialized]
         private Setting<int> _chunkSize;
+
+        [NonSerialized]
         private Setting<GuidRepresentation> _guidRepresentation;
+
+        [NonSerialized]
         private Setting<UTF8Encoding> _readEncoding;
+
+        [NonSerialized]
         private Setting<ReadPreference> _readPreference;
+
+        [NonSerialized]
         private Setting<string> _root;
-        private Setting<bool> _updateMD5;
-        private Setting<bool> _verifyMD5;
+
+        [NonSerialized]
+        private Setting<bool> _updateMd5;
+
+        [NonSerialized]
+        private Setting<bool> _verifyMd5;
+
+        [NonSerialized]
         private Setting<WriteConcern> _writeConcern;
+
+        [NonSerialized]
         private Setting<UTF8Encoding> _writeEncoding;
 
         private bool _isFrozen;
         private int _frozenHashCode;
 
         // static constructor
-        static MongoGridFSSettings()
+        static MongoGridFsSettings()
         {
-            __defaults = new MongoGridFSSettings
+            _defaults = new MongoGridFsSettings
             {
                 ChunkSize = 255 * 1024, // 255KiB
                 Root = "fs",
-                UpdateMD5 = true,
-                VerifyMD5 = true
+                UpdateMd5 = true,
+                VerifyMd5 = true
             };
-            __defaults.Freeze();
+            _defaults.Freeze();
         }
 
         // constructors
         /// <summary>
         /// Initializes a new instance of the MongoGridFSSettings class.
         /// </summary>
-        public MongoGridFSSettings()
+        public MongoGridFsSettings()
         {
         }
 
@@ -68,17 +84,17 @@ namespace MongoDB.Driver.GridFS
         /// </summary>
         /// <param name="database">The database from which to inherit some of the settings.</param>
         [Obsolete("Use new MongoGridFSSettings() instead.")]
-        public MongoGridFSSettings(MongoDatabase database)
+        public MongoGridFsSettings(MongoDatabase database)
         {
             if (database == null)
             {
-                throw new ArgumentNullException("database");
+                throw new ArgumentNullException(nameof(database));
             }
 
-            _chunkSize.Value = __defaults.ChunkSize;
-            _root.Value = __defaults.Root;
-            _updateMD5.Value = __defaults.UpdateMD5;
-            _verifyMD5.Value = __defaults.VerifyMD5;
+            _chunkSize.Value = _defaults.ChunkSize;
+            _root.Value = _defaults.Root;
+            _updateMd5.Value = _defaults.UpdateMd5;
+            _verifyMd5.Value = _defaults.VerifyMd5;
             _writeConcern.Value = database.Settings.WriteConcern;
         }
 
@@ -89,21 +105,21 @@ namespace MongoDB.Driver.GridFS
         /// <param name="root">The root collection name.</param>
         /// <param name="writeConcern">The write concern.</param>
         [Obsolete("Use new MongoGridFSSettings() instead.")]
-        public MongoGridFSSettings(int chunkSize, string root, WriteConcern writeConcern)
+        public MongoGridFsSettings(int chunkSize, string root, WriteConcern writeConcern)
         {
             if (root == null)
             {
-                throw new ArgumentNullException("root");
+                throw new ArgumentNullException(nameof(root));
             }
             if (writeConcern == null)
             {
-                throw new ArgumentNullException("writeConcern");
+                throw new ArgumentNullException(nameof(writeConcern));
             }
 
             _chunkSize.Value = chunkSize;
             _root.Value = root;
-            _updateMD5.Value = __defaults.UpdateMD5;
-            _verifyMD5.Value = __defaults.VerifyMD5;
+            _updateMd5.Value = _defaults.UpdateMd5;
+            _verifyMd5.Value = _defaults.VerifyMd5;
             _writeConcern.Value = writeConcern;
         }
 
@@ -111,10 +127,10 @@ namespace MongoDB.Driver.GridFS
         /// <summary>
         /// Gets or sets the default GridFS settings.
         /// </summary>
-        public static MongoGridFSSettings Defaults
+        public static MongoGridFsSettings Defaults
         {
-            get { return __defaults; }
-            set { __defaults = value; }
+            get { return _defaults; }
+            set { _defaults = value; }
         }
 
         // public properties
@@ -122,10 +138,7 @@ namespace MongoDB.Driver.GridFS
         /// Gets the chunks collection name.
         /// </summary>
         [Obsolete("Use Root instead.")]
-        public string ChunksCollectionName
-        {
-            get { return (_root.Value == null) ? null : _root.Value + ".chunks"; }
-        }
+        public string ChunksCollectionName => (_root.Value == null) ? null : _root.Value + ".chunks";
 
         /// <summary>
         /// Gets or sets the chunk size.
@@ -144,15 +157,12 @@ namespace MongoDB.Driver.GridFS
         /// Gets the files collection name.
         /// </summary>
         [Obsolete("Use Root instead.")]
-        public string FilesCollectionName
-        {
-            get { return (_root.Value == null) ? null : _root.Value + ".files"; }
-        }
+        public string FilesCollectionName => (_root.Value == null) ? null : _root.Value + ".files";
 
         /// <summary>
         /// Gets or sets the GuidRepresentation.
         /// </summary>
-        public GuidRepresentation GuidRepresentation
+        private GuidRepresentation GuidRepresentation
         {
             get { return _guidRepresentation.Value; }
             set
@@ -165,10 +175,7 @@ namespace MongoDB.Driver.GridFS
         /// <summary>
         /// Gets a value indicating whether the settings are frozen.
         /// </summary>
-        public bool IsFrozen
-        {
-            get { return _isFrozen; }
-        }
+        public bool IsFrozen => _isFrozen;
 
         /// <summary>
         /// Gets or sets the read encoding.
@@ -194,7 +201,7 @@ namespace MongoDB.Driver.GridFS
                 if (_isFrozen) { ThrowFrozen(); }
                 if (value == null)
                 {
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 }
                 _readPreference.Value = value;
             }
@@ -211,7 +218,7 @@ namespace MongoDB.Driver.GridFS
                 if (_isFrozen) { ThrowFrozen(); }
                 if (value == null)
                 {
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 }
                 _root.Value = value;
             }
@@ -220,24 +227,24 @@ namespace MongoDB.Driver.GridFS
         /// <summary>
         /// Gets or sets a value indicating whether to udpate the MD5 hash on the server when a file is uploaded or modified.
         /// </summary>
-        public bool UpdateMD5
+        public bool UpdateMd5
         {
-            get { return _updateMD5.Value; }
+            get { return _updateMd5.Value; }
             set {
                 if (_isFrozen) { ThrowFrozen(); }
-                _updateMD5.Value = value;
+                _updateMd5.Value = value;
             }
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether to verify the MD5 hash when a file is uploaded or downloaded.
         /// </summary>
-        public bool VerifyMD5
+        public bool VerifyMd5
         {
-            get { return _verifyMD5.Value; }
+            get { return _verifyMd5.Value; }
             set {
                 if (_isFrozen) { ThrowFrozen(); }
-                _verifyMD5.Value = value;
+                _verifyMd5.Value = value;
             }
         }
 
@@ -252,7 +259,7 @@ namespace MongoDB.Driver.GridFS
                 if (_isFrozen) { ThrowFrozen(); }
                 if (value == null)
                 {
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 }
                 _writeConcern.Value = value;
             }
@@ -278,7 +285,7 @@ namespace MongoDB.Driver.GridFS
         /// <param name="lhs">The first MongoGridFSSettings.</param>
         /// <param name="rhs">The other MongoGridFSSettings.</param>
         /// <returns>True if the two MongoGridFSSettings are not equal (or one is null and the other is not).</returns>
-        public static bool operator !=(MongoGridFSSettings lhs, MongoGridFSSettings rhs)
+        public static bool operator !=(MongoGridFsSettings lhs, MongoGridFsSettings rhs)
         {
             return !(lhs == rhs);
         }
@@ -289,7 +296,7 @@ namespace MongoDB.Driver.GridFS
         /// <param name="lhs">The first MongoGridFSSettings.</param>
         /// <param name="rhs">The other MongoGridFSSettings.</param>
         /// <returns>True if the two MongoGridFSSettings are equal (or both null).</returns>
-        public static bool operator ==(MongoGridFSSettings lhs, MongoGridFSSettings rhs)
+        public static bool operator ==(MongoGridFsSettings lhs, MongoGridFsSettings rhs)
         {
             return object.Equals(lhs, rhs);
         }
@@ -299,16 +306,16 @@ namespace MongoDB.Driver.GridFS
         /// Creates a clone of the settings.
         /// </summary>
         /// <returns>A clone of the settings.</returns>
-        public MongoGridFSSettings Clone()
+        public MongoGridFsSettings Clone()
         {
-            var clone = new MongoGridFSSettings();
+            var clone = new MongoGridFsSettings();
             clone._chunkSize = _chunkSize.Clone();
             clone._guidRepresentation = _guidRepresentation.Clone();
             clone._readEncoding = _readEncoding.Clone();
             clone._readPreference = _readPreference.Clone();
             clone._root = _root.Clone();
-            clone._updateMD5 = _updateMD5.Clone();
-            clone._verifyMD5 = _verifyMD5.Clone();
+            clone._updateMd5 = _updateMd5.Clone();
+            clone._verifyMd5 = _verifyMd5.Clone();
             clone._writeConcern = _writeConcern.Clone();
             clone._writeEncoding = _writeEncoding.Clone();
             return clone;
@@ -319,7 +326,7 @@ namespace MongoDB.Driver.GridFS
         /// </summary>
         /// <param name="rhs">The other MongoGridFSSettings.</param>
         /// <returns>True if the two settings are equal.</returns>
-        public bool Equals(MongoGridFSSettings rhs)
+        public bool Equals(MongoGridFsSettings rhs)
         {
             if (object.ReferenceEquals(rhs, null) || GetType() != rhs.GetType()) { return false; }
             return
@@ -328,8 +335,8 @@ namespace MongoDB.Driver.GridFS
                 object.Equals(_readEncoding.Value, rhs._readEncoding.Value) &&
                 _readPreference.Value == rhs._readPreference.Value &&
                 _root.Value == rhs._root.Value &&
-                _updateMD5.Value == rhs._updateMD5.Value &&
-                _verifyMD5.Value == rhs._verifyMD5.Value &&
+                _updateMd5.Value == rhs._updateMd5.Value &&
+                _verifyMd5.Value == rhs._verifyMd5.Value &&
                 _writeConcern.Value == rhs._writeConcern.Value &&
                 object.Equals(_writeEncoding.Value, rhs._writeEncoding.Value);
         }
@@ -341,14 +348,14 @@ namespace MongoDB.Driver.GridFS
         /// <returns>True if the other objects is a MongoGridFSSettings and is equal to this one.</returns>
         public override bool Equals(object obj)
         {
-            return Equals(obj as MongoGridFSSettings); // works even if obj is null or of a different type
+            return Equals(obj as MongoGridFsSettings); // works even if obj is null or of a different type
         }
 
         /// <summary>
         /// Freezes the settings.
         /// </summary>
         /// <returns>The frozen settings.</returns>
-        public MongoGridFSSettings Freeze()
+        public MongoGridFsSettings Freeze()
         {
             if (!_isFrozen)
             {
@@ -362,7 +369,7 @@ namespace MongoDB.Driver.GridFS
         /// Returns a frozen copy of the settings.
         /// </summary>
         /// <returns>A frozen copy of the settings.</returns>
-        public MongoGridFSSettings FrozenCopy()
+        public MongoGridFsSettings FrozenCopy()
         {
             if (_isFrozen)
             {
@@ -392,8 +399,8 @@ namespace MongoDB.Driver.GridFS
             hash = 37 * hash + ((_readEncoding.Value == null) ? 0 : _readEncoding.Value.GetHashCode());
             hash = 37 * hash + ((_readPreference.Value == null) ? 0 : _readPreference.Value.GetHashCode());
             hash = 37 * hash + ((_root.Value == null) ? 0 : _root.Value.GetHashCode());
-            hash = 37 * hash + _updateMD5.Value.GetHashCode();
-            hash = 37 * hash + _verifyMD5.Value.GetHashCode();
+            hash = 37 * hash + _updateMd5.Value.GetHashCode();
+            hash = 37 * hash + _verifyMd5.Value.GetHashCode();
             hash = 37 * hash + ((_writeConcern.Value == null) ? 0 : _writeConcern.Value.GetHashCode());
             hash = 37 * hash + ((_writeEncoding.Value == null) ? 0 : _writeEncoding.Value.GetHashCode());
             return hash;
@@ -404,7 +411,7 @@ namespace MongoDB.Driver.GridFS
         {
             if (!_chunkSize.HasBeenSet)
             {
-                ChunkSize = __defaults.ChunkSize;
+                ChunkSize = _defaults.ChunkSize;
             }
             if (!_guidRepresentation.HasBeenSet)
             {
@@ -420,15 +427,15 @@ namespace MongoDB.Driver.GridFS
             }
             if (!_root.HasBeenSet)
             {
-                Root = __defaults.Root;
+                Root = _defaults.Root;
             }
-            if (!_updateMD5.HasBeenSet)
+            if (!_updateMd5.HasBeenSet)
             {
-                UpdateMD5 = __defaults.UpdateMD5;
+                UpdateMd5 = _defaults.UpdateMd5;
             }
-            if (!_verifyMD5.HasBeenSet)
+            if (!_verifyMd5.HasBeenSet)
             {
-                VerifyMD5 = __defaults.VerifyMD5;
+                VerifyMd5 = _defaults.VerifyMd5;
             }
             if (!_writeConcern.HasBeenSet)
             {
@@ -444,7 +451,7 @@ namespace MongoDB.Driver.GridFS
         {
             if (!_chunkSize.HasBeenSet)
             {
-                ChunkSize = __defaults.ChunkSize;
+                ChunkSize = _defaults.ChunkSize;
             }
             if (!_guidRepresentation.HasBeenSet)
             {
@@ -460,15 +467,15 @@ namespace MongoDB.Driver.GridFS
             }
             if (!_root.HasBeenSet)
             {
-                Root = __defaults.Root;
+                Root = _defaults.Root;
             }
-            if (!_updateMD5.HasBeenSet)
+            if (!_updateMd5.HasBeenSet)
             {
-                UpdateMD5 = __defaults.UpdateMD5;
+                UpdateMd5 = _defaults.UpdateMd5;
             }
-            if (!_verifyMD5.HasBeenSet)
+            if (!_verifyMd5.HasBeenSet)
             {
-                VerifyMD5 = __defaults.VerifyMD5;
+                VerifyMd5 = _defaults.VerifyMd5;
             }
             if (!_writeConcern.HasBeenSet)
             {

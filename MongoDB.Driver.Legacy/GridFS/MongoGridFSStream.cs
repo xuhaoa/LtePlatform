@@ -61,7 +61,7 @@ namespace MongoDB.Driver.GridFS
         {
             _fileInfo = fileInfo;
             _access = access;
-            _updateMD5 = fileInfo.GridFSSettings.UpdateMD5;
+            _updateMD5 = fileInfo.GridFSSettings.UpdateMd5;
 
             var exists = fileInfo.Exists;
             string message;
