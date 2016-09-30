@@ -25,10 +25,6 @@ angular.module('rutrace.main', ['app.common'])
                     templateUrl: viewDir + "Chart.html",
                     controller: "rutrace.chart"
                 })
-                .when('/trendchart', {
-                    templateUrl: viewDir + "TrendChart.html",
-                    controller: "rutrace.trendchart"
-                })
                 .when('/top', {
                     templateUrl: viewDir + "Top.html",
                     controller: "rutrace.top"
@@ -538,6 +534,16 @@ angular.module('rutrace.main', ['app.common'])
     .controller("rutrace.trend", function ($scope, appRegionService, appKpiService, kpiPreciseService, appFormatService) {
         $scope.page.title = "指标变化趋势";
 
+        $scope.showCharts = function () {
+            $("#mr-pie").highcharts(appKpiService.getMrPieOptions($scope.trendStat.districtStats,
+                $scope.trendStat.townStats));
+            $("#precise").highcharts(appKpiService.getPreciseRateOptions($scope.trendStat.districtStats,
+                $scope.trendStat.townStats));
+            $("#time-mr").highcharts(appKpiService.getMrsDistrictOptions($scope.trendStat.stats,
+                $scope.trendStat.districts));
+            $("#time-precise").highcharts(appKpiService.getPreciseDistrictOptions($scope.trendStat.stats,
+                $scope.trendStat.districts));
+        };
         $scope.showTrend = function () {
             kpiPreciseService.getDateSpanPreciseRegionKpi($scope.city.selected, $scope.beginDate.value, $scope.endDate.value)
                 .then(function (result) {
@@ -548,6 +554,7 @@ angular.module('rutrace.main', ['app.common'])
                     }
                     $scope.trendStat.beginDateString = appFormatService.getDateString($scope.beginDate.value, "yyyy年MM月dd日");
                     $scope.trendStat.endDateString = appFormatService.getDateString($scope.endDate.value, "yyyy年MM月dd日");
+                    $scope.showCharts();
                 });
         };
         appRegionService.queryDistricts($scope.city.selected)
@@ -571,22 +578,6 @@ angular.module('rutrace.main', ['app.common'])
                 });
         };
         $scope.showTrend();
-    })
-    .controller("rutrace.trendchart", function ($scope, $location, $timeout, appKpiService) {
-
-        $scope.showCharts = function () {
-            $("#mr-pie").highcharts(appKpiService.getMrPieOptions($scope.trendStat.districtStats,
-                $scope.trendStat.townStats));
-            $("#precise").highcharts(appKpiService.getPreciseRateOptions($scope.trendStat.districtStats,
-                $scope.trendStat.townStats));
-            $("#time-mr").highcharts(appKpiService.getMrsDistrictOptions($scope.trendStat.stats,
-                $scope.trendStat.districts));
-            $("#time-precise").highcharts(appKpiService.getPreciseDistrictOptions($scope.trendStat.stats,
-                $scope.trendStat.districts));
-        };
-        $timeout(function () {
-            $scope.showCharts();
-        }, 500);
     })
     .controller("rutrace.import", function ($scope, $http, $routeParams,
         menuItemService, neighborService, neighborMongoService, neighborDialogService,
