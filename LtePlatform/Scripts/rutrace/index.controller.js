@@ -235,20 +235,26 @@ angular.module('rutrace.main', ['app.common'])
         $scope.queryRecords = function() {
             angular.forEach($scope.dateRecords, function(record) {
                 dumpProgress.queryExistedItems(eNodebId, sectorId, record.date).then(function(result) {
-                    for (var i = 0; i < $scope.dateRecords.length; i++) {
-                        if ($scope.dateRecords[i].date === record.date) {
-                            $scope.dateRecords[i].existedRecords = result;
-                            break;
-                        }
-                    }
+                    record.existedRecords = result;
                 });
                 dumpProgress.queryMongoItems(eNodebId, sectorId, record.date).then(function(result) {
-                    for (var i = 0; i < $scope.dateRecords.length; i++) {
-                        if ($scope.dateRecords[i].date === record.date) {
-                            $scope.dateRecords[i].mongoRecords = result;
-                            break;
-                        }
-                    }
+                    record.mongoRecords = result;
+                });
+                dumpProgress.queryMrsRsrpItem(eNodebId, sectorId, record.date).then(function(result) {
+                    //console.log(result['rsrP_00']);
+                    record.mrsRsrpStats = result;
+                });
+                dumpProgress.queryMrsTadvItem(eNodebId, sectorId, record.date).then(function (result) {
+                    //console.log(result['tadv_00']);
+                    record.mrsTaStats = result;
+                });
+                dumpProgress.queryMrsPhrItem(eNodebId, sectorId, record.date).then(function (result) {
+                    //console.log(result['powerHeadRoom_00']);
+                    record.mrsPhrStats = result;
+                });
+                dumpProgress.queryMrsTadvRsrpItem(eNodebId, sectorId, record.date).then(function (result) {
+                    //console.log(result['tadv00Rsrp00']);
+                    record.mrsTaRsrpStats = result;
                 });
             });
         };

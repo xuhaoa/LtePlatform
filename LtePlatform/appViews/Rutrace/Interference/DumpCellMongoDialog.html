@@ -23,10 +23,10 @@
                     <td>{{record.date | date: "yyyy-MM-dd"}}</td>
                     <td>{{record.existedRecords}}</td>
                     <td>{{record.mongoRecords.length}}</td>
-                    <td>{{record.mrsRsrpStats}}</td>
-                    <td>{{record.mrsTaStats}}</td>
-                    <td>{{record.mrsPhrStats}}</td>
-                    <td>{{record.mrsTaRsrpStats}}</td>
+                    <td>{{record.mrsRsrpStats ? '有' : '无'}}</td>
+                    <td>{{record.mrsTaStats ? '有' : '无'}}</td>
+                    <td>{{record.mrsPhrStats ? '有' : '无'}}</td>
+                    <td>{{record.mrsTaRsrpStats ? '有' : '无'}}</td>
                     <td style="min-width:150px">
                         <button class="btn btn-sm btn-default" ng-click="updateDetails(record.mongoRecords, record.date)">详情</button>
                     </td>

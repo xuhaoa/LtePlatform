@@ -100,6 +100,38 @@
             });
         };
 
+        serviceInstance.queryMrsRsrpItem = function(eNodebId, sectorId, date) {
+            return generalHttpService.getApiData('MrsRsrp', {
+                eNodebId: eNodebId,
+                sectorId: sectorId,
+                statDate: date
+            });
+        };
+
+        serviceInstance.queryMrsTadvItem = function (eNodebId, sectorId, date) {
+            return generalHttpService.getApiData('MrsTadv', {
+                eNodebId: eNodebId,
+                sectorId: sectorId,
+                statDate: date
+            });
+        };
+
+        serviceInstance.queryMrsPhrItem = function (eNodebId, sectorId, date) {
+            return generalHttpService.getApiData('MrsPhr', {
+                eNodebId: eNodebId,
+                sectorId: sectorId,
+                statDate: date
+            });
+        };
+
+        serviceInstance.queryMrsTadvRsrpItem = function (eNodebId, sectorId, date) {
+            return generalHttpService.getApiData('MrsTadvRsrp', {
+                eNodebId: eNodebId,
+                sectorId: sectorId,
+                statDate: date
+            });
+        };
+
         return serviceInstance;
     })
     .factory('dumpPreciseService', function (dumpProgress, neighborService) {
