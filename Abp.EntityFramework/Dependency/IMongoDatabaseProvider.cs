@@ -30,6 +30,8 @@ namespace Abp.EntityFramework.Dependency
             where TEntity : class, IStatDateCell, IEntity<ObjectId>
     {
         TEntity Get(string cellId, DateTime statDate);
+
+        IEnumerable<TEntity> GetList(string cellId, DateTime begin, DateTime end);
     }
 
     public static class StatDateCellQueries
@@ -43,6 +45,16 @@ namespace Abp.EntityFramework.Dependency
                 MongoDB.Driver.Builders.Query<TEntity>.Where(
                     e => e.CellId == cellId && e.StatDate >= statDate && e.StatDate < nextDate);
             return repository.QueryOne(query);
+        }
+
+        public static IEnumerable<TEntity> Query<TEntity>(this MongoDbRepositoryBase<TEntity, ObjectId> repository,
+            string cellId, DateTime begin, DateTime end)
+            where TEntity : class, IStatDateCell, IEntity<ObjectId>
+        {
+            var query =
+                MongoDB.Driver.Builders.Query<TEntity>.Where(
+                    e => e.CellId == cellId && e.StatDate >= begin && e.StatDate < end);
+            return repository.QueryCursor(query);
         }
     }
 

@@ -130,19 +130,11 @@
                 };
             },
             queryCoverage: function (begin, end, cellId, sectorId) {
-                return generalHttpService.getApiData('CellStastic', {
+                return generalHttpService.getApiData('MrsRsrp', {
                     'begin': begin,
                     'end': end,
                     'eNodebId': cellId,
                     'sectorId': sectorId
-                });
-            },
-            queryCellStastic: function (cellId, pci, begin, end) {
-                return generalHttpService.getApiData('CellStastic', {
-                    eNodebId: cellId,
-                    pci: pci,
-                    begin: begin,
-                    end: end
                 });
             },
             queryOneDayCellStastic: function (cellId, sectorId, date) {

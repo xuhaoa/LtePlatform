@@ -22,6 +22,11 @@ namespace LtePlatform.Controllers.Mr
         {
             return _service.QueryPhrStat(eNodebId, sectorId, statDate);
         }
+
+        public IEnumerable<MrsPhrStat> Get(int eNodebId, byte sectorId, DateTime begin, DateTime end)
+        {
+            return _service.QueryPhrStats(eNodebId, sectorId, begin, end);
+        } 
     }
 
     public class MrsRsrpController : ApiController
@@ -37,6 +42,11 @@ namespace LtePlatform.Controllers.Mr
         public MrsRsrpStat Get(int eNodebId, byte sectorId, DateTime statDate)
         {
             return _service.QueryRsrpStat(eNodebId, sectorId, statDate);
+        }
+
+        public IEnumerable<MrsRsrpStat> Get(int eNodebId, byte sectorId, DateTime begin, DateTime end)
+        {
+            return _service.QueryRsrpStats(eNodebId, sectorId, begin, end);
         }
     }
 
@@ -54,6 +64,11 @@ namespace LtePlatform.Controllers.Mr
         {
             return _service.QueryTadvStat(eNodebId, sectorId, statDate);
         }
+
+        public IEnumerable<MrsTadvStat> Get(int eNodebId, byte sectorId, DateTime begin, DateTime end)
+        {
+            return _service.QueryTadvStats(eNodebId, sectorId, begin, end);
+        }
     }
 
     public class MrsSinrUlController : ApiController
@@ -70,6 +85,11 @@ namespace LtePlatform.Controllers.Mr
         {
             return _service.QuerySinrUlStat(eNodebId, sectorId, statDate);
         }
+
+        public IEnumerable<MrsSinrUlStat> Get(int eNodebId, byte sectorId, DateTime begin, DateTime end)
+        {
+            return _service.QuerySinrUlStats(eNodebId, sectorId, begin, end);
+        }
     }
 
     public class MrsTadvRsrpController : ApiController
@@ -84,6 +104,11 @@ namespace LtePlatform.Controllers.Mr
         public MrsTadvRsrpStat Get(int eNodebId, byte sectorId, DateTime statDate)
         {
             return _service.QueryTadvRsrpStat(eNodebId, sectorId, statDate);
+        }
+
+        public IEnumerable<MrsTadvRsrpStat> Get(int eNodebId, byte sectorId, DateTime begin, DateTime end)
+        {
+            return _service.QueryTadvRsrpStats(eNodebId, sectorId, begin, end);
         }
     }
 }

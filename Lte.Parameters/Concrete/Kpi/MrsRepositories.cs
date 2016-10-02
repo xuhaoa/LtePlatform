@@ -27,6 +27,11 @@ namespace Lte.Parameters.Concrete.Kpi
         {
             return this.Query(cellId, statDate);
         }
+
+        public IEnumerable<MrsPhrStat> GetList(string cellId, DateTime begin, DateTime end)
+        {
+            return this.Query(cellId, begin, end);
+        }
     }
 
     public class MrsRsrpRepository : MongoDbRepositoryBase<MrsRsrpStat, ObjectId>, IMrsRsrpRepository
@@ -45,6 +50,11 @@ namespace Lte.Parameters.Concrete.Kpi
         {
             return this.Query(cellId, statDate);
         }
+
+        public IEnumerable<MrsRsrpStat> GetList(string cellId, DateTime begin, DateTime end)
+        {
+            return this.Query(cellId, begin, end);
+        }
     }
 
     public class MrsSinrUlRepository : MongoDbRepositoryBase<MrsSinrUlStat, ObjectId>, IMrsSinrUlRepository
@@ -61,6 +71,11 @@ namespace Lte.Parameters.Concrete.Kpi
         public MrsSinrUlStat Get(string cellId, DateTime statDate)
         {
             return this.Query(cellId, statDate);
+        }
+
+        public IEnumerable<MrsSinrUlStat> GetList(string cellId, DateTime begin, DateTime end)
+        {
+            return this.Query(cellId, begin, end);
         }
     }
 
@@ -80,6 +95,11 @@ namespace Lte.Parameters.Concrete.Kpi
         {
             return this.Query(cellId, statDate);
         }
+
+        public IEnumerable<MrsTadvRsrpStat> GetList(string cellId, DateTime begin, DateTime end)
+        {
+            return this.Query(cellId, begin, end);
+        }
     }
 
     public class MrsTadvRepository : MongoDbRepositoryBase<MrsTadvStat, ObjectId>, IMrsTadvRepository
@@ -97,6 +117,11 @@ namespace Lte.Parameters.Concrete.Kpi
         public MrsTadvStat Get(string cellId, DateTime statDate)
         {
             return this.Query(cellId, statDate);
+        }
+
+        public IEnumerable<MrsTadvStat> GetList(string cellId, DateTime begin, DateTime end)
+        {
+            return this.Query(cellId, begin, end);
         }
     }
 }

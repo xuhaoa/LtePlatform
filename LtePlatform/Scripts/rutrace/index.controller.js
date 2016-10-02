@@ -909,15 +909,9 @@ angular.module('rutrace.main', ['app.common'])
                     $("#interference-over10db").highcharts(pieOptions.over10DbOption);
                     $("#interference-mod3").highcharts(pieOptions.mod3Option);
                     $("#interference-mod6").highcharts(pieOptions.mod6Option);
-                    networkElementService.queryCellInfo($routeParams.cellId, $routeParams.sectorId).then(function (info) {
-                        topPreciseService.queryCellStastic($routeParams.cellId, info.pci,
-                            $scope.beginDate.value, $scope.endDate.value).then(function (stastic) {
-                                var columnOptions = kpiDisplayService.getStrengthColumnOptions(result, stastic.mrCount,
-                                    $scope.currentCellName);
-                                $scope.topStat.columnOptions[$scope.currentCellName] = columnOptions;
-                                $("#strength-over6db").highcharts(columnOptions.over6DbOption);
-                                $("#strength-over10db").highcharts(columnOptions.over10DbOption);
-                            });
+                    topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value, 
+                        $routeParams.cellId, $routeParams.sectorId).then(function (info) {
+                        console.log(info);
                     });
                 });
         };
