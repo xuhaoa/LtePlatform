@@ -259,9 +259,17 @@ angular.module('rutrace.main', ['app.common'])
             });
         };
 
-        $scope.updateDetails = function(records, recordDate) {
-            $scope.currentDetails = records;
-            $scope.recordDate = recordDate;
+        $scope.updateDetails = function(record) {
+            $scope.currentDetails = record.mongoRecords;
+            $scope.recordDate = record.date;
+            $scope.mrsRsrpStats = [];
+            for (var i = 0; i < 48; i++) {
+                var prefix = appFormatService.prefixInteger(i, 2);
+                $scope.mrsRsrpStats.push(result['rsrP_' + prefix]);
+            }
+            $scope.mrsTaStats = record.mrsTaStats;
+            $scope.mrsPhrStats = record.mrsPhrStats;
+            $scope.mrsTaRsrpStats = record.mrsTaRsrpStats;
         };
 
         $scope.dumpAllRecords = function() {

@@ -173,6 +173,9 @@
                     });
                 });
                 return outputs;
+            },
+            prefixInteger: function(num, length) {
+                return (Array(length).join('0') + num).slice(-length);
             }
         }
     });
