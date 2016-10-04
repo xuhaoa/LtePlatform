@@ -6,21 +6,27 @@
     self.title = {
         text: 'USD to EUR exchange rate over time'
     };
+    self.xAxis = {
+        type: 'datetime',
+        title: {
+            text: '',
+            categories: []
+        }
+    };
     self.yAxis = {
         title: {
             text: 'Exchange rate'
         }
     };
+    self.enableLegend = false;
     self.series = [];
     self.options = {
         chart: self.chart,
         title: self.title,
-        xAxis: {
-            type: 'datetime'
-        },
+        xAxis: self.xAxis,
         yAxis: self.yAxis,
         legend: {
-            enabled: false
+            enabled: self.enableLegend
         },
         plotOptions: {
             area: {
