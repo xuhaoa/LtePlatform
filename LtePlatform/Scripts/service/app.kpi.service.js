@@ -303,6 +303,7 @@
                 var chart = new AreaChart();
                 chart.title.text = '月度抱怨量变化趋势图';
                 chart.xAxis.title = '日期';
+                chart.xAxis.type = 'datetime';
                 chart.xAxis.categories = dates;
                 chart.yAxis.title = '抱怨量';
                 chart.series.push({
