@@ -32,6 +32,20 @@
         credits: {
             enabled: self.enableLegend
         },
+        plotOptions: {
+            area: {
+                marker: {
+                    radius: 2
+                },
+                lineWidth: 1,
+                states: {
+                    hover: {
+                        lineWidth: 1
+                    }
+                },
+                threshold: null
+            }
+        },
         series: self.series
     };
     return self;

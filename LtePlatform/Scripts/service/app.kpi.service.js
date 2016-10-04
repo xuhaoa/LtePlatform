@@ -307,11 +307,13 @@
                 chart.yAxis.title = '抱怨量';
                 chart.series.push({
                     name: '指标值',
-                    data: counts
+                    data: counts,
+                    type: 'area'
                 });
                 chart.series.push({
                     name: '目标值',
-                    data: objects
+                    data: objects,
+                    type: 'area'
                 });
                 chart.enableLegend = true;
                 return chart.options;

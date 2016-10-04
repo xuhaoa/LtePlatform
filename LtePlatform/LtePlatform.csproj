@@ -1967,7 +1967,9 @@
     <Folder Include="Areas\TestPage\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201511010036147_AddHometown20151101.resx">
