@@ -4,7 +4,33 @@
 /// <reference path="../../jasmine/console.js"/>
 /// <reference path="../../jasmine/jasmine.js"/>
 /// <reference path="../../jasmine/jasmine-html.js"/>
+/// <reference path="../mock/highcharts.mock.js"/>
 /// <reference path="../../service/parameters/chart.js"/>
+/// <reference path="../../mycharts/comboChart.js"/>
+
+describe('combo chart test', function() {
+    var chart = new ComboChart();
+
+    it('should be able to construct a combo chart', function() {
+        expect(chart).not.toBeNull();
+    });
+
+    it('should be able to get the title text', function() {
+        expect(chart.title.text).toBe('');
+    });
+
+    it('should be able to get yAxis properties', function() {
+        expect(chart.yAxis[0].labels.format).toBe('{value}');
+        expect(chart.yAxis[0].labels.style.color).toBe('0');
+        expect(chart.yAxis[0].title.text).toBe('YLabel');
+        expect(chart.yAxis[0].title.style.color).toBe('0');
+    });
+
+    it('should be able to get xAxis properties', function() {
+        expect(chart.xAxis[0].title.text).toBe('xLabel');
+        expect(chart.xAxis[0].title.style.color).toBe('0');
+    });
+});
 
 describe('generalChartService test', function() {
     var generalChartService;

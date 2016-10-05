@@ -1,10 +1,8 @@
-﻿function ComboChart() {
-    var self = this;
-    self.title = {
-        text: 'The Combo Chart including line, column, pie, ...'
-    };
-
-    self.yAxis = [{ 
+﻿var GeneralChart = {
+    title: {
+        text: ''
+    },
+    yAxis: [{ 
         labels: {
             format: '{value}',
             style: {
@@ -17,9 +15,8 @@
                 color: Highcharts.getOptions().colors[0]
             }
         }
-    }];
-
-    self.xAxis= [{
+    }],
+    xAxis: [{
         categories: [],
         title: {
             text: 'xLabel',
@@ -27,11 +24,10 @@
                 color: Highcharts.getOptions().colors[0]
             }
         }
-    }];
+    }],
+    series: [],
 
-    self.series = [];
-
-    self.legend = {
+    legend: {
         layout: 'vertical',
         align: 'left',
         x: 100,
@@ -39,52 +35,50 @@
         y: 30,
         floating: true,
         backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-    };
-    
-    self.tooltip = {
+    },
+    tooltip: {
         headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
         pointFormat: '<b>{point.y:.2f}</b>'
-    };
+    },
+    chart: {
+        
+    },
+    plotOptions: {
+        
+    }
+};
 
-    self.options = {
-        chart: {
-            zoomType: 'xy'
-        },
-        title: self.title,
-        xAxis: self.xAxis,
-        yAxis: self.yAxis,
-        tooltip: self.tooltip,
-        legend: self.legend,
-        series: self.series
-    };
-}
+Object.defineProperty(GeneralChart, "options", {
+    get: function() {
+        return {
+            chart: this.chart,
+            title: this.title,
+            xAxis: this.xAxis,
+            yAxis: this.yAxis,
+            tooltip: this.tooltip,
+            legend: this.legend,
+            series: this.series,
+            plotOptions: this.plotOptions
+        };
+    }
+});
 
-function BarChart() {
-    var self = this;
-    self.title = {
-        text: 'Historic World Population by Region'
-    };
-    self.xAxis = {
-        categories: [],
-        title: {
-            text: null
-        }
-    };
-    self.yAxis = {
-        min: 0,
-        title: {
-            text: 'Population (millions)',
-            align: 'high'
-        },
-        labels: {
-            overflow: 'justify'
-        }
-    };
-    self.tooltip = {
-        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-        pointFormat: '<b>{point.y:.2f}</b>'
-    };
-    self.plotOptions = {
+var ComboChart = function() {
+    angular.extend(GeneralChart.chart, GeneralChart.chart, {
+        zoomType: 'xy'
+    });
+};
+
+ComboChart.prototype = GeneralChart;
+
+var BarChart = function() {
+};
+
+BarChart.prototype = new GeneralChart;
+BarChart.prototype.options.chart.type = 'bar';
+
+angular.extend(BarChart.prototype.options, GeneralChart.prototype.options, {
+    plotOptions: {
         bar: {
             dataLabels: {
                 enabled: true,
@@ -95,24 +89,8 @@ function BarChart() {
                 }
             }
         }
-    };
-    self.legend = {
+    },
+    credits: {
         enabled: false
-    };
-    self.series = [];
-    self.options = {
-        chart: {
-            type: 'bar'
-        },
-        title: self.title,
-        xAxis: self.xAxis,
-        yAxis: self.yAxis,
-        tooltip: self.tooltip,
-        plotOptions: self.plotOptions,
-        legend: self.legend,
-        credits: {
-            enabled: false
-        },
-        series: self.series
-    };
-}
+    }
+})
