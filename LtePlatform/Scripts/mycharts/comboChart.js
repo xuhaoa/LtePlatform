@@ -1,33 +1,10 @@
-﻿var GeneralChart = {
-    title: {
+﻿function GeneralChart() {
+    this.title = {
         text: ''
-    },
-    yAxis: [{ 
-        labels: {
-            format: '{value}',
-            style: {
-                color: Highcharts.getOptions().colors[0]
-            }
-        },
-        title: {
-            text: 'YLabel',
-            style: {
-                color: Highcharts.getOptions().colors[0]
-            }
-        }
-    }],
-    xAxis: [{
-        categories: [],
-        title: {
-            text: 'xLabel',
-            style: {
-                color: Highcharts.getOptions().colors[0]
-            }
-        }
-    }],
-    series: [],
+    };
+    this.series = [];
 
-    legend: {
+    this.legend = {
         layout: 'vertical',
         align: 'left',
         x: 100,
@@ -35,62 +12,127 @@
         y: 30,
         floating: true,
         backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-    },
-    tooltip: {
+    };
+    this.tooltip = {
         headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
         pointFormat: '<b>{point.y:.2f}</b>'
+    };
+    this.options = {
+        title: this.title,
+        tooltip: this.tooltip,
+        legend: this.legend,
+        series: this.series
+    };
+};
+
+GeneralChart.prototype.defaultYAxis = {
+    labels: {
+        format: '{value}',
+        style: {
+            color: Highcharts.getOptions().colors[0]
+        }
     },
-    chart: {
-        
-    },
-    plotOptions: {
-        
+    title: {
+        text: 'YLabel',
+        style: {
+            color: Highcharts.getOptions().colors[0]
+        }
+    }
+};
+  
+GeneralChart.prototype.defaultXAxis = {
+    categories: [],
+    title: {
+        text: 'xLabel',
+        style: {
+            color: Highcharts.getOptions().colors[0]
+        }
     }
 };
 
-Object.defineProperty(GeneralChart, "options", {
-    get: function() {
-        return {
-            chart: this.chart,
-            title: this.title,
-            xAxis: this.xAxis,
-            yAxis: this.yAxis,
-            tooltip: this.tooltip,
-            legend: this.legend,
-            series: this.series,
-            plotOptions: this.plotOptions
-        };
+GeneralChart.prototype.setDefaultYAxis = function(settings) {
+    if (settings.title) {
+        this.defaultYAxis.title.text = settings.title;
     }
-});
+    if (settings.min) {
+        this.defaultYAxis.min = settings.min;
+    }
+    if (settings.max) {
+        this.defaultYAxis.max = settings.max;
+    }
+};
 
-var ComboChart = function() {
-    angular.extend(GeneralChart.chart, GeneralChart.chart, {
-        zoomType: 'xy'
+var ComboChart = function () {
+};
+
+ComboChart.prototype = new GeneralChart();
+ComboChart.prototype.chart = {
+    zoomType: 'xy'
+};
+angular.extend(ComboChart.prototype.options, GeneralChart.prototype.options, {
+    chart: ComboChart.prototype.chart
+});
+ComboChart.prototype.xAxis = [];
+ComboChart.prototype.yAxis = [];
+ComboChart.prototype.xAxis.push(GeneralChart.prototype.defaultXAxis);
+ComboChart.prototype.yAxis.push(GeneralChart.prototype.defaultYAxis);
+angular.extend(ComboChart.prototype.options, GeneralChart.prototype.options, {
+    xAxis: ComboChart.prototype.xAxis
+});
+angular.extend(ComboChart.prototype.options, GeneralChart.prototype.options, {
+    yAxis: ComboChart.prototype.yAxis
+});
+ComboChart.prototype.pushOneYAxis = function (yLabel) {
+    var length = this.yAxis.length;
+    this.yAxis.push({
+        labels: {
+            format: '{value}',
+            style: {
+                color: Highcharts.getOptions().colors[length]
+            }
+        },
+        title: {
+            text: yLabel,
+            style: {
+                color: Highcharts.getOptions().colors[length]
+            }
+        }
     });
 };
 
-ComboChart.prototype = GeneralChart;
-
 var BarChart = function() {
+
 };
 
-BarChart.prototype = new GeneralChart;
-BarChart.prototype.options.chart.type = 'bar';
-
+BarChart.prototype = new GeneralChart();
+BarChart.prototype.chart = {
+    type: 'bar'
+};
+BarChart.prototype.xAxis = GeneralChart.prototype.defaultXAxis;
+BarChart.prototype.yAxis = GeneralChart.prototype.defaultYAxis;
 angular.extend(BarChart.prototype.options, GeneralChart.prototype.options, {
-    plotOptions: {
-        bar: {
-            dataLabels: {
-                enabled: true,
-                align: "center",
-                color: 'red',
-                formatter: function() {
-                    return parseInt(this.y * 100) / 100;
-                }
+    xAxis: BarChart.prototype.xAxis
+});
+angular.extend(BarChart.prototype.options, GeneralChart.prototype.options, {
+    yAxis: BarChart.prototype.yAxis
+});
+BarChart.prototype.plotOptions = {
+    bar: {
+        dataLabels: {
+            enabled: true,
+            align: "center",
+            color: 'red',
+            formatter: function() {
+                return parseInt(this.y * 100) / 100;
             }
         }
-    },
-    credits: {
-        enabled: false
     }
-})
+};
+BarChart.prototype.credits = {
+    enabled: false
+};
+angular.extend(BarChart.prototype.options, GeneralChart.prototype.options, {
+    chart: BarChart.prototype.chart,
+    plotOptions: BarChart.prototype.plotOptions,
+    credits: BarChart.prototype.credits
+});

@@ -46,10 +46,12 @@
                 category.push(cityStat.city);
                 precise.push(cityStat.preciseRate);
                 chart.xAxis.categories = category;
-                chart.yAxis.title.text = '精确覆盖率';
                 chart.xAxis.title.text = '区域';
-                chart.yAxis.min = 80;
-                chart.yAxis.max = 100;
+                chart.setDefaultYAxis({
+                    title: '精确覆盖率',
+                    min: 80,
+                    max: 100
+                });
                 chart.series.push({
                     type: 'bar',
                     name: '精确覆盖率',
@@ -69,10 +71,12 @@
                 category.push(city);
                 precise.push(cityDownSwitch);
                 chart.xAxis.categories = category;
-                chart.yAxis.title.text = '4G用户3G流量比';
                 chart.xAxis.title.text = '区域';
-                chart.yAxis.min = 0;
-                chart.yAxis.max = 10;
+                chart.setDefaultYAxis({
+                    title: '4G用户3G流量比',
+                    min: 0,
+                    max: 10
+                });
                 chart.series.push({
                     type: 'bar',
                     name: '4G用户3G流量比',

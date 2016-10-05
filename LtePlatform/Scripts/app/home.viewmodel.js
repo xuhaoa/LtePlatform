@@ -143,16 +143,19 @@
                 $scope.statDate.value = appFormatService.getDate(result.statDate);
                 $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, city);
                 $scope.rate = appKpiService.calculatePreciseRating($scope.cityStat.preciseRate);
-                $("#preciseConfig").highcharts(kpiDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
-                    $scope.cityStat));
+                var options = kpiDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
+                    $scope.cityStat);
+                console.log(options);
+                $("#preciseConfig").highcharts(options);
             });
         downSwitchService.getRecentKpi(city, $scope.statDate.value || new Date())
             .then(function (result) {
                 $scope.flowDate.value = appFormatService.getDate(result.statDate);
                 $scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
                 $scope.downRate = appKpiService.calculateDownSwitchRating($scope.flowStat);
-                $("#downSwitchConfig").highcharts(kpiDisplayService.generateDownSwitchOptions(result.downSwitchFlowViews,
-                    city, $scope.flowStat));
+                var options = kpiDisplayService.generateDownSwitchOptions(result.downSwitchFlowViews,
+                    city, $scope.flowStat);
+                $("#downSwitchConfig").highcharts(options);
             });
     };
 
