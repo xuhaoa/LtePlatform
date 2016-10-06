@@ -11,7 +11,8 @@
         verticalAlign: 'top',
         y: 30,
         floating: true,
-        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+        enabled: true
     };
     this.tooltip = {
         headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
@@ -23,6 +24,7 @@
         legend: this.legend,
         series: this.series
     };
+    return this
 };
 
 GeneralChart.prototype.defaultYAxis = {
@@ -62,8 +64,9 @@ GeneralChart.prototype.setDefaultYAxis = function(settings) {
     }
 };
 
-var ComboChart = function () {
-};
+function ComboChart() {
+    this.options.series = this.series = [];
+}
 
 ComboChart.prototype = new GeneralChart();
 ComboChart.prototype.chart = {
@@ -136,3 +139,11 @@ angular.extend(BarChart.prototype.options, GeneralChart.prototype.options, {
     plotOptions: BarChart.prototype.plotOptions,
     credits: BarChart.prototype.credits
 });
+BarChart.prototype.asignSeries = function (series) {
+    series.type = 'bar';
+    if (this.series.length === 0) {
+        this.series.push(series);
+    } else {
+        this.series[0] = series;
+    }
+};

@@ -37,6 +37,7 @@
             generatePreciseBarOptions: function(districtStats, cityStat) {
                 var chart = new BarChart();
                 chart.title.text = cityStat.city + "精确覆盖率统计";
+                chart.legend.enabled = false;
                 var category = [];
                 var precise = [];
                 angular.forEach(districtStats, function(stat) {
@@ -52,16 +53,18 @@
                     min: 80,
                     max: 100
                 });
-                chart.series.push({
-                    type: 'bar',
+                var series = {
                     name: '精确覆盖率',
                     data: precise
-                });
+                };
+                chart.asignSeries(series);
+                
                 return chart.options;
             },
             generateDownSwitchOptions: function(districtStats, city, cityDownSwitch) {
                 var chart = new BarChart();
                 chart.title.text = city + "4G用户3G流量比统计";
+                chart.legend.enabled = false;
                 var category = [];
                 var precise = [];
                 angular.forEach(districtStats, function(stat) {
@@ -77,11 +80,11 @@
                     min: 0,
                     max: 10
                 });
-                chart.series.push({
-                    type: 'bar',
+                var series = {
                     name: '4G用户3G流量比',
                     data: precise
-                });
+                };
+                chart.asignSeries(series);
                 return chart.options;
             },
             generateComboChartOptions: function(data, name, city) {

@@ -145,7 +145,6 @@
                 $scope.rate = appKpiService.calculatePreciseRating($scope.cityStat.preciseRate);
                 var options = kpiDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
                     $scope.cityStat);
-                console.log(options);
                 $("#preciseConfig").highcharts(options);
             });
         downSwitchService.getRecentKpi(city, $scope.statDate.value || new Date())

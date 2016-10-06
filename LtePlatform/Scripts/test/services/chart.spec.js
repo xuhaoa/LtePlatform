@@ -74,7 +74,8 @@ describe('combo chart test', function() {
             verticalAlign: 'top',
             y: 30,
             floating: true,
-            backgroundColor: '#FFFFFF'
+            backgroundColor: '#FFFFFF',
+            enabled: true
         });
     });
 
@@ -164,6 +165,32 @@ describe('combo chart options test', function() {
         expect(options.yAxis[0].title.style.color).toBe('0');
     });
 
+});
+
+describe('combo chart series test', function() {
+    it('insert one series once', function() {
+        var chart = new ComboChart();
+        chart.series.push({
+            name: 'aaa',
+            data: [1, 2, 3]
+        });
+        expect(chart.options.series.length).toBe(1);
+    });
+
+    it('insert one series twice', function() {
+        var chart = new ComboChart();
+        chart.series.push({
+            name: 'aaa',
+            data: [1, 2, 3]
+        });
+        expect(chart.options.series.length).toBe(1);
+        chart = new ComboChart();
+        chart.series.push({
+            name: 'bbb',
+            data: [4, 5, 6]
+        });
+        expect(chart.options.series.length).toBe(1);
+    });
 });
 
 describe('bar chart test', function () {
@@ -270,6 +297,16 @@ describe('bar chart options test', function() {
     });
 
     it('should be able to get legend property', function () {
+        expect(options.legend).toEqual({
+            layout: 'vertical',
+            align: 'left',
+            x: 100,
+            verticalAlign: 'top',
+            y: 30,
+            floating: true,
+            backgroundColor: '#FFFFFF'
+        });
+        chart.enableLegend = false;
         expect(options.legend).toEqual({
             layout: 'vertical',
             align: 'left',
