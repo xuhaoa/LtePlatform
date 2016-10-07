@@ -302,20 +302,21 @@
             generateComplainTrendOptions: function(dates, counts, objects) {
                 var chart = new TimeSeriesLine();
                 chart.title.text = '月度抱怨量变化趋势图';
-                chart.xAxis.title = '日期';
-                chart.xAxis.categories = dates;
-                chart.yAxis.title = '抱怨量';
-                chart.series.push({
+                chart.setDefaultXAxis({
+                    title: '日期',
+                    categories: dates
+                });
+                chart.setDefaultYAxis({
+                    title: '抱怨量'
+                });
+                chart.insertSeries({
                     name: '指标值',
-                    data: counts,
-                    type: 'area'
+                    data: counts
                 });
-                chart.series.push({
+                chart.insertSeries({
                     name: '目标值',
-                    data: objects,
-                    type: 'area'
+                    data: objects
                 });
-                chart.enableLegend = true;
                 return chart.options;
             },
             generateColumnOptions: function (stat, title, xtitle, ytitle) {

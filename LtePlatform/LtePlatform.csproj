@@ -1603,7 +1603,6 @@
     <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
     <Content Include="Scripts\kpi\workitem.import.js" />
     <Content Include="Scripts\mycharts\gaugeMeter.js" />
-    <Content Include="Scripts\mycharts\timeSeriesLine.js" />
     <Content Include="Scripts\parameters\details.js" />
     <Content Include="Scripts\parameters\menu.js" />
     <Content Include="Scripts\r.js" />

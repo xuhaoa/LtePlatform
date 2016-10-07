@@ -279,6 +279,15 @@ describe('bar chart options test', function() {
         expect(options.yAxis.title.style.color).toBe('0');
     });
 
+    it('should be able to asign one series', function() {
+        chart.asignSeries({
+            name: 'abcde',
+            data: [1, 2, 3, 4]
+        });
+        expect(chart.series.length).toBe(1);
+        expect(chart.options.series.length).toBe(1);
+    });
+
     it('should be able to set the default yAxis properties', function() {
         chart.setDefaultYAxis({
             title: 'new y axis title',

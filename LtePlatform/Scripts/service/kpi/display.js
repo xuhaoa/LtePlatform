@@ -58,7 +58,6 @@
                     data: precise
                 };
                 chart.asignSeries(series);
-                
                 return chart.options;
             },
             generateDownSwitchOptions: function(districtStats, city, cityDownSwitch) {

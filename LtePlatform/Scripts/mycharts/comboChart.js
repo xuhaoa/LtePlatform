@@ -63,6 +63,28 @@ GeneralChart.prototype.setDefaultYAxis = function(settings) {
         this.defaultYAxis.max = settings.max;
     }
 };
+GeneralChart.prototype.setDefaultXAxis = function(settings) {
+    if (settings.title) {
+        this.defaultXAxis.title.text = settings.title;
+    }
+    if (settings.categories) {
+        this.defaultXAxis.categories = settings.categories;
+    }
+};
+GeneralChart.prototype.putSeries = function (series, type) {
+    series.type = type;
+    if (this.series.length === 0) {
+        this.series.push(series);
+    } else {
+        this.series[0] = series;
+    }
+    this.options.series = this.series;
+};
+GeneralChart.prototype.addSeries = function(series, type) {
+    series.type = type;
+    this.series.push(series);
+    this.options.series = this.series;
+};
 
 function ComboChart() {
     this.options.series = this.series = [];
@@ -143,10 +165,31 @@ angular.extend(BarChart.prototype.options, SingleAxisChart.prototype.options, {
     credits: BarChart.prototype.credits
 });
 BarChart.prototype.asignSeries = function (series) {
-    series.type = 'bar';
-    if (this.series.length === 0) {
-        this.series.push(series);
-    } else {
-        this.series[0] = series;
+    this.putSeries(series, 'bar');
+};
+
+var TimeSeriesLine = function () {
+    this.xAxis.type = 'datetime';
+};
+
+TimeSeriesLine.prototype = new SingleAxisChart();
+TimeSeriesLine.prototype.plotOptions = {
+    area: {
+        marker: {
+            radius: 2
+        },
+        lineWidth: 1,
+        states: {
+            hover: {
+                lineWidth: 1
+            }
+        },
+        threshold: null
     }
+};
+angular.extend(TimeSeriesLine.prototype.options, SingleAxisChart.prototype.options, {
+    plotOptions: TimeSeriesLine.prototype.plotOptions
+});
+TimeSeriesLine.prototype.insertSeries = function(series) {
+    this.addSeries(series, 'area');
 };
