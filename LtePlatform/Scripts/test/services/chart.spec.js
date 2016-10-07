@@ -193,6 +193,17 @@ describe('combo chart series test', function() {
     });
 });
 
+describe('combo chart axis test', function() {
+    it('insert one yAxis once', function() {
+        var chart = new ComboChart();
+        expect(chart.options.yAxis.length).toBe(1);
+        chart.pushOneYAxis('aaa');
+        expect(chart.options.yAxis.length).toBe(2);
+        chart = new ComboChart();
+        expect(chart.options.yAxis.length).toBe(1);
+    });
+});
+
 describe('bar chart test', function () {
     var chart = new BarChart();
 
@@ -224,7 +235,8 @@ describe('bar chart test', function () {
             verticalAlign: 'top',
             y: 30,
             floating: true,
-            backgroundColor: '#FFFFFF'
+            backgroundColor: '#FFFFFF',
+            enabled: true
         });
     });
 
@@ -304,9 +316,10 @@ describe('bar chart options test', function() {
             verticalAlign: 'top',
             y: 30,
             floating: true,
-            backgroundColor: '#FFFFFF'
+            backgroundColor: '#FFFFFF',
+            enabled: true
         });
-        chart.enableLegend = false;
+        chart.legend.enabled = false;
         expect(options.legend).toEqual({
             layout: 'vertical',
             align: 'left',
@@ -314,7 +327,8 @@ describe('bar chart options test', function() {
             verticalAlign: 'top',
             y: 30,
             floating: true,
-            backgroundColor: '#FFFFFF'
+            backgroundColor: '#FFFFFF',
+            enabled: false
         });
     });
 
