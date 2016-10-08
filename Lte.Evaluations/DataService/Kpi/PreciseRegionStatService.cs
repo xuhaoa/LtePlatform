@@ -4,7 +4,9 @@ using System.Linq;
 using Lte.Domain.Regular;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
+using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.DataService.Kpi
 {
@@ -34,7 +36,7 @@ namespace Lte.Evaluations.DataService.Kpi
             var maxDate = result.Max(x => x.StatTime);
             var townViews =
                 result.Where(x => x.StatTime == maxDate)
-                    .Select(x => TownPreciseView.ConstructView(x, _townRepository))
+                    .Select(x => x.ConstructView<TownPreciseCoverage4GStat, TownPreciseView>(_townRepository))
                     .ToList();
             return new PreciseRegionDateView
             {
@@ -51,7 +53,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 (from q in query
                  join t in _townRepository.GetAll(city) on q.TownId equals t.Id
                  select q).ToList();
-            var townViews = result.Select(x => TownPreciseView.ConstructView(x, _townRepository)).ToList();
+            var townViews = result.Select(x => x.ConstructView<TownPreciseCoverage4GStat, TownPreciseView>(_townRepository)).ToList();
             return from view in townViews
                    group view by view.StatTime into g
                    select new PreciseRegionDateView

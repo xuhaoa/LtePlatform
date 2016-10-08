@@ -9,6 +9,7 @@ using Lte.Evaluations.Policy;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Infrastructure;
 using Moq;
 using NUnit.Framework;
 

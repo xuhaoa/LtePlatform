@@ -8,6 +8,7 @@ using Lte.Domain.Common.Geo;
 using Lte.Domain.Regular;
 using Lte.Domain.Regular.Attributes;
 using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Infrastructure;
 
 namespace Lte.Parameters.Entities.Basic
 {

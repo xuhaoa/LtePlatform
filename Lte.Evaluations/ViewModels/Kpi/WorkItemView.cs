@@ -5,6 +5,7 @@ using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities.Work;
 
 namespace Lte.Evaluations.ViewModels.Kpi

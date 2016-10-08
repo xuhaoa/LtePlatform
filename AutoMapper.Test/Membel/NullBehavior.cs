@@ -541,8 +541,6 @@ namespace AutoMapper.Test.Membel
     [TestFixture]
     public class When_mapping_a_null_model : AutoMapperSpecBase
     {
-        private ModelDto _result;
-
         public class ModelDto
         {
         }

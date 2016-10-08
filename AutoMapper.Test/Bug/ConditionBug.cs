@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using AutoMapper.Test;
@@ -233,3 +234,90 @@ namespace SourceValueExceptionConditionPropertyBug
         }
     }
 }
+
+namespace OldNameSpace
+{
+    public enum VehicleType : short
+    {
+        CdmaHuawei,
+        CdmaZte,
+        CdmaAl,
+        PhsUt,
+        PhsZte,
+        SatelliteC,
+        SatelliteKu,
+        Flyaway,
+        Electirc1000Kw,
+        Electirc200Kw,
+        Electric60Kw,
+        SoftSwitch,
+        LittleYouji,
+        LittleMicrowave,
+        MarineVstat,
+        EmergencyVstat,
+        Broadcast,
+        CPlusL,
+        LteHuawei,
+        LteZte,
+        LteEricsson
+    }
+
+    public static class MyEnumOperation
+    {
+        public static string GetEnumDescription(this VehicleType type)
+        {
+            return "hahaha";
+        }
+    }
+
+    public class MemberResolutionUsingTest
+    {
+        private class Source
+        {
+            public VehicleType VehicleType { get; set; }
+        }
+
+        private class Dest
+        {
+            public string VehicleTypeDescription { get; set; }
+
+            public DateTime DestTime { get; set; }
+        }
+
+        private class TypeResolver : ITypeConverter<Source, Dest>
+        {
+            public Dest Convert(Source source, Dest destination, ResolutionContext context)
+            {
+                return new Dest
+                {
+                    DestTime = DateTime.Today,
+                    VehicleTypeDescription = source.VehicleType.GetEnumDescription()
+                };
+            }
+        }
+
+        [TestFixtureSetUp]
+        public void TestFixtureSetUp()
+        {
+
+            Mapper.Initialize(c => c.CreateMap(typeof (Source), typeof (Dest))
+                .ConvertUsing(typeof (TypeResolver)));
+        }
+
+        [Test]
+        public void Test()
+        {
+            var src = new Source
+            {
+                VehicleType = VehicleType.Broadcast
+            };
+            var dest = Mapper.Map<Source, Dest>(src);
+            Assert.AreEqual(dest.VehicleTypeDescription, "hahaha");
+            Assert.AreEqual(dest.DestTime.Date, DateTime.Today);
+        }
+    }
+
+
+
+}
+

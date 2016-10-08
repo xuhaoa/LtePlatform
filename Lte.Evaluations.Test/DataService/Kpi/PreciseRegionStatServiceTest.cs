@@ -10,6 +10,7 @@ using Lte.Evaluations.Test.TestService;
 using Lte.Evaluations.TestService;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities;
 using Lte.Parameters.MockOperations;

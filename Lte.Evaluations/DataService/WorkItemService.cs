@@ -12,6 +12,7 @@ using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities.Work;
 
 namespace Lte.Evaluations.DataService

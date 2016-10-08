@@ -32,7 +32,8 @@ namespace Lte.Domain.Test.Regular
             {
                 VehicleTypeDescription = src.VehicleType.GetEnumDescription()
             };
-            Mapper.CreateMap(typeof(Source), typeof(Dest)).ConstructProjectionUsing(constructor);
+
+            Mapper.Initialize(c => c.CreateMap(typeof (Source), typeof (Dest)).ConstructProjectionUsing(constructor));
         }
 
         [Test]
@@ -73,10 +74,10 @@ namespace Lte.Domain.Test.Regular
         public void TestFixtureSetUp()
         {
 
-            Mapper.CreateMap(typeof (Source), typeof (Dest))
+            Mapper.Initialize(c => c.CreateMap(typeof (Source), typeof (Dest))
                 .ForMember("VehicleTypeDescription",
                     map => map.ResolveUsing(typeof (TypeResolver)).FromMember("VehicleType"))
-                .ForMember("DestTime", map => map.ResolveUsing(typeof (DateTimeNowTransform)));
+                .ForMember("DestTime", map => map.ResolveUsing(typeof (DateTimeNowTransform))));
         }
 
         [Test]

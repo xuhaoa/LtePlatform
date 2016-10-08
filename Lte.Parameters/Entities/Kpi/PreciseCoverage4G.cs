@@ -2,6 +2,7 @@
 using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
+using Lte.Domain.Common.Geo;
 using Lte.Domain.LinqToCsv;
 
 namespace Lte.Parameters.Entities.Kpi
@@ -70,7 +71,7 @@ namespace Lte.Parameters.Entities.Kpi
     }
 
     [AutoMapFrom(typeof(PreciseCoverage4G))]
-    public class TownPreciseCoverage4GStat : Entity
+    public class TownPreciseCoverage4GStat : Entity, ITownId
     {
         public DateTime StatTime { get; set; }
 

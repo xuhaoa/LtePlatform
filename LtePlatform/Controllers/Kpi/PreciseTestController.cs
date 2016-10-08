@@ -5,6 +5,7 @@ using System.Web.Http;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities.Kpi;
 using LtePlatform.Models;
 
@@ -45,7 +46,7 @@ namespace LtePlatform.Controllers.Kpi
         public List<TownPreciseView> Get(DateTime statTime, int stamp)
         {
             return _service.GetMergeStats(_service.GetTownStats(PreciseImportService.PreciseCoverage4Gs.ToList()),
-                statTime).Select(x => TownPreciseView.ConstructView(x, _townRepository)).ToList();
+                statTime).Select(x => x.ConstructView<TownPreciseCoverage4GStat, TownPreciseView>(_townRepository)).ToList();
         }
     }
 }

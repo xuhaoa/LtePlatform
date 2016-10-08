@@ -13,6 +13,7 @@ using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.ViewModels.College;
 using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Infrastructure;
 
 namespace Lte.Evaluations.DataService.College
 {

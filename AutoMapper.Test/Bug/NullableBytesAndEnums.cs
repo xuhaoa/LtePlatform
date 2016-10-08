@@ -76,8 +76,6 @@ namespace AutoMapper.Test.Bug
     [TestFixture]
     public class NullableShortWithCustomMapFrom : AutoMapperSpecBase
     {
-        private Destination _destination;
-
         public class Source
         {
             public short Value { get; set; }

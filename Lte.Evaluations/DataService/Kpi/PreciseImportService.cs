@@ -10,6 +10,7 @@ using Lte.Evaluations.ViewModels.Precise;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Kpi;
 
@@ -55,7 +56,9 @@ namespace Lte.Evaluations.DataService.Kpi
 
                 var townStats = GetTownStats(stats);
                 var mergeStats = GetMergeStats(townStats, statTime);
-                TownPreciseViews = mergeStats.Select(x => TownPreciseView.ConstructView(x, _townRepository)).ToList();
+                TownPreciseViews =
+                    mergeStats.Select(x => x.ConstructView<TownPreciseCoverage4GStat, TownPreciseView>(_townRepository))
+                        .ToList();
             }
             catch
             {
