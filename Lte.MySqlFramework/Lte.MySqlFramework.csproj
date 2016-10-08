@@ -125,8 +125,7 @@
     <Compile Include="Entities\ComplainItem.cs" />
     <Compile Include="Entities\DownSwitchFlow.cs" />
     <Compile Include="Entities\EmergencyCommunication.cs" />
-    <Compile Include="Entities\FlowHuawei.cs" />
-    <Compile Include="Entities\FlowZte.cs" />
+    <Compile Include="Entities\Flow.cs" />
     <Compile Include="Entities\OnlineSustain.cs" />
     <Compile Include="Entities\PlanningSite.cs" />
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
@@ -134,13 +133,13 @@
     <Compile Include="Entities\TopConnection3GCell.cs" />
     <Compile Include="Entities\TopDrop2GCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201609080535585_Add_PlanningSite.cs" />
-    <Compile Include="Migrations\201609080535585_Add_PlanningSite.Designer.cs">
-      <DependentUpon>201609080535585_Add_PlanningSite.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201609200811303_Delete_CellStastic.cs" />
     <Compile Include="Migrations\201609200811303_Delete_CellStastic.Designer.cs">
       <DependentUpon>201609200811303_Delete_CellStastic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610080843084_Add_Town_Flow.cs" />
+    <Compile Include="Migrations\201610080843084_Add_Town_Flow.Designer.cs">
+      <DependentUpon>201610080843084_Add_Town_Flow.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -150,11 +149,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609080535585_Add_PlanningSite.resx">
-      <DependentUpon>201609080535585_Add_PlanningSite.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609200811303_Delete_CellStastic.resx">
       <DependentUpon>201609200811303_Delete_CellStastic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610080843084_Add_Town_Flow.resx">
+      <DependentUpon>201610080843084_Add_Town_Flow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
