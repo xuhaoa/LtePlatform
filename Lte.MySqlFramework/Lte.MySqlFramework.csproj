@@ -114,8 +114,7 @@
     <Compile Include="Concrete\CdmaRepositories.cs" />
     <Compile Include="Concrete\CollegeRepositories.cs" />
     <Compile Include="Concrete\CustomerRepositories.cs" />
-    <Compile Include="Concrete\FlowHuaweiRepository.cs" />
-    <Compile Include="Concrete\FlowZteRepository.cs" />
+    <Compile Include="Concrete\FlowRepository.cs" />
     <Compile Include="Concrete\MySqlContext.cs" />
     <Compile Include="Concrete\StatRepositroies.cs" />
     <Compile Include="Entities\BranchDemand.cs" />

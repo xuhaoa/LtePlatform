@@ -238,7 +238,7 @@ namespace ZipLib.Zip
         public long ReadLong()
         {
             ReadCheck(8);
-            return ((ReadInt() & 0xffffffffL) | (ReadInt() << 0x20));
+            return (uint)(ReadInt() & 0xffffffffL) | (uint)(ReadInt() << 0x20);
         }
 
         public int ReadShort()

@@ -16,6 +16,7 @@ namespace Lte.Evaluations.DataService.Kpi
     {
         private readonly IFlowHuaweiRepository _huaweiRepository;
         private readonly IFlowZteRepository _zteRepository;
+        private readonly ITownFlowRepository _townFlowRepository;
 
         private static Stack<FlowHuawei> FlowHuaweis { get; set; }
 
@@ -25,10 +26,12 @@ namespace Lte.Evaluations.DataService.Kpi
 
         public int FlowZteCount => FlowZtes.Count;
 
-        public FlowService(IFlowHuaweiRepository huaweiRepositroy, IFlowZteRepository zteRepository)
+        public FlowService(IFlowHuaweiRepository huaweiRepositroy, IFlowZteRepository zteRepository,
+            ITownFlowRepository townFlowRepository)
         {
             _huaweiRepository = huaweiRepositroy;
             _zteRepository = zteRepository;
+            _townFlowRepository = townFlowRepository;
             if (FlowHuaweis == null)
                 FlowHuaweis = new Stack<FlowHuawei>();
             if (FlowZtes == null)
@@ -164,11 +167,13 @@ namespace Lte.Evaluations.DataService.Kpi
                 var endDate = begin.AddDays(1);
                 var huaweiItems = await _huaweiRepository.CountAsync(beginDate, endDate);
                 var zteItems = await _zteRepository.CountAsync(beginDate, endDate);
+                var townItems = await _townFlowRepository.CountAsync(beginDate, endDate);
                 results.Add(new FlowHistory
                 {
                     DateString = begin.ToShortDateString(),
                     HuaweiItems = huaweiItems,
-                    ZteItems = zteItems
+                    ZteItems = zteItems,
+                    TownStats = townItems
                 });
                 begin = begin.AddDays(1);
             }

@@ -68,5 +68,7 @@ namespace Lte.Evaluations.ViewModels
         public int HuaweiItems { get; set; }
 
         public int ZteItems { get; set; }
+
+        public int TownStats { get; set; }
     }
 }

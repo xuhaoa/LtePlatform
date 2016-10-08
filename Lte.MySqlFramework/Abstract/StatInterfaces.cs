@@ -37,11 +37,16 @@ namespace Lte.MySqlFramework.Abstract
 
         Task<int> CountAsync(DateTime begin, DateTime end);
 
-        List<FlowZte> GetAllList(DateTime begin, DateTime end, int eNodebId);
-
         List<FlowZte> GetAllList(DateTime begin, DateTime end, int eNodebId, byte sectorId);
 
         int SaveChanges();
+    }
+
+    public interface ITownFlowRepository : IRepository<TownFlowStat>
+    {
+        Task<int> CountAsync(DateTime begin, DateTime end);
+
+        List<TownFlowStat> GetAllList(DateTime begin, DateTime end);
     }
 
     public interface IDownSwitchFlowRepository : IRepository<DownSwitchFlow>,
