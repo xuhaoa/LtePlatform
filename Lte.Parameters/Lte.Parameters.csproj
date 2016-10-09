@@ -222,7 +222,6 @@
     <Compile Include="Entities\Neighbor\EUtranRelationZte.cs" />
     <Compile Include="Entities\Neighbor\LteNeighborCell.cs" />
     <Compile Include="Entities\Neighbor\NearestPciCell.cs" />
-    <Compile Include="Entities\OptimizeRegion.cs" />
     <Compile Include="Entities\Kpi\PreciseCoverage4G.cs" />
     <Compile Include="Entities\Dt\RasterInfo.cs" />
     <Compile Include="Entities\Switch\CellMeasGroupZte.cs" />

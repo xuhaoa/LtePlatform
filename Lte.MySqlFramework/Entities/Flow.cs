@@ -17,7 +17,7 @@ using Lte.Domain.Regular;
 namespace Lte.MySqlFramework.Entities
 {
     [AutoMapFrom(typeof(FlowZteCsv))]
-    public class FlowZte : Entity
+    public class FlowZte : Entity, IENodebId
     {
         public DateTime StatTime { get; set; }
 
@@ -208,7 +208,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [AutoMapFrom(typeof(FlowHuaweiCsv))]
-    public class FlowHuawei : Entity
+    public class FlowHuawei : Entity, IENodebId
     {
         public DateTime StatTime { get; set; }
 

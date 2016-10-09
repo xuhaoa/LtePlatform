@@ -42,7 +42,7 @@ namespace Lte.MySqlFramework.Abstract
         int SaveChanges();
     }
 
-    public interface ITownFlowRepository : IRepository<TownFlowStat>
+    public interface ITownFlowRepository : IRepository<TownFlowStat>, ISaveChanges
     {
         Task<int> CountAsync(DateTime begin, DateTime end);
 

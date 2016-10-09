@@ -30,6 +30,11 @@ namespace LtePlatform.Controllers.Kpi
         {
             return await _service.GetFlowHistories(begin.Date, end.Date);
         }
+
+        public async Task<int> Get(DateTime statDate)
+        {
+            return await _service.GenerateTownStats(statDate);
+        }
     }
 
     [ApiControl("导入华为流量控制器")]

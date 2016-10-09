@@ -97,5 +97,10 @@ namespace Lte.MySqlFramework.Concrete
         {
             return GetAllList(x => x.StatTime >= begin && x.StatTime < end);
         }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
     }
 }

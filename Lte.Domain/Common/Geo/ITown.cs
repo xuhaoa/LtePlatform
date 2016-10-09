@@ -31,4 +31,9 @@ namespace Lte.Domain.Common.Geo
 
         string TownName { get; set; }
     }
+
+    public interface IENodebId
+    {
+        int ENodebId { get; set; }
+    }
 }

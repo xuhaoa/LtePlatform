@@ -4,11 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
+using Lte.Domain.Common.Geo;
 using Lte.Domain.Regular;
 using Lte.Evaluations.ViewModels;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
+using Lte.Parameters.Abstract.Basic;
 
 namespace Lte.Evaluations.DataService.Kpi
 {
@@ -17,6 +20,7 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly IFlowHuaweiRepository _huaweiRepository;
         private readonly IFlowZteRepository _zteRepository;
         private readonly ITownFlowRepository _townFlowRepository;
+        private readonly IENodebRepository _eNodebRepository;
 
         private static Stack<FlowHuawei> FlowHuaweis { get; set; }
 
@@ -27,11 +31,12 @@ namespace Lte.Evaluations.DataService.Kpi
         public int FlowZteCount => FlowZtes.Count;
 
         public FlowService(IFlowHuaweiRepository huaweiRepositroy, IFlowZteRepository zteRepository,
-            ITownFlowRepository townFlowRepository)
+            ITownFlowRepository townFlowRepository, IENodebRepository eNodebRepository)
         {
             _huaweiRepository = huaweiRepositroy;
             _zteRepository = zteRepository;
             _townFlowRepository = townFlowRepository;
+            _eNodebRepository = eNodebRepository;
             if (FlowHuaweis == null)
                 FlowHuaweis = new Stack<FlowHuawei>();
             if (FlowZtes == null)
@@ -179,5 +184,64 @@ namespace Lte.Evaluations.DataService.Kpi
             }
             return results;
         }
+
+        public async Task<int> GenerateTownStats(DateTime statDate)
+        {
+            var end = statDate.AddDays(1);
+            var townStatList = new List<TownFlowStat>();
+            townStatList.AddRange(
+                _huaweiRepository.GetAllList(statDate, end)
+                    .GetTownStats<FlowHuawei, TownFlowStat>(_eNodebRepository));
+            townStatList.AddRange(
+                _zteRepository.GetAllList(statDate, end)
+                    .GetTownStats<FlowZte, TownFlowStat>(_eNodebRepository));
+            foreach (var stat in townStatList.GetMergeStats(statDate))
+            {
+                await _townFlowRepository.InsertAsync(stat);
+            }
+            return _townFlowRepository.SaveChanges();
+        } 
+    }
+
+    public static class TownStatQueries
+    {
+        public static IEnumerable<TTownStat> GetTownStats<TStat, TTownStat>(this IEnumerable<TStat> stats,
+            IENodebRepository eNodebRepository)
+            where TStat : IENodebId
+            where TTownStat : ITownId
+        {
+            var query = from stat in stats
+                        join eNodeb in eNodebRepository.GetAllList() on stat.ENodebId equals eNodeb.ENodebId
+                        select
+                            new
+                            {
+                                Stat = stat,
+                                eNodeb.TownId
+                            };
+            var townStats = query.Select(x =>
+            {
+                var townStat = Mapper.Map<TStat, TTownStat>(x.Stat);
+                townStat.TownId = x.TownId;
+                return townStat;
+            });
+            return townStats;
+        }
+
+
+        public static IEnumerable<TownFlowStat> GetMergeStats(this IEnumerable<TownFlowStat> townStats, DateTime statTime)
+        {
+            var mergeStats = from stat in townStats
+                             group stat by stat.TownId
+                into g
+                             select new TownFlowStat
+                             {
+                                 TownId = g.Key,
+                                 PdcpDownlinkFlow = g.Sum(x => x.PdcpDownlinkFlow),
+                                 PdcpUplinkFlow = g.Sum(x => x.PdcpUplinkFlow),
+                                 StatTime = statTime
+                             };
+            return mergeStats;
+        }
+
     }
 }

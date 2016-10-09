@@ -80,6 +80,11 @@
         });
         flowImportService.queryDumpHistory($scope.beginDate.value, $scope.endDate.value).then(function (result) {
             $scope.dumpHistory = result;
+            angular.forEach(result, function (record) {
+                if (record.huaweiItems > 6100 && record.zteItems > 12000 && record.townStats === 0) {
+                    console.log(record);
+                }
+            });
         });
     };
 

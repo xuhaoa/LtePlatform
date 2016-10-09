@@ -20,4 +20,13 @@ namespace Lte.Parameters.Entities
         [MaxLength(20)]
         public string TownName { get; set; }
     }
+
+    public class OptimizeRegion : Entity
+    {
+        public string City { get; set; }
+
+        public string Region { get; set; }
+
+        public string District { get; set; }
+    }
 }
