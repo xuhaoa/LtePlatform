@@ -331,6 +331,11 @@
                     begin: begin,
                     end: end
                 });
+            },
+            dumpTownStats: function(statDate) {
+                return generalHttpService.getApiData('DumpFlow', {
+                    statDate: statDate
+                });
             }
         }
     })
