@@ -9,6 +9,7 @@ using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.College;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.ViewModels.Kpi;
+using Lte.MySqlFramework.Entities;
 
 namespace LtePlatform.Controllers.Kpi
 {
@@ -32,6 +33,22 @@ namespace LtePlatform.Controllers.Kpi
         {
             return _service.QueryAverageView(eNodebId, sectorId, beginDate, endDate);
         }
+    }
+
+    public class TownFlowController : ApiController
+    {
+        private readonly TownFlowService _service;
+
+        public TownFlowController(TownFlowService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<TownFlowView> Get(DateTime statDate)
+        {
+            return _service.QueryLastDateStat(statDate);
+        } 
     }
 
     public class CollegeFlowController : ApiController

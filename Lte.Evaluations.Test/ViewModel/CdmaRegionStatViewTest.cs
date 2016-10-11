@@ -45,7 +45,7 @@ namespace Lte.Evaluations.ViewModel
                 EcioNum = ecioNum,
                 EcioDem = ecioDem
             };
-            var view = CdmaRegionStatView.ConstructView(stat);
+            var view = stat.MapTo<CdmaRegionStatView>();
             Assert.AreEqual(view.Region, region);
             Assert.AreEqual(view.ErlangIncludingSwitch, erlang);
             Assert.AreEqual(view.Drop2GRate, drop2GDem == 0 ? 0 : (double)drop2GNum / drop2GDem);

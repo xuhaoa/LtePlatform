@@ -9,6 +9,7 @@ using Lte.Evaluations.ViewModels.Kpi;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Abstract.Infrastructure;
 
 namespace Lte.Evaluations.DataService.Kpi
 {
@@ -98,6 +99,29 @@ namespace Lte.Evaluations.DataService.Kpi
         public List<FlowView> Query(DateTime begin, DateTime end)
         {
             return Mapper.Map<List<FlowZte>, List<FlowView>>(_zteRepository.GetAllList(begin, end, _eNodebId, _sectorId));
+        }
+    }
+
+    public class TownFlowService
+    {
+        private readonly ITownFlowRepository _repository;
+        private readonly ITownRepository _townRepository;
+
+        public TownFlowService(ITownFlowRepository repository, ITownRepository townRepository)
+        {
+            _repository = repository;
+            _townRepository = townRepository;
+        }
+
+        public IEnumerable<TownFlowView> QueryLastDateStat(DateTime initialDate)
+        {
+            var beginDate = initialDate.AddDays(-100);
+            var endDate = initialDate.AddDays(1);
+            var rangeStats = _repository.GetAllList(beginDate, endDate);
+            if (rangeStats.Count == 0) return new List<TownFlowView>();
+            var maxDate = rangeStats.Max(x => x.StatTime);
+            var stats = rangeStats.Where(x => x.StatTime == maxDate).ToList();
+            return stats.Select(x => x.ConstructView<TownFlowStat, TownFlowView>(_townRepository));
         }
     }
 }

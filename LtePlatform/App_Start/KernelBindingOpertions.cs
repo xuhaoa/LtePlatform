@@ -292,6 +292,8 @@ namespace LtePlatform
             ninjectKernel.Bind<PlanningQueryService>().ToSelf();
 
             ninjectKernel.Bind<MrsService>().ToSelf();
+
+            ninjectKernel.Bind<TownFlowService>().ToSelf();
         }
     }
 }

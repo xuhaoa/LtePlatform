@@ -164,7 +164,6 @@
     <Compile Include="ViewModels\RegionKpi\CdmaRegionDateView.cs" />
     <Compile Include="ViewModels\RegionKpi\CdmaRegionStatDetails.cs" />
     <Compile Include="ViewModels\RegionKpi\CdmaRegionStatTrend.cs" />
-    <Compile Include="ViewModels\RegionKpi\CdmaRegionStatView.cs" />
     <Compile Include="ViewModels\Precise\CellPreciseKpiView.cs" />
     <Compile Include="ViewModels\Basic\CellView.cs" />
     <Compile Include="ViewModels\RegionKpi\DistrictPreciseView.cs" />
