@@ -1,47 +1,4 @@
 ﻿angular.module('myApp.kpi', ['myApp.url', 'myApp.region'])
-    .factory('chartCalculateService', function() {
-        return {
-            generateDrillDownData: function (districtStats, townStats, queryFunction) {
-                var results = [];
-                angular.forEach(districtStats, function(districtStat) {
-                    var subData = [];
-                    var district = districtStat.district;
-                    var districtData = queryFunction(districtStat);
-                    angular.forEach(townStats, function(townStat) {
-                        if (townStat.district === district) {
-                            subData.push([townStat.town, queryFunction(townStat)]);
-                        }
-                    });
-                    
-                    results.push({
-                        district: district,
-                        districtData: districtData,
-                        subData: subData
-                    });
-                });
-                return results;
-            },
-            generateDateDistrictStats: function(stats, districtLength, queryFunction) {
-                var statDates = [];
-                var districtStats = [];
-                angular.forEach(stats, function(stat, index) {
-                    statDates.push(stat.statDate);
-                    for (var j = 0; j < districtLength; j++) {
-                        var statValue = stat.values[j] ? queryFunction(stat.values[j]) : 0;
-                        if (index === 0) {
-                            districtStats.push([statValue]);
-                        } else {
-                            districtStats[j].push(statValue);
-                        }
-                    }
-                });
-                return{
-                    statDates: statDates,
-                    districtStats: districtStats
-                };
-            }
-        };
-    })
     .factory('appKpiService', function (chartCalculateService, generalChartService) {
         var accumulatePreciseStat = function (source, accumulate) {
             source.totalMrs += accumulate.totalMrs;
