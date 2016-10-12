@@ -370,7 +370,7 @@ describe('bar chart options test', function() {
 
 describe('generalChartService test', function() {
     var generalChartService;
-    beforeEach(module('parameters.chart'));
+    beforeEach(module('myApp.region'));
 
     beforeEach(inject(function(_generalChartService_) {
         generalChartService = _generalChartService_;

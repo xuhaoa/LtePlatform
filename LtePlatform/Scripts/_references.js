@@ -182,7 +182,6 @@
 /// <reference path="service/mongo/cell.huawei.js" />
 /// <reference path="service/mongo/handoff.js" />
 /// <reference path="service/mongo/neighbor.js" />
-/// <reference path="service/parameters/chart.js" />
 /// <reference path="service/parameters/map.service.js" />
 /// <reference path="service/parameters/service.js" />
 /// <reference path="service/topic/baidu.map.js" />

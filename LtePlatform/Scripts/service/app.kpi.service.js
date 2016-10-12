@@ -1,4 +1,4 @@
-﻿angular.module('myApp.kpi', ['myApp.url', 'myApp.region', 'parameters.chart'])
+﻿angular.module('myApp.kpi', ['myApp.url', 'myApp.region'])
     .factory('chartCalculateService', function() {
         return {
             generateDrillDownData: function (districtStats, townStats, queryFunction) {

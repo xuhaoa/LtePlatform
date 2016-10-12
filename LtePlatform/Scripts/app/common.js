@@ -24,7 +24,6 @@
     'ngRoute',
     'ngTouch',
     'parametersMap',
-    'parameters.chart',
     'parameters.module',
     'rutrace.module',
     "ui.bootstrap",
