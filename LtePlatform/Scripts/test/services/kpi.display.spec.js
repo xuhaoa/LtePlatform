@@ -12,13 +12,15 @@
 describe('kpi display service test', function() {
     var kpiDisplayService;
     var coverageService;
+    var generalChartService;
     beforeEach(module('myApp.region'));
     beforeEach(module('myApp.parameters'));
     beforeEach(module('kpi.display'));
 
-    beforeEach(inject(function (_kpiDisplayService_, _coverageService_) {
+    beforeEach(inject(function (_kpiDisplayService_, _coverageService_, _generalChartService_) {
         kpiDisplayService = _kpiDisplayService_;
         coverageService = _coverageService_;
+        generalChartService = _generalChartService_;
     }));
 
     it('should initialize coverage points from defaultRsrpCriteria', function() {
@@ -308,5 +310,61 @@ describe('kpi display service test', function() {
                 }
             ]
         });
+    });
+
+    it('should be able to generate compound stats', function() {
+        var views = [
+            {
+                city: "佛山",
+                district: "顺德",
+                pdcpDownlinkFlow: 12,
+                pdcpUplinkFlow: 13,
+                statTime: "2016-10-11T00:00:00",
+                town: "容桂"
+            }, {
+                city: "佛山",
+                district: "顺德",
+                pdcpDownlinkFlow: 12,
+                pdcpUplinkFlow: 13,
+                statTime: "2016-10-11T00:00:00",
+                town: "大良"
+            }, {
+                city: "佛山",
+                district: "顺德",
+                pdcpDownlinkFlow: 12,
+                pdcpUplinkFlow: 13,
+                statTime: "2016-10-11T00:00:00",
+                town: "乐从"
+            }, {
+                city: "佛山",
+                district: "南海",
+                pdcpDownlinkFlow: 12,
+                pdcpUplinkFlow: 13,
+                statTime: "2016-10-11T00:00:00",
+                town: "桂城"
+            }, {
+                city: "佛山",
+                district: "南海",
+                pdcpDownlinkFlow: 12,
+                pdcpUplinkFlow: 13,
+                statTime: "2016-10-11T00:00:00",
+                town: "大沥"
+            }, {
+                city: "佛山",
+                district: "南海",
+                pdcpDownlinkFlow: 12,
+                pdcpUplinkFlow: 13,
+                statTime: "2016-10-11T00:00:00",
+                town: "九江"
+            }
+        ];
+        var stats = generalChartService.generateCompoundStats(views, function(view) {
+            return view.district;
+        }, function(view) {
+            return view.town;
+        }, function(view) {
+            return view.pdcpDownlinkFlow + view.pdcpUplinkFlow;
+        });
+        expect(stats.length).toBe(2);
     });
 });

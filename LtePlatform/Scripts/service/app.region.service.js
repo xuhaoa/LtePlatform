@@ -53,6 +53,11 @@
                     cityStat.totalCdmaCells += stat.totalCdmaCells;
                 });
                 stats.push(cityStat);
+            },
+            getTownFlowStats: function(statDate) {
+                return generalHttpService.getApiData('TownFlow', {
+                    statDate: statDate
+                });
             }
         };
     })

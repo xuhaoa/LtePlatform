@@ -23,6 +23,17 @@
         url: "/Parameters/List"
     }];
 
+    var yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    $scope.statDate = {
+        value: yesterday,
+        opened: false
+    };
+    $scope.flowDate = {
+        value: yesterday,
+        opened: false
+    };
+
     $scope.status = {
         isopen: false
     };
@@ -100,12 +111,6 @@
     ];
 })
 .controller("home.kpi2G", function ($scope, appKpiService, appFormatService, kpi2GService) {
-    var yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    $scope.statDate = {
-        value: yesterday,
-        opened: false
-    };
     kpi2GService.queryDayStats($scope.city.selected || '佛山', $scope.statDate.value || new Date())
         .then(function (result) {
             $scope.statDate.value = appFormatService.getDate(result.statDate);
@@ -123,20 +128,13 @@
             parametersChartService.getDistrictLteENodebPieOptions(result.slice(0, result.length - 1),
             $scope.city.selected || '佛山'));
     });
-})
+        appRegionService.getTownFlowStats($scope.statDate.value || new Date()).then(function(result) {
+            console.log(result);
+        });
+
+    })
 .controller("home.kpi4G", function ($scope, kpiPreciseService, downSwitchService, appKpiService, appFormatService,
     kpiDisplayService) {
-    var yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    $scope.statDate = {
-        value: yesterday,
-        opened: false
-    };
-    $scope.flowDate = {
-        value: yesterday,
-        opened: false
-    };
-
     $scope.queryKpi4G = function (city) {
         kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value || new Date())
             .then(function (result) {
