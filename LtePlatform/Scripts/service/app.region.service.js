@@ -353,6 +353,30 @@
                     });
                 });
                 return result;
+            },
+            generateCompoundStats: function(views, getType, getSubType, getTotal) {
+                var stats = [];
+                angular.forEach(views, function(view) {
+                    var type = getType !== undefined ? getType(view) : view.type;
+                    var subType = getSubType !== undefined ? getSubType(view) : view.subType;
+                    var total = getTotal !== undefined ? getTotal(view) : view.total;
+                    var j;
+                    for (j = 0; j < stats.length; j++) {
+                        if (stats[j].type === type) {
+                            stats[j].total += total;
+                            stats[j].subData.push([subType, total]);
+                            break;
+                        }
+                    }
+                    if (j === stats.length) {
+                        stats.push({
+                            type: type,
+                            total: total,
+                            subData: [[subType, total]]
+                        });
+                    }
+                });
+                return stats;
             }
         };
     })
@@ -523,4 +547,49 @@
                 }, data.categories, data.dataList[index1], data.dataList[index2]);
             }
         };
+    })
+    .factory('preciseChartService', function (generalChartService) {
+        return {
+            getTypeOption: function (views) {
+                var stats = generalChartService.generateCompoundStats(views);
+
+                var chart = new DrilldownPie();
+                chart.title.text = "工单类型分布图";
+                chart.series[0].data = [];
+                chart.drilldown.series = [];
+                chart.series[0].name = "工单类型";
+                angular.forEach(stats, function (stat) {
+                    chart.addOneSeries(stat.type, stat.total, stat.subData);
+                });
+                return chart.options;
+            },
+
+            getStateOption: function (views) {
+                var stats = generalChartService.generateCompoundStats(views);
+
+                var chart = new DrilldownPie();
+                chart.title.text = "工单状态分布图";
+                chart.series[0].data = [];
+                chart.drilldown.series = [];
+                chart.series[0].name = "工单状态";
+                angular.forEach(stats, function (stat) {
+                    chart.addOneSeries(stat.type, stat.total, stat.subData);
+                });
+                return chart.options;
+            },
+
+            getDistrictOption: function (views) {
+                var stats = generalChartService.generateCompoundStats(views);
+
+                var chart = new DrilldownPie();
+                chart.title.text = "工单镇区分布图";
+                chart.series[0].data = [];
+                chart.drilldown.series = [];
+                chart.series[0].name = "镇区";
+                angular.forEach(stats, function (stat) {
+                    chart.addOneSeries(stat.type, stat.total, stat.subData);
+                });
+                return chart.options;
+            }
+        }
     });
