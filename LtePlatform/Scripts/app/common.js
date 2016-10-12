@@ -12,7 +12,6 @@
     "highcharts-ng",
     'huawei.mongo.parameters',
     'kpi.display',
-    'kpi.precise',
     'kpi.workitem',
     'myApp.authorize',
     'myApp.kpi',
