@@ -26,14 +26,14 @@
             series: {
                 dataLabels: {
                     enabled: true,
-                    format: '{point.name}: {point.y}'
+                    format: '{point.name}: {point.y:.2f}'
                 }
             }
         },
 
         tooltip: {
             headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b><br/>'
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}</b><br/>'
         },
 
         series: self.series,

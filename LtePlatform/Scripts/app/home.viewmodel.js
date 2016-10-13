@@ -120,7 +120,7 @@
             $scope.connectionRate = stat.connectionRate * 100;
         });
 })
-.controller("home.network", function ($scope, appRegionService, parametersChartService) {
+.controller("home.network", function ($scope, appRegionService, parametersChartService, preciseChartService) {
     var cityName = $scope.city.selected || '佛山';
     appRegionService.queryDistrictInfrastructures(cityName).then(function (result) {
         appRegionService.accumulateCityStat(result, cityName);
@@ -129,7 +129,7 @@
             $scope.city.selected || '佛山'));
     });
         appRegionService.getTownFlowStats($scope.statDate.value || new Date()).then(function(result) {
-            console.log(result);
+            $("#townFlowConfig").highcharts(preciseChartService.getTownFlowOption(result));
         });
 
     })

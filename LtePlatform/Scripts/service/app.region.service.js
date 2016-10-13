@@ -367,17 +367,17 @@
                     var total = getTotal !== undefined ? getTotal(view) : view.total;
                     var j;
                     for (j = 0; j < stats.length; j++) {
-                        if (stats[j].type === type) {
+                        if (stats[j].type === (type || '无有效值')) {
                             stats[j].total += total;
-                            stats[j].subData.push([subType, total]);
+                            stats[j].subData.push([subType || '无有效值', total]);
                             break;
                         }
                     }
                     if (j === stats.length) {
                         stats.push({
-                            type: type,
+                            type: type || '无有效值',
                             total: total,
-                            subData: [[subType, total]]
+                            subData: [[subType || '无有效值', total]]
                         });
                     }
                 });
@@ -634,6 +634,26 @@
                 chart.series[0].data = [];
                 chart.drilldown.series = [];
                 chart.series[0].name = "镇区";
+                angular.forEach(stats, function (stat) {
+                    chart.addOneSeries(stat.type, stat.total, stat.subData);
+                });
+                return chart.options;
+            },
+
+            getTownFlowOption: function(views) {
+                var stats = generalChartService.generateCompoundStats(views, function(view) {
+                    return view.district;
+                }, function(view) {
+                    return view.town;
+                }, function(view) {
+                    return (view.pdcpDownlinkFlow + view.pdcpUplinkFlow) / 1024 / 1024 / 8;
+                });
+
+                var chart = new DrilldownPie();
+                chart.title.text = "流量镇区分布图(TB)";
+                chart.series[0].data = [];
+                chart.drilldown.series = [];
+                chart.series[0].name = "区域";
                 angular.forEach(stats, function (stat) {
                     chart.addOneSeries(stat.type, stat.total, stat.subData);
                 });
