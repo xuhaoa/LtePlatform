@@ -42,10 +42,9 @@ namespace LtePlatform.Controllers.Parameters
         [ApiParameterDoc("eNodebId", "基站编号")]
         [ApiParameterDoc("sectorId", "扇区编号")]
         [ApiResponse("LTE小区，如果找不到则会返回错误")]
-        public IHttpActionResult Get(int eNodebId, byte sectorId)
+        public CellView Get(int eNodebId, byte sectorId)
         {
-            var item = _service.GetCell(eNodebId, sectorId);
-            return item == null ? (IHttpActionResult) BadRequest("The cell cannot be found!") : Ok(item);
+            return _service.GetCell(eNodebId, sectorId);
         }
 
         [HttpGet]

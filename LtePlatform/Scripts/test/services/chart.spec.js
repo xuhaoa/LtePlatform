@@ -5,7 +5,6 @@
 /// <reference path="../../jasmine/jasmine.js"/>
 /// <reference path="../../jasmine/jasmine-html.js"/>
 /// <reference path="../mock/highcharts.mock.js"/>
-/// <reference path="../../service/parameters/chart.js"/>
 /// <reference path="../../mycharts/comboChart.js"/>
 
 describe('combo chart test', function() {
