@@ -592,13 +592,13 @@
             }
         };
     })
-    .factory('preciseInterferenceService', function (generalHttpService, appUrlService, $http) {
+    .factory('preciseInterferenceService', function (generalHttpService) {
         return {
             addMonitor: function (cell) {
-                $http.post(appUrlService.getApiUrl('NeighborMonitor'), {
+                generalHttpService.postApiData({
                     cellId: cell.cellId,
                     sectorId: cell.sectorId
-                }).success(function () {
+                }).then(function() {
                     cell.isMonitored = true;
                 });
             },
@@ -740,6 +740,68 @@
                     sectorId: sectorId,
                     begin: begin,
                     end: end
+                });
+            }
+        };
+    })
+    .factory('appRegionService', function (generalHttpService) {
+        return {
+            initializeCities: function () {
+                return generalHttpService.getApiData('CityList', {});
+            },
+            queryDistricts: function (cityName) {
+                return generalHttpService.getApiData('CityList', {
+                    city: cityName
+                });
+            },
+            queryDistrictInfrastructures: function (cityName) {
+                return generalHttpService.getApiData('RegionStats', {
+                    city: cityName
+                });
+            },
+            queryTowns: function (cityName, districtName) {
+                return generalHttpService.getApiData('CityList', {
+                    city: cityName,
+                    district: districtName
+                });
+            },
+            queryTownInfrastructures: function (cityName, districtName) {
+                return generalHttpService.getApiData('RegionStats', {
+                    city: cityName,
+                    district: districtName
+                });
+            },
+            queryTown: function (city, district, town) {
+                return generalHttpService.getApiData('Town', {
+                    city: city,
+                    district: district,
+                    town: town
+                });
+            },
+            queryENodebTown: function (eNodebId) {
+                return generalHttpService.getApiData('Town', {
+                    eNodebId: eNodebId
+                });
+            },
+            accumulateCityStat: function (stats, cityName) {
+                var cityStat = {
+                    district: cityName,
+                    totalLteENodebs: 0,
+                    totalLteCells: 0,
+                    totalCdmaBts: 0,
+                    totalCdmaCells: 0
+                };
+                angular.forEach(stats, function (stat) {
+                    cityStat.totalLteENodebs += stat.totalLteENodebs;
+                    cityStat.totalLteCells += stat.totalLteCells;
+                    cityStat.totalCdmaBts += stat.totalCdmaBts;
+                    cityStat.totalCdmaCells += stat.totalCdmaCells;
+                });
+                stats.push(cityStat);
+            },
+            getTownFlowStats: function (statDate) {
+                return generalHttpService.getApiData('TownFlow', {
+                    statDate: statDate
                 });
             }
         };
