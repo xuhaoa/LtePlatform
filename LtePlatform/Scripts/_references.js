@@ -238,3 +238,4 @@
 /// <reference path="test/ui-grid/ui-grid-header-cell.spec.js" />
 /// <reference path="test/ui-grid/ui-grid-menu-button.spec.js" />
 /// <reference path="ui-grid.min.js" />
+/// <reference path="underscore.min.js" />
