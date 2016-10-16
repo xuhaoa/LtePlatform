@@ -136,10 +136,44 @@ angular.extend(SingleAxisChart.prototype.options, GeneralChart.prototype.options
     yAxis: SingleAxisChart.prototype.yAxis
 });
 
+var GradientPie = function() {
+    this.tooltip = {
+        pointFormat: '{series.name}: <b>{point.y: .1f}, 占比{point.percentage:.1f}%</b>'
+    };
+    this.putSeries({
+        name: 'Brands',
+        data: []
+    });
+};
+GradientPie.prototype = new GeneralChart();
+GradientPie.prototype.chart = {
+    plotBackgroundColor: null,
+    plotBorderWidth: null,
+    plotShadow: false,
+    type: 'pie'
+};
+GradientPie.prototype.plotOptions = {
+    pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+            enabled: true,
+            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+            style: {
+                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+            },
+            connectorColor: 'silver'
+        }
+    }
+};
+angular.extend(GradientPie.prototype.options, GeneralChart.prototype.options, {
+    chart: GradientPie.prototype.chart,
+    plotOptions: GradientPie.prototype.plotOptions
+});
+
 var BarChart = function() {
 
 };
-
 BarChart.prototype = new SingleAxisChart();
 BarChart.prototype.chart = {
     type: 'bar'

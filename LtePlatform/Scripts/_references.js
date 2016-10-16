@@ -148,7 +148,6 @@
 /// <reference path="mycharts/combochart.js" />
 /// <reference path="mycharts/drilldown.chart.js" />
 /// <reference path="mycharts/gaugemeter.js" />
-/// <reference path="mycharts/gradientpie.js" />
 /// <reference path="numeric/numeric.js" />
 /// <reference path="numeric/quadprog.js" />
 /// <reference path="numeric/seedrandom.js" />

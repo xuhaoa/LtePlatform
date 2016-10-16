@@ -4,6 +4,8 @@
 /// <reference path="../../jasmine/console.js"/>
 /// <reference path="../../jasmine/jasmine.js"/>
 /// <reference path="../../jasmine/jasmine-html.js"/>
+/// <reference path="../mock/highcharts.mock.js"/>
+/// <reference path="../../mycharts/comboChart.js"/>
 /// <reference path="../../service/app.url.service.js"/>
 
 describe('test url generator', function() {
@@ -46,6 +48,19 @@ describe('test general chart service', function() {
         }, function(item) {
             return item.name;
         });
-        expect(item).toEqual({});
+        expect(options.plotOptions).toEqual({
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    },
+                    connectorColor: 'silver'
+                }
+            }
+        });
     });
 });
