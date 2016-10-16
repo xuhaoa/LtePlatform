@@ -81,7 +81,7 @@
                     return subData.totalCdmaCells;
                 });
             },
-            getCollegeDistributionForDownlinkFlow(data) {
+            getCollegeDistributionForDownlinkFlow: function (data) {
                 return generalChartService.getPieOptions(data, {
                     title: "校园网下行流量分布",
                     seriesTitle: "下行流量(MB)"
@@ -91,7 +91,7 @@
                     return subData.pdcpDownlinkFlow;
                 });
             },
-            getCollegeDistributionForUplinkFlow(data) {
+            getCollegeDistributionForUplinkFlow: function (data) {
                 return generalChartService.getPieOptions(data, {
                     title: "校园网上行流量分布",
                     seriesTitle: "上行流量(MB)"
@@ -101,7 +101,7 @@
                     return subData.pdcpUplinkFlow;
                 });
             },
-            getCollegeDistributionForAverageUsers(data) {
+            getCollegeDistributionForAverageUsers: function (data) {
                 return generalChartService.getPieOptions(data, {
                     title: "校园网平均用户数分布",
                     seriesTitle: "平均用户数"
@@ -111,7 +111,7 @@
                     return subData.averageUsers;
                 });
             },
-            getCollegeDistributionForActiveUsers(data) {
+            getCollegeDistributionForActiveUsers: function (data) {
                 return generalChartService.getPieOptions(data, {
                     title: "校园网最大激活用户数分布",
                     seriesTitle: "最大激活用户数"
@@ -121,35 +121,35 @@
                     return subData.maxActiveUsers;
                 });
             },
-            getCellDistributionForDownlinkFlow(data, index) {
+            getCellDistributionForDownlinkFlow: function (data, index) {
                 return generalChartService.queryColumnOptions({
                     title: "小区下行流量分布",
                     xtitle: "小区名称",
                     ytitle: "下行流量(MB)"
                 }, data.categories, data.dataList[index]);
             },
-            getCellDistributionForUplinkFlow(data, index) {
+            getCellDistributionForUplinkFlow: function (data, index) {
                 return generalChartService.queryColumnOptions({
                     title: "小区上行流量分布",
                     xtitle: "小区名称",
                     ytitle: "上行流量(MB)"
                 }, data.categories, data.dataList[index]);
             },
-            getCellDistributionForAverageUsers(data, index) {
+            getCellDistributionForAverageUsers: function (data, index) {
                 return generalChartService.queryColumnOptions({
                     title: "平均用户数分布",
                     xtitle: "小区名称",
                     ytitle: "平均用户数"
                 }, data.categories, data.dataList[index]);
             },
-            getCellDistributionForActiveUsers(data, index) {
+            getCellDistributionForActiveUsers: function (data, index) {
                 return generalChartService.queryColumnOptions({
                     title: "最大激活用户数分布",
                     xtitle: "小区名称",
                     ytitle: "最大激活用户数"
                 }, data.categories, data.dataList[index]);
             },
-            getDateFlowOptions(data, index1, index2) {
+            getDateFlowOptions: function (data, index1, index2) {
                 return generalChartService.queryDoubleColumnOptions({
                     title: "流量变化趋势",
                     xtitle: "日期",
@@ -157,7 +157,7 @@
                     ytitle2: "上行流量(MB)"
                 }, data.categories, data.dataList[index1], data.dataList[index2]);
             },
-            getDateUsersOptions(data, index1, index2) {
+            getDateUsersOptions: function (data, index1, index2) {
                 return generalChartService.queryDoubleColumnOptions({
                     title: "用户数变化趋势",
                     xtitle: "日期",

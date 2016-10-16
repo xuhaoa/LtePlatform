@@ -4,6 +4,9 @@
 /// <reference path="../../jasmine/console.js"/>
 /// <reference path="../../jasmine/jasmine.js"/>
 /// <reference path="../../jasmine/jasmine-html.js"/>
+/// <reference path="../mock/highcharts.mock.js"/>
+/// <reference path="../../mycharts/comboChart.js"/>
+/// <reference path="../../mycharts/drilldown.chart.js"/>
 /// <reference path="../../service/app.url.service.js"/>
 /// <reference path="../../service/app.region.service.js"/>
 describe('work item precise chart service tests', function () {
@@ -11,9 +14,9 @@ describe('work item precise chart service tests', function () {
     beforeEach(module('myApp.url'));
     beforeEach(module('myApp.region'));
 
-    //beforeEach(inject(function (_preciseChartService_) {
-    //    preciseChartService = _preciseChartService_;
-    //}));
+    beforeEach(inject(function (_preciseChartService_) {
+        preciseChartService = _preciseChartService_;
+    }));
 
     it('getTypeOption function input one empty array and output some basic parameters', function() {
         var option = preciseChartService.getTypeOption([]);
