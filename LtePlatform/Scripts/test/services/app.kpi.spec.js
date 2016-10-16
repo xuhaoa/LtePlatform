@@ -7,11 +7,12 @@
 /// <reference path="../../mycharts/drilldown.chart.js"/>
 /// <reference path="../../service/app.kpi.service.js"/>
 
-angular.module('myApp.url', []);
 angular.module('myApp.region', []);
+angular.module('myApp.url', []);
 
 describe('app kpi service test', function () {
     var appKpiService;
+    //beforeEach(module('myApp.region'));
     beforeEach(module('myApp.kpi'));
 
     beforeEach(inject(function(_appKpiService_) {
@@ -110,6 +111,7 @@ describe('app kpi service test', function () {
 
 describe('chartCalculateService test', function() {
     var chartCalculateService;
+    beforeEach(module('myApp.region'));
     beforeEach(module('myApp.kpi'));
 
     beforeEach(inject(function(_chartCalculateService_) {

@@ -1,9 +1,11 @@
+/// <reference path="../../jquery-3.1.0.js"/>
 /// <reference path="../../angular.js"/>
 /// <reference path="../../angular-mocks.js"/>
 /// <reference path="../../jasmine/boot.js"/>
 /// <reference path="../../jasmine/console.js"/>
 /// <reference path="../../jasmine/jasmine.js"/>
 /// <reference path="../../jasmine/jasmine-html.js"/>
+/// <reference path="../../jasmine/jasmine-jquery.js"/>
 /// <reference path="../../angular-ui/ui-bootstrap-tpls.js"/>
 
 describe('uib-accordion', function () {
@@ -165,13 +167,13 @@ describe('uib-accordion', function () {
       var scope, $compile;
 
     var findGroupHeading = function(index, groups) {
-      return groups.eq(index).find('.panel-heading').eq(0);
+      return groups.eq(index).find('.panel-heading');
     };
     var findGroupLink = function(index, groups) {
-      return groups.eq(index).find('.accordion-toggle').eq(0);
+      return groups.eq(index).find('.accordion-toggle');
     };
     var findGroupBody = function(index, groups) {
-      return groups.eq(index).find('.panel-collapse').eq(0);
+      return groups.eq(index).find('.panel-collapse');
     };
 
     beforeEach(inject(function(_$rootScope_, _$compile_, _$templateCache_) {
@@ -191,145 +193,153 @@ describe('uib-accordion', function () {
           var element = $compile(tpl)(scope);
           scope.$digest();
           expect(element).toBeDefined();
-          expect(element.html()).toBe('<div role="tablist" class="panel-group" ng-transclude=""><div uib-accordion-group="" heading="title 1" template-url="foo/bar.html" class="ng-scope ng-isolate-scope">baz</div></div>');
-          expect(element.hasClass("panel-group")).toBeFalsy();
+          expect(element.html()).toBe('<div role="tablist" class="panel-group" ng-transclude="">'
+              + '<div uib-accordion-group="" heading="title 1" template-url="foo/bar.html" class="ng-scope ng-isolate-scope panel">'
+              + '<div>baz</div></div></div>');
+          expect(element.hasClass("panel-group")).toBe(false);
 
-          //var template = element.find('[template-url]');
-          //expect(template).toBeDefined();
-          //expect(template.html()).toBe('<div>baz</div>');
+          var template = element.find('[template-url]');
+          expect(template).toBeDefined();
+          expect(template.html()).toBe('<div>baz</div>');
       });
 
-    describe('with static panels', function() {
-      beforeEach(function() {
-        spyOn(Math, 'random').and.returnValue(0.1);
-        var tpl =
-          '<uib-accordion>' +
-            '<div uib-accordion-group heading="title 1">Content 1</div>' +
-            '<div uib-accordion-group heading="title 2">Content 2</div>' +
-          '</uib-accordion>';
-        element = angular.element(tpl);
-        $compile(element)(scope);
-        scope.$digest();
-        groups = element.find('.panel');
-      });
+      describe('with static panels', function () {
+          var groups;
+          var element;
+          beforeEach(function() {
+              spyOn(Math, 'random').and.returnValue(0.1);
+              var tpl =
+                  '<uib-accordion>' +
+                      '<div uib-accordion-group heading="title 1">Content 1</div>' +
+                      '<div uib-accordion-group heading="title 2">Content 2</div>' +
+                      '</uib-accordion>';
+              element = angular.element(tpl);
+              $compile(element)(scope);
+              scope.$digest();
+              groups = element.find('.panel');
+          });
 
-      afterEach(function() {
-        element.remove();
-      });
+          afterEach(function() {
+              element.remove();
+          });
 
-      it('should create accordion panels with content', function() {
-        expect(groups.length).toEqual(2);
-        expect(findGroupLink(0).text()).toEqual('title 1');
-        expect(findGroupBody(0).text().trim()).toEqual('Content 1');
-        expect(findGroupLink(1).text()).toEqual('title 2');
-        expect(findGroupBody(1).text().trim()).toEqual('Content 2');
-      });
+          it('should create accordion panels with content', function () {
+              expect(element).toBeDefined();
+              expect(groups.length).toEqual(2);
+              //var node1 = groups.eq(0).find('.accordion-toggle');
+              //expect(node1.text()).toBe({});
+              expect(findGroupLink(0, groups).text()).toEqual('title 1');
+              expect(findGroupBody(0, groups).text().trim()).toEqual('Content 1');
+              expect(findGroupLink(1, groups).text()).toEqual('title 2');
+              expect(findGroupBody(1, groups).text().trim()).toEqual('Content 2');
+          });
 
       it('should change selected element on click', function() {
-        findGroupLink(0).click();
+        findGroupLink(0, groups).click();
         scope.$digest();
-        expect(findGroupBody(0).scope().isOpen).toBe(true);
-        expect(findGroupHeading(0).html()).toContain('aria-expanded="true"');
+        expect(findGroupBody(0, groups).scope().isOpen).toBe(true);
+        expect(findGroupHeading(0, groups).html()).toContain('aria-expanded="true"');
 
-        findGroupLink(1).click();
+        findGroupLink(1, groups).click();
         scope.$digest();
-        expect(findGroupBody(0).scope().isOpen).toBe(false);
-        expect(findGroupHeading(0).html()).toContain('aria-expanded="false"');
-        expect(findGroupBody(1).scope().isOpen).toBe(true);
-        expect(findGroupHeading(1).html()).toContain('aria-expanded="true"');
+        expect(findGroupBody(0, groups).scope().isOpen).toBe(false);
+        expect(findGroupHeading(0, groups).html()).toContain('aria-expanded="false"');
+        expect(findGroupBody(1, groups).scope().isOpen).toBe(true);
+        expect(findGroupHeading(1, groups).html()).toContain('aria-expanded="true"');
       });
 
       it('should toggle element on click', function() {
-        findGroupLink(0).click();
+          findGroupLink(0, groups).click();
         scope.$digest();
-        expect(findGroupBody(0).scope().isOpen).toBe(true);
-        expect(groups.eq(0).html()).toContain('aria-hidden="false"');
+        expect(findGroupBody(0, groups).scope().isOpen).toBe(true);
+        expect(groups.eq(0, groups).html()).toContain('aria-hidden="false"');
 
-        findGroupLink(0).click();
+        findGroupLink(0, groups).click();
         scope.$digest();
-        expect(findGroupBody(0).scope().isOpen).toBe(false);
+        expect(findGroupBody(0, groups).scope().isOpen).toBe(false);
         expect(groups.eq(0).html()).toContain('aria-hidden="true"');
       });
 
       it('should add, by default, "panel-open" when opened', function() {
         var group = groups.eq(0);
-        findGroupLink(0).click();
+        findGroupLink(0, groups).click();
         scope.$digest();
         expect(group).toHaveClass('panel-open');
 
-        findGroupLink(0).click();
+        findGroupLink(0, groups).click();
         scope.$digest();
         expect(group).not.toHaveClass('panel-open');
       });
 
       it('should toggle element on spacebar when focused', function() {
         var group = groups.eq(0);
-        findGroupLink(0)[0].focus();
+        findGroupLink(0, groups)[0].focus();
         var e = $.Event('keypress');
         e.which = 32;
-        findGroupLink(0).trigger(e);
+        findGroupLink(0, groups).trigger(e);
 
         expect(group).toHaveClass('panel-open');
 
         e = $.Event('keypress');
         e.which = 32;
-        findGroupLink(0).trigger(e);
+        findGroupLink(0, groups).trigger(e);
 
         expect(group).not.toHaveClass('panel-open');
       });
 
       it('should not toggle with any other keyCode', function() {
         var group = groups.eq(0);
-        findGroupLink(0)[0].focus();
+        findGroupLink(0, groups)[0].focus();
         var e = $.Event('keypress');
         e.which = 65;
-        findGroupLink(0).trigger(e);
+        findGroupLink(0, groups).trigger(e);
 
-        expect(group).not.toHaveClass('panel-open');
+        expect(group, groups).not.toHaveClass('panel-open');
       });
 
       it('should generate an Id for the heading', function() {
-        var groupScope = findGroupBody(0).scope();
+          var groupScope = findGroupBody(0, groups).scope();
         expect(groupScope.headingId).toEqual('accordiongroup-' + groupScope.$id + '-1000-tab');
       });
 
       it('should generate an Id for the panel', function() {
-        var groupScope = findGroupBody(0).scope();
+          var groupScope = findGroupBody(0, groups).scope();
         expect(groupScope.panelId).toEqual('accordiongroup-' + groupScope.$id + '-1000-panel');
       });
     });
 
-    describe('with open-class attribute', function() {
-      beforeEach(function() {
-        var tpl =
-          '<uib-accordion>' +
-            '<div uib-accordion-group heading="title 1" open-class="custom-open-class">Content 1</div>' +
-            '<div uib-accordion-group heading="title 2" open-class="custom-open-class">Content 2</div>' +
-          '</uib-accordion>';
-        element = angular.element(tpl);
-        $compile(element)(scope);
-        scope.$digest();
-        groups = element.find('.panel');
-      });
+      describe('with open-class attribute', function () {
+          var element, groups;
+          beforeEach(function() {
+              var tpl =
+                  '<uib-accordion>' +
+                      '<div uib-accordion-group heading="title 1" open-class="custom-open-class">Content 1</div>' +
+                      '<div uib-accordion-group heading="title 2" open-class="custom-open-class">Content 2</div>' +
+                      '</uib-accordion>';
+              element = angular.element(tpl);
+              $compile(element)(scope);
+              scope.$digest();
+              groups = element.find('.panel');
+          });
 
-      afterEach(function() {
-        element.remove();
-      });
+          afterEach(function() {
+              element.remove();
+          });
 
       it('should add custom-open-class when opened', function() {
         var group = groups.eq(0);
-        findGroupLink(0).click();
+        findGroupLink(0, groups).click();
         scope.$digest();
         expect(group).toHaveClass('custom-open-class');
 
-        findGroupLink(0).click();
+        findGroupLink(0, groups).click();
         scope.$digest();
         expect(group).not.toHaveClass('custom-open-class');
       });
     });
 
     describe('with dynamic panels', function() {
-      var model;
+      var model, element, groups;
       beforeEach(function() {
         var tpl =
           '<uib-accordion>' +
@@ -355,10 +365,10 @@ describe('uib-accordion', function () {
         scope.$digest();
         groups = element.find('.panel');
         expect(groups.length).toEqual(2);
-        expect(findGroupLink(0).text()).toEqual('title 1');
-        expect(findGroupBody(0).text().trim()).toEqual('Content 1');
-        expect(findGroupLink(1).text()).toEqual('title 2');
-        expect(findGroupBody(1).text().trim()).toEqual('Content 2');
+        expect(findGroupLink(0, groups).text()).toEqual('title 1');
+        expect(findGroupBody(0, groups).text().trim()).toEqual('Content 1');
+        expect(findGroupLink(1, groups).text()).toEqual('title 2');
+        expect(findGroupBody(1, groups).text().trim()).toEqual('Content 2');
       });
 
       it('should react properly on removing items from the model', function() {
@@ -374,7 +384,8 @@ describe('uib-accordion', function () {
       });
     });
 
-    describe('is-open attribute', function() {
+    describe('is-open attribute', function () {
+        var element, groups;
       beforeEach(function() {
         var tpl =
           '<uib-accordion>' +
@@ -389,22 +400,23 @@ describe('uib-accordion', function () {
       });
 
       it('should open the panel with isOpen set to true', function() {
-        expect(findGroupBody(0).scope().isOpen).toBe(false);
-        expect(findGroupBody(1).scope().isOpen).toBe(true);
+          expect(findGroupBody(0, groups).scope().isOpen).toBe(false);
+          expect(findGroupBody(1, groups).scope().isOpen).toBe(true);
       });
 
       it('should toggle variable on element click', function() {
-        findGroupLink(0).click();
+          findGroupLink(0, groups).click();
         scope.$digest();
         expect(scope.open.first).toBe(true);
 
-        findGroupLink(0).click();
+        findGroupLink(0, groups).click();
         scope.$digest();
         expect(scope.open.second).toBe(false);
       });
     });
 
-    describe('is-open attribute with dynamic content', function() {
+    describe('is-open attribute with dynamic content', function () {
+        var element, groups;
       beforeEach(function() {
         var tpl =
           '<uib-accordion>' +
@@ -427,12 +439,13 @@ describe('uib-accordion', function () {
       });
 
       it('should have visible panel body when the group with isOpen set to true', function() {
-        expect(findGroupBody(0)).toHaveClass('in');
-        expect(findGroupBody(1)).not.toHaveClass('in');
+          expect(findGroupBody(0, groups)).toHaveClass('in');
+          expect(findGroupBody(1, groups)).not.toHaveClass('in');
       });
     });
 
-    describe('is-open attribute with dynamic groups', function() {
+    describe('is-open attribute with dynamic groups', function () {
+        var element, groups;
       beforeEach(function() {
         var tpl =
           '<uib-accordion>' +
@@ -450,19 +463,19 @@ describe('uib-accordion', function () {
       });
 
       it('should have visible group body when the group with isOpen set to true', function() {
-        expect(findGroupBody(0).scope().isOpen).toBe(false);
-        expect(findGroupBody(1).scope().isOpen).toBe(true);
+          expect(findGroupBody(0, groups).scope().isOpen).toBe(false);
+          expect(findGroupBody(1, groups).scope().isOpen).toBe(true);
       });
 
       it('should toggle element on click', function() {
-        findGroupLink(0).click();
+          findGroupLink(0, groups).click();
         scope.$digest();
-        expect(findGroupBody(0).scope().isOpen).toBe(true);
+        expect(findGroupBody(0, groups).scope().isOpen).toBe(true);
         expect(scope.groups[0].open).toBe(true);
 
-        findGroupLink(0).click();
+        findGroupLink(0, groups).click();
         scope.$digest();
-        expect(findGroupBody(0).scope().isOpen).toBe(false);
+        expect(findGroupBody(0, groups).scope().isOpen).toBe(false);
         expect(scope.groups[0].open).toBe(false);
       });
     });
@@ -490,7 +503,8 @@ describe('uib-accordion', function () {
       });
     });
 
-    describe('`is-disabled` attribute', function() {
+    describe('`is-disabled` attribute', function () {
+        var element, groups;
       var groupBody;
       beforeEach(function() {
         var tpl =
@@ -502,7 +516,7 @@ describe('uib-accordion', function () {
         $compile(element)(scope);
         scope.$digest();
         groups = element.find('.panel');
-        groupBody = findGroupBody(0);
+        groupBody = findGroupBody(0, groups);
       });
 
       it('should open the panel with isOpen set to true', function() {
@@ -510,7 +524,7 @@ describe('uib-accordion', function () {
       });
 
       it('should not toggle if disabled', function() {
-        findGroupLink(0).click();
+          findGroupLink(0, groups).click();
         scope.$digest();
         expect(groupBody.scope().isOpen).toBeFalsy();
       });
@@ -520,19 +534,19 @@ describe('uib-accordion', function () {
         scope.$digest();
         expect(groupBody.scope().isOpen).toBeFalsy();
 
-        findGroupLink(0).click();
+        findGroupLink(0, groups).click();
         scope.$digest();
         expect(groupBody.scope().isOpen).toBeTruthy();
       });
 
       it('should have text-muted styling', function() {
-        expect(findGroupLink(0).find('span:first')).toHaveClass('text-muted');
+          expect(findGroupLink(0, groups).find('span:first')).toHaveClass('text-muted');
       });
     });
 
     // This is re-used in both the uib-accordion-heading element and the uib-accordion-heading attribute tests
     function isDisabledStyleCheck() {
-      var tpl =
+        var tpl =
         '<uib-accordion ng-init="a = [1,2,3]">' +
           '<div uib-accordion-group heading="I get overridden" is-disabled="true">' +
             '<uib-accordion-heading>Heading Element <span ng-repeat="x in a">{{x}}</span> </uib-accordion-heading>' +
@@ -540,14 +554,15 @@ describe('uib-accordion', function () {
           '</div>' +
         '</uib-accordion>';
       scope.disabled = true;
-      element = $compile(tpl)(scope);
+      var element = $compile(tpl)(scope);
       scope.$digest();
-      groups = element.find('.panel');
+      var groups = element.find('.panel');
 
-      expect(findGroupLink(0).find('span').hasClass('text-muted')).toBe(true);
+      expect(findGroupLink(0, groups).find('span').hasClass('text-muted')).toBe(true);
     }
 
-    describe('uib-accordion-heading element', function() {
+    describe('uib-accordion-heading element', function () {
+        var element, groups;
       beforeEach(function() {
         var tpl =
           '<uib-accordion ng-init="a = [1,2,3]">' +
@@ -562,21 +577,22 @@ describe('uib-accordion', function () {
       });
 
       it('transcludes the <uib-accordion-heading> content into the heading link', function() {
-        expect(findGroupLink(0).text()).toBe('Heading Element 123 ');
+          expect(findGroupLink(0, groups).text()).toBe('Heading Element 123 ');
       });
 
       it('attaches the same scope to the transcluded heading and body', function() {
-        expect(findGroupLink(0).find('span.ng-scope').scope().$id).toBe(findGroupBody(0).find('span').scope().$id);
+          expect(findGroupLink(0, groups).find('span.ng-scope').scope().$id).toBe(findGroupBody(0, groups).find('span').scope().$id);
       });
 
       it('should wrap the transcluded content in a span', function() {
-        expect(findGroupLink(0).find('span:first').length).toEqual(1);
+          expect(findGroupLink(0, groups).find('span:first').length).toEqual(1);
       });
 
       it('should have disabled styling when is-disabled is true', isDisabledStyleCheck);
     });
 
-    describe('uib-accordion-heading attribute', function() {
+    describe('uib-accordion-heading attribute', function () {
+        var element, groups;
       beforeEach(function() {
         var tpl =
           '<uib-accordion ng-init="a = [1,2,3]">' +
@@ -591,48 +607,51 @@ describe('uib-accordion', function () {
       });
 
       it('transcludes the <uib-accordion-heading> content into the heading link', function() {
-        expect(findGroupLink(0).text()).toBe('Heading Element 123 ');
+          expect(findGroupLink(0, groups).text()).toBe('Heading Element 123 ');
       });
 
       it('attaches the same scope to the transcluded heading and body', function() {
-        expect(findGroupLink(0).find('span.ng-scope').scope().$id).toBe(findGroupBody(0).find('span').scope().$id);
+          expect(findGroupLink(0, groups).find('span.ng-scope').scope().$id).toBe(findGroupBody(0, groups).find('span').scope().$id);
       });
 
       it('should have disabled styling when is-disabled is true', isDisabledStyleCheck);
     });
 
-    describe('uib-accordion-heading, with repeating uib-accordion-groups', function() {
+    describe('uib-accordion-heading, with repeating uib-accordion-groups', function () {
+        var element, groups;
       it('should clone the uib-accordion-heading for each group', function() {
         element = $compile('<uib-accordion><div uib-accordion-group ng-repeat="x in [1,2,3]"><uib-accordion-heading>{{x}}</uib-accordion-heading></div></uib-accordion>')(scope);
         scope.$digest();
         groups = element.find('.panel');
         expect(groups.length).toBe(3);
-        expect(findGroupLink(0).text()).toBe('1');
-        expect(findGroupLink(1).text()).toBe('2');
-        expect(findGroupLink(2).text()).toBe('3');
+        expect(findGroupLink(0, groups).text()).toBe('1');
+        expect(findGroupLink(1, groups).text()).toBe('2');
+        expect(findGroupLink(2, groups).text()).toBe('3');
       });
     });
 
-    describe('uib-accordion-heading attribute, with repeating uib-accordion-groups', function() {
+    describe('uib-accordion-heading attribute, with repeating uib-accordion-groups', function () {
+        var element, groups;
       it('should clone the uib-accordion-heading for each group', function() {
         element = $compile('<uib-accordion><div uib-accordion-group ng-repeat="x in [1,2,3]"><div uib-accordion-heading>{{x}}</div></div></uib-accordion>')(scope);
         scope.$digest();
         groups = element.find('.panel');
         expect(groups.length).toBe(3);
-        expect(findGroupLink(0).text()).toBe('1');
-        expect(findGroupLink(1).text()).toBe('2');
-        expect(findGroupLink(2).text()).toBe('3');
+        expect(findGroupLink(0, groups).text()).toBe('1');
+        expect(findGroupLink(1, groups).text()).toBe('2');
+        expect(findGroupLink(2, groups).text()).toBe('3');
       });
     });
 
-    describe('uib-accordion-heading attribute, with custom template', function() {
+    describe('uib-accordion-heading attribute, with custom template', function () {
+        var element, groups;
         it('should transclude heading to a template using data-uib-accordion-header', inject(function($templateCache) {
           $templateCache.put('foo/bar.html', '<div class="panel"><a uib-accordion-transclude="heading" class="accordion-toggle"><span data-uib-accordion-header></span></a><div ng-transclude></div></div>');
 
           element = $compile('<uib-accordion><div uib-accordion-group  template-url="foo/bar.html"><uib-accordion-heading>baz</uib-accordion-heading></div></uib-accordion>')(scope);
           scope.$digest();
           groups = element.find('.panel');
-          expect(findGroupLink(0).text()).toBe('baz');
+          expect(findGroupLink(0, groups).text()).toBe('baz');
       }));
     });
   });
