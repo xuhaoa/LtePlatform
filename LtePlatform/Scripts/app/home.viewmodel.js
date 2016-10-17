@@ -134,34 +134,37 @@
 
     })
 .controller("home.kpi4G", function ($scope, kpiPreciseService, downSwitchService, appKpiService, appFormatService,
-    kpiDisplayService) {
-    $scope.queryKpi4G = function (city) {
-        kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value || new Date())
-            .then(function (result) {
-                $scope.statDate.value = appFormatService.getDate(result.statDate);
-                $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, city);
-                $scope.rate = appKpiService.calculatePreciseRating($scope.cityStat.preciseRate);
-                var options = kpiDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
-                    $scope.cityStat);
-                $("#preciseConfig").highcharts(options);
-            });
-        downSwitchService.getRecentKpi(city, $scope.statDate.value || new Date())
-            .then(function (result) {
-                $scope.flowDate.value = appFormatService.getDate(result.statDate);
-                $scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
-                $scope.downRate = appKpiService.calculateDownSwitchRating($scope.flowStat);
-                var options = kpiDisplayService.generateDownSwitchOptions(result.downSwitchFlowViews,
-                    city, $scope.flowStat);
-                $("#downSwitchConfig").highcharts(options);
-            });
-    };
+    kpiDisplayService, kpiRatingDivisionDefs) {
+        $scope.queryKpi4G = function(city) {
+            kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value || new Date())
+                .then(function(result) {
+                    $scope.statDate.value = appFormatService.getDate(result.statDate);
+                    $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, city);
+                    $scope.rate = appKpiService.calculatePreciseRating($scope.cityStat.preciseRate);
+                    var options = kpiDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
+                        $scope.cityStat);
+                    $("#preciseConfig").highcharts(options);
+                });
+            downSwitchService.getRecentKpi(city, $scope.statDate.value || new Date())
+                .then(function(result) {
+                    $scope.flowDate.value = appFormatService.getDate(result.statDate);
+                    $scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
+                    $scope.downRate = appKpiService.calculateDownSwitchRating($scope.flowStat);
+                    var options = kpiDisplayService.generateDownSwitchOptions(result.downSwitchFlowViews,
+                        city, $scope.flowStat);
+                    $("#downSwitchConfig").highcharts(options);
+                });
+        };
 
-    $scope.$watch('city.selected', function (city) {
-        if (city) {
-            $scope.queryKpi4G(city);
-        }
-    });
-})
+        $scope.$watch('city.selected', function(city) {
+            if (city) {
+                $scope.queryKpi4G(city);
+            }
+        });
+        $scope.preciseRating = kpiRatingDivisionDefs.precise;
+        $scope.downSwitchRating = kpiRatingDivisionDefs.downSwitch;
+        $scope.dropRating = kpiRatingDivisionDefs.drop;
+    })
 .controller("home.workitem", function ($scope, workitemService) {
     workitemService.queryCurrentMonth().then(function (result) {
         $scope.totalItems = result.item1;

@@ -23,12 +23,12 @@
     <script type="text/ng-template" id="rateTooltipTemplate.html">
         <h6>精确覆盖率星级定义</h6>
         <ul>
-            <li><strong>5星：</strong>精确覆盖率大于94.6%</li>
-            <li><strong>4星：</strong>精确覆盖率大于93.6%且小于等于94.6%</li>
-            <li><strong>3星：</strong>精确覆盖率大于92.6%且小于等于93.6%</li>
-            <li><strong>2星：</strong>精确覆盖率大于91.6%且小于等于92.6%</li>
-            <li><strong>1星：</strong>精确覆盖率大于90%且小于等于91.6%</li>
-            <li><strong>0星：</strong>精确覆盖率小于等于90%</li>
+            <li ng-repeat="rating in preciseRating">
+                <strong>{{preciseRating.length-$index}}星：</strong>
+                精确覆盖率大于{{rating}}
+                <span ng-if="!$first">且小于等于{{preciseRating[$index-1]}}</span>
+            </li>
+            <li><strong>0星：</strong>精确覆盖率小于等于{{preciseRating[preciseRating.length-1]}}</li>
         </ul>
     </script>
     <script type="text/ng-template" id="downTooltipTemplate.html">

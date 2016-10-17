@@ -1,5 +1,10 @@
 ﻿angular.module('myApp.kpi', ['myApp.url', 'myApp.region'])
-    .factory('appKpiService', function (chartCalculateService, generalChartService) {
+    .constant('kpiRatingDivisionDefs', {
+        precise: [94.6, 93.6, 92.6, 91.6, 90],
+        downSwitch: [3, 5, 8, 10, 15],
+        drop: [0.2, 0.3, 0.35, 0.4, 0.5]
+    })
+    .factory('appKpiService', function (chartCalculateService, generalChartService, kpiRatingDivisionDefs) {
         var accumulatePreciseStat = function (source, accumulate) {
             source.totalMrs += accumulate.totalMrs;
             source.firstNeighbors += accumulate.firstNeighbors;
@@ -62,16 +67,13 @@
                 return calculateDistrictRates(stat);
             },
             calculatePreciseRating: function (precise) {
-                var division = [94.6, 93.6, 92.6, 91.6, 90];
-                return getValueFromDivisionAbove(division, precise);
+                return getValueFromDivisionAbove(kpiRatingDivisionDefs.precise, precise);
             },
             calculateDownSwitchRating: function (rate) {
-                var division = [3, 5, 8, 10, 15];
-                return getValueFromDivisionBelow(division, rate);
+                return getValueFromDivisionBelow(kpiRatingDivisionDefs.downSwitch, rate);
             },
             calculateDropStar: function (drop) {
-                var division = [0.2, 0.3, 0.35, 0.4, 0.5];
-                return getValueFromDivisionBelow(division, drop);
+                return getValueFromDivisionBelow(kpiRatingDivisionDefs.drop, drop);
             },
             getMrPieOptions: function (districtStats, townStats) {
                 var chart = new DrilldownPie();
