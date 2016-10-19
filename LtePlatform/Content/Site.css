@@ -74,6 +74,10 @@ body {
 ul.nav-navbar-list .open > a.dropdown-toggle {
   background-color: #333333; }
 
+ul.tips {
+  list-style: none;
+  text-align: left; }
+
 .dropdown-menu-blue-azure {
   background-color: #3977d2;
   border-color: #3977d2; }

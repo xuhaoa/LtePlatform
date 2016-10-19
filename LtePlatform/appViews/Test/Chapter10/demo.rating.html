@@ -1,7 +1,7 @@
-<div ng-controller="RatingDemoCtrl">
+﻿<div ng-controller="RatingDemoCtrl">
     <h4>Default</h4>
-    <uib-rating ng-model="rate" max="max" read-only="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" 
-                titles="['one','two','three']" aria-labelledby="default-rating"></uib-rating>
+    <div uib-rating ng-model="rate" max="max" read-only="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" 
+                titles="['one','two','three']" aria-labelledby="default-rating"></div>
     <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" 
           ng-show="overStar && !isReadonly">{{percent}}%</span>
 
@@ -17,11 +17,20 @@
 
     <h4>Custom icons</h4>
     <div ng-init="x = 5">
-        <uib-rating ng-model="x" max="15" state-on="'glyphicon-ok-sign'" state-off="'glyphicon-ok-circle'" aria-labelledby="custom-icons-1"></uib-rating> 
+        <div uib-rating ng-model="x" max="15" state-on="'glyphicon-ok-sign'" state-off="'glyphicon-ok-circle'" aria-labelledby="custom-icons-1"></div> 
         <b>(<i>Rate:</i> {{x}})</b>
     </div>
     <div ng-init="y = 2">
-        <uib-rating ng-model="y" rating-states="ratingStates" aria-labelledby="custom-icons-2"></uib-rating> 
+        <div uib-rating ng-model="y" rating-states="ratingStates" aria-labelledby="custom-icons-2"></div>
         <b>(<i>Rate:</i> {{y}})</b>
     </div>
+    <h6>4G用户3G流量比星级定义</h6>
+    <ul>
+        <li><strong>5星：</strong>4G用户3G流量比小于3%</li>
+        <li><strong>4星：</strong>4G用户3G流量比大于3%且小于等于5%</li>
+        <li><strong>3星：</strong>4G用户3G流量比大于5%且小于等于8%</li>
+        <li><strong>2星：</strong>4G用户3G流量比大于8%且小于等于10%</li>
+        <li><strong>1星：</strong>4G用户3G流量比大于10%且小于等于15%</li>
+        <li><strong>0星：</strong>4G用户3G流量比大于等于15%</li>
+    </ul>
 </div>

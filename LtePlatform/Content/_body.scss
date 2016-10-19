@@ -30,8 +30,14 @@ body {
     }
 }
 
-ul.nav-navbar-list .open>a.dropdown-toggle {
-    background-color: $color-dark-gray;
+ul {
+    &.nav-navbar-list .open>a.dropdown-toggle {
+        background-color: $color-dark-gray;
+    }
+    &.tips {
+        list-style: none;
+        text-align: left;
+    }
 }
 
 .dropdown-menu-blue-azure {
