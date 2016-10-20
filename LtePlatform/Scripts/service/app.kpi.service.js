@@ -597,7 +597,7 @@
     .factory('preciseInterferenceService', function (generalHttpService) {
         return {
             addMonitor: function (cell) {
-                generalHttpService.postApiData({
+                generalHttpService.postApiData('NeighborMonitor', {
                     cellId: cell.cellId,
                     sectorId: cell.sectorId
                 }).then(function() {
