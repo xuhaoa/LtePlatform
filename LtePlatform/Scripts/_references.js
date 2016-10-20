@@ -172,7 +172,6 @@
 /// <reference path="service/filters/basic.js" />
 /// <reference path="service/filters/cell.js" />
 /// <reference path="service/filters/handoff.js" />
-/// <reference path="service/kpi/display.js" />
 /// <reference path="service/kpi/workitem.service.js" />
 /// <reference path="service/mongo/cell.huawei.js" />
 /// <reference path="service/mongo/handoff.js" />

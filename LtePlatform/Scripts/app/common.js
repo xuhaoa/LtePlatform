@@ -11,7 +11,6 @@
     'handoff.filters',
     "highcharts-ng",
     'huawei.mongo.parameters',
-    'kpi.display',
     'kpi.workitem',
     'myApp.authorize',
     'myApp.kpi',

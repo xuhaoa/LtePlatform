@@ -1622,7 +1622,6 @@
     <Content Include="Scripts\service\filters\basic.js" />
     <Content Include="Scripts\service\filters\cell.js" />
     <Content Include="Scripts\service\filters\handoff.js" />
-    <Content Include="Scripts\service\kpi\display.js" />
     <Content Include="Scripts\service\mongo\cell.huawei.js" />
     <Content Include="Scripts\service\mongo\handoff.js" />
     <Content Include="Scripts\service\mongo\neighbor.js" />

@@ -904,6 +904,8 @@ angular.module('rutrace.main', ['app.common'])
                             $scope.topStat.victims[$scope.currentCellName] = victims;
                         });
                     var pieOptions = kpiDisplayService.getInterferencePieOptions(result, $scope.currentCellName);
+                    console.log(result);
+                console.log(pieOptions);
                     $scope.topStat.pieOptions[$scope.currentCellName] = pieOptions;
                     $("#interference-over6db").highcharts(pieOptions.over6DbOption);
                     $("#interference-over10db").highcharts(pieOptions.over10DbOption);
@@ -911,7 +913,6 @@ angular.module('rutrace.main', ['app.common'])
                     $("#interference-mod6").highcharts(pieOptions.mod6Option);
                     topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value, 
                         $routeParams.cellId, $routeParams.sectorId).then(function (info) {
-                        console.log(info);
                     });
                 });
         };

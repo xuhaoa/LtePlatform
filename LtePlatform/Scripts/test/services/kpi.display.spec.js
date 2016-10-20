@@ -13,8 +13,6 @@ describe('kpi display service test', function() {
     var generalChartService;
     beforeEach(module('myApp.url'));
     beforeEach(module('myApp.region'));
-    //beforeEach(module('myApp.parameters'));
-    //beforeEach(module('kpi.display'));
 
     beforeEach(inject(function (_kpiDisplayService_, _coverageService_, _generalChartService_) {
         kpiDisplayService = _kpiDisplayService_;
