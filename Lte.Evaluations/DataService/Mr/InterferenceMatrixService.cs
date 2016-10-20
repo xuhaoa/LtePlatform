@@ -58,6 +58,11 @@ namespace Lte.Evaluations.DataService.Mr
                     x => x.CellId == cellId && x.NeighborPci == stat.NeighborPci && x.StatDate == stat.StatDate);
             if (existedStat == null)
                 _repository.Insert(stat);
+            else
+            {
+                existedStat.DestENodebId = stat.DestENodebId;
+                existedStat.DestSectorId = stat.DestSectorId;
+            }
 
             return _repository.SaveChanges();
         }

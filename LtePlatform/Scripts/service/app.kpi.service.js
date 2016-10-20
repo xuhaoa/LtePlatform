@@ -538,8 +538,8 @@
                     var nextDate = date;
                     nextDate.setDate(nextDate.getDate() + 1);
                     if (stat) {
-                        stat.destENodebId = cell.destENodebId;
-                        stat.destSectorId = cell.destSectorId;
+                        stat.destENodebId = cell.neighborCellId;
+                        stat.destSectorId = cell.neighborSectorId;
                         dumpProgress.dumpMongo(stat).then(function () {
                             serviceInstance.dumpDateSpanSingleNeighborRecords(cell, nextDate, end);
                         });
