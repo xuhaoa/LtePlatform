@@ -110,7 +110,7 @@
         }
     ];
 })
-.controller("home.kpi2G", function ($scope, appKpiService, appFormatService, kpi2GService) {
+.controller("home.kpi2G", function ($scope, appKpiService, appFormatService, kpi2GService, kpiRatingDivisionDefs) {
     kpi2GService.queryDayStats($scope.city.selected || '佛山', $scope.statDate.value || new Date())
         .then(function (result) {
             $scope.statDate.value = appFormatService.getDate(result.statDate);
@@ -119,6 +119,7 @@
             $scope.dropStar = appKpiService.calculateDropStar($scope.dropRate);
             $scope.connectionRate = stat.connectionRate * 100;
         });
+    $scope.dropRating = kpiRatingDivisionDefs.drop;
 })
 .controller("home.network", function ($scope, appRegionService, parametersChartService, preciseChartService) {
     var cityName = $scope.city.selected || '佛山';
@@ -163,7 +164,6 @@
         });
         $scope.preciseRating = kpiRatingDivisionDefs.precise;
         $scope.downSwitchRating = kpiRatingDivisionDefs.downSwitch;
-        $scope.dropRating = kpiRatingDivisionDefs.drop;
     })
 .controller("home.workitem", function ($scope, workitemService) {
     workitemService.queryCurrentMonth().then(function (result) {

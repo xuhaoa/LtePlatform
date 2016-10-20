@@ -25,21 +25,22 @@
         <ul>
             <li ng-repeat="rating in preciseRating">
                 <strong>{{preciseRating.length-$index}}星：</strong>
-                精确覆盖率大于{{rating}}
-                <span ng-if="!$first">且小于等于{{preciseRating[$index-1]}}</span>
+                精确覆盖率大于{{rating}}%
+                <span ng-if="!$first">且小于等于{{preciseRating[$index-1]}}%</span>
             </li>
-            <li><strong>0星：</strong>精确覆盖率小于等于{{preciseRating[preciseRating.length-1]}}</li>
+            <li><strong>0星：</strong>精确覆盖率小于等于{{preciseRating[preciseRating.length-1]}}%</li>
         </ul>
     </script>
     <script type="text/ng-template" id="downTooltipTemplate.html">
         <h6>4G用户3G流量比星级定义</h6>
         <ul>
-            <li><strong>5星：</strong>4G用户3G流量比小于3%</li>
-            <li><strong>4星：</strong>4G用户3G流量比大于3%且小于等于5%</li>
-            <li><strong>3星：</strong>4G用户3G流量比大于5%且小于等于8%</li>
-            <li><strong>2星：</strong>4G用户3G流量比大于8%且小于等于10%</li>
-            <li><strong>1星：</strong>4G用户3G流量比大于10%且小于等于15%</li>
-            <li><strong>0星：</strong>4G用户3G流量比大于等于15%</li>
+            <li ng-repeat="rating in downSwitchRating">
+                <strong>{{downSwitchRating.length-$index}}星：</strong>
+                4G用户3G流量比
+                <span ng-if="!$first">大于{{downSwitchRating[$index-1]}}%且</span>
+                小于{{rating}}%
+            </li>
+            <li><strong>0星：</strong>4G用户3G流量比大于等于{{downSwitchRating[preciseRating.length-1]}}%</li>
         </ul>
     </script>
 </div>

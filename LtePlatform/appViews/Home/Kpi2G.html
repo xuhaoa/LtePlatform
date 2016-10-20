@@ -9,12 +9,12 @@
     <script type="text/ng-template" id="dropTooltipTemplate.html">
         <h6>掉话率星级定义</h6>
         <ul>
-            <li><strong>5星：</strong>掉话率小于0.2%</li>
-            <li><strong>4星：</strong>掉话率小于0.3%且大于等于0.2%</li>
-            <li><strong>3星：</strong>掉话率小于0.35%且大于等于0.3%</li>
-            <li><strong>2星：</strong>掉话率小于0.4%且大于等于0.35%</li>
-            <li><strong>1星：</strong>掉话率小于0.5%且大于等于0.4%</li>
-            <li><strong>0星：</strong>掉话率大于等于0.5%</li>
+            <li ng-repeat="rating in dropRating">
+                <strong>{{dropRating.length-$index}}星：</strong>
+                掉话率小于0.2%
+                <span ng-if="!$first">且大于等于{{dropRating[$index-1]}}%</span>
+            </li>
+            <li><strong>0星：</strong>掉话率大于等于{{dropRating[dropRating.length-1]}}%</li>
         </ul>
     </script>
 </div>
