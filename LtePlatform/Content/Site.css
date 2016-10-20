@@ -30,6 +30,9 @@ textarea {
   color: #880000;
   background-color: #ffff66;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175); }
+  .tooltip.customClass .tooltip-inner ul {
+    list-style: none;
+    text-align: left; }
 
 .text-muted {
   color: #9fadbb; }
@@ -73,10 +76,6 @@ body {
 
 ul.nav-navbar-list .open > a.dropdown-toggle {
   background-color: #333333; }
-
-ul.tips {
-  list-style: none;
-  text-align: left; }
 
 .dropdown-menu-blue-azure {
   background-color: #3977d2;
