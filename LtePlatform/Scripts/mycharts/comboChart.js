@@ -24,6 +24,15 @@
         legend: this.legend,
         series: this.series
     };
+    this.putSeries = function(series, type) {
+        series.type = type;
+        if (this.series.length === 0) {
+            this.series.push(series);
+        } else {
+            this.series[0] = series;
+        }
+        this.options.series = this.series;
+    };
     return this;
 };
 
@@ -70,15 +79,6 @@ GeneralChart.prototype.setDefaultXAxis = function(settings) {
     if (settings.categories) {
         this.defaultXAxis.categories = settings.categories;
     }
-};
-GeneralChart.prototype.putSeries = function (series, type) {
-    series.type = type;
-    if (this.series.length === 0) {
-        this.series.push(series);
-    } else {
-        this.series[0] = series;
-    }
-    this.options.series = this.series;
 };
 GeneralChart.prototype.addSeries = function(series, type) {
     series.type = type;
@@ -136,7 +136,8 @@ angular.extend(SingleAxisChart.prototype.options, GeneralChart.prototype.options
     yAxis: SingleAxisChart.prototype.yAxis
 });
 
-var GradientPie = function() {
+var GradientPie = function () {
+    GeneralChart.call(this);
     this.tooltip = {
         pointFormat: '{series.name}: <b>{point.y: .1f}, 占比{point.percentage:.1f}%</b>'
     };
@@ -145,7 +146,6 @@ var GradientPie = function() {
         data: []
     });
 };
-GradientPie.prototype = new GeneralChart();
 GradientPie.prototype.chart = {
     plotBackgroundColor: null,
     plotBorderWidth: null,

@@ -7,6 +7,30 @@
 /// <reference path="../mock/highcharts.mock.js"/>
 /// <reference path="../../mycharts/comboChart.js"/>
 
+describe('general chart test', function() {
+    it('should separately set the title property with different instances', function() {
+        var chart1 = new GeneralChart();
+        chart1.title.text = 'title1';
+        var chart2 = new GeneralChart();
+        chart2.title.text = 'title2';
+        expect(chart1.title.text).toBe('title1');
+        expect(chart2.title.text).toBe('title2');
+    });
+
+    it('should separately set the title property with different GradientPie instances', function () {
+        var chart1 = new GradientPie();
+        chart1.title.text = 'title1';
+        chart1.series[0].data = [1, 2, 3];
+        var chart2 = new GradientPie();
+        chart2.title.text = 'title2';
+        chart2.series[0].data = [4, 5, 6];
+        expect(chart1.title.text).toBe('title1');
+        expect(chart1.series[0].data).toEqual([1, 2, 3]);
+        expect(chart2.title.text).toBe('title2');
+        expect(chart2.series[0].data).toEqual([4, 5, 6]);
+    });
+});
+
 describe('combo chart test', function() {
     var chart = new ComboChart();
 
