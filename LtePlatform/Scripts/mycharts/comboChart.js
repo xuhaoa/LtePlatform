@@ -33,59 +33,56 @@
         }
         this.options.series = this.series;
     };
+    this.defaultYAxis = {
+        labels: {
+            format: '{value}',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        title: {
+            text: 'YLabel',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        }
+    };
+    this.defaultXAxis = {
+        categories: [],
+        title: {
+            text: 'xLabel',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        }
+    };
+    this.setDefaultYAxis = function(settings) {
+        if (settings.title) {
+            this.defaultYAxis.title.text = settings.title;
+        }
+        if (settings.min) {
+            this.defaultYAxis.min = settings.min;
+        }
+        if (settings.max) {
+            this.defaultYAxis.max = settings.max;
+        }
+    };
+    this.setDefaultXAxis = function(settings) {
+        if (settings.title) {
+            this.defaultXAxis.title.text = settings.title;
+        }
+        if (settings.categories) {
+            this.defaultXAxis.categories = settings.categories;
+        }
+    };
+    this.addSeries = function(series, type) {
+        series.type = type;
+        this.series.push(series);
+        this.options.series = this.series;
+    };
     return this;
 };
-
-GeneralChart.prototype.defaultYAxis = {
-    labels: {
-        format: '{value}',
-        style: {
-            color: Highcharts.getOptions().colors[0]
-        }
-    },
-    title: {
-        text: 'YLabel',
-        style: {
-            color: Highcharts.getOptions().colors[0]
-        }
-    }
-};
-  
-GeneralChart.prototype.defaultXAxis = {
-    categories: [],
-    title: {
-        text: 'xLabel',
-        style: {
-            color: Highcharts.getOptions().colors[0]
-        }
-    }
-};
-
-GeneralChart.prototype.setDefaultYAxis = function(settings) {
-    if (settings.title) {
-        this.defaultYAxis.title.text = settings.title;
-    }
-    if (settings.min) {
-        this.defaultYAxis.min = settings.min;
-    }
-    if (settings.max) {
-        this.defaultYAxis.max = settings.max;
-    }
-};
-GeneralChart.prototype.setDefaultXAxis = function(settings) {
-    if (settings.title) {
-        this.defaultXAxis.title.text = settings.title;
-    }
-    if (settings.categories) {
-        this.defaultXAxis.categories = settings.categories;
-    }
-};
-GeneralChart.prototype.addSeries = function(series, type) {
-    series.type = type;
-    this.series.push(series);
-    this.options.series = this.series;
-};
-
+ 
 function ComboChart() {
     this.options.series = this.series = [];
     this.options.xAxis = this.xAxis = [this.defaultXAxis];
@@ -123,18 +120,12 @@ ComboChart.prototype.pushOneYAxis = function (yLabel) {
     });
 };
 
-var SingleAxisChart = function() {
+var SingleAxisChart = function () {
+    GeneralChart.call(this);
     this.options.series = this.series = [];
+    this.options.xAxis = this.xAxis = this.defaultXAxis;
+    this.options.yAxis = this.yAxis = this.defaultYAxis;
 };
-SingleAxisChart.prototype = new GeneralChart();
-SingleAxisChart.prototype.xAxis = GeneralChart.prototype.defaultXAxis;
-SingleAxisChart.prototype.yAxis = GeneralChart.prototype.defaultYAxis;
-angular.extend(SingleAxisChart.prototype.options, GeneralChart.prototype.options, {
-    xAxis: SingleAxisChart.prototype.xAxis
-});
-angular.extend(SingleAxisChart.prototype.options, GeneralChart.prototype.options, {
-    yAxis: SingleAxisChart.prototype.yAxis
-});
 
 var GradientPie = function () {
     GeneralChart.call(this);
@@ -145,61 +136,51 @@ var GradientPie = function () {
         name: 'Brands',
         data: []
     });
-};
-GradientPie.prototype.chart = {
-    plotBackgroundColor: null,
-    plotBorderWidth: null,
-    plotShadow: false,
-    type: 'pie'
-};
-GradientPie.prototype.plotOptions = {
-    pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-            enabled: true,
-            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-            style: {
-                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-            },
-            connectorColor: 'silver'
-        }
-    }
-};
-angular.extend(GradientPie.prototype.options, GeneralChart.prototype.options, {
-    chart: GradientPie.prototype.chart,
-    plotOptions: GradientPie.prototype.plotOptions
-});
-
-var BarChart = function() {
-
-};
-BarChart.prototype = new SingleAxisChart();
-BarChart.prototype.chart = {
-    type: 'bar'
-};
-BarChart.prototype.plotOptions = {
-    bar: {
-        dataLabels: {
-            enabled: true,
-            align: "center",
-            color: 'red',
-            formatter: function() {
-                return parseInt(this.y * 100) / 100;
+    this.options.chart = this.chart = {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    };
+    this.options.plotOptions = this.plotOptions = {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                },
+                connectorColor: 'silver'
             }
         }
-    }
+    };
 };
-BarChart.prototype.credits = {
-    enabled: false
-};
-angular.extend(BarChart.prototype.options, SingleAxisChart.prototype.options, {
-    chart: BarChart.prototype.chart,
-    plotOptions: BarChart.prototype.plotOptions,
-    credits: BarChart.prototype.credits
-});
-BarChart.prototype.asignSeries = function (series) {
-    this.putSeries(series, 'bar');
+
+function BarChart() {
+    SingleAxisChart.call(this);
+    this.options.chart = this.chart = {
+        type: 'bar'
+    };
+    this.options.plotOptions = this.plotOptions = {
+        bar: {
+            dataLabels: {
+                enabled: true,
+                align: "center",
+                color: 'red',
+                formatter: function() {
+                    return parseInt(this.y * 100) / 100;
+                }
+            }
+        }
+    };
+    this.options.credits = this.credits = {
+        enabled: false
+    };
+    this.asignSeries = function(series) {
+        this.putSeries(series, 'bar');
+    };
 };
 
 var TimeSeriesLine = function () {

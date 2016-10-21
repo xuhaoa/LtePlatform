@@ -6,6 +6,8 @@
 /// <reference path="../../jasmine/jasmine-html.js"/>
 /// <reference path="../mock/highcharts.mock.js"/>
 /// <reference path="../../mycharts/comboChart.js"/>
+/// <reference path="../../service/app.url.service.js"/>
+/// <reference path="../../service/app.region.service.js"/>
 
 describe('general chart test', function() {
     it('should separately set the title property with different instances', function() {
@@ -227,6 +229,14 @@ describe('combo chart axis test', function() {
     });
 });
 
+describe('single axis chart test', function() {
+    var chart = new SingleAxisChart();
+    it('should be able to set title text', function() {
+        chart.title.text = 'title1';
+        expect(chart.title.text).toBe('title1');
+    });
+});
+
 describe('bar chart test', function () {
     var chart = new BarChart();
 
@@ -239,6 +249,7 @@ describe('bar chart test', function () {
     });
 
     it('should be able to get default yAxis properties', function () {
+        expect(chart.defaultYAxis.labels.format).toBe('{value}');
         expect(chart.yAxis.labels.format).toBe('{value}');
         expect(chart.yAxis.labels.style.color).toBe('0');
         expect(chart.yAxis.title.text).toBe('YLabel');
