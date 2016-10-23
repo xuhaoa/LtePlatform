@@ -1631,7 +1631,7 @@
     <Content Include="Scripts\service\topic\customer.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\spin.min.js" />
-    <Content Include="Scripts\test\mock\basic.spec.js" />
+    <Content Include="Scripts\test\mock\underscore.array.spec.js" />
     <Content Include="Scripts\test\services\app.url.spec.js" />
     <Content Include="Scripts\test\services\chart.spec.js" />
     <Content Include="Scripts\test\services\filters.spec.js" />
