@@ -4,7 +4,7 @@
 /// <reference path="../../jasmine/console.js"/>
 /// <reference path="../../jasmine/jasmine.js"/>
 /// <reference path="../../jasmine/jasmine-html.js"/>
-/// <reference path="../../underscore.js"/>
+/// <reference path="../../underscore.min.js"/>
 
 describe('underscore array tests', function() {
     describe('Array Tests', function() {
