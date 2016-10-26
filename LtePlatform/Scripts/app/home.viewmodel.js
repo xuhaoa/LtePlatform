@@ -63,7 +63,7 @@
                 displayName: "规划辅助",
                 url: appUrlService.getPlanUrlHost() + 'guihuafuzhu/index/index.php'
             }, {
-                displayName: "路测管理",
+                displayName: "路测分析",
                 url: appUrlService.getDtUrlHost() + 'admin'
             }]
         }, {
@@ -92,14 +92,18 @@
                 displayName: "校园网专题优化",
                 url: "/College/Map",
                 tooltip: "校园网专项优化，包括数据管理、指标分析、支撑工作管理和校园网覆盖呈现"
+            }, {
+                displayName: "4G网络质量分析",
+                url: appUrlService.getTopnUrlHost(),
+                tooltip: "4G网络质量分析与日常优化"
             }]
         }, {
             displayName: "基础信息",
             isActive: false,
             subItems: [{
-                displayName: "DT基础信息",
-                url: "/Dt/List",
-                tooltip: "按照区域或专题查看已导入的DT基础信息"
+                displayName: "路测管理",
+                url: appUrlService.getDtUrlHost2(),
+                tooltip: "路测综合管理"
             }, {
                 displayName: "基础信息管理",
                 url: appUrlService.getParameterUrlHost() + 'cellInfo.html'

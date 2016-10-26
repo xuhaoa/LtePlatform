@@ -71,8 +71,14 @@
             getDtUrlHost: function() {
                 return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.41:2888/' : 'http://10.17.165.100:2888/';
             },
+            getDtUrlHost2: function () {
+                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.41:2868/' : 'http://10.17.165.100:2868/';
+            },
             getParameterUrlHost: function() {
                 return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:8001/' : 'http://10.17.165.111:8001/';
+            },
+            getTopnUrlHost: function () {
+                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:8080/' : 'http://10.17.165.111:8080/';
             }
         };
     })
