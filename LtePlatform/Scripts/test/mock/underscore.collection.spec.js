@@ -514,537 +514,850 @@ describe('underscore collection tests', function() {
 
     });
 
-    QUnit.test('all', function (assert) {
-        assert.strictEqual(_.all, _.every, 'is an alias for every');
+    it('all is an alias for every', function () {
+        expect(_.all).toEqual(_.every);
     });
 
-    QUnit.test('some', function (assert) {
-        assert.notOk(_.some([]), 'the empty set');
-        assert.notOk(_.some([false, false, false]), 'all false values');
-        assert.ok(_.some([false, false, true]), 'one true value');
-        assert.ok(_.some([null, 0, 'yes', false]), 'a string');
-        assert.notOk(_.some([null, 0, '', false]), 'falsy values');
-        assert.notOk(_.some([1, 11, 29], function (num) { return num % 2 === 0; }), 'all odd numbers');
-        assert.ok(_.some([1, 10, 29], function (num) { return num % 2 === 0; }), 'an even number');
-        assert.strictEqual(_.some([1], _.identity), true, 'cast to boolean - true');
-        assert.strictEqual(_.some([0], _.identity), false, 'cast to boolean - false');
-        assert.ok(_.some([false, false, true]));
+    describe('some', function () {
+        describe('basic tests', function () {
+            it('the empty set', function() {
+                expect(_.some([])).toBeFalsy();
+            });
+            it('all false values', function() {
+                expect(_.some([false, false, false])).toBeFalsy();
+            });
+            it('one true value', function() {
+                expect(_.some([false, false, true])).toBeTruthy();
+            });
+            it('a string', function() {
+                expect(_.some([null, 0, 'yes', false])).toBeTruthy();
+            });
+            it('falsy values', function() {
+                expect(_.some([null, 0, '', false])).toBeFalsy();
+            });
+            it('all odd numbers', function() {
+                expect(_.some([1, 11, 29], function(num) { return num % 2 === 0; })).toBeFalsy();
+            });
+            it('an even number', function() {
+                expect(_.some([1, 10, 29], function(num) { return num % 2 === 0; })).toBeTruthy();
+            });
+            it('cast to boolean - true', function() {
+                expect(_.some([1], _.identity)).toEqual(true);
+            });
+            it('cast to boolean - false', function() {
+                expect(_.some([0], _.identity)).toEqual(false);
+            });
+            it('last test', function() {
+                expect(_.some([false, false, true])).toBeTruthy();
+            });
 
-        var list = [{ a: 1, b: 2 }, { a: 2, b: 2 }, { a: 1, b: 3 }, { a: 1, b: 4 }];
-        assert.notOk(_.some(list, { a: 5, b: 2 }), 'Can be called with object');
-        assert.ok(_.some(list, 'a'), 'String mapped to object property');
-
-        list = [{ a: 1, b: 2 }, { a: 2, b: 2, c: true }];
-        assert.ok(_.some(list, { b: 2 }), 'Can be called with object');
-        assert.notOk(_.some(list, 'd'), 'String mapped to object property');
-
-        assert.ok(_.some({ a: '1', b: '2', c: '3', d: '4', e: 6 }, _.isNumber), 'takes objects');
-        assert.notOk(_.some({ a: 1, b: 2, c: 3, d: 4 }, _.isObject), 'takes objects');
-        assert.ok(_.some(['a', 'b', 'c', 'd'], _.hasOwnProperty, { a: 1, b: 2, c: 3, d: 4 }), 'context works');
-        assert.notOk(_.some(['x', 'y', 'z'], _.hasOwnProperty, { a: 1, b: 2, c: 3, d: 4 }), 'context works');
-    });
-
-    QUnit.test('any', function (assert) {
-        assert.strictEqual(_.any, _.some, 'is an alias for some');
-    });
-
-    QUnit.test('includes', function (assert) {
-        _.each([null, void 0, 0, 1, NaN, {}, []], function (val) {
-            assert.strictEqual(_.includes(val, 'hasOwnProperty'), false);
         });
-        assert.strictEqual(_.includes([1, 2, 3], 2), true, 'two is in the array');
-        assert.notOk(_.includes([1, 3, 9], 2), 'two is not in the array');
 
-        assert.strictEqual(_.includes([5, 4, 3, 2, 1], 5, true), true, 'doesn\'t delegate to binary search');
+        describe('dictionary with numbers', function() {
+            var list = [{ a: 1, b: 2 }, { a: 2, b: 2 }, { a: 1, b: 3 }, { a: 1, b: 4 }];
+            it('Can be called with object', function() {
+                expect(_.some(list, { a: 5, b: 2 })).toBeFalsy();
+            });
+            it('String mapped to object property', function() {
+                expect(_.some(list, 'a')).toBeTruthy();
+            });
 
-        assert.strictEqual(_.includes({ moe: 1, larry: 3, curly: 9 }, 3), true, '_.includes on objects checks their values');
-        assert.ok(_([1, 2, 3]).includes(2), 'OO-style includes');
+        });
 
-        var numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
-        assert.strictEqual(_.includes(numbers, 1, 1), true, 'takes a fromIndex');
-        assert.strictEqual(_.includes(numbers, 1, -1), false, 'takes a fromIndex');
-        assert.strictEqual(_.includes(numbers, 1, -2), false, 'takes a fromIndex');
-        assert.strictEqual(_.includes(numbers, 1, -3), true, 'takes a fromIndex');
-        assert.strictEqual(_.includes(numbers, 1, 6), true, 'takes a fromIndex');
-        assert.strictEqual(_.includes(numbers, 1, 7), false, 'takes a fromIndex');
+        describe('dictionary with numbers and bools', function() {
+            var list = [{ a: 1, b: 2 }, { a: 2, b: 2, c: true }];
+            it('Can be called with object', function() {
+                expect(_.some(list, { b: 2 })).toBeTruthy();
+            });
+            it('String mapped to object property', function() {
+                expect(_.some(list, 'd')).toBeFalsy();
+            });
 
-        assert.ok(_.every([1, 2, 3], _.partial(_.includes, numbers)), 'fromIndex is guarded');
+        });
+
+        describe('special tests', function () {
+            it('takes objects', function() {
+                expect(_.some({ a: '1', b: '2', c: '3', d: '4', e: 6 }, _.isNumber)).toBeTruthy();
+                expect(_.some({ a: 1, b: 2, c: 3, d: 4 }, _.isObject)).toBeFalsy();
+            });
+            it('context works', function() {
+                expect(_.some(['a', 'b', 'c', 'd'], _.hasOwnProperty, { a: 1, b: 2, c: 3, d: 4 })).toBeTruthy();
+                expect(_.some(['x', 'y', 'z'], _.hasOwnProperty, { a: 1, b: 2, c: 3, d: 4 })).toBeFalsy();
+            });
+
+        });
+
     });
 
-    QUnit.test('include', function (assert) {
-        assert.strictEqual(_.include, _.includes, 'is an alias for includes');
+    it('any is an alias for some', function () {
+        expect(_.any).toEqual(_.some);
     });
 
-    QUnit.test('contains', function (assert) {
-        assert.strictEqual(_.contains, _.includes, 'is an alias for includes');
+    describe('includes', function () {
+        it('hasOwnProperty', function() {
+            _.each([null, void 0, 0, 1, NaN, {}, []], function(val) {
+                expect(_.includes(val)).toEqual(false);
+            });
+        });
+        describe('basic tests', function() {
+            it('two is in the array', function() {
+                expect(_.includes([1, 2, 3], 2)).toEqual(true);
+            });
+            it('two is not in the array', function() {
+                expect(_.includes([1, 3, 9], 2)).toBeFalsy();
+            });
+
+            it('doesn\'t delegate to binary search', function() {
+                expect(_.includes([5, 4, 3, 2, 1], 5, true)).toEqual(true);
+            });
+
+            it('_.includes on objects checks their values', function() {
+                expect(_.includes({ moe: 1, larry: 3, curly: 9 }, 3)).toEqual(true);
+            });
+            it('OO-style includes', function() {
+                expect(_([1, 2, 3]).includes(2)).toBeTruthy();
+            });
+
+        });
+
+        describe('fromIndex tests', function() {
+            var numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
+            it('takes a fromIndex', function() {
+                expect(_.includes(numbers, 1, 1)).toEqual(true);
+                expect(_.includes(numbers, 1, -1)).toEqual(false);
+                expect(_.includes(numbers, 1, -2)).toEqual(false);
+                expect(_.includes(numbers, 1, -3)).toEqual(true);
+                expect(_.includes(numbers, 1, 6)).toEqual(true);
+                expect(_.includes(numbers, 1, 7)).toEqual(false);
+            });
+
+            it('fromIndex is guarded', function() {
+                expect(_.every([1, 2, 3], _.partial(_.includes, numbers))).toBeTruthy();
+            });
+
+        });
 
     });
 
-    QUnit.test('includes with NaN', function (assert) {
-        assert.strictEqual(_.includes([1, 2, NaN, NaN], NaN), true, 'Expected [1, 2, NaN] to contain NaN');
-        assert.strictEqual(_.includes([1, 2, Infinity], NaN), false, 'Expected [1, 2, NaN] to contain NaN');
+    it('include is an alias for includes', function () {
+        expect(_.include).toEqual(_.includes);
     });
 
-    QUnit.test('includes with +- 0', function (assert) {
+    it('contains is an alias for includes', function () {
+        expect(_.contains).toEqual(_.includes);
+
+    });
+
+    describe('includes with NaN', function () {
+        it('Expected [1, 2, NaN] to contain NaN', function() {
+            expect(_.includes([1, 2, NaN, NaN], NaN)).toEqual(true);
+        });
+        it('Expected [1, 2, Infinity] not to contain NaN', function() {
+            expect(_.includes([1, 2, Infinity], NaN)).toEqual(false);
+        });
+
+    });
+
+    it('includes with +- 0', function () {
         _.each([-0, +0], function (val) {
-            assert.strictEqual(_.includes([1, 2, val, val], val), true);
-            assert.strictEqual(_.includes([1, 2, val, val], -val), true);
-            assert.strictEqual(_.includes([-1, 1, 2], -val), false);
+            expect(_.includes([1, 2, val, val], val)).toEqual(true);
+            expect(_.includes([1, 2, val, val], -val)).toEqual(true);
+            expect(_.includes([-1, 1, 2], -val)).toEqual(false);
         });
     });
 
 
-    QUnit.test('invoke', function (assert) {
-        assert.expect(5);
+    describe('invoke', function () {
         var list = [[5, 1, 7], [3, 2, 1]];
         var result = _.invoke(list, 'sort');
-        assert.deepEqual(result[0], [1, 5, 7], 'first array sorted');
-        assert.deepEqual(result[1], [1, 2, 3], 'second array sorted');
+        it('first array sorted', function() {
+            expect(result[0]).toEqual([1, 5, 7]);
+        });
+        it('second array sorted', function() {
+            expect(result[1]).toEqual([1, 2, 3]);
+        });
 
-        _.invoke([{
-            method: function () {
-                assert.deepEqual(_.toArray(arguments), [1, 2, 3], 'called with arguments');
-            }
-        }], 'method', 1, 2, 3);
+        it('called with arguments', function() {
+            _.invoke([
+                {
+                    method: function() {
+                        expect(_.toArray(arguments)).toEqual([1, 2, 3]);
+                    }
+                }
+            ], 'method', 1, 2, 3);
+        });
 
-        assert.deepEqual(_.invoke([{ a: null }, {}, { a: _.constant(1) }], 'a'), [null, void 0, 1], 'handles null & undefined');
+        it('handles null & undefined', function() {
+            expect(_.invoke([{ a: null }, {}, { a: _.constant(1) }], 'a')).toEqual([null, void 0, 1]);
+        });
 
-        assert.raises(function () {
-            _.invoke([{ a: 1 }], 'a');
-        }, TypeError, 'throws for non-functions');
+        it('throws for non-functions', function() {
+            expect(function() {
+                _.invoke([{ a: 1 }], 'a');
+            }).toThrowError(TypeError);
+        });
+
     });
 
-    QUnit.test('invoke w/ function reference', function (assert) {
+    describe('invoke w/ function reference', function () {
         var list = [[5, 1, 7], [3, 2, 1]];
         var result = _.invoke(list, Array.prototype.sort);
-        assert.deepEqual(result[0], [1, 5, 7], 'first array sorted');
-        assert.deepEqual(result[1], [1, 2, 3], 'second array sorted');
+        it('first array sorted', function() {
+            expect(result[0]).toEqual([1, 5, 7]);
+        });
+        it('second array sorted', function() {
+            expect(result[1]).toEqual([1, 2, 3]);
+        });
 
-        assert.deepEqual(_.invoke([1, 2, 3], function (a) {
-            return a + this;
-        }, 5), [6, 7, 8], 'receives params from invoke');
+        it('receives params from invoke', function() {
+            expect(_.invoke([1, 2, 3], function(a) {
+                return a + this;
+            }, 5)).toEqual([6, 7, 8]);
+        });
+
     });
 
     // Relevant when using ClojureScript
-    QUnit.test('invoke when strings have a call method', function (assert) {
-        String.prototype.call = function () {
-            return 42;
-        };
+    describe('invoke when strings have a call method', function () {
+        it('modify call function', function() {
+            String.prototype.call = function() {
+                return 42;
+            };
+            var s = 'foo';
+            expect(s.call()).toEqual(42);
+            delete String.prototype.call;
+            expect(s.call).toEqual(void 0);
+        });
+        
         var list = [[5, 1, 7], [3, 2, 1]];
-        var s = 'foo';
-        assert.strictEqual(s.call(), 42, 'call function exists');
         var result = _.invoke(list, 'sort');
-        assert.deepEqual(result[0], [1, 5, 7], 'first array sorted');
-        assert.deepEqual(result[1], [1, 2, 3], 'second array sorted');
-        delete String.prototype.call;
-        assert.strictEqual(s.call, void 0, 'call function removed');
+        it('first array sorted', function() {
+            expect(result[0]).toEqual([1, 5, 7]);
+        });
+        it('second array sorted', function() {
+            expect(result[1]).toEqual([1, 2, 3]);
+        });
+
     });
 
-    QUnit.test('pluck', function (assert) {
+    describe('pluck', function () {
         var people = [{ name: 'moe', age: 30 }, { name: 'curly', age: 50 }];
-        assert.deepEqual(_.pluck(people, 'name'), ['moe', 'curly'], 'pulls names out of objects');
-        assert.deepEqual(_.pluck(people, 'address'), [void 0, void 0], 'missing properties are returned as undefined');
-        //compat: most flexible handling of edge cases
-        assert.deepEqual(_.pluck([{ '[object Object]': 1 }], {}), [1]);
+        it('pulls names out of objects', function() {
+            expect(_.pluck(people, 'name')).toEqual(['moe', 'curly']);
+        });
+        it('missing properties are returned as undefined', function() {
+            expect(_.pluck(people, 'address')).toEqual([void 0, void 0]);
+        });
+        it('compat: most flexible handling of edge cases', function() {
+            expect(_.pluck([{ '[object Object]': 1 }], {})).toEqual([1]);
+        });
+        //
+
     });
 
-    QUnit.test('where', function (assert) {
-        var list = [{ a: 1, b: 2 }, { a: 2, b: 2 }, { a: 1, b: 3 }, { a: 1, b: 4 }];
-        var result = _.where(list, { a: 1 });
-        assert.strictEqual(result.length, 3);
-        assert.strictEqual(result[result.length - 1].b, 4);
-        result = _.where(list, { b: 2 });
-        assert.strictEqual(result.length, 2);
-        assert.strictEqual(result[0].a, 1);
-        result = _.where(list, {});
-        assert.strictEqual(result.length, list.length);
-
-        function test() { }
-        test.map = _.map;
-        assert.deepEqual(_.where([_, { a: 1, b: 2 }, _], test), [_, _], 'checks properties given function');
-    });
-
-    QUnit.test('findWhere', function (assert) {
-        var list = [{ a: 1, b: 2 }, { a: 2, b: 2 }, { a: 1, b: 3 }, { a: 1, b: 4 }, { a: 2, b: 4 }];
-        var result = _.findWhere(list, { a: 1 });
-        assert.deepEqual(result, { a: 1, b: 2 });
-        result = _.findWhere(list, { b: 4 });
-        assert.deepEqual(result, { a: 1, b: 4 });
-
-        result = _.findWhere(list, { c: 1 });
-        assert.ok(_.isUndefined(result), 'undefined when not found');
-
-        result = _.findWhere([], { c: 1 });
-        assert.ok(_.isUndefined(result), 'undefined when searching empty list');
-
-        function test() { }
-        test.map = _.map;
-        assert.strictEqual(_.findWhere([_, { a: 1, b: 2 }, _], test), _, 'checks properties given function');
-
-        function TestClass() {
-            this.y = 5;
-            this.x = 'foo';
-        }
-        var expect = { c: 1, x: 'foo', y: 5 };
-        assert.deepEqual(_.findWhere([{ y: 5, b: 6 }, expect], new TestClass()), expect, 'uses class instance properties');
-    });
-
-    QUnit.test('max', function (assert) {
-        assert.strictEqual(-Infinity, _.max(null), 'can handle null/undefined');
-        assert.strictEqual(-Infinity, _.max(void 0), 'can handle null/undefined');
-        assert.strictEqual(-Infinity, _.max(null, _.identity), 'can handle null/undefined');
-
-        assert.strictEqual(_.max([1, 2, 3]), 3, 'can perform a regular Math.max');
-
-        var neg = _.max([1, 2, 3], function (num) { return -num; });
-        assert.strictEqual(neg, 1, 'can perform a computation-based max');
-
-        assert.strictEqual(-Infinity, _.max({}), 'Maximum value of an empty object');
-        assert.strictEqual(-Infinity, _.max([]), 'Maximum value of an empty array');
-        assert.strictEqual(_.max({ a: 'a' }), -Infinity, 'Maximum value of a non-numeric collection');
-
-        assert.strictEqual(_.max(_.range(1, 300000)), 299999, 'Maximum value of a too-big array');
-
-        assert.strictEqual(_.max([1, 2, 3, 'test']), 3, 'Finds correct max in array starting with num and containing a NaN');
-        assert.strictEqual(_.max(['test', 1, 2, 3]), 3, 'Finds correct max in array starting with NaN');
-
-        assert.strictEqual(_.max([1, 2, 3, null]), 3, 'Finds correct max in array starting with num and containing a `null`');
-        assert.strictEqual(_.max([null, 1, 2, 3]), 3, 'Finds correct max in array starting with a `null`');
-
-        assert.strictEqual(_.max([1, 2, 3, '']), 3, 'Finds correct max in array starting with num and containing an empty string');
-        assert.strictEqual(_.max(['', 1, 2, 3]), 3, 'Finds correct max in array starting with an empty string');
-
-        assert.strictEqual(_.max([1, 2, 3, false]), 3, 'Finds correct max in array starting with num and containing a false');
-        assert.strictEqual(_.max([false, 1, 2, 3]), 3, 'Finds correct max in array starting with a false');
-
-        assert.strictEqual(_.max([0, 1, 2, 3, 4]), 4, 'Finds correct max in array containing a zero');
-        assert.strictEqual(_.max([-3, -2, -1, 0]), 0, 'Finds correct max in array containing negative numbers');
-
-        assert.deepEqual(_.map([[1, 2, 3], [4, 5, 6]], _.max), [3, 6], 'Finds correct max in array when mapping through multiple arrays');
-
-        var a = { x: -Infinity };
-        var b = { x: -Infinity };
-        var iterator = function (o) { return o.x; };
-        assert.strictEqual(_.max([a, b], iterator), a, 'Respects iterator return value of -Infinity');
-
-        assert.deepEqual(_.max([{ a: 1 }, { a: 0, b: 3 }, { a: 4 }, { a: 2 }], 'a'), { a: 4 }, 'String keys use property iterator');
-
-        assert.deepEqual(_.max([0, 2], function (c) { return c * this.x; }, { x: 1 }), 2, 'Iterator context');
-        assert.deepEqual(_.max([[1], [2, 3], [-1, 4], [5]], 0), [5], 'Lookup falsy iterator');
-        assert.deepEqual(_.max([{ 0: 1 }, { 0: 2 }, { 0: -1 }, { a: 1 }], 0), { 0: 2 }, 'Lookup falsy iterator');
-    });
-
-    QUnit.test('min', function (assert) {
-        assert.strictEqual(_.min(null), Infinity, 'can handle null/undefined');
-        assert.strictEqual(_.min(void 0), Infinity, 'can handle null/undefined');
-        assert.strictEqual(_.min(null, _.identity), Infinity, 'can handle null/undefined');
-
-        assert.strictEqual(_.min([1, 2, 3]), 1, 'can perform a regular Math.min');
-
-        var neg = _.min([1, 2, 3], function (num) { return -num; });
-        assert.strictEqual(neg, 3, 'can perform a computation-based min');
-
-        assert.strictEqual(_.min({}), Infinity, 'Minimum value of an empty object');
-        assert.strictEqual(_.min([]), Infinity, 'Minimum value of an empty array');
-        assert.strictEqual(_.min({ a: 'a' }), Infinity, 'Minimum value of a non-numeric collection');
-
-        assert.deepEqual(_.map([[1, 2, 3], [4, 5, 6]], _.min), [1, 4], 'Finds correct min in array when mapping through multiple arrays');
-
-        var now = new Date(9999999999);
-        var then = new Date(0);
-        assert.strictEqual(_.min([now, then]), then);
-
-        assert.strictEqual(_.min(_.range(1, 300000)), 1, 'Minimum value of a too-big array');
-
-        assert.strictEqual(_.min([1, 2, 3, 'test']), 1, 'Finds correct min in array starting with num and containing a NaN');
-        assert.strictEqual(_.min(['test', 1, 2, 3]), 1, 'Finds correct min in array starting with NaN');
-
-        assert.strictEqual(_.min([1, 2, 3, null]), 1, 'Finds correct min in array starting with num and containing a `null`');
-        assert.strictEqual(_.min([null, 1, 2, 3]), 1, 'Finds correct min in array starting with a `null`');
-
-        assert.strictEqual(_.min([0, 1, 2, 3, 4]), 0, 'Finds correct min in array containing a zero');
-        assert.strictEqual(_.min([-3, -2, -1, 0]), -3, 'Finds correct min in array containing negative numbers');
-
-        var a = { x: Infinity };
-        var b = { x: Infinity };
-        var iterator = function (o) { return o.x; };
-        assert.strictEqual(_.min([a, b], iterator), a, 'Respects iterator return value of Infinity');
-
-        assert.deepEqual(_.min([{ a: 1 }, { a: 0, b: 3 }, { a: 4 }, { a: 2 }], 'a'), { a: 0, b: 3 }, 'String keys use property iterator');
-
-        assert.deepEqual(_.min([0, 2], function (c) { return c * this.x; }, { x: -1 }), 2, 'Iterator context');
-        assert.deepEqual(_.min([[1], [2, 3], [-1, 4], [5]], 0), [-1, 4], 'Lookup falsy iterator');
-        assert.deepEqual(_.min([{ 0: 1 }, { 0: 2 }, { 0: -1 }, { a: 1 }], 0), { 0: -1 }, 'Lookup falsy iterator');
-    });
-
-    QUnit.test('sortBy', function (assert) {
-        var people = [{ name: 'curly', age: 50 }, { name: 'moe', age: 30 }];
-        people = _.sortBy(people, function (person) { return person.age; });
-        assert.deepEqual(_.pluck(people, 'name'), ['moe', 'curly'], 'stooges sorted by age');
-
-        var list = [void 0, 4, 1, void 0, 3, 2];
-        assert.deepEqual(_.sortBy(list, _.identity), [1, 2, 3, 4, void 0, void 0], 'sortBy with undefined values');
-
-        list = ['one', 'two', 'three', 'four', 'five'];
-        var sorted = _.sortBy(list, 'length');
-        assert.deepEqual(sorted, ['one', 'two', 'four', 'five', 'three'], 'sorted by length');
-
-        function Pair(x, y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        var stableArray = [
-          new Pair(1, 1), new Pair(1, 2),
-          new Pair(1, 3), new Pair(1, 4),
-          new Pair(1, 5), new Pair(1, 6),
-          new Pair(2, 1), new Pair(2, 2),
-          new Pair(2, 3), new Pair(2, 4),
-          new Pair(2, 5), new Pair(2, 6),
-          new Pair(void 0, 1), new Pair(void 0, 2),
-          new Pair(void 0, 3), new Pair(void 0, 4),
-          new Pair(void 0, 5), new Pair(void 0, 6)
-        ];
-
-        var stableObject = _.object('abcdefghijklmnopqr'.split(''), stableArray);
-
-        var actual = _.sortBy(stableArray, function (pair) {
-            return pair.x;
+    describe('where', function () {
+        it('basic tests', function() {
+            var list = [{ a: 1, b: 2 }, { a: 2, b: 2 }, { a: 1, b: 3 }, { a: 1, b: 4 }];
+            var result = _.where(list, { a: 1 });
+            expect(result.length).toEqual(3);
+            expect(result[result.length - 1].b).toEqual(4);
+            result = _.where(list, { b: 2 });
+            expect(result.length).toEqual(2);
+            expect(result[0].a).toEqual(1);
+            result = _.where(list, {});
+            expect(result.length).toEqual(list.length);
         });
 
-        assert.deepEqual(actual, stableArray, 'sortBy should be stable for arrays');
-        assert.deepEqual(_.sortBy(stableArray, 'x'), stableArray, 'sortBy accepts property string');
+        it('checks properties given function', function() {
+            function test() {}
 
-        actual = _.sortBy(stableObject, function (pair) {
-            return pair.x;
+            test.map = _.map;
+            expect(_.where([_, { a: 1, b: 2 }, _], test)).toEqual([_, _]);
         });
 
-        assert.deepEqual(actual, stableArray, 'sortBy should be stable for objects');
-
-        list = ['q', 'w', 'e', 'r', 't', 'y'];
-        assert.deepEqual(_.sortBy(list), ['e', 'q', 'r', 't', 'w', 'y'], 'uses _.identity if iterator is not specified');
     });
 
-    QUnit.test('groupBy', function (assert) {
-        var parity = _.groupBy([1, 2, 3, 4, 5, 6], function (num) { return num % 2; });
-        assert.ok('0' in parity && '1' in parity, 'created a group for each value');
-        assert.deepEqual(parity[0], [2, 4, 6], 'put each even number in the right group');
-
-        var list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
-        var grouped = _.groupBy(list, 'length');
-        assert.deepEqual(grouped['3'], ['one', 'two', 'six', 'ten']);
-        assert.deepEqual(grouped['4'], ['four', 'five', 'nine']);
-        assert.deepEqual(grouped['5'], ['three', 'seven', 'eight']);
-
-        var context = {};
-        _.groupBy([{}], function () { assert.strictEqual(this, context); }, context);
-
-        grouped = _.groupBy([4.2, 6.1, 6.4], function (num) {
-            return Math.floor(num) > 4 ? 'hasOwnProperty' : 'constructor';
+    describe('findWhere', function () {
+        it('basic tests', function() {
+            var list = [{ a: 1, b: 2 }, { a: 2, b: 2 }, { a: 1, b: 3 }, { a: 1, b: 4 }, { a: 2, b: 4 }];
+            var result = _.findWhere(list, { a: 1 });
+            expect(result).toEqual({ a: 1, b: 2 });
+            result = _.findWhere(list, { b: 4 });
+            expect(result).toEqual({ a: 1, b: 4 });
+            result = _.findWhere(list, { c: 1 });
+            expect(_.isUndefined(result)).toBeTruthy();
         });
-        assert.strictEqual(grouped.constructor.length, 1);
-        assert.strictEqual(grouped.hasOwnProperty.length, 2);
 
-        var array = [{}];
-        _.groupBy(array, function (value, index, obj) { assert.strictEqual(obj, array); });
-
-        array = [1, 2, 1, 2, 3];
-        grouped = _.groupBy(array);
-        assert.strictEqual(grouped['1'].length, 2);
-        assert.strictEqual(grouped['3'].length, 1);
-
-        var matrix = [
-          [1, 2],
-          [1, 3],
-          [2, 3]
-        ];
-        assert.deepEqual(_.groupBy(matrix, 0), { 1: [[1, 2], [1, 3]], 2: [[2, 3]] });
-        assert.deepEqual(_.groupBy(matrix, 1), { 2: [[1, 2]], 3: [[1, 3], [2, 3]] });
-
-        var liz = { name: 'Liz', stats: { power: 10 } };
-        var chelsea = { name: 'Chelsea', stats: { power: 10 } };
-        var jordan = { name: 'Jordan', stats: { power: 6 } };
-        var collection = [liz, chelsea, jordan];
-        var expected = {
-            10: [liz, chelsea],
-            6: [jordan]
-        };
-        assert.deepEqual(_.groupBy(collection, ['stats', 'power']), expected, 'can group by deep properties');
-    });
-
-    QUnit.test('indexBy', function (assert) {
-        var parity = _.indexBy([1, 2, 3, 4, 5], function (num) { return num % 2 === 0; });
-        assert.strictEqual(parity['true'], 4);
-        assert.strictEqual(parity['false'], 5);
-
-        var list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
-        var grouped = _.indexBy(list, 'length');
-        assert.strictEqual(grouped['3'], 'ten');
-        assert.strictEqual(grouped['4'], 'nine');
-        assert.strictEqual(grouped['5'], 'eight');
-
-        var array = [1, 2, 1, 2, 3];
-        grouped = _.indexBy(array);
-        assert.strictEqual(grouped['1'], 1);
-        assert.strictEqual(grouped['2'], 2);
-        assert.strictEqual(grouped['3'], 3);
-    });
-
-    QUnit.test('countBy', function (assert) {
-        var parity = _.countBy([1, 2, 3, 4, 5], function (num) { return num % 2 === 0; });
-        assert.strictEqual(parity['true'], 2);
-        assert.strictEqual(parity['false'], 3);
-
-        var list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
-        var grouped = _.countBy(list, 'length');
-        assert.strictEqual(grouped['3'], 4);
-        assert.strictEqual(grouped['4'], 3);
-        assert.strictEqual(grouped['5'], 3);
-
-        var context = {};
-        _.countBy([{}], function () { assert.strictEqual(this, context); }, context);
-
-        grouped = _.countBy([4.2, 6.1, 6.4], function (num) {
-            return Math.floor(num) > 4 ? 'hasOwnProperty' : 'constructor';
+        it('undefined when searching empty list', function() {
+            var result = _.findWhere([], { c: 1 });
+            expect(_.isUndefined(result)).toBeTruthy();
         });
-        assert.strictEqual(grouped.constructor, 1);
-        assert.strictEqual(grouped.hasOwnProperty, 2);
 
-        var array = [{}];
-        _.countBy(array, function (value, index, obj) { assert.strictEqual(obj, array); });
+        it('checks properties given function', function() {
+            function test() {}
 
-        array = [1, 2, 1, 2, 3];
-        grouped = _.countBy(array);
-        assert.strictEqual(grouped['1'], 2);
-        assert.strictEqual(grouped['3'], 1);
+            test.map = _.map;
+            expect(_.findWhere([_, { a: 1, b: 2 }, _], test)).toEqual(_);
+        });
+
+        it('uses class instance properties', function() {
+            function TestClass() {
+                this.y = 5;
+                this.x = 'foo';
+            }
+
+            var expected = { c: 1, x: 'foo', y: 5 };
+            expect(_.findWhere([{ y: 5, b: 6 }, expected], new TestClass())).toEqual(expected);
+        });
+
     });
 
-    QUnit.test('shuffle', function (assert) {
-        assert.deepEqual(_.shuffle([1]), [1], 'behaves correctly on size 1 arrays');
-        var numbers = _.range(20);
-        var shuffled = _.shuffle(numbers);
-        assert.notDeepEqual(numbers, shuffled, 'does change the order'); // Chance of false negative: 1 in ~2.4*10^18
-        assert.notStrictEqual(numbers, shuffled, 'original object is unmodified');
-        assert.deepEqual(numbers, _.sortBy(shuffled), 'contains the same members before and after shuffle');
+    describe('max', function () {
+        it('can handle null/undefined', function() {
+            expect(-Infinity).toEqual(_.max(null));
+            expect(-Infinity).toEqual(_.max(void 0));
+            expect(-Infinity).toEqual(_.max(null, _.identity));
+        });
 
-        shuffled = _.shuffle({ a: 1, b: 2, c: 3, d: 4 });
-        assert.strictEqual(shuffled.length, 4);
-        assert.deepEqual(shuffled.sort(), [1, 2, 3, 4], 'works on objects');
+        it('can perform a regular Math.max', function() {
+            expect(_.max([1, 2, 3])).toEqual(3);
+        });
+
+        it('can perform a computation-based max', function() {
+            var neg = _.max([1, 2, 3], function(num) { return -num; });
+            expect(neg).toEqual(1);
+        });
+
+        it('Maximum value of an empty object;empty array;non-numeric collection;too-big array', function() {
+            expect(-Infinity).toEqual(_.max({}));
+            expect(-Infinity).toEqual(_.max([]));
+            expect(_.max({ a: 'a' })).toEqual(-Infinity);
+
+            expect(_.max(_.range(1, 300000))).toEqual(299999);
+        });
+
+        it('Finds correct max in array starting with num and containing a NaN', function() {
+            expect(_.max([1, 2, 3, 'test'])).toEqual(3);
+            expect(_.max(['test', 1, 2, 3])).toEqual(3);
+        });
+
+        it('Finds correct max in array starting with num and containing a `null`', function() {
+            expect(_.max([1, 2, 3, null])).toEqual(3);
+            expect(_.max([null, 1, 2, 3])).toEqual(3);
+        });
+
+        it('Finds correct max in array starting with num and containing an empty string', function() {
+            expect(_.max([1, 2, 3, ''])).toEqual(3);
+            expect(_.max(['', 1, 2, 3])).toEqual(3);
+        });
+
+        it('Finds correct max in array starting with num and containing a false', function() {
+            expect(_.max([1, 2, 3, false])).toEqual(3);
+            expect(_.max([false, 1, 2, 3])).toEqual(3);
+        });
+
+        it('Finds correct max in array containing a zero;negative numbers', function() {
+            expect(_.max([0, 1, 2, 3, 4])).toEqual(4);
+            expect(_.max([-3, -2, -1, 0])).toEqual(0);
+        });
+
+        it('Finds correct max in array when mapping through multiple arrays', function() {
+            expect(_.map([[1, 2, 3], [4, 5, 6]], _.max)).toEqual([3, 6]);
+        });
+
+        it('Respects iterator return value of -Infinity', function() {
+            var a = { x: -Infinity };
+            var b = { x: -Infinity };
+            var iterator = function(o) { return o.x; };
+            expect(_.max([a, b], iterator)).toEqual(a);
+        });
+
+        it('String keys use property iterator', function() {
+            expect(_.max([{ a: 1 }, { a: 0, b: 3 }, { a: 4 }, { a: 2 }], 'a')).toEqual({ a: 4 });
+        });
+
+        it('Iterator context;Lookup falsy iterator', function() {
+            expect(_.max([0, 2], function(c) { return c * this.x; }, { x: 1 })).toEqual(2);
+            expect(_.max([[1], [2, 3], [-1, 4], [5]], 0)).toEqual([5]);
+            expect(_.max([{ 0: 1 }, { 0: 2 }, { 0: -1 }, { a: 1 }], 0)).toEqual({ 0: 2 });
+        });
+
     });
 
-    QUnit.test('sample', function (assert) {
-        assert.strictEqual(_.sample([1]), 1, 'behaves correctly when no second parameter is given');
-        assert.deepEqual(_.sample([1, 2, 3], -2), [], 'behaves correctly on negative n');
+    describe('min', function () {
+        it('can handle null/undefined', function() {
+            expect(_.min(null)).toEqual(Infinity);
+            expect(_.min(void 0)).toEqual(Infinity);
+            expect(_.min(null, _.identity)).toEqual(Infinity);
+        });
+
+        it('can perform a regular Math.min', function() {
+            expect(_.min([1, 2, 3])).toEqual(1);
+        });
+
+        it('can perform a computation-based min', function() {
+            var neg = _.min([1, 2, 3], function(num) { return -num; });
+            expect(neg).toEqual(3);
+        });
+
+        it('Minimum value of an empty object', function() {
+            expect(_.min({})).toEqual(Infinity);
+            expect(_.min([])).toEqual(Infinity);
+            expect(_.min({ a: 'a' })).toEqual(Infinity);
+        });
+
+        it('Finds correct min in array when mapping through multiple arrays', function() {
+            expect(_.map([[1, 2, 3], [4, 5, 6]], _.min)).toEqual([1, 4]);
+        });
+
+        it('Minimum value of a too-big array', function() {
+            var now = new Date(9999999999);
+            var then = new Date(0);
+            expect(_.min([now, then])).toEqual(then);
+
+            expect(_.min(_.range(1, 300000))).toEqual(1);
+        });
+
+        it('Finds correct min in array', function() {
+            expect(_.min([1, 2, 3, 'test'])).toEqual(1);
+            expect(_.min(['test', 1, 2, 3])).toEqual(1);
+
+            expect(_.min([1, 2, 3, null])).toEqual(1);
+            expect(_.min([null, 1, 2, 3])).toEqual(1);
+
+            expect(_.min([0, 1, 2, 3, 4])).toEqual(0);
+            expect(_.min([-3, -2, -1, 0])).toEqual(-3);
+        });
+
+        it('Respects iterator return value of Infinity', function() {
+            var a = { x: Infinity };
+            var b = { x: Infinity };
+            var iterator = function(o) { return o.x; };
+            expect(_.min([a, b], iterator)).toEqual(a);
+        });
+
+        it('String keys use property iterator', function() {
+            expect(_.min([{ a: 1 }, { a: 0, b: 3 }, { a: 4 }, { a: 2 }], 'a')).toEqual({ a: 0, b: 3 });
+        });
+
+        it('Iterator context', function() {
+            expect(_.min([0, 2], function(c) { return c * this.x; }, { x: -1 })).toEqual(2);
+            expect(_.min([[1], [2, 3], [-1, 4], [5]], 0)).toEqual([-1, 4]);
+            expect(_.min([{ 0: 1 }, { 0: 2 }, { 0: -1 }, { a: 1 }], 0)).toEqual({ 0: -1 });
+        });
+
+    });
+
+    describe('sortBy', function () {
+        it('stooges sorted by age', function() {
+            var people = [{ name: 'curly', age: 50 }, { name: 'moe', age: 30 }];
+            people = _.sortBy(people, function(person) { return person.age; });
+            expect(_.pluck(people, 'name')).toEqual(['moe', 'curly']);
+        });
+
+        it('sortBy with undefined values', function() {
+            var list = [void 0, 4, 1, void 0, 3, 2];
+            expect(_.sortBy(list, _.identity)).toEqual([1, 2, 3, 4, void 0, void 0]);
+        });
+
+        it('sorted by length', function() {
+            var list = ['one', 'two', 'three', 'four', 'five'];
+            var sorted = _.sortBy(list, 'length');
+            expect(sorted).toEqual(['one', 'two', 'four', 'five', 'three']);
+        });
+
+        it('sortBy should be stable for objects', function() {
+            function Pair(x, y) {
+                this.x = x;
+                this.y = y;
+            }
+
+            var stableArray = [
+                new Pair(1, 1), new Pair(1, 2),
+                new Pair(1, 3), new Pair(1, 4),
+                new Pair(1, 5), new Pair(1, 6),
+                new Pair(2, 1), new Pair(2, 2),
+                new Pair(2, 3), new Pair(2, 4),
+                new Pair(2, 5), new Pair(2, 6),
+                new Pair(void 0, 1), new Pair(void 0, 2),
+                new Pair(void 0, 3), new Pair(void 0, 4),
+                new Pair(void 0, 5), new Pair(void 0, 6)
+            ];
+
+            var stableObject = _.object('abcdefghijklmnopqr'.split(''), stableArray);
+
+            var actual = _.sortBy(stableArray, function(pair) {
+                return pair.x;
+            });
+
+            expect(actual).toEqual(stableArray);
+            expect(_.sortBy(stableArray, 'x')).toEqual(stableArray);
+
+            actual = _.sortBy(stableObject, function(pair) {
+                return pair.x;
+            });
+
+            expect(actual).toEqual(stableArray);
+        });
+
+        it('uses _.identity if iterator is not specified', function() {
+            var list = ['q', 'w', 'e', 'r', 't', 'y'];
+            expect(_.sortBy(list)).toEqual(['e', 'q', 'r', 't', 'w', 'y']);
+        });
+
+    });
+
+    describe('groupBy', function () {
+        it('created a group for each value and put each even number in the right group', function() {
+            var parity = _.groupBy([1, 2, 3, 4, 5, 6], function(num) { return num % 2; });
+            expect('0' in parity && '1' in parity).toBeTruthy();
+            expect(parity[0]).toEqual([2, 4, 6]);
+        });
+
+        it('group by the string\'s length', function() {
+            var list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+            var grouped = _.groupBy(list, 'length');
+            expect(grouped['3']).toEqual(['one', 'two', 'six', 'ten']);
+            expect(grouped['4']).toEqual(['four', 'five', 'nine']);
+            expect(grouped['5']).toEqual(['three', 'seven', 'eight']);
+        });
+
+        it('group by context', function() {
+            var context = {};
+            _.groupBy([{}], function () { expect(this).toEqual(context); }, context);
+        });
+
+        it('conditional group', function() {
+            var grouped = _.groupBy([4.2, 6.1, 6.4], function(num) {
+                return Math.floor(num) > 4 ? 'hasOwnProperty' : 'constructor';
+            });
+            expect(grouped.constructor.length).toEqual(1);
+            expect(grouped.hasOwnProperty.length).toEqual(2);
+        });
+
+        it('items in the group calculation', function() {
+            var array = [{}];
+            _.groupBy(array, function(value, index, obj) { expect(obj).toEqual(array); });
+        });
+
+        it('group by number', function() {
+            var array = [1, 2, 1, 2, 3];
+            var grouped = _.groupBy(array);
+            expect(grouped['1'].length).toEqual(2);
+            expect(grouped['3'].length).toEqual(1);
+        });
+
+        it('group in matrix', function() {
+            var matrix = [
+                [1, 2],
+                [1, 3],
+                [2, 3]
+            ];
+            expect(_.groupBy(matrix, 0)).toEqual({ 1: [[1, 2], [1, 3]], 2: [[2, 3]] });
+            expect(_.groupBy(matrix, 1)).toEqual({ 2: [[1, 2]], 3: [[1, 3], [2, 3]] });
+        });
+
+        it('can group by deep properties', function() {
+            var liz = { name: 'Liz', stats: { power: 10 } };
+            var chelsea = { name: 'Chelsea', stats: { power: 10 } };
+            var jordan = { name: 'Jordan', stats: { power: 6 } };
+            var collection = [liz, chelsea, jordan];
+            var expected = {
+                10: [liz, chelsea],
+                6: [jordan]
+            };
+            expect(_.groupBy(collection, ['stats', 'power'])).toEqual(expected);
+        });
+
+    });
+
+    describe('indexBy', function () {
+        it('index by even or odd', function() {
+            var parity = _.indexBy([1, 2, 3, 4, 5], function(num) { return num % 2 === 0; });
+            expect(parity['true']).toEqual(4);
+            expect(parity['false']).toEqual(5);
+        });
+
+        it('index by length', function() {
+            var list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+            var grouped = _.indexBy(list, 'length');
+            expect(grouped['3']).toEqual('ten');
+            expect(grouped['4']).toEqual('nine');
+            expect(grouped['5']).toEqual('eight');
+        });
+
+        it('index by number', function() {
+            var array = [1, 2, 1, 2, 3];
+            var grouped = _.indexBy(array);
+            expect(grouped['1']).toEqual(1);
+            expect(grouped['2']).toEqual(2);
+            expect(grouped['3']).toEqual(3);
+        });
+
+    });
+
+    describe('countBy', function () {
+        it('count by even or odd', function() {
+            var parity = _.countBy([1, 2, 3, 4, 5], function(num) { return num % 2 === 0; });
+            expect(parity['true']).toEqual(2);
+            expect(parity['false']).toEqual(3);
+        });
+
+        it('count by length', function() {
+            var list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+            var grouped = _.countBy(list, 'length');
+            expect(grouped['3']).toEqual(4);
+            expect(grouped['4']).toEqual(3);
+            expect(grouped['5']).toEqual(3);
+        });
+
+        it('count by context', function() {
+            var context = {};
+            _.countBy([{}], function () { expect(this).toEqual(context); }, context);
+        });
+
+        it('conditional count', function() {
+            var grouped = _.countBy([4.2, 6.1, 6.4], function(num) {
+                return Math.floor(num) > 4 ? 'hasOwnProperty' : 'constructor';
+            });
+            expect(grouped.constructor).toEqual(1);
+            expect(grouped.hasOwnProperty).toEqual(2);
+        });
+
+        it('count in items', function() {
+            var array = [{}];
+            _.countBy(array, function (value, index, obj) { expect(obj).toEqual(array); });
+        });
+
+        it('count by number', function() {
+            var array = [1, 2, 1, 2, 3];
+            var grouped = _.countBy(array);
+            expect(grouped['1']).toEqual(2);
+            expect(grouped['3']).toEqual(1);
+        });
+
+    });
+
+    describe('shuffle', function () {
+        it('behaves correctly on size 1 arrays', function() {
+            expect(_.shuffle([1])).toEqual([1]);
+        });
+
+        describe('Chance of false negative: 1 in ~2.4*10^18', function() {
+            var numbers = _.range(20);
+            var shuffled = _.shuffle(numbers);
+            it('does change the order', function() {
+                expect(numbers).not.toEqual(shuffled); // 
+            });
+            it('contains the same members before and after shuffle', function() {
+                expect(numbers).toEqual(_.sortBy(shuffled));
+            });
+
+        });
+
+        it('works on objects', function() {
+            var shuffled = _.shuffle({ a: 1, b: 2, c: 3, d: 4 });
+            expect(shuffled.length).toEqual(4);
+            expect(shuffled.sort()).toEqual([1, 2, 3, 4]);
+        });
+
+    });
+
+    describe('sample', function () {
+        it('behaves correctly when no second parameter is given', function() {
+            expect(_.sample([1])).toEqual(1);
+        });
+        it('behaves correctly on negative n', function() {
+            expect(_.sample([1, 2, 3], -2)).toEqual([]);
+        });
         var numbers = _.range(10);
-        var allSampled = _.sample(numbers, 10).sort();
-        assert.deepEqual(allSampled, numbers, 'contains the same members before and after sample');
-        allSampled = _.sample(numbers, 20).sort();
-        assert.deepEqual(allSampled, numbers, 'also works when sampling more objects than are present');
-        assert.ok(_.contains(numbers, _.sample(numbers)), 'sampling a single element returns something from the array');
-        assert.strictEqual(_.sample([]), void 0, 'sampling empty array with no number returns undefined');
-        assert.notStrictEqual(_.sample([], 5), [], 'sampling empty array with a number returns an empty array');
-        assert.notStrictEqual(_.sample([1, 2, 3], 0), [], 'sampling an array with 0 picks returns an empty array');
-        assert.deepEqual(_.sample([1, 2], -1), [], 'sampling a negative number of picks returns an empty array');
-        assert.ok(_.contains([1, 2, 3], _.sample({ a: 1, b: 2, c: 3 })), 'sample one value from an object');
-        var partialSample = _.sample(_.range(1000), 10);
-        var partialSampleSorted = partialSample.sort();
-        assert.notDeepEqual(partialSampleSorted, _.range(10), 'samples from the whole array, not just the beginning');
+        it('contains the same members before and after sample', function() {
+            var allSampled = _.sample(numbers, 10).sort();
+            expect(allSampled).toEqual(numbers);
+        });
+        it('also works when sampling more objects than are present', function() {
+            var allSampled = _.sample(numbers, 20).sort();
+            expect(allSampled).toEqual(numbers);
+        });
+        it('sampling a single element returns something from the array', function() {
+            expect(_.contains(numbers, _.sample(numbers))).toBeTruthy();
+        });
+        it('sampling empty array with no number returns undefined', function() {
+            expect(_.sample([])).toEqual(void 0);
+        });
+        it('sampling empty array with a number returns an empty array', function() {
+            expect(_.sample([], 5)).toEqual([]);
+        });
+        it('sampling an array with 0 picks returns an empty array', function() {
+            expect(_.sample([1, 2, 3], 0)).toEqual([]);
+        });
+        it('sampling a negative number of picks returns an empty array', function() {
+            expect(_.sample([1, 2], -1)).toEqual([]);
+        });
+        it('sample one value from an object', function() {
+            expect(_.contains([1, 2, 3], _.sample({ a: 1, b: 2, c: 3 }))).toBeTruthy();
+        });
+        it('samples from the whole array, not just the beginning', function() {
+            var partialSample = _.sample(_.range(1000), 10);
+            var partialSampleSorted = partialSample.sort();
+            expect(partialSampleSorted).not.toEqual(_.range(10));
+        });
+
     });
 
-    QUnit.test('toArray', function (assert) {
-        assert.notOk(_.isArray(arguments), 'arguments object is not an array');
-        assert.ok(_.isArray(_.toArray(arguments)), 'arguments object converted into array');
-        var a = [1, 2, 3];
-        assert.notStrictEqual(_.toArray(a), a, 'array is cloned');
-        assert.deepEqual(_.toArray(a), [1, 2, 3], 'cloned array contains same elements');
+    describe('toArray', function () {
+        it('arguments object is not an array', function() {
+            expect(_.isArray(arguments)).toBeFalsy();
+        });
+        it('arguments object converted into array', function() {
+            expect(_.isArray(_.toArray(arguments))).toBeTruthy();
+        });
+        it('cloned array contains same elements', function() {
+            var a = [1, 2, 3];
+            expect(_.toArray(a)).toEqual(a);
+            expect(_.toArray(a)).toEqual([1, 2, 3]);
+        });
 
-        var numbers = _.toArray({ one: 1, two: 2, three: 3 });
-        assert.deepEqual(numbers, [1, 2, 3], 'object flattened into array');
+        it('object flattened into array', function() {
+            var numbers = _.toArray({ one: 1, two: 2, three: 3 });
+            expect(numbers).toEqual([1, 2, 3]);
+        });
 
-        var hearts = '\uD83D\uDC95';
-        var pair = hearts.split('');
-        var expected = [pair[0], hearts, '&', hearts, pair[1]];
-        assert.deepEqual(_.toArray(expected.join('')), expected, 'maintains astral characters');
-        assert.deepEqual(_.toArray(''), [], 'empty string into empty array');
+        it('maintains astral characters', function() {
+            var hearts = '\uD83D\uDC95';
+            var pair = hearts.split('');
+            var expected = [pair[0], hearts, '&', hearts, pair[1]];
+            expect(_.toArray(expected.join(''))).toEqual(expected);
+            expect(_.toArray('')).toEqual([]);
+        });
 
-        if (typeof document != 'undefined') {
-            // test in IE < 9
-            var actual;
-            try {
-                actual = _.toArray(document.childNodes);
-            } catch (e) { /* ignored */ }
-            assert.deepEqual(actual, _.map(document.childNodes, _.identity), 'works on NodeList');
-        }
+        it('works on NodeList', function() {
+            if (typeof document != 'undefined') {
+                // test in IE < 9
+                var actual;
+                try {
+                    actual = _.toArray(document.childNodes);
+                } catch (e) { /* ignored */
+                }
+                expect(actual).toEqual(_.map(document.childNodes, _.identity));
+            }
+        });
+
     });
 
-    QUnit.test('size', function (assert) {
-        assert.strictEqual(_.size({ one: 1, two: 2, three: 3 }), 3, 'can compute the size of an object');
-        assert.strictEqual(_.size([1, 2, 3]), 3, 'can compute the size of an array');
-        assert.strictEqual(_.size({ length: 3, 0: 0, 1: 0, 2: 0 }), 3, 'can compute the size of Array-likes');
+    describe('size', function () {
+        it('can compute the size of an object', function() {
+            expect(_.size({ one: 1, two: 2, three: 3 })).toEqual(3);
+        });
+        it('can compute the size of an array', function() {
+            expect(_.size([1, 2, 3])).toEqual(3);
+        });
+        it('can compute the size of Array-likes', function() {
+            expect(_.size({ length: 3, 0: 0, 1: 0, 2: 0 })).toEqual(3);
+        });
 
-        var func = function () {
-            return _.size(arguments);
-        };
+        it('can test the size of the arguments object', function() {
+            var func = function() {
+                return _.size(arguments);
+            };
 
-        assert.strictEqual(func(1, 2, 3, 4), 4, 'can test the size of the arguments object');
+            expect(func(1, 2, 3, 4)).toEqual(4);
+        });
 
-        assert.strictEqual(_.size('hello'), 5, 'can compute the size of a string literal');
-        assert.strictEqual(_.size(new String('hello')), 5, 'can compute the size of string object');
+        it('can compute the size of a string literal', function() {
+            expect(_.size('hello')).toEqual(5);
+        });
+        it('can compute the size of string object', function() {
+            expect(_.size(new String('hello'))).toEqual(5);
+        });
 
-        assert.strictEqual(_.size(null), 0, 'handles nulls');
-        assert.strictEqual(_.size(0), 0, 'handles numbers');
+        it('handles nulls', function() {
+            expect(_.size(null)).toEqual(0);
+        });
+        it('handles numbers', function() {
+            expect(_.size(0)).toEqual(0);
+        });
+
     });
 
-    QUnit.test('partition', function (assert) {
+    describe('partition', function () {
         var list = [0, 1, 2, 3, 4, 5];
-        assert.deepEqual(_.partition(list, function (x) { return x < 4; }), [[0, 1, 2, 3], [4, 5]], 'handles bool return values');
-        assert.deepEqual(_.partition(list, function (x) { return x & 1; }), [[1, 3, 5], [0, 2, 4]], 'handles 0 and 1 return values');
-        assert.deepEqual(_.partition(list, function (x) { return x - 3; }), [[0, 1, 2, 4, 5], [3]], 'handles other numeric return values');
-        assert.deepEqual(_.partition(list, function (x) { return x > 1 ? null : true; }), [[0, 1], [2, 3, 4, 5]], 'handles null return values');
-        assert.deepEqual(_.partition(list, function (x) { if (x < 2) return true; }), [[0, 1], [2, 3, 4, 5]], 'handles undefined return values');
-        assert.deepEqual(_.partition({ a: 1, b: 2, c: 3 }, function (x) { return x > 1; }), [[2, 3], [1]], 'handles objects');
+        it('handles bool return values', function() {
+            expect(_.partition(list, function(x) { return x < 4; })).toEqual([[0, 1, 2, 3], [4, 5]]);
+        });
+        it('handles 0 and 1 return values', function() {
+            expect(_.partition(list, function(x) { return x & 1; })).toEqual([[1, 3, 5], [0, 2, 4]]);
+        });
+        it('handles other numeric return values', function() {
+            expect(_.partition(list, function(x) { return x - 3; })).toEqual([[0, 1, 2, 4, 5], [3]]);
+        });
+        it('handles null return values', function() {
+            expect(_.partition(list, function(x) { return x > 1 ? null : true; })).toEqual([[0, 1], [2, 3, 4, 5]]);
+        });
+        it('handles undefined return values', function() {
+            expect(_.partition(list, function(x) { if (x < 2) return true;
+                return false;
+            })).toEqual([[0, 1], [2, 3, 4, 5]]);
+        });
+        it('handles objects', function() {
+            expect(_.partition({ a: 1, b: 2, c: 3 }, function(x) { return x > 1; })).toEqual([[2, 3], [1]]);
+        });
 
-        assert.deepEqual(_.partition(list, function (x, index) { return index % 2; }), [[1, 3, 5], [0, 2, 4]], 'can reference the array index');
-        assert.deepEqual(_.partition(list, function (x, index, arr) { return x === arr.length - 1; }), [[5], [0, 1, 2, 3, 4]], 'can reference the collection');
+        it('can reference the array index', function() {
+            expect(_.partition(list, function(x, index) { return index % 2; })).toEqual([[1, 3, 5], [0, 2, 4]]);
+        });
+        it('can reference the collection', function() {
+            expect(_.partition(list, function(x, index, arr) { return x === arr.length - 1; })).toEqual([[5], [0, 1, 2, 3, 4]]);
+        });
+        
 
         // Default iterator
-        assert.deepEqual(_.partition([1, false, true, '']), [[1, true], [false, '']], 'Default iterator');
-        assert.deepEqual(_.partition([{ x: 1 }, { x: 0 }, { x: 1 }], 'x'), [[{ x: 1 }, { x: 1 }], [{ x: 0 }]], 'Takes a string');
+        it('Default iterator', function() {
+            expect(_.partition([1, false, true, ''])).toEqual([[1, true], [false, '']]);
+        });
+        it('Takes a string', function() {
+            expect(_.partition([{ x: 1 }, { x: 0 }, { x: 1 }], 'x')).toEqual([[{ x: 1 }, { x: 1 }], [{ x: 0 }]]);
+        });
 
-        // Context
-        var predicate = function (x) { return x === this.x; };
-        assert.deepEqual(_.partition([1, 2, 3], predicate, { x: 2 }), [[2], [1, 3]], 'partition takes a context argument');
+        var predicate = function(x) { return x === this.x; };
+        it('partition takes a context argument', function() {
+            // Context
+            expect(_.partition([1, 2, 3], predicate, { x: 2 })).toEqual([[2], [1, 3]]);
+        });
 
-        assert.deepEqual(_.partition([{ a: 1 }, { b: 2 }, { a: 1, b: 2 }], { a: 1 }), [[{ a: 1 }, { a: 1, b: 2 }], [{ b: 2 }]], 'predicate can be object');
+        it('predicate can be object', function() {
+            expect(_.partition([{ a: 1 }, { b: 2 }, { a: 1, b: 2 }], { a: 1 })).toEqual([[{ a: 1 }, { a: 1, b: 2 }], [{ b: 2 }]]);
+        });
 
-        var object = { a: 1 };
-        _.partition(object, function (val, key, obj) {
-            assert.strictEqual(val, 1);
-            assert.strictEqual(key, 'a');
-            assert.strictEqual(obj, object);
-            assert.strictEqual(this, predicate);
-        }, predicate);
+        it('partition predict', function() {
+            var object = { a: 1 };
+            _.partition(object, function(val, key, obj) {
+                expect(val).toEqual(1);
+                expect(key).toEqual('a');
+                expect(obj).toEqual(object);
+                expect(this).toEqual(predicate);
+            }, predicate);
+        });
+
     });
 
-    if (typeof document != 'undefined') {
-        QUnit.test('Can use various collection methods on NodeLists', function (assert) {
-            var parent = document.createElement('div');
-            parent.innerHTML = '<span id=id1></span>textnode<span id=id2></span>';
+    it('Can use various collection methods on NodeLists', function () {
+        var parent = document.createElement('div');
+        parent.innerHTML = '<span id=id1></span>textnode<span id=id2></span>';
 
-            var elementChildren = _.filter(parent.childNodes, _.isElement);
-            assert.strictEqual(elementChildren.length, 2);
+        var elementChildren = _.filter(parent.childNodes, _.isElement);
+        expect(elementChildren.length).toEqual(2);
 
-            assert.deepEqual(_.map(elementChildren, 'id'), ['id1', 'id2']);
-            assert.deepEqual(_.map(parent.childNodes, 'nodeType'), [1, 3, 1]);
+        expect(_.map(elementChildren, 'id')).toEqual(['id1', 'id2']);
+        expect(_.map(parent.childNodes, 'nodeType')).toEqual([1, 3, 1]);
 
-            assert.notOk(_.every(parent.childNodes, _.isElement));
-            assert.ok(_.some(parent.childNodes, _.isElement));
+        expect(_.every(parent.childNodes, _.isElement)).toBeFalsy();
+        expect(_.some(parent.childNodes, _.isElement)).toBeTruthy();
 
-            function compareNode(node) {
-                return _.isElement(node) ? node.id.charAt(2) : void 0;
-            }
-            assert.strictEqual(_.max(parent.childNodes, compareNode), _.last(parent.childNodes));
-            assert.strictEqual(_.min(parent.childNodes, compareNode), _.first(parent.childNodes));
-        });
-    }
+        function compareNode(node) {
+            return _.isElement(node) ? node.id.charAt(2) : void 0;
+        }
+        expect(_.max(parent.childNodes, compareNode)).toEqual(_.last(parent.childNodes));
+        expect(_.min(parent.childNodes, compareNode)).toEqual(_.first(parent.childNodes));
+    });
 });
