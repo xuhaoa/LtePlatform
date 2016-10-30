@@ -74,7 +74,7 @@ angular.module('rutrace.main', ['app.common'])
                 });
         }
     ])
-    .run(function($rootScope) {
+    .run(function ($rootScope, kpiPreciseService) {
         var rootUrl = "/Rutrace#";
         $rootScope.menuItems = [
             {
@@ -135,6 +135,18 @@ angular.module('rutrace.main', ['app.common'])
             value: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8),
             opened: false
         };
+        $rootScope.orderPolicy = {
+            options: [],
+            selected: ""
+        };
+        $rootScope.topCount = {
+            options: [5, 10, 15, 20, 30],
+            selected: 15
+        };
+        kpiPreciseService.getOrderSelection().then(function (result) {
+            $rootScope.orderPolicy.options = result;
+            $rootScope.orderPolicy.selected = result[5];
+        });
     })
     .controller("rutrace.root", function($scope, appRegionService, menuItemService) {
         $scope.page = { title: "指标总体情况" };
@@ -441,14 +453,6 @@ angular.module('rutrace.main', ['app.common'])
     .controller("rutrace.top", function ($scope, $http, preciseInterferenceService, kpiPreciseService, workitemService) {
         $scope.page.title = "TOP指标分析";
         $scope.topCells = [];
-        $scope.orderPolicy = {
-            options: [],
-            selected: ""
-        };
-        $scope.topCount = {
-            options: [5, 10, 15, 20, 30],
-            selected: 15
-        };
         $scope.updateMessages = [];
 
         $scope.query = function () {
@@ -485,24 +489,12 @@ angular.module('rutrace.main', ['app.common'])
             $scope.updateMessages.splice(index, 1);
         };
 
+        $scope.query();
 
-        kpiPreciseService.getOrderSelection().then(function (result) {
-            $scope.orderPolicy.options = result;
-            $scope.orderPolicy.selected = result[0];
-            $scope.query();
-        });
     })
     .controller("rutrace.top.district", function ($scope, $routeParams, preciseInterferenceService, kpiPreciseService, workitemService) {
         $scope.page.title = "TOP指标分析-" + $routeParams.district;
         $scope.topCells = [];
-        $scope.orderPolicy = {
-            options: [],
-            selected: ""
-        };
-        $scope.topCount = {
-            options: [5, 10, 15, 20],
-            selected: 5
-        };
         $scope.updateMessages = [];
 
         $scope.query = function () {
@@ -539,11 +531,7 @@ angular.module('rutrace.main', ['app.common'])
             $scope.updateMessages.splice(index, 1);
         };
 
-        kpiPreciseService.getOrderSelection().then(function (result) {
-            $scope.orderPolicy.options = result;
-            $scope.orderPolicy.selected = result[0];
-            $scope.query();
-        });
+        $scope.query();
     })
     .controller("rutrace.trend", function ($scope, appRegionService, appKpiService, kpiPreciseService, appFormatService) {
         $scope.page.title = "指标变化趋势";
