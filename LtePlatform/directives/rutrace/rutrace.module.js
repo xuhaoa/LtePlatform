@@ -352,8 +352,9 @@ angular.module('rutrace.interference', ['neighbor.mongo', 'myApp.parameters'])
             },
             templateUrl: htmlRoot + 'interference/MrsRsrpList.html',
             link: function (scope, element, attrs) {
-                scope.indices1 = _.range(24);
-                scope.indices2 = _.range(24, 48);
+                scope.indices1 = _.range(16);
+                scope.indices2 = _.range(16, 32);
+                scope.indices3 = _.range(32, 48);
             }
         };
     });
