@@ -245,6 +245,7 @@ angular.module('rutrace.main', ['app.common'])
         };
 
         $scope.queryRecords = function() {
+            $scope.mrsRsrpStats = [];
             angular.forEach($scope.dateRecords, function(record) {
                 dumpProgress.queryExistedItems(eNodebId, sectorId, record.date).then(function(result) {
                     record.existedRecords = result;
@@ -254,7 +255,12 @@ angular.module('rutrace.main', ['app.common'])
                 });
                 dumpProgress.queryMrsRsrpItem(eNodebId, sectorId, record.date).then(function(result) {
                     //console.log(result['rsrP_00']);
-                    record.mrsRsrpStats = result;
+                    $scope.mrsRsrpStats.push({
+                        statDate: result.statDate,
+                        data: _.map(_.range(48), function (index) {
+                            return result['rsrP_' + appFormatService.prefixInteger(index, 2)];
+                        })
+                    });
                 });
                 dumpProgress.queryMrsTadvItem(eNodebId, sectorId, record.date).then(function (result) {
                     //console.log(result['tadv_00']);
@@ -274,11 +280,6 @@ angular.module('rutrace.main', ['app.common'])
         $scope.updateDetails = function (record) {
             $scope.currentDetails = record.mongoRecords;
             $scope.recordDate = record.date;
-            $scope.mrsRsrpStats = [];
-            for (var i = 0; i < 48; i++) {
-                var prefix = appFormatService.prefixInteger(i, 2);
-                $scope.mrsRsrpStats.push(record.mrsRsrpStats['rsrP_' + prefix]);
-            }
             $scope.mrsTaStats = record.mrsTaStats;
             $scope.mrsPhrStats = record.mrsPhrStats;
             $scope.mrsTaRsrpStats = record.mrsTaRsrpStats;

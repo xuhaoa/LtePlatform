@@ -616,6 +616,7 @@
     <Content Include="directives\rutrace\interference\MroInterferenceList.html" />
     <Content Include="directives\rutrace\interference\MroRsrpList.html" />
     <Content Include="directives\rutrace\interference\MroTaList.html" />
+    <Content Include="directives\rutrace\interference\MrsRsrpList.html" />
     <Content Include="directives\rutrace\interference\SourceDialogList.html" />
     <Content Include="directives\rutrace\interference\SourceList.html" />
     <Content Include="appViews\Rutrace\Interference\SourceDbChartDialog.html" />

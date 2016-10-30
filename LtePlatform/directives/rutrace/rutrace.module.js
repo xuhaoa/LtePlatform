@@ -342,6 +342,20 @@ angular.module('rutrace.interference', ['neighbor.mongo', 'myApp.parameters'])
             },
             templateUrl: htmlRoot + 'interference/MroTaList.html'
         };
+    })
+    .directive('mrsRsrpTable', function (htmlRoot) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                currentDetails: '='
+            },
+            templateUrl: htmlRoot + 'interference/MrsRsrpList.html',
+            link: function (scope, element, attrs) {
+                scope.indices1 = _.range(24);
+                scope.indices2 = _.range(24, 48);
+            }
+        };
     });
 
 angular.module('rutrace.trend', [])
