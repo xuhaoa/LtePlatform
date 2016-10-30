@@ -1634,7 +1634,6 @@
     <Content Include="Scripts\test\mock\underscore.array.spec.js" />
     <Content Include="Scripts\test\mock\underscore.chaining.spec.js" />
     <Content Include="Scripts\test\mock\underscore.collection.spec.js" />
-    <Content Include="Scripts\test\mock\underscore.document.spec.js" />
     <Content Include="Scripts\test\mock\underscore.functions.spec.js" />
     <Content Include="Scripts\test\services\app.url.spec.js" />
     <Content Include="Scripts\test\services\chart.spec.js" />
