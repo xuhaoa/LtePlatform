@@ -1,4 +1,16 @@
-describe('collapse directive', function() {
+/// <reference path="../../jquery-3.1.0.js"/>
+/// <reference path="../../angular.js"/>
+/// <reference path="../../angular-mocks.js"/>
+/// <reference path="../../jasmine/boot.js"/>
+/// <reference path="../../jasmine/console.js"/>
+/// <reference path="../../jasmine/jasmine.js"/>
+/// <reference path="../../jasmine/jasmine-jquery.js"/>
+/// <reference path="../../jasmine/jasmine-html.js"/>
+/// <reference path="../../angular-ui/ui-bootstrap-tpls.js"/>
+/// <reference path="../helpers.js"/>
+
+
+describe('collapse directive', function () {
   var element, compileFn, scope, $compile, $animate, $q;
 
   beforeEach(module('ui.bootstrap.collapse'));
