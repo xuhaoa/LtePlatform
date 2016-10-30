@@ -1608,7 +1608,6 @@
     <Content Include="Scripts\kpi\basic\index.controller.js" />
     <Content Include="Scripts\kpi\precise.import.js" />
     <Content Include="Scripts\mycharts\column3d.js" />
-    <Content Include="Scripts\parameters\import\app.js" />
     <Content Include="Scripts\parameters\import\index.controller.js" />
     <Content Include="Scripts\parameters\neighbor\import.controller.js" />
     <Content Include="Scripts\r.js" />
