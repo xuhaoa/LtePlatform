@@ -246,6 +246,7 @@ angular.module('rutrace.main', ['app.common'])
 
         $scope.queryRecords = function() {
             $scope.mrsRsrpStats = [];
+            $scope.mrsTaStats = [];
             angular.forEach($scope.dateRecords, function(record) {
                 dumpProgress.queryExistedItems(eNodebId, sectorId, record.date).then(function(result) {
                     record.existedRecords = result;
@@ -264,7 +265,12 @@ angular.module('rutrace.main', ['app.common'])
                 });
                 dumpProgress.queryMrsTadvItem(eNodebId, sectorId, record.date).then(function (result) {
                     //console.log(result['tadv_00']);
-                    record.mrsTaStats = result;
+                    $scope.mrsTaStats.push({
+                        statDate: result.statDate,
+                        data: _.map(_.range(44), function (index) {
+                            return result['tadv_' + appFormatService.prefixInteger(index, 2)];
+                        })
+                    });
                 });
                 dumpProgress.queryMrsPhrItem(eNodebId, sectorId, record.date).then(function (result) {
                     //console.log(result['powerHeadRoom_00']);
