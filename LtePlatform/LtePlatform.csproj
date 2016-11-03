@@ -686,7 +686,6 @@
     <Content Include="Areas\TestPage\Scripts\5ch5\Player.js">
       <DependentUpon>Player.coffee</DependentUpon>
     </Content>
-    <Content Include="Areas\TestPage\Scripts\qunit\route.js" />
     <Content Include="directives\rutrace\CoverageTable.Tpl.html" />
     <Content Include="directives\rutrace\rutrace.module.js" />
     <Content Include="directives\rutrace\trend\MrTable.html" />
@@ -715,21 +714,9 @@
     <Content Include="Areas\TestPage\Scripts\angular\root.js" />
     <Content Include="Areas\TestPage\Scripts\autostart.js" />
     <Content Include="Areas\TestPage\Scripts\basicpost.viewmodel.js" />
-    <Content Include="Areas\TestPage\Scripts\diff.js" />
-    <Content Include="Areas\TestPage\Scripts\globals-node.js" />
     <Content Include="Areas\TestPage\Scripts\html5csv\qtestcsv.js" />
     <Content Include="Areas\TestPage\Scripts\html5csv\qtestcsv.post.js" />
     <Content Include="Areas\TestPage\Scripts\html5csv\random.data.js" />
-    <Content Include="Areas\TestPage\Scripts\logs.js" />
-    <Content Include="Areas\TestPage\Scripts\main\assert.js" />
-    <Content Include="Areas\TestPage\Scripts\main\async.js" />
-    <Content Include="Areas\TestPage\Scripts\main\deepEqual.js" />
-    <Content Include="Areas\TestPage\Scripts\main\dump.js" />
-    <Content Include="Areas\TestPage\Scripts\main\globals.js" />
-    <Content Include="Areas\TestPage\Scripts\main\modules.js" />
-    <Content Include="Areas\TestPage\Scripts\main\promise.js" />
-    <Content Include="Areas\TestPage\Scripts\main\stack.js" />
-    <Content Include="Areas\TestPage\Scripts\main\test.js" />
     <Content Include="Areas\TestPage\Scripts\only.js" />
     <Content Include="Areas\TestPage\Scripts\setTimeout.js" />
     <Content Include="Areas\TestPage\Scripts\single-testid.js" />
@@ -1637,6 +1624,7 @@
     <Content Include="Scripts\test\mock\underscore.collection.spec.js" />
     <Content Include="Scripts\test\mock\underscore.functions.spec.js" />
     <Content Include="Scripts\test\mock\underscore.mr.spec.js" />
+    <Content Include="Scripts\test\mock\underscore.objects.spec.js" />
     <Content Include="Scripts\test\services\app.url.spec.js" />
     <Content Include="Scripts\test\services\chart.spec.js" />
     <Content Include="Scripts\test\services\filters.spec.js" />
