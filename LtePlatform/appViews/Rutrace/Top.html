@@ -1,4 +1,4 @@
-﻿<div uib-alert ng-repeat="message in updateMessages" type="success" dismiss-on-timeout="2000" close="closeAlert($index)">
+﻿<div uib-alert ng-repeat="message in updateMessages" type="success" dismiss-on-timeout="2000" close="closeAlert(updateMessages, $index)">
     {{message.cellName}}编号的工单已生成！
 </div>
 <div class="row">

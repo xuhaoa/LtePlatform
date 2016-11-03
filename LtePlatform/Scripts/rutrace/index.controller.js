@@ -147,6 +147,10 @@ angular.module('rutrace.main', ['app.common'])
             $rootScope.orderPolicy.options = result;
             $rootScope.orderPolicy.selected = result[5];
         });
+        $rootScope.closeAlert = function (messages, index) {
+            messages.splice(index, 1);
+        };
+
     })
     .controller("rutrace.root", function($scope, appRegionService, menuItemService) {
         $scope.page = { title: "指标总体情况" };
@@ -492,10 +496,6 @@ angular.module('rutrace.main', ['app.common'])
             });
         };
 
-        $scope.closeAlert = function (index) {
-            $scope.updateMessages.splice(index, 1);
-        };
-
         $scope.query();
 
     })
@@ -532,10 +532,6 @@ angular.module('rutrace.main', ['app.common'])
                     preciseInterferenceService.addMonitor(cell);
                 }
             });
-        };
-
-        $scope.closeAlert = function (index) {
-            $scope.updateMessages.splice(index, 1);
         };
 
         $scope.query();
@@ -666,9 +662,6 @@ angular.module('rutrace.main', ['app.common'])
                 });
             });
         };
-        $scope.closeAlert = function (index) {
-            $scope.updateMessages.splice(index, 1);
-        }
         $scope.addMonitor = function () {
             preciseInterferenceService.addMonitor({
                 cellId: $routeParams.cellId,
@@ -935,10 +928,6 @@ angular.module('rutrace.main', ['app.common'])
                 });
             }
         }
-
-        $scope.closeAlert = function (index) {
-            $scope.updateMessages.splice(index, 1);
-        };
 
         if ($scope.topStat.interference[$scope.currentCellName] === undefined) {
             neighborMongoService.queryNeighbors($routeParams.cellId, $routeParams.sectorId).then(function (result) {
