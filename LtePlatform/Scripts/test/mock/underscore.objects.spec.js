@@ -137,123 +137,198 @@ describe('objects tests', function() {
 
     });
 
-    QUnit.test('functions', function (assert) {
-        var obj = { a: 'dash', b: _.map, c: /yo/, d: _.reduce };
-        expect(['b', 'd'], _.functions(obj), 'can grab the function names of any passed-in object');
+    describe('functions', function () {
+        it('can grab the function names of any passed-in object', function() {
+            var obj = { a: 'dash', b: _.map, c: /yo/, d: _.reduce };
+            expect(['b', 'd']).toEqual(_.functions(obj));
+        });
 
-        var Animal = function () { };
-        Animal.prototype.run = function () { };
-        expect(_.functions(new Animal), ['run'], 'also looks up functions on the prototype');
+        it('also looks up functions on the prototype', function() {
+            var Animal = function() {};
+            Animal.prototype.run = function() {};
+            expect(_.functions(new Animal)).toEqual(['run']);
+        });
+
     });
 
-    QUnit.test('methods', function (assert) {
-        assert.strictEqual(_.methods, _.functions, 'is an alias for functions');
+    it('methods is an alias for functions', function () {
+        expect(_.methods).toEqual(_.functions);
     });
 
-    QUnit.test('extend', function (assert) {
+    describe('extend', function () {
         var result;
-        assert.strictEqual(_.extend({}, { a: 'b' }).a, 'b', 'can extend an object with the attributes of another');
-        assert.strictEqual(_.extend({ a: 'x' }, { a: 'b' }).a, 'b', 'properties in source override destination');
-        assert.strictEqual(_.extend({ x: 'x' }, { a: 'b' }).x, 'x', "properties not in source don't get overridden");
-        result = _.extend({ x: 'x' }, { a: 'a' }, { b: 'b' });
-        expect(result, { x: 'x', a: 'a', b: 'b' }, 'can extend from multiple source objects');
-        result = _.extend({ x: 'x' }, { a: 'a', x: 2 }, { a: 'b' });
-        expect(result, { x: 2, a: 'b' }, 'extending from multiple source objects last property trumps');
-        result = _.extend({}, { a: void 0, b: null });
-        expect(_.keys(result), ['a', 'b'], 'extend copies undefined values');
-
+        it('can extend an object with the attributes of another', function() {
+            expect(_.extend({}, { a: 'b' }).a).toEqual('b');
+        });
+        it('properties in source override destination', function() {
+            expect(_.extend({ a: 'x' }, { a: 'b' }).a).toEqual('b');
+        });
+        it("properties not in source don't get overridden", function() {
+            expect(_.extend({ x: 'x' }, { a: 'b' }).x).toEqual('x');
+        });
+        it('can extend from multiple source objects', function() {
+            result = _.extend({ x: 'x' }, { a: 'a' }, { b: 'b' });
+            expect(result).toEqual({ x: 'x', a: 'a', b: 'b' });
+        });
+        it('extending from multiple source objects last property trumps', function() {
+            result = _.extend({ x: 'x' }, { a: 'a', x: 2 }, { a: 'b' });
+            expect(result).toEqual({ x: 2, a: 'b' });
+        });
+        it('extend copies undefined values', function() {
+            result = _.extend({}, { a: void 0, b: null });
+            expect(_.keys(result)).toEqual(['a', 'b']);
+        });
+        
         var F = function () { };
         F.prototype = { a: 'b' };
         var subObj = new F();
-        subObj.c = 'd';
-        expect(_.extend({}, subObj), { a: 'b', c: 'd' }, 'extend copies all properties from source');
-        _.extend(subObj, {});
-        assert.notOk(subObj.hasOwnProperty('a'), "extend does not convert destination object's 'in' properties to 'own' properties");
+        it('extend copies all properties from source', function() {
+            subObj.c = 'd';
+            expect(_.extend({}, subObj)).toEqual({ a: 'b', c: 'd' });
+        });
+        it("extend does not convert destination object's 'in' properties to 'own' properties", function() {
+            _.extend(subObj, {});
+            expect(subObj.hasOwnProperty('a')).toBeFalsy();
+        });
 
-        try {
+        it('should not error on `null` or `undefined` sources', function() {
+            try {
+                result = {};
+                _.extend(result, null, void 0, { a: 1 });
+            } catch (e) { /* ignored */
+            }
+
+            expect(result.a).toEqual(1);
+        });
+
+        it('extending null results in null', function() {
+            expect(_.extend(null, { a: 1 })).toEqual(null);
+        });
+        it('extending undefined results in undefined', function() {
+            expect(_.extend(void 0, { a: 1 })).toEqual(void 0);
+        });
+
+    });
+
+    describe('extendOwn', function () {
+        var result;
+        it('can extend an object with the attributes of another', function() {
+            expect(_.extendOwn({}, { a: 'b' }).a).toEqual('b');
+        });
+        it('properties in source override destination', function() {
+            expect(_.extendOwn({ a: 'x' }, { a: 'b' }).a).toEqual('b');
+        });
+        it("properties not in source don't get overridden", function() {
+            expect(_.extendOwn({ x: 'x' }, { a: 'b' }).x).toEqual('x');
+        });
+        it('can extend from multiple source objects', function() {
+            result = _.extendOwn({ x: 'x' }, { a: 'a' }, { b: 'b' });
+            expect(result).toEqual({ x: 'x', a: 'a', b: 'b' });
+        });
+        it('extending from multiple source objects last property trumps', function() {
+            result = _.extendOwn({ x: 'x' }, { a: 'a', x: 2 }, { a: 'b' });
+            expect(result).toEqual({ x: 2, a: 'b' });
+        });
+        it('copies undefined values', function() {
+            expect(_.extendOwn({}, { a: void 0, b: null })).toEqual({ a: void 0, b: null });
+        });
+
+        it('copies own properties from source', function() {
+            var F = function() {};
+            F.prototype = { a: 'b' };
+            var subObj = new F();
+            subObj.c = 'd';
+            expect(_.extendOwn({}, subObj)).toEqual({ c: 'd' });
+        });
+
+        it('should not error on `null` or `undefined` sources', function() {
             result = {};
-            _.extend(result, null, void 0, { a: 1 });
-        } catch (e) { /* ignored */ }
-
-        assert.strictEqual(result.a, 1, 'should not error on `null` or `undefined` sources');
-
-        assert.strictEqual(_.extend(null, { a: 1 }), null, 'extending null results in null');
-        assert.strictEqual(_.extend(void 0, { a: 1 }), void 0, 'extending undefined results in undefined');
-    });
-
-    QUnit.test('extendOwn', function (assert) {
-        var result;
-        assert.strictEqual(_.extendOwn({}, { a: 'b' }).a, 'b', 'can extend an object with the attributes of another');
-        assert.strictEqual(_.extendOwn({ a: 'x' }, { a: 'b' }).a, 'b', 'properties in source override destination');
-        assert.strictEqual(_.extendOwn({ x: 'x' }, { a: 'b' }).x, 'x', "properties not in source don't get overridden");
-        result = _.extendOwn({ x: 'x' }, { a: 'a' }, { b: 'b' });
-        expect(result, { x: 'x', a: 'a', b: 'b' }, 'can extend from multiple source objects');
-        result = _.extendOwn({ x: 'x' }, { a: 'a', x: 2 }, { a: 'b' });
-        expect(result, { x: 2, a: 'b' }, 'extending from multiple source objects last property trumps');
-        expect(_.extendOwn({}, { a: void 0, b: null }), { a: void 0, b: null }, 'copies undefined values');
-
-        var F = function () { };
-        F.prototype = { a: 'b' };
-        var subObj = new F();
-        subObj.c = 'd';
-        expect(_.extendOwn({}, subObj), { c: 'd' }, 'copies own properties from source');
-
-        result = {};
-        expect(_.extendOwn(result, null, void 0, { a: 1 }), { a: 1 }, 'should not error on `null` or `undefined` sources');
-
-        _.each(['a', 5, null, false], function (val) {
-            assert.strictEqual(_.extendOwn(val, { a: 1 }), val, 'extending non-objects results in returning the non-object value');
+            expect(_.extendOwn(result, null, void 0, { a: 1 })).toEqual({ a: 1 });
         });
 
-        assert.strictEqual(_.extendOwn(void 0, { a: 1 }), void 0, 'extending undefined results in undefined');
-
-        result = _.extendOwn({ a: 1, 0: 2, 1: '5', length: 6 }, { 0: 1, 1: 2, length: 2 });
-        expect(result, { a: 1, 0: 1, 1: 2, length: 2 }, 'should treat array-like objects like normal objects');
-    });
-
-    QUnit.test('assign', function (assert) {
-        assert.strictEqual(_.assign, _.extendOwn, 'is an alias for extendOwn');
-    });
-
-    QUnit.test('pick', function (assert) {
-        var result;
-        result = _.pick({ a: 1, b: 2, c: 3 }, 'a', 'c');
-        expect(result, { a: 1, c: 3 }, 'can restrict properties to those named');
-        result = _.pick({ a: 1, b: 2, c: 3 }, ['b', 'c']);
-        expect(result, { b: 2, c: 3 }, 'can restrict properties to those named in an array');
-        result = _.pick({ a: 1, b: 2, c: 3 }, ['a'], 'b');
-        expect(result, { a: 1, b: 2 }, 'can restrict properties to those named in mixed args');
-        result = _.pick(['a', 'b'], 1);
-        expect(result, { 1: 'b' }, 'can pick numeric properties');
-
-        _.each([null, void 0], function (val) {
-            expect(_.pick(val, 'hasOwnProperty'), {}, 'Called with null/undefined');
-            expect(_.pick(val, _.constant(true)), {});
+        it('extending non-objects results in returning the non-object value', function() {
+            _.each(['a', 5, null, false], function(val) {
+                expect(_.extendOwn(val, { a: 1 })).toEqual(val);
+            });
         });
-        expect(_.pick(5, 'toString', 'b'), { toString: Number.prototype.toString }, 'can iterate primitives');
+
+        it('extending undefined results in undefined', function() {
+            expect(_.extendOwn(void 0, { a: 1 })).toEqual(void 0);
+        });
+
+        it('should treat array-like objects like normal objects', function() {
+            result = _.extendOwn({ a: 1, 0: 2, 1: '5', length: 6 }, { 0: 1, 1: 2, length: 2 });
+            expect(result).toEqual({ a: 1, 0: 1, 1: 2, length: 2 });
+        });
+
+    });
+
+    it('assign is an alias for extendOwn', function () {
+        expect(_.assign).toEqual(_.extendOwn);
+    });
+
+    describe('pick', function() {
+        var result;
+        it('can restrict properties to those named', function() {
+            result = _.pick({ a: 1, b: 2, c: 3 }, 'a', 'c');
+            expect(result).toEqual({ a: 1, c: 3 });
+        });
+        it('can restrict properties to those named in an array', function() {
+            result = _.pick({ a: 1, b: 2, c: 3 }, ['b', 'c']);
+            expect(result).toEqual({ b: 2, c: 3 });
+        });
+        it('can restrict properties to those named in mixed args', function() {
+            result = _.pick({ a: 1, b: 2, c: 3 }, ['a'], 'b');
+            expect(result).toEqual({ a: 1, b: 2 });
+        });
+        it('can pick numeric properties', function() {
+            result = _.pick(['a', 'b'], 1);
+            expect(result).toEqual({ 1: 'b' });
+        });
+
+        it('Called with null/undefined', function() {
+            _.each([null, void 0], function(val) {
+                expect(_.pick(val, 'hasOwnProperty')).toEqual({});
+                expect(_.pick(val, _.constant(true))).toEqual({});
+            });
+        });
+        it('can iterate primitives', function() {
+            expect(_.pick(5, 'toString', 'b')).toEqual({ toString: Number.prototype.toString });
+        });
 
         var data = { a: 1, b: 2, c: 3 };
-        var callback = function (value, key, object) {
-            assert.strictEqual(key, { 1: 'a', 2: 'b', 3: 'c' }[value]);
-            assert.strictEqual(object, data);
-            return value !== this.value;
-        };
-        result = _.pick(data, callback, { value: 2 });
-        expect(result, { a: 1, c: 3 }, 'can accept a predicate and context');
+        it('can accept a predicate and context', function() {
+            var callback = function(value, key, object) {
+                expect(key, { 1: 'a', 2: 'b', 3: 'c' }[value]);
+                expect(object, data);
+                return value !== this.value;
+            };
+            result = _.pick(data, callback, { value: 2 });
+            expect(result).toEqual({ a: 1, c: 3 });
+        });
 
-        var Obj = function () { };
+        var Obj = function() {};
         Obj.prototype = { a: 1, b: 2, c: 3 };
         var instance = new Obj();
-        expect(_.pick(instance, 'a', 'c'), { a: 1, c: 3 }, 'include prototype props');
-
-        expect(_.pick(data, function (val, key) {
-            return this[key] === 3 && this === instance;
-        }, instance), { c: 3 }, 'function is given context');
-
-        assert.notOk(_.has(_.pick({}, 'foo'), 'foo'), 'does not set own property if property not in object');
-        _.pick(data, function (value, key, obj) {
-            assert.strictEqual(obj, data, 'passes same object as third parameter of iteratee');
+        it('include prototype props', function() {
+            expect(_.pick(instance, 'a', 'c')).toEqual({ a: 1, c: 3 });
         });
+
+        it('function is given context', function() {
+            expect(_.pick(data, function(val, key) {
+                return this[key] === 3 && this === instance;
+            }, instance)).toEqual({ c: 3 });
+        });
+
+        it('does not set own property if property not in object', function() {
+            expect(_.has(_.pick({}, 'foo'), 'foo')).toBeFalsy();
+        });
+        it('passes same object as third parameter of iteratee', function() {
+            _.pick(data, function(value, key, obj) {
+                expect(obj).toEqual(data);
+            });
+        });
+
     });
 
     QUnit.test('omit', function (assert) {
@@ -273,8 +348,8 @@ describe('objects tests', function() {
 
         var data = { a: 1, b: 2, c: 3 };
         var callback = function (value, key, object) {
-            assert.strictEqual(key, { 1: 'a', 2: 'b', 3: 'c' }[value]);
-            assert.strictEqual(object, data);
+            expect(key, { 1: 'a', 2: 'b', 3: 'c' }[value]);
+            expect(object, data);
             return value !== this.value;
         };
         result = _.omit(data, callback, { value: 2 });
@@ -294,22 +369,22 @@ describe('objects tests', function() {
         var options = { zero: 0, one: 1, empty: '', nan: NaN, nothing: null };
 
         _.defaults(options, { zero: 1, one: 10, twenty: 20, nothing: 'str' });
-        assert.strictEqual(options.zero, 0, 'value exists');
-        assert.strictEqual(options.one, 1, 'value exists');
-        assert.strictEqual(options.twenty, 20, 'default applied');
-        assert.strictEqual(options.nothing, null, "null isn't overridden");
+        expect(options.zero, 0, 'value exists');
+        expect(options.one, 1, 'value exists');
+        expect(options.twenty, 20, 'default applied');
+        expect(options.nothing, null, "null isn't overridden");
 
         _.defaults(options, { empty: 'full' }, { nan: 'nan' }, { word: 'word' }, { word: 'dog' });
-        assert.strictEqual(options.empty, '', 'value exists');
+        expect(options.empty, '', 'value exists');
         assert.ok(_.isNaN(options.nan), "NaN isn't overridden");
-        assert.strictEqual(options.word, 'word', 'new value is added, first one wins');
+        expect(options.word, 'word', 'new value is added, first one wins');
 
         try {
             options = {};
             _.defaults(options, null, void 0, { a: 1 });
         } catch (e) { /* ignored */ }
 
-        assert.strictEqual(options.a, 1, 'should not error on `null` or `undefined` sources');
+        expect(options.a, 1, 'should not error on `null` or `undefined` sources');
 
         expect(_.defaults(null, { a: 1 }), { a: 1 }, 'defaults skips nulls');
         expect(_.defaults(void 0, { a: 1 }), { a: 1 }, 'defaults skips undefined');
@@ -318,17 +393,17 @@ describe('objects tests', function() {
     QUnit.test('clone', function (assert) {
         var moe = { name: 'moe', lucky: [13, 27, 34] };
         var clone = _.clone(moe);
-        assert.strictEqual(clone.name, 'moe', 'the clone as the attributes of the original');
+        expect(clone.name, 'moe', 'the clone as the attributes of the original');
 
         clone.name = 'curly';
         assert.ok(clone.name === 'curly' && moe.name === 'moe', 'clones can change shallow attributes without affecting the original');
 
         clone.lucky.push(101);
-        assert.strictEqual(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
+        expect(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
 
-        assert.strictEqual(_.clone(void 0), void 0, 'non objects should not be changed by clone');
-        assert.strictEqual(_.clone(1), 1, 'non objects should not be changed by clone');
-        assert.strictEqual(_.clone(null), null, 'non objects should not be changed by clone');
+        expect(_.clone(void 0), void 0, 'non objects should not be changed by clone');
+        expect(_.clone(1), 1, 'non objects should not be changed by clone');
+        expect(_.clone(null), null, 'non objects should not be changed by clone');
     });
 
     QUnit.test('create', function (assert) {
@@ -347,10 +422,10 @@ describe('objects tests', function() {
 
         var func = function () { };
         Child.prototype = _.create(Parent.prototype, { func: func });
-        assert.strictEqual(Child.prototype.func, func, 'properties should be added to object');
+        expect(Child.prototype.func, func, 'properties should be added to object');
 
         Child.prototype = _.create(Parent.prototype, { constructor: Child });
-        assert.strictEqual(Child.prototype.constructor, Child);
+        expect(Child.prototype.constructor, Child);
 
         Child.prototype.foo = 'foo';
         var created = _.create(Child.prototype, new Child);
@@ -589,7 +664,7 @@ describe('objects tests', function() {
 
         a = _({ x: 1, y: 2 }).chain();
         b = _({ x: 1, y: 2 }).chain();
-        assert.strictEqual(_.isEqual(a.isEqual(b), _(true)), true, '`isEqual` can be chained');
+        expect(_.isEqual(a.isEqual(b), _(true)), true, '`isEqual` can be chained');
 
         // Objects without a `constructor` property
         if (Object.create) {
@@ -602,20 +677,20 @@ describe('objects tests', function() {
         Foo.prototype.constructor = null;
 
         var other = { a: 1 };
-        assert.strictEqual(_.isEqual(new Foo, other), false, 'Objects from different constructors are not equal');
+        expect(_.isEqual(new Foo, other), false, 'Objects from different constructors are not equal');
 
 
         // Tricky object cases val comparisons
-        assert.strictEqual(_.isEqual([0], [-0]), false);
-        assert.strictEqual(_.isEqual({ a: 0 }, { a: -0 }), false);
-        assert.strictEqual(_.isEqual([NaN], [NaN]), true);
-        assert.strictEqual(_.isEqual({ a: NaN }, { a: NaN }), true);
+        expect(_.isEqual([0], [-0]), false);
+        expect(_.isEqual({ a: 0 }, { a: -0 }), false);
+        expect(_.isEqual([NaN], [NaN]), true);
+        expect(_.isEqual({ a: NaN }, { a: NaN }), true);
 
         if (typeof Symbol !== 'undefined') {
             var symbol = Symbol('x');
-            assert.strictEqual(_.isEqual(symbol, symbol), true, 'A symbol is equal to itself');
-            assert.strictEqual(_.isEqual(symbol, Object(symbol)), true, 'Even when wrapped in Object()');
-            assert.strictEqual(_.isEqual(symbol, null), false, 'Different types are not equal');
+            expect(_.isEqual(symbol, symbol), true, 'A symbol is equal to itself');
+            expect(_.isEqual(symbol, Object(symbol)), true, 'Even when wrapped in Object()');
+            expect(_.isEqual(symbol, null), false, 'Different types are not equal');
         }
 
     });
@@ -687,9 +762,9 @@ describe('objects tests', function() {
             assert.notOk(_.isString(testElement), 'an element is not a string');
         }
         assert.ok(_.isString([1, 2, 3].join(', ')), 'but strings are');
-        assert.strictEqual(_.isString('I am a string literal'), true, 'string literals are');
+        expect(_.isString('I am a string literal'), true, 'string literals are');
         assert.ok(_.isString(obj), 'so are String objects');
-        assert.strictEqual(_.isString(1), false);
+        expect(_.isString(1), false);
     });
 
     QUnit.test('isSymbol', function (assert) {
@@ -845,7 +920,7 @@ describe('objects tests', function() {
             .each(function (TypedArray) {
                 // PhantomJS reports `typeof UInt8Array == 'object'` and doesn't report toString TypeArray
                 // as a function
-                assert.strictEqual(_.isFunction(TypedArray), Object.prototype.toString.call(TypedArray) === '[object Function]');
+                expect(_.isFunction(TypedArray), Object.prototype.toString.call(TypedArray) === '[object Function]');
             });
         });
     }
@@ -926,16 +1001,16 @@ describe('objects tests', function() {
         var intercepted = null;
         var interceptor = function (obj) { intercepted = obj; };
         var returned = _.tap(1, interceptor);
-        assert.strictEqual(intercepted, 1, 'passes tapped object to interceptor');
-        assert.strictEqual(returned, 1, 'returns tapped object');
+        expect(intercepted, 1, 'passes tapped object to interceptor');
+        expect(returned, 1, 'returns tapped object');
 
         returned = _([1, 2, 3]).chain().
           map(function (n) { return n * 2; }).
           max().
           tap(interceptor).
           value();
-        assert.strictEqual(returned, 6, 'can use tapped objects in a chain');
-        assert.strictEqual(intercepted, returned, 'can use tapped objects in a chain');
+        expect(returned, 6, 'can use tapped objects in a chain');
+        expect(intercepted, returned, 'can use tapped objects in a chain');
     });
 
     QUnit.test('has', function (assert) {
@@ -948,8 +1023,8 @@ describe('objects tests', function() {
         var child = {};
         child.prototype = obj;
         assert.notOk(_.has(child, 'foo'), 'does not check the prototype chain for a property.');
-        assert.strictEqual(_.has(null, 'foo'), false, 'returns false for null');
-        assert.strictEqual(_.has(void 0, 'foo'), false, 'returns false for undefined');
+        expect(_.has(null, 'foo'), false, 'returns false for null');
+        expect(_.has(void 0, 'foo'), false, 'returns false for undefined');
 
         assert.ok(_.has({ a: { b: 'foo' } }, ['a', 'b']), 'can check for nested properties.');
         assert.notOk(_.has({ a: child }, ['a', 'foo']), 'does not check the prototype of nested props.');
@@ -957,74 +1032,74 @@ describe('objects tests', function() {
 
     QUnit.test('property', function (assert) {
         var stooge = { name: 'moe' };
-        assert.strictEqual(_.property('name')(stooge), 'moe', 'should return the property with the given name');
-        assert.strictEqual(_.property('name')(null), void 0, 'should return undefined for null values');
-        assert.strictEqual(_.property('name')(void 0), void 0, 'should return undefined for undefined values');
-        assert.strictEqual(_.property(null)('foo'), void 0, 'should return undefined for null object');
-        assert.strictEqual(_.property('x')({ x: null }), null, 'can fetch null values');
-        assert.strictEqual(_.property('length')(null), void 0, 'does not crash on property access of non-objects');
+        expect(_.property('name')(stooge), 'moe', 'should return the property with the given name');
+        expect(_.property('name')(null), void 0, 'should return undefined for null values');
+        expect(_.property('name')(void 0), void 0, 'should return undefined for undefined values');
+        expect(_.property(null)('foo'), void 0, 'should return undefined for null object');
+        expect(_.property('x')({ x: null }), null, 'can fetch null values');
+        expect(_.property('length')(null), void 0, 'does not crash on property access of non-objects');
 
         // Deep property access
-        assert.strictEqual(_.property('a')({ a: 1 }), 1, 'can get a direct property');
-        assert.strictEqual(_.property(['a', 'b'])({ a: { b: 2 } }), 2, 'can get a nested property');
-        assert.strictEqual(_.property(['a'])({ a: false }), false, 'can fetch falsy values');
-        assert.strictEqual(_.property(['x', 'y'])({ x: { y: null } }), null, 'can fetch null values deeply');
-        assert.strictEqual(_.property(['x', 'y'])({ x: null }), void 0, 'does not crash on property access of nested non-objects');
-        assert.strictEqual(_.property([])({ x: 'y' }), void 0, 'returns `undefined` for a path that is an empty array');
+        expect(_.property('a')({ a: 1 }), 1, 'can get a direct property');
+        expect(_.property(['a', 'b'])({ a: { b: 2 } }), 2, 'can get a nested property');
+        expect(_.property(['a'])({ a: false }), false, 'can fetch falsy values');
+        expect(_.property(['x', 'y'])({ x: { y: null } }), null, 'can fetch null values deeply');
+        expect(_.property(['x', 'y'])({ x: null }), void 0, 'does not crash on property access of nested non-objects');
+        expect(_.property([])({ x: 'y' }), void 0, 'returns `undefined` for a path that is an empty array');
     });
 
     QUnit.test('propertyOf', function (assert) {
         var stoogeRanks = _.propertyOf({ curly: 2, moe: 1, larry: 3 });
-        assert.strictEqual(stoogeRanks('curly'), 2, 'should return the property with the given name');
-        assert.strictEqual(stoogeRanks(null), void 0, 'should return undefined for null values');
-        assert.strictEqual(stoogeRanks(void 0), void 0, 'should return undefined for undefined values');
-        assert.strictEqual(_.propertyOf({ a: null })('a'), null, 'can fetch null values');
+        expect(stoogeRanks('curly'), 2, 'should return the property with the given name');
+        expect(stoogeRanks(null), void 0, 'should return undefined for null values');
+        expect(stoogeRanks(void 0), void 0, 'should return undefined for undefined values');
+        expect(_.propertyOf({ a: null })('a'), null, 'can fetch null values');
 
         function MoreStooges() { this.shemp = 87; }
         MoreStooges.prototype = { curly: 2, moe: 1, larry: 3 };
         var moreStoogeRanks = _.propertyOf(new MoreStooges());
-        assert.strictEqual(moreStoogeRanks('curly'), 2, 'should return properties from further up the prototype chain');
+        expect(moreStoogeRanks('curly'), 2, 'should return properties from further up the prototype chain');
 
         var nullPropertyOf = _.propertyOf(null);
-        assert.strictEqual(nullPropertyOf('curly'), void 0, 'should return undefined when obj is null');
+        expect(nullPropertyOf('curly'), void 0, 'should return undefined when obj is null');
 
         var undefPropertyOf = _.propertyOf(void 0);
-        assert.strictEqual(undefPropertyOf('curly'), void 0, 'should return undefined when obj is undefined');
+        expect(undefPropertyOf('curly'), void 0, 'should return undefined when obj is undefined');
 
         var deepPropertyOf = _.propertyOf({ curly: { number: 2 }, joe: { number: null } });
-        assert.strictEqual(deepPropertyOf(['curly', 'number']), 2, 'can fetch nested properties of obj');
-        assert.strictEqual(deepPropertyOf(['joe', 'number']), null, 'can fetch nested null properties of obj');
+        expect(deepPropertyOf(['curly', 'number']), 2, 'can fetch nested properties of obj');
+        expect(deepPropertyOf(['joe', 'number']), null, 'can fetch nested null properties of obj');
     });
 
     QUnit.test('isMatch', function (assert) {
         var moe = { name: 'Moe Howard', hair: true };
         var curly = { name: 'Curly Howard', hair: false };
 
-        assert.strictEqual(_.isMatch(moe, { hair: true }), true, 'Returns a boolean');
-        assert.strictEqual(_.isMatch(curly, { hair: true }), false, 'Returns a boolean');
+        expect(_.isMatch(moe, { hair: true }), true, 'Returns a boolean');
+        expect(_.isMatch(curly, { hair: true }), false, 'Returns a boolean');
 
-        assert.strictEqual(_.isMatch(5, { __x__: void 0 }), false, 'can match undefined props on primitives');
-        assert.strictEqual(_.isMatch({ __x__: void 0 }, { __x__: void 0 }), true, 'can match undefined props');
+        expect(_.isMatch(5, { __x__: void 0 }), false, 'can match undefined props on primitives');
+        expect(_.isMatch({ __x__: void 0 }, { __x__: void 0 }), true, 'can match undefined props');
 
-        assert.strictEqual(_.isMatch(null, {}), true, 'Empty spec called with null object returns true');
-        assert.strictEqual(_.isMatch(null, { a: 1 }), false, 'Non-empty spec called with null object returns false');
+        expect(_.isMatch(null, {}), true, 'Empty spec called with null object returns true');
+        expect(_.isMatch(null, { a: 1 }), false, 'Non-empty spec called with null object returns false');
 
-        _.each([null, void 0], function (item) { assert.strictEqual(_.isMatch(item, null), true, 'null matches null'); });
-        _.each([null, void 0], function (item) { assert.strictEqual(_.isMatch(item, null), true, 'null matches {}'); });
-        assert.strictEqual(_.isMatch({ b: 1 }, { a: void 0 }), false, 'handles undefined values (1683)');
+        _.each([null, void 0], function (item) { expect(_.isMatch(item, null), true, 'null matches null'); });
+        _.each([null, void 0], function (item) { expect(_.isMatch(item, null), true, 'null matches {}'); });
+        expect(_.isMatch({ b: 1 }, { a: void 0 }), false, 'handles undefined values (1683)');
 
         _.each([true, 5, NaN, null, void 0], function (item) {
-            assert.strictEqual(_.isMatch({ a: 1 }, item), true, 'treats primitives as empty');
+            expect(_.isMatch({ a: 1 }, item), true, 'treats primitives as empty');
         });
 
         function Prototest() { }
         Prototest.prototype.x = 1;
         var specObj = new Prototest;
-        assert.strictEqual(_.isMatch({ x: 2 }, specObj), true, 'spec is restricted to own properties');
+        expect(_.isMatch({ x: 2 }, specObj), true, 'spec is restricted to own properties');
 
         specObj.y = 5;
-        assert.strictEqual(_.isMatch({ x: 1, y: 5 }, specObj), true);
-        assert.strictEqual(_.isMatch({ x: 1, y: 4 }, specObj), false);
+        expect(_.isMatch({ x: 1, y: 5 }, specObj), true);
+        expect(_.isMatch({ x: 1, y: 4 }, specObj), false);
 
         assert.ok(_.isMatch(specObj, { x: 1, y: 5 }), 'inherited and own properties are checked on the test object');
 
@@ -1041,17 +1116,17 @@ describe('objects tests', function() {
         var curly = { name: 'Curly Howard', hair: false };
         var stooges = [moe, curly];
 
-        assert.strictEqual(_.matcher({ hair: true })(moe), true, 'Returns a boolean');
-        assert.strictEqual(_.matcher({ hair: true })(curly), false, 'Returns a boolean');
+        expect(_.matcher({ hair: true })(moe), true, 'Returns a boolean');
+        expect(_.matcher({ hair: true })(curly), false, 'Returns a boolean');
 
-        assert.strictEqual(_.matcher({ __x__: void 0 })(5), false, 'can match undefined props on primitives');
-        assert.strictEqual(_.matcher({ __x__: void 0 })({ __x__: void 0 }), true, 'can match undefined props');
+        expect(_.matcher({ __x__: void 0 })(5), false, 'can match undefined props on primitives');
+        expect(_.matcher({ __x__: void 0 })({ __x__: void 0 }), true, 'can match undefined props');
 
-        assert.strictEqual(_.matcher({})(null), true, 'Empty spec called with null object returns true');
-        assert.strictEqual(_.matcher({ a: 1 })(null), false, 'Non-empty spec called with null object returns false');
+        expect(_.matcher({})(null), true, 'Empty spec called with null object returns true');
+        expect(_.matcher({ a: 1 })(null), false, 'Non-empty spec called with null object returns false');
 
-        assert.strictEqual(_.find(stooges, _.matcher({ hair: false })), curly, 'returns a predicate that can be used by finding functions.');
-        assert.strictEqual(_.find(stooges, _.matcher(moe)), moe, 'can be used to locate an object exists in a collection.');
+        expect(_.find(stooges, _.matcher({ hair: false })), curly, 'returns a predicate that can be used by finding functions.');
+        expect(_.find(stooges, _.matcher(moe)), moe, 'can be used to locate an object exists in a collection.');
         expect(_.filter([null, void 0], _.matcher({ a: 1 })), [], 'Do not throw on null values.');
 
         expect(_.filter([null, void 0], _.matcher(null)), [null, void 0], 'null matches null');
@@ -1059,19 +1134,19 @@ describe('objects tests', function() {
         expect(_.filter([{ b: 1 }], _.matcher({ a: void 0 })), [], 'handles undefined values (1683)');
 
         _.each([true, 5, NaN, null, void 0], function (item) {
-            assert.strictEqual(_.matcher(item)({ a: 1 }), true, 'treats primitives as empty');
+            expect(_.matcher(item)({ a: 1 }), true, 'treats primitives as empty');
         });
 
         function Prototest() { }
         Prototest.prototype.x = 1;
         var specObj = new Prototest;
         var protospec = _.matcher(specObj);
-        assert.strictEqual(protospec({ x: 2 }), true, 'spec is restricted to own properties');
+        expect(protospec({ x: 2 }), true, 'spec is restricted to own properties');
 
         specObj.y = 5;
         protospec = _.matcher(specObj);
-        assert.strictEqual(protospec({ x: 1, y: 5 }), true);
-        assert.strictEqual(protospec({ x: 1, y: 4 }), false);
+        expect(protospec({ x: 1, y: 5 }), true);
+        expect(protospec({ x: 1, y: 4 }), false);
 
         assert.ok(_.matcher({ x: 1, y: 5 })(specObj), 'inherited and own properties are checked on the test object');
 
@@ -1082,10 +1157,10 @@ describe('objects tests', function() {
         var o = { b: 1 };
         var m = _.matcher(o);
 
-        assert.strictEqual(m({ b: 1 }), true);
+        expect(m({ b: 1 }), true);
         o.b = 2;
         o.a = 1;
-        assert.strictEqual(m({ b: 1 }), true, 'changing spec object doesnt change matches result');
+        expect(m({ b: 1 }), true, 'changing spec object doesnt change matches result');
 
 
         //null edge cases
@@ -1094,7 +1169,7 @@ describe('objects tests', function() {
     });
 
     QUnit.test('matches', function (assert) {
-        assert.strictEqual(_.matches, _.matcher, 'is an alias for matcher');
+        expect(_.matches, _.matcher, 'is an alias for matcher');
     });
 
     QUnit.test('findKey', function (assert) {
@@ -1104,37 +1179,37 @@ describe('objects tests', function() {
             c: { a: 2, b: 2 }
         };
 
-        assert.strictEqual(_.findKey(objects, function (obj) {
+        expect(_.findKey(objects, function (obj) {
             return obj.a === 0;
         }), 'a');
 
-        assert.strictEqual(_.findKey(objects, function (obj) {
+        expect(_.findKey(objects, function (obj) {
             return obj.b * obj.a === 4;
         }), 'c');
 
-        assert.strictEqual(_.findKey(objects, 'a'), 'b', 'Uses lookupIterator');
+        expect(_.findKey(objects, 'a'), 'b', 'Uses lookupIterator');
 
-        assert.strictEqual(_.findKey(objects, function (obj) {
+        expect(_.findKey(objects, function (obj) {
             return obj.b * obj.a === 5;
         }), void 0);
 
-        assert.strictEqual(_.findKey([1, 2, 3, 4, 5, 6], function (obj) {
+        expect(_.findKey([1, 2, 3, 4, 5, 6], function (obj) {
             return obj === 3;
         }), '2', 'Keys are strings');
 
-        assert.strictEqual(_.findKey(objects, function (a) {
+        expect(_.findKey(objects, function (a) {
             return a.foo === null;
         }), void 0);
 
         _.findKey({ a: { a: 1 } }, function (a, key, obj) {
-            assert.strictEqual(key, 'a');
+            expect(key, 'a');
             expect(obj, { a: { a: 1 } });
-            assert.strictEqual(this, objects, 'called with context');
+            expect(this, objects, 'called with context');
         }, objects);
 
         var array = [1, 2, 3, 4];
         array.match = 55;
-        assert.strictEqual(_.findKey(array, function (x) { return x === 55; }), 'match', 'matches array-likes keys');
+        expect(_.findKey(array, function (x) { return x === 55; }), 'match', 'matches array-likes keys');
     });
 
 
