@@ -6,7 +6,7 @@
 /// <reference path="../../jasmine/jasmine-html.js"/>
 /// <reference path="../../underscore.min.js"/>
 
-describe('objects tests', function() {
+describe('objects tests', function () {
     describe('keys', function () {
         it('can extract the keys from an object', function() {
             expect(_.keys({ one: 1, two: 2 })).toEqual(['one', 'two']);
@@ -331,20 +331,35 @@ describe('objects tests', function() {
 
     });
 
-    QUnit.test('omit', function (assert) {
+    describe('omit', function () {
         var result;
-        result = _.omit({ a: 1, b: 2, c: 3 }, 'b');
-        expect(result, { a: 1, c: 3 }, 'can omit a single named property');
-        result = _.omit({ a: 1, b: 2, c: 3 }, 'a', 'c');
-        expect(result, { b: 2 }, 'can omit several named properties');
-        result = _.omit({ a: 1, b: 2, c: 3 }, ['b', 'c']);
-        expect(result, { a: 1 }, 'can omit properties named in an array');
-        result = _.omit(['a', 'b'], 0);
-        expect(result, { 1: 'b' }, 'can omit numeric properties');
+        it('can omit a single named property', function() {
+            result = _.omit({ a: 1, b: 2, c: 3 }, 'b');
+            expect(result).toEqual({ a: 1, c: 3 });
+        });
+        it('can omit several named properties', function() {
+            result = _.omit({ a: 1, b: 2, c: 3 }, 'a', 'c');
+            expect(result).toEqual({ b: 2 });
+        });
+        it('can omit properties named in an array', function() {
+            result = _.omit({ a: 1, b: 2, c: 3 }, ['b', 'c']);
+            expect(result).toEqual({ a: 1 });
+        });
+        it('can omit numeric properties', function() {
+            result = _.omit(['a', 'b'], 0);
+            expect(result).toEqual({ 1: 'b' });
+        });
 
-        expect(_.omit(null, 'a', 'b'), {}, 'non objects return empty object');
-        expect(_.omit(void 0, 'toString'), {}, 'null/undefined return empty object');
-        expect(_.omit(5, 'toString', 'b'), {}, 'returns empty object for primitives');
+        it('non objects return empty object', function() {
+            expect(_.omit(null, 'a', 'b')).toEqual({});
+        });
+        it('null/undefined return empty object', function() {
+            expect(_.omit(void 0, 'toString')).toEqual({});
+        });
+        it('returns empty object for primitives', function() {
+            expect(_.omit(5, 'toString', 'b')).toEqual({});
+        });
+        
 
         var data = { a: 1, b: 2, c: 3 };
         var callback = function (value, key, object) {
@@ -352,87 +367,129 @@ describe('objects tests', function() {
             expect(object, data);
             return value !== this.value;
         };
-        result = _.omit(data, callback, { value: 2 });
-        expect(result, { b: 2 }, 'can accept a predicate');
+        it('can accept a predicate', function() {
+            result = _.omit(data, callback, { value: 2 });
+            expect(result).toEqual({ b: 2 });
+        });
+        
 
         var Obj = function () { };
         Obj.prototype = { a: 1, b: 2, c: 3 };
         var instance = new Obj();
-        expect(_.omit(instance, 'b'), { a: 1, c: 3 }, 'include prototype props');
-
-        expect(_.omit(data, function (val, key) {
-            return this[key] === 3 && this === instance;
-        }, instance), { a: 1, b: 2 }, 'function is given context');
-    });
-
-    QUnit.test('defaults', function (assert) {
-        var options = { zero: 0, one: 1, empty: '', nan: NaN, nothing: null };
-
-        _.defaults(options, { zero: 1, one: 10, twenty: 20, nothing: 'str' });
-        expect(options.zero, 0, 'value exists');
-        expect(options.one, 1, 'value exists');
-        expect(options.twenty, 20, 'default applied');
-        expect(options.nothing, null, "null isn't overridden");
-
-        _.defaults(options, { empty: 'full' }, { nan: 'nan' }, { word: 'word' }, { word: 'dog' });
-        expect(options.empty, '', 'value exists');
-        assert.ok(_.isNaN(options.nan), "NaN isn't overridden");
-        expect(options.word, 'word', 'new value is added, first one wins');
-
-        try {
-            options = {};
-            _.defaults(options, null, void 0, { a: 1 });
-        } catch (e) { /* ignored */ }
-
-        expect(options.a, 1, 'should not error on `null` or `undefined` sources');
-
-        expect(_.defaults(null, { a: 1 }), { a: 1 }, 'defaults skips nulls');
-        expect(_.defaults(void 0, { a: 1 }), { a: 1 }, 'defaults skips undefined');
-    });
-
-    QUnit.test('clone', function (assert) {
-        var moe = { name: 'moe', lucky: [13, 27, 34] };
-        var clone = _.clone(moe);
-        expect(clone.name, 'moe', 'the clone as the attributes of the original');
-
-        clone.name = 'curly';
-        assert.ok(clone.name === 'curly' && moe.name === 'moe', 'clones can change shallow attributes without affecting the original');
-
-        clone.lucky.push(101);
-        expect(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
-
-        expect(_.clone(void 0), void 0, 'non objects should not be changed by clone');
-        expect(_.clone(1), 1, 'non objects should not be changed by clone');
-        expect(_.clone(null), null, 'non objects should not be changed by clone');
-    });
-
-    QUnit.test('create', function (assert) {
-        var Parent = function () { };
-        Parent.prototype = { foo: function () { }, bar: 2 };
-
-        _.each(['foo', null, void 0, 1], function (val) {
-            expect(_.create(val), {}, 'should return empty object when a non-object is provided');
+        it('include prototype props', function() {
+            expect(_.omit(instance, 'b')).toEqual({ a: 1, c: 3 });
         });
 
-        assert.ok(_.create([]) instanceof Array, 'should return new instance of array when array is provided');
+        it('function is given context', function() {
+            expect(_.omit(data, function(val, key) {
+                return this[key] === 3 && this === instance;
+            }, instance)).toEqual({ a: 1, b: 2 });
+        });
 
-        var Child = function () { };
-        Child.prototype = _.create(Parent.prototype);
-        assert.ok(new Child instanceof Parent, 'object should inherit prototype');
-
-        var func = function () { };
-        Child.prototype = _.create(Parent.prototype, { func: func });
-        expect(Child.prototype.func, func, 'properties should be added to object');
-
-        Child.prototype = _.create(Parent.prototype, { constructor: Child });
-        expect(Child.prototype.constructor, Child);
-
-        Child.prototype.foo = 'foo';
-        var created = _.create(Child.prototype, new Child);
-        assert.notOk(created.hasOwnProperty('foo'), 'should only add own properties');
     });
 
-    QUnit.test('isEqual', function (assert) {
+    describe('defaults', function () {
+        var options = { zero: 0, one: 1, empty: '', nan: NaN, nothing: null };
+
+        it('value exists and default applied and null isn\'t overridden', function() {
+            _.defaults(options, { zero: 1, one: 10, twenty: 20, nothing: 'str' });
+            expect(options.zero).toEqual(0);
+            expect(options.one).toEqual(1);
+            expect(options.twenty).toEqual(20);
+            expect(options.nothing).toEqual(null);
+        });
+
+        it("NaN isn't overridden and new value is added, first one wins", function() {
+            _.defaults(options, { empty: 'full' }, { nan: 'nan' }, { word: 'word' }, { word: 'dog' });
+            expect(options.empty).toEqual('');
+            expect(_.isNaN(options.nan)).toBeTruthy();
+            expect(options.word).toEqual('word');
+        });
+
+        it('should not error on `null` or `undefined` sources', function() {
+            try {
+                options = {};
+                _.defaults(options, null, void 0, { a: 1 });
+            } catch (e) { /* ignored */
+            }
+
+            expect(options.a).toEqual(1);
+        });
+
+        it('defaults skips nulls', function() {
+            expect(_.defaults(null, { a: 1 })).toEqual({ a: 1 });
+        });
+        it('defaults skips undefined', function() {
+            expect(_.defaults(void 0, { a: 1 })).toEqual({ a: 1 });
+        });
+
+    });
+
+    describe('clone', function () {
+        var moe = { name: 'moe', lucky: [13, 27, 34] };
+        var clone = _.clone(moe);
+        it('the clone as the attributes of the original', function() {
+            expect(clone.name).toEqual('moe');
+        });
+
+        it('clones can change shallow attributes without affecting the original', function() {
+            clone.name = 'curly';
+            expect(clone.name === 'curly' && moe.name === 'moe').toBeTruthy();
+        });
+
+        it('changes to deep attributes are shared with the original', function() {
+            clone.lucky.push(101);
+            expect(_.last(moe.lucky)).toEqual(101);
+        });
+
+        it('non objects should not be changed by clone', function() {
+            expect(_.clone(void 0)).toEqual(void 0);
+            expect(_.clone(1)).toEqual(1);
+            expect(_.clone(null)).toEqual(null);
+        });
+
+    });
+
+    describe('create', function () {
+        var Parent = function () { };
+        Parent.prototype = { foo: function () { }, bar: 2 };
+        it('should return empty object when a non-object is provided', function() {
+            _.each(['foo', null, void 0, 1], function(val) {
+                expect(_.create(val)).toEqual({});
+            });
+        });
+
+        it('should return new instance of array when array is provided', function() {
+            expect(_.create([]) instanceof Array).toBeTruthy();
+        });
+        
+
+        var Child = function () { };
+        it('object should inherit prototype', function() {
+            Child.prototype = _.create(Parent.prototype);
+            expect(new Child instanceof Parent).toBeTruthy();
+        });
+
+        it('properties should be added to object', function() {
+            var func = function() {};
+            Child.prototype = _.create(Parent.prototype, { func: func });
+            expect(Child.prototype.func).toEqual(func);
+        });
+
+        it('create constructor', function() {
+            Child.prototype = _.create(Parent.prototype, { constructor: Child });
+            expect(Child.prototype.constructor).toEqual(Child);
+        });
+
+        it('should only add own properties', function() {
+            Child.prototype.foo = 'foo';
+            var created = _.create(Child.prototype, new Child);
+            expect(created.hasOwnProperty('foo')).toBeFalsy();
+        });
+
+    });
+
+    describe('isEqual', function () {
         function First() {
             this.value = 1;
         }
@@ -442,367 +499,742 @@ describe('objects tests', function() {
         }
         Second.prototype.value = 2;
 
-        // Basic equality and identity comparisons.
-        assert.ok(_.isEqual(null, null), '`null` is equal to `null`');
-        assert.ok(_.isEqual(), '`undefined` is equal to `undefined`');
+        describe('Basic equality and identity comparisons.', function() {
+            it('`null` is equal to `null`', function() {
+                expect(_.isEqual(null, null)).toBeTruthy();
+            });
+            it('`undefined` is equal to `undefined`', function() {
+                expect(_.isEqual()).toBeTruthy();
+            });
 
-        assert.notOk(_.isEqual(0, -0), '`0` is not equal to `-0`');
-        assert.notOk(_.isEqual(-0, 0), 'Commutative equality is implemented for `0` and `-0`');
-        assert.notOk(_.isEqual(null, void 0), '`null` is not equal to `undefined`');
-        assert.notOk(_.isEqual(void 0, null), 'Commutative equality is implemented for `null` and `undefined`');
+            it('`0` is not equal to `-0`', function() {
+                expect(_.isEqual(0, -0)).toBeFalsy();
+            });
+            it('Commutative equality is implemented for `0` and `-0`', function() {
+                expect(_.isEqual(-0, 0)).toBeFalsy();
+            });
+            it('`null` is not equal to `undefined`', function() {
+                expect(_.isEqual(null, void 0)).toBeFalsy();
+            });
+            it('Commutative equality is implemented for `null` and `undefined`', function() {
+                expect(_.isEqual(void 0, null)).toBeFalsy();
+            });
 
-        // String object and primitive comparisons.
-        assert.ok(_.isEqual('Curly', 'Curly'), 'Identical string primitives are equal');
-        assert.ok(_.isEqual(new String('Curly'), new String('Curly')), 'String objects with identical primitive values are equal');
-        assert.ok(_.isEqual(new String('Curly'), 'Curly'), 'String primitives and their corresponding object wrappers are equal');
-        assert.ok(_.isEqual('Curly', new String('Curly')), 'Commutative equality is implemented for string objects and primitives');
-
-        assert.notOk(_.isEqual('Curly', 'Larry'), 'String primitives with different values are not equal');
-        assert.notOk(_.isEqual(new String('Curly'), new String('Larry')), 'String objects with different primitive values are not equal');
-        assert.notOk(_.isEqual(new String('Curly'), { toString: function () { return 'Curly'; } }), 'String objects and objects with a custom `toString` method are not equal');
-
-        // Number object and primitive comparisons.
-        assert.ok(_.isEqual(75, 75), 'Identical number primitives are equal');
-        assert.ok(_.isEqual(new Number(75), new Number(75)), 'Number objects with identical primitive values are equal');
-        assert.ok(_.isEqual(75, new Number(75)), 'Number primitives and their corresponding object wrappers are equal');
-        assert.ok(_.isEqual(new Number(75), 75), 'Commutative equality is implemented for number objects and primitives');
-        assert.notOk(_.isEqual(new Number(0), -0), '`new Number(0)` and `-0` are not equal');
-        assert.notOk(_.isEqual(0, new Number(-0)), 'Commutative equality is implemented for `new Number(0)` and `-0`');
-
-        assert.notOk(_.isEqual(new Number(75), new Number(63)), 'Number objects with different primitive values are not equal');
-        assert.notOk(_.isEqual(new Number(63), { valueOf: function () { return 63; } }), 'Number objects and objects with a `valueOf` method are not equal');
-
-        // Comparisons involving `NaN`.
-        assert.ok(_.isEqual(NaN, NaN), '`NaN` is equal to `NaN`');
-        assert.ok(_.isEqual(new Number(NaN), NaN), 'Object(`NaN`) is equal to `NaN`');
-        assert.notOk(_.isEqual(61, NaN), 'A number primitive is not equal to `NaN`');
-        assert.notOk(_.isEqual(new Number(79), NaN), 'A number object is not equal to `NaN`');
-        assert.notOk(_.isEqual(Infinity, NaN), '`Infinity` is not equal to `NaN`');
-
-        // Boolean object and primitive comparisons.
-        assert.ok(_.isEqual(true, true), 'Identical boolean primitives are equal');
-        assert.ok(_.isEqual(new Boolean, new Boolean), 'Boolean objects with identical primitive values are equal');
-        assert.ok(_.isEqual(true, new Boolean(true)), 'Boolean primitives and their corresponding object wrappers are equal');
-        assert.ok(_.isEqual(new Boolean(true), true), 'Commutative equality is implemented for booleans');
-        assert.notOk(_.isEqual(new Boolean(true), new Boolean), 'Boolean objects with different primitive values are not equal');
-
-        // Common type coercions.
-        assert.notOk(_.isEqual(new Boolean(false), true), '`new Boolean(false)` is not equal to `true`');
-        assert.notOk(_.isEqual('75', 75), 'String and number primitives with like values are not equal');
-        assert.notOk(_.isEqual(new Number(63), new String(63)), 'String and number objects with like values are not equal');
-        assert.notOk(_.isEqual(75, '75'), 'Commutative equality is implemented for like string and number values');
-        assert.notOk(_.isEqual(0, ''), 'Number and string primitives with like values are not equal');
-        assert.notOk(_.isEqual(1, true), 'Number and boolean primitives with like values are not equal');
-        assert.notOk(_.isEqual(new Boolean(false), new Number(0)), 'Boolean and number objects with like values are not equal');
-        assert.notOk(_.isEqual(false, new String('')), 'Boolean primitives and string objects with like values are not equal');
-        assert.notOk(_.isEqual(12564504e5, new Date(2009, 9, 25)), 'Dates and their corresponding numeric primitive values are not equal');
-
-        // Dates.
-        assert.ok(_.isEqual(new Date(2009, 9, 25), new Date(2009, 9, 25)), 'Date objects referencing identical times are equal');
-        assert.notOk(_.isEqual(new Date(2009, 9, 25), new Date(2009, 11, 13)), 'Date objects referencing different times are not equal');
-        assert.notOk(_.isEqual(new Date(2009, 11, 13), {
-            getTime: function () {
-                return 12606876e5;
-            }
-        }), 'Date objects and objects with a `getTime` method are not equal');
-        assert.notOk(_.isEqual(new Date('Curly'), new Date('Curly')), 'Invalid dates are not equal');
-
-        // Functions.
-        assert.notOk(_.isEqual(First, Second), 'Different functions with identical bodies and source code representations are not equal');
-
-        // RegExps.
-        assert.ok(_.isEqual(/(?:)/gim, /(?:)/gim), 'RegExps with equivalent patterns and flags are equal');
-        assert.ok(_.isEqual(/(?:)/gi, /(?:)/ig), 'Flag order is not significant');
-        assert.notOk(_.isEqual(/(?:)/g, /(?:)/gi), 'RegExps with equivalent patterns and different flags are not equal');
-        assert.notOk(_.isEqual(/Moe/gim, /Curly/gim), 'RegExps with different patterns and equivalent flags are not equal');
-        assert.notOk(_.isEqual(/(?:)/gi, /(?:)/g), 'Commutative equality is implemented for RegExps');
-        assert.notOk(_.isEqual(/Curly/g, { source: 'Larry', global: true, ignoreCase: false, multiline: false }), 'RegExps and RegExp-like objects are not equal');
-
-        // Empty arrays, array-like objects, and object literals.
-        assert.ok(_.isEqual({}, {}), 'Empty object literals are equal');
-        assert.ok(_.isEqual([], []), 'Empty array literals are equal');
-        assert.ok(_.isEqual([{}], [{}]), 'Empty nested arrays and objects are equal');
-        assert.notOk(_.isEqual({ length: 0 }, []), 'Array-like objects and arrays are not equal.');
-        assert.notOk(_.isEqual([], { length: 0 }), 'Commutative equality is implemented for array-like objects');
-
-        assert.notOk(_.isEqual({}, []), 'Object literals and array literals are not equal');
-        assert.notOk(_.isEqual([], {}), 'Commutative equality is implemented for objects and arrays');
-
-        // Arrays with primitive and object values.
-        assert.ok(_.isEqual([1, 'Larry', true], [1, 'Larry', true]), 'Arrays containing identical primitives are equal');
-        assert.ok(_.isEqual([/Moe/g, new Date(2009, 9, 25)], [/Moe/g, new Date(2009, 9, 25)]), 'Arrays containing equivalent elements are equal');
-
-        // Multi-dimensional arrays.
-        var a = [new Number(47), false, 'Larry', /Moe/, new Date(2009, 11, 13), ['running', 'biking', new String('programming')], { a: 47 }];
-        var b = [new Number(47), false, 'Larry', /Moe/, new Date(2009, 11, 13), ['running', 'biking', new String('programming')], { a: 47 }];
-        assert.ok(_.isEqual(a, b), 'Arrays containing nested arrays and objects are recursively compared');
-
-        // Overwrite the methods defined in ES 5.1 section 15.4.4.
-        a.forEach = a.map = a.filter = a.every = a.indexOf = a.lastIndexOf = a.some = a.reduce = a.reduceRight = null;
-        b.join = b.pop = b.reverse = b.shift = b.slice = b.splice = b.concat = b.sort = b.unshift = null;
-
-        // Array elements and properties.
-        assert.ok(_.isEqual(a, b), 'Arrays containing equivalent elements and different non-numeric properties are equal');
-        a.push('White Rocks');
-        assert.notOk(_.isEqual(a, b), 'Arrays of different lengths are not equal');
-        a.push('East Boulder');
-        b.push('Gunbarrel Ranch', 'Teller Farm');
-        assert.notOk(_.isEqual(a, b), 'Arrays of identical lengths containing different elements are not equal');
-
-        // Sparse arrays.
-        assert.ok(_.isEqual(Array(3), Array(3)), 'Sparse arrays of identical lengths are equal');
-        assert.notOk(_.isEqual(Array(3), Array(6)), 'Sparse arrays of different lengths are not equal when both are empty');
-
-        var sparse = [];
-        sparse[1] = 5;
-        assert.ok(_.isEqual(sparse, [void 0, 5]), 'Handles sparse arrays as dense');
-
-        // Simple objects.
-        assert.ok(_.isEqual({ a: 'Curly', b: 1, c: true }, { a: 'Curly', b: 1, c: true }), 'Objects containing identical primitives are equal');
-        assert.ok(_.isEqual({ a: /Curly/g, b: new Date(2009, 11, 13) }, { a: /Curly/g, b: new Date(2009, 11, 13) }), 'Objects containing equivalent members are equal');
-        assert.notOk(_.isEqual({ a: 63, b: 75 }, { a: 61, b: 55 }), 'Objects of identical sizes with different values are not equal');
-        assert.notOk(_.isEqual({ a: 63, b: 75 }, { a: 61, c: 55 }), 'Objects of identical sizes with different property names are not equal');
-        assert.notOk(_.isEqual({ a: 1, b: 2 }, { a: 1 }), 'Objects of different sizes are not equal');
-        assert.notOk(_.isEqual({ a: 1 }, { a: 1, b: 2 }), 'Commutative equality is implemented for objects');
-        assert.notOk(_.isEqual({ x: 1, y: void 0 }, { x: 1, z: 2 }), 'Objects with identical keys and different values are not equivalent');
-
-        // `A` contains nested objects and arrays.
-        a = {
-            name: new String('Moe Howard'),
-            age: new Number(77),
-            stooge: true,
-            hobbies: ['acting'],
-            film: {
-                name: 'Sing a Song of Six Pants',
-                release: new Date(1947, 9, 30),
-                stars: [new String('Larry Fine'), 'Shemp Howard'],
-                minutes: new Number(16),
-                seconds: 54
-            }
-        };
-
-        // `B` contains equivalent nested objects and arrays.
-        b = {
-            name: new String('Moe Howard'),
-            age: new Number(77),
-            stooge: true,
-            hobbies: ['acting'],
-            film: {
-                name: 'Sing a Song of Six Pants',
-                release: new Date(1947, 9, 30),
-                stars: [new String('Larry Fine'), 'Shemp Howard'],
-                minutes: new Number(16),
-                seconds: 54
-            }
-        };
-        assert.ok(_.isEqual(a, b), 'Objects with nested equivalent members are recursively compared');
-
-        // Instances.
-        assert.ok(_.isEqual(new First, new First), 'Object instances are equal');
-        assert.notOk(_.isEqual(new First, new Second), 'Objects with different constructors and identical own properties are not equal');
-        assert.notOk(_.isEqual({ value: 1 }, new First), 'Object instances and objects sharing equivalent properties are not equal');
-        assert.notOk(_.isEqual({ value: 2 }, new Second), 'The prototype chain of objects should not be examined');
-
-        // Circular Arrays.
-        (a = []).push(a);
-        (b = []).push(b);
-        assert.ok(_.isEqual(a, b), 'Arrays containing circular references are equal');
-        a.push(new String('Larry'));
-        b.push(new String('Larry'));
-        assert.ok(_.isEqual(a, b), 'Arrays containing circular references and equivalent properties are equal');
-        a.push('Shemp');
-        b.push('Curly');
-        assert.notOk(_.isEqual(a, b), 'Arrays containing circular references and different properties are not equal');
-
-        // More circular arrays #767.
-        a = ['everything is checked but', 'this', 'is not'];
-        a[1] = a;
-        b = ['everything is checked but', ['this', 'array'], 'is not'];
-        assert.notOk(_.isEqual(a, b), 'Comparison of circular references with non-circular references are not equal');
-
-        // Circular Objects.
-        a = { abc: null };
-        b = { abc: null };
-        a.abc = a;
-        b.abc = b;
-        assert.ok(_.isEqual(a, b), 'Objects containing circular references are equal');
-        a.def = 75;
-        b.def = 75;
-        assert.ok(_.isEqual(a, b), 'Objects containing circular references and equivalent properties are equal');
-        a.def = new Number(75);
-        b.def = new Number(63);
-        assert.notOk(_.isEqual(a, b), 'Objects containing circular references and different properties are not equal');
-
-        // More circular objects #767.
-        a = { everything: 'is checked', but: 'this', is: 'not' };
-        a.but = a;
-        b = { everything: 'is checked', but: { that: 'object' }, is: 'not' };
-        assert.notOk(_.isEqual(a, b), 'Comparison of circular references with non-circular object references are not equal');
-
-        // Cyclic Structures.
-        a = [{ abc: null }];
-        b = [{ abc: null }];
-        (a[0].abc = a).push(a);
-        (b[0].abc = b).push(b);
-        assert.ok(_.isEqual(a, b), 'Cyclic structures are equal');
-        a[0].def = 'Larry';
-        b[0].def = 'Larry';
-        assert.ok(_.isEqual(a, b), 'Cyclic structures containing equivalent properties are equal');
-        a[0].def = new String('Larry');
-        b[0].def = new String('Curly');
-        assert.notOk(_.isEqual(a, b), 'Cyclic structures containing different properties are not equal');
-
-        // Complex Circular References.
-        a = { foo: { b: { foo: { c: { foo: null } } } } };
-        b = { foo: { b: { foo: { c: { foo: null } } } } };
-        a.foo.b.foo.c.foo = a;
-        b.foo.b.foo.c.foo = b;
-        assert.ok(_.isEqual(a, b), 'Cyclic structures with nested and identically-named properties are equal');
-
-        // Chaining.
-        assert.notOk(_.isEqual(_({ x: 1, y: void 0 }).chain(), _({ x: 1, z: 2 }).chain()), 'Chained objects containing different values are not equal');
-
-        a = _({ x: 1, y: 2 }).chain();
-        b = _({ x: 1, y: 2 }).chain();
-        expect(_.isEqual(a.isEqual(b), _(true)), true, '`isEqual` can be chained');
-
-        // Objects without a `constructor` property
-        if (Object.create) {
-            a = Object.create(null, { x: { value: 1, enumerable: true } });
-            b = { x: 1 };
-            assert.ok(_.isEqual(a, b), 'Handles objects without a constructor (e.g. from Object.create');
-        }
-
-        function Foo() { this.a = 1; }
-        Foo.prototype.constructor = null;
-
-        var other = { a: 1 };
-        expect(_.isEqual(new Foo, other), false, 'Objects from different constructors are not equal');
-
-
-        // Tricky object cases val comparisons
-        expect(_.isEqual([0], [-0]), false);
-        expect(_.isEqual({ a: 0 }, { a: -0 }), false);
-        expect(_.isEqual([NaN], [NaN]), true);
-        expect(_.isEqual({ a: NaN }, { a: NaN }), true);
-
-        if (typeof Symbol !== 'undefined') {
-            var symbol = Symbol('x');
-            expect(_.isEqual(symbol, symbol), true, 'A symbol is equal to itself');
-            expect(_.isEqual(symbol, Object(symbol)), true, 'Even when wrapped in Object()');
-            expect(_.isEqual(symbol, null), false, 'Different types are not equal');
-        }
-
-    });
-
-    QUnit.test('isEmpty', function (assert) {
-        assert.notOk(_([1]).isEmpty(), '[1] is not empty');
-        assert.ok(_.isEmpty([]), '[] is empty');
-        assert.notOk(_.isEmpty({ one: 1 }), '{one: 1} is not empty');
-        assert.ok(_.isEmpty({}), '{} is empty');
-        assert.ok(_.isEmpty(new RegExp('')), 'objects with prototype properties are empty');
-        assert.ok(_.isEmpty(null), 'null is empty');
-        assert.ok(_.isEmpty(), 'undefined is empty');
-        assert.ok(_.isEmpty(''), 'the empty string is empty');
-        assert.notOk(_.isEmpty('moe'), 'but other strings are not');
-
-        var obj = { one: 1 };
-        delete obj.one;
-        assert.ok(_.isEmpty(obj), 'deleting all the keys from an object empties it');
-
-        var args = function () { return arguments; };
-        assert.ok(_.isEmpty(args()), 'empty arguments object is empty');
-        assert.notOk(_.isEmpty(args('')), 'non-empty arguments object is not empty');
-
-        // covers collecting non-enumerable properties in IE < 9
-        var nonEnumProp = { toString: 5 };
-        assert.notOk(_.isEmpty(nonEnumProp), 'non-enumerable property is not empty');
-    });
-
-    if (typeof document === 'object') {
-        QUnit.test('isElement', function (assert) {
-            assert.notOk(_.isElement('div'), 'strings are not dom elements');
-            assert.ok(_.isElement(testElement), 'an element is a DOM element');
         });
-    }
 
-    QUnit.test('isArguments', function (assert) {
+        describe('String object and primitive comparisons.', function() {
+            // 
+            it('Identical string primitives are equal', function() {
+                expect(_.isEqual('Curly', 'Curly')).toBeTruthy();
+            });
+            it('String objects with identical primitive values are equal', function() {
+                expect(_.isEqual(new String('Curly'), new String('Curly'))).toBeTruthy();
+            });
+            it('String primitives and their corresponding object wrappers are equal', function() {
+                expect(_.isEqual(new String('Curly'), 'Curly')).toBeTruthy();
+            });
+            it('Commutative equality is implemented for string objects and primitives', function() {
+                expect(_.isEqual('Curly', new String('Curly'))).toBeTruthy();
+            });
+
+            it('String primitives with different values are not equal', function() {
+                expect(_.isEqual('Curly', 'Larry')).toBeFalsy();
+            });
+            it('String objects with different primitive values are not equal', function() {
+                expect(_.isEqual(new String('Curly'), new String('Larry'))).toBeFalsy();
+            });
+            it('String objects and objects with a custom `toString` method are not equal', function() {
+                expect(_.isEqual(new String('Curly'), { toString: function() { return 'Curly'; } })).toBeFalsy();
+            });
+        });
+
+
+        describe('Number object and primitive comparisons.', function() {
+            // 
+            it('Identical number primitives are equal', function() {
+                expect(_.isEqual(75, 75)).toBeTruthy();
+            });
+            it('Number objects with identical primitive values are equal', function() {
+                expect(_.isEqual(new Number(75), new Number(75))).toBeTruthy();
+            });
+            it('Number primitives and their corresponding object wrappers are equal', function() {
+                expect(_.isEqual(75, new Number(75))).toBeTruthy();
+            });
+            it('Commutative equality is implemented for number objects and primitives', function() {
+                expect(_.isEqual(new Number(75), 75)).toBeTruthy();
+            });
+            it('`new Number(0)` and `-0` are not equal', function() {
+                expect(_.isEqual(new Number(0), -0)).toBeFalsy();
+            });
+            it('Commutative equality is implemented for `new Number(0)` and `-0`', function() {
+                expect(_.isEqual(0, new Number(-0))).toBeFalsy();
+            });
+
+            it('Number objects with different primitive values are not equal', function() {
+                expect(_.isEqual(new Number(75), new Number(63))).toBeFalsy();
+            });
+            it('Number objects and objects with a `valueOf` method are not equal', function() {
+                expect(_.isEqual(new Number(63), { valueOf: function() { return 63; } })).toBeFalsy();
+            });
+
+        });
+
+        describe('Comparisons involving `NaN`.', function() {
+            // 
+            it('`NaN` is equal to `NaN`', function() {
+                expect(_.isEqual(NaN, NaN)).toBeTruthy();
+            });
+            it('Object(`NaN`) is equal to `NaN`', function() {
+                expect(_.isEqual(new Number(NaN), NaN)).toBeTruthy();
+            });
+            it('A number primitive is not equal to `NaN`', function() {
+                expect(_.isEqual(61, NaN)).toBeFalsy();
+            });
+            it('A number object is not equal to `NaN`', function() {
+                expect(_.isEqual(new Number(79), NaN)).toBeFalsy();
+            });
+            it('`Infinity` is not equal to `NaN`', function() {
+                expect(_.isEqual(Infinity, NaN)).toBeFalsy();
+            });
+
+        });
+
+        describe('Boolean object and primitive comparisons.', function() {
+            // 
+            it('Identical boolean primitives are equal', function() {
+                expect(_.isEqual(true, true)).toBeTruthy();
+            });
+            it('Boolean objects with identical primitive values are equal', function() {
+                expect(_.isEqual(new Boolean, new Boolean)).toBeTruthy();
+            });
+            it('Boolean primitives and their corresponding object wrappers are equal', function() {
+                expect(_.isEqual(true, new Boolean(true))).toBeTruthy();
+            });
+            it('Commutative equality is implemented for booleans', function() {
+                expect(_.isEqual(new Boolean(true), true)).toBeTruthy();
+            });
+            it('Boolean objects with different primitive values are not equal', function() {
+                expect(_.isEqual(new Boolean(true), new Boolean)).toBeFalsy();
+            });
+
+        });
+
+        describe('Common type coercions.', function() {
+            // 
+            it('`new Boolean(false)` is not equal to `true`', function() {
+                expect(_.isEqual(new Boolean(false), true)).toBeFalsy();
+            });
+            it('String and number primitives with like values are not equal', function() {
+                expect(_.isEqual('75', 75)).toBeFalsy();
+            });
+            it('String and number objects with like values are not equal', function() {
+                expect(_.isEqual(new Number(63), new String(63))).toBeFalsy();
+            });
+            it('Commutative equality is implemented for like string and number values', function() {
+                expect(_.isEqual(75, '75')).toBeFalsy();
+            });
+            it('Number and string primitives with like values are not equal', function() {
+                expect(_.isEqual(0, '')).toBeFalsy();
+            });
+            it('Number and boolean primitives with like values are not equal', function() {
+                expect(_.isEqual(1, true)).toBeFalsy();
+            });
+            it('Boolean and number objects with like values are not equal', function() {
+                expect(_.isEqual(new Boolean(false), new Number(0))).toBeFalsy();
+            });
+            it('Boolean primitives and string objects with like values are not equal', function() {
+                expect(_.isEqual(false, new String(''))).toBeFalsy();
+            });
+            it('Dates and their corresponding numeric primitive values are not equal', function() {
+                expect(_.isEqual(12564504e5, new Date(2009, 9, 25))).toBeFalsy();
+            });
+        });
+
+
+        describe('Dates.', function() {
+            // 
+            it('Date objects referencing identical times are equal', function() {
+                expect(_.isEqual(new Date(2009, 9, 25), new Date(2009, 9, 25))).toBeTruthy();
+            });
+            it('Date objects referencing different times are not equal', function() {
+                expect(_.isEqual(new Date(2009, 9, 25), new Date(2009, 11, 13))).toBeFalsy();
+            });
+            it('Date objects and objects with a `getTime` method are not equal', function() {
+                expect(_.isEqual(new Date(2009, 11, 13), {
+                    getTime: function() {
+                        return 12606876e5;
+                    }
+                })).toBeFalsy();
+            });
+            it('Invalid dates are not equal', function() {
+                expect(_.isEqual(new Date('Curly'), new Date('Curly'))).toBeFalsy();
+            });
+
+
+            // Functions.
+            it('Different functions with identical bodies and source code representations are not equal', function() {
+                expect(_.isEqual(First, Second)).toBeFalsy();
+            });
+        });
+
+
+        describe('RegExps.', function() {
+            // 
+            it('RegExps with equivalent patterns and flags are equal', function() {
+                expect(_.isEqual(/(?:)/gim, /(?:)/gim)).toBeTruthy();
+            });
+            it('Flag order is not significant', function() {
+                expect(_.isEqual(/(?:)/gi, /(?:)/ig)).toBeTruthy();
+            });
+            it('RegExps with equivalent patterns and different flags are not equal', function() {
+                expect(_.isEqual(/(?:)/g, /(?:)/gi)).toBeFalsy();
+            });
+            it('RegExps with different patterns and equivalent flags are not equal', function() {
+                expect(_.isEqual(/Moe/gim, /Curly/gim)).toBeFalsy();
+            });
+            it('Commutative equality is implemented for RegExps', function() {
+                expect(_.isEqual(/(?:)/gi, /(?:)/g)).toBeFalsy();
+            });
+            it('RegExps and RegExp-like objects are not equal', function() {
+                expect(_.isEqual(/Curly/g, { source: 'Larry', global: true, ignoreCase: false, multiline: false })).toBeFalsy();
+            });
+        });
+
+
+        describe('Empty arrays, array-like objects, and object literals.', function() {
+            // 
+            it('Empty object literals are equal', function() {
+                expect(_.isEqual({}, {})).toBeTruthy();
+            });
+            it('Empty array literals are equal', function() {
+                expect(_.isEqual([], [])).toBeTruthy();
+            });
+            it('Empty nested arrays and objects are equal', function() {
+                expect(_.isEqual([{}], [{}])).toBeTruthy();
+            });
+            it('Array-like objects and arrays are not equal.', function() {
+                expect(_.isEqual({ length: 0 }, [])).toBeFalsy();
+            });
+            it('Commutative equality is implemented for array-like objects', function() {
+                expect(_.isEqual([], { length: 0 })).toBeFalsy();
+            });
+
+            it('Object literals and array literals are not equal', function() {
+                expect(_.isEqual({}, [])).toBeFalsy();
+            });
+            it('Commutative equality is implemented for objects and arrays', function() {
+                expect(_.isEqual([], {})).toBeFalsy();
+            });
+        });
+
+
+        describe('Arrays with primitive and object values.', function() {
+            it('Arrays containing identical primitives are equal', function() {
+                expect(_.isEqual([1, 'Larry', true], [1, 'Larry', true])).toBeTruthy();
+            });
+            it('Arrays containing equivalent elements are equal', function() {
+                expect(_.isEqual([/Moe/g, new Date(2009, 9, 25)], [/Moe/g, new Date(2009, 9, 25)])).toBeTruthy();
+            });
+
+        });
+        // 
+        describe('Multi-dimensional arrays.', function() {
+            // 
+            var a = [new Number(47), false, 'Larry', /Moe/, new Date(2009, 11, 13), ['running', 'biking', new String('programming')], { a: 47 }];
+            var b = [new Number(47), false, 'Larry', /Moe/, new Date(2009, 11, 13), ['running', 'biking', new String('programming')], { a: 47 }];
+
+            it('Arrays containing nested arrays and objects are recursively compared', function() {
+                expect(_.isEqual(a, b)).toBeTruthy();
+            });
+
+
+            // Overwrite the methods defined in ES 5.1 section 15.4.4.
+            a.forEach = a.map = a.filter = a.every = a.indexOf = a.lastIndexOf = a.some = a.reduce = a.reduceRight = null;
+            b.join = b.pop = b.reverse = b.shift = b.slice = b.splice = b.concat = b.sort = b.unshift = null;
+
+            // Array elements and properties.
+            it('Arrays containing equivalent elements and different non-numeric properties are equal', function() {
+                expect(_.isEqual(a, b)).toBeTruthy();
+            });
+            it('Arrays of different lengths are not equal', function() {
+                a.push('White Rocks');
+                expect(_.isEqual(a, b)).toBeFalsy();
+            });
+            it('Arrays of identical lengths containing different elements are not equal', function() {
+                a.push('White Rocks');
+                a.push('East Boulder');
+                b.push('Gunbarrel Ranch', 'Teller Farm');
+                expect(_.isEqual(a, b)).toBeFalsy();
+            });
+        });
+
+
+        describe('Sparse arrays.', function() {
+            it('Sparse arrays of identical lengths are equal', function() {
+                expect(_.isEqual(Array(3), Array(3))).toBeTruthy();
+            });
+            it('Sparse arrays of different lengths are not equal when both are empty', function() {
+                expect(_.isEqual(Array(3), Array(6))).toBeFalsy();
+            });
+            it('Handles sparse arrays as dense', function() {
+                var sparse = [];
+                sparse[1] = 5;
+                expect(_.isEqual(sparse, [void 0, 5])).toBeTruthy();
+            });
+        });
+        // 
+
+        describe('Simple objects.', function () {
+            it('Objects containing identical primitives are equal', function() {
+                expect(_.isEqual({ a: 'Curly', b: 1, c: true }, { a: 'Curly', b: 1, c: true })).toBeTruthy();
+            });
+            it('Objects containing equivalent members are equal', function() {
+                expect(_.isEqual({ a: /Curly/g, b: new Date(2009, 11, 13) }, { a: /Curly/g, b: new Date(2009, 11, 13) })).toBeTruthy();
+            });
+            it('Objects of identical sizes with different values are not equal', function() {
+                expect(_.isEqual({ a: 63, b: 75 }, { a: 61, b: 55 })).toBeFalsy();
+            });
+            it('Objects of identical sizes with different property names are not equal', function() {
+                expect(_.isEqual({ a: 63, b: 75 }, { a: 61, c: 55 })).toBeFalsy();
+            });
+            it('Objects of different sizes are not equal', function() {
+                expect(_.isEqual({ a: 1, b: 2 }, { a: 1 })).toBeFalsy();
+            });
+            it('Commutative equality is implemented for objects', function() {
+                expect(_.isEqual({ a: 1 }, { a: 1, b: 2 })).toBeFalsy();
+            });
+            it('Objects with identical keys and different values are not equivalent', function() {
+                expect(_.isEqual({ x: 1, y: void 0 }, { x: 1, z: 2 })).toBeFalsy();
+            });
+
+        });
+        // 
+
+        it('Objects with nested equivalent members are recursively compared', function() {
+            // `A` contains nested objects and arrays.
+            var a = {
+                name: new String('Moe Howard'),
+                age: new Number(77),
+                stooge: true,
+                hobbies: ['acting'],
+                film: {
+                    name: 'Sing a Song of Six Pants',
+                    release: new Date(1947, 9, 30),
+                    stars: [new String('Larry Fine'), 'Shemp Howard'],
+                    minutes: new Number(16),
+                    seconds: 54
+                }
+            };
+
+            // `B` contains equivalent nested objects and arrays.
+            var b = {
+                name: new String('Moe Howard'),
+                age: new Number(77),
+                stooge: true,
+                hobbies: ['acting'],
+                film: {
+                    name: 'Sing a Song of Six Pants',
+                    release: new Date(1947, 9, 30),
+                    stars: [new String('Larry Fine'), 'Shemp Howard'],
+                    minutes: new Number(16),
+                    seconds: 54
+                }
+            };
+            expect(_.isEqual(a, b)).toBeTruthy();
+        });
+
+        describe('Instances.', function() {
+            // 
+            it('Object instances are equal', function() {
+                expect(_.isEqual(new First, new First)).toBeTruthy();
+            });
+            it('Objects with different constructors and identical own properties are not equal', function() {
+                expect(_.isEqual(new First, new Second)).toBeFalsy();
+            });
+            it('Object instances and objects sharing equivalent properties are not equal', function() {
+                expect(_.isEqual({ value: 1 }, new First)).toBeFalsy();
+            });
+            it('The prototype chain of objects should not be examined', function() {
+                expect(_.isEqual({ value: 2 }, new Second)).toBeFalsy();
+            });
+
+        });
+
+        describe('// Circular Arrays.', function() {
+            var a, b;
+            (a = []).push(a);
+            (b = []).push(b);
+            it('Arrays containing circular references are equal', function() {
+                expect(_.isEqual(a, b)).toBeTruthy();
+            });
+            it('Arrays containing circular references and equivalent properties are equal', function() {
+                a.push(new String('Larry'));
+                b.push(new String('Larry'));
+                expect(_.isEqual(a, b)).toBeTruthy();
+            });
+            it('Arrays containing circular references and different properties are not equal', function() {
+                a.push('Shemp');
+                b.push('Curly');
+                expect(_.isEqual(a, b)).toBeFalsy();
+            });
+
+        });
+
+        describe('// More circular arrays #767.', function () {
+            it('Comparison of circular references with non-circular references are not equal', function() {
+                var a = ['everything is checked but', 'this', 'is not'];
+                a[1] = a;
+                var b = ['everything is checked but', ['this', 'array'], 'is not'];
+                expect(_.isEqual(a, b)).toBeFalsy();
+            });
+
+            describe('// Circular Objects.', function() {
+                var a = { abc: null };
+                var b = { abc: null };
+                it('Objects containing circular references are equal', function() {
+                    a.abc = a;
+                    b.abc = b;
+                    expect(_.isEqual(a, b)).toBeTruthy();
+                });
+                it('Objects containing circular references and equivalent properties are equal', function() {
+                    a.def = 75;
+                    b.def = 75;
+                    expect(_.isEqual(a, b)).toBeTruthy();
+                });
+                it('Objects containing circular references and different properties are not equal', function() {
+                    a.def = new Number(75);
+                    b.def = new Number(63);
+                    expect(_.isEqual(a, b)).toBeFalsy();
+                });
+
+            });
+
+        });
+
+        describe('// More circular objects #767.', function () {
+            it('Comparison of circular references with non-circular object references are not equal', function() {
+                var a = { everything: 'is checked', but: 'this', is: 'not' };
+                a.but = a;
+                var b = { everything: 'is checked', but: { that: 'object' }, is: 'not' };
+                expect(_.isEqual(a, b)).toBeFalsy();
+            });
+            describe('// Cyclic Structures.', function() {
+                var a = [{ abc: null }];
+                var b = [{ abc: null }];
+                it('Cyclic structures are equal', function() {
+                    (a[0].abc = a).push(a);
+                    (b[0].abc = b).push(b);
+                    expect(_.isEqual(a, b)).toBeTruthy();
+                });
+                it('Cyclic structures containing equivalent properties are equal', function() {
+                    a[0].def = 'Larry';
+                    b[0].def = 'Larry';
+                    expect(_.isEqual(a, b)).toBeTruthy();
+                });
+                it('Cyclic structures containing different properties are not equal', function() {
+                    a[0].def = new String('Larry');
+                    b[0].def = new String('Curly');
+                    expect(_.isEqual(a, b)).toBeFalsy();
+                });
+
+            });
+
+            it('Cyclic structures with nested and identically-named properties are equal', function() {
+                // Complex Circular References.
+                var a = { foo: { b: { foo: { c: { foo: null } } } } };
+                var b = { foo: { b: { foo: { c: { foo: null } } } } };
+                a.foo.b.foo.c.foo = a;
+                b.foo.b.foo.c.foo = b;
+                expect(_.isEqual(a, b)).toBeTruthy();
+            });
+
+            it('Chained objects containing different values are not equal', function() {
+                // Chaining.
+                expect(_.isEqual(_({ x: 1, y: void 0 }).chain(), _({ x: 1, z: 2 }).chain())).toBeFalsy();
+            });
+
+            it('`isEqual` can be chained', function() {
+                var a = _({ x: 1, y: 2 }).chain();
+                var b = _({ x: 1, y: 2 }).chain();
+                expect(_.isEqual(a.isEqual(b), _(true))).toBe(true);
+            });
+
+            it('Handles objects without a constructor (e.g. from Object.create', function() {
+                // Objects without a `constructor` property
+                if (Object.create) {
+                    var a = Object.create(null, { x: { value: 1, enumerable: true } });
+                    var b = { x: 1 };
+                    expect(_.isEqual(a, b)).toBeTruthy();
+                }
+            });
+
+        });
+
+
+        it('Objects from different constructors are not equal', function() {
+            function Foo() { this.a = 1; }
+
+            Foo.prototype.constructor = null;
+
+            var other = { a: 1 };
+            expect(_.isEqual(new Foo, other)).toBe(false);
+        });
+
+
+        it('// Tricky object cases val comparisons', function() {
+            expect(_.isEqual([0], [-0])).toBe(false);
+            expect(_.isEqual({ a: 0 }, { a: -0 })).toBe(false);
+            expect(_.isEqual([NaN], [NaN])).toBe(true);
+            expect(_.isEqual({ a: NaN }, { a: NaN })).toBe(true);
+        });
+
+
+        it('A symbol is equal to itself', function() {
+            if (typeof Symbol !== 'undefined') {
+                var symbol = Symbol('x');
+                expect(_.isEqual(symbol, symbol)).toBe(true);
+                expect(_.isEqual(symbol, Object(symbol))).toBe(true);
+                expect(_.isEqual(symbol, null)).toBe(false);
+            }
+        });
+
+
+    });
+
+    describe('isEmpty', function () {
+        describe('basic tests', function () {
+            it('[1] is not empty', function() {
+                expect(_([1]).isEmpty()).toBeFalsy();
+            });
+            it('[] is empty', function() {
+                expect(_.isEmpty([])).toBeTruthy();
+            });
+            it('{one: 1} is not empty', function() {
+                expect(_.isEmpty({ one: 1 })).toBeFalsy();
+            });
+            it('{} is empty', function() {
+                expect(_.isEmpty({})).toBeTruthy();
+            });
+            it('objects with prototype properties are empty', function() {
+                expect(_.isEmpty(new RegExp(''))).toBeTruthy();
+            });
+            it('null is empty', function() {
+                expect(_.isEmpty(null)).toBeTruthy();
+            });
+            it('undefined is empty', function() {
+                expect(_.isEmpty()).toBeTruthy();
+            });
+            it('the empty string is empty', function() {
+                expect(_.isEmpty('')).toBeTruthy();
+            });
+            it('but other strings are not', function() {
+                expect(_.isEmpty('moe')).toBeFalsy();
+            });
+
+        });
+
+        it('deleting all the keys from an object empties it', function() {
+            var obj = { one: 1 };
+            delete obj.one;
+            expect(_.isEmpty(obj)).toBeTruthy();
+        });
+
+        it('empty arguments object is empty and non-empty arguments object is not empty', function() {
+            var args = function() { return arguments; };
+            expect(_.isEmpty(args())).toBeTruthy();
+            expect(_.isEmpty(args(''))).toBeFalsy();
+        });
+
+        it('non-enumerable property is not empty', function() {
+            // covers collecting non-enumerable properties in IE < 9
+            var nonEnumProp = { toString: 5 };
+            expect(_.isEmpty(nonEnumProp)).toBeFalsy();
+        });
+
+    });
+
+    var testElement = angular.element('<div id="test">1111</div>');
+    it('strings are not dom elements and an element is a DOM element', function() {
+        if (typeof document === 'object') {
+            expect(_.isElement('div')).toBeFalsy();
+            expect(_.isElement(testElement)).toBeFalsy();
+        }
+    });
+    
+
+    describe('isArguments', function () {
         var args = (function () { return arguments; }(1, 2, 3));
-        assert.notOk(_.isArguments('string'), 'a string is not an arguments object');
-        assert.notOk(_.isArguments(_.isArguments), 'a function is not an arguments object');
-        assert.ok(_.isArguments(args), 'but the arguments object is an arguments object');
-        assert.notOk(_.isArguments(_.toArray(args)), 'but not when it\'s converted into an array');
-        assert.notOk(_.isArguments([1, 2, 3]), 'and not vanilla arrays.');
+        it('a string is not an arguments object', function() {
+            expect(_.isArguments('string')).toBeFalsy();
+        });
+        it('a function is not an arguments object', function() {
+            expect(_.isArguments(_.isArguments)).toBeFalsy();
+        });
+        it('but the arguments object is an arguments object', function() {
+            expect(_.isArguments(args)).toBeTruthy();
+        });
+        it('but not when it\'s converted into an array', function() {
+            expect(_.isArguments(_.toArray(args))).toBeFalsy();
+        });
+        it('and not vanilla arrays.', function() {
+            expect(_.isArguments([1, 2, 3])).toBeFalsy();
+        });
+
     });
 
-    QUnit.test('isObject', function (assert) {
-        assert.ok(_.isObject(arguments), 'the arguments object is object');
-        assert.ok(_.isObject([1, 2, 3]), 'and arrays');
-        if (testElement) {
-            assert.ok(_.isObject(testElement), 'and DOM element');
-        }
-        assert.ok(_.isObject(function () { }), 'and functions');
-        assert.notOk(_.isObject(null), 'but not null');
-        assert.notOk(_.isObject(void 0), 'and not undefined');
-        assert.notOk(_.isObject('string'), 'and not string');
-        assert.notOk(_.isObject(12), 'and not number');
-        assert.notOk(_.isObject(true), 'and not boolean');
-        assert.ok(_.isObject(new String('string')), 'but new String()');
+    describe('isObject', function () {
+        it('the arguments object is object', function() {
+            expect(_.isObject(arguments)).toBeTruthy();
+        });
+        it('and arrays', function() {
+            expect(_.isObject([1, 2, 3])).toBeTruthy();
+        });
+        it('and DOM element', function() {
+            if (testElement) {
+                expect(_.isObject(testElement)).toBeTruthy();
+            }
+        });
+        it('and functions', function() {
+            expect(_.isObject(function() {})).toBeTruthy();
+        });
+        it('but not null', function() {
+            expect(_.isObject(null)).toBeFalsy();
+        });
+        it('and not undefined', function() {
+            expect(_.isObject(void 0)).toBeFalsy();
+        });
+        it('and not string', function() {
+            expect(_.isObject('string')).toBeFalsy();
+        });
+        it('and not number', function() {
+            expect(_.isObject(12)).toBeFalsy();
+        });
+        it('and not boolean', function() {
+            expect(_.isObject(true)).toBeFalsy();
+        });
+        it('but new String()', function() {
+            expect(_.isObject(new String('string'))).toBeTruthy();
+        });
+
     });
 
-    QUnit.test('isArray', function (assert) {
-        assert.notOk(_.isArray(void 0), 'undefined vars are not arrays');
-        assert.notOk(_.isArray(arguments), 'the arguments object is not an array');
-        assert.ok(_.isArray([1, 2, 3]), 'but arrays are');
+    describe('isArray', function () {
+        it('undefined vars are not arrays', function() {
+            expect(_.isArray(void 0)).toBeFalsy();
+        });
+        it('the arguments object is not an array', function() {
+            expect(_.isArray(arguments)).toBeFalsy();
+        });
+        it('but arrays are', function() {
+            expect(_.isArray([1, 2, 3])).toBeTruthy();
+        });
+
     });
 
-    QUnit.test('isString', function (assert) {
+    describe('isString', function () {
         var obj = new String('I am a string object');
-        if (testElement) {
-            assert.notOk(_.isString(testElement), 'an element is not a string');
-        }
-        assert.ok(_.isString([1, 2, 3].join(', ')), 'but strings are');
-        expect(_.isString('I am a string literal'), true, 'string literals are');
-        assert.ok(_.isString(obj), 'so are String objects');
-        expect(_.isString(1), false);
+        it('an element is not a string', function() {
+            if (testElement) {
+                expect(_.isString(testElement)).toBeFalsy();
+            }
+        });
+        it('but strings are', function() {
+            expect(_.isString([1, 2, 3].join(', '))).toBeTruthy();
+        });
+        it('string literals are', function() {
+            expect(_.isString('I am a string literal')).toBe(true);
+        });
+        it('so are String objects', function() {
+            expect(_.isString(obj)).toBeTruthy();
+            expect(_.isString(1)).toBe(false);
+        });
+
     });
 
-    QUnit.test('isSymbol', function (assert) {
-        assert.notOk(_.isSymbol(0), 'numbers are not symbols');
-        assert.notOk(_.isSymbol(''), 'strings are not symbols');
-        assert.notOk(_.isSymbol(_.isSymbol), 'functions are not symbols');
-        if (typeof Symbol === 'function') {
-            assert.ok(_.isSymbol(Symbol()), 'symbols are symbols');
-            assert.ok(_.isSymbol(Symbol('description')), 'described symbols are symbols');
-            assert.ok(_.isSymbol(Object(Symbol())), 'boxed symbols are symbols');
-        }
+    describe('isSymbol', function () {
+        it('numbers are not symbols', function() {
+            expect(_.isSymbol(0)).toBeFalsy();
+        });
+        it('strings are not symbols', function() {
+            expect(_.isSymbol('')).toBeFalsy();
+        });
+        it('functions are not symbols', function() {
+            expect(_.isSymbol(_.isSymbol)).toBeFalsy();
+        });
+        it('symbol function', function() {
+            if (typeof Symbol === 'function') {
+                expect(_.isSymbol(Symbol())).toBeTruthy();
+                expect(_.isSymbol(Symbol('description'))).toBeTruthy();
+                expect(_.isSymbol(Object(Symbol()))).toBeTruthy();
+            }
+        });
+
     });
 
-    QUnit.test('isNumber', function (assert) {
-        assert.notOk(_.isNumber('string'), 'a string is not a number');
-        assert.notOk(_.isNumber(arguments), 'the arguments object is not a number');
-        assert.notOk(_.isNumber(void 0), 'undefined is not a number');
-        assert.ok(_.isNumber(3 * 4 - 7 / 10), 'but numbers are');
-        assert.ok(_.isNumber(NaN), 'NaN *is* a number');
-        assert.ok(_.isNumber(Infinity), 'Infinity is a number');
-        assert.notOk(_.isNumber('1'), 'numeric strings are not numbers');
+    describe('isNumber', function () {
+        it('a string is not a number', function() {
+            expect(_.isNumber('string')).toBeFalsy();
+        });
+        it('the arguments object is not a number', function() {
+            expect(_.isNumber(arguments)).toBeFalsy();
+        });
+        it('undefined is not a number', function() {
+            expect(_.isNumber(void 0)).toBeFalsy();
+        });
+        it('but numbers are', function() {
+            expect(_.isNumber(3 * 4 - 7 / 10)).toBeTruthy();
+        });
+        it('NaN *is* a number', function() {
+            expect(_.isNumber(NaN)).toBeTruthy();
+        });
+        it('Infinity is a number', function() {
+            expect(_.isNumber(Infinity)).toBeTruthy();
+        });
+        it('numeric strings are not numbers', function() {
+            expect(_.isNumber('1')).toBeFalsy();
+        });
+
     });
 
-    QUnit.test('isBoolean', function (assert) {
-        assert.notOk(_.isBoolean(2), 'a number is not a boolean');
-        assert.notOk(_.isBoolean('string'), 'a string is not a boolean');
-        assert.notOk(_.isBoolean('false'), 'the string "false" is not a boolean');
-        assert.notOk(_.isBoolean('true'), 'the string "true" is not a boolean');
-        assert.notOk(_.isBoolean(arguments), 'the arguments object is not a boolean');
-        assert.notOk(_.isBoolean(void 0), 'undefined is not a boolean');
-        assert.notOk(_.isBoolean(NaN), 'NaN is not a boolean');
-        assert.notOk(_.isBoolean(null), 'null is not a boolean');
-        assert.ok(_.isBoolean(true), 'but true is');
-        assert.ok(_.isBoolean(false), 'and so is false');
+    describe('isBoolean', function () {
+        it('a number is not a boolean', function() {
+            expect(_.isBoolean(2)).toBeFalsy();
+        });
+        it('a string is not a boolean', function() {
+            expect(_.isBoolean('string')).toBeFalsy();
+        });
+        it('the string "false" is not a boolean', function() {
+            expect(_.isBoolean('false')).toBeFalsy();
+        });
+        it('the string "true" is not a boolean', function() {
+            expect(_.isBoolean('true')).toBeFalsy();
+        });
+        it('the arguments object is not a boolean', function() {
+            expect(_.isBoolean(arguments)).toBeFalsy();
+        });
+        it('undefined is not a boolean', function() {
+            expect(_.isBoolean(void 0)).toBeFalsy();
+        });
+        it('NaN is not a boolean', function() {
+            expect(_.isBoolean(NaN)).toBeFalsy();
+        });
+        it('null is not a boolean', function() {
+            expect(_.isBoolean(null)).toBeFalsy();
+        });
+        it('but true is', function() {
+            expect(_.isBoolean(true)).toBeTruthy();
+        });
+        it('and so is false', function() {
+            expect(_.isBoolean(false)).toBeTruthy();
+        });
+
     });
 
-    QUnit.test('isMap', function (assert) {
-        assert.notOk(_.isMap('string'), 'a string is not a map');
+    describe('isMap', function () {
+        it('a string is not a map', function() {
+            expect(_.isMap('string')).toBeFalsy();
+        });
+        
         assert.notOk(_.isMap(2), 'a number is not a map');
         assert.notOk(_.isMap({}), 'an object is not a map');
         assert.notOk(_.isMap(false), 'a boolean is not a map');
@@ -821,7 +1253,7 @@ describe('objects tests', function() {
             var keyString = 'a string';
             var obj = new Map();
             obj.set(keyString, 'value');
-            assert.ok(_.isMap(obj), 'but a map is');
+            expect(_.isMap(obj), 'but a map is');
         }
     });
 
@@ -844,7 +1276,7 @@ describe('objects tests', function() {
         if (typeof WeakMap === 'function') {
             var keyObj = {}, obj = new WeakMap();
             obj.set(keyObj, 'value');
-            assert.ok(_.isWeakMap(obj), 'but a weakmap is');
+            expect(_.isWeakMap(obj), 'but a weakmap is');
         }
     });
 
@@ -867,7 +1299,7 @@ describe('objects tests', function() {
         if (typeof Set === 'function') {
             var obj = new Set();
             obj.add(1).add('string').add(false).add({});
-            assert.ok(_.isSet(obj), 'but a set is');
+            expect(_.isSet(obj), 'but a set is');
         }
     });
 
@@ -891,7 +1323,7 @@ describe('objects tests', function() {
         if (typeof WeakSet === 'function') {
             var obj = new WeakSet();
             obj.add({ x: 1 }, { y: 'string' }).add({ y: 'string' }).add({ z: [1, 2, 3] });
-            assert.ok(_.isWeakSet(obj), 'but a weakset is');
+            expect(_.isWeakSet(obj), 'but a weakset is');
         }
     });
 
@@ -899,8 +1331,8 @@ describe('objects tests', function() {
         assert.notOk(_.isFunction(void 0), 'undefined vars are not functions');
         assert.notOk(_.isFunction([1, 2, 3]), 'arrays are not functions');
         assert.notOk(_.isFunction('moe'), 'strings are not functions');
-        assert.ok(_.isFunction(_.isFunction), 'but functions are');
-        assert.ok(_.isFunction(function () { }), 'even anonymous ones');
+        expect(_.isFunction(_.isFunction), 'but functions are');
+        expect(_.isFunction(function () { }), 'even anonymous ones');
 
         if (testElement) {
             assert.notOk(_.isFunction(testElement), 'elements are not functions');
@@ -928,12 +1360,12 @@ describe('objects tests', function() {
     QUnit.test('isDate', function (assert) {
         assert.notOk(_.isDate(100), 'numbers are not dates');
         assert.notOk(_.isDate({}), 'objects are not dates');
-        assert.ok(_.isDate(new Date()), 'but dates are');
+        expect(_.isDate(new Date()), 'but dates are');
     });
 
     QUnit.test('isRegExp', function (assert) {
         assert.notOk(_.isRegExp(_.identity), 'functions are not RegExps');
-        assert.ok(_.isRegExp(/identity/), 'but RegExps are');
+        expect(_.isRegExp(/identity/), 'but RegExps are');
     });
 
     QUnit.test('isFinite', function (assert) {
@@ -942,14 +1374,14 @@ describe('objects tests', function() {
         assert.notOk(_.isFinite(NaN), 'NaN is not finite');
         assert.notOk(_.isFinite(Infinity), 'Infinity is not finite');
         assert.notOk(_.isFinite(-Infinity), '-Infinity is not finite');
-        assert.ok(_.isFinite('12'), 'Numeric strings are numbers');
+        expect(_.isFinite('12'), 'Numeric strings are numbers');
         assert.notOk(_.isFinite('1a'), 'Non numeric strings are not numbers');
         assert.notOk(_.isFinite(''), 'Empty strings are not numbers');
         var obj = new Number(5);
-        assert.ok(_.isFinite(obj), 'Number instances can be finite');
-        assert.ok(_.isFinite(0), '0 is finite');
-        assert.ok(_.isFinite(123), 'Ints are finite');
-        assert.ok(_.isFinite(-12.44), 'Floats are finite');
+        expect(_.isFinite(obj), 'Number instances can be finite');
+        expect(_.isFinite(0), '0 is finite');
+        expect(_.isFinite(123), 'Ints are finite');
+        expect(_.isFinite(-12.44), 'Floats are finite');
         if (typeof Symbol === 'function') {
             assert.notOk(_.isFinite(Symbol()), 'symbols are not numbers');
             assert.notOk(_.isFinite(Symbol('description')), 'described symbols are not numbers');
@@ -962,8 +1394,8 @@ describe('objects tests', function() {
         assert.notOk(_.isNaN(null), 'null is not NaN');
         assert.notOk(_.isNaN(0), '0 is not NaN');
         assert.notOk(_.isNaN(new Number(0)), 'wrapped 0 is not NaN');
-        assert.ok(_.isNaN(NaN), 'but NaN is');
-        assert.ok(_.isNaN(new Number(NaN)), 'wrapped NaN is still NaN');
+        expect(_.isNaN(NaN), 'but NaN is');
+        expect(_.isNaN(new Number(NaN)), 'wrapped NaN is still NaN');
         if (typeof Symbol !== 'undefined') {
             assert.notOk(_.isNaN(Symbol()), 'symbol is not NaN');
         }
@@ -972,7 +1404,7 @@ describe('objects tests', function() {
     QUnit.test('isNull', function (assert) {
         assert.notOk(_.isNull(void 0), 'undefined is not null');
         assert.notOk(_.isNull(NaN), 'NaN is not null');
-        assert.ok(_.isNull(null), 'but null is');
+        expect(_.isNull(null), 'but null is');
     });
 
     QUnit.test('isUndefined', function (assert) {
@@ -980,21 +1412,21 @@ describe('objects tests', function() {
         assert.notOk(_.isUndefined(null), 'null is defined');
         assert.notOk(_.isUndefined(false), 'false is defined');
         assert.notOk(_.isUndefined(NaN), 'NaN is defined');
-        assert.ok(_.isUndefined(), 'nothing is undefined');
-        assert.ok(_.isUndefined(void 0), 'undefined is undefined');
+        expect(_.isUndefined(), 'nothing is undefined');
+        expect(_.isUndefined(void 0), 'undefined is undefined');
     });
 
     QUnit.test('isError', function (assert) {
         assert.notOk(_.isError(1), 'numbers are not Errors');
         assert.notOk(_.isError(null), 'null is not an Error');
         assert.notOk(_.isError(Error), 'functions are not Errors');
-        assert.ok(_.isError(new Error()), 'Errors are Errors');
-        assert.ok(_.isError(new EvalError()), 'EvalErrors are Errors');
-        assert.ok(_.isError(new RangeError()), 'RangeErrors are Errors');
-        assert.ok(_.isError(new ReferenceError()), 'ReferenceErrors are Errors');
-        assert.ok(_.isError(new SyntaxError()), 'SyntaxErrors are Errors');
-        assert.ok(_.isError(new TypeError()), 'TypeErrors are Errors');
-        assert.ok(_.isError(new URIError()), 'URIErrors are Errors');
+        expect(_.isError(new Error()), 'Errors are Errors');
+        expect(_.isError(new EvalError()), 'EvalErrors are Errors');
+        expect(_.isError(new RangeError()), 'RangeErrors are Errors');
+        expect(_.isError(new ReferenceError()), 'ReferenceErrors are Errors');
+        expect(_.isError(new SyntaxError()), 'SyntaxErrors are Errors');
+        expect(_.isError(new TypeError()), 'TypeErrors are Errors');
+        expect(_.isError(new URIError()), 'URIErrors are Errors');
     });
 
     QUnit.test('tap', function (assert) {
@@ -1015,18 +1447,18 @@ describe('objects tests', function() {
 
     QUnit.test('has', function (assert) {
         var obj = { foo: 'bar', func: function () { } };
-        assert.ok(_.has(obj, 'foo'), 'checks that the object has a property.');
+        expect(_.has(obj, 'foo'), 'checks that the object has a property.');
         assert.notOk(_.has(obj, 'baz'), "returns false if the object doesn't have the property.");
-        assert.ok(_.has(obj, 'func'), 'works for functions too.');
+        expect(_.has(obj, 'func'), 'works for functions too.');
         obj.hasOwnProperty = null;
-        assert.ok(_.has(obj, 'foo'), 'works even when the hasOwnProperty method is deleted.');
+        expect(_.has(obj, 'foo'), 'works even when the hasOwnProperty method is deleted.');
         var child = {};
         child.prototype = obj;
         assert.notOk(_.has(child, 'foo'), 'does not check the prototype chain for a property.');
         expect(_.has(null, 'foo'), false, 'returns false for null');
         expect(_.has(void 0, 'foo'), false, 'returns false for undefined');
 
-        assert.ok(_.has({ a: { b: 'foo' } }, ['a', 'b']), 'can check for nested properties.');
+        expect(_.has({ a: { b: 'foo' } }, ['a', 'b']), 'can check for nested properties.');
         assert.notOk(_.has({ a: child }, ['a', 'foo']), 'does not check the prototype of nested props.');
     });
 
@@ -1101,10 +1533,10 @@ describe('objects tests', function() {
         expect(_.isMatch({ x: 1, y: 5 }, specObj), true);
         expect(_.isMatch({ x: 1, y: 4 }, specObj), false);
 
-        assert.ok(_.isMatch(specObj, { x: 1, y: 5 }), 'inherited and own properties are checked on the test object');
+        expect(_.isMatch(specObj, { x: 1, y: 5 }), 'inherited and own properties are checked on the test object');
 
         Prototest.x = 5;
-        assert.ok(_.isMatch({ x: 5, y: 1 }, Prototest), 'spec can be a function');
+        expect(_.isMatch({ x: 5, y: 1 }, Prototest), 'spec can be a function');
 
         //null edge cases
         var oCon = { constructor: Object };
@@ -1148,10 +1580,10 @@ describe('objects tests', function() {
         expect(protospec({ x: 1, y: 5 }), true);
         expect(protospec({ x: 1, y: 4 }), false);
 
-        assert.ok(_.matcher({ x: 1, y: 5 })(specObj), 'inherited and own properties are checked on the test object');
+        expect(_.matcher({ x: 1, y: 5 })(specObj), 'inherited and own properties are checked on the test object');
 
         Prototest.x = 5;
-        assert.ok(_.matcher(Prototest)({ x: 5, y: 1 }), 'spec can be a function');
+        expect(_.matcher(Prototest)({ x: 5, y: 1 }), 'spec can be a function');
 
         // #1729
         var o = { b: 1 };
