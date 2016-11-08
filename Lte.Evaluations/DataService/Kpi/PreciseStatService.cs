@@ -57,10 +57,9 @@ namespace Lte.Evaluations.DataService.Kpi
             OrderPreciseStatPolicy policy)
         {
             var query =
-                _repository.GetAll()
-                    .Where(x => x.StatTime >= begin && x.StatTime < end && x.TotalMrs > TotalMrsThreshold);
+                _repository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.TotalMrs > TotalMrsThreshold);
             var result =
-                from q in query.AsEnumerable()
+                from q in query
                 group q by new
                 {
                     q.CellId,
@@ -87,12 +86,12 @@ namespace Lte.Evaluations.DataService.Kpi
 
         public List<TopPrecise4GContainer> GetTopCountStats(DateTime begin, DateTime end, int topCount,
             OrderPreciseStatPolicy policy, IEnumerable<ENodeb> eNodebs)
-        {
-            var query =
-                _repository.GetAll()
-                    .Where(x => x.StatTime >= begin && x.StatTime < end && x.TotalMrs > TotalMrsThreshold);
+        {    ;
+            var districtList =
+                (from q in _repository.GetAll() join e in eNodebs on q.CellId equals e.ENodebId select q).Where(
+                    x => x.StatTime >= begin && x.StatTime < end && x.TotalMrs > TotalMrsThreshold).ToList();
             var result =
-                from q in query.AsEnumerable()
+                from q in districtList
                 group q by new
                 {
                     q.CellId,
@@ -112,12 +111,8 @@ namespace Lte.Evaluations.DataService.Kpi
                     },
                     TopDates = g.Count()
                 };
-
-            var districtResults = from r in result
-                join e in eNodebs on r.PreciseCoverage4G.CellId equals e.ENodebId
-                select r;
-
-            var orderResult = districtResults.Order(policy, topCount);
+            
+            var orderResult = result.Order(policy, topCount);
             return orderResult;
         }
 

@@ -1234,73 +1234,128 @@ describe('objects tests', function () {
         it('a string is not a map', function() {
             expect(_.isMap('string')).toBeFalsy();
         });
-        
-        assert.notOk(_.isMap(2), 'a number is not a map');
-        assert.notOk(_.isMap({}), 'an object is not a map');
-        assert.notOk(_.isMap(false), 'a boolean is not a map');
-        assert.notOk(_.isMap(void 0), 'undefined is not a map');
-        assert.notOk(_.isMap([1, 2, 3]), 'an array is not a map');
-        if (typeof Set === 'function') {
-            assert.notOk(_.isMap(new Set()), 'a set is not a map');
-        }
-        if (typeof WeakSet === 'function') {
-            assert.notOk(_.isMap(new WeakSet()), 'a weakset is not a map');
-        }
-        if (typeof WeakMap === 'function') {
-            assert.notOk(_.isMap(new WeakMap()), 'a weakmap is not a map');
-        }
-        if (typeof Map === 'function') {
-            var keyString = 'a string';
-            var obj = new Map();
-            obj.set(keyString, 'value');
-            expect(_.isMap(obj), 'but a map is');
-        }
+        it('a number is not a map', function() {
+            expect(_.isMap(2)).toBeFalsy();
+        });
+        it('an object is not a map', function() {
+            expect(_.isMap({})).toBeFalsy();
+        });
+        it('a boolean is not a map', function() {
+            expect(_.isMap(false)).toBeFalsy();
+        });
+        it('undefined is not a map', function() {
+            expect(_.isMap(void 0)).toBeFalsy();
+        });
+        it('an array is not a map', function() {
+            expect(_.isMap([1, 2, 3])).toBeFalsy();
+        });
+        it('a set is not a map', function() {
+            if (typeof Set === 'function') {
+                expect(_.isMap(new Set())).toBeFalsy();
+            }
+        });
+        it('a weakset is not a map', function() {
+            if (typeof WeakSet === 'function') {
+                expect(_.isMap(new WeakSet())).toBeFalsy();
+            }
+        });
+        it('but a map is', function() {
+            if (typeof Map === 'function') {
+                var keyString = 'a string';
+                var obj = new Map();
+                obj.set(keyString, 'value');
+                expect(_.isMap(obj)).toBeTruth();
+            }
+        });
+
     });
 
-    QUnit.test('isWeakMap', function (assert) {
-        assert.notOk(_.isWeakMap('string'), 'a string is not a weakmap');
-        assert.notOk(_.isWeakMap(2), 'a number is not a weakmap');
-        assert.notOk(_.isWeakMap({}), 'an object is not a weakmap');
-        assert.notOk(_.isWeakMap(false), 'a boolean is not a weakmap');
-        assert.notOk(_.isWeakMap(void 0), 'undefined is not a weakmap');
-        assert.notOk(_.isWeakMap([1, 2, 3]), 'an array is not a weakmap');
-        if (typeof Set === 'function') {
-            assert.notOk(_.isWeakMap(new Set()), 'a set is not a weakmap');
-        }
-        if (typeof WeakSet === 'function') {
-            assert.notOk(_.isWeakMap(new WeakSet()), 'a weakset is not a weakmap');
-        }
-        if (typeof Map === 'function') {
-            assert.notOk(_.isWeakMap(new Map()), 'a map is not a weakmap');
-        }
-        if (typeof WeakMap === 'function') {
-            var keyObj = {}, obj = new WeakMap();
-            obj.set(keyObj, 'value');
-            expect(_.isWeakMap(obj), 'but a weakmap is');
-        }
+    describe('isWeakMap', function () {
+        it('a string is not a weakmap', function() {
+            expect(_.isWeakMap('string')).toBeFalsy();
+        });
+        it('a number is not a weakmap', function() {
+            expect(_.isWeakMap(2)).toBeFalsy();
+        });
+        it('an object is not a weakmap', function() {
+            expect(_.isWeakMap({})).toBeFalsy();
+        });
+        it('a boolean is not a weakmap', function() {
+            expect(_.isWeakMap(false)).toBeFalsy();
+        });
+        it('undefined is not a weakmap', function() {
+            expect(_.isWeakMap(void 0)).toBeFalsy();
+        });
+        it('an array is not a weakmap', function() {
+            expect(_.isWeakMap([1, 2, 3])).toBeFalsy();
+        });
+        it('a set is not a weakmap', function() {
+            if (typeof Set === 'function') {
+                expect(_.isWeakMap(new Set())).toBeFalsy();
+            }
+        });
+        it('a weakset is not a weakmap', function() {
+            if (typeof WeakSet === 'function') {
+                expect(_.isWeakMap(new WeakSet())).toBeFalsy();
+            }
+        });
+        it('a map is not a weakmap', function() {
+            if (typeof Map === 'function') {
+                expect(_.isWeakMap(new Map())).toBeFalsy();
+            }
+        });
+        it('but a weakmap is', function() {
+            if (typeof WeakMap === 'function') {
+                var keyObj = {}, obj = new WeakMap();
+                obj.set(keyObj, 'value');
+                expect(_.isWeakMap(obj)).toBeTruthy();
+            }
+        });
+
     });
 
-    QUnit.test('isSet', function (assert) {
-        assert.notOk(_.isSet('string'), 'a string is not a set');
-        assert.notOk(_.isSet(2), 'a number is not a set');
-        assert.notOk(_.isSet({}), 'an object is not a set');
-        assert.notOk(_.isSet(false), 'a boolean is not a set');
-        assert.notOk(_.isSet(void 0), 'undefined is not a set');
-        assert.notOk(_.isSet([1, 2, 3]), 'an array is not a set');
-        if (typeof Map === 'function') {
-            assert.notOk(_.isSet(new Map()), 'a map is not a set');
-        }
-        if (typeof WeakMap === 'function') {
-            assert.notOk(_.isSet(new WeakMap()), 'a weakmap is not a set');
-        }
-        if (typeof WeakSet === 'function') {
-            assert.notOk(_.isSet(new WeakSet()), 'a weakset is not a set');
-        }
-        if (typeof Set === 'function') {
-            var obj = new Set();
-            obj.add(1).add('string').add(false).add({});
-            expect(_.isSet(obj), 'but a set is');
-        }
+    describe('isSet', function () {
+        it('a string is not a set', function() {
+            expect(_.isSet('string')).toBeFalsy();
+        });
+        it('a number is not a set', function() {
+            expect(_.isSet(2)).toBeFalsy();
+        });
+        it('an object is not a set', function() {
+            expect(_.isSet({})).toBeFalsy();
+        });
+        it('a boolean is not a set', function() {
+            expect(_.isSet(false)).toBeFalsy();
+        });
+        it('undefined is not a set', function() {
+            expect(_.isSet(void 0)).toBeFalsy();
+        });
+        it('an array is not a set', function() {
+            expect(_.isSet([1, 2, 3])).toBeFalsy();
+        });
+        it('a map is not a set', function() {
+            if (typeof Map === 'function') {
+                expect(_.isSet(new Map())).toBeFalsy();
+            }
+        });
+        it('a weakmap is not a set', function() {
+            if (typeof WeakMap === 'function') {
+                expect(_.isSet(new WeakMap())).toBeFalsy();
+            }
+        });
+        it('a weakset is not a set', function() {
+            if (typeof WeakSet === 'function') {
+                expect(_.isSet(new WeakSet())).toBeFalsy();
+            }
+        });
+        it('but a set is', function() {
+            if (typeof Set === 'function') {
+                var obj = new Set();
+                obj.add(1).add('string').add(false).add({});
+                expect(_.isSet(obj)).toBeTruthy();
+            }
+        });
+
     });
 
     QUnit.test('isWeakSet', function (assert) {
