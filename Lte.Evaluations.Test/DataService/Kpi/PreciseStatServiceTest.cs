@@ -104,29 +104,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 OrderPreciseStatPolicy.OrderBySecondRate);
             Assert.AreEqual(stats.Count(), 1);
         }
-
-        [Test]
-        public void Test_GetStats()
-        {
-            _repository.MockQueryItems(new List<PreciseCoverage4G>
-            {
-                new PreciseCoverage4G
-                {
-                    CellId = 1,
-                    SectorId = 1,
-                    StatTime = DateTime.Parse("2015-1-1"),
-                    TotalMrs = 5000
-                }
-            }.AsQueryable());
-            var query =
-                _repository.Object.GetAll()
-                    .Where(
-                        x =>
-                            x.StatTime >= DateTime.Parse("2014-12-30") && x.StatTime < DateTime.Parse("2015-1-4") &&
-                            x.TotalMrs > PreciseStatService.TotalMrsThreshold);
-            Assert.AreEqual(query.Count(), 1);
-        }
-
+        
         [TestCase(new[] {"2015-2-1", "2015-2-2" }, new[] { "2015-2-1", "2015-2-2" }, "2015-1-31", "2015-2-3")]
         [TestCase(new[] { "2015-2-2", "2015-2-1" }, new[] { "2015-2-1", "2015-2-2" }, "2015-1-31", "2015-2-3")]
         public void Test_GetTimeSpanStats(string[] soureDates, string[] resultDates, string beginDate, string endDate)

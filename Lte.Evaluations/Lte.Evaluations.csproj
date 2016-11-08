@@ -132,6 +132,11 @@
     <Compile Include="DataService\Switch\UlOpenLoopPcService.cs" />
     <Compile Include="MapperSerive\Infrastructure\BasicContainers.cs" />
     <Compile Include="Policy\MyAssemblyFinder.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\Basic\RegionStat.cs" />
     <Compile Include="ViewModels\Channel\CellOpenLoopPcView.cs" />
     <Compile Include="ViewModels\Channel\CellPower.cs" />
@@ -204,6 +209,10 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

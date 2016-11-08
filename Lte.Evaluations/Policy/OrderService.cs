@@ -6,13 +6,39 @@ using System.Threading.Tasks;
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MapperSerive.Kpi;
+using Lte.Evaluations.Properties;
 using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.Policy
 {
     public static class OrderPreciseStatService
     {
+        public static IEnumerable<TopPrecise4GContainer> GenerateContainers(this IEnumerable<PreciseCoverage4G> stats)
+        {
+            return from q in stats
+                group q by new
+                {
+                    q.CellId,
+                    q.SectorId
+                }
+                into g
+                select new TopPrecise4GContainer
+                {
+                    PreciseCoverage4G = new PreciseCoverage4G
+                    {
+                        CellId = g.Key.CellId,
+                        SectorId = g.Key.SectorId,
+                        FirstNeighbors = g.Sum(q => q.FirstNeighbors),
+                        SecondNeighbors = g.Sum(q => q.SecondNeighbors),
+                        ThirdNeighbors = g.Sum(q => q.ThirdNeighbors),
+                        TotalMrs = g.Sum(q => q.TotalMrs)
+                    },
+                    TopDates = g.Count()
+                };
+        } 
+
         public static List<TopPrecise4GContainer> Order(this IEnumerable<TopPrecise4GContainer> result, 
             OrderPreciseStatPolicy policy, int topCount)
         {
@@ -22,18 +48,26 @@ namespace Lte.Evaluations.Policy
                     return result.OrderByDescending(x => x.PreciseCoverage4G.SecondRate)
                         .Take(topCount).ToList();
                 case OrderPreciseStatPolicy.OrderBySecondNeighborsDescending:
-                    return result.OrderByDescending(x => x.PreciseCoverage4G.SecondNeighbors)
+                    return result
+                        .Where(x => x.PreciseCoverage4G.SecondRate > Settings.Default.PreciseRateThreshold)
+                        .OrderByDescending(x => x.PreciseCoverage4G.SecondNeighbors)
                         .Take(topCount).ToList();
                 case OrderPreciseStatPolicy.OrderByFirstRate:
                     return result.OrderByDescending(x => x.PreciseCoverage4G.FirstRate)
                         .Take(topCount).ToList();
                 case OrderPreciseStatPolicy.OrderByFirstNeighborsDescending:
-                    return result.OrderByDescending(x => x.PreciseCoverage4G.FirstNeighbors)
+                    return result
+                        .Where(x => x.PreciseCoverage4G.SecondRate > Settings.Default.PreciseRateThreshold)
+                        .OrderByDescending(x => x.PreciseCoverage4G.FirstNeighbors)
                         .Take(topCount).ToList();
                 case OrderPreciseStatPolicy.OrderByTopDatesDescending:
-                    return result.OrderByDescending(x => x.TopDates).Take(topCount).ToList();
+                    return result
+                        .Where(x => x.PreciseCoverage4G.SecondRate > Settings.Default.PreciseRateThreshold)
+                        .OrderByDescending(x => x.TopDates).Take(topCount).ToList();
                 default:
-                    return result.OrderByDescending(x => x.PreciseCoverage4G.TotalMrs)
+                    return result
+                        .Where(x => x.PreciseCoverage4G.SecondRate > Settings.Default.PreciseRateThreshold)
+                        .OrderByDescending(x => x.PreciseCoverage4G.TotalMrs)
                         .Take(topCount).ToList();
             }
         }

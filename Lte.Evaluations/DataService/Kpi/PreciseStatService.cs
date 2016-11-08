@@ -4,6 +4,7 @@ using System.Linq;
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.Policy;
+using Lte.Evaluations.Properties;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Kpi;
@@ -16,8 +17,6 @@ namespace Lte.Evaluations.DataService.Kpi
     {
         private readonly IPreciseCoverage4GRepository _repository;
         private readonly IENodebRepository _eNodebRepository;
-
-        public static int TotalMrsThreshold { get; } = 3000;
 
         public PreciseStatService(IPreciseCoverage4GRepository repository, IENodebRepository eNodebRepository)
         {
@@ -57,28 +56,8 @@ namespace Lte.Evaluations.DataService.Kpi
             OrderPreciseStatPolicy policy)
         {
             var query =
-                _repository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.TotalMrs > TotalMrsThreshold);
-            var result =
-                from q in query
-                group q by new
-                {
-                    q.CellId,
-                    q.SectorId
-                }
-                into g
-                select new TopPrecise4GContainer
-                {
-                    PreciseCoverage4G = new PreciseCoverage4G
-                    {
-                        CellId = g.Key.CellId,
-                        SectorId = g.Key.SectorId,
-                        FirstNeighbors = g.Sum(q => q.FirstNeighbors),
-                        SecondNeighbors = g.Sum(q => q.SecondNeighbors),
-                        ThirdNeighbors = g.Sum(q => q.ThirdNeighbors),
-                        TotalMrs = g.Sum(q => q.TotalMrs)
-                    },
-                    TopDates = g.Count()
-                };
+                _repository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.TotalMrs > Settings.Default.TotalMrsThreshold);
+            var result = query.GenerateContainers();
 
             var orderResult = result.Order(policy, topCount);
             return orderResult;
@@ -88,29 +67,12 @@ namespace Lte.Evaluations.DataService.Kpi
             OrderPreciseStatPolicy policy, IEnumerable<ENodeb> eNodebs)
         {    ;
             var districtList =
-                (from q in _repository.GetAll() join e in eNodebs on q.CellId equals e.ENodebId select q).Where(
-                    x => x.StatTime >= begin && x.StatTime < end && x.TotalMrs > TotalMrsThreshold).ToList();
-            var result =
-                from q in districtList
-                group q by new
-                {
-                    q.CellId,
-                    q.SectorId
-                }
-                into g
-                select new TopPrecise4GContainer
-                {
-                    PreciseCoverage4G = new PreciseCoverage4G
-                    {
-                        CellId = g.Key.CellId,
-                        SectorId = g.Key.SectorId,
-                        FirstNeighbors = g.Sum(q => q.FirstNeighbors),
-                        SecondNeighbors = g.Sum(q => q.SecondNeighbors),
-                        ThirdNeighbors = g.Sum(q => q.ThirdNeighbors),
-                        TotalMrs = g.Sum(q => q.TotalMrs)
-                    },
-                    TopDates = g.Count()
-                };
+                from q in
+                    _repository.GetAllList(
+                        x => x.StatTime >= begin && x.StatTime < end && x.TotalMrs > Settings.Default.TotalMrsThreshold)
+                join e in eNodebs on q.CellId equals e.ENodebId
+                select q;
+            var result = districtList.GenerateContainers();
             
             var orderResult = result.Order(policy, topCount);
             return orderResult;
