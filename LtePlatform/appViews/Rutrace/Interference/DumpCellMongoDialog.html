@@ -4,6 +4,11 @@
     </button>
     <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
+<h5>
+    <button class="btn btn-sm btn-success" ng-click="updateDetails(currentIndex-1)" ng-if="currentIndex > 0">前一天</button>
+    MRO统计日期：{{dateRecords[currentIndex].date | date: "yyyy-MM-dd"}}
+    <button class="btn btn-sm btn-success" ng-click="updateDetails(currentIndex+1)" ng-if="currentIndex < dateRecords.length - 1">后一天</button>
+</h5>
 <div uib-tabset active="active">
     <div uib-tab index="0" heading="列表">
         <table class="table table-hover">
@@ -27,24 +32,18 @@
                     <td>{{record.mrsTaStats ? '有' : '无'}}</td>
                     <td>{{record.mrsPhrStats ? '有' : '无'}}</td>
                     <td>{{record.mrsTaRsrpStats ? '有' : '无'}}</td>
-                    <td style="min-width:150px">
-                        <button class="btn btn-sm btn-default" ng-click="updateDetails(record)">详情</button>
-                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
     <div uib-tab index="1" heading="MRO干扰详情">
-        <h5>统计日期：{{recordDate | date: "yyyy-MM-dd"}}</h5>
-        <div mro-interference-table current-details="currentDetails"></div>
+        <div mro-interference-table current-details="dateRecords[currentIndex].mongoRecords"></div>
     </div>
     <div uib-tab index="2" heading="MRO覆盖详情">
-        <h5>统计日期：{{recordDate | date: "yyyy-MM-dd"}}</h5>
-        <div mro-rsrp-table current-details="currentDetails"></div>
+        <div mro-rsrp-table current-details="dateRecords[currentIndex].mongoRecords"></div>
     </div>
     <div uib-tab index="3" heading="MRO-TA详情">
-        <h5>统计日期：{{recordDate | date: "yyyy-MM-dd"}}</h5>
-        <div mro-ta-table current-details="currentDetails"></div>
+        <div mro-ta-table current-details="dateRecords[currentIndex].mongoRecords"></div>
     </div>
     <div uib-tab index="4" heading="MRS覆盖详情">
         <div mrs-rsrp-table current-details="mrsRsrpStats"></div>

@@ -1,44 +1,12 @@
-﻿<div uib-alert ng-repeat="message in updateMessages" type="success" dismiss-on-timeout="2000" close="closeAlert(updateMessages, $index)">
+﻿<div uib-alert ng-repeat="message in updateMessages" class="alert-success" dismiss-on-timeout="2000" close="closeAlert(updateMessages, $index)">
     {{message.cellName}}共完成{{message.counts}}条邻区信息导入
-</div>
-<div class="row">
-    <div class="col-md-6">
-        <div>
-            <label>开始日期：</label>
-            <div class="input-group">
-                <input type="text" class="form-control" uib-beginpicker-popup ng-model="beginDate.value"
-                       is-open="beginDate.opened" ng-required="true" close-text="Close" />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="beginDate.opened = true">
-                        <i class="glyphicon glyphicon-calendar"></i>
-                    </button>
-                    <button class="btn btn-warning" ng-click="reset()">重置</button>
-                    <button class="btn btn-default" ng-if="neighborCells.length" ng-click="upbeginPci()">
-                        更新PCI
-                    </button>
-                </span>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <label>结束日期：</label>
-            <div class="input-group">
-                <input type="text" class="form-control" uib-beginpicker-popup ng-model="endDate.value"
-                       is-open="endDate.opened" ng-required="true" close-text="Close" />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="endDate.opened = true">
-                        <i class="glyphicon glyphicon-calendar"></i>
-                    </button>
-                    <button class="btn btn-primary" ng-click="dump()">导入</button>
-                    <a class="btn btn-default" ng-href="{{rootPath}}top">返回</a>
-                </span>
-            </div>
-        </div>
-    </div>
 </div>
 <p>
     <div class="btn-group-sm" style="float: right">
+        <button class="btn btn-sm btn-warning" ng-click="reset()">重置</button>
+        <button class="btn btn-sm btn-default" ng-if="neighborCells.length" ng-click="upbeginPci()">
+            更新PCI
+        </button>
         <button class="btn btn-sm btn-default" ng-click="synchronizeNeighbors()">
             同步邻区
         </button>
@@ -48,14 +16,16 @@
         <button class="btn btn-sm btn-info" ng-if="neighborCells.length" ng-click="monitorNeighbors()">
             监控邻区
         </button>
+        <button class="btn btn-sm btn-primary" ng-click="dump()">导入</button>
+        <a class="btn btn-sm btn-default" ng-href="{{rootPath}}top">返回</a>
     </div>
 </p>
 <div uib-tabset active="active">
     <div uib-tab index="0" heading="正向邻区">
-        <div dump-forward-neighbors neighbor-cells="neighborCells" begin-begin="beginDate" end-begin="endDate"></div>
+        <div dump-forward-neighbors neighbor-cells="neighborCells" begin-date="beginDate" end-date="endDate"></div>
     </div>
     <div uib-tab index="1" heading="反向邻区">
-        <div dump-backward-neighbors neighbor-cells="reverseCells" begin-begin="beginDate" end-begin="endDate"></div>
+        <div dump-backward-neighbors neighbor-cells="reverseCells" begin-date="beginDate" end-date="endDate"></div>
     </div>
 </div>
 

@@ -239,6 +239,7 @@ angular.module('rutrace.main', ['app.common'])
 
         $scope.dateRecords = [];
         $scope.currentDetails = [];
+        $scope.currentIndex = 0;
 
         $scope.ok = function() {
             $uibModalInstance.close($scope.dateRecords);
@@ -259,7 +260,7 @@ angular.module('rutrace.main', ['app.common'])
                     record.mongoRecords = result;
                 });
                 dumpProgress.queryMrsRsrpItem(eNodebId, sectorId, record.date).then(function(result) {
-                    //console.log(result['rsrP_00']);
+                    record.mrsRsrpStats = result;
                     $scope.mrsRsrpStats.push({
                         statDate: result.statDate,
                         data: _.map(_.range(48), function (index) {
@@ -268,7 +269,7 @@ angular.module('rutrace.main', ['app.common'])
                     });
                 });
                 dumpProgress.queryMrsTadvItem(eNodebId, sectorId, record.date).then(function (result) {
-                    //console.log(result['tadv_00']);
+                    record.mrsTaStats = result;
                     $scope.mrsTaStats.push({
                         statDate: result.statDate,
                         data: _.map(_.range(44), function (index) {
@@ -287,12 +288,8 @@ angular.module('rutrace.main', ['app.common'])
             });
         };
 
-        $scope.updateDetails = function (record) {
-            $scope.currentDetails = record.mongoRecords;
-            $scope.recordDate = record.date;
-            $scope.mrsTaStats = record.mrsTaStats;
-            $scope.mrsPhrStats = record.mrsPhrStats;
-            $scope.mrsTaRsrpStats = record.mrsTaRsrpStats;
+        $scope.updateDetails = function (index) {
+            $scope.currentIndex = index % $scope.dateRecords.length;
         };
 
         $scope.dumpAllRecords = function() {
