@@ -173,12 +173,16 @@
                 var stats = generalChartService.generateCompoundStats(views);
 
                 var chart = new DrilldownPie();
-                chart.title.text = "工单类型分布图";
-                chart.series[0].data = [];
-                chart.drilldown.series = [];
-                chart.series[0].name = "工单类型";
+                chart.initialize({
+                    title: "工单类型分布图",
+                    seriesName: "工单类型"
+                });
                 angular.forEach(stats, function (stat) {
-                    chart.addOneSeries(stat.type, stat.total, stat.subData);
+                    chart.addOneSeries({
+                        name: stat.type,
+                        value: stat.total,
+                        subData: stat.subData
+                    });
                 });
                 return chart.options;
             },
@@ -187,12 +191,16 @@
                 var stats = generalChartService.generateCompoundStats(views);
 
                 var chart = new DrilldownPie();
-                chart.title.text = "工单状态分布图";
-                chart.series[0].data = [];
-                chart.drilldown.series = [];
-                chart.series[0].name = "工单状态";
+                chart.initialize({
+                    title: "工单状态分布图",
+                    seriesName: "工单状态"
+                });
                 angular.forEach(stats, function (stat) {
-                    chart.addOneSeries(stat.type, stat.total, stat.subData);
+                    chart.addOneSeries({
+                        name: stat.type,
+                        value: stat.total,
+                        subData: stat.subData
+                    });
                 });
                 return chart.options;
             },
@@ -201,12 +209,16 @@
                 var stats = generalChartService.generateCompoundStats(views);
 
                 var chart = new DrilldownPie();
-                chart.title.text = "工单镇区分布图";
-                chart.series[0].data = [];
-                chart.drilldown.series = [];
-                chart.series[0].name = "镇区";
+                chart.initialize({
+                    title: "工单镇区分布图",
+                    seriesName: "镇区"
+                });
                 angular.forEach(stats, function (stat) {
-                    chart.addOneSeries(stat.type, stat.total, stat.subData);
+                    chart.addOneSeries({
+                        name: stat.type,
+                        value: stat.total,
+                        subData: stat.subData
+                    });
                 });
                 return chart.options;
             },
@@ -221,12 +233,16 @@
                 });
 
                 var chart = new DrilldownPie();
-                chart.title.text = "流量镇区分布图(TB)";
-                chart.series[0].data = [];
-                chart.drilldown.series = [];
-                chart.series[0].name = "区域";
+                chart.initialize({
+                    title: "流量镇区分布图(TB)",
+                    seriesName: "区域"
+                });
                 angular.forEach(stats, function (stat) {
-                    chart.addOneSeries(stat.type, stat.total, stat.subData);
+                    chart.addOneSeries({
+                        name: stat.type,
+                        value: stat.total,
+                        subData: stat.subData
+                    });
                 });
                 return chart.options;
             }

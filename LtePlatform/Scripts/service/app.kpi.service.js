@@ -77,32 +77,40 @@
             },
             getMrPieOptions: function (districtStats, townStats) {
                 var chart = new DrilldownPie();
-                chart.title.text = "分镇区测量报告数分布图";
-                chart.series[0].data = [];
-                chart.drilldown.series = [];
-                chart.series[0].name = "区域";
+                chart.initialize({
+                    title: "分镇区测量报告数分布图",
+                    seriesName: "区域"
+                });
 
                 var results = chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
                     return stat.totalMrs;
                 });
                 angular.forEach(results, function(data) {
-                    chart.addOneSeries(data.district, data.districtData, data.subData);
+                    chart.addOneSeries({
+                        name: data.district, 
+                        value: data.districtData, 
+                        subData: data.subData
+                    });
                 });
                 
                 return chart.options;
             },
             getPreciseRateOptions: function (districtStats, townStats) {
                 var chart = new DrilldownColumn();
-                chart.title.text = "分镇区精确覆盖率分布图";
-                chart.series[0].data = [];
-                chart.drilldown.series = [];
-                chart.series[0].name = "区域";
+                chart.initialize({
+                    title: "分镇区精确覆盖率分布图",
+                    seriesName: "区域"
+                });
 
                 var results = chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
                     return stat.preciseRate;
                 });
                 angular.forEach(results, function (data) {
-                    chart.addOneSeries(data.district, data.districtData, data.subData);
+                    chart.addOneSeries({
+                        name: data.district,
+                        value: data.districtData,
+                        subData: data.subData
+                    });
                 });
 
                 return chart.options;

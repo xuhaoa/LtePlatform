@@ -42,18 +42,25 @@
     };
 }
 
-DrilldownChart.prototype.addOneSeries = function (name, value, subData) {
+DrilldownChart.prototype.addOneSeries = function (series) {
     var self = this;
     self.series[0].data.push({
-        name: name,
-        y: value,
-        drilldown: name
+        name: series.name,
+        y: series.value,
+        drilldown: series.name
     });
     self.drilldown.series.push({
-        name: name,
-        id: name,
-        data: subData
+        name: series.name,
+        id: series.name,
+        data: series.subData
     });
+};
+
+DrilldownChart.prototype.initialize = function(options) {
+    this.title.text = options.title;
+    this.series[0].data = [];
+    this.drilldown.series = [];
+    this.series[0].name = options.seriesName;
 };
 
 var DrilldownColumn = function () {
