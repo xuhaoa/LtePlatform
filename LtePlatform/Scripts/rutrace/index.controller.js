@@ -308,7 +308,8 @@ angular.module('rutrace.main', ['app.common'])
         }
         $scope.queryRecords();
     })
-    .controller("rutrace.coverage", function ($scope, $routeParams, $uibModal, topPreciseService, preciseInterferenceService) {
+    .controller("rutrace.coverage", function ($scope, $routeParams, $uibModal, topPreciseService, preciseInterferenceService,
+        preciseChartService) {
         $scope.currentCellName = $routeParams.name + "-" + $routeParams.sectorId;
         $scope.page.title = "TOP指标覆盖分析: " + $scope.currentCellName;
         $scope.orderPolicy = topPreciseService.getOrderPolicySelection();
@@ -318,8 +319,9 @@ angular.module('rutrace.main', ['app.common'])
         $scope.showCoverage = function () {
             topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
                 $routeParams.cellId, $routeParams.sectorId).then(function (result) {
-                    $scope.coverageList = result;
-                });
+                    var options = preciseChartService.getCoverageOptions(result);
+                $("#coverage-chart").highcharts(options);
+            });
             preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
                 $routeParams.cellId, $routeParams.sectorId).then(function (result) {
                     $scope.interferenceCells = result;
