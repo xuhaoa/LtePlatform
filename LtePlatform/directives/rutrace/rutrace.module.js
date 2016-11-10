@@ -1,6 +1,5 @@
 ﻿angular.module('rutrace.module', [
         'rutrace.top.cell',
-        'rutrace.coverage',
         'rutrace.stat',
         'rutrace.neighbor',
         'rutrace.interference',
@@ -35,30 +34,6 @@ angular.module('rutrace.top.cell', ['kpi.workitem'])
                 };
             }
         };
-    });
-
-angular.module('rutrace.coverage', ['neighbor.mongo'])
-    .directive('coverageTable', function(htmlRoot, coverageDialogService) {
-        return {
-            restrict: 'ECMA',
-            replace: true,
-            scope: {
-                coverageList: '=',
-                dialogTitle: '=',
-                cellId: '=',
-                sectorId: '='
-            },
-            templateUrl: htmlRoot + 'CoverageTable.Tpl.html',
-            link: function(scope, element, attrs) {
-                scope.showDetails = function(date) {
-                    coverageDialogService.showDetails(scope.dialogTitle, scope.cellId, scope.sectorId, date);
-                };
-
-                scope.analyzeTa = function(date) {
-                    coverageDialogService.showTa(scope.dialogTitle, scope.cellId, scope.sectorId, date);
-                };
-            }
-        }
     });
 
 angular.module('rutrace.stat', [])

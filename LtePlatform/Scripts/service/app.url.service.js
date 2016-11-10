@@ -525,7 +525,7 @@
             }
         };
     })
-    .factory('chartCalculateService', function () {
+    .factory('chartCalculateService', function (appFormatService) {
         return {
             generateDrillDownData: function (districtStats, townStats, queryFunction) {
                 var results = [];
@@ -564,6 +564,49 @@
                 return {
                     statDates: statDates,
                     districtStats: districtStats
+                };
+            },
+            generateMrsRsrpStats: function(stats) {
+                var categories = _.range(-140, -43);
+                var values = _.range(0, 97, 0);
+                var array = _.map(_.range(48), function (index) {
+                    var value = stats['rsrP_' + appFormatService.prefixInteger(index, 2)];
+                    return _.isNumber(value) ? value : 0;
+                });
+                var i;
+                for (i = 2; i < 37; i++) {
+                    values[i + 24] = array[i];
+                }
+                for (i = 37; i < 47; i++) {
+                    values[2 * i - 13] = values[2 * i - 12] = array[i] / 2;
+                }
+                var tail = array[47];
+                for (i = 0; i < 17; i++) {
+                    if (tail > values[80 + i] / 2) {
+                        tail -= values[80 + i] / 2 + 1;
+                        values[81 + i] = values[80 + i] / 2 + 1;
+                    } else {
+                        values[81 + i] = tail;
+                        break;
+                    }
+                }
+                var avg = array[1] / 5;
+                var step = (values[26] - avg) / 3;
+                for (i = 0; i < 5; i++) {
+                    values[21 + i] = avg + (i - 2) * step;
+                }
+                var head = values[21];
+                for (i = 0; i < 21; i++) {
+                    if (head > values[21 - i] / 2) {
+                        head -= values[21 - i] / 2 + 1;
+                        values[21 - i - 1] = values[21 - i] / 2 + 1;
+                    } else {
+                        values[21 - i - 1] = head;
+                    }
+                }
+                return {
+                    categories: categories,
+                    values: values
                 };
             }
         };

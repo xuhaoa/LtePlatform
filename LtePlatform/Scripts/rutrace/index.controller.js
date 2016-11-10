@@ -339,43 +339,21 @@ angular.module('rutrace.main', ['app.common'])
             preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
                 $routeParams.cellId, $routeParams.sectorId).then(function (result) {
                     $scope.interferenceVictims = result;
-                    angular.forEach($scope.interferenceVictims, function (victim) {
-                        if (victim.victimENodebId > 0) {
-                            topPreciseService.queryCellStastic(victim.victimENodebId, victim.victimPci,
-                                $scope.beginDate.value, $scope.endDate.value).then(function (coverage) {
-                                    if (coverage) {
-                                        victim.mrCount = coverage.mrCount;
-                                        victim.weakCoverCount = coverage.weakCoverCount;
-                                        victim.overCoverCount = coverage.overCoverCount;
-                                    }
-                                });
-                        }
-                    })
+                angular.forEach($scope.interferenceVictims, function(victim) {
+                    if (victim.victimENodebId > 0) {
+                        topPreciseService.queryCellStastic(victim.victimENodebId, victim.victimPci,
+                            $scope.beginDate.value, $scope.endDate.value).then(function(coverage) {
+                            if (coverage) {
+                                victim.mrCount = coverage.mrCount;
+                                victim.weakCoverCount = coverage.weakCoverCount;
+                                victim.overCoverCount = coverage.overCoverCount;
+                            }
+                        });
+                    }
                 });
+            });
         };
         $scope.showCoverage();
-    })
-    .controller('coverage.details.dialog', function ($scope, $uibModalInstance, dialogTitle, cellId, sectorId, date,
-        kpiDisplayService, topPreciseService) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.chartView = {
-            options: ['覆盖指标', '干扰指标'],
-            selected: '覆盖指标'
-        };
-        topPreciseService.queryOneDayCellStastic(cellId, sectorId, date).then(function (result) {
-            var options = kpiDisplayService.getCoverageOptions(result, cellId + '-' + sectorId + '覆盖指标变化趋势');
-            $("#weak-and-over-coverage").highcharts(options);
-            var interferenceOptions = kpiDisplayService.getCoverageInterferenceOptions(result, cellId + '-' + sectorId + '干扰指标变化趋势');
-            $("#interference-db").highcharts(interferenceOptions);
-        });
-
-        $scope.ok = function () {
-            $uibModalInstance.close('已处理');
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
     })
     .controller('coverage.ta.dialog', function ($scope, $uibModalInstance, dialogTitle, cellId, sectorId, date,
         topPreciseService, cellPreciseService, kpiDisplayService) {

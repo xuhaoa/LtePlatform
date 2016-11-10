@@ -595,7 +595,6 @@
     <Content Include="directives\parameters\eNodeb\ENodebDetailsTable.html" />
     <Content Include="appViews\Parameters\Region\ENodebInfo.html" />
     <Content Include="appViews\Rutrace\Chart.html" />
-    <Content Include="appViews\Rutrace\Coverage\DetailsChartDialog.html" />
     <Content Include="appViews\Rutrace\Coverage\Index.html" />
     <Content Include="appViews\Rutrace\Coverage\TaChartDialog.html" />
     <Content Include="directives\parameters\eNodeb\Query.html" />
@@ -686,7 +685,6 @@
     <Content Include="Areas\TestPage\Scripts\5ch5\Player.js">
       <DependentUpon>Player.coffee</DependentUpon>
     </Content>
-    <Content Include="directives\rutrace\CoverageTable.Tpl.html" />
     <Content Include="directives\rutrace\rutrace.module.js" />
     <Content Include="directives\rutrace\trend\MrTable.html" />
     <Content Include="directives\rutrace\trend\PreciseTable.html" />
