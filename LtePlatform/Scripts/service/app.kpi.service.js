@@ -700,11 +700,12 @@
                     'sectorId': sectorId
                 });
             },
-            queryOneDayCellStastic: function (cellId, sectorId, date) {
-                return generalHttpService.getApiData('CellStastic', {
-                    eNodebId: cellId,
-                    sectorId: sectorId,
-                    date: date
+            queryTa: function (begin, end, cellId, sectorId) {
+                return generalHttpService.getApiData('MrsTadv', {
+                    'begin': begin,
+                    'end': end,
+                    'eNodebId': cellId,
+                    'sectorId': sectorId
                 });
             },
             queryAverageRsrpTaStastic: function (cellId, sectorId, date) {
