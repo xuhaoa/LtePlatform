@@ -879,7 +879,7 @@ angular.module('rutrace.main', ['app.common'])
                     $("#interference-over10db").highcharts(pieOptions.over10DbOption);
                     $("#interference-mod3").highcharts(pieOptions.mod3Option);
                     $("#interference-mod6").highcharts(pieOptions.mod6Option);
-                    topPreciseService.queryTa($scope.beginDate.value, $scope.endDate.value, 
+                    topPreciseService.queryRsrpTa($scope.beginDate.value, $scope.endDate.value, 
                         $routeParams.cellId, $routeParams.sectorId).then(function (info) {
                     });
                 });

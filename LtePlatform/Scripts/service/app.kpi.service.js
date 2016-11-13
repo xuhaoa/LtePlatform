@@ -708,49 +708,12 @@
                     'sectorId': sectorId
                 });
             },
-            queryAverageRsrpTaStastic: function (cellId, sectorId, date) {
-                return generalHttpService.getApiData('AverageRsrpTa', {
-                    eNodebId: cellId,
-                    sectorId: sectorId,
-                    date: date
-                });
-            },
-            queryAverageRsrpTaDateSpan: function (cellId, sectorId, begin, end) {
-                return generalHttpService.getApiData('AverageRsrpTa', {
-                    eNodebId: cellId,
-                    sectorId: sectorId,
-                    begin: begin,
-                    end: end
-                });
-            },
-            queryAbove110TaRate: function (cellId, sectorId, date) {
-                return generalHttpService.getApiData('Above110TaRate', {
-                    eNodebId: cellId,
-                    sectorId: sectorId,
-                    date: date
-                });
-            },
-            queryAbove110TaDateSpan: function (cellId, sectorId, begin, end) {
-                return generalHttpService.getApiData('Above110TaRate', {
-                    eNodebId: cellId,
-                    sectorId: sectorId,
-                    begin: begin,
-                    end: end
-                });
-            },
-            queryAbove105TaRate: function (cellId, sectorId, date) {
-                return generalHttpService.getApiData('Above105TaRate', {
-                    eNodebId: cellId,
-                    sectorId: sectorId,
-                    date: date
-                });
-            },
-            queryAbove105TaDateSpan: function (cellId, sectorId, begin, end) {
-                return generalHttpService.getApiData('Above105TaRate', {
-                    eNodebId: cellId,
-                    sectorId: sectorId,
-                    begin: begin,
-                    end: end
+            queryRsrpTa: function (begin, end, cellId, sectorId) {
+                return generalHttpService.getApiData('MrsTadvRsrp', {
+                    'begin': begin,
+                    'end': end,
+                    'eNodebId': cellId,
+                    'sectorId': sectorId
                 });
             }
         };
