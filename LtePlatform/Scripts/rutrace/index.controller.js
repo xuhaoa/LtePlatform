@@ -321,7 +321,12 @@ angular.module('rutrace.main', ['app.common'])
                 $routeParams.cellId, $routeParams.sectorId).then(function (result) {
                     var options = preciseChartService.getCoverageOptions(result);
                 $("#coverage-chart").highcharts(options);
-            });
+                });
+            topPreciseService.queryTa($scope.beginDate.value, $scope.endDate.value,
+                $routeParams.cellId, $routeParams.sectorId).then(function (result) {
+                    var options = preciseChartService.getTaOptions(result);
+                    $("#ta-chart").highcharts(options);
+                });
             preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
                 $routeParams.cellId, $routeParams.sectorId).then(function (result) {
                     $scope.interferenceCells = result;

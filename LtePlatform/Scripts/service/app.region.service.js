@@ -301,6 +301,27 @@
                 return chart.options;
             },
 
+            getTaOptions: function (stats) {
+                var chart = new ComboChart();
+                chart.title.text = '接入距离分布统计';
+
+                chart.yAxis[0].title.text = 'MR次数';
+                chart.xAxis[0].title.text = '接入距离(米)';
+                angular.forEach(stats, function (stat, index) {
+                    var data = chartCalculateService.generateMrsTaStats(stat);
+                    if (index === 0) {
+                        chart.xAxis[0].categories = data.categories;
+                    }
+                    chart.series.push({
+                        type: 'spline',
+                        name: stat.statDate,
+                        data: data.values
+                    });
+                });
+
+                return chart.options;
+            },
+
             getCoverageInterferenceOptions: function (stats, title) {
                 var chart = new TimeSeriesLine();
                 chart.title.text = title;
