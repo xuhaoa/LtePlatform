@@ -786,10 +786,6 @@
     <Content Include="Scripts\angular-sanitize.min.js" />
     <Content Include="Scripts\angular-spinner.js" />
     <Content Include="Scripts\angular-spinner.min.js" />
-    <Content Include="Scripts\angular-strap.js" />
-    <Content Include="Scripts\angular-strap.min.js" />
-    <Content Include="Scripts\angular-strap.tpl.js" />
-    <Content Include="Scripts\angular-strap.tpl.min.js" />
     <Content Include="Scripts\angular-toggle-switch.js" />
     <Content Include="Scripts\angular-toggle-switch.min.js" />
     <Content Include="Scripts\angular-touch.js" />
@@ -1809,7 +1805,6 @@
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-spinner.min.js.map" />
     <Content Include="Scripts\angular-messages.min.js.map" />
-    <Content Include="Scripts\angular-strap.min.js.map" />
     <Content Include="Scripts\jcs-auto-validate.min.js.map" />
     <Content Include="Scripts\angular-parse-ext.min.js.map" />
     <Content Include="Scripts\kpi\interference.import.controller.js" />
