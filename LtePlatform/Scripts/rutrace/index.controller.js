@@ -317,6 +317,13 @@ angular.module('rutrace.main', ['app.common'])
         $scope.cellId = $routeParams.cellId;
         $scope.sectorId = $routeParams.sectorId;
         $scope.showCoverage = function () {
+            topPreciseService.queryRsrpTa($scope.beginDate.value, $scope.endDate.value,
+                $routeParams.cellId, $routeParams.sectorId).then(function (result) {
+                    for (var rsrpIndex = 0; rsrpIndex < 12; rsrpIndex++) {
+                        var options = preciseChartService.getRsrpTaOptions(result, rsrpIndex);
+                        $("#rsrp-ta-" + rsrpIndex).highcharts(options);
+                    }
+            });
             topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
                 $routeParams.cellId, $routeParams.sectorId).then(function (result) {
                     var options = preciseChartService.getCoverageOptions(result);
@@ -332,14 +339,14 @@ angular.module('rutrace.main', ['app.common'])
                     $scope.interferenceCells = result;
                     angular.forEach($scope.interferenceCells, function (neighbor) {
                         if (neighbor.destENodebId > 0) {
-                            topPreciseService.queryCellStastic(neighbor.destENodebId, neighbor.destPci,
-                                $scope.beginDate.value, $scope.endDate.value).then(function (coverage) {
-                                    if (coverage) {
-                                        neighbor.mrCount = coverage.mrCount;
-                                        neighbor.weakCoverCount = coverage.weakCoverCount;
-                                        neighbor.overCoverCount = coverage.overCoverCount;
-                                    }
-                                });
+                            //topPreciseService.queryCellStastic(neighbor.destENodebId, neighbor.destPci,
+                            //    $scope.beginDate.value, $scope.endDate.value).then(function (coverage) {
+                            //        if (coverage) {
+                            //            neighbor.mrCount = coverage.mrCount;
+                            //            neighbor.weakCoverCount = coverage.weakCoverCount;
+                            //            neighbor.overCoverCount = coverage.overCoverCount;
+                            //        }
+                            //    });
                         }
                     });
                 });
@@ -348,14 +355,14 @@ angular.module('rutrace.main', ['app.common'])
                     $scope.interferenceVictims = result;
                 angular.forEach($scope.interferenceVictims, function(victim) {
                     if (victim.victimENodebId > 0) {
-                        topPreciseService.queryCellStastic(victim.victimENodebId, victim.victimPci,
-                            $scope.beginDate.value, $scope.endDate.value).then(function(coverage) {
-                            if (coverage) {
-                                victim.mrCount = coverage.mrCount;
-                                victim.weakCoverCount = coverage.weakCoverCount;
-                                victim.overCoverCount = coverage.overCoverCount;
-                            }
-                        });
+                        //topPreciseService.queryCellStastic(victim.victimENodebId, victim.victimPci,
+                        //    $scope.beginDate.value, $scope.endDate.value).then(function(coverage) {
+                        //    if (coverage) {
+                        //        victim.mrCount = coverage.mrCount;
+                        //        victim.weakCoverCount = coverage.weakCoverCount;
+                        //        victim.overCoverCount = coverage.overCoverCount;
+                        //    }
+                        //});
                     }
                 });
             });

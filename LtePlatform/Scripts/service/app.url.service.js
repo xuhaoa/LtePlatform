@@ -715,7 +715,7 @@
                     - 44
                 ];
                 rsrpIndex = Math.min(Math.max(0, rsrpIndex), 11);
-                var array = _.map(_.range(10), function (index) {
+                var array = _.map(_.range(11), function (index) {
                     var value = stats['tadv' + appFormatService.prefixInteger(index, 2) + 'Rsrp' +appFormatService.prefixInteger(rsrpIndex, 2)];
                     return _.isNumber(value) ? value : 0;
                 });

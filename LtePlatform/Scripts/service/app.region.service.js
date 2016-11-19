@@ -331,14 +331,15 @@
                     xTitle: '接入距离(米)',
                     yTitle: 'MR次数'
                 });
+                chart.legend.align = 'right';
                 angular.forEach(stats, function (stat, index) {
-                    var data = chartCalculateService.generateRsrpTaStats(stats, rsrpIndex);
+                    var data = chartCalculateService.generateRsrpTaStats(stat, rsrpIndex);
                     if (index === 0) {
                         chart.xAxis[0].categories = data.categories;
                         chart.title.text += '(' + data.seriesName + ')';
                     }
                     chart.series.push({
-                        type: 'spline',
+                        type: 'line',
                         name: stat.statDate,
                         data: data.values
                     });

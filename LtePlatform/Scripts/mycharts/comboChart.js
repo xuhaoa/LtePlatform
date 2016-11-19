@@ -87,15 +87,12 @@ function ComboChart() {
     this.options.series = this.series = [];
     this.options.xAxis = this.xAxis = [this.defaultXAxis];
     this.options.yAxis = this.yAxis = [this.defaultYAxis];
+    this.options.chart = {
+        zoomType: 'xy'
+    };
 }
 
 ComboChart.prototype = new GeneralChart();
-ComboChart.prototype.chart = {
-    zoomType: 'xy'
-};
-angular.extend(ComboChart.prototype.options, GeneralChart.prototype.options, {
-    chart: ComboChart.prototype.chart
-});
 angular.extend(ComboChart.prototype.options, GeneralChart.prototype.options, {
     xAxis: []
 });
@@ -120,10 +117,10 @@ ComboChart.prototype.pushOneYAxis = function (yLabel) {
     });
 };
 ComboChart.prototype.initialize=function(settings) {
-    chart.title.text = settings.title;
+    this.title.text = settings.title;
 
-    chart.yAxis[0].title.text = settings.yTitle;
-    chart.xAxis[0].title.text = settings.xTitle;
+    this.yAxis[0].title.text = settings.yTitle;
+    this.xAxis[0].title.text = settings.xTitle;
 }
 
 var SingleAxisChart = function () {
