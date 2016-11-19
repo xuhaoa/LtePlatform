@@ -282,10 +282,11 @@
 
             getCoverageOptions: function (stats) {
                 var chart = new ComboChart();
-                chart.title.text = '覆盖情况统计';
-                
-                chart.yAxis[0].title.text = 'MR次数';
-                chart.xAxis[0].title.text = 'RSRP(dBm)';
+                chart.initialize({
+                    title: '覆盖情况统计',
+                    xTitle: 'RSRP(dBm)',
+                    yTitle: 'MR次数'
+                });
                 angular.forEach(stats, function (stat, index) {
                     var data = chartCalculateService.generateMrsRsrpStats(stat);
                     if (index === 0) {
@@ -303,10 +304,11 @@
 
             getTaOptions: function (stats) {
                 var chart = new ComboChart();
-                chart.title.text = '接入距离分布统计';
-
-                chart.yAxis[0].title.text = 'MR次数';
-                chart.xAxis[0].title.text = '接入距离(米)';
+                chart.initialize({
+                    title: '接入距离分布统计',
+                    xTitle: '接入距离(米)',
+                    yTitle: 'MR次数'
+                });
                 angular.forEach(stats, function (stat, index) {
                     var data = chartCalculateService.generateMrsTaStats(stat);
                     if (index === 0) {
@@ -322,62 +324,26 @@
                 return chart.options;
             },
 
-            getCoverageInterferenceOptions: function (stats, title) {
-                var chart = new TimeSeriesLine();
-                chart.title.text = title;
-                var mod3Rates = [];
-                var mod6Rates = [];
-                angular.forEach(stats, function (stat) {
-                    mod3Rates.push([
-                        appFormatService.getUTCTime(stat.currentDate),
-                        stat.mrCount === 0 ? null : stat.mod3Count / stat.mrCount * 100
-                    ]);
-                    mod6Rates.push([
-                        appFormatService.getUTCTime(stat.currentDate),
-                        stat.mrCount === 0 ? null : stat.mod6Count / stat.mrCount * 100
-                    ]);
+            getRsrpTaOptions: function (stats, rsrpIndex) {
+                var chart = new ComboChart();
+                chart.initialize({
+                    title: '接入距离分布统计',
+                    xTitle: '接入距离(米)',
+                    yTitle: 'MR次数'
                 });
-                chart.yAxis.title.text = '同模干扰比例（%）';
-                chart.series.push({
-                    type: 'area',
-                    name: 'MOD3干扰比例',
-                    data: mod3Rates
+                angular.forEach(stats, function (stat, index) {
+                    var data = chartCalculateService.generateRsrpTaStats(stats, rsrpIndex);
+                    if (index === 0) {
+                        chart.xAxis[0].categories = data.categories;
+                        chart.title.text += '(' + data.seriesName + ')';
+                    }
+                    chart.series.push({
+                        type: 'spline',
+                        name: stat.statDate,
+                        data: data.values
+                    });
                 });
-                chart.series.push({
-                    type: 'area',
-                    name: 'MOD6干扰比例',
-                    data: mod6Rates
-                });
-                return chart.options;
-            },
 
-            getAverageRsrpTaOptions: function (stats, title) {
-                var chart = new TimeSeriesLine();
-                chart.title.text = title;
-                chart.xAxis.categories = taDivision;
-                chart.xAxis.title.text = 'TA区间';
-                chart.yAxis.title.text = '平均RSRP按TA分布（dBm）';
-                chart.series.push({
-                    name: '平均RSRP',
-                    data: stats
-                });
-                return chart.options;
-            },
-
-            getAboveRateTaOptions: function (above110Stats, above105Stats, title) {
-                var chart = new TimeSeriesLine();
-                chart.title.text = title;
-                chart.xAxis.categories = taDivision;
-                chart.xAxis.title.text = 'TA区间';
-                chart.yAxis.title.text = 'TA分布覆盖率（%）';
-                chart.series.push({
-                    name: '-110dBm以上覆盖率',
-                    data: above110Stats
-                });
-                chart.series.push({
-                    name: '-105dBm以上覆盖率',
-                    data: above105Stats
-                });
                 return chart.options;
             }
         }

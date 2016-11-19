@@ -119,6 +119,12 @@ ComboChart.prototype.pushOneYAxis = function (yLabel) {
         }
     });
 };
+ComboChart.prototype.initialize=function(settings) {
+    chart.title.text = settings.title;
+
+    chart.yAxis[0].title.text = settings.yTitle;
+    chart.xAxis[0].title.text = settings.xTitle;
+}
 
 var SingleAxisChart = function () {
     GeneralChart.call(this);

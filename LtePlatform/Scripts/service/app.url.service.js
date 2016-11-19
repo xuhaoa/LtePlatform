@@ -698,6 +698,84 @@
                         0.999808 * array[44]
                     ]
                 };
+            },
+            generateRsrpTaStats: function(stats, rsrpIndex) {
+                var rsrpDivisions = [
+                    -110,
+                    - 105,
+                    - 100,
+                    - 95,
+                    - 90,
+                    - 85,
+                    - 80,
+                    - 75,
+                    - 70,
+                    - 65,
+                    - 60,
+                    - 44
+                ];
+                rsrpIndex = Math.min(Math.max(0, rsrpIndex), 11);
+                var array = _.map(_.range(10), function (index) {
+                    var value = stats['tadv' + appFormatService.prefixInteger(index, 2) + 'Rsrp' +appFormatService.prefixInteger(rsrpIndex, 2)];
+                    return _.isNumber(value) ? value : 0;
+                });
+                return {
+                    seriesName: rsrpIndex === 0 ? 'RSRP<-110dBm' : rsrpDivisions[rsrpIndex - 1] + 'dBm<=RSRP<' + rsrpDivisions[rsrpIndex] + 'dBm',
+                    categories: [
+                        100,
+                        200,
+                        300,
+                        400,
+                        500,
+                        600,
+                        700,
+                        800,
+                        900,
+                        1000,
+                        1200,
+                        1400,
+                        1600,
+                        1800,
+                        2000,
+                        2400,
+                        2800,
+                        3200,
+                        3600,
+                        4000,
+                        5000,
+                        6000,
+                        8000,
+                        10000,
+                        15000
+                    ],
+                    values: [
+                        0.426693975 * array[0],
+                        0.426693975 * array[0],
+                        0.14661205 * array[0] + 0.280081925 * array[1],
+                        0.426693975 * array[1],
+                        0.2932241 * array[1] + 0.133469875 * array[2],
+                        0.426693975 * array[2],
+                        0.426693975 * array[2],
+                        0.013142174 * array[2] + 0.413551801 * array[3],
+                        0.426693975 * array[3],
+                        0.159754224 * array[3] + 0.133469875 * array[4],
+                        0.426693975 * array[4],
+                        0.426693975 * array[4],
+                        0.013142174 * array[4] + 0.413551801 * array[5],
+                        0.426693975 * array[5],
+                        0.159754224 * array[5] + 0.133469875 * array[6],
+                        0.426693975 * array[6],
+                        0.426693975 * array[6],
+                        0.013142174 * array[6] + 0.413551801 * array[7],
+                        0.426693975 * array[7],
+                        0.159754224 * array[7] + 0.266939751 * array[8],
+                        0.129363573 * array[8] + 0.058883769 * array[9],
+                        0.188247342 * array[9],
+                        0.376494684 * array[9],
+                        0.376374206 * array[9] + 0.000064 * array[10],
+                        0.500032002 * array[10]
+                    ]
+                };
             }
         };
     });
