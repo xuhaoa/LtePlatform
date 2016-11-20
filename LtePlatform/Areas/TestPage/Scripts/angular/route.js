@@ -97,9 +97,6 @@
                 displayName: "日期控件",
                 items: [
                     {
-                        url: indexPath + "begin",
-                        displayName: "自定义"
-                    }, {
                         url: indexPath + "dateparser",
                         displayName: "日期解析"
                     }, {
@@ -225,10 +222,6 @@
             .when('/links', {
                 templateUrl: chap10Dir + "Links.html",
                 controller: "LinksController"
-            })
-            .when('/begin', {
-                templateUrl: chap10Dir + "DateTimeTest.html",
-                controller: "DateController"
             })
             .when('/dateparser', {
                 templateUrl: chap10Dir + "demo.dateparser.html",

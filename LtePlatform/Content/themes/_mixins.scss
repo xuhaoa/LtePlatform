@@ -1,9 +1,10 @@
-﻿
+﻿@import "_colors.scss";
+
 @mixin panel-def($color) {
     background: $color; 
-    color: #fff; 
+    color: $color-all-white; 
     .panel-body {
-        color: #000000;
+        color: $color-all-black;
         p {
             @extend %panel-body-p-common;
         }
@@ -19,15 +20,15 @@
 @mixin modal-header-def($color) {
     background-color: $color;
     .modal-title {
-        color: #fff;
+        color: $color-all-white;
     }
     button.close {
-        color: #ffffff;
+        color: $color-all-white;
     }
 }
 
 @mixin thead-def($color) {
     background-color: $color;
-    color: #fff;
+    color: $color-all-white;
     font-weight: bold;
 }

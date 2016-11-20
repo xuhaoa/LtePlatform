@@ -42,7 +42,6 @@
 /// <reference path="angular-spinner.min.js" />
 /// <reference path="angular-toggle-switch.min.js" />
 /// <reference path="angular-touch.min.js" />
-/// <reference path="angular-ui/bootstrap-datetimepicker.js" />
 /// <reference path="angular-ui/csv.js" />
 /// <reference path="angular-ui/customize/directive.public.js" />
 /// <reference path="angular-ui/pdfmake.js" />

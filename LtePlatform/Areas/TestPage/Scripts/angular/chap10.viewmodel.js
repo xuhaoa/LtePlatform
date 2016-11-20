@@ -2,19 +2,6 @@
 angular.module('test.angular.chap10', ['app.common'])
     .controller("LinksController", function($scope) {
         $scope.section.title = "Links";
-    }).controller("DateController", function ($scope, appFormatService) {
-        var lastWeek = new Date();
-        lastWeek.setDate(lastWeek.getDate() - 7);
-        var today = new Date();
-        $scope.sectionTitle = "Date";
-        $scope.beginDate = {
-            title: "开始日期",
-            value: appFormatService.getDateString(lastWeek, "yyyy-MM-dd")
-        };
-        $scope.endDate = {
-            title: "结束日期",
-            value: appFormatService.getDateString(today, "yyyy-MM-dd")
-        };
     })
     .controller('FormDateController', function() {
 

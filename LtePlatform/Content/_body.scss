@@ -19,12 +19,12 @@ body {
 .navbar-blue-azure {
     background-color: $color-blue-azure;
     border-color: $color-blue-azure;
-    background-image: linear-gradient(to bottom,#3c3c3c 0,$color-blue-azure 100%);
+    background-image: linear-gradient(to bottom,$color-half-gray 0,$color-blue-azure 100%);
     background-repeat: repeat-x;    
 }
 
 .nav-navbar-list>li>a {
-    color: #fff;
+    color: $color-all-white;
     &:hover {
         background-color: $color-dark-gray;
     }
@@ -40,7 +40,7 @@ ul {
     background-color: $color-blue-azure;
     border-color: $color-blue-azure;
     li>a {
-        color: #fff;
+        color: $color-all-white;
     }    
 }
 

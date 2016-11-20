@@ -1,4 +1,5 @@
-﻿
+﻿@import "themes/_colors.scss";
+
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -32,8 +33,8 @@ textarea {
 }
 
 .tooltip.customClass .tooltip-inner {
-	color: #880000;
-	background-color: #ffff66;
+	color: $color-dark-red;
+	background-color: $color-yellow;
 	box-shadow: 0 6px 12px rgba(0,0,0,.175);
 	ul {
 		list-style: none;
@@ -43,11 +44,11 @@ textarea {
 
 
 .text-muted {
-	color: #9fadbb;
+	color: $color-light-gray-blue;
 }
 
-.bg-primary .glyphicon-remove { color: #5f6468;}
-.bg-primary .glyphicon-remove:hover { color: #ef4040;}
+.bg-primary .glyphicon-remove { color: $color-gray;}
+.bg-primary .glyphicon-remove:hover { color: $color-light-red;}
 
 .no-padding {
 	padding: 0; margin: 0;

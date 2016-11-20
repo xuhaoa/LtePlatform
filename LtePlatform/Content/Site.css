@@ -146,7 +146,7 @@ ul.nav-navbar-list .open > a.dropdown-toggle {
   .modal-header-blue .modal-title {
     color: #fff; }
   .modal-header-blue button.close {
-    color: #ffffff; }
+    color: #fff; }
 
 .panel-teal {
   background: #1ebfae;
@@ -159,7 +159,7 @@ ul.nav-navbar-list .open > a.dropdown-toggle {
   .modal-header-teal .modal-title {
     color: #fff; }
   .modal-header-teal button.close {
-    color: #ffffff; }
+    color: #fff; }
 
 .panel-orange {
   background: #ffb53e;
@@ -178,14 +178,14 @@ ul.nav-navbar-list .open > a.dropdown-toggle {
   .modal-header-orange .modal-title {
     color: #fff; }
   .modal-header-orange button.close {
-    color: #ffffff; }
+    color: #fff; }
 
 .modal-header-orange-dark {
   background-color: #ffa10b; }
   .modal-header-orange-dark .modal-title {
     color: #fff; }
   .modal-header-orange-dark button.close {
-    color: #ffffff; }
+    color: #fff; }
 
 .panel-red {
   background: #f9243f;
@@ -198,7 +198,7 @@ ul.nav-navbar-list .open > a.dropdown-toggle {
   .modal-header-red .modal-title {
     color: #fff; }
   .modal-header-red button.close {
-    color: #ffffff; }
+    color: #fff; }
 
 .panel-widget {
   margin: 0; }

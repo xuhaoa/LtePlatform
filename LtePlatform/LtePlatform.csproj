@@ -357,7 +357,6 @@
     <Compile Include="Controllers\Mongo\NeighborCellMongoController.cs" />
     <Compile Include="Controllers\Mr\InterferenceControllers.cs" />
     <Compile Include="Controllers\Mr\MrsControllers.cs" />
-    <Compile Include="Controllers\Mr\NeighborMonitorController.cs" />
     <Compile Include="Controllers\Mr\PreciseWorkItemController.cs" />
     <Compile Include="Controllers\ParametersController.cs" />
     <Compile Include="Controllers\Parameters\CellControllers.cs" />
@@ -631,7 +630,6 @@
     <Content Include="appViews\Rutrace\WorkItem\AnalyticDetails.html" />
     <Content Include="appViews\Rutrace\WorkItem\ForCity.html" />
     <Content Include="directives\workitem\PlatformAndFeedbackInfo.html" />
-    <Content Include="appViews\Test\Chapter10\DateTimeTest.html" />
     <Content Include="appViews\Test\Chapter10\demo.accordion.html" />
     <Content Include="appViews\Test\Chapter10\demo.alert.html" />
     <Content Include="appViews\Test\Chapter10\demo.buttons.html" />
@@ -769,8 +767,6 @@
     <None Include="Content\_components.scss" />
     <Content Include="Content\themes\baidu\close.png" />
     <Content Include="Content\themes\baidu\tipbox.jpg" />
-    <Content Include="Content\themes\bootstrap-datetimepicker.css" />
-    <Content Include="Content\themes\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\themes\coffee\style.css" />
     <None Include="Content\themes\map\cloudmap.scss" />
     <None Include="Content\themes\map\timecontrol.scss" />
@@ -792,8 +788,6 @@
     <Content Include="Scripts\angular-touch.min.js" />
     <Content Include="Scripts\angular-ui-router.js" />
     <Content Include="Scripts\angular-ui-router.min.js" />
-    <Content Include="Scripts\angular-ui\bootstrap-datetimepicker.js" />
-    <Content Include="Scripts\angular-ui\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\angular-ui\csv.js" />
     <Content Include="Scripts\angular-ui\customize\directive.public.js" />
     <Content Include="Scripts\angular-ui\pdfmake.js" />

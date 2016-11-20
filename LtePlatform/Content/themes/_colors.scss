@@ -1,12 +1,24 @@
 ﻿
-$color-gray: #5f6468;
 $color-blue: #30a5ff;
+$color-blue-azure: #3977d2;
+$color-light-gray-blue: #9fadbb;
+
 $color-teal: #1ebfae;
 $color-teal-lighten90: lighten($color-teal, 10%);
+
 $color-orange: #ffb53e;
 $color-orange-dark110: darken($color-orange, 10%);
+
 $color-red: #f9243f;
+$color-dark-red: #880000;
+$color-light-red: #ef4040;
+
+$color-yellow: #ffff66;
+$color-light-yellow: #00497E;
+
+$color-all-white: #fff;
+$color-gray: #5f6468;
 $color-dark-gray: #333333;
 $color-light-gray: #F3F3F3;
-$color-blue-azure: #3977d2;
-$color-light-yellow: #00497E;
+$color-half-gray: #3c3c3c;
+$color-all-black: #000000;
