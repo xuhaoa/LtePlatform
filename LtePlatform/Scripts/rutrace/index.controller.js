@@ -307,7 +307,7 @@
         $scope.queryRecords();
     })
     .controller("rutrace.coverage", function ($scope, $routeParams, $uibModal, topPreciseService, preciseInterferenceService,
-        preciseChartService) {
+        preciseChartService, coverageService) {
         $scope.currentCellName = $routeParams.name + "-" + $routeParams.sectorId;
         $scope.page.title = "TOP指标覆盖分析: " + $scope.currentCellName;
         $scope.orderPolicy = topPreciseService.getOrderPolicySelection();
@@ -339,7 +339,13 @@
                         if (neighbor.destENodebId > 0) {
                             topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
                                 neighbor.destENodebId, neighbor.destSectorId).then(function (coverage) {
-                                console.log(coverage);
+                                    if (coverage.length > 0) {
+                                        var coverageRate = coverageService.calculateWeakCoverageRate(coverage);
+                                        neighbor.weakBelow115 = coverageRate.rate115;
+                                        neighbor.weakBelow110 = coverageRate.rate110;
+                                        neighbor.weakBelow105 = coverageRate.rate105;
+                                    }
+                                
                             });
                         }
                     });
