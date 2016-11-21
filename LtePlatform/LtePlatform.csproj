@@ -27,6 +27,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <IsCompassProject>True</IsCompassProject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -1587,7 +1588,6 @@
     <Content Include="Scripts\r.js" />
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\rutrace\index.controller.js" />
-    <Content Include="Scripts\rutrace\workitem\controller.js" />
     <Content Include="Scripts\service\app.kpi.service.js" />
     <Content Include="Scripts\service\parameters\service.js" />
     <Content Include="Scripts\service\app.url.service.js" />

@@ -147,7 +147,6 @@
 /// <reference path="require.js" />
 /// <reference path="respond.js" />
 /// <reference path="rutrace/index.controller.js" />
-/// <reference path="rutrace/workitem/controller.js" />
 /// <reference path="service/app.kpi.service.js" />
 /// <reference path="service/app.region.service.js" />
 /// <reference path="service/app.url.service.js" />
