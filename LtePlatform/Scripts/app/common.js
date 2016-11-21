@@ -13,7 +13,6 @@
     'huawei.mongo.parameters',
     'kpi.workitem',
     'myApp.kpi',
-    'myApp.parameters',
     'myApp.region',
     'myApp.url',
     'neighbor.mongo',

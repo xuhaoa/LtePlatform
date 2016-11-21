@@ -1,4 +1,4 @@
-﻿angular.module('neighbor.mongo', ['myApp.url', 'myApp.parameters'])
+﻿angular.module('neighbor.mongo', ['myApp.url', 'myApp.region'])
     .factory('neighborMongoService', function(generalHttpService) {
         return {
             queryNeighbors: function(eNodebId, sectorId) {

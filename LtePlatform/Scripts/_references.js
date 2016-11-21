@@ -158,7 +158,6 @@
 /// <reference path="service/mongo/handoff.js" />
 /// <reference path="service/mongo/neighbor.js" />
 /// <reference path="service/parameters/map.service.js" />
-/// <reference path="service/parameters/service.js" />
 /// <reference path="service/topic/baidu.map.js" />
 /// <reference path="service/topic/college.js" />
 /// <reference path="service/topic/customer.js" />

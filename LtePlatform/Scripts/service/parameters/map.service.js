@@ -1,4 +1,4 @@
-﻿angular.module('parametersMap', ['myApp.region', 'myApp.parameters'])
+﻿angular.module('parametersMap', ['myApp.region'])
     .factory('parametersMapService', function (baiduMapService, networkElementService, geometryService) {
         var showCellSectors = function(cells, showCellInfo, xOffset, yOffset) {
             angular.forEach(cells, function(cell) {

@@ -609,6 +609,19 @@
                     values: values
                 };
             },
+            generateCoverageStats: function(stats) {
+                var array = _.map(_.range(48), function (index) {
+                    var value = stats['rsrP_' + appFormatService.prefixInteger(index, 2)];
+                    return _.isNumber(value) ? value : 0;
+                });
+                var sum = _.reduce(array, function (memo, num) { return memo + num; }, 0);
+                return {
+                    total: sum,
+                    sumBelow115: array[0] + array[1],
+                    sumBetween115And110: array[2] + array[3] + array[4] + array[5] + array[6],
+                    sumBetween110And105: array[7] + array[8] + array[9] + array[10] + array[11]
+                };
+            },
             generateMrsTaStats: function (stats) {
                 var array = _.map(_.range(45), function (index) {
                     var value = stats['tadv_' + appFormatService.prefixInteger(index, 2)];

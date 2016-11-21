@@ -78,6 +78,59 @@ describe('app.url service tests', function() {
         }));
 
         describe('generateMrsRsrpStats', function() {
+            var stats = {
+                "id": "581ac18fd03b4f503655edf7",
+                "cellId": "502970-2",
+                "statDate": "2016-11-02T00:00:00.195Z",
+                "rsrP_00": 73,
+                "rsrP_01": 148,
+                "rsrP_02": 38,
+                "rsrP_03": 141,
+                "rsrP_04": 104,
+                "rsrP_05": 86,
+                "rsrP_06": 156,
+                "rsrP_07": 161,
+                "rsrP_08": 151,
+                "rsrP_09": 118,
+                "rsrP_10": 194,
+                "rsrP_11": 122,
+                "rsrP_12": 530,
+                "rsrP_13": 157,
+                "rsrP_14": 176,
+                "rsrP_15": 371,
+                "rsrP_16": 161,
+                "rsrP_17": 152,
+                "rsrP_18": 160,
+                "rsrP_19": 145,
+                "rsrP_20": 153,
+                "rsrP_21": 119,
+                "rsrP_22": 126,
+                "rsrP_23": 118,
+                "rsrP_24": 169,
+                "rsrP_25": 196,
+                "rsrP_26": 153,
+                "rsrP_27": 148,
+                "rsrP_28": 138,
+                "rsrP_29": 103,
+                "rsrP_30": 75,
+                "rsrP_31": 57,
+                "rsrP_32": 52,
+                "rsrP_33": 36,
+                "rsrP_34": 39,
+                "rsrP_35": 31,
+                "rsrP_36": 25,
+                "rsrP_37": 26,
+                "rsrP_38": 10,
+                "rsrP_39": 3,
+                "rsrP_40": 1,
+                "rsrP_41": 1,
+                "rsrP_42": 0,
+                "rsrP_43": 0,
+                "rsrP_44": 1,
+                "rsrP_45": 0,
+                "rsrP_46": 0,
+                "rsrP_47": 0
+            };
             it('can generate mrs rsrp stats with empty set', function() {
                 var result = chartCalculateService.generateMrsRsrpStats({});
                 expect(result.categories.length).toBe(97);
@@ -86,59 +139,6 @@ describe('app.url service tests', function() {
                 expect(result.values.length).toBe(97);
             });
             it('can calculate the real case', function() {
-                var stats = {
-                    "id": "581ac18fd03b4f503655edf7",
-                    "cellId": "502970-2",
-                    "statDate": "2016-11-02T00:00:00.195Z",
-                    "rsrP_00": 73,
-                    "rsrP_01": 148,
-                    "rsrP_02": 38,
-                    "rsrP_03": 141,
-                    "rsrP_04": 104,
-                    "rsrP_05": 86,
-                    "rsrP_06": 156,
-                    "rsrP_07": 161,
-                    "rsrP_08": 151,
-                    "rsrP_09": 118,
-                    "rsrP_10": 194,
-                    "rsrP_11": 122,
-                    "rsrP_12": 530,
-                    "rsrP_13": 157,
-                    "rsrP_14": 176,
-                    "rsrP_15": 371,
-                    "rsrP_16": 161,
-                    "rsrP_17": 152,
-                    "rsrP_18": 160,
-                    "rsrP_19": 145,
-                    "rsrP_20": 153,
-                    "rsrP_21": 119,
-                    "rsrP_22": 126,
-                    "rsrP_23": 118,
-                    "rsrP_24": 169,
-                    "rsrP_25": 196,
-                    "rsrP_26": 153,
-                    "rsrP_27": 148,
-                    "rsrP_28": 138,
-                    "rsrP_29": 103,
-                    "rsrP_30": 75,
-                    "rsrP_31": 57,
-                    "rsrP_32": 52,
-                    "rsrP_33": 36,
-                    "rsrP_34": 39,
-                    "rsrP_35": 31,
-                    "rsrP_36": 25,
-                    "rsrP_37": 26,
-                    "rsrP_38": 10,
-                    "rsrP_39": 3,
-                    "rsrP_40": 1,
-                    "rsrP_41": 1,
-                    "rsrP_42": 0,
-                    "rsrP_43": 0,
-                    "rsrP_44": 1,
-                    "rsrP_45": 0,
-                    "rsrP_46": 0,
-                    "rsrP_47": 0
-                };
                 var result = chartCalculateService.generateMrsRsrpStats(stats);
                 expect(result.categories.length).toBe(97);
                 expect(result.categories[0]).toBe(-140);
@@ -147,6 +147,15 @@ describe('app.url service tests', function() {
                 expect(result.values[26]).toBe(38);
                 expect(result.values[57]).toBe(36);
                 expect(result.values[62]).toBe(13);
+            });
+            it('can calculate the coverage stats', function() {
+                var result = chartCalculateService.generateCoverageStats(stats);
+                expect(result).toEqual({
+                    total: 5124,
+                    sumBelow115: 221,
+                    sumBetween115And110: 525,
+                    sumBetween110And105: 746
+                });
             });
         });
 

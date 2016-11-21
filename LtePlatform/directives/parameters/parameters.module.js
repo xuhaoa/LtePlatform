@@ -47,7 +47,7 @@ angular.module('parameters.infrastructure', [])
         }
     });
 
-angular.module('parameters.list', ['myApp.parameters', 'huawei.mongo.parameters'])
+angular.module('parameters.list', ['myApp.region', 'huawei.mongo.parameters'])
     .directive('alarmTable', function(parametersRoot) {
         return {
             restrict: 'ECMA',

@@ -144,7 +144,7 @@ angular.module('rutrace.stat', [])
         };
     });
 
-angular.module('rutrace.neighbor', ['neighbor.mongo', 'myApp.parameters', 'myApp.kpi'])
+angular.module('rutrace.neighbor', ['neighbor.mongo', 'myApp.region', 'myApp.kpi'])
     .directive('dumpForwardNeighbors', function(htmlRoot, neighborDialogService) {
         return {
             restrict: 'ECMA',
@@ -200,7 +200,7 @@ angular.module('rutrace.neighbor', ['neighbor.mongo', 'myApp.parameters', 'myApp
         };
     });
 
-angular.module('rutrace.interference', ['neighbor.mongo', 'myApp.parameters'])
+angular.module('rutrace.interference', ['neighbor.mongo', 'myApp.region'])
     .directive('interferenceSourceDialogList', function(htmlRoot) {
         return {
             restrict: 'ECMA',
