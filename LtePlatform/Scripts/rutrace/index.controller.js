@@ -355,14 +355,16 @@
                     $scope.interferenceVictims = result;
                 angular.forEach($scope.interferenceVictims, function(victim) {
                     if (victim.victimENodebId > 0) {
-                        //topPreciseService.queryCellStastic(victim.victimENodebId, victim.victimPci,
-                        //    $scope.beginDate.value, $scope.endDate.value).then(function(coverage) {
-                        //    if (coverage) {
-                        //        victim.mrCount = coverage.mrCount;
-                        //        victim.weakCoverCount = coverage.weakCoverCount;
-                        //        victim.overCoverCount = coverage.overCoverCount;
-                        //    }
-                        //});
+                        topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
+                           victim.victimENodebId, victim.victimSectorId).then(function(coverage) {
+                            if (coverage.length > 0) {
+                                var coverageRate = coverageService.calculateWeakCoverageRate(coverage);
+                                victim.weakBelow115 = coverageRate.rate115;
+                                victim.weakBelow110 = coverageRate.rate110;
+                                victim.weakBelow105 = coverageRate.rate105;
+                            }
+
+                        });
                     }
                 });
             });
