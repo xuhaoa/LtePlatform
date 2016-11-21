@@ -711,7 +711,7 @@
             }
         };
     })
-    .factory('coverageService', function (generalHttpService) {
+    .factory('coverageService', function (generalHttpService, chartCalculateService) {
         return {
             queryByRasterInfo: function (info, type) {
                 var api;
@@ -886,7 +886,10 @@
                     threshold: -12,
                     color: "#073f07"
                 }
-            ]
+            ],
+            calculateWeakCoverageRate: function(coverageList) {
+                
+            }
         }
     })
     .factory('authorizeService', function ($q, $http, appUrlService) {

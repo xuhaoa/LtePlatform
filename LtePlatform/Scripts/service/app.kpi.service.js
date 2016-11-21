@@ -780,7 +780,7 @@
             }
         };
     })
-    .factory('kpiDisplayService', function (appFormatService, taDivision, coverageService) {
+    .factory('kpiDisplayService', function (appFormatService, coverageService) {
         return {
             generatePreciseBarOptions: function (districtStats, cityStat) {
                 var chart = new BarChart();
