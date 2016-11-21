@@ -346,6 +346,12 @@
                                         neighbor.weakBelow105 = coverageRate.rate105;
                                     }
                                 
+                                });
+                            topPreciseService.queryTa($scope.beginDate.value, $scope.endDate.value,
+                                neighbor.destENodebId, neighbor.destSectorId).then(function(taList) {
+                                if (taList.length > 0) {
+                                    neighbor.overCover = coverageService.calculateOverCoverageRate(taList);
+                                }
                             });
                         }
                     });
@@ -364,7 +370,13 @@
                                 victim.weakBelow105 = coverageRate.rate105;
                             }
 
-                        });
+                           });
+                        topPreciseService.queryTa($scope.beginDate.value, $scope.endDate.value,
+                            victim.victimENodebId, victim.victimSectorId).then(function (taList) {
+                                if (taList.length > 0) {
+                                    victim.overCover = coverageService.calculateOverCoverageRate(taList);
+                                }
+                            });
                     }
                 });
             });

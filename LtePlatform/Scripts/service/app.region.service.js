@@ -904,6 +904,16 @@
                     rate110: (sum115 + sum110) / sum,
                     rate105: (sum115 + sum110 + sum105) / sum
                 };
+            },
+            calculateOverCoverageRate: function(taList) {
+                var sum = 0;
+                var sumOver = 0;
+                angular.forEach(taList, function(ta) {
+                    var stat = chartCalculateService.generateOverCoverageStats(ta);
+                    sum += stat.total;
+                    sumOver += stat.over;
+                });
+                return sumOver / sum;
             }
         }
     })

@@ -712,6 +712,20 @@
                     ]
                 };
             },
+            generateOverCoverageStats: function(stats) {
+                var array = _.map(_.range(45), function (index) {
+                    var value = stats['tadv_' + appFormatService.prefixInteger(index, 2)];
+                    return _.isNumber(value) ? value : 0;
+                });
+                var arrayOver = _.map(_.range(18, 45), function (index) {
+                    var value = stats['tadv_' + appFormatService.prefixInteger(index, 2)];
+                    return _.isNumber(value) ? value : 0;
+                });
+                return {
+                    total: _.reduce(array, function (memo, num) { return memo + num; }, 0),
+                    over: _.reduce(arrayOver, function (memo, num) { return memo + num; }, 0)
+                }
+            },
             generateRsrpTaStats: function(stats, rsrpIndex) {
                 var rsrpDivisions = [
                     -110,

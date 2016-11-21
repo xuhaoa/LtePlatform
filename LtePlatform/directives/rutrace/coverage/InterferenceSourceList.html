@@ -27,10 +27,10 @@
             <td>{{cell.weakBelow115 * 100 | number: 2}}%</td>
             <td>{{cell.weakBelow110 * 100 | number: 2}}%</td>
             <td>{{cell.weakBelow105 * 100 | number: 2}}%</td>
-            <td>{{cell.overCoverCount * 100 / cell.mrCount | number: 2}}%</td>
+            <td>{{cell.overCover * 100 | number: 2}}%</td>
             <td>
-                <button class="btn btn-warning" ng-if="cell.weakCoverCount>cell.mrCount*0.2" ng-click="analyzeTa(cell)">
-                    TA分析
+                <button class="btn btn-sm btn-warning" ng-if="cell.weakBelow115" ng-click="analyzeTa(cell)">
+                    覆盖分析
                 </button>
             </td>
         </tr>
