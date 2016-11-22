@@ -307,7 +307,7 @@
         $scope.queryRecords();
     })
     .controller("rutrace.coverage", function ($scope, $routeParams, $uibModal, topPreciseService, preciseInterferenceService,
-        preciseChartService, coverageService) {
+        preciseChartService, coverageService, kpiDisplayService) {
         $scope.currentCellName = $routeParams.name + "-" + $routeParams.sectorId;
         $scope.page.title = "TOP指标覆盖分析: " + $scope.currentCellName;
         $scope.orderPolicy = topPreciseService.getOrderPolicySelection();
@@ -333,50 +333,32 @@
                     $("#ta-chart").highcharts(options);
                 });
             preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
-                $routeParams.cellId, $routeParams.sectorId).then(function (result) {
-                    $scope.interferenceCells = result;
-                    angular.forEach($scope.interferenceCells, function (neighbor) {
-                        if (neighbor.destENodebId > 0) {
-                            topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
-                                neighbor.destENodebId, neighbor.destSectorId).then(function (coverage) {
-                                    if (coverage.length > 0) {
-                                        var coverageRate = coverageService.calculateWeakCoverageRate(coverage);
-                                        neighbor.weakBelow115 = coverageRate.rate115;
-                                        neighbor.weakBelow110 = coverageRate.rate110;
-                                        neighbor.weakBelow105 = coverageRate.rate105;
-                                    }
-                                
-                                });
-                            topPreciseService.queryTa($scope.beginDate.value, $scope.endDate.value,
-                                neighbor.destENodebId, neighbor.destSectorId).then(function(taList) {
-                                if (taList.length > 0) {
-                                    neighbor.overCover = coverageService.calculateOverCoverageRate(taList);
-                                }
-                            });
-                        }
-                    });
+                $routeParams.cellId, $routeParams.sectorId).then(function(result) {
+                $scope.interferenceCells = result;
+                angular.forEach($scope.interferenceCells, function(neighbor) {
+                    if (neighbor.destENodebId > 0) {
+                        kpiDisplayService.updateCoverageKpi(neighbor, {
+                            cellId: neighbor.destENodebId,
+                            sectorId: neighbor.destSectorId
+                        }, {
+                            begin: $scope.beginDate.value,
+                            end: $scope.endDate.value
+                        });
+                    }
                 });
+            });
             preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
-                $routeParams.cellId, $routeParams.sectorId).then(function (result) {
-                    $scope.interferenceVictims = result;
+                $routeParams.cellId, $routeParams.sectorId).then(function(result) {
+                $scope.interferenceVictims = result;
                 angular.forEach($scope.interferenceVictims, function(victim) {
                     if (victim.victimENodebId > 0) {
-                        topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
-                           victim.victimENodebId, victim.victimSectorId).then(function(coverage) {
-                            if (coverage.length > 0) {
-                                var coverageRate = coverageService.calculateWeakCoverageRate(coverage);
-                                victim.weakBelow115 = coverageRate.rate115;
-                                victim.weakBelow110 = coverageRate.rate110;
-                                victim.weakBelow105 = coverageRate.rate105;
-                            }
-
-                           });
-                        topPreciseService.queryTa($scope.beginDate.value, $scope.endDate.value,
-                            victim.victimENodebId, victim.victimSectorId).then(function (taList) {
-                                if (taList.length > 0) {
-                                    victim.overCover = coverageService.calculateOverCoverageRate(taList);
-                                }
-                            });
+                        kpiDisplayService.updateCoverageKpi(victim, {
+                            cellId: neighbor.destENodebId,
+                            sectorId: neighbor.destSectorId
+                        }, {
+                            begin: $scope.beginDate.value,
+                            end: $scope.endDate.value
+                        });
                     }
                 });
             });

@@ -780,15 +780,15 @@
             }
         };
     })
-    .factory('kpiDisplayService', function (appFormatService, coverageService) {
+    .factory('kpiDisplayService', function (appFormatService, coverageService, topPreciseService) {
         return {
-            generatePreciseBarOptions: function (districtStats, cityStat) {
+            generatePreciseBarOptions: function(districtStats, cityStat) {
                 var chart = new BarChart();
                 chart.title.text = cityStat.city + "精确覆盖率统计";
                 chart.legend.enabled = false;
                 var category = [];
                 var precise = [];
-                angular.forEach(districtStats, function (stat) {
+                angular.forEach(districtStats, function(stat) {
                     category.push(stat.district);
                     precise.push(stat.preciseRate);
                 });
@@ -808,13 +808,13 @@
                 chart.asignSeries(series);
                 return chart.options;
             },
-            generateDownSwitchOptions: function (districtStats, city, cityDownSwitch) {
+            generateDownSwitchOptions: function(districtStats, city, cityDownSwitch) {
                 var chart = new BarChart();
                 chart.title.text = city + "4G用户3G流量比统计";
                 chart.legend.enabled = false;
                 var category = [];
                 var precise = [];
-                angular.forEach(districtStats, function (stat) {
+                angular.forEach(districtStats, function(stat) {
                     category.push(stat.region);
                     precise.push(stat.downSwitchRate);
                 });
@@ -834,7 +834,7 @@
                 chart.asignSeries(series);
                 return chart.options;
             },
-            generateComboChartOptions: function (data, name, city) {
+            generateComboChartOptions: function(data, name, city) {
                 var chart = new ComboChart();
                 chart.title.text = name;
                 var kpiOption = appFormatService.lowerFirstLetter(name);
@@ -860,7 +860,7 @@
                 });
                 return chart.options;
             },
-            getMrsOptions: function (stats, title) {
+            getMrsOptions: function(stats, title) {
                 var chart = new ComboChart();
                 chart.title.text = title;
                 var statDates = [];
@@ -868,7 +868,7 @@
                 var firstNeighbors = [];
                 var secondNeighbors = [];
                 var thirdNeighbors = [];
-                angular.forEach(stats, function (stat) {
+                angular.forEach(stats, function(stat) {
                     statDates.push(stat.dateString);
                     mrStats.push(stat.totalMrs);
                     firstNeighbors.push(stat.firstNeighbors);
@@ -900,14 +900,14 @@
                 });
                 return chart.options;
             },
-            getPreciseOptions: function (stats, title) {
+            getPreciseOptions: function(stats, title) {
                 var chart = new ComboChart();
                 chart.title.text = title;
                 var statDates = [];
                 var firstRate = [];
                 var secondRate = [];
                 var thirdRate = [];
-                angular.forEach(stats, function (stat) {
+                angular.forEach(stats, function(stat) {
                     statDates.push(stat.dateString);
                     firstRate.push(100 - parseFloat(stat.firstRate));
                     secondRate.push(100 - parseFloat(stat.secondRate));
@@ -933,7 +933,7 @@
                 });
                 return chart.options;
             },
-            getInterferencePieOptions: function (interferenceCells, currentCellName) {
+            getInterferencePieOptions: function(interferenceCells, currentCellName) {
                 var over6DbPie = new GradientPie();
                 var over10DbPie = new GradientPie();
                 var mod3Pie = new GradientPie();
@@ -946,7 +946,7 @@
                 mod6Pie.series[0].name = 'MOD6干扰日平均次数';
                 mod3Pie.title.text = currentCellName + ': MOD3干扰日平均次数';
                 mod6Pie.title.text = currentCellName + ': MOD6干扰日平均次数';
-                angular.forEach(interferenceCells, function (cell) {
+                angular.forEach(interferenceCells, function(cell) {
                     over6DbPie.series[0].data.push({
                         name: cell.neighborCellName,
                         y: cell.overInterferences6Db
@@ -975,7 +975,7 @@
                     mod6Option: mod6Pie.options
                 };
             },
-            getStrengthColumnOptions: function (interferenceCells, mrCount, currentCellName) {
+            getStrengthColumnOptions: function(interferenceCells, mrCount, currentCellName) {
                 var over6DbColumn = new Column3d();
                 var over10DbColumn = new Column3d();
                 over6DbColumn.series[0].name = '6dB干扰强度';
@@ -983,7 +983,7 @@
                 over6DbColumn.title.text = currentCellName + ': 6dB干扰干扰强度';
                 over10DbColumn.title.text = currentCellName + ': 10dB干扰干扰强度';
 
-                angular.forEach(interferenceCells, function (cell) {
+                angular.forEach(interferenceCells, function(cell) {
                     over6DbColumn.series[0].data.push(cell.overInterferences6Db / mrCount * 100);
                     over10DbColumn.series[0].data.push(cell.overInterferences10Db / mrCount * 100);
                     over6DbColumn.xAxis.categories.push(cell.neighborCellName);
@@ -994,15 +994,15 @@
                     over10DbOption: over10DbColumn.options
                 };
             },
-            calculatePreciseChange: function (input) {
+            calculatePreciseChange: function(input) {
                 var preKpis = input.slice(0, 7);
                 var postKpis = input.slice(input.length - 7);
                 var preSum = 0;
                 var postSum = 0;
-                angular.forEach(preKpis, function (kpi) {
+                angular.forEach(preKpis, function(kpi) {
                     preSum += kpi.secondRate;
                 });
-                angular.forEach(postKpis, function (kpi) {
+                angular.forEach(postKpis, function(kpi) {
                     postSum += kpi.secondRate;
                 });
                 return {
@@ -1010,75 +1010,75 @@
                     post: 100 - postSum / 7
                 };
             },
-            queryKpiOptions: function (network) {
+            queryKpiOptions: function(network) {
                 switch (network) {
-                    case '2G':
-                        return {
-                            options: ['Ec/Io', 'RxAGC', 'TxPower'],
-                            selected: 'Ec/Io'
-                        };
-                    case '3G':
-                        return {
-                            options: ['SINR(3G)', 'RxAGC0', 'RxAGC1'],
-                            selected: 'SINR(3G)'
-                        };
-                    default:
-                        return {
-                            options: ['RSRP', 'SINR'],
-                            selected: 'RSRP'
-                        };
+                case '2G':
+                    return {
+                        options: ['Ec/Io', 'RxAGC', 'TxPower'],
+                        selected: 'Ec/Io'
+                    };
+                case '3G':
+                    return {
+                        options: ['SINR(3G)', 'RxAGC0', 'RxAGC1'],
+                        selected: 'SINR(3G)'
+                    };
+                default:
+                    return {
+                        options: ['RSRP', 'SINR'],
+                        selected: 'RSRP'
+                    };
                 }
             },
-            queryCoverageLegend: function (kpi) {
+            queryCoverageLegend: function(kpi) {
                 switch (kpi) {
-                    case 'Ec/Io':
-                        return {
-                            criteria: coverageService.defaultEcioCriteria,
-                            sign: true
-                        };
-                    case 'RxAGC':
-                        return {
-                            criteria: coverageService.defaultRxCriteria,
-                            sign: true
-                        };
-                    case 'TxPower':
-                        return {
-                            criteria: coverageService.defaultTxCriteria,
-                            sign: false
-                        };
-                    case 'SINR(3G)':
-                        return {
-                            criteria: coverageService.defaultSinr3GCriteria,
-                            sign: true
-                        };
-                    case 'RxAGC0':
-                        return {
-                            criteria: coverageService.defaultRxCriteria,
-                            sign: true
-                        };
-                    case 'RxAGC1':
-                        return {
-                            criteria: coverageService.defaultRxCriteria,
-                            sign: true
-                        };
-                    case 'RSRP':
-                        return {
-                            criteria: coverageService.defaultRsrpCriteria,
-                            sign: true
-                        };
-                    default:
-                        return {
-                            criteria: coverageService.defaultSinrCriteria,
-                            sign: true
-                        };
+                case 'Ec/Io':
+                    return {
+                        criteria: coverageService.defaultEcioCriteria,
+                        sign: true
+                    };
+                case 'RxAGC':
+                    return {
+                        criteria: coverageService.defaultRxCriteria,
+                        sign: true
+                    };
+                case 'TxPower':
+                    return {
+                        criteria: coverageService.defaultTxCriteria,
+                        sign: false
+                    };
+                case 'SINR(3G)':
+                    return {
+                        criteria: coverageService.defaultSinr3GCriteria,
+                        sign: true
+                    };
+                case 'RxAGC0':
+                    return {
+                        criteria: coverageService.defaultRxCriteria,
+                        sign: true
+                    };
+                case 'RxAGC1':
+                    return {
+                        criteria: coverageService.defaultRxCriteria,
+                        sign: true
+                    };
+                case 'RSRP':
+                    return {
+                        criteria: coverageService.defaultRsrpCriteria,
+                        sign: true
+                    };
+                default:
+                    return {
+                        criteria: coverageService.defaultSinrCriteria,
+                        sign: true
+                    };
                 }
             },
-            initializeCoveragePoints: function (legend) {
+            initializeCoveragePoints: function(legend) {
                 var pointDef = {
                     sign: legend.sign,
                     intervals: []
                 };
-                angular.forEach(legend.criteria, function (interval) {
+                angular.forEach(legend.criteria, function(interval) {
                     pointDef.intervals.push({
                         color: interval.color,
                         threshold: interval.threshold,
@@ -1092,35 +1092,35 @@
                 });
                 return pointDef;
             },
-            generateCoveragePoints: function (pointDef, points, kpi) {
+            generateCoveragePoints: function(pointDef, points, kpi) {
                 var intervals = pointDef.intervals;
-                angular.forEach(points, function (point) {
+                angular.forEach(points, function(point) {
                     var value = 0;
                     switch (kpi) {
-                        case 'Ec/Io':
-                            value = point.ecio;
-                            break;
-                        case 'RxAGC':
-                            value = point.rxAgc;
-                            break;
-                        case 'TxPower':
-                            value = point.txPower;
-                            break;
-                        case 'SINR(3G)':
-                            value = point.sinr;
-                            break;
-                        case 'RxAGC0':
-                            value = point.rxAgc0;
-                            break;
-                        case 'RxAGC1':
-                            value = point.rxAgc1;
-                            break;
-                        case 'RSRP':
-                            value = point.rsrp;
-                            break;
-                        default:
-                            value = point.sinr;
-                            break;
+                    case 'Ec/Io':
+                        value = point.ecio;
+                        break;
+                    case 'RxAGC':
+                        value = point.rxAgc;
+                        break;
+                    case 'TxPower':
+                        value = point.txPower;
+                        break;
+                    case 'SINR(3G)':
+                        value = point.sinr;
+                        break;
+                    case 'RxAGC0':
+                        value = point.rxAgc0;
+                        break;
+                    case 'RxAGC1':
+                        value = point.rxAgc1;
+                        break;
+                    case 'RSRP':
+                        value = point.rsrp;
+                        break;
+                    default:
+                        value = point.sinr;
+                        break;
                     }
                     for (var i = 0; i < intervals.length; i++) {
                         if ((pointDef.sign && value < intervals[i].threshold) || (!pointDef.sign && value > intervals[i].threshold)) {
@@ -1130,6 +1130,24 @@
                             });
                             break;
                         }
+                    }
+                });
+            },
+            updateCoverageKpi: function(neighbor, cell, dateSpan) {
+                topPreciseService.queryCoverage(dateSpan.begin, dateSpan.end,
+                    cell.cellId, cell.sectorId).then(function(coverage) {
+                    if (coverage.length > 0) {
+                        var coverageRate = coverageService.calculateWeakCoverageRate(coverage);
+                        neighbor.weakBelow115 = coverageRate.rate115;
+                        neighbor.weakBelow110 = coverageRate.rate110;
+                        neighbor.weakBelow105 = coverageRate.rate105;
+                    }
+
+                });
+                topPreciseService.queryTa(dateSpan.begin, dateSpan.end,
+                    cell.cellId, cell.sectorId).then(function (taList) {
+                    if (taList.length > 0) {
+                        neighbor.overCover = coverageService.calculateOverCoverageRate(taList);
                     }
                 });
             }
