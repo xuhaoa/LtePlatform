@@ -383,72 +383,6 @@
         };
         $scope.showCoverage();
     })
-    .controller('coverage.ta.dialog', function ($scope, $uibModalInstance, dialogTitle, cellId, sectorId, date,
-        topPreciseService, cellPreciseService, kpiDisplayService) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.chartView = {
-            options: ['平均RSRP', '覆盖率'],
-            selected: '平均RSRP'
-        };
-        topPreciseService.queryAverageRsrpTaStastic(cellId, sectorId, date).then(function (result) {
-            var options = kpiDisplayService.getAverageRsrpTaOptions(result, cellId + '-' + sectorId + '平均RSRP统计');
-            $("#average-rsrp").highcharts(options);
-        });
-        topPreciseService.queryAbove110TaRate(cellId, sectorId, date).then(function (above110Stat) {
-            topPreciseService.queryAbove105TaRate(cellId, sectorId, date).then(function (above105Stat) {
-                var options = kpiDisplayService.getAboveRateTaOptions(above110Stat, above105Stat, cellId + '-' + sectorId + '覆盖率统计');
-                $("#coverage-rate").highcharts(options);
-            });
-        });
-
-        $scope.ok = function () {
-            $uibModalInstance.close('已处理');
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    })
-    .controller('coverage.ta.query.dialog', function ($scope, $uibModalInstance, dialogTitle, cellId, sectorId,
-        topPreciseService, cellPreciseService, kpiDisplayService) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.chartView = {
-            options: ['平均RSRP', '覆盖率'],
-            selected: '平均RSRP'
-        };
-        var lastWeek = new Date();
-        lastWeek.setDate(lastWeek.getDate() - 7);
-        $scope.beginDate = {
-            value: lastWeek,
-            opened: false
-        };
-        $scope.endDate = {
-            value: new Date(),
-            opened: false
-        };
-        $scope.query = function () {
-            topPreciseService.queryAverageRsrpTaStastic(cellId, sectorId, $scope.beginDate.value, $scope.endDate.value).then(function (result) {
-                var options = kpiDisplayService.getAverageRsrpTaOptions(result, cellId + '-' + sectorId + '平均RSRP统计');
-                $("#average-rsrp").highcharts(options);
-            });
-            topPreciseService.queryAbove110TaRate(cellId, sectorId, $scope.beginDate.value, $scope.endDate.value).then(function (above110Stat) {
-                topPreciseService.queryAbove105TaRate(cellId, sectorId, $scope.beginDate.value, $scope.endDate.value).then(function (above105Stat) {
-                    var options = kpiDisplayService.getAboveRateTaOptions(above110Stat, above105Stat, cellId + '-' + sectorId + '覆盖率统计');
-                    $("#coverage-rate").highcharts(options);
-                });
-            });
-        };
-
-        $scope.ok = function () {
-            $uibModalInstance.close('已处理');
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-
-        $scope.query();
-    })
     .controller("rutrace.chart", function ($scope, $location, $timeout, appKpiService) {
         if ($scope.overallStat.districtStats.length === 0) $location.path($scope.rootPath);
 
@@ -964,37 +898,27 @@
             };
         });
     })
-    .controller('interference.coverage.dialog', function ($scope, $uibModalInstance, dialogTitle, preciseCells,
-        topPreciseService, networkElementService) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.preciseCells = preciseCells;
-        var lastWeek = new Date();
-        lastWeek.setDate(lastWeek.getDate() - 7);
-        $scope.beginDate = {
-            value: lastWeek,
-            opened: false
-        };
-        $scope.endDate = {
-            value: new Date(),
-            opened: false
-        };
+    .controller('coverage.details.dialog', function ($scope, $uibModalInstance, cellName, cellId, sectorId,
+        topPreciseService, preciseChartService) {
+        $scope.dialogTitle = cellName + '：覆盖详细信息';
         $scope.showCoverage = function () {
-            $scope.coverageInfos = [];
-            angular.forEach($scope.preciseCells, function (cell) {
-                networkElementService.queryCellInfo(cell.eNodebId, cell.sectorId).then(function (info) {
-                    topPreciseService.queryCellStastic(cell.eNodebId, info.pci, $scope.beginDate.value, $scope.endDate.value).then(function (result) {
-                        cell.overCoverageRate = result.overCoverCount * 100 / result.mrCount;
-                        cell.weakCoverageRate = result.weakCoverCount * 100 / result.mrCount;
-                        $scope.coverageInfos.push({
-                            eNodebId: cell.eNodebId,
-                            sectorId: cell.sectorId,
-                            overCoverageRate: cell.overCoverageRate,
-                            weakCoverageRate: cell.weakCoverageRate
-                        });
-                    });
+            topPreciseService.queryRsrpTa($scope.beginDate.value, $scope.endDate.value,
+                cellId, sectorId).then(function (result) {
+                    for (var rsrpIndex = 0; rsrpIndex < 12; rsrpIndex++) {
+                        var options = preciseChartService.getRsrpTaOptions(result, rsrpIndex);
+                        $("#rsrp-ta-" + rsrpIndex).highcharts(options);
+                    }
                 });
-
-            });
+            topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
+                cellId, sectorId).then(function (result) {
+                    var options = preciseChartService.getCoverageOptions(result);
+                    $("#coverage-chart").highcharts(options);
+                });
+            topPreciseService.queryTa($scope.beginDate.value, $scope.endDate.value,
+                cellId, sectorId).then(function (result) {
+                    var options = preciseChartService.getTaOptions(result);
+                    $("#ta-chart").highcharts(options);
+                });
         };
 
         $scope.ok = function () {

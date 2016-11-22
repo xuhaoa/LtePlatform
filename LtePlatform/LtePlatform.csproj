@@ -471,7 +471,7 @@
     <Content Include="appViews\Manage\Roles.html" />
     <Content Include="appViews\Manage\RoleUser.html" />
     <Content Include="appViews\Parameters\Region\ENodebFlow.html" />
-    <Content Include="appViews\Rutrace\Coverage\TaQueryChartDialog.html" />
+    <Content Include="appViews\Rutrace\Coverage\DetailsChartDialog.html" />
     <Content Include="appViews\Rutrace\Map\SourceMapInfoBox.html" />
     <Content Include="appViews\Rutrace\Interference\VictimDialog.html" />
     <Content Include="appViews\Rutrace\Map\VictimMapInfoBox.html" />
@@ -594,7 +594,6 @@
     <Content Include="appViews\Parameters\Region\ENodebInfo.html" />
     <Content Include="appViews\Rutrace\Chart.html" />
     <Content Include="appViews\Rutrace\Coverage\Index.html" />
-    <Content Include="appViews\Rutrace\Coverage\TaChartDialog.html" />
     <Content Include="directives\parameters\eNodeb\Query.html" />
     <Content Include="directives\parameters\kpi\AlarmTable.html" />
     <Content Include="directives\parameters\kpi\FlowTable.html" />

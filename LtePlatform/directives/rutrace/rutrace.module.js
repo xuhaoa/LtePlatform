@@ -224,7 +224,7 @@ angular.module('rutrace.interference', ['neighbor.mongo', 'myApp.region'])
             templateUrl: htmlRoot + 'coverage/InterferenceSourceList.html',
             link: function(scope, element, attrs) {
                 scope.analyzeTa = function(cell) {
-                    coverageDialogService.showTaDistribution(cell.neighborCellName, cell.destENodebId, cell.destSectorId);
+                    coverageDialogService.showDetails(cell.neighborCellName, cell.destENodebId, cell.destSectorId);
                 };
             }
         };

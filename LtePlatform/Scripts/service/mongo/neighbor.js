@@ -170,74 +170,18 @@
     })
     .factory('coverageDialogService', function($uibModal, $log) {
         return {
-            showDetails: function(dialogTitle, cellId, sectorId, date) {
+            showDetails: function(cellName, cellId, sectorId) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '/appViews/Rutrace/Coverage/DetailsChartDialog.html',
                     controller: 'coverage.details.dialog',
                     size: 'lg',
                     resolve: {
-                        dialogTitle: function () {
-                            return dialogTitle;
+                        cellName: function () {
+                            return cellName;
                         },
                         cellId: function () {
                             return cellId;
-                        },
-                        sectorId: function () {
-                            return sectorId;
-                        },
-                        date: function () {
-                            return date;
-                        }
-                    }
-                });
-
-                modalInstance.result.then(function (info) {
-                    console.log(info);
-                }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
-                });
-            },
-            showTa: function (dialogTitle, cellId, sectorId, date) {
-                var modalInstance = $uibModal.open({
-                    animation: true,
-                    templateUrl: '/appViews/Rutrace/Coverage/TaChartDialog.html',
-                    controller: 'coverage.ta.dialog',
-                    size: 'lg',
-                    resolve: {
-                        dialogTitle: function () {
-                            return dialogTitle;
-                        },
-                        cellId: function () {
-                            return cellId;
-                        },
-                        sectorId: function () {
-                            return sectorId;
-                        },
-                        date: function () {
-                            return date;
-                        }
-                    }
-                });
-
-                modalInstance.result.then(function (info) {
-                    console.log(info);
-                }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
-                });
-            },
-            showTaDistribution: function(cellName, eNodebId, sectorId) {
-                var modalInstance = $uibModal.open({
-                    animation: true,
-                    templateUrl: '/appViews/Rutrace/Coverage/TaQueryChartDialog.html',
-                    controller: 'coverage.ta.query.dialog',
-                    size: 'lg',
-                    resolve: {
-                        dialogTitle: function () {
-                            return cellName + 'TA分布';
-                        },
-                        cellId: function () {
-                            return eNodebId;
                         },
                         sectorId: function () {
                             return sectorId;
