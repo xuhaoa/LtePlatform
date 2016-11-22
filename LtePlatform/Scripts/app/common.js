@@ -15,7 +15,6 @@
     'myApp.kpi',
     'myApp.region',
     'myApp.url',
-    'neighbor.mongo',
     'ngAnimate',
     'ngRoute',
     'ngTouch',

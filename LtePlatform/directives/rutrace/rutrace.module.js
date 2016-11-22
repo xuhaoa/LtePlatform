@@ -144,7 +144,7 @@ angular.module('rutrace.stat', [])
         };
     });
 
-angular.module('rutrace.neighbor', ['neighbor.mongo', 'myApp.region', 'myApp.kpi'])
+angular.module('rutrace.neighbor', ['myApp.region', 'myApp.kpi'])
     .directive('dumpForwardNeighbors', function(htmlRoot, neighborDialogService) {
         return {
             restrict: 'ECMA',
@@ -200,7 +200,7 @@ angular.module('rutrace.neighbor', ['neighbor.mongo', 'myApp.region', 'myApp.kpi
         };
     });
 
-angular.module('rutrace.interference', ['neighbor.mongo', 'myApp.region'])
+angular.module('rutrace.interference', ['myApp.region'])
     .directive('interferenceSourceDialogList', function(htmlRoot) {
         return {
             restrict: 'ECMA',
@@ -372,7 +372,7 @@ angular.module('rutrace.trend', [])
         };
     });
 
-angular.module('rutrace.analyze', ['kpi.workitem', 'neighbor.mongo'])
+angular.module('rutrace.analyze', ['kpi.workitem', 'myApp.region'])
     .directive('analyzeTable', function (htmlRoot, preciseWorkItemGenerator, preciseWorkItemService, coverageDialogService) {
         return {
             restrict: 'ECMA',
