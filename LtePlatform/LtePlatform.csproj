@@ -532,7 +532,10 @@
     <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
     <None Include="Content\themes\base\menu.scss" />
     <None Include="Content\themes\base\progressbar.scss" />
-    <Content Include="Content\themes\base\resizable.css" />
+    <None Include="Content\themes\base\resizable.scss" />
+    <Content Include="Content\themes\base\resizable.css">
+      <DependentUpon>resizable.scss</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\selectable.css" />
     <Content Include="Content\themes\base\selectmenu.css" />
     <Content Include="Content\themes\base\slider.css" />
@@ -541,6 +544,9 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\themes\HelpPage.css">
+      <DependentUpon>HelpPage.scss</DependentUpon>
+    </Content>
     <Content Include="Content\themes\test\ui-grid.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="Content\ui-grid.css" />

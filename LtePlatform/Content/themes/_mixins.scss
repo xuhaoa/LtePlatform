@@ -1,34 +1,68 @@
 ﻿@import "_colors.scss";
 
 @mixin panel-def($color) {
-    background: $color; 
-    color: $color-all-white; 
-    .panel-body {
-        color: $color-all-black;
-        p {
-            @extend %panel-body-p-common;
-        }
-    } 
-    .panel-heading{
-        @extend %panel-heading-common
-    }
-    .text-muted {
-        @extend %text-muted-common
-    }
+	background: $color; 
+	color: $color-all-white; 
+	.panel-body {
+		color: $color-all-black;
+		p {
+			@extend %panel-body-p-common;
+		}
+	} 
+	.panel-heading{
+		@extend %panel-heading-common
+	}
+	.text-muted {
+		@extend %text-muted-common
+	}
 }
 
 @mixin modal-header-def($color) {
-    background-color: $color;
-    .modal-title {
-        color: $color-all-white;
-    }
-    button.close {
-        color: $color-all-white;
-    }
+	background-color: $color;
+	.modal-title {
+		color: $color-all-white;
+	}
+	button.close {
+		color: $color-all-white;
+	}
 }
 
 @mixin thead-def($color) {
-    background-color: $color;
-    color: $color-all-white;
-    font-weight: bold;
+	background-color: $color;
+	color: $color-all-white;
+	font-weight: bold;
+}
+
+@function top-or-bottom-tag($cursor){
+	@if $cursor==se-resize or $cursor==sw-resize {
+		@return bottom;
+	} @else {
+		  @return top;
+	  }
+}
+
+@function top-or-bottom-value($cursor){
+	@if $cursor==se-resize {
+		@return 1px;
+	} @else if $cursor==e-resize or $cursor==w-resize {
+		  @return 0;
+	  } @else {
+			@return -5px;
+		}
+}
+
+@function left-or-right-tag($cursor){
+	@if $cursor==e-resize or $cursor==se-resize or $cursor==ne-resize{
+		@return right;
+	} @else {
+		  @return left;
+	  }
+}
+
+@mixin ui-resizable-def($cursor){
+	cursor: $cursor;
+	height: 7px;
+	width: 100%;
+	top: -5px;
+	left: 0;
 }
