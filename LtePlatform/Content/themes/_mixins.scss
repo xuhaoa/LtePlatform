@@ -59,10 +59,46 @@
 	  }
 }
 
+@function left-or-right-value($cursor){
+	@if $cursor==se-resize{
+		@return 1px;
+	} @else if $cursor==n-resize or $cursor==s-resize{
+			@return 0;
+		} @else {
+			  @return -5px;
+		  }
+}
+
+@function height-value($cursor){
+	@if $cursor==n-resize or $cursor==s-resize{
+		@return 7px;
+	} @else if $cursor==e-resize or $cursor==w-resize{
+		  @return 100%;
+	  } @else if $cursor==se-resize{
+			@return 12px;
+		} @else {
+			  @return 9px;
+		  }
+}
+
+@function width-value($cursor){
+	@if $cursor==n-resize or $cursor==s-resize{
+		@return 100%;
+	} @else if $cursor==e-resize or $cursor==w-resize{
+		  @return 7px;
+	  } @else if $cursor==se-resize{
+			@return 12px;
+		} @else {
+			  @return 9px;
+		  }
+}
+
 @mixin ui-resizable-def($cursor){
+	$left-or-right: left-or-right-tag($cursor);
+	$top-or-bottom: top-or-bottom-tag($cursor);
 	cursor: $cursor;
-	height: 7px;
-	width: 100%;
-	top: -5px;
-	left: 0;
+	height: height-value($cursor);
+	width: width-value($cursor);
+	#{$top-or-bottom}: top-or-bottom-value($cursor);
+	#{$left-or-right}: left-or-right-value($cursor);
 }

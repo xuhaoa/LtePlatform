@@ -928,45 +928,45 @@ button.ui-button::-moz-focus-inner {
 
 .ui-resizable-e {
   cursor: e-resize;
+  height: 100%;
   width: 7px;
-  right: -5px;
   top: 0;
-  height: 100%; }
+  right: -5px; }
 
 .ui-resizable-w {
   cursor: w-resize;
+  height: 100%;
   width: 7px;
-  left: -5px;
   top: 0;
-  height: 100%; }
+  left: -5px; }
 
 .ui-resizable-se {
   cursor: se-resize;
-  width: 12px;
   height: 12px;
-  right: 1px;
-  bottom: 1px; }
+  width: 12px;
+  bottom: 1px;
+  right: 1px; }
 
 .ui-resizable-sw {
   cursor: sw-resize;
-  width: 9px;
   height: 9px;
-  left: -5px;
-  bottom: -5px; }
+  width: 9px;
+  bottom: -5px;
+  left: -5px; }
 
 .ui-resizable-nw {
   cursor: nw-resize;
-  width: 9px;
   height: 9px;
-  left: -5px;
-  top: -5px; }
+  width: 9px;
+  top: -5px;
+  left: -5px; }
 
 .ui-resizable-ne {
   cursor: ne-resize;
-  width: 9px;
   height: 9px;
-  right: -5px;
-  top: -5px; }
+  width: 9px;
+  top: -5px;
+  right: -5px; }
 
 .cloudmap-wrapper {
   width: 100%;

@@ -29,44 +29,20 @@
 	@include ui-resizable-def(s-resize);
 }
 .ui-resizable-e {
-	cursor: e-resize;
-	width: 7px;
-	right: -5px;
-	top: 0;
-	height: 100%;
+	@include ui-resizable-def(e-resize);
 }
 .ui-resizable-w {
-	cursor: w-resize;
-	width: 7px;
-	left: -5px;
-	top: 0;
-	height: 100%;
+	@include ui-resizable-def(w-resize);
 }
 .ui-resizable-se {
-	cursor: se-resize;
-	width: 12px;
-	height: 12px;
-	right: 1px;
-	bottom: 1px;
+	@include ui-resizable-def(se-resize);
 }
 .ui-resizable-sw {
-	cursor: sw-resize;
-	width: 9px;
-	height: 9px;
-	left: -5px;
-	bottom: -5px;
+	@include ui-resizable-def(sw-resize);
 }
 .ui-resizable-nw {
-	cursor: nw-resize;
-	width: 9px;
-	height: 9px;
-	left: -5px;
-	top: -5px;
+	@include ui-resizable-def(nw-resize);
 }
 .ui-resizable-ne {
-	cursor: ne-resize;
-	width: 9px;
-	height: 9px;
-	right: -5px;
-	top: -5px;
+	@include ui-resizable-def(ne-resize);
 }
