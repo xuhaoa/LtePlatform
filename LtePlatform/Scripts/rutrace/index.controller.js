@@ -353,8 +353,8 @@
                 angular.forEach($scope.interferenceVictims, function(victim) {
                     if (victim.victimENodebId > 0) {
                         kpiDisplayService.updateCoverageKpi(victim, {
-                            cellId: neighbor.destENodebId,
-                            sectorId: neighbor.destSectorId
+                            cellId: victim.victimENodebId,
+                            sectorId: victim.victimSectorId
                         }, {
                             begin: $scope.beginDate.value,
                             end: $scope.endDate.value
