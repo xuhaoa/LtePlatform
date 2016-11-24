@@ -622,7 +622,7 @@
         $scope.showNeighbors();
     })
     .controller("rutrace.map", function ($scope, $timeout, $routeParams,
-        geometryService, baiduMapService, networkElementService, neighborDialogService,
+        geometryService, baiduMapService, networkElementService, neighborDialogService, parametersDialogService,
         menuItemService, cellPreciseService, neighborMongoService, preciseInterferenceService) {
         $scope.page.title = "小区地理化分析" + ": " + $routeParams.name + "-" + $routeParams.sectorId;
         $scope.neighborLines = [];
@@ -660,7 +660,7 @@
                             sector.lattitute += yOffset;
                             baiduMapService.addOneSectorToScope(
                                 baiduMapService.generateSector(sector, "green"),
-                                neighborDialogService.showNeighbor, sector);
+                                parametersDialogService.showCellInfo, sector);
                         });
                     });
                 });
@@ -742,18 +742,6 @@
                 baiduMapService.addOverlays($scope.victimCircles);
                 $scope.displayVictims = true;
             }
-        };
-    })
-    .controller('map.precise.dialog', function ($scope, $uibModalInstance, precise, dialogTitle) {
-        $scope.preciseSector = precise;
-        $scope.dialogTitle = dialogTitle;
-
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.preciseSector);
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
         };
     })
     .controller('map.source.dialog', function ($scope, $uibModalInstance, neighbor, dialogTitle) {
