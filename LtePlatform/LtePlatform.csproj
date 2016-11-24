@@ -544,10 +544,16 @@
     <Content Include="Content\themes\base\selectmenu.css">
       <DependentUpon>selectmenu.scss</DependentUpon>
     </Content>
-    <Content Include="Content\themes\base\slider.css" />
-    <Content Include="Content\themes\base\sortable.css" />
-    <Content Include="Content\themes\base\spinner.css" />
-    <Content Include="Content\themes\base\tabs.css" />
+    <None Include="Content\themes\base\slider.scss" />
+    <Content Include="Content\themes\base\slider.css">
+      <DependentUpon>slider.scss</DependentUpon>
+    </Content>
+    <None Include="Content\themes\base\sortable.scss" />
+    <None Include="Content\themes\base\spinner.scss" />
+    <Content Include="Content\themes\base\spinner.css">
+      <DependentUpon>spinner.scss</DependentUpon>
+    </Content>
+    <None Include="Content\themes\base\tabs.scss" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\themes\HelpPage.css">
