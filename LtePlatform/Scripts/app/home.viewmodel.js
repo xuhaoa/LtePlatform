@@ -140,8 +140,9 @@
     })
 .controller("home.kpi4G", function ($scope, kpiPreciseService, downSwitchService, appKpiService, appFormatService,
     kpiDisplayService, kpiRatingDivisionDefs) {
+    $scope.statDate.value = $scope.statDate.value || new Date();
         $scope.queryKpi4G = function(city) {
-            kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value || new Date())
+            kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value)
                 .then(function(result) {
                     $scope.statDate.value = appFormatService.getDate(result.statDate);
                     $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, city);
@@ -150,7 +151,7 @@
                         $scope.cityStat);
                     $("#preciseConfig").highcharts(options);
                 });
-            downSwitchService.getRecentKpi(city, $scope.statDate.value || new Date())
+            downSwitchService.getRecentKpi(city, $scope.flowDate.value)
                 .then(function(result) {
                     $scope.flowDate.value = appFormatService.getDate(result.statDate);
                     $scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
