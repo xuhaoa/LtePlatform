@@ -514,6 +514,9 @@
     <Content Include="Content\themes\base\accordion.css">
       <DependentUpon>accordion.scss</DependentUpon>
     </Content>
+    <Content Include="Content\themes\base\button.css">
+      <DependentUpon>button.scss</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -554,10 +557,19 @@
       <DependentUpon>spinner.scss</DependentUpon>
     </Content>
     <None Include="Content\themes\base\tabs.scss" />
-    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tabs.css">
+      <DependentUpon>tabs.scss</DependentUpon>
+    </Content>
+    <None Include="Content\themes\base\theme.scss" />
+    <Content Include="Content\themes\base\theme.css">
+      <DependentUpon>theme.scss</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\themes\HelpPage.css">
       <DependentUpon>HelpPage.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\themes\map\cloudmap.css">
+      <DependentUpon>cloudmap.scss</DependentUpon>
     </Content>
     <Content Include="Content\themes\test\ui-grid.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />

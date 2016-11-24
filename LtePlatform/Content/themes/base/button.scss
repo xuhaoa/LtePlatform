@@ -9,12 +9,8 @@
  * http://api.jqueryui.com/button/#theming
  */
 
-%decoration {
-    text-decoration: none;
-}
-
 .ui-button {
-    @extend %decoration;
+    text-decoration: none;
 	display: inline-block;
 	position: relative;
 	padding: 0;
@@ -24,18 +20,6 @@
 	vertical-align: middle;
 	text-align: center;
 	overflow: visible; /* removes extra width in IE */
-    &:link {
-        @extend %decoration;
-    }
-    &:visited { 
-        @extend %decoration;
-    }
-    &:hover {
-        @extend %decoration;
-    }
-    &:active { 
-        @extend %decoration;
-    } 
     .ui-button-text {
 	    display: block;
 	    line-height: normal;

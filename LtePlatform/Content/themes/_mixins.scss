@@ -33,6 +33,13 @@
 	font-weight: bold;
 }
 
+@mixin border-thread-def($color,$background-color: $color-all-white,$font-weight:normal,$border-color:$color-white-gray){
+	border: 1px solid $border-color;
+	background: $background-color;
+	color: $color;
+	font-weight: $font-weight;
+}
+
 @function top-or-bottom-tag($cursor){
 	@if $cursor==se-resize or $cursor==sw-resize {
 		@return bottom;
