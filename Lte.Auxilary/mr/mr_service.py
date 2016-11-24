@@ -21,6 +21,8 @@ class MroReader:
         for item_element in item_measurement:
             if item_element.tag == 'smr':
                 item_key = item_element.text.replace('MR.', '').split(' ')
+                if 'LteScEarfcn' not in item_key:
+                    return
             else:
                 centerFilled=False
                 item_dict = {}
@@ -141,11 +143,12 @@ class MroReader:
         return json.loads(stat.T.to_json()).values()
 
 class MrsReader:
-    def __init__(self, mrNames, startTime, date_dir, db, **kwargs):
+    def __init__(self, mrNames, startTime, date_dir, db, eNodebId, **kwargs):
         self.mrNames=mrNames
         self.startTime=startTime
         self.date_dir=date_dir
         self.db=db
+        self.eNodebId=eNodebId
         return super().__init__(**kwargs)
 
     def read(self, item_measurement):
@@ -157,13 +160,14 @@ class MrsReader:
                     item_key = item_element.text.replace('MR.', '').replace('.','_').split(' ')
                 else:
                     item_dict={}
-                    item_dict.update({'CellId': item_element.attrib['id']})
+                    item_dict.update({'CellId': self.eNodebId + '-' + item_element.attrib['id']})
                     item_value = item_element[0].text.split(' ')
                     item_dict.update(dict(zip(item_key, map(int, item_value))))
                     item_dict.update({'StartTime': self.startTime})
                     item_dicts.append(item_dict)
             if len(item_dicts)>0:
                 self.db['mrs_'+mrName+'_'+self.date_dir].insert_many(item_dicts)
+            #print(item_dicts)
 
     def read_zte(self, item_measurement, eNodebId):
         mrName=item_measurement.attrib['mrName'].replace('MR.','')

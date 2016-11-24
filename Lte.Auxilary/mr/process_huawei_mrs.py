@@ -36,7 +36,8 @@ for root, dirs_no, files in os.walk('/home/wireless/huawei_mrs/'+date_dir):
             if item.tag == 'fileHeader':
                 startTime= item.attrib['startTime']
             elif item.tag == 'eNB':
-                reader=MrsReader(mrNames,startTime,date_dir,db)
+                eNodebId=item.attrib['id']
+                reader=MrsReader(mrNames,startTime,date_dir,db,eNodebId)
                 for item_measurement in item.iterchildren():
                     reader.read(item_measurement)
         print('insert from ', currrent_dir + name)

@@ -8,7 +8,7 @@ from mr_service import MroReader
 os.chdir('D:\\LtePlatform\\Lte.Auxilary\\mr')
 os.listdir('D:\\LtePlatform\\Lte.Auxilary\\mr')
 
-gFile=gzip.GzipFile('D:\\LtePlatform\\Lte.Auxilary\\mr\\FDD_LTE_MRO_HUAWEI_499719_20160902134500.xml.gz', 'r')
+gFile=gzip.GzipFile('D:\\LtePlatform\\Lte.Auxilary\\mr\\FDD-LTE_MRO_HUAWEI_501035_20161122113000.xml.gz', 'r')
 
 afilter = ['Qci', 'Utra', 'Gsm', 'Tdd']
 reader=MroReader(afilter)
