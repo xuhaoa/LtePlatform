@@ -112,5 +112,11 @@ namespace Lte.Parameters.Entities.Basic
         public int? MultiRruCellMode { get; set; }
 
         public int? CpriEthCompressionRatio { get; set; }
+
+        public int? MultiCellShareMode { get; set; }
+
+        public string SfnMasterCellLabel { get; set; }
+
+        public int? SpecifiedCellFlag { get; set; }
     }
 }

@@ -59,5 +59,9 @@ namespace Lte.Parameters.Entities.Neighbor
         public int CellIndividualOffset { get; set; }
 
         public int AnrFlag { get; set; }
+
+        public int? VectorCellFlag { get; set; }
+
+        public int? HighSpeedCellIndOffset { get; set; }
     }
 }
