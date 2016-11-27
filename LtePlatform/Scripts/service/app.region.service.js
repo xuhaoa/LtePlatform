@@ -1171,13 +1171,13 @@
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '/appViews/Rutrace/Map/PreciseSectorMapInfoBox.html',
-                    controller: 'map.precise.dialog',
-                    size: 'sm',
+                    controller: 'map.source.dialog',
+                    size: 'lg',
                     resolve: {
                         dialogTitle: function () {
                             return precise.eNodebName + "-" + precise.sectorId + "精确覆盖率指标";
                         },
-                        precise: function () {
+                        neighbor: function () {
                             return precise;
                         }
                     }
