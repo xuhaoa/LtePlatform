@@ -679,10 +679,20 @@
                 var xOffset = coors.x - cell.longtitute;
                 var yOffset = coors.y - cell.lattitute;
                 neighborMongoService.queryNeighbors($routeParams.cellId, $routeParams.sectorId).then(function (neighbors) {
-                    baiduMapService.generateNeighborLines($scope.neighborLines, cell, neighbors, xOffset, yOffset);
+                    baiduMapService.generateNeighborLines($scope.neighborLines, {
+                        cell: cell,
+                        neighbors: neighbors,
+                        xOffset: xOffset,
+                        yOffset: yOffset
+                    });
                 });
                 neighborMongoService.queryReverseNeighbors($routeParams.cellId, $routeParams.sectorId).then(function (neighbors) {
-                    baiduMapService.generateReverseNeighborLines($scope.reverseNeighborLines, cell, neighbors, xOffset, yOffset);
+                    baiduMapService.generateReverseNeighborLines($scope.reverseNeighborLines, {
+                        cell: cell,
+                        neighbors: neighbors,
+                        xOffset: xOffset,
+                        yOffset: yOffset
+                    });
                 });
                 preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
                     $routeParams.cellId, $routeParams.sectorId).then(function (interference) {

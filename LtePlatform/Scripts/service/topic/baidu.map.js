@@ -208,7 +208,7 @@
 	})
 	.factory('baiduMapService', function (geometryService, networkElementService, drawingStyleOptions) {
 		var map = {};
-		var getCellCenter = function(cell, rCell) {
+		var getCellCenter = function (cell, rCell) {
 			return geometryService.getPositionLonLat(cell, rCell, cell.azimuth);
 		};
 		var drawingManager = {};
@@ -286,30 +286,39 @@
 			clearOverlays: function() {
 				map.clearOverlays();
 			},
-			generateNeighborLines: function(lines, cell, neighbors, xOffset, yOffset) {
+			generateNeighborLines: function(lines, settings) {
 				var zoom = map.getZoom();
 				var rSector = geometryService.getRadius(zoom).rSector;
-				var centerCell = getCellCenter(cell, rSector / 2);
-				angular.forEach(neighbors, function (neighbor) {
-					networkElementService.queryCellInfo(neighbor.neighborCellId, neighbor.neighborSectorId).then(function (neighborCell) {
-						var neighborCenter = getCellCenter(neighborCell, rSector / 2);
-						var line = geometryService.getArrowLine(centerCell.longtitute + xOffset, centerCell.lattitute + yOffset,
-							neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, rSector/2);
-						lines.push(line);
+				var centerCell = getCellCenter(settings.cell, rSector / 2);
+				angular.forEach(settings.neighbors, function (neighbor) {
+					networkElementService.queryCellInfo(neighbor.neighborCellId, neighbor.neighborSectorId).then(function(neighborCell) {
+						if (neighborCell) {
+							var neighborCenter = getCellCenter(neighborCell, rSector / 2);
+							var line = geometryService.getArrowLine(centerCell.longtitute + settings.xOffset,
+								centerCell.lattitute + settings.yOffset,
+								neighborCenter.longtitute + settings.xOffset, neighborCenter.lattitute + settings.yOffset, rSector / 2);
+							lines.push(line);
+						}
+
 					});
 				});
 			},
-			generateReverseNeighborLines: function (lines, cell, neighbors, xOffset, yOffset) {
+			generateReverseNeighborLines: function (lines, settings) {
 				var zoom = map.getZoom();
 				var rSector = geometryService.getRadius(zoom).rSector;
-				var centerCell = getCellCenter(cell, rSector / 2);
-				angular.forEach(neighbors, function (neighbor) {
-					networkElementService.queryCellInfo(neighbor.cellId, neighbor.sectorId).then(function (neighborCell) {
-						var neighborCenter = getCellCenter(neighborCell, rSector / 2);
-						var line = geometryService.getLine(centerCell.longtitute + xOffset, centerCell.lattitute + yOffset,
-							neighborCenter.longtitute + xOffset, neighborCenter.lattitute + yOffset, "red");
-						lines.push(line);
-					});
+				var centerCell = getCellCenter(settings.cell, rSector / 2);
+				angular.forEach(settings.neighbors, function (neighbor) {
+				    networkElementService.queryCellInfo(neighbor.cellId, neighbor.sectorId).then(function(neighborCell) {
+				        if (neighborCell) {
+				            var neighborCenter = getCellCenter(neighborCell, rSector / 2);
+				            var line = geometryService.getLine(centerCell.longtitute + settings.xOffset,
+				                centerCell.lattitute + settings.yOffset,
+				                neighborCenter.longtitute + settings.xOffset,
+				                neighborCenter.lattitute + settings.yOffset, "red");
+				            lines.push(line);
+				        }
+
+				    });
 				});
 			},
 			generateInterferenceComponents: function (lines, circles, cell, neighbors, xOffset, yOffset, color, callback) {
