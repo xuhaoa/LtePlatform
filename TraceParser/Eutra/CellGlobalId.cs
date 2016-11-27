@@ -1,36 +1,31 @@
 ﻿using System;
 using Lte.Domain.Common;
+using TraceParser.Common;
 
 namespace TraceParser.Eutra
 {
     [Serializable]
-    public class CellGlobalIdCDMA2000
+    public class CellGlobalIdCDMA2000 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public string cellGlobalId1XRTT { get; set; }
 
         public string cellGlobalIdHRPD { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CellGlobalIdCDMA2000>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CellGlobalIdCDMA2000 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CellGlobalIdCDMA2000 config, BitArrayInputStream input)
             {
-                CellGlobalIdCDMA2000 dcdma = new CellGlobalIdCDMA2000();
-                dcdma.InitDefaults();
                 switch (input.ReadBits(1))
                 {
                     case 0:
-                        dcdma.cellGlobalId1XRTT = input.ReadBitString(0x2f);
-                        return dcdma;
+                        config.cellGlobalId1XRTT = input.ReadBitString(0x2f);
+                        return;
 
                     case 1:
-                        dcdma.cellGlobalIdHRPD = input.ReadBitString(0x80);
-                        return dcdma;
+                        config.cellGlobalIdHRPD = input.ReadBitString(0x80);
+                        return;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");
             }
@@ -38,82 +33,61 @@ namespace TraceParser.Eutra
     }
 
     [Serializable]
-    public class CellGlobalIdEUTRA
+    public class CellGlobalIdEUTRA : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public string cellIdentity { get; set; }
 
         public PLMN_Identity plmn_Identity { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CellGlobalIdEUTRA>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CellGlobalIdEUTRA Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CellGlobalIdEUTRA config, BitArrayInputStream input)
             {
-                CellGlobalIdEUTRA deutra = new CellGlobalIdEUTRA();
-                deutra.InitDefaults();
-                deutra.plmn_Identity = PLMN_Identity.PerDecoder.Instance.Decode(input);
-                deutra.cellIdentity = input.ReadBitString(0x1c);
-                return deutra;
+                config.plmn_Identity = PLMN_Identity.PerDecoder.Instance.Decode(input);
+                config.cellIdentity = input.ReadBitString(0x1c);
             }
         }
     }
 
     [Serializable]
-    public class CellGlobalIdGERAN
+    public class CellGlobalIdGERAN : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public string cellIdentity { get; set; }
 
         public string locationAreaCode { get; set; }
 
         public PLMN_Identity plmn_Identity { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CellGlobalIdGERAN>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CellGlobalIdGERAN Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CellGlobalIdGERAN config, BitArrayInputStream input)
             {
-                CellGlobalIdGERAN dgeran = new CellGlobalIdGERAN();
-                dgeran.InitDefaults();
-                dgeran.plmn_Identity = PLMN_Identity.PerDecoder.Instance.Decode(input);
-                dgeran.locationAreaCode = input.ReadBitString(0x10);
-                dgeran.cellIdentity = input.ReadBitString(0x10);
-                return dgeran;
+                config.plmn_Identity = PLMN_Identity.PerDecoder.Instance.Decode(input);
+                config.locationAreaCode = input.ReadBitString(0x10);
+                config.cellIdentity = input.ReadBitString(0x10);
             }
         }
     }
 
     [Serializable]
-    public class CellGlobalIdUTRA
+    public class CellGlobalIdUTRA : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public string cellIdentity { get; set; }
 
         public PLMN_Identity plmn_Identity { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CellGlobalIdUTRA>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CellGlobalIdUTRA Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CellGlobalIdUTRA config, BitArrayInputStream input)
             {
-                CellGlobalIdUTRA dutra = new CellGlobalIdUTRA();
-                dutra.InitDefaults();
-                dutra.plmn_Identity = PLMN_Identity.PerDecoder.Instance.Decode(input);
-                dutra.cellIdentity = input.ReadBitString(0x1c);
-                return dutra;
+                config.plmn_Identity = PLMN_Identity.PerDecoder.Instance.Decode(input);
+                config.cellIdentity = input.ReadBitString(0x1c);
             }
         }
     }

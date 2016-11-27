@@ -564,7 +564,7 @@
     <Content Include="Content\themes\base\theme.css">
       <DependentUpon>theme.scss</DependentUpon>
     </Content>
-    <Content Include="Content\themes\base\tooltip.css" />
+    <None Include="Content\themes\base\tooltip.scss" />
     <Content Include="Content\themes\HelpPage.css">
       <DependentUpon>HelpPage.scss</DependentUpon>
     </Content>
