@@ -36,7 +36,7 @@ for root, dirs_no, files in os.walk('/home/wireless/zte_mrs/'+date_dir):
             if item.tag == 'fileHeader':
                 startTime= item.attrib['startTime']
             elif item.tag == 'eNB':
-                reader=MrsReader(mrNames,startTime,date_dir,db)
+                reader=MrsReader(mrNames,startTime,date_dir,db, 0)
                 item_id = item.attrib.get('MR.eNBId')
                 for item_measurement in item.iterchildren():
                     reader.read_zte(item_measurement, item_id)
