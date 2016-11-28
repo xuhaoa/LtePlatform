@@ -98,13 +98,13 @@ class MroReader:
             'SinrUl': item['SinrUl']
         }, measureList))
 
-    def map_rsrp_diff(self):
+    def map_rsrp_diff(self, eNodebId):
         diff_list=list(map(lambda index: self._map_neighbor_rsrp_diff(index+1), list(range(6))))
         combined_list=reduce(lambda first,second: first+second,diff_list,[])
         if len(combined_list)==0:
             return []
         stat_list=list(map(lambda item: {
-            'CellId': item['CellId'],
+            'CellId': eNodebId + '-' + item['CellId'],
             'NeighborPci': item['NeighborPci'],
             'Pci': item['Pci'],
             'Diff0': 1 if item['RsrpDiff']<=0 else 0,
