@@ -1194,7 +1194,7 @@
                     animation: true,
                     templateUrl: '/appViews/Rutrace/Map/NeighborMapInfoBox.html',
                     controller: 'map.neighbor.dialog',
-                    size: 'sm',
+                    size: 'lg',
                     resolve: {
                         dialogTitle: function () {
                             return neighbor.cellName + "小区信息";
@@ -1215,7 +1215,7 @@
                     animation: true,
                     templateUrl: '/appViews/Rutrace/Map/SourceMapInfoBox.html',
                     controller: 'map.source.dialog',
-                    size: 'sm',
+                    size: 'lg',
                     resolve: {
                         dialogTitle: function () {
                             return neighbor.neighborCellName + "干扰源信息";
@@ -1236,7 +1236,7 @@
                     animation: true,
                     templateUrl: '/appViews/Rutrace/Map/VictimMapInfoBox.html',
                     controller: 'map.source.dialog',
-                    size: 'sm',
+                    size: 'lg',
                     resolve: {
                         dialogTitle: function () {
                             return neighbor.victimCellName + "被干扰小区信息";

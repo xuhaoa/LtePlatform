@@ -757,8 +757,15 @@
     .controller('map.source.dialog', function ($scope, $uibModalInstance, neighbor, dialogTitle, topPreciseService, preciseChartService) {
         $scope.neighbor = neighbor;
         $scope.dialogTitle = dialogTitle;
+        if (neighbor.cellId !== undefined) {
+            $scope.cellId = neighbor.cellId;
+            $scope.sectorId = neighbor.sectorId;
+        } else {
+            $scope.cellId = neighbor.destENodebId;
+            $scope.sectorId = neighbor.destSectorId;
+        }
         topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
-            neighbor.cellId, neighbor.sectorId).then(function (result) {
+            $scope.cellId, $scope.sectorId).then(function (result) {
             var options = preciseChartService.getCoverageOptions(result);
             $("#coverage-chart").highcharts(options);
         });
