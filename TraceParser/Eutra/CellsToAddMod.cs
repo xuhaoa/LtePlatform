@@ -1,175 +1,130 @@
 ﻿using System;
 using Lte.Domain.Common;
+using TraceParser.Common;
 
 namespace TraceParser.Eutra
 {
     [Serializable]
-    public class CellsToAddMod
+    public class CellsToAddMod : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long cellIndex { get; set; }
 
         public Q_OffsetRange cellIndividualOffset { get; set; }
 
         public long physCellId { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CellsToAddMod>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CellsToAddMod Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CellsToAddMod config, BitArrayInputStream input)
             {
-                CellsToAddMod mod = new CellsToAddMod();
-                mod.InitDefaults();
-                mod.cellIndex = input.ReadBits(5) + 1;
-                mod.physCellId = input.ReadBits(9);
+                config.cellIndex = input.ReadBits(5) + 1;
+                config.physCellId = input.ReadBits(9);
                 const int nBits = 5;
-                mod.cellIndividualOffset = (Q_OffsetRange)input.ReadBits(nBits);
-                return mod;
+                config.cellIndividualOffset = (Q_OffsetRange)input.ReadBits(nBits);
             }
         }
     }
 
     [Serializable]
-    public class AltTTT_CellsToAddMod_r12
+    public class AltTTT_CellsToAddMod_r12 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long cellIndex { get; set; }
 
         public PhysCellIdRange physCellIdRange { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<AltTTT_CellsToAddMod_r12>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public AltTTT_CellsToAddMod_r12 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(AltTTT_CellsToAddMod_r12 config, BitArrayInputStream input)
             {
-                AltTTT_CellsToAddMod_r12 _r = new AltTTT_CellsToAddMod_r12();
-                _r.InitDefaults();
-                _r.cellIndex = input.ReadBits(5) + 1;
-                _r.physCellIdRange = PhysCellIdRange.PerDecoder.Instance.Decode(input);
-                return _r;
+                config.cellIndex = input.ReadBits(5) + 1;
+                config.physCellIdRange = PhysCellIdRange.PerDecoder.Instance.Decode(input);
             }
         }
     }
 
     [Serializable]
-    public class CellsToAddModCDMA2000
+    public class CellsToAddModCDMA2000 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long cellIndex { get; set; }
 
         public long physCellId { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CellsToAddModCDMA2000>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CellsToAddModCDMA2000 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CellsToAddModCDMA2000 config, BitArrayInputStream input)
             {
-                CellsToAddModCDMA2000 dcdma = new CellsToAddModCDMA2000();
-                dcdma.InitDefaults();
-                dcdma.cellIndex = input.ReadBits(5) + 1;
-                dcdma.physCellId = input.ReadBits(9);
-                return dcdma;
+                config.cellIndex = input.ReadBits(5) + 1;
+                config.physCellId = input.ReadBits(9);
             }
         }
     }
 
     [Serializable]
-    public class CellsToAddModUTRA_FDD
+    public class CellsToAddModUTRA_FDD : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long cellIndex { get; set; }
 
         public long physCellId { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CellsToAddModUTRA_FDD>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CellsToAddModUTRA_FDD Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CellsToAddModUTRA_FDD config, BitArrayInputStream input)
             {
-                CellsToAddModUTRA_FDD dutra_fdd = new CellsToAddModUTRA_FDD();
-                dutra_fdd.InitDefaults();
-                dutra_fdd.cellIndex = input.ReadBits(5) + 1;
-                dutra_fdd.physCellId = input.ReadBits(9);
-                return dutra_fdd;
+                config.cellIndex = input.ReadBits(5) + 1;
+                config.physCellId = input.ReadBits(9);
             }
         }
     }
 
     [Serializable]
-    public class CellsToAddModUTRA_TDD
+    public class CellsToAddModUTRA_TDD : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long cellIndex { get; set; }
 
         public long physCellId { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CellsToAddModUTRA_TDD>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CellsToAddModUTRA_TDD Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CellsToAddModUTRA_TDD config, BitArrayInputStream input)
             {
-                CellsToAddModUTRA_TDD dutra_tdd = new CellsToAddModUTRA_TDD();
-                dutra_tdd.InitDefaults();
-                dutra_tdd.cellIndex = input.ReadBits(5) + 1;
-                dutra_tdd.physCellId = input.ReadBits(7);
-                return dutra_tdd;
+                config.cellIndex = input.ReadBits(5) + 1;
+                config.physCellId = input.ReadBits(7);
             }
         }
     }
 
     [Serializable]
-    public class BlackCellsToAddMod
+    public class BlackCellsToAddMod : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public long cellIndex { get; set; }
 
         public PhysCellIdRange physCellIdRange { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<BlackCellsToAddMod>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
 
-            public BlackCellsToAddMod Decode(BitArrayInputStream input)
+            protected override void ProcessConfig(BlackCellsToAddMod config, BitArrayInputStream input)
             {
-                BlackCellsToAddMod mod = new BlackCellsToAddMod();
-                mod.InitDefaults();
-                mod.cellIndex = input.ReadBits(5) + 1;
-                mod.physCellIdRange = PhysCellIdRange.PerDecoder.Instance.Decode(input);
-                return mod;
+                config.cellIndex = input.ReadBits(5) + 1;
+                config.physCellIdRange = PhysCellIdRange.PerDecoder.Instance.Decode(input);
             }
         }
     }
 
     [Serializable]
-    public class SCellToAddMod_r10
+    public class SCellToAddMod_r10 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public cellIdentification_r10_Type cellIdentification_r10 { get; set; }
 
         public long? dl_CarrierFreq_v1090 { get; set; }
@@ -181,63 +136,53 @@ namespace TraceParser.Eutra
         public long sCellIndex_r10 { get; set; }
 
         [Serializable]
-        public class cellIdentification_r10_Type
+        public class cellIdentification_r10_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public long dl_CarrierFreq_r10 { get; set; }
 
             public long physCellId_r10 { get; set; }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<cellIdentification_r10_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public cellIdentification_r10_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(cellIdentification_r10_Type config, BitArrayInputStream input)
                 {
-                    cellIdentification_r10_Type type = new cellIdentification_r10_Type();
-                    type.InitDefaults();
-                    type.physCellId_r10 = input.ReadBits(9);
-                    type.dl_CarrierFreq_r10 = input.ReadBits(0x10);
-                    return type;
+                    config.physCellId_r10 = input.ReadBits(9);
+                    config.dl_CarrierFreq_r10 = input.ReadBits(0x10);
                 }
             }
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<SCellToAddMod_r10>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public SCellToAddMod_r10 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(SCellToAddMod_r10 config, BitArrayInputStream input)
             {
-                SCellToAddMod_r10 _r = new SCellToAddMod_r10();
-                _r.InitDefaults();
                 bool flag = input.ReadBit() != 0;
                 BitMaskStream stream = new BitMaskStream(input, 3);
-                _r.sCellIndex_r10 = input.ReadBits(3) + 1;
+                config.sCellIndex_r10 = input.ReadBits(3) + 1;
                 if (stream.Read())
                 {
-                    _r.cellIdentification_r10 = cellIdentification_r10_Type.PerDecoder.Instance.Decode(input);
+                    config.cellIdentification_r10 = cellIdentification_r10_Type.PerDecoder.Instance.Decode(input);
                 }
                 if (stream.Read())
                 {
-                    _r.radioResourceConfigCommonSCell_r10 = RadioResourceConfigCommonSCell_r10.PerDecoder.Instance.Decode(input);
+                    config.radioResourceConfigCommonSCell_r10 = RadioResourceConfigCommonSCell_r10.PerDecoder.Instance.Decode(input);
                 }
                 if (stream.Read())
                 {
-                    _r.radioResourceConfigDedicatedSCell_r10 = RadioResourceConfigDedicatedSCell_r10.PerDecoder.Instance.Decode(input);
+                    config.radioResourceConfigDedicatedSCell_r10 = RadioResourceConfigDedicatedSCell_r10.PerDecoder.Instance.Decode(input);
                 }
                 if (flag)
                 {
                     BitMaskStream stream2 = new BitMaskStream(input, 1);
                     if (stream2.Read())
                     {
-                        _r.dl_CarrierFreq_v1090 = input.ReadBits(0x12) + 0x10000;
+                        config.dl_CarrierFreq_v1090 = input.ReadBits(0x12) + 0x10000;
                     }
                 }
-                return _r;
             }
         }
     }

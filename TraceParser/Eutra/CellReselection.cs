@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lte.Domain.Common;
+using TraceParser.Common;
 
 namespace TraceParser.Eutra
 {
     [Serializable]
-    public class CellReselectionParametersCDMA2000
+    public class CellReselectionParametersCDMA2000 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public List<BandClassInfoCDMA2000> bandClassList { get; set; }
 
         public List<NeighCellCDMA2000> neighCellList { get; set; }
@@ -19,48 +16,41 @@ namespace TraceParser.Eutra
 
         public SpeedStateScaleFactors t_ReselectionCDMA2000_SF { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CellReselectionParametersCDMA2000>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CellReselectionParametersCDMA2000 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CellReselectionParametersCDMA2000 config, BitArrayInputStream input)
             {
-                CellReselectionParametersCDMA2000 scdma = new CellReselectionParametersCDMA2000();
-                scdma.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                scdma.bandClassList = new List<BandClassInfoCDMA2000>();
+                config.bandClassList = new List<BandClassInfoCDMA2000>();
                 int nBits = 5;
                 int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     BandClassInfoCDMA2000 item = BandClassInfoCDMA2000.PerDecoder.Instance.Decode(input);
-                    scdma.bandClassList.Add(item);
+                    config.bandClassList.Add(item);
                 }
-                scdma.neighCellList = new List<NeighCellCDMA2000>();
+                config.neighCellList = new List<NeighCellCDMA2000>();
                 nBits = 4;
                 int num5 = input.ReadBits(nBits) + 1;
                 for (int j = 0; j < num5; j++)
                 {
                     NeighCellCDMA2000 lcdma = NeighCellCDMA2000.PerDecoder.Instance.Decode(input);
-                    scdma.neighCellList.Add(lcdma);
+                    config.neighCellList.Add(lcdma);
                 }
-                scdma.t_ReselectionCDMA2000 = input.ReadBits(3);
+                config.t_ReselectionCDMA2000 = input.ReadBits(3);
                 if (stream.Read())
                 {
-                    scdma.t_ReselectionCDMA2000_SF = SpeedStateScaleFactors.PerDecoder.Instance.Decode(input);
+                    config.t_ReselectionCDMA2000_SF = SpeedStateScaleFactors.PerDecoder.Instance.Decode(input);
                 }
-                return scdma;
             }
         }
     }
 
     [Serializable]
-    public class CellReselectionParametersCDMA2000_r11
+    public class CellReselectionParametersCDMA2000_r11 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public List<BandClassInfoCDMA2000> bandClassList { get; set; }
 
         public List<NeighCellCDMA2000_r11> neighCellList_r11 { get; set; }
@@ -69,94 +59,76 @@ namespace TraceParser.Eutra
 
         public SpeedStateScaleFactors t_ReselectionCDMA2000_SF { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CellReselectionParametersCDMA2000_r11>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CellReselectionParametersCDMA2000_r11 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CellReselectionParametersCDMA2000_r11 config, BitArrayInputStream input)
             {
-                CellReselectionParametersCDMA2000_r11 _r = new CellReselectionParametersCDMA2000_r11();
-                _r.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 1);
-                _r.bandClassList = new List<BandClassInfoCDMA2000>();
+                config.bandClassList = new List<BandClassInfoCDMA2000>();
                 int nBits = 5;
                 int num3 = input.ReadBits(nBits) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     BandClassInfoCDMA2000 item = BandClassInfoCDMA2000.PerDecoder.Instance.Decode(input);
-                    _r.bandClassList.Add(item);
+                    config.bandClassList.Add(item);
                 }
-                _r.neighCellList_r11 = new List<NeighCellCDMA2000_r11>();
+                config.neighCellList_r11 = new List<NeighCellCDMA2000_r11>();
                 nBits = 4;
                 int num5 = input.ReadBits(nBits) + 1;
                 for (int j = 0; j < num5; j++)
                 {
                     NeighCellCDMA2000_r11 _r2 = NeighCellCDMA2000_r11.PerDecoder.Instance.Decode(input);
-                    _r.neighCellList_r11.Add(_r2);
+                    config.neighCellList_r11.Add(_r2);
                 }
-                _r.t_ReselectionCDMA2000 = input.ReadBits(3);
+                config.t_ReselectionCDMA2000 = input.ReadBits(3);
                 if (stream.Read())
                 {
-                    _r.t_ReselectionCDMA2000_SF = SpeedStateScaleFactors.PerDecoder.Instance.Decode(input);
+                    config.t_ReselectionCDMA2000_SF = SpeedStateScaleFactors.PerDecoder.Instance.Decode(input);
                 }
-                return _r;
             }
         }
     }
 
     [Serializable]
-    public class CellReselectionParametersCDMA2000_v920
+    public class CellReselectionParametersCDMA2000_v920 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public List<NeighCellCDMA2000_v920> neighCellList_v920 { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CellReselectionParametersCDMA2000_v920>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CellReselectionParametersCDMA2000_v920 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CellReselectionParametersCDMA2000_v920 config, BitArrayInputStream input)
             {
-                CellReselectionParametersCDMA2000_v920 _v = new CellReselectionParametersCDMA2000_v920();
-                _v.InitDefaults();
-                _v.neighCellList_v920 = new List<NeighCellCDMA2000_v920>();
-                int nBits = 4;
-                int num3 = input.ReadBits(nBits) + 1;
+                config.neighCellList_v920 = new List<NeighCellCDMA2000_v920>();
+                int num3 = input.ReadBits(4) + 1;
                 for (int i = 0; i < num3; i++)
                 {
                     NeighCellCDMA2000_v920 item = NeighCellCDMA2000_v920.PerDecoder.Instance.Decode(input);
-                    _v.neighCellList_v920.Add(item);
+                    config.neighCellList_v920.Add(item);
                 }
-                return _v;
             }
         }
     }
 
     [Serializable]
-    public class CellChangeOrder
+    public class CellChangeOrder : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public t304_Enum t304 { get; set; }
 
         public targetRAT_Type_Type targetRAT_Type { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CellChangeOrder>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CellChangeOrder Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CellChangeOrder config, BitArrayInputStream input)
             {
-                CellChangeOrder order = new CellChangeOrder();
-                order.InitDefaults();
                 int nBits = 3;
-                order.t304 = (t304_Enum)input.ReadBits(nBits);
-                order.targetRAT_Type = targetRAT_Type_Type.PerDecoder.Instance.Decode(input);
-                return order;
+                config.t304 = (t304_Enum)input.ReadBits(nBits);
+                config.targetRAT_Type = targetRAT_Type_Type.PerDecoder.Instance.Decode(input);
             }
         }
 
@@ -173,21 +145,13 @@ namespace TraceParser.Eutra
         }
 
         [Serializable]
-        public class targetRAT_Type_Type
+        public class targetRAT_Type_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public geran_Type geran { get; set; }
 
             [Serializable]
-            public class geran_Type
+            public class geran_Type : TraceConfig
             {
-                public void InitDefaults()
-                {
-                }
-
                 public CarrierFreqGERAN carrierFreq { get; set; }
 
                 public string networkControlOrder { get; set; }
@@ -196,45 +160,39 @@ namespace TraceParser.Eutra
 
                 public SI_OrPSI_GERAN systemInformation { get; set; }
 
-                public class PerDecoder
+                public class PerDecoder : DecoderBase<geran_Type>
                 {
                     public static readonly PerDecoder Instance = new PerDecoder();
-
-                    public geran_Type Decode(BitArrayInputStream input)
+                    
+                    protected override void ProcessConfig(geran_Type config, BitArrayInputStream input)
                     {
-                        geran_Type type = new geran_Type();
-                        type.InitDefaults();
                         BitMaskStream stream = new BitMaskStream(input, 2);
-                        type.physCellId = PhysCellIdGERAN.PerDecoder.Instance.Decode(input);
-                        type.carrierFreq = CarrierFreqGERAN.PerDecoder.Instance.Decode(input);
+                        config.physCellId = PhysCellIdGERAN.PerDecoder.Instance.Decode(input);
+                        config.carrierFreq = CarrierFreqGERAN.PerDecoder.Instance.Decode(input);
                         if (stream.Read())
                         {
-                            type.networkControlOrder = input.ReadBitString(2);
+                            config.networkControlOrder = input.ReadBitString(2);
                         }
                         if (stream.Read())
                         {
-                            type.systemInformation = SI_OrPSI_GERAN.PerDecoder.Instance.Decode(input);
+                            config.systemInformation = SI_OrPSI_GERAN.PerDecoder.Instance.Decode(input);
                         }
-                        return type;
                     }
                 }
             }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<targetRAT_Type_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public targetRAT_Type_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(targetRAT_Type_Type config, BitArrayInputStream input)
                 {
-                    targetRAT_Type_Type type = new targetRAT_Type_Type();
-                    type.InitDefaults();
                     input.ReadBit();
                     if (input.ReadBits(1) != 0)
                     {
                         throw new Exception(GetType().Name + ":NoChoice had been choose");
                     }
-                    type.geran = geran_Type.PerDecoder.Instance.Decode(input);
-                    return type;
+                    config.geran = geran_Type.PerDecoder.Instance.Decode(input);
                 }
             }
         }
