@@ -2829,7 +2829,15 @@
             </summary>
             <param name="jobInfo">Job information.</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Abp.BackgroundJobs.IBackgroundJobStore.GetWaitingJobsAsync(System.Int32)" -->
+        <member name="M:Abp.BackgroundJobs.IBackgroundJobStore.GetWaitingJobsAsync(System.Int32)">
+            <summary>
+            Gets waiting jobs. It should get jobs based on these:
+            Conditions: !IsAbandoned And NextTryTime &lt;= Clock.Now.
+            Order by: Priority DESC, TryCount ASC, NextTryTime ASC.
+            Maximum result: <paramref name="maxResultCount"/>.
+            </summary>
+            <param name="maxResultCount">Maximum result count.</param>
+        </member>
         <member name="M:Abp.BackgroundJobs.IBackgroundJobStore.DeleteAsync(Abp.BackgroundJobs.BackgroundJobInfo)">
             <summary>
             Deletes a job.
@@ -3058,7 +3066,7 @@
             <param name="source">Enumerable to apply filtering</param>
             <param name="condition">A boolean value</param>
             <param name="predicate">Predicate to filter the enumerable</param>
-            <returns>Filtered or not filtered enumerable based on <see cref="!:condition"/></returns>
+            <returns>Filtered or not filtered enumerable based on <paramref name="condition"/></returns>
         </member>
         <member name="M:Abp.Collections.Extensions.EnumerableExtensions.WhereIf``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Func{``0,System.Int32,System.Boolean})">
             <summary>
@@ -3067,7 +3075,7 @@
             <param name="source">Enumerable to apply filtering</param>
             <param name="condition">A boolean value</param>
             <param name="predicate">Predicate to filter the enumerable</param>
-            <returns>Filtered or not filtered enumerable based on <see cref="!:condition"/></returns>
+            <returns>Filtered or not filtered enumerable based on <paramref name="condition"/></returns>
         </member>
         <member name="T:Abp.Collections.Extensions.ListExtensions">
             <summary>
@@ -4529,6 +4537,14 @@
             <param name="argumentsAsAnonymousType">Constructor arguments</param>
             <returns>Object instances</returns>
         </member>
+        <member name="M:Abp.Dependency.IIocResolver.ResolveAll(System.Type)">
+            <summary>
+            Gets all implementations for given type.
+            Returning objects must be Released (see <see cref="M:Abp.Dependency.IIocResolver.Release(System.Object)"/>) after usage.
+            </summary> 
+            <param name="type">Type of the objects to resolve</param>
+            <returns>Object instances</returns>
+        </member>
         <member name="M:Abp.Dependency.IIocResolver.ResolveAll(System.Type,System.Object)">
             <summary>
             Gets all implementations for given type.
@@ -4770,7 +4786,7 @@
             </summary> 
             <typeparam name="T">Type of the object to get</typeparam>
             <param name="iocResolver">IIocResolver object</param>
-            <param name="type">Type of the object to resolve. This type must be convertible <see cref="!:T"/>.</param>
+            <param name="type">Type of the object to resolve. This type must be convertible <typeparamref name="T"/>.</param>
             <returns>The instance object wrapped by <see cref="T:Abp.Dependency.DisposableDependencyObjectWrapper`1"/></returns>
         </member>
         <member name="M:Abp.Dependency.IocResolverExtensions.ResolveAsDisposable(Abp.Dependency.IIocResolver,System.Type)">
@@ -4796,7 +4812,7 @@
             </summary> 
             <typeparam name="T">Type of the object to get</typeparam>
             <param name="iocResolver">IIocResolver object</param>
-            <param name="type">Type of the object to resolve. This type must be convertible <see cref="!:T"/>.</param>
+            <param name="type">Type of the object to resolve. This type must be convertible <typeparamref name="T"/>.</param>
             <param name="argumentsAsAnonymousType">Constructor arguments</param>
             <returns>The instance object wrapped by <see cref="T:Abp.Dependency.DisposableDependencyObjectWrapper`1"/></returns>
         </member>
@@ -4809,10 +4825,17 @@
             <param name="argumentsAsAnonymousType">Constructor arguments</param>
             <returns>The instance object wrapped by <see cref="T:Abp.Dependency.DisposableDependencyObjectWrapper`1"/></returns>
         </member>
+        <member name="M:Abp.Dependency.IocResolverExtensions.CreateScope(Abp.Dependency.IIocResolver)">
+            <summary>
+            Gets a <see cref="T:Abp.Dependency.ScopedIocResolver"/> object that starts a scope to resolved objects to be Disposable.
+            </summary>
+            <param name="iocResolver"></param>
+            <returns>The instance object wrapped by <see cref="T:Abp.Dependency.ScopedIocResolver"/></returns>
+        </member>
         <member name="M:Abp.Dependency.IocResolverExtensions.Using``1(Abp.Dependency.IIocResolver,System.Action{``0})">
             <summary>
             This method can be used to resolve and release an object automatically.
-            You can use the object in <see cref="!:action"/>.
+            You can use the object in <paramref name="action"/>.
             </summary> 
             <typeparam name="T">Type of the object to use</typeparam>
             <param name="iocResolver">IIocResolver object</param>
@@ -4821,12 +4844,28 @@
         <member name="M:Abp.Dependency.IocResolverExtensions.Using``2(Abp.Dependency.IIocResolver,System.Func{``0,``1})">
             <summary>
             This method can be used to resolve and release an object automatically.
-            You can use the object in <see cref="!:func"/> and return a value.
+            You can use the object in <paramref name="func"/> and return a value.
             </summary> 
             <typeparam name="TService">Type of the service to use</typeparam>
             <typeparam name="TReturn">Return type</typeparam>
             <param name="iocResolver">IIocResolver object</param>
             <param name="func">A function that can use the resolved object</param>
+        </member>
+        <member name="M:Abp.Dependency.IocResolverExtensions.UsingScope(Abp.Dependency.IIocResolver,System.Action{Abp.Dependency.IScopedIocResolver})">
+            <summary>
+            This method starts a scope to resolve and release all objects automatically.
+            You can use the <c>scope</c> in <see cref="!:action"/>.
+            </summary> 
+            <param name="iocResolver">IIocResolver object</param>
+            <param name="action">An action that can use the resolved object</param>
+        </member>
+        <member name="T:Abp.Dependency.IScopedIocResolver">
+            <summary>
+                This interface is used to wrap a scope for batch resolvings in a single <c>using</c> statement.
+                It inherits <see cref="T:System.IDisposable" /> and <see cref="T:Abp.Dependency.IIocResolver" />, so resolved objects can be easily and batch
+                manner released by IocResolver.
+                In <see cref="M:System.IDisposable.Dispose" /> method, <see cref="M:Abp.Dependency.IIocResolver.Release(System.Object)" /> is called to dispose the object.
+            </summary>
         </member>
         <member name="T:Abp.Dependency.ISingletonDependency">
             <summary>
@@ -7529,7 +7568,7 @@
             <param name="query">Queryable to apply filtering</param>
             <param name="condition">A boolean value</param>
             <param name="predicate">Predicate to filter the query</param>
-            <returns>Filtered or not filtered query based on <see cref="!:condition"/></returns>
+            <returns>Filtered or not filtered query based on <paramref name="condition"/></returns>
         </member>
         <member name="M:Abp.Linq.Extensions.QueryableExtensions.WhereIf``1(System.Linq.IQueryable{``0},System.Boolean,System.Linq.Expressions.Expression{System.Func{``0,System.Int32,System.Boolean}})">
             <summary>
@@ -7538,7 +7577,7 @@
             <param name="query">Queryable to apply filtering</param>
             <param name="condition">A boolean value</param>
             <param name="predicate">Predicate to filter the query</param>
-            <returns>Filtered or not filtered query based on <see cref="!:condition"/></returns>
+            <returns>Filtered or not filtered query based on <paramref name="condition"/></returns>
         </member>
         <member name="T:Abp.Localization.FixedLocalizableString">
             <summary>
@@ -9051,6 +9090,7 @@
             <summary>
             Updates a user notification state.
             </summary>
+            <param name="tenantId">Tenant Id.</param>
             <param name="userNotificationId">The user notification id.</param>
             <param name="state">New state.</param>
         </member>
@@ -9065,6 +9105,7 @@
             <summary>
             Deletes a user notification.
             </summary>
+            <param name="tenantId">Tenant Id.</param>
             <param name="userNotificationId">The user notification id.</param>
         </member>
         <member name="M:Abp.Notifications.IUserNotificationManager.DeleteAllUserNotificationsAsync(Abp.UserIdentifier)">
@@ -9107,51 +9148,6 @@
         <member name="M:Abp.Notifications.MessageNotificationData.#ctor">
             <summary>
             Needed for serialization.
-            </summary>
-        </member>
-        <member name="T:Abp.Notifications.TenantNotification">
-            <summary>
-            Represents a published notification for a tenant/user.
-            </summary>
-        </member>
-        <member name="P:Abp.Notifications.TenantNotification.TenantId">
-            <summary>
-            Tenant Id.
-            </summary>
-        </member>
-        <member name="P:Abp.Notifications.TenantNotification.NotificationName">
-            <summary>
-            Unique notification name.
-            </summary>
-        </member>
-        <member name="P:Abp.Notifications.TenantNotification.Data">
-            <summary>
-            Notification data.
-            </summary>
-        </member>
-        <member name="P:Abp.Notifications.TenantNotification.EntityType">
-            <summary>
-            Gets or sets the type of the entity.
-            </summary>
-        </member>
-        <member name="P:Abp.Notifications.TenantNotification.EntityTypeName">
-            <summary>
-            Name of the entity type (including namespaces).
-            </summary>
-        </member>
-        <member name="P:Abp.Notifications.TenantNotification.EntityId">
-            <summary>
-            Entity id.
-            </summary>
-        </member>
-        <member name="P:Abp.Notifications.TenantNotification.Severity">
-            <summary>
-            Severity.
-            </summary>
-        </member>
-        <member name="M:Abp.Notifications.TenantNotification.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Abp.Notifications.TenantNotification"/> class.
             </summary>
         </member>
         <member name="T:Abp.Notifications.NotificationData">
@@ -9751,6 +9747,51 @@
             Gets single instance of <see cref="T:Abp.Notifications.NullRealTimeNotifier"/> class.
             </summary>
         </member>
+        <member name="T:Abp.Notifications.TenantNotification">
+            <summary>
+            Represents a published notification for a tenant/user.
+            </summary>
+        </member>
+        <member name="P:Abp.Notifications.TenantNotification.TenantId">
+            <summary>
+            Tenant Id.
+            </summary>
+        </member>
+        <member name="P:Abp.Notifications.TenantNotification.NotificationName">
+            <summary>
+            Unique notification name.
+            </summary>
+        </member>
+        <member name="P:Abp.Notifications.TenantNotification.Data">
+            <summary>
+            Notification data.
+            </summary>
+        </member>
+        <member name="P:Abp.Notifications.TenantNotification.EntityType">
+            <summary>
+            Gets or sets the type of the entity.
+            </summary>
+        </member>
+        <member name="P:Abp.Notifications.TenantNotification.EntityTypeName">
+            <summary>
+            Name of the entity type (including namespaces).
+            </summary>
+        </member>
+        <member name="P:Abp.Notifications.TenantNotification.EntityId">
+            <summary>
+            Entity id.
+            </summary>
+        </member>
+        <member name="P:Abp.Notifications.TenantNotification.Severity">
+            <summary>
+            Severity.
+            </summary>
+        </member>
+        <member name="M:Abp.Notifications.TenantNotification.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Abp.Notifications.TenantNotification"/> class.
+            </summary>
+        </member>
         <member name="T:Abp.Notifications.TenantNotificationInfo">
             <summary>
             A notification distributed to it's related tenant.
@@ -10130,20 +10171,22 @@
             <param name="givenType">Type to check</param>
             <param name="genericType">Generic type</param>
         </member>
-        <member name="M:Abp.Reflection.ReflectionHelper.GetAttributesOfMemberAndDeclaringType(System.Reflection.MemberInfo)">
+        <member name="M:Abp.Reflection.ReflectionHelper.GetAttributesOfMemberAndDeclaringType(System.Reflection.MemberInfo,System.Boolean)">
             <summary>
             Gets a list of attributes defined for a class member and it's declaring type including inherited attributes.
             </summary>
+            <param name="inherit">Inherit attribute from base classes</param>
             <param name="memberInfo">MemberInfo</param>
         </member>
-        <member name="M:Abp.Reflection.ReflectionHelper.GetAttributesOfMemberAndDeclaringType``1(System.Reflection.MemberInfo)">
+        <member name="M:Abp.Reflection.ReflectionHelper.GetAttributesOfMemberAndDeclaringType``1(System.Reflection.MemberInfo,System.Boolean)">
             <summary>
             Gets a list of attributes defined for a class member and it's declaring type including inherited attributes.
             </summary>
             <typeparam name="TAttribute">Type of the attribute</typeparam>
             <param name="memberInfo">MemberInfo</param>
+            <param name="inherit">Inherit attribute from base classes</param>
         </member>
-        <member name="M:Abp.Reflection.ReflectionHelper.GetSingleAttributeOfMemberOrDeclaringTypeOrDefault``1(System.Reflection.MemberInfo,``0)">
+        <member name="M:Abp.Reflection.ReflectionHelper.GetSingleAttributeOfMemberOrDeclaringTypeOrDefault``1(System.Reflection.MemberInfo,``0,System.Boolean)">
             <summary>
             Tries to gets an of attribute defined for a class member and it's declaring type including inherited attributes.
             Returns default value if it's not declared at all.
@@ -10151,8 +10194,9 @@
             <typeparam name="TAttribute">Type of the attribute</typeparam>
             <param name="memberInfo">MemberInfo</param>
             <param name="defaultValue">Default value (null as default)</param>
+            <param name="inherit">Inherit attribute from base classes</param>
         </member>
-        <member name="M:Abp.Reflection.ReflectionHelper.GetSingleAttributeOrDefault``1(System.Reflection.MemberInfo,``0)">
+        <member name="M:Abp.Reflection.ReflectionHelper.GetSingleAttributeOrDefault``1(System.Reflection.MemberInfo,``0,System.Boolean)">
             <summary>
             Tries to gets an of attribute defined for a class member and it's declaring type including inherited attributes.
             Returns default value if it's not declared at all.
@@ -10160,6 +10204,7 @@
             <typeparam name="TAttribute">Type of the attribute</typeparam>
             <param name="memberInfo">MemberInfo</param>
             <param name="defaultValue">Default value (null as default)</param>
+            <param name="inherit">Inherit attribute from base classes</param>
         </member>
         <member name="M:Abp.Reflection.ReflectionHelper.GetValueByPath(System.Object,System.Type,System.String)">
             <summary>
@@ -10403,7 +10448,7 @@
         <member name="M:Abp.Runtime.Caching.ICache.Set(System.String,System.Object,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">
             <summary>
             Saves/Overrides an item in the cache by a key.
-            Use one of the expire times at most (<see cref="!:slidingExpireTime"/> or <see cref="!:absoluteExpireTime"/>).
+            Use one of the expire times at most (<paramref name="slidingExpireTime"/> or <paramref name="absoluteExpireTime"/>).
             If none of them is specified, then
             <see cref="P:Abp.Runtime.Caching.ICache.DefaultAbsoluteExpireTime"/> will be used if it's not null. Othewise, <see cref="P:Abp.Runtime.Caching.ICache.DefaultSlidingExpireTime"/>
             will be used.
@@ -10416,7 +10461,7 @@
         <member name="M:Abp.Runtime.Caching.ICache.SetAsync(System.String,System.Object,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">
             <summary>
             Saves/Overrides an item in the cache by a key.
-            Use one of the expire times at most (<see cref="!:slidingExpireTime"/> or <see cref="!:absoluteExpireTime"/>).
+            Use one of the expire times at most (<paramref name="slidingExpireTime"/> or <paramref name="absoluteExpireTime"/>).
             If none of them is specified, then
             <see cref="P:Abp.Runtime.Caching.ICache.DefaultAbsoluteExpireTime"/> will be used if it's not null. Othewise, <see cref="P:Abp.Runtime.Caching.ICache.DefaultSlidingExpireTime"/>
             will be used.
@@ -10462,9 +10507,12 @@
         </member>
         <member name="M:Abp.Runtime.Caching.ICacheManager.GetCache(System.String)">
             <summary>
-            Gets (or creates) a cache.
+            Gets a <see cref="T:Abp.Runtime.Caching.ICache"/> instance.
+            It may create the cache if it does not already exists.
             </summary>
-            <param name="name">Unique name of the cache</param>
+            <param name="name">
+            Unique and case sensitive name of the cache.
+            </param>
             <returns>The cache reference</returns>
         </member>
         <member name="T:Abp.Runtime.Caching.ITypedCache`2">
@@ -10866,7 +10914,7 @@
             </summary>
             <param name="message">Exception message</param>
         </member>
-        <member name="M:Abp.Runtime.Validation.AbpValidationException.#ctor(System.String,System.Collections.Generic.List{System.ComponentModel.DataAnnotations.ValidationResult})">
+        <member name="M:Abp.Runtime.Validation.AbpValidationException.#ctor(System.String,System.Collections.Generic.IList{System.ComponentModel.DataAnnotations.ValidationResult})">
             <summary>
             Constructor.
             </summary>
@@ -11223,14 +11271,14 @@
         </member>
         <member name="M:Abp.Threading.Extensions.LockExtensions.Locking(System.Object,System.Action)">
             <summary>
-            Executes given <see cref="!:action"/> by locking given <see cref="!:source"/> object.
+            Executes given <paramref name="action"/> by locking given <paramref name="source"/> object.
             </summary>
             <param name="source">Source object (to be locked)</param>
             <param name="action">Action (to be executed)</param>
         </member>
         <member name="M:Abp.Threading.Extensions.LockExtensions.Locking``1(``0,System.Action{``0})">
             <summary>
-            Executes given <see cref="!:action"/> by locking given <see cref="!:source"/> object.
+            Executes given <paramref name="action"/> by locking given <paramref name="source"/> object.
             </summary>
             <typeparam name="T">Type of the object (to be locked)</typeparam>
             <param name="source">Source object (to be locked)</param>
@@ -11238,23 +11286,22 @@
         </member>
         <member name="M:Abp.Threading.Extensions.LockExtensions.Locking``1(System.Object,System.Func{``0})">
             <summary>
-            Executes given <see cref="!:func"/> and returns it's value by locking given <see cref="!:source"/> object.
+            Executes given <paramref name="func"/> and returns it's value by locking given <paramref name="source"/> object.
             </summary>
-            <typeparam name="T">Type of the object (to be locked)</typeparam>
             <typeparam name="TResult">Return type</typeparam>
             <param name="source">Source object (to be locked)</param>
             <param name="func">Function (to be executed)</param>
-            <returns>Return value of the <see cref="!:func"/></returns>
+            <returns>Return value of the <paramref name="func"/></returns>
         </member>
         <member name="M:Abp.Threading.Extensions.LockExtensions.Locking``2(``0,System.Func{``0,``1})">
             <summary>
-            Executes given <see cref="!:func"/> and returns it's value by locking given <see cref="!:source"/> object.
+            Executes given <paramref name="func"/> and returns it's value by locking given <paramref name="source"/> object.
             </summary>
             <typeparam name="T">Type of the object (to be locked)</typeparam>
             <typeparam name="TResult">Return type</typeparam>
             <param name="source">Source object (to be locked)</param>
             <param name="func">Function (to be executed)</param>
-            <returns>Return value of the <see cref="!:func"/></returns>
+            <returns>Return value of the <paramnref name="func"/></returns>
         </member>
         <member name="T:Abp.Threading.Timers.AbpTimer">
             <summary>

@@ -1,38 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lte.Domain.Common;
+using TraceParser.Common;
 
 namespace TraceParser.Eutra
 {
     [Serializable]
-    public class CounterCheck
+    public class CounterCheck : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public criticalExtensions_Type criticalExtensions { get; set; }
 
         public long rrc_TransactionIdentifier { get; set; }
 
         [Serializable]
-        public class criticalExtensions_Type
+        public class criticalExtensions_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public c1_Type c1 { get; set; }
 
             public criticalExtensionsFuture_Type criticalExtensionsFuture { get; set; }
 
             [Serializable]
-            public class c1_Type
+            public class c1_Type : TraceConfig
             {
-                public void InitDefaults()
-                {
-                }
-
                 public CounterCheck_r8_IEs counterCheck_r8 { get; set; }
 
                 public object spare1 { get; set; }
@@ -41,28 +30,22 @@ namespace TraceParser.Eutra
 
                 public object spare3 { get; set; }
 
-                public class PerDecoder
+                public class PerDecoder : DecoderBase<c1_Type>
                 {
                     public static readonly PerDecoder Instance = new PerDecoder();
-
-                    public c1_Type Decode(BitArrayInputStream input)
+                    
+                    protected override void ProcessConfig(c1_Type config, BitArrayInputStream input)
                     {
-                        c1_Type type = new c1_Type();
-                        type.InitDefaults();
                         switch (input.ReadBits(2))
                         {
                             case 0:
-                                type.counterCheck_r8 = CounterCheck_r8_IEs.PerDecoder.Instance.Decode(input);
-                                return type;
+                                config.counterCheck_r8 = CounterCheck_r8_IEs.PerDecoder.Instance.Decode(input);
+                                return;
 
                             case 1:
-                                return type;
-
                             case 2:
-                                return type;
-
                             case 3:
-                                return type;
+                                return;
                         }
                         throw new Exception(GetType().Name + ":NoChoice had been choose");
                     }
@@ -82,309 +65,243 @@ namespace TraceParser.Eutra
 
                     public criticalExtensionsFuture_Type Decode(BitArrayInputStream input)
                     {
-                        criticalExtensionsFuture_Type type = new criticalExtensionsFuture_Type();
+                        var type = new criticalExtensionsFuture_Type();
                         type.InitDefaults();
                         return type;
                     }
                 }
             }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<criticalExtensions_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public criticalExtensions_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(criticalExtensions_Type config, BitArrayInputStream input)
                 {
-                    criticalExtensions_Type type = new criticalExtensions_Type();
-                    type.InitDefaults();
                     switch (input.ReadBits(1))
                     {
                         case 0:
-                            type.c1 = c1_Type.PerDecoder.Instance.Decode(input);
-                            return type;
+                            config.c1 = c1_Type.PerDecoder.Instance.Decode(input);
+                            return;
 
                         case 1:
-                            type.criticalExtensionsFuture = criticalExtensionsFuture_Type.PerDecoder.Instance.Decode(input);
-                            return type;
+                            config.criticalExtensionsFuture = criticalExtensionsFuture_Type.PerDecoder.Instance.Decode(input);
+                            return;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
                 }
             }
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CounterCheck>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CounterCheck Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CounterCheck config, BitArrayInputStream input)
             {
-                CounterCheck check = new CounterCheck();
-                check.InitDefaults();
-                check.rrc_TransactionIdentifier = input.ReadBits(2);
-                check.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
-                return check;
+                config.rrc_TransactionIdentifier = input.ReadBits(2);
+                config.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
             }
         }
     }
 
     [Serializable]
-    public class CounterCheck_r8_IEs
+    public class CounterCheck_r8_IEs : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public List<DRB_CountMSB_Info> drb_CountMSB_InfoList { get; set; }
 
         public CounterCheck_v8a0_IEs nonCriticalExtension { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CounterCheck_r8_IEs>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CounterCheck_r8_IEs Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CounterCheck_r8_IEs config, BitArrayInputStream input)
             {
-                CounterCheck_r8_IEs es = new CounterCheck_r8_IEs();
-                es.InitDefaults();
-                BitMaskStream stream = new BitMaskStream(input, 1);
-                es.drb_CountMSB_InfoList = new List<DRB_CountMSB_Info>();
-                const int nBits = 4;
-                int num3 = input.ReadBits(nBits) + 1;
-                for (int i = 0; i < num3; i++)
+                var stream = new BitMaskStream(input, 1);
+                config.drb_CountMSB_InfoList = new List<DRB_CountMSB_Info>();
+                var num3 = input.ReadBits(4) + 1;
+                for (var i = 0; i < num3; i++)
                 {
-                    DRB_CountMSB_Info item = DRB_CountMSB_Info.PerDecoder.Instance.Decode(input);
-                    es.drb_CountMSB_InfoList.Add(item);
+                    var item = DRB_CountMSB_Info.PerDecoder.Instance.Decode(input);
+                    config.drb_CountMSB_InfoList.Add(item);
                 }
                 if (stream.Read())
                 {
-                    es.nonCriticalExtension = CounterCheck_v8a0_IEs.PerDecoder.Instance.Decode(input);
+                    config.nonCriticalExtension = CounterCheck_v8a0_IEs.PerDecoder.Instance.Decode(input);
                 }
-                return es;
             }
         }
     }
 
     [Serializable]
-    public class CounterCheck_v8a0_IEs
+    public class CounterCheck_v8a0_IEs : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public string lateNonCriticalExtension { get; set; }
 
         public nonCriticalExtension_Type nonCriticalExtension { get; set; }
 
         [Serializable]
-        public class nonCriticalExtension_Type
+        public class nonCriticalExtension_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<nonCriticalExtension_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public nonCriticalExtension_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(nonCriticalExtension_Type config, BitArrayInputStream input)
                 {
-                    nonCriticalExtension_Type type = new nonCriticalExtension_Type();
-                    type.InitDefaults();
-                    return type;
+                    
                 }
             }
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CounterCheck_v8a0_IEs>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CounterCheck_v8a0_IEs Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CounterCheck_v8a0_IEs config, BitArrayInputStream input)
             {
-                CounterCheck_v8a0_IEs es = new CounterCheck_v8a0_IEs();
-                es.InitDefaults();
-                BitMaskStream stream = new BitMaskStream(input, 2);
+                var stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.ReadBits(8);
-                    es.lateNonCriticalExtension = input.readOctetString(nBits);
+                    var nBits = input.ReadBits(8);
+                    config.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
                 {
-                    es.nonCriticalExtension = nonCriticalExtension_Type.PerDecoder.Instance.Decode(input);
+                    config.nonCriticalExtension = nonCriticalExtension_Type.PerDecoder.Instance.Decode(input);
                 }
-                return es;
             }
         }
     }
 
     [Serializable]
-    public class CounterCheckResponse
+    public class CounterCheckResponse : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public criticalExtensions_Type criticalExtensions { get; set; }
 
         public long rrc_TransactionIdentifier { get; set; }
 
         [Serializable]
-        public class criticalExtensions_Type
+        public class criticalExtensions_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public CounterCheckResponse_r8_IEs counterCheckResponse_r8 { get; set; }
 
             public criticalExtensionsFuture_Type criticalExtensionsFuture { get; set; }
 
             [Serializable]
-            public class criticalExtensionsFuture_Type
+            public class criticalExtensionsFuture_Type : TraceConfig
             {
-                public void InitDefaults()
-                {
-                }
-
-                public class PerDecoder
+                public class PerDecoder : DecoderBase<criticalExtensionsFuture_Type>
                 {
                     public static readonly PerDecoder Instance = new PerDecoder();
-
-                    public criticalExtensionsFuture_Type Decode(BitArrayInputStream input)
+                    
+                    protected override void ProcessConfig(criticalExtensionsFuture_Type config, BitArrayInputStream input)
                     {
-                        criticalExtensionsFuture_Type type = new criticalExtensionsFuture_Type();
-                        type.InitDefaults();
-                        return type;
+                        
                     }
                 }
             }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<criticalExtensions_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public criticalExtensions_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(criticalExtensions_Type config, BitArrayInputStream input)
                 {
-                    criticalExtensions_Type type = new criticalExtensions_Type();
-                    type.InitDefaults();
                     switch (input.ReadBits(1))
                     {
                         case 0:
-                            type.counterCheckResponse_r8 = CounterCheckResponse_r8_IEs.PerDecoder.Instance.Decode(input);
-                            return type;
+                            config.counterCheckResponse_r8 = CounterCheckResponse_r8_IEs.PerDecoder.Instance.Decode(input);
+                            return;
 
                         case 1:
-                            type.criticalExtensionsFuture = criticalExtensionsFuture_Type.PerDecoder.Instance.Decode(input);
-                            return type;
+                            config.criticalExtensionsFuture = criticalExtensionsFuture_Type.PerDecoder.Instance.Decode(input);
+                            return;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
                 }
             }
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CounterCheckResponse>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CounterCheckResponse Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CounterCheckResponse config, BitArrayInputStream input)
             {
-                CounterCheckResponse response = new CounterCheckResponse();
-                response.InitDefaults();
-                response.rrc_TransactionIdentifier = input.ReadBits(2);
-                response.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
-                return response;
+                config.rrc_TransactionIdentifier = input.ReadBits(2);
+                config.criticalExtensions = criticalExtensions_Type.PerDecoder.Instance.Decode(input);
             }
         }
     }
 
     [Serializable]
-    public class CounterCheckResponse_r8_IEs
+    public class CounterCheckResponse_r8_IEs : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public List<DRB_CountInfo> drb_CountInfoList { get; set; }
 
         public CounterCheckResponse_v8a0_IEs nonCriticalExtension { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CounterCheckResponse_r8_IEs>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CounterCheckResponse_r8_IEs Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CounterCheckResponse_r8_IEs config, BitArrayInputStream input)
             {
-                CounterCheckResponse_r8_IEs es = new CounterCheckResponse_r8_IEs();
-                es.InitDefaults();
-                BitMaskStream stream = new BitMaskStream(input, 1);
-                es.drb_CountInfoList = new List<DRB_CountInfo>();
-                const int nBits = 4;
-                int num3 = input.ReadBits(nBits);
-                for (int i = 0; i < num3; i++)
+                var stream = new BitMaskStream(input, 1);
+                config.drb_CountInfoList = new List<DRB_CountInfo>();
+                var num3 = input.ReadBits(4);
+                for (var i = 0; i < num3; i++)
                 {
-                    DRB_CountInfo item = DRB_CountInfo.PerDecoder.Instance.Decode(input);
-                    es.drb_CountInfoList.Add(item);
+                    var item = DRB_CountInfo.PerDecoder.Instance.Decode(input);
+                    config.drb_CountInfoList.Add(item);
                 }
                 if (stream.Read())
                 {
-                    es.nonCriticalExtension = CounterCheckResponse_v8a0_IEs.PerDecoder.Instance.Decode(input);
+                    config.nonCriticalExtension = CounterCheckResponse_v8a0_IEs.PerDecoder.Instance.Decode(input);
                 }
-                return es;
             }
         }
     }
 
     [Serializable]
-    public class CounterCheckResponse_v8a0_IEs
+    public class CounterCheckResponse_v8a0_IEs : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public string lateNonCriticalExtension { get; set; }
 
         public nonCriticalExtension_Type nonCriticalExtension { get; set; }
 
         [Serializable]
-        public class nonCriticalExtension_Type
+        public class nonCriticalExtension_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<nonCriticalExtension_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public nonCriticalExtension_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(nonCriticalExtension_Type config, BitArrayInputStream input)
                 {
-                    nonCriticalExtension_Type type = new nonCriticalExtension_Type();
-                    type.InitDefaults();
-                    return type;
+                    
                 }
             }
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CounterCheckResponse_v8a0_IEs>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CounterCheckResponse_v8a0_IEs Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CounterCheckResponse_v8a0_IEs config, BitArrayInputStream input)
             {
-                CounterCheckResponse_v8a0_IEs es = new CounterCheckResponse_v8a0_IEs();
-                es.InitDefaults();
-                BitMaskStream stream = new BitMaskStream(input, 2);
+                var stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = input.ReadBits(8);
-                    es.lateNonCriticalExtension = input.readOctetString(nBits);
+                    var nBits = input.ReadBits(8);
+                    config.lateNonCriticalExtension = input.readOctetString(nBits);
                 }
                 if (stream.Read())
                 {
-                    es.nonCriticalExtension = nonCriticalExtension_Type.PerDecoder.Instance.Decode(input);
+                    config.nonCriticalExtension = nonCriticalExtension_Type.PerDecoder.Instance.Decode(input);
                 }
-                return es;
             }
         }
     }

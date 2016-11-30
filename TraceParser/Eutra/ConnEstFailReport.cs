@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lte.Domain.Common;
+using TraceParser.Common;
 
 namespace TraceParser.Eutra
 {
     [Serializable]
-    public class ConnEstFailReport_r11
+    public class ConnEstFailReport_r11 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public bool contentionDetected_r11 { get; set; }
 
         public CellGlobalIdEUTRA failedCellId_r11 { get; set; }
@@ -30,42 +27,31 @@ namespace TraceParser.Eutra
         public long timeSinceFailure_r11 { get; set; }
 
         [Serializable]
-        public class measResultFailedCell_r11_Type
+        public class measResultFailedCell_r11_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public long rsrpResult_r11 { get; set; }
 
             public long? rsrqResult_r11 { get; set; }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<measResultFailedCell_r11_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
 
-                public measResultFailedCell_r11_Type Decode(BitArrayInputStream input)
+                protected override void ProcessConfig(measResultFailedCell_r11_Type config, BitArrayInputStream input)
                 {
-                    measResultFailedCell_r11_Type type = new measResultFailedCell_r11_Type();
-                    type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 1);
-                    type.rsrpResult_r11 = input.ReadBits(7);
+                    config.rsrpResult_r11 = input.ReadBits(7);
                     if (stream.Read())
                     {
-                        type.rsrqResult_r11 = input.ReadBits(6);
+                        config.rsrqResult_r11 = input.ReadBits(6);
                     }
-                    return type;
                 }
             }
         }
 
         [Serializable]
-        public class measResultNeighCells_r11_Type
+        public class measResultNeighCells_r11_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public List<MeasResult2EUTRA_r9> measResultListEUTRA_r11 { get; set; }
 
             public List<MeasResultGERAN> measResultListGERAN_r11 { get; set; }
@@ -74,100 +60,88 @@ namespace TraceParser.Eutra
 
             public List<MeasResult2CDMA2000_r9> measResultsCDMA2000_r11 { get; set; }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<measResultNeighCells_r11_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public measResultNeighCells_r11_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(measResultNeighCells_r11_Type config, BitArrayInputStream input)
                 {
-                    int num2;
-                    measResultNeighCells_r11_Type type = new measResultNeighCells_r11_Type();
-                    type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 4);
                     if (stream.Read())
                     {
-                        type.measResultListEUTRA_r11 = new List<MeasResult2EUTRA_r9>();
-                        num2 = 3;
-                        int num3 = input.ReadBits(num2) + 1;
+                        config.measResultListEUTRA_r11 = new List<MeasResult2EUTRA_r9>();
+                        int num3 = input.ReadBits(3) + 1;
                         for (int i = 0; i < num3; i++)
                         {
                             MeasResult2EUTRA_r9 item = MeasResult2EUTRA_r9.PerDecoder.Instance.Decode(input);
-                            type.measResultListEUTRA_r11.Add(item);
+                            config.measResultListEUTRA_r11.Add(item);
                         }
                     }
                     if (stream.Read())
                     {
-                        type.measResultListUTRA_r11 = new List<MeasResult2UTRA_r9>();
-                        num2 = 3;
-                        int num5 = input.ReadBits(num2) + 1;
+                        config.measResultListUTRA_r11 = new List<MeasResult2UTRA_r9>();
+                        int num5 = input.ReadBits(3) + 1;
                         for (int j = 0; j < num5; j++)
                         {
                             MeasResult2UTRA_r9 _r2 = MeasResult2UTRA_r9.PerDecoder.Instance.Decode(input);
-                            type.measResultListUTRA_r11.Add(_r2);
+                            config.measResultListUTRA_r11.Add(_r2);
                         }
                     }
                     if (stream.Read())
                     {
-                        type.measResultListGERAN_r11 = new List<MeasResultGERAN>();
-                        num2 = 3;
-                        int num7 = input.ReadBits(num2) + 1;
+                        config.measResultListGERAN_r11 = new List<MeasResultGERAN>();
+                        int num7 = input.ReadBits(3) + 1;
                         for (int k = 0; k < num7; k++)
                         {
                             MeasResultGERAN tgeran = MeasResultGERAN.PerDecoder.Instance.Decode(input);
-                            type.measResultListGERAN_r11.Add(tgeran);
+                            config.measResultListGERAN_r11.Add(tgeran);
                         }
                     }
                     if (stream.Read())
                     {
-                        type.measResultsCDMA2000_r11 = new List<MeasResult2CDMA2000_r9>();
-                        num2 = 3;
-                        int num9 = input.ReadBits(num2) + 1;
+                        config.measResultsCDMA2000_r11 = new List<MeasResult2CDMA2000_r9>();
+                        int num9 = input.ReadBits(3) + 1;
                         for (int m = 0; m < num9; m++)
                         {
                             MeasResult2CDMA2000_r9 _r3 = MeasResult2CDMA2000_r9.PerDecoder.Instance.Decode(input);
-                            type.measResultsCDMA2000_r11.Add(_r3);
+                            config.measResultsCDMA2000_r11.Add(_r3);
                         }
                     }
-                    return type;
                 }
             }
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<ConnEstFailReport_r11>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public ConnEstFailReport_r11 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(ConnEstFailReport_r11 config, BitArrayInputStream input)
             {
-                ConnEstFailReport_r11 _r = new ConnEstFailReport_r11();
-                _r.InitDefaults();
                 BitMaskStream stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 3) : new BitMaskStream(input, 3);
-                _r.failedCellId_r11 = CellGlobalIdEUTRA.PerDecoder.Instance.Decode(input);
+                config.failedCellId_r11 = CellGlobalIdEUTRA.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
-                    _r.locationInfo_r11 = LocationInfo_r10.PerDecoder.Instance.Decode(input);
+                    config.locationInfo_r11 = LocationInfo_r10.PerDecoder.Instance.Decode(input);
                 }
-                _r.measResultFailedCell_r11 = measResultFailedCell_r11_Type.PerDecoder.Instance.Decode(input);
+                config.measResultFailedCell_r11 = measResultFailedCell_r11_Type.PerDecoder.Instance.Decode(input);
                 if (stream.Read())
                 {
-                    _r.measResultNeighCells_r11 = measResultNeighCells_r11_Type.PerDecoder.Instance.Decode(input);
+                    config.measResultNeighCells_r11 = measResultNeighCells_r11_Type.PerDecoder.Instance.Decode(input);
                 }
-                _r.numberOfPreamblesSent_r11 = input.ReadBits(8) + 1;
-                _r.contentionDetected_r11 = input.ReadBit() == 1;
-                _r.maxTxPowerReached_r11 = input.ReadBit() == 1;
-                _r.timeSinceFailure_r11 = input.ReadBits(0x12);
+                config.numberOfPreamblesSent_r11 = input.ReadBits(8) + 1;
+                config.contentionDetected_r11 = input.ReadBit() == 1;
+                config.maxTxPowerReached_r11 = input.ReadBit() == 1;
+                config.timeSinceFailure_r11 = input.ReadBits(0x12);
                 if (stream.Read())
                 {
-                    _r.measResultListEUTRA_v1130 = new List<MeasResult2EUTRA_v9e0>();
-                    int nBits = 3;
-                    int num3 = input.ReadBits(nBits) + 1;
+                    config.measResultListEUTRA_v1130 = new List<MeasResult2EUTRA_v9e0>();
+                    int num3 = input.ReadBits(3) + 1;
                     for (int i = 0; i < num3; i++)
                     {
                         MeasResult2EUTRA_v9e0 item = MeasResult2EUTRA_v9e0.PerDecoder.Instance.Decode(input);
-                        _r.measResultListEUTRA_v1130.Add(item);
+                        config.measResultListEUTRA_v1130.Add(item);
                     }
                 }
-                return _r;
             }
         }
     }
