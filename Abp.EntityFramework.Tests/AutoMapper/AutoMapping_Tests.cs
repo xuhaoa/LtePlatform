@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Shouldly;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Abp.EntityFramework.Tests.AutoMapper

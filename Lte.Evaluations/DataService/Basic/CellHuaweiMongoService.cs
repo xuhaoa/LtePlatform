@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lte.Evaluations.DataService.Switch;
+﻿using Lte.Evaluations.DataService.Switch;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Switch;
 using Lte.Parameters.Entities.Basic;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lte.Evaluations.DataService.Basic
 {

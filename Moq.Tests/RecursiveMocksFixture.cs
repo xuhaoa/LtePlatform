@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class RecursiveMocksFixture
+    public class RecursiveMocksFixture
 	{
 		[Fact]
 		public void CreatesMockForAccessedProperty()

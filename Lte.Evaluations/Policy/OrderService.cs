@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Domain.Common.Wireless;
-using Lte.Evaluations.MapperSerive;
+﻿using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.Properties;
 using Lte.Evaluations.ViewModels.Kpi;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Kpi;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lte.Evaluations.Policy
 {

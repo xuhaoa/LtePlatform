@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Basic;
+using System;
+using System.Linq;
 
 namespace Lte.Evaluations.ViewModels.Precise
 {

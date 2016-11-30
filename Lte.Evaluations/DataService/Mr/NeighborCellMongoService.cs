@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Lte.Evaluations.DataService.Switch;
 using Lte.Evaluations.ViewModels.Mr;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Neighbor;
 using Lte.Parameters.Entities.Neighbor;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lte.Evaluations.DataService.Mr
 {

@@ -1,7 +1,7 @@
 ﻿#if !WINDOWS_PHONE
+using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
 
 namespace AutoMapper.Test.Bug
 {

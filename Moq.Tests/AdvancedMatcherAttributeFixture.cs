@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class AdvancedMatcherAttributeFixture
+    public class AdvancedMatcherAttributeFixture
 	{
 		[Fact]
 		public void ShouldThrowIfNullMatcherType()

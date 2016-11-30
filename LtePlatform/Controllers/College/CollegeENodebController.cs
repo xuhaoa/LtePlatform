@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Lte.Evaluations.DataService.College;
+using Lte.Evaluations.MapperSerive.Infrastructure;
+using Lte.Evaluations.ViewModels.Basic;
+using LtePlatform.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Lte.Evaluations.DataService.College;
-using Lte.Evaluations.MapperSerive.Infrastructure;
-using Lte.Evaluations.ViewModels.Basic;
-using Lte.Parameters.Entities;
-using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.College
 {

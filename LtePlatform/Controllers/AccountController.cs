@@ -1,15 +1,13 @@
-﻿using System;
-using System.Globalization;
+﻿using LtePlatform.Models;
+using LtePlatform.Results;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using LtePlatform.Models;
-using LtePlatform.Results;
 
 namespace LtePlatform.Controllers
 {

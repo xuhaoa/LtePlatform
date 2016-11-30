@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Lte.Evaluations.DataService;
+﻿using Lte.Evaluations.DataService;
 using Lte.Evaluations.DataService.Mr;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.MySqlFramework.Entities;
 using LtePlatform.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace LtePlatform.Controllers.Mr
 {

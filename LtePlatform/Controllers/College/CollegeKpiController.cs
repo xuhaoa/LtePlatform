@@ -1,14 +1,12 @@
-﻿using System;
+﻿using Lte.Evaluations.DataService.College;
+using Lte.Evaluations.ViewModels.Precise;
+using Lte.MySqlFramework.Entities;
+using Lte.Parameters.Entities.Kpi;
+using LtePlatform.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Lte.Evaluations.DataService.College;
-using Lte.Evaluations.ViewModels.College;
-using Lte.Evaluations.ViewModels.Precise;
-using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Entities;
-using Lte.Parameters.Entities.Kpi;
-using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.College
 {

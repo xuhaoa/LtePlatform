@@ -1,8 +1,8 @@
+using AutoMapper.Test.Should.Core.Assertions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper.Test.Should.Core.Assertions;
 
 namespace AutoMapper.Test.Should.Core.Exceptions
 {

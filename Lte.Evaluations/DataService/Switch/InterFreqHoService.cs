@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Lte.Evaluations.ViewModels.Switch;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Switch;
 using Lte.Parameters.Entities.Switch;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lte.Evaluations.DataService.Switch
 {

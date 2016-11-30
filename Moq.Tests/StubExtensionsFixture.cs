@@ -1,9 +1,8 @@
-﻿using System.Diagnostics;
-using Xunit;
+﻿using Xunit;
 
 namespace Moq.Tests
 {
-	public class StubExtensionsFixture
+    public class StubExtensionsFixture
 	{
 		[Fact]
 		public void ShouldStubPropertyWithoutInitialValue()

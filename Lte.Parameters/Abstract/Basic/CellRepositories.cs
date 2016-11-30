@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Abp.Domain.Repositories;
+﻿using Abp.Domain.Repositories;
 using Abp.EntityFramework.Repositories;
 using Lte.Domain.Common;
 using Lte.Parameters.Entities.Basic;
+using System.Collections.Generic;
 
 namespace Lte.Parameters.Abstract.Basic
 {

@@ -1,8 +1,8 @@
+using NUnit.Framework;
+using Shouldly;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using NUnit.Framework;
-using Shouldly;
 
 namespace AutoMapper.Test.Membel
 {

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.Owin.Security.OAuth;
+using System;
 using System.Threading.Tasks;
-using Microsoft.Owin.Security.OAuth;
 
 namespace LtePlatform.Providers
 {

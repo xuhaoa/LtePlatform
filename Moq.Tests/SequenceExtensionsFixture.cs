@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class SequenceExtensionsFixture
+    public class SequenceExtensionsFixture
 	{
 		[Fact]
 		public void PerformSequence()

@@ -1,11 +1,10 @@
 ﻿using System;
-
-using Xunit;
 using System.Collections.Generic;
+using Xunit;
 
 namespace Moq.Tests
 {
-	public class ReturnsFixture
+    public class ReturnsFixture
 	{
 #if !SILVERLIGHT
 		[Fact]

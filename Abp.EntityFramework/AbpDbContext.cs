@@ -1,13 +1,4 @@
-﻿using System;
-using System.Data.Common;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Validation;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Abp.Domain.Entities;
+﻿using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Uow;
 using Abp.Events.Bus.Entities;
@@ -16,6 +7,15 @@ using Abp.Runtime.Session;
 using Abp.Timing;
 using Castle.Core.Logging;
 using EntityFramework.DynamicFilters;
+using System;
+using System.Data.Common;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Abp.EntityFramework
 {

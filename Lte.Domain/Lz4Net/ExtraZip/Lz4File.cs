@@ -1,8 +1,7 @@
-﻿using System;
-using System.Diagnostics;
+﻿using Lte.Domain.Common;
+using System;
 using System.IO;
 using System.IO.Compression;
-using Lte.Domain.Common;
 
 namespace Lte.Domain.Lz4Net.ExtraZip
 {

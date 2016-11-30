@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Lte.MySqlFramework.Entities;
+using System;
+using System.Collections.Generic;
 
 namespace Lte.Evaluations.ViewModels.RegionKpi
 {

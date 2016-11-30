@@ -1,9 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Lte.Domain.LinqToExcel;
+﻿using Lte.Domain.LinqToExcel;
 using Lte.Domain.LinqToExcel.Entities;
 using NUnit.Framework;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace Lte.Domain.Test.LinqToExcel
 {

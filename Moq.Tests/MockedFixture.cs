@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class MockedFixture
+    public class MockedFixture
 	{
 		[Fact]
 		public void InterfaceMockedShouldImplementMocked()

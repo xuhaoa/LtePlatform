@@ -1,11 +1,11 @@
-﻿using System;
-using Abp.Domain.Entities;
+﻿using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Dependency;
 using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Regular;
 using MongoDB.Bson;
+using System;
 
 namespace Lte.Parameters.Entities.Kpi
 {

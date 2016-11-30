@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Web.Http;
-using Lte.Evaluations.DataService.Kpi;
+﻿using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using LtePlatform.Models;
+using System.Collections.Generic;
+using System.Web.Http;
 
 namespace LtePlatform.Controllers.Kpi
 {

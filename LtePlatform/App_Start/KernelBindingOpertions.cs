@@ -6,7 +6,6 @@ using Lte.Evaluations.DataService.Dump;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.DataService.Mr;
 using Lte.Evaluations.DataService.Switch;
-using Lte.Evaluations.ViewModels.Basic;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Concrete;
 using Lte.Parameters.Abstract;

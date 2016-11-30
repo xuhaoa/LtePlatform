@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
@@ -10,6 +8,8 @@ using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Entities.College;
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Linq;
 
 namespace Lte.Evaluations.DataService.College
 {

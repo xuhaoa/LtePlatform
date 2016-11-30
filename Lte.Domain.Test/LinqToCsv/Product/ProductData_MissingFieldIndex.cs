@@ -1,5 +1,5 @@
-﻿using System;
-using Lte.Domain.LinqToCsv;
+﻿using Lte.Domain.LinqToCsv;
+using System;
 
 namespace Lte.Domain.Test.LinqToCsv.Product
 {

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
-using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.TestService;
@@ -12,6 +9,8 @@ using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
+using System;
+using System.Linq;
 
 namespace Lte.Evaluations.DataService.Kpi
 {

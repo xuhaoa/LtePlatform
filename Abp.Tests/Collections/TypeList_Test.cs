@@ -1,5 +1,5 @@
-﻿using System;
-using Abp.Collections;
+﻿using Abp.Collections;
+using System;
 using Xunit;
 
 namespace Abp.Tests.Collections

@@ -1,11 +1,11 @@
+using Abp.Domain.Entities;
+using Abp.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Abp.Domain.Entities;
-using Abp.Domain.Repositories;
 
 namespace Abp.EntityFramework.Repositories
 {

@@ -13,12 +13,8 @@
 * limitations under the License.
 */
 
-using System.Linq;
 using MongoDB.Bson;
-using MongoDB.Driver;
 using MongoDB.Driver.Builders;
-using MongoDB.Driver.Legacy.TestHelpers;
-using MongoDB.Driver.Linq;
 using NUnit.Framework;
 
 namespace MongoDB.Driver.Tests.Jira.CSharp653

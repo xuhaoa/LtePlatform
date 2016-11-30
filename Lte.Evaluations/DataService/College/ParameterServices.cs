@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Lte.Evaluations.ViewModels.Basic;
+﻿using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Kpi;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lte.Evaluations.DataService.College
 {

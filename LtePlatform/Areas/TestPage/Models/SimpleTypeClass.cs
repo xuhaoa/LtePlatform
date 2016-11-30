@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Lte.Domain.Regular.Attributes;
+﻿using Lte.Domain.Regular.Attributes;
+using System.Collections.Generic;
 
 namespace LtePlatform.Areas.TestPage.Models
 {

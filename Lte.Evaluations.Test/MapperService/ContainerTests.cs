@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
 using AutoMapper;
 using Lte.Domain.Common;
@@ -23,6 +20,9 @@ using Lte.Parameters.Entities.Switch;
 using Lte.Parameters.Entities.Work;
 using NUnit.Framework;
 using Shouldly;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lte.Evaluations.MapperService
 {

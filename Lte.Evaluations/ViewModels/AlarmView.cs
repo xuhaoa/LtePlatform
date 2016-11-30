@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
-using Lte.Domain.Regular;
 using Lte.Domain.Regular.Attributes;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Kpi;
+using System;
 
 namespace Lte.Evaluations.ViewModels
 {

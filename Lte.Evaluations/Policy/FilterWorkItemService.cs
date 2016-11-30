@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq.Expressions;
-using Lte.Domain.Common.Wireless;
+﻿using Lte.Domain.Common.Wireless;
 using Lte.Parameters.Entities.Work;
+using System;
+using System.Linq.Expressions;
 
 namespace Lte.Evaluations.Policy
 {

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.MySqlFramework.Entities;
+using System.Collections.Generic;
 
 namespace Lte.Evaluations.ViewModels.Precise
 {

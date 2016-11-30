@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Lte.Domain.Lz4Net.Core;
+using Lte.Domain.Lz4Net.Encryption;
+using System;
 using System.Collections;
 using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using Lte.Domain.Lz4Net.Core;
-using Lte.Domain.Lz4Net.Encryption;
 using ZipLib.CheckSums;
 using ZipLib.Comppression;
 using ZipLib.Encryption;

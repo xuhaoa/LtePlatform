@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration.Internal;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LtePlatform.Areas.HelpPage.ModelDescriptions;
+﻿using LtePlatform.Areas.HelpPage.ModelDescriptions;
 using NUnit.Framework;
 
 namespace LtePlatform.Tests.ModelDescription

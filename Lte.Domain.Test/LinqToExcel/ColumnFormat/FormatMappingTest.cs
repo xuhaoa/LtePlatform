@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using log4net.Core;
+using Lte.Domain.LinqToExcel;
+using Lte.Domain.Regular;
+using NUnit.Framework;
+using System;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Domain.LinqToExcel;
-using NUnit.Framework;
-using Lte.Domain.Regular;
-using log4net.Core;
 
 namespace Lte.Domain.Test.LinqToExcel.ColumnFormat
 {

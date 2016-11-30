@@ -1,5 +1,5 @@
-﻿using System.IO;
-using Lte.Domain.Lz4Net.Core;
+﻿using Lte.Domain.Lz4Net.Core;
+using System.IO;
 
 namespace ZipLib.Zip
 {

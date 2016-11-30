@@ -1,6 +1,5 @@
 ﻿using Abp.Net.Mail.Smtp;
 using NSubstitute;
-using Xunit;
 
 namespace Abp.Tests.Net.Mail
 {

@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Lte.Domain.LinqToExcel.Service;
+using Lte.Domain.Regular.Attributes;
+using Remotion.Data.Linq;
+using Remotion.Data.Linq.Clauses;
+using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using Lte.Domain.LinqToExcel.Service;
-using Lte.Domain.Regular;
-using Lte.Domain.Regular.Attributes;
-using Remotion.Data.Linq;
-using Remotion.Data.Linq.Clauses;
 
 namespace Lte.Domain.LinqToExcel.Entities
 {

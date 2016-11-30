@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class CallbacksFixture
+    public class CallbacksFixture
 	{
 		[Fact]
 		public void ExecutesCallbackWhenVoidMethodIsCalled()

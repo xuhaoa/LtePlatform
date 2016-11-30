@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class Demo
+    public class Demo
 	{
 		private static string TALISKER = "Talisker";
 

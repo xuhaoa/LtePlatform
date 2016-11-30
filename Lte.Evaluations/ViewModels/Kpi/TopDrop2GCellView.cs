@@ -1,7 +1,7 @@
-﻿using System;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Regular.Attributes;
 using Lte.MySqlFramework.Entities;
+using System;
 
 namespace Lte.Evaluations.ViewModels.Kpi
 {

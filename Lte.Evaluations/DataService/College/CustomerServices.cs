@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Abp.Domain.Entities;
+﻿using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
 using Abp.EntityFramework.AutoMapper;
-using Lte.MySqlFramework.Abstract;
-using Lte.MySqlFramework.Entities;
 using Abp.EntityFramework.Repositories;
 using AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.ViewModels.College;
-using Lte.Parameters.Abstract;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Infrastructure;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Lte.Evaluations.DataService.College
 {

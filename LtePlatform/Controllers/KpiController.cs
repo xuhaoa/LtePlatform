@@ -1,15 +1,14 @@
-﻿ using System.Collections.Generic;
- using System.IO;
- using System.Linq;
- using System.Text;
- using System.Web;
- using System.Web.Mvc;
- using Lte.Domain.Common;
- using Lte.Evaluations.DataService;
- using Lte.Evaluations.DataService.Basic;
- using Lte.Evaluations.DataService.Kpi;
- using Lte.Evaluations.DataService.Mr;
- using LtePlatform.Models;
+﻿using Lte.Domain.Common;
+using Lte.Evaluations.DataService;
+using Lte.Evaluations.DataService.Basic;
+using Lte.Evaluations.DataService.Kpi;
+using Lte.Evaluations.DataService.Mr;
+using LtePlatform.Models;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Web.Mvc;
 
 namespace LtePlatform.Controllers
 {

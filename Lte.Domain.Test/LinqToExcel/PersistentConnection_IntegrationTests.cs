@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections;
+﻿using Lte.Domain.LinqToExcel;
+using Lte.Domain.LinqToExcel.Entities;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Lte.Domain.LinqToExcel;
-using Lte.Domain.LinqToExcel.Entities;
-using NUnit.Framework;
 
 namespace Lte.Domain.Test.LinqToExcel
 {
-	[TestFixture]
+    [TestFixture]
 	public class PersistentConnection_IntegrationTests
 	{
 		private IExcelQueryFactory _factory;

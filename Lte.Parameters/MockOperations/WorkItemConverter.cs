@@ -1,8 +1,8 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Parameters.Entities.Work;
+using System;
 
 namespace Lte.Parameters.MockOperations
 {

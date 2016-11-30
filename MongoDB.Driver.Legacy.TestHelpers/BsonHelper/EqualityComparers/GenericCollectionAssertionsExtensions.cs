@@ -13,10 +13,10 @@
 * limitations under the License.
 */
 
-using System;
-using System.Collections.Generic;
 using FluentAssertions;
 using FluentAssertions.Collections;
+using System;
+using System.Collections.Generic;
 
 namespace MongoDB.Bson.TestHelpers.EqualityComparers
 {

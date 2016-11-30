@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Abp.EntityFramework.Dependency;
+﻿using Abp.EntityFramework.Dependency;
 using Abp.EntityFramework.Repositories;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Kpi;
 using MongoDB.Bson;
+using System;
+using System.Collections.Generic;
 
 namespace Lte.Parameters.Concrete.Kpi
 {

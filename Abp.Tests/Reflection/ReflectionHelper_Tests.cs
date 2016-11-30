@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Abp.Reflection;
+﻿using Abp.Reflection;
 using Shouldly;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Abp.Tests.Reflection

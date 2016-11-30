@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using Lte.Evaluations.DataService.Basic;
+﻿using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.DataService.Switch;
 using Lte.Evaluations.ViewModels.Channel;
 using LtePlatform.Models;
+using System.Web.Http;
 
 namespace LtePlatform.Controllers.Mongo
 {

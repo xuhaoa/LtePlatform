@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using System.Web.Http;
-using Lte.Evaluations.DataService.Mr;
+﻿using Lte.Evaluations.DataService.Mr;
 using LtePlatform.Models;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace LtePlatform.Controllers.Parameters
 {

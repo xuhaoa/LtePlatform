@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Lte.Domain.Common;
+using System;
 using System.Collections;
 using System.IO;
-using Lte.Domain.Common;
 using TraceParser.Eutra;
 using TraceParser.S1ap;
 using TraceParser.X2ap;

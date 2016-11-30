@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Lte.Domain.LinqToExcel.Entities;
+﻿using Lte.Domain.LinqToExcel.Entities;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace Lte.Domain.Test.LinqToExcel
 {

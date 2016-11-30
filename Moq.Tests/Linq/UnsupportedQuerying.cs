@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace Moq.Tests.Linq
 {
-	public class UnsupportedQuerying
+    public class UnsupportedQuerying
 	{
 		public class GivenAReadonlyNonVirtualProperty
 		{

@@ -1,11 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Lte.Domain.LinqToExcel;
+﻿using Lte.Domain.LinqToExcel;
 using Lte.Domain.Test.LinqToExcel;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Entities;
 using NUnit.Framework;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace Lte.Parameters.Test.Kpi
 {

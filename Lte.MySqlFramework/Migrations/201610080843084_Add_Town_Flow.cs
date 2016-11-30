@@ -1,8 +1,7 @@
 namespace Lte.MySqlFramework.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class Add_Town_Flow : DbMigration
     {
         public override void Up()

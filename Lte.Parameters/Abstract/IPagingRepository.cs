@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Abp.Domain.Entities;
+using Abp.Domain.Repositories;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
-using Abp.Domain.Entities;
-using Abp.Domain.Repositories;
 
 namespace Lte.Parameters.Abstract
 {

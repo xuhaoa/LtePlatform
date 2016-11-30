@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Lte.Domain.Common;
+using Lte.Domain.Regular.Attributes;
+using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
-using System.ComponentModel;
-using Lte.Domain.Regular;
-using Lte.Domain.Common;
-using Lte.Domain.Regular.Attributes;
 
 namespace Lte.Domain.LinqToCsv.Mapper
 {

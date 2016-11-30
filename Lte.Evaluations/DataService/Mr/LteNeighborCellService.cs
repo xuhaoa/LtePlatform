@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Lte.Parameters.Abstract.Neighbor;
+﻿using Lte.Parameters.Abstract.Neighbor;
 using Lte.Parameters.Entities.Neighbor;
+using System.Collections.Generic;
 
 namespace Lte.Evaluations.DataService.Mr
 {

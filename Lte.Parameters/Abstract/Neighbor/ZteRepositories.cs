@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Abp.Domain.Repositories;
-using Lte.Parameters.Concrete.Neighbor;
-using Lte.Parameters.Entities.Channel;
+﻿using Abp.Domain.Repositories;
 using Lte.Parameters.Entities.Neighbor;
 using MongoDB.Bson;
+using System.Collections.Generic;
 
 namespace Lte.Parameters.Abstract.Neighbor
 {

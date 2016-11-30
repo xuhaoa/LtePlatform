@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
 using Lte.Evaluations.DataService.Kpi;
-using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.Test.DataService.Queries;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Entities;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Lte.Evaluations.ViewModel
 {

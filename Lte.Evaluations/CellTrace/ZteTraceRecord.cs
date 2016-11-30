@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Domain.Regular;
-using Lte.Domain.Regular.Attributes;
+﻿using Lte.Domain.Regular.Attributes;
+using System;
 
 namespace Lte.Evaluations.CellTrace
 {

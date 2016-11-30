@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Abp.Domain.Repositories;
+﻿using Abp.Domain.Repositories;
 using AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Parameters.Entities;
-using Lte.Parameters.Entities.Kpi;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Lte.Parameters.Abstract.Infrastructure
 {

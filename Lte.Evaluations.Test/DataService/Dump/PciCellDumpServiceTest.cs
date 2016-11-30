@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using Lte.Domain.Common;
+﻿using Lte.Domain.Common;
 using Lte.Evaluations.MockItems;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using NUnit.Framework;
 using Shouldly;
+using System.Collections.Generic;
 
 namespace Lte.Evaluations.DataService.Dump
 {

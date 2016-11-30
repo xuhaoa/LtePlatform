@@ -1,5 +1,4 @@
 ﻿using Abp.EntityFramework.AutoMapper;
-using Lte.Domain.Common.Geo;
 using Lte.Domain.Regular.Attributes;
 using Lte.Parameters.Entities.Basic;
 

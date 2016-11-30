@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Lte.Domain.LinqToCsv.Description;
+﻿using Lte.Domain.LinqToCsv.Description;
 using Lte.Domain.Test.LinqToCsv.Product;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Lte.Domain.Test.LinqToCsv
 {

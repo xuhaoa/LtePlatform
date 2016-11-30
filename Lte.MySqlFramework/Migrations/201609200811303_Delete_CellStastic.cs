@@ -1,8 +1,7 @@
 namespace Lte.MySqlFramework.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class Delete_CellStastic : DbMigration
     {
         public override void Up()

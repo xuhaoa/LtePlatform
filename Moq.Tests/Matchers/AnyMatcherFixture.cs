@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Moq.Tests.Matchers
 {
-	public class AnyMatcherFixture
+    public class AnyMatcherFixture
 	{
 		[Fact]
 		public void MatchesNull()

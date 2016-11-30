@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Lte.Evaluations;
 using Lte.Evaluations.MapperSerive;
 
 namespace LtePlatform

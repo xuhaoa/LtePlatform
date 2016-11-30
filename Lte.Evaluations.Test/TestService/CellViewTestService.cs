@@ -1,5 +1,4 @@
-﻿using Lte.Evaluations.ViewModels;
-using Lte.Evaluations.ViewModels.Basic;
+﻿using Lte.Evaluations.ViewModels.Basic;
 using NUnit.Framework;
 
 namespace Lte.Evaluations.Test.TestService

@@ -1,9 +1,9 @@
-﻿using Xunit;
-using System;
+﻿using System;
+using Xunit;
 
 namespace Moq.Tests
 {
-	public class OutRefFixture
+    public class OutRefFixture
 	{
 		[Fact]
 		public void ExpectsOutArgument()

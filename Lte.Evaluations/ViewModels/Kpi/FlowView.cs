@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Regular.Attributes;
 using Lte.MySqlFramework.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lte.Evaluations.ViewModels.Kpi
 {

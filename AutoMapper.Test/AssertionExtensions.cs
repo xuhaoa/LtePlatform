@@ -1,9 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using AutoMapper.Test.Should.Core.Exceptions;
 using Shouldly;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AutoMapper.Test
 {

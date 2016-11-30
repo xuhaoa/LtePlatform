@@ -1,8 +1,7 @@
 namespace LtePlatform.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class Update_ApplicationDbContext_20160117 : DbMigration
     {
         public override void Up()

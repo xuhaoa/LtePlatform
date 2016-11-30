@@ -1,7 +1,7 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Diagnostics;
 using System.IO;
-using NUnit.Framework;
 using TraceParser.Huawei;
 
 namespace TraceParser.Test.Huawei

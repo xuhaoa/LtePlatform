@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Evaluations.DataService.Switch;
+﻿using Lte.Evaluations.DataService.Switch;
 using Lte.Evaluations.ViewModels.Channel;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Abstract.Neighbor;
 
 namespace Lte.Evaluations.DataService.Basic
 {

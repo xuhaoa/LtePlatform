@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using AutoMapper.QueryableExtensions;
+﻿using AutoMapper.QueryableExtensions;
 using NUnit.Framework;
 using Shouldly;
+using System.Linq;
 
 namespace AutoMapper.Test.Bug
 {

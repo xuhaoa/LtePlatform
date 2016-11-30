@@ -1,13 +1,12 @@
 ﻿#if !SILVERLIGHT && !NETFX_CORE
+using AutoMapper;
+using NUnit.Framework;
+using Shouldly;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
-using NUnit.Framework;
-using Shouldly;
 
 namespace AutoMapper.Test.Bug
 {

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Domain.Common;
+﻿using Lte.Domain.Common;
+using Moq;
 using NUnit.Framework;
 using TraceParser.Common;
-using Moq;
 
 namespace TraceParser.Test.RRC
 {

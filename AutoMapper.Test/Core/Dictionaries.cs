@@ -1,14 +1,14 @@
+using NUnit.Framework;
+using Shouldly;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
-using Shouldly;
 
 namespace AutoMapper.Test.Core
 {
-	namespace Dictionaries
-	{
+    namespace Dictionaries
+    {
         [Explicit("Need to resolve the assignable collection bug as well")]
         public class When_mapping_to_a_generic_dictionary_with_mapped_value_pairs : AutoMapperSpecBase
         {

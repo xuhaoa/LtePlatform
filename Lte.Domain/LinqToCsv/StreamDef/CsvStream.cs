@@ -1,10 +1,7 @@
-﻿using System;
+﻿using Lte.Domain.LinqToCsv.Description;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using Lte.Domain.LinqToCsv.Description;
+using System.Linq;
 
 namespace Lte.Domain.LinqToCsv.StreamDef
 {

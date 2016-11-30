@@ -1,10 +1,10 @@
-﻿using System.Collections;
+﻿using Lte.Domain.Common;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using Lte.Domain.Common;
 
 namespace TraceParser.Eric
 {

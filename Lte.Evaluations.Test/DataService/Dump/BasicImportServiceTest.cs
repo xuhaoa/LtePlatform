@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Lte.Domain.Common;
+﻿using Lte.Domain.Common;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.MockItems;
 using Lte.Parameters.Abstract.Basic;
@@ -7,6 +6,7 @@ using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
+using System.Linq;
 
 namespace Lte.Evaluations.DataService.Dump
 {

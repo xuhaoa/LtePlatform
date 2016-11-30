@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class MockDefaultValueProviderFixture
+    public class MockDefaultValueProviderFixture
 	{
 		[Fact]
 		public void ProvidesMockValue()

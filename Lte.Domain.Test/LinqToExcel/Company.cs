@@ -1,6 +1,5 @@
-﻿using System;
-using Lte.Domain.Regular;
-using Lte.Domain.Regular.Attributes;
+﻿using Lte.Domain.Regular.Attributes;
+using System;
 
 namespace Lte.Domain.Test.LinqToExcel
 {

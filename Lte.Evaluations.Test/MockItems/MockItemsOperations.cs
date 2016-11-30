@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Abp.Domain.Entities;
+﻿using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
-using Lte.Evaluations.DataService.Basic;
 using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
@@ -13,6 +8,9 @@ using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities;
 using Moq;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Lte.Evaluations.MockItems
 {

@@ -13,11 +13,10 @@
 * limitations under the License.
 */
 
-using System.Collections.Generic;
 using MongoDB.Bson;
-using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace MongoDB.Driver.Tests.Jira.CSharp598
 {

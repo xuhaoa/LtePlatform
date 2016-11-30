@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using Abp.EntityFramework;
+﻿using Abp.EntityFramework;
 using Abp.EntityFramework.Repositories;
 using Lte.Parameters.Abstract;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Kpi;
+using System;
+using System.Collections.Generic;
 
 namespace Lte.Parameters.Concrete
 {

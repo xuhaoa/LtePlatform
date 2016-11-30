@@ -2,7 +2,7 @@
 
 namespace Moq.Tests
 {
-	public class MockSequenceFixture
+    public class MockSequenceFixture
 	{
 		[Fact]
 		public void RightSequenceSuccess()

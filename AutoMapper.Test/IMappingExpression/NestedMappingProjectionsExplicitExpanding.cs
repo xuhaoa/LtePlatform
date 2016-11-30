@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper.QueryableExtensions;
+﻿using AutoMapper.QueryableExtensions;
 using NUnit.Framework;
 using Shouldly;
+using System.Linq;
 
 namespace AutoMapper.Test.IMappingExpression
 {

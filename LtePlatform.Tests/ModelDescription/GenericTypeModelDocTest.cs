@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Web.Http;
-using System.Web.Http.Description;
-using Lte.Domain.Regular.Attributes;
+﻿using Lte.Domain.Regular.Attributes;
 using LtePlatform.Areas.HelpPage.ModelDescriptions;
 using LtePlatform.Models;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace LtePlatform.Tests.ModelDescription
 {

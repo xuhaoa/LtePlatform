@@ -1,13 +1,12 @@
-﻿using System;
+﻿using AutoMapper;
+using Lte.Domain.Common.Wireless;
+using Lte.Domain.LinqToExcel.Service;
+using Lte.Domain.Regular;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using AutoMapper;
-using Lte.Domain.Common.Wireless;
-using Lte.Domain.LinqToExcel.Service;
-using Lte.Domain.Regular;
-using Remotion.Data.Linq.Parsing.Structure.IntermediateModel;
 
 namespace Lte.Domain.Common
 {

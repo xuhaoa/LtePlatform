@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class MockBehaviorFixture
+    public class MockBehaviorFixture
 	{
 		[Fact]
 		public void ShouldThrowIfStrictNoExpectation()

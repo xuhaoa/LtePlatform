@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lte.Domain.Common.Wireless;
+﻿using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.ViewModels.Kpi;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Entities.Kpi;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lte.Evaluations.MapperSerive.Kpi
 {

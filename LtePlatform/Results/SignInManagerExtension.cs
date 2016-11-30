@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LtePlatform.Models;
+﻿using LtePlatform.Models;
 using Microsoft.AspNet.Identity.Owin;
+using System.Threading.Tasks;
 
 namespace LtePlatform.Results
 {

@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using NUnit.Framework;
 using Shouldly;
+using System;
+using System.Collections.Generic;
 
 namespace AutoMapper.Test.Core
 {

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Lte.Domain.Lz4Net.Encryption;
+using System;
 using System.IO;
 using System.Security.Cryptography;
-using Lte.Domain.Lz4Net.Encryption;
 using ZipLib.Comppression;
 using ZipLib.Encryption;
 using ZipLib.Zip;

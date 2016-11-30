@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
 using AutoMapper;
 using Lte.Domain.Common;
@@ -24,6 +20,10 @@ using Lte.Parameters.Entities.Kpi;
 using Lte.Parameters.Entities.Work;
 using NUnit.Framework;
 using Shouldly;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Lte.Evaluations.MapperService
 {

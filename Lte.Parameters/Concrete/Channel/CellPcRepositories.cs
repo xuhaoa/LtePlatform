@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using Abp.EntityFramework.Dependency;
+﻿using Abp.EntityFramework.Dependency;
 using Abp.EntityFramework.Repositories;
-using Abp.MongoDb;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Channel;
 using MongoDB.Bson;
+using System.Collections.Generic;
 
 namespace Lte.Parameters.Concrete.Channel
 {

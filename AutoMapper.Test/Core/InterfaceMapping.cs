@@ -1,9 +1,8 @@
-using System;
+using NUnit.Framework;
+using Shouldly;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using NUnit.Framework;
-using Shouldly;
 
 namespace AutoMapper.Test.Core
 {

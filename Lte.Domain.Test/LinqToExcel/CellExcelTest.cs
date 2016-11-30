@@ -1,6 +1,6 @@
-﻿using System;
-using Lte.Domain.LinqToExcel.Entities;
+﻿using Lte.Domain.LinqToExcel.Entities;
 using NUnit.Framework;
+using System;
 
 namespace Lte.Domain.Test.LinqToExcel
 {

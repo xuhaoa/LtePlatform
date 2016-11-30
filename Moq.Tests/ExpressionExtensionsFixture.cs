@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class ExpressionExtensionsFixture
+    public class ExpressionExtensionsFixture
 	{
 		[Fact]
 		public void FixesGenericMethodName()

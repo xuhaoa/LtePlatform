@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Lte.Evaluations.DataService.Switch;
 using Lte.Evaluations.ViewModels.Kpi;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lte.Evaluations.DataService.Kpi
 {

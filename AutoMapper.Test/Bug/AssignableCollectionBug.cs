@@ -1,12 +1,12 @@
-using System.Collections.Generic;
 using NUnit.Framework;
 using Shouldly;
+using System.Collections.Generic;
 
 namespace AutoMapper.Test.Bug
 {
-	namespace AssignableCollectionBug
-	{
-		public interface IAddress
+    namespace AssignableCollectionBug
+    {
+        public interface IAddress
 		{
 			string Street { get; }
 		}

@@ -1,7 +1,7 @@
-﻿using System;
-using AutoMapper.Test.Should;
+﻿using AutoMapper.Test.Should;
 using NUnit.Framework;
 using Shouldly;
+using System;
 
 namespace AutoMapper.Test.Bug
 {

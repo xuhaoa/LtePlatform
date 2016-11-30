@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Shouldly;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AutoMapper.Test.Bug
 {

@@ -1,7 +1,6 @@
-﻿using System.Data.Entity;
-using Abp.EntityFramework;
+﻿using Abp.EntityFramework;
 using Lte.MySqlFramework.Entities;
-using MySql.Data.Entity;
+using System.Data.Entity;
 
 namespace Lte.MySqlFramework.Concrete
 {

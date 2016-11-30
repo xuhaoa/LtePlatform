@@ -1,13 +1,13 @@
-﻿using System.IO;
-using System.Linq;
-using System.Text;
-using Lte.Domain.LinqToCsv;
+﻿using Lte.Domain.LinqToCsv;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
 using Lte.Domain.LinqToCsv.Mapper;
 using Lte.Domain.LinqToCsv.StreamDef;
 using Lte.Domain.Test.LinqToCsv.Product;
 using NUnit.Framework;
+using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace Lte.Domain.Test.LinqToCsv.TestRead
 {

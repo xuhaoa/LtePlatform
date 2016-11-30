@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Abp.EntityFramework.AutoMapper;
-using AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Regular;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
+using System;
 
 namespace Lte.Evaluations.ViewModels.Basic
 {

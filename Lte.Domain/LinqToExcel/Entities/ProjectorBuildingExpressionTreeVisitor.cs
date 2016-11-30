@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Remotion.Data.Linq.Clauses.Expressions;
+using Remotion.Data.Linq.Parsing;
+using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using Remotion.Data.Linq.Parsing;
-using Remotion.Data.Linq.Clauses.Expressions;
 
 namespace Lte.Domain.LinqToExcel.Entities
 {

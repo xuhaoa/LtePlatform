@@ -1,8 +1,7 @@
 namespace Lte.Parameters.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class Update_Interference_Define : DbMigration
     {
         public override void Up()

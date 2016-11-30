@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Abp.Domain.Repositories;
+﻿using Abp.Domain.Repositories;
 using Abp.EntityFramework.Repositories;
 using Lte.Parameters.Entities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Lte.Parameters.Abstract.Infrastructure
 {

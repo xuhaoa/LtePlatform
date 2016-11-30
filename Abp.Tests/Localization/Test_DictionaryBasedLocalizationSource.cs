@@ -1,10 +1,10 @@
-﻿using System.Globalization;
-using System.Linq;
-using Abp.Configuration.Startup;
+﻿using Abp.Configuration.Startup;
 using Abp.Dependency;
 using Abp.Localization.Dictionaries;
 using Abp.Localization.Dictionaries.Xml;
 using Shouldly;
+using System.Globalization;
+using System.Linq;
 using Xunit;
 
 namespace Abp.Tests.Localization

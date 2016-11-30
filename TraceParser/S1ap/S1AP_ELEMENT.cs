@@ -1,5 +1,5 @@
-﻿using System;
-using Lte.Domain.Common;
+﻿using Lte.Domain.Common;
+using System;
 using TraceParser.Common;
 
 namespace TraceParser.S1ap

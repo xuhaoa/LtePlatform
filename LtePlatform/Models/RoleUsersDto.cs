@@ -1,9 +1,5 @@
-﻿using System;
+﻿using Lte.Domain.Regular.Attributes;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Domain.Regular.Attributes;
 
 namespace LtePlatform.Models
 {

@@ -1,9 +1,9 @@
-﻿using System.Reflection;
-using Abp.Configuration.Startup;
+﻿using Abp.Configuration.Startup;
 using Abp.Dependency;
 using Abp.EntityFramework.Dependency;
 using Abp.Tests;
 using Shouldly;
+using System.Reflection;
 using Xunit;
 
 namespace Abp.EntityFramework.Tests.Repositories

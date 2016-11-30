@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xunit;
-using System.Linq.Expressions;
 
 namespace Moq.Tests
 {
-	public class PropertiesFixture
+    public class PropertiesFixture
 	{
 		public interface IFoo
 		{

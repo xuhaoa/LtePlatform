@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class ExtensibilityFixture
+    public class ExtensibilityFixture
 	{
 		[Fact]
 		public void ShouldExtendMatching()

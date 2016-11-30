@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Regular;
 using Lte.Evaluations.MapperSerive.Infrastructure;
-using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Lte.Evaluations.DataService.College
 {

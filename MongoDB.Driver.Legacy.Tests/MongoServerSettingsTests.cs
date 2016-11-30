@@ -13,14 +13,11 @@
 * limitations under the License.
 */
 
+using MongoDB.Driver;
+using NUnit.Framework;
 using System;
 using System.Linq;
 using System.Net.Sockets;
-using System.Security.Authentication;
-using FluentAssertions;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using NUnit.Framework;
 
 namespace MongoDB.Driver.Tests
 {

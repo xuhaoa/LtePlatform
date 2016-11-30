@@ -1,6 +1,5 @@
 ﻿using Abp.Domain.Entities;
 using Abp.EntityFramework.Dependency;
-using Abp.MongoDb;
 using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Basic

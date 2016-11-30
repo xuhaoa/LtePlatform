@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Abp.Domain.Repositories;
+﻿using Abp.Domain.Repositories;
 using Abp.EntityFramework.Repositories;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.College;
 using Lte.Parameters.Entities.Dt;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lte.Parameters.Abstract.College
 {

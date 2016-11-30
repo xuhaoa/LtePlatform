@@ -1,5 +1,5 @@
-﻿using Lte.Domain.LinqToCsv.Mapper;
-using Lte.Domain.LinqToCsv.Description;
+﻿using Lte.Domain.LinqToCsv.Description;
+using Lte.Domain.LinqToCsv.Mapper;
 
 namespace Lte.Domain.LinqToCsv.Context
 {

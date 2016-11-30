@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class CustomMatcherFixture
+    public class CustomMatcherFixture
 	{
 		[Fact]
 		public void UsesCustomMatcher()

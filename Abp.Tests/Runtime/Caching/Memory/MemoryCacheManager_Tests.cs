@@ -1,8 +1,8 @@
-﻿using System;
-using Abp.Runtime.Caching;
+﻿using Abp.Runtime.Caching;
 using Abp.Runtime.Caching.Configuration;
 using Abp.Runtime.Caching.Memory;
 using Shouldly;
+using System;
 using Xunit;
 
 namespace Abp.Tests.Runtime.Caching.Memory

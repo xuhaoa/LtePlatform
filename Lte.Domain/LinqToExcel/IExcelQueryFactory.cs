@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Lte.Domain.LinqToExcel.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Lte.Domain.LinqToExcel.Entities;
 
 namespace Lte.Domain.LinqToExcel
 {

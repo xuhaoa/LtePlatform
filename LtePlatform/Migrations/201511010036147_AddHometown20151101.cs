@@ -1,8 +1,7 @@
 namespace LtePlatform.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class AddHometown20151101 : DbMigration
     {
         public override void Up()

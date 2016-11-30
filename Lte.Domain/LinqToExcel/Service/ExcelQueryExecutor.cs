@@ -1,4 +1,8 @@
-﻿using System;
+﻿using log4net;
+using Lte.Domain.LinqToExcel.Entities;
+using Remotion.Data.Linq;
+using Remotion.Data.Linq.Clauses.ResultOperators;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
@@ -7,10 +11,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using log4net;
-using Lte.Domain.LinqToExcel.Entities;
-using Remotion.Data.Linq;
-using Remotion.Data.Linq.Clauses.ResultOperators;
 
 namespace Lte.Domain.LinqToExcel.Service
 {

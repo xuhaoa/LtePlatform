@@ -1,5 +1,5 @@
-﻿using System;
-using AutoMapper.Test.Should.Core.Assertions;
+﻿using AutoMapper.Test.Should.Core.Assertions;
+using System;
 
 namespace AutoMapper.Test.Should
 {

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.ViewModels.Kpi;
@@ -7,6 +6,7 @@ using Lte.Evaluations.ViewModels.Precise;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Kpi;
+using System.Collections.Generic;
 
 namespace Lte.Evaluations.MapperSerive.Kpi
 {

@@ -1,6 +1,6 @@
-﻿using System.Web.Http;
-using Microsoft.Owin.Security.OAuth;
+﻿using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
+using System.Web.Http;
 
 namespace LtePlatform
 {

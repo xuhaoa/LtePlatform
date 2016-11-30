@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class MockRepositoryFixture
+    public class MockRepositoryFixture
 	{
 		[Fact]
 		public void ShouldCreateFactoryWithMockBehaviorAndVerificationBehavior()

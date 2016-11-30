@@ -1,9 +1,9 @@
-﻿using System;
-using System.Globalization;
-using Lte.Domain.Common;
+﻿using Lte.Domain.Common;
 using Lte.Domain.LinqToCsv;
 using Lte.Domain.LinqToCsv.Test;
 using NUnit.Framework;
+using System;
+using System.Globalization;
 
 namespace Lte.Domain.Test.LinqToCsv.Product
 {

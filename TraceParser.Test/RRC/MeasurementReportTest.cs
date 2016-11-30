@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Lte.Domain.Common;
+﻿using Lte.Domain.Common;
 using Lte.Domain.Regular;
 using NUnit.Framework;
+using System.Collections.Generic;
 using TraceParser.Eutra;
 using TraceParser.Outputs;
 

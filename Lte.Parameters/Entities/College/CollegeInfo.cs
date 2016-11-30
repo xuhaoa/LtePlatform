@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Abp.Domain.Entities.Auditing;
+using Lte.Domain.Regular;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Abp.Domain.Entities.Auditing;
-using Lte.Domain.Regular;
 
 namespace Lte.Parameters.Entities.College
 {

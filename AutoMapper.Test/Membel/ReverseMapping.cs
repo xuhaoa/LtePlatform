@@ -1,8 +1,8 @@
+using NUnit.Framework;
+using Shouldly;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using NUnit.Framework;
-using Shouldly;
 
 namespace AutoMapper.Test.Membel
 {

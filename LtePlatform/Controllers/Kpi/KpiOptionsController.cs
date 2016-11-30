@@ -1,10 +1,7 @@
-﻿using System;
+﻿using Lte.Domain.Common.Wireless;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using Lte.Domain.Common.Wireless;
 
 namespace LtePlatform.Controllers.Kpi
 {

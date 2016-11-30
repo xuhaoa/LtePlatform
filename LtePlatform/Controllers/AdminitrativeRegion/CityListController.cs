@@ -1,8 +1,8 @@
-﻿using System;
-using System.Web.Http;
-using Lte.Evaluations.DataService.Basic;
+﻿using Lte.Evaluations.DataService.Basic;
 using Lte.Parameters.Entities;
 using LtePlatform.Models;
+using System;
+using System.Web.Http;
 
 namespace LtePlatform.Controllers.AdminitrativeRegion
 {

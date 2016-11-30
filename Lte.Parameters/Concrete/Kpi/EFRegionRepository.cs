@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Abp.EntityFramework;
+﻿using Abp.EntityFramework;
 using Abp.EntityFramework.Repositories;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Lte.Parameters.Concrete.Kpi
 {

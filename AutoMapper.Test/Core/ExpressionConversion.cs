@@ -1,9 +1,9 @@
 ﻿
+using NUnit.Framework;
+using Shouldly;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using NUnit.Framework;
-using Shouldly;
 
 namespace AutoMapper.Test.Core
 {

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using NUnit.Framework;
 using TraceParser.Eutra;
 using TraceParser.Zte;
 

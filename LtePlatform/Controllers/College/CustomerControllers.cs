@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Lte.Evaluations.DataService.College;
+﻿using Lte.Evaluations.DataService.College;
 using Lte.Evaluations.ViewModels.College;
 using Lte.MySqlFramework.Entities;
 using LtePlatform.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace LtePlatform.Controllers.College
 {

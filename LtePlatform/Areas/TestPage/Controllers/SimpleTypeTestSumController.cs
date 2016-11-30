@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using LtePlatform.Areas.TestPage.Models;
+﻿using LtePlatform.Areas.TestPage.Models;
 using LtePlatform.Models;
+using System.Linq;
+using System.Web.Http;
 
 namespace LtePlatform.Areas.TestPage.Controllers
 {

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Lte.Domain.Lz4Net.Core;
+using System;
 using System.Collections;
 using System.IO;
-using Lte.Domain.Lz4Net.Core;
 
 namespace ZipLib.Zip
 {

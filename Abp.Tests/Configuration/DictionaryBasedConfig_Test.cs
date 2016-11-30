@@ -1,6 +1,4 @@
-﻿using Abp.Configuration;
-using NUnit.Framework;
-using Shouldly;
+﻿using Shouldly;
 using Xunit;
 
 namespace Abp.Tests.Configuration

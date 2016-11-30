@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Lte.Domain.Common;
+﻿using Lte.Domain.Common;
 using Lte.Domain.Regular.Attributes;
 using Lte.Parameters.Entities.Basic;
+using System.Collections.Generic;
 
 namespace Lte.Evaluations.DataService.Dump
 {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Moq.Tests
 {
-	public class VerifyFixture
+    public class VerifyFixture
 	{
 		[Fact]
 		public void ThrowsIfVerifiableExpectationNotCalled()
@@ -933,7 +933,7 @@ namespace Moq.Tests
 
 namespace SomeNamespace
 {
-	public class VerifyExceptionsFixture
+    public class VerifyExceptionsFixture
 	{
 		[Fact]
 		public void RendersReadableMessageForVerifyFailures()

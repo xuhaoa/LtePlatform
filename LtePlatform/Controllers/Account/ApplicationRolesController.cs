@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using LtePlatform.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using LtePlatform.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace LtePlatform.Controllers.Account
 {

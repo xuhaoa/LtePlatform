@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.Policy;
 using NUnit.Framework;
 using Shouldly;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lte.Evaluations.MapperService
 {

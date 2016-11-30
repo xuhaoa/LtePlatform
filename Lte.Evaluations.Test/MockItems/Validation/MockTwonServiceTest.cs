@@ -1,5 +1,4 @@
-﻿using Lte.Parameters.Abstract;
-using Lte.Parameters.Abstract.Infrastructure;
+﻿using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
 using Moq;
 using NUnit.Framework;

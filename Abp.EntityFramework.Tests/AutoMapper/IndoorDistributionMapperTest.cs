@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Parameters.Entities;
 using NUnit.Framework;
 using Shouldly;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Abp.EntityFramework.Tests.AutoMapper
 {

@@ -1,9 +1,9 @@
-﻿using System.Globalization;
-using Abp.Configuration.Startup;
+﻿using Abp.Configuration.Startup;
 using Abp.Dependency;
 using Abp.Localization.Sources.Resource;
 using Abp.Tests.Localization.TestResourceFiles;
 using Shouldly;
+using System.Globalization;
 using Xunit;
 
 namespace Abp.Tests.Localization

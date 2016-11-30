@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Abp.Configuration.Startup;
+﻿using Abp.Configuration.Startup;
 using Abp.Dependency;
 using Abp.EntityFramework.Dependency;
 using Abp.Tests;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Abp.EntityFramework.Tests.Repositories
 {

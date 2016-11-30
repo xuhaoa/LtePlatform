@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Linq.Expressions;
-using AutoMapper.Mappers;
+﻿using AutoMapper.Mappers;
 using AutoMapper.QueryableExtensions;
-using AutoMapper.Test.Membel;
 using NUnit.Framework;
 using Shouldly;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace AutoMapper.Test.Bug
 {

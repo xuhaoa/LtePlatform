@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Lte.Domain.LinqToExcel.Service;
+using Remotion.Data.Linq.Parsing;
+using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using Lte.Domain.LinqToExcel.Service;
-using Remotion.Data.Linq.Parsing;
 
 namespace Lte.Domain.LinqToExcel.Entities
 {

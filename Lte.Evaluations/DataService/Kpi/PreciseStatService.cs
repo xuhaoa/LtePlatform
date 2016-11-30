@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Lte.Domain.Common.Wireless;
+﻿using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.Properties;
@@ -10,6 +7,9 @@ using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Kpi;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lte.Evaluations.DataService.Kpi
 {

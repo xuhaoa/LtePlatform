@@ -1,5 +1,4 @@
 ﻿using LtePlatform.Models;
-using Microsoft.Owin.Security;
 
 namespace LtePlatform
 {

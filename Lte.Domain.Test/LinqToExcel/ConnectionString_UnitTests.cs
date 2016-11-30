@@ -1,8 +1,8 @@
-﻿using System.Data.OleDb;
-using System.Linq;
-using Lte.Domain.LinqToExcel;
+﻿using Lte.Domain.LinqToExcel;
 using Lte.Domain.LinqToExcel.Entities;
 using NUnit.Framework;
+using System.Data.OleDb;
+using System.Linq;
 
 namespace Lte.Domain.Test.LinqToExcel
 {

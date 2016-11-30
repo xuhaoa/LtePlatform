@@ -1,9 +1,9 @@
-﻿using System.Collections;
+﻿using NUnit.Framework;
+using Shouldly;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using NUnit.Framework;
-using Shouldly;
 
 namespace AutoMapper.Test.Bug
 {

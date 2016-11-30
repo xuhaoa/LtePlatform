@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Regular.Attributes;
-using Lte.Parameters.Abstract;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.College;
+using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.College;
+using System;
 using System.Runtime.Serialization;
-using Abp.EntityFramework.AutoMapper;
-using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Abstract.Infrastructure;
 
 namespace Lte.Evaluations.ViewModels.College
 {

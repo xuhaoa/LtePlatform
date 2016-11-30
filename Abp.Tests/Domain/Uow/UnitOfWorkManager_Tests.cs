@@ -1,7 +1,7 @@
-﻿using System.Transactions;
-using Abp.Domain.Uow;
+﻿using Abp.Domain.Uow;
 using Castle.MicroKernel.Registration;
 using NSubstitute;
+using System.Transactions;
 using Xunit;
 
 namespace Abp.Tests.Domain.Uow

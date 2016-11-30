@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
 using Xunit;
 
 namespace Moq.Tests
 {
-	public class AsInterfaceFixture
+    public class AsInterfaceFixture
 	{
 		[Fact]
 		public void ShouldThrowIfAsIsInvokedAfterInstanceIsRetrieved()

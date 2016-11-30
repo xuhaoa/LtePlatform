@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Lte.Evaluations.ViewModels.Mr;
+﻿using Lte.Evaluations.ViewModels.Mr;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Neighbor;
 using Lte.Parameters.Entities.Neighbor;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Lte.Evaluations.DataService.Mr
 {

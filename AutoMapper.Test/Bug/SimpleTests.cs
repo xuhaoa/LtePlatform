@@ -1,12 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using AutoMapper;
-using AutoMapper.Test;
-using NUnit.Framework;
-using Shouldly;
+﻿using NUnit.Framework;
 
 namespace AutoMapper.Test.Bug
-{  
+{
     [TestFixture]
     public class AddingConfigurationForNonMatchingDestinationMemberBug
     {

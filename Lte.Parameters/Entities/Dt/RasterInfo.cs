@@ -1,5 +1,5 @@
-﻿using System.Data.Linq.Mapping;
-using Lte.Domain.Regular;
+﻿using Lte.Domain.Regular;
+using System.Data.Linq.Mapping;
 
 namespace Lte.Parameters.Entities.Dt
 {

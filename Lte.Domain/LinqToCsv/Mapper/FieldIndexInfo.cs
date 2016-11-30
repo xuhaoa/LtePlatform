@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Lte.Domain.LinqToCsv.Description;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Lte.Domain.LinqToCsv.Description;
 
 namespace Lte.Domain.LinqToCsv.Mapper
 {

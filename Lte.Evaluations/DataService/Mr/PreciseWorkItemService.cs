@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Domain.Common.Wireless;
-using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Lte.Evaluations.DataService.Mr
 {

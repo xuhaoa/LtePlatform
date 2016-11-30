@@ -1,6 +1,6 @@
+using Lte.Domain.Common;
 using System;
 using System.Collections.Generic;
-using Lte.Domain.Common;
 using TraceParser.Common;
 
 namespace TraceParser.S1ap

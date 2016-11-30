@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
-using Abp.Domain.Entities;
+﻿using Abp.Domain.Entities;
 using Lte.Domain.Regular.Attributes;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace Lte.Parameters.Entities.Neighbor
 {

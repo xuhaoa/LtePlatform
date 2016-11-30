@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Abp.Domain.Entities;
+﻿using Abp.Domain.Entities;
 using Abp.EntityFramework.Dependency;
-using Abp.MongoDb;
 using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Basic

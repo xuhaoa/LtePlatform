@@ -13,7 +13,6 @@
 * limitations under the License.
 */
 
-using MongoDB.Driver;
 using NUnit.Framework;
 
 namespace MongoDB.Driver.Tests

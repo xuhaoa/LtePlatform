@@ -13,12 +13,6 @@
 * limitations under the License.
 */
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using FluentAssertions;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.Core.Operations;
 using NUnit.Framework;
 
 namespace MongoDB.Driver.Tests

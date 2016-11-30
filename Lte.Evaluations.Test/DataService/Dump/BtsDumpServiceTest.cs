@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
 using Lte.Evaluations.DataService.Queries;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
@@ -13,6 +11,7 @@ using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
+using System.Collections.Generic;
 
 namespace Lte.Evaluations.DataService.Dump
 {

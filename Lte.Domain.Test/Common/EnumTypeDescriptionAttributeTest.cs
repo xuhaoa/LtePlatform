@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Domain.Common;
+﻿using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using NUnit.Framework;
+using System.Reflection;
 
 namespace Lte.Domain.Test.Common
 {

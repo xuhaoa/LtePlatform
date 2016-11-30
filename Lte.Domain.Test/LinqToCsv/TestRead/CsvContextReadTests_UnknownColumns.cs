@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Lte.Domain.LinqToCsv.Context;
+﻿using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
 using Lte.Domain.LinqToCsv.Mapper;
 using Lte.Domain.Regular;
 using Lte.Domain.Test.LinqToCsv.Product;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Lte.Domain.Test.LinqToCsv.TestRead
 {

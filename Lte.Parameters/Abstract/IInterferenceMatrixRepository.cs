@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Abp.Domain.Repositories;
+using Lte.Parameters.Entities.Kpi;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp.Domain.Repositories;
-using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Parameters.Abstract
 {

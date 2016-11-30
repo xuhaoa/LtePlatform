@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using AutoMapper.QueryableExtensions;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Shouldly;
 
 namespace AutoMapper.Test.Bug

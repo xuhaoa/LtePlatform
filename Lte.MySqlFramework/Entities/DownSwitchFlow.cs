@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Abp.Domain.Entities;
+﻿using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Regular.Attributes;
+using System;
 
 namespace Lte.MySqlFramework.Entities
 {

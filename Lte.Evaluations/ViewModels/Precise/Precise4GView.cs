@@ -1,9 +1,9 @@
-﻿using System;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Kpi;
+using System;
 
 namespace Lte.Evaluations.ViewModels.Precise
 {

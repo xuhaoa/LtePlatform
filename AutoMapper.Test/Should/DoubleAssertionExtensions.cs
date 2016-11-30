@@ -1,6 +1,4 @@
-﻿using System;
-using AutoMapper.Test.Should.Core.Assertions;
-using AutoMapper.Test.Should.Core.Exceptions;
+﻿using AutoMapper.Test.Should.Core.Assertions;
 
 namespace AutoMapper.Test.Should
 {

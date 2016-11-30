@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Abp.Tests.Localization.TestResourceFiles {
-    using System;
-    
-    
+namespace Abp.Tests.Localization.TestResourceFiles
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

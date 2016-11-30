@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Parameters.Abstract.Kpi;
+﻿using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Kpi;
+using System;
+using System.Collections.Generic;
 
 namespace Lte.Evaluations.DataService.Mr
 {

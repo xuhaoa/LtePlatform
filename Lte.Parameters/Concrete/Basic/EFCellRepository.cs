@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Abp.EntityFramework;
+﻿using Abp.EntityFramework;
 using Abp.EntityFramework.Repositories;
 using Lte.Domain.Common;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lte.Parameters.Concrete.Basic
 {

@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using Lte.Evaluations.MockItems;
+﻿using Lte.Evaluations.MockItems;
 using Lte.Evaluations.TestService;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
 using Moq;
 using NUnit.Framework;
+using System.Linq;
 
 namespace Lte.Evaluations.DataService.College
 {

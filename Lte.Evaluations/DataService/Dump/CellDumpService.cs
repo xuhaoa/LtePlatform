@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Abp.EntityFramework.Repositories;
+﻿using Abp.EntityFramework.Repositories;
 using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Regular;
@@ -11,6 +8,9 @@ using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Lte.Evaluations.DataService.Dump
 {

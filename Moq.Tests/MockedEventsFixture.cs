@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Threading;
 using Xunit;
 
 namespace Moq.Tests
 {
-	public class MockedEventsFixture
+    public class MockedEventsFixture
 	{
 		[Fact]
 		public void ShouldExpectAddHandler()

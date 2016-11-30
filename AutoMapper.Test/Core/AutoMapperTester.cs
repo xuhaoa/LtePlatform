@@ -1,7 +1,6 @@
-using System;
-using System.Linq;
 using NUnit.Framework;
 using Shouldly;
+using System;
 
 namespace AutoMapper.Test.Core
 {

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Regular.Attributes;
 using Lte.Parameters.Entities.Dt;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Lte.Evaluations.ViewModels
 {

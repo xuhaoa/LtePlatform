@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Parameters.Entities.Basic;
+﻿using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Channel;
-using Lte.Parameters.Entities.Neighbor;
 
 namespace Lte.Evaluations.ViewModels.Channel
 {

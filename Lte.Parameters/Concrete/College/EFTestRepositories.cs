@@ -1,14 +1,8 @@
-﻿using System;
+﻿using Lte.Parameters.Abstract.College;
+using Lte.Parameters.Entities.Dt;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Abp.EntityFramework;
-using Abp.EntityFramework.Repositories;
-using Lte.Parameters.Abstract;
-using Lte.Parameters.Abstract.College;
-using Lte.Parameters.Abstract.Kpi;
-using Lte.Parameters.Entities;
-using Lte.Parameters.Entities.College;
-using Lte.Parameters.Entities.Dt;
 
 namespace Lte.Parameters.Concrete.College
 {

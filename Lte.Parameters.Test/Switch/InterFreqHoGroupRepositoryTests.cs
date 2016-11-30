@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Parameters.Abstract.Switch;
+﻿using Lte.Parameters.Abstract.Switch;
 using Lte.Parameters.Concrete.Switch;
 using NUnit.Framework;
 

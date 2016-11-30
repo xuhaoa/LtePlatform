@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Abp.EntityFramework.AutoMapper;
-using Abp.EntityFramework.Repositories;
+﻿using Abp.EntityFramework.Repositories;
 using Lte.Domain.LinqToExcel;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Infrastructure;
-using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities;
-using Lte.Parameters.Entities.Basic;
-using Lte.Parameters.Entities.Kpi;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lte.Evaluations.DataService.Kpi
 {

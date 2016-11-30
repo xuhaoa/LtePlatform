@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using Lte.Domain.LinqToCsv.Description;
 using Lte.Domain.LinqToCsv.Mapper;
-using Lte.Domain.LinqToCsv.Description;
 using Lte.Domain.LinqToCsv.StreamDef;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Lte.Domain.LinqToCsv.Context
 {

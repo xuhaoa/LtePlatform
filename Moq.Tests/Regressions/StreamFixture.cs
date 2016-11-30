@@ -1,10 +1,9 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using Xunit;
 
 namespace Moq.Tests
 {
-	public class StreamFixture
+    public class StreamFixture
 	{
 		[Fact]
 		public void ShouldMockStream()

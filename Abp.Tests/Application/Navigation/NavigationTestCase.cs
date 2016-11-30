@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Abp.Application.Features;
 using Abp.Application.Navigation;
 using Abp.Authorization;
@@ -7,6 +6,7 @@ using Abp.Dependency;
 using Abp.Localization;
 using Castle.MicroKernel.Registration;
 using NSubstitute;
+using System.Threading.Tasks;
 
 namespace Abp.Tests.Application.Navigation
 {

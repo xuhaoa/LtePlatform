@@ -1,7 +1,6 @@
 ﻿using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Domain.Regular.Attributes;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Neighbor;
 

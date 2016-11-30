@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lte.Evaluations.ViewModels;
-using Lte.Evaluations.ViewModels.RegionKpi;
+﻿using Lte.Evaluations.ViewModels.RegionKpi;
 using NUnit.Framework;
 
 namespace Lte.Evaluations.Test.TestService

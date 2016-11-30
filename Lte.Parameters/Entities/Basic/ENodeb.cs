@@ -1,14 +1,13 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Abp.Domain.Entities;
+﻿using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Regular;
 using Lte.Domain.Regular.Attributes;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Infrastructure;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Lte.Parameters.Entities.Basic
 {

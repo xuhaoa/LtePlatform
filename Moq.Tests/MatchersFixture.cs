@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Moq.Matchers;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
-using Moq.Matchers;
 using Xunit;
 
 namespace Moq.Tests
 {
-	public class MatchersFixture
+    public class MatchersFixture
 	{
 		[Fact]
 		public void MatchesAnyParameterValue()

@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class EmptyDefaultValueProviderFixture
+    public class EmptyDefaultValueProviderFixture
 	{
 		[Fact]
 		public void ProvidesNullString()

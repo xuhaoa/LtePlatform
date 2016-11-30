@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Abp.Domain.Entities;
+﻿using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
-using AutoMapper.Internal;
-using Castle.MicroKernel.ModelBuilder.Descriptors;
 using Lte.Domain.Common.Geo;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Abp.EntityFramework.Repositories
 {

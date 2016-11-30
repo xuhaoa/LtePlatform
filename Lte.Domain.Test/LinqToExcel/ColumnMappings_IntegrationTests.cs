@@ -1,9 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using log4net.Core;
+﻿using log4net.Core;
 using Lte.Domain.LinqToExcel;
 using NUnit.Framework;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace Lte.Domain.Test.LinqToExcel
 {

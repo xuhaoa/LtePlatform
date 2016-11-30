@@ -1,7 +1,7 @@
-﻿using System;
-using Abp.Domain.Entities;
+﻿using Abp.Domain.Entities;
 using Abp.EntityFramework.Dependency;
 using MongoDB.Bson;
+using System;
 
 namespace Lte.Parameters.Entities.Kpi
 {

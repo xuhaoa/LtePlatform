@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Lte.Domain.LinqToExcel;
+﻿using Lte.Domain.LinqToExcel;
 using Lte.Domain.Test.LinqToExcel;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Work;
 using NUnit.Framework;
 using Shouldly;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace Lte.Parameters.Test.Excel
 {

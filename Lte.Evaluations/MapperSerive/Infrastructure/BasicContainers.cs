@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Regular;
@@ -7,6 +6,7 @@ using Lte.Domain.Regular.Attributes;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Neighbor;
+using System.Collections.Generic;
 
 namespace Lte.Evaluations.MapperSerive.Infrastructure
 {

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Abp.Threading;
+using Shouldly;
+using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using Abp.Threading;
-using Shouldly;
 using Xunit;
 
 namespace Abp.Tests.Threading

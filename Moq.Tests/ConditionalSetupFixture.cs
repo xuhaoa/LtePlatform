@@ -1,9 +1,8 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 
 namespace Moq.Tests
 {
-	public class ConditionalSetupFixture
+    public class ConditionalSetupFixture
 	{
 		[Fact]
 		public void ChooseAffirmativeExpectationOnMethod()

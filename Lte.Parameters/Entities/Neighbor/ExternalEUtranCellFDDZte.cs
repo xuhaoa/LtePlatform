@@ -1,7 +1,5 @@
 ﻿using Abp.Domain.Entities;
 using Abp.EntityFramework.Dependency;
-using Abp.MongoDb;
-using Lte.Parameters.Entities.Basic;
 using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Neighbor

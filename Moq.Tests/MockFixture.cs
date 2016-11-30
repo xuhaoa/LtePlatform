@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class MockFixture
+    public class MockFixture
 	{
 		[Fact]
 		public void CreatesMockAndExposesInterface()

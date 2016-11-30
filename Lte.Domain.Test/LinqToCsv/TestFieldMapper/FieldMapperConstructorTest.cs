@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using Lte.Domain.LinqToCsv.Description;
+﻿using Lte.Domain.LinqToCsv.Description;
 using Lte.Domain.LinqToCsv.Mapper;
 using Lte.Domain.Test.LinqToCsv.Product;
 using NUnit.Framework;
+using System.Linq;
 
 namespace Lte.Domain.Test.LinqToCsv.TestFieldMapper
 {

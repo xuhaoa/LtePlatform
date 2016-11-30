@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class MockedDelegatesFixture
+    public class MockedDelegatesFixture
 	{
 		[Fact]
 		public void CanMockDelegate()

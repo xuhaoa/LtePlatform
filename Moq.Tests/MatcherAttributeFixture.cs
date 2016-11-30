@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class MatcherAttributeFixture
+    public class MatcherAttributeFixture
 	{
 		public interface IFoo
 		{

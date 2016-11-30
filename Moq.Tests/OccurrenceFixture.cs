@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Moq.Tests
 {
-	public class OccurrenceFixture
+    public class OccurrenceFixture
 	{
 		[Fact]
 		[Obsolete]

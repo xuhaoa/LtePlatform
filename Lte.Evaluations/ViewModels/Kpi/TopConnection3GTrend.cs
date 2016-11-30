@@ -1,7 +1,6 @@
 ﻿using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
-using Lte.Parameters.Abstract.Basic;
 
 namespace Lte.Evaluations.ViewModels.Kpi
 {

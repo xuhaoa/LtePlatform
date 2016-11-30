@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Lte.Domain.LinqToExcel.Entities
-{   
+﻿namespace Lte.Domain.LinqToExcel.Entities
+{
     public enum ExcelDatabaseEngine
     {
         Jet,

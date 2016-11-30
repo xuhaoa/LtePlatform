@@ -1,11 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Lte.Domain.Common;
+﻿using Lte.Domain.Common;
 using Lte.Domain.LinqToExcel;
 using Lte.Domain.Test.LinqToExcel;
 using NUnit.Framework;
 using Shouldly;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace Lte.Parameters.Test.Excel
 {

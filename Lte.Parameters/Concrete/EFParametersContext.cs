@@ -1,11 +1,11 @@
-﻿using System.Data.Entity;
-using Abp.EntityFramework;
+﻿using Abp.EntityFramework;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.College;
 using Lte.Parameters.Entities.Kpi;
 using Lte.Parameters.Entities.Neighbor;
 using Lte.Parameters.Entities.Work;
+using System.Data.Entity;
 
 namespace Lte.Parameters.Concrete
 {

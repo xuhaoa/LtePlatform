@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.Test.TestService;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using NUnit.Framework;
+using System.Linq;
 
 namespace Lte.Evaluations.TestService
 {

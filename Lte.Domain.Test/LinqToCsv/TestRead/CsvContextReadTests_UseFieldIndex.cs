@@ -1,7 +1,7 @@
-﻿using System;
-using Lte.Domain.LinqToCsv.Description;
+﻿using Lte.Domain.LinqToCsv.Description;
 using Lte.Domain.Test.LinqToCsv.Product;
 using NUnit.Framework;
+using System;
 
 namespace Lte.Domain.Test.LinqToCsv.TestRead
 {

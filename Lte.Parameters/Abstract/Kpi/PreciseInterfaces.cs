@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Abp.Domain.Repositories;
+﻿using Abp.Domain.Repositories;
 using Lte.Parameters.Entities.Kpi;
+using System;
+using System.Collections.Generic;
 
 namespace Lte.Parameters.Abstract.Kpi
 {

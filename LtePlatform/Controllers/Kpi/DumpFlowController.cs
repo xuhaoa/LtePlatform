@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using Lte.Evaluations.DataService.Kpi;
+﻿using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.ViewModels;
 using Lte.MySqlFramework.Entities;
 using LtePlatform.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace LtePlatform.Controllers.Kpi
 {

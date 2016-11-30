@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Abp.Domain.Entities;
+﻿using Abp.Domain.Entities;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
-using Lte.Domain.Regular;
 using Lte.Domain.Regular.Attributes;
 using Lte.Parameters.MockOperations;
+using System;
 
 namespace Lte.Parameters.Entities.Work
 {

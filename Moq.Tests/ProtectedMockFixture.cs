@@ -1,11 +1,10 @@
-﻿using System;
-using Moq.Protected;
+﻿using Moq.Protected;
+using System;
 using Xunit;
-using System.Linq.Expressions;
 
 namespace Moq.Tests
 {
-	public partial class ProtectedMockFixture
+    public partial class ProtectedMockFixture
 	{
 		[Fact]
 		public void ThrowsIfNullMock()

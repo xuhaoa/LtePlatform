@@ -1,3 +1,5 @@
+using LtePlatform.Areas.HelpPage.ModelDescriptions;
+using LtePlatform.Areas.HelpPage.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,10 +11,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
-using System.Web.Http.Controllers;
 using System.Web.Http.Description;
-using LtePlatform.Areas.HelpPage.ModelDescriptions;
-using LtePlatform.Areas.HelpPage.Models;
 
 namespace LtePlatform.Areas.HelpPage
 {

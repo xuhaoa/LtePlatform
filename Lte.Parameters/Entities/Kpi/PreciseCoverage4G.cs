@@ -1,9 +1,9 @@
-﻿using System;
-using Abp.Domain.Entities;
+﻿using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.LinqToCsv;
+using System;
 
 namespace Lte.Parameters.Entities.Kpi
 {

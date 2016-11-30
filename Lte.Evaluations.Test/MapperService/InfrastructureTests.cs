@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Abp.EntityFramework.AutoMapper;
+﻿using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
 using Lte.Evaluations.DataService.Basic;
-using Lte.Evaluations.MapperSerive;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
@@ -17,6 +13,9 @@ using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Lte.Evaluations.MapperService
 {

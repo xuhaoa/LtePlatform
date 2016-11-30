@@ -1,6 +1,6 @@
-﻿using System.Configuration;
-using Abp.Configuration.Startup;
+﻿using Abp.Configuration.Startup;
 using Abp.Dependency;
+using System.Configuration;
 
 namespace Abp.EntityFramework.Dependency
 {

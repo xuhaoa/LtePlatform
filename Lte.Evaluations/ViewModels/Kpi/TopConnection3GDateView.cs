@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Lte.Domain.Regular.Attributes;
+using System;
 using System.Collections.Generic;
-using Lte.Domain.Regular.Attributes;
 
 namespace Lte.Evaluations.ViewModels.Kpi
 {
