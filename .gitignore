@@ -126,3 +126,4 @@ uploads/
 /LtePlatform/Scripts/test/node_modules
 /.sass-cache
 /LtePlatform/config.rb
+/Lte.Android/bin/Release
