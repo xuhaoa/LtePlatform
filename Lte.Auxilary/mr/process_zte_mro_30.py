@@ -43,7 +43,7 @@ for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
                 for item_measurement in item.iterchildren():
                     reader.read_zte(item_measurement, item_id)
         if (item_id!=''):
-            mro_output=reader.map_rsrp_diff(item_id)
+            mro_output=reader.map_rsrp_diff_zte()
             if len(mro_output)>0:
                 for item in mro_output:
                     item.update({'StartTime': startTime})

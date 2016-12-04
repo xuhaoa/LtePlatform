@@ -23,7 +23,7 @@ for item in root.iterchildren():
         item_id = item.attrib.get('id')
         for item_measurement in item.iterchildren():
             reader.read(item_measurement, item_id)
-mro_output=reader.map_rsrp_diff()
+mro_output=reader.map_rsrp_diff(item_id)
 print(startTime)
 for item in mro_output:
     item.update({'StartTime': startTime})
