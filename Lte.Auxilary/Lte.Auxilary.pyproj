@@ -34,6 +34,19 @@
     <Compile Include="Db\mrs_combined.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="demo\beer.py" />
+    <Compile Include="demo\eiffel.py" />
+    <Compile Include="demo\hanoi.py" />
+    <Compile Include="demo\life.py" />
+    <Compile Include="demo\markov.py" />
+    <Compile Include="demo\mcast.py" />
+    <Compile Include="demo\queens.py" />
+    <Compile Include="demo\redemo.py" />
+    <Compile Include="demo\rpython.py" />
+    <Compile Include="demo\rpythond.py" />
+    <Compile Include="demo\sortvisu.py" />
+    <Compile Include="demo\ss1.py" />
+    <Compile Include="demo\vector.py" />
     <Compile Include="mr\final.py" />
     <Compile Include="mr\first_ftp.py">
       <SubType>Code</SubType>
@@ -216,6 +229,7 @@
   <ItemGroup>
     <Folder Include="mr\" />
     <Folder Include="Db\" />
+    <Folder Include="demo\" />
     <Folder Include="para\" />
     <Folder Include="oop\" />
     <Folder Include="Practise\" />

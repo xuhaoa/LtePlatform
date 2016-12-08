@@ -28,6 +28,8 @@ declare module ng.ui {
         data?: T;
     }
 
+    interface IServiceProvider{}
+
     interface IStateProvider extends IServiceProvider {
         state(name: string, config: IState): IStateProvider;
         state(config: IState): IStateProvider;
@@ -77,6 +79,8 @@ declare module ng.ui {
         relative?: IState;
         absolute?: boolean;
     }
+
+    interface IPromise<T0>{}
 
     interface IStateService {
         go(to: string, params?: {}, options?: IStateOptions): IPromise<any>;
