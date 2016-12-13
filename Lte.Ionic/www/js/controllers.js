@@ -1,6 +1,34 @@
-angular.module('starter.controllers', [])
+﻿angular.module('starter.controllers', ['highcharts-ng'])
 
-.controller('DashCtrl', function($scope) {})
+.controller('DashCtrl', function($scope, $http) {
+        $scope.precise = {
+            options: {
+                chart: {
+                    type: 'line'
+                },
+                legend: {
+                    enabled: false
+                }
+            },
+            title: {
+                text: '图标测试'
+            },
+            yAxis: {
+                title: null
+            },
+            series: []
+        };
+
+        $http.get('http://219.128.254.41:2016/api/PreciseRegion?city=佛山&statDate=2016-12-08').success(function (results) {
+            var series = {
+                data: []
+            };
+            angular.forEach(results.districtPreciseViews, function(view) {
+                series.data.push([view.district, view.totalMrs]);
+            });
+            $scope.precise.series.push(series);
+        });
+    })
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called

@@ -108,7 +108,7 @@ namespace Lte.Evaluations.DataService.College
             return _repository.GetAllList();
         } 
 
-        public IEnumerable<CollegeYearView> QuerYearViews(int year)
+        public IEnumerable<CollegeYearView> QueryYearViews(int year)
         {
             var infos = _yearRepository.GetAllList(year);
             return !infos.Any()

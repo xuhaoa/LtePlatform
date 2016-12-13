@@ -21,6 +21,7 @@ namespace LtePlatform
 
             ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
             GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver();
+            GlobalConfiguration.Configuration.MessageHandlers.Add(new CorsMessageHandler());
             AutoMapperWebConfiguration.Configure();
         }
     }

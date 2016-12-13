@@ -55,9 +55,9 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
-        public IEnumerable<CollegeYearView> GetYearViews(int year)
+        public IEnumerable<CollegeYearView> GetYearViews(int serviceyear)
         {
-            return _service.QuerYearViews(year);
+            return _service.QueryYearViews(serviceyear);
         }
 
         [HttpPost]

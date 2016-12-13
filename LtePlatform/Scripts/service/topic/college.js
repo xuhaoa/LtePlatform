@@ -78,7 +78,7 @@
             },
             queryYearList: function(year) {
                 return generalHttpService.getApiData('CollegeQuery', {
-                    year: year
+                    serviceyear: year
                 });
             },
             saveYearInfo: function(info) {
