@@ -54,17 +54,28 @@ namespace LtePlatform.Controllers.College
             return _service.QueryInfos();
         }
 
-        [HttpGet]
-        public IEnumerable<CollegeYearView> GetYearViews(int serviceyear)
-        {
-            return _service.QueryYearViews(serviceyear);
-        }
-
         [HttpPost]
         public async Task<int> Post(CollegeYearInfo info)
         {
             return await _service.SaveYearInfo(info);
         } 
+    }
+
+    public class CollegeYearController : ApiController
+    {
+        private readonly CollegeStatService _service;
+
+        public CollegeYearController(CollegeStatService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<CollegeYearView> GetYearViews(int year)
+        {
+            return _service.QueryYearViews(year);
+        }
+
     }
 
     [ApiControl("统计校园网名称控制器")]
