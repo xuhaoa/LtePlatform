@@ -61,6 +61,7 @@ namespace LtePlatform.Controllers.College
         } 
     }
 
+    [ApiControl("校园网按年查询控制器")]
     public class CollegeYearController : ApiController
     {
         private readonly CollegeStatService _service;
