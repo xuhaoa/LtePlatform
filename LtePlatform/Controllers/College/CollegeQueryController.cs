@@ -55,6 +55,8 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpPost]
+        [ApiDoc("更新校园网基本信息")]
+        [ApiParameterDoc("info", "校园网基本信息")]
         public async Task<int> Post(CollegeYearInfo info)
         {
             return await _service.SaveYearInfo(info);
@@ -72,6 +74,9 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
+        [ApiDoc("获得指定年份的校园网信息列表")]
+        [ApiParameterDoc("year", "指定年份")]
+        [ApiResponse("校园网信息列表")]
         public IEnumerable<CollegeYearView> GetYearViews(int year)
         {
             return _service.QueryYearViews(year);
