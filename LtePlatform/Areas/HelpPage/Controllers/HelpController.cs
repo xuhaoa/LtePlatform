@@ -54,7 +54,7 @@ namespace LtePlatform.Areas.HelpPage.Controllers
                 .ActionDescriptor?.ControllerDescriptor;
             return Json(new
             {
-                FullPath = self != null ? self.ControllerType.ToString() : "",
+                FullPath = self?.ControllerType.ToString() ?? "",
                 Documentation = self != null ? provider.GetDocumentation(self) : "",
                 ActionList = description.Select(api => new
                 {

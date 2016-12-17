@@ -151,6 +151,7 @@ namespace LtePlatform.Controllers.College
         }
     }
 
+    [ApiControl("校园VIP需求查询控制器")]
     public class CollegeVipDemandController : ApiController
     {
         private readonly VipDemandService _service;
@@ -161,12 +162,19 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
+        [ApiDoc("查询指定校园名称指定年份的VIP需求")]
+        [ApiParameterDoc("collegeName", "指定校园名称")]
+        [ApiParameterDoc("year", "指定年份")]
+        [ApiResponse("VIP需求")]
         public VipDemandDto Get(string collegeName, int year)
         {
             return _service.QueryYearDemand(collegeName, year);
         }
 
         [HttpGet]
+        [ApiDoc("查询指定年份的VIP需求列表")]
+        [ApiParameterDoc("year", "指定年份")]
+        [ApiResponse("VIP需求列表")]
         public IEnumerable<VipDemandDto> Get(int year)
         {
             return _service.QueryYearDemands(year);
@@ -174,12 +182,15 @@ namespace LtePlatform.Controllers.College
 
         [HttpPost]
         [Authorize]
+        [ApiDoc("保存单个校园网年度信息")]
+        [ApiParameterDoc("stat", "单个校园网年度信息")]
         public async Task<int> Post(CollegeYearView stat)
         {
             return await _service.ConstructCollegeDemand(stat, User.Identity.Name);
         }
     }
 
+    [ApiControl("VIP需求处理过程查询控制器")]
     public class VipProcessController : ApiController
     {
         private readonly VipDemandService _service;
@@ -190,6 +201,9 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
+        [ApiDoc("根据工单序列号查询VIP处理过程信息")]
+        [ApiParameterDoc("serialNumber", "工单序列号")]
+        [ApiResponse("VIP处理过程数据单元列表")]
         public IEnumerable<VipProcessDto> Get(string serialNumber)
         {
             return _service.QueryProcess(serialNumber);
@@ -197,12 +211,17 @@ namespace LtePlatform.Controllers.College
 
         [Authorize]
         [HttpPost]
+        [ApiDoc("处理单个VIP需求信息，处理后返回处理结果")]
+        [ApiParameterDoc("dto", "单个VIP需求信息")]
+        [ApiResponse("处理结果")]
         public async Task<VipProcessDto> Post(VipDemandDto dto)
         {
             return await _service.ConstructProcess(dto, User.Identity.Name);
         }
 
         [HttpPut]
+        [ApiDoc("处理VIP需求处理过程，录入信息")]
+        [ApiParameterDoc("dto", "单个VIP需求处理过程信息")]
         public async Task<int> Put(VipProcessDto dto)
         {
             return await _service.UpdateAsync(dto);
