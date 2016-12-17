@@ -17,4 +17,14 @@ namespace LtePlatform.Areas.HelpPage.ModelDescriptions
 
         public ModelDescription TypeDescription { get; set; }
     }
+
+    public class EnumValueDescription
+    {
+        public string Documentation { get; set; }
+
+        public string Name { get; set; }
+
+        public string Value { get; set; }
+    }
+
 }

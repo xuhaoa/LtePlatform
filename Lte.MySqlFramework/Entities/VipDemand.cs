@@ -59,6 +59,7 @@ namespace Lte.MySqlFramework.Entities
     }
     
     [AutoMapFrom(typeof(VipDemand))]
+    [TypeDoc("VIP需求信息数据单元")]
     public class VipDemandDto : IDistrictTown, ITownId, IConstructDto<VipProcessDto>, IStateChange
     {
         public string SerialNumber { get; set; }

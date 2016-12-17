@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
+using Lte.MySqlFramework.Entities;
 
 namespace LtePlatform.Tests.ModelDescription
 {
@@ -109,6 +110,17 @@ namespace LtePlatform.Tests.ModelDescription
             var modelDescription = generator.GetOrCreateModelDescription(typeof (Cell));
             Assert.IsNotNull(modelDescription);
             Assert.AreEqual(modelDescription.Name, "Cell");
+            Assert.AreEqual(modelDescription.Documentation, null);
+            Assert.AreEqual(modelDescription.ParameterDocumentation, null);
+        }
+
+        [Test]
+        public void Test_Second()
+        {
+            var generator = new ModelDescriptionGenerator(new HttpConfiguration());
+            var modelDescription = generator.GetOrCreateModelDescription(typeof(VipDemandDto));
+            Assert.IsNotNull(modelDescription);
+            Assert.AreEqual(modelDescription.Name, "VipDemandDto");
             Assert.AreEqual(modelDescription.Documentation, null);
             Assert.AreEqual(modelDescription.ParameterDocumentation, null);
         }
