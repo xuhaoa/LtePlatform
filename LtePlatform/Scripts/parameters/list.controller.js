@@ -28,6 +28,19 @@
                 },
                 url: "/query"
             })
+            .state('topic', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/GeneralMenu.html",
+                        controller: "menu.root"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Topic.html",
+                        controller: "query.topic"
+                    }
+                },
+                url: "/topic"
+            })
             .state('eNodebList', {
                 views: {
                     'menu': {
@@ -142,11 +155,14 @@
                 isActive: true,
                 subItems: [
                     {
-                        displayName: "基础数据总揽",
+                        displayName: "基础数据总览",
                         url: rootUrl + "/"
                     }, {
                         displayName: "小区地图查询",
                         url: rootUrl + "/query"
+                    }, {
+                        displayName: "专题优化管理",
+                        url: rootUrl + "/topic"
                     }
                 ]
             }, {
@@ -269,6 +285,9 @@
                 });
             });
         });
+    })
+    .controller("query.topic", function($scope) {
+        $scope.page.title = "专题优化管理";
     })
     .controller("bts.info", function ($scope, $stateParams, networkElementService) {
         $scope.page.title = $stateParams.name + "CDMA基础信息";

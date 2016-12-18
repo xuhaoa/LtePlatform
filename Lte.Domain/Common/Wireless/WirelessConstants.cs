@@ -386,7 +386,7 @@ namespace Lte.Domain.Common.Wireless
                 }
             },
             {
-                "SolveFunction", new Tuple<object, string>[]
+                "SolveFunction", new []
                 {
                     new Tuple<object, string>(SolveFunction.NewSitePlanned,"新增基站（已规划）"), 
                     new Tuple<object, string>(SolveFunction.NewSiteUnplanned, "新增基站（未规划）"), 
@@ -445,6 +445,31 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(AntennaFactory.Jingxin, "京信"), 
                     new Tuple<object, string>(AntennaFactory.Indoor, "室分"), 
                     new Tuple<object, string>(AntennaFactory.Indoor, "室内"), 
+                }
+            },
+            {
+                "InfrastructureType", new []
+                {
+                    new Tuple<object, string>(InfrastructureType.ENodeb, "LTE基站"),
+                    new Tuple<object, string>(InfrastructureType.Cell, "LTE小区"),
+                    new Tuple<object, string>(InfrastructureType.CdmaBts, "CDMA基站"),
+                    new Tuple<object, string>(InfrastructureType.CdmaCell, "CDMA小区"),
+                    new Tuple<object, string>(InfrastructureType.LteIndoor, "LTE室内分布"),     
+                    new Tuple<object, string>(InfrastructureType.CdmaIndoor, "CDMA室内分布"),
+                    new Tuple<object, string>(InfrastructureType.HotSpot, "热点"),
+                    new Tuple<object, string>(InfrastructureType.Unknown, "未知"),   
+                }
+            },
+            {
+                "HotspotType", new []
+                {
+                    new Tuple<object, string>(HotspotType.Building, "楼宇"),
+                    new Tuple<object, string>(HotspotType.College, "校园网"),
+                    new Tuple<object, string>(HotspotType.Hospital, "医院"),
+                    new Tuple<object, string>(HotspotType.ShoppingMall, "商场"),
+                    new Tuple<object, string>(HotspotType.TopPrecise, "TOP小区"),
+                    new Tuple<object, string>(HotspotType.Transportation, "交通枢纽"),
+                    new Tuple<object, string>(HotspotType.Others, "其他"),       
                 }
             }
         };

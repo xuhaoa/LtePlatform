@@ -5,6 +5,7 @@ using Lte.Parameters.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.Parameters.Concrete.Infrastructure
 {
@@ -25,6 +26,11 @@ namespace Lte.Parameters.Concrete.Infrastructure
         public List<InfrastructureInfo> GetAllPreciseMonitor()
         {
             return GetAll().Where(x => x.HotspotType == HotspotType.TopPrecise).ToList();
+        }
+
+        public List<InfrastructureInfo> GetAllHotSpots()
+        {
+            return GetAll().Where(x => x.InfrastructureType == InfrastructureType.HotSpot).ToList();
         }
 
         public async Task InsertCollegeCell(string collegeName, int id)
@@ -74,6 +80,21 @@ namespace Lte.Parameters.Concrete.Infrastructure
                     HotspotType = HotspotType.College,
                     InfrastructureType = InfrastructureType.CdmaBts,
                     InfrastructureId = id
+                });
+            }
+        }
+
+        public async Task InsertHotSpot(string name, HotspotType type)
+        {
+            var infrastructure = FirstOrDefault(x =>
+                x.HotspotType == type && x.HotspotName == name && x.InfrastructureType == InfrastructureType.HotSpot);
+            if (infrastructure == null)
+            {
+                await InsertAsync(new InfrastructureInfo
+                {
+                    HotspotName = name,
+                    HotspotType = type,
+                    InfrastructureType = InfrastructureType.HotSpot
                 });
             }
         }

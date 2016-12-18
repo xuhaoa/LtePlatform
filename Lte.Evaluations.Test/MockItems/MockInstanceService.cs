@@ -8,6 +8,7 @@ using Lte.Parameters.MockOperations;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.MockItems
 {

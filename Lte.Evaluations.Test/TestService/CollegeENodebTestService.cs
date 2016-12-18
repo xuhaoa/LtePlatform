@@ -8,6 +8,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.TestService
 {

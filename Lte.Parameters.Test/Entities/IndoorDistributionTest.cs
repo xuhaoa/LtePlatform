@@ -30,7 +30,7 @@ namespace Lte.Parameters.Test.Entities
                 Longtitute = longtitute,
                 Lattitute = lattitute
             };
-            var item = IndoorDistribution.ConstructItem(info);
+            var item = Mapper.Map<IndoorDistributionExcel, IndoorDistribution>(info);
             Assert.AreEqual(item.Name, name);
             Assert.AreEqual(item.Range, "range");
             Assert.AreEqual(item.SourceName, "source");

@@ -1,8 +1,8 @@
 ﻿using Lte.Parameters.Abstract.Infrastructure;
-using Lte.Parameters.Entities;
 using Moq;
 using NUnit.Framework;
 using System.Linq;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.MockItems.Validation
 {

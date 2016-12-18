@@ -10,6 +10,7 @@ using Lte.Parameters.Entities.Basic;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.DataService.College
 {
@@ -191,5 +192,20 @@ namespace Lte.Evaluations.DataService.College
             var distributions = ids.Select(_indoorRepository.Get).Where(distribution => distribution != null).ToList();
             return distributions;
         }
+    }
+
+    public class HotSpotService
+    {
+        private readonly IInfrastructureRepository _repository;
+
+        public HotSpotService(IInfrastructureRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public async Task SaveBuildingHotSpot(string name, string typeDescription)
+        {
+            await _repository.InsertHotSpot(name, typeDescription.GetEnumType<HotspotType>());
+        } 
     }
 }

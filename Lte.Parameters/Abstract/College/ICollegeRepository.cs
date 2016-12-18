@@ -1,11 +1,11 @@
 ﻿using Abp.Domain.Repositories;
 using Abp.EntityFramework.Repositories;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.College;
 using Lte.Parameters.Entities.Dt;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.Parameters.Abstract.College
 {

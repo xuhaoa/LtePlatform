@@ -6,11 +6,11 @@ using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
-using Lte.Parameters.Entities;
 using Moq;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.MockItems
 {

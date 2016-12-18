@@ -66,4 +66,48 @@ namespace Lte.Domain.Common.Wireless
         {
         }
     }
+
+    [EnumTypeDescription(typeof(HotspotType), Others)]
+    public enum HotspotType : byte
+    {
+        College,
+        Hospital,
+        ShoppingMall,
+        Building,
+        Transportation,
+        TopPrecise, 
+        Others
+    }
+
+    [EnumTypeDescription(typeof(InfrastructureType), Unknown)]
+    public enum InfrastructureType : byte
+    {
+        ENodeb,
+        Cell,
+        CdmaBts,
+        CdmaCell,
+        LteIndoor,
+        CdmaIndoor,
+        HotSpot,
+        Unknown
+    }
+
+    public enum RegionType : byte
+    {
+        Circle,
+        Rectangle,
+        Polygon,
+        PolyLine
+    }
+
+    public class RectangleRange
+    {
+        public double West { get; set; }
+
+        public double East { get; set; }
+
+        public double South { get; set; }
+
+        public double North { get; set; }
+    }
 }

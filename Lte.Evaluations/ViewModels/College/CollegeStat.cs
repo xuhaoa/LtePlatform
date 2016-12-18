@@ -7,6 +7,7 @@ using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.College;
 using System;
 using System.Runtime.Serialization;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.ViewModels.College
 {

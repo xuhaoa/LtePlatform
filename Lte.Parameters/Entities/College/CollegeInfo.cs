@@ -3,6 +3,7 @@ using Lte.Domain.Regular;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.Parameters.Entities.College
 {

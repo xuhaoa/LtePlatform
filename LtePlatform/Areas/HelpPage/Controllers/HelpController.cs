@@ -117,7 +117,8 @@ namespace LtePlatform.Areas.HelpPage.Controllers
                     {
                         x.Name,
                         x.Documentation,
-                        AnnotationDoc = x.Annotations.Select(an => an.Documentation)
+                        AnnotationDoc = x.Annotations.Select(an => an.Documentation),
+                        TypeDescription = x.TypeDescription.Name
                     })
                 }
             },
