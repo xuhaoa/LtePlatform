@@ -14,8 +14,10 @@ namespace Lte.Evaluations.ViewModels
         [MemberDoc("基站编号")]
         public int ENodebId { get; set; }
 
+        [MemberDoc("扇区编号，255表示该条告警记录为基站级告警")]
         public byte SectorId { get; set; }
 
+        [MemberDoc("告警分类")]
         public AlarmCategory AlarmCategory { get; set; }
 
         [MemberDoc("告警定位")]
@@ -24,6 +26,7 @@ namespace Lte.Evaluations.ViewModels
         [MemberDoc("发生时间")]
         public DateTime HappenTime { get; set; }
 
+        [MemberDoc("恢复时间")]
         public DateTime RecoverTime { get; set; }
 
         [MemberDoc("发生时间字符串")]

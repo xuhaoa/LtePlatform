@@ -121,8 +121,18 @@ namespace LtePlatform.Tests.ModelDescription
             var modelDescription = generator.GetOrCreateModelDescription(typeof(VipDemandDto));
             Assert.IsNotNull(modelDescription);
             Assert.AreEqual(modelDescription.Name, "VipDemandDto");
-            Assert.AreEqual(modelDescription.Documentation, null);
+            Assert.AreEqual(modelDescription.Documentation, "VIP需求信息数据单元");
             Assert.AreEqual(modelDescription.ParameterDocumentation, null);
+        }
+
+        [Test]
+        public void Test_Assert_ComplexProvider()
+        {
+            var generator = new ModelDescriptionGenerator(new HttpConfiguration());
+            var provider = ModelProviderFactory.GetProvider(typeof (VipDemandDto));
+            Assert.IsInstanceOf<ComplexModelProvider>(provider);
+            var doc = generator.CreateDefaultDocumentation(typeof (VipDemandDto));
+            Assert.AreEqual(doc, "VIP需求信息数据单元");
         }
     }
 }

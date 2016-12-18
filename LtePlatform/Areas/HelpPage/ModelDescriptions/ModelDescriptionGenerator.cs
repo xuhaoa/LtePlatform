@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Xml.Serialization;
+using LtePlatform.Models;
 
 namespace LtePlatform.Areas.HelpPage.ModelDescriptions
 {
@@ -100,9 +101,6 @@ namespace LtePlatform.Areas.HelpPage.ModelDescriptions
 
     public class ModelDescriptionGenerator
     {
-
-        private readonly Lazy<IModelDocumentationProvider> _documentationProvider;
-
         public ModelDescriptionGenerator(HttpConfiguration config)
         {
             if (config == null)
@@ -110,12 +108,12 @@ namespace LtePlatform.Areas.HelpPage.ModelDescriptions
                 throw new ArgumentNullException(nameof(config));
             }
 
-            _documentationProvider = new Lazy<IModelDocumentationProvider>(() => config.Services.GetDocumentationProvider() as IModelDocumentationProvider);
+            DocumentationProvider = config.Services.GetDocumentationProvider() as IModelDocumentationProvider ?? new DocProvider();
         }
 
         public Dictionary<string, ModelDescription> GeneratedModels { get; } = new Dictionary<string, ModelDescription>(StringComparer.OrdinalIgnoreCase);
 
-        public IModelDocumentationProvider DocumentationProvider => _documentationProvider.Value;
+        public IModelDocumentationProvider DocumentationProvider { get; private set; }
 
         public ModelDescription GetOrCreateModelDescription(Type modelType)
         {

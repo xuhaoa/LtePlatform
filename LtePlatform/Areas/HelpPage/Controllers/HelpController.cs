@@ -96,17 +96,21 @@ namespace LtePlatform.Areas.HelpPage.Controllers
                     TypeName = x.TypeDescription.Name,
                     AnnotationDoc = x.Annotations.Select(an => an.Documentation)
                 }),
-                FromBodyModel = requestModelDescription==null?null: new
-                {
-                    requestModelDescription.Name,
-                    Type = requestModelDescription.ModelType.ToString(),
-                    requestModelDescription.Documentation,
-                    requestModelDescription.ParameterDocumentation
-                },
+                FromBodyModel = requestModelDescription == null
+                    ? null
+                    : new
+                    {
+                        requestModelDescription.Name,
+                        Type = requestModelDescription.ModelType.ToString(),
+                        requestModelDescription.Documentation,
+                        requestModelDescription.ParameterDocumentation
+                    },
                 ResponseModel = new
                 {
                     responseModel.Name,
-                    Documentation = Configuration.Services.GetDocumentationProvider().GetResponseDocumentation(description.ActionDescriptor),
+                    Documentation =
+                        Configuration.Services.GetDocumentationProvider()
+                            .GetResponseDocumentation(description.ActionDescriptor),
                     responseModel.ParameterDocumentation,
                     ModelDescription = modelDescription?.ParameterDocumentation,
                     Descriptions = responseDescription?.Select(x => new

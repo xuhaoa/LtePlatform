@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.Serialization;
+using LtePlatform.Models;
 using Newtonsoft.Json;
 
 namespace LtePlatform.Areas.HelpPage.ModelDescriptions
@@ -80,7 +81,8 @@ namespace LtePlatform.Areas.HelpPage.ModelDescriptions
                 {
                     Name = ModelNameHelper.GetModelName(modelType),
                     ModelType = modelType,
-                    ElementDescription = collectionModelDescription
+                    ElementDescription = collectionModelDescription,
+                    ParameterDocumentation = collectionModelDescription.ParameterDocumentation
                 };
             }
 
@@ -123,11 +125,14 @@ namespace LtePlatform.Areas.HelpPage.ModelDescriptions
     {
         public ModelDescription Generate(Type modelType, ModelDescriptionGenerator generator)
         {
+            var provider = new DocProvider();
+            
             var complexModelDescription = new ComplexTypeModelDescription
             {
                 Name = ModelNameHelper.GetModelName(modelType),
                 ModelType = modelType,
-                Documentation = generator.CreateDefaultDocumentation(modelType)
+                Documentation = generator.CreateDefaultDocumentation(modelType),
+                ParameterDocumentation = provider.GetDocumentation(modelType)
             };
 
             generator.GeneratedModels.Add(complexModelDescription.Name, complexModelDescription);
