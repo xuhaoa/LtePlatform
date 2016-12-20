@@ -16,7 +16,7 @@ for pci in range(504):
         Pci_List=list(db['mro_'+datestr].find({'Pci': pci, 'NeighborPci': nPci}))
         if len(Pci_List)>0:
             df = DataFrame(Pci_List)
-            stat=df.groupby(['CellId','Pci','NeighborPci']).sum().reset_index()
+            stat=df.groupby(['CellId','Pci','NeighborPci', 'Earfcn', 'NeighborEarfcn']).sum().reset_index()
             statList = json.loads(stat.T.to_json()).values()
             for item in statList:
                 item.update({'StatDate': time})

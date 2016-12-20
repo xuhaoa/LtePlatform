@@ -35,6 +35,7 @@ class MroReader:
                         _neighbor={}
                         _neighbor.update({'Pci': _item_sub_dict['LteNcPci']})
                         _neighbor.update({'Rsrp': _item_sub_dict['LteNcRSRP']})
+                        _neighbor.update({'Earfcn': _item_sub_dict['LteNcEarfcn']})
                         neighbor_list.append(_neighbor)
                     else:
                         break
@@ -44,6 +45,7 @@ class MroReader:
                         item_dict.update({'SinrUl': _item_sub_dict['LteScSinrUL']})
                         item_dict.update({'Ta': _item_sub_dict['LteScTadv']})
                         item_dict.update({'Pci': _item_sub_dict['LteScPci']})
+                        item_dict.update({'Earfcn': _item_sub_dict['LteScEarfcn']})
                         centerFilled=True
                 if len(neighbor_list)>0:
                     item_dict.update({'NeighborList': neighbor_list})
@@ -67,6 +69,7 @@ class MroReader:
                         _neighbor={}
                         _neighbor.update({'Pci': _item_sub_dict['LteNcPci']})
                         _neighbor.update({'Rsrp': _item_sub_dict['LteNcRSRP']})
+                        _neighbor.update({'Earfcn': _item_sub_dict['LteNcEarfcn']})
                         neighbor_list.append(_neighbor)
                     else:
                         break
@@ -76,6 +79,7 @@ class MroReader:
                         item_dict.update({'SinrUl': _item_sub_dict['LteScSinrUL']})
                         item_dict.update({'Ta': _item_sub_dict['LteScTadv']})
                         item_dict.update({'Pci': _item_sub_dict['LteScPci']})
+                        item_dict.update({'Earfcn': _item_sub_dict['LteScEarfcn']})
                         centerFilled=True
                 if len(neighbor_list)>0:
                     item_dict.update({'NeighborList': neighbor_list})
@@ -90,7 +94,9 @@ class MroReader:
             return []
         return list(map(lambda item: {
             'CellId': item['id'],
+            'Earfcn': item['Earfcn'],
             'NeighborPci': item['NeighborList'][index-1]['Pci'],
+            'NeighborEarfcn': item['NeighborList'][index-1]['Earfcn'],
             'RsrpDiff': item['Rsrp']-item['NeighborList'][index-1]['Rsrp'],
             'Rsrp': item['Rsrp'],
             'Pci': item['Pci'],
@@ -105,8 +111,10 @@ class MroReader:
             return []
         stat_list=list(map(lambda item: {
             'CellId': eNodebId + '-' + item['CellId'],
+            'Earfcn': item['Earfcn'],
             'NeighborPci': item['NeighborPci'],
             'Pci': item['Pci'],
+            'NeighborEarfcn': item['NeighborEarfcn'],
             'Diff0': 1 if item['RsrpDiff']<=0 else 0,
             'Diff3': 1 if item['RsrpDiff']<=3 and item['RsrpDiff']>0 else 0,
             'Diff6': 1 if item['RsrpDiff']<=6 and item['RsrpDiff']>3 else 0,
@@ -139,7 +147,7 @@ class MroReader:
             'SinrUlAbove35': 1 if item['SinrUl']>=35 else 0
         }, combined_list))
         df = DataFrame(stat_list)
-        stat=df.groupby(['CellId','Pci','NeighborPci']).sum().reset_index()
+        stat=df.groupby(['CellId','Pci','NeighborPci', 'Earfcn', 'NeighborEarfcn']).sum().reset_index()
         return json.loads(stat.T.to_json()).values()
 
     def map_rsrp_diff_zte(self):
@@ -149,7 +157,9 @@ class MroReader:
             return []
         stat_list=list(map(lambda item: {
             'CellId': item['CellId'],
+            'Earfcn': item['Earfcn'],
             'NeighborPci': item['NeighborPci'],
+            'NeighborEarfcn': item['NeighborEarfcn'],
             'Pci': item['Pci'],
             'Diff0': 1 if item['RsrpDiff']<=0 else 0,
             'Diff3': 1 if item['RsrpDiff']<=3 and item['RsrpDiff']>0 else 0,
@@ -183,7 +193,7 @@ class MroReader:
             'SinrUlAbove35': 1 if item['SinrUl']>=35 else 0
         }, combined_list))
         df = DataFrame(stat_list)
-        stat=df.groupby(['CellId','Pci','NeighborPci']).sum().reset_index()
+        stat=df.groupby(['CellId','Pci','NeighborPci', 'Earfcn', 'NeighborEarfcn']).sum().reset_index()
         return json.loads(stat.T.to_json()).values()
 class MrsReader:
     def __init__(self, mrNames, startTime, date_dir, db, eNodebId, **kwargs):

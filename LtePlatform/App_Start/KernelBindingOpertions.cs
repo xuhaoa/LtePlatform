@@ -293,6 +293,8 @@ namespace LtePlatform
             ninjectKernel.Bind<MrsService>().ToSelf();
 
             ninjectKernel.Bind<TownFlowService>().ToSelf();
+
+            ninjectKernel.Bind<HotSpotService>().ToSelf();
         }
     }
 }

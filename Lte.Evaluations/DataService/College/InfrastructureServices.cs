@@ -10,6 +10,7 @@ using Lte.Parameters.Entities.Basic;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.DataService.College
@@ -206,6 +207,11 @@ namespace Lte.Evaluations.DataService.College
         public async Task SaveBuildingHotSpot(string name, string typeDescription)
         {
             await _repository.InsertHotSpot(name, typeDescription.GetEnumType<HotspotType>());
+        }
+
+        public IEnumerable<HotSpotView> QueryHotSpotViews()
+        {
+            return _repository.GetAllHotSpots().MapTo<IEnumerable<HotSpotView>>();
         } 
     }
 }

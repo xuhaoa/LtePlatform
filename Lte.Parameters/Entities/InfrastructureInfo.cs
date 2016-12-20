@@ -1,4 +1,6 @@
 ﻿using Abp.Domain.Entities;
+using Abp.EntityFramework.AutoMapper;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 
@@ -13,6 +15,15 @@ namespace Lte.Parameters.Entities
         public InfrastructureType InfrastructureType { get; set; }
 
         public int InfrastructureId { get; set; }
+    }
+
+    [AutoMapFrom(typeof(InfrastructureInfo))]
+    public class HotSpotView
+    {
+        [AutoMapPropertyResolve("HotspotType", typeof(InfrastructureInfo), typeof(HotspotTypeDescriptionTransform))]
+        public string TypeDescription { get; set; }
+
+        public string HotspotName { get; set; }
     }
 
     public class IndoorDistribution : Entity, IGeoPoint<double>

@@ -79,6 +79,18 @@ namespace Lte.Domain.Common.Wireless
         Others
     }
 
+    public class HotspotTypeDescriptionTransform : DescriptionTransform<HotspotType>
+    {
+        
+    }
+
+    public class HotspotTypeTransform : EnumTransform<HotspotType>
+    {
+        public HotspotTypeTransform() : base(HotspotType.Others)
+        {
+        }
+    }
+
     [EnumTypeDescription(typeof(InfrastructureType), Unknown)]
     public enum InfrastructureType : byte
     {
