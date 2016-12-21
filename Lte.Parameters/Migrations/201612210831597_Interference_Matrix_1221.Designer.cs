@@ -2,17 +2,18 @@
 namespace Lte.Parameters.Migrations
 {
     using System.CodeDom.Compiler;
+    using System.Data.Entity.Migrations;
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
-
+    
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Update_Interference_Define : IMigrationMetadata
+    public sealed partial class Interference_Matrix_1221 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Update_Interference_Define));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Interference_Matrix_1221));
         
         string IMigrationMetadata.Id
         {
-            get { return "201609220853037_Update_Interference_Define"; }
+            get { return "201612210831597_Interference_Matrix_1221"; }
         }
         
         string IMigrationMetadata.Source

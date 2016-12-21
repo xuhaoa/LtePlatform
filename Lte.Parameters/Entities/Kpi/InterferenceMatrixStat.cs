@@ -86,6 +86,10 @@ namespace Lte.Parameters.Entities.Kpi
         public int Ta30to39 { get; set; }
 
         public int TaAbove40 { get; set; }
+
+        public int? Earfcn { get; set; }
+
+        public int? NeighborEarfcn { get; set; }
     }
     
     [AutoMapTo(typeof(InterferenceMatrixStat))]
@@ -166,5 +170,9 @@ namespace Lte.Parameters.Entities.Kpi
         public int Ta30to39 { get; set; }
 
         public int TaAbove40 { get; set; }
+
+        public int? Earfcn { get; set; }
+
+        public int? NeighborEarfcn { get; set; }
     }
 }

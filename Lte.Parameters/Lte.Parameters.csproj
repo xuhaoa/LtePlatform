@@ -233,9 +233,9 @@
     <Compile Include="Entities\Town.cs" />
     <Compile Include="Entities\Work\WorkItem.cs" />
     <Compile Include="Entities\Work\WorkItemExcel.cs" />
-    <Compile Include="Migrations\201609220853037_Update_Interference_Define.cs" />
-    <Compile Include="Migrations\201609220853037_Update_Interference_Define.Designer.cs">
-      <DependentUpon>201609220853037_Update_Interference_Define.cs</DependentUpon>
+    <Compile Include="Migrations\201612210831597_Interference_Matrix_1221.cs" />
+    <Compile Include="Migrations\201612210831597_Interference_Matrix_1221.Designer.cs">
+      <DependentUpon>201612210831597_Interference_Matrix_1221.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MockOperations\MockItemsAudited.cs" />
@@ -264,8 +264,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609220853037_Update_Interference_Define.resx">
-      <DependentUpon>201609220853037_Update_Interference_Define.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612210831597_Interference_Matrix_1221.resx">
+      <DependentUpon>201612210831597_Interference_Matrix_1221.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
