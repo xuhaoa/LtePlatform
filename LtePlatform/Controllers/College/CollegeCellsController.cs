@@ -110,4 +110,26 @@ namespace LtePlatform.Controllers.College
             return _service.Query(collegeName);
         }
     }
+
+    public class HotSpotController : ApiController
+    {
+        private readonly HotSpotService _service;
+
+        public HotSpotController(HotSpotService service)
+        {
+            _service = service;
+        }
+
+        [HttpPost]
+        public async Task Post(HotSpotView dto)
+        {
+            await _service.SaveBuildingHotSpot(dto.HotspotName, dto.TypeDescription);
+        }
+
+        [HttpGet]
+        public IEnumerable<HotSpotView> Get()
+        {
+            return _service.QueryHotSpotViews();
+        }
+    }
 }

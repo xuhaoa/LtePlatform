@@ -25,6 +25,9 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Db\generate_students.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Db\mro_combined.py">
       <SubType>Code</SubType>
     </Compile>
