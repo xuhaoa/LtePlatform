@@ -18,7 +18,6 @@
     'ngAnimate',
     'ngRoute',
     'ngTouch',
-    'parametersMap',
     'parameters.module',
     'rutrace.module',
     "ui.bootstrap",

@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th>邻区PCI</th>
+            <th>邻区频点</th>
             <th>RSRP&lt;-120</th>
             <th>-120&le;RSRP<br />&lt;-110</th>
             <th>-110&le;RSRP<br />&lt;-105</th>
@@ -19,6 +20,7 @@
     <tbody>
         <tr ng-repeat="detail in currentDetails">
             <td>{{detail.neighborPci}}</td>
+            <td>{{detail.neighborEarfcn}}</td>
             <td>{{detail.rsrpBelow120}}</td>
             <td>{{detail.rsrpBetween120110}}</td>
             <td>{{detail.rsrpBetween110105}}</td>

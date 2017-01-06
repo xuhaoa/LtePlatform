@@ -111,6 +111,7 @@ namespace LtePlatform.Controllers.College
         }
     }
 
+    [ApiControl("热点查询控制器")]
     public class HotSpotController : ApiController
     {
         private readonly HotSpotService _service;
@@ -121,12 +122,16 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpPost]
+        [ApiDoc("保存热点信息")]
+        [ApiParameterDoc("dto", "热点信息")]
         public async Task Post(HotSpotView dto)
         {
             await _service.SaveBuildingHotSpot(dto.HotspotName, dto.TypeDescription);
         }
 
         [HttpGet]
+        [ApiDoc("查询热点信息")]
+        [ApiResponse("热点信息")]
         public IEnumerable<HotSpotView> Get()
         {
             return _service.QueryHotSpotViews();

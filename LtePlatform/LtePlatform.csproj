@@ -355,9 +355,7 @@
     <Compile Include="Controllers\ParametersController.cs" />
     <Compile Include="Controllers\Parameters\CellControllers.cs" />
     <Compile Include="Controllers\Parameters\DumpAlarmController.cs" />
-    <Compile Include="Controllers\Parameters\DumpBtsExcelController.cs" />
-    <Compile Include="Controllers\Parameters\DumpCdmaCellExcelController.cs" />
-    <Compile Include="Controllers\Parameters\DumpENodebExcelController.cs" />
+    <Compile Include="Controllers\Parameters\DumpExcelControllers.cs" />
     <Compile Include="Controllers\Parameters\DumpNeighborController.cs" />
     <Compile Include="Controllers\Parameters\ENodebController.cs" />
     <Compile Include="Controllers\Parameters\LteNeighborCellController.cs" />
@@ -1617,7 +1615,6 @@
     <Content Include="Scripts\service\filters\handoff.js" />
     <Content Include="Scripts\service\mongo\cell.huawei.js" />
     <Content Include="Scripts\service\mongo\handoff.js" />
-    <Content Include="Scripts\service\parameters\map.service.js" />
     <Content Include="Scripts\service\topic\college.js" />
     <Content Include="Scripts\service\kpi\workitem.service.js" />
     <Content Include="Scripts\service\topic\customer.js" />

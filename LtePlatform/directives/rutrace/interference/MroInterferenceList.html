@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th>邻区PCI</th>
+            <th>邻区频点</th>
             <th>强干扰</th>
             <th>0-3dB干扰数</th>
             <th>3-6dB干扰数</th>
@@ -15,6 +16,7 @@
     <tbody>
         <tr ng-repeat="detail in currentDetails">
             <td>{{detail.neighborPci}}</td>
+            <td>{{detail.neighborEarfcn}}</td>
             <td>{{detail.diff0}}</td>
             <td>{{detail.diff3}}</td>
             <td>{{detail.diff6}}</td>

@@ -151,7 +151,6 @@
 /// <reference path="service/kpi/workitem.service.js" />
 /// <reference path="service/mongo/cell.huawei.js" />
 /// <reference path="service/mongo/handoff.js" />
-/// <reference path="service/parameters/map.service.js" />
 /// <reference path="service/topic/baidu.map.js" />
 /// <reference path="service/topic/college.js" />
 /// <reference path="service/topic/customer.js" />
