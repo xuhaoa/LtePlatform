@@ -171,7 +171,7 @@ angular.module('college.dt', ['ui.grid'])
         };
     });
 
-angular.module('college.info', ['customer.service', 'myApp.region'])
+angular.module('college.info', ['college.service', 'myApp.region'])
     .controller('CollegeInfoController', function($scope) {
         $scope.gridOptions = {
             columnDefs: [

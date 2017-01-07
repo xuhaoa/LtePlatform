@@ -1617,7 +1617,6 @@
     <Content Include="Scripts\service\mongo\handoff.js" />
     <Content Include="Scripts\service\topic\college.js" />
     <Content Include="Scripts\service\kpi\workitem.service.js" />
-    <Content Include="Scripts\service\topic\customer.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\spin.min.js" />
     <Content Include="Scripts\test\mock\underscore.array.spec.js" />

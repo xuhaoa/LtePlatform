@@ -1,7 +1,7 @@
 ﻿angular.module('customer.module', ['customer.emergency', 'customer.vip', 'customer.complain'])
     .constant('customerRoot', '/directives/customer/');
 
-angular.module('customer.emergency', ['customer.service'])
+angular.module('customer.emergency', ['college.service'])
     .controller('EmergencyCommunicationController', function($scope) {
         $scope.gridOptions = {
             columnDefs: [
@@ -374,7 +374,7 @@ angular.module('customer.emergency', ['customer.service'])
         };
     });
 
-angular.module('customer.vip', ['customer.service'])
+angular.module('customer.vip', ['college.service'])
     .controller('VipDemandController', function($scope, customerDialogService) {
         $scope.supplement = function(view) {
             customerDialogService.supplementVipDemandInfo(view, $scope.city, $scope.district, $scope.messages,
@@ -409,7 +409,7 @@ angular.module('customer.vip', ['customer.service'])
         };
     });
 
-angular.module('customer.complain', ['customer.service'])
+angular.module('customer.complain', ['college.service'])
     .controller('ComplainPositionController', function($scope, customerDialogService) {
         $scope.gridOptions = {
             paginationPageSizes: [25, 50, 75],

@@ -6,7 +6,6 @@
     'college.service',
     'college.module',
     'customer.module',
-    'customer.service',
     'handoff.parameters',
     'handoff.filters',
     "highcharts-ng",
