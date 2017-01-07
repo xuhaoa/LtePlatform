@@ -84,7 +84,7 @@ namespace Lte.Parameters.Concrete.Infrastructure
             }
         }
 
-        public async Task InsertHotSpot(string name, HotspotType type)
+        public async Task InsertHotSpot(string name, HotspotType type, int infrastructureId)
         {
             var infrastructure = FirstOrDefault(x =>
                 x.HotspotType == type && x.HotspotName == name && x.InfrastructureType == InfrastructureType.HotSpot);
@@ -94,7 +94,8 @@ namespace Lte.Parameters.Concrete.Infrastructure
                 {
                     HotspotName = name,
                     HotspotType = type,
-                    InfrastructureType = InfrastructureType.HotSpot
+                    InfrastructureType = InfrastructureType.HotSpot,
+                    InfrastructureId = infrastructureId
                 });
             }
         }

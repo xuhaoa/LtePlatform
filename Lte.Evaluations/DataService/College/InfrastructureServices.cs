@@ -198,20 +198,43 @@ namespace Lte.Evaluations.DataService.College
     public class HotSpotService
     {
         private readonly IInfrastructureRepository _repository;
+        private readonly IIndoorDistributionRepository _distributionRepository;
 
-        public HotSpotService(IInfrastructureRepository repository)
+        public HotSpotService(IInfrastructureRepository repository, IIndoorDistributionRepository distributionRepository)
         {
             _repository = repository;
+            _distributionRepository = distributionRepository;
         }
 
-        public async Task SaveBuildingHotSpot(string name, string typeDescription)
+        public async Task SaveBuildingHotSpot(string name, string typeDescription, string address, string description)
         {
-            await _repository.InsertHotSpot(name, typeDescription.GetEnumType<HotspotType>());
+            var infrastructure =
+                await
+                    _distributionRepository.FirstOrDefaultAsync(
+                        x =>
+                            x.Name == "Hot Spot" && x.Range == address && x.SourceType == "Hot Spot" &&
+                            x.SourceName == description) ??
+                await _distributionRepository.InsertAsync(new IndoorDistribution
+                            {
+                                Name = "Hot Spot",
+                                Range = address,
+                                SourceType = "Hot Spot",
+                                SourceName = description
+                            });
+            await _repository.InsertHotSpot(name, typeDescription.GetEnumType<HotspotType>(), infrastructure.Id);
         }
 
         public IEnumerable<HotSpotView> QueryHotSpotViews()
         {
-            return _repository.GetAllHotSpots().MapTo<IEnumerable<HotSpotView>>();
+            var results = _repository.GetAllHotSpots().MapTo<List<HotSpotView>>();
+            results.ForEach(r =>
+            {
+                var distribution = _distributionRepository.FirstOrDefault(x =>
+                    x.Name == "Hot Spot" && x.Range == r.Address && x.SourceType == "Hot Spot" &&
+                    x.SourceName == r.SourceName);
+                distribution?.MapTo(r);
+            });
+            return results;
         } 
     }
 }
