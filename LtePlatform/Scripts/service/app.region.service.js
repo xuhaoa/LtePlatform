@@ -917,196 +917,54 @@
             }
         }
     })
-    .factory('authorizeService', function ($q, $http, appUrlService) {
+    .factory('authorizeService', function (generalHttpService) {
         return {
             queryCurrentUserInfo: function () {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('CurrentUser')
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-                return deferred.promise;
+                return generalHttpService.getApiData('CurrentUser', {});
             },
             queryAllUsers: function () {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('ApplicationUsers'),
-                    headers: {
-                        'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-                return deferred.promise;
+                return generalHttpService.getApiDataWithHeading('ApplicationUsers', {});
             },
             queryEmailConfirmed: function (name) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: '/Manage/EmailHasBeenConfirmed',
-                    params: {
-                        userName: name
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
+                return generalHttpService.getMvcData('/Manage/EmailHasBeenConfirmed', {
+                    userName: name
                 });
-                return deferred.promise;
             },
             updateRoleList: function () {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('ApplicationRoles')
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-                return deferred.promise;
+                return generalHttpService.getApiData('ApplicationRoles', {});
             },
             addRole: function (name) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('ApplicationRoles'),
-                    params: {
-                        roleName: name,
-                        action: "create"
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
+                return generalHttpService.getApiData('ApplicationRoles', {
+                    roleName: name,
+                    action: "create"
                 });
-                return deferred.promise;
             },
             deleteRole: function (name) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: appUrlService.getApiUrl('ApplicationRoles'),
-                    params: {
-                        roleName: name,
-                        action: "delete"
-                    }
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
+                return generalHttpService.getApiData('ApplicationRoles', {
+                    roleName: name,
+                    action: "delete"
                 });
-                return deferred.promise;
             },
             changePassword: function (input) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'POST',
-                    url: '/Manage/ChangePassword',
-                    data: input
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-                return deferred.promise;
+                return generalHttpService.postMvcData('/Manage/ChangePassword', input);
             },
             forgotPassword: function (input) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'POST',
-                    url: '/Manage/ForgotPassword',
-                    data: input
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-                return deferred.promise;
+                return generalHttpService.postMvcData('/Manage/ForgotPassword', input);
             },
             resetPassword: function (input) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'POST',
-                    url: '/Manage/ResetPassword',
-                    data: input
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-                return deferred.promise;
+                return generalHttpService.postMvcData('/Manage/ResetPassword', input);
             },
             addPhoneNumber: function (input) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'POST',
-                    url: '/Manage/AddPhoneNumber',
-                    data: input
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-                return deferred.promise;
+                return generalHttpService.postMvcData('/Manage/AddPhoneNumber', input);
             },
             verifyPhoneNumber: function (input) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'POST',
-                    url: '/Manage/VerifyPhoneNumber',
-                    data: input
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-                return deferred.promise;
+                return generalHttpService.postMvcData('/Manage/VerifyPhoneNumber', input);
             },
             removePhoneNumber: function () {
-                var deferred = $q.defer();
-                $http({
-                    method: 'POST',
-                    url: '/Manage/RemovePhoneNumber'
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-                return deferred.promise;
+                return generalHttpService.postMvcData('/Manage/RemovePhoneNumber', {});
             },
             confirmEmail: function (input) {
-                var deferred = $q.defer();
-                $http({
-                    method: 'POST',
-                    url: '/Manage/ConfirmEmail',
-                    data: input
-                }).success(function (result) {
-                    deferred.resolve(result);
-                })
-                .error(function (reason) {
-                    deferred.reject(reason);
-                });
-                return deferred.promise;
+                return generalHttpService.postMvcData('/Manage/ConfirmEmail', input);
             }
         };
     })

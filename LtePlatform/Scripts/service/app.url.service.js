@@ -140,6 +140,17 @@
                     });
                 return deferred.promise;
             },
+            postMvcData: function (topic, data) {
+                var deferred = $q.defer();
+                $http.post(topic, data)
+                    .success(function (result) {
+                        deferred.resolve(result);
+                    })
+                    .error(function (reason) {
+                        deferred.reject(reason);
+                    });
+                return deferred.promise;
+            },
             postApiDataWithHeading: function (topic, data) {
                 var deferred = $q.defer();
                 $http({
