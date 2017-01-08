@@ -780,7 +780,7 @@
             }
         };
     })
-    .factory('kpiDisplayService', function (appFormatService, coverageService, topPreciseService) {
+    .factory('kpiDisplayService', function (appFormatService, coverageService, topPreciseService, calculateService) {
         return {
             generatePreciseBarOptions: function(districtStats, cityStat) {
                 var chart = new BarChart();
@@ -1137,7 +1137,7 @@
                 topPreciseService.queryCoverage(dateSpan.begin, dateSpan.end,
                     cell.cellId, cell.sectorId).then(function(coverage) {
                     if (coverage.length > 0) {
-                        var coverageRate = coverageService.calculateWeakCoverageRate(coverage);
+                        var coverageRate = calculateService.calculateWeakCoverageRate(coverage);
                         neighbor.weakBelow115 = coverageRate.rate115;
                         neighbor.weakBelow110 = coverageRate.rate110;
                         neighbor.weakBelow105 = coverageRate.rate105;
@@ -1147,7 +1147,7 @@
                 topPreciseService.queryTa(dateSpan.begin, dateSpan.end,
                     cell.cellId, cell.sectorId).then(function (taList) {
                     if (taList.length > 0) {
-                        neighbor.overCover = coverageService.calculateOverCoverageRate(taList);
+                        neighbor.overCover = calculateService.calculateOverCoverageRate(taList);
                     }
                 });
             }
