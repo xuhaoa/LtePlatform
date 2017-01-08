@@ -286,8 +286,14 @@
             });
         });
     })
-    .controller("query.topic", function($scope) {
+    .controller("query.topic", function ($scope, customerDialogService) {
         $scope.page.title = "专题优化管理";
+        $scope.addHotSpot = function () {
+            console.log('aaaa');
+            customerDialogService.constructHotSpot(function() {
+
+            });
+        };
     })
     .controller("bts.info", function ($scope, $stateParams, networkElementService) {
         $scope.page.title = $stateParams.name + "CDMA基础信息";
@@ -463,4 +469,8 @@
         menuItemService.updateMenuItem($scope.menuItems, 0,
             $stateParams.city + $stateParams.district + $stateParams.town + "CDMA基站列表",
             $scope.rootPath + "btsList" + "/" + $stateParams.city + "/" + $stateParams.district + "/" + $stateParams.town);
+    })
+
+    .controller('hot.spot.dialog',function($scope, dialogTitle) {
+        $scope.dialogTitle = dialogTitle;
     });

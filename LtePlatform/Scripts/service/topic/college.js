@@ -835,7 +835,7 @@
             }
         }
     })
-    .factory('customerDialogService', function ($uibModal, $log, customerQueryService, emergencyService, complainService) {
+    .factory('customerDialogService', function ($uibModal, $log, customerQueryService, emergencyService, complainService, basicImportService) {
         return {
             constructEmergencyCommunication: function (city, district, type, messages, callback) {
                 var modalInstance = $uibModal.open({
@@ -896,6 +896,27 @@
 
                 modalInstance.result.then(function (dto) {
                     customerQueryService.postDto(dto).then(function (result) {
+                        callback();
+                    });
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            constructHotSpot: function(callback) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Parameters/Import/HotSpot.html',
+                    controller: 'hot.spot.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function() {
+                            return '新增热点信息';
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (dto) {
+                    basicImportService.dumpOneHotSpot(dto).then(function(result) {
                         callback();
                     });
                 }, function () {

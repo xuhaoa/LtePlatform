@@ -461,6 +461,7 @@
     <Content Include="appViews\Manage\ResetPassword.html" />
     <Content Include="appViews\Manage\Roles.html" />
     <Content Include="appViews\Manage\RoleUser.html" />
+    <Content Include="appViews\Parameters\Import\HotSpot.html" />
     <Content Include="appViews\Parameters\Region\ENodebFlow.html" />
     <Content Include="appViews\Parameters\Topic.html" />
     <Content Include="appViews\Rutrace\Coverage\DetailsChartDialog.html" />
