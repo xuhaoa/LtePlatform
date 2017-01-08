@@ -286,14 +286,19 @@
             });
         });
     })
-    .controller("query.topic", function ($scope, customerDialogService) {
+    .controller("query.topic", function ($scope, customerDialogService, basicImportService) {
         $scope.page.title = "专题优化管理";
+        $scope.query=function() {
+            basicImportService.queryAllHotSpots().then(function(result) {
+                console.log(result);
+            });
+        }
         $scope.addHotSpot = function () {
-            console.log('aaaa');
             customerDialogService.constructHotSpot(function() {
-
+                $scope.query();
             });
         };
+        $scope.query();
     })
     .controller("bts.info", function ($scope, $stateParams, networkElementService) {
         $scope.page.title = $stateParams.name + "CDMA基础信息";
@@ -471,6 +476,17 @@
             $scope.rootPath + "btsList" + "/" + $stateParams.city + "/" + $stateParams.district + "/" + $stateParams.town);
     })
 
-    .controller('hot.spot.dialog',function($scope, dialogTitle) {
+    .controller('hot.spot.dialog', function ($scope, dialogTitle, $uibModalInstance) {
         $scope.dialogTitle = dialogTitle;
+        $scope.spotType= {
+            options: ["楼宇", "校园网", "医院", "商场", "交通枢纽", "其他"],
+            selected: "楼宇"
+        }
+        $scope.ok = function () {
+            $scope.dto.typeDescription = $scope.spotType.selected;
+            $uibModalInstance.close($scope.dto);
+        };
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
     });
