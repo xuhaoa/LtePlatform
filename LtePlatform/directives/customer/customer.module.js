@@ -82,6 +82,44 @@ angular.module('customer.emergency', ['college.service'])
         };
     })
 
+    .controller('HotSpotController', function ($scope) {
+        $scope.gridOptions = {
+            paginationPageSizes: [20, 40, 60],
+            paginationPageSize: 20,
+            columnDefs: [
+                { field: 'hotspotName', name: '热点名称' },
+                { field: 'address', name: '地址' },
+                { field: 'typeDescription', name: '热点类型' },
+                { field: 'sourceName', name: '热点描述' },
+                { field: 'longtitute', name: '经度' },
+                { field: 'lattitute', name: '纬度' }
+            ],
+            data: []
+        };
+    })
+    .directive('hotSpotList', function ($compile) {
+        return {
+            restrict: 'EA',
+            controller: 'HotSpotController',
+            replace: true,
+            scope: {
+                items: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 600px"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
+    })
+
     .controller('OnlineListController', function ($scope) {
         $scope.gridOptions = {
             paginationPageSizes: [20, 40, 60],
