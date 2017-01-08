@@ -206,14 +206,13 @@ namespace Lte.Evaluations.DataService.College
             _distributionRepository = distributionRepository;
         }
 
-        public async Task SaveBuildingHotSpot(string name, string typeDescription, string address, string description)
+        public async Task<int> SaveBuildingHotSpot(string name, string typeDescription, string address, string description)
         {
             var infrastructure =
                 await
                     _distributionRepository.FirstOrDefaultAsync(
                         x =>
-                            x.Name == "Hot Spot" && x.Range == address && x.SourceType == "Hot Spot" &&
-                            x.SourceName == description) ??
+                            x.Name == "Hot Spot" && x.Range == address && x.SourceType == "Hot Spot") ??
                 await _distributionRepository.InsertAsync(new IndoorDistribution
                             {
                                 Name = "Hot Spot",
@@ -222,19 +221,21 @@ namespace Lte.Evaluations.DataService.College
                                 SourceName = description
                             });
             await _repository.InsertHotSpot(name, typeDescription.GetEnumType<HotspotType>(), infrastructure.Id);
+            _distributionRepository.SaveChanges();
+            return _repository.SaveChanges();
         }
 
         public IEnumerable<HotSpotView> QueryHotSpotViews()
         {
-            var results = _repository.GetAllHotSpots().MapTo<List<HotSpotView>>();
-            results.ForEach(r =>
+            var results = _repository.GetAllHotSpots();
+            foreach (var info in results)
             {
                 var distribution = _distributionRepository.FirstOrDefault(x =>
-                    x.Name == "Hot Spot" && x.Range == r.Address && x.SourceType == "Hot Spot" &&
-                    x.SourceName == r.SourceName);
-                distribution?.MapTo(r);
-            });
-            return results;
+                    x.Name == "Hot Spot" && x.Id == info.InfrastructureId && x.SourceType == "Hot Spot");
+                var result = info.MapTo<HotSpotView>();
+                distribution?.MapTo(result);
+                yield return result;
+            }
         } 
     }
 }

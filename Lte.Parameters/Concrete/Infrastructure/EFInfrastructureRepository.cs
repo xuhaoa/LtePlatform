@@ -98,6 +98,13 @@ namespace Lte.Parameters.Concrete.Infrastructure
                     InfrastructureId = infrastructureId
                 });
             }
+            else
+            {
+                infrastructure.HotspotName = name;
+                infrastructure.HotspotType = type;
+                infrastructure.InfrastructureType = InfrastructureType.HotSpot;
+                infrastructure.InfrastructureId = infrastructureId;
+            }
         }
 
         public int SaveChanges()

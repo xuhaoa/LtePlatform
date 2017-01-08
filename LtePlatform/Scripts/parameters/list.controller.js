@@ -290,7 +290,7 @@
         $scope.page.title = "专题优化管理";
         $scope.query=function() {
             basicImportService.queryAllHotSpots().then(function(result) {
-                console.log(result);
+                $scope.hotSpotList = result;
             });
         }
         $scope.addHotSpot = function () {
