@@ -582,6 +582,9 @@
             },
             dumpOneHotSpot: function(item) {
                 return generalHttpService.postApiData('HotSpot', item);
+            },
+            queryAllHotSpots: function() {
+                return generalHttpService.getApiData('HotSpot', {});
             }
         };
     })
