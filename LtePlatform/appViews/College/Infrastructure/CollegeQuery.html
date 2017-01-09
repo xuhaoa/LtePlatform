@@ -1,13 +1,13 @@
 ﻿<h4 class="text-primary">{{collegeName}}基础信息查询与编辑</h4>
 <div uib-accordion>
-    <div uib-accordion-group panel-class="panel-primary" is-open="true">
+    <div uib-accordion-group class="panel panel-primary" is-open="true">
         <div uib-accordion-heading>
             LTE基站列表
             <div class="badge">{{eNodebList.length}}</div>
         </div>
         <div e-nodeb-plain-table items="eNodebList" root-path="parametersPath"></div>
     </div>
-    <div uib-accordion-group panel-class="panel-success">
+    <div uib-accordion-group class="panel panel-success">
         <div uib-accordion-heading>
             LTE小区列表
             <div class="badge">{{cellList.length}}</div>
@@ -16,14 +16,14 @@
         <button class="btn btn-sm btn-warning" ng-click="supplementLonelyCells()">补充小区（根据位置）</button>
         <div lte-cell-table items="cellList" root-path="parametersPath"></div>
     </div>
-    <div uib-accordion-group panel-class="panel-default">
+    <div uib-accordion-group class="panel panel-default">
         <div uib-accordion-heading>
             CDMA基站列表
             <div class="badge">{{btsList.length}}</div>
         </div>
         <div bts-plain-table items="btsList" root-path="parametersPath"></div>
     </div>
-    <div uib-accordion-group panel-class="panel-warning">
+    <div uib-accordion-group class="panel panel-warning">
         <div uib-accordion-heading>
             CDMA小区列表
             <div class="badge">{{cdmaCellList.length}}</div>

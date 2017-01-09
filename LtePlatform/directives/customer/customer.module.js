@@ -92,9 +92,16 @@ angular.module('customer.emergency', ['college.service'])
                 { field: 'typeDescription', name: '热点类型' },
                 { field: 'sourceName', name: '热点描述' },
                 { field: 'longtitute', name: '经度' },
-                { field: 'lattitute', name: '纬度' }
+                { field: 'lattitute', name: '纬度' },
+                {
+                    name: '小区信息',
+                    cellTemplate: '<button class="btn btn-sm btn-success" ng-click="grid.appScope.cellInfo(row.entity)">编辑小区</button>'
+                }
             ],
             data: []
+        };
+        $scope.cellInfo = function (cell) {
+            console.log(cell);
         };
     })
     .directive('hotSpotList', function ($compile) {
