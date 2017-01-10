@@ -495,7 +495,7 @@
         $scope.address = address;
         $scope.query = function() {
             basicImportService.queryHotSpotCells(name).then(function(result) {
-                console.log(result);
+                $scope.candidateIndoorCells = result;
             });
         };
         $scope.ok = function () {
