@@ -585,6 +585,11 @@
             },
             queryAllHotSpots: function() {
                 return generalHttpService.getApiData('HotSpot', {});
+            },
+            queryHotSpotCells: function(name) {
+                return generalHttpService.getApiData('LteRruCell', {
+                    rruName: name
+                });
             }
         };
     })

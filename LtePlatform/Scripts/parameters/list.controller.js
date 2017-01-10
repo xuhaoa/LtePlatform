@@ -490,14 +490,19 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('hot.spot.cell.dialog', function ($scope, dialogTitle, address, name, $uibModalInstance) {
+    .controller('hot.spot.cell.dialog', function ($scope, dialogTitle, address, name, $uibModalInstance, basicImportService) {
         $scope.dialogTitle = dialogTitle;
         $scope.address = address;
-        $scope.name = name;
+        $scope.query = function() {
+            basicImportService.queryHotSpotCells(name).then(function(result) {
+                console.log(result);
+            });
+        };
         $scope.ok = function () {
             $uibModalInstance.close($scope.dto);
         };
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
+        $scope.query();
     });
