@@ -489,4 +489,15 @@
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
+    })
+    .controller('hot.spot.cell.dialog', function ($scope, dialogTitle, address, name, $uibModalInstance) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.address = address;
+        $scope.name = name;
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.dto);
+        };
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
     });

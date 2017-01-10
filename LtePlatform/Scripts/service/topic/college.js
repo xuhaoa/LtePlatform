@@ -923,6 +923,31 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
+            manageHotSpotCells: function (hotSpot, callback) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Parameters/Import/HotSpotCell.html',
+                    controller: 'hot.spot.cell.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return hotSpot.hotspotName + '热点小区管理';
+                        },
+                        name: function() {
+                            return hotSpot.hotspotName;
+                        },
+                        address: function() {
+                            return hotSpot.address;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (dto) {
+                    console.log(dto);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
             supplementVipDemandInfo: function (view, city, district, messages, callback) {
                 var modalInstance = $uibModal.open({
                     animation: true,

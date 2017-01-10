@@ -82,7 +82,7 @@ angular.module('customer.emergency', ['college.service'])
         };
     })
 
-    .controller('HotSpotController', function ($scope) {
+    .controller('HotSpotController', function ($scope, customerDialogService) {
         $scope.gridOptions = {
             paginationPageSizes: [20, 40, 60],
             paginationPageSize: 20,
@@ -100,8 +100,10 @@ angular.module('customer.emergency', ['college.service'])
             ],
             data: []
         };
-        $scope.cellInfo = function (cell) {
-            console.log(cell);
+        $scope.cellInfo = function (spot) {
+            customerDialogService.manageHotSpotCells(spot, function() {
+
+            });
         };
     })
     .directive('hotSpotList', function ($compile) {
