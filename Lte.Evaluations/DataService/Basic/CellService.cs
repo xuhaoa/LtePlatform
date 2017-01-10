@@ -120,5 +120,14 @@ namespace Lte.Evaluations.DataService.Basic
             if (cell == null) return null;
             return _rruRepository.Get(eNodeb.ENodebId, cell.LocalSectorId);
         }
+
+        public IEnumerable<CellView> QueryByRruName(string rruName)
+        {
+            var rrus = _rruRepository.GetAllList(x => x.RruName.Contains(rruName));
+            return from rru in rrus
+                   select _repository.FirstOrDefault(x => x.ENodebId == rru.ENodebId && x.LocalSectorId == rru.LocalSectorId) 
+                   into cell where cell != null
+                   select CellView.ConstructView(cell, _eNodebRepository);
+        }
     }
 }

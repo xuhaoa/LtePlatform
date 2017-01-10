@@ -103,6 +103,7 @@ namespace LtePlatform.Controllers.Parameters
         }
     }
 
+    [ApiControl("LTE RRU查询控制器")]
     public class LteRruController : ApiController
     {
         private readonly CellService _service;
@@ -113,10 +114,28 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        [ApiDoc("根据小区名称查询RRU信息")]
+        [ApiParameterDoc("cellName", "小区名称")]
+        [ApiResponse("RRU信息")]
         public LteRru Get(string cellName)
         {
             return _service.QueryRru(cellName);
         }
+    }
+
+    public class LteRruCellController : ApiController
+    {
+        private readonly CellService _service;
+
+        public LteRruCellController(CellService service)
+        {
+            _service = service;
+        }
+
+        public IEnumerable<CellView> Get(string rruName)
+        {
+            return _service.QueryByRruName(rruName);
+        } 
     }
 
     [ApiControl("CDMA小区有关的控制器")]

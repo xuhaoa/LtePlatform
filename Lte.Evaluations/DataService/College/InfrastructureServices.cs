@@ -208,20 +208,21 @@ namespace Lte.Evaluations.DataService.College
 
         public async Task<int> SaveBuildingHotSpot(string name, string typeDescription, string address, string description)
         {
-            var infrastructure =
-                await
+            var infrastructureId =
+                (await
                     _distributionRepository.FirstOrDefaultAsync(
                         x =>
-                            x.Name == "Hot Spot" && x.Range == address && x.SourceType == "Hot Spot") ??
-                await _distributionRepository.InsertAsync(new IndoorDistribution
+                            x.Name == "Hot Spot" && x.Range == address && x.SourceType == "Hot Spot"))?.Id ??
+
+                await _distributionRepository.InsertAndGetIdAsync(new IndoorDistribution
                             {
                                 Name = "Hot Spot",
                                 Range = address,
                                 SourceType = "Hot Spot",
                                 SourceName = description
                             });
-            await _repository.InsertHotSpot(name, typeDescription.GetEnumType<HotspotType>(), infrastructure.Id);
-            _distributionRepository.SaveChanges();
+
+            await _repository.InsertHotSpot(name, typeDescription.GetEnumType<HotspotType>(), infrastructureId);
             return _repository.SaveChanges();
         }
 
