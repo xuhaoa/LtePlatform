@@ -382,6 +382,60 @@ angular.module('parameters.list', ['myApp.region', 'huawei.mongo.parameters'])
         }
     })
 
+    .controller('CellSelectionController', function ($scope) {
+        $scope.gridOptions = {
+            enableRowSelection: true,
+            enableSelectAll: true,
+            selectionRowHeaderWidth: 35,
+            rowHeight: 35,
+            showGridFooter: true
+        };
+        $scope.gridOptions.multiSelect = true;
+        $scope.gridOptions.columnDefs = [
+            {
+                name: '小区名称',
+                cellTemplate: '<span class="text-primary">{{row.entity.eNodebName}}-{{row.entity.sectorId}}</span>'
+            },
+            { field: 'frequency', name: '频点' },
+            { field: 'pci', name: 'PCI' },
+            { field: 'tac', name: 'TAC' },
+            { field: 'prach', name: 'PRACH' },
+            { field: 'rsPower', name: 'RS功率' },
+            { field: 'indoor', name: '室内外' },
+            { field: 'height', name: '高度' },
+            { field: 'azimuth', name: '方位角' },
+            { field: 'downTilt', name: '下倾' },
+            { field: 'antennaGain', name: '天线增益(dB)' }
+        ];
+        $scope.gridOptions.data = [];
+        $scope.gridOptions.onRegisterApi = function (gridApi) {
+            $scope.gridApi = gridApi;
+        };
+    })
+    .directive('cellSelectionTable', function ($compile) {
+        return {
+            controller: 'CellSelectionController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                items: '=',
+                gridApi: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-selection></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        }
+    })
+
     .controller('LteCellFlowController', function ($scope) {
         $scope.gridOptions = {
             columnDefs: [

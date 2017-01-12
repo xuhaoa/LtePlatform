@@ -493,12 +493,14 @@
     .controller('hot.spot.cell.dialog', function ($scope, dialogTitle, address, name, $uibModalInstance, basicImportService) {
         $scope.dialogTitle = dialogTitle;
         $scope.address = address;
+        $scope.gridApi = {};
         $scope.query = function() {
             basicImportService.queryHotSpotCells(name).then(function(result) {
                 $scope.candidateIndoorCells = result;
             });
         };
         $scope.ok = function () {
+            console.log($scope.gridApi.selection.getSelectedRows());
             $uibModalInstance.close($scope.dto);
         };
         $scope.cancel = function () {
