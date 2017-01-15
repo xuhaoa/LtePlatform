@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sv"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <ImageView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_margin="5dip"
-        android:src="@drawable/icon" />
-    <TextView
-        android:id="@+id/text"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="@string/welcomeText" />
-    <Button
-        android:id="@+id/MyButton"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/Hello" />
-</LinearLayout>
+        android:layout_height="fill_parent"
+        android:isScrollContainer="true">
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Name" />
+        <EditText
+            android:id="@+id/Name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text|textCapWords" />
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Email" />
+        <EditText
+            android:id="@+id/Email"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text|textEmailAddress" />
+        <TextView />
+        <EditText />
+        <TextView />
+        <EditText />
+        <TextView />
+        <EditText />
+    </LinearLayout>
+</ScrollView>
