@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Hello">Hello World, Click Me!</string>
+    <string name="Name">用户名</string>
     <string name="ApplicationName">Lte.Android</string>
-  <string name="welcomeText">Welcome to China!</string>
+  <string name="Email">电子邮箱</string>
 </resources>
