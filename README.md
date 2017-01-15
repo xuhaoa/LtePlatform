@@ -4,7 +4,7 @@ This is a .net solution for LTE wireless network optimization when I work in Chi
 ##项目总体结构
 ##后端模块
 ###数据库接口模块
-    详细说明详见![这里](https://github.com/ouyh18/LtePlatform/blob/master/Databases.md)
+    详细说明详见[这里](https://github.com/ouyh18/LtePlatform/blob/master/Databases.md)
 ##Lte.Evaluations
 ###数据视图
 ###数据业务
