@@ -33,17 +33,17 @@ namespace Lte.Parameters.Concrete.Infrastructure
             return GetAll().Where(x => x.InfrastructureType == InfrastructureType.HotSpot).ToList();
         }
 
-        public async Task InsertCollegeCell(string collegeName, int id)
+        public async Task InsertHotSpotCell(string hotSpotName, HotspotType hotspotType, int id)
         {
             var infrastructure = FirstOrDefault(x =>
-                x.HotspotName == collegeName && x.HotspotType == HotspotType.College &&
+                x.HotspotName == hotSpotName && x.HotspotType == hotspotType &&
                 x.InfrastructureType == InfrastructureType.Cell && x.InfrastructureId == id);
             if (infrastructure == null)
             {
                 await InsertAsync(new InfrastructureInfo
                 {
-                    HotspotName = collegeName,
-                    HotspotType = HotspotType.College,
+                    HotspotName = hotSpotName,
+                    HotspotType = hotspotType,
                     InfrastructureType = InfrastructureType.Cell,
                     InfrastructureId = id
                 });

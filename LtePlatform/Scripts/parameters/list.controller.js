@@ -500,11 +500,13 @@
             });
         };
         $scope.ok = function () {
-            console.log($scope.gridApi.selection.getSelectedRows());
             $uibModalInstance.close($scope.dto);
         };
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
+        $scope.importCells=function() {
+            console.log($scope.gridApi.selection.getSelectedRows());
+        }
         $scope.query();
     });

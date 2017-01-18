@@ -6,10 +6,16 @@
 </div>
 <div class="modal-body form-horizontal">
 	<h5><i>热点地址：{{address}}</i></h5>
-	<div cell-selection-table items="candidateIndoorCells" grid-api="gridApi"></div>
+	<button class="btn btn-success" ng-click="importCells()">批量导入小区</button>
+	<div class="panel panel-teal">
+		<div class="panel-heading">热点匹配小区</div>
+		<div class="panel-body">
+			<div cell-selection-table items="candidateIndoorCells" grid-api="gridApi"></div>
+		</div>
+	</div>
+	
 </div>
 <div class="modal-footer">
-	<button class="btn btn-primary" ng-click="addCells()"></button>
 	<button class="btn btn-warning" ng-click="ok()">保存信息</button>
 	<button class="btn btn-default" type="button" ng-click="cancel()">放弃保存</button>
 </div>

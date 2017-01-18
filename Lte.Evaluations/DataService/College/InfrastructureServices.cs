@@ -113,18 +113,23 @@ namespace Lte.Evaluations.DataService.College
                     query.Select(x => CellView.ConstructView(x, _eNodebRepository)))
                 : null;
         }
-
-        public async Task<int> UpdateCells(CollegeCellNamesContainer container)
+        
+        public async Task<int> UpdateHotSpotCells(CollegeCellNamesContainer container)
         {
+            var hotSpot = await _repository.FirstOrDefaultAsync(x => x.HotspotName == container.CollegeName);
+            if (hotSpot == null) return 0;
             foreach (var cell in from cellName in container.CellNames
-                                 select cellName.GetSplittedFields('-') 
-                                 into fields where fields.Length > 1
-                                 let eNodeb = _eNodebRepository.GetByName(fields[0]) where eNodeb != null
-                                 select _cellRepository.GetBySectorId(eNodeb.ENodebId, fields[1].ConvertToByte(0)) 
-                                 into cell where cell != null
+                                 select cellName.GetSplittedFields('-')
+                                 into fields
+                                 where fields.Length > 1
+                                 let eNodeb = _eNodebRepository.GetByName(fields[0])
+                                 where eNodeb != null
+                                 select _cellRepository.GetBySectorId(eNodeb.ENodebId, fields[1].ConvertToByte(0))
+                                 into cell
+                                 where cell != null
                                  select cell)
             {
-                await _repository.InsertCollegeCell(container.CollegeName, cell.Id);
+                await _repository.InsertHotSpotCell(container.CollegeName, hotSpot.HotspotType, cell.Id);
             }
             return _repository.SaveChanges();
         }

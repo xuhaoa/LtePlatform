@@ -218,5 +218,5 @@ namespace Lte.Evaluations.MapperSerive.Infrastructure
         public string CollegeName { get; set; }
 
         public IEnumerable<string> CellNames { get; set; }
-    }
+    } 
 }

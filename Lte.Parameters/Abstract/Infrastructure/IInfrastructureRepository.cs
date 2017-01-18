@@ -17,7 +17,7 @@ namespace Lte.Parameters.Abstract.Infrastructure
 
         List<InfrastructureInfo> GetAllHotSpots();
 
-        Task InsertCollegeCell(string collegeName, int id);
+        Task InsertHotSpotCell(string hotSpotName, HotspotType hotspotType, int id);
 
         Task InsertCollegeENodeb(string collegeName, int id);
 
