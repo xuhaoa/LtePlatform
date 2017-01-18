@@ -490,7 +490,8 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('hot.spot.cell.dialog', function ($scope, dialogTitle, address, name, $uibModalInstance, basicImportService) {
+    .controller('hot.spot.cell.dialog', function ($scope, dialogTitle, address, name, $uibModalInstance,
+        basicImportService, collegeQueryService) {
         $scope.dialogTitle = dialogTitle;
         $scope.address = address;
         $scope.gridApi = {};
@@ -505,8 +506,17 @@
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
-        $scope.importCells=function() {
-            console.log($scope.gridApi.selection.getSelectedRows());
+        $scope.importCells = function () {
+            var cellNames = [];
+            angular.forEach($scope.gridApi.selection.getSelectedRows(), function (cell) {
+                cellNames.push(cell.cellName);
+            });
+            collegeQueryService.saveCollegeCells({
+                collegeName: name,
+                cellNames: cellNames
+            }).then(function () {
+                console.log(cellNames);
+            });
         }
         $scope.query();
     });
