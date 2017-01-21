@@ -29,6 +29,26 @@ namespace LtePlatform.Controllers.College
         }
     }
 
+    [ApiControl("查询热点LTE小区的控制器")]
+    public class HotSpotCellsController : ApiController
+    {
+        private readonly CollegeCellViewService _viewService;
+
+        public HotSpotCellsController(CollegeCellViewService viewService)
+        {
+            _viewService = viewService;
+        }
+
+        [HttpGet]
+        [ApiDoc("查询热点LTE小区")]
+        [ApiParameterDoc("name", "热点名称")]
+        [ApiResponse("热点LTE小区列表")]
+        public IEnumerable<CellRruView> Get(string name)
+        {
+            return _viewService.GetRruViews(name);
+        } 
+    }
+
     [ApiControl("校园网/热点小区批量更新控制器")]
     public class CollegeCellContainerController : ApiController
     {

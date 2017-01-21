@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Lte.Domain.Common.Wireless;
+using Lte.MySqlFramework.Abstract;
 
 namespace Lte.Evaluations.DataService.College
 {
@@ -43,13 +44,15 @@ namespace Lte.Evaluations.DataService.College
         private readonly IInfrastructureRepository _repository;
         private readonly ICellRepository _cellRepository;
         private readonly IENodebRepository _eNodebRepository;
+        private readonly ILteRruRepository _rruRepository;
 
         public CollegeCellViewService(IInfrastructureRepository repository, ICellRepository cellRepoistory,
-            IENodebRepository eNodebRepository)
+            IENodebRepository eNodebRepository, ILteRruRepository rruRepository)
         {
             _repository = repository;
             _cellRepository = cellRepoistory;
             _eNodebRepository = eNodebRepository;
+            _rruRepository = rruRepository;
         }
 
         public IEnumerable<CellView> GetViews(string collegeName)
@@ -60,6 +63,19 @@ namespace Lte.Evaluations.DataService.College
                 ? query.Select(x => CellView.ConstructView(x, _eNodebRepository))
                 : new List<CellView>();
         }
+
+        public IEnumerable<CellRruView> GetRruViews(string name)
+        {
+            var hotSpot =
+                _repository.FirstOrDefault(
+                    x => x.HotspotName == name && x.InfrastructureType == InfrastructureType.HotSpot);
+            if (hotSpot == null) return new List<CellRruView>();
+            var ids = _repository.GetHotSpotInfrastructureIds(name, InfrastructureType.Cell, hotSpot.HotspotType);
+            var query = ids.Select(_cellRepository.Get).Where(cell => cell != null).ToList();
+            return query.Any()
+                ? query.Select(x => CellRruView.ConstructView(x, _eNodebRepository, _rruRepository))
+                : new List<CellRruView>();
+        } 
 
     }
 

@@ -10,7 +10,9 @@ namespace Lte.Parameters.Abstract.Infrastructure
     public interface IInfrastructureRepository : IRepository<InfrastructureInfo>, ISaveChanges
     {
         IEnumerable<int> GetCollegeInfrastructureIds(string collegeName, InfrastructureType type);
-        
+
+        IEnumerable<int> GetHotSpotInfrastructureIds(string name, InfrastructureType type, HotspotType hotspotType);
+
         InfrastructureInfo GetTopPreciseMonitor(int id);
 
         List<InfrastructureInfo> GetAllPreciseMonitor();

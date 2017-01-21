@@ -17,7 +17,14 @@ namespace Lte.Parameters.Concrete.Infrastructure
                 x.HotspotName == collegeName && x.InfrastructureType == type && x.HotspotType == HotspotType.College
                 ).Select(x => x.InfrastructureId).ToList();
         }
-        
+
+        public IEnumerable<int> GetHotSpotInfrastructureIds(string name, InfrastructureType type, HotspotType hotspotType)
+        {
+            return GetAll().Where(x =>
+                x.HotspotName == name && x.InfrastructureType == type && x.HotspotType == hotspotType
+                ).Select(x => x.InfrastructureId).ToList();
+        }
+
         public InfrastructureInfo GetTopPreciseMonitor(int id)
         {
             return FirstOrDefault(x => x.InfrastructureId == id && x.HotspotType == HotspotType.TopPrecise);
