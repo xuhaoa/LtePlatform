@@ -288,11 +288,11 @@
     })
     .controller("query.topic", function ($scope, customerDialogService, basicImportService) {
         $scope.page.title = "专题优化管理";
-        $scope.query=function() {
-            basicImportService.queryAllHotSpots().then(function(result) {
+        $scope.query = function () {
+            basicImportService.queryAllHotSpots().then(function (result) {
                 $scope.hotSpotList = result;
             });
-        }
+        };
         $scope.addHotSpot = function () {
             customerDialogService.constructHotSpot(function() {
                 $scope.query();
@@ -491,13 +491,16 @@
         };
     })
     .controller('hot.spot.cell.dialog', function ($scope, dialogTitle, address, name, $uibModalInstance,
-        basicImportService, collegeQueryService) {
+        basicImportService, collegeQueryService, complainService) {
         $scope.dialogTitle = dialogTitle;
         $scope.address = address;
         $scope.gridApi = {};
         $scope.query = function() {
             basicImportService.queryHotSpotCells(name).then(function(result) {
                 $scope.candidateIndoorCells = result;
+            });
+            complainService.queryHotSpotCells(name).then(function(result) {
+                $scope.existedCells = result;
             });
         };
         $scope.ok = function () {

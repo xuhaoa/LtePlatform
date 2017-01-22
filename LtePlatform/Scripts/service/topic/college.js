@@ -832,6 +832,11 @@
                 return generalHttpService.getApiData("ComplainQuery", {
                     countDate: date
                 });
+            },
+            queryHotSpotCells: function(name) {
+                return generalHttpService.getApiData('HotSpotCells', {
+                    name: name
+                });
             }
         }
     })
