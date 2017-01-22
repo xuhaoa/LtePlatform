@@ -341,7 +341,10 @@ angular.module('parameters.list', ['myApp.region', 'huawei.mongo.parameters'])
                     cellTemplate: '<span class="text-primary">{{row.entity.eNodebName}}-{{row.entity.sectorId}}</span>'
                 },
                 { field: 'frequency', name: '频点' },
-                { field: 'rruName', name: 'RRU名称' },
+                {
+                    name: 'RRU名称',
+                    cellTemplate: '<span class="text-primary">{{row.entity.rruName}}</span>'
+                },
                 { field: 'eNodebId', name: '基站编号' },
                 { field: 'antennaFactoryDescription', name: '天线厂家' },
                 { field: 'indoor', name: '室内外' },

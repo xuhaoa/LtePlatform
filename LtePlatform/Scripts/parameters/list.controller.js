@@ -518,7 +518,7 @@
                 collegeName: name,
                 cellNames: cellNames
             }).then(function () {
-                console.log(cellNames);
+                $scope.query();
             });
         }
         $scope.query();
