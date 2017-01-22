@@ -63,7 +63,7 @@
     .factory('collegeQueryService', function(generalHttpService) {
         return {
             queryByName: function(name) {
-                return generalHttpService.getApiData('CollegeQuery', {
+                return generalHttpService.getApiData('CollegeName', {
                     name: name
                 });
             },

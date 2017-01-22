@@ -45,14 +45,17 @@ namespace Lte.Evaluations.DataService.College
         private readonly ICellRepository _cellRepository;
         private readonly IENodebRepository _eNodebRepository;
         private readonly ILteRruRepository _rruRepository;
+        private readonly IIndoorDistributionRepository _indoorDistributionRepository;
 
         public CollegeCellViewService(IInfrastructureRepository repository, ICellRepository cellRepoistory,
-            IENodebRepository eNodebRepository, ILteRruRepository rruRepository)
+            IENodebRepository eNodebRepository, ILteRruRepository rruRepository, 
+            IIndoorDistributionRepository indoorDistributionRepository)
         {
             _repository = repository;
             _cellRepository = cellRepoistory;
             _eNodebRepository = eNodebRepository;
             _rruRepository = rruRepository;
+            _indoorDistributionRepository = indoorDistributionRepository;
         }
 
         public IEnumerable<CellView> GetViews(string collegeName)
@@ -72,6 +75,21 @@ namespace Lte.Evaluations.DataService.College
             if (hotSpot == null) return new List<CellRruView>();
             var ids = _repository.GetHotSpotInfrastructureIds(name, InfrastructureType.Cell, hotSpot.HotspotType);
             var query = ids.Select(_cellRepository.Get).Where(cell => cell != null).ToList();
+            var validPoints =
+                query.Where(x => x.Longtitute > 110 && x.Longtitute < 120 && x.Lattitute > 20 && x.Lattitute < 30);
+            if (validPoints.Any())
+            {
+                var longtitute = validPoints.Average(x => x.Longtitute);
+                var lattitute = validPoints.Average(x => x.Lattitute);
+                var distribution = _indoorDistributionRepository.FirstOrDefault(x =>
+                    x.Name == "Hot Spot" && x.Id == hotSpot.InfrastructureId && x.SourceType == "Hot Spot");
+                if (distribution != null)
+                {
+                    distribution.Longtitute = longtitute;
+                    distribution.Lattitute = lattitute;
+                    _indoorDistributionRepository.SaveChanges();
+                }
+            }
             return query.Any()
                 ? query.Select(x => CellRruView.ConstructView(x, _eNodebRepository, _rruRepository))
                 : new List<CellRruView>();

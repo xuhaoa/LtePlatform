@@ -31,16 +31,10 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
-        [ApiDoc("根据名称查询校园网信息")]
+        [ApiDoc("根据名称和年份查询校园网信息")]
         [ApiParameterDoc("name", "校园名称")]
+        [ApiParameterDoc("year", "年份")]
         [ApiResponse("校园网信息")]
-        public IHttpActionResult Get(string name)
-        {
-            var info = _service.QueryInfo(name);
-            return info == null ? (IHttpActionResult)BadRequest("College Name Not Found!") : Ok(info);
-        }
-
-        [HttpGet]
         public CollegeYearInfo Get(string name, int year)
         {
             return _service.QueryInfo(name, year);
@@ -61,6 +55,27 @@ namespace LtePlatform.Controllers.College
         {
             return await _service.SaveYearInfo(info);
         } 
+    }
+
+    public class CollegeNameController : ApiController
+    {
+        private readonly CollegeStatService _service;
+
+        public CollegeNameController(CollegeStatService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        [ApiDoc("根据名称查询校园网信息")]
+        [ApiParameterDoc("name", "校园名称")]
+        [ApiResponse("校园网信息")]
+        public IHttpActionResult Get(string name)
+        {
+            var info = _service.QueryInfo(name);
+            return info == null ? (IHttpActionResult)BadRequest("College Name Not Found!") : Ok(info);
+        }
+
     }
 
     [ApiControl("校园网按年查询控制器")]

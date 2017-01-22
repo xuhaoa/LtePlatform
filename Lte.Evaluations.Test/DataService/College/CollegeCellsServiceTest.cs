@@ -29,7 +29,7 @@ namespace Lte.Evaluations.DataService.College
             module.PostInitialize();
             _service = new CollegeCellsService(_repository.Object, _cellRepository.Object, _eNodebRepository.Object);
             _viewService = new CollegeCellViewService(_repository.Object, _cellRepository.Object,
-                _eNodebRepository.Object, null);
+                _eNodebRepository.Object, null, null);
             _repository.MockOperations();
             _repository.MockSixCollegeCells();
             _cellRepository.MockGetId<ICellRepository, Cell>();
