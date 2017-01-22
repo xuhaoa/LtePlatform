@@ -60,6 +60,11 @@ namespace Lte.Domain.Common.Wireless
         Unkown
     }
 
+    public class AntennaFactoryDescriptionTransform : DescriptionTransform<AntennaFactory>
+    {
+        
+    }
+
     public class AntennaFactoryTransform : EnumTransform<AntennaFactory>
     {
         public AntennaFactoryTransform() : base(AntennaFactory.Unkown)

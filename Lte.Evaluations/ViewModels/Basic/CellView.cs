@@ -124,10 +124,23 @@ namespace Lte.Evaluations.ViewModels.Basic
         public string AntennaInfo { get; set; }
 
         [MemberDoc("天线厂家")]
-        public AntennaFactory AntennaFactory { get; set; }
+        [AutoMapPropertyResolve("AntennaFactory", typeof(LteRru), typeof(AntennaFactoryDescriptionTransform))]
+        public string AntennaFactoryDescription { get; set; }
 
         [MemberDoc("天线型号")]
         public string AntennaModel { get; set; }
+
+        [MemberDoc("机械下倾")]
+        public double MTilt { get; set; }
+
+        [MemberDoc("电子下倾")]
+        public double ETilt { get; set; }
+
+        [MemberDoc("总下倾角")]
+        public double DownTilt => MTilt + ETilt;
+
+        [MemberDoc("天线增益，单位是dB")]
+        public double AntennaGain { get; set; }
 
         public static CellRruView ConstructView(Cell cell, IENodebRepository repository, ILteRruRepository rruRepository)
         {

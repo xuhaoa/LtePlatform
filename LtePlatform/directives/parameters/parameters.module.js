@@ -333,6 +333,49 @@ angular.module('parameters.list', ['myApp.region', 'huawei.mongo.parameters'])
         };
     })
 
+    .controller('CellRruController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                {
+                    name: '小区名称',
+                    cellTemplate: '<span class="text-primary">{{row.entity.eNodebName}}-{{row.entity.sectorId}}</span>'
+                },
+                { field: 'frequency', name: '频点' },
+                { field: 'rruName', name: 'RRU名称' },
+                { field: 'eNodebId', name: '基站编号' },
+                { field: 'antennaFactoryDescription', name: '天线厂家' },
+                { field: 'indoor', name: '室内外' },
+                { field: 'antennaInfo', name: '天线信息' },
+                { field: 'antennaModel', name: '天线型号' },
+                { field: 'downTilt', name: '下倾' },
+                { field: 'antennaGain', name: '天线增益(dB)' }
+            ],
+            data: []
+        };
+    })
+    .directive('cellRruTable', function ($compile) {
+        return {
+            controller: 'CellRruController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                items: '='
+            },
+            template: '<div></div>',
+            link: function (scope, element, attrs) {
+                scope.initialize = false;
+                scope.$watch('items', function (items) {
+                    scope.gridOptions.data = items;
+                    if (!scope.initialize) {
+                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                        element.append(linkDom);
+                        scope.initialize = true;
+                    }
+                });
+            }
+        };
+    })
+
     .controller('LteCellController', function ($scope) {
         $scope.gridOptions = {
             columnDefs: [
