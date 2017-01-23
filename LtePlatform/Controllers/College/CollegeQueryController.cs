@@ -7,6 +7,7 @@ using LtePlatform.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Lte.Domain.Common.Wireless;
 
 namespace LtePlatform.Controllers.College
 {
@@ -166,6 +167,25 @@ namespace LtePlatform.Controllers.College
     }
 
     [ApiControl("校园网区域查询控制器")]
+    public class CollegeRangeController : ApiController
+    {
+        private readonly ICollegeRepository _repository;
+
+        public CollegeRangeController(ICollegeRepository repository)
+        {
+            _repository = repository;
+        }
+
+        [ApiDoc("查询校园网区域范围")]
+        [ApiParameterDoc("collegeName", "校园名称")]
+        [ApiResponse("校园网区域信息，包括东南西北的坐标点")]
+        [HttpGet]
+        public RectangleRange Get(string collegeName)
+        {
+            return _repository.GetRange(collegeName);
+        }
+    }
+
     public class CollegeRegionController : ApiController
     {
         private readonly ICollegeRepository _repository;
@@ -184,15 +204,6 @@ namespace LtePlatform.Controllers.College
             return region == null
                 ? (IHttpActionResult)BadRequest("College Id Not Found Or without region!")
                 : Ok(region);
-        }
-
-        [ApiDoc("查询校园网区域范围")]
-        [ApiParameterDoc("collegeName", "校园名称")]
-        [ApiResponse("校园网区域信息，包括东南西北的坐标点")]
-        public IHttpActionResult Get(string collegeName)
-        {
-            var range = _repository.GetRange(collegeName);
-            return range == null ? (IHttpActionResult)BadRequest("College Not Found Or without region!") : Ok(range);
         }
     }
 }

@@ -13,7 +13,7 @@
                 return generalHttpService.getApiData('CollegeRegion/' + id, {});
             },
             queryRange: function(name) {
-                return generalHttpService.getApiData('CollegeRegion', {
+                return generalHttpService.getApiData('CollegeRange', {
                     collegeName: name
                 });
             },
