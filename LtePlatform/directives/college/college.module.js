@@ -171,7 +171,7 @@ angular.module('college.dt', ['ui.grid'])
         };
     });
 
-angular.module('college.info', ['college.service', 'myApp.region'])
+angular.module('college.info', ['college.service', 'myApp.region', 'myApp.url'])
     .controller('CollegeInfoController', function($scope) {
         $scope.gridOptions = {
             columnDefs: [
@@ -187,28 +187,14 @@ angular.module('college.info', ['college.service', 'myApp.region'])
             data: []
         };
     })
-    .directive('collegeInfoList', function ($compile) {
-        return {
-            controller: 'CollegeInfoController',
-            controllerAs: 'collegeInfo',
-            restrict: 'EA',
-            replace: true,
+    .directive('collegeInfoList', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'CollegeInfoController',
             scope: {
                 colleges: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('colleges', function(colleges) {
-                    scope.gridOptions.data = colleges;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
+            argumentName: 'colleges'
+        }, $compile);
     })
 
     .controller('CollegeFlowController', function ($scope) {

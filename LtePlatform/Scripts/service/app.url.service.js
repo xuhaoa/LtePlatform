@@ -846,6 +846,26 @@
                     rate110: (sum115 + sum110) / sum,
                     rate105: (sum115 + sum110 + sum105) / sum
                 };
+            },
+            generateGridDirective: function(settings, $compile) {
+                return {
+                    controller: settings.controllerName,
+                    restrict: 'EA',
+                    replace: true,
+                    scope: settings.scope,
+                    template: '<div></div>',
+                    link: function (scope, element, attrs) {
+                        scope.initialize = false;
+                        scope.$watch(settings.argumentName, function (items) {
+                            scope.gridOptions.data = items;
+                            if (!scope.initialize) {
+                                var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
+                                element.append(linkDom);
+                                scope.initialize = true;
+                            }
+                        });
+                    }
+                };
             }
         };
     });
