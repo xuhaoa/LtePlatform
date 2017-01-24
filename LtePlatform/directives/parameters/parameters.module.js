@@ -47,7 +47,7 @@ angular.module('parameters.infrastructure', [])
         }
     });
 
-angular.module('parameters.list', ['myApp.region', 'huawei.mongo.parameters'])
+angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huawei.mongo.parameters'])
     .directive('alarmTable', function(parametersRoot) {
         return {
             restrict: 'ECMA',
@@ -458,28 +458,15 @@ angular.module('parameters.list', ['myApp.region', 'huawei.mongo.parameters'])
             $scope.gridApi = gridApi;
         };
     })
-    .directive('cellSelectionTable', function ($compile) {
-        return {
-            controller: 'CellSelectionController',
-            restrict: 'EA',
-            replace: true,
+    .directive('cellSelectionTable', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'CollegeSelectionController',
             scope: {
                 items: '=',
                 gridApi: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-selection></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        }
+            argumentName: 'items'
+        }, $compile); 
     })
 
     .controller('LteCellFlowController', function ($scope) {
