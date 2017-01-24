@@ -1,6 +1,5 @@
-﻿angular.module('college.module', ['college.dt', 'college.info']);
+﻿angular.module('college.module', ['ui.grid', 'college.service', 'myApp.region', 'myApp.url'])
 
-angular.module('college.dt', ['ui.grid'])
     .controller('CollegeDtController', function($scope) {
         $scope.gridOptions = {
             columnDefs: [
@@ -93,27 +92,14 @@ angular.module('college.dt', ['ui.grid'])
             data: []
         };
     })
-    .directive('collegeTest3List', function ($compile) {
-        return {
-            controller: 'College3GController',
-            restrict: 'EA',
-            replace: true,
+    .directive('collegeTest3List', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'College3GController',
             scope: {
                 items: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
+            argumentName: 'items'
+        }, $compile);
     })
     .controller('College4GController', function ($scope, uiGridConstants) {
         $scope.gridOptions = {
@@ -148,30 +134,16 @@ angular.module('college.dt', ['ui.grid'])
             data: []
         };
     })
-    .directive('collegeTest4List', function ($compile) {
-        return {
-            controller: 'College4GController',
-            restrict: 'EA',
-            replace: true,
+    .directive('collegeTest4List', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'College4GController',
             scope: {
                 items: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
-    });
+            argumentName: 'items'
+        }, $compile); 
+    })
 
-angular.module('college.info', ['college.service', 'myApp.region', 'myApp.url'])
     .controller('CollegeInfoController', function($scope) {
         $scope.gridOptions = {
             columnDefs: [
