@@ -1,4 +1,4 @@
-﻿angular.module('myApp.url', [])
+﻿angular.module('myApp.url', ['ui.grid'])
 	.factory('appUrlService', function() {
 		var parseQueryString = function(queryString) {
 			var data = {}, pair, separatorIndex, escapedKey, escapedValue, key, value;

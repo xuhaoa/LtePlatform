@@ -751,7 +751,7 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('cell.supplement.dialog', function ($scope, $uibModalInstance, networkElementService, geometryService,
+    .controller('cell.supplement.dialog', function ($scope, $uibModalInstance, networkElementService, neighborImportService,
         eNodebs, cells, collegeName) {
         $scope.dialogTitle = collegeName + "LTE小区补充";
         $scope.supplementCells = [];
@@ -759,22 +759,12 @@
 
         angular.forEach(eNodebs, function (eNodeb) {
             networkElementService.queryCellInfosInOneENodeb(eNodeb.eNodebId).then(function (cellInfos) {
-                angular.forEach(cellInfos, function (dstCell) {
-                    var i;
-                    for (i = 0; i < cells.length; i++) {
-                        if (dstCell.cellName === cells[i].eNodebName + '-' + cells[i].sectorId) {
-                            break;
-                        }
-                    }
-                    if (i === cells.length) {
-                        dstCell.distance = geometryService.getDistance(eNodeb.lattitute, eNodeb.longtitute, dstCell.lattitute, dstCell.longtitute);
-                        networkElementService.queryLteRruFromCellName(dstCell.cellName).then(function (rru) {
-                            dstCell.rruName = rru ? rru.rruName : '';
-                            $scope.supplementCells.push(dstCell);
-                        });
-                    }
+                neighborImportService.updateCellRruInfo($scope.supplementCells, {
+                    dstCells: cellInfos,
+                    cells: cells,
+                    longtitute: eNodeb.longtitute,
+                    lattitute: eNodeb.lattitute
                 });
-                $scope.gridOptions.data = $scope.supplementCells;
             });
         });
 
@@ -788,20 +778,13 @@
     })
 
     .controller('cell.position.supplement.dialog', function ($scope, $uibModalInstance, collegeMapService, geometryService, collegeService,
-        networkElementService, collegeName) {
+        networkElementService, neighborImportService, collegeName) {
         $scope.dialogTitle = collegeName + "LTE小区补充";
         $scope.supplementCells = [];
         $scope.gridApi = {};
 
         collegeMapService.queryCenterAndCallback(collegeName, function(center) {
-            var ids = [];
             collegeService.queryCells(collegeName).then(function(cells) {
-                angular.forEach(cells, function(cell) {
-                    ids.push({
-                        eNodebId: cell.eNodebId,
-                        sectorId: cell.sectorId
-                    });
-                });
                 geometryService.transformToBaidu(center.X, center.Y).then(function(coors) {
                     collegeService.queryRange(collegeName).then(function(range) {
                         networkElementService.queryRangeCells({
@@ -810,24 +793,13 @@
                             south: range.south + center.Y - coors.y,
                             north: range.north + center.Y - coors.y
                         }).then(function (results) {
-                            angular.forEach(results, function(item) {
-                                var i;
-                                for (i = 0; i < ids.length; i++) {
-                                    if (ids[i].eNodebId === item.eNodebId && ids[i].sectorId === item.sectorId) {
-                                        break;
-                                    }
-                                }
-                                if (i === ids.length) {
-                                    networkElementService.queryCellInfo(item.eNodebId,item.sectorId).then(function(view) {
-                                        networkElementService.queryLteRruFromCellName(view.cellName).then(function(rru) {
-                                            view.rruName = rru ? rru.rruName : '';
-                                            $scope.supplementCells.push(view);
-                                        });
-                                    });
-                                }
+                            neighborImportService.updateENodebRruInfo($scope.supplementCells, {
+                                dstCells: results,
+                                cells: cells,
+                                longtitute: center.X - coors.x,
+                                lattitute: center.Y - coors.y
                             });
                         });
-                        $scope.gridOptions.data = $scope.supplementCells;
                     });
                 });
             });

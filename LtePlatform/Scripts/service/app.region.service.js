@@ -602,7 +602,7 @@
             }
         };
     })
-    .factory('neighborImportService', function () {
+    .factory('neighborImportService', function (geometryService, networkElementService) {
         return {
             updateSuccessProgress: function (result, progressInfo, callback) {
                 if (result) {
@@ -627,6 +627,42 @@
                     progressInfo.totalSuccessItems = 0;
                     progressInfo.totalFailItems = 0;
                 }
+            },
+            updateCellRruInfo: function (supplementCells, settings) {
+                angular.forEach(settings.dstCells, function (dstCell) {
+                    var i;
+                    for (i = 0; i < settings.cells.length; i++) {
+                        if (dstCell.cellName === settings.cells[i].eNodebName + '-' + settings.cells[i].sectorId) {
+                            break;
+                        }
+                    }
+                    if (i === settings.cells.length) {
+                        dstCell.distance = geometryService.getDistance(settings.lattitute, settings.longtitute, dstCell.lattitute, dstCell.longtitute);
+                        networkElementService.queryLteRruFromCellName(dstCell.cellName).then(function (rru) {
+                            dstCell.rruName = rru ? rru.rruName : '';
+                            supplementCells.push(dstCell);
+                        });
+                    }
+                });
+            },
+            updateENodebRruInfo: function(supplementCells, settings) {
+                angular.forEach(settings.dstCells, function (item) {
+                    var i;
+                    for (i = 0; i < settings.cells.length; i++) {
+                        if (settings.cells[i].eNodebId === item.eNodebId && settings.cells[i].sectorId === item.sectorId) {
+                            break;
+                        }
+                    }
+                    if (i === settings.cells.length) {
+                        networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function (view) {
+                            view.distance = geometryService.getDistance(settings.lattitute, settings.longtitute, item.lattitute, item.longtitute);
+                            networkElementService.queryLteRruFromCellName(view.cellName).then(function (rru) {
+                                view.rruName = rru ? rru.rruName : '';
+                                supplementCells.push(view);
+                            });
+                        });
+                    }
+                });
             }
         }
     })
