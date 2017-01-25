@@ -1,5 +1,5 @@
 ﻿angular.module("myApp", ['app.common'])
-.controller("neighbor.import", function ($scope, neighborImportService, flowImportService) {
+.controller("neighbor.import", function ($scope, basicImportService, neighborImportService, flowImportService) {
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 7);
     $scope.beginDate = {
@@ -16,14 +16,14 @@
         totalDumpItems: 0
     };
     $scope.clearItems = function () {
-        neighborImportService.clearDumpNeighbors().then(function () {
+        basicImportService.clearDumpNeighbors().then(function () {
             $scope.progressInfo.totalDumpItems = 0;
             $scope.progressInfo.totalSuccessItems = 0;
             $scope.progressInfo.totalFailItems = 0;
         });
     };
     $scope.dumpItems = function () {
-        neighborImportService.dumpSingleItem().then(function (result) {
+        basicImportService.dumpSingleItem().then(function (result) {
             neighborImportService.updateSuccessProgress(result, $scope.progressInfo, $scope.dumpNeighborItems);
         }, function () {
             neighborImportService.updateFailProgress($scope.progressInfo, $scope.dumpNeighborItems);
@@ -69,7 +69,7 @@
         });
     };
     $scope.updateDumpHistory = function() {
-        neighborImportService.queryDumpNeighbors().then(function(result) {
+        basicImportService.queryDumpNeighbors().then(function(result) {
             $scope.progressInfo.totalDumpItems = result;
         });
         flowImportService.queryHuaweiFlows().then(function(result) {

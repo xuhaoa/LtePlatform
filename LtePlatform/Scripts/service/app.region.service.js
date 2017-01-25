@@ -590,11 +590,7 @@
                 return generalHttpService.getApiData('LteRruCell', {
                     rruName: name
                 });
-            }
-        };
-    })
-    .factory('neighborImportService', function (generalHttpService) {
-        return {
+            },
             queryDumpNeighbors: function () {
                 return generalHttpService.getApiData('DumpNeighbor', {});
             },
@@ -603,7 +599,11 @@
             },
             dumpSingleItem: function () {
                 return generalHttpService.putApiData('DumpNeighbor', {});
-            },
+            }
+        };
+    })
+    .factory('neighborImportService', function () {
+        return {
             updateSuccessProgress: function (result, progressInfo, callback) {
                 if (result) {
                     progressInfo.totalSuccessItems += 1;
