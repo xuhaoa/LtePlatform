@@ -490,17 +490,32 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('hot.spot.cell.dialog', function ($scope, dialogTitle, address, name, $uibModalInstance,
-        basicImportService, collegeQueryService, complainService) {
+    .controller('hot.spot.cell.dialog', function ($scope, dialogTitle, address, name, center, $uibModalInstance,
+        basicImportService, collegeQueryService, networkElementService, neighborImportService, complainService) {
         $scope.dialogTitle = dialogTitle;
         $scope.address = address;
         $scope.gridApi = {};
+        $scope.gridApi2 = {};
         $scope.query = function() {
             basicImportService.queryHotSpotCells(name).then(function(result) {
                 $scope.candidateIndoorCells = result;
             });
-            complainService.queryHotSpotCells(name).then(function(result) {
-                $scope.existedCells = result;
+            complainService.queryHotSpotCells(name).then(function (existedCells) {
+                $scope.existedCells = existedCells;
+                $scope.positionCells = [];
+                networkElementService.queryRangeCells({
+                    west: center.longtitute - 0.003,
+                    east: center.longtitute + 0.003,
+                    south: center.lattitute - 0.003,
+                    north: center.lattitute + 0.003
+                }).then(function (positions) {
+                    neighborImportService.updateENodebRruInfo($scope.positionCells, {
+                        dstCells: positions,
+                        cells: existedCells,
+                        longtitute: center.longtitute,
+                        lattitute: center.lattitute
+                    });
+                });
             });
         };
         $scope.ok = function () {
@@ -512,6 +527,9 @@
         $scope.importCells = function () {
             var cellNames = [];
             angular.forEach($scope.gridApi.selection.getSelectedRows(), function (cell) {
+                cellNames.push(cell.cellName);
+            });
+            angular.forEach($scope.gridApi2.selection.getSelectedRows(), function (cell) {
                 cellNames.push(cell.cellName);
             });
             collegeQueryService.saveCollegeCells({

@@ -943,12 +943,18 @@
                         },
                         address: function() {
                             return hotSpot.address;
+                        },
+                        center: function() {
+                            return {
+                                longtitute: hotSpot.longtitute,
+                                lattitute: hotSpot.lattitute
+                            }
                         }
                     }
                 });
 
                 modalInstance.result.then(function (dto) {
-                    console.log(dto);
+                    callback(dto);
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });

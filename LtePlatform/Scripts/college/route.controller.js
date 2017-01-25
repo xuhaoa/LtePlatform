@@ -796,8 +796,8 @@
                             neighborImportService.updateENodebRruInfo($scope.supplementCells, {
                                 dstCells: results,
                                 cells: cells,
-                                longtitute: center.X - coors.x,
-                                lattitute: center.Y - coors.y
+                                longtitute: center.X,
+                                lattitute: center.Y
                             });
                         });
                     });

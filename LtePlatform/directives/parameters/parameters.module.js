@@ -466,13 +466,19 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
         };
         $scope.gridOptions.multiSelect = true;
         $scope.gridOptions.columnDefs = [
-          { name: '小区名称', field: 'cellName' },
+            {
+                name: '小区名称',
+                cellTemplate: '<span class="text-primary">{{row.entity.cellName}}</span>'
+            },
           { name: '方位角', field: 'azimuth' },
           { name: '下倾角', field: 'downTilt' },
           { name: '频点', field: 'frequency' },
           { name: '天线挂高', field: 'height' },
           { name: '室内外', field: 'indoor' },
-          { name: 'RRU名称', field: 'rruName' },
+            {
+                name: 'RRU名称',
+                cellTemplate: '<span class="text-primary">{{row.entity.rruName}}</span>'
+            },
           { name: '与中心点距离', field: 'distance' }
         ];
 
