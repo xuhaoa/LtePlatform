@@ -472,7 +472,8 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
           { name: '频点', field: 'frequency' },
           { name: '天线挂高', field: 'height' },
           { name: '室内外', field: 'indoor' },
-          { name: 'RRU名称', field: 'rruName' }
+          { name: 'RRU名称', field: 'rruName' },
+          { name: '与中心点距离', field: 'distance' }
         ];
 
         $scope.gridOptions.data = [];
