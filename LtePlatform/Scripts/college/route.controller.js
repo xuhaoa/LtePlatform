@@ -755,23 +755,7 @@
         eNodebs, cells, collegeName) {
         $scope.dialogTitle = collegeName + "LTE小区补充";
         $scope.supplementCells = [];
-        $scope.gridOptions = {
-            enableRowSelection: true,
-            enableSelectAll: true,
-            selectionRowHeaderWidth: 35,
-            rowHeight: 35,
-            showGridFooter: true
-        };
-        $scope.gridOptions.multiSelect = true;
-        $scope.gridOptions.columnDefs = [
-          { name: '小区名称', field: 'cellName' },
-          { name: '方位角', field: 'azimuth' },
-          { name: '下倾角', field: 'downTilt' },
-          { name: '频点', field: 'frequency' },
-          { name: '室内外', field: 'indoor' },
-          { name: '与基站距离', field: 'distance' },
-          { name: 'RRU名称', field: 'rruName' }
-        ];
+        $scope.gridApi = {};
 
         angular.forEach(eNodebs, function (eNodeb) {
             networkElementService.queryCellInfosInOneENodeb(eNodeb.eNodebId).then(function (cellInfos) {
@@ -794,10 +778,6 @@
             });
         });
 
-        $scope.gridOptions.onRegisterApi = function (gridApi) {
-            $scope.gridApi = gridApi;
-        };
-
         $scope.ok = function () {
             $uibModalInstance.close($scope.gridApi.selection.getSelectedRows());
         };
@@ -811,23 +791,7 @@
         networkElementService, collegeName) {
         $scope.dialogTitle = collegeName + "LTE小区补充";
         $scope.supplementCells = [];
-        $scope.gridOptions = {
-            enableRowSelection: true,
-            enableSelectAll: true,
-            selectionRowHeaderWidth: 35,
-            rowHeight: 35,
-            showGridFooter: true
-        };
-        $scope.gridOptions.multiSelect = true;
-        $scope.gridOptions.columnDefs = [
-          { name: '小区名称', field: 'cellName' },
-          { name: '方位角', field: 'azimuth' },
-          { name: '下倾角', field: 'downTilt' },
-          { name: '频点', field: 'frequency' },
-          { name: '天线挂高', field: 'height' },
-          { name: '室内外', field: 'indoor' },
-          { name: 'RRU名称', field: 'rruName' }
-        ];
+        $scope.gridApi = {};
 
         collegeMapService.queryCenterAndCallback(collegeName, function(center) {
             var ids = [];
@@ -868,10 +832,6 @@
                 });
             });
         });
-
-        $scope.gridOptions.onRegisterApi = function (gridApi) {
-            $scope.gridApi = gridApi;
-        };
 
         $scope.ok = function () {
             $uibModalInstance.close($scope.gridApi.selection.getSelectedRows());

@@ -356,27 +356,14 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
             data: []
         };
     })
-    .directive('cellRruTable', function ($compile) {
-        return {
-            controller: 'CellRruController',
-            restrict: 'EA',
-            replace: true,
+    .directive('cellRruTable', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'CellRruController',
             scope: {
                 items: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
+            argumentName: 'items'
+        }, $compile);
     })
 
     .controller('LteCellController', function ($scope) {
@@ -459,14 +446,49 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
         };
     })
     .directive('cellSelectionTable', function ($compile, calculateService) {
-        return calculateService.generateGridDirective({
-            controllerName: 'CollegeSelectionController',
+        return calculateService.generateSelectionGridDirective({
+            controllerName: 'CellSelectionController',
             scope: {
                 items: '=',
                 gridApi: '='
             },
             argumentName: 'items'
         }, $compile); 
+    })
+
+    .controller('CellRruSelectionController', function ($scope) {
+        $scope.gridOptions = {
+            enableRowSelection: true,
+            enableSelectAll: true,
+            selectionRowHeaderWidth: 35,
+            rowHeight: 35,
+            showGridFooter: true
+        };
+        $scope.gridOptions.multiSelect = true;
+        $scope.gridOptions.columnDefs = [
+          { name: '小区名称', field: 'cellName' },
+          { name: '方位角', field: 'azimuth' },
+          { name: '下倾角', field: 'downTilt' },
+          { name: '频点', field: 'frequency' },
+          { name: '天线挂高', field: 'height' },
+          { name: '室内外', field: 'indoor' },
+          { name: 'RRU名称', field: 'rruName' }
+        ];
+
+        $scope.gridOptions.data = [];
+        $scope.gridOptions.onRegisterApi = function (gridApi) {
+            $scope.gridApi = gridApi;
+        };
+    })
+    .directive('cellRruSelectionTable', function ($compile, calculateService) {
+        return calculateService.generateSelectionGridDirective({
+            controllerName: 'CellRruSelectionController',
+            scope: {
+                items: '=',
+                gridApi: '='
+            },
+            argumentName: 'items'
+        }, $compile);
     })
 
     .controller('LteCellFlowController', function ($scope) {
