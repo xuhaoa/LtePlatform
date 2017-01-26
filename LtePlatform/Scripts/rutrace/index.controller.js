@@ -27,10 +27,6 @@
                     templateUrl: viewDir + "Top.html",
                     controller: "rutrace.top"
                 })
-                .when('/import/:cellId/:sectorId/:name', {
-                    templateUrl: viewDir + "Import.html",
-                    controller: "rutrace.import"
-                })
                 .when('/interference/:cellId/:sectorId/:name', {
                     templateUrl: viewDir + "Interference/Index.html",
                     controller: "rutrace.interference"
@@ -452,6 +448,16 @@
                 }
             });
         };
+        $scope.dump = function (cell) {
+            networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function (info) {
+                neighborDialogService.dumpMongo({
+                    eNodebId: cell.cellId,
+                    sectorId: cell.sectorId,
+                    pci: info.pci,
+                    name: cell.eNodebName
+                }, $scope.beginDate.value, $scope.endDate.value);
+            });
+        };
 
         $scope.query();
     })
@@ -608,14 +614,7 @@
         };
 
         $scope.dump = function () {
-            networkElementService.queryCellInfo($routeParams.cellId, $routeParams.sectorId).then(function (info) {
-                neighborDialogService.dumpMongo({
-                    eNodebId: $routeParams.cellId,
-                    sectorId: $routeParams.sectorId,
-                    pci: info.pci,
-                    name: $routeParams.name
-                }, $scope.beginDate.value, $scope.endDate.value);
-            });
+            
         };
 
         $scope.showReverseNeighbors();

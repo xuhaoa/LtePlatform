@@ -1,6 +1,5 @@
 ﻿angular.module('rutrace.module', [
         'rutrace.top.cell',
-        'rutrace.stat',
         'rutrace.neighbor',
         'rutrace.interference',
         'rutrace.trend',
@@ -8,8 +7,8 @@
     ])
     .constant('htmlRoot', '/directives/rutrace/');
 
-angular.module('rutrace.top.cell', ['kpi.workitem'])
-    .directive('topCell', function(workitemService, htmlRoot) {
+angular.module('rutrace.top.cell', ['kpi.workitem', 'myApp.region'])
+    .directive('topCell', function (workitemService, htmlRoot, networkElementService, neighborDialogService) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -32,11 +31,20 @@ angular.module('rutrace.top.cell', ['kpi.workitem'])
                         }
                     });
                 };
+                scope.dump = function (cell) {
+                    networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function (info) {
+                        neighborDialogService.dumpMongo({
+                            eNodebId: cell.cellId,
+                            sectorId: cell.sectorId,
+                            pci: info.pci,
+                            name: cell.eNodebName
+                        }, scope.beginDate.value, scope.endDate.value);
+                    });
+                };
             }
         };
-    });
+    })
 
-angular.module('rutrace.stat', [])
     .controller('DistrictStatController', function ($scope) {
         $scope.cityFlag = '全网';
         $scope.gridOptions = {
