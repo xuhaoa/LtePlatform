@@ -366,29 +366,78 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
         }, $compile);
     })
 
-    .controller('LteCellController', function ($scope) {
+    .controller('LteCellController', function ($scope, networkElementService, neighborDialogService) {
         $scope.gridOptions = {
             columnDefs: [
                 {
                     name: '小区名称',
                     cellTemplate: '<span class="text-primary">{{row.entity.eNodebName}}-{{row.entity.sectorId}}</span>'
                 },
-                { field: 'frequency', name: '频点' },
-                { field: 'pci', name: 'PCI' },
-                { field: 'tac', name: 'TAC' },
-                { field: 'prach', name: 'PRACH' },
-                { field: 'rsPower', name: 'RS功率' },
-                { field: 'indoor', name: '室内外' },
-                { field: 'height', name: '高度' },
-                { field: 'azimuth', name: '方位角' },
-                { field: 'downTilt', name: '下倾' },
-                { field: 'antennaGain', name: '天线增益(dB)' },
+                {
+                    field: 'frequency',
+                    name: '频点',
+                    cellTooltip: function(row, col) {
+                        return row.entity.otherInfos;
+                    }
+                },
+                {
+                    field: 'indoor',
+                    name: '室内外',
+                    cellTooltip: function (row, col) {
+                        return row.entity.otherInfos;
+                    }
+                },
+                {
+                    field: 'height',
+                    name: '高度',
+                    cellTooltip: function (row, col) {
+                        return row.entity.otherInfos;
+                    }
+                },
+                {
+                    field: 'azimuth',
+                    name: '方位角',
+                    cellTooltip: function (row, col) {
+                        return row.entity.otherInfos;
+                    }
+                },
+                {
+                    field: 'downTilt',
+                    name: '下倾',
+                    cellTooltip: function (row, col) {
+                        return row.entity.otherInfos;
+                    }
+                },
+                {
+                    field: 'antennaGain',
+                    name: '天线增益(dB)',
+                    cellTooltip: function (row, col) {
+                        return row.entity.otherInfos;
+                    },
+                    headerTooltip: function(col) {
+                        return col.displayName;
+                    }
+                },
                 {
                     name: '详细信息',
                     cellTemplate: '<a ng-href="{{grid.appScope.rootPath}}cellInfo/{{row.entity.eNodebId}}/{{row.entity.eNodebName}}/{{row.entity.sectorId}}" class="btn btn-sm btn-primary">小区信息</a>'
+                },
+                {
+                    name: '导入MR',
+                    cellTemplate: '<button class="btn btn-primary" ng-click="grid.appScope.dumpMr(row.entity)">导入</button>'
                 }
             ],
             data: []
+        };
+        $scope.dumpMr = function (cell) {
+            networkElementService.queryCellInfo(cell.eNodebId, cell.sectorId).then(function (info) {
+                neighborDialogService.dumpMongo({
+                    eNodebId: cell.eNodebId,
+                    sectorId: cell.sectorId,
+                    pci: info.pci,
+                    name: cell.eNodebName
+                }, $scope.beginDate.value, $scope.endDate.value);
+            });
         };
     })
     .directive('lteCellTable', function ($compile) {
@@ -398,7 +447,9 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
             replace: true,
             scope: {
                 items: '=',
-                rootPath: '='
+                rootPath: '=',
+                beginDate: '=',
+                endDate: '='
             },
             template: '<div></div>',
             link: function (scope, element, attrs) {

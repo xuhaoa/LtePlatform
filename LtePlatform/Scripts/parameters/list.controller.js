@@ -184,6 +184,17 @@
         $rootScope.page = {
             title: "基础数据总览"
         };
+        var lastWeek = new Date();
+        lastWeek.setDate(lastWeek.getDate() - 7);
+        $rootScope.beginDate = {
+            value: new Date(lastWeek.getFullYear(), lastWeek.getMonth(), lastWeek.getDate(), 8),
+            opened: false
+        };
+        var today = new Date();
+        $rootScope.endDate = {
+            value: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8),
+            opened: false
+        };
     })
     .controller("parameters.list", function($scope, appRegionService, parametersChartService) {
         $scope.page.title = "基础数据总览";
