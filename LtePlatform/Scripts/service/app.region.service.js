@@ -1003,6 +1003,52 @@
             }
         };
     })
+    .factory('preciseInterferenceService', function (generalHttpService) {
+        return {
+            addMonitor: function (cell) {
+                generalHttpService.postApiData('NeighborMonitor', {
+                    cellId: cell.cellId,
+                    sectorId: cell.sectorId
+                }).then(function () {
+                    cell.isMonitored = true;
+                });
+            },
+            queryMonitor: function (cellId, sectorId) {
+                return generalHttpService.getApiData('NeighborMonitor', {
+                    'cellId': cellId,
+                    'sectorId': sectorId
+                });
+            },
+            updateInterferenceNeighbor: function (cellId, sectorId) {
+                return generalHttpService.getApiData('InterferenceNeighbor', {
+                    'cellId': cellId,
+                    'sectorId': sectorId
+                });
+            },
+            queryInterferenceNeighbor: function (begin, end, cellId, sectorId) {
+                return generalHttpService.getApiData('InterferenceNeighbor', {
+                    'begin': begin,
+                    'end': end,
+                    'cellId': cellId,
+                    'sectorId': sectorId
+                });
+            },
+            updateInterferenceVictim: function (cellId, sectorId) {
+                return generalHttpService.getApiData('InterferenceNeighbor', {
+                    neighborCellId: cellId,
+                    neighborSectorId: sectorId
+                });
+            },
+            queryInterferenceVictim: function (begin, end, cellId, sectorId) {
+                return generalHttpService.getApiData('InterferenceVictim', {
+                    'begin': begin,
+                    'end': end,
+                    'cellId': cellId,
+                    'sectorId': sectorId
+                });
+            }
+        };
+    })
     .factory('dumpProgress', function (generalHttpService, appFormatService) {
         var serviceInstance = {};
 
@@ -1161,8 +1207,10 @@
 
         return serviceInstance;
     })
-    .controller('dump.cell.mongo', function ($scope, $uibModalInstance, dumpProgress, appFormatService, dumpPreciseService,
-        dialogTitle, eNodebId, sectorId, pci, begin, end) {
+    .controller('dump.cell.mongo', function ($scope, $uibModalInstance,
+        dumpProgress, appFormatService, dumpPreciseService,neighborService, neighborMongoService,
+        preciseInterferenceService, networkElementService,
+        dialogTitle, cell, begin, end) {
         $scope.dialogTitle = dialogTitle;
 
         $scope.dateRecords = [];
@@ -1181,13 +1229,13 @@
             $scope.mrsRsrpStats = [];
             $scope.mrsTaStats = [];
             angular.forEach($scope.dateRecords, function (record) {
-                dumpProgress.queryExistedItems(eNodebId, sectorId, record.date).then(function (result) {
+                dumpProgress.queryExistedItems(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
                     record.existedRecords = result;
                 });
-                dumpProgress.queryMongoItems(eNodebId, sectorId, record.date).then(function (result) {
+                dumpProgress.queryMongoItems(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
                     record.mongoRecords = result;
                 });
-                dumpProgress.queryMrsRsrpItem(eNodebId, sectorId, record.date).then(function (result) {
+                dumpProgress.queryMrsRsrpItem(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
                     record.mrsRsrpStats = result;
                     $scope.mrsRsrpStats.push({
                         statDate: result.statDate,
@@ -1196,7 +1244,7 @@
                         })
                     });
                 });
-                dumpProgress.queryMrsTadvItem(eNodebId, sectorId, record.date).then(function (result) {
+                dumpProgress.queryMrsTadvItem(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
                     record.mrsTaStats = result;
                     $scope.mrsTaStats.push({
                         statDate: result.statDate,
@@ -1205,11 +1253,11 @@
                         })
                     });
                 });
-                dumpProgress.queryMrsPhrItem(eNodebId, sectorId, record.date).then(function (result) {
+                dumpProgress.queryMrsPhrItem(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
                     //console.log(result['powerHeadRoom_00']);
                     record.mrsPhrStats = result;
                 });
-                dumpProgress.queryMrsTadvRsrpItem(eNodebId, sectorId, record.date).then(function (result) {
+                dumpProgress.queryMrsTadvRsrpItem(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
                     //console.log(result['tadv00Rsrp00']);
                     record.mrsTaRsrpStats = result;
                 });
@@ -1221,7 +1269,96 @@
         };
 
         $scope.dumpAllRecords = function () {
-            dumpPreciseService.dumpAllRecords($scope.dateRecords, 0, 0, eNodebId, sectorId, $scope.queryRecords);
+            dumpPreciseService.dumpAllRecords($scope.dateRecords, 0, 0, cell.eNodebId, cell.sectorId, $scope.queryRecords);
+        };
+
+        $scope.showNeighbors = function () {
+            $scope.neighborCells = [];
+            neighborService.queryCellNeighbors(cell.eNodebId, cell.sectorId).then(function (result) {
+                $scope.neighborCells = result;
+                angular.forEach(result, function (neighbor) {
+                    preciseInterferenceService.queryMonitor(neighbor.cellId, neighbor.sectorId).then(function (monitored) {
+                        neighbor.isMonitored = monitored;
+                    });
+                });
+            });
+
+        };
+        $scope.showReverseNeighbors = function () {
+            neighborMongoService.queryReverseNeighbors(cell.eNodebId, cell.sectorId).then(function (result) {
+                $scope.reverseCells = result;
+                angular.forEach(result, function (neighbor) {
+                    networkElementService.queryENodebInfo(neighbor.cellId).then(function (info) {
+                        neighbor.eNodebName = info.name;
+                    });
+                    preciseInterferenceService.queryMonitor(neighbor.cellId, neighbor.sectorId).then(function (monitored) {
+                        neighbor.isMonitored = monitored;
+                    });
+                });
+            });
+        }
+        $scope.updatePci = function () {
+            neighborService.updateCellPci(cell).then(function (result) {
+                $scope.updateMessages.push({
+                    cellName: cell.name + '-' + cell.sectorId,
+                    counts: result
+                });
+                $scope.showNeighbors();
+            });
+        };
+        $scope.synchronizeNeighbors = function () {
+            var count = 0;
+            neighborMongoService.queryNeighbors(cell.eNodebId, cell.sectorId).then(function (neighbors) {
+                angular.forEach(neighbors, function (neighbor) {
+                    if (neighbor.neighborCellId > 0 && neighbor.neighborPci > 0) {
+                        neighborService.updateNeighbors(neighbor.cellId, neighbor.sectorId, neighbor.neighborPci,
+                            neighbor.neighborCellId, neighbor.neighborSectorId).then(function () {
+                                count += 1;
+                                if (count === neighbors.length) {
+                                    $scope.updateMessages.push({
+                                        cellName: $scope.currentCellName,
+                                        counts: count
+                                    });
+                                    $scope.showNeighbors();
+                                }
+                            });
+                    } else {
+                        count += 1;
+                        if (count === neighbors.length) {
+                            $scope.updateMessages.push({
+                                cellName: $scope.currentCellName,
+                                counts: count
+                            });
+                            $scope.showNeighbors();
+                        }
+                    }
+                });
+            });
+        };
+        $scope.addMonitor = function () {
+            preciseInterferenceService.addMonitor({
+                cellId: cell.eNodebId,
+                sectorId: cell.sectorId
+            });
+        };
+        $scope.monitorNeighbors = function () {
+            angular.forEach($scope.neighborCells, function (neighbor) {
+                if (neighbor.isMonitored === false) {
+                    neighborService.monitorNeighbors(neighbor).then(function () {
+                        neighbor.isMonitored = true;
+                    });
+                }
+            });
+            angular.forEach($scope.reverseCells, function (reverse) {
+                if (reverse.isMonitored === false) {
+                    neighborService.monitorNeighbors({
+                        nearestCellId: reverse.cellId,
+                        nearestSectorId: reverse.sectorId
+                    }).then(function () {
+                        reverse.isMonitored = true;
+                    });
+                }
+            });
         };
 
         var startDate = new Date(begin);
@@ -1234,7 +1371,15 @@
             });
             startDate.setDate(date.getDate() + 1);
         }
+        $scope.neighborCells = [];
+        $scope.updateMessages = [];
+        preciseInterferenceService.queryMonitor(cell.eNodebId, cell.sectorId).then(function (result) {
+            $scope.cellMonitored = result;
+        });
+
         $scope.queryRecords();
+        $scope.showReverseNeighbors();
+        $scope.showNeighbors();
     })
     .factory('neighborDialogService', function ($uibModal, $log, neighborService) {
         var matchNearest = function (nearestCell, currentNeighbor, center) {
@@ -1254,14 +1399,8 @@
                         dialogTitle: function () {
                             return cell.name + "-" + cell.sectorId + "干扰数据导入";
                         },
-                        eNodebId: function () {
-                            return cell.eNodebId;
-                        },
-                        sectorId: function () {
-                            return cell.sectorId;
-                        },
-                        pci: function () {
-                            return cell.pci;
+                        cell: function () {
+                            return cell;
                         },
                         begin: function () {
                             return beginDate;

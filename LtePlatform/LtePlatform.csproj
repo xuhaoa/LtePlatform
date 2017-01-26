@@ -1935,7 +1935,6 @@
     <Content Include="appViews\GeneralMenu.html" />
     <None Include="Views\Rutrace\Index.cshtml" />
     <Content Include="appViews\Rutrace\Interference\MatchCellDialog.html" />
-    <Content Include="appViews\Rutrace\Import.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

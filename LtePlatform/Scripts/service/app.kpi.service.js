@@ -444,52 +444,6 @@
             }
         };
     })
-    .factory('preciseInterferenceService', function (generalHttpService) {
-        return {
-            addMonitor: function (cell) {
-                generalHttpService.postApiData('NeighborMonitor', {
-                    cellId: cell.cellId,
-                    sectorId: cell.sectorId
-                }).then(function() {
-                    cell.isMonitored = true;
-                });
-            },
-            queryMonitor: function (cellId, sectorId) {
-                return generalHttpService.getApiData('NeighborMonitor', {
-                    'cellId': cellId,
-                    'sectorId': sectorId
-                });
-            },
-            updateInterferenceNeighbor: function (cellId, sectorId) {
-                return generalHttpService.getApiData('InterferenceNeighbor', {
-                    'cellId': cellId,
-                    'sectorId': sectorId
-                });
-            },
-            queryInterferenceNeighbor: function (begin, end, cellId, sectorId) {
-                return generalHttpService.getApiData('InterferenceNeighbor', {
-                    'begin': begin,
-                    'end': end,
-                    'cellId': cellId,
-                    'sectorId': sectorId
-                });
-            },
-            updateInterferenceVictim: function (cellId, sectorId) {
-                return generalHttpService.getApiData('InterferenceNeighbor', {
-                    neighborCellId: cellId,
-                    neighborSectorId: sectorId
-                });
-            },
-            queryInterferenceVictim: function (begin, end, cellId, sectorId) {
-                return generalHttpService.getApiData('InterferenceVictim', {
-                    'begin': begin,
-                    'end': end,
-                    'cellId': cellId,
-                    'sectorId': sectorId
-                });
-            }
-        };
-    })
     .factory('cellPreciseService', function (generalHttpService) {
         return {
             queryDataSpanKpi: function (begin, end, cellId, sectorId) {

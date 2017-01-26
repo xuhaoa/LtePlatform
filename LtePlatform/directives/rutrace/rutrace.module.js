@@ -10,7 +10,7 @@
 angular.module('rutrace.top.cell', ['kpi.workitem', 'myApp.region'])
     .directive('topCell', function (workitemService, htmlRoot, networkElementService, neighborDialogService) {
         return {
-            restrict: 'ECMA',
+            restrict: 'EA',
             replace: true,
             scope: {
                 rootPath: '=',
