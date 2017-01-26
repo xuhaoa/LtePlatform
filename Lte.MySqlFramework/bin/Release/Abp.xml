@@ -401,8 +401,7 @@
         <member name="T:Abp.SequentialGuidGenerator">
             <summary>
             Implements <see cref="T:Abp.IGuidGenerator"/> by creating sequential Guids.
-            This code is taken from jhtodd/SequentialGuid
-            https://github.com/jhtodd/SequentialGuid/blob/master/SequentialGuid/Classes/SequentialGuid.cs
+            This code is taken from https://github.com/jhtodd/SequentialGuid/blob/master/SequentialGuid/Classes/SequentialGuid.cs
             </summary>
         </member>
         <member name="P:Abp.SequentialGuidGenerator.Instance">
@@ -1250,6 +1249,11 @@
             Returns true if this menu item has no child <see cref="P:Abp.Application.Navigation.MenuItemDefinition.Items"/>.
             </summary>
         </member>
+        <member name="P:Abp.Application.Navigation.MenuItemDefinition.Target">
+            <summary>
+            Target of the menu item. Can be "_blank", "_self", "_parent", "_top" or a frame name.
+            </summary>
+        </member>
         <member name="P:Abp.Application.Navigation.MenuItemDefinition.CustomData">
             <summary>
             Can be used to store a custom object related to this menu item. Optional.
@@ -1260,7 +1264,7 @@
             Sub items of this menu item. Optional.
             </summary>
         </member>
-        <member name="M:Abp.Application.Navigation.MenuItemDefinition.#ctor(System.String,Abp.Localization.ILocalizableString,System.String,System.String,System.Boolean,System.String,System.Int32,System.Object,Abp.Application.Features.IFeatureDependency)">
+        <member name="M:Abp.Application.Navigation.MenuItemDefinition.#ctor(System.String,Abp.Localization.ILocalizableString,System.String,System.String,System.Boolean,System.String,System.Int32,System.Object,Abp.Application.Features.IFeatureDependency,System.String)">
             <summary>
             Creates a new <see cref="T:Abp.Application.Navigation.MenuItemDefinition"/> object.
             </summary>
@@ -1387,6 +1391,11 @@
         <member name="P:Abp.Application.Navigation.UserMenuItem.CustomData">
             <summary>
             A custom object related to this menu item.
+            </summary>
+        </member>
+        <member name="P:Abp.Application.Navigation.UserMenuItem.Target">
+            <summary>
+            Target of the menu item. Can be "_blank", "_self", "_parent", "_top" or a frame name.
             </summary>
         </member>
         <member name="P:Abp.Application.Navigation.UserMenuItem.Items">
@@ -2629,6 +2638,23 @@
             <param name="culture">culture information</param>
             <param name="args">Format arguments</param>
             <returns>Localized string</returns>
+        </member>
+        <member name="M:Abp.BackgroundJobs.BackgroundJobException.#ctor">
+            <summary>
+            Creates a new <see cref="T:Abp.BackgroundJobs.BackgroundJobException"/> object.
+            </summary>
+        </member>
+        <member name="M:Abp.BackgroundJobs.BackgroundJobException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Creates a new <see cref="T:Abp.BackgroundJobs.BackgroundJobException"/> object.
+            </summary>
+        </member>
+        <member name="M:Abp.BackgroundJobs.BackgroundJobException.#ctor(System.String,System.Exception)">
+            <summary>
+            Creates a new <see cref="T:Abp.BackgroundJobs.BackgroundJobException"/> object.
+            </summary>
+            <param name="message">Exception message</param>
+            <param name="innerException">Inner exception</param>
         </member>
         <member name="T:Abp.BackgroundJobs.BackgroundJobInfo">
             <summary>
@@ -8412,12 +8438,17 @@
             Instance of the module.
             </summary>
         </member>
+        <member name="P:Abp.Modules.AbpModuleInfo.IsLoadedAsPlugIn">
+            <summary>
+            Is this module loaded as a plugin.
+            </summary>
+        </member>
         <member name="P:Abp.Modules.AbpModuleInfo.Dependencies">
             <summary>
             All dependent modules of this module.
             </summary>
         </member>
-        <member name="M:Abp.Modules.AbpModuleInfo.#ctor(System.Type,Abp.Modules.AbpModule)">
+        <member name="M:Abp.Modules.AbpModuleInfo.#ctor(System.Type,Abp.Modules.AbpModule,System.Boolean)">
             <summary>
             Creates a new AbpModuleInfo object.
             </summary>
@@ -10125,7 +10156,7 @@
             Implements <see cref="T:Abp.RealTime.IOnlineClientManager"/>.
             </summary>
         </member>
-        <member name="F:Abp.RealTime.OnlineClientManager._clients">
+        <member name="P:Abp.RealTime.OnlineClientManager.Clients">
             <summary>
             Online clients.
             </summary>
@@ -11017,6 +11048,306 @@
             <summary>
             This interceptor is used intercept method calls for classes which's methods must be validated.
             </summary>
+        </member>
+        <member name="T:Abp.Specifications.AndNotSpecification`1">
+            <summary>
+            Represents the combined specification which indicates that the first specification
+            can be satisifed by the given object whereas the second one cannot.
+            </summary>
+            <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
+        </member>
+        <member name="M:Abp.Specifications.AndNotSpecification`1.#ctor(Abp.Specifications.ISpecification{`0},Abp.Specifications.ISpecification{`0})">
+            <summary>
+            Constructs a new instance of <see cref="T:Abp.Specifications.AndNotSpecification`1"/> class.
+            </summary>
+            <param name="left">The first specification.</param>
+            <param name="right">The second specification.</param>
+        </member>
+        <member name="M:Abp.Specifications.AndNotSpecification`1.ToExpression">
+            <summary>
+            Gets the LINQ expression which represents the current specification.
+            </summary>
+            <returns>The LINQ expression.</returns>
+        </member>
+        <member name="T:Abp.Specifications.AndSpecification`1">
+            <summary>
+            Represents the combined specification which indicates that both of the given
+            specifications should be satisfied by the given object.
+            </summary>
+            <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
+        </member>
+        <member name="M:Abp.Specifications.AndSpecification`1.#ctor(Abp.Specifications.ISpecification{`0},Abp.Specifications.ISpecification{`0})">
+            <summary>
+            Constructs a new instance of <see cref="T:Abp.Specifications.AndSpecification`1"/> class.
+            </summary>
+            <param name="left">The first specification.</param>
+            <param name="right">The second specification.</param>
+        </member>
+        <member name="M:Abp.Specifications.AndSpecification`1.ToExpression">
+            <summary>
+            Gets the LINQ expression which represents the current specification.
+            </summary>
+            <returns>The LINQ expression.</returns>
+        </member>
+        <member name="T:Abp.Specifications.AnySpecification`1">
+            <summary>
+            Represents the specification that can be satisfied by the given object
+            in any circumstance.
+            </summary>
+            <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
+        </member>
+        <member name="M:Abp.Specifications.AnySpecification`1.ToExpression">
+            <summary>
+            Gets the LINQ expression which represents the current specification.
+            </summary>
+            <returns>The LINQ expression.</returns>
+        </member>
+        <member name="T:Abp.Specifications.CompositeSpecification`1">
+            <summary>
+            Represents the base class for composite specifications.
+            </summary>
+            <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
+        </member>
+        <member name="P:Abp.Specifications.CompositeSpecification`1.Left">
+            <summary>
+            Gets the first specification.
+            </summary>
+        </member>
+        <member name="P:Abp.Specifications.CompositeSpecification`1.Right">
+            <summary>
+            Gets the second specification.
+            </summary>
+        </member>
+        <member name="M:Abp.Specifications.CompositeSpecification`1.#ctor(Abp.Specifications.ISpecification{`0},Abp.Specifications.ISpecification{`0})">
+            <summary>
+            Constructs a new instance of <see cref="T:Abp.Specifications.CompositeSpecification`1"/> class.
+            </summary>
+            <param name="left">The first specification.</param>
+            <param name="right">The second specification.</param>
+        </member>
+        <member name="T:Abp.Specifications.ExpressionFuncExtender">
+            <summary>
+            Represents the extender for Expression[Func[T, bool]] type.
+            This is part of the solution which solves
+            the expression parameter problem when going to Entity Framework.
+            For more information about this solution please refer to http://blogs.msdn.com/b/meek/archive/2008/05/02/linq-to-entities-combining-predicates.aspx.
+            </summary>
+        </member>
+        <member name="M:Abp.Specifications.ExpressionFuncExtender.And``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Combines two given expressions by using the AND semantics.
+            </summary>
+            <typeparam name="T">The type of the object.</typeparam>
+            <param name="first">The first part of the expression.</param>
+            <param name="second">The second part of the expression.</param>
+            <returns>The combined expression.</returns>
+        </member>
+        <member name="M:Abp.Specifications.ExpressionFuncExtender.Or``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Combines two given expressions by using the OR semantics.
+            </summary>
+            <typeparam name="T">The type of the object.</typeparam>
+            <param name="first">The first part of the expression.</param>
+            <param name="second">The second part of the expression.</param>
+            <returns>The combined expression.</returns>
+        </member>
+        <member name="T:Abp.Specifications.ExpressionSpecification`1">
+            <summary>
+            Represents the specification which is represented by the corresponding
+            LINQ expression.
+            </summary>
+            <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
+        </member>
+        <member name="M:Abp.Specifications.ExpressionSpecification`1.#ctor(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Initializes a new instance of <c>ExpressionSpecification&lt;T&gt;</c> class.
+            </summary>
+            <param name="expression">The LINQ expression which represents the current
+            specification.</param>
+        </member>
+        <member name="M:Abp.Specifications.ExpressionSpecification`1.ToExpression">
+            <summary>
+            Gets the LINQ expression which represents the current specification.
+            </summary>
+            <returns>The LINQ expression.</returns>
+        </member>
+        <member name="T:Abp.Specifications.ICompositeSpecification`1">
+            <summary>
+            Represents that the implemented classes are composite specifications.
+            </summary>
+            <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
+        </member>
+        <member name="P:Abp.Specifications.ICompositeSpecification`1.Left">
+            <summary>
+            Gets the left side of the specification.
+            </summary>
+        </member>
+        <member name="P:Abp.Specifications.ICompositeSpecification`1.Right">
+            <summary>
+            Gets the right side of the specification.
+            </summary>
+        </member>
+        <member name="T:Abp.Specifications.ISpecification`1">
+            <summary>
+            Represents that the implemented classes are specifications. For more
+            information about the specification pattern, please refer to
+            http://martinfowler.com/apsupp/spec.pdf.
+            </summary>
+            <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
+        </member>
+        <member name="M:Abp.Specifications.ISpecification`1.IsSatisfiedBy(`0)">
+            <summary>
+            Returns a <see cref="T:System.Boolean"/> value which indicates whether the specification
+            is satisfied by the given object.
+            </summary>
+            <param name="obj">The object to which the specification is applied.</param>
+            <returns>True if the specification is satisfied, otherwise false.</returns>
+        </member>
+        <member name="M:Abp.Specifications.ISpecification`1.ToExpression">
+            <summary>
+            Gets the LINQ expression which represents the current specification.
+            </summary>
+            <returns>The LINQ expression.</returns>
+        </member>
+        <member name="T:Abp.Specifications.ISpecificationParser`1">
+            <summary>
+            Represents that the implemented classes are specification parsers that
+            parses the given specification to a domain specific criteria object, such 
+            as the <c>ICriteria</c> instance in NHibernate.
+            </summary>
+            <typeparam name="TCriteria">The type of the domain specific criteria.</typeparam>
+        </member>
+        <member name="M:Abp.Specifications.ISpecificationParser`1.Parse``1(Abp.Specifications.ISpecification{``0})">
+            <summary>
+            Parses the given specification to a domain specific criteria object.
+            </summary>
+            <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
+            <param name="specification">The specified specification instance.</param>
+            <returns>The instance of the domain specific criteria.</returns>
+        </member>
+        <member name="T:Abp.Specifications.NoneSpecification`1">
+            <summary>
+            Represents the specification that can be satisfied by the given object
+            in no circumstance.
+            </summary>
+            <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
+        </member>
+        <member name="M:Abp.Specifications.NoneSpecification`1.ToExpression">
+            <summary>
+            Gets the LINQ expression which represents the current specification.
+            </summary>
+            <returns>The LINQ expression.</returns>
+        </member>
+        <member name="T:Abp.Specifications.NotSpecification`1">
+            <summary>
+            Represents the specification which indicates the semantics opposite to the given specification.
+            </summary>
+            <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
+        </member>
+        <member name="M:Abp.Specifications.NotSpecification`1.#ctor(Abp.Specifications.ISpecification{`0})">
+            <summary>
+            Initializes a new instance of <see cref="T:Abp.Specifications.NotSpecification`1"/> class.
+            </summary>
+            <param name="specification">The specification to be reversed.</param>
+        </member>
+        <member name="M:Abp.Specifications.NotSpecification`1.ToExpression">
+            <summary>
+            Gets the LINQ expression which represents the current specification.
+            </summary>
+            <returns>The LINQ expression.</returns>
+        </member>
+        <member name="T:Abp.Specifications.OrSpecification`1">
+            <summary>
+            Represents the combined specification which indicates that either of the given
+            specification should be satisfied by the given object.
+            </summary>
+            <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
+        </member>
+        <member name="M:Abp.Specifications.OrSpecification`1.#ctor(Abp.Specifications.ISpecification{`0},Abp.Specifications.ISpecification{`0})">
+            <summary>
+            Initializes a new instance of <see cref="T:Abp.Specifications.OrSpecification`1"/> class.
+            </summary>
+            <param name="left">The first specification.</param>
+            <param name="right">The second specification.</param>
+        </member>
+        <member name="M:Abp.Specifications.OrSpecification`1.ToExpression">
+            <summary>
+            Gets the LINQ expression which represents the current specification.
+            </summary>
+            <returns>The LINQ expression.</returns>
+        </member>
+        <member name="T:Abp.Specifications.ParameterRebinder">
+            <summary>
+            Represents the parameter rebinder used for rebinding the parameters
+            for the given expressions. This is part of the solution which solves
+            the expression parameter problem when going to Entity Framework.
+            For more information about this solution please refer to http://blogs.msdn.com/b/meek/archive/2008/05/02/linq-to-entities-combining-predicates.aspx.
+            </summary>
+        </member>
+        <member name="T:Abp.Specifications.Specification`1">
+            <summary>
+            Represents the base class for specifications.
+            </summary>
+            <typeparam name="T">The type of the object to which the specification is applied.</typeparam>
+        </member>
+        <member name="M:Abp.Specifications.Specification`1.IsSatisfiedBy(`0)">
+            <summary>
+            Returns a <see cref="T:System.Boolean"/> value which indicates whether the specification
+            is satisfied by the given object.
+            </summary>
+            <param name="obj">The object to which the specification is applied.</param>
+            <returns>True if the specification is satisfied, otherwise false.</returns>
+        </member>
+        <member name="M:Abp.Specifications.Specification`1.ToExpression">
+            <summary>
+            Gets the LINQ expression which represents the current specification.
+            </summary>
+            <returns>The LINQ expression.</returns>
+        </member>
+        <member name="M:Abp.Specifications.Specification`1.op_Implicit(Abp.Specifications.Specification{`0})~System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}}">
+            <summary>
+            Implicitly converts a specification to expression.
+            </summary>
+            <param name="specification"></param>
+        </member>
+        <member name="M:Abp.Specifications.SpecificationExtensions.And``1(Abp.Specifications.ISpecification{``0},Abp.Specifications.ISpecification{``0})">
+            <summary>
+            Combines the current specification instance with another specification instance
+            and returns the combined specification which represents that both the current and
+            the given specification must be satisfied by the given object.
+            </summary>
+            <param name="specification">The specification</param>
+            <param name="other">The specification instance with which the current specification is combined.</param>
+            <returns>The combined specification instance.</returns>
+        </member>
+        <member name="M:Abp.Specifications.SpecificationExtensions.Or``1(Abp.Specifications.ISpecification{``0},Abp.Specifications.ISpecification{``0})">
+            <summary>
+            Combines the current specification instance with another specification instance
+            and returns the combined specification which represents that either the current or
+            the given specification should be satisfied by the given object.
+            </summary>
+            <param name="specification">The specification</param>
+            <param name="other">The specification instance with which the current specification
+            is combined.</param>
+            <returns>The combined specification instance.</returns>
+        </member>
+        <member name="M:Abp.Specifications.SpecificationExtensions.AndNot``1(Abp.Specifications.ISpecification{``0},Abp.Specifications.ISpecification{``0})">
+            <summary>
+            Combines the current specification instance with another specification instance
+            and returns the combined specification which represents that the current specification
+            should be satisfied by the given object but the specified specification should not.
+            </summary>
+            <param name="specification">The specification</param>
+            <param name="other">The specification instance with which the current specification
+            is combined.</param>
+            <returns>The combined specification instance.</returns>
+        </member>
+        <member name="M:Abp.Specifications.SpecificationExtensions.Not``1(Abp.Specifications.ISpecification{``0})">
+            <summary>
+            Reverses the current specification instance and returns a specification which represents
+            the semantics opposite to the current specification.
+            </summary>
+            <returns>The reversed specification instance.</returns>
         </member>
         <member name="T:Abp.Text.FormattedStringValueExtracter">
             <summary>
