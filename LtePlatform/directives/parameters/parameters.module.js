@@ -419,6 +419,14 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
                     }
                 },
                 {
+                    field: 'rruName',
+                    name: 'RRU名称',
+                    cellTooltip: function (row, col) {
+                        return '天线厂家：' + row.entity.antennaFactoryDescription + '；天线类型：'
+                            + row.entity.antennaInfo + '；天线型号：' + row.entity.antennaModel;
+                    }
+                },
+                {
                     name: '详细信息',
                     cellTemplate: '<a ng-href="{{grid.appScope.rootPath}}cellInfo/{{row.entity.eNodebId}}/{{row.entity.eNodebName}}/{{row.entity.sectorId}}" class="btn btn-sm btn-primary">小区信息</a>'
                 },

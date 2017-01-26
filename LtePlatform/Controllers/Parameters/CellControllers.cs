@@ -79,7 +79,7 @@ namespace LtePlatform.Controllers.Parameters
         [ApiDoc("给定基站编号对应的小区视图列表")]
         [ApiParameterDoc("cellId", "基站编号")]
         [ApiResponse("基站编号对应的小区视图列表")]
-        public IEnumerable<CellView> GetViews(int cellId)
+        public IEnumerable<CellRruView> GetViews(int cellId)
         {
             return _service.GetCellViews(cellId);
         }
