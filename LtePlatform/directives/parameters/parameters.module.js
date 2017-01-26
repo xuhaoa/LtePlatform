@@ -428,7 +428,7 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
                 },
                 {
                     name: '详细信息',
-                    cellTemplate: '<a ng-href="{{grid.appScope.rootPath}}cellInfo/{{row.entity.eNodebId}}/{{row.entity.eNodebName}}/{{row.entity.sectorId}}" class="btn btn-sm btn-primary">小区信息</a>'
+                    cellTemplate: '<button class="btn btn-primary" ng-click="grid.appScope.showDetails(row.entity)">显示</button>'
                 },
                 {
                     name: '导入MR',
@@ -447,6 +447,9 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
                 }, $scope.beginDate.value, $scope.endDate.value);
             });
         };
+        $scope.showDetails = function(cell) {
+            neighborDialogService.showCell(cell);
+        };
     })
     .directive('lteCellTable', function ($compile) {
         return {
@@ -455,7 +458,6 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
             replace: true,
             scope: {
                 items: '=',
-                rootPath: '=',
                 beginDate: '=',
                 endDate: '='
             },

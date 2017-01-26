@@ -1381,6 +1381,25 @@
         $scope.showReverseNeighbors();
         $scope.showNeighbors();
     })
+    .controller("cell.info.dialog", function ($scope, cell, dialogTitle, neighborMongoService, $uibModalInstance) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.isHuaweiCell = false;
+        $scope.eNodebId = cell.eNodebId;
+        $scope.sectorId = cell.sectorId;
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.mongoNeighbors);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        neighborMongoService.queryNeighbors(cell.eNodebId, cell.sectorId).then(function (result) {
+            $scope.mongoNeighbors = result;
+        });
+
+    })
     .factory('neighborDialogService', function ($uibModal, $log, neighborService) {
         var matchNearest = function (nearestCell, currentNeighbor, center) {
             neighborService.updateNeighbors(center.cellId, center.sectorId, currentNeighbor.destPci,
@@ -1433,6 +1452,27 @@
                 });
                 modalInstance.result.then(function (sector) {
                     console.log(sector);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+
+            },
+            showCell: function (cell) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Parameters/Region/CellInfo.html',
+                    controller: 'cell.info.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return cell.eNodebName + "-" + cell.sectorId + "小区详细信息";
+                        },
+                        cell: function () {
+                            return cell;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (sector) {
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });

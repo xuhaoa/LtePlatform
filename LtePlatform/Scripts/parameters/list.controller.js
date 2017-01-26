@@ -119,19 +119,6 @@
                 },
                 url: "/btsInfo/:btsId/:name"
             })
-            .state('cellInfo', {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.lte"
-                    },
-                    "contents": {
-                        templateUrl: viewDir + "Region/CellInfo.html",
-                        controller: "cell.info"
-                    }
-                },
-                url: "/cellInfo/:eNodebId/:name/:sectorId"
-            })
             .state('cdmaCellInfo', {
                 views: {
                     'menu': {
@@ -327,18 +314,6 @@
             $scope.cdmaCellDetails = result;
         });
     })
-    .controller("cell.info", function ($scope, $stateParams, neighborMongoService) {
-        $scope.page.title = $stateParams.name + "-" + $stateParams.sectorId + "小区信息";
-        $scope.isHuaweiCell = false;
-        $scope.eNodebId = $stateParams.eNodebId;
-        $scope.sectorId = $stateParams.sectorId;
-        $scope.showNeighbors = function () {
-            neighborMongoService.queryNeighbors($stateParams.eNodebId, $stateParams.sectorId).then(function (result) {
-                $scope.mongoNeighbors = result;
-            });
-        };
-
-    })
     .controller("eNodeb.alarm", function ($scope, $stateParams, alarmsService) {
         $scope.eNodebName = $stateParams.name;
         var lastWeek = new Date();
@@ -465,16 +440,7 @@
         menuItemService.updateMenuItem($scope.menuItems, 1,
             $stateParams.name + "LTE基础信息",
             $scope.rootPath + "eNodebInfo" + "/" + $stateParams.eNodebId + "/" + $stateParams.name);
-        $scope.menu.accordions[$stateParams.name + "LTE基础信息"] = true;
 
-        networkElementService.queryCellSectorIds($stateParams.name).then(function (result) {
-            angular.forEach(result, function (sectorId) {
-                menuItemService.updateMenuItem($scope.menuItems, 1,
-                    $stateParams.name + "-" + sectorId + "小区信息",
-                    $scope.rootPath + "cellInfo" + "/" + $stateParams.eNodebId + "/" + $stateParams.name + "/" + sectorId,
-                    $stateParams.name + "LTE基础信息");
-            });
-        });
     })
     .controller("menu.town", function ($scope, $stateParams, menuItemService) {
         $scope.menuTitle = $stateParams.city + $stateParams.district + $stateParams.town + "基础信息";
