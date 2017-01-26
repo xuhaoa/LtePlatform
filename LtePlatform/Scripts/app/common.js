@@ -10,7 +10,6 @@
     'handoff.filters',
     "highcharts-ng",
     'huawei.mongo.parameters',
-    'kpi.workitem',
     'myApp.kpi',
     'myApp.region',
     'myApp.url',

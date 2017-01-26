@@ -7,7 +7,7 @@
     ])
     .constant('htmlRoot', '/directives/rutrace/');
 
-angular.module('rutrace.top.cell', ['kpi.workitem', 'myApp.region'])
+angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region'])
     .directive('topCell', function (workitemService, htmlRoot, networkElementService, neighborDialogService) {
         return {
             restrict: 'EA',
@@ -380,7 +380,7 @@ angular.module('rutrace.trend', [])
         };
     });
 
-angular.module('rutrace.analyze', ['kpi.workitem', 'myApp.region'])
+angular.module('rutrace.analyze', ['myApp.kpi', 'myApp.region'])
     .directive('analyzeTable', function (htmlRoot, preciseWorkItemGenerator, preciseWorkItemService, coverageDialogService) {
         return {
             restrict: 'ECMA',

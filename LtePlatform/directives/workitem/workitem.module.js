@@ -1,7 +1,7 @@
 ﻿angular.module('workitem.module', ['workitem.module.table', 'workitem.module.feedback', 'workitem.module.details'])
     .constant('workitemRoot', '/directives/workitem/');
 
-angular.module('workitem.module.table', ['kpi.workitem'])
+angular.module('workitem.module.table', ['myApp.kpi'])
     .controller('WorkItemTableController', function ($scope, workitemRoot, workItemDialog) {
         $scope.gridOptions = {
             paginationPageSizes: [20, 40, 60],
@@ -72,7 +72,7 @@ angular.module('workitem.module.table', ['kpi.workitem'])
         };
     });
 
-angular.module('workitem.module.feedback', ['kpi.workitem'])
+angular.module('workitem.module.feedback', ['myApp.kpi'])
     .directive('platformAndFeedbackInfo', function(workitemRoot, workItemDialog, workitemService) {
         return {
             restrict: 'ECMA',
