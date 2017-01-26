@@ -227,81 +227,6 @@
             }
         });
     })
-    .controller('dump.cell.mongo', function($scope, $uibModalInstance, dumpProgress, appFormatService, dumpPreciseService,
-        dialogTitle, eNodebId, sectorId, pci, begin, end) {
-        $scope.dialogTitle = dialogTitle;
-
-        $scope.dateRecords = [];
-        $scope.currentDetails = [];
-        $scope.currentIndex = 0;
-
-        $scope.ok = function() {
-            $uibModalInstance.close($scope.dateRecords);
-        };
-
-        $scope.cancel = function() {
-            $uibModalInstance.dismiss('cancel');
-        };
-
-        $scope.queryRecords = function() {
-            $scope.mrsRsrpStats = [];
-            $scope.mrsTaStats = [];
-            angular.forEach($scope.dateRecords, function(record) {
-                dumpProgress.queryExistedItems(eNodebId, sectorId, record.date).then(function(result) {
-                    record.existedRecords = result;
-                });
-                dumpProgress.queryMongoItems(eNodebId, sectorId, record.date).then(function(result) {
-                    record.mongoRecords = result;
-                });
-                dumpProgress.queryMrsRsrpItem(eNodebId, sectorId, record.date).then(function(result) {
-                    record.mrsRsrpStats = result;
-                    $scope.mrsRsrpStats.push({
-                        statDate: result.statDate,
-                        data: _.map(_.range(48), function (index) {
-                            return result['rsrP_' + appFormatService.prefixInteger(index, 2)];
-                        })
-                    });
-                });
-                dumpProgress.queryMrsTadvItem(eNodebId, sectorId, record.date).then(function (result) {
-                    record.mrsTaStats = result;
-                    $scope.mrsTaStats.push({
-                        statDate: result.statDate,
-                        data: _.map(_.range(44), function (index) {
-                            return result['tadv_' + appFormatService.prefixInteger(index, 2)];
-                        })
-                    });
-                });
-                dumpProgress.queryMrsPhrItem(eNodebId, sectorId, record.date).then(function (result) {
-                    //console.log(result['powerHeadRoom_00']);
-                    record.mrsPhrStats = result;
-                });
-                dumpProgress.queryMrsTadvRsrpItem(eNodebId, sectorId, record.date).then(function (result) {
-                    //console.log(result['tadv00Rsrp00']);
-                    record.mrsTaRsrpStats = result;
-                });
-            });
-        };
-
-        $scope.updateDetails = function (index) {
-            $scope.currentIndex = index % $scope.dateRecords.length;
-        };
-
-        $scope.dumpAllRecords = function() {
-            dumpPreciseService.dumpAllRecords($scope.dateRecords, 0, 0, eNodebId, sectorId, $scope.queryRecords);
-        };
-
-        var startDate = new Date(begin);
-        while (startDate < end) {
-            var date = new Date(startDate);
-            $scope.dateRecords.push({
-                date: date,
-                existedRecords: 0,
-                existedStat: false
-            });
-            startDate.setDate(date.getDate() + 1);
-        }
-        $scope.queryRecords();
-    })
     .controller("rutrace.coverage", function ($scope, $routeParams, $uibModal, topPreciseService, preciseInterferenceService,
         preciseChartService, coverageService, kpiDisplayService) {
         $scope.currentCellName = $routeParams.name + "-" + $routeParams.sectorId;
@@ -446,16 +371,6 @@
                 if (cell.isMonitored === false) {
                     preciseInterferenceService.addMonitor(cell);
                 }
-            });
-        };
-        $scope.dump = function (cell) {
-            networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function (info) {
-                neighborDialogService.dumpMongo({
-                    eNodebId: cell.cellId,
-                    sectorId: cell.sectorId,
-                    pci: info.pci,
-                    name: cell.eNodebName
-                }, $scope.beginDate.value, $scope.endDate.value);
             });
         };
 
