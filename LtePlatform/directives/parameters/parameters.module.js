@@ -451,29 +451,16 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
             neighborDialogService.showCell(cell);
         };
     })
-    .directive('lteCellTable', function ($compile) {
-        return {
-            controller: 'LteCellController',
-            restrict: 'EA',
-            replace: true,
+    .directive('lteCellTable', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'LteCellController',
             scope: {
                 items: '=',
                 beginDate: '=',
                 endDate: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        }
+            argumentName: 'items'
+        }, $compile);
     })
 
     .controller('CellSelectionController', function ($scope) {

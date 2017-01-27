@@ -95,7 +95,10 @@ angular.module('customer.emergency', ['college.service'])
                 { field: 'lattitute', name: '纬度' },
                 {
                     name: '小区信息',
-                    cellTemplate: '<button class="btn btn-sm btn-success" ng-click="grid.appScope.cellInfo(row.entity)">编辑小区</button>'
+                    cellTemplate: '<div class="btn-group-sm">' +
+                        '<button class="btn btn-sm btn-success" ng-click="grid.appScope.cellInfo(row.entity)">编辑</button>' +
+                        '<a class="btn btn-sm btn-primary" href="/Parameters/List#/topicCells/{{row.entity.hotspotName}}">详细</a>' +
+                        '</div>'
                 }
             ],
             data: []

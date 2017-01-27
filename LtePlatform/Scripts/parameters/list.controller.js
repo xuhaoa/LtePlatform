@@ -80,6 +80,19 @@
                 },
                 url: "/eNodebInfo/:eNodebId/:name"
             })
+            .state('topicCells', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/GeneralMenu.html",
+                        controller: "menu.topic"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Region/TopicCells.html",
+                        controller: "topic.cells"
+                    }
+                },
+                url: "/topicCells/:name"
+            })
             .state('Alarm', {
                 views: {
                     'menu': {
@@ -434,12 +447,20 @@
             });
         });
     })
-    .controller("menu.lte", function ($scope, $stateParams, networkElementService, menuItemService) {
+    .controller("menu.lte", function ($scope, $stateParams, menuItemService) {
         $scope.menuTitle = $stateParams.name + "详细信息";
 
         menuItemService.updateMenuItem($scope.menuItems, 1,
             $stateParams.name + "LTE基础信息",
             $scope.rootPath + "eNodebInfo" + "/" + $stateParams.eNodebId + "/" + $stateParams.name);
+
+    })
+    .controller("menu.topic", function ($scope, $stateParams, menuItemService) {
+        $scope.menuTitle = $stateParams.name + "热点小区信息";
+
+        menuItemService.updateMenuItem($scope.menuItems, 1,
+            $stateParams.name + "热点小区信息",
+            $scope.rootPath + "topic" + "/" + $stateParams.name);
 
     })
     .controller("menu.town", function ($scope, $stateParams, menuItemService) {
@@ -451,6 +472,10 @@
         menuItemService.updateMenuItem($scope.menuItems, 0,
             $stateParams.city + $stateParams.district + $stateParams.town + "CDMA基站列表",
             $scope.rootPath + "btsList" + "/" + $stateParams.city + "/" + $stateParams.district + "/" + $stateParams.town);
+    })
+
+    .controller("topic.cells", function($scope, $stateParams) {
+        
     })
 
     .controller('hot.spot.dialog', function ($scope, dialogTitle, $uibModalInstance) {
