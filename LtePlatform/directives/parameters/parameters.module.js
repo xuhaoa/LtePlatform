@@ -427,12 +427,21 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
                     }
                 },
                 {
-                    name: '详细信息',
-                    cellTemplate: '<button class="btn btn-primary" ng-click="grid.appScope.showDetails(row.entity)">显示</button>'
+                    name: '信息',
+                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="grid.appScope.showDetails(row.entity)">显示</button>'
                 },
                 {
-                    name: '导入MR',
-                    cellTemplate: '<button class="btn btn-primary" ng-click="grid.appScope.dumpMr(row.entity)">导入</button>'
+                    name: 'MR',
+                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="grid.appScope.dumpMr(row.entity)">导入</button>'
+                },
+                {
+                    name: '指标情况',
+                    cellTemplate: '<div class="btn-group-sm" uib-dropdown> \
+                        <button class="btn btn-warning btn-sm" ng-click="grid.appScope.showInterference(row.entity)"> \
+                            干扰 \
+                        </button> \
+                    </div>',
+                    width: 200
                 }
             ],
             data: []
@@ -449,6 +458,13 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
         };
         $scope.showDetails = function(cell) {
             neighborDialogService.showCell(cell);
+        };
+        $scope.showInterference = function (cell) {
+            neighborDialogService.showInterference({
+                cellId: cell.eNodebId,
+                sectorId: cell.sectorId,
+                name: cell.eNodebName
+            }, $scope.beginDate.value, $scope.endDate.value);
         };
     })
     .directive('lteCellTable', function ($compile, calculateService) {
