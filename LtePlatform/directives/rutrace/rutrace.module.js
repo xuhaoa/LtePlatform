@@ -41,6 +41,13 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region'])
                         }, scope.beginDate.value, scope.endDate.value);
                     });
                 };
+                scope.showInterference = function(cell) {
+                    neighborDialogService.showInterference({
+                        cellId: cell.cellId,
+                        sectorId: cell.sectorId,
+                        name: cell.eNodebName
+                    }, scope.beginDate.value, scope.endDate.value);
+                };
             }
         };
     })

@@ -27,10 +27,6 @@
                     templateUrl: viewDir + "Top.html",
                     controller: "rutrace.top"
                 })
-                .when('/interference/:cellId/:sectorId/:name', {
-                    templateUrl: viewDir + "Interference/Index.html",
-                    controller: "rutrace.interference"
-                })
                 .when('/coverage/:cellId/:sectorId/:name', {
                     templateUrl: viewDir + "Coverage/Index.html",
                     controller: "rutrace.coverage"
@@ -579,118 +575,6 @@
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
-    })
-    .controller("rutrace.interference", function ($scope, $timeout, $routeParams,
-        networkElementService, topPreciseService, kpiDisplayService, preciseInterferenceService, menuItemService, neighborMongoService) {
-        $scope.currentCellName = $routeParams.name + "-" + $routeParams.sectorId;
-        $scope.page.title = "TOP指标干扰分析: " + $scope.currentCellName;
-        menuItemService.updateMenuItem($scope.menuItems, 1, $scope.page.title,
-            $scope.rootPath + "interference/" + $routeParams.cellId + "/" + $routeParams.sectorId + "/" + $routeParams.name);
-        $scope.oneAtATime = false;
-        $scope.orderPolicy = topPreciseService.getOrderPolicySelection();
-        $scope.updateMessages = [];
-
-        $scope.showInterference = function () {
-            $scope.interferenceCells = [];
-            $scope.victimCells = [];
-
-            preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
-                $routeParams.cellId, $routeParams.sectorId).then(function (result) {
-                    angular.forEach(result, function (cell) {
-                        for (var i = 0; i < $scope.mongoNeighbors.length; i++) {
-                            var neighbor = $scope.mongoNeighbors[i];
-                            if (neighbor.neighborPci === cell.destPci) {
-                                cell.isMongoNeighbor = true;
-                                break;
-                            }
-                        }
-                    });
-                    $scope.interferenceCells = result;
-                    $scope.topStat.interference[$scope.currentCellName] = result;
-                    preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
-                        $routeParams.cellId, $routeParams.sectorId).then(function (victims) {
-                            angular.forEach(victims, function (victim) {
-                                for (var j = 0; j < result.length; j++) {
-                                    if (result[j].destENodebId === victim.victimENodebId
-                                        && result[j].destSectorId === victim.victimSectorId) {
-                                        victim.forwardInterferences6Db = result[j].overInterferences6Db;
-                                        victim.forwardInterferences10Db = result[j].overInterferences10Db;
-                                        break;
-                                    }
-                                }
-                            });
-                            $scope.victimCells = victims;
-                            $scope.topStat.victims[$scope.currentCellName] = victims;
-                        });
-                    var pieOptions = kpiDisplayService.getInterferencePieOptions(result, $scope.currentCellName);
-                    $scope.topStat.pieOptions[$scope.currentCellName] = pieOptions;
-                    $("#interference-over6db").highcharts(pieOptions.over6DbOption);
-                    $("#interference-over10db").highcharts(pieOptions.over10DbOption);
-                    $("#interference-mod3").highcharts(pieOptions.mod3Option);
-                    $("#interference-mod6").highcharts(pieOptions.mod6Option);
-                    topPreciseService.queryRsrpTa($scope.beginDate.value, $scope.endDate.value, 
-                        $routeParams.cellId, $routeParams.sectorId).then(function (info) {
-                    });
-                });
-        };
-
-        $scope.updateNeighborInfos = function () {
-            if ($scope.topStat.updateInteferenceProgress[$scope.currentCellName] !== true) {
-                $scope.topStat.updateInteferenceProgress[$scope.currentCellName] = true;
-                preciseInterferenceService.updateInterferenceNeighbor($routeParams.cellId, $routeParams.sectorId).then(function (result) {
-                    $scope.updateMessages.push({
-                        cellName: $scope.currentCellName,
-                        counts: result,
-                        type: "干扰"
-                    });
-                    $scope.topStat.updateInteferenceProgress[$scope.currentCellName] = false;
-                });
-            }
-
-            if ($scope.topStat.updateVictimProgress[$scope.currentCellName] !== true) {
-                $scope.topStat.updateVictimProgress[$scope.currentCellName] = true;
-                preciseInterferenceService.updateInterferenceVictim($routeParams.cellId, $routeParams.sectorId).then(function (result) {
-                    $scope.updateMessages.push({
-                        cellName: $scope.currentCellName,
-                        counts: result,
-                        type: "被干扰"
-                    });
-                    $scope.topStat.updateVictimProgress[$scope.currentCellName] = false;
-                });
-            }
-        }
-
-        if ($scope.topStat.interference[$scope.currentCellName] === undefined) {
-            neighborMongoService.queryNeighbors($routeParams.cellId, $routeParams.sectorId).then(function (result) {
-                $scope.mongoNeighbors = result;
-                $scope.topStat.mongoNeighbors[$scope.currentCellName] = result;
-                $scope.showInterference();
-                $scope.updateNeighborInfos();
-            });
-        } else {
-            $scope.interferenceCells = $scope.topStat.interference[$scope.currentCellName];
-            $scope.victimCells = $scope.topStat.victims[$scope.currentCellName];
-            $scope.mongoNeighbors = $scope.topStat.mongoNeighbors[$scope.currentCellName];
-            var newOptions = $scope.topStat.pieOptions[$scope.currentCellName];
-            var newColumnOptions = $scope.topStat.columnOptions[$scope.currentCellName];
-            $timeout(function () {
-                $("#interference-over6db").highcharts(newOptions.over6DbOption);
-                $("#interference-over10db").highcharts(newOptions.over10DbOption);
-                $("#interference-mod3").highcharts(newOptions.mod3Option);
-                $("#interference-mod6").highcharts(newOptions.mod6Option);
-                $("#strength-over6db").highcharts(newColumnOptions.over6DbOption);
-                $("#strength-over10db").highcharts(newColumnOptions.over10DbOption);
-            }, 1000);
-        }
-        networkElementService.queryCellInfo($routeParams.cellId, $routeParams.sectorId).then(function (info) {
-            $scope.topStat.current = {
-                cellId: $routeParams.cellId,
-                sectorId: $routeParams.sectorId,
-                eNodebName: $routeParams.name,
-                longtitute: info.longtitute,
-                lattitute: info.lattitute
-            };
-        });
     })
     .controller('coverage.details.dialog', function ($scope, $uibModalInstance, cellName, cellId, sectorId,
         topPreciseService, preciseChartService) {

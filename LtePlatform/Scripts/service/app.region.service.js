@@ -1207,6 +1207,431 @@
 
         return serviceInstance;
     })
+    .factory('topPreciseService', function (generalHttpService) {
+        return {
+            getOrderPolicySelection: function () {
+                var options = [
+                    {
+                        name: "模3干扰数",
+                        value: "mod3Interferences"
+                    }, {
+                        name: "模6干扰数",
+                        value: "mod6Interferences"
+                    }, {
+                        name: "6dB干扰数",
+                        value: "overInterferences6Db"
+                    }, {
+                        name: "10dB干扰数",
+                        value: "overInterferences10Db"
+                    }, {
+                        name: "总干扰水平",
+                        value: "interferenceLevel"
+                    }
+                ];
+                return {
+                    options: options,
+                    selected: options[4].value
+                };
+            },
+            queryCoverage: function (begin, end, cellId, sectorId) {
+                return generalHttpService.getApiData('MrsRsrp', {
+                    'begin': begin,
+                    'end': end,
+                    'eNodebId': cellId,
+                    'sectorId': sectorId
+                });
+            },
+            queryTa: function (begin, end, cellId, sectorId) {
+                return generalHttpService.getApiData('MrsTadv', {
+                    'begin': begin,
+                    'end': end,
+                    'eNodebId': cellId,
+                    'sectorId': sectorId
+                });
+            },
+            queryRsrpTa: function (begin, end, cellId, sectorId) {
+                return generalHttpService.getApiData('MrsTadvRsrp', {
+                    'begin': begin,
+                    'end': end,
+                    'eNodebId': cellId,
+                    'sectorId': sectorId
+                });
+            }
+        };
+    })
+    .factory('kpiDisplayService', function (appFormatService, coverageService, topPreciseService, calculateService) {
+        return {
+            generatePreciseBarOptions: function (districtStats, cityStat) {
+                var chart = new BarChart();
+                chart.title.text = cityStat.city + "精确覆盖率统计";
+                chart.legend.enabled = false;
+                var category = [];
+                var precise = [];
+                angular.forEach(districtStats, function (stat) {
+                    category.push(stat.district);
+                    precise.push(stat.preciseRate);
+                });
+                category.push(cityStat.city);
+                precise.push(cityStat.preciseRate);
+                chart.xAxis.categories = category;
+                chart.xAxis.title.text = '区域';
+                chart.setDefaultYAxis({
+                    title: '精确覆盖率',
+                    min: 80,
+                    max: 100
+                });
+                var series = {
+                    name: '精确覆盖率',
+                    data: precise
+                };
+                chart.asignSeries(series);
+                return chart.options;
+            },
+            generateDownSwitchOptions: function (districtStats, city, cityDownSwitch) {
+                var chart = new BarChart();
+                chart.title.text = city + "4G用户3G流量比统计";
+                chart.legend.enabled = false;
+                var category = [];
+                var precise = [];
+                angular.forEach(districtStats, function (stat) {
+                    category.push(stat.region);
+                    precise.push(stat.downSwitchRate);
+                });
+                category.push(city);
+                precise.push(cityDownSwitch);
+                chart.xAxis.categories = category;
+                chart.xAxis.title.text = '区域';
+                chart.setDefaultYAxis({
+                    title: '4G用户3G流量比',
+                    min: 0,
+                    max: 10
+                });
+                var series = {
+                    name: '4G用户3G流量比',
+                    data: precise
+                };
+                chart.asignSeries(series);
+                return chart.options;
+            },
+            generateComboChartOptions: function (data, name, city) {
+                var chart = new ComboChart();
+                chart.title.text = name;
+                var kpiOption = appFormatService.lowerFirstLetter(name);
+                chart.xAxis[0].categories = data.statDates;
+                chart.yAxis[0].title.text = name;
+                chart.xAxis[0].title.text = '日期';
+                for (var i = 0; i < data.regionList.length - 1; i++) {
+                    chart.series.push({
+                        type: kpiOption === "2G呼建(%)" ? 'line' : 'column',
+                        name: data.regionList[i],
+                        data: data.kpiDetails[kpiOption][i]
+                    });
+                }
+                chart.series.push({
+                    type: 'spline',
+                    name: city,
+                    data: data.kpiDetails[kpiOption][data.regionList.length - 1],
+                    marker: {
+                        lineWidth: 2,
+                        lineColor: Highcharts.getOptions().colors[3],
+                        fillColor: 'white'
+                    }
+                });
+                return chart.options;
+            },
+            getMrsOptions: function (stats, title) {
+                var chart = new ComboChart();
+                chart.title.text = title;
+                var statDates = [];
+                var mrStats = [];
+                var firstNeighbors = [];
+                var secondNeighbors = [];
+                var thirdNeighbors = [];
+                angular.forEach(stats, function (stat) {
+                    statDates.push(stat.dateString);
+                    mrStats.push(stat.totalMrs);
+                    firstNeighbors.push(stat.firstNeighbors);
+                    secondNeighbors.push(stat.secondNeighbors);
+                    thirdNeighbors.push(stat.thirdNeighbors);
+                });
+                chart.xAxis[0].categories = statDates;
+                chart.yAxis[0].title.text = "MR数量";
+                chart.xAxis[0].title.text = '日期';
+                chart.series.push({
+                    type: "column",
+                    name: "MR总数",
+                    data: mrStats
+                });
+                chart.series.push({
+                    type: "spline",
+                    name: "第一邻区MR数",
+                    data: firstNeighbors
+                });
+                chart.series.push({
+                    type: "spline",
+                    name: "第二邻区MR数",
+                    data: secondNeighbors
+                });
+                chart.series.push({
+                    type: "spline",
+                    name: "第三邻区MR数",
+                    data: thirdNeighbors
+                });
+                return chart.options;
+            },
+            getPreciseOptions: function (stats, title) {
+                var chart = new ComboChart();
+                chart.title.text = title;
+                var statDates = [];
+                var firstRate = [];
+                var secondRate = [];
+                var thirdRate = [];
+                angular.forEach(stats, function (stat) {
+                    statDates.push(stat.dateString);
+                    firstRate.push(100 - parseFloat(stat.firstRate));
+                    secondRate.push(100 - parseFloat(stat.secondRate));
+                    thirdRate.push(100 - parseFloat(stat.thirdRate));
+                });
+                chart.xAxis[0].categories = statDates;
+                chart.xAxis[0].title.text = '日期';
+                chart.yAxis[0].title.text = "精确覆盖率";
+                chart.series.push({
+                    type: "spline",
+                    name: "第一邻区精确覆盖率",
+                    data: firstRate
+                });
+                chart.series.push({
+                    type: "spline",
+                    name: "第二邻区精确覆盖率",
+                    data: secondRate
+                });
+                chart.series.push({
+                    type: "spline",
+                    name: "第三邻区精确覆盖率",
+                    data: thirdRate
+                });
+                return chart.options;
+            },
+            getInterferencePieOptions: function (interferenceCells, currentCellName) {
+                var over6DbPie = new GradientPie();
+                var over10DbPie = new GradientPie();
+                var mod3Pie = new GradientPie();
+                var mod6Pie = new GradientPie();
+                over6DbPie.series[0].name = '6dB干扰日平均次数';
+                over10DbPie.series[0].name = '10dB干扰日平均次数';
+                over6DbPie.title.text = currentCellName + ': 6dB干扰日平均次数';
+                over10DbPie.title.text = currentCellName + ': 10dB干扰日平均次数';
+                mod3Pie.series[0].name = 'MOD3干扰日平均次数';
+                mod6Pie.series[0].name = 'MOD6干扰日平均次数';
+                mod3Pie.title.text = currentCellName + ': MOD3干扰日平均次数';
+                mod6Pie.title.text = currentCellName + ': MOD6干扰日平均次数';
+                angular.forEach(interferenceCells, function (cell) {
+                    over6DbPie.series[0].data.push({
+                        name: cell.neighborCellName,
+                        y: cell.overInterferences6Db
+                    });
+                    over10DbPie.series[0].data.push({
+                        name: cell.neighborCellName,
+                        y: cell.overInterferences10Db
+                    });
+                    if (cell.mod3Interferences > 0) {
+                        mod3Pie.series[0].data.push({
+                            name: cell.neighborCellName,
+                            y: cell.mod3Interferences
+                        });
+                    }
+                    if (cell.mod6Interferences > 0) {
+                        mod6Pie.series[0].data.push({
+                            name: cell.neighborCellName,
+                            y: cell.mod6Interferences
+                        });
+                    }
+                });
+                return {
+                    over6DbOption: over6DbPie.options,
+                    over10DbOption: over10DbPie.options,
+                    mod3Option: mod3Pie.options,
+                    mod6Option: mod6Pie.options
+                };
+            },
+            getStrengthColumnOptions: function (interferenceCells, mrCount, currentCellName) {
+                var over6DbColumn = new Column3d();
+                var over10DbColumn = new Column3d();
+                over6DbColumn.series[0].name = '6dB干扰强度';
+                over10DbColumn.series[0].name = '10dB干扰强度';
+                over6DbColumn.title.text = currentCellName + ': 6dB干扰干扰强度';
+                over10DbColumn.title.text = currentCellName + ': 10dB干扰干扰强度';
+
+                angular.forEach(interferenceCells, function (cell) {
+                    over6DbColumn.series[0].data.push(cell.overInterferences6Db / mrCount * 100);
+                    over10DbColumn.series[0].data.push(cell.overInterferences10Db / mrCount * 100);
+                    over6DbColumn.xAxis.categories.push(cell.neighborCellName);
+                    over10DbColumn.xAxis.categories.push(cell.neighborCellName);
+                });
+                return {
+                    over6DbOption: over6DbColumn.options,
+                    over10DbOption: over10DbColumn.options
+                };
+            },
+            calculatePreciseChange: function (input) {
+                var preKpis = input.slice(0, 7);
+                var postKpis = input.slice(input.length - 7);
+                var preSum = 0;
+                var postSum = 0;
+                angular.forEach(preKpis, function (kpi) {
+                    preSum += kpi.secondRate;
+                });
+                angular.forEach(postKpis, function (kpi) {
+                    postSum += kpi.secondRate;
+                });
+                return {
+                    pre: 100 - preSum / 7,
+                    post: 100 - postSum / 7
+                };
+            },
+            queryKpiOptions: function (network) {
+                switch (network) {
+                    case '2G':
+                        return {
+                            options: ['Ec/Io', 'RxAGC', 'TxPower'],
+                            selected: 'Ec/Io'
+                        };
+                    case '3G':
+                        return {
+                            options: ['SINR(3G)', 'RxAGC0', 'RxAGC1'],
+                            selected: 'SINR(3G)'
+                        };
+                    default:
+                        return {
+                            options: ['RSRP', 'SINR'],
+                            selected: 'RSRP'
+                        };
+                }
+            },
+            queryCoverageLegend: function (kpi) {
+                switch (kpi) {
+                    case 'Ec/Io':
+                        return {
+                            criteria: coverageService.defaultEcioCriteria,
+                            sign: true
+                        };
+                    case 'RxAGC':
+                        return {
+                            criteria: coverageService.defaultRxCriteria,
+                            sign: true
+                        };
+                    case 'TxPower':
+                        return {
+                            criteria: coverageService.defaultTxCriteria,
+                            sign: false
+                        };
+                    case 'SINR(3G)':
+                        return {
+                            criteria: coverageService.defaultSinr3GCriteria,
+                            sign: true
+                        };
+                    case 'RxAGC0':
+                        return {
+                            criteria: coverageService.defaultRxCriteria,
+                            sign: true
+                        };
+                    case 'RxAGC1':
+                        return {
+                            criteria: coverageService.defaultRxCriteria,
+                            sign: true
+                        };
+                    case 'RSRP':
+                        return {
+                            criteria: coverageService.defaultRsrpCriteria,
+                            sign: true
+                        };
+                    default:
+                        return {
+                            criteria: coverageService.defaultSinrCriteria,
+                            sign: true
+                        };
+                }
+            },
+            initializeCoveragePoints: function (legend) {
+                var pointDef = {
+                    sign: legend.sign,
+                    intervals: []
+                };
+                angular.forEach(legend.criteria, function (interval) {
+                    pointDef.intervals.push({
+                        color: interval.color,
+                        threshold: interval.threshold,
+                        coors: []
+                    });
+                });
+                pointDef.intervals.push({
+                    color: "#077f07",
+                    threshold: legend.sign ? 10000 : -10000,
+                    coors: []
+                });
+                return pointDef;
+            },
+            generateCoveragePoints: function (pointDef, points, kpi) {
+                var intervals = pointDef.intervals;
+                angular.forEach(points, function (point) {
+                    var value = 0;
+                    switch (kpi) {
+                        case 'Ec/Io':
+                            value = point.ecio;
+                            break;
+                        case 'RxAGC':
+                            value = point.rxAgc;
+                            break;
+                        case 'TxPower':
+                            value = point.txPower;
+                            break;
+                        case 'SINR(3G)':
+                            value = point.sinr;
+                            break;
+                        case 'RxAGC0':
+                            value = point.rxAgc0;
+                            break;
+                        case 'RxAGC1':
+                            value = point.rxAgc1;
+                            break;
+                        case 'RSRP':
+                            value = point.rsrp;
+                            break;
+                        default:
+                            value = point.sinr;
+                            break;
+                    }
+                    for (var i = 0; i < intervals.length; i++) {
+                        if ((pointDef.sign && value < intervals[i].threshold) || (!pointDef.sign && value > intervals[i].threshold)) {
+                            intervals[i].coors.push({
+                                longtitute: point.longtitute,
+                                lattitute: point.lattitute
+                            });
+                            break;
+                        }
+                    }
+                });
+            },
+            updateCoverageKpi: function (neighbor, cell, dateSpan) {
+                topPreciseService.queryCoverage(dateSpan.begin, dateSpan.end,
+                    cell.cellId, cell.sectorId).then(function (coverage) {
+                        if (coverage.length > 0) {
+                            var coverageRate = calculateService.calculateWeakCoverageRate(coverage);
+                            neighbor.weakBelow115 = coverageRate.rate115;
+                            neighbor.weakBelow110 = coverageRate.rate110;
+                            neighbor.weakBelow105 = coverageRate.rate105;
+                        }
+
+                    });
+                topPreciseService.queryTa(dateSpan.begin, dateSpan.end,
+                    cell.cellId, cell.sectorId).then(function (taList) {
+                        if (taList.length > 0) {
+                            neighbor.overCover = calculateService.calculateOverCoverageRate(taList);
+                        }
+                    });
+            }
+        };
+    })
     .controller('dump.cell.mongo', function ($scope, $uibModalInstance,
         dumpProgress, appFormatService, dumpPreciseService,neighborService, neighborMongoService,
         preciseInterferenceService, networkElementService,
@@ -1400,6 +1825,88 @@
         });
 
     })
+    .controller("rutrace.interference", function ($scope, cell,
+        topPreciseService, kpiDisplayService, preciseInterferenceService, neighborMongoService) {
+        $scope.currentCellName = cell.name + "-" + cell.sectorId;
+        $scope.dialogTitle = "TOP指标干扰分析: " + $scope.currentCellName;
+        $scope.oneAtATime = false;
+        $scope.orderPolicy = topPreciseService.getOrderPolicySelection();
+        $scope.updateMessages = [];
+
+        $scope.showInterference = function () {
+            $scope.interferenceCells = [];
+            $scope.victimCells = [];
+
+            preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
+                cell.cellId, cell.sectorId).then(function (result) {
+                    angular.forEach(result, function (interference) {
+                        for (var i = 0; i < $scope.mongoNeighbors.length; i++) {
+                            var neighbor = $scope.mongoNeighbors[i];
+                            if (neighbor.neighborPci === interference.destPci) {
+                                interference.isMongoNeighbor = true;
+                                break;
+                            }
+                        }
+                    });
+                    $scope.interferenceCells = result;
+                    preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
+                        cell.cellId, cell.sectorId).then(function (victims) {
+                            angular.forEach(victims, function (victim) {
+                                for (var j = 0; j < result.length; j++) {
+                                    if (result[j].destENodebId === victim.victimENodebId
+                                        && result[j].destSectorId === victim.victimSectorId) {
+                                        victim.forwardInterferences6Db = result[j].overInterferences6Db;
+                                        victim.forwardInterferences10Db = result[j].overInterferences10Db;
+                                        break;
+                                    }
+                                }
+                            });
+                            $scope.victimCells = victims;
+                        });
+                    var pieOptions = kpiDisplayService.getInterferencePieOptions(result, $scope.currentCellName);
+                    $("#interference-over6db").highcharts(pieOptions.over6DbOption);
+                    $("#interference-over10db").highcharts(pieOptions.over10DbOption);
+                    $("#interference-mod3").highcharts(pieOptions.mod3Option);
+                    $("#interference-mod6").highcharts(pieOptions.mod6Option);
+                    topPreciseService.queryRsrpTa($scope.beginDate.value, $scope.endDate.value,
+                        cell.cellId, cell.sectorId).then(function (info) {
+                        });
+                });
+        };
+
+        $scope.updateNeighborInfos = function () {
+            preciseInterferenceService.updateInterferenceNeighbor(cell.cellId, cell.sectorId).then(function (result) {
+                $scope.updateMessages.push({
+                    cellName: $scope.currentCellName,
+                    counts: result,
+                    type: "干扰"
+                });
+            });
+
+            preciseInterferenceService.updateInterferenceVictim(cell.cellId, cell.sectorId).then(function (result) {
+                $scope.updateMessages.push({
+                    cellName: $scope.currentCellName,
+                    counts: result,
+                    type: "被干扰"
+                });
+            });
+        }
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.mongoNeighbors);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        neighborMongoService.queryNeighbors(cell.cellId, cell.sectorId).then(function (result) {
+            $scope.mongoNeighbors = result;
+            $scope.showInterference();
+            $scope.updateNeighborInfos();
+        });
+    })
+
     .factory('neighborDialogService', function ($uibModal, $log, neighborService) {
         var matchNearest = function (nearestCell, currentNeighbor, center) {
             neighborService.updateNeighbors(center.cellId, center.sectorId, currentNeighbor.destPci,
@@ -1417,6 +1924,33 @@
                     resolve: {
                         dialogTitle: function () {
                             return cell.name + "-" + cell.sectorId + "干扰数据导入";
+                        },
+                        cell: function () {
+                            return cell;
+                        },
+                        begin: function () {
+                            return beginDate;
+                        },
+                        end: function () {
+                            return endDate;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (info) {
+                    console.log(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showInterference: function (cell, beginDate, endDate) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Interference/Index.html',
+                    controller: 'rutrace.interference',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return cell.name + "-" + cell.sectorId + "干扰指标分析";
                         },
                         cell: function () {
                             return cell;
