@@ -1825,13 +1825,23 @@
         });
 
     })
-    .controller("rutrace.interference", function ($scope, cell,
-        topPreciseService, kpiDisplayService, preciseInterferenceService, neighborMongoService) {
+    .controller("rutrace.interference", function ($scope, $uibModalInstance, cell,
+        topPreciseService, kpiDisplayService, preciseInterferenceService, neighborMongoService, networkElementService) {
         $scope.currentCellName = cell.name + "-" + cell.sectorId;
         $scope.dialogTitle = "TOP指标干扰分析: " + $scope.currentCellName;
         $scope.oneAtATime = false;
         $scope.orderPolicy = topPreciseService.getOrderPolicySelection();
         $scope.updateMessages = [];
+
+        networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function(info) {
+            $scope.current = {
+                cellId: cell.cellId,
+                sectorId: cell.sectorId,
+                eNodebName: cell.name,
+                longtitute: info.longtitute,
+                lattitute: info.lattitute
+            };
+        });
 
         $scope.showInterference = function () {
             $scope.interferenceCells = [];

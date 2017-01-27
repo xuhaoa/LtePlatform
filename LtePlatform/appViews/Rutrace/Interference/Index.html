@@ -19,10 +19,8 @@
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-warning" ng-click="showInterference()">
                         <i class="glyphicon glyphicon-search" title="统计干扰"></i>
+                        统计
                     </button>
-                    <a class="btn btn-success" ng-href="{{rootPath}}top">
-                        <i class="glyphicon glyphicon-log-out" title="返回TOP统计"></i>
-                    </a>
                 </span>
             </div>
         </div>
@@ -32,7 +30,7 @@
             <div mongo-neighbor-list mongo-neighbors="mongoNeighbors"></div>
         </div>
         <div uib-tab index="1" heading="干扰源分析({{interferenceCells.length}})">
-            <div interference-source-list interference-cells="interferenceCells" order-policy="orderPolicy" top-stat="topStat"></div>
+            <div interference-source-list interference-cells="interferenceCells" order-policy="orderPolicy" current="current"></div>
         </div>
         <div uib-tab index="2" heading="被干扰小区({{victimCells.length}})">
             <div interference-victim-list victim-cells="victimCells" order-policy="orderPolicy"></div>
@@ -51,7 +49,6 @@
 
 </div>
 <div class="modal-footer">
-    <button class="btn btn-warning" ng-click="dumpAllRecords()">导入所有</button>
     <button class="btn btn-default" ng-click="ok()">OK</button>
     <button class="btn btn-default" type="button" ng-click="cancel()">Cancel</button>
 </div>

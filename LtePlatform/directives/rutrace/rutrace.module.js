@@ -251,12 +251,12 @@ angular.module('rutrace.interference', ['myApp.region'])
             scope: {
                 interferenceCells: '=',
                 orderPolicy: '=',
-                topStat: '='
+                current: '='
             },
             templateUrl: htmlRoot + 'interference/SourceList.html',
             link: function(scope, element, attrs) {
                 scope.match = function(candidate) {
-                    var center = scope.topStat.current;
+                    var center = scope.current;
                     neighborService.queryNearestCells(center.cellId, center.sectorId, candidate.destPci).then(function(neighbors) {
                         neighborDialogService.matchNeighbor(center, candidate, neighbors);
                     });
