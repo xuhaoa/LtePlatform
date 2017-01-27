@@ -195,6 +195,9 @@
             value: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8),
             opened: false
         };
+        $rootScope.closeAlert = function (messages, index) {
+            messages.splice(index, 1);
+        };
     })
     .controller("parameters.list", function($scope, appRegionService, parametersChartService) {
         $scope.page.title = "基础数据总览";
@@ -474,8 +477,11 @@
             $scope.rootPath + "btsList" + "/" + $stateParams.city + "/" + $stateParams.district + "/" + $stateParams.town);
     })
 
-    .controller("topic.cells", function($scope, $stateParams) {
-        
+    .controller("topic.cells", function ($scope, $stateParams, complainService) {
+        $scope.page.title = $stateParams.name + "热点小区信息";
+        complainService.queryHotSpotCells($stateParams.name).then(function (existedCells) {
+            $scope.cellList = existedCells;
+        });
     })
 
     .controller('hot.spot.dialog', function ($scope, dialogTitle, $uibModalInstance) {
