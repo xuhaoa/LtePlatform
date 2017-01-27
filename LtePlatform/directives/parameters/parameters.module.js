@@ -440,6 +440,9 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
                         <button class="btn btn-warning btn-sm" ng-click="grid.appScope.showInterference(row.entity)"> \
                             干扰 \
                         </button> \
+                        <button class="btn btn-success btn-sm" ng-click="grid.appScope.showCoverage(row.entity)"> \
+                            覆盖 \
+                        </button> \
                     </div>',
                     width: 200
                 }
@@ -461,6 +464,13 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
         };
         $scope.showInterference = function (cell) {
             neighborDialogService.showInterference({
+                cellId: cell.eNodebId,
+                sectorId: cell.sectorId,
+                name: cell.eNodebName
+            }, $scope.beginDate.value, $scope.endDate.value);
+        };
+        $scope.showCoverage = function (cell) {
+            neighborDialogService.showCoverage({
                 cellId: cell.eNodebId,
                 sectorId: cell.sectorId,
                 name: cell.eNodebName
