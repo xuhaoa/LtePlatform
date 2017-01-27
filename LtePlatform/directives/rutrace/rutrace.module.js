@@ -1,6 +1,5 @@
 ﻿angular.module('rutrace.module', [
         'rutrace.top.cell',
-        'rutrace.neighbor',
         'rutrace.interference',
         'rutrace.trend',
         'rutrace.analyze'
@@ -43,6 +42,13 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region'])
                 };
                 scope.showInterference = function(cell) {
                     neighborDialogService.showInterference({
+                        cellId: cell.cellId,
+                        sectorId: cell.sectorId,
+                        name: cell.eNodebName
+                    }, scope.beginDate.value, scope.endDate.value);
+                };
+                scope.showCoverage = function (cell) {
+                    neighborDialogService.showCoverage({
                         cellId: cell.cellId,
                         sectorId: cell.sectorId,
                         name: cell.eNodebName
@@ -157,9 +163,8 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region'])
                 });
             }
         };
-    });
+    })
 
-angular.module('rutrace.neighbor', ['myApp.region', 'myApp.kpi'])
     .directive('dumpForwardNeighbors', function(htmlRoot, neighborDialogService) {
         return {
             restrict: 'ECMA',

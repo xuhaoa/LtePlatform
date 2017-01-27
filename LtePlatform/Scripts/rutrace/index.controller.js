@@ -27,10 +27,6 @@
                     templateUrl: viewDir + "Top.html",
                     controller: "rutrace.top"
                 })
-                .when('/coverage/:cellId/:sectorId/:name', {
-                    templateUrl: viewDir + "Coverage/Index.html",
-                    controller: "rutrace.coverage"
-                })
                 .when('/baidumap/:cellId/:sectorId/:name', {
                     templateUrl: viewDir + "Map/Index.html",
                     controller: "rutrace.map"
@@ -222,65 +218,6 @@
                 $scope.showKpi(city);
             }
         });
-    })
-    .controller("rutrace.coverage", function ($scope, $routeParams, $uibModal, topPreciseService, preciseInterferenceService,
-        preciseChartService, coverageService, kpiDisplayService) {
-        $scope.currentCellName = $routeParams.name + "-" + $routeParams.sectorId;
-        $scope.page.title = "TOP指标覆盖分析: " + $scope.currentCellName;
-        $scope.orderPolicy = topPreciseService.getOrderPolicySelection();
-        $scope.detailsDialogTitle = $routeParams.name + "-" + $routeParams.sectorId + "详细小区统计";
-        $scope.cellId = $routeParams.cellId;
-        $scope.sectorId = $routeParams.sectorId;
-        $scope.showCoverage = function () {
-            topPreciseService.queryRsrpTa($scope.beginDate.value, $scope.endDate.value,
-                $routeParams.cellId, $routeParams.sectorId).then(function (result) {
-                    for (var rsrpIndex = 0; rsrpIndex < 12; rsrpIndex++) {
-                        var options = preciseChartService.getRsrpTaOptions(result, rsrpIndex);
-                        $("#rsrp-ta-" + rsrpIndex).highcharts(options);
-                    }
-            });
-            topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
-                $routeParams.cellId, $routeParams.sectorId).then(function (result) {
-                    var options = preciseChartService.getCoverageOptions(result);
-                $("#coverage-chart").highcharts(options);
-                });
-            topPreciseService.queryTa($scope.beginDate.value, $scope.endDate.value,
-                $routeParams.cellId, $routeParams.sectorId).then(function (result) {
-                    var options = preciseChartService.getTaOptions(result);
-                    $("#ta-chart").highcharts(options);
-                });
-            preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
-                $routeParams.cellId, $routeParams.sectorId).then(function(result) {
-                $scope.interferenceCells = result;
-                angular.forEach($scope.interferenceCells, function(neighbor) {
-                    if (neighbor.destENodebId > 0) {
-                        kpiDisplayService.updateCoverageKpi(neighbor, {
-                            cellId: neighbor.destENodebId,
-                            sectorId: neighbor.destSectorId
-                        }, {
-                            begin: $scope.beginDate.value,
-                            end: $scope.endDate.value
-                        });
-                    }
-                });
-            });
-            preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
-                $routeParams.cellId, $routeParams.sectorId).then(function(result) {
-                $scope.interferenceVictims = result;
-                angular.forEach($scope.interferenceVictims, function(victim) {
-                    if (victim.victimENodebId > 0) {
-                        kpiDisplayService.updateCoverageKpi(victim, {
-                            cellId: victim.victimENodebId,
-                            sectorId: victim.victimSectorId
-                        }, {
-                            begin: $scope.beginDate.value,
-                            end: $scope.endDate.value
-                        });
-                    }
-                });
-            });
-        };
-        $scope.showCoverage();
     })
     .controller("rutrace.chart", function ($scope, $location, $timeout, appKpiService) {
         if ($scope.overallStat.districtStats.length === 0) $location.path($scope.rootPath);

@@ -38,15 +38,9 @@
                                 </a>
                             </li>
                             <li role="menuitem">
-                                <a class="btn btn-success" ng-href="{{rootPath}}coverage/{{cell.cellId}}/{{cell.sectorId}}/{{cell.eNodebName}}">
+                                <a class="btn btn-success" ng-click="showCoverage(cell)">
                                     <i class="glyphicon glyphicon-tree-conifer" title="覆盖信息"></i>
                                     覆盖信息
-                                </a>
-                            </li>
-                            <li role="menuitem">
-                                <a class="btn btn-default" ng-href="{{rootPath}}baidumap/{{cell.cellId}}/{{cell.sectorId}}/{{cell.eNodebName}}">
-                                    <i class="glyphicon glyphicon-globe"></i>
-                                    地理化显示
                                 </a>
                             </li>
                             <li role="menuitem">
@@ -54,6 +48,12 @@
                                    ng-href="{{rootPath}}cellTrend/{{cell.cellId}}/{{cell.sectorId}}/{{cell.eNodebName}}-{{cell.sectorId}}">
                                     <i class="glyphicon glyphicon-stats" title="单小区按日期的变化趋势"></i>
                                     变化趋势
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a class="btn btn-default" ng-href="{{rootPath}}baidumap/{{cell.cellId}}/{{cell.sectorId}}/{{cell.eNodebName}}">
+                                    <i class="glyphicon glyphicon-globe"></i>
+                                    地理化显示
                                 </a>
                             </li>
                         </ul>

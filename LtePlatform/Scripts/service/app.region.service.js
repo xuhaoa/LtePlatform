@@ -1945,6 +1945,75 @@
             $scope.updateNeighborInfos();
         });
     })
+    .controller("rutrace.coverage", function ($scope, cell, $uibModal, $uibModalInstance,
+        topPreciseService, preciseInterferenceService,
+        preciseChartService, coverageService, kpiDisplayService) {
+        $scope.currentCellName = cell.name + "-" + cell.sectorId;
+        $scope.dialogTitle = "TOP指标覆盖分析: " + $scope.currentCellName;
+        $scope.orderPolicy = topPreciseService.getOrderPolicySelection();
+        $scope.detailsDialogTitle = cell.name + "-" + cell.sectorId + "详细小区统计";
+        $scope.cellId = cell.cellId;
+        $scope.sectorId = cell.sectorId;
+        $scope.showCoverage = function () {
+            topPreciseService.queryRsrpTa($scope.beginDate.value, $scope.endDate.value,
+                cell.cellId, cell.sectorId).then(function (result) {
+                    for (var rsrpIndex = 0; rsrpIndex < 12; rsrpIndex++) {
+                        var options = preciseChartService.getRsrpTaOptions(result, rsrpIndex);
+                        $("#rsrp-ta-" + rsrpIndex).highcharts(options);
+                    }
+                });
+            topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
+                cell.cellId, cell.sectorId).then(function (result) {
+                    var options = preciseChartService.getCoverageOptions(result);
+                    $("#coverage-chart").highcharts(options);
+                });
+            topPreciseService.queryTa($scope.beginDate.value, $scope.endDate.value,
+                cell.cellId, cell.sectorId).then(function (result) {
+                    var options = preciseChartService.getTaOptions(result);
+                    $("#ta-chart").highcharts(options);
+                });
+            preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
+                cell.cellId, cell.sectorId).then(function (result) {
+                    $scope.interferenceCells = result;
+                    angular.forEach($scope.interferenceCells, function (neighbor) {
+                        if (neighbor.destENodebId > 0) {
+                            kpiDisplayService.updateCoverageKpi(neighbor, {
+                                cellId: neighbor.destENodebId,
+                                sectorId: neighbor.destSectorId
+                            }, {
+                                begin: $scope.beginDate.value,
+                                end: $scope.endDate.value
+                            });
+                        }
+                    });
+                });
+            preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
+                cell.cellId, cell.sectorId).then(function (result) {
+                    $scope.interferenceVictims = result;
+                    angular.forEach($scope.interferenceVictims, function (victim) {
+                        if (victim.victimENodebId > 0) {
+                            kpiDisplayService.updateCoverageKpi(victim, {
+                                cellId: victim.victimENodebId,
+                                sectorId: victim.victimSectorId
+                            }, {
+                                begin: $scope.beginDate.value,
+                                end: $scope.endDate.value
+                            });
+                        }
+                    });
+                });
+        };
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.interferenceCells);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        $scope.showCoverage();
+    })
 
     .factory('neighborDialogService', function ($uibModal, $log, neighborService) {
         var matchNearest = function (nearestCell, currentNeighbor, center) {
@@ -1990,6 +2059,33 @@
                     resolve: {
                         dialogTitle: function () {
                             return cell.name + "-" + cell.sectorId + "干扰指标分析";
+                        },
+                        cell: function () {
+                            return cell;
+                        },
+                        begin: function () {
+                            return beginDate;
+                        },
+                        end: function () {
+                            return endDate;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (info) {
+                    console.log(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showCoverage: function (cell, beginDate, endDate) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Coverage/Index.html',
+                    controller: 'rutrace.coverage',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return cell.name + "-" + cell.sectorId + "覆盖指标分析";
                         },
                         cell: function () {
                             return cell;
