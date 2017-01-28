@@ -1867,7 +1867,6 @@
     <Content Include="Views\Evaluation\RegionDef.cshtml" />
     <Content Include="Views\College\Map.cshtml" />
     <Content Include="Views\Kpi\Index.cshtml" />
-    <Content Include="Scripts\test\services\cell.precise.spec.js" />
     <Content Include="Scripts\service\topic\baidu.map.js" />
     <Content Include="Scripts\lang\jcs-auto-validate_ru-ru.json" />
     <Content Include="Scripts\lang\jcs-auto-validate_it-it.json" />

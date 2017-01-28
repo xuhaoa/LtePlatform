@@ -7,12 +7,15 @@
 /// <reference path="../../underscore.min.js"/>
 /// <reference path="../mock/highcharts.mock.js"/>
 /// <reference path="../../mycharts/comboChart.js"/>
+/// <reference path="../../ui-grid.js"/>
 /// <reference path="../../service/app.url.service.js"/>
 
-describe('app.url service tests', function() {
+describe('app.url service tests', function () {
+    beforeEach(module('ui.grid'));
+    beforeEach(module('myApp.url'));
+
     describe('test url generator', function() {
         var appUrlService;
-        beforeEach(module('myApp.url'));
 
         beforeEach(inject(function(_appUrlService_) {
             appUrlService = _appUrlService_;
@@ -64,6 +67,46 @@ describe('app.url service tests', function() {
                     }
                 }
             });
+        });
+
+        it('should be able to generateColumnData', function () {
+            var categoriesFunc = function (stat) {
+                return stat.key;
+            };
+            var dataFuncs = [
+                function (stat) {
+                    return stat.value1;
+                }, function (stat) {
+                    return stat.value2;
+                }, function (stat) {
+                    return stat.value3;
+                }
+            ];
+            var stats = [
+                {
+                    key: 1,
+                    value1: 2,
+                    value2: 3,
+                    value3: 4
+                }, {
+                    key: 2,
+                    value1: 3,
+                    value2: 4,
+                    value3: 5
+                }, {
+                    key: 3,
+                    value1: 4,
+                    value2: 6,
+                    value3: 8
+                }
+            ];
+            var result = generalChartService.generateColumnData(stats, categoriesFunc, dataFuncs);
+            expect(result.categories.length).toEqual(3);
+            expect(result.categories).toEqual([1, 2, 3]);
+            expect(result.dataList.length).toEqual(3);
+            expect(result.dataList[0]).toEqual([2, 3, 4]);
+            expect(result.dataList[1]).toEqual([3, 4, 6]);
+            expect(result.dataList[2]).toEqual([4, 5, 8]);
         });
     });
 

@@ -6,8 +6,6 @@
 /// <reference path="../../jasmine/jasmine-html.js"/>
 /// <reference path="../mock/highcharts.mock.js"/>
 /// <reference path="../../mycharts/comboChart.js"/>
-/// <reference path="../../service/app.url.service.js"/>
-/// <reference path="../../service/app.region.service.js"/>
 
 describe('chart object tests', function() {
     describe('general chart test', function() {
@@ -111,12 +109,6 @@ describe('chart object tests', function() {
                 pointFormat: '<b>{point.y:.2f}</b>'
             });
         });
-
-        it('should be able to get chart zoomType', function() {
-            expect(chart.chart).toEqual({
-                zoomType: 'xy'
-            });
-        });
     });
 
     describe('combo chart options test', function() {
@@ -132,10 +124,10 @@ describe('chart object tests', function() {
             var base = new GeneralChart();
 
             expect(base.options.title).toEqual({
-                text: ''
+                text: 'new title'
             });
             expect(options.title).toEqual({
-                text: ''
+                text: 'new title'
             });
         });
 
@@ -177,7 +169,7 @@ describe('chart object tests', function() {
         it('should be able to get chart zoomType', function() {
             var baseOptions = ComboChart.prototype.options;
             expect(baseOptions.title).toEqual({
-                text: 'new title'
+                text: ''
             });
             expect(options.chart).toEqual({
                 zoomType: 'xy'
@@ -400,55 +392,6 @@ describe('chart object tests', function() {
             expect(options.credits).toEqual({
                 enabled: false
             });
-        });
-    });
-
-    describe('generalChartService test', function() {
-        var generalChartService;
-        beforeEach(module('myApp.region'));
-
-        beforeEach(inject(function(_generalChartService_) {
-            generalChartService = _generalChartService_;
-        }));
-
-        it('should be able to generateColumnData', function() {
-            var categoriesFunc = function(stat) {
-                return stat.key;
-            };
-            var dataFuncs = [
-                function(stat) {
-                    return stat.value1;
-                }, function(stat) {
-                    return stat.value2;
-                }, function(stat) {
-                    return stat.value3;
-                }
-            ];
-            var stats = [
-                {
-                    key: 1,
-                    value1: 2,
-                    value2: 3,
-                    value3: 4
-                }, {
-                    key: 2,
-                    value1: 3,
-                    value2: 4,
-                    value3: 5
-                }, {
-                    key: 3,
-                    value1: 4,
-                    value2: 6,
-                    value3: 8
-                }
-            ];
-            var result = generalChartService.generateColumnData(stats, categoriesFunc, dataFuncs);
-            expect(result.categories.length).toEqual(3);
-            expect(result.categories).toEqual([1, 2, 3]);
-            expect(result.dataList.length).toEqual(3);
-            expect(result.dataList[0]).toEqual([2, 3, 4]);
-            expect(result.dataList[1]).toEqual([3, 4, 6]);
-            expect(result.dataList[2]).toEqual([4, 5, 8]);
         });
     });
 });

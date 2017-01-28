@@ -164,7 +164,6 @@
 /// <reference path="test/services/app.kpi.spec.js" />
 /// <reference path="test/services/app.region.spec.js" />
 /// <reference path="test/services/app.url.spec.js" />
-/// <reference path="test/services/cell.precise.spec.js" />
 /// <reference path="test/services/chart.spec.js" />
 /// <reference path="test/services/filters.spec.js" />
 /// <reference path="test/services/format.spec.js" />
