@@ -558,6 +558,17 @@
 				});
 				return results;
 			},
+			calculateMemberSum: function(array, memberList, categoryFunc) {
+			    var result = _.reduce(array, function(memo, num) {
+			        var temp = {};
+			        angular.forEach(memberList, function(member) {
+			            temp[member] = memo[member] + num[member];
+			        });
+			        return temp;
+			    });
+			    categoryFunc(result);
+			    return result;
+			},
 			generateDateDistrictStats: function (stats, districtLength, queryFunction) {
 				var statDates = [];
 				var districtStats = [];

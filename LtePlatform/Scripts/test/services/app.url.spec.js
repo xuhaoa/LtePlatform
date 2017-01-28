@@ -202,6 +202,41 @@ describe('app.url service tests', function () {
             });
         });
 
+        describe('calculate member sum', function () {
+            var array = [
+                {
+                    statTime: '2016-11-22',
+                    pdcpDownlinkFlow: 1.2,
+                    pdcpUplinkFlow: 0.3,
+                    maxUsers: 11
+                },
+                {
+                    statTime: '2016-11-22',
+                    pdcpDownlinkFlow: 2.7,
+                    pdcpUplinkFlow: 1.3,
+                    maxUsers: 51
+                },
+                {
+                    statTime: '2016-11-22',
+                    pdcpDownlinkFlow: 10.2,
+                    pdcpUplinkFlow: 3.3,
+                    maxUsers: 110
+                }
+            ];
+            it('can calculate with all members', function() {
+                var sum = chartCalculateService.calculateMemberSum(array, ['pdcpDownlinkFlow', 'pdcpUplinkFlow', 'maxUsers'], function(stat) {
+                    stat.cellName = 'new cell';
+                });
+                expect(sum).toEqual({
+                    cellName: 'new cell',
+                    pdcpDownlinkFlow: 14.1,
+                    pdcpUplinkFlow: 4.9,
+                    maxUsers: 172
+                });
+            });
+
+        });
+
         describe('generateRsrpTaStats', function () {
             it('can generate rsrp ta stats with empty set', function () {
                 var result = chartCalculateService.generateRsrpTaStats({}, 0);
