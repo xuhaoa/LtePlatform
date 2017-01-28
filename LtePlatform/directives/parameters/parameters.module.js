@@ -174,30 +174,17 @@
             workItemDialog.showENodebFlow(eNodeb, $scope.beginDate, $scope.endDate);
         };
     })
-    .directive('eNodebPlainTable', function ($compile) {
-        return {
-            controller: 'ENodebPlainController',
-            restrict: 'EA',
-            replace: true,
+    .directive('eNodebPlainTable', function ($compile, calculateService) {
+        return calculateService.generatePagingGridDirective({
+            controllerName: 'ENodebPlainController',
             scope: {
                 items: '=',
                 rootPath: '=',
                 beginDate: '=',
                 endDate: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 600px"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
+            argumentName: 'items'
+        }, $compile);
     })
 
     .directive('eNodebDetailsTable', function(parametersRoot) {
