@@ -232,6 +232,33 @@ describe('underscore collection tests', function() {
             expect(sum).toEqual(6);
         });
 
+        it('can sum up an array with members', function() {
+            var array = [
+                {
+                    first: 1,
+                    second: 2
+                },
+                {
+                    first: 2,
+                    second: 3
+                },
+                {
+                    first: 2,
+                    second: 4
+                }
+            ];
+            sum = _.reduce(array, function(memo, num) {
+                var result = {};
+                result['first'] = memo['first'] + num['first'];
+                result['second'] = memo['second'] + num['second'];
+                return result;
+            });
+            expect(sum).toEqual({
+                first: 5,
+                second: 9
+            });
+        });
+
         it('can reduce with a context object', function() {
             var context = { multiplier: 3 };
             sum = _.reduce([1, 2, 3], function(memo, num) { return memo + num * this.multiplier; }, 0, context);

@@ -1622,7 +1622,6 @@
     <Content Include="Scripts\test\mock\underscore.chaining.spec.js" />
     <Content Include="Scripts\test\mock\underscore.collection.spec.js" />
     <Content Include="Scripts\test\mock\underscore.functions.spec.js" />
-    <Content Include="Scripts\test\mock\underscore.mr.spec.js" />
     <Content Include="Scripts\test\mock\underscore.objects.spec.js" />
     <Content Include="Scripts\test\services\app.url.spec.js" />
     <Content Include="Scripts\test\services\chart.spec.js" />

@@ -159,7 +159,6 @@
 /// <reference path="test/mock/underscore.chaining.spec.js" />
 /// <reference path="test/mock/underscore.collection.spec.js" />
 /// <reference path="test/mock/underscore.functions.spec.js" />
-/// <reference path="test/mock/underscore.mr.spec.js" />
 /// <reference path="test/mock/underscore.objects.spec.js" />
 /// <reference path="test/services/app.kpi.spec.js" />
 /// <reference path="test/services/app.region.spec.js" />
