@@ -619,7 +619,6 @@
     <Content Include="appViews\Parameters\Region\ENodebInfo.html" />
     <Content Include="appViews\Rutrace\Chart.html" />
     <Content Include="appViews\Rutrace\Coverage\Index.html" />
-    <Content Include="directives\parameters\eNodeb\Query.html" />
     <Content Include="directives\parameters\kpi\AlarmTable.html" />
     <Content Include="directives\parameters\kpi\FlowTable.html" />
     <Content Include="directives\parameters\parameters.module.js" />

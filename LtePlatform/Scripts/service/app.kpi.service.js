@@ -673,6 +673,31 @@
             }
         };
     })
+
+    .controller("eNodeb.flow", function ($scope, $uibModalInstance, eNodeb, beginDate, endDate, networkElementService, flowService) {
+        $scope.eNodebName = eNodeb.name;
+        $scope.queryFlow = function () {
+            angular.forEach($scope.cellList, function (cell) {
+                flowService.queryCellFlowByDateSpan(cell.eNodebId, cell.sectorId,
+                    beginDate.value, endDate.value).then(function (flowList) {
+                        cell.flowList = flowList;
+                    });
+            });
+        };
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.cellList);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        networkElementService.queryCellViewsInOneENodeb(eNodeb.eNodebId).then(function (result) {
+            $scope.cellList = result;
+            $scope.queryFlow();
+        });
+    })
     .factory('workItemDialog', function ($uibModal, $log, workitemService) {
         return {
             feedback: function (view, callbackFunc) {
@@ -720,6 +745,29 @@
                     if (callbackFunc) callbackFunc();
                 }, function () {
                     if (callbackFunc) callbackFunc();
+                });
+            },
+            showENodebFlow: function (eNodeb, beginDate, endDate) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Parameters/Region/ENodebFlow.html',
+                    controller: 'eNodeb.flow',
+                    size: 'lg',
+                    resolve: {
+                        eNodeb: function () {
+                            return eNodeb;
+                        },
+                        beginDate: function() {
+                            return beginDate;
+                        },
+                        endDate: function() {
+                            return endDate;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                }, function () {
                 });
             },
             calculatePlatformInfo: function (comments) {

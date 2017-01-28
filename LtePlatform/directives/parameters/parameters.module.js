@@ -34,17 +34,6 @@
             templateUrl: parametersRoot + 'DistrictInfrastructure.Tpl.html'
         }
     })
-    .directive('eNodebQueryButton', function (parametersRoot) {
-        return {
-            restrict: 'EA',
-            replace: true,
-            scope: {
-                eNodeb: '=',
-                rootPath: '='
-            },
-            templateUrl: parametersRoot + 'eNodeb/Query.html'
-        }
-    })
 
     .directive('alarmTable', function(parametersRoot) {
         return {
@@ -139,7 +128,7 @@
             }
         };
     })
-    .controller('ENodebPlainController', function ($scope) {
+    .controller('ENodebPlainController', function ($scope, workItemDialog) {
         $scope.gridOptions = {
             paginationPageSizes: [20, 40, 60],
             paginationPageSize: 20,
@@ -157,11 +146,32 @@
                 },
                 {
                     name: '查询',
-                    cellTemplate: '<div e-nodeb-query-button root-path="grid.appScope.rootPath" e-nodeb="row.entity"></div>',
+                    cellTemplate: '<div class="btn-group-sm" uib-dropdown dropdown-append-to-body> \
+                        <button id="single-button" type="button" class="btn btn-sm btn-default" \
+                            uib-dropdown-toggle ng-disabled="disabled"> \
+                            查询 <span class="caret"></span> \
+                        </button> \
+                        <ul uib-dropdown-menu role="menu" aria-labelledby="single-button"> \
+                            <li role="menuitem"> \
+                                <a ng-href="{{grid.appScope.rootPath}}eNodebInfo/{{row.entity.eNodebId}}/{{row.entity.name}}" \
+                                    class="btn btn-sm" ng-class="{\'btn-default\': !row.entity.isInUse, \'btn-success\': row.entity.isInUse}">详细信息</a> \
+                            </li> \
+                            <li role="menuitem"> \
+                                <a ng-href="{{grid.appScope.rootPath}}alarm/{{row.entity.eNodebId}}/{{row.entity.name}}" ng-show="row.entity.isInUse" \
+                                    class="btn btn-sm btn-default">告警查询</a> \
+                            </li> \
+                            <li role="menuitem"> \
+                                <a ng-click="grid.appScope.showFlow(row.entity)" class="btn btn-sm btn-default">流量查询</a> \
+                            </li> \
+                        </ul> \
+                    </div>',
                     width: 100
                 }
             ],
             data: []
+        };
+        $scope.showFlow = function(eNodeb) {
+            workItemDialog.showENodebFlow(eNodeb, $scope.beginDate, $scope.endDate);
         };
     })
     .directive('eNodebPlainTable', function ($compile) {
@@ -171,7 +181,9 @@
             replace: true,
             scope: {
                 items: '=',
-                rootPath: '='
+                rootPath: '=',
+                beginDate: '=',
+                endDate: '='
             },
             template: '<div></div>',
             link: function (scope, element, attrs) {
@@ -187,6 +199,7 @@
             }
         };
     })
+
     .directive('eNodebDetailsTable', function(parametersRoot) {
         return {
             restrict: 'ECMA',
