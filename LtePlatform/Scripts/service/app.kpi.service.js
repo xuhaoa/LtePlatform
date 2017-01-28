@@ -296,6 +296,66 @@
                 }, function(data) {
                     return data.item2;
                 });
+            },
+            generateDownlinkFlowOptions: function (stats, topic) {
+                return generalChartService.getPieOptions(stats, {
+                    title: topic + '下行PDCP层流量（MB）',
+                    seriesTitle: '下行PDCP层流量（MB）'
+                }, function (stat) {
+                    return stat.cellName;
+                }, function (stat) {
+                    return stat.pdcpDownlinkFlow;
+                });
+            },
+            generateUplinkFlowOptions: function (stats, topic) {
+                return generalChartService.getPieOptions(stats, {
+                    title: topic + '上行PDCP层流量（MB）',
+                    seriesTitle: '上行PDCP层流量（MB）'
+                }, function (stat) {
+                    return stat.cellName;
+                }, function (stat) {
+                    return stat.pdcpUplinkFlow;
+                });
+            },
+            generateMaxUsersOptions: function (stats, topic) {
+                return generalChartService.getPieOptions(stats, {
+                    title: topic + '最大连接用户数',
+                    seriesTitle: '最大连接用户数'
+                }, function (stat) {
+                    return stat.cellName;
+                }, function (stat) {
+                    return stat.maxUsers;
+                });
+            },
+            generateAverageUsersOptions: function (stats, topic) {
+                return generalChartService.getPieOptions(stats, {
+                    title: topic + '平均连接用户数',
+                    seriesTitle: '平均连接用户数'
+                }, function (stat) {
+                    return stat.cellName;
+                }, function (stat) {
+                    return stat.averageUsers;
+                });
+            },
+            generateMaxActiveUsersOptions: function (stats, topic) {
+                return generalChartService.getPieOptions(stats, {
+                    title: topic + '最大激活用户数',
+                    seriesTitle: '最大激活用户数'
+                }, function (stat) {
+                    return stat.cellName;
+                }, function (stat) {
+                    return stat.maxActiveUsers;
+                });
+            },
+            generateAverageActiveUsersOptions: function (stats, topic) {
+                return generalChartService.getPieOptions(stats, {
+                    title: topic + '平均激活用户数',
+                    seriesTitle: '平均激活用户数'
+                }, function (stat) {
+                    return stat.cellName;
+                }, function (stat) {
+                    return stat.averageActiveUsers;
+                });
             }
         }
     })
@@ -674,15 +734,38 @@
         };
     })
 
-    .controller("eNodeb.flow", function ($scope, $uibModalInstance, eNodeb, beginDate, endDate, networkElementService, flowService) {
+    .controller("eNodeb.flow", function ($scope, $uibModalInstance, eNodeb, beginDate, endDate,
+        networkElementService, flowService, chartCalculateService, generalChartService, appKpiService) {
         $scope.eNodebName = eNodeb.name;
         $scope.queryFlow = function () {
+            $scope.flowStats = [];
             angular.forEach($scope.cellList, function (cell) {
                 flowService.queryCellFlowByDateSpan(cell.eNodebId, cell.sectorId,
                     beginDate.value, endDate.value).then(function (flowList) {
                         cell.flowList = flowList;
-                    });
+                        if (flowList.length > 0) {
+                            $scope.flowStats.push(chartCalculateService.calculateMemberSum(flowList, [
+                                'averageActiveUsers',
+                                'averageUsers',
+                                'maxActiveUsers',
+                                'maxUsers',
+                                'pdcpDownlinkFlow',
+                                'pdcpUplinkFlow'
+                            ], function(stat) {
+                                stat.cellName = $scope.eNodebName + '-' + cell.sectorId;
+                            }));
+                        }
+                });
             });
+        };
+
+        $scope.showCharts = function() {
+            $("#downlinkFlowChart").highcharts(appKpiService.generateDownlinkFlowOptions($scope.flowStats, $scope.eNodebName));
+            $("#uplinkFlowChart").highcharts(appKpiService.generateUplinkFlowOptions($scope.flowStats, $scope.eNodebName));
+            $("#maxUsersChart").highcharts(appKpiService.generateMaxUsersOptions($scope.flowStats, $scope.eNodebName));
+            $("#averageUsersChart").highcharts(appKpiService.generateAverageUsersOptions($scope.flowStats, $scope.eNodebName));
+            $("#maxActiveUsersChart").highcharts(appKpiService.generateMaxActiveUsersOptions($scope.flowStats, $scope.eNodebName));
+            $("#averageActiveUsersChart").highcharts(appKpiService.generateAverageActiveUsersOptions($scope.flowStats, $scope.eNodebName));
         };
 
         $scope.ok = function () {
