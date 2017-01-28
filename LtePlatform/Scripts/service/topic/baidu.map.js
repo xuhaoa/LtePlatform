@@ -1,4 +1,4 @@
-﻿angular.module('baidu.map', ['myApp.url', 'myApp.region', "ui.bootstrap", 'handoff.parameters'])
+﻿angular.module('baidu.map', ['myApp.url', 'myApp.region', "ui.bootstrap", 'myApp.kpi'])
 	.value('drawingStyleOptions', {
 		strokeColor: "red",    //边线颜色。
 		fillColor: "red",      //填充颜色。当参数为空时，圆形将没有填充效果。

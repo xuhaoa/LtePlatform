@@ -1,7 +1,6 @@
-﻿angular.module('parameters.module', ['parameters.infrastructure', 'parameters.list', 'parameters.handoff', 'parameters.power'])
-    .constant('parametersRoot', '/directives/parameters/');
+﻿angular.module('parameters.module', ['ui.grid', 'myApp.region', 'myApp.url', 'myApp.kpi'])
+    .constant('parametersRoot', '/directives/parameters/')
 
-angular.module('parameters.infrastructure', [])
     .directive('cityInfrastructure', function(parametersRoot) {
         return {
             restrict: 'ECMA',
@@ -45,9 +44,8 @@ angular.module('parameters.infrastructure', [])
             },
             templateUrl: parametersRoot + 'eNodeb/Query.html'
         }
-    });
+    })
 
-angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huawei.mongo.parameters'])
     .directive('alarmTable', function(parametersRoot) {
         return {
             restrict: 'ECMA',
@@ -693,9 +691,8 @@ angular.module('parameters.list', ['ui.grid', 'myApp.region', 'myApp.url', 'huaw
             },
             templateUrl: parametersRoot + 'cell/BasicInfo.html'
         }
-    });
+    })
 
-angular.module('parameters.handoff', ['handoff.parameters'])
     .directive('eNodebIntraFreq', function(parametersRoot) {
         return {
             restrict: 'ECMA',
@@ -811,9 +808,8 @@ angular.module('parameters.handoff', ['handoff.parameters'])
             },
             templateUrl: parametersRoot + 'cell/CellInterFreq.html'
         }
-    });
+    })
 
-angular.module('parameters.power', ['huawei.mongo.parameters'])
     .controller('CellChannelPowerControl', function($scope, cellPowerService) {
         cellPowerService.queryCellParameters($scope.eNodebId, $scope.sectorId).then(function(result) {
             $scope.cellPower = result;
