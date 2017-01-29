@@ -1,12 +1,15 @@
-﻿<div class="panel panel-info">
-    <div class="panel-heading">
-        <h3 class="panel-title">
-            {{overallStat.dateString}}精确覆盖率指标
-            <a ng-href="{{rootPath}}" class="btn btn-sm btn-default" style="float: right">返回</a>
-        </h3>
-    </div>
-    <div class="panel-body">
-        <div style="min-height: 500px" id="mr-pie"></div>
-        <div style="min-height: 500px" id="precise"></div>
-    </div>
+﻿<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-hidden="true">
+        &times;
+    </button>
+    <h4 class="modal-title text-primary">{{dateString}}精确覆盖率指标</h4>
+</div>
+<div class="modal-body">
+    <div style="min-height: 500px" id="mr-pie"></div>
+    <div style="min-height: 500px" id="precise"></div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="ok()">OK</button>
+    <button class="btn btn-default" type="button" ng-click="cancel()">Cancel</button>
 </div>

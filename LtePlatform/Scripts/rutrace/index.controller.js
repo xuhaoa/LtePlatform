@@ -19,10 +19,6 @@
                     templateUrl: viewDir + "Top.html",
                     controller: "rutrace.top.district"
                 })
-                .when('/chart', {
-                    templateUrl: viewDir + "Chart.html",
-                    controller: "rutrace.chart"
-                })
                 .when('/top', {
                     templateUrl: viewDir + "Top.html",
                     controller: "rutrace.top"
@@ -191,7 +187,8 @@
             });
         });
     })
-    .controller("rutrace.index", function($scope, appRegionService, appKpiService, kpiPreciseService, appFormatService) {
+    .controller("rutrace.index", function ($scope,
+        appRegionService, appKpiService, kpiPreciseService, appFormatService, workItemDialog) {
         $scope.page.title = "指标总体情况";
         var yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
@@ -213,26 +210,14 @@
                     $scope.overallStat.dateString = appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
                 });
         };
+        $scope.showChart=function() {
+            workItemDialog.showPreciseChart($scope.overallStat);
+        }
         $scope.$watch('city.selected', function(city) {
             if (city) {
                 $scope.showKpi(city);
             }
         });
-    })
-    .controller("rutrace.chart", function ($scope, $location, $timeout, appKpiService) {
-        if ($scope.overallStat.districtStats.length === 0) $location.path($scope.rootPath);
-
-        $scope.showCharts = function () {
-            $("#mr-pie").highcharts(appKpiService.getMrPieOptions(
-                $scope.overallStat.districtStats.slice(0, $scope.overallStat.districtStats.length - 1),
-                $scope.overallStat.townStats));
-            $("#precise").highcharts(appKpiService.getPreciseRateOptions($scope.overallStat.districtStats,
-                $scope.overallStat.townStats));
-        };
-
-        $timeout(function () {
-            $scope.showCharts();
-        }, 1000);
     })
     .controller("rutrace.top", function ($scope, $http, preciseInterferenceService, kpiPreciseService, workitemService) {
         $scope.page.title = "TOP指标分析";

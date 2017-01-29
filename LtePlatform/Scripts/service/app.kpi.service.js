@@ -597,7 +597,7 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('workitem.details.dialog', function ($scope, $uibModalInstance, input, dialogTitle, workItemDialog, workitemService) {
+    .controller('workitem.details.dialog', function ($scope, $uibModalInstance, input, dialogTitle, workItemDialog) {
         $scope.currentView = input;
         $scope.dialogTitle = dialogTitle;
         $scope.message = "";
@@ -781,6 +781,27 @@
             $scope.queryFlow();
         });
     })
+    .controller("rutrace.chart", function ($scope, $uibModalInstance, $timeout,
+        dateString, districtStats, townStats, appKpiService) {
+        $scope.dateString = dateString;
+        $scope.showCharts = function () {
+            $("#mr-pie").highcharts(appKpiService.getMrPieOptions(districtStats.slice(0, districtStats.length - 1), townStats));
+            $("#precise").highcharts(appKpiService.getPreciseRateOptions(districtStats, townStats));
+        };
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.cellList);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        $timeout(function () {
+            $scope.showCharts();
+        }, 500);
+    })
+
     .factory('workItemDialog', function ($uibModal, $log, workitemService) {
         return {
             feedback: function (view, callbackFunc) {
@@ -845,6 +866,29 @@
                         },
                         endDate: function() {
                             return endDate;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                }, function () {
+                });
+            },
+            showPreciseChart: function (overallStat) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Chart.html',
+                    controller: 'rutrace.chart',
+                    size: 'lg',
+                    resolve: {
+                        dateString: function () {
+                            return overallStat.dateString;
+                        },
+                        districtStats: function () {
+                            return overallStat.districtStats;
+                        },
+                        townStats: function () {
+                            return overallStat.townStats;
                         }
                     }
                 });
