@@ -559,15 +559,15 @@
 				return results;
 			},
 			calculateMemberSum: function(array, memberList, categoryFunc) {
-			    var result = _.reduce(array, function(memo, num) {
-			        var temp = {};
-			        angular.forEach(memberList, function(member) {
-			            temp[member] = memo[member] + num[member];
-			        });
-			        return temp;
-			    });
-			    categoryFunc(result);
-			    return result;
+				var result = _.reduce(array, function(memo, num) {
+					var temp = {};
+					angular.forEach(memberList, function(member) {
+						temp[member] = memo[member] + num[member];
+					});
+					return temp;
+				});
+				categoryFunc(result);
+				return result;
 			},
 			generateDateDistrictStats: function (stats, districtLength, queryFunction) {
 				var statDates = [];
@@ -587,6 +587,31 @@
 					statDates: statDates,
 					districtStats: districtStats
 				};
+			},
+			generateSeriesInfo: function(seriesInfo, stats, categoryKey, dataKeys) {
+				var categories = [];
+			    angular.forEach(dataKeys, function(key) {
+			        seriesInfo[key].data = [];
+			    });
+				angular.forEach(stats, function (stat) {
+					categories.push(stat[categoryKey]);
+					angular.forEach(dataKeys, function(key) {
+						seriesInfo[key].data.push(stat[key]);
+					});
+				});
+			    return {
+			        categories: categories,
+			        info: seriesInfo
+			    };
+			},
+			writeSeriesData: function(series, seriesInfo, dataKeys) {
+			    angular.forEach(dataKeys, function(key) {
+			        series.push({
+			            type: seriesInfo[key].type,
+			            name: seriesInfo[key].name,
+			            data: seriesInfo[key].data
+			        });
+			    });
 			},
 			generateMrsRsrpStats: function(stats) {
 				var categories = _.range(-140, -43);
@@ -879,24 +904,24 @@
 				};
 			},
 			generatePagingGridDirective: function (settings, $compile) {
-			    return {
-			        controller: settings.controllerName,
-			        restrict: 'EA',
-			        replace: true,
-			        scope: settings.scope,
-			        template: '<div></div>',
-			        link: function (scope, element, attrs) {
-			            scope.initialize = false;
-			            scope.$watch(settings.argumentName, function (items) {
-			                scope.gridOptions.data = items;
-			                if (!scope.initialize) {
-			                    var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 600px"></div>')(scope);
-			                    element.append(linkDom);
-			                    scope.initialize = true;
-			                }
-			            });
-			        }
-			    };
+				return {
+					controller: settings.controllerName,
+					restrict: 'EA',
+					replace: true,
+					scope: settings.scope,
+					template: '<div></div>',
+					link: function (scope, element, attrs) {
+						scope.initialize = false;
+						scope.$watch(settings.argumentName, function (items) {
+							scope.gridOptions.data = items;
+							if (!scope.initialize) {
+								var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 600px"></div>')(scope);
+								element.append(linkDom);
+								scope.initialize = true;
+							}
+						});
+					}
+				};
 			},
 			generateSelectionGridDirective: function(settings, $compile) {
 				return {

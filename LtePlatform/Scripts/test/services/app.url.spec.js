@@ -237,6 +237,76 @@ describe('app.url service tests', function () {
 
         });
 
+        describe('generate series info', function() {
+            var categoryKey = 'dateString';
+            var dataKeys = [
+                'mrStats',
+                'firstNeighbors'
+            ];
+            var seriesInfo = {
+                mrStats: {
+                    type: 'column',
+                    name: "MR总数"
+                },
+                firstNeighbors: {
+                    type: "spline",
+                    name: "第一邻区MR数"
+                }
+            };
+            var stats = [
+                {
+                    dateString: '20161111',
+                    mrStats: 1111,
+                    firstNeighbors: 222
+                },
+                {
+                    dateString: '20161112',
+                    mrStats: 1112,
+                    firstNeighbors: 223
+                },
+                {
+                    dateString: '20161113',
+                    mrStats: 1113,
+                    firstNeighbors: 224
+                }
+            ];
+            it('should be able to generate the correct seriesData', function() {
+                var seriesData = chartCalculateService.generateSeriesInfo(seriesInfo, stats, categoryKey, dataKeys);
+                expect(seriesData).toEqual({
+                    categories: ['20161111', '20161112', '20161113'],
+                    info: {
+                        mrStats: {
+                            type: 'column',
+                            name: "MR总数",
+                            data: [1111, 1112, 1113]
+                        },
+                        firstNeighbors: {
+                            type: "spline",
+                            name: "第一邻区MR数",
+                            data: [222, 223, 224]
+                        }
+                    }
+                });
+            });
+            it('should be able to write series data', function() {
+                var series = [];
+                chartCalculateService.writeSeriesData(series,
+                    chartCalculateService.generateSeriesInfo(seriesInfo, stats, categoryKey, dataKeys).info, dataKeys);
+                expect(series).toEqual([
+                    {
+                        type: 'column',
+                        name: "MR总数",
+                        data: [1111, 1112, 1113]
+                    },
+                    {
+                        type: "spline",
+                        name: "第一邻区MR数",
+                        data: [222, 223, 224]
+                    }
+                ]);
+            });
+        });
+
         describe('generateRsrpTaStats', function () {
             it('can generate rsrp ta stats with empty set', function () {
                 var result = chartCalculateService.generateRsrpTaStats({}, 0);

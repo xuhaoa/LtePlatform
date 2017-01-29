@@ -1259,7 +1259,7 @@
             }
         };
     })
-    .factory('kpiDisplayService', function (appFormatService, coverageService, topPreciseService, calculateService) {
+    .factory('kpiDisplayService', function (appFormatService, coverageService, topPreciseService, calculateService, chartCalculateService) {
         return {
             generatePreciseBarOptions: function (districtStats, cityStat) {
                 var chart = new BarChart();
@@ -1342,41 +1342,36 @@
             getMrsOptions: function (stats, title) {
                 var chart = new ComboChart();
                 chart.title.text = title;
-                var statDates = [];
-                var mrStats = [];
-                var firstNeighbors = [];
-                var secondNeighbors = [];
-                var thirdNeighbors = [];
-                angular.forEach(stats, function (stat) {
-                    statDates.push(stat.dateString);
-                    mrStats.push(stat.totalMrs);
-                    firstNeighbors.push(stat.firstNeighbors);
-                    secondNeighbors.push(stat.secondNeighbors);
-                    thirdNeighbors.push(stat.thirdNeighbors);
-                });
-                chart.xAxis[0].categories = statDates;
+                var categoryKey = 'dateString';
+                var dataKeys = [
+                    'totalMrs',
+                    'firstNeighbors',
+                    'secondNeighbors',
+                    'thirdNeighbors'
+                ];
+                var seriesInfo = {
+                    totalMrs: {
+                        type: 'column',
+                        name: "MR总数"
+                    },
+                    firstNeighbors: {
+                        type: "spline",
+                        name: "第一邻区MR数"
+                    },
+                    secondNeighbors: {
+                        type: "spline",
+                        name: "第二邻区MR数"
+                    },
+                    thirdNeighbors: {
+                        type: "spline",
+                        name: "第三邻区MR数"
+                    }
+                };
+                var seriesData = chartCalculateService.generateSeriesInfo(seriesInfo, stats, categoryKey, dataKeys);
+                chart.xAxis[0].categories = seriesData.categories;
                 chart.yAxis[0].title.text = "MR数量";
                 chart.xAxis[0].title.text = '日期';
-                chart.series.push({
-                    type: "column",
-                    name: "MR总数",
-                    data: mrStats
-                });
-                chart.series.push({
-                    type: "spline",
-                    name: "第一邻区MR数",
-                    data: firstNeighbors
-                });
-                chart.series.push({
-                    type: "spline",
-                    name: "第二邻区MR数",
-                    data: secondNeighbors
-                });
-                chart.series.push({
-                    type: "spline",
-                    name: "第三邻区MR数",
-                    data: thirdNeighbors
-                });
+                chartCalculateService.writeSeriesData(series.series, seriesData.info, dataKeys);
                 return chart.options;
             },
             getPreciseOptions: function (stats, title) {
