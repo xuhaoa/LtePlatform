@@ -434,15 +434,24 @@
                 },
                 {
                     name: '指标情况',
-                    cellTemplate: '<div class="btn-group-sm" uib-dropdown> \
-                        <button class="btn btn-warning btn-sm" ng-click="grid.appScope.showInterference(row.entity)"> \
-                            干扰 \
+                    cellTemplate: '<div class="btn-group-sm" uib-dropdown dropdown-append-to-body> \
+                        <button id="single-button" type="button" class="btn btn-sm btn-default" \
+                            uib-dropdown-toggle ng-disabled="disabled"> \
+                            查询 <span class="caret"></span> \
                         </button> \
-                        <button class="btn btn-success btn-sm" ng-click="grid.appScope.showCoverage(row.entity)"> \
-                            覆盖 \
-                        </button> \
-                    </div>',
-                    width: 200
+                        <ul uib-dropdown-menu role="menu" aria-labelledby="single-button"> \
+                            <li role="menuitem"> \
+                                <a class="btn btn-warning btn-sm" ng-click="grid.appScope.showInterference(row.entity)"> \
+                                    MR干扰 \
+                                </a> \
+                            </li> \
+                            <li role="menuitem"> \
+                                <a class="btn btn-success btn-sm" ng-click="grid.appScope.showCoverage(row.entity)"> \
+                                    MR覆盖 \
+                                </a> \
+                            </li> \
+                        </ul> \
+                    </div>'
                 }
             ],
             data: []

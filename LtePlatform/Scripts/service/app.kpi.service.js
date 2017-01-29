@@ -4,7 +4,7 @@
         downSwitch: [3, 5, 8, 10, 15],
         drop: [0.2, 0.3, 0.35, 0.4, 0.5]
     })
-    .factory('appKpiService', function (chartCalculateService, generalChartService, kpiRatingDivisionDefs) {
+    .factory('appKpiService', function (chartCalculateService, generalChartService, kpiRatingDivisionDefs, flowService) {
         var accumulatePreciseStat = function (source, accumulate) {
             source.totalMrs += accumulate.totalMrs;
             source.firstNeighbors += accumulate.firstNeighbors;
@@ -74,6 +74,27 @@
             },
             calculateDropStar: function (drop) {
                 return getValueFromDivisionBelow(kpiRatingDivisionDefs.drop, drop);
+            },
+            calculateFlowStats: function (cellList, flowStats, beginDate, endDate) {
+                flowStats.length = 0;
+                angular.forEach(cellList, function (cell) {
+                    flowService.queryCellFlowByDateSpan(cell.eNodebId, cell.sectorId,
+                        beginDate.value, endDate.value).then(function (flowList) {
+                            cell.flowList = flowList;
+                            if (flowList.length > 0) {
+                                flowStats.push(chartCalculateService.calculateMemberSum(flowList, [
+                                    'averageActiveUsers',
+                                    'averageUsers',
+                                    'maxActiveUsers',
+                                    'maxUsers',
+                                    'pdcpDownlinkFlow',
+                                    'pdcpUplinkFlow'
+                                ], function(stat) {
+                                    stat.cellName = cell.eNodebName + '-' + cell.sectorId;
+                                }));
+                            }
+                        });
+                });
             },
             getMrPieOptions: function (districtStats, townStats) {
                 var chart = new DrilldownPie();
@@ -735,28 +756,11 @@
     })
 
     .controller("eNodeb.flow", function ($scope, $uibModalInstance, eNodeb, beginDate, endDate,
-        networkElementService, flowService, chartCalculateService, generalChartService, appKpiService) {
+        networkElementService, flowService, chartCalculateService, appKpiService) {
         $scope.eNodebName = eNodeb.name;
-        $scope.queryFlow = function () {
-            $scope.flowStats = [];
-            angular.forEach($scope.cellList, function (cell) {
-                flowService.queryCellFlowByDateSpan(cell.eNodebId, cell.sectorId,
-                    beginDate.value, endDate.value).then(function (flowList) {
-                        cell.flowList = flowList;
-                        if (flowList.length > 0) {
-                            $scope.flowStats.push(chartCalculateService.calculateMemberSum(flowList, [
-                                'averageActiveUsers',
-                                'averageUsers',
-                                'maxActiveUsers',
-                                'maxUsers',
-                                'pdcpDownlinkFlow',
-                                'pdcpUplinkFlow'
-                            ], function(stat) {
-                                stat.cellName = $scope.eNodebName + '-' + cell.sectorId;
-                            }));
-                        }
-                });
-            });
+        $scope.flowStats = [];
+        $scope.queryFlow = function() {
+            appKpiService.calculateFlowStats($scope.cellList, $scope.flowStats, $scope.beginDate, $scope.endDate);
         };
 
         $scope.showCharts = function() {
