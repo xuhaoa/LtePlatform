@@ -317,48 +317,7 @@
         }
     })
 
-    .factory('neighborService', function (generalHttpService) {
-        return {
-            queryCellNeighbors: function (cellId, sectorId) {
-                return generalHttpService.getApiData('NearestPciCell', {
-                    'cellId': cellId,
-                    'sectorId': sectorId
-                });
-            },
-            querySystemNeighborCell: function (cellId, sectorId, pci) {
-                return generalHttpService.getApiData('NearestPciCell', {
-                    'cellId': cellId,
-                    'sectorId': sectorId,
-                    'pci': pci
-                });
-            },
-            updateCellPci: function (cell) {
-                return generalHttpService.postApiData('NearestPciCell', cell);
-            },
-            monitorNeighbors: function (cell) {
-                return generalHttpService.postApiData('NeighborMonitor', {
-                    cellId: cell.nearestCellId,
-                    sectorId: cell.nearestSectorId
-                });
-            },
-            queryNearestCells: function (eNodebId, sectorId, pci) {
-                return generalHttpService.getApiData('Cell', {
-                    'eNodebId': eNodebId,
-                    'sectorId': sectorId,
-                    'pci': pci
-                });
-            },
-            updateNeighbors: function (cellId, sectorId, pci, nearestCellId, nearestSectorId) {
-                return generalHttpService.putApiData('NearestPciCell', {
-                    cellId: cellId,
-                    sectorId: sectorId,
-                    pci: pci,
-                    nearestCellId: nearestCellId,
-                    nearestSectorId: nearestSectorId
-                });
-            }
-        };
-    })
+
     .factory('networkElementService', function (generalHttpService) {
         return {
             queryCellInfo: function (cellId, sectorId) {
@@ -484,6 +443,44 @@
             },
             queryRangeBtss: function (container) {
                 return generalHttpService.postApiData('Bts', container);
+            },
+            queryCellNeighbors: function (cellId, sectorId) {
+                return generalHttpService.getApiData('NearestPciCell', {
+                    'cellId': cellId,
+                    'sectorId': sectorId
+                });
+            },
+            querySystemNeighborCell: function (cellId, sectorId, pci) {
+                return generalHttpService.getApiData('NearestPciCell', {
+                    'cellId': cellId,
+                    'sectorId': sectorId,
+                    'pci': pci
+                });
+            },
+            updateCellPci: function (cell) {
+                return generalHttpService.postApiData('NearestPciCell', cell);
+            },
+            monitorNeighbors: function (cell) {
+                return generalHttpService.postApiData('NeighborMonitor', {
+                    cellId: cell.nearestCellId,
+                    sectorId: cell.nearestSectorId
+                });
+            },
+            queryNearestCells: function (eNodebId, sectorId, pci) {
+                return generalHttpService.getApiData('Cell', {
+                    'eNodebId': eNodebId,
+                    'sectorId': sectorId,
+                    'pci': pci
+                });
+            },
+            updateNeighbors: function (cellId, sectorId, pci, nearestCellId, nearestSectorId) {
+                return generalHttpService.putApiData('NearestPciCell', {
+                    cellId: cellId,
+                    sectorId: sectorId,
+                    pci: pci,
+                    nearestCellId: nearestCellId,
+                    nearestSectorId: nearestSectorId
+                });
             }
         };
     })
@@ -1157,7 +1154,7 @@
 
         return serviceInstance;
     })
-    .factory('dumpPreciseService', function (dumpProgress, neighborService) {
+    .factory('dumpPreciseService', function (dumpProgress, networkElementService) {
         var serviceInstance = {};
         serviceInstance.dumpAllRecords = function (records, outerIndex, innerIndex, eNodebId, sectorId, queryFunc) {
             if (outerIndex >= records.length) {
@@ -1167,7 +1164,7 @@
                 var subRecord = records[outerIndex];
                 if (subRecord.existedRecords < subRecord.mongoRecords.length && innerIndex < subRecord.mongoRecords.length) {
                     var stat = subRecord.mongoRecords[innerIndex];
-                    neighborService.querySystemNeighborCell(eNodebId, sectorId, stat.neighborPci).then(function (neighbor) {
+                    networkElementService.querySystemNeighborCell(eNodebId, sectorId, stat.neighborPci).then(function (neighbor) {
                         if (neighbor) {
                             stat.destENodebId = neighbor.nearestCellId;
                             stat.destSectorId = neighbor.nearestSectorId;
@@ -1628,7 +1625,7 @@
         };
     })
     .controller('dump.cell.mongo', function ($scope, $uibModalInstance,
-        dumpProgress, appFormatService, dumpPreciseService,neighborService, neighborMongoService,
+        dumpProgress, appFormatService, dumpPreciseService, neighborMongoService,
         preciseInterferenceService, networkElementService,
         dialogTitle, cell, begin, end) {
         $scope.dialogTitle = dialogTitle;
@@ -1694,7 +1691,7 @@
 
         $scope.showNeighbors = function () {
             $scope.neighborCells = [];
-            neighborService.queryCellNeighbors(cell.eNodebId, cell.sectorId).then(function (result) {
+            networkElementService.queryCellNeighbors(cell.eNodebId, cell.sectorId).then(function (result) {
                 $scope.neighborCells = result;
                 angular.forEach(result, function (neighbor) {
                     preciseInterferenceService.queryMonitor(neighbor.cellId, neighbor.sectorId).then(function (monitored) {
@@ -1718,7 +1715,7 @@
             });
         }
         $scope.updatePci = function () {
-            neighborService.updateCellPci(cell).then(function (result) {
+            networkElementService.updateCellPci(cell).then(function (result) {
                 $scope.updateMessages.push({
                     cellName: cell.name + '-' + cell.sectorId,
                     counts: result
@@ -1731,7 +1728,7 @@
             neighborMongoService.queryNeighbors(cell.eNodebId, cell.sectorId).then(function (neighbors) {
                 angular.forEach(neighbors, function (neighbor) {
                     if (neighbor.neighborCellId > 0 && neighbor.neighborPci > 0) {
-                        neighborService.updateNeighbors(neighbor.cellId, neighbor.sectorId, neighbor.neighborPci,
+                        networkElementService.updateNeighbors(neighbor.cellId, neighbor.sectorId, neighbor.neighborPci,
                             neighbor.neighborCellId, neighbor.neighborSectorId).then(function () {
                                 count += 1;
                                 if (count === neighbors.length) {
@@ -1764,14 +1761,14 @@
         $scope.monitorNeighbors = function () {
             angular.forEach($scope.neighborCells, function (neighbor) {
                 if (neighbor.isMonitored === false) {
-                    neighborService.monitorNeighbors(neighbor).then(function () {
+                    networkElementService.monitorNeighbors(neighbor).then(function () {
                         neighbor.isMonitored = true;
                     });
                 }
             });
             angular.forEach($scope.reverseCells, function (reverse) {
                 if (reverse.isMonitored === false) {
-                    neighborService.monitorNeighbors({
+                    networkElementService.monitorNeighbors({
                         nearestCellId: reverse.cellId,
                         nearestSectorId: reverse.sectorId
                     }).then(function () {
@@ -2043,9 +2040,9 @@
         $scope.showCoverage();
     })
 
-    .factory('neighborDialogService', function ($uibModal, $log, neighborService) {
+    .factory('neighborDialogService', function ($uibModal, $log, networkElementService) {
         var matchNearest = function (nearestCell, currentNeighbor, center) {
-            neighborService.updateNeighbors(center.cellId, center.sectorId, currentNeighbor.destPci,
+            networkElementService.updateNeighbors(center.cellId, center.sectorId, currentNeighbor.destPci,
                 nearestCell.eNodebId, nearestCell.sectorId).then(function () {
                     currentNeighbor.neighborCellName = nearestCell.eNodebName + "-" + nearestCell.sectorId;
                 });

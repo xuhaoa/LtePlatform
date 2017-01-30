@@ -249,7 +249,7 @@ angular.module('rutrace.interference', ['myApp.region'])
             }
         };
     })
-    .directive('interferenceSourceList', function(htmlRoot, neighborDialogService, neighborService) {
+    .directive('interferenceSourceList', function (htmlRoot, neighborDialogService, networkElementService) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -262,7 +262,7 @@ angular.module('rutrace.interference', ['myApp.region'])
             link: function(scope, element, attrs) {
                 scope.match = function(candidate) {
                     var center = scope.current;
-                    neighborService.queryNearestCells(center.cellId, center.sectorId, candidate.destPci).then(function(neighbors) {
+                    networkElementService.queryNearestCells(center.cellId, center.sectorId, candidate.destPci).then(function (neighbors) {
                         neighborDialogService.matchNeighbor(center, candidate, neighbors);
                     });
                 };

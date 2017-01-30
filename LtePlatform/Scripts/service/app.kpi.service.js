@@ -413,6 +413,9 @@
             }
         }
     })
+    .factory('kpiChartService', function(appKpiService) {
+        
+    })
     .factory('downSwitchService', function (generalHttpService) {
         return {
             getRecentKpi: function (city, initialDate) {
@@ -789,7 +792,7 @@
     })
 
     .controller("eNodeb.flow", function ($scope, $uibModalInstance, eNodeb, beginDate, endDate,
-        networkElementService, flowService, chartCalculateService, appKpiService, generalChartService) {
+        networkElementService, appKpiService) {
         $scope.eNodebName = eNodeb.name;
         $scope.flowStats = [];
         $scope.mergeStats = [];
