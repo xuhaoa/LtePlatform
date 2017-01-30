@@ -386,6 +386,30 @@
                 }, function (stat) {
                     return stat.averageActiveUsers;
                 });
+            },
+            generateMergeFlowOptions: function(stats, topic) {
+                var flowData = generalChartService.generateColumnDataByKeys(stats, 'statTime', [
+                'pdcpDownlinkFlow',
+                'pdcpUplinkFlow'
+                ]);
+                return generalChartService.queryMultipleColumnOptions({
+                    xtitle: '日期',
+                    ytitle: '流量（MB）',
+                    title: topic + '流量统计'
+                }, flowData.categories, flowData.dataList, ['下行流量', '上行流量']);
+            },
+            generateMergeUsersOptions: function(stats, topic) {
+                var usersData = generalChartService.generateColumnDataByKeys(stats, 'statTime', [
+                'averageActiveUsers',
+                'averageUsers',
+                'maxActiveUsers',
+                'maxUsers'
+                ]);
+                return generalChartService.queryMultipleColumnOptions({
+                    xtitle: '日期',
+                    ytitle: '用户数',
+                    title: topic + '用户数'
+                }, usersData.categories, usersData.dataList, ['平均激活用户数', '平均连接用户数', '最大激活用户数', '最大连接用户数']);
             }
         }
     })
@@ -765,7 +789,7 @@
     })
 
     .controller("eNodeb.flow", function ($scope, $uibModalInstance, eNodeb, beginDate, endDate,
-        networkElementService, flowService, chartCalculateService, appKpiService) {
+        networkElementService, flowService, chartCalculateService, appKpiService, generalChartService) {
         $scope.eNodebName = eNodeb.name;
         $scope.flowStats = [];
         $scope.mergeStats = [];
@@ -780,7 +804,10 @@
             $("#averageUsersChart").highcharts(appKpiService.generateAverageUsersOptions($scope.flowStats, $scope.eNodebName));
             $("#maxActiveUsersChart").highcharts(appKpiService.generateMaxActiveUsersOptions($scope.flowStats, $scope.eNodebName));
             $("#averageActiveUsersChart").highcharts(appKpiService.generateAverageActiveUsersOptions($scope.flowStats, $scope.eNodebName));
-            console.log($scope.mergeStats);
+            
+            $("#flowDate").highcharts(appKpiService.generateMergeFlowOptions($scope.mergeStats, $scope.eNodebName));
+            
+            $("#usersDate").highcharts(appKpiService.generateMergeUsersOptions($scope.mergeStats, $scope.eNodebName));
         };
 
         $scope.ok = function () {

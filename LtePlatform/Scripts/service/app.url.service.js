@@ -494,6 +494,21 @@
 				});
 				return chart.options;
 			},
+			queryMultipleColumnOptions: function (setting, categories, dataList, seriesTitle) {
+				var chart = new ComboChart();
+				chart.title.text = setting.title;
+				chart.xAxis[0].title.text = setting.xtitle;
+				chart.yAxis[0].title.text = setting.ytitle;
+				chart.xAxis[0].categories = categories;
+				angular.forEach(dataList, function(data, $index) {
+					chart.series.push({
+						type: "column",
+						name: seriesTitle[$index],
+						data: data
+					});
+				});
+				return chart.options;
+			},
 			generateColumnData: function (stats, categoriesFunc, dataFuncs) {
 				var result = {
 					categories: [],
@@ -509,6 +524,22 @@
 					});
 				});
 				return result;
+			},
+			generateColumnDataByKeys: function (stats, categoriesKey, dataKeys) {
+			    var result = {
+			        categories: [],
+			        dataList: []
+			    };
+			    angular.forEach(dataKeys, function (key) {
+			        result.dataList.push([]);
+			    });
+			    angular.forEach(stats, function (stat) {
+			        result.categories.push(stat[categoriesKey]);
+			        angular.forEach(dataKeys, function (key, index) {
+			            result.dataList[index].push(stat[key]);
+			        });
+			    });
+			    return result;
 			},
 			generateCompoundStats: function (views, getType, getSubType, getTotal) {
 				var stats = [];
@@ -944,24 +975,24 @@
 				};
 			},
 			mergeDataByKey: function(list, data, key, dataKeys) {
-			    angular.forEach(data, function(num) {
-			        var finder = {};
-			        finder[key] = num[key];
-			        var match = _.where(list, finder);
-			        if (match.length > 0) {
-			            angular.forEach(dataKeys, function(dataKey) {
-			                match[0][dataKey] += num[dataKey];
-			            });
-			        } else {
-			            var newNum = {};
-			            newNum[key] = num[key];
-			            angular.forEach(dataKeys, function(dataKey) {
-			                newNum[dataKey] = num[dataKey];
-			            });
-			            list.push(newNum);
-			        }
-			    });
-			    return _.sortBy(list, function(num) { return num[key]; });
+				angular.forEach(data, function(num) {
+					var finder = {};
+					finder[key] = num[key];
+					var match = _.where(list, finder);
+					if (match.length > 0) {
+						angular.forEach(dataKeys, function(dataKey) {
+							match[0][dataKey] += num[dataKey];
+						});
+					} else {
+						var newNum = {};
+						newNum[key] = num[key];
+						angular.forEach(dataKeys, function(dataKey) {
+							newNum[dataKey] = num[dataKey];
+						});
+						list.push(newNum);
+					}
+				});
+				return _.sortBy(list, function(num) { return num[key]; });
 			}
 		};
 	})
