@@ -1626,7 +1626,6 @@
     <Content Include="Scripts\test\services\app.url.spec.js" />
     <Content Include="Scripts\test\services\chart.spec.js" />
     <Content Include="Scripts\test\services\filters.spec.js" />
-    <Content Include="Scripts\test\services\format.spec.js" />
     <Content Include="Scripts\test\directives\app.spec.js" />
     <Content Include="Scripts\test\helpers.js" />
     <Content Include="Scripts\test\services\app.kpi.spec.js" />

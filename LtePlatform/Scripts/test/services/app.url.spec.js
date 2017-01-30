@@ -467,15 +467,15 @@ describe('app.url service tests', function () {
 
     });
 
-    describe('MR tests using underscroe', function () {
+    describe('MR tests using underscroe', function() {
         var appFormatService;
 
-        beforeEach(inject(function (_appFormatService_) {
+        beforeEach(inject(function(_appFormatService_) {
             appFormatService = _appFormatService_;
         }));
 
-        describe('preparing tests', function () {
-            it('calculate the rsrp from indices', function () {
+        describe('preparing tests', function() {
+            it('calculate the rsrp from indices', function() {
                 var indices = _.range(11);
                 var source = {
                     rsrp_00: 2,
@@ -490,13 +490,13 @@ describe('app.url service tests', function () {
                     rsrp_09: 20,
                     rsrp_10: 22
                 };
-                var results = _.map(indices, function (index) {
+                var results = _.map(indices, function(index) {
                     return source['rsrp_' + appFormatService.prefixInteger(index, 2)];
                 });
                 expect(results).toEqual([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]);
             });
 
-            it('calculate the sum of rsrp arrays', function () {
+            it('calculate the sum of rsrp arrays', function() {
                 var indices = _.range(11);
                 var source = [
                     {
@@ -537,20 +537,20 @@ describe('app.url service tests', function () {
                         rsrp_10: 22
                     }
                 ];
-                expect(_.map(source, function (item) {
+                expect(_.map(source, function(item) {
                     return item['rsrp_00'];
                 })).toEqual([2, 1, 2]);
-                expect(_.reduce(_.map(source, function (item) {
+                expect(_.reduce(_.map(source, function(item) {
                     return item['rsrp_00'];
-                }), function (a, b) {
+                }), function(a, b) {
                     return a + b;
                 }, 0)).toBe(5);
 
-                var results = _.map(indices, function (index) {
+                var results = _.map(indices, function(index) {
                     var rsrpIndex = 'rsrp_' + appFormatService.prefixInteger(index, 2);
-                    return _.reduce(_.map(source, function (item) {
+                    return _.reduce(_.map(source, function(item) {
                         return item[rsrpIndex];
-                    }), function (a, b) {
+                    }), function(a, b) {
                         return a + b;
                     }, 0);
                 });
@@ -559,5 +559,271 @@ describe('app.url service tests', function () {
             });
 
         });
-    })
+    });
+
+    describe('App format test', function () {
+        var appFormatService;
+
+        beforeEach(inject(function (_appFormatService_) {
+            appFormatService = _appFormatService_;
+        }));
+
+        it('Should be able to search one pattern in a test', function () {
+            var options = ['123', '134', '135'];
+            var item = appFormatService.searchPattern(options, '12345');
+            expect(item).toEqual('123');
+        });
+
+        it('Should be able to return null id pattern not found', function () {
+            var options = ['abcd', 'cdefg', '1234'];
+            var item = appFormatService.searchPattern(options, 'acdef');
+            expect(item).toBeNull();
+        });
+
+        it('Can match chinese character pattern', function () {
+            var options = ['禅城', '南海', '顺德'];
+            var item = appFormatService.searchPattern(options, '佛山市顺德区乐从镇');
+            expect(item).toEqual('顺德');
+        });
+
+        it('Can get one date from the string like "2016-07-13"', function () {
+            var dateString = "2016-04-12";
+            var date = appFormatService.getDate(dateString);
+            expect(date.getFullYear()).toEqual(2016);
+            expect(date.getMonth()).toEqual(3);
+            expect(date.getDate()).toEqual(12);
+        });
+
+        it('Can get one date from the string like "2016/7/5"', function () {
+            var dateString = "2016/7/5";
+            var date = appFormatService.getDate(dateString);
+            expect(date.getFullYear()).toEqual(2016);
+            expect(date.getMonth()).toEqual(7);
+            expect(date.getDate()).toEqual(5);
+        });
+
+        it('Can get UTC time', function () {
+            var dateString = "2016/7/5 15:22:18";
+            var date = appFormatService.getUTCTime(dateString);
+            expect(date).toEqual(1473088938000);
+        });
+
+        it('Can get date string', function () {
+            var date = new Date(2016, 4, 28);
+            var dateString1 = appFormatService.getDateString(date, "yyyy-MM-dd");
+            expect(dateString1).toEqual("2016-05-28");
+        });
+
+        it('should be able to calculate Averages', function () {
+            var data = [
+                {
+                    value1: 2,
+                    value2: 3
+                }, {
+                    value1: 0,
+                    value2: 3
+                }, {
+                    value1: 2,
+                    value2: 0
+                }, {
+                    value1: 4,
+                    value2: 4
+                }
+            ];
+            var averages = appFormatService.calculateAverages(data, [
+                function (item) {
+                    return item.value1;
+                }, function (item) {
+                    return item.value2;
+                }
+            ]);
+            expect(averages.length).toEqual(2);
+            expect(averages).toContain({
+                sum: 8,
+                count: 3
+            });
+            expect(averages).toContain({
+                sum: 10,
+                count: 3
+            });
+        });
+    });
+
+    describe('calculate service', function() {
+        var calculateService;
+
+        beforeEach(inject(function(_calculateService_) {
+            calculateService = _calculateService_;
+        }));
+        describe('merge data by key', function() {
+            var key = 'aaa';
+            var dataKeys = ['bb', 'ccc', 'dddd'];
+            it('should be able to calculate the empty list', function() {
+                var list = [];
+                var data = [
+                    {
+                        aaa: 0,
+                        bb: 1,
+                        ccc: 2,
+                        dddd: 3
+                    }, {
+                        aaa: 1,
+                        bb: 2,
+                        ccc: 3,
+                        dddd: 4
+                    }, {
+                        aaa: 2,
+                        bb: 2,
+                        ccc: 4,
+                        dddd: 6
+                    }
+                ];
+                var result = calculateService.mergeDataByKey(list, data, key, dataKeys);
+                expect(result).toEqual([
+                    {
+                        aaa: 0,
+                        bb: 1,
+                        ccc: 2,
+                        dddd: 3
+                    }, {
+                        aaa: 1,
+                        bb: 2,
+                        ccc: 3,
+                        dddd: 4
+                    }, {
+                        aaa: 2,
+                        bb: 2,
+                        ccc: 4,
+                        dddd: 6
+                    }
+                ]);
+            });
+            it('should be able to calculate the empty list and sort output', function () {
+                var list = [];
+                var data = [
+                    {
+                        aaa: 0,
+                        bb: 1,
+                        ccc: 2,
+                        dddd: 3
+                    }, {
+                        aaa: 4,
+                        bb: 2,
+                        ccc: 3,
+                        dddd: 4
+                    }, {
+                        aaa: 2,
+                        bb: 2,
+                        ccc: 4,
+                        dddd: 6
+                    }
+                ];
+                var result = calculateService.mergeDataByKey(list, data, key, dataKeys);
+                expect(result).toEqual([
+                    {
+                        aaa: 0,
+                        bb: 1,
+                        ccc: 2,
+                        dddd: 3
+                    }, {
+                        aaa: 2,
+                        bb: 2,
+                        ccc: 4,
+                        dddd: 6
+                    }, {
+                        aaa: 4,
+                        bb: 2,
+                        ccc: 3,
+                        dddd: 4
+                    }
+                ]);
+            });
+            it('should be able to calculate the non-empty list and sort output', function () {
+                var list = [{
+                        aaa: 0,
+                        bb: 1,
+                        ccc: 2,
+                        dddd: 3
+                    }];
+                var data = [
+                    {
+                        aaa: 4,
+                        bb: 2,
+                        ccc: 3,
+                        dddd: 4
+                    }, {
+                        aaa: 2,
+                        bb: 2,
+                        ccc: 4,
+                        dddd: 6
+                    }
+                ];
+                var result = calculateService.mergeDataByKey(list, data, key, dataKeys);
+                expect(result).toEqual([
+                    {
+                        aaa: 0,
+                        bb: 1,
+                        ccc: 2,
+                        dddd: 3
+                    }, {
+                        aaa: 2,
+                        bb: 2,
+                        ccc: 4,
+                        dddd: 6
+                    }, {
+                        aaa: 4,
+                        bb: 2,
+                        ccc: 3,
+                        dddd: 4
+                    }
+                ]);
+            });
+            it('should be able to calculate the non-empty list and sum up', function () {
+                var list = [{
+                    aaa: 0,
+                    bb: 1,
+                    ccc: 2,
+                    dddd: 3
+                }];
+                var data = [
+                    {
+                        aaa: 0,
+                        bb: 2,
+                        ccc: 4,
+                        dddd: 6
+                    }, {
+                        aaa: 4,
+                        bb: 2,
+                        ccc: 3,
+                        dddd: 4
+                    }, {
+                        aaa: 2,
+                        bb: 2,
+                        ccc: 4,
+                        dddd: 6
+                    }
+                ];
+                var result = calculateService.mergeDataByKey(list, data, key, dataKeys);
+                expect(result).toEqual([
+                    {
+                        aaa: 0,
+                        bb: 3,
+                        ccc: 6,
+                        dddd: 9
+                    }, {
+                        aaa: 2,
+                        bb: 2,
+                        ccc: 4,
+                        dddd: 6
+                    }, {
+                        aaa: 4,
+                        bb: 2,
+                        ccc: 3,
+                        dddd: 4
+                    }
+                ]);
+            });
+        });
+    });
+
 });

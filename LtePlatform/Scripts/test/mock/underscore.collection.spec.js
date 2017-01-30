@@ -779,7 +779,21 @@ describe('underscore collection tests', function() {
             expect(_.pluck([{ '[object Object]': 1 }], {})).toEqual([1]);
         });
         //
-
+        it('can pull names out of array with duplicate keys', function() {
+            var people2 = [
+                {
+                    name: 'moe',
+                    age: 30
+                }, {
+                    name: 'curly',
+                    age: 50
+                }, {
+                    name: 'moe',
+                    age: 70
+                }
+            ];
+            expect(_.pluck(people2, 'name')).toEqual(['moe', 'curly', 'moe']);
+        });
     });
 
     describe('where', function () {
@@ -800,6 +814,22 @@ describe('underscore collection tests', function() {
 
             test.map = _.map;
             expect(_.where([_, { a: 1, b: 2 }, _], test)).toEqual([_, _]);
+        });
+
+        it('merge array using where', function() {
+            var list = [{ a: 1, b: 2 }, { a: 2, b: 2 }];
+            var num = { a: 1, b: 3 };
+            var finder = {};
+            finder['a'] = 1;
+            var match = _.where(list, finder);
+            
+            expect(match).toEqual([{ a: 1, b: 2 }]);
+            if (match.length > 0) {
+                match[0]['b'] += num['b'];
+            }
+            expect(match[0]).toEqual({ a: 1, b: 5 });
+            expect(list).toEqual([{ a: 1, b: 5 }, { a: 2, b: 2 }]);
+
         });
 
     });

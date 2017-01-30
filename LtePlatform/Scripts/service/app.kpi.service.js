@@ -4,7 +4,7 @@
         downSwitch: [3, 5, 8, 10, 15],
         drop: [0.2, 0.3, 0.35, 0.4, 0.5]
     })
-    .factory('appKpiService', function (chartCalculateService, generalChartService, kpiRatingDivisionDefs, flowService) {
+    .factory('appKpiService', function (chartCalculateService, generalChartService, kpiRatingDivisionDefs, flowService, calculateService) {
         var accumulatePreciseStat = function (source, accumulate) {
             source.totalMrs += accumulate.totalMrs;
             source.firstNeighbors += accumulate.firstNeighbors;
@@ -75,8 +75,9 @@
             calculateDropStar: function (drop) {
                 return getValueFromDivisionBelow(kpiRatingDivisionDefs.drop, drop);
             },
-            calculateFlowStats: function (cellList, flowStats, beginDate, endDate) {
+            calculateFlowStats: function (cellList, flowStats, mergeStats, beginDate, endDate) {
                 flowStats.length = 0;
+                mergeStats.length = 0;
                 angular.forEach(cellList, function (cell) {
                     flowService.queryCellFlowByDateSpan(cell.eNodebId, cell.sectorId,
                         beginDate.value, endDate.value).then(function (flowList) {
@@ -92,6 +93,14 @@
                                 ], function(stat) {
                                     stat.cellName = cell.eNodebName + '-' + cell.sectorId;
                                 }));
+                                calculateService.mergeDataByKey(mergeStats, flowList, 'statTime', [
+                                    'averageActiveUsers',
+                                    'averageUsers',
+                                    'maxActiveUsers',
+                                    'maxUsers',
+                                    'pdcpDownlinkFlow',
+                                    'pdcpUplinkFlow'
+                                ]);
                             }
                         });
                 });
@@ -759,8 +768,9 @@
         networkElementService, flowService, chartCalculateService, appKpiService) {
         $scope.eNodebName = eNodeb.name;
         $scope.flowStats = [];
+        $scope.mergeStats = [];
         $scope.queryFlow = function() {
-            appKpiService.calculateFlowStats($scope.cellList, $scope.flowStats, $scope.beginDate, $scope.endDate);
+            appKpiService.calculateFlowStats($scope.cellList, $scope.flowStats, $scope.mergeStats, $scope.beginDate, $scope.endDate);
         };
 
         $scope.showCharts = function() {
@@ -770,6 +780,7 @@
             $("#averageUsersChart").highcharts(appKpiService.generateAverageUsersOptions($scope.flowStats, $scope.eNodebName));
             $("#maxActiveUsersChart").highcharts(appKpiService.generateMaxActiveUsersOptions($scope.flowStats, $scope.eNodebName));
             $("#averageActiveUsersChart").highcharts(appKpiService.generateAverageActiveUsersOptions($scope.flowStats, $scope.eNodebName));
+            console.log($scope.mergeStats);
         };
 
         $scope.ok = function () {

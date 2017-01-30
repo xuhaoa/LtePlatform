@@ -590,28 +590,28 @@
 			},
 			generateSeriesInfo: function(seriesInfo, stats, categoryKey, dataKeys) {
 				var categories = [];
-			    angular.forEach(dataKeys, function(key) {
-			        seriesInfo[key].data = [];
-			    });
+				angular.forEach(dataKeys, function(key) {
+					seriesInfo[key].data = [];
+				});
 				angular.forEach(stats, function (stat) {
 					categories.push(stat[categoryKey]);
 					angular.forEach(dataKeys, function(key) {
 						seriesInfo[key].data.push(stat[key]);
 					});
 				});
-			    return {
-			        categories: categories,
-			        info: seriesInfo
-			    };
+				return {
+					categories: categories,
+					info: seriesInfo
+				};
 			},
 			writeSeriesData: function(series, seriesInfo, dataKeys) {
-			    angular.forEach(dataKeys, function(key) {
-			        series.push({
-			            type: seriesInfo[key].type,
-			            name: seriesInfo[key].name,
-			            data: seriesInfo[key].data
-			        });
-			    });
+				angular.forEach(dataKeys, function(key) {
+					series.push({
+						type: seriesInfo[key].type,
+						name: seriesInfo[key].name,
+						data: seriesInfo[key].data
+					});
+				});
 			},
 			generateMrsRsrpStats: function(stats) {
 				var categories = _.range(-140, -43);
@@ -942,6 +942,26 @@
 						});
 					}
 				};
+			},
+			mergeDataByKey: function(list, data, key, dataKeys) {
+			    angular.forEach(data, function(num) {
+			        var finder = {};
+			        finder[key] = num[key];
+			        var match = _.where(list, finder);
+			        if (match.length > 0) {
+			            angular.forEach(dataKeys, function(dataKey) {
+			                match[0][dataKey] += num[dataKey];
+			            });
+			        } else {
+			            var newNum = {};
+			            newNum[key] = num[key];
+			            angular.forEach(dataKeys, function(dataKey) {
+			                newNum[dataKey] = num[dataKey];
+			            });
+			            list.push(newNum);
+			        }
+			    });
+			    return _.sortBy(list, function(num) { return num[key]; });
 			}
 		};
 	})
