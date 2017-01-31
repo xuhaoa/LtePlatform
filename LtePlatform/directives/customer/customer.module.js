@@ -1,7 +1,7 @@
 ﻿angular.module('customer.module', ['customer.emergency', 'customer.vip', 'customer.complain'])
     .constant('customerRoot', '/directives/customer/');
 
-angular.module('customer.emergency', ['college.service'])
+angular.module('customer.emergency', ['college.service', 'myApp.kpi'])
     .controller('EmergencyCommunicationController', function($scope) {
         $scope.gridOptions = {
             columnDefs: [
@@ -82,7 +82,7 @@ angular.module('customer.emergency', ['college.service'])
         };
     })
 
-    .controller('HotSpotController', function ($scope, customerDialogService) {
+    .controller('HotSpotController', function ($scope, customerDialogService, workItemDialog) {
         $scope.gridOptions = {
             paginationPageSizes: [20, 40, 60],
             paginationPageSize: 20,
@@ -99,6 +99,28 @@ angular.module('customer.emergency', ['college.service'])
                         '<button class="btn btn-sm btn-success" ng-click="grid.appScope.cellInfo(row.entity)">编辑</button>' +
                         '<a class="btn btn-sm btn-primary" href="/Parameters/List#/topicCells/{{row.entity.hotspotName}}">详细</a>' +
                         '</div>'
+                },
+                {
+                    name: '查询',
+                    cellTemplate: '<div class="btn-group-sm" uib-dropdown dropdown-append-to-body> \
+                        <button id="single-button" type="button" class="btn btn-sm btn-default" \
+                            uib-dropdown-toggle ng-disabled="disabled"> \
+                            查询 <span class="caret"></span> \
+                        </button> \
+                        <ul uib-dropdown-menu role="menu" aria-labelledby="single-button"> \
+                            <li role="menuitem"> \
+                                <a ng-href="{{grid.appScope.rootPath}}eNodebInfo/{{row.entity.eNodebId}}/{{row.entity.name}}" \
+                                    class="btn btn-sm" ng-class="{\'btn-default\': !row.entity.isInUse, \'btn-success\': row.entity.isInUse}">详细信息</a> \
+                            </li> \
+                            <li role="menuitem"> \
+                                <a ng-href="{{grid.appScope.rootPath}}alarm/{{row.entity.eNodebId}}/{{row.entity.name}}" ng-show="row.entity.isInUse" \
+                                    class="btn btn-sm btn-default">告警查询</a> \
+                            </li> \
+                            <li role="menuitem"> \
+                                <a ng-click="grid.appScope.showFlow(row.entity)" class="btn btn-sm btn-default">流量查询</a> \
+                            </li> \
+                        </ul> \
+                    </div>'
                 }
             ],
             data: []
@@ -107,6 +129,9 @@ angular.module('customer.emergency', ['college.service'])
             customerDialogService.manageHotSpotCells(spot, function() {
 
             });
+        };
+        $scope.showFlow = function (hotSpot) {
+            workItemDialog.showHotSpotFlow(hotSpot, $scope.beginDate, $scope.endDate);
         };
     })
     .directive('hotSpotList', function ($compile) {

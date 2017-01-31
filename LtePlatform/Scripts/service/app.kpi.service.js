@@ -830,6 +830,33 @@
             $scope.queryFlow();
         });
     })
+    .controller("hotSpot.flow", function ($scope, $uibModalInstance, hotSpot, beginDate, endDate,
+        basicImportService, appKpiService, kpiChartService) {
+        $scope.eNodebName = hotSpot.hotspotName;
+        $scope.flowStats = [];
+        $scope.mergeStats = [];
+        $scope.queryFlow = function () {
+            appKpiService.calculateFlowStats($scope.cellList, $scope.flowStats, $scope.mergeStats, $scope.beginDate, $scope.endDate);
+        };
+
+        $scope.showCharts = function () {
+            kpiChartService.showFlowCharts($scope.flowStats, $scope.eNodebName, $scope.mergeStats);
+        };
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.cellList);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        basicImportService.queryHotSpotCells(hotSpot.hotspotName).then(function (result) {
+            $scope.cellList = result;
+            $scope.queryFlow();
+        });
+    })
+
     .controller("rutrace.chart", function ($scope, $uibModalInstance, $timeout,
         dateString, districtStats, townStats, appKpiService) {
         $scope.dateString = dateString;
@@ -914,6 +941,29 @@
                             return beginDate;
                         },
                         endDate: function() {
+                            return endDate;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                }, function () {
+                });
+            },
+            showHotSpotFlow: function (hotSpot, beginDate, endDate) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Parameters/Region/ENodebFlow.html',
+                    controller: 'hotSpot.flow',
+                    size: 'lg',
+                    resolve: {
+                        hotSpot: function () {
+                            return hotSpot;
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
                             return endDate;
                         }
                     }
