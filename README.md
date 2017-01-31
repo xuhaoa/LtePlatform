@@ -10,4 +10,8 @@ This is a .net solution for LTE wireless network optimization when I work in Chi
 ###基础数据设施
     定义了基本的数据类型和各类公用操作函数、类等，详细说明详见[这里](https://github.com/ouyh18/LtePlatform/blob/master/Infrastructure.md)
 ##前端模块
-    前端程序主要采用了谷歌的AngularJS和Twitter的Bootstrap框架。
+    前端程序主要采用了谷歌的AngularJS和Twitter的Bootstrap框架。
+###Javascript脚本
+    AngularJS架构的Javascript脚本详见[这里](https://github.com/ouyh18/LtePlatform/blob/master/Angular.md)
+    
+###移动应用程序
