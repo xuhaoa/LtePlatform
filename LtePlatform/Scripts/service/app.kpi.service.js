@@ -414,7 +414,20 @@
         }
     })
     .factory('kpiChartService', function(appKpiService) {
-        
+        return {
+            showFlowCharts: function(flowStats, topic, mergeStats) {
+                $("#downlinkFlowChart").highcharts(appKpiService.generateDownlinkFlowOptions(flowStats, topic));
+                $("#uplinkFlowChart").highcharts(appKpiService.generateUplinkFlowOptions(flowStats, topic));
+                $("#maxUsersChart").highcharts(appKpiService.generateMaxUsersOptions(flowStats, topic));
+                $("#averageUsersChart").highcharts(appKpiService.generateAverageUsersOptions(flowStats, topic));
+                $("#maxActiveUsersChart").highcharts(appKpiService.generateMaxActiveUsersOptions(flowStats, topic));
+                $("#averageActiveUsersChart").highcharts(appKpiService.generateAverageActiveUsersOptions(flowStats, topic));
+
+                $("#flowDate").highcharts(appKpiService.generateMergeFlowOptions(mergeStats, topic));
+
+                $("#usersDate").highcharts(appKpiService.generateMergeUsersOptions(mergeStats, topic));
+            }
+        };
     })
     .factory('downSwitchService', function (generalHttpService) {
         return {
@@ -792,7 +805,7 @@
     })
 
     .controller("eNodeb.flow", function ($scope, $uibModalInstance, eNodeb, beginDate, endDate,
-        networkElementService, appKpiService) {
+        networkElementService, appKpiService, kpiChartService) {
         $scope.eNodebName = eNodeb.name;
         $scope.flowStats = [];
         $scope.mergeStats = [];
@@ -801,16 +814,7 @@
         };
 
         $scope.showCharts = function() {
-            $("#downlinkFlowChart").highcharts(appKpiService.generateDownlinkFlowOptions($scope.flowStats, $scope.eNodebName));
-            $("#uplinkFlowChart").highcharts(appKpiService.generateUplinkFlowOptions($scope.flowStats, $scope.eNodebName));
-            $("#maxUsersChart").highcharts(appKpiService.generateMaxUsersOptions($scope.flowStats, $scope.eNodebName));
-            $("#averageUsersChart").highcharts(appKpiService.generateAverageUsersOptions($scope.flowStats, $scope.eNodebName));
-            $("#maxActiveUsersChart").highcharts(appKpiService.generateMaxActiveUsersOptions($scope.flowStats, $scope.eNodebName));
-            $("#averageActiveUsersChart").highcharts(appKpiService.generateAverageActiveUsersOptions($scope.flowStats, $scope.eNodebName));
-            
-            $("#flowDate").highcharts(appKpiService.generateMergeFlowOptions($scope.mergeStats, $scope.eNodebName));
-            
-            $("#usersDate").highcharts(appKpiService.generateMergeUsersOptions($scope.mergeStats, $scope.eNodebName));
+            kpiChartService.showFlowCharts($scope.flowStats, $scope.eNodebName, $scope.mergeStats);
         };
 
         $scope.ok = function () {

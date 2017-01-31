@@ -1826,19 +1826,26 @@
         $scope.candidateNeighbors = candidateNeighbors;
         $scope.currentCell = currentCell;
 
-        var minDistance = 10000;
-        for (var i = 0; i < $scope.candidateNeighbors.length; i++) {
-            var neighbor = $scope.candidateNeighbors[i];
+        angular.forEach($scope.candidateNeighbors, function(neighbor) {
             neighbor.distance = geometryService.getDistance($scope.currentCell.lattitute, $scope.currentCell.longtitute,
                 neighbor.lattitute, neighbor.longtitute);
-            if (neighbor.distance < minDistance && (neighbor.indoor === '室外' || $scope.indoorConsidered)) {
-                minDistance = neighbor.distance;
-                $scope.nearestCell = neighbor;
-            }
+            
             $scope.pciNeighbors.push(neighbor);
-        }
+        });
+
+        $scope.updateNearestCell = function() {
+            var minDistance = 10000;
+            angular.forEach($scope.candidateNeighbors, function(neighbor) {
+                if (neighbor.distance < minDistance && (neighbor.indoor === '室外' || $scope.indoorConsidered)) {
+                    minDistance = neighbor.distance;
+                    $scope.nearestCell = neighbor;
+                }
+            });
+
+        };
 
         $scope.ok = function () {
+            $scope.updateNearestCell();
             $uibModalInstance.close($scope.nearestCell);
         };
 
