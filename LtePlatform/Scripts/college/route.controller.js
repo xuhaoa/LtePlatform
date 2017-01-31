@@ -474,9 +474,6 @@
 
                     $scope.cellStatCount += 1;
                 });
-                networkElementService.queryLteRruFromCellName(cell.eNodebName+'-'+cell.sectorId).then(function (rru) {
-                    cell.rruName = rru ? rru.rruName : '';
-                });
             });
         };
         $scope.$watch('cellStatCount', function (count) {

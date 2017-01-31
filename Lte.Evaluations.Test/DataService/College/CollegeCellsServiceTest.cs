@@ -55,7 +55,7 @@ namespace Lte.Evaluations.DataService.College
             if (matched)
             {
                 Assert.IsNotNull(views);
-                var cellViews = views as CellView[] ?? views.ToArray();
+                var cellViews = views as CellRruView[] ?? views.ToArray();
                 Assert.AreEqual(cellViews.Count(), 1);
             }
         }

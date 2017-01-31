@@ -58,13 +58,13 @@ namespace Lte.Evaluations.DataService.College
             _indoorDistributionRepository = indoorDistributionRepository;
         }
 
-        public IEnumerable<CellView> GetViews(string collegeName)
+        public IEnumerable<CellRruView> GetViews(string collegeName)
         {
             var ids = _repository.GetCollegeInfrastructureIds(collegeName, InfrastructureType.Cell);
-            var query = ids.Select(_cellRepository.Get).Where(cell => cell != null).ToList();
-            return query.Any()
-                ? query.Select(x => CellView.ConstructView(x, _eNodebRepository))
-                : new List<CellView>();
+            var cells = ids.Select(_cellRepository.Get).Where(cell => cell != null).ToList();
+            return cells.Any()
+                ? cells.Select(x => CellRruView.ConstructView(x, _eNodebRepository, _rruRepository))
+                : new List<CellRruView>();
         }
 
         public IEnumerable<CellRruView> GetRruViews(string name)

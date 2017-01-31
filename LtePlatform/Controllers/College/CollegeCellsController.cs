@@ -23,7 +23,7 @@ namespace LtePlatform.Controllers.College
         [ApiDoc("查询校园网LTE小区")]
         [ApiParameterDoc("collegeName", "校园名称")]
         [ApiResponse("校园网LTE小区列表")]
-        public IEnumerable<CellView> Get(string collegeName)
+        public IEnumerable<CellRruView> Get(string collegeName)
         {
             return _viewService.GetViews(collegeName);
         }
