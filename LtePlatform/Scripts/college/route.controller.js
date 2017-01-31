@@ -457,47 +457,16 @@
             $scope.query();
         });
     })
-    .controller("flow.name", function ($scope, $stateParams, collegeService, flowService,
-        networkElementService, generalChartService, parametersChartService) {
-        $scope.collegeInfo.url = $scope.rootPath + "flow";
+    .controller("flow.name", function ($scope, $stateParams, collegeService, appKpiService, kpiChartService) {
         $scope.page.title = $stateParams.name + "流量分析";
-        $scope.cellStatCount = 0;
+        $scope.flowStats = [];
+        $scope.mergeStats = [];
         $scope.query = function() {
-            angular.forEach($scope.cellList, function(cell) {
-                flowService.queryAverageFlowByDateSpan(cell.eNodebId, cell.sectorId, $scope.beginDate.value, $scope.endDate.value).then(function (stat) {
-                    if (stat) {
-                        cell.pdcpDownlinkFlow = stat.pdcpDownlinkFlow;
-                        cell.pdcpUplinkFlow = stat.pdcpUplinkFlow;
-                        cell.averageUsers = stat.averageUsers;
-                        cell.maxActiveUsers = stat.maxActiveUsers;
-                    }
-
-                    $scope.cellStatCount += 1;
-                });
-            });
+            appKpiService.calculateFlowStats($scope.cellList, $scope.flowStats, $scope.mergeStats, $scope.beginDate, $scope.endDate);
         };
-        $scope.$watch('cellStatCount', function (count) {
-            if ($scope.cellList && count === $scope.cellList.length && count > 0) {
-                var result = generalChartService.generateColumnData($scope.cellList, function(stat) {
-                    return stat.eNodebName + '-' + stat.sectorId;
-                }, [
-                    function(stat) {
-                        return stat.pdcpDownlinkFlow;
-                    }, function (stat) {
-                        return stat.pdcpUplinkFlow;
-                    }, function (stat) {
-                        return stat.averageUsers;
-                    }, function (stat) {
-                        return stat.maxActiveUsers;
-                    }
-                ]);
-                $("#downloadFlowConfig").highcharts(parametersChartService.getCellDistributionForDownlinkFlow(result, 0));
-                $("#uploadFlowConfig").highcharts(parametersChartService.getCellDistributionForUplinkFlow(result, 1));
-                $("#averageUsersConfig").highcharts(parametersChartService.getCellDistributionForAverageUsers(result, 2));
-                $("#activeUsersConfig").highcharts(parametersChartService.getCellDistributionForActiveUsers(result, 3));
-                $scope.cellStatCount = 0;
-            }
-        });
+        $scope.showCharts = function() {
+            kpiChartService.showFlowCharts($scope.flowStats, $stateParams.name, $scope.mergeStats);
+        };
         collegeService.queryCells($stateParams.name).then(function(cells) {
             $scope.cellList = cells;
             $scope.query();

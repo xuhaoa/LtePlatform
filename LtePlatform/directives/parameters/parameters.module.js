@@ -579,54 +579,6 @@
         }, $compile);
     })
 
-    .controller('LteCellFlowController', function ($scope) {
-        $scope.gridOptions = {
-            columnDefs: [
-                {
-                    name: '小区名称',
-                    cellTemplate: '<span class="text-primary">{{row.entity.eNodebName}}-{{row.entity.sectorId}}</span>'
-                },
-                { field: 'frequency', name: '频点' },
-                {
-                    field: 'rruName', name: 'RRU名称',
-                    cellTooltip: function (row) {
-                        return row.entity.rruName;
-                    }
-                },
-                { field: 'rsPower', name: 'RS功率' },
-                { field: 'indoor', name: '室内外' },
-                { field: 'height', name: '高度' },
-                { field: 'antennaGain', name: '天线增益(dB)' },
-                { field: 'pdcpDownlinkFlow', name: '平均下行流量(MB)', cellFilter: 'number: 2' },
-                { field: 'pdcpUplinkFlow', name: '平均上行流量(MB)', cellFilter: 'number: 2' },
-                { field: 'averageUsers', name: '平均用户数', cellFilter: 'number: 2' }
-            ],
-            data: []
-        };
-    })
-    .directive('lteCellFlowTable', function ($compile) {
-        return {
-            controller: 'LteCellFlowController',
-            restrict: 'EA',
-            replace: true,
-            scope: {
-                items: '='
-            },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        }
-    })
-
     .controller('CdmaCellController', function ($scope) {
         $scope.gridOptions = {
             columnDefs: [
