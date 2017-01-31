@@ -304,5 +304,40 @@ namespace TraceParser.Eutra
                 }
             }
         }
+
+    }
+
+    [Serializable]
+    public class CountingRequestInfo_r10 : TraceConfig
+    {
+        public TMGI_r9 tmgi_r10 { get; set; }
+
+        public class PerDecoder : DecoderBase<CountingRequestInfo_r10>
+        {
+            public static readonly PerDecoder Instance = new PerDecoder();
+
+            protected override void ProcessConfig(CountingRequestInfo_r10 config, BitArrayInputStream input)
+            {
+                input.ReadBit();
+                config.tmgi_r10 = TMGI_r9.PerDecoder.Instance.Decode(input);
+            }
+        }
+    }
+
+    [Serializable]
+    public class CountingResponseInfo_r10 : TraceConfig
+    {
+        public long countingResponseService_r10 { get; set; }
+
+        public class PerDecoder : DecoderBase<CountingResponseInfo_r10>
+        {
+            public static readonly PerDecoder Instance = new PerDecoder();
+
+            protected override void ProcessConfig(CountingResponseInfo_r10 config, BitArrayInputStream input)
+            {
+                input.ReadBit();
+                config.countingResponseService_r10 = input.ReadBits(4);
+            }
+        }
     }
 }

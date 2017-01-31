@@ -81,8 +81,6 @@
     <Compile Include="Eutra\CommonTypes.cs" />
     <Compile Include="Eutra\ConnEstFailReport.cs" />
     <Compile Include="Eutra\CounterCheck.cs" />
-    <Compile Include="Eutra\CountingRequestInfo.cs" />
-    <Compile Include="Eutra\CountingResponseInfo.cs" />
     <Compile Include="Eutra\CQI_Report.cs" />
     <Compile Include="Eutra\CrossCarrierSchedulingConfig.cs" />
     <Compile Include="Eutra\CRS_AssistanceInfo.cs" />
