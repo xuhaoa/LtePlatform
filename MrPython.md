@@ -35,6 +35,36 @@
     
     * 下载两次，第一次是当前小时，第二次是三个小时之前
     * 华为和中兴的代码大部分相同，只是文件后缀名有所不同
+###通用处理流程
+```python
+def download(self, ftpdir):
+        datestr=ftpdir.split('/')[-2]
+        for root, dirs, files in self.host.walk(ftpdir):
+            sub_ip=root.split('/')[-1]
+            if sub_ip not in self.sub_ips:
+                continue
+            print('The current IP:', sub_ip)
+            print('The root directory:', root)
+            self.host.chdir(root)                
+            for name in files:
+                print(name)
+                if name.endswith('.gz') and is_mro_filename(name) and is_foshan_filename(name): 
+                    if name in self.DFList:
+                        pass
+                    else:
+                        times=0
+                        while times<3:
+                            try:
+                                self.host.download(name, name)
+                                times=3
+                                self.DFList.append(name)
+                                self.db['DFlist_'+datestr].insert({'dfName': name})
+                                print('Download finished: ', self.host_ip, '/', os.path.join(root, name))
+                            except:
+                                times+=1
+                                print('Times: '+ times)
+                                continue
+```
 ##数据解压
 ###华为数据
 ###中兴数据
