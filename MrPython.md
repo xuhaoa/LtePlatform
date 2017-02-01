@@ -5,7 +5,7 @@
 ####华为服务器代码
 ```python
     print("######")
-    host = ftputil.FTPHost(host_ip, 'ouyh18', 'O123#')
+    host = ftputil.FTPHost(host_ip, '___', '___')
     downloader=MrDownloader(host,sub_ips,DFList,db,host_ip)
     for folder in FOLDER_HW:
         ftpdir=generate_time_dir(prefix = folder)
@@ -16,6 +16,25 @@
         downloader.download(ftpdir)
     host.close()
 ```
+####中兴服务器代码
+```python
+    print("######")
+    host = ftputil.FTPHost(host_ip, '___', '___')
+    downloader=MrDownloader(host,sub_ips,DFList,db,host_ip)
+    for folder in FOLDER_ZTE:
+        ftpdir=generate_time_dir(prefix = folder)
+        print(ftpdir)
+        downloader.download_zte(ftpdir)
+        ftpdir=generate_time_dir_shift(prefix = folder, shift=-3)
+        print(ftpdir)
+        downloader.download_zte(ftpdir)
+    host.close()
+```
+####主要说明
+    下载遵循以下原则：
+    
+    *下载两次，第一次是当前小时，第二次是三个小时之前
+    *华为和中兴的代码大部分相同，只是文件后缀名有所不同
 ##数据解压
 ###华为数据
 ###中兴数据
