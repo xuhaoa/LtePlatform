@@ -31,13 +31,17 @@
     host.close()
 ```
 ####主要说明
-    下载遵循以下原则：
-    
-    * 下载两次，第一次是当前小时，第二次是三个小时之前
-    * 华为和中兴的代码大部分相同，只是文件后缀名有所不同
+    下载遵循以下原则：    
+* 下载两次，第一次是当前小时，第二次是三个小时之前
+* 华为和中兴的代码大部分相同，只是文件后缀名有所不同
 ###通用处理流程
+    以下代码段为下载处理代码段，可见下载之前需要作一个过滤，包括以下几个条件才真正下载：
+* 后缀名是对应厂家的压缩文件后缀
+* 是对应类型（MRO、MRS或MRE）的文件名格式
+* 是佛山基站编号段的数据（因为不同地市的基站MR数据可能混入同一文件夹）
+* 隐含条件：利用IP地址文件夹初步过滤地市归属
 ```python
-def download(self, ftpdir):
+    def download(self, ftpdir):
         datestr=ftpdir.split('/')[-2]
         for root, dirs, files in self.host.walk(ftpdir):
             sub_ip=root.split('/')[-1]
@@ -67,7 +71,35 @@ def download(self, ftpdir):
 ```
 ##数据解压
 ###华为数据
+    后缀名为xml.gz
+```python
+    for name in files:
+        if not name.endswith('0000.xml.gz'):
+            continue
+        reader=MroReader(afilter)
+        print(name)
+        try:
+            gFile=gzip.GzipFile(currrent_dir + name, 'r')
+            root = etree.fromstring(gFile.read())
+        except:
+            print('Unzip failed. Continue to unzip other files')
+            continue
+```
 ###中兴数据
+    后缀名为zip
+```python
+    for name in files:
+        if not name.endswith('0000.zip'):
+            continue
+        reader=MroReader(afilter)
+        print(name)
+        try:
+            zFile=zipfile.ZipFile(currrent_dir + name, 'r')
+            root = etree.fromstring(zFile.read(zFile.namelist()[0]))
+        except:
+            print('Unzip failed. Continue to unzip other files')
+            continue
+```
 ##MRO数据解析
 ##MRS数据解析
 ##MRE数据解析
