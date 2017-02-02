@@ -30,6 +30,36 @@
       ...
     </measurement>
 ```
+####中兴格式
+    与华为格式一样，该节由多个object对象组合而成，每个object对象对应一次测量信息，不同之处是字段更多，且字段的顺序有些不一样
+```xml
+    <measurement>
+      <smr>MR.LteScEarfcn MR.LteScPci MR.LteScRSRP MR.LteScRSRQ MR.LteScTadv MR.LteScPHR MR.LteScAOA MR.LteScSinrUL MR.LteScRI1 MR.LteScRI2 MR.LteScRI4 MR.LteScRI8 MR.LteScBSR MR.LteScPUSCHPRBNum MR.LteScPDSCHPRBNum MR.CQI0 MR.CQI1 MR.LatitudeSign MR.Longitude MR.Latitude MR.LteNcEarfcn MR.LteNcPci MR.LteNcRSRP MR.LteNcRSRQ MR.CDMAtype MR.CDMANcArfcn MR.CDMAPNphase MR.LteCDMAorHRPDNcPilotStrength MR.CDMANcBand MR.CDMANcPci</smr>
+        <object MR.MmeCode="1" MR.MmeGroupId="17409" MR.MmeUeS1apId="176171960" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48">
+          <v>1825 467 46 18 2 35 NIL 33 2 62 0 0 0 32 13 6 6 NIL NIL NIL 1825 68 41 15 NIL NIL NIL NIL NIL NIL</v>
+          <v>1825 467 46 18 2 35 NIL 33 2 62 0 0 0 32 13 6 6 NIL NIL NIL 1825 122 25 0 NIL NIL NIL NIL NIL NIL</v>
+          <v>1825 467 46 18 2 35 NIL 33 2 62 0 0 0 32 13 6 6 NIL NIL NIL 1825 194 36 10 NIL NIL NIL NIL NIL NIL</v>
+        </object>
+        <object MR.MmeCode="1" MR.MmeGroupId="17409" MR.MmeUeS1apId="176215168" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48">
+          <v>1825 467 33 25 3 17 NIL 31 3 61 0 0 8 38 35 11 11 NIL NIL NIL 1825 66 18 11 NIL NIL NIL NIL NIL NIL</v>
+          <v>1825 467 33 25 3 17 NIL 31 3 61 0 0 8 38 35 11 11 NIL NIL NIL 1825 466 12 0 NIL NIL NIL NIL NIL NIL</v>
+        </object>
+        <object MR.MmeCode="1" MR.MmeGroupId="17409" MR.MmeUeS1apId="176227313" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48">
+          <v>1825 467 44 25 6 31 NIL 32 17 47 0 0 16 32 31 11 11 NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL</v>
+        </object>
+        <object MR.MmeCode="1" MR.MmeGroupId="17409" MR.MmeUeS1apId="180372121" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48">
+          <v>1825 467 42 24 7 29 NIL 24 1 63 0 0 0 24 13 9 9 NIL NIL NIL 1825 465 26 2 NIL NIL NIL NIL NIL NIL</v>
+        </object>
+        <object MR.MmeCode="2" MR.MmeGroupId="17409" MR.MmeUeS1apId="482352950" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48">
+          <v>1825 467 32 17 19 22 NIL 20 55 9 0 0 0 30 50 10 9 NIL NIL NIL 1825 66 31 17 NIL NIL NIL NIL NIL NIL</v>
+          <v>1825 467 32 17 19 22 NIL 20 55 9 0 0 0 30 50 10 9 NIL NIL NIL 1825 120 28 12 NIL NIL NIL NIL NIL NIL</v>
+          <v>1825 467 32 17 19 22 NIL 20 55 9 0 0 0 30 50 10 9 NIL NIL NIL 1825 122 29 14 NIL NIL NIL NIL NIL NIL</v>
+          <v>1825 467 32 17 19 22 NIL 20 55 9 0 0 0 30 50 10 9 NIL NIL NIL 1825 345 30 21 NIL NIL NIL NIL NIL NIL</v>
+          <v>1825 467 32 17 19 22 NIL 20 55 9 0 0 0 30 50 10 9 NIL NIL NIL 1825 466 30 12 NIL NIL NIL NIL NIL NIL</v>
+        </object>
+      ...
+    </measurement>
+```
 ###服务小区上下行丢包率节
 ####华为格式
     该数据目前应用较少，且一般不打开测量，因此数值基本为0.
