@@ -137,3 +137,42 @@
       ...
     </measurement>
 ```
+####中兴格式
+    与华为格式一致
+```xml
+<measurement>
+      <smr>MR.LteScRIP</smr>
+      <object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48:1825:0">
+        <v>64</v>
+      </object>
+      <object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48:1825:1">
+        <v>64</v>
+      </object>
+      <object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48:1825:2">
+        <v>64</v>
+      </object>
+      <object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48:1825:3">
+        <v>64</v>
+      </object>
+      <object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48:1825:4">
+        <v>64</v>
+      </object>
+      <object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48:1825:5">
+        <v>61</v>
+      </object>
+      <object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48:1825:6">
+        <v>64</v>
+      </object>
+      <object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48:1825:7">
+        <v>64</v>
+      </object>
+      <object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48:1825:8">
+        <v>66</v>
+      </object>
+      <object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48:1825:9">
+        <v>66</v>
+      </object>
+      ...
+    </measurement>
+```
+
