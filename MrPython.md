@@ -115,6 +115,6 @@
   </eNB>
 </bulkPmMrDataFile>
 ```
-    各节具体内容及解析过程详见[MRO数据文件格式及处理](https://github.com/ouyh18/LtePlatform/blob/master/MroProcess.md
+    各节具体内容及解析过程详见[MRO数据文件格式及处理](https://github.com/ouyh18/LtePlatform/blob/master/MroProcess.md)
 ##MRS数据解析
 ##MRE数据解析
