@@ -45,3 +45,45 @@
       ...
     </measurement>
 ```
+###上行接收干扰功率节
+####华为格式
+
+```xml
+<measurement>
+      <smr>MR.LteScRIP</smr>
+      <object MmeCode="NIL" MmeGroupId="NIL" MmeUeS1apId="NIL" TimeStamp="2016-11-22T11:30:05.440" id="3:100:0">
+        <v>63</v>
+      </object>
+      <object MmeCode="NIL" MmeGroupId="NIL" MmeUeS1apId="NIL" TimeStamp="2016-11-22T11:30:05.440" id="3:100:1">
+        <v>61</v>
+      </object>
+      <object MmeCode="NIL" MmeGroupId="NIL" MmeUeS1apId="NIL" TimeStamp="2016-11-22T11:30:05.440" id="3:100:2">
+        <v>63</v>
+      </object>
+      <object MmeCode="NIL" MmeGroupId="NIL" MmeUeS1apId="NIL" TimeStamp="2016-11-22T11:30:05.440" id="3:100:3">
+        <v>61</v>
+      </object>
+      <object MmeCode="NIL" MmeGroupId="NIL" MmeUeS1apId="NIL" TimeStamp="2016-11-22T11:30:05.440" id="3:100:4">
+        <v>60</v>
+      </object>
+      <object MmeCode="NIL" MmeGroupId="NIL" MmeUeS1apId="NIL" TimeStamp="2016-11-22T11:30:05.440" id="3:100:5">
+        <v>61</v>
+      </object>
+      <object MmeCode="NIL" MmeGroupId="NIL" MmeUeS1apId="NIL" TimeStamp="2016-11-22T11:30:05.440" id="3:100:6">
+        <v>61</v>
+      </object>
+      <object MmeCode="NIL" MmeGroupId="NIL" MmeUeS1apId="NIL" TimeStamp="2016-11-22T11:30:05.440" id="3:100:7">
+        <v>62</v>
+      </object>
+      <object MmeCode="NIL" MmeGroupId="NIL" MmeUeS1apId="NIL" TimeStamp="2016-11-22T11:30:05.440" id="3:100:8">
+        <v>60</v>
+      </object>
+      <object MmeCode="NIL" MmeGroupId="NIL" MmeUeS1apId="NIL" TimeStamp="2016-11-22T11:30:05.440" id="3:100:9">
+        <v>62</v>
+      </object>
+      <object MmeCode="NIL" MmeGroupId="NIL" MmeUeS1apId="NIL" TimeStamp="2016-11-22T11:30:05.440" id="4:100:0">
+        <v>61</v>
+      </object>
+      ...
+    </measurement>
+```
