@@ -101,6 +101,20 @@
             continue
 ```
 ##MRO数据解析
+###数据文件格式
+####华为数据文件格式（2016年）
+    华为的MRO文件是一个fileHeader节加上一个eNB节，eNB节下有3个measurement节。
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<bulkPmMrDataFile>
+  <fileHeader fileFormatVersion="V1.0.0" jobid="0" period="0" reportTime="2016-11-22T11:47:09.000" startTime="2016-11-22T11:30:00.000" endTime="2016-11-22T11:45:00.000"/>
+  <eNB id="501035" userLabel="userLabel">
+    <measurement>...</measurement>
+    <measurement>...</measurement>
+    <measurement>...</measurement>
+  </eNB>
+</bulkPmMrDataFile>
+```
 ##MRS数据解析
 ##MRE数据解析
 ###数据入库
