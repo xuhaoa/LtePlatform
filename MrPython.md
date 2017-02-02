@@ -131,4 +131,32 @@
 ```
     各节具体内容及解析过程详见[MRO数据文件格式及处理](https://github.com/ouyh18/LtePlatform/blob/master/MroProcess.md)
 ##MRS数据解析
+###华为数据文件格式
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<bulkPmMrDataFile>
+  <fileHeader fileFormatVersion="V1.0.0" jobid="0" period="15" reportTime="2016-11-22T11:50:07.000" startTime="2016-11-22T11:30:00.000" endTime="2016-11-22T11:45:00.000"/>
+  <eNB id="501195" userLabel="userLabel">
+    <measurement mrName="MR.RSRP">...</measurement>
+    <measurement mrName="MR.RSRQ">...</measurement>
+    <measurement mrName="MR.Tadv">...</measurement>
+    ...
+  </eNB>
+</bulkPmMrDataFile>
+```
+###中兴数据文件格式
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<bulkPmMrDataFile>
+  <fileHeader fileFormatVersion="V1.0" period="15" reportTime="2016-11-28T05:00:00.000" startTime="2016-11-28T04:45:00.000" endTime="2016-11-28T05:00:00.000"/>
+  <eNB MR.eNBId="502599">
+    <measurement mrName="MR.RSRP">...</measurement>
+    <measurement mrName="MR.RSRQ">...</measurement>
+    <measurement mrName="MR.Tadv">...</measurement>
+    ...
+  </eNB>
+</bulkPmMrDataFile>
+```
+###重要测量数据节解析
+    各节具体内容及解析过程详见[MRS数据文件格式及处理](https://github.com/ouyh18/LtePlatform/blob/master/MrsProcess.md)
 ##MRE数据解析
