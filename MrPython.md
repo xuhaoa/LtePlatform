@@ -115,6 +115,20 @@
   </eNB>
 </bulkPmMrDataFile>
 ```
+    各节具体内容及解析过程详见[MRO数据文件格式及处理](https://github.com/ouyh18/LtePlatform/blob/master/MroProcess.md)    
+####中兴数据文件格式（2016年）
+    中兴的MRO文件格式基本与华为相同，只是eNB节属性有所简化。
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<bulkPmMrDataFile>
+  <fileHeader fileFormatVersion="V1.0" reportTime="2016-09-16T20:00:00.000" startTime="2016-09-16T19:45:00.000" endTime="2016-09-16T20:00:00.000" period="15"/>
+  <eNB MR.eNBId="502922">
+    <measurement>...</measurement>
+    <measurement>...</measurement>
+    <measurement>...</measurement>
+  </eNB>
+</bulkPmMrDataFile>
+```
     各节具体内容及解析过程详见[MRO数据文件格式及处理](https://github.com/ouyh18/LtePlatform/blob/master/MroProcess.md)
 ##MRS数据解析
 ##MRE数据解析
