@@ -30,3 +30,18 @@
       ...
     </measurement>
 ```
+###服务小区上下行丢包率节
+####华为格式
+    该数据目前应用较少，且一般不打开测量，因此数值基本为0.
+```xml
+    <measurement>
+      <smr>MR.LteScPlrULQci1 MR.LteScPlrULQci2 MR.LteScPlrULQci3 MR.LteScPlrULQci4 MR.LteScPlrULQci5 MR.LteScPlrULQci6 MR.LteScPlrULQci7 MR.LteScPlrULQci8 MR.LteScPlrULQci9 MR.LteScPlrDLQci1 MR.LteScPlrDLQci2 MR.LteScPlrDLQci3 MR.LteScPlrDLQci4 MR.LteScPlrDLQci5 MR.LteScPlrDLQci6 MR.LteScPlrDLQci7 MR.LteScPlrDLQci8 MR.LteScPlrDLQci9</smr>
+      <object MmeCode="1" MmeGroupId="17409" MmeUeS1apId="419517741" TimeStamp="2016-11-22T11:30:05.440" id="3">
+        <v>NIL NIL NIL NIL NIL NIL NIL 0 NIL NIL NIL NIL NIL NIL NIL NIL 0 NIL</v>
+      </object>
+      <object MmeCode="2" MmeGroupId="17409" MmeUeS1apId="763419859" TimeStamp="2016-11-22T11:30:05.440" id="3">
+        <v>NIL NIL NIL NIL NIL NIL NIL 0 NIL NIL NIL NIL NIL NIL NIL NIL 0 NIL</v>
+      </object>
+      ...
+    </measurement>
+```
