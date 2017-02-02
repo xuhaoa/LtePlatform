@@ -75,6 +75,26 @@
       ...
     </measurement>
 ```
+####中兴格式
+    与华为格式一致，数据目前应用较少，且一般不打开测量，因此数值基本为0.
+```xml
+    <measurement>
+      <smr>MR.LteScPlrULQci1 MR.LteScPlrULQci2 MR.LteScPlrULQci3 MR.LteScPlrULQci4 MR.LteScPlrULQci5 MR.LteScPlrULQci6 MR.LteScPlrULQci7 MR.LteScPlrULQci8 MR.LteScPlrULQci9 MR.LteScPlrDLQci1 MR.LteScPlrDLQci2 MR.LteScPlrDLQci3 MR.LteScPlrDLQci4 MR.LteScPlrDLQci5 MR.LteScPlrDLQci6 MR.LteScPlrDLQci7 MR.LteScPlrDLQci8 MR.LteScPlrDLQci9</smr>
+      <object MR.MmeCode="1" MR.MmeGroupId="17409" MR.MmeUeS1apId="176171960" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48">
+        <v>NIL NIL NIL NIL NIL NIL NIL 0 NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL</v>
+      </object>
+      <object MR.MmeCode="1" MR.MmeGroupId="17409" MR.MmeUeS1apId="176215168" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48">
+        <v>NIL NIL NIL NIL NIL NIL NIL 0 NIL NIL NIL NIL NIL NIL NIL NIL 0 NIL</v>
+      </object>
+      <object MR.MmeCode="1" MR.MmeGroupId="17409" MR.MmeUeS1apId="176227313" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48">
+        <v>NIL NIL NIL NIL NIL NIL NIL 0 NIL NIL NIL NIL NIL NIL NIL NIL 0 NIL</v>
+      </object>
+      <object MR.MmeCode="2" MR.MmeGroupId="17409" MR.MmeUeS1apId="482352950" MR.TimeStamp="2016-09-16T19:45:01.440" MR.objectId="48">
+        <v>NIL NIL NIL NIL NIL NIL NIL 0 NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL</v>
+      </object>
+      ...
+    </measurement>
+```
 ###上行接收干扰功率节
 ####华为格式
 
