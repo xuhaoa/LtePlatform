@@ -229,15 +229,19 @@ namespace Lte.Evaluations.DataService.Kpi
         public static IEnumerable<TownFlowStat> GetMergeStats(this IEnumerable<TownFlowStat> townStats, DateTime statTime)
         {
             var mergeStats = from stat in townStats
-                             group stat by stat.TownId
+                group stat by stat.TownId
                 into g
-                             select new TownFlowStat
-                             {
-                                 TownId = g.Key,
-                                 PdcpDownlinkFlow = g.Sum(x => x.PdcpDownlinkFlow),
-                                 PdcpUplinkFlow = g.Sum(x => x.PdcpUplinkFlow),
-                                 StatTime = statTime
-                             };
+                select new TownFlowStat
+                {
+                    TownId = g.Key,
+                    PdcpDownlinkFlow = g.Sum(x => x.PdcpDownlinkFlow),
+                    PdcpUplinkFlow = g.Sum(x => x.PdcpUplinkFlow),
+                    StatTime = statTime,
+                    MaxActiveUsers = g.Sum(x => x.MaxActiveUsers),
+                    MaxUsers = g.Sum(x => x.MaxUsers),
+                    AverageActiveUsers = g.Sum(x => x.AverageActiveUsers),
+                    AverageUsers = g.Sum(x => x.AverageUsers)
+                };
             return mergeStats;
         }
 

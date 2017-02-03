@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
 {
@@ -424,6 +425,20 @@ namespace Lte.MySqlFramework.Entities
 
         [AutoMapPropertyResolve("UplindPdcpFlow", typeof(FlowZte))]
         public double PdcpUplinkFlow { get; set; }
+
+        [AutoMapPropertyResolve("AverageRrcUsers", typeof(FlowZte))]
+        [MemberDoc("平均用户数")]
+        public double AverageUsers { get; set; }
+
+        [AutoMapPropertyResolve("MaxRrcUsers", typeof(FlowZte))]
+        [MemberDoc("最大用户数")]
+        public int MaxUsers { get; set; }
+
+        [MemberDoc("平均激活用户数")]
+        public double AverageActiveUsers { get; set; }
+
+        [MemberDoc("最大激活用户数")]
+        public int MaxActiveUsers { get; set; }
     }
 
     [AutoMapFrom(typeof(TownFlowStat))]
@@ -440,5 +455,19 @@ namespace Lte.MySqlFramework.Entities
         public double PdcpDownlinkFlow { get; set; }
         
         public double PdcpUplinkFlow { get; set; }
+
+        [AutoMapPropertyResolve("AverageRrcUsers", typeof(FlowZte))]
+        [MemberDoc("平均用户数")]
+        public double AverageUsers { get; set; }
+
+        [AutoMapPropertyResolve("MaxRrcUsers", typeof(FlowZte))]
+        [MemberDoc("最大用户数")]
+        public int MaxUsers { get; set; }
+
+        [MemberDoc("平均激活用户数")]
+        public double AverageActiveUsers { get; set; }
+
+        [MemberDoc("最大激活用户数")]
+        public int MaxActiveUsers { get; set; }
     }
 }

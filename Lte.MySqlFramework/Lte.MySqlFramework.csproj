@@ -132,13 +132,13 @@
     <Compile Include="Entities\TopConnection3GCell.cs" />
     <Compile Include="Entities\TopDrop2GCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201609200811303_Delete_CellStastic.cs" />
-    <Compile Include="Migrations\201609200811303_Delete_CellStastic.Designer.cs">
-      <DependentUpon>201609200811303_Delete_CellStastic.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201610080843084_Add_Town_Flow.cs" />
     <Compile Include="Migrations\201610080843084_Add_Town_Flow.Designer.cs">
       <DependentUpon>201610080843084_Add_Town_Flow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702030318094_Add_Users_to_TownStat.cs" />
+    <Compile Include="Migrations\201702030318094_Add_Users_to_TownStat.Designer.cs">
+      <DependentUpon>201702030318094_Add_Users_to_TownStat.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -148,11 +148,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609200811303_Delete_CellStastic.resx">
-      <DependentUpon>201609200811303_Delete_CellStastic.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610080843084_Add_Town_Flow.resx">
       <DependentUpon>201610080843084_Add_Town_Flow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702030318094_Add_Users_to_TownStat.resx">
+      <DependentUpon>201702030318094_Add_Users_to_TownStat.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

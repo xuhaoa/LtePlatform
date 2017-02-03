@@ -2,17 +2,18 @@
 namespace Lte.MySqlFramework.Migrations
 {
     using System.CodeDom.Compiler;
+    using System.Data.Entity.Migrations;
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
-
+    
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Delete_CellStastic : IMigrationMetadata
+    public sealed partial class Add_Users_to_TownStat : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Delete_CellStastic));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_Users_to_TownStat));
         
         string IMigrationMetadata.Id
         {
-            get { return "201609200811303_Delete_CellStastic"; }
+            get { return "201702030318094_Add_Users_to_TownStat"; }
         }
         
         string IMigrationMetadata.Source
