@@ -81,3 +81,44 @@
       </object>
     </measurement>
 ```
+##数据文件细节-二维数据节
+###RSRP-RSRQ节
+####数据格式
+华为和中兴数据格式一致，如下所示：
+```xml
+    <measurement mrName="MR.RsrpRsrq">
+      <smr>MR.Rsrp00Rsrq00 MR.Rsrp00Rsrq01 MR.Rsrp00Rsrq02 MR.Rsrp00Rsrq03 MR.Rsrp00Rsrq04 MR.Rsrp00Rsrq05 MR.Rsrp00Rsrq06 MR.Rsrp00Rsrq07 MR.Rsrp00Rsrq08 MR.Rsrp00Rsrq09 MR.Rsrp01Rsrq00 MR.Rsrp01Rsrq01 MR.Rsrp01Rsrq02 MR.Rsrp01Rsrq03 MR.Rsrp01Rsrq04 MR.Rsrp01Rsrq05 MR.Rsrp01Rsrq06 MR.Rsrp01Rsrq07 MR.Rsrp01Rsrq08 MR.Rsrp01Rsrq09 MR.Rsrp02Rsrq00 MR.Rsrp02Rsrq01 MR.Rsrp02Rsrq02 MR.Rsrp02Rsrq03 MR.Rsrp02Rsrq04 MR.Rsrp02Rsrq05 MR.Rsrp02Rsrq06 MR.Rsrp02Rsrq07 MR.Rsrp02Rsrq08 MR.Rsrp02Rsrq09 MR.Rsrp03Rsrq00 MR.Rsrp03Rsrq01 MR.Rsrp03Rsrq02 MR.Rsrp03Rsrq03 MR.Rsrp03Rsrq04 MR.Rsrp03Rsrq05 MR.Rsrp03Rsrq06 MR.Rsrp03Rsrq07 MR.Rsrp03Rsrq08 MR.Rsrp03Rsrq09 MR.Rsrp04Rsrq00 MR.Rsrp04Rsrq01 MR.Rsrp04Rsrq02 MR.Rsrp04Rsrq03 MR.Rsrp04Rsrq04 MR.Rsrp04Rsrq05 MR.Rsrp04Rsrq06 MR.Rsrp04Rsrq07 MR.Rsrp04Rsrq08 MR.Rsrp04Rsrq09 MR.Rsrp05Rsrq00 MR.Rsrp05Rsrq01 MR.Rsrp05Rsrq02 MR.Rsrp05Rsrq03 MR.Rsrp05Rsrq04 MR.Rsrp05Rsrq05 MR.Rsrp05Rsrq06 MR.Rsrp05Rsrq07 MR.Rsrp05Rsrq08 MR.Rsrp05Rsrq09 MR.Rsrp06Rsrq00 MR.Rsrp06Rsrq01 MR.Rsrp06Rsrq02 MR.Rsrp06Rsrq03 MR.Rsrp06Rsrq04 MR.Rsrp06Rsrq05 MR.Rsrp06Rsrq06 MR.Rsrp06Rsrq07 MR.Rsrp06Rsrq08 MR.Rsrp06Rsrq09 MR.Rsrp07Rsrq00 MR.Rsrp07Rsrq01 MR.Rsrp07Rsrq02 MR.Rsrp07Rsrq03 MR.Rsrp07Rsrq04 MR.Rsrp07Rsrq05 MR.Rsrp07Rsrq06 MR.Rsrp07Rsrq07 MR.Rsrp07Rsrq08 MR.Rsrp07Rsrq09 MR.Rsrp08Rsrq00 MR.Rsrp08Rsrq01 MR.Rsrp08Rsrq02 MR.Rsrp08Rsrq03 MR.Rsrp08Rsrq04 MR.Rsrp08Rsrq05 MR.Rsrp08Rsrq06 MR.Rsrp08Rsrq07 MR.Rsrp08Rsrq08 MR.Rsrp08Rsrq09 MR.Rsrp09Rsrq00 MR.Rsrp09Rsrq01 MR.Rsrp09Rsrq02 MR.Rsrp09Rsrq03 MR.Rsrp09Rsrq04 MR.Rsrp09Rsrq05 MR.Rsrp09Rsrq06 MR.Rsrp09Rsrq07 MR.Rsrp09Rsrq08 MR.Rsrp09Rsrq09 MR.Rsrp10Rsrq00 MR.Rsrp10Rsrq01 MR.Rsrp10Rsrq02 MR.Rsrp10Rsrq03 MR.Rsrp10Rsrq04 MR.Rsrp10Rsrq05 MR.Rsrp10Rsrq06 MR.Rsrp10Rsrq07 MR.Rsrp10Rsrq08 MR.Rsrp10Rsrq09 MR.Rsrp11Rsrq00 MR.Rsrp11Rsrq01 MR.Rsrp11Rsrq02 MR.Rsrp11Rsrq03 MR.Rsrp11Rsrq04 MR.Rsrp11Rsrq05 MR.Rsrp11Rsrq06 MR.Rsrp11Rsrq07 MR.Rsrp11Rsrq08 MR.Rsrp11Rsrq09</smr>
+      <object id="0">
+        <v>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 18 0 0 0 0 0 0 0 0 1 16 0 0 0 0 0 0 0 0 0 7 0 0 0 0 0 0 0 0 0 11 0 0 0 0 0 0 0 0 0 6 0 0 0 0 0 0 0 0 0 0</v>
+      </object>
+      <object id="1">
+        <v>0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 8 14 0 0 0 0 0 0 0 0 0 11 0 0 0 0 0 0 0 0 0 6 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</v>
+      </object>
+      <object id="2">
+        <v>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</v>
+      </object>
+      <object id="3">
+        <v>0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 5 0 0 0 0 0 0 0 0 0 4 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</v>
+      </object>
+    </measurement>
+```
+###RSRP-TADV节
+####数据格式
+华为和中兴数据格式一致，如下所示：
+```xml
+    <measurement mrName="MR.TadvRsrp">
+      <smr>MR.Tadv00Rsrp00 MR.Tadv00Rsrp01 MR.Tadv00Rsrp02 MR.Tadv00Rsrp03 MR.Tadv00Rsrp04 MR.Tadv00Rsrp05 MR.Tadv00Rsrp06 MR.Tadv00Rsrp07 MR.Tadv00Rsrp08 MR.Tadv00Rsrp09 MR.Tadv00Rsrp10 MR.Tadv00Rsrp11 MR.Tadv01Rsrp00 MR.Tadv01Rsrp01 MR.Tadv01Rsrp02 MR.Tadv01Rsrp03 MR.Tadv01Rsrp04 MR.Tadv01Rsrp05 MR.Tadv01Rsrp06 MR.Tadv01Rsrp07 MR.Tadv01Rsrp08 MR.Tadv01Rsrp09 MR.Tadv01Rsrp10 MR.Tadv01Rsrp11 MR.Tadv02Rsrp00 MR.Tadv02Rsrp01 MR.Tadv02Rsrp02 MR.Tadv02Rsrp03 MR.Tadv02Rsrp04 MR.Tadv02Rsrp05 MR.Tadv02Rsrp06 MR.Tadv02Rsrp07 MR.Tadv02Rsrp08 MR.Tadv02Rsrp09 MR.Tadv02Rsrp10 MR.Tadv02Rsrp11 MR.Tadv03Rsrp00 MR.Tadv03Rsrp01 MR.Tadv03Rsrp02 MR.Tadv03Rsrp03 MR.Tadv03Rsrp04 MR.Tadv03Rsrp05 MR.Tadv03Rsrp06 MR.Tadv03Rsrp07 MR.Tadv03Rsrp08 MR.Tadv03Rsrp09 MR.Tadv03Rsrp10 MR.Tadv03Rsrp11 MR.Tadv04Rsrp00 MR.Tadv04Rsrp01 MR.Tadv04Rsrp02 MR.Tadv04Rsrp03 MR.Tadv04Rsrp04 MR.Tadv04Rsrp05 MR.Tadv04Rsrp06 MR.Tadv04Rsrp07 MR.Tadv04Rsrp08 MR.Tadv04Rsrp09 MR.Tadv04Rsrp10 MR.Tadv04Rsrp11 MR.Tadv05Rsrp00 MR.Tadv05Rsrp01 MR.Tadv05Rsrp02 MR.Tadv05Rsrp03 MR.Tadv05Rsrp04 MR.Tadv05Rsrp05 MR.Tadv05Rsrp06 MR.Tadv05Rsrp07 MR.Tadv05Rsrp08 MR.Tadv05Rsrp09 MR.Tadv05Rsrp10 MR.Tadv05Rsrp11 MR.Tadv06Rsrp00 MR.Tadv06Rsrp01 MR.Tadv06Rsrp02 MR.Tadv06Rsrp03 MR.Tadv06Rsrp04 MR.Tadv06Rsrp05 MR.Tadv06Rsrp06 MR.Tadv06Rsrp07 MR.Tadv06Rsrp08 MR.Tadv06Rsrp09 MR.Tadv06Rsrp10 MR.Tadv06Rsrp11 MR.Tadv07Rsrp00 MR.Tadv07Rsrp01 MR.Tadv07Rsrp02 MR.Tadv07Rsrp03 MR.Tadv07Rsrp04 MR.Tadv07Rsrp05 MR.Tadv07Rsrp06 MR.Tadv07Rsrp07 MR.Tadv07Rsrp08 MR.Tadv07Rsrp09 MR.Tadv07Rsrp10 MR.Tadv07Rsrp11 MR.Tadv08Rsrp00 MR.Tadv08Rsrp01 MR.Tadv08Rsrp02 MR.Tadv08Rsrp03 MR.Tadv08Rsrp04 MR.Tadv08Rsrp05 MR.Tadv08Rsrp06 MR.Tadv08Rsrp07 MR.Tadv08Rsrp08 MR.Tadv08Rsrp09 MR.Tadv08Rsrp10 MR.Tadv08Rsrp11 MR.Tadv09Rsrp00 MR.Tadv09Rsrp01 MR.Tadv09Rsrp02 MR.Tadv09Rsrp03 MR.Tadv09Rsrp04 MR.Tadv09Rsrp05 MR.Tadv09Rsrp06 MR.Tadv09Rsrp07 MR.Tadv09Rsrp08 MR.Tadv09Rsrp09 MR.Tadv09Rsrp10 MR.Tadv09Rsrp11 MR.Tadv10Rsrp00 MR.Tadv10Rsrp01 MR.Tadv10Rsrp02 MR.Tadv10Rsrp03 MR.Tadv10Rsrp04 MR.Tadv10Rsrp05 MR.Tadv10Rsrp06 MR.Tadv10Rsrp07 MR.Tadv10Rsrp08 MR.Tadv10Rsrp09 MR.Tadv10Rsrp10 MR.Tadv10Rsrp11</smr>
+      <object id="0">
+        <v>0 0 0 0 0 2 18 14 6 11 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</v>
+      </object>
+      <object id="1">
+        <v>1 1 0 1 0 2 22 11 6 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</v>
+      </object>
+      <object id="2">
+        <v>0 0 0 1 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</v>
+      </object>
+      <object id="3">
+        <v>1 5 4 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</v>
+      </object>
+    </measurement>
+```
