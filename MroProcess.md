@@ -181,6 +181,7 @@
 1. 读取字段名称列表
 2. 读取中心小区测量信息
 3. 读取邻小区测量信息
+
 ###华为处理代码
 ```python
       def read(self, item_measurement, item_id):
@@ -252,43 +253,4 @@
                 if len(neighbor_list)>0:
                     item_dict.update({'NeighborList': neighbor_list})
                     self.item_dicts.append(item_dict)
-```
-##数据处理流程
-###华为处理代码
-```python
-      def read(self, item_measurement):
-        mrName=item_measurement.attrib['mrName'].replace('MR.','')
-        if mrName in self.mrNames:
-            item_dicts=[]
-            for item_element in item_measurement.iterchildren():
-                if item_element.tag == 'smr':
-                    item_key = item_element.text.replace('MR.', '').replace('.','_').split(' ')
-                else:
-                    item_dict={}
-                    item_dict.update({'CellId': self.eNodebId + '-' + item_element.attrib['id']})
-                    item_value = item_element[0].text.split(' ')
-                    item_dict.update(dict(zip(item_key, map(int, item_value))))
-                    item_dict.update({'StartTime': self.startTime})
-                    item_dicts.append(item_dict)
-            if len(item_dicts)>0:
-                self.db['mrs_'+mrName+'_'+self.date_dir].insert_many(item_dicts)
-```
-###中兴代码
-```python
-      def read_zte(self, item_measurement, eNodebId):
-        mrName=item_measurement.attrib['mrName'].replace('MR.','')
-        if mrName in self.mrNames:
-            item_dicts=[]
-            for item_element in item_measurement.iterchildren():
-                if item_element.tag == 'smr':
-                    item_key = item_element.text.replace('MR.', '').replace('.','_').split(' ')
-                else:
-                    item_dict={}
-                    item_dict.update({'CellId': eNodebId+'-'+item_element.attrib['MR.objectId']})
-                    item_value = item_element[0].text.split(' ')
-                    item_dict.update(dict(zip(item_key, map(int, item_value))))
-                    item_dict.update({'StartTime': self.startTime})
-                    item_dicts.append(item_dict)
-            if len(item_dicts)>0:
-                self.db['mrs_'+mrName+'_'+self.date_dir].insert_many(item_dicts)
 ```
