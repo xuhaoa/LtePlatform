@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" xmlns:dm11="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="491aeabf-0e36-4cb0-a7e2-83cdcce279ea" name="overall" linkedPackageId="7c2cddf1-d4b1-474a-8b54-b848da9040ed" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="93175d0b-c159-43d0-acdf-f28490afbbea">
+      <profileInstance Id="6894a9cc-d318-41f7-834d-2f7f47b854bd" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="9dbbe099-8938-47f7-abbd-c2370b199781">
+      <profileInstance Id="f8cce82a-5c37-44bc-822b-4883a5e774ca" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <activityRootModelHasActivity>
+      <activity Id="8762d2f8-bba4-4261-8d4c-12687ca14756" name="overall" isAbstract="false" isLeaf="false" isActiveClass="false" isReentrant="false" isReadOnly="false" isSingleExecution="false">
+        <elementDefinition Id="f4834874-93ad-48ba-829f-c83e29328632" />
+        <nodes>
+          <initialNode Id="356b6a68-e560-47aa-aea0-48cfaa38e544" name="Initial1" isLeaf="false">
+            <elementDefinition Id="9d1dbd6e-0a7a-4c34-b0c3-d701f1d79be2" />
+            <flowNodeTargets>
+              <controlFlow Id="b7d0c8d7-a46d-4843-adc9-6890b20a6c58" isLeaf="false">
+                <opaqueActionMoniker Id="190d36d0-faa0-4e2b-b7d6-6d599efec4fc" LastKnownName="感知指标统计" />
+                <elementDefinition Id="d5a41bd0-1bae-49f5-8eb2-1ff53089b575" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <objectNode Id="eaf0b546-8c94-4c04-9292-133733e9eb9d" name="全网指标数据库" isLeaf="false" ordering="Unordered" isControlType="false">
+            <elementDefinition Id="8b7a2b4c-0769-48f7-a5ba-a963508f80b9" />
+            <objectFlowTargets>
+              <objectFlow Id="ded37c6c-11e7-4568-bd88-e22d88b9c15a" isLeaf="false" isMulticast="false" isMultireceive="false">
+                <inputPinMoniker Id="63066c9a-ac55-40c0-aeb3-f2239c9db89a" LastKnownName="指标统计" />
+                <elementDefinition Id="1a531cfb-394d-4c00-a160-2e87e0ee4300" />
+              </objectFlow>
+            </objectFlowTargets>
+            <upperBound>
+              <literalInteger Id="5ae8c939-cfd8-4dc9-babe-44a5d81db0e0" name="2147483647" value="2147483647">
+                <elementDefinition Id="df9ede06-e034-40d6-abc2-7ff953112d92" />
+              </literalInteger>
+            </upperBound>
+          </objectNode>
+          <objectNode Id="8f0f4ad6-fc9d-40cd-88c4-e5a912346a6c" name="基础数据库" isLeaf="false" ordering="Unordered" isControlType="false">
+            <elementDefinition Id="c189cd40-480a-47d8-bc26-a89267d2b498" />
+            <objectFlowTargets>
+              <objectFlow Id="db40440e-d607-4e76-ac2a-6bbe5a854488" isLeaf="false" isMulticast="false" isMultireceive="false">
+                <inputPinMoniker Id="9a317a9b-3bc6-48c6-b16d-4d091e27f6e3" LastKnownName="小区工参" />
+                <elementDefinition Id="4198b049-9b46-4172-84ff-069d43b070c4" />
+              </objectFlow>
+            </objectFlowTargets>
+            <upperBound>
+              <literalInteger Id="7e93a0f5-00ba-4d32-98bd-4ea3a3bbbd28" name="2147483647" value="2147483647">
+                <elementDefinition Id="5c5872e2-4875-4ab6-9a23-097358146ecc" />
+              </literalInteger>
+            </upperBound>
+          </objectNode>
+          <opaqueAction Id="190d36d0-faa0-4e2b-b7d6-6d599efec4fc" name="感知指标统计" isLeaf="false">
+            <elementDefinition Id="34f80c9e-8751-487f-9638-17ba30d1acca" />
+            <flowNodeTargets>
+              <controlFlow Id="707ccb0d-a35b-4fc8-8d04-de7917263715" isLeaf="false">
+                <opaqueActionMoniker Id="31ea37ee-5c2b-4bde-a676-acd04d64c61f" LastKnownName="指标趋势分析" />
+                <elementDefinition Id="3f54a094-22d9-41c1-86ef-65715516be8e" />
+              </controlFlow>
+            </flowNodeTargets>
+            <pins>
+              <opaqueActionHasInputValues>
+                <inputPin Id="d4f3abcf-763f-4c61-a834-001d5d58b089" name="数据统计" isLeaf="false" ordering="Unordered" isControlType="false" isControl="false">
+                  <elementDefinition Id="f7dec609-794f-453c-8c12-52d370c81eb7" />
+                  <upperBound>
+                    <literalInteger Id="716409fa-637f-469d-9a6e-3292c99b4994" name="2147483647" value="2147483647">
+                      <elementDefinition Id="f456fc6b-89e3-4509-8f7b-02ed5efc34d6" />
+                    </literalInteger>
+                  </upperBound>
+                </inputPin>
+              </opaqueActionHasInputValues>
+              <opaqueActionHasInputValues>
+                <inputPin Id="63066c9a-ac55-40c0-aeb3-f2239c9db89a" name="指标统计" isLeaf="false" ordering="Unordered" isControlType="false" isControl="false">
+                  <elementDefinition Id="3a513159-59fa-4dba-8755-264aeeaf6228" />
+                  <upperBound>
+                    <literalInteger Id="193f632a-30d9-4d86-b123-a33d5bb188d4" name="2147483647" value="2147483647">
+                      <elementDefinition Id="cea1db13-3c94-49c5-a7d4-e37dfb712815" />
+                    </literalInteger>
+                  </upperBound>
+                </inputPin>
+              </opaqueActionHasInputValues>
+            </pins>
+          </opaqueAction>
+          <opaqueAction Id="31ea37ee-5c2b-4bde-a676-acd04d64c61f" name="指标趋势分析" isLeaf="false">
+            <elementDefinition Id="2a6b6d82-62f9-4c88-b12e-200d7247d53c" />
+            <flowNodeTargets>
+              <controlFlow Id="6459c7e5-6e66-4296-b84a-6e41aea72dbc" isLeaf="false">
+                <opaqueActionMoniker Id="f2f1a4b6-a228-4731-b5f4-dd3c84cb47ed" LastKnownName="TOP小区分析" />
+                <elementDefinition Id="b904889b-916e-4a27-8979-bd5364a7e8b1" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <objectNode Id="cbe0abf1-ac95-41b4-8828-3c6aba3ef569" name="MR、CDR数据库" isLeaf="false" ordering="Unordered" isControlType="false">
+            <elementDefinition Id="2a111adb-d161-49af-b109-f1c99935f594" />
+            <objectFlowTargets>
+              <objectFlow Id="cfbd8423-5f4b-4bdf-895b-cf61a13ffe41" isLeaf="false" isMulticast="false" isMultireceive="false">
+                <inputPinMoniker Id="d4f3abcf-763f-4c61-a834-001d5d58b089" LastKnownName="数据统计" />
+                <elementDefinition Id="5571397e-106c-46ea-922e-0d570b0d2893" />
+              </objectFlow>
+            </objectFlowTargets>
+            <upperBound>
+              <literalInteger Id="9fdab7dd-a906-4450-aa09-6c06b7e60853" name="2147483647" value="2147483647">
+                <elementDefinition Id="53724d60-7363-437d-8aa8-010fb64af250" />
+              </literalInteger>
+            </upperBound>
+          </objectNode>
+          <opaqueAction Id="f2f1a4b6-a228-4731-b5f4-dd3c84cb47ed" name="TOP小区分析" isLeaf="false">
+            <elementDefinition Id="f0bf379b-646e-4ea7-a22d-70a3644aa665" />
+            <flowNodeTargets>
+              <controlFlow Id="907849c1-7fa3-47d3-815f-7a87f1c5cfda" isLeaf="false">
+                <opaqueActionMoniker Id="fbac949e-ce44-47ab-9319-1ba40ac1f190" LastKnownName="TOP用户分析" />
+                <elementDefinition Id="3b916f80-ac94-4f78-98f9-9a404a938a7f" />
+              </controlFlow>
+            </flowNodeTargets>
+            <pins>
+              <opaqueActionHasInputValues>
+                <inputPin Id="9a317a9b-3bc6-48c6-b16d-4d091e27f6e3" name="小区工参" isLeaf="false" ordering="Unordered" isControlType="false" isControl="false">
+                  <elementDefinition Id="22a7e64f-bcce-48b4-a6f9-7ff646b6961d" />
+                  <upperBound>
+                    <literalInteger Id="6b397290-8fa4-4033-84bf-0e9f308eeee6" name="2147483647" value="2147483647">
+                      <elementDefinition Id="977090fb-6903-457b-9fbf-1d472b21fc1d" />
+                    </literalInteger>
+                  </upperBound>
+                </inputPin>
+              </opaqueActionHasInputValues>
+            </pins>
+          </opaqueAction>
+          <opaqueAction Id="fbac949e-ce44-47ab-9319-1ba40ac1f190" name="TOP用户分析" isLeaf="false">
+            <elementDefinition Id="3545f509-c0ec-4af3-8f78-10fa0397d620" />
+            <flowNodeTargets>
+              <controlFlow Id="f3c3e4c6-34c0-4e57-afbe-5704fef094de" isLeaf="false">
+                <opaqueActionMoniker Id="5f56ac09-dbfc-407a-b069-ce6c83aa328e" LastKnownName="终端分析" />
+                <elementDefinition Id="968f8246-f5fa-44ff-b486-ad8543463ae0" />
+              </controlFlow>
+              <controlFlow Id="f55faef6-3292-4da7-8eca-08e348cae61c" isLeaf="false">
+                <callOperationActionMoniker Id="b564ca4a-ace4-4e71-a283-afd50601bcfd" LastKnownName="优化方案制定" />
+                <elementDefinition Id="32d3bb08-1bd6-477d-b705-3c2a77b91626" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <objectNode Id="c04d713a-b4ee-436a-b634-7269755a2c96" name="终端数据库" isLeaf="false" ordering="Unordered" isControlType="false">
+            <elementDefinition Id="55ac7821-e0d3-4f2a-8ae5-8d3271443469" />
+            <objectFlowTargets>
+              <objectFlow Id="6419338b-de43-46db-81cf-ef0dae611e83" isLeaf="false" isMulticast="false" isMultireceive="false">
+                <inputPinMoniker Id="8ac3ad9b-caa7-4864-9a75-c78245f802ef" LastKnownName="终端信息" />
+                <elementDefinition Id="65fbe104-988f-4a5e-9474-2cbea99478e8" />
+              </objectFlow>
+            </objectFlowTargets>
+            <upperBound>
+              <literalInteger Id="b8aa8bfe-e3aa-4b24-a4ee-a867e4581f85" name="2147483647" value="2147483647">
+                <elementDefinition Id="8c6e1a71-966b-4591-bbf9-952ff6982dd2" />
+              </literalInteger>
+            </upperBound>
+          </objectNode>
+          <opaqueAction Id="5f56ac09-dbfc-407a-b069-ce6c83aa328e" name="终端分析" isLeaf="false">
+            <elementDefinition Id="91fe9eb7-bf6c-4a0c-a094-b0899fa8f8b9" />
+            <flowNodeTargets>
+              <controlFlow Id="d97dd1b2-3123-4c68-bfec-aee75fb90c64" isLeaf="false">
+                <opaqueActionMoniker Id="64be0221-492e-46d5-8f6c-02a3a27ef04e" LastKnownName="优化方案实施" />
+                <elementDefinition Id="a25dadee-ec1a-4ff9-a6e2-9f87e9cf87eb" />
+              </controlFlow>
+            </flowNodeTargets>
+            <pins>
+              <opaqueActionHasInputValues>
+                <inputPin Id="8ac3ad9b-caa7-4864-9a75-c78245f802ef" name="终端信息" isLeaf="false" ordering="Unordered" isControlType="false" isControl="false">
+                  <elementDefinition Id="98a672b4-a924-48bb-aa8b-9236a7573ee6" />
+                  <upperBound>
+                    <literalInteger Id="e962acf6-feeb-4486-9fba-5dc004759d43" name="2147483647" value="2147483647">
+                      <elementDefinition Id="0d8420d8-2580-4168-b12c-a75b65938566" />
+                    </literalInteger>
+                  </upperBound>
+                </inputPin>
+              </opaqueActionHasInputValues>
+            </pins>
+          </opaqueAction>
+          <opaqueAction Id="64be0221-492e-46d5-8f6c-02a3a27ef04e" name="优化方案实施" isLeaf="false">
+            <elementDefinition Id="af841aa9-dfa1-4f80-a43d-04daee099a7d" />
+            <flowNodeTargets>
+              <controlFlow Id="4f8d3fd3-2822-484b-95a9-7d04c0df3c0b" isLeaf="false">
+                <opaqueActionMoniker Id="349f3bfc-5dee-4b30-8f99-b960a119d37f" LastKnownName="实施后评估" />
+                <elementDefinition Id="4cd01f0e-46ab-4e5f-95b5-3a4841a0013b" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <callOperationAction Id="b564ca4a-ace4-4e71-a283-afd50601bcfd" name="优化方案制定" isLeaf="false">
+            <elementDefinition Id="4b379084-c90f-423c-9142-6c0ec3402d0d" />
+            <flowNodeTargets>
+              <controlFlow Id="4bdc5b7d-dbdb-4cec-a4bc-22f91f7b8be3" isLeaf="false">
+                <opaqueActionMoniker Id="64be0221-492e-46d5-8f6c-02a3a27ef04e" LastKnownName="优化方案实施" />
+                <elementDefinition Id="3beacc8d-b3b9-434f-8881-2f61fb7d0ea3" />
+              </controlFlow>
+            </flowNodeTargets>
+          </callOperationAction>
+          <activityFinalNode Id="3a531810-bf29-4c89-b6f0-ce69f346c0be" name="ActivityFinal1" isLeaf="false">
+            <elementDefinition Id="7c238ab4-9d77-4d74-bfcd-69bac7d7c6fd" />
+          </activityFinalNode>
+          <opaqueAction Id="349f3bfc-5dee-4b30-8f99-b960a119d37f" name="实施后评估" isLeaf="false">
+            <elementDefinition Id="eb4e5dd1-1583-4df0-a5d8-b2060446ef59" />
+            <flowNodeTargets>
+              <controlFlow Id="f5f779a6-daa5-4f96-a5d6-a33a688245f9" isLeaf="false">
+                <activityFinalNodeMoniker Id="3a531810-bf29-4c89-b6f0-ce69f346c0be" LastKnownName="ActivityFinal1" />
+                <elementDefinition Id="be329919-4516-45ff-895c-26eb4f2af8ed" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+        </nodes>
+      </activity>
+    </activityRootModelHasActivity>
+  </packagedElements>
+  <package Id="7c2cddf1-d4b1-474a-8b54-b848da9040ed" name="Lte.Modelling">
+    <elementDefinition Id="e40b4954-5f06-4ac7-8b2e-9a31ddcec1ad" />
+  </package>
+</activityRootModel>
