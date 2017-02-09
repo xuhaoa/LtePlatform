@@ -183,24 +183,36 @@ namespace Lte.Evaluations.DataService.Mr
         {
             var statList = _repository.GetAllList(begin, end, cellId, sectorId);
             var results = from stat in statList
-                          group stat by new { stat.ENodebId, stat.SectorId, stat.NeighborPci, stat.DestENodebId, stat.DestSectorId }
+                group stat by new
+                {
+                    stat.ENodebId,
+                    stat.SectorId,
+                    stat.NeighborPci,
+                    stat.NeighborEarfcn,
+                    stat.DestENodebId,
+                    stat.DestSectorId,
+                    stat.Earfcn
+                }
                 into g
-                          select new InterferenceMatrixView
-                          {
-                              DestPci = g.Key.NeighborPci,
-                              DestENodebId = g.Key.DestENodebId,
-                              DestSectorId = g.Key.DestSectorId,
-                              Mod3Interferences = g.Average(x => x.Pci % 3 == x.NeighborPci % 3 ? (x.Diff0 + x.Diff3 + x.Diff6) : 0),
-                              Mod6Interferences = g.Average(x => x.Pci % 6 == x.NeighborPci % 6 ? (x.Diff0 + x.Diff3 + x.Diff6) : 0),
-                              OverInterferences10Db = g.Average(x => (x.Diff0 + x.Diff3 + x.Diff6 + x.Diff9)),
-                              OverInterferences6Db = g.Average(x => (x.Diff0 + x.Diff3 + x.Diff6)),
-                              InterferenceLevel =
-                                  g.Average(
-                                      x =>
-                                          (x.Diff0 + x.Diff3 + x.Diff6) *
-                                          (x.RsrpBelow120 + x.RsrpBetween120110 + x.RsrpBetween110105)),
-                              NeighborCellName = "未匹配小区"
-                          };
+                select new InterferenceMatrixView
+                {
+                    DestPci = g.Key.NeighborPci,
+                    DestENodebId = g.Key.DestENodebId,
+                    DestSectorId = g.Key.DestSectorId,
+                    NeighborEarfcn = g.Key.NeighborEarfcn,
+                    Mod3Interferences = g.Key.Earfcn == g.Key.NeighborEarfcn ? g.Average(x =>
+                        x.Pci % 3 == x.NeighborPci % 3 ? (x.Diff0 + x.Diff3 + x.Diff6) : 0) : 0,
+                    Mod6Interferences = g.Key.Earfcn == g.Key.NeighborEarfcn ? g.Average(x =>
+                        x.Pci % 6 == x.NeighborPci % 6 ? (x.Diff0 + x.Diff3 + x.Diff6) : 0) : 0,
+                    OverInterferences10Db = g.Average(x => (x.Diff0 + x.Diff3 + x.Diff6 + x.Diff9)),
+                    OverInterferences6Db = g.Average(x => (x.Diff0 + x.Diff3 + x.Diff6)),
+                    InterferenceLevel =
+                        g.Average(
+                            x =>
+                                (x.Diff0 + x.Diff3 + x.Diff6)*
+                                (x.RsrpBelow120 + x.RsrpBetween120110 + x.RsrpBetween110105)),
+                    NeighborCellName = "未匹配小区"
+                };
             var views = results as InterferenceMatrixView[] ?? results.ToArray();
             foreach (var result in views.Where(x => x.DestENodebId > 0))
             {

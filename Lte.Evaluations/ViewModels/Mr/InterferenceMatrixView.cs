@@ -17,6 +17,8 @@ namespace Lte.Evaluations.ViewModels.Mr
         [MemberDoc("邻小区名称")]
         public string NeighborCellName { get; set; }
 
+        public int? NeighborEarfcn { get; set; }
+
         [MemberDoc("模3干扰数")]
         public double Mod3Interferences { get; set; }
 
