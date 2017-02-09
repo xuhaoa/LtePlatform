@@ -1573,8 +1573,6 @@
     <Content Include="Scripts\jasmine\jasmine-html.js" />
     <Content Include="Scripts\jasmine\jasmine-jquery.js" />
     <Content Include="Scripts\jasmine\jasmine.js" />
-    <Content Include="Scripts\jcs-auto-validate.js" />
-    <Content Include="Scripts\jcs-auto-validate.min.js" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
@@ -1749,12 +1747,7 @@
     <Content Include="Areas\HelpPage\Web.config" />
     <Content Include="Areas\HelpPage\_ViewStart.cshtml" />
     <Content Include="Areas\CustomerPage\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\TestPage\Views\WebApiTest\BasicPost.cshtml" />
-    <Content Include="Areas\TestPage\Views\WebApiTest\Html5Test.cshtml" />
-    <Content Include="Areas\TestPage\Views\WebApiTest\Html5PostTest.cshtml" />
     <None Include="Areas\TestPage\Views\AngularTest\Index.cshtml" />
-    <None Include="Areas\TestPage\Views\WebApiTest\SimpleType.cshtml" />
-    <Content Include="Areas\TestPage\Views\WebApiTest\_BasicPost.cshtml" />
     <None Include="Properties\PublishProfiles\Lte-ftp-219.pubxml" />
     <None Include="Properties\PublishProfiles\Lte2.pubxml" />
     <Content Include="Scripts\coffee-script.js" />
@@ -1800,7 +1793,6 @@
     <Content Include="Scripts\highcharts\themes\skies.js" />
     <Content Include="Scripts\angular-spinner.min.js.map" />
     <Content Include="Scripts\angular-messages.min.js.map" />
-    <Content Include="Scripts\jcs-auto-validate.min.js.map" />
     <Content Include="Scripts\angular-parse-ext.min.js.map" />
     <Content Include="Scripts\kpi\interference.import.controller.js" />
     <Content Include="Scripts\kpi\workitem\index.controller.js" />
@@ -1866,12 +1858,6 @@
     <Content Include="Views\College\Map.cshtml" />
     <Content Include="Views\Kpi\Index.cshtml" />
     <Content Include="Scripts\service\topic\baidu.map.js" />
-    <Content Include="Scripts\lang\jcs-auto-validate_ru-ru.json" />
-    <Content Include="Scripts\lang\jcs-auto-validate_it-it.json" />
-    <Content Include="Scripts\lang\jcs-auto-validate_fr-fr.json" />
-    <Content Include="Scripts\lang\jcs-auto-validate_en-us.json" />
-    <Content Include="Scripts\lang\jcs-auto-validate_en-gb.json" />
-    <Content Include="Scripts\lang\jcs-auto-validate_de-de.json" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Views\Jasmine\SpecRunner.cshtml" />

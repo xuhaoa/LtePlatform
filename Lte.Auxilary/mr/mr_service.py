@@ -7,6 +7,12 @@ import json
 import pymongo
 from pymongo import MongoClient
 
+def to_dec(value):
+    if '.' in value:
+        return float(value)
+    else:
+        return int(value)
+
 class MroReader:
     def __init__(self, afilter, **kwargs):
         super().__init__(**kwargs)
@@ -28,8 +34,8 @@ class MroReader:
                 item_dict = {}
                 neighbor_list=[]
                 for item_v in item_element:
-                    item_value = item_v.text.replace('NIL', '-1').split(' ')
-                    _item_sub_dict = dict(zip(item_key, map(int, item_value)))
+                    item_value = item_v.text.replace('NIL', '-1').replace('N','').replace('E','').split(' ')
+                    _item_sub_dict = dict(zip(item_key, map(to_dec, item_value)))
                     _item_sub_dict = {k: v for k, v in _item_sub_dict.items() if not any(ext in k for ext in self.afilter)}
                     if _item_sub_dict['LteNcPci']>=0:
                         _neighbor={}
