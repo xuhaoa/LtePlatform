@@ -179,8 +179,8 @@
 ##数据文件处理过程
 ###总体流程
 1. 读取字段名称列表
-2. 读取中心小区测量信息
-3. 读取邻小区测量信息
+1. 生成小区小区相邻关系数据结构
+1. 数据结构映射到数据表，以便写入Mongo数据库
 ####华为总体代码
 ```python
       for name in files:
@@ -244,7 +244,7 @@
         print('insert from ', currrent_dir + name)
         os.remove(currrent_dir + name)
 ```
-###中心小区处理代码
+###邻区数据结构生成
 ####华为处理代码
 ```python
       def read(self, item_measurement, item_id):
@@ -270,14 +270,9 @@
                     else:
                         break
                     if not centerFilled:
-                        item_dict.update(item_element.attrib)
-                        item_dict.update({'Rsrp': _item_sub_dict['LteScRSRP']})
-                        item_dict.update({'SinrUl': _item_sub_dict['LteScSinrUL']})
-                        item_dict.update({'Ta': _item_sub_dict['LteScTadv']})
-                        item_dict.update({'Pci': _item_sub_dict['LteScPci']})
-                        item_dict.update({'Earfcn': _item_sub_dict['LteScEarfcn']})
+                        ...//中心小区数据生成
                         centerFilled=True
-                if len(neighbor_list)>0:
+                if len(neighbor_list)>0:
                     item_dict.update({'NeighborList': neighbor_list})
                     self.item_dicts.append(item_dict)
 ```
@@ -306,18 +301,51 @@
                     else:
                         break
                     if not centerFilled:
-                        item_dict.update({'id': item_id+'-'+item_element.attrib['MR.objectId']})
-                        item_dict.update({'Rsrp': _item_sub_dict['LteScRSRP']})
-                        item_dict.update({'SinrUl': _item_sub_dict['LteScSinrUL']})
-                        item_dict.update({'Ta': _item_sub_dict['LteScTadv']})
-                        item_dict.update({'Pci': _item_sub_dict['LteScPci']})
-                        item_dict.update({'Earfcn': _item_sub_dict['LteScEarfcn']})
+                        ...//中心小区数据生成
                         centerFilled=True
                 if len(neighbor_list)>0:
                     item_dict.update({'NeighborList': neighbor_list})
                     self.item_dicts.append(item_dict)
 ```
-###邻小区信息处理代码
+###中心小区数据生成
+    其实，这又分成基本字段生成和经纬度数据生成两部分，且两者最终写入的数据表是不一样的。
+####华为代码
+```python
+                        item_dict.update(item_element.attrib)
+                        item_dict.update({'Rsrp': _item_sub_dict['LteScRSRP']})
+                        item_dict.update({'SinrUl': _item_sub_dict['LteScSinrUL']})
+                        item_dict.update({'Ta': _item_sub_dict['LteScTadv']})
+                        item_dict.update({'Pci': _item_sub_dict['LteScPci']})
+                        item_dict.update({'Earfcn': _item_sub_dict['LteScEarfcn']})
+                        if _item_sub_dict['Longitude']!=-1 and _item_sub_dict['Latitude']!=-1:
+                            item_position.update({'CellId': item_id+'-'+item_element.attrib['id']})
+                            item_position.update({'Rsrp': _item_sub_dict['LteScRSRP']})
+                            item_position.update({'Ta': _item_sub_dict['LteScTadv']})
+                            item_position.update({'Lontitute': _item_sub_dict['Longitude']})
+                            item_position.update({'Lattitute': _item_sub_dict['Latitude']})
+                            self.item_positions.append(item_position)
+```
+####中兴代码
+```python
+                        item_dict.update({'id': item_id+'-'+item_element.attrib['MR.objectId']})                        
+                        item_dict.update({'Rsrp': _item_sub_dict['LteScRSRP']})                        
+                        item_dict.update({'SinrUl': _item_sub_dict['LteScSinrUL']})
+                        item_dict.update({'Ta': _item_sub_dict['LteScTadv']})                        
+                        item_dict.update({'Pci': _item_sub_dict['LteScPci']})
+                        item_dict.update({'Earfcn': _item_sub_dict['LteScEarfcn']})
+                        if _item_sub_dict['Longitude']!=-1 and _item_sub_dict['Latitude']!=-1:
+                            item_position.update({'CellId': item_id+'-'+item_element.attrib['MR.objectId']})
+                            item_position.update({'Rsrp': _item_sub_dict['LteScRSRP']})
+                            item_position.update({'Ta': _item_sub_dict['LteScTadv']})
+                            if  _item_sub_dict['Longitude']>200:
+                                item_position.update({'Lontitute': _item_sub_dict['Longitude'] * 360 *1.0/ 16777216})
+                                item_position.update({'Lattitute': _item_sub_dict['Latitude'] * 90 / 8388608})
+                            else:
+                                item_position.update({'Lontitute': _item_sub_dict['Longitude']})
+                                item_position.update({'Lattitute': _item_sub_dict['Latitude']})
+                            self.item_positions.append(item_position)
+```
+###数据结构映射
 ####华为处理代码
 ```python
       def map_rsrp_diff(self, eNodebId):
