@@ -1,6 +1,6 @@
 ﻿angular.module('myApp.kpi', ['myApp.url', 'myApp.region', "ui.bootstrap"])
     .constant('kpiRatingDivisionDefs', {
-        precise: [94.6, 93.6, 92.6, 91.6, 90],
+        precise: [94.6, 83.6, 72.6, 61.6, 50],
         downSwitch: [3, 5, 8, 10, 15],
         drop: [0.2, 0.3, 0.35, 0.4, 0.5]
     })
