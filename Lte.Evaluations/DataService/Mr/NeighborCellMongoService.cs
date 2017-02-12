@@ -52,7 +52,7 @@ namespace Lte.Evaluations.DataService.Mr
             return eNodeb.Factory == "华为"
                 ? (IMongoQuery<List<NeighborCellMongo>>)
                     new HuaweiReverseNeighborQuery(_cellRepository, _eNodebRepository, _huaweiCellRepository,
-                        _huaweiNeighborRepository, destENodebId, destSectorId)
+                        _huaweiNeighborRepository, _huaweiInterFreqNCellRepository, destENodebId, destSectorId)
                 : new ZteReverseNeighborQuery(_cellRepository, _zteNeighborRepository, _zteExternalRepository,
                     destENodebId, destSectorId);
         }
@@ -125,17 +125,20 @@ namespace Lte.Evaluations.DataService.Mr
         private readonly IENodebRepository _eNodebRepository;
         private readonly ICellHuaweiMongoRepository _huaweiCellRepository;
         private readonly IEutranIntraFreqNCellRepository _huaweiNeighborRepository;
+        private readonly IEutranInterFreqNCellRepository _interNeighborRepository;
         private readonly int _destENodebId;
         private readonly byte _destSectorId;
 
         public HuaweiReverseNeighborQuery(ICellRepository cellRepository, IENodebRepository eNodebRepository,
             ICellHuaweiMongoRepository huaweiCellRepository, IEutranIntraFreqNCellRepository huaweiNeighborRepository,
+            IEutranInterFreqNCellRepository interNeighborRepository,
             int destENodebId, byte destSectorId)
         {
             _cellRepository = cellRepository;
             _eNodebRepository = eNodebRepository;
             _huaweiCellRepository = huaweiCellRepository;
             _huaweiNeighborRepository = huaweiNeighborRepository;
+            _interNeighborRepository = interNeighborRepository;
             _destENodebId = destENodebId;
             _destSectorId = destSectorId;
         }
@@ -147,7 +150,8 @@ namespace Lte.Evaluations.DataService.Mr
             var neighborENodeb = _eNodebRepository.GetByENodebId(_destENodebId);
             var neighborCellName = neighborENodeb?.Name ?? "未知基站" + "-" + _destSectorId;
             var huaweiNeighbors = _huaweiNeighborRepository.GetAllReverseList(_destENodebId, _destSectorId);
-            return huaweiNeighbors.Select(x =>
+            var interNeighbors = _interNeighborRepository.GetAllReverseList(_destENodebId, _destSectorId);
+            var results = huaweiNeighbors.Select(x =>
             {
                 var result = Mapper.Map<EutranIntraFreqNCell, NeighborCellMongo>(x);
                 result.NeighborPci = neighborPci ?? 0;
@@ -158,6 +162,18 @@ namespace Lte.Evaluations.DataService.Mr
                 result.SectorId = (byte?) (huaweiCell?.CellId) ?? 255;
                 return result;
             }).ToList();
+            results.AddRange(interNeighbors.Select(x =>
+            {
+                var result = Mapper.Map<EutranInterFreqNCell, NeighborCellMongo>(x);
+                result.NeighborPci = neighborPci ?? 0;
+                result.NeighborCellName = neighborCellName;
+                result.NeighborCellId = _destENodebId;
+                result.NeighborSectorId = _destSectorId;
+                var huaweiCell = _huaweiCellRepository.GetByLocal(x.eNodeB_Id, x.LocalCellId);
+                result.SectorId = (byte?)(huaweiCell?.CellId) ?? 255;
+                return result;
+            }));
+            return results;
         }
     }
 
