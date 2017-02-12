@@ -149,15 +149,6 @@
     <Compile Include="mr\process_zte_mro.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="mr\process_zte_mro_15.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="mr\process_zte_mro_30.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="mr\process_zte_mro_45.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="mr\process_zte_mrs.py">
       <SubType>Code</SubType>
     </Compile>

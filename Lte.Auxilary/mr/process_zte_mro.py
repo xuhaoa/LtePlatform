@@ -8,6 +8,7 @@ import json
 from customize_utilities import *
 import pymongo
 from pymongo import MongoClient
+import sys
 
 os.chdir('/home/wireless/huawei_mro')
 date_dir=generate_date_hours_shift(shift=-4)
@@ -20,10 +21,16 @@ try:
 except:
     print('The colletion is initialized')
 
+try:
+    if db['position_'+date_dir].index_information().get('CellId_1')==None:
+        db['position_'+date_dir].create_index([("CellId", pymongo.ASCENDING)],background=True)
+except:
+    print('The colletion is initialized')
+
 for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
     currrent_dir=os.path.join(root, '')
     for name in files:
-        if not name.endswith('0000.zip'):
+        if not name.endswith(sys.argv[1] + '00.zip'):
             continue
         reader=MroReader(afilter)
         print(name)
@@ -48,5 +55,9 @@ for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
                 for item in mro_output:
                     item.update({'StartTime': startTime})
                 db['mro_'+date_dir].insert_many(mro_output)
+            if len(reader.item_positions)>0:
+                for item in reader.item_positions:
+                    item.update({'StartTime': startTime})
+                db['position_'+date_dir].insert_many(reader.item_positions)
         print('insert from ', currrent_dir + name)
         os.remove(currrent_dir + name)
