@@ -1,1 +1,1 @@
-/home/wireless/env/py3env/bin/python /home/wireless/Public/process_huawei_mro_45.py
+/home/wireless/env/py3env/bin/python /home/wireless/Public/process_huawei_mro.py 45

@@ -125,15 +125,6 @@
     <Compile Include="mr\process_huawei_mro.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="mr\process_huawei_mro_15.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="mr\process_huawei_mro_30.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="mr\process_huawei_mro_45.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="mr\process_huawei_mrs.py">
       <SubType>Code</SubType>
     </Compile>

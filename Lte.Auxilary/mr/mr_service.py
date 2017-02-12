@@ -33,6 +33,7 @@ class MroReader:
             else:
                 centerFilled=False
                 item_dict = {}
+                item_position={}
                 neighbor_list=[]
                 for item_v in item_element:
                     item_value = item_v.text.replace('NIL', '-1').replace('N','').replace('E','').split(' ')
@@ -54,6 +55,13 @@ class MroReader:
                         item_dict.update({'Pci': _item_sub_dict['LteScPci']})
                         item_dict.update({'Earfcn': _item_sub_dict['LteScEarfcn']})
                         centerFilled=True
+                        if _item_sub_dict['Longitude']!=-1 and _item_sub_dict['Latitude']!=-1:
+                            item_position.update({'CellId': item_id+'-'+item_element.attrib['id']})
+                            item_position.update({'Rsrp': _item_sub_dict['LteScRSRP']})
+                            item_position.update({'Ta': _item_sub_dict['LteScTadv']})
+                            item_position.update({'Lontitute': _item_sub_dict['Longitude']})
+                            item_position.update({'Lattitute': _item_sub_dict['Latitude']})
+                            self.item_positions.append(item_position)
                 if len(neighbor_list)>0:
                     item_dict.update({'NeighborList': neighbor_list})
                     self.item_dicts.append(item_dict)
