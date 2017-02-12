@@ -141,16 +141,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\Basic\IEutranInterNFreqRepository.cs" />
     <Compile Include="Abstract\Basic\MongoRepositories.cs" />
     <Compile Include="Abstract\Basic\CellRepositories.cs" />
     <Compile Include="Abstract\College\ICollegeRepository.cs" />
     <Compile Include="Abstract\Basic\IENodebRepository.cs" />
     <Compile Include="Abstract\Infrastructure\IInfrastructureRepository.cs" />
-    <Compile Include="Abstract\IInterferenceMatrixRepository.cs" />
+    <Compile Include="Abstract\NeighborRepositories.cs" />
     <Compile Include="Abstract\Kpi\MrMongoInterfaces.cs" />
-    <Compile Include="Abstract\Neighbor\HuaweiRepositories.cs" />
-    <Compile Include="Abstract\Neighbor\ZteRepositories.cs" />
     <Compile Include="Abstract\IPagingRepository.cs" />
     <Compile Include="Abstract\Kpi\PreciseInterfaces.cs" />
     <Compile Include="Abstract\Infrastructure\IRegionRepository.cs" />

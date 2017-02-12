@@ -2,10 +2,10 @@
 using Lte.Evaluations.DataService.Switch;
 using Lte.Evaluations.ViewModels.Mr;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Abstract.Neighbor;
 using Lte.Parameters.Entities.Neighbor;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Parameters.Abstract;
 
 namespace Lte.Evaluations.DataService.Mr
 {
@@ -16,11 +16,12 @@ namespace Lte.Evaluations.DataService.Mr
         private readonly ICellHuaweiMongoRepository _huaweiCellRepository;
         private readonly IEUtranRelationZteRepository _zteNeighborRepository;
         private readonly IEutranIntraFreqNCellRepository _huaweiNeighborRepository;
+        private readonly IEutranInterFreqNCellRepository _huaweiInterFreqNCellRepository;
         private readonly IExternalEUtranCellFDDZteRepository _zteExternalRepository;
 
         public NeighborCellMongoService(ICellRepository cellRepository, IENodebRepository eNodebRepository,
             ICellHuaweiMongoRepository huaweiCellRepository, IEUtranRelationZteRepository zteNeighborRepository,
-            IEutranIntraFreqNCellRepository huaweiNeighborRepository,
+            IEutranIntraFreqNCellRepository huaweiNeighborRepository, IEutranInterFreqNCellRepository huaweiInterFreqNCellRepository,
             IExternalEUtranCellFDDZteRepository zteExternalRepository)
         {
             _cellRepository = cellRepository;
@@ -29,6 +30,7 @@ namespace Lte.Evaluations.DataService.Mr
             _zteNeighborRepository = zteNeighborRepository;
             _zteExternalRepository = zteExternalRepository;
             _huaweiNeighborRepository = huaweiNeighborRepository;
+            _huaweiInterFreqNCellRepository = huaweiInterFreqNCellRepository;
         }
 
         private IMongoQuery<List<NeighborCellMongo>> ConstructNeighborQuery(int eNodebId, byte sectorId)
@@ -38,7 +40,7 @@ namespace Lte.Evaluations.DataService.Mr
             return eNodeb.Factory == "华为"
                 ? (IMongoQuery<List<NeighborCellMongo>>)
                     new HuaweiNeighborQuery(_cellRepository, _eNodebRepository, _huaweiCellRepository,
-                        _huaweiNeighborRepository, eNodebId, sectorId)
+                        _huaweiNeighborRepository, _huaweiInterFreqNCellRepository, eNodebId, sectorId)
                 : new ZteNeighborQuery(_cellRepository, _zteNeighborRepository, _zteExternalRepository, eNodebId,
                     sectorId);
         }
@@ -79,17 +81,20 @@ namespace Lte.Evaluations.DataService.Mr
         private readonly IENodebRepository _eNodebRepository;
         private readonly ICellHuaweiMongoRepository _huaweiCellRepository;
         private readonly IEutranIntraFreqNCellRepository _huaweiNeighborRepository;
+        private readonly IEutranInterFreqNCellRepository _interNeighborRepository;
         private readonly int _eNodebId;
         private readonly byte _sectorId;
 
         public HuaweiNeighborQuery(ICellRepository cellRepository, IENodebRepository eNodebRepository,
             ICellHuaweiMongoRepository huaweiCellRepository, IEutranIntraFreqNCellRepository huaweiNeighborRepository,
+            IEutranInterFreqNCellRepository interNeighborRepository,
             int eNodebId, byte sectorId)
         {
             _cellRepository = cellRepository;
             _eNodebRepository = eNodebRepository;
             _huaweiCellRepository = huaweiCellRepository;
             _huaweiNeighborRepository = huaweiNeighborRepository;
+            _interNeighborRepository = interNeighborRepository;
             _eNodebId = eNodebId;
             _sectorId = sectorId;
         }
@@ -99,7 +104,9 @@ namespace Lte.Evaluations.DataService.Mr
             var huaweiCell = _huaweiCellRepository.GetRecent(_eNodebId, _sectorId);
             var localCellId = huaweiCell?.LocalCellId ?? _sectorId;
             var huaweiNeighbors = _huaweiNeighborRepository.GetRecentList(_eNodebId, (byte)localCellId);
+            var interNeighbors = _interNeighborRepository.GetRecentList(_eNodebId, (byte) localCellId);
             var results = Mapper.Map<List<EutranIntraFreqNCell>, List<NeighborCellMongo>>(huaweiNeighbors);
+            results.AddRange(Mapper.Map<List<EutranInterFreqNCell>, IEnumerable<NeighborCellMongo>>(interNeighbors));
             results.ForEach(x =>
             {
                 x.SectorId = _sectorId;

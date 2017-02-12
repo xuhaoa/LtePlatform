@@ -1,9 +1,9 @@
 ﻿using Abp.EntityFramework.Dependency;
 using Abp.EntityFramework.Repositories;
-using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Neighbor;
 using MongoDB.Bson;
 using System.Collections.Generic;
+using Lte.Parameters.Abstract;
 
 namespace Lte.Parameters.Concrete.Neighbor
 {

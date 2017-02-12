@@ -4,6 +4,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Abp.EntityFramework.Dependency
@@ -72,6 +73,13 @@ namespace Abp.EntityFramework.Dependency
         int LocalCellId { get; set; }
     }
 
+    public interface IHuaweiNeighborMongo : IHuaweiCellMongo
+    {
+        int eNodeBId { get; set; }
+
+        int CellId { get; set; }
+    }
+
     public interface IZteMongo
     {
         int eNodeB_Id { get; set; }
@@ -119,6 +127,18 @@ namespace Abp.EntityFramework.Dependency
             var query =
                 MongoDB.Driver.Builders.Query<TEntity>.Where(
                     e => e.eNodeB_Id == eNodebId && e.LocalCellId == localCellId);
+            var list = repository.QueryCursor(query);
+            var recentDate = list.Max(x => x.iDate);
+            return list.Where(x => x.iDate == recentDate).ToList();
+        }
+
+        public static List<TEntity> QueryReverseList<TEntity>(this MongoDbRepositoryBase<TEntity, ObjectId> repository,
+            int destENodebId, byte destSectorId)
+            where TEntity : class, IHuaweiNeighborMongo, IEntity<ObjectId>
+        {
+            var query =
+                MongoDB.Driver.Builders.Query<TEntity>.Where(
+                    e => e.eNodeBId == destENodebId && e.CellId == destSectorId);
             var list = repository.QueryCursor(query);
             var recentDate = list.Max(x => x.iDate);
             return list.Where(x => x.iDate == recentDate).ToList();

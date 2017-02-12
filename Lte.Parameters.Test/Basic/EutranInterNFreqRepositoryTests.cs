@@ -1,4 +1,4 @@
-﻿using Lte.Parameters.Abstract.Basic;
+﻿using Lte.Parameters.Abstract;
 using Lte.Parameters.Concrete.Neighbor;
 using NUnit.Framework;
 

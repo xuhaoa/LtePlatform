@@ -1,8 +1,8 @@
 ﻿using Abp.EntityFramework;
 using Abp.EntityFramework.Repositories;
-using Lte.Parameters.Abstract.Neighbor;
 using Lte.Parameters.Entities.Neighbor;
 using System.Collections.Generic;
+using Lte.Parameters.Abstract;
 
 namespace Lte.Parameters.Concrete.Neighbor
 {

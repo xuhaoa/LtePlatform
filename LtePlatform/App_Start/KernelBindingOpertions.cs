@@ -13,7 +13,6 @@ using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
-using Lte.Parameters.Abstract.Neighbor;
 using Lte.Parameters.Abstract.Switch;
 using Lte.Parameters.Concrete;
 using Lte.Parameters.Concrete.Basic;
@@ -113,6 +112,8 @@ namespace LtePlatform
             ninjectKernel.Bind<IEUtranRelationZteRepository>().To<EUtranRelationZteRepository>();
 
             ninjectKernel.Bind<IEutranIntraFreqNCellRepository>().To<EutranIntraFreqNCellRepository>();
+
+            ninjectKernel.Bind<IEutranInterFreqNCellRepository>().To<EutranInterFreqNCellRepository>();
 
             ninjectKernel.Bind<IExternalEUtranCellFDDZteRepository>().To<ExternalEUtranCellFDDZteRepository>();
 
