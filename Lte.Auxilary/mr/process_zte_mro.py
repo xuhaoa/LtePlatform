@@ -27,6 +27,12 @@ try:
 except:
     print('The colletion is initialized')
 
+try:
+    if db['precise_'+date_dir].index_information().get('CellId_1_Pci_1')==None:
+        db['precise_'+date_dir].create_index([("CellId", pymongo.ASCENDING), ("Pci", pymongo.ASCENDING)],background=True)
+except:
+    print('The colletion is initialized')
+
 for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
     currrent_dir=os.path.join(root, '')
     for name in files:
@@ -59,5 +65,11 @@ for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
                 for item in reader.item_positions:
                     item.update({'StartTime': startTime})
                 db['position_'+date_dir].insert_many(reader.item_positions)
+            if len(reader.neighbor_stats)>0:
+                neighbor_output=reader.map_neighbor_stats()
+                if len(neighbor_output)>0:
+                    for item in neighbor_output:
+                        item.update({'StartTime': startTime})
+                    db['precise_'+date_dir].insert_many(neighbor_output)
         print('insert from ', currrent_dir + name)
         os.remove(currrent_dir + name)

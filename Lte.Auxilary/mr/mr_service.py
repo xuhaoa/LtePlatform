@@ -13,11 +13,23 @@ def to_dec(value):
     else:
         return int(value)
 
+class NeighborStat:
+    def __init__(self, cellId, pci, **kwargs):
+        super().__init__(**kwargs)
+        self.stat={'CellId': cellId, 'Neighbors': 0, 'IntraNeighbors': 0, 'Pci': pci}
+
+    def update(self, item_sub_dict):
+        if item_sub_dict['LteNcRSRP']>item_sub_dict['LteScRSRP']-6:
+            self.stat['Neighbors']+=1
+            if item_sub_dict['LteScEarfcn']==item_sub_dict['LteNcEarfcn']:
+                self.stat['IntraNeighbors']+=1
+
 class MroReader:
     def __init__(self, afilter, **kwargs):
         super().__init__(**kwargs)
         self.item_dicts=[]
-        self.item_positions=[];
+        self.item_positions=[]
+        self.neighbor_stats=[]
         self.afilter=afilter
 
     def display(self):
@@ -35,6 +47,7 @@ class MroReader:
                 item_dict = {}
                 item_position={}
                 neighbor_list=[]
+                neighbor_stat=NeighborStat(item_id+'-'+item_element.attrib['id'], 0)
                 for item_v in item_element:
                     item_value = item_v.text.replace('NIL', '-1').replace('N','').replace('E','').split(' ')
                     _item_sub_dict = dict(zip(item_key, map(to_dec, item_value)))
@@ -45,6 +58,7 @@ class MroReader:
                         _neighbor.update({'Rsrp': _item_sub_dict['LteNcRSRP']})
                         _neighbor.update({'Earfcn': _item_sub_dict['LteNcEarfcn']})
                         neighbor_list.append(_neighbor)
+                        neighbor_stat.update(_item_sub_dict)
                     else:
                         break
                     if not centerFilled:
@@ -53,6 +67,7 @@ class MroReader:
                         item_dict.update({'SinrUl': _item_sub_dict['LteScSinrUL']})
                         item_dict.update({'Ta': _item_sub_dict['LteScTadv']})
                         item_dict.update({'Pci': _item_sub_dict['LteScPci']})
+                        neighbor_stat.stat['Pci']=_item_sub_dict['LteScPci']
                         item_dict.update({'Earfcn': _item_sub_dict['LteScEarfcn']})
                         centerFilled=True
                         if _item_sub_dict['Longitude']!=-1 and _item_sub_dict['Latitude']!=-1:
@@ -65,6 +80,7 @@ class MroReader:
                 if len(neighbor_list)>0:
                     item_dict.update({'NeighborList': neighbor_list})
                     self.item_dicts.append(item_dict)
+                self.neighbor_stats.append(neighbor_stat.stat)
 
     def read_zte(self, item_measurement, item_id):
         for item_element in item_measurement:
@@ -77,6 +93,7 @@ class MroReader:
                 item_dict = {}
                 item_position={}
                 neighbor_list=[]
+                neighbor_stat=NeighborStat(item_id+'-'+item_element.attrib['MR.objectId'], 0)
                 for item_v in item_element:
                     item_value = item_v.text.replace('NIL', '-1').split(' ')
                     _item_sub_dict = dict(zip(item_key, map(to_dec, item_value)))
@@ -87,6 +104,7 @@ class MroReader:
                         _neighbor.update({'Rsrp': _item_sub_dict['LteNcRSRP']})
                         _neighbor.update({'Earfcn': _item_sub_dict['LteNcEarfcn']})
                         neighbor_list.append(_neighbor)
+                        neighbor_stat.update(_item_sub_dict)
                     else:
                         break
                     if not centerFilled:
@@ -95,6 +113,7 @@ class MroReader:
                         item_dict.update({'SinrUl': _item_sub_dict['LteScSinrUL']})
                         item_dict.update({'Ta': _item_sub_dict['LteScTadv']})                        
                         item_dict.update({'Pci': _item_sub_dict['LteScPci']})
+                        neighbor_stat.stat['Pci']=_item_sub_dict['LteScPci']
                         item_dict.update({'Earfcn': _item_sub_dict['LteScEarfcn']})                        
                         centerFilled=True
                         if _item_sub_dict['Longitude']!=-1 and _item_sub_dict['Latitude']!=-1:
@@ -111,6 +130,7 @@ class MroReader:
                 if len(neighbor_list)>0:
                     item_dict.update({'NeighborList': neighbor_list})
                     self.item_dicts.append(item_dict)
+                self.neighbor_stats.append(neighbor_stat.stat)
 
     def _filter_by_neighbor_len(self, length):
         return list(filter(lambda x: True if len(x['NeighborList'])==length else False, self.item_dicts))
@@ -175,6 +195,25 @@ class MroReader:
         }, combined_list))
         df = DataFrame(stat_list)
         stat=df.groupby(['CellId','Pci','NeighborPci', 'Earfcn', 'NeighborEarfcn']).sum().reset_index()
+        return json.loads(stat.T.to_json()).values()
+
+    def map_neighbor_stats(self):
+        stat_list=list(map(lambda item: {
+            'CellId': item['CellId'],
+            'Pci': item['Pci'],
+            'Neighbors0': 1 if item['Neighbors']==0 else 0,
+            'Neighbors1': 1 if item['Neighbors']==1 else 0,
+            'Neighbors2': 1 if item['Neighbors']==2 else 0,
+            'Neighbors3': 1 if item['Neighbors']==3 else 0,
+            'NeighborsMore': 1 if item['Neighbors']>3 else 0,
+            'IntraNeighbors0': 1 if item['IntraNeighbors']==0 else 0,
+            'IntraNeighbors1': 1 if item['IntraNeighbors']==1 else 0,
+            'IntraNeighbors2': 1 if item['IntraNeighbors']==2 else 0,
+            'IntraNeighbors3': 1 if item['IntraNeighbors']==3 else 0,
+            'IntraNeighborsMore': 1 if item['IntraNeighbors']>3 else 0
+        }, self.neighbor_stats))
+        df = DataFrame(stat_list)
+        stat=df.groupby(['CellId','Pci']).sum().reset_index()
         return json.loads(stat.T.to_json()).values()
 
     def map_rsrp_diff_zte(self):

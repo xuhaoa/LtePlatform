@@ -109,6 +109,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="mr\hwMrDownloadAndAnalysis.py" />
+    <Compile Include="mr\map_neighbor_stats_test.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\mro_reader_test.py">
       <SubType>Code</SubType>
     </Compile>
