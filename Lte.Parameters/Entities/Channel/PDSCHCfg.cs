@@ -26,5 +26,13 @@ namespace Lte.Parameters.Entities.Channel
         public int ReferenceSignalPwrMargin { get; set; }
 
         public int ReferenceSignalPwr { get; set; }
+
+        public int? TxPowerOffsetAnt0 { get; set; }
+
+        public int? TxPowerOffsetAnt1 { get; set; }
+
+        public int? TxPowerOffsetAnt2 { get; set; }
+
+        public int? TxPowerOffsetAnt3 { get; set; }
     }
 }

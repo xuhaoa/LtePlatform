@@ -29,12 +29,15 @@ for theme in mrNames:
         for cellId in range(16):
             process_combined(theme,eNodebId,cellId)
             process_combined(theme,eNodebId,cellId+48)
+            process_combined(theme,eNodebId,cellId+16)
     for eNodebId in range(499712, 503808):
         for cellId in range(16):
             process_combined(theme,eNodebId,cellId)
             process_combined(theme,eNodebId,cellId+48)
+            process_combined(theme,eNodebId,cellId+16)
     for eNodebId in range(868352,870400):
         for cellId in range(16):
             process_combined(theme,eNodebId,cellId)
             process_combined(theme,eNodebId,cellId+48)
+            process_combined(theme,eNodebId,cellId+16)
 

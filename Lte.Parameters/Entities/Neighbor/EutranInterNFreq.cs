@@ -94,5 +94,31 @@ namespace Lte.Parameters.Entities.Neighbor
         {
             return false;
         }
+
+        public int? InterFreqMlbDlPrbOffset { get; set; }
+
+        public int? IfSrvHoThdRsrqOffset { get; set; }
+
+        public int? MeasPerformanceDemand { get; set; }
+
+        public int? InterFreqMlbUlPrbOffset { get; set; }
+
+        public int? MlbInterFreqHoA3Offset { get; set; }
+
+        public int? IfSrvHoThdRsrpOffset { get; set; }
+
+        public int? PsPriority { get; set; }
+
+        public int? NcellNumForAnr { get; set; }
+
+        public int? MlbFreqUlPriority { get; set; }
+
+        public int? SnrBasedUeSelectionMode { get; set; }
+
+        public int? VolteHoTargetInd { get; set; }
+
+        public int? MlbInterFreqEffiRatio { get; set; }
+
+        public int? MobilityTargetInd { get; set; }
     }
 }

@@ -28,5 +28,7 @@ namespace Lte.Parameters.Entities.Switch
         public string eNodeBId_Name { get; set; }
 
         public int IntraFreqHoGroupId { get; set; }
+
+        public int? HighSpeedA3TimeToTrig { get; set; }
     }
 }
