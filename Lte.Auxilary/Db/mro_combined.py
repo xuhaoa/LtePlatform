@@ -22,3 +22,12 @@ for pci in range(504):
                 item.update({'StatDate': time})
             db['mro_combined'].insert_many(statList)
             print('Pci: ', pci, ' inserted items: ', len(statList))
+
+Precise_List=list(db['precise_'+datestr].find())
+df=DataFrame(Precise_List)
+stat=df.groupby(['CellId']).sum().reset_index()
+statList = json.loads(stat.T.to_json()).values()
+for item in statList:
+    item.update({'StatDate': time})
+db['precise_combined'].insert_many(statList)
+print('Precise inserted items: ', len(statList))

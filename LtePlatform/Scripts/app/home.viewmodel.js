@@ -2,25 +2,29 @@
 .controller("homeController", function ($scope, appUrlService, appRegionService) {
     appUrlService.initializeAuthorization();
     $scope.areaItems = [{
+        title: "网络概况",
+        comments: '/appViews/Home/Network.html',
+        buttonName: "信息",
+        url: "/Parameters/List",
+        width: 12
+    }, {
         title: "4G指标",
         comments: '/appViews/Home/Kpi4G.html',
         buttonName: "详细",
-        url: "/Rutrace"
+        url: "/Rutrace",
+        width: 6
     }, {
         title: "传统指标",
         comments:  '/appViews/Home/Kpi2G.html',
         buttonName: "指标",
-        url: "/Kpi"
+        url: "/Kpi",
+        width: 6
     }, {
         title: "工单监控",
         comments:  '/appViews/Home/WorkItem.html',
         buttonName: "工单",
-        url: "/Kpi/WorkItem"
-    }, {
-        title: "网络概况",
-        comments: '/appViews/Home/Network.html',
-        buttonName: "信息",
-        url: "/Parameters/List"
+        url: "/Kpi/WorkItem",
+        width: 6
     }];
 
     var yesterday = new Date();
@@ -125,8 +129,9 @@
         });
     $scope.dropRating = kpiRatingDivisionDefs.drop;
 })
-.controller("home.network", function ($scope, appRegionService, parametersChartService, preciseChartService) {
+.controller("home.network", function ($scope, appRegionService, parametersChartService, preciseChartService, baiduMapService) {
     var cityName = $scope.city.selected || '佛山';
+    baiduMapService.initializeMap("map", 12);
     appRegionService.queryDistrictInfrastructures(cityName).then(function (result) {
         appRegionService.accumulateCityStat(result, cityName);
         $("#cityLteENodebConfig").highcharts(
