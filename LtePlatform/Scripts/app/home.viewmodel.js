@@ -129,15 +129,12 @@
         });
     $scope.dropRating = kpiRatingDivisionDefs.drop;
 })
-.controller("home.network", function ($scope, appRegionService, parametersChartService, preciseChartService, baiduMapService) {
-    var cityName = $scope.city.selected || '佛山';
+.controller("home.network", function ($scope, appRegionService, preciseChartService, baiduMapService, coverageDialogService) {
+    
     baiduMapService.initializeMap("map", 12);
-    appRegionService.queryDistrictInfrastructures(cityName).then(function (result) {
-        appRegionService.accumulateCityStat(result, cityName);
-        $("#cityLteENodebConfig").highcharts(
-            parametersChartService.getDistrictLteENodebPieOptions(result.slice(0, result.length - 1),
-            $scope.city.selected || '佛山'));
-    });
+        $scope.showTownStats = function() {
+            coverageDialogService.showTownStats($scope.city.selected || '佛山');
+        };
         appRegionService.getTownFlowStats($scope.statDate.value || new Date()).then(function(result) {
             $("#townFlowConfig").highcharts(preciseChartService.getTownFlowOption(result));
         });

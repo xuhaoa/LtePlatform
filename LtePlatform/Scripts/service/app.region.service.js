@@ -1977,7 +1977,25 @@
             $scope.updateNeighborInfos();
         });
     })
-    .controller("rutrace.coverage", function ($scope, cell, $uibModal, $uibModalInstance,
+
+    .controller("town.stats", function ($scope, cityName, dialogTitle, $uibModalInstance, appRegionService, parametersChartService) {
+        $scope.dialogTitle = dialogTitle;
+        appRegionService.queryDistrictInfrastructures(cityName).then(function (result) {
+            appRegionService.accumulateCityStat(result, cityName);
+            $("#leftChart").highcharts(
+                parametersChartService.getDistrictLteENodebPieOptions(result.slice(0, result.length - 1), cityName));
+            $("#rightChart").highcharts(
+                parametersChartService.getDistrictLteCellPieOptions(result.slice(0, result.length - 1), cityName));
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller("rutrace.coverage", function ($scope, cell, $uibModalInstance,
         topPreciseService, preciseInterferenceService,
         preciseChartService, coverageService, kpiDisplayService) {
         $scope.currentCellName = cell.name + "-" + cell.sectorId;
@@ -2454,6 +2472,27 @@
 
                 modalInstance.result.then(function (info) {
                     callback(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showTownStats: function(cityName) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'town.stats',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "全市基站小区分布";
+                        },
+                        cityName: function() {
+                            return cityName;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });

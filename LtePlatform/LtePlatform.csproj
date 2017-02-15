@@ -642,7 +642,7 @@
     <Content Include="directives\rutrace\interference\SourceList.html" />
     <Content Include="appViews\Rutrace\Interference\SourceDbChartDialog.html" />
     <Content Include="appViews\Rutrace\Interference\SourceDialog.html" />
-    <Content Include="appViews\Rutrace\Interference\SourceModChartDialog.html" />
+    <Content Include="appViews\Home\DoubleChartDialog.html" />
     <Content Include="appViews\Rutrace\Interference\SourceStrengthChartDialog.html" />
     <Content Include="directives\rutrace\interference\VictimDialogList.html" />
     <Content Include="directives\rutrace\interference\VictimList.html" />
