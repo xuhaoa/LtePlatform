@@ -247,6 +247,30 @@
                 return chart.options;
             },
 
+            getTownUsersOption: function (views) {
+                var stats = generalChartService.generateCompoundStats(views, function (view) {
+                    return view.district;
+                }, function (view) {
+                    return view.town;
+                }, function (view) {
+                    return view.maxUsers;
+                });
+
+                var chart = new DrilldownPie();
+                chart.initialize({
+                    title: "最大在线用户数镇区分布图(TB)",
+                    seriesName: "区域"
+                });
+                angular.forEach(stats, function (stat) {
+                    chart.addOneSeries({
+                        name: stat.type,
+                        value: stat.total,
+                        subData: stat.subData
+                    });
+                });
+                return chart.options;
+            },
+
             getCoverageOptions: function (stats) {
                 var chart = new ComboChart();
                 chart.initialize({
@@ -1995,6 +2019,37 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
+    .controller("cdma.town.stats", function ($scope, cityName, dialogTitle, $uibModalInstance, appRegionService, parametersChartService) {
+        $scope.dialogTitle = dialogTitle;
+        appRegionService.queryDistrictInfrastructures(cityName).then(function (result) {
+            appRegionService.accumulateCityStat(result, cityName);
+            $("#leftChart").highcharts(
+                parametersChartService.getDistrictCdmaBtsPieOptions(result.slice(0, result.length - 1), cityName));
+            $("#rightChart").highcharts(
+                parametersChartService.getDistrictCdmaCellPieOptions(result.slice(0, result.length - 1), cityName));
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller("flow.stats", function ($scope, today, dialogTitle, $uibModalInstance, appRegionService, preciseChartService) {
+        $scope.dialogTitle = dialogTitle;
+        appRegionService.getTownFlowStats(today).then(function (result) {
+            $("#leftChart").highcharts(preciseChartService.getTownFlowOption(result));
+            $("#rightChart").highcharts(preciseChartService.getTownUsersOption(result));
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .controller("rutrace.coverage", function ($scope, cell, $uibModalInstance,
         topPreciseService, preciseInterferenceService,
         preciseChartService, coverageService, kpiDisplayService) {
@@ -2484,10 +2539,52 @@
                     size: 'lg',
                     resolve: {
                         dialogTitle: function () {
-                            return "全市基站小区分布";
+                            return "全市LTE基站小区分布";
                         },
                         cityName: function() {
                             return cityName;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showCdmaTownStats: function (cityName) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'cdma.town.stats',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "全市CDMA基站小区分布";
+                        },
+                        cityName: function () {
+                            return cityName;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showFlowStats: function (today) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'flow.stats',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "全市4G流量和用户数分布";
+                        },
+                        today: function() {
+                            return today;
                         }
                     }
                 });

@@ -3,8 +3,27 @@
         <div id="map" style="width: 100%;height: 600px;overflow: hidden;margin:0;"></div>
         <div id="time-control">
             <div id="time-control-btns">
-                <button class="btn btn-primary" ng-click="showTownStats()">小区统计</button>
-                <button class="btn btn-success">流量分布</button>
+                <div class="btn-group" uib-dropdown dropdown-append-to-body>
+                    <button id="single-button" type="button" class="btn btn-default"
+                            uib-dropdown-toggle ng-disabled="disabled">
+                        小区统计 <span class="caret"></span>
+                    </button>
+                    <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <li role="menuitem">
+                            <a class="btn btn-warning" ng-click="showLteTownStats()">
+                                <i class="glyphicon glyphicon-fullscreen"></i>
+                                LTE
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a class="btn btn-success" ng-click="showCdmaTownStats()">
+                                <i class="glyphicon glyphicon-tree-conifer"></i>
+                                CDMA
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <button class="btn btn-success" ng-click="showFlow()">流量分布</button>
             </div>
         </div>
     </div>

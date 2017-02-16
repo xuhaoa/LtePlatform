@@ -132,12 +132,15 @@
 .controller("home.network", function ($scope, appRegionService, preciseChartService, baiduMapService, coverageDialogService) {
     
     baiduMapService.initializeMap("map", 12);
-        $scope.showTownStats = function() {
+        $scope.showLteTownStats = function() {
             coverageDialogService.showTownStats($scope.city.selected || '佛山');
         };
-        appRegionService.getTownFlowStats($scope.statDate.value || new Date()).then(function(result) {
-            $("#townFlowConfig").highcharts(preciseChartService.getTownFlowOption(result));
-        });
+        $scope.showCdmaTownStats = function () {
+            coverageDialogService.showCdmaTownStats($scope.city.selected || '佛山');
+        };
+        $scope.showFlow = function() {
+            coverageDialogService.showFlowStats($scope.statDate.value || new Date());
+        };
 
     })
 .controller("home.kpi4G", function ($scope, kpiPreciseService, downSwitchService, appKpiService, appFormatService,
