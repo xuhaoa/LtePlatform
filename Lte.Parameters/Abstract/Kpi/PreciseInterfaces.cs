@@ -2,6 +2,7 @@
 using Lte.Parameters.Entities.Kpi;
 using System;
 using System.Collections.Generic;
+using MongoDB.Bson;
 
 namespace Lte.Parameters.Abstract.Kpi
 {
@@ -21,5 +22,10 @@ namespace Lte.Parameters.Abstract.Kpi
         TownPreciseCoverage4GStat GetByTown(int townId, DateTime statTime);
 
         int SaveChanges();
+    }
+
+    public interface IPreciseMongoRepository : IRepository<PreciseMongo, ObjectId>
+    {
+        List<PreciseMongo> GetAllList(DateTime statDate);
     }
 }

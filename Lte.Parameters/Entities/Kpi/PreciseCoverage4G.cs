@@ -4,16 +4,21 @@ using AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.LinqToCsv;
 using System;
+using Abp.EntityFramework.Dependency;
+using Lte.Domain.Common;
+using Lte.Domain.Regular;
+using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Kpi
 {
-    [AutoMapFrom(typeof(PreciseCoverage4GCsv))]
+    [AutoMapFrom(typeof(PreciseCoverage4GCsv), typeof(PreciseMongo))]
     public class PreciseCoverage4G : Entity
     {
         public DateTime StatTime { get; set; }
 
         public string DateString => StatTime.ToShortDateString();
 
+        [AutoMapPropertyResolve("ENodebId", typeof(PreciseMongo))]
         public int CellId { get; set; }
 
         public byte SectorId { get; set; }
@@ -31,13 +36,53 @@ namespace Lte.Parameters.Entities.Kpi
         public double SecondRate => 100 * (double)SecondNeighbors / TotalMrs;
 
         public double ThirdRate => 100 * (double)ThirdNeighbors / TotalMrs;
+    }
 
-        public PreciseCoverage4G() { }
-
-        public static PreciseCoverage4G ConstructStat(PreciseCoverage4GCsv info)
+    public class PreciseMongo : IEntity<ObjectId>, IStatDateCell
+    {
+        public bool IsTransient()
         {
-            return Mapper.Map<PreciseCoverage4GCsv, PreciseCoverage4G>(info);
+            return false;
         }
+
+        public ObjectId Id { get; set; }
+
+        public string CellId { get; set; }
+
+        public int ENodebId => CellId.GetSplittedFields('-')[0].ConvertToInt(0);
+
+        public byte SectorId => CellId.GetSplittedFields('-')[1].ConvertToByte(0);
+
+        public DateTime StatDate { get; set; }
+
+        public int Neighbors0 { get; set; }
+
+        public int Neighbors1 { get; set; }
+
+        public int Neighbors2 { get; set; }
+
+        public int Neighbors3 { get; set; }
+
+        public int NeighborsMore { get; set; }
+
+        public int IntraNeighbors0 { get; set; }
+
+        public int IntraNeighbors1 { get; set; }
+
+        public int IntraNeighbors2 { get; set; }
+
+        public int IntraNeighbors3 { get; set; }
+
+        public int IntraNeighborsMore { get; set; }
+
+        public int TotalMrs
+            => IntraNeighbors0 + IntraNeighbors1 + IntraNeighbors2 + IntraNeighbors3 + IntraNeighborsMore;
+
+        public int FirstNeighbors => IntraNeighbors1 + IntraNeighbors2 + IntraNeighbors3 + IntraNeighborsMore;
+
+        public int SecondNeighbors => IntraNeighbors2 + IntraNeighbors3 + IntraNeighborsMore;
+
+        public int ThirdNeighbors => IntraNeighbors3 + IntraNeighborsMore;
     }
 
     public class PreciseCoverage4GCsv

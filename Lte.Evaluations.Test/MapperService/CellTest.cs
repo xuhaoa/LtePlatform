@@ -627,7 +627,7 @@ namespace Lte.Evaluations.MapperService
                 SecondNeighborRate = secondRate,
                 ThirdNeighborRate = thirdRate
             };
-            var stat = PreciseCoverage4G.ConstructStat(info);
+            var stat = Mapper.Map<PreciseCoverage4GCsv, PreciseCoverage4G>(info);
             Assert.AreEqual(stat.StatTime, DateTime.Parse(statTime));
             Assert.AreEqual(stat.CellId, cellId);
             Assert.AreEqual(stat.SectorId, sectorId);

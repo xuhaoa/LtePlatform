@@ -173,7 +173,7 @@
     <Compile Include="Concrete\Kpi\MrsRepositories.cs" />
     <Compile Include="Concrete\Neighbor\EFLteNeighborCellRepository.cs" />
     <Compile Include="Concrete\EFParametersContext.cs" />
-    <Compile Include="Concrete\Kpi\EFPreciseCoverage4GRepository.cs" />
+    <Compile Include="Concrete\Kpi\PreciseRepositories.cs" />
     <Compile Include="Concrete\Kpi\EFRegionRepository.cs" />
     <Compile Include="Concrete\Infrastructure\EFTownRepository.cs" />
     <Compile Include="Concrete\EFWorkItemRepository.cs" />

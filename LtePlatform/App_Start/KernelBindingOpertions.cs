@@ -69,6 +69,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IPreciseCoverage4GRepository>().To<EFPreciseCoverage4GRepository>();
 
+            ninjectKernel.Bind<IPreciseMongoRepository>().To<PreciseMongoRepository>();
+
             ninjectKernel.Bind<ITopDrop2GCellRepository>().To<EFTopDrop2GCellRepository>();
 
             ninjectKernel.Bind<ITopConnection3GRepository>().To<EFTopConnection3GRepository>();
