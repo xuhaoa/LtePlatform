@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Abp.EntityFramework.AutoMapper;
 
 namespace Lte.Evaluations.DataService.Kpi
 {
@@ -21,23 +22,22 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly ITownPreciseCoverage4GStatRepository _regionRepository;
         private readonly IENodebRepository _eNodebRepository;
         private readonly ITownRepository _townRepository;
+        private readonly IPreciseMongoRepository _mongoRepository;
 
         public static Stack<PreciseCoverage4G> PreciseCoverage4Gs { get; set; } 
-
-        public static List<TownPreciseView> TownPreciseViews { get; set; }
-
+        
         public PreciseImportService(IPreciseCoverage4GRepository repository,
             ITownPreciseCoverage4GStatRepository regionRepository,
-            IENodebRepository eNodebRepository, ITownRepository townRepository)
+            IENodebRepository eNodebRepository, ITownRepository townRepository,
+            IPreciseMongoRepository mongoRepository)
         {
             _repository = repository;
             _regionRepository = regionRepository;
             _eNodebRepository = eNodebRepository;
             _townRepository = townRepository;
+            _mongoRepository = mongoRepository;
             if (PreciseCoverage4Gs == null)
                 PreciseCoverage4Gs = new Stack<PreciseCoverage4G>();
-            if (TownPreciseViews == null)
-                TownPreciseViews = new List<TownPreciseView>();
         }
 
         public void UploadItems(StreamReader reader)
@@ -45,29 +45,36 @@ namespace Lte.Evaluations.DataService.Kpi
             try
             {
                 var items = CsvContext.Read<PreciseCoverage4GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
-                var statTime = items[0].StatTime;
                 var stats = Mapper.Map<List<PreciseCoverage4GCsv>, List<PreciseCoverage4G>>(items);
                 PreciseCoverage4Gs = new Stack<PreciseCoverage4G>();
                 foreach (var stat in stats)
                 {
                     PreciseCoverage4Gs.Push(stat);
                 }
-
-                var townStats = GetTownStats(stats);
-                var mergeStats = GetMergeStats(townStats, statTime);
-                TownPreciseViews =
-                    mergeStats.Select(x => x.ConstructView<TownPreciseCoverage4GStat, TownPreciseView>(_townRepository))
-                        .ToList();
             }
             catch
             {
                 // ignored
-                TownPreciseViews = new List<TownPreciseView>();
             }
         }
 
-        public IEnumerable<TownPreciseCoverage4GStat> GetMergeStats(IEnumerable<TownPreciseCoverage4GStat> townStats, DateTime statTime)
+        public int UpdateItems(DateTime statDate)
         {
+            var stats = _mongoRepository.GetAllList(statDate.Date);
+            PreciseCoverage4Gs = new Stack<PreciseCoverage4G>();
+            foreach (var stat in stats)
+            {
+                PreciseCoverage4Gs.Push(Mapper.Map<PreciseMongo, PreciseCoverage4G>(stat));
+            }
+
+            return PreciseCoverage4Gs.Count;
+        }
+
+        public IEnumerable<TownPreciseView> GetMergeStats(DateTime statTime)
+        {
+            var stats = _repository.GetAllList(statTime.Date, statTime.Date.AddDays(1));
+            var townStats = GetTownStats(stats);
+            
             var mergeStats = from stat in townStats
                 group stat by stat.TownId
                 into g
@@ -80,10 +87,10 @@ namespace Lte.Evaluations.DataService.Kpi
                     TotalMrs = g.Sum(x => x.TotalMrs),
                     StatTime = statTime
                 };
-            return mergeStats;
+            return mergeStats.Select(x => x.ConstructView<TownPreciseCoverage4GStat, TownPreciseView>(_townRepository));
         }
 
-        public IEnumerable<TownPreciseCoverage4GStat> GetTownStats(List<PreciseCoverage4G> stats)
+        private IEnumerable<TownPreciseCoverage4GStat> GetTownStats(List<PreciseCoverage4G> stats)
         {
             var query = from stat in stats
                 join eNodeb in _eNodebRepository.GetAllList() on stat.CellId equals eNodeb.ENodebId
@@ -105,11 +112,20 @@ namespace Lte.Evaluations.DataService.Kpi
         public void DumpTownStats(TownPreciseViewContainer container)
         {
             var stats = Mapper.Map<IEnumerable<TownPreciseView>, IEnumerable<TownPreciseCoverage4GStat>>(container.Views);
-            foreach (var stat in from stat in stats
-                                 let item = _regionRepository.GetByTown(stat.TownId, stat.StatTime)
-                                 where item == null select stat)
+            foreach (var stat in stats)
             {
-                _regionRepository.Insert(stat);
+                var endTime = stat.StatTime.AddDays(1);
+                var item =
+                    _regionRepository.FirstOrDefault(
+                        x => x.TownId == stat.TownId && x.StatTime >= stat.StatTime && x.StatTime < endTime);
+                if (item == null)
+                {
+                    _regionRepository.Insert(stat);
+                }
+                else
+                {
+                    stat.MapTo(item);
+                }
             }
             _regionRepository.SaveChanges();
         }
@@ -118,15 +134,23 @@ namespace Lte.Evaluations.DataService.Kpi
         {
             var stat = PreciseCoverage4Gs.Pop();
             if (stat == null) return false;
+            var nextDate = stat.StatTime.Date.AddDays(1);
             var item =
                 _repository.FirstOrDefault(
                     x =>
-                        x.StatTime == stat.StatTime && x.CellId == stat.CellId && x.SectorId == stat.SectorId );
+                        x.StatTime >= stat.StatTime.Date && x.StatTime < nextDate && x.CellId == stat.CellId && x.SectorId == stat.SectorId );
             if (item == null)
             {
                 _repository.Insert(stat);
-                _repository.SaveChanges();
             }
+            else
+            {
+                item.TotalMrs = stat.TotalMrs;
+                item.FirstNeighbors = stat.FirstNeighbors;
+                item.SecondNeighbors = stat.SecondNeighbors;
+                item.ThirdNeighbors = stat.ThirdNeighbors;
+            }
+            //_repository.SaveChanges();
             return true;
         }
 
@@ -152,6 +176,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 results.Add(new PreciseHistory
                 {
                     DateString = begin.ToShortDateString(),
+                    StatDate = begin.Date,
                     PreciseStats = items.Count,
                     TownPreciseStats = townItems.Count
                 });

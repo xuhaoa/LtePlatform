@@ -11,14 +11,13 @@ using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Kpi
 {
-    [AutoMapFrom(typeof(PreciseCoverage4GCsv), typeof(PreciseMongo))]
+    [AutoMapFrom(typeof(PreciseCoverage4GCsv))]
     public class PreciseCoverage4G : Entity
     {
         public DateTime StatTime { get; set; }
 
         public string DateString => StatTime.ToShortDateString();
 
-        [AutoMapPropertyResolve("ENodebId", typeof(PreciseMongo))]
         public int CellId { get; set; }
 
         public byte SectorId { get; set; }
@@ -38,6 +37,7 @@ namespace Lte.Parameters.Entities.Kpi
         public double ThirdRate => 100 * (double)ThirdNeighbors / TotalMrs;
     }
 
+    [AutoMapTo(typeof(PreciseCoverage4G))]
     public class PreciseMongo : IEntity<ObjectId>, IStatDateCell
     {
         public bool IsTransient()
@@ -45,14 +45,23 @@ namespace Lte.Parameters.Entities.Kpi
             return false;
         }
 
+        [IgnoreMap]
         public ObjectId Id { get; set; }
+        
+        [AutoMapPropertyResolve("Id", typeof(PreciseCoverage4G))]
+        public int FakeId => 0;
 
+        [IgnoreMap]
         public string CellId { get; set; }
 
+        [AutoMapPropertyResolve("CellId", typeof(PreciseCoverage4G))]
         public int ENodebId => CellId.GetSplittedFields('-')[0].ConvertToInt(0);
 
         public byte SectorId => CellId.GetSplittedFields('-')[1].ConvertToByte(0);
 
+        public int Pci { get; set; }
+
+        [AutoMapPropertyResolve("StatTime", typeof(PreciseCoverage4G))]
         public DateTime StatDate { get; set; }
 
         public int Neighbors0 { get; set; }

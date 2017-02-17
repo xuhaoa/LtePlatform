@@ -338,10 +338,8 @@
     <Compile Include="Controllers\Kpi\PreciseImportController.cs" />
     <Compile Include="Controllers\Kpi\PreciseRegionController.cs" />
     <Compile Include="Controllers\Kpi\PreciseStatController.cs" />
-    <Compile Include="Controllers\Kpi\PreciseTestController.cs" />
     <Compile Include="Controllers\Kpi\TopConnection3GController.cs" />
     <Compile Include="Controllers\Kpi\TopDrop2GController.cs" />
-    <Compile Include="Controllers\Kpi\TownPreciseImportController.cs" />
     <Compile Include="Controllers\Kpi\WorkItemController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Mongo\CellHuaweiMongoController.cs" />
@@ -1883,13 +1881,11 @@
     <Content Include="Scripts\service\app.region.service.js" />
     <None Include="Views\Kpi\PreciseImport.cshtml" />
     <Content Include="appViews\Import\Precise\Import.html" />
-    <Content Include="appViews\Import\Precise\HistoryTable.html" />
     <Content Include="Views\Kpi\WorkItemImport.cshtml" />
     <Content Include="appViews\Rutrace\Map\NeighborMapInfoBox.html" />
     <Content Include="appViews\BasicKpi\TopDrop2G.html" />
     <Content Include="appViews\BasicKpi\TopDrop2GTable.html" />
     <Content Include="appViews\BasicKpi\TopDrop2GTrendTable.html" />
-    <Content Include="appViews\Import\Precise\TownViewTable.html" />
     <Content Include="appViews\WorkItem\List.html" />
     <None Include="Views\Parameters\AlarmImport.cshtml" />
     <Content Include="Views\Shared\_AlertPanel.cshtml" />

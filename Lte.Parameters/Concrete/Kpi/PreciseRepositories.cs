@@ -42,11 +42,6 @@ namespace Lte.Parameters.Concrete.Kpi
             return GetAllList(x => x.StatTime >= begin && x.StatTime < end);
         }
 
-        public TownPreciseCoverage4GStat GetByTown(int townId, DateTime statTime)
-        {
-            return FirstOrDefault(x => x.TownId == townId && x.StatTime == statTime);
-        }
-
         public int SaveChanges()
         {
             return Context.SaveChanges();

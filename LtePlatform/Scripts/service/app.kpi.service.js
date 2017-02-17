@@ -518,8 +518,10 @@
             queryTotalDumpItems: function () {
                 return generalHttpService.getApiData('PreciseImport', {});
             },
-            queryTownPreciseViews: function () {
-                return generalHttpService.getApiData('TownPreciseImport', {});
+            queryTownPreciseViews: function (statTime) {
+                return generalHttpService.getApiData('TownPreciseImport', {
+                    statTime: statTime
+                });
             },
             clearImportItems: function () {
                 return generalHttpService.deleteApiData('PreciseImport', {});
@@ -531,6 +533,11 @@
             },
             dumpSingleItem: function () {
                 return generalHttpService.putApiData('PreciseImport', {});
+            },
+            updateMongoItems: function(statDate) {
+                return generalHttpService.getApiData('PreciseMongo', {
+                    statDate: statDate
+                })
             }
         };
     })

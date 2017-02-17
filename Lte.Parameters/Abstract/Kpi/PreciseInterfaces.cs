@@ -19,8 +19,6 @@ namespace Lte.Parameters.Abstract.Kpi
     {
         List<TownPreciseCoverage4GStat> GetAllList(DateTime begin, DateTime end);
 
-        TownPreciseCoverage4GStat GetByTown(int townId, DateTime statTime);
-
         int SaveChanges();
     }
 

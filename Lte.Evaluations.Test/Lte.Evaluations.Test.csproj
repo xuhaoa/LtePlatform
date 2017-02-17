@@ -145,6 +145,7 @@
     <Compile Include="MapperService\PciCellPairListTest.cs" />
     <Compile Include="MapperService\InfrastructureTests.cs" />
     <Compile Include="MapperService\CellTest.cs" />
+    <Compile Include="MapperService\PreciseMongoMappingTest.cs" />
     <Compile Include="MockItems\MockItemsOperations.cs" />
     <Compile Include="MockItems\MockInstanceService.cs" />
     <Compile Include="MockItems\Validation\MockInfrastructureServiceTest.cs" />

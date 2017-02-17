@@ -16,7 +16,47 @@
     </div>
 </div>
 <div class="col-md-6">
-    <div ng-include="'/appViews/Import/Precise/HistoryTable.html'"></div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                精确覆盖率数据库历史统计
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div date-span-row begin-date="beginDate" end-date="endDate">
+                <div class="btn-group">
+                    <button class="btn btn-primary" ng-click="updateHistory()">更新</button>
+                </div>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>小区统计数量</th>
+                        <th>镇区统计数量</th>
+                        <th>获取数据</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="stat in dumpHistory">
+                        <td>{{stat.dateString}}</td>
+                        <td>{{stat.preciseStats}}</td>
+                        <td>{{stat.townPreciseStats}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success" ng-click="updateMongoItems(stat.statDate)">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    Mongo导入
+                                </button>
+                                <button class="btn btn-default" ng-click="updateTownItems(stat.statDate)">镇区指标</button>
+                            </div>
+                            
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <div class="col-md-6">
     <div class="panel panel-info">
@@ -26,7 +66,30 @@
             </h3>
         </div>
         <div class="panel-body">
-            <div ng-include="'/appViews/Import/Precise/TownViewTable.html'"></div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>城市</th>
+                    <th>区域</th>
+                    <th>镇区</th>
+                    <th>MR总数</th>
+                    <th>第一邻区数</th>
+                    <th>第二邻区数</th>
+                    <th>第三邻区数</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="view in townPreciseViews">
+                    <td>{{view.city}}</td>
+                    <td>{{view.district}}</td>
+                    <td>{{view.town}}</td>
+                    <td>{{view.totalMrs}}</td>
+                    <td>{{view.firstNeighbors}}</td>
+                    <td>{{view.secondNeighbors}}</td>
+                    <td>{{view.thirdNeighbors}}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
