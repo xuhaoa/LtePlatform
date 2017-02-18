@@ -4,7 +4,6 @@ using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Lte.MySqlFramework.Concrete
 {
@@ -17,16 +16,6 @@ namespace Lte.MySqlFramework.Concrete
         public List<FlowZte> GetAllList(DateTime begin, DateTime end)
         {
             return GetAllList(x => x.StatTime >= begin && x.StatTime < end);
-        }
-
-        public async Task<int> CountAsync(DateTime begin, DateTime end)
-        {
-            return await CountAsync(x => x.StatTime >= begin && x.StatTime < end);
-        }
-
-        public List<FlowZte> GetAllList(DateTime begin, DateTime end, int eNodebId)
-        {
-            return GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.ENodebId == eNodebId);
         }
 
         public List<FlowZte> GetAllList(DateTime begin, DateTime end, int eNodebId, byte sectorId)
@@ -44,6 +33,18 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
+    public class RrcZteRepository : EfRepositoryBase<MySqlContext, RrcZte>, IRrcZteRepository
+    {
+        public RrcZteRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
     public class FlowHuaweiRepository : EfRepositoryBase<MySqlContext, FlowHuawei>, IFlowHuaweiRepository
     {
         public FlowHuaweiRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
@@ -53,16 +54,6 @@ namespace Lte.MySqlFramework.Concrete
         public List<FlowHuawei> GetAllList(DateTime begin, DateTime end)
         {
             return GetAllList(x => x.StatTime >= begin && x.StatTime < end);
-        }
-
-        public async Task<int> CountAsync(DateTime begin, DateTime end)
-        {
-            return await CountAsync(x => x.StatTime >= begin && x.StatTime < end);
-        }
-
-        public List<FlowHuawei> GetAllList(DateTime begin, DateTime end, int eNodebId)
-        {
-            return GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.ENodebId == eNodebId);
         }
 
         public List<FlowHuawei> GetAllList(DateTime begin, DateTime end, int eNodebId, byte localCellId)
@@ -84,11 +75,6 @@ namespace Lte.MySqlFramework.Concrete
     {
         public TownFlowRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
-        }
-
-        public async Task<int> CountAsync(DateTime begin, DateTime end)
-        {
-            return await CountAsync(x => x.StatTime >= begin && x.StatTime < end);
         }
 
         public List<TownFlowStat> GetAllList(DateTime begin, DateTime end)

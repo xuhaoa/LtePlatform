@@ -17,28 +17,29 @@ namespace Lte.Evaluations.DataService.Kpi
     {
         private readonly IFlowHuaweiRepository _huaweiRepository;
         private readonly IFlowZteRepository _zteRepository;
+        private readonly IRrcZteRepository _rrcZteRepository;
         private readonly ITownFlowRepository _townFlowRepository;
         private readonly IENodebRepository _eNodebRepository;
 
         private static Stack<FlowHuawei> FlowHuaweis { get; set; }
 
-        private static Stack<FlowZte> FlowZtes { get; set; }
+        private static Stack<Tuple<FlowZte, RrcZte>> FlowZtes { get; set; }
 
         public int FlowHuaweiCount => FlowHuaweis.Count;
 
         public int FlowZteCount => FlowZtes.Count;
 
         public FlowService(IFlowHuaweiRepository huaweiRepositroy, IFlowZteRepository zteRepository,
+            IRrcZteRepository rrcZteRepository,
             ITownFlowRepository townFlowRepository, IENodebRepository eNodebRepository)
         {
             _huaweiRepository = huaweiRepositroy;
             _zteRepository = zteRepository;
+            _rrcZteRepository = rrcZteRepository;
             _townFlowRepository = townFlowRepository;
             _eNodebRepository = eNodebRepository;
-            if (FlowHuaweis == null)
-                FlowHuaweis = new Stack<FlowHuawei>();
-            if (FlowZtes == null)
-                FlowZtes = new Stack<FlowZte>();
+            if (FlowHuaweis == null) FlowHuaweis = new Stack<FlowHuawei>();
+            if (FlowZtes == null) FlowZtes = new Stack<Tuple<FlowZte, RrcZte>>();
         }
 
         public void UploadFlowHuaweis(StreamReader reader)
@@ -96,10 +97,11 @@ namespace Lte.Evaluations.DataService.Kpi
 
         public void UploadFlowZtes(StreamReader reader)
         {
-            var flows = Mapper.Map<IEnumerable<FlowZteCsv>, IEnumerable<FlowZte>>(FlowZteCsv.ReadFlowZteCsvs(reader));
-            foreach (var flow in flows)
+            var csvs = FlowZteCsv.ReadFlowZteCsvs(reader);
+            foreach (var csv in csvs)
             {
-                FlowZtes.Push(flow);
+                FlowZtes.Push(new Tuple<FlowZte, RrcZte>(Mapper.Map<FlowZteCsv, FlowZte>(csv),
+                    Mapper.Map<FlowZteCsv, RrcZte>(csv)));
             }
         }
 
@@ -130,20 +132,36 @@ namespace Lte.Evaluations.DataService.Kpi
         public async Task<bool> DumpOneZteStat()
         {
             var stat = FlowZtes.Pop();
-            if (stat == null) return false;
-            var item =
-                await
-                    _zteRepository.FirstOrDefaultAsync(
-                        x =>
-                            x.StatTime == stat.StatTime && x.ENodebId == stat.ENodebId &&
-                            x.SectorId == stat.SectorId);
-            if (item == null)
+            if (stat.Item1 != null)
             {
-                var result = await _zteRepository.InsertAsync(stat);
-                _zteRepository.SaveChanges();
-                return result != null;
+                var item1 =
+                    await
+                        _zteRepository.FirstOrDefaultAsync(
+                            x =>
+                                x.StatTime == stat.Item1.StatTime && x.ENodebId == stat.Item1.ENodebId &&
+                                x.SectorId == stat.Item1.SectorId);
+                if (item1 == null)
+                {
+                    await _zteRepository.InsertAsync(stat.Item1);
+                    _zteRepository.SaveChanges();
+                }
             }
-            return false;
+            if (stat.Item2 != null)
+            {
+                var item2 =
+                    await
+                        _rrcZteRepository.FirstOrDefaultAsync(
+                            x =>
+                                x.StatTime == stat.Item2.StatTime && x.ENodebId == stat.Item2.ENodebId &&
+                                x.SectorId == stat.Item2.SectorId);
+                if (item2 == null)
+                {
+                    await _rrcZteRepository.InsertAsync(stat.Item2);
+                    _rrcZteRepository.SaveChanges();
+                }
+            }
+
+            return true;
         }
 
         public void ClearHuaweiStats()
@@ -168,14 +186,16 @@ namespace Lte.Evaluations.DataService.Kpi
             {
                 var beginDate = begin;
                 var endDate = begin.AddDays(1);
-                var huaweiItems = await _huaweiRepository.CountAsync(beginDate, endDate);
-                var zteItems = await _zteRepository.CountAsync(beginDate, endDate);
-                var townItems = await _townFlowRepository.CountAsync(beginDate, endDate);
+                var huaweiItems = await _huaweiRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
+                var zteItems = await _zteRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
+                var zteRrcs = await _rrcZteRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
+                var townItems = await _townFlowRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
                 results.Add(new FlowHistory
                 {
                     DateString = begin.ToShortDateString(),
                     HuaweiItems = huaweiItems,
                     ZteItems = zteItems,
+                    ZteRrcs = zteRrcs,
                     TownStats = townItems
                 });
                 begin = begin.AddDays(1);

@@ -66,6 +66,8 @@ namespace Lte.Evaluations.ViewModels
 
         public int ZteItems { get; set; }
 
+        public int ZteRrcs { get; set; }
+
         public int TownStats { get; set; }
     }
 }

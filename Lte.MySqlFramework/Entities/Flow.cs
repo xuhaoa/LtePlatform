@@ -303,12 +303,12 @@ namespace Lte.MySqlFramework.Entities
         [CsvColumn(Name = "RRC连接释放次数，ENB触发的其他原因")]
         public int RrcReleaseOther { get; set; }
 
-        public static IEnumerable<FlowZteCsv> ReadFlowZteCsvs(StreamReader reader)
+        public static List<FlowZteCsv> ReadFlowZteCsvs(StreamReader reader)
         {
             return
                 CsvContext.Read<FlowZteCsv>(reader, CsvFileDescription.CommaDescription)
                     .ToList()
-                    .Where(x => !string.IsNullOrEmpty(x.Qci8DownlinkIpThroughputDuration));
+                    .Where(x => !string.IsNullOrEmpty(x.Qci8DownlinkIpThroughputDuration)).ToList();
         }
     }
 

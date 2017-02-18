@@ -173,6 +173,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<ITownFlowRepository>().To<TownFlowRepository>();
 
+            ninjectKernel.Bind<IRrcZteRepository>().To<RrcZteRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();

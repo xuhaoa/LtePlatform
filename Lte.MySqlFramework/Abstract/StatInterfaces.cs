@@ -3,47 +3,37 @@ using Abp.EntityFramework.Repositories;
 using Lte.MySqlFramework.Entities;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Lte.MySqlFramework.Abstract
 {
-    public interface IPreciseWorkItemCellRepository : IRepository<PreciseWorkItemCell>
+    public interface IPreciseWorkItemCellRepository : IRepository<PreciseWorkItemCell>, ISaveChanges
     {
         List<PreciseWorkItemCell> GetAllList(string serialNumber);
 
         PreciseWorkItemCell Get(string serialNumber, int eNodebId, byte sectorId);
-
-        int SaveChanges();
     }
 
-    public interface IFlowHuaweiRepository : IRepository<FlowHuawei>
+    public interface IFlowHuaweiRepository : IRepository<FlowHuawei>, ISaveChanges
     {
         List<FlowHuawei> GetAllList(DateTime begin, DateTime end);
 
-        Task<int> CountAsync(DateTime begin, DateTime end);
-
-        List<FlowHuawei> GetAllList(DateTime begin, DateTime end, int eNodebId);
-
         List<FlowHuawei> GetAllList(DateTime begin, DateTime end, int eNodebId, byte localCellId);
-
-        int SaveChanges();
     }
 
-    public interface IFlowZteRepository : IRepository<FlowZte>
+    public interface IFlowZteRepository : IRepository<FlowZte>, ISaveChanges
     {
         List<FlowZte> GetAllList(DateTime begin, DateTime end);
 
-        Task<int> CountAsync(DateTime begin, DateTime end);
-
         List<FlowZte> GetAllList(DateTime begin, DateTime end, int eNodebId, byte sectorId);
+    }
 
-        int SaveChanges();
+    public interface IRrcZteRepository : IRepository<RrcZte>, ISaveChanges
+    {
+        
     }
 
     public interface ITownFlowRepository : IRepository<TownFlowStat>, ISaveChanges
     {
-        Task<int> CountAsync(DateTime begin, DateTime end);
-
         List<TownFlowStat> GetAllList(DateTime begin, DateTime end);
     }
 
