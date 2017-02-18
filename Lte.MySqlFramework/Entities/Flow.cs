@@ -64,6 +64,56 @@ namespace Lte.MySqlFramework.Entities
         public int SchedulingTm3 { get; set; }
 
         public int SchedulingTm3Rank2 { get; set; }
+
+        public int RedirectA2 { get; set; }
+        
+        public int RedirectB2 { get; set; }
+        
+    }
+
+    [AutoMapFrom(typeof(FlowZteCsv))]
+    public class RrcZte : Entity, IENodebId
+    {
+        public DateTime StatTime { get; set; }
+
+        public int ENodebId { get; set; }
+
+        public byte SectorId { get; set; }
+
+        public int MtAccessRrcSuccess { get; set; }
+
+        public int MtAccessRrcFailTimer { get; set; }
+
+        public int MtAccessRrcFailAllow { get; set; }
+
+        public int MtAccessRrcFailOther { get; set; }
+
+        public int MoSignallingRrcSuccess { get; set; }
+
+        public int MoSignallingRrcFailTimer { get; set; }
+
+        public int MoSignallingRrcFailAllow { get; set; }
+
+        public int MoSignallingRrcFailOther { get; set; }
+
+        public int MoDataRrcSuccess { get; set; }
+
+        public int MoDataRrcFailTimer { get; set; }
+
+        public int MoDataRrcFailAllow { get; set; }
+
+        public int MoDataRrcFailOther { get; set; }
+
+        public int RrcReleaseUserInactive { get; set; }
+
+        public int RrcReleaseMmeContext { get; set; }
+
+        public int RrcReleaseResourceLack { get; set; }
+
+        public int RrcReleaseCellReset { get; set; }
+
+        public int RrcReleaseOther { get; set; }
+
     }
 
     public class FlowZteCsv
@@ -195,6 +245,63 @@ namespace Lte.MySqlFramework.Entities
 
         [CsvColumn(Name = "下行PDSCH信道上模式3 RI=2调度次数")]
         public int SchedulingTm3Rank2 { get; set; }
+
+        [CsvColumn(Name = "LTE-CDMA2000系统间重定向请求次数(A2事件触发原因)")]
+        public int RedirectA2 { get; set; }
+
+        [CsvColumn(Name = "LTE-CDMA2000系统间重定向请求次数(B2事件触发原因)")]
+        public int RedirectB2 { get; set; }
+
+        [CsvColumn(Name = "mt-Access类型RRC连接建立成功次数")]
+        public int MtAccessRrcSuccess { get; set; }
+
+        [CsvColumn(Name = "mt-Access类型RRC连接失败次数，定时器超时")]
+        public int MtAccessRrcFailTimer { get; set; }
+
+        [CsvColumn(Name = "mt-Access类型RRC连接失败次数，eNB接纳失败")]
+        public int MtAccessRrcFailAllow { get; set; }
+
+        [CsvColumn(Name = "mt-Access类型RRC连接失败次数，其他原因")]
+        public int MtAccessRrcFailOther { get; set; }
+
+        [CsvColumn(Name = "mo-Signalling类型RRC连接建立成功次数")]
+        public int MoSignallingRrcSuccess { get; set; }
+
+        [CsvColumn(Name = "mo-Signalling类型RRC连接失败次数，定时器超时")]
+        public int MoSignallingRrcFailTimer { get; set; }
+
+        [CsvColumn(Name = "mo-Signalling类型RRC连接失败次数，eNB接纳失败")]
+        public int MoSignallingRrcFailAllow { get; set; }
+
+        [CsvColumn(Name = "mo-Signalling类型RRC连接失败次数，其他原因")]
+        public int MoSignallingRrcFailOther { get; set; }
+
+        [CsvColumn(Name = "mo-Data类型RRC连接建立成功次数")]
+        public int MoDataRrcSuccess { get; set; }
+
+        [CsvColumn(Name = "mo-Data类型RRC连接失败次数，定时器超时")]
+        public int MoDataRrcFailTimer { get; set; }
+
+        [CsvColumn(Name = "mo-Data类型RRC连接失败次数，eNB接纳失败")]
+        public int MoDataRrcFailAllow { get; set; }
+
+        [CsvColumn(Name = "mo-Data类型RRC连接失败次数，其他原因")]
+        public int MoDataRrcFailOther { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，UserInactive触发释放")]
+        public int RrcReleaseUserInactive { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，MME通过上下文释放消息触发释放")]
+        public int RrcReleaseMmeContext { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，ENB资源不足引发的释放")]
+        public int RrcReleaseResourceLack { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，小区关断或复位引发释放")]
+        public int RrcReleaseCellReset { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，ENB触发的其他原因")]
+        public int RrcReleaseOther { get; set; }
 
         public static IEnumerable<FlowZteCsv> ReadFlowZteCsvs(StreamReader reader)
         {

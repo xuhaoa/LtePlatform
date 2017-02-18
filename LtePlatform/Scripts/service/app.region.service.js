@@ -1298,8 +1298,8 @@
                 chart.xAxis.title.text = '区域';
                 chart.setDefaultYAxis({
                     title: '精确覆盖率',
-                    min: 50,
-                    max: 90
+                    min: 70,
+                    max: 100
                 });
                 var series = {
                     name: '精确覆盖率',

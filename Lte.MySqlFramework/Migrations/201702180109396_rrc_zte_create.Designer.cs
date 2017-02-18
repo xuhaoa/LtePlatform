@@ -7,18 +7,18 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Add_Users_to_TownStat : IMigrationMetadata
+    public sealed partial class rrc_zte_create : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_Users_to_TownStat));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(rrc_zte_create));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702030318094_Add_Users_to_TownStat"; }
+            get { return "201702180109396_rrc_zte_create"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return null; }
+            get { return Resources.GetString("Source"); }
         }
         
         string IMigrationMetadata.Target
