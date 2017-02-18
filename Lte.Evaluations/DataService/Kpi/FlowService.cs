@@ -85,7 +85,8 @@ namespace Lte.Evaluations.DataService.Kpi
                     UplinkDurationInMs = g.Sum(x => x.UplinkDurationInMs),
                     UplinkMaxUsers = g.Max(x => x.UplinkMaxUsers),
                     SchedulingRank1String = g.Sum(x => x.SchedulingRank1String.ConvertToInt(0)).ToString(),
-                    SchedulingRank2String = g.Sum(x => x.SchedulingRank2String.ConvertToInt(0)).ToString()
+                    SchedulingRank2String = g.Sum(x => x.SchedulingRank2String.ConvertToInt(0)).ToString(),
+                    RedirectCdma2000 = g.Sum(x => x.RedirectCdma2000)
                 }).ToList();
             var flows =
                 Mapper.Map<List<FlowHuaweiCsv>, IEnumerable<FlowHuawei>>(mergedCsvs);

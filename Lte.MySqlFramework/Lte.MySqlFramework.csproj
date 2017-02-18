@@ -132,9 +132,13 @@
     <Compile Include="Entities\TopConnection3GCell.cs" />
     <Compile Include="Entities\TopDrop2GCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201702180109396_rrc_zte_create.cs" />
-    <Compile Include="Migrations\201702180109396_rrc_zte_create.Designer.cs">
-      <DependentUpon>201702180109396_rrc_zte_create.cs</DependentUpon>
+    <Compile Include="Migrations\201702181336066_rrc_zte_add_fields.cs" />
+    <Compile Include="Migrations\201702181336066_rrc_zte_add_fields.Designer.cs">
+      <DependentUpon>201702181336066_rrc_zte_add_fields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702181344248_flow_huawei_add_fields.cs" />
+    <Compile Include="Migrations\201702181344248_flow_huawei_add_fields.Designer.cs">
+      <DependentUpon>201702181344248_flow_huawei_add_fields.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -144,8 +148,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702180109396_rrc_zte_create.resx">
-      <DependentUpon>201702180109396_rrc_zte_create.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702181336066_rrc_zte_add_fields.resx">
+      <DependentUpon>201702181336066_rrc_zte_add_fields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702181344248_flow_huawei_add_fields.resx">
+      <DependentUpon>201702181344248_flow_huawei_add_fields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -113,6 +113,70 @@ namespace Lte.MySqlFramework.Entities
         public int RrcReleaseCellReset { get; set; }
 
         public int RrcReleaseOther { get; set; }
+        
+        public int HighPriorityAccessRrcSuccess { get; set; }
+        
+        public int HighPriorityAccessRrcFailTimer { get; set; }
+        
+        public int HighPriorityAccessRrcFailAllow { get; set; }
+        
+        public int HighPriorityAccessRrcFailOther { get; set; }
+        
+        public int EmergencyRrcSuccess { get; set; }
+        
+        public int EmergencyRrcFailTimer { get; set; }
+        
+        public int EmergencyRrcFailAllow { get; set; }
+        
+        public int EmergencyRrcFailOther { get; set; }
+
+        [AutoMapPropertyResolve("RrcTotalDurationInMs", typeof(FlowZteCsv), typeof(ThousandTransform))]
+        public int RrcTotalDuration { get; set; }
+
+        [AutoMapPropertyResolve("RrcMaxDurationInMs", typeof(FlowZteCsv), typeof(ThousandTransform))]
+        public int RrcMaxDuration { get; set; }
+        
+        public int RrcReleaseTimer { get; set; }
+        
+        public int RrcReleaseUeContextTimer { get; set; }
+        
+        public int RrcReleaseBadRsrp { get; set; }
+        
+        public int RrcReleaseRlcMaxRetransmit { get; set; }
+        
+        public int RrcReleasePdcpIntegrationFail { get; set; }
+
+        public int RrcReleaseGptu { get; set; }
+
+        public int RrcReleasePathMalfunction { get; set; }
+
+        public int RrcReleaseFiber { get; set; }
+
+        public int RrcReleaseUeExit { get; set; }
+
+        public int RrcReleaseInterSiteReconstruction { get; set; }
+
+        public int RrcReleaseRedirect { get; set; }
+
+        public int RrcReleaseRadioLink { get; set; }
+
+        public int RrcReleaseReconstructionFail { get; set; }
+
+        public int RrcReleaseS1 { get; set; }
+
+        public int RrcReleaseMmeOther { get; set; }
+
+        public int RrcReleaseSwitchFail { get; set; }
+
+        public int MtAccessRrcRequest { get; set; }
+
+        public int MoSignallingRrcRequest { get; set; }
+
+        public int MoDataRrcRequest { get; set; }
+
+        public int HighPriorityAccessRrcRequest { get; set; }
+
+        public int EmergencyRrcRequest { get; set; }
 
     }
 
@@ -303,6 +367,99 @@ namespace Lte.MySqlFramework.Entities
         [CsvColumn(Name = "RRC连接释放次数，ENB触发的其他原因")]
         public int RrcReleaseOther { get; set; }
 
+        [CsvColumn(Name = "highPriorityAccess类型RRC连接建立成功次数")]
+        public int HighPriorityAccessRrcSuccess { get; set; }
+
+        [CsvColumn(Name = "highPriorityAccess类型RRC连接失败次数，定时器超时")]
+        public int HighPriorityAccessRrcFailTimer { get; set; }
+
+        [CsvColumn(Name = "highPriorityAccess类型RRC连接失败次数，eNB接纳失败")]
+        public int HighPriorityAccessRrcFailAllow { get; set; }
+
+        [CsvColumn(Name = "highPriorityAccess类型RRC连接失败次数，其他原因")]
+        public int HighPriorityAccessRrcFailOther { get; set; }
+
+        [CsvColumn(Name = "emergency类型RRC连接建立成功次数")]
+        public int EmergencyRrcSuccess { get; set; }
+
+        [CsvColumn(Name = "emergency类型RRC连接失败次数，定时器超时")]
+        public int EmergencyRrcFailTimer { get; set; }
+
+        [CsvColumn(Name = "emergency类型RRC连接失败次数，eNB接纳失败")]
+        public int EmergencyRrcFailAllow { get; set; }
+
+        [CsvColumn(Name = "emergency类型RRC连接失败次数，其他原因")]
+        public int EmergencyRrcFailOther { get; set; }
+
+        [CsvColumn(Name = "RRC连接建立总时长(毫秒)")]
+        public int RrcTotalDurationInMs { get; set; }
+
+        [CsvColumn(Name = "RRC连接建立最大时间(毫秒)")]
+        public int RrcMaxDurationInMs { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，空口定时器超时")]
+        public int RrcReleaseTimer { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，ENB等待UE上下文建立定时器超时导致释放")]
+        public int RrcReleaseUeContextTimer { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，空口质量差触发RLF")]
+        public int RrcReleaseBadRsrp { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，RLC达到最大重传次数")]
+        public int RrcReleaseRlcMaxRetransmit { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，PDCP完整性保护失败")]
+        public int RrcReleasePdcpIntegrationFail { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，Gtpu ErrInd触发释放")]
+        public int RrcReleaseGptu { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，Path故障触发释放")]
+        public int RrcReleasePathMalfunction { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，光口故障触发释放")]
+        public int RrcReleaseFiber { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，ENB检测到UE被异常拔掉")]
+        public int RrcReleaseUeExit { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，跨站重建立失败导致的释放")]
+        public int RrcReleaseInterSiteReconstruction { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，ENB重定向导致释放")]
+        public int RrcReleaseRedirect { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，ENB无线链路失败导致释放")]
+        public int RrcReleaseRadioLink { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，重建立失败引发的释放")]
+        public int RrcReleaseReconstructionFail { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，S1链路故障引发释放")]
+        public int RrcReleaseS1 { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，MME其它原因导致释放")]
+        public int RrcReleaseMmeOther { get; set; }
+
+        [CsvColumn(Name = "RRC连接释放次数，切换失败原因导致释放")]
+        public int RrcReleaseSwitchFail { get; set; }
+
+        [CsvColumn(Name = "mt-Access类型RRC连接建立请求次数")]
+        public int MtAccessRrcRequest { get; set; }
+
+        [CsvColumn(Name = "mo-Signalling类型RRC连接建立请求次数")]
+        public int MoSignallingRrcRequest { get; set; }
+
+        [CsvColumn(Name = "mo-Data类型RRC连接建立请求次数")]
+        public int MoDataRrcRequest { get; set; }
+
+        [CsvColumn(Name = "highPriorityAccess类型RRC连接建立请求次数")]
+        public int HighPriorityAccessRrcRequest { get; set; }
+
+        [CsvColumn(Name = "emergency类型RRC连接建立请求次数")]
+        public int EmergencyRrcRequest { get; set; }
+
         public static List<FlowZteCsv> ReadFlowZteCsvs(StreamReader reader)
         {
             return
@@ -390,6 +547,8 @@ namespace Lte.MySqlFramework.Entities
 
         [AutoMapPropertyResolve("SchedulingRank2String", typeof(FlowHuaweiCsv), typeof(StringToIntTransform))]
         public int SchedulingRank2 { get; set; }
+
+        public int RedirectCdma2000 { get; set; }
     }
 
     public class FlowHuaweiCsv
@@ -513,6 +672,9 @@ namespace Lte.MySqlFramework.Entities
 
         [CsvColumn(Name = "RANK2的上报次数 (无)")]
         public string SchedulingRank2String { get; set; }
+
+        [CsvColumn(Name = "重定向到CDMA2000 HRPD的总次数 (无)")]
+        public int RedirectCdma2000 { get; set; }
 
         public static List<FlowHuaweiCsv> ReadFlowHuaweiCsvs(StreamReader reader)
         {

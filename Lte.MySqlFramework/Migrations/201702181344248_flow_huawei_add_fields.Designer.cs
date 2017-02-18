@@ -7,18 +7,18 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class rrc_zte_create : IMigrationMetadata
+    public sealed partial class flow_huawei_add_fields : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(rrc_zte_create));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(flow_huawei_add_fields));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702180109396_rrc_zte_create"; }
+            get { return "201702181344248_flow_huawei_add_fields"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return Resources.GetString("Source"); }
+            get { return null; }
         }
         
         string IMigrationMetadata.Target
