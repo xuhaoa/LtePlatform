@@ -23,10 +23,9 @@ namespace LtePlatform.Controllers.Parameters
         [ApiParameterDoc("district", "区域")]
         [ApiParameterDoc("town", "镇区")]
         [ApiResponse("查询得到的基站列表结果，如果没有则会报错")]
-        public IHttpActionResult Get(string city, string district, string town)
+        public IEnumerable<ENodebView> Get(string city, string district, string town)
         {
-            var result = _service.GetByTownNames(city, district, town);
-            return result == null ? (IHttpActionResult) BadRequest("This town has no eNodebs!") : Ok(result);
+            return _service.GetByTownNames(city, district, town);
         }
 
         [HttpGet]

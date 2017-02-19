@@ -11,6 +11,7 @@ using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Domain.Common.Geo;
 
 namespace Lte.Evaluations.DataService.Basic
 {
@@ -129,5 +130,19 @@ namespace Lte.Evaluations.DataService.Basic
                    into cell where cell != null
                    select CellView.ConstructView(cell, _eNodebRepository);
         }
+
+        public IEnumerable<GeoPoint> QueryOutdoorCellSites(IEnumerable<ENodeb> eNodebs)
+        {
+            var cellSites = _repository.GetAllList(x => x.IsOutdoor).Select(x => new
+            {
+                x.Longtitute,
+                x.Lattitute,
+                x.ENodebId
+            }).Distinct();
+            var results = from e in eNodebs
+                join c in cellSites on e.ENodebId equals c.ENodebId
+                select new GeoPoint(e.Longtitute, e.Lattitute);
+            return results;
+        } 
     }
 }

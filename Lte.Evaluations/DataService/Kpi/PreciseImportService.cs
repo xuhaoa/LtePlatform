@@ -150,7 +150,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 item.SecondNeighbors = stat.SecondNeighbors;
                 item.ThirdNeighbors = stat.ThirdNeighbors;
             }
-            //_repository.SaveChanges();
+            _repository.SaveChanges();
             return true;
         }
 
