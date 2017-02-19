@@ -175,6 +175,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IRrcZteRepository>().To<RrcZteRepository>();
 
+            ninjectKernel.Bind<IRrcHuaweiRepository>().To<RrcHuaweiRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();

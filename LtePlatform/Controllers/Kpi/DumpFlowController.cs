@@ -60,16 +60,7 @@ namespace LtePlatform.Controllers.Kpi
         {
             return _service.FlowHuaweiCount;
         }
-
-        [HttpGet]
-        [ApiDoc("获得指定记录位置的待导入的华为流量统计记录")]
-        [ApiParameterDoc("index", "指定记录位置")]
-        [ApiResponse("指定记录位置的待导入的华为流量统计记录")]
-        public FlowHuawei Get(int index)
-        {
-            return _service.QueryHuaweiStat(index);
-        }
-
+        
         [HttpDelete]
         [ApiDoc("清空待导入的华为流量统计记录")]
         public void Delete()

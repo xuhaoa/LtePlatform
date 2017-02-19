@@ -71,6 +71,18 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
+    public class RrcHuaweiRepository : EfRepositoryBase<MySqlContext, RrcHuawei>, IRrcHuaweiRepository
+    {
+        public RrcHuaweiRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
     public class TownFlowRepository : EfRepositoryBase<MySqlContext, TownFlowStat>, ITownFlowRepository
     {
         public TownFlowRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)

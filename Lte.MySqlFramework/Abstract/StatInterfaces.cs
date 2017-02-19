@@ -20,6 +20,11 @@ namespace Lte.MySqlFramework.Abstract
         List<FlowHuawei> GetAllList(DateTime begin, DateTime end, int eNodebId, byte localCellId);
     }
 
+    public interface IRrcHuaweiRepository : IRepository<RrcHuawei>, ISaveChanges
+    {
+        
+    }
+
     public interface IFlowZteRepository : IRepository<FlowZte>, ISaveChanges
     {
         List<FlowZte> GetAllList(DateTime begin, DateTime end);

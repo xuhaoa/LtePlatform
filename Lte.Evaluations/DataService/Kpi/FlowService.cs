@@ -18,10 +18,11 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly IFlowHuaweiRepository _huaweiRepository;
         private readonly IFlowZteRepository _zteRepository;
         private readonly IRrcZteRepository _rrcZteRepository;
+        private readonly IRrcHuaweiRepository _rrcHuaweiRepository;
         private readonly ITownFlowRepository _townFlowRepository;
         private readonly IENodebRepository _eNodebRepository;
 
-        private static Stack<FlowHuawei> FlowHuaweis { get; set; }
+        private static Stack<Tuple<FlowHuawei, RrcHuawei>> FlowHuaweis { get; set; }
 
         private static Stack<Tuple<FlowZte, RrcZte>> FlowZtes { get; set; }
 
@@ -30,15 +31,16 @@ namespace Lte.Evaluations.DataService.Kpi
         public int FlowZteCount => FlowZtes.Count;
 
         public FlowService(IFlowHuaweiRepository huaweiRepositroy, IFlowZteRepository zteRepository,
-            IRrcZteRepository rrcZteRepository,
+            IRrcZteRepository rrcZteRepository, IRrcHuaweiRepository rrcHuaweiRepository,
             ITownFlowRepository townFlowRepository, IENodebRepository eNodebRepository)
         {
             _huaweiRepository = huaweiRepositroy;
             _zteRepository = zteRepository;
             _rrcZteRepository = rrcZteRepository;
+            _rrcHuaweiRepository = rrcHuaweiRepository;
             _townFlowRepository = townFlowRepository;
             _eNodebRepository = eNodebRepository;
-            if (FlowHuaweis == null) FlowHuaweis = new Stack<FlowHuawei>();
+            if (FlowHuaweis == null) FlowHuaweis = new Stack<Tuple<FlowHuawei, RrcHuawei>>();
             if (FlowZtes == null) FlowZtes = new Stack<Tuple<FlowZte, RrcZte>>();
         }
 
@@ -86,13 +88,38 @@ namespace Lte.Evaluations.DataService.Kpi
                     UplinkMaxUsers = g.Max(x => x.UplinkMaxUsers),
                     SchedulingRank1String = g.Sum(x => x.SchedulingRank1String.ConvertToInt(0)).ToString(),
                     SchedulingRank2String = g.Sum(x => x.SchedulingRank2String.ConvertToInt(0)).ToString(),
-                    RedirectCdma2000 = g.Sum(x => x.RedirectCdma2000)
+                    RedirectCdma2000 = g.Sum(x => x.RedirectCdma2000),
+                    RrcFailOtherResource = g.Sum(x => x.RrcFailOtherResource),
+                    RrcFailPucchAssignment = g.Sum(x => x.RrcFailPucchAssignment),
+                    RrcFailResourceAssignment = g.Sum(x => x.RrcFailResourceAssignment),
+                    RrcFailSrsAssignment = g.Sum(x => x.RrcFailSrsAssignment),
+                    RrcFailUeNoAnswer = g.Sum(x => x.RrcFailUeNoAnswer),
+                    RrcFailUserLimit = g.Sum(x => x.RrcFailUserLimit),
+                    RrcReconstructionLostFlowControl = g.Sum(x => x.RrcReconstructionLostFlowControl),
+                    RrcRejectFail = g.Sum(x => x.RrcRejectFail),
+                    RrcRejectFlowControl = g.Sum(x => x.RrcRejectFlowControl),
+                    RrcRejectOverload = g.Sum(x => x.RrcRejectOverload),
+                    RrcRequestLostFlowControl = g.Sum(x => x.RrcRequestLostFlowControl),
+                    EmergencyRrcRequest = g.Sum(x => x.EmergencyRrcRequest),
+                    EmergencyRrcRequestAll = g.Sum(x => x.EmergencyRrcRequestAll),
+                    EmergencyRrcSuccess = g.Sum(x => x.EmergencyRrcSuccess),
+                    MoDataRrcRequest = g.Sum(x => x.MoDataRrcRequest),
+                    MoDataRrcRequestAll = g.Sum(x => x.MoDataRrcRequestAll),
+                    MoDataRrcSuccess = g.Sum(x => x.MoDataRrcSuccess),
+                    MoSignallingRrcRequest = g.Sum(x => x.MoSignallingRrcRequest),
+                    MoSignallingRrcRequestAll = g.Sum(x => x.MoSignallingRrcRequestAll),
+                    MoSignallingRrcSuccess = g.Sum(x => x.MoSignallingRrcSuccess),
+                    MtAccessRrcRequest = g.Sum(x => x.MtAccessRrcRequest),
+                    MtAccessRrcRequestAll = g.Sum(x => x.MtAccessRrcRequestAll),
+                    MtAccessRrcSuccess = g.Sum(x => x.MtAccessRrcSuccess),
+                    HighPriorityRrcRequest = g.Sum(x => x.HighPriorityRrcRequest),
+                    HighPriorityRrcRequestAll = g.Sum(x => x.HighPriorityRrcRequestAll),
+                    HighPriorityRrcSuccess = g.Sum(x => x.HighPriorityRrcSuccess)
                 }).ToList();
-            var flows =
-                Mapper.Map<List<FlowHuaweiCsv>, IEnumerable<FlowHuawei>>(mergedCsvs);
-            foreach (var flow in flows)
+            foreach (var csv in mergedCsvs)
             {
-                FlowHuaweis.Push(flow);
+                FlowHuaweis.Push(new Tuple<FlowHuawei, RrcHuawei>(Mapper.Map<FlowHuaweiCsv, FlowHuawei>(csv),
+                    Mapper.Map<FlowHuaweiCsv, RrcHuawei>(csv)));
             }
         }
 
@@ -106,28 +133,39 @@ namespace Lte.Evaluations.DataService.Kpi
             }
         }
 
-        public FlowHuawei GetTopHuaweiItem()
-        {
-            return FlowHuaweis.Pop();
-        }
-
         public async Task<bool> DumpOneHuaweiStat()
         {
-            var stat = GetTopHuaweiItem();
-            if (stat == null) return false;
-            var item =
-                await
-                    _huaweiRepository.FirstOrDefaultAsync(
-                        x =>
-                            x.StatTime == stat.StatTime && x.ENodebId == stat.ENodebId &&
-                            x.LocalCellId == stat.LocalCellId);
-            if (item == null)
+            var stat = FlowHuaweis.Pop();
+            if (stat.Item1 != null)
             {
-                var result = await _huaweiRepository.InsertAsync(stat);
-                _huaweiRepository.SaveChanges();
-                return result != null;
+                var item =
+                    await
+                        _huaweiRepository.FirstOrDefaultAsync(
+                            x =>
+                                x.StatTime == stat.Item1.StatTime && x.ENodebId == stat.Item1.ENodebId &&
+                                x.LocalCellId == stat.Item1.LocalCellId);
+                if (item == null)
+                {
+                    await _huaweiRepository.InsertAsync(stat.Item1);
+                    _huaweiRepository.SaveChanges();
+                }
             }
-            return false;
+            if (stat.Item2 != null)
+            {
+                var item =
+                    await
+                        _rrcHuaweiRepository.FirstOrDefaultAsync(
+                            x =>
+                                x.StatTime == stat.Item2.StatTime && x.ENodebId == stat.Item2.ENodebId &&
+                                x.LocalCellId == stat.Item2.LocalCellId);
+                if (item == null)
+                {
+                    await _rrcHuaweiRepository.InsertAsync(stat.Item2);
+                    _rrcHuaweiRepository.SaveChanges();
+                }
+            }
+
+            return true;
         }
 
         public async Task<bool> DumpOneZteStat()
@@ -174,12 +212,7 @@ namespace Lte.Evaluations.DataService.Kpi
         {
             FlowZtes.Clear();
         }
-
-        public FlowHuawei QueryHuaweiStat(int index)
-        {
-            return FlowHuaweis.ElementAt(index);
-        }
-
+        
         public async Task<IEnumerable<FlowHistory>> GetFlowHistories(DateTime begin, DateTime end)
         {
             var results = new List<FlowHistory>();
@@ -188,6 +221,8 @@ namespace Lte.Evaluations.DataService.Kpi
                 var beginDate = begin;
                 var endDate = begin.AddDays(1);
                 var huaweiItems = await _huaweiRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
+                var huaweiRrcs =
+                    await _rrcHuaweiRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
                 var zteItems = await _zteRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
                 var zteRrcs = await _rrcZteRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
                 var townItems = await _townFlowRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
@@ -195,6 +230,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 {
                     DateString = begin.ToShortDateString(),
                     HuaweiItems = huaweiItems,
+                    HuaweiRrcs = huaweiRrcs,
                     ZteItems = zteItems,
                     ZteRrcs = zteRrcs,
                     TownStats = townItems
