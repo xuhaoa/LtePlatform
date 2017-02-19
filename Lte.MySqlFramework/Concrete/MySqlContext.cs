@@ -65,5 +65,7 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<TownFlowStat> TownFlowStats { get; set; }
 
         public DbSet<RrcZte> RrcZtes { get; set; }
+
+        public DbSet<RrcHuawei> RrcHuaweis { get; set; }
     }
 }

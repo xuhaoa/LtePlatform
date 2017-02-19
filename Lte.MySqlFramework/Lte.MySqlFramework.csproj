@@ -140,6 +140,10 @@
     <Compile Include="Migrations\201702181344248_flow_huawei_add_fields.Designer.cs">
       <DependentUpon>201702181344248_flow_huawei_add_fields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702190035317_rrc_huawei_add_fields.cs" />
+    <Compile Include="Migrations\201702190035317_rrc_huawei_add_fields.Designer.cs">
+      <DependentUpon>201702190035317_rrc_huawei_add_fields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -153,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702181344248_flow_huawei_add_fields.resx">
       <DependentUpon>201702181344248_flow_huawei_add_fields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702190035317_rrc_huawei_add_fields.resx">
+      <DependentUpon>201702190035317_rrc_huawei_add_fields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

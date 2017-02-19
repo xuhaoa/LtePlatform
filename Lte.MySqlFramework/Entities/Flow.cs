@@ -551,6 +551,69 @@ namespace Lte.MySqlFramework.Entities
         public int RedirectCdma2000 { get; set; }
     }
 
+    [AutoMapFrom(typeof(FlowHuaweiCsv))]
+    public class RrcHuawei : Entity, IENodebId
+    {
+        public DateTime StatTime { get; set; }
+
+        public int ENodebId { get; set; }
+
+        public byte LocalCellId { get; set; }
+        
+        public int EmergencyRrcRequest { get; set; }
+        
+        public int EmergencyRrcRequestAll { get; set; }
+        
+        public int EmergencyRrcSuccess { get; set; }
+        
+        public int HighPriorityRrcRequest { get; set; }
+        
+        public int HighPriorityRrcRequestAll { get; set; }
+        
+        public int HighPriorityRrcSuccess { get; set; }
+        
+        public int MoDataRrcRequest { get; set; }
+        
+        public int MoDataRrcRequestAll { get; set; }
+        
+        public int MoDataRrcSuccess { get; set; }
+        
+        public int MoSignallingRrcRequest { get; set; }
+        
+        public int MoSignallingRrcRequestAll { get; set; }
+        
+        public int MoSignallingRrcSuccess { get; set; }
+        
+        public int MtAccessRrcRequest { get; set; }
+        
+        public int MtAccessRrcRequestAll { get; set; }
+        
+        public int MtAccessRrcSuccess { get; set; }
+        
+        public int RrcFailOtherResource { get; set; }
+        
+        public int RrcFailUserLimit { get; set; }
+        
+        public int RrcRejectFail { get; set; }
+        
+        public int RrcRejectOverload { get; set; }
+        
+        public int RrcReconstructionLostFlowControl { get; set; }
+        
+        public int RrcRequestLostFlowControl { get; set; }
+        
+        public int RrcFailResourceAssignment { get; set; }
+        
+        public int RrcFailUeNoAnswer { get; set; }
+        
+        public int RrcFailSrsAssignment { get; set; }
+        
+        public int RrcFailPucchAssignment { get; set; }
+        
+        public int RrcRejectFlowControl { get; set; }
+
+    }
+
     public class FlowHuaweiCsv
     {
         [CsvColumn(Name = "开始时间")]
@@ -675,6 +738,84 @@ namespace Lte.MySqlFramework.Entities
 
         [CsvColumn(Name = "重定向到CDMA2000 HRPD的总次数 (无)")]
         public int RedirectCdma2000 { get; set; }
+
+        [CsvColumn(Name = "emergency原因的RRC连接建立尝试次数 (无)")]
+        public int EmergencyRrcRequest { get; set; }
+
+        [CsvColumn(Name = "emergency原因的RRC连接建立尝试次数(包括重发) (无)")]
+        public int EmergencyRrcRequestAll { get; set; }
+
+        [CsvColumn(Name = "emergency原因的RRC连接建立成功次数 (无)")]
+        public int EmergencyRrcSuccess { get; set; }
+
+        [CsvColumn(Name = "highPriorityAccess原因的RRC连接建立尝试次数 (无)")]
+        public int HighPriorityRrcRequest { get; set; }
+
+        [CsvColumn(Name = "highPriorityAccess原因的RRC连接建立尝试次数(包括重发) (无)")]
+        public int HighPriorityRrcRequestAll { get; set; }
+
+        [CsvColumn(Name = "highPriorityAccess原因的RRC连接建立成功次数 (无)")]
+        public int HighPriorityRrcSuccess { get; set; }
+
+        [CsvColumn(Name = "mo-Data原因的RRC连接建立尝试次数 (无)")]
+        public int MoDataRrcRequest { get; set; }
+
+        [CsvColumn(Name = "mo-Data原因的RRC连接建立尝试次数(包括重发) (无)")]
+        public int MoDataRrcRequestAll { get; set; }
+
+        [CsvColumn(Name = "mo-Data原因的RRC连接建立成功次数 (无)")]
+        public int MoDataRrcSuccess { get; set; }
+
+        [CsvColumn(Name = "mo-Signalling原因的RRC连接建立尝试次数 (无)")]
+        public int MoSignallingRrcRequest { get; set; }
+
+        [CsvColumn(Name = "mo-Signalling原因的RRC连接建立尝试次数(包括重发) (无)")]
+        public int MoSignallingRrcRequestAll { get; set; }
+
+        [CsvColumn(Name = "mo-Signalling原因的RRC连接建立成功次数 (无)")]
+        public int MoSignallingRrcSuccess { get; set; }
+
+        [CsvColumn(Name = "mt-Access原因的RRC连接建立尝试次数 (无)")]
+        public int MtAccessRrcRequest { get; set; }
+
+        [CsvColumn(Name = "mt-Access原因的RRC连接建立尝试次数(包括重发) (无)")]
+        public int MtAccessRrcRequestAll { get; set; }
+
+        [CsvColumn(Name = "mt-Access原因的RRC连接建立成功次数 (无)")]
+        public int MtAccessRrcSuccess { get; set; }
+
+        [CsvColumn(Name = "其它资源分配失败而导致RRC连接建立失败的次数 (无)")]
+        public int RrcFailOtherResource { get; set; }
+
+        [CsvColumn(Name = "用户数规格受限导致的RRC连接建立失败次数 (无)")]
+        public int RrcFailUserLimit { get; set; }
+
+        [CsvColumn(Name = "其它原因导致的RRC连接建立被拒绝的次数 (无)")]
+        public int RrcRejectFail { get; set; }
+
+        [CsvColumn(Name = "MME过载导致的发送RRC Connection Reject消息次数 (无)")]
+        public int RrcRejectOverload { get; set; }
+
+        [CsvColumn(Name = "流控导致的RRC重建请求消息丢弃次数 (无)")]
+        public int RrcReconstructionLostFlowControl { get; set; }
+
+        [CsvColumn(Name = "流控导致的RRC Connection Request 消息丢弃次数 (无)")]
+        public int RrcRequestLostFlowControl { get; set; }
+
+        [CsvColumn(Name = "资源分配失败而导致RRC连接建立失败次数 (无)")]
+        public int RrcFailResourceAssignment { get; set; }
+
+        [CsvColumn(Name = "UE无应答而导致RRC连接建立失败次数 (无)")]
+        public int RrcFailUeNoAnswer { get; set; }
+
+        [CsvColumn(Name = "因为SRS资源分配失败而导致RRC连接建立失败的次数 (无)")]
+        public int RrcFailSrsAssignment { get; set; }
+
+        [CsvColumn(Name = "因为PUCCH资源分配失败而导致RRC连接建立失败的次数 (无)")]
+        public int RrcFailPucchAssignment { get; set; }
+
+        [CsvColumn(Name = "流控导致的发送RRC Connection Reject消息次数 (无)")]
+        public int RrcRejectFlowControl { get; set; }
 
         public static List<FlowHuaweiCsv> ReadFlowHuaweiCsvs(StreamReader reader)
         {
