@@ -505,6 +505,12 @@
                     nearestCellId: nearestCellId,
                     nearestSectorId: nearestSectorId
                 });
+            },
+            queryOutdoorCellSites: function(city, district) {
+                return generalHttpService.getApiData('OutdoorCellSite', {
+                    city: city,
+                    district: district
+                });
             }
         };
     })
