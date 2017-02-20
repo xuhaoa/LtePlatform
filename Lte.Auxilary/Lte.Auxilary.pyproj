@@ -320,6 +320,12 @@
     <Content Include="mr\zte_download_mro_125.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="mr\zte_download_mro_125_181.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\zte_download_mro_125_229.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="mr\zte_download_mrs.sh">
       <SubType>Code</SubType>
     </Content>

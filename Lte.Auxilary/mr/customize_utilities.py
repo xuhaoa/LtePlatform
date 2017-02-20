@@ -97,9 +97,9 @@ class MrDownloader:
         datestr=ftpdir.split('/')[-2]
         for root, dirs, files in self.host.walk(ftpdir):
             sub_ip=root.split('/')[-1]
+            print('The current IP:', sub_ip)
             if sub_ip not in self.sub_ips:
                 continue
-            print('The current IP:', sub_ip)
             print('The root directory:', root)
             self.host.chdir(root)                
             for name in files:
