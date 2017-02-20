@@ -320,6 +320,9 @@
     <Content Include="mr\zte_download_mro_125.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="mr\zte_download_mro_125_138.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="mr\zte_download_mro_125_181.sh">
       <SubType>Code</SubType>
     </Content>
@@ -330,6 +333,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\zte_download_mrs_125.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\zte_download_mrs_125_138.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\zte_download_mrs_125_181.sh">
