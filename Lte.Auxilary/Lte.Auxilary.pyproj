@@ -57,12 +57,6 @@
     <Compile Include="mr\ftp_huawei.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="mr\ftp_huawei_112.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="mr\ftp_huawei_124.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="mr\ftp_huawei_mre.py">
       <SubType>Code</SubType>
     </Compile>
@@ -73,9 +67,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="mr\ftp_huawei_mrs.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="mr\ftp_huawei_mrs_112.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="mr\ftp_huawei_mrs_124.py">
@@ -248,6 +239,12 @@
     <Content Include="mr\huawei_download_mre_124.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="mr\huawei_download_mro_112_216.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\huawei_download_mro_115_183.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="mr\huawei_download_mro_124.sh">
       <SubType>Code</SubType>
     </Content>
@@ -257,7 +254,13 @@
     <Content Include="mr\huawei_download_mrs_112.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="mr\huawei_download_mrs_112_216.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="mr\huawei_download_mrs_124.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\huawei_download_mrs_124_215.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\process_huawei_mro.sh">
@@ -326,6 +329,9 @@
     <Content Include="mr\zte_download_mro_125_181.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="mr\zte_download_mro_125_183.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="mr\zte_download_mro_125_229.sh">
       <SubType>Code</SubType>
     </Content>
@@ -339,6 +345,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\zte_download_mrs_125_181.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\zte_download_mrs_125_183.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\zte_download_mrs_125_229.sh">
