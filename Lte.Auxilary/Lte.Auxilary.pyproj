@@ -69,9 +69,6 @@
     <Compile Include="mr\ftp_huawei_mrs.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="mr\ftp_huawei_mrs_124.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="mr\ftp_zte.py">
       <SubType>Code</SubType>
     </Compile>
@@ -246,6 +243,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\huawei_download_mro_124.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\huawei_download_mro_124_215.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\huawei_download_mrs.sh">

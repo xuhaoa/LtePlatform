@@ -10,7 +10,7 @@ db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
 
 HOST_HW = ['132.122.152.115', '132.122.152.112', '132.122.152.124']  
 host_ip = sys.argv[1]
-FOLDER_HW = ['/MR_HW_SOURCE_D/', '/MR_HW_SOURCE_E/']
+FOLDER_HW = ['/'+sys.argv[3]+'/']
 sub_ips=[sys.argv[2]]
 
 if not os.path.isdir('huawei_mro'):
