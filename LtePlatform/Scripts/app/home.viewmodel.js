@@ -5,7 +5,7 @@
             .state('list', {
                 views: {
                     'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
+                        templateUrl: "/appViews/DropDownMenu.html",
                         controller: "menu.root"
                     },
                     "contents": {
@@ -18,30 +18,7 @@
         $urlRouterProvider.otherwise('/');
     })
     .run(function ($rootScope, appUrlService, appRegionService) {
-        var rootUrl = "/#";
-        $rootScope.menuItems = [
-            {
-                displayName: "总体情况",
-                isActive: true,
-                subItems: [
-                    {
-                        displayName: "基础数据总览",
-                        url: rootUrl + "/"
-                    }, {
-                        displayName: "小区地图查询",
-                        url: rootUrl + "/query"
-                    }, {
-                        displayName: "专题优化管理",
-                        url: rootUrl + "/topic"
-                    }
-                ]
-            }, {
-                displayName: "详细查询",
-                isActive: false,
-                subItems: []
-            }
-        ];
-        $rootScope.rootPath = rootUrl + "/";
+        $rootScope.rootPath = "/#/";
 
         $rootScope.page = {
             title: "基础数据总览"
@@ -87,74 +64,67 @@
             });
     })
 .controller("menu.root", function ($scope, appUrlService) {
-    $scope.menuItems = [
-        {
+    var rootUrl = "/#";
+        $scope.menuItem = {
             displayName: "覆盖优化",
-            isActive: true,
             subItems: [
-            {
-                displayName: "精确覆盖专题",
-                url: "/Rutrace",
-                tooltip: "综合分析后台指标、MR、路测信令和小区跟踪数据，挖掘小区的重叠覆盖、过覆盖等问题，对精确覆盖的效果进行模拟，并在百度地图上呈现。"
-            }, {
-                displayName: "专题覆盖优化",
-                url: "/Evaluation/RegionDef",
-                tooltip: "包括万栋楼宇等室内外场景优化；根据各小区的工程参数模拟覆盖范围，主要覆盖指标（RSRP、SINR）进行分析和呈现"
-            }, {
-                displayName: "规划辅助",
-                url: appUrlService.getPlanUrlHost() + 'guihuafuzhu/index/index.php'
-            }, {
-                displayName: "路测分析",
-                url: appUrlService.getDtUrlHost() + 'admin'
-            }]
-        }, {
-            displayName: "容量优化",
-            isActive: false,
-            subItems: [{
-                displayName: "网络分析",
-                url: "/Parameters/List",
-                tooltip: "全网LTE和CDMA基站、小区列表和地理化显示、对全网的基站按照基站名称、地址等信息进行查询，并进行个别基站小区的增删、修改信息的操作"
-            }, {
-                displayName: "负荷评估",
-                url: appUrlService.getParameterUrlHost() + 'ltecapability.html'
-            }]
-        }, {
-            displayName: "质量分析",
-            isActive: false,
-            subItems: [{
-                displayName: "传统指标",
-                url: "/Kpi",
-                tooltip: "对传统指标（主要是2G和3G）的监控、分析和地理化呈现"
-            }, {
-                displayName: "工单管控",
-                url: "/Kpi/WorkItem",
-                tooltip: "对接本部优化部4G网优平台，结合日常优化，实现对日常工单的监控和分析"
-            }, {
-                displayName: "校园网专题优化",
-                url: "/College/Map",
-                tooltip: "校园网专项优化，包括数据管理、指标分析、支撑工作管理和校园网覆盖呈现"
-            }, {
-                displayName: "4G网络质量分析",
-                url: appUrlService.getTopnUrlHost(),
-                tooltip: "4G网络质量分析与日常优化"
-            }]
-        }, {
-            displayName: "基础信息",
-            isActive: false,
-            subItems: [{
-                displayName: "路测管理",
-                url: appUrlService.getDtUrlHost2(),
-                tooltip: "路测综合管理"
-            }, {
-                displayName: "基础信息管理",
-                url: appUrlService.getParameterUrlHost() + 'cellInfo.html'
-            }, {
-                displayName: "边界漫游信息",
-                url: appUrlService.getParameterUrlHost() + 'lteboundary.html'
-            }]
-        }
-    ];
-})
+                {
+                    displayName: "专题覆盖优化",
+                    url: "/Evaluation/RegionDef",
+                    tooltip: "包括万栋楼宇等室内外场景优化；根据各小区的工程参数模拟覆盖范围，主要覆盖指标（RSRP、SINR）进行分析和呈现"
+                }, {
+                    displayName: "规划辅助",
+                    url: appUrlService.getPlanUrlHost() + 'guihuafuzhu/index/index.php'
+                }, {
+                    displayName: "路测分析",
+                    url: appUrlService.getDtUrlHost() + 'admin'
+                }, {
+                    displayName: "网络分析",
+                    url: "/Parameters/List",
+                    tooltip: "全网LTE和CDMA基站、小区列表和地理化显示、对全网的基站按照基站名称、地址等信息进行查询，并进行个别基站小区的增删、修改信息的操作"
+                }, {
+                    displayName: "负荷评估",
+                    url: appUrlService.getParameterUrlHost() + 'ltecapability.html'
+                }, {
+                    displayName: "传统指标",
+                    url: "/Kpi",
+                    tooltip: "对传统指标（主要是2G和3G）的监控、分析和地理化呈现"
+                }, {
+                    displayName: "工单管控",
+                    url: "/Kpi/WorkItem",
+                    tooltip: "对接本部优化部4G网优平台，结合日常优化，实现对日常工单的监控和分析"
+                }, {
+                    displayName: "校园网专题优化",
+                    url: "/College/Map",
+                    tooltip: "校园网专项优化，包括数据管理、指标分析、支撑工作管理和校园网覆盖呈现"
+                }, {
+                    displayName: "4G网络质量分析",
+                    url: appUrlService.getTopnUrlHost(),
+                    tooltip: "4G网络质量分析与日常优化"
+                }, {
+                    displayName: "路测管理",
+                    url: appUrlService.getDtUrlHost2(),
+                    tooltip: "路测综合管理"
+                }, {
+                    displayName: "基础信息管理",
+                    url: appUrlService.getParameterUrlHost() + 'cellInfo.html'
+                }, {
+                    displayName: "边界漫游信息",
+                    url: appUrlService.getParameterUrlHost() + 'lteboundary.html'
+                },
+                {
+                    displayName: "基础数据总览",
+                    url: rootUrl + "/"
+                }, {
+                    displayName: "小区地图查询",
+                    url: rootUrl + "/query"
+                }, {
+                    displayName: "专题优化管理",
+                    url: rootUrl + "/topic"
+                }
+            ]
+        };
+    })
 .controller("home.kpi2G", function ($scope, appKpiService, appFormatService, kpi2GService, kpiRatingDivisionDefs) {
     kpi2GService.queryDayStats($scope.city.selected || '佛山', $scope.statDate.value || new Date())
         .then(function (result) {

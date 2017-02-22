@@ -32,6 +32,16 @@ textarea {
 	left: auto;
 }
 
+.map-top-right {
+	font: 12px arial,宋体,sans-serif;
+	position: absolute;
+	z-index: 1001;
+	bottom: auto;
+	right: 30px;
+	top: 10px;
+	left: auto;
+}
+
 .tooltip.customClass .tooltip-inner {
 	color: $color-dark-red;
 	background-color: $color-yellow;

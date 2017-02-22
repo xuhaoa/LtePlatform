@@ -564,6 +564,9 @@
     <Content Include="Content\themes\map\cloudmap.css">
       <DependentUpon>cloudmap.scss</DependentUpon>
     </Content>
+    <Content Include="Content\themes\map\timecontrol.css">
+      <DependentUpon>timecontrol.scss</DependentUpon>
+    </Content>
     <Content Include="Content\themes\test\ui-grid.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="Content\ui-grid.css" />
@@ -1816,7 +1819,7 @@
     <Content Include="Scripts\app\common.js" />
     <Content Include="Scripts\app\home.viewmodel.js" />
     <Content Include="appViews\Rutrace\FromMongo.html" />
-    <Content Include="appViews\FromTxt.html" />
+    <Content Include="appViews\DropDownMenu.html" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
