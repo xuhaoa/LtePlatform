@@ -45,10 +45,6 @@
             value: yesterday,
             opened: false
         };
-        $rootScope.flowDate = {
-            value: yesterday,
-            opened: false
-        };
 
         $rootScope.status = {
             isopen: false
@@ -125,17 +121,6 @@
             ]
         };
     })
-.controller("home.kpi2G", function ($scope, appKpiService, appFormatService, kpi2GService, kpiRatingDivisionDefs) {
-    kpi2GService.queryDayStats($scope.city.selected || '佛山', $scope.statDate.value || new Date())
-        .then(function (result) {
-            $scope.statDate.value = appFormatService.getDate(result.statDate);
-            var stat = result.statViews[result.statViews.length - 1];
-            $scope.dropRate = stat.drop2GRate * 100;
-            $scope.dropStar = appKpiService.calculateDropStar($scope.dropRate);
-            $scope.connectionRate = stat.connectionRate * 100;
-        });
-    $scope.dropRating = kpiRatingDivisionDefs.drop;
-})
 .controller("home.network", function ($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService,
     geometryService) {
     
@@ -164,67 +149,4 @@
             coverageDialogService.showFlowStats($scope.statDate.value || new Date());
         };
 
-    })
-.controller("home.kpi4G", function ($scope, kpiPreciseService, downSwitchService, appKpiService, appFormatService,
-    kpiDisplayService, kpiRatingDivisionDefs) {
-    $scope.statDate.value = $scope.statDate.value || new Date();
-        $scope.queryKpi4G = function(city) {
-            kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value)
-                .then(function(result) {
-                    $scope.statDate.value = appFormatService.getDate(result.statDate);
-                    $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, city);
-                    $scope.rate = appKpiService.calculatePreciseRating($scope.cityStat.preciseRate);
-                    var options = kpiDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
-                        $scope.cityStat);
-                    $("#preciseConfig").highcharts(options);
-                });
-            downSwitchService.getRecentKpi(city, $scope.flowDate.value)
-                .then(function(result) {
-                    $scope.flowDate.value = appFormatService.getDate(result.statDate);
-                    $scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
-                    $scope.downRate = appKpiService.calculateDownSwitchRating($scope.flowStat);
-                    var options = kpiDisplayService.generateDownSwitchOptions(result.downSwitchFlowViews,
-                        city, $scope.flowStat);
-                    $("#downSwitchConfig").highcharts(options);
-                });
-        };
-
-        $scope.$watch('city.selected', function(city) {
-            if (city) {
-                $scope.queryKpi4G(city);
-            }
-        });
-        $scope.preciseRating = kpiRatingDivisionDefs.precise;
-        $scope.downSwitchRating = kpiRatingDivisionDefs.downSwitch;
-    })
-.controller("home.workitem", function ($scope, workitemService) {
-    workitemService.queryCurrentMonth().then(function (result) {
-        $scope.totalItems = result.item1;
-        $scope.finishedItems = result.item2;
-        $scope.lateItems = result.item3;
-        var finishedGauge = new GaugeMeter();
-        var inTimeGauge = new GaugeMeter();
-        finishedGauge.title.text = '完成工单情况';
-        finishedGauge.yAxis.max = $scope.totalItems;
-        finishedGauge.yAxis.plotBands[0].to = $scope.totalItems * 0.6;
-        finishedGauge.yAxis.plotBands[1].from = $scope.totalItems * 0.6;
-        finishedGauge.yAxis.plotBands[1].to = $scope.totalItems * 0.8;
-        finishedGauge.yAxis.plotBands[2].from = $scope.totalItems * 0.8;
-        finishedGauge.yAxis.plotBands[2].to = $scope.totalItems;
-        finishedGauge.series[0].name = '完成工单数';
-        finishedGauge.series[0].data[0] = $scope.finishedItems;
-        finishedGauge.yAxis.title.text = '工单数';
-        inTimeGauge.title.text = '工单及时性';
-        inTimeGauge.yAxis.max = $scope.totalItems;
-        inTimeGauge.yAxis.plotBands[0].to = $scope.totalItems * 0.6;
-        inTimeGauge.yAxis.plotBands[1].from = $scope.totalItems * 0.6;
-        inTimeGauge.yAxis.plotBands[1].to = $scope.totalItems * 0.8;
-        inTimeGauge.yAxis.plotBands[2].from = $scope.totalItems * 0.8;
-        inTimeGauge.yAxis.plotBands[2].to = $scope.totalItems;
-        inTimeGauge.series[0].name = '未超时工单数';
-        inTimeGauge.series[0].data[0] = $scope.totalItems - $scope.lateItems;
-        inTimeGauge.yAxis.title.text = '工单数';
-        $("#workitemFinished").highcharts(finishedGauge.options);
-        $("#workitemInTime").highcharts(inTimeGauge.options);
     });
-});

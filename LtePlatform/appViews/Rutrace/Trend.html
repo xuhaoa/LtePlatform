@@ -1,19 +1,53 @@
 ﻿<div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <label>城市：</label>
         <div class="input-group">
             <select class="form-control" ng-model="city.selected" ng-options="c as c for c in city.options"></select>
             <span class="input-group-btn">
-                <button type="button" class="btn btn-success" ng-click="showTrend()">
-                    <i class="glyphicon glyphicon-search" title="统计数据"></i>
+                <button type="button" class="btn btn-success" ng-click="showKpi(city.selected)">
+                    <i class="glyphicon glyphicon-picture" title="统计结果"></i>
                 </button>
+                <span class="input-group-btn">
+                    <a class="btn btn-primary" ng-href="{{rootPath}}workitemCity">工单</a>
+                </span>
             </span>
         </div>
     </div>
-    <div class="col-md-6">
-        <div begin-span-column begin-begin="beginDate" end-begin="endDate"></div>
+    <div class="col-md-4">
+        <label>日期：</label>
+        <div class="input-group">
+            <input type="text" class="form-control" uib-datepicker-popup ng-model="statDate.value" is-open="statDate.opened" ng-required="true" close-text="Close"/>
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="statDate.opened = true">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+                <a class="btn btn-primary" ng-click="showChart()">
+                    <i class="glyphicon glyphicon-picture" title="统计图表"></i>
+                </a>
+                <a class="btn btn-default" ng-href="{{rootPath}}top">TOP指标</a>
+            </span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div date-span-column begin-date="beginDate" end-date="endDate"></div>
+        <button type="button" class="btn btn-success" ng-click="showTrend()">
+            <i class="glyphicon glyphicon-search" title="统计数据"></i>
+            趋势
+        </button>
     </div>
 </div>
+
+<h4 class="text-center text-primary">
+    分区指标统计
+</h4>
+
+<div district-stat-table overall-stat="overallStat" root-path="rootPath"></div>
+
+<h4 class="text-primary text-center">
+    {{overallStat.currentDistrict}}镇区统计信息
+</h4>
+
+<div town-stat-table overall-stat="overallStat"></div>
 <div uib-tabset active="active">
     <div uib-tab index="0" heading="精确覆盖率统计">
         <div trend-precise-table trend-stat="trendStat" city="city"></div>

@@ -1832,7 +1832,6 @@
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="appViews\Home.html" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="appViews\Manage\AddPhoneNumber.html" />
     <Content Include="appViews\Manage\ChangePassword.html" />
