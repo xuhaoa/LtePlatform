@@ -1,55 +1,92 @@
 ﻿angular.module("myApp", ['app.common'])
-.controller("homeController", function ($scope, appUrlService, appRegionService) {
-    appUrlService.initializeAuthorization();
-    $scope.areaItems = [{
-        title: "网络概况",
-        comments: '/appViews/Home/Network.html',
-        buttonName: "信息",
-        url: "/Parameters/List",
-        width: 12
-    }, {
-        title: "4G指标",
-        comments: '/appViews/Home/Kpi4G.html',
-        buttonName: "详细",
-        url: "/Rutrace",
-        width: 6
-    }, {
-        title: "传统指标",
-        comments:  '/appViews/Home/Kpi2G.html',
-        buttonName: "指标",
-        url: "/Kpi",
-        width: 6
-    }, {
-        title: "工单监控",
-        comments:  '/appViews/Home/WorkItem.html',
-        buttonName: "工单",
-        url: "/Kpi/WorkItem",
-        width: 6
-    }];
+    .config(function ($stateProvider, $urlRouterProvider) {
+        var viewDir = "/appViews/Home/";
+        $stateProvider
+            .state('list', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/GeneralMenu.html",
+                        controller: "menu.root"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Network.html",
+                        controller: "home.network"
+                    }
+                },
+                url: "/"
+            });
+        $urlRouterProvider.otherwise('/');
+    })
+    .run(function ($rootScope, appUrlService, appRegionService) {
+        var rootUrl = "/#";
+        $rootScope.menuItems = [
+            {
+                displayName: "总体情况",
+                isActive: true,
+                subItems: [
+                    {
+                        displayName: "基础数据总览",
+                        url: rootUrl + "/"
+                    }, {
+                        displayName: "小区地图查询",
+                        url: rootUrl + "/query"
+                    }, {
+                        displayName: "专题优化管理",
+                        url: rootUrl + "/topic"
+                    }
+                ]
+            }, {
+                displayName: "详细查询",
+                isActive: false,
+                subItems: []
+            }
+        ];
+        $rootScope.rootPath = rootUrl + "/";
 
-    var yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    $scope.statDate = {
-        value: yesterday,
-        opened: false
-    };
-    $scope.flowDate = {
-        value: yesterday,
-        opened: false
-    };
+        $rootScope.page = {
+            title: "基础数据总览"
+        };
+        appUrlService.initializeAuthorization();
 
-    $scope.status = {
-        isopen: false
-    };
-    $scope.city = {
-        selected: "",
-        options: []
-    };
-    appRegionService.initializeCities()
-        .then(function (result) {
-            $scope.city.options = result;
-            $scope.city.selected = result[0];
-        });
+        var lastWeek = new Date();
+        lastWeek.setDate(lastWeek.getDate() - 7);
+        $rootScope.beginDate = {
+            value: new Date(lastWeek.getFullYear(), lastWeek.getMonth(), lastWeek.getDate(), 8),
+            opened: false
+        };
+        var today = new Date();
+        $rootScope.endDate = {
+            value: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8),
+            opened: false
+        };
+        $rootScope.closeAlert = function (messages, index) {
+            messages.splice(index, 1);
+        };
+        var yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        $rootScope.statDate = {
+            value: yesterday,
+            opened: false
+        };
+        $rootScope.flowDate = {
+            value: yesterday,
+            opened: false
+        };
+
+        $rootScope.status = {
+            isopen: false
+        };
+        $rootScope.city = {
+            selected: "",
+            options: []
+        };
+        appRegionService.initializeCities()
+            .then(function (result) {
+                $rootScope.city.options = result;
+                $rootScope.city.selected = result[0];
+            });
+    })
+.controller("menu.root", function ($scope, appUrlService) {
     $scope.menuItems = [
         {
             displayName: "覆盖优化",
