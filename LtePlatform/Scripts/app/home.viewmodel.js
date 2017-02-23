@@ -62,7 +62,7 @@
 .controller("menu.root", function ($scope, appUrlService) {
     var rootUrl = "/#";
         $scope.menuItem = {
-            displayName: "覆盖优化",
+            displayName: "优化相关",
             subItems: [
                 {
                     displayName: "规划辅助",
@@ -70,10 +70,6 @@
                 }, {
                     displayName: "路测分析",
                     url: appUrlService.getDtUrlHost() + 'admin'
-                }, {
-                    displayName: "网络分析",
-                    url: "/Parameters/List",
-                    tooltip: "全网LTE和CDMA基站、小区列表和地理化显示、对全网的基站按照基站名称、地址等信息进行查询，并进行个别基站小区的增删、修改信息的操作"
                 }, {
                     displayName: "负荷评估",
                     url: appUrlService.getParameterUrlHost() + 'ltecapability.html'
