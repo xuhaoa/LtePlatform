@@ -93,6 +93,19 @@
                 },
                 url: "/topicCells/:name"
             })
+            .state('buildings', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/GeneralMenu.html",
+                        controller: "menu.topic"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/Evaluation/Home.html",
+                        controller: "evaluation.home"
+                    }
+                },
+                url: "/buildings"
+            })
             .state('Alarm', {
                 views: {
                     'menu': {
@@ -150,6 +163,9 @@
                     }, {
                         displayName: "专题优化管理",
                         url: rootUrl + "/topic"
+                    }, {
+                        displayName: "万栋楼宇优化",
+                        url: rootUrl + "/buildings"
                     }
                 ]
             }, {
@@ -222,6 +238,13 @@
             $scope.city.options = result;
             $scope.city.selected = result[0];
             $scope.showCityStats();
+        });
+    })
+    .controller("evaluation.home", function ($scope, $http, baiduMapService, geometryService,
+        parametersMapService, parametersDialogService) {
+        geometryService.queryWandonglouyu().then(function (buildings) {
+            baiduMapService.initializeMap("map", 12);
+            parametersMapService.showPhpElements(buildings, parametersDialogService.showBuildingInfo);
         });
     })
     .controller("query.map", function($scope, $uibModal, $log, appRegionService, baiduMapService, parametersMapService,
@@ -509,4 +532,16 @@
             });
         }
         $scope.query();
+    })
+    .controller('map.building.dialog', function ($scope, $uibModalInstance, building, dialogTitle) {
+        $scope.building = building;
+        $scope.dialogTitle = dialogTitle;
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.building);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
     });

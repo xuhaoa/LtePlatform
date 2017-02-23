@@ -65,10 +65,6 @@
             displayName: "覆盖优化",
             subItems: [
                 {
-                    displayName: "专题覆盖优化",
-                    url: "/Evaluation/RegionDef",
-                    tooltip: "包括万栋楼宇等室内外场景优化；根据各小区的工程参数模拟覆盖范围，主要覆盖指标（RSRP、SINR）进行分析和呈现"
-                }, {
                     displayName: "规划辅助",
                     url: appUrlService.getPlanUrlHost() + 'guihuafuzhu/index/index.php'
                 }, {
