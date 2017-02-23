@@ -1,6 +1,19 @@
 ﻿<ul class="nav navbar-nav nav-navbar-list">
-    <li>
-        <a ng-href="/">网络优化</a>
+    <li class="dropdown">
+        <a href="" id="optimize" class="dropdown-toggle" data-toggle="dropdown" ng-disabled="disabled">
+            网络优化 <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-blue-azure" role="menu" aria-labelledby="optimize">
+            <li role="presentation">
+                <a ng-href="/">射频优化</a>
+            </li>
+            <li role="presentation">
+                <a ng-href="http://219.128.254.41:2868">路测管理</a>
+            </li>
+            <li role="presentation">
+                <a ng-href="http://219.128.254.36:8888">指标优化</a>
+            </li>
+        </ul>
     </li>
     <li>
         <a ng-href="/#/Maintanence">网络维护</a>
