@@ -3,10 +3,6 @@
         '$routeProvider', function($routeProvider) {
             var rootDir = "/appViews/BasicKpi/";
             $routeProvider
-                .when('/', {
-                    templateUrl: rootDir + 'Index.html',
-                    controller: "kpi.basic"
-                })
                 .when('/trend/:city', {
                     templateUrl: rootDir + 'Trend.html',
                     controller: 'kpi.trend'
@@ -103,34 +99,6 @@
                         $rootScope.rootPath + "topConnection3GTrend/" + city);
                 });
             });
-    })
-    .controller("kpi.basic", function($scope, appRegionService, appFormatService, kpi2GService) {
-        $scope.page.title = "指标总体情况";
-        var yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        $scope.statDate = {
-            value: yesterday,
-            opened: false
-        };
-        $scope.city = {
-            selected: "",
-            options: []
-        };
-        $scope.views = {
-            options: ['主要', '2G', '3G'],
-            selected: '主要'
-        };
-        $scope.showKpi = function() {
-            kpi2GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function(result) {
-                $scope.statDate.value = appFormatService.getDate(result.statDate);
-                $scope.statList = result.statViews;
-            });
-        };
-        appRegionService.initializeCities().then(function(result) {
-            $scope.city.options = result;
-            $scope.city.selected = result[0];
-            $scope.showKpi();
-        });
     })
     .controller('kpi.topConnection3G', function($scope, appRegionService, appFormatService, connection3GService) {
         $scope.page.title = "TOP连接成功率指标";

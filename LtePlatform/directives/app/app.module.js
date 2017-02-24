@@ -85,6 +85,23 @@ angular.module('app.directives.district', ["ui.bootstrap", 'myApp.region'])
             }
         };
     })
+    .directive('citySelection', function (appRoot, appRegionService) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                city: '='
+            },
+            templateUrl: appRoot + 'CitySelection.Tpl.html',
+            transclude: true,
+            link: function (scope) {
+                appRegionService.initializeCities().then(function (cities) {
+                    scope.city.options = cities;
+                    scope.city.selected = cities[0];
+                });
+            }
+        };
+    })
     .directive('districtTownSelection', function(appRoot, appRegionService) {
         return {
             restrict: 'ECMA',

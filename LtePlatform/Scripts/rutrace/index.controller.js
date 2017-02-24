@@ -11,6 +11,10 @@
                     templateUrl: viewDir + "Trend.html",
                     controller: "rutrace.trend"
                 })
+                .when('/traditional', {
+                    templateUrl:  '/appViews/BasicKpi/Index.html',
+                    controller: "kpi.basic"
+                })
                 .when('/top', {
                     templateUrl: viewDir + "Top.html",
                     controller: "rutrace.top"
@@ -69,6 +73,9 @@
                     }, {
                         displayName: "精确覆盖",
                         url: rootUrl + "/trend"
+                    }, {
+                        displayName: "传统指标",
+                        url: rootUrl + "/traditional"
                     }
                 ]
             }, {
@@ -195,6 +202,24 @@
                         "TOP指标分析-" + district, $scope.rootPath + "topDistrict/" + district);
                 });
             });
+        });
+    })
+    .controller("kpi.basic", function ($scope, appRegionService, appFormatService, kpi2GService) {
+        $scope.page.title = $scope.menuItems[0].subItems[2].displayName;
+        $scope.views = {
+            options: ['主要', '2G', '3G'],
+            selected: '主要'
+        };
+        $scope.showKpi = function () {
+            kpi2GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function (result) {
+                $scope.statDate.value = appFormatService.getDate(result.statDate);
+                $scope.statList = result.statViews;
+            });
+        };
+        appRegionService.initializeCities().then(function (result) {
+            $scope.city.options = result;
+            $scope.city.selected = result[0];
+            $scope.showKpi();
         });
     })
     .controller("rutrace.index", function ($scope) {

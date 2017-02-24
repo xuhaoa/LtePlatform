@@ -59,7 +59,7 @@
                     thirdNeighbors: 0,
                     firstRate: 0,
                     preciseRate: 0,
-                    objectRate: 92.6
+                    objectRate: 90
                 };
                 angular.forEach(districtStats, function(districtStat) {
                     accumulatePreciseStat(stat, districtStat);
@@ -288,13 +288,13 @@
             },
             getPreciseObject: function(district) {
                 var objectTable = {
-                    "禅城": 94,
-                    "南海": 94,
-                    "三水": 94,
-                    "高明": 94,
-                    "顺德": 90
+                    "禅城": 89.8,
+                    "南海": 90,
+                    "三水": 90,
+                    "高明": 90,
+                    "顺德": 90.2
                 };
-                return objectTable[district] === undefined ? 94 : objectTable[district];
+                return objectTable[district] === undefined ? 90 : objectTable[district];
             },
             generateComplainTrendOptions: function(dates, counts, objects) {
                 var chart = new TimeSeriesLine();

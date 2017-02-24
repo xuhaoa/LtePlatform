@@ -574,6 +574,7 @@
     <Content Include="Content\ui-grid.min.css" />
     <Content Include="Content\ui-grid.svg" />
     <Content Include="directives\app\CityDistrictSelection.Tpl.html" />
+    <Content Include="directives\app\CitySelection.Tpl.html" />
     <Content Include="directives\app\CoverageLegend.Tpl.html" />
     <Content Include="directives\app\DateSelection.Tpl.html" />
     <Content Include="directives\app\DistrictTownPlain.Tpl.html" />
@@ -1864,7 +1865,6 @@
     <Content Include="Views\Kpi\WorkItem.cshtml" />
     <Content Include="Views\Kpi\Import.cshtml" />
     <Content Include="appViews\BasicKpi\Index.html" />
-    <Content Include="appViews\BasicKpi\KpiTable.html" />
     <Content Include="appViews\College\CollegeMenu.html" />
     <Content Include="appViews\College\Test\Construct3GTest.html" />
     <Content Include="appViews\College\Test\Construct4GTest.html" />

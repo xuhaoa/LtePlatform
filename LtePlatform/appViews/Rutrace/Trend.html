@@ -1,15 +1,11 @@
 ﻿<div class="row">
     <div class="col-md-6">
-        <label>城市：</label>
-        <div class="input-group">
-            <select class="form-control" ng-model="city.selected" ng-options="c as c for c in city.options"></select>
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-success" ng-click="showKpi(city.selected)">
-                    <i class="glyphicon glyphicon-picture" title="统计结果"></i>
-                </button>
-                <a class="btn btn-primary" ng-href="{{rootPath}}workitemCity">工单</a>
-                <button class="btn btn-success" ng-click="showTrend()">趋势</button>
-            </span>
+        <div city-selection city="city">
+            <button type="button" class="btn btn-success" ng-click="showKpi(city.selected)">
+                <i class="glyphicon glyphicon-picture" title="统计结果"></i>
+            </button>
+            <a class="btn btn-primary" ng-href="{{rootPath}}workitemCity">工单</a>
+            <button class="btn btn-success" ng-click="showTrend()">趋势</button>
         </div>
     </div>
     <div class="col-md-6">
