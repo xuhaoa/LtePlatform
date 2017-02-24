@@ -64,10 +64,10 @@
                 isActive: true,
                 subItems: [
                     {
-                        displayName: "指标总体情况",
+                        displayName: "指标总览",
                         url: rootUrl + "/"
                     }, {
-                        displayName: "指标变化趋势",
+                        displayName: "精确覆盖",
                         url: rootUrl + "/trend"
                     }
                 ]
@@ -77,7 +77,7 @@
                 subItems: []
             }, {
                 displayName: "TOP指标",
-                isActive: true,
+                isActive: false,
                 subItems: [
                     {
                         displayName: "分析",
@@ -135,7 +135,7 @@
 
     })
     .controller("rutrace.root", function($scope, appRegionService, menuItemService) {
-        $scope.page = { title: "指标总体情况" };
+        $scope.page = { title: $scope.menuItems[0].subItems[0].displayName };
         $scope.overallStat = {
             currentDistrict: "",
             districtStats: [],
@@ -198,7 +198,7 @@
         });
     })
     .controller("rutrace.index", function ($scope) {
-        $scope.page.title = "指标总体情况";
+        $scope.page.title = $scope.menuItems[0].subItems[0].displayName;
         $scope.areaItems = [{
             title: "4G指标",
             comments: '/appViews/Home/Kpi4G.html',
@@ -379,7 +379,7 @@
         $scope.query();
     })
     .controller("rutrace.trend", function ($scope, appRegionService, appKpiService, kpiPreciseService, appFormatService, workItemDialog) {
-        $scope.page.title = "指标变化趋势";
+        $scope.page.title = $scope.menuItems[0].subItems[1].displayName;
 
         $scope.showKpi = function(city) {
             kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value)
@@ -403,33 +403,12 @@
                 $scope.showKpi(city);
             }
         });
-        $scope.showCharts = function () {
-            $("#mr-pie").highcharts(appKpiService.getMrPieOptions($scope.trendStat.districtStats,
-                $scope.trendStat.townStats));
-            $("#precise").highcharts(appKpiService.getPreciseRateOptions($scope.trendStat.districtStats,
-                $scope.trendStat.townStats));
-            $("#time-mr").highcharts(appKpiService.getMrsDistrictOptions($scope.trendStat.stats,
-                $scope.trendStat.districts));
-            $("#time-precise").highcharts(appKpiService.getPreciseDistrictOptions($scope.trendStat.stats,
-                $scope.trendStat.districts));
-        };
         $scope.showTrend = function () {
-            kpiPreciseService.getDateSpanPreciseRegionKpi($scope.city.selected, $scope.beginDate.value, $scope.endDate.value)
-                .then(function (result) {
-                    $scope.trendStat.stats = appKpiService.generateDistrictStats($scope.trendStat.districts, result);
-                    if (result.length > 0) {
-                        appKpiService.generateTrendStatsForPie($scope.trendStat, result);
-                        $scope.trendStat.stats.push(appKpiService.calculateAverageRates($scope.trendStat.stats));
-                    }
-                    $scope.trendStat.beginDateString = appFormatService.getDateString($scope.beginDate.value, "yyyy年MM月dd日");
-                    $scope.trendStat.endDateString = appFormatService.getDateString($scope.endDate.value, "yyyy年MM月dd日");
-                    $scope.showCharts();
-                });
+            workItemDialog.showPreciseTrend($scope.trendStat, $scope.city, $scope.beginDate, $scope.endDate);
         };
         appRegionService.queryDistricts($scope.city.selected)
             .then(function (districts) {
                 $scope.trendStat.districts = districts;
-                $scope.showTrend();
             });
     })
     .controller("cell.trend", function ($scope, $routeParams, appKpiService, cellPreciseService,

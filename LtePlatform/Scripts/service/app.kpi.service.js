@@ -885,6 +885,44 @@
         }, 500);
     })
 
+    .controller("rutrace.trend.dialog", function ($scope, $uibModalInstance, trendStat, city, beginDate, endDate,
+        appKpiService, kpiPreciseService, appFormatService) {
+        $scope.trendStat = trendStat;
+        $scope.city = city;
+        $scope.beginDate = beginDate;
+        $scope.endDate = endDate;
+        $scope.dialogTitle = "精确覆盖率变化趋势";
+        $scope.showCharts = function () {
+            $("#mr-pie").highcharts(appKpiService.getMrPieOptions($scope.trendStat.districtStats,
+                $scope.trendStat.townStats));
+            $("#precise").highcharts(appKpiService.getPreciseRateOptions($scope.trendStat.districtStats,
+                $scope.trendStat.townStats));
+            $("#time-mr").highcharts(appKpiService.getMrsDistrictOptions($scope.trendStat.stats,
+                $scope.trendStat.districts));
+            $("#time-precise").highcharts(appKpiService.getPreciseDistrictOptions($scope.trendStat.stats,
+                $scope.trendStat.districts));
+        };
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.trendStat);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        kpiPreciseService.getDateSpanPreciseRegionKpi($scope.city.selected, $scope.beginDate.value, $scope.endDate.value)
+            .then(function(result) {
+                $scope.trendStat.stats = appKpiService.generateDistrictStats($scope.trendStat.districts, result);
+                if (result.length > 0) {
+                    appKpiService.generateTrendStatsForPie($scope.trendStat, result);
+                    $scope.trendStat.stats.push(appKpiService.calculateAverageRates($scope.trendStat.stats));
+                }
+                $scope.trendStat.beginDateString = appFormatService.getDateString($scope.beginDate.value, "yyyy年MM月dd日");
+                $scope.trendStat.endDateString = appFormatService.getDateString($scope.endDate.value, "yyyy年MM月dd日");
+                $scope.showCharts();
+            });
+
+    })
     .factory('workItemDialog', function ($uibModal, $log, workitemService) {
         return {
             feedback: function (view, callbackFunc) {
@@ -995,6 +1033,32 @@
                         },
                         townStats: function () {
                             return overallStat.townStats;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                }, function () {
+                });
+            },
+            showPreciseTrend: function (trendStat, city, beginDate, endDate) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Coverage/Trend.html',
+                    controller: 'rutrace.trend.dialog',
+                    size: 'lg',
+                    resolve: {
+                        trendStat: function () {
+                            return trendStat;
+                        },
+                        city: function () {
+                            return city;
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
                         }
                     }
                 });

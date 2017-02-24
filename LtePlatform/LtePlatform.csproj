@@ -465,6 +465,7 @@
     <Content Include="appViews\Parameters\Region\TopicCells.html" />
     <Content Include="appViews\Parameters\Topic.html" />
     <Content Include="appViews\Rutrace\Coverage\DetailsChartDialog.html" />
+    <Content Include="appViews\Rutrace\Coverage\Trend.html" />
     <Content Include="appViews\Rutrace\Map\SourceMapInfoBox.html" />
     <Content Include="appViews\Rutrace\Interference\VictimDialog.html" />
     <Content Include="appViews\Rutrace\Map\VictimMapInfoBox.html" />
