@@ -14,6 +14,45 @@
                     }
                 },
                 url: "/"
+            })
+            .state('dt', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.dt"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Network.html",
+                        controller: "home.dt"
+                    }
+                },
+                url: "/dt"
+            })
+            .state('kpi', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.kpi"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Network.html",
+                        controller: "home.kpi"
+                    }
+                },
+                url: "/kpi"
+            })
+            .state('plan', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.plan"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Network.html",
+                        controller: "home.plan"
+                    }
+                },
+                url: "/plan"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -65,13 +104,6 @@
             displayName: "射频优化",
             subItems: [
                 {
-                    displayName: "规划辅助",
-                    url: appUrlService.getPlanUrlHost() + 'guihuafuzhu/index/index.php'
-                }, {
-                    displayName: "工单管控",
-                    url: "/Kpi/WorkItem",
-                    tooltip: "对接本部优化部4G网优平台，结合日常优化，实现对日常工单的监控和分析"
-                }, {
                     displayName: "校园网专题优化",
                     url: "/College/Map",
                     tooltip: "校园网专项优化，包括数据管理、指标分析、支撑工作管理和校园网覆盖呈现"
@@ -85,6 +117,17 @@
                 }, {
                     displayName: "边界漫游信息",
                     url: appUrlService.getParameterUrlHost() + 'lteboundary.html'
+                }
+            ]
+        };
+    })
+    .controller('menu.plan', function($scope, appUrlService) {
+        $scope.menuItem = {
+            displayName: "规划支撑",
+            subItems: [
+                {
+                    displayName: "规划辅助",
+                    url: appUrlService.getPlanUrlHost() + 'guihuafuzhu/index/index.php'
                 }
             ]
         };
@@ -104,6 +147,10 @@
                 }, {
                     displayName: "负荷评估",
                     url: appUrlService.getParameterUrlHost() + 'ltecapability.html'
+                }, {
+                    displayName: "工单管控",
+                    url: "/Kpi/WorkItem",
+                    tooltip: "对接本部优化部4G网优平台，结合日常优化，实现对日常工单的监控和分析"
                 }
             ]
         }
@@ -149,5 +196,20 @@
         $scope.showFlow = function() {
             coverageDialogService.showFlowStats($scope.statDate.value || new Date());
         };
+
+    })
+    .controller("home.dt", function ($scope, baiduMapService) {
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
+
+    })
+    .controller("home.kpi", function ($scope, baiduMapService) {
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
+
+    })
+    .controller("home.plan", function ($scope, baiduMapService) {
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
 
     });
