@@ -1,0 +1,21 @@
+﻿<div ng-controller="home.downSwitch" ng-init="max = 5; isReadonly = true">
+    <p>统计日期：{{flowDate.value | date: "yyyy年MM月dd日"}}</p>
+    <p>
+        4G用户3G流量比：{{flowStat | number: 2}}%
+        <div uib-rating aria-labelledby="default-rating" ng-model="downRate" max="max" read-only="isReadonly"
+             uib-tooltip-template="'downTooltipTemplate.html'" tooltip-class="customClass" tooltip-placement="bottom"></div>
+    </p>
+    <div id="downSwitchConfig"></div>
+    <script type="text/ng-template" id="downTooltipTemplate.html">
+        <h6>4G用户3G流量比星级定义</h6>
+        <ul>
+            <li ng-repeat="rating in downSwitchRating">
+                <strong>{{downSwitchRating.length-$index}}星：</strong>
+                4G用户3G流量比
+                <span ng-if="!$first">大于{{downSwitchRating[$index-1]}}%且</span>
+                小于{{rating}}%
+            </li>
+            <li><strong>0星：</strong>4G用户3G流量比大于等于{{downSwitchRating[preciseRating.length-1]}}%</li>
+        </ul>
+    </script>
+</div>

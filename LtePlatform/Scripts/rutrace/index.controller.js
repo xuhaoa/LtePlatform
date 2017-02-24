@@ -202,20 +202,18 @@
         $scope.areaItems = [{
             title: "4G指标",
             comments: '/appViews/Home/Kpi4G.html',
-            buttonName: "详细",
-            url: "/Rutrace",
+            width: 6
+        }, {
+            title: "4G用户3G流量比",
+            comments: '/appViews/Home/KpiDownSwitch.html',
             width: 6
         }, {
             title: "传统指标",
             comments: '/appViews/Home/Kpi2G.html',
-            buttonName: "指标",
-            url: "/Kpi",
             width: 6
         }, {
             title: "工单监控",
             comments: '/appViews/Home/WorkItem.html',
-            buttonName: "工单",
-            url: "/Kpi/WorkItem",
             width: 6
         }];
     })
@@ -243,15 +241,6 @@
                     $scope.cityStat);
                 $("#preciseConfig").highcharts(options);
             });
-        downSwitchService.getRecentKpi(city, $scope.flowDate.value)
-            .then(function (result) {
-                $scope.flowDate.value = appFormatService.getDate(result.statDate);
-                $scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
-                $scope.downRate = appKpiService.calculateDownSwitchRating($scope.flowStat);
-                var options = kpiDisplayService.generateDownSwitchOptions(result.downSwitchFlowViews,
-                    city, $scope.flowStat);
-                $("#downSwitchConfig").highcharts(options);
-            });
     };
 
     $scope.$watch('city.selected', function (city) {
@@ -260,7 +249,28 @@
         }
     });
     $scope.preciseRating = kpiRatingDivisionDefs.precise;
+})
+.controller("home.downSwitch", function ($scope, kpiPreciseService, downSwitchService, appKpiService, appFormatService,
+    kpiDisplayService, kpiRatingDivisionDefs) {
+        $scope.queryKpi4G = function(city) {
+            downSwitchService.getRecentKpi(city, $scope.flowDate.value)
+                .then(function(result) {
+                    $scope.flowDate.value = appFormatService.getDate(result.statDate);
+                    $scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
+                    $scope.downRate = appKpiService.calculateDownSwitchRating($scope.flowStat);
+                    var options = kpiDisplayService.generateDownSwitchOptions(result.downSwitchFlowViews,
+                        city, $scope.flowStat);
+                    $("#downSwitchConfig").highcharts(options);
+                });
+
+        };
+    $scope.$watch('city.selected', function (city) {
+        if (city) {
+            $scope.queryKpi4G(city);
+        }
+    });
     $scope.downSwitchRating = kpiRatingDivisionDefs.downSwitch;
+        
 })
 .controller("home.workitem", function ($scope, workitemService) {
     workitemService.queryCurrentMonth().then(function (result) {
