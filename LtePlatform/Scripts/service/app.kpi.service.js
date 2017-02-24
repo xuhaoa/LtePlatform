@@ -866,10 +866,10 @@
 
     .controller("rutrace.chart", function ($scope, $uibModalInstance, $timeout,
         dateString, districtStats, townStats, appKpiService) {
-        $scope.dateString = dateString;
+        $scope.dialogTitle = dateString + "精确覆盖率指标";
         $scope.showCharts = function () {
-            $("#mr-pie").highcharts(appKpiService.getMrPieOptions(districtStats.slice(0, districtStats.length - 1), townStats));
-            $("#precise").highcharts(appKpiService.getPreciseRateOptions(districtStats, townStats));
+            $("#leftChart").highcharts(appKpiService.getMrPieOptions(districtStats.slice(0, districtStats.length - 1), townStats));
+            $("#rightChart").highcharts(appKpiService.getPreciseRateOptions(districtStats, townStats));
         };
 
         $scope.ok = function () {
@@ -1021,7 +1021,7 @@
             showPreciseChart: function (overallStat) {
                 var modalInstance = $uibModal.open({
                     animation: true,
-                    templateUrl: '/appViews/Rutrace/Chart.html',
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
                     controller: 'rutrace.chart',
                     size: 'lg',
                     resolve: {

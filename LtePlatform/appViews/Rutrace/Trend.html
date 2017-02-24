@@ -13,18 +13,11 @@
         </div>
     </div>
     <div class="col-md-6">
-        <label>日期：</label>
-        <div class="input-group">
-            <input type="text" class="form-control" uib-datepicker-popup ng-model="statDate.value" is-open="statDate.opened" ng-required="true" close-text="Close"/>
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="statDate.opened = true">
-                    <i class="glyphicon glyphicon-calendar"></i>
-                </button>
-                <a class="btn btn-primary" ng-click="showChart()">
-                    <i class="glyphicon glyphicon-picture" title="统计图表"></i>
-                </a>
-                <a class="btn btn-default" ng-href="{{rootPath}}top">TOP指标</a>
-            </span>
+        <div date-selection stat-date="statDate">
+            <a class="btn btn-primary" ng-click="showChart()">
+                <i class="glyphicon glyphicon-picture" title="统计图表"></i>
+            </a>
+            <a class="btn btn-default" ng-href="{{rootPath}}top">TOP指标</a>
         </div>
     </div>
 </div>

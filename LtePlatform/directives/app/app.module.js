@@ -29,6 +29,20 @@ angular.module('app.directives.date', [])
                 scope.endTips = attrs.endTips || "结束日期：";
             }
         };
+    })
+    .directive('dateSelection', function (appRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                statDate: '='
+            },
+            templateUrl: appRoot + 'DateSelection.Tpl.html',
+            transclude: true,
+            link: function (scope, element, attrs) {
+                scope.dateTips = attrs.dateTips || "日期：";
+            }
+        };
     });
 
 angular.module('app.directives.file', [])

@@ -575,6 +575,7 @@
     <Content Include="Content\ui-grid.svg" />
     <Content Include="directives\app\CityDistrictSelection.Tpl.html" />
     <Content Include="directives\app\CoverageLegend.Tpl.html" />
+    <Content Include="directives\app\DateSelection.Tpl.html" />
     <Content Include="directives\app\DistrictTownPlain.Tpl.html" />
     <Content Include="directives\app\DistrictTownSelection.Tpl.html" />
     <Content Include="directives\app\dump\FileSelector.html" />
@@ -619,7 +620,6 @@
     <Content Include="directives\parameters\DistrictInfrastructure.Tpl.html" />
     <Content Include="directives\parameters\eNodeb\ENodebDetailsTable.html" />
     <Content Include="appViews\Parameters\Region\ENodebInfo.html" />
-    <Content Include="appViews\Rutrace\Chart.html" />
     <Content Include="appViews\Rutrace\Coverage\Index.html" />
     <Content Include="directives\parameters\kpi\AlarmTable.html" />
     <Content Include="directives\parameters\kpi\FlowTable.html" />
