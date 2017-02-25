@@ -204,7 +204,7 @@
             });
         });
     })
-    .controller("kpi.basic", function ($scope, appRegionService, appFormatService, kpi2GService) {
+    .controller("kpi.basic", function ($scope, appRegionService, appFormatService, kpi2GService, workItemDialog) {
         $scope.page.title = $scope.menuItems[0].subItems[2].displayName;
         $scope.views = {
             options: ['主要', '2G', '3G'],
@@ -215,6 +215,9 @@
                 $scope.statDate.value = appFormatService.getDate(result.statDate);
                 $scope.statList = result.statViews;
             });
+        };
+        $scope.showTrend = function() {
+            workItemDialog.showBasicTrend($scope.city.selected, $scope.beginDate, $scope.endDate);
         };
         appRegionService.initializeCities().then(function (result) {
             $scope.city.options = result;

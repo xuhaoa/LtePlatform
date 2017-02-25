@@ -3,10 +3,6 @@
         '$routeProvider', function($routeProvider) {
             var rootDir = "/appViews/BasicKpi/";
             $routeProvider
-                .when('/trend/:city', {
-                    templateUrl: rootDir + 'Trend.html',
-                    controller: 'kpi.trend'
-                })
                 .when('/topDrop2G', {
                     templateUrl: rootDir + 'TopDrop2G.html',
                     controller: 'kpi.topDrop2G'

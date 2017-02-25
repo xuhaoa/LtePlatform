@@ -17,7 +17,7 @@
     <div class="input-group">
         <select class="form-control" ng-model="views.selected" ng-options="v as v for v in views.options"></select>
         <span class="input-group-btn">
-            <a class="btn btn-primary" ng-href="{{rootPath}}trend/{{city.selected}}">
+            <a class="btn btn-primary" ng-href="" ng-click="showTrend()">
                 <i class="glyphicon glyphicon-picture" title="统计趋势"></i>
             </a>
         </span>

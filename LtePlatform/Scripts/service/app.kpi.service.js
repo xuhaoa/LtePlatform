@@ -884,7 +884,7 @@
             $scope.showCharts();
         }, 500);
     })
-    .controller('basic.kpi.trend', function ($scope, city, beginDate, endDate, kpi2GService, kpiDisplayService) {
+    .controller('basic.kpi.trend', function ($scope, $uibModalInstance, city, beginDate, endDate, kpi2GService, kpiDisplayService) {
         $scope.dialogTitle = "指标变化趋势-" + city;
         $scope.beginDate = beginDate;
         $scope.endDate = endDate;
@@ -901,6 +901,14 @@
                 $scope.showTrend();
             }
         });
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.kpi);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
 
         $scope.showTrend = function () {
             kpi2GService.queryKpiTrend(city, $scope.beginDate.value, $scope.endDate.value).then(function (data) {
@@ -1077,6 +1085,29 @@
                         trendStat: function () {
                             return trendStat;
                         },
+                        city: function () {
+                            return city;
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                }, function () {
+                });
+            },
+            showBasicTrend: function (city, beginDate, endDate) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/BasicKpi/Trend.html',
+                    controller: 'basic.kpi.trend',
+                    size: 'lg',
+                    resolve: {
                         city: function () {
                             return city;
                         },
