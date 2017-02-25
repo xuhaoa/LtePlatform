@@ -139,10 +139,6 @@
             options: [5, 10, 15, 20, 30],
             selected: 15
         };
-        $rootScope.topData = {
-            drop2G: [],
-            connection3G: []
-        };
         kpiPreciseService.getOrderSelection().then(function (result) {
             $rootScope.orderPolicy.options = result;
             $rootScope.orderPolicy.selected = result[5];
@@ -159,8 +155,7 @@
             districtStats: [],
             townStats: [],
             cityStat: {},
-            dateString: "",
-            city: ""
+            dateString: ""
         };
         $scope.trendStat = {
             stats: [],
@@ -204,7 +199,6 @@
         };
 
         appRegionService.initializeCities().then(function(result) {
-            $scope.overallStat.city = result[0];
             $scope.city.options = result;
             $scope.city.selected = result[0];
             appRegionService.queryDistricts(result[0]).then(function(districts) {
@@ -230,10 +224,10 @@
         $scope.showTrend = function() {
             workItemDialog.showBasicTrend($scope.city.selected, $scope.beginDate, $scope.endDate);
         };
-        appRegionService.initializeCities().then(function (result) {
-            $scope.city.options = result;
-            $scope.city.selected = result[0];
-            $scope.showKpi();
+        $scope.$watch('city.selected', function (city) {
+            if (city) {
+                $scope.showKpi();
+            }
         });
     })
     .controller("rutrace.index", function ($scope) {
@@ -258,6 +252,10 @@
     })
     .controller('kpi.topDrop2G', function ($scope, appRegionService, appFormatService, drop2GService, connection3GService, workItemDialog) {
         $scope.page.title = $scope.menuItems[2].subItems[1].displayName;
+        $scope.topData = {
+            drop2G: [],
+            connection3G: []
+        };
         $scope.showKpi = function () {
             drop2GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function (result) {
                 $scope.statDate.value = appFormatService.getDate(result.statDate);
@@ -274,7 +272,12 @@
         $scope.showConnectionTrend = function () {
             workItemDialog.showTopConnectionTrend($scope.city.selected, $scope.beginDate, $scope.endDate, $scope.topCount);
         };
-        $scope.showKpi();
+        $scope.$watch('city.selected', function (city) {
+            if (city) {
+                $scope.showKpi();
+            }
+            
+        });
     })
 .controller("home.kpi2G", function ($scope, appKpiService, appFormatService, kpi2GService, kpiRatingDivisionDefs) {
     kpi2GService.queryDayStats($scope.city.selected || '佛山', $scope.statDate.value || new Date())

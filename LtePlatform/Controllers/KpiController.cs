@@ -2,7 +2,6 @@
 using Lte.Evaluations.DataService;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.DataService.Kpi;
-using Lte.Evaluations.DataService.Mr;
 using LtePlatform.Models;
 using System.Collections.Generic;
 using System.IO;
@@ -18,22 +17,14 @@ namespace LtePlatform.Controllers
         private readonly KpiImportService _importService;
         private readonly PreciseImportService _preciseImportService;
         private readonly WorkItemService _workItemService;
-        private readonly InterferenceMatrixService _interferenceMatrix;
 
         public KpiController(TownQueryService townService, KpiImportService importService,
-            PreciseImportService preciseImportService, WorkItemService workItemService,
-            InterferenceMatrixService interferenceMatrix)
+            PreciseImportService preciseImportService, WorkItemService workItemService)
         {
             _townService = townService;
             _importService = importService;
             _preciseImportService = preciseImportService;
             _workItemService = workItemService;
-            _interferenceMatrix = interferenceMatrix;
-        }
-
-        public ActionResult Index()
-        {
-            return View();
         }
         
         public ActionResult WorkItem()

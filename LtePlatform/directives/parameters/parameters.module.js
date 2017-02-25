@@ -167,7 +167,7 @@
                 },
                 { field: 'topDates', name: 'TOP天数' },
                 {
-                    name: '掉话率(%)',
+                    name: '掉话率（%）',
                     cellTemplate: '<span class="text-primary">{{row.entity.dropRate * 100 | number: 2}}</span>'
                 },
                 {
@@ -202,15 +202,15 @@
                 { field: 'connectionFails', name: '连接失败次数' },
                 {
                     field: 'linkBusyRate',
-                    name: '链路繁忙率(%)',
+                    name: '链路繁忙率（%）',
                     cellFilter: 'number: 2'
                 },
                 {
-                    name: '连接成功率(%)',
+                    name: '连接成功率（%）',
                     cellTemplate: '<span class="text-primary">{{row.entity.connectionRate * 100 | number: 2}}</span>'
                 },
                 {
-                    name: '掉线率(%)',
+                    name: '掉线率（%）',
                     cellTemplate: '<span class="text-primary">{{row.entity.dropRate * 100 | number: 2}}</span>'
                 },
                 {
