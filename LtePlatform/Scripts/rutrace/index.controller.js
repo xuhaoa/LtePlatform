@@ -256,7 +256,7 @@
             width: 6
         }];
     })
-    .controller('kpi.topDrop2G', function ($scope, appRegionService, appFormatService, drop2GService, connection3GService) {
+    .controller('kpi.topDrop2G', function ($scope, appRegionService, appFormatService, drop2GService, connection3GService, workItemDialog) {
         $scope.page.title = $scope.menuItems[2].subItems[1].displayName;
         $scope.showKpi = function () {
             drop2GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function (result) {
@@ -267,6 +267,12 @@
                 $scope.statDate.value = appFormatService.getDate(result.statDate);
                 $scope.topData.connection3G = result.statViews;
             });
+        };
+        $scope.showDropTrend = function() {
+            workItemDialog.showTopDropTrend($scope.city.selected, $scope.beginDate, $scope.endDate, $scope.topCount);
+        };
+        $scope.showConnectionTrend = function () {
+            workItemDialog.showTopConnectionTrend($scope.city.selected, $scope.beginDate, $scope.endDate, $scope.topCount);
         };
         $scope.showKpi();
     })

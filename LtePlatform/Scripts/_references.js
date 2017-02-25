@@ -114,7 +114,6 @@
 /// <reference path="jquery-3.1.0.slim.min.js" />
 /// <reference path="jquery-ui-1.12.0.js" />
 /// <reference path="jquery-ui-1.12.0.min.js" />
-/// <reference path="kpi/basic/index.controller.js" />
 /// <reference path="kpi/interference.import.controller.js" />
 /// <reference path="kpi/precise.import.js" />
 /// <reference path="kpi/workitem.import.js" />

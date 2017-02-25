@@ -957,6 +957,63 @@
             });
 
     })
+
+    .controller('kpi.topConnection3G.trend', function ($scope, $uibModalInstance, city, beginDate, endDate, topCount,
+        appRegionService, appFormatService, connection3GService) {
+        $scope.dialogTitle = "TOP连接变化趋势-" + city;
+        $scope.beginDate = beginDate;
+        $scope.endDate = endDate;
+        $scope.topCount = topCount;
+        $scope.showTrend = function () {
+            connection3GService.queryCellTrend($scope.beginDate.value, $scope.endDate.value, city,
+                $scope.orderPolicy.selected, $scope.topCount.selected).then(function (result) {
+                    $scope.trendCells = result;
+                });
+        };
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.trendStat);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        connection3GService.queryOrderPolicy().then(function (result) {
+            $scope.orderPolicy = {
+                options: result,
+                selected: result[0]
+            }
+            $scope.showTrend();
+        });
+    })
+    .controller('kpi.topDrop2G.trend', function ($scope, $uibModalInstance, city, beginDate, endDate, topCount,
+        appRegionService, appFormatService, drop2GService) {
+        $scope.dialogTitle = "TOP掉话变化趋势-" + city;
+        $scope.beginDate = beginDate;
+        $scope.endDate = endDate;
+        $scope.topCount = topCount;
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.trendStat);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        $scope.showTrend = function () {
+            drop2GService.queryCellTrend($scope.beginDate.value, $scope.endDate.value, city,
+                $scope.orderPolicy.selected, $scope.topCount.selected).then(function (result) {
+                    $scope.trendCells = result;
+                });
+        };
+        drop2GService.queryOrderPolicy().then(function (result) {
+            $scope.orderPolicy = {
+                options: result,
+                selected: result[0]
+            }
+            $scope.showTrend();
+        });
+    })
     .factory('workItemDialog', function ($uibModal, $log, workitemService) {
         return {
             feedback: function (view, callbackFunc) {
@@ -1124,6 +1181,61 @@
                 }, function () {
                 });
             },
+
+            showTopDropTrend: function (city, beginDate, endDate, topCount) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/BasicKpi/TopDrop2GTrend.html',
+                    controller: 'kpi.topDrop2G.trend',
+                    size: 'lg',
+                    resolve: {
+                        city: function () {
+                            return city;
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        },
+                        topCount: function() {
+                            return topCount;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                }, function () {
+                });
+            },
+
+            showTopConnectionTrend: function (city, beginDate, endDate, topCount) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/BasicKpi/TopConnection3GTrend.html',
+                    controller: 'kpi.topConnection3G.trend',
+                    size: 'lg',
+                    resolve: {
+                        city: function () {
+                            return city;
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        },
+                        topCount: function () {
+                            return topCount;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                }, function () {
+                });
+            },
+
             calculatePlatformInfo: function (comments) {
                 var platformInfos = [];
                 if (comments) {

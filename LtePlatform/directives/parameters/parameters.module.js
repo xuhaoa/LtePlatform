@@ -151,6 +151,45 @@
         }, $compile);
     })
 
+    .controller('TopDropTrendController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'cellName', name: '小区名称' },
+                {
+                    name: 'LTE小区名称',
+                    cellTemplate: '<span class="text-primary">{{row.entity.eNodebName}}-{{row.entity.sectorId}}</span>'
+                },
+                { field: 'totalDrops', name: '掉话总数' },
+                { field: 'moAssignmentSuccess', name: '主叫次数' },
+                {
+                    field: 'mtAssignmentSuccess',
+                    name: '被叫次数'
+                },
+                { field: 'topDates', name: 'TOP天数' },
+                {
+                    name: '掉话率(%)',
+                    cellTemplate: '<span class="text-primary">{{row.entity.dropRate * 100 | number: 2}}</span>'
+                },
+                {
+                    name: '查看信息',
+                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="showHistory(row.entity)"> \
+                            <span class="glyphicon glyphicon-search"></span>历史信息 \
+                        </button>'
+                }
+            ],
+            data: []
+        };
+    })
+    .directive('topDropTrendTable', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'TopDropTrendController',
+            scope: {
+                items: '='
+            },
+            argumentName: 'items'
+        }, $compile);
+    })
+
     .controller('TopConnectionController', function ($scope) {
         $scope.gridOptions = {
             columnDefs: [
@@ -187,6 +226,54 @@
     .directive('topConnectionTable', function ($compile, calculateService) {
         return calculateService.generateGridDirective({
             controllerName: 'TopConnectionController',
+            scope: {
+                items: '='
+            },
+            argumentName: 'items'
+        }, $compile);
+    })
+
+    .controller('TopConnectionTrendController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'cellName', name: '小区名称' },
+                {
+                    name: 'LTE小区名称',
+                    cellTemplate: '<span class="text-primary">{{row.entity.eNodebName}}-{{row.entity.sectorId}}</span>'
+                },
+                {
+                    field: 'wirelessDrop',
+                    name: '无线掉线次数'
+                },
+                { field: 'connectionAttempts', name: '连接尝试次数' },
+                { field: 'connectionFails', name: '连接失败次数' },
+                { field: 'topDates', name: 'TOP天数' },
+                {
+                    field: 'linkBusyRate',
+                    name: '链路繁忙率(%)',
+                    cellFilter: 'number: 2'
+                },
+                {
+                    name: '连接成功率(%)',
+                    cellTemplate: '<span class="text-primary">{{row.entity.connectionRate * 100 | number: 2}}</span>'
+                },
+                {
+                    name: '掉线率(%)',
+                    cellTemplate: '<span class="text-primary">{{row.entity.dropRate * 100 | number: 2}}</span>'
+                },
+                {
+                    name: '查看信息',
+                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="showHistory(row.entity)"> \
+                            <span class="glyphicon glyphicon-search"></span>历史信息 \
+                        </button>'
+                }
+            ],
+            data: []
+        };
+    })
+    .directive('topConnectionTrendTable', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'TopConnectionTrendController',
             scope: {
                 items: '='
             },
