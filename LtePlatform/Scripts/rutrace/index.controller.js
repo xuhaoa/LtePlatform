@@ -87,7 +87,7 @@
                 isActive: false,
                 subItems: [
                     {
-                        displayName: "分析",
+                        displayName: "精确覆盖率TOP指标",
                         url: rootUrl + "/top"
                     }
                 ]
@@ -332,7 +332,7 @@
     });
 })
     .controller("rutrace.top", function ($scope, $http, preciseInterferenceService, kpiPreciseService, workitemService) {
-        $scope.page.title = "TOP指标分析";
+        $scope.page.title = $scope.menuItems[2].subItems[0].displayName;
         $scope.topCells = [];
         $scope.updateMessages = [];
 
