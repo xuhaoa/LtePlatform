@@ -10,84 +10,21 @@
         <div date-selection stat-date="statDate"></div>
     </div>
 </div>
-<div uib-tabset active="active">
-    <div uib-tab index="0" heading="掉话率">
-        <div trend-precise-table trend-stat="trendStat" city="city"></div>
+<div class="panel panel-blue">
+    <div class="panel-heading">
+        <span class="glyphicon glyphicon-stats"></span>
+        2G掉话率
     </div>
-    <div uib-tab index="1" heading="3G连接成功率">
-        <div trend-mr-table trend-stat="trendStat" city="city"></div>
+    <div class="panel-body">
+        <div top-drop-table items="topData.drop2G"></div>
     </div>
 </div>
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th>小区编号</th>
-        <th>CDMA基站名称</th>
-        <th>LTE基站名称</th>
-        <th>扇区编号</th>
-        <th>频点</th>
-        <th>掉话次数</th>
-        <th>主叫次数</th>
-        <th>被叫次数</th>
-        <th>掉话率</th>
-        <th>查看信息</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="cell in topData.drop2G">
-        <td>{{cell.cellId}}</td>
-        <td>{{cell.cdmaName}}</td>
-        <td>{{cell.lteName}}</td>
-        <td>{{cell.sectorId}}</td>
-        <td>{{cell.frequency}}</td>
-        <td>{{cell.drops}}</td>
-        <td>{{cell.moAssignmentSuccess}}</td>
-        <td>{{cell.mtAssignmentSuccess}}</td>
-        <td>{{cell.dropRate * 100 | number: 2}}%</td>
-        <td>
-            <a class="btn btn-primary" ng-href="{{rootPath}}cellDrop2GHistory/{{cell.cellId}}/{{cell.sectorId}}">
-                <span class="glyphicon glyphicon-search"></span>历史信息
-            </a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>小区编号</th>
-            <th>CDMA基站名称</th>
-            <th>LTE基站名称</th>
-            <th>扇区编号</th>
-            <th>无线掉线次数</th>
-            <th>连接尝试次数</th>
-            <th>连接失败次数</th>
-            <th>链路繁忙率</th>
-            <th>连接成功率</th>
-            <th>掉线率</th>
-            <th>查看信息</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="cell in topData.connection3G">
-            <td>{{cell.cellId}}</td>
-            <td>{{cell.cdmaName}}</td>
-            <td>{{cell.lteName}}</td>
-            <td>{{cell.sectorId}}</td>
-            <td>{{cell.wirelessDrop}}</td>
-            <td>{{cell.connectionAttempts}}</td>
-            <td>{{cell.connectionFails}}</td>
-            <td>{{cell.linkBusyRate | number: 2}}%</td>
-            <td>{{100 * cell.connectionRate | number: 2}}%</td>
-            <td>{{100 * cell.dropRate | number: 2}}%</td>
-            <td>
-                <a class="btn btn-primary" ng-href="{{rootPath}}cellConnection3GHistory/{{cell.cellId}}/{{cell.sectorId}}">
-                    <span class="glyphicon glyphicon-search"></span>历史信息
-                </a>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-
-
+<div class="panel panel-orange">
+    <div class="panel-heading">
+        <span class="glyphicon glyphicon-apple"></span>
+        3G连接成功率
+    </div>
+    <div class="panel-body">
+        <div top-connection-table items="topData.connection3G"></div>
+    </div>
+</div>

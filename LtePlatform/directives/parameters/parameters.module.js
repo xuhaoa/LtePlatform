@@ -106,28 +106,94 @@
             data: []
         };
     })
-    .directive('planningSiteTable', function ($compile) {
-        return {
-            controller: 'PlanningSiteController',
-            restrict: 'EA',
-            replace: true,
+    .directive('planningSiteTable', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'PlanningSiteController',
             scope: {
                 items: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
+            argumentName: 'items'
+        }, $compile);
+    })
+
+    .controller('TopDropController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'cellId', name: '小区编号' },
+                { field: 'cdmaName', name: 'CDMA基站名称' },
+                { field: 'lteName', name: 'LTE基站名称' },
+                { field: 'sectorId', name: '扇区编号' },
+                { field: 'frequency', name: '频点' },
+                { field: 'drops', name: '掉话次数' },
+                { field: 'moAssignmentSuccess', name: '主叫次数' },
+                { field: 'mtAssignmentSuccess', name: '被叫次数' },
+                {
+                    name: '掉话率(%)',
+                    cellTemplate: '<span class="text-primary">{{row.entity.dropRate * 100 | number: 2}}</span>'
+                },
+                {
+                    name: '查看信息',
+                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="showHistory(row.entity)"> \
+                            <span class="glyphicon glyphicon-search"></span>历史信息 \
+                        </button>'
+                }
+            ],
+            data: []
         };
     })
+    .directive('topDropTable', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'TopDropController',
+            scope: {
+                items: '='
+            },
+            argumentName: 'items'
+        }, $compile);
+    })
+
+    .controller('TopConnectionController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'cellId', name: '小区编号' },
+                { field: 'cdmaName', name: 'CDMA基站名称' },
+                { field: 'lteName', name: 'LTE基站名称' },
+                { field: 'sectorId', name: '扇区编号' },
+                { field: 'wirelessDrop', name: '无线掉线次数' },
+                { field: 'connectionAttempts', name: '连接尝试次数' },
+                { field: 'connectionFails', name: '连接失败次数' },
+                {
+                    field: 'linkBusyRate',
+                    name: '链路繁忙率(%)',
+                    cellFilter: 'number: 2'
+                },
+                {
+                    name: '连接成功率(%)',
+                    cellTemplate: '<span class="text-primary">{{row.entity.connectionRate * 100 | number: 2}}</span>'
+                },
+                {
+                    name: '掉线率(%)',
+                    cellTemplate: '<span class="text-primary">{{row.entity.dropRate * 100 | number: 2}}</span>'
+                },
+                {
+                    name: '查看信息',
+                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="showHistory(row.entity)"> \
+                            <span class="glyphicon glyphicon-search"></span>历史信息 \
+                        </button>'
+                }
+            ],
+            data: []
+        };
+    })
+    .directive('topConnectionTable', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'TopConnectionController',
+            scope: {
+                items: '='
+            },
+            argumentName: 'items'
+        }, $compile);
+    })
+
     .controller('ENodebPlainController', function ($scope, workItemDialog) {
         $scope.gridOptions = {
             paginationPageSizes: [20, 40, 60],
