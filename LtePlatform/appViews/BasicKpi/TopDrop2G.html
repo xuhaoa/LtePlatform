@@ -1,37 +1,93 @@
-﻿<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h3 class="panel-title">
-            {{page.title}}
-        </h3>
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-6">
-                <label>城市：</label>
-                <div class="input-group">
-                    <select class="form-control" ng-model="city.selected" ng-options="c as c for c in city.options"></select>
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-success" ng-click="showKpi()">
-                            <i class="glyphicon glyphicon-search" title="统计"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <label>日期：</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" uib-datepicker-popup ng-model="statDate.value" is-open="statDate.opened" ng-required="true" close-text="Close" />
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="statDate.opened = true">
-                            <i class="glyphicon glyphicon-calendar"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+﻿<div class="row">
+    <div class="col-md-6">
+        <div city-selection city="city">
+            <button type="button" class="btn btn-success" ng-click="showKpi()">
+                <i class="glyphicon glyphicon-search" title="统计"></i>
+            </button>
         </div>
-        <div ng-include="'/appViews/BasicKpi/TopDrop2GTable.html'"></div>
+    </div>
+    <div class="col-md-6">
+        <div date-selection stat-date="statDate"></div>
     </div>
 </div>
+<div uib-tabset active="active">
+    <div uib-tab index="0" heading="掉话率">
+        <div trend-precise-table trend-stat="trendStat" city="city"></div>
+    </div>
+    <div uib-tab index="1" heading="3G连接成功率">
+        <div trend-mr-table trend-stat="trendStat" city="city"></div>
+    </div>
+</div>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>小区编号</th>
+        <th>CDMA基站名称</th>
+        <th>LTE基站名称</th>
+        <th>扇区编号</th>
+        <th>频点</th>
+        <th>掉话次数</th>
+        <th>主叫次数</th>
+        <th>被叫次数</th>
+        <th>掉话率</th>
+        <th>查看信息</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="cell in topData.drop2G">
+        <td>{{cell.cellId}}</td>
+        <td>{{cell.cdmaName}}</td>
+        <td>{{cell.lteName}}</td>
+        <td>{{cell.sectorId}}</td>
+        <td>{{cell.frequency}}</td>
+        <td>{{cell.drops}}</td>
+        <td>{{cell.moAssignmentSuccess}}</td>
+        <td>{{cell.mtAssignmentSuccess}}</td>
+        <td>{{cell.dropRate * 100 | number: 2}}%</td>
+        <td>
+            <a class="btn btn-primary" ng-href="{{rootPath}}cellDrop2GHistory/{{cell.cellId}}/{{cell.sectorId}}">
+                <span class="glyphicon glyphicon-search"></span>历史信息
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>小区编号</th>
+            <th>CDMA基站名称</th>
+            <th>LTE基站名称</th>
+            <th>扇区编号</th>
+            <th>无线掉线次数</th>
+            <th>连接尝试次数</th>
+            <th>连接失败次数</th>
+            <th>链路繁忙率</th>
+            <th>连接成功率</th>
+            <th>掉线率</th>
+            <th>查看信息</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="cell in topData.connection3G">
+            <td>{{cell.cellId}}</td>
+            <td>{{cell.cdmaName}}</td>
+            <td>{{cell.lteName}}</td>
+            <td>{{cell.sectorId}}</td>
+            <td>{{cell.wirelessDrop}}</td>
+            <td>{{cell.connectionAttempts}}</td>
+            <td>{{cell.connectionFails}}</td>
+            <td>{{cell.linkBusyRate | number: 2}}%</td>
+            <td>{{100 * cell.connectionRate | number: 2}}%</td>
+            <td>{{100 * cell.dropRate | number: 2}}%</td>
+            <td>
+                <a class="btn btn-primary" ng-href="{{rootPath}}cellConnection3GHistory/{{cell.cellId}}/{{cell.sectorId}}">
+                    <span class="glyphicon glyphicon-search"></span>历史信息
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 
 

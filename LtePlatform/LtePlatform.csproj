@@ -398,8 +398,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="appViews\BasicKpi\TopConnection3G.html" />
-    <Content Include="appViews\BasicKpi\TopConnection3GTable.html" />
     <Content Include="appViews\BasicKpi\TopConnection3GTrend.html" />
     <Content Include="appViews\BasicKpi\TopConnection3GTrendTable.html" />
     <Content Include="appViews\BasicKpi\TopDrop2GTrend.html" />
@@ -1883,7 +1881,6 @@
     <Content Include="Views\Kpi\WorkItemImport.cshtml" />
     <Content Include="appViews\Rutrace\Map\NeighborMapInfoBox.html" />
     <Content Include="appViews\BasicKpi\TopDrop2G.html" />
-    <Content Include="appViews\BasicKpi\TopDrop2GTable.html" />
     <Content Include="appViews\BasicKpi\TopDrop2GTrendTable.html" />
     <Content Include="appViews\WorkItem\List.html" />
     <None Include="Views\Parameters\AlarmImport.cshtml" />

@@ -15,6 +15,10 @@
                     templateUrl:  '/appViews/BasicKpi/Index.html',
                     controller: "kpi.basic"
                 })
+                .when('/topDrop2G', {
+                    templateUrl: '/appViews/BasicKpi/TopDrop2G.html',
+                    controller: 'kpi.topDrop2G'
+                })
                 .when('/top', {
                     templateUrl: viewDir + "Top.html",
                     controller: "rutrace.top"
@@ -89,6 +93,9 @@
                     {
                         displayName: "精确覆盖率TOP指标",
                         url: rootUrl + "/top"
+                    }, {
+                        displayName: "TOP传统指标",
+                        url: rootUrl + "/topDrop2G"
                     }
                 ]
             }, {
@@ -131,6 +138,10 @@
         $rootScope.topCount = {
             options: [5, 10, 15, 20, 30],
             selected: 15
+        };
+        $rootScope.topData = {
+            drop2G: [],
+            connection3G: []
         };
         kpiPreciseService.getOrderSelection().then(function (result) {
             $rootScope.orderPolicy.options = result;
@@ -244,6 +255,20 @@
             comments: '/appViews/Home/WorkItem.html',
             width: 6
         }];
+    })
+    .controller('kpi.topDrop2G', function ($scope, appRegionService, appFormatService, drop2GService, connection3GService) {
+        $scope.page.title = $scope.menuItems[2].subItems[1].displayName;
+        $scope.showKpi = function () {
+            drop2GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function (result) {
+                $scope.statDate.value = appFormatService.getDate(result.statDate);
+                $scope.topData.drop2G = result.statViews;
+            });
+            connection3GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function (result) {
+                $scope.statDate.value = appFormatService.getDate(result.statDate);
+                $scope.topData.connection3G = result.statViews;
+            });
+        };
+        $scope.showKpi();
     })
 .controller("home.kpi2G", function ($scope, appKpiService, appFormatService, kpi2GService, kpiRatingDivisionDefs) {
     kpi2GService.queryDayStats($scope.city.selected || '佛山', $scope.statDate.value || new Date())

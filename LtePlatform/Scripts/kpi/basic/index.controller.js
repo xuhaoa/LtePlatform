@@ -3,10 +3,6 @@
         '$routeProvider', function($routeProvider) {
             var rootDir = "/appViews/BasicKpi/";
             $routeProvider
-                .when('/topDrop2G', {
-                    templateUrl: rootDir + 'TopDrop2G.html',
-                    controller: 'kpi.topDrop2G'
-                })
                 .when('/topConnection3G', {
                     templateUrl: rootDir + 'TopConnection3G.html',
                     controller: 'kpi.topConnection3G'
@@ -49,9 +45,6 @@
                 isActive: true,
                 subItems: [
                     {
-                        displayName: "TOP掉话指标",
-                        url: rootUrl + "/topDrop2G"
-                    }, {
                         displayName: "TOP连接成功率指标",
                         url: rootUrl + "/topConnection3G"
                     }
@@ -62,10 +55,6 @@
         $rootScope.page = {
             title: "指标总体情况",
             messages: []
-        };
-        $rootScope.topData = {
-            drop2G: [],
-            connection3G: []
         };
         $rootScope.closeAlert = function(index) {
             $rootScope.page.messages.splice(index, 1);
@@ -96,30 +85,6 @@
                 });
             });
     })
-    .controller('kpi.topConnection3G', function($scope, appRegionService, appFormatService, connection3GService) {
-        $scope.page.title = "TOP连接成功率指标";
-        var yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        $scope.statDate = {
-            value: yesterday,
-            opened: false
-        };
-        $scope.city = {
-            selected: "",
-            options: []
-        };
-        $scope.showKpi = function() {
-            connection3GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function(result) {
-                $scope.statDate.value = appFormatService.getDate(result.statDate);
-                $scope.topData.connection3G = result.statViews;
-            });
-        };
-        appRegionService.initializeCities().then(function(result) {
-            $scope.city.options = result;
-            $scope.city.selected = result[0];
-            $scope.showKpi();
-        });
-    })
     .controller('kpi.topConnection3G.trend', function($scope, $routeParams, appRegionService, appFormatService, connection3GService) {
         $scope.page.title = "TOP连接变化趋势-" + $routeParams.city;
         $scope.topCount = {
@@ -138,30 +103,6 @@
                 selected: result[0]
             }
             $scope.showTrend();
-        });
-    })
-    .controller('kpi.topDrop2G', function($scope, appRegionService, appFormatService, drop2GService) {
-        $scope.page.title = "TOP掉话指标";
-        var yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        $scope.statDate = {
-            value: yesterday,
-            opened: false
-        };
-        $scope.city = {
-            selected: "",
-            options: []
-        };
-        $scope.showKpi = function() {
-            drop2GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function(result) {
-                $scope.statDate.value = appFormatService.getDate(result.statDate);
-                $scope.topData.drop2G = result.statViews;
-            });
-        };
-        appRegionService.initializeCities().then(function(result) {
-            $scope.city.options = result;
-            $scope.city.selected = result[0];
-            $scope.showKpi();
         });
     })
     .controller('kpi.topDrop2G.trend', function($scope, $routeParams, appRegionService, appFormatService, drop2GService) {
