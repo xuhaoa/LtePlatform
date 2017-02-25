@@ -23,9 +23,13 @@ textarea {
 	padding-top: 20px;
 }
 
-.map-control-group {
+%map-common {
 	position: absolute;
 	z-index: 1001;
+}
+
+.map-control-group {
+	@extend %map-common;
 	bottom: auto;
 	right: 30px;
 	top: 150px;
@@ -33,13 +37,19 @@ textarea {
 }
 
 .map-top-right {
-	font: 12px arial,宋体,sans-serif;
-	position: absolute;
-	z-index: 1001;
+	@extend %map-common;
 	bottom: auto;
 	right: 30px;
 	top: 10px;
 	left: auto;
+}
+
+.map-top-left{
+	@extend %map-common;
+	bottom: auto;
+	right: auto;
+	top: 10px;
+	left: 170px;
 }
 
 .tooltip.customClass .tooltip-inner {

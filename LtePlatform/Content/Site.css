@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -18,22 +17,27 @@ textarea {
 .padding-error {
   padding-top: 20px; }
 
-.map-control-group {
+.map-control-group, .map-top-right, .map-top-left {
   position: absolute;
-  z-index: 1001;
+  z-index: 1001; }
+
+.map-control-group {
   bottom: auto;
   right: 30px;
   top: 150px;
   left: auto; }
 
 .map-top-right {
-  font: 12px arial,宋体,sans-serif;
-  position: absolute;
-  z-index: 1001;
   bottom: auto;
   right: 30px;
   top: 10px;
   left: auto; }
+
+.map-top-left {
+  bottom: auto;
+  right: auto;
+  top: 10px;
+  left: 170px; }
 
 .tooltip.customClass .tooltip-inner {
   color: #880000;
