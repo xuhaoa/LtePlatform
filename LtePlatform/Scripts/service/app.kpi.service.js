@@ -884,6 +884,32 @@
             $scope.showCharts();
         }, 500);
     })
+    .controller('basic.kpi.trend', function ($scope, city, beginDate, endDate, kpi2GService, kpiDisplayService) {
+        $scope.dialogTitle = "指标变化趋势-" + city;
+        $scope.beginDate = beginDate;
+        $scope.endDate = endDate;
+
+        kpi2GService.queryKpiOptions().then(function (result) {
+            $scope.kpi = {
+                options: result,
+                selected: result[0]
+            };
+        });
+
+        $scope.$watch('kpi.options', function (options) {
+            if (options && options.length) {
+                $scope.showTrend();
+            }
+        });
+
+        $scope.showTrend = function () {
+            kpi2GService.queryKpiTrend(city, $scope.beginDate.value, $scope.endDate.value).then(function (data) {
+                angular.forEach($scope.kpi.options, function (option, $index) {
+                    $("#kpi-" + $index).highcharts(kpiDisplayService.generateComboChartOptions(data, option, city));
+                });
+            });
+        };
+    })
 
     .controller("rutrace.trend.dialog", function ($scope, $uibModalInstance, trendStat, city, beginDate, endDate,
         appKpiService, kpiPreciseService, appFormatService) {

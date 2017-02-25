@@ -326,13 +326,28 @@
     <Content Include="mr\zte_download_mro_125_138.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="mr\zte_download_mro_125_138_delay1.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="mr\zte_download_mro_125_181.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\zte_download_mro_125_181_delay1.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\zte_download_mro_125_183.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="mr\zte_download_mro_125_183_delay1.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="mr\zte_download_mro_125_229.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\zte_download_mro_125_229_delay1.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="mr\zte_download_mro_125_delay1.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="mr\zte_download_mrs.sh">

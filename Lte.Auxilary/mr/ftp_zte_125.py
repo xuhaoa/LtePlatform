@@ -9,7 +9,7 @@ import sys
 db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
   
 host_ip = '132.122.152.125'
-FOLDER_ZTE = ['/MR_ZTE_SOURCE_E/']
+FOLDER_ZTE = ['/'+sys.argv[2]+'/']
 sub_ips=[sys.argv[1]]
 
 if not os.path.isdir('zte_mro'):
@@ -28,10 +28,8 @@ try:
     host = ftputil.FTPHost(host_ip, 'ouyh18', 'O123#')
     downloader=MrDownloader(host,sub_ips,DFList,db,host_ip)
     for folder in FOLDER_ZTE:
-        ftpdir=generate_time_dir(prefix = folder)
-        print(ftpdir)
-        downloader.download_zte(ftpdir)
-        ftpdir=generate_time_dir_shift(prefix = folder, shift=-3)
+        delay=-int(sys.argv[3])-2
+        ftpdir=generate_time_dir_shift(prefix = folder, shift=delay)
         print(ftpdir)
         downloader.download_zte(ftpdir)
     host.close()
