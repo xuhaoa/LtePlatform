@@ -211,120 +211,61 @@
         };
 
         $scope.showFeelingRate = function() {
-            $scope.currentView = "感知速率";
+            if (!$scope.flowGeoPoints) {
+                alert("计算未完成！请稍后点击。");
+                return;
+            }
+            $scope.currentView = "下行感知速率";
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary("佛山");
-            flowService.queryENodebGeoFlowByDateSpan($scope.beginDate.value, $scope.endDate.value).then(function(result) {
-                console.log(result);
+            geometryService.transformToBaidu($scope.flowGeoPoints[0].longtitute, $scope.flowGeoPoints[0].lattitute).then(function (coors) {
+                var xOffset = coors.x - $scope.flowGeoPoints[0].longtitute;
+                var yOffset = coors.y - $scope.flowGeoPoints[0].lattitute;
+                var points = _.map($scope.flowGeoPoints, function (stat) {
+                    return { "lng": stat.longtitute+xOffset, "lat": stat.lattitute+yOffset, "count": stat.downlinkFeelingRate };
+                });
+                var heatmapOverlay = new BMapLib.HeatmapOverlay({ "radius": 20 });
+                baiduMapService.addOverlays([heatmapOverlay]);                heatmapOverlay.setDataSet({ data: points, max: 50 });
+                heatmapOverlay.show();
             });
-            var points = [
-                { "lng": 112.418261, "lat": 22.921984, "count": 50.2 },
-                { "lng": 112.423332, "lat": 22.916532, "count": 51 },
-                { "lng": 112.419787, "lat": 22.930658, "count": 15 },
-                { "lng": 112.418455, "lat": 22.920921, "count": 40.4 },
-                { "lng": 112.418843, "lat": 22.915516, "count": 100 },
-                { "lng": 112.42546, "lat": 22.918503, "count": 6 },
-                { "lng": 112.423289, "lat": 22.919989, "count": 18 },
-                { "lng": 112.418162, "lat": 22.915051, "count": 80 },
-                { "lng": 112.422039, "lat": 22.91782, "count": 11 },
-                { "lng": 112.41387, "lat": 22.917253, "count": 7 },
-                { "lng": 112.41773, "lat": 22.919426, "count": 42 },
-                { "lng": 112.421107, "lat": 22.916445, "count": 4 },
-                { "lng": 112.417521, "lat": 22.917943, "count": 27 },
-                { "lng": 112.419812, "lat": 22.920836, "count": 23 },
-                { "lng": 112.420682, "lat": 22.91463, "count": 60 },
-                { "lng": 112.415424, "lat": 22.924675, "count": 8.3 },
-                { "lng": 112.419242, "lat": 22.914509, "count": 15 },
-                { "lng": 112.422766, "lat": 22.921408, "count": 25 },
-                { "lng": 112.421674, "lat": 22.924396, "count": 21 },
-                { "lng": 112.427268, "lat": 22.92267, "count": 1 },
-                { "lng": 112.417721, "lat": 22.920034, "count": 51 },
-                { "lng": 112.412456, "lat": 22.92667, "count": 7 },
-                { "lng": 112.420432, "lat": 22.919114, "count": 11 },
-                { "lng": 112.425013, "lat": 22.921611, "count": 35 },
-                { "lng": 112.418733, "lat": 22.931037, "count": 22 },
-                { "lng": 112.419336, "lat": 22.931134, "count": 4 },
-                { "lng": 112.413557, "lat": 22.923254, "count": 5 },
-                { "lng": 112.418367, "lat": 22.92943, "count": 3 },
-                { "lng": 112.424312, "lat": 22.919621, "count": 100 },
-                { "lng": 112.423874, "lat": 22.919447, "count": 87 },
-                { "lng": 112.424225, "lat": 22.923091, "count": 32 },
-                { "lng": 112.417801, "lat": 22.921854, "count": 44 },
-                { "lng": 112.417129, "lat": 22.928227, "count": 21 },
-                { "lng": 112.426426, "lat": 22.922286, "count": 80 },
-                { "lng": 112.421597, "lat": 22.91948, "count": 32 },
-                { "lng": 112.423895, "lat": 22.920787, "count": 26 },
-                { "lng": 112.423563, "lat": 22.921197, "count": 17 },
-                { "lng": 112.417982, "lat": 22.922547, "count": 17 },
-                { "lng": 112.426126, "lat": 22.921938, "count": 25 },
-                { "lng": 112.42326, "lat": 22.915782, "count": 100 },
-                { "lng": 112.419239, "lat": 22.916759, "count": 39 },
-                { "lng": 112.417185, "lat": 22.929123, "count": 11 },
-                { "lng": 112.417237, "lat": 22.927518, "count": 9 },
-                { "lng": 112.417784, "lat": 22.915754, "count": 47 },
-                { "lng": 112.420193, "lat": 22.917061, "count": 52 },
-                { "lng": 112.422735, "lat": 22.915619, "count": 100 },
-                { "lng": 112.418495, "lat": 22.915958, "count": 46 },
-                { "lng": 112.416292, "lat": 22.931166, "count": 9 },
-                { "lng": 112.419916, "lat": 22.924055, "count": 8 },
-                { "lng": 112.42189, "lat": 22.921308, "count": 11 },
-                { "lng": 112.413765, "lat": 22.929376, "count": 3 },
-                { "lng": 112.418232, "lat": 22.920348, "count": 50 },
-                { "lng": 112.417554, "lat": 22.930511, "count": 15 },
-                { "lng": 112.418568, "lat": 22.918161, "count": 23 },
-                { "lng": 112.413461, "lat": 22.926306, "count": 3 },
-                { "lng": 112.42232, "lat": 22.92161, "count": 13 },
-                { "lng": 112.4174, "lat": 22.928616, "count": 6 },
-                { "lng": 112.424679, "lat": 22.915499, "count": 21 },
-                { "lng": 112.42171, "lat": 22.915738, "count": 29 },
-                { "lng": 112.417836, "lat": 22.916998, "count": 99 },
-                { "lng": 112.420755, "lat": 22.928001, "count": 10 },
-                { "lng": 112.414077, "lat": 22.930655, "count": 14 },
-                { "lng": 112.426092, "lat": 22.922995, "count": 16 },
-                { "lng": 112.41535, "lat": 22.931054, "count": 15 },
-                { "lng": 112.413022, "lat": 22.921895, "count": 13 },
-                { "lng": 112.415551, "lat": 22.913373, "count": 17 },
-                { "lng": 112.421191, "lat": 22.926572, "count": 1 },
-                { "lng": 112.419612, "lat": 22.917119, "count": 9 },
-                { "lng": 112.418237, "lat": 22.921337, "count": 54 },
-                { "lng": 112.423776, "lat": 22.921919, "count": 26 },
-                { "lng": 112.417694, "lat": 22.92536, "count": 17 },
-                { "lng": 112.415377, "lat": 22.914137, "count": 19 },
-                { "lng": 112.417434, "lat": 22.914394, "count": 43 },
-                { "lng": 112.42588, "lat": 22.922622, "count": 27 },
-                { "lng": 112.418345, "lat": 22.919467, "count": 8 },
-                { "lng": 112.426883, "lat": 22.917171, "count": 3 },
-                { "lng": 112.423877, "lat": 22.916659, "count": 34 },
-                { "lng": 112.415712, "lat": 22.915613, "count": 14 },
-                { "lng": 112.419869, "lat": 22.931416, "count": 12 },
-                { "lng": 112.416956, "lat": 22.925377, "count": 11 },
-                { "lng": 112.42066, "lat": 22.925017, "count": 38 },
-                { "lng": 112.416244, "lat": 22.920215, "count": 91 },
-                { "lng": 112.41929, "lat": 22.915908, "count": 54 },
-                { "lng": 112.422116, "lat": 22.919658, "count": 21 },
-                { "lng": 112.4183, "lat": 22.925015, "count": 15 },
-                { "lng": 112.421969, "lat": 22.913527, "count": 3 },
-                { "lng": 112.422936, "lat": 22.921854, "count": 24 },
-                { "lng": 112.41905, "lat": 22.929217, "count": 12 },
-                { "lng": 112.424579, "lat": 22.914987, "count": 57 },
-                { "lng": 112.42076, "lat": 22.915251, "count": 70 },
-                { "lng": 112.425867, "lat": 22.918989, "count": 8 }
-            ];
-            var heatmapOverlay = new BMapLib.HeatmapOverlay({ "radius": 20 });
-            baiduMapService.addOverlays([heatmapOverlay]);            heatmapOverlay.setDataSet({ data: points, max: 100 });
-            heatmapOverlay.show();
+            
         };
 
-        $scope.showLteTownStats = function() {
+        $scope.showUplinkFeelingRate = function () {
+            if (!$scope.flowGeoPoints) {
+                alert("计算未完成！请稍后点击。");
+                return;
+            }
+            $scope.currentView = "上行感知速率";
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            geometryService.transformToBaidu($scope.flowGeoPoints[0].longtitute, $scope.flowGeoPoints[0].lattitute).then(function (coors) {
+                var xOffset = coors.x - $scope.flowGeoPoints[0].longtitute;
+                var yOffset = coors.y - $scope.flowGeoPoints[0].lattitute;
+                var points = _.map($scope.flowGeoPoints, function (stat) {
+                    return { "lng": stat.longtitute + xOffset, "lat": stat.lattitute + yOffset, "count": stat.uplinkFeelingRate };
+                });
+                var heatmapOverlay = new BMapLib.HeatmapOverlay({ "radius": 20 });
+                baiduMapService.addOverlays([heatmapOverlay]);                heatmapOverlay.setDataSet({ data: points, max: 10 });
+                heatmapOverlay.show();
+            });
+
+        };
+
+        $scope.showLteTownStats = function () {
+            var city = $scope.city.selected;
             coverageDialogService.showTownStats(city);
         };
-        $scope.showCdmaTownStats = function() {
+        $scope.showCdmaTownStats = function () {
+            var city = $scope.city.selected;
             coverageDialogService.showCdmaTownStats(city);
         };
         $scope.showFlow = function() {
             coverageDialogService.showFlowStats($scope.statDate.value || new Date());
         };
-
+        flowService.queryENodebGeoFlowByDateSpan($scope.beginDate.value, $scope.endDate.value).then(function (result) {
+            $scope.flowGeoPoints = result;
+        });
         $scope.$watch('city.selected', function(city) {
             if (city) {
                 $scope.showOutdoorSites();
