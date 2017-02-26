@@ -9,7 +9,7 @@ import sys
 db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
   
 host_ip = '132.122.152.125'
-FOLDER_ZTE = ['/MR_ZTE_SOURCE_E/']
+FOLDER_ZTE = ['/'+sys.argv[2]+'/']
 sub_ips=[sys.argv[1]]
 
 if not os.path.isdir('zte_mrs'):

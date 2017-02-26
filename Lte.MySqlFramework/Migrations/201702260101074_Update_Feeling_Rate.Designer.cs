@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class flow_huawei_add_fields : IMigrationMetadata
+    public sealed partial class Update_Feeling_Rate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(flow_huawei_add_fields));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Update_Feeling_Rate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702181344248_flow_huawei_add_fields"; }
+            get { return "201702260101074_Update_Feeling_Rate"; }
         }
         
         string IMigrationMetadata.Source

@@ -43,6 +43,20 @@ namespace Lte.Evaluations.ViewModels.Kpi
         [MemberDoc("最大激活用户数")]
         public int MaxActiveUsers { get; set; }
 
+        public double DownlinkFeelingThroughput { get; set; }
+
+        public double DownlinkFeelingDuration { get; set; }
+
+        public double DownlinkFeelingRate
+            => DownlinkFeelingDuration == 0 ? 0 : DownlinkFeelingThroughput/DownlinkFeelingDuration;
+
+        public double UplinkFeelingThroughput { get; set; }
+
+        public double UplinkFeelingDuration { get; set; }
+
+        public double UplinkFeelingRate
+            => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput/UplinkFeelingDuration;
+
         public static FlowView Average(IEnumerable<FlowView> views)
         {
             if (views == null || !views.Any()) return null;
@@ -57,11 +71,15 @@ namespace Lte.Evaluations.ViewModels.Kpi
                 AverageUsers = views.Average(x => x.AverageUsers),
                 MaxUsers = views.Max(x => x.MaxUsers),
                 AverageActiveUsers = views.Average(x => x.AverageActiveUsers),
-                MaxActiveUsers = views.Max(x => x.MaxActiveUsers)
+                MaxActiveUsers = views.Max(x => x.MaxActiveUsers),
+                DownlinkFeelingDuration = views.Average(x=>x.DownlinkFeelingDuration),
+                DownlinkFeelingThroughput = views.Average(x=>x.DownlinkFeelingDuration),
+                UplinkFeelingDuration = views.Average(x=>x.UplinkFeelingDuration),
+                UplinkFeelingThroughput = views.Average(x=>x.UplinkFeelingThroughput)
             };
         }
     }
-
+    
     [AutoMapFrom(typeof(FlowView))]
     [TypeDoc("聚合流量统计视图")]
     public class AggregateFlowView
@@ -86,5 +104,19 @@ namespace Lte.Evaluations.ViewModels.Kpi
 
         [MemberDoc("最大激活用户数")]
         public int MaxActiveUsers { get; set; }
+
+        public double DownlinkFeelingThroughput { get; set; }
+
+        public double DownlinkFeelingDuration { get; set; }
+
+        public double DownlinkFeelingRate
+            => DownlinkFeelingDuration == 0 ? 0 : DownlinkFeelingThroughput / DownlinkFeelingDuration;
+
+        public double UplinkFeelingThroughput { get; set; }
+
+        public double UplinkFeelingDuration { get; set; }
+
+        public double UplinkFeelingRate
+            => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput / UplinkFeelingDuration;
     }
 }

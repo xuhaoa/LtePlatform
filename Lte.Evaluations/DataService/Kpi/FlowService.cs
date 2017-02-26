@@ -297,7 +297,11 @@ namespace Lte.Evaluations.DataService.Kpi
                     MaxActiveUsers = g.Sum(x => x.MaxActiveUsers),
                     MaxUsers = g.Sum(x => x.MaxUsers),
                     AverageActiveUsers = g.Sum(x => x.AverageActiveUsers),
-                    AverageUsers = g.Sum(x => x.AverageUsers)
+                    AverageUsers = g.Sum(x => x.AverageUsers),
+                    DownlinkFeelingDuration = g.Sum(x=>x.DownlinkFeelingDuration),
+                    DownlinkFeelingThroughput = g.Sum(x=>x.DownlinkFeelingThroughput),
+                    UplinkFeelingDuration = g.Sum(x=>x.UplinkFeelingDuration),
+                    UplinkFeelingThroughput = g.Sum(x=>x.UplinkFeelingThroughput)
                 };
             return mergeStats;
         }

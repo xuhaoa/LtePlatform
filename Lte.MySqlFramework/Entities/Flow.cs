@@ -68,7 +68,14 @@ namespace Lte.MySqlFramework.Entities
         public int RedirectA2 { get; set; }
         
         public int RedirectB2 { get; set; }
-        
+
+        public double DownlinkFeelingThroughput => Qci8DownlinkIpThroughput + Qci9DownlinkIpThroughput;
+
+        public double DownlinkFeelingDuration => Qci8DownlinkIpDuration + Qci9DownlinkIpDuration;
+
+        public double UplinkFeelingThroughput => Qci8UplinkIpThroughput + Qci9UplinkIpThroughput;
+
+        public double UplinkFeelingDuration => Qci8UplinkIpDuration + Qci9UplinkIpDuration;
     }
 
     [AutoMapFrom(typeof(FlowZteCsv))]
@@ -549,6 +556,14 @@ namespace Lte.MySqlFramework.Entities
         public int SchedulingRank2 { get; set; }
 
         public int RedirectCdma2000 { get; set; }
+
+        public double DownlinkFeelingThroughput => PdcpDownlinkFlow - LastTtiDownlinkFlow;
+
+        public double DownlinkFeelingDuration => ButLastDownlinkDuration;
+
+        public double UplinkFeelingThroughput => PdcpUplinkFlow - LastTtiUplinkFlow;
+
+        public double UplinkFeelingDuration => ButLastUplinkDuration;
     }
 
     [AutoMapFrom(typeof(FlowHuaweiCsv))]
@@ -849,6 +864,14 @@ namespace Lte.MySqlFramework.Entities
 
         [MemberDoc("最大激活用户数")]
         public int MaxActiveUsers { get; set; }
+
+        public double DownlinkFeelingThroughput { get; set; }
+
+        public double DownlinkFeelingDuration { get; set; }
+        
+        public double UplinkFeelingThroughput { get; set; }
+
+        public double UplinkFeelingDuration { get; set; }
     }
 
     [AutoMapFrom(typeof(TownFlowStat))]
@@ -879,5 +902,19 @@ namespace Lte.MySqlFramework.Entities
 
         [MemberDoc("最大激活用户数")]
         public int MaxActiveUsers { get; set; }
+
+        public double DownlinkFeelingThroughput { get; set; }
+
+        public double DownlinkFeelingDuration { get; set; }
+
+        public double DownlinkFeelingRate
+            => DownlinkFeelingDuration == 0 ? 0 : DownlinkFeelingThroughput / DownlinkFeelingDuration;
+
+        public double UplinkFeelingThroughput { get; set; }
+
+        public double UplinkFeelingDuration { get; set; }
+
+        public double UplinkFeelingRate
+            => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput / UplinkFeelingDuration;
     }
 }
