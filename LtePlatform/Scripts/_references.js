@@ -62,6 +62,7 @@
 /// <reference path="baidu/cloud/timecontrol.js" />
 /// <reference path="baidu/plugins/baidu.tangram.js" />
 /// <reference path="baidu/plugins/geoutils.js" />
+/// <reference path="baidu/plugins/heatmap_min.js" />
 /// <reference path="baidu/plugins/infobox.js" />
 /// <reference path="bootstrap.min.js" />
 /// <reference path="coffee-script.js" />
