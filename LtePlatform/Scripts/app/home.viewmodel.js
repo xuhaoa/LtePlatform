@@ -171,7 +171,7 @@
         }
     })
     .controller("home.network", function($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService,
-        geometryService) {
+        geometryService, flowService) {
         baiduMapService.initializeMap("map", 11);
         var colors = ['#10d3c3', '#d310c3', '#d32310', '#10c303', '#c3d320', '#c340d3'];
         $scope.showOutdoorSites = function () {
@@ -214,6 +214,9 @@
             $scope.currentView = "感知速率";
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary("佛山");
+            flowService.queryENodebGeoFlowByDateSpan($scope.beginDate.value, $scope.endDate.value).then(function(result) {
+                console.log(result);
+            });
             var points = [
                 { "lng": 112.418261, "lat": 22.921984, "count": 50.2 },
                 { "lng": 112.423332, "lat": 22.916532, "count": 51 },

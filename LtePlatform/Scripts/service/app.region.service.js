@@ -788,6 +788,12 @@
                     beginDate: begin,
                     endDate: end
                 });
+            },
+            queryENodebGeoFlowByDateSpan: function(begin, end) {
+                return generalHttpService.getApiData('ENodebFlow', {
+                    begin: begin,
+                    end: end
+                });
             }
         };
     })

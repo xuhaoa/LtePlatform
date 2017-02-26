@@ -330,8 +330,7 @@
     <Compile Include="Controllers\Kpi\AlarmCountController.cs" />
     <Compile Include="Controllers\Kpi\AlarmsController.cs" />
     <Compile Include="Controllers\Kpi\DownSwitchFlowController.cs" />
-    <Compile Include="Controllers\Kpi\DumpFlowController.cs" />
-    <Compile Include="Controllers\Kpi\FlowQueryController.cs" />
+    <Compile Include="Controllers\Kpi\FlowControllers.cs" />
     <Compile Include="Controllers\Kpi\KpiDataListController.cs" />
     <Compile Include="Controllers\Kpi\KpiOptionsController.cs" />
     <Compile Include="Controllers\Kpi\PreciseImportController.cs" />

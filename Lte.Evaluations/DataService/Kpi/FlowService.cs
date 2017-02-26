@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Lte.Evaluations.ViewModels.Kpi;
 
 namespace Lte.Evaluations.DataService.Kpi
 {
@@ -242,6 +243,16 @@ namespace Lte.Evaluations.DataService.Kpi
 
         public async Task<int> GenerateTownStats(DateTime statDate)
         {
+            var townStatList = GetTownFlowStats(statDate);
+            foreach (var stat in townStatList.GetMergeStats(statDate))
+            {
+                await _townFlowRepository.InsertAsync(stat);
+            }
+            return _townFlowRepository.SaveChanges();
+        }
+
+        private List<TownFlowStat> GetTownFlowStats(DateTime statDate)
+        {
             var end = statDate.AddDays(1);
             var townStatList = new List<TownFlowStat>();
             townStatList.AddRange(
@@ -250,11 +261,17 @@ namespace Lte.Evaluations.DataService.Kpi
             townStatList.AddRange(
                 _zteRepository.GetAllList(statDate, end)
                     .GetTownStats<FlowZte, TownFlowStat>(_eNodebRepository));
-            foreach (var stat in townStatList.GetMergeStats(statDate))
-            {
-                await _townFlowRepository.InsertAsync(stat);
-            }
-            return _townFlowRepository.SaveChanges();
+            return townStatList;
+        }
+
+        public IEnumerable<ENodebFlowView> GetENodebFlowViews(DateTime begin, DateTime end)
+        {
+            var eNodebStatList = new List<ENodebFlowView>();
+            eNodebStatList.AddRange(_huaweiRepository.GetAllList(begin, end)
+                .GetENodebStats<FlowHuawei, ENodebFlowView>(_eNodebRepository));
+            eNodebStatList.AddRange(_zteRepository.GetAllList(begin, end)
+                .GetENodebStats<FlowZte, ENodebFlowView>(_eNodebRepository));
+            return eNodebStatList.GetMergeStats();
         } 
     }
 
@@ -282,6 +299,29 @@ namespace Lte.Evaluations.DataService.Kpi
             return townStats;
         }
 
+        public static IEnumerable<TENodebStat> GetENodebStats<TStat, TENodebStat>(this IEnumerable<TStat> stats,
+            IENodebRepository eNodebRepository)
+            where TStat : IENodebId
+            where TENodebStat : IENodebId, IGeoPoint<double>
+        {
+            var query = from stat in stats
+                        join eNodeb in eNodebRepository.GetAllList() on stat.ENodebId equals eNodeb.ENodebId
+                        select
+                            new
+                            {
+                                Stat = stat,
+                                eNodeb.Longtitute,
+                                eNodeb.Lattitute
+                            };
+            var eNodebStats = query.Select(x =>
+            {
+                var eNodebStat = Mapper.Map<TStat, TENodebStat>(x.Stat);
+                eNodebStat.Longtitute = x.Longtitute;
+                eNodebStat.Lattitute = x.Lattitute;
+                return eNodebStat;
+            });
+            return eNodebStats;
+        }
 
         public static IEnumerable<TownFlowStat> GetMergeStats(this IEnumerable<TownFlowStat> townStats, DateTime statTime)
         {
@@ -303,6 +343,34 @@ namespace Lte.Evaluations.DataService.Kpi
                     UplinkFeelingDuration = g.Sum(x=>x.UplinkFeelingDuration),
                     UplinkFeelingThroughput = g.Sum(x=>x.UplinkFeelingThroughput)
                 };
+            return mergeStats;
+        }
+
+        public static IEnumerable<ENodebFlowView> GetMergeStats(this IEnumerable<ENodebFlowView> eNodebStats)
+        {
+            var mergeStats = from stat in eNodebStats
+                             group stat by new
+                             {
+                                 stat.Longtitute,
+                                 stat.Lattitute
+                             }
+                into g
+                             select new ENodebFlowView
+                             {
+                                 Longtitute = g.Key.Longtitute,
+                                 Lattitute = g.Key.Lattitute,
+                                 ENodebId = g.First().ENodebId,
+                                 PdcpDownlinkFlow = g.Sum(x => x.PdcpDownlinkFlow),
+                                 PdcpUplinkFlow = g.Sum(x => x.PdcpUplinkFlow),
+                                 MaxActiveUsers = g.Sum(x => x.MaxActiveUsers),
+                                 MaxUsers = g.Sum(x => x.MaxUsers),
+                                 AverageActiveUsers = g.Sum(x => x.AverageActiveUsers),
+                                 AverageUsers = g.Sum(x => x.AverageUsers),
+                                 DownlinkFeelingDuration = g.Sum(x => x.DownlinkFeelingDuration),
+                                 DownlinkFeelingThroughput = g.Sum(x => x.DownlinkFeelingThroughput),
+                                 UplinkFeelingDuration = g.Sum(x => x.UplinkFeelingDuration),
+                                 UplinkFeelingThroughput = g.Sum(x => x.UplinkFeelingThroughput)
+                             };
             return mergeStats;
         }
 
