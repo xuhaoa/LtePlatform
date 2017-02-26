@@ -511,6 +511,12 @@
                     city: city,
                     district: district
                 });
+            },
+            queryIndoorCellSites: function (city, district) {
+                return generalHttpService.getApiData('IndoorCellSite', {
+                    city: city,
+                    district: district
+                });
             }
         };
     })

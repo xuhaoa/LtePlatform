@@ -175,6 +175,7 @@
         baiduMapService.initializeMap("map", 11);
         var colors = ['#10d3c3', '#d310c3', '#d32310', '#10c303', '#c3d320', '#c340d3'];
         $scope.showOutdoorSites = function () {
+            $scope.currentView = "室外站点";
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary("佛山");
             var city = $scope.city.selected;
@@ -190,7 +191,25 @@
                 });
             });
         };
-        
+
+        $scope.showIndoorSites = function () {
+            $scope.currentView = "室内站点";
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            var city = $scope.city.selected;
+            appRegionService.queryDistricts(city).then(function (districts) {
+                angular.forEach(districts, function (district, $index) {
+                    networkElementService.queryIndoorCellSites(city, district).then(function (sites) {
+                        geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
+                            var xOffset = coors.x - sites[0].longtitute;
+                            var yOffset = coors.y - sites[0].lattitute;
+                            baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset);
+                        });
+                    });
+                });
+            });
+        };
+
         $scope.showLteTownStats = function() {
             coverageDialogService.showTownStats(city);
         };

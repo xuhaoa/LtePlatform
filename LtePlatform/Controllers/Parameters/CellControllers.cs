@@ -122,6 +122,24 @@ namespace LtePlatform.Controllers.Parameters
         } 
     }
 
+    public class IndoorCellSiteController : ApiController
+    {
+        private readonly CellService _service;
+        private readonly ENodebQueryService _eNodebQueryService;
+
+        public IndoorCellSiteController(CellService service, ENodebQueryService eNodebQueryService)
+        {
+            _service = service;
+            _eNodebQueryService = eNodebQueryService;
+        }
+
+        [HttpGet]
+        public IEnumerable<GeoPoint> Get(string city, string district)
+        {
+            return _service.QueryIndoorCellSites(_eNodebQueryService.GetENodebsByDistrict(city, district));
+        }
+    }
+
     [ApiControl("LTE RRU查询控制器")]
     public class LteRruController : ApiController
     {

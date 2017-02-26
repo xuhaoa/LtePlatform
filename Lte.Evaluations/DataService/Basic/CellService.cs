@@ -143,6 +143,20 @@ namespace Lte.Evaluations.DataService.Basic
                 join c in cellSites on e.ENodebId equals c.ENodebId
                 select new GeoPoint(e.Longtitute, e.Lattitute);
             return results;
-        } 
+        }
+
+        public IEnumerable<GeoPoint> QueryIndoorCellSites(IEnumerable<ENodeb> eNodebs)
+        {
+            var cellSites = _repository.GetAllList(x => !x.IsOutdoor).Select(x => new
+            {
+                x.Longtitute,
+                x.Lattitute,
+                x.ENodebId
+            }).Distinct();
+            var results = from e in eNodebs
+                          join c in cellSites on e.ENodebId equals c.ENodebId
+                          select new GeoPoint(e.Longtitute, e.Lattitute);
+            return results;
+        }
     }
 }
