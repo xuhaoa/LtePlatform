@@ -104,18 +104,13 @@
             displayName: "射频优化",
             subItems: [
                 {
-                    displayName: "校园网专题优化",
-                    url: "/College/Map",
-                    tooltip: "校园网专项优化，包括数据管理、指标分析、支撑工作管理和校园网覆盖呈现"
-                },
-                {
-                    displayName: "基础数据总览",
+                    displayName: "数据总览",
                     url: rootUrl + "/Parameters/List"
                 }, {
-                    displayName: "基础信息管理",
+                    displayName: "信息管理",
                     url: appUrlService.getParameterUrlHost() + 'cellInfo.html'
                 }, {
-                    displayName: "边界漫游信息",
+                    displayName: "边界漫游",
                     url: appUrlService.getParameterUrlHost() + 'lteboundary.html'
                 }
             ]
@@ -137,13 +132,9 @@
             displayName: "指标优化",
             subItems: [
                 {
-                    displayName: "4G网络质量分析",
+                    displayName: "质量分析",
                     url: appUrlService.getTopnUrlHost(),
                     tooltip: "4G网络质量分析与日常优化"
-                }, {
-                    displayName: "指标总览",
-                    url: "/Rutrace",
-                    tooltip: "对指标的监控、分析和地理化呈现"
                 }, {
                     displayName: "负荷评估",
                     url: appUrlService.getParameterUrlHost() + 'ltecapability.html'

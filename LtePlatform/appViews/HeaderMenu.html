@@ -30,15 +30,53 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-blue-azure" role="menu" aria-labelledby="service">
             <li role="presentation">
-                <a ng-href="/complain#/">投诉管理</a>
+                <a ng-href="/#/complain">投诉管理</a>
+            </li>
+            <li role="presentation">
+                <a ng-href="/#/emergency">应急保障</a>
+            </li>
+            <li role="presentation">
+                <a ng-href="/#/market">市场支撑</a>
+            </li>
+            <li role="presentation">
+                <a ng-href="/#/repeater">手机伴侣</a>
+            </li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a href="" id="maintain" class="dropdown-toggle" data-toggle="dropdown" ng-disabled="disabled">
+            运营维护 <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-blue-azure" role="menu" aria-labelledby="maintain">
+            <li role="presentation">
+                <a ng-href="/#/alarm">网络故障</a>
+            </li>
+            <li role="presentation">
+                <a ng-href="/#/checking">网络巡检</a>
+            </li>
+            <li role="presentation">
+                <a ng-href="/#/fixing">网络整治</a>
+            </li>
+            <li role="presentation">
+                <a ng-href="/#/resource">资源资产</a>
             </li>
         </ul>
     </li>
     <li>
-        <a ng-href="/#/Maintanence">网络维护</a>
-    </li>
-    <li>
-        <a ng-href="/#/Project">工程建设</a>
+        <a href="" id="construction" class="dropdown-toggle" data-toggle="dropdown" ng-disabled="disabled">
+            基站业务 <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-blue-azure" role="menu" aria-labelledby="construction">
+            <li role="presentation">
+                <a ng-href="/#/economic">基站成本</a>
+            </li>
+            <li role="presentation">
+                <a ng-href="/#/construction">基站建设</a>
+            </li>
+            <li role="presentation">
+                <a ng-href="/#/distruction">基站逼迁</a>
+            </li>
+        </ul>
     </li>
     <li class="dropdown">
         <a href="" id="single-button" class="dropdown-toggle" data-toggle="dropdown" ng-disabled="disabled">
@@ -87,6 +125,9 @@
             </li>
             <li role="presentation">
                 <a role="menuitem" ng-href="/Parameters/List">网络分析</a>
+            </li>
+            <li role="presentation">
+                <a role="menuitem" ng-href="/College/Map">校园网优化</a>
             </li>
         </ul>
     </li>
