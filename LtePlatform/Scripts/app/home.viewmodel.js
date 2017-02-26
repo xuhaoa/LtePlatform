@@ -173,20 +173,24 @@
     .controller("home.network", function($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService,
         geometryService) {
         baiduMapService.initializeMap("map", 11);
-        baiduMapService.addCityBoundary("佛山");
-        var colors = ['#40d3c3', '#d340c3', '#d3c340', '#40c3d3', '#c3d340', '#c340d3']
-        var city = $scope.city.selected || '佛山';
-        appRegionService.queryDistricts(city).then(function(districts) {
-            angular.forEach(districts, function(district, $index) {
-                networkElementService.queryOutdoorCellSites(city, district).then(function(sites) {
-                    geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
-                        var xOffset = coors.x - sites[0].longtitute;
-                        var yOffset = coors.y - sites[0].lattitute;
-                        baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset);
+        var colors = ['#10d3c3', '#d310c3', '#d32310', '#10c303', '#c3d320', '#c340d3'];
+        $scope.showOutdoorSites = function () {
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            var city = $scope.city.selected;
+            appRegionService.queryDistricts(city).then(function(districts) {
+                angular.forEach(districts, function(district, $index) {
+                    networkElementService.queryOutdoorCellSites(city, district).then(function(sites) {
+                        geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
+                            var xOffset = coors.x - sites[0].longtitute;
+                            var yOffset = coors.y - sites[0].lattitute;
+                            baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset);
+                        });
                     });
                 });
             });
-        });
+        };
+        
         $scope.showLteTownStats = function() {
             coverageDialogService.showTownStats(city);
         };
@@ -197,6 +201,11 @@
             coverageDialogService.showFlowStats($scope.statDate.value || new Date());
         };
 
+        $scope.$watch('city.selected', function(city) {
+            if (city) {
+                $scope.showOutdoorSites();
+            }
+        });
     })
     .controller("home.dt", function ($scope, baiduMapService) {
         baiduMapService.initializeMap("map", 11);
