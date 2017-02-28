@@ -216,7 +216,8 @@
                     return { "lng": stat.longtitute+xOffset, "lat": stat.lattitute+yOffset, "count": stat.downlinkFeelingRate };
                 });
                 var heatmapOverlay = new BMapLib.HeatmapOverlay({ "radius": 20 });
-                baiduMapService.addOverlays([heatmapOverlay]);                heatmapOverlay.setDataSet({ data: points, max: 50 });
+                baiduMapService.addOverlays([heatmapOverlay]);
+                heatmapOverlay.setDataSet({ data: points, max: 50 });
                 heatmapOverlay.show();
             });
             
@@ -237,7 +238,8 @@
                     return { "lng": stat.longtitute + xOffset, "lat": stat.lattitute + yOffset, "count": stat.uplinkFeelingRate };
                 });
                 var heatmapOverlay = new BMapLib.HeatmapOverlay({ "radius": 20 });
-                baiduMapService.addOverlays([heatmapOverlay]);                heatmapOverlay.setDataSet({ data: points, max: 10 });
+                baiduMapService.addOverlays([heatmapOverlay]);
+                heatmapOverlay.setDataSet({ data: points, max: 10 });
                 heatmapOverlay.show();
             });
 
