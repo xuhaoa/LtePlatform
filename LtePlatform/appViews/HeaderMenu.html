@@ -1,11 +1,27 @@
 ﻿<ul class="nav navbar-nav nav-navbar-list">
     <li class="dropdown">
+        <a href="" id="infrastructure" class="dropdown-toggle" data-toggle="dropdown" ng-disabled="disabled">
+            基础数据 <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-blue-azure" role="menu" aria-labelledby="infrastructure">
+            <li role="presentation">
+                <a ng-href="/">站点信息</a>
+            </li>
+            <li role="presentation">
+                <a ng-href="/#/repeater">手机伴侣</a>
+            </li>
+            <li role="presentation">
+                <a role="menuitem" ng-href="/Parameters/List">网络分析</a>
+            </li>
+        </ul>
+    </li>
+    <li class="dropdown">
         <a href="" id="optimize" class="dropdown-toggle" data-toggle="dropdown" ng-disabled="disabled">
             网络优化 <span class="caret"></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-blue-azure" role="menu" aria-labelledby="optimize">
             <li role="presentation">
-                <a ng-href="/">射频优化</a>
+                <a ng-href="/#/rf">射频优化</a>
             </li>
             <li role="presentation">
                 <a ng-href="/#/dt">路测管理</a>
@@ -39,7 +55,7 @@
                 <a ng-href="/#/market">市场支撑</a>
             </li>
             <li role="presentation">
-                <a ng-href="/#/repeater">手机伴侣</a>
+                <a role="menuitem" ng-href="/College/Map">校园网优化</a>
             </li>
         </ul>
     </li>
@@ -113,15 +129,8 @@
             <li role="presentation">
                 <a role="menuitem" ng-href="/TestPage/AngularTest">AngularJS</a>
             </li>
-            <li class="divider"></li>
             <li role="presentation">
                 <a role="menuitem" ng-href="/Rutrace">指标总览</a>
-            </li>
-            <li role="presentation">
-                <a role="menuitem" ng-href="/Parameters/List">网络分析</a>
-            </li>
-            <li role="presentation">
-                <a role="menuitem" ng-href="/College/Map">校园网优化</a>
             </li>
         </ul>
     </li>
