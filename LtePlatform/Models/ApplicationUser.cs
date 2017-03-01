@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System.Collections.Generic;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Lte.Domain.Regular.Attributes;
 
 namespace LtePlatform.Models
 {
@@ -17,5 +19,23 @@ namespace LtePlatform.Models
             // 在此处添加自定义用户声明
             return userIdentity;
         }
+    }
+
+    public class ApplicationRole : IdentityRole
+    {
+        public ApplicationRole()
+        { }
+
+        public ApplicationRole(string name) : base(name) { }
+    }
+
+    [TypeDoc("角色分配用户定义")]
+    public class RoleUsersDto
+    {
+        [MemberDoc("角色名称")]
+        public string RoleName { get; set; }
+
+        [MemberDoc("用户名称列表")]
+        public IEnumerable<string> UserNames { get; set; }
     }
 }

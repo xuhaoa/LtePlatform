@@ -101,7 +101,7 @@
     .controller("menu.root", function($scope, appUrlService) {
         var rootUrl = "/#";
         $scope.menuItem = {
-            displayName: "射频优化",
+            displayName: "站点信息",
             subItems: [
                 {
                     displayName: "数据总览",
