@@ -42,7 +42,7 @@ namespace LtePlatform.Controllers.Account
         {
             var user = _userManager.FindByName(userName);
             if (user == null) return new List<string>();
-            return _roleManager.Roles.Where(x => _userManager.IsInRole(user.Id, x.Name)).Select(x => x.Name);
+            return _roleManager.Roles.ToList().Where(x => _userManager.IsInRole(user.Id, x.Name)).Select(x => x.Name);
         }
     }
 
@@ -64,7 +64,7 @@ namespace LtePlatform.Controllers.Account
         {
             var user = _userManager.FindByName(userName);
             if (user == null) return new List<string>();
-            return _roleManager.Roles.Where(x => !_userManager.IsInRole(user.Id, x.Name)).Select(x => x.Name);
+            return _roleManager.Roles.ToList().Where(x => !_userManager.IsInRole(user.Id, x.Name)).Select(x => x.Name);
         }
     }
 }

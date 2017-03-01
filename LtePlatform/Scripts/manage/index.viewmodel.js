@@ -65,7 +65,7 @@
             $rootScope.page.messages.splice(index, 1);
         };
     })
-.controller('manage.all', function ($scope, authorizeService) {
+.controller('manage.all', function ($scope, authorizeService, coverageDialogService) {
     $scope.page.title = "所有用户信息管理";
     $scope.manageUsers = [];
     authorizeService.queryAllUsers().then(function (result) {
@@ -82,7 +82,7 @@
         }
     });
         $scope.showRoles = function(userName) {
-
+            coverageDialogService.showUserRoles(userName);
         };
     })
 .controller("manage.current", function ($scope, authorizeService) {

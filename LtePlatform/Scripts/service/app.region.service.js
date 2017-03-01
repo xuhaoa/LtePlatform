@@ -2145,6 +2145,23 @@
 
         $scope.showCoverage();
     })
+     .controller("user.roles.dialog", function ($scope, $uibModalInstance, dialogTitle, userName, authorizeService) {
+         $scope.dialogTitle = dialogTitle;
+         $scope.ok = function () {
+             $uibModalInstance.close($scope.city);
+         };
+
+         $scope.cancel = function () {
+             $uibModalInstance.dismiss('cancel');
+         };
+
+        authorizeService.queryRolesInUser(userName).then(function(roles) {
+            console.log(roles);
+        });
+        authorizeService.queryCandidateRolesInUser(userName).then(function (roles) {
+            console.log(roles);
+        });
+    })
 
     .factory('neighborDialogService', function ($uibModal, $log, networkElementService) {
         var matchNearest = function (nearestCell, currentNeighbor, center) {
@@ -2620,18 +2637,18 @@
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
-            showUserRoles: function (today) {
+            showUserRoles: function (userName) {
                 var modalInstance = $uibModal.open({
                     animation: true,
-                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
-                    controller: 'flow.stats',
+                    templateUrl: '/appViews/Manage/UserRolesDialog.html',
+                    controller: 'user.roles.dialog',
                     size: 'lg',
                     resolve: {
                         dialogTitle: function () {
-                            return "全市4G流量和用户数分布";
+                            return userName + "角色管理";
                         },
-                        today: function () {
-                            return today;
+                        userName: function () {
+                            return userName;
                         }
                     }
                 });
