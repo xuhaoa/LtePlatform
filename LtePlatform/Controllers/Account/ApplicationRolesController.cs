@@ -9,7 +9,7 @@ using System.Web.Http;
 namespace LtePlatform.Controllers.Account
 {
     [ApiControl("用户角色管理控制器")]
-    [Authorize]
+    [Authorize(Roles = "管理员")]
     public class ApplicationRolesController : ApiController
     {
         private readonly ApplicationUserManager _userManager;
@@ -36,6 +36,9 @@ namespace LtePlatform.Controllers.Account
 
         [HttpGet]
         [ApiDoc("分配角色和用户之间的绑定关系")]
+        [ApiParameterDoc("roleName", "角色名称")]
+        [ApiParameterDoc("userName", "用户名称")]
+        [ApiResponse("分配是否成功")]
         public bool Get(string roleName, string userName)
         {
             if (!_roleManager.RoleExists(roleName)) return false;
@@ -66,6 +69,8 @@ namespace LtePlatform.Controllers.Account
 
         [HttpGet]
         [ApiDoc("查询指定角色不具有的用户列表，以便增加角色")]
+        [ApiParameterDoc("roleName", "角色名称")]
+        [ApiResponse("指定角色不具有的用户列表")]
         public IEnumerable<ApplicationUser> Get(string roleName)
         {
             if (!_roleManager.RoleExists(roleName)) return null;
@@ -73,7 +78,8 @@ namespace LtePlatform.Controllers.Account
         }
     }
 
-    [Authorize]
+    [Authorize(Roles = "管理员")]
+    [ApiControl("增加角色下用户控制器")]
     public class ManageRolesController : ApiController
     {
         private readonly ApplicationUserManager _userManager;
@@ -88,6 +94,9 @@ namespace LtePlatform.Controllers.Account
 
         [HttpGet]
         [ApiDoc("解除角色和用户之间的绑定关系")]
+        [ApiParameterDoc("roleName", "角色名称")]
+        [ApiParameterDoc("userName", "用户名称")]
+        [ApiResponse("解除是否成功")]
         public bool Get(string roleName, string userName)
         {
             if (!_roleManager.RoleExists(roleName)) return false;
@@ -118,6 +127,8 @@ namespace LtePlatform.Controllers.Account
 
         [HttpGet]
         [ApiDoc("查询指定角色下带的用户列表，以便减少角色")]
+        [ApiParameterDoc("roleName", "角色名称")]
+        [ApiResponse("指定角色下带的用户列表")]
         public IEnumerable<ApplicationUser> Get(string roleName)
         {
             if (!_roleManager.RoleExists(roleName)) return null;
@@ -125,12 +136,14 @@ namespace LtePlatform.Controllers.Account
         }
     }
 
-    [Authorize]
+    [Authorize(Roles = "管理员")]
+    [ApiControl("新增角色控制器")]
     public class CreateRoleController : ApiController
     {
         [HttpGet]
         [ApiDoc("新增一个角色")]
         [ApiParameterDoc("roleName", "角色名称")]
+        [ApiResponse("操作结果信息")]
         public async Task<string> Get(string roleName)
         {
             var context = ApplicationDbContext.Create();
@@ -140,13 +153,15 @@ namespace LtePlatform.Controllers.Account
             return "新增角色成功";
         } 
     }
-
-    [Authorize]
+    
+    [Authorize(Roles = "管理员")]
+    [ApiControl("删除角色控制器")]
     public class DeleteRoleController : ApiController
     {
         [HttpGet]
         [ApiDoc("删除一个角色")]
         [ApiParameterDoc("roleName", "角色名称")]
+        [ApiResponse("操作结果信息")]
         public async Task<string> Get(string roleName)
         {
             var context = ApplicationDbContext.Create();

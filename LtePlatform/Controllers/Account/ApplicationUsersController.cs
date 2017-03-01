@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace LtePlatform.Controllers.Account
 {
     [ApiControl("应用程序用户管理控制器")]
-    [Authorize]
+    [Authorize(Roles = "管理员")]
     public class ApplicationUsersController : ApiController
     {
         private readonly ApplicationUserManager _userManager;
@@ -46,7 +47,7 @@ namespace LtePlatform.Controllers.Account
         }
     }
 
-    [Authorize]
+    [Authorize(Roles = "管理员")]
     public class ManageUsersController : ApiController
     {
         private readonly ApplicationUserManager _userManager;
