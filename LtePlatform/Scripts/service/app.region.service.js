@@ -1011,6 +1011,18 @@
                     roleName: name
                 });
             },
+            assignRoleInUser: function(userName, roleName) {
+                return generalHttpService.getApiDataWithHeading('ApplicationRoles', {
+                    userName: userName,
+                    roleName: roleName
+                });
+            },
+            releaseRoleInUser: function (userName, roleName) {
+                return generalHttpService.getApiDataWithHeading('ManageRoles', {
+                    userName: userName,
+                    roleName: roleName
+                });
+            },
             changePassword: function (input) {
                 return generalHttpService.postMvcData('/Manage/ChangePassword', input);
             },
@@ -2161,6 +2173,22 @@
             });
             authorizeService.queryCandidateRolesInUser(userName).then(function(roles) {
                 $scope.candidateRoles = roles;
+            });
+        };
+
+        $scope.addRole = function(role) {
+            authorizeService.assignRoleInUser(userName, role).then(function(result) {
+                if (result) {
+                    $scope.query();
+                }
+            });
+        };
+
+        $scope.removeRole = function (role) {
+            authorizeService.releaseRoleInUser(userName, role).then(function (result) {
+                if (result) {
+                    $scope.query();
+                }
             });
         };
 
