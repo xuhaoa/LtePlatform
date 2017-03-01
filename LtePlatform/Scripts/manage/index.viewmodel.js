@@ -39,15 +39,22 @@
         var rootUrl = "/Manage#";
         $rootScope.menuItems = [
             {
-                displayName: "本账号信息管理",
-                url: rootUrl + "/"
-            }, {
-                displayName: "所有用户信息管理",
-                url: rootUrl + "/all"
-            }, {
-                displayName: "所有角色管理",
-                url: rootUrl + "/roles"
+                displayName: "账号权限管理",
+                isActive: true,
+                subItems: [
+                    {
+                        displayName: "本账号信息管理",
+                        url: rootUrl + "/"
+                    }, {
+                        displayName: "所有用户信息管理",
+                        url: rootUrl + "/all"
+                    }, {
+                        displayName: "所有角色管理",
+                        url: rootUrl + "/roles"
+                    }
+                ]
             }
+            
         ];
         $rootScope.rootPath = rootUrl + "/";
         $rootScope.page = {
