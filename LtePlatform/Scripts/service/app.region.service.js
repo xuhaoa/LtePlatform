@@ -983,24 +983,32 @@
             queryAllUsers: function () {
                 return generalHttpService.getApiDataWithHeading('ApplicationUsers', {});
             },
+            queryRolesInUser: function(userName) {
+                return generalHttpService.getApiDataWithHeading('ApplicationUsers', {
+                    userName: userName
+                });
+            },
+            queryCandidateRolesInUser: function (userName) {
+                return generalHttpService.getApiDataWithHeading('ManageUsers', {
+                    userName: userName
+                });
+            },
             queryEmailConfirmed: function (name) {
                 return generalHttpService.getMvcData('/Manage/EmailHasBeenConfirmed', {
                     userName: name
                 });
             },
             updateRoleList: function () {
-                return generalHttpService.getApiData('ApplicationRoles', {});
+                return generalHttpService.getApiDataWithHeading('ApplicationRoles', {});
             },
             addRole: function (name) {
-                return generalHttpService.getApiData('ApplicationRoles', {
-                    roleName: name,
-                    action: "create"
+                return generalHttpService.getApiDataWithHeading('CreateRole', {
+                    roleName: name
                 });
             },
             deleteRole: function (name) {
-                return generalHttpService.getApiData('ApplicationRoles', {
-                    roleName: name,
-                    action: "delete"
+                return generalHttpService.getApiDataWithHeading('DeleteRole', {
+                    roleName: name
                 });
             },
             changePassword: function (input) {
@@ -2602,6 +2610,27 @@
                             return "全市4G流量和用户数分布";
                         },
                         today: function() {
+                            return today;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showUserRoles: function (today) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'flow.stats',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "全市4G流量和用户数分布";
+                        },
+                        today: function () {
                             return today;
                         }
                     }

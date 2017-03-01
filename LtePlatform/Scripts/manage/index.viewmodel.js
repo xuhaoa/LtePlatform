@@ -81,7 +81,10 @@
             });
         }
     });
-})
+        $scope.showRoles = function(userName) {
+
+        };
+    })
 .controller("manage.current", function ($scope, authorizeService) {
     $scope.page.title = "本账号信息管理";
     authorizeService.queryCurrentUserInfo().then(function (result) {

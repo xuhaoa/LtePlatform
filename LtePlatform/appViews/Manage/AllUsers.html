@@ -18,7 +18,7 @@
                 <td>{{user.hometown}}</td>
                 <td>{{user.emailHasBeenConfirmed?"是":"否"}}</td>
                 <td>
-                    <div class="btn btn-default" ng-click="showRoles()">用户角色</div>
+                    <div class="btn btn-default" ng-click="showRoles(user.userName)">用户角色</div>
                 </td>
             </tr>
         </tbody>
