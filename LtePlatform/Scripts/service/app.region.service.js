@@ -2155,12 +2155,16 @@
              $uibModalInstance.dismiss('cancel');
          };
 
-        authorizeService.queryRolesInUser(userName).then(function(roles) {
-            console.log(roles);
-        });
-        authorizeService.queryCandidateRolesInUser(userName).then(function (roles) {
-            console.log(roles);
-        });
+        $scope.query = function() {
+            authorizeService.queryRolesInUser(userName).then(function(roles) {
+                $scope.existedRoles = roles;
+            });
+            authorizeService.queryCandidateRolesInUser(userName).then(function(roles) {
+                $scope.candidateRoles = roles;
+            });
+        };
+
+        $scope.query();
     })
 
     .factory('neighborDialogService', function ($uibModal, $log, networkElementService) {

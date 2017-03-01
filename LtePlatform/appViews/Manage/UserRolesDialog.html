@@ -7,12 +7,45 @@
 <div class="modal-body">
     <div class="row">
         <div class="col-md-5">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" dhref="">
+                            <strong>待添加角色</strong>
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse in">
+                    <div class="list-group">
+                        <div class="list-group-item" ng-repeat="role in candidateRoles">
+                            <a ng-click="addRole(role)" href="">{{role}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
         </div>
         <div class="col-md-2">
 
         </div>
         <div class="col-md-5">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" dhref="">
+                            <strong>已存在角色</strong>
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse in">
+                    <div class="list-group">
+                        <div class="list-group-item" ng-repeat="role in existedRoles">
+                            <a ng-click="removeRole(role)" href="">{{role}}</a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
             
         </div>
     </div>
