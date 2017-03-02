@@ -56,7 +56,7 @@
             });
         $urlRouterProvider.otherwise('/');
     })
-    .run(function($rootScope, appUrlService, appRegionService) {
+    .run(function ($rootScope, appUrlService, appRegionService, authorizeService) {
         $rootScope.rootPath = "/#/";
 
         $rootScope.page = {
@@ -92,11 +92,19 @@
             selected: "",
             options: []
         };
+        $rootScope.authorizeDistricts = [];
         appRegionService.initializeCities()
             .then(function(result) {
                 $rootScope.city.options = result;
                 $rootScope.city.selected = result[0];
             });
+        authorizeService.queryCurrentUserInfo().then(function (user) {
+            authorizeService.queryRolesInUser(user.userName).then(function(roles) {
+                angular.forEach(roles, function(role) {
+                    $rootScope.authorizeDistricts.push(authorizeService.queryRoleDistrict(role));
+                });
+            });
+        });
     })
     .controller("menu.root", function($scope, appUrlService) {
         var rootUrl = "/#";

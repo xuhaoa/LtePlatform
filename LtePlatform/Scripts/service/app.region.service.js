@@ -975,7 +975,14 @@
             ]
         }
     })
-    .factory('authorizeService', function (generalHttpService) {
+    .constant('roleDistrictDictionary', {
+        "顺德管理": "顺德",
+        "南海管理": "顺德",
+        "禅城管理": "顺德",
+        "三水管理": "顺德",
+        "高明管理": "顺德"
+    })
+    .factory('authorizeService', function (generalHttpService, roleDistrictDictionary) {
         return {
             queryCurrentUserInfo: function () {
                 return generalHttpService.getApiData('CurrentUser', {});
@@ -1043,6 +1050,9 @@
             },
             confirmEmail: function (input) {
                 return generalHttpService.postMvcData('/Manage/ConfirmEmail', input);
+            },
+            queryRoleDistrict: function(role) {
+                return roleDistrictDictionary[role];
             }
         };
     })

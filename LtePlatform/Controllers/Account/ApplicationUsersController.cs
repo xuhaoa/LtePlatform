@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 namespace LtePlatform.Controllers.Account
 {
     [ApiControl("应用程序用户管理控制器")]
-    [Authorize(Roles = "管理员")]
+    [Authorize]
     public class ApplicationUsersController : ApiController
     {
         private readonly ApplicationUserManager _userManager;
@@ -25,6 +25,7 @@ namespace LtePlatform.Controllers.Account
         [HttpGet]
         [ApiDoc("获得目前所有用户信息列表")]
         [ApiResponse("应用程序中已注册的所有用户信息列表")]
+        [Authorize(Roles = "管理员")]
         public IEnumerable<ApplicationUserViewModel> Get()
         {
             var context = ApplicationDbContext.Create();
@@ -39,6 +40,7 @@ namespace LtePlatform.Controllers.Account
         }
 
         [HttpGet]
+        [ApiDoc("获得指定用户具有的角色列表")]
         public IEnumerable<string> Get(string userName)
         {
             var user = _userManager.FindByName(userName);
@@ -48,6 +50,7 @@ namespace LtePlatform.Controllers.Account
     }
 
     [Authorize(Roles = "管理员")]
+    [ApiControl("")]
     public class ManageUsersController : ApiController
     {
         private readonly ApplicationUserManager _userManager;
@@ -61,6 +64,7 @@ namespace LtePlatform.Controllers.Account
         }
 
         [HttpGet]
+        [ApiDoc("获得指定用户不具有的角色列表")]
         public IEnumerable<string> Get(string userName)
         {
             var user = _userManager.FindByName(userName);
