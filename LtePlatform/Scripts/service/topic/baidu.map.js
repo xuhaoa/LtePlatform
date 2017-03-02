@@ -63,13 +63,30 @@
 					}
 					for (var i = 0; i < count; i++) {
 						var ply = new BMap.Polygon(rs.boundaries[i], {
-							strokeWeight: 2,
+							strokeWeight: 3,
 							strokeColor: "#ff0000",
 							fillOpacity: 0.1
 						}); //建立多边形覆盖物
 						map.addOverlay(ply); //添加覆盖物
 					}
 				});
+			},
+			addDistrictBoundary: function (district, color) {
+			    var bdary = new BMap.Boundary();
+			    bdary.get(district, function (rs) { //获取行政区域
+			        var count = rs.boundaries.length; //行政区域的点有多少个
+			        if (count === 0) {
+			            return;
+			        }
+			        for (var i = 0; i < count; i++) {
+			            var ply = new BMap.Polygon(rs.boundaries[i], {
+			                strokeWeight: 2,
+			                strokeColor: color || "#00ee22",
+			                fillOpacity: 0.1
+			            }); //建立多边形覆盖物
+			            map.addOverlay(ply); //添加覆盖物
+			        }
+			    });
 			},
 			removeOverlay: function(overlay) {
 				map.removeOverlay(overlay);

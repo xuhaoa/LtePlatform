@@ -977,15 +977,18 @@
     })
     .constant('roleDistrictDictionary', {
         "顺德管理": "顺德",
-        "南海管理": "顺德",
-        "禅城管理": "顺德",
-        "三水管理": "顺德",
-        "高明管理": "顺德"
+        "南海管理": "南海",
+        "禅城管理": "禅城",
+        "三水管理": "三水",
+        "高明管理": "高明"
     })
     .factory('authorizeService', function (generalHttpService, roleDistrictDictionary) {
         return {
             queryCurrentUserInfo: function () {
                 return generalHttpService.getApiData('CurrentUser', {});
+            },
+            queryCurrentUserName: function () {
+                return generalHttpService.getApiDataWithHeading('CurrentUserName', {});
             },
             queryAllUsers: function () {
                 return generalHttpService.getApiDataWithHeading('ApplicationUsers', {});

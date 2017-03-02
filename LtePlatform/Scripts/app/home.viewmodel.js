@@ -56,7 +56,7 @@
             });
         $urlRouterProvider.otherwise('/');
     })
-    .run(function ($rootScope, appUrlService, appRegionService, authorizeService) {
+    .run(function ($rootScope, appUrlService, appRegionService) {
         $rootScope.rootPath = "/#/";
 
         $rootScope.page = {
@@ -92,19 +92,11 @@
             selected: "",
             options: []
         };
-        $rootScope.authorizeDistricts = [];
         appRegionService.initializeCities()
             .then(function(result) {
                 $rootScope.city.options = result;
                 $rootScope.city.selected = result[0];
             });
-        authorizeService.queryCurrentUserInfo().then(function (user) {
-            authorizeService.queryRolesInUser(user.userName).then(function(roles) {
-                angular.forEach(roles, function(role) {
-                    $rootScope.authorizeDistricts.push(authorizeService.queryRoleDistrict(role));
-                });
-            });
-        });
     })
     .controller("menu.root", function($scope, appUrlService) {
         var rootUrl = "/#";
@@ -169,7 +161,7 @@
             ]
         }
     })
-    .controller("home.network", function($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService,
+    .controller("home.network", function ($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService, authorizeService,
         geometryService, flowService) {
         baiduMapService.initializeMap("map", 11);
         var colors = ['#10d3c3', '#d310c3', '#d32310', '#10c303', '#c3d320', '#c340d3'];
@@ -178,14 +170,21 @@
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary("佛山");
             var city = $scope.city.selected;
-            appRegionService.queryDistricts(city).then(function(districts) {
-                angular.forEach(districts, function(district, $index) {
-                    networkElementService.queryOutdoorCellSites(city, district).then(function(sites) {
-                        geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
-                            var xOffset = coors.x - sites[0].longtitute;
-                            var yOffset = coors.y - sites[0].lattitute;
-                            baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset);
-                        });
+            authorizeService.queryCurrentUserName().then(function (userName) {
+                authorizeService.queryRolesInUser(userName).then(function (roles) {
+                    angular.forEach(roles, function (role, $index) {
+                        var district = authorizeService.queryRoleDistrict(role);
+                        if (district) {
+                            baiduMapService.addDistrictBoundary(district, colors[$index]);
+                            networkElementService.queryOutdoorCellSites(city, district).then(function (sites) {
+                                geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
+                                    var xOffset = coors.x - sites[0].longtitute;
+                                    var yOffset = coors.y - sites[0].lattitute;
+                                    baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset);
+                                });
+                            });
+                        }
+
                     });
                 });
             });
@@ -196,14 +195,21 @@
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary("佛山");
             var city = $scope.city.selected;
-            appRegionService.queryDistricts(city).then(function (districts) {
-                angular.forEach(districts, function (district, $index) {
-                    networkElementService.queryIndoorCellSites(city, district).then(function (sites) {
-                        geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
-                            var xOffset = coors.x - sites[0].longtitute;
-                            var yOffset = coors.y - sites[0].lattitute;
-                            baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset);
-                        });
+            authorizeService.queryCurrentUserName().then(function (userName) {
+                authorizeService.queryRolesInUser(userName).then(function (roles) {
+                    angular.forEach(roles, function (role, $index) {
+                        var district = authorizeService.queryRoleDistrict(role);
+                        if (district) {
+                            baiduMapService.addDistrictBoundary(district, colors[$index]);
+                            networkElementService.queryIndoorCellSites(city, district).then(function (sites) {
+                                geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
+                                    var xOffset = coors.x - sites[0].longtitute;
+                                    var yOffset = coors.y - sites[0].lattitute;
+                                    baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset);
+                                });
+                            });
+                        }
+
                     });
                 });
             });
