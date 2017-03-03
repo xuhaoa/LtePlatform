@@ -180,7 +180,18 @@
                                 geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
                                     var xOffset = coors.x - sites[0].longtitute;
                                     var yOffset = coors.y - sites[0].lattitute;
-                                    baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset);
+                                    baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset, function(e) {
+                                        var xCenter = e.point.lng - xOffset;
+                                        var yCenter = e.point.lat - yOffset;
+                                        networkElementService.queryRangeSectors({
+                                            west: xCenter - 1e-6,
+                                            east: xCenter + 1e-6,
+                                            south: yCenter - 1e-6,
+                                            north: yCenter + 1e-6
+                                        }, []).then(function(cells) {
+                                            console.log(cells);
+                                        });
+                                    });
                                 });
                             });
                         }

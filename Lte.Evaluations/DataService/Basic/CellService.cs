@@ -88,16 +88,22 @@ namespace Lte.Evaluations.DataService.Basic
             var cells =
                 _repository.GetAllList(container.West, container.East, container.South, container.North)
                     .Where(x => x.IsInUse).ToList();
-            var excludeCells = from cell in cells join sector in container.ExcludedCells on new
-                {
-                    CellId = cell.ENodebId,
-                    cell.SectorId
-                } equals new
-                {
-                    sector.CellId,
-                    sector.SectorId
-                } select cell;
-            cells = cells.Except(excludeCells).ToList();
+            if (container.ExcludedCells.Any())
+            {
+                var excludeCells = from cell in cells
+                    join sector in container.ExcludedCells on new
+                    {
+                        CellId = cell.ENodebId,
+                        cell.SectorId
+                    } equals new
+                    {
+                        sector.CellId,
+                        sector.SectorId
+                    }
+                    select cell;
+                cells = cells.Except(excludeCells).ToList();
+            }
+
             return cells.Any()
                 ? Mapper.Map<IEnumerable<CellView>, IEnumerable<SectorView>>(
                     cells.Select(x => CellView.ConstructView(x, _eNodebRepository)))
