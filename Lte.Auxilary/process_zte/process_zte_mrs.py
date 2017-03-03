@@ -8,9 +8,10 @@ import json
 from customize_utilities import *
 import pymongo
 from pymongo import MongoClient
+import sys
 
 os.chdir('/home/wireless/zte_mrs')
-date_dir=generate_date_hours_shift(shift=-4)
+date_dir=generate_date_hours_shift(shift=-5)
 mrNames=['RSRP','Tadv','PowerHeadRoom','SinrUL','TadvRsrp']
 db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
 for mrName in mrNames:
@@ -23,7 +24,7 @@ for mrName in mrNames:
 for root, dirs_no, files in os.walk('/home/wireless/zte_mrs/'+date_dir):
     currrent_dir=os.path.join(root, '')
     for name in files:
-        if not name.endswith('0000.zip'):
+        if not name.endswith(sys.argv[1] + '00.zip'):
             continue
         print(name)
         try:
