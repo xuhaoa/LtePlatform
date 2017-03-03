@@ -162,7 +162,7 @@
         }
     })
     .controller("home.network", function ($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService, authorizeService,
-        geometryService, flowService) {
+        geometryService, flowService, parametersDialogService) {
         baiduMapService.initializeMap("map", 11);
         var colors = ['#10d3c3', '#d310c3', '#d32310', '#10c303', '#c3d320', '#c340d3'];
         $scope.showOutdoorSites = function () {
@@ -188,8 +188,10 @@
                                             east: xCenter + 1e-6,
                                             south: yCenter - 1e-6,
                                             north: yCenter + 1e-6
-                                        }, []).then(function(cells) {
-                                            console.log(cells);
+                                        }, []).then(function(sectors) {
+                                            angular.forEach(sectors, function (sector) {
+                                                parametersDialogService.showCellInfo(sector);
+                                            });
                                         });
                                     });
                                 });

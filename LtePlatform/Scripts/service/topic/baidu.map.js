@@ -207,10 +207,10 @@
 				});
 			},
 			addOneSectorToScope: function(sector, callBack, neighbor) {
-				map.addOverlay(sector);
 				sector.addEventListener("click", function() {
 					callBack(neighbor);
 				});
+				map.addOverlay(sector);
 			},
 			setCellFocus: function(longtitute, lattitute, zoomLevel) {
 				zoomLevel = zoomLevel || 15;
