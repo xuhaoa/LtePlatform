@@ -4,17 +4,19 @@ import shutil
 import pymongo
 from pymongo import MongoClient
 from customize_utilities import *
+import sys
 
 db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
   
 host_ip = '132.122.152.106'
 FOLDER_ZTE = ['/MR_ZTE_SOURCE_D/']
-sub_ips=['132.122.151.115','132.122.151.229','132.122.151.232','132.122.151.96','132.122.151.183','132.122.151.181','132.122.155.213','132.122.155.214','132.122.155.216','132.122.155.138','132.122.155.215']
+sub_ips=['132.122.151.232']
 
 if not os.path.isdir('zte_mrs'):
     os.mkdir('zte_mrs')
 os.chdir('zte_mrs')
-date_dir=generate_date_twohours_ago()
+delay=-int(sys.argv[1])-2
+date_dir=generate_date_hours_shift(shift=delay)
 _DFlist = list(db['DFlist_'+date_dir].find({}, {'dfName': 1, '_id': 0}))      
 DFList = [item.get('dfName') for item in _DFlist]
 if not os.path.isdir(date_dir):
@@ -27,10 +29,7 @@ try:
     host = ftputil.FTPHost(host_ip, 'ouyh18', 'O123#')
     downloader=MrDownloader(host,sub_ips,DFList,db,host_ip)
     for folder in FOLDER_ZTE:
-        ftpdir=generate_time_dir(prefix = folder)
-        print(ftpdir)
-        downloader.download_mrs_zte(ftpdir)
-        ftpdir=generate_time_dir_shift(prefix = folder, shift=-3)
+        ftpdir=generate_time_dir_shift(prefix = folder, shift=delay)
         print(ftpdir)
         downloader.download_mrs_zte(ftpdir)
     host.close()

@@ -325,10 +325,16 @@
     <Content Include="zte_download\zte_download_mro_125_138_delay1.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="zte_download\zte_download_mro_125_138_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="zte_download\zte_download_mro_125_181.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mro_125_181_delay1.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_mro_125_181_delay2.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mro_125_183.sh">
@@ -337,10 +343,16 @@
     <Content Include="zte_download\zte_download_mro_125_183_delay1.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="zte_download\zte_download_mro_125_183_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="zte_download\zte_download_mro_125_229.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mro_125_229_delay1.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_mro_125_229_delay2.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mro_125_delay1.sh">
@@ -367,10 +379,16 @@
     <Content Include="zte_download\zte_download_mrs_125_138_delay1.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="zte_download\zte_download_mrs_125_138_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="zte_download\zte_download_mrs_125_181.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mrs_125_181_delay1.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_mrs_125_181_delay2.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mrs_125_183.sh">
@@ -379,10 +397,16 @@
     <Content Include="zte_download\zte_download_mrs_125_183_delay1.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="zte_download\zte_download_mrs_125_183_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="zte_download\zte_download_mrs_125_229.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mrs_125_229_delay1.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_mrs_125_229_delay2.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mrs_125_delay1.sh">
@@ -396,6 +420,12 @@
     <Content Include="phpApi\wandonglouyu.php" />
     <Content Include="phpApi\zonghexinxiConnection.php" />
     <Content Include="Practise\ftp_test.sh" />
+    <Content Include="zte_download\zte_download_mrs_delay1.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_mrs_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
