@@ -189,9 +189,7 @@
                                             south: yCenter - 1e-6,
                                             north: yCenter + 1e-6
                                         }, []).then(function(sectors) {
-                                            angular.forEach(sectors, function (sector) {
-                                                parametersDialogService.showCellInfo(sector);
-                                            });
+                                            parametersDialogService.showCellsInfo(sectors);
                                         });
                                     });
                                 });

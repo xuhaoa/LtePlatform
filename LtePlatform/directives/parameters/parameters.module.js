@@ -796,6 +796,73 @@
             templateUrl: parametersRoot + 'cell/CellDetails.html'
         }
     })
+
+    .controller('CellsBasicInfoController', function($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                {
+                    name: '小区名称',
+                    field: 'cellName'
+                },
+                {
+                    field: 'frequency',
+                    name: '频点',
+                    cellTooltip: function (row, col) {
+                        return row.entity.otherInfos;
+                    }
+                },
+                {
+                    field: 'indoor',
+                    name: '室内外',
+                    cellTooltip: function (row, col) {
+                        return row.entity.otherInfos;
+                    }
+                },
+                {
+                    field: 'height',
+                    name: '天线挂高',
+                    cellTooltip: function (row, col) {
+                        return row.entity.otherInfos;
+                    }
+                },
+                {
+                    field: 'azimuth',
+                    name: '方位角',
+                    cellTooltip: function (row, col) {
+                        return row.entity.otherInfos;
+                    }
+                },
+                {
+                    field: 'downTilt',
+                    name: '下倾',
+                    cellTooltip: function (row, col) {
+                        return row.entity.otherInfos;
+                    }
+                },
+                {
+                    field: 'antennaGain',
+                    name: '天线增益(dB)',
+                    cellTooltip: function (row, col) {
+                        return row.entity.otherInfos;
+                    },
+                    headerTooltip: function (col) {
+                        return col.displayName;
+                    }
+                }
+            ],
+            data: []
+        };
+    })
+    .directive('cellsBasicInfoTable', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'CellsBasicInfoController',
+            scope: {
+                items: '='
+            },
+            argumentName: 'items'
+        }, $compile);
+    })
+
     .directive('lteCellBasicInfo', function(parametersRoot) {
         return {
             restrict: 'ECMA',

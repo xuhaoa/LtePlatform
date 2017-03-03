@@ -355,6 +355,12 @@
     <Content Include="zte_download\zte_download_mro_125_delay1.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="zte_download\zte_download_mro_delay1.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_mro_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="zte_download\zte_download_mrs.sh">
       <SubType>Code</SubType>
     </Content>

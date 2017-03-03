@@ -15,7 +15,8 @@ sub_ips=[sys.argv[1]]
 if not os.path.isdir('zte_mro'):
     os.mkdir('zte_mro')
 os.chdir('zte_mro')
-date_dir=generate_date_twohours_ago()
+delay=-int(sys.argv[3])-2
+date_dir=generate_date_hours_shift(shift=delay)
 _DFlist = list(db['DFlist_'+date_dir].find({}, {'dfName': 1, '_id': 0}))      
 DFList = [item.get('dfName') for item in _DFlist]
 if not os.path.isdir(date_dir):
@@ -27,8 +28,7 @@ try:
     print("######")
     host = ftputil.FTPHost(host_ip, 'ouyh18', 'O123#')
     downloader=MrDownloader(host,sub_ips,DFList,db,host_ip)
-    for folder in FOLDER_ZTE:
-        delay=-int(sys.argv[3])-2
+    for folder in FOLDER_ZTE:        
         ftpdir=generate_time_dir_shift(prefix = folder, shift=delay)
         print(ftpdir)
         downloader.download_zte(ftpdir)

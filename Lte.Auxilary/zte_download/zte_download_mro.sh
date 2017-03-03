@@ -1,1 +1,1 @@
-/home/wireless/env/py3env/bin/python /home/wireless/Public/ftp_zte.py
+/home/wireless/env/py3env/bin/python /home/wireless/Public/ftp_zte.py 0

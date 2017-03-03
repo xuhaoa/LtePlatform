@@ -569,6 +569,27 @@
 					$log.info('Modal dismissed at: ' + new Date());
 				});
 			},
+			showCellsInfo: function (sectors) {
+			    var modalInstance = $uibModal.open({
+			        animation: true,
+			        templateUrl: '/appViews/Parameters/Map/CellsMapInfoBox.html',
+			        controller: 'map.sectors.dialog',
+			        size: 'lg',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "小区信息列表";
+			            },
+			            sectors: function () {
+			                return sectors;
+			            }
+			        }
+			    });
+			    modalInstance.result.then(function (nei) {
+			        console.log(nei);
+			    }, function () {
+			        $log.info('Modal dismissed at: ' + new Date());
+			    });
+			},
 			showCollegeCellInfo: function (cell) {
 				var modalInstance = $uibModal.open({
 					animation: true,
@@ -729,6 +750,19 @@
 		interFreqHoService.queryCellParameters($scope.eNodebId, $scope.sectorId).then(function (result) {
 			$scope.interFreqHo = result;
 		});
+	})
+
+	.controller('map.sectors.dialog', function ($scope, $uibModalInstance, sectors, dialogTitle) {
+	    $scope.sectors = sectors;
+	    $scope.dialogTitle = dialogTitle;
+	    $scope.ok = function () {
+	        $uibModalInstance.close($scope.sectors);
+	    };
+
+	    $scope.cancel = function () {
+	        $uibModalInstance.dismiss('cancel');
+	    };
+
 	})
 	.controller('college.cell.dialog', function($scope, $uibModalInstance, intraFreqHoService, interFreqHoService,
 		cell, dialogTitle) {
