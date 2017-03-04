@@ -42,4 +42,7 @@ for root, dirs_no, files in os.walk('/home/wireless/zte_mrs/'+date_dir):
                 for item_measurement in item.iterchildren():
                     reader.read_zte(item_measurement, item_id)
         print('insert from ', currrent_dir + name)
-        os.remove(currrent_dir + name)
+        try:
+            os.remove(currrent_dir + name)
+        except:
+            print('Unable to delete this file: ' + name)

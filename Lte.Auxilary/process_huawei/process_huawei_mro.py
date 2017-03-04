@@ -11,7 +11,7 @@ from pymongo import MongoClient
 import sys
 
 os.chdir('/home/wireless/huawei_mro')
-date_dir=generate_date_hours_shift(shift=-4)
+date_dir=generate_date_hours_shift(shift=-5)
 afilter = ['Qci', 'Utra', 'Gsm', 'Tdd']
 _startTime=''
 db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
@@ -73,4 +73,7 @@ for root, dirs_no, files in os.walk('/home/wireless/huawei_mro/'+date_dir):
                         item.update({'StartTime': startTime})
                     db['precise_'+date_dir].insert_many(neighbor_output)
         print('insert from ', currrent_dir + name)
-        os.remove(currrent_dir + name)
+        try:
+            os.remove(currrent_dir + name)
+        except:
+            print('Unable to delete this file: ' + name)

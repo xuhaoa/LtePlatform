@@ -72,4 +72,7 @@ for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
                         item.update({'StartTime': startTime})
                     db['precise_'+date_dir].insert_many(neighbor_output)
         print('insert from ', currrent_dir + name)
-        os.remove(currrent_dir + name)
+        try:
+            os.remove(currrent_dir + name)
+        except:
+            print('Unable to delete this file: ' + name)

@@ -1,1 +1,1 @@
-/home/wireless/env/py3env/bin/python /home/wireless/Public/process_huawei_mrs_15.py
+/home/wireless/env/py3env/bin/python /home/wireless/Public/process_huawei_mrs.py 15
