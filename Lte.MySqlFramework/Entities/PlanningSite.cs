@@ -15,6 +15,10 @@ namespace Lte.MySqlFramework.Entities
         
         public string PlanName { get; set; }
 
+        public string TowerNum { get; set; }
+        
+        public string TowerName { get; set; }
+
         public string FormalName { get; set; }
 
         public double Longtitute { get; set; }
@@ -45,6 +49,12 @@ namespace Lte.MySqlFramework.Entities
 
         [ExcelColumn("规划名")]
         public string PlanName { get; set; }
+
+        [ExcelColumn("铁塔编号")]
+        public string TowerNum { get; set; }
+
+        [ExcelColumn("铁塔站名")]
+        public string TowerName { get; set; }
 
         [ExcelColumn("电信出图站名")]
         public string FormalName { get; set; }

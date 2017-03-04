@@ -138,7 +138,7 @@ namespace Lte.Evaluations.DataService.Kpi
         public string ImportPlanningSite(string path)
         {
             var factory = new ExcelQueryFactory { FileName = path };
-            var stats = (from c in factory.Worksheet<PlanningSiteExcel>("16年谈点清单（124+764+376）") select c).ToList();
+            var stats = (from c in factory.Worksheet<PlanningSiteExcel>("谈点清单") select c).ToList();
             var count =
                 _planningSiteRepository.Import<IPlanningSiteRepository, PlanningSite, PlanningSiteExcel, Town>(stats, _towns);
             return "完成规则站点信息导入" + count + "条";

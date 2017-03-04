@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class rrc_huawei_add_fields : IMigrationMetadata
+    public sealed partial class PlanningSite_AddFields : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(rrc_huawei_add_fields));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(PlanningSite_AddFields));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702190035317_rrc_huawei_add_fields"; }
+            get { return "201703040759297_PlanningSite_AddFields"; }
         }
         
         string IMigrationMetadata.Source
