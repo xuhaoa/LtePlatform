@@ -435,12 +435,12 @@
 				sourceFunc(sourceList);
 			},
 			queryNearestRange: function(xCenter, yCenter) {
-			    return {
-			        west: xCenter - 1e-6,
-			        east: xCenter + 1e-6,
-			        south: yCenter - 1e-6,
-			        north: yCenter + 1e-6
-			    };
+				return {
+					west: xCenter - 1e-6,
+					east: xCenter + 1e-6,
+					south: yCenter - 1e-6,
+					north: yCenter + 1e-6
+				};
 			}
 		};
 	})
@@ -1200,6 +1200,9 @@
 						deferred.reject(reason);
 					});
 				return deferred.promise;;
+			},
+			queryMapColors: function() {
+				return ['#10d3c3', '#d310c3', '#d32310', '#10c303', '#c3d320', '#c340d3'];
 			}
 		};
 	});

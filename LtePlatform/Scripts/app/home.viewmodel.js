@@ -48,7 +48,7 @@
                         controller: "menu.plan"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Network.html",
+                        templateUrl: viewDir + "Plan.html",
                         controller: "home.plan"
                     }
                 },
@@ -164,7 +164,7 @@
     .controller("home.network", function ($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService, authorizeService,
         geometryService, flowService, parametersDialogService, neGeometryService) {
         baiduMapService.initializeMap("map", 11);
-        var colors = ['#10d3c3', '#d310c3', '#d32310', '#10c303', '#c3d320', '#c340d3'];
+        var colors = geometryService.queryMapColors();
         $scope.showOutdoorSites = function () {
             $scope.currentView = "室外站点";
             baiduMapService.clearOverlays();
@@ -303,8 +303,42 @@
         baiduMapService.addCityBoundary("佛山");
 
     })
-    .controller("home.plan", function ($scope, baiduMapService) {
+    .controller("home.plan", function ($scope, baiduMapService, authorizeService, networkElementService, geometryService, 
+        neGeometryService, parametersDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+        $scope.showAllSites = function() {
+            $scope.currentView = "所有站点";
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            var city = $scope.city.selected;
+            var colors = geometryService.queryMapColors();
 
+            authorizeService.queryCurrentUserName().then(function (userName) {
+                authorizeService.queryRolesInUser(userName).then(function (roles) {
+                    angular.forEach(roles, function (role, $index) {
+                        var district = authorizeService.queryRoleDistrict(role);
+                        if (district) {
+                            baiduMapService.addDistrictBoundary(district, colors[$index]);
+                            networkElementService.queryPlanningSites(city, district).then(function (sites) {
+                                geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
+                                    var xOffset = coors.x - sites[0].longtitute;
+                                    var yOffset = coors.y - sites[0].lattitute;
+                                    baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset, function (e) {
+                                        var xCenter = e.point.lng - xOffset;
+                                        var yCenter = e.point.lat - yOffset;
+                                        networkElementService.queryRangeSectors(
+                                            neGeometryService.queryNearestRange(xCenter, yCenter), []).then(function (sectors) {
+                                                parametersDialogService.showCellsInfo(sectors);
+                                            });
+                                    });
+                                });
+                            });
+                        }
+
+                    });
+                });
+            });
+        };
+        $scope.showAllSites();
     });
