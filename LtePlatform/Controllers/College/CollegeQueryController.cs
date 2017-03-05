@@ -58,6 +58,7 @@ namespace LtePlatform.Controllers.College
         } 
     }
 
+    [ApiControl("校园名称查询控制器")]
     public class CollegeNameController : ApiController
     {
         private readonly CollegeStatService _service;

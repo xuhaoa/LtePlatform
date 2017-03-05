@@ -116,5 +116,28 @@ namespace Lte.Evaluations.DataService.Basic
             });
             return views;
         }
+
+        public IEnumerable<PlanningSiteView> GetENodebsByDistrict(string city, string district)
+        {
+            var towns = _townRepository.GetAllList(city, district);
+            var views = new List<PlanningSiteView>();
+            foreach (
+                var stats in
+                    towns.Select(
+                        town =>
+                            _planningSiteRepository.GetAllList(x => x.TownId == town.Id)
+                                .MapTo<List<PlanningSiteView>>()
+                                .Select(x =>
+                                {
+                                    x.District = district;
+                                    x.Town = town.TownName;
+                                    return x;
+                                })))
+            {
+                views.AddRange(stats);
+            }
+            return views;
+        }
+
     }
 }

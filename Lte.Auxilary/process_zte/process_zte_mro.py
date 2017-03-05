@@ -33,6 +33,9 @@ try:
 except:
     print('The colletion is initialized')
 
+_DFlist = list(db['Mro_DFlist_'+date_dir].find({}, {'dfName': 1, '_id': 0}))      
+DFList = [item.get('dfName') for item in _DFlist]
+
 for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
     currrent_dir=os.path.join(root, '')
     for name in files:
@@ -40,6 +43,8 @@ for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
             continue
         reader=MroReader(afilter)
         print(name)
+        if name in DFList:
+            pass
         try:
             zFile=zipfile.ZipFile(currrent_dir + name, 'r')
             root = etree.fromstring(zFile.read(zFile.namelist()[0]))
@@ -72,6 +77,8 @@ for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
                         item.update({'StartTime': startTime})
                     db['precise_'+date_dir].insert_many(neighbor_output)
         print('insert from ', currrent_dir + name)
+        DFList.append(name)
+        db['Mro_DFlist_'+date_dir].insert({'dfName': name})
         try:
             os.remove(currrent_dir + name)
         except:

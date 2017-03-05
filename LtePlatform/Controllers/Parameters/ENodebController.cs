@@ -122,6 +122,22 @@ namespace LtePlatform.Controllers.Parameters
         }
     }
 
+    public class PlanningSiteRangeController : ApiController
+    {
+        private readonly PlanningQueryService _service;
+
+        public PlanningSiteRangeController(PlanningQueryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<PlanningSiteView> Get(double west, double east, double south, double north)
+        {
+            return _service.QueryPlanningSiteViews(west, east, south, north);
+        } 
+    }
+
     public class PlanningSiteController : ApiController
     {
         private readonly PlanningQueryService _service;
@@ -132,9 +148,9 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
-        public IEnumerable<PlanningSiteView> Get(double west, double east, double south, double north)
+        public IEnumerable<PlanningSiteView> Get(string city, string district)
         {
-            return _service.QueryPlanningSiteViews(west, east, south, north);
+            return _service.GetENodebsByDistrict(city, district);
         } 
     }
 }

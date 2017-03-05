@@ -21,12 +21,17 @@ for mrName in mrNames:
     except:
         print('The colletion is initialized')
 
+_DFlist = list(db['Mrs_DFlist_'+date_dir].find({}, {'dfName': 1, '_id': 0}))      
+DFList = [item.get('dfName') for item in _DFlist]
+
 for root, dirs_no, files in os.walk('/home/wireless/zte_mrs/'+date_dir):
     currrent_dir=os.path.join(root, '')
     for name in files:
         if not name.endswith(sys.argv[1] + '00.zip'):
             continue
         print(name)
+        if name in DFList:
+            pass
         try:
             zFile=zipfile.ZipFile(currrent_dir + name, 'r')
             root = etree.fromstring(zFile.read(zFile.namelist()[0]))
@@ -42,6 +47,8 @@ for root, dirs_no, files in os.walk('/home/wireless/zte_mrs/'+date_dir):
                 for item_measurement in item.iterchildren():
                     reader.read_zte(item_measurement, item_id)
         print('insert from ', currrent_dir + name)
+        DFList.append(name)
+        db['Mrs_DFlist_'+date_dir].insert({'dfName': name})
         try:
             os.remove(currrent_dir + name)
         except:
