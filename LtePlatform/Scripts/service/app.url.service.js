@@ -433,6 +433,14 @@
 					}
 				}
 				sourceFunc(sourceList);
+			},
+			queryNearestRange: function(xCenter, yCenter) {
+			    return {
+			        west: xCenter - 1e-6,
+			        east: xCenter + 1e-6,
+			        south: yCenter - 1e-6,
+			        north: yCenter + 1e-6
+			    };
 			}
 		};
 	})
@@ -526,20 +534,20 @@
 				return result;
 			},
 			generateColumnDataByKeys: function (stats, categoriesKey, dataKeys) {
-			    var result = {
-			        categories: [],
-			        dataList: []
-			    };
-			    angular.forEach(dataKeys, function (key) {
-			        result.dataList.push([]);
-			    });
-			    angular.forEach(stats, function (stat) {
-			        result.categories.push(stat[categoriesKey]);
-			        angular.forEach(dataKeys, function (key, index) {
-			            result.dataList[index].push(stat[key]);
-			        });
-			    });
-			    return result;
+				var result = {
+					categories: [],
+					dataList: []
+				};
+				angular.forEach(dataKeys, function (key) {
+					result.dataList.push([]);
+				});
+				angular.forEach(stats, function (stat) {
+					result.categories.push(stat[categoriesKey]);
+					angular.forEach(dataKeys, function (key, index) {
+						result.dataList[index].push(stat[key]);
+					});
+				});
+				return result;
 			},
 			generateCompoundStats: function (views, getType, getSubType, getTotal) {
 				var stats = [];

@@ -162,7 +162,7 @@
         }
     })
     .controller("home.network", function ($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService, authorizeService,
-        geometryService, flowService, parametersDialogService) {
+        geometryService, flowService, parametersDialogService, neGeometryService) {
         baiduMapService.initializeMap("map", 11);
         var colors = ['#10d3c3', '#d310c3', '#d32310', '#10c303', '#c3d320', '#c340d3'];
         $scope.showOutdoorSites = function () {
@@ -183,12 +183,8 @@
                                     baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset, function(e) {
                                         var xCenter = e.point.lng - xOffset;
                                         var yCenter = e.point.lat - yOffset;
-                                        networkElementService.queryRangeSectors({
-                                            west: xCenter - 1e-6,
-                                            east: xCenter + 1e-6,
-                                            south: yCenter - 1e-6,
-                                            north: yCenter + 1e-6
-                                        }, []).then(function(sectors) {
+                                        networkElementService.queryRangeSectors(
+                                            neGeometryService.queryNearestRange(xCenter, yCenter), []).then(function (sectors) {
                                             parametersDialogService.showCellsInfo(sectors);
                                         });
                                     });
@@ -216,7 +212,14 @@
                                 geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
                                     var xOffset = coors.x - sites[0].longtitute;
                                     var yOffset = coors.y - sites[0].lattitute;
-                                    baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset);
+                                    baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset, function (e) {
+                                        var xCenter = e.point.lng - xOffset;
+                                        var yCenter = e.point.lat - yOffset;
+                                        networkElementService.queryRangeSectors(
+                                            neGeometryService.queryNearestRange(xCenter, yCenter), []).then(function (sectors) {
+                                                parametersDialogService.showCellsInfo(sectors);
+                                            });
+                                    });
                                 });
                             });
                         }

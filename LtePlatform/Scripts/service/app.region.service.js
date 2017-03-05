@@ -455,7 +455,7 @@
                 });
             },
             queryRangePlanningSites: function (range) {
-                return generalHttpService.getApiData('PlanningSite', {
+                return generalHttpService.getApiData('PlanningSiteRange', {
                     west: range.west,
                     east: range.east,
                     south: range.south,
@@ -514,6 +514,12 @@
             },
             queryIndoorCellSites: function (city, district) {
                 return generalHttpService.getApiData('IndoorCellSite', {
+                    city: city,
+                    district: district
+                });
+            },
+            queryPlanningSites: function(city, district) {
+                return generalHttpService.getApiData('PlanningSite', {
                     city: city,
                     district: district
                 });
