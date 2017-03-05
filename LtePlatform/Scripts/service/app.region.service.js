@@ -523,6 +523,18 @@
                     city: city,
                     district: district
                 });
+            },
+            queryOpenningSites: function (city, district) {
+                return generalHttpService.getApiData('OpenningSite', {
+                    city: city,
+                    district: district
+                });
+            },
+            queryOpennedSites: function (city, district) {
+                return generalHttpService.getApiData('OpennedSite', {
+                    city: city,
+                    district: district
+                });
             }
         };
     })

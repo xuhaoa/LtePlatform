@@ -10,6 +10,8 @@ using Lte.Parameters.Entities.Basic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.MySqlFramework.Entities;
+using Lte.Parameters.Entities;
 
 namespace Lte.Evaluations.DataService.Basic
 {
@@ -117,7 +119,7 @@ namespace Lte.Evaluations.DataService.Basic
             return views;
         }
 
-        public IEnumerable<PlanningSiteView> GetENodebsByDistrict(string city, string district)
+        public IEnumerable<PlanningSiteView> GetENodebsByDistrict(string city, string district, bool? isOpened = null)
         {
             var towns = _townRepository.GetAllList(city, district);
             var views = new List<PlanningSiteView>();
@@ -125,7 +127,7 @@ namespace Lte.Evaluations.DataService.Basic
                 var stats in
                     towns.Select(
                         town =>
-                            _planningSiteRepository.GetAllList(x => x.TownId == town.Id)
+                            GetPlanningSites(town, isOpened)
                                 .MapTo<List<PlanningSiteView>>()
                                 .Select(x =>
                                 {
@@ -139,5 +141,12 @@ namespace Lte.Evaluations.DataService.Basic
             return views;
         }
 
+        private List<PlanningSite> GetPlanningSites(Town town, bool? isOpened)
+        {
+            if (isOpened==null) return _planningSiteRepository.GetAllList(x => x.TownId == town.Id);
+            if (isOpened == true)
+                return _planningSiteRepository.GetAllList(x => x.TownId == town.Id && x.FinishedDate != null);
+            return _planningSiteRepository.GetAllList(x => x.TownId == town.Id && x.FinishedDate == null);
+        }
     }
 }

@@ -153,4 +153,36 @@ namespace LtePlatform.Controllers.Parameters
             return _service.GetENodebsByDistrict(city, district);
         } 
     }
+
+    public class OpenningSiteController : ApiController
+    {
+        private readonly PlanningQueryService _service;
+
+        public OpenningSiteController(PlanningQueryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<PlanningSiteView> Get(string city, string district)
+        {
+            return _service.GetENodebsByDistrict(city, district, false);
+        }
+    }
+
+    public class OpennedSiteController : ApiController
+    {
+        private readonly PlanningQueryService _service;
+
+        public OpennedSiteController(PlanningQueryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<PlanningSiteView> Get(string city, string district)
+        {
+            return _service.GetENodebsByDistrict(city, district, true);
+        }
+    }
 }

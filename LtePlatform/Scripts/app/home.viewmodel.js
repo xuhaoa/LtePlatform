@@ -307,12 +307,12 @@
         neGeometryService, parametersDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+        var colors = geometryService.queryMapColors();
         $scope.showAllSites = function() {
             $scope.currentView = "所有站点";
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary("佛山");
             var city = $scope.city.selected;
-            var colors = geometryService.queryMapColors();
 
             authorizeService.queryCurrentUserName().then(function (userName) {
                 authorizeService.queryRolesInUser(userName).then(function (roles) {
@@ -334,6 +334,76 @@
                                                 }
                                                 
                                             });
+                                    });
+                                });
+                            });
+                        }
+
+                    });
+                });
+            });
+        };
+        $scope.showOpenningSites = function() {
+            $scope.currentView = "待开通站点";
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            var city = $scope.city.selected;
+
+            authorizeService.queryCurrentUserName().then(function(userName) {
+                authorizeService.queryRolesInUser(userName).then(function(roles) {
+                    angular.forEach(roles, function(role, $index) {
+                        var district = authorizeService.queryRoleDistrict(role);
+                        if (district) {
+                            baiduMapService.addDistrictBoundary(district, colors[$index]);
+                            networkElementService.queryOpenningSites(city, district).then(function(sites) {
+                                geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
+                                    var xOffset = coors.x - sites[0].longtitute;
+                                    var yOffset = coors.y - sites[0].lattitute;
+                                    baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset, function(e) {
+                                        var xCenter = e.point.lng - xOffset;
+                                        var yCenter = e.point.lat - yOffset;
+                                        networkElementService.queryRangePlanningSites(
+                                            neGeometryService.queryNearestRange(xCenter, yCenter)).then(function(sectors) {
+                                            if (sectors.length > 0) {
+                                                parametersDialogService.showPlanningSitesInfo(sectors[0]);
+                                            }
+
+                                        });
+                                    });
+                                });
+                            });
+                        }
+
+                    });
+                });
+            });
+        };
+        $scope.showOpenSites = function() {
+            $scope.currentView = "已开通站点";
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            var city = $scope.city.selected;
+
+            authorizeService.queryCurrentUserName().then(function(userName) {
+                authorizeService.queryRolesInUser(userName).then(function(roles) {
+                    angular.forEach(roles, function(role, $index) {
+                        var district = authorizeService.queryRoleDistrict(role);
+                        if (district) {
+                            baiduMapService.addDistrictBoundary(district, colors[$index]);
+                            networkElementService.queryOpennedSites(city, district).then(function(sites) {
+                                geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
+                                    var xOffset = coors.x - sites[0].longtitute;
+                                    var yOffset = coors.y - sites[0].lattitute;
+                                    baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset, function(e) {
+                                        var xCenter = e.point.lng - xOffset;
+                                        var yCenter = e.point.lat - yOffset;
+                                        networkElementService.queryRangePlanningSites(
+                                            neGeometryService.queryNearestRange(xCenter, yCenter)).then(function(sectors) {
+                                            if (sectors.length > 0) {
+                                                parametersDialogService.showPlanningSitesInfo(sectors[0]);
+                                            }
+
+                                        });
                                     });
                                 });
                             });
