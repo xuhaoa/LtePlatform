@@ -461,27 +461,14 @@
             data: []
         };
     })
-    .directive('cellDialogTable', function ($compile) {
-        return {
-            controller: 'CellDialogController',
-            restrict: 'EA',
-            replace: true,
+    .directive('cellDialogTable', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'CellDialogController',
             scope: {
                 items: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
+            argumentName: 'items'
+        }, $compile);;
     })
 
     .controller('CellRruController', function ($scope) {
@@ -864,7 +851,7 @@
         };
     })
     .directive('cellsBasicInfoTable', function ($compile, calculateService) {
-        return calculateService.generateGridDirective({
+        return calculateService.generateShortGridDirective({
             controllerName: 'CellsBasicInfoController',
             scope: {
                 items: '='
