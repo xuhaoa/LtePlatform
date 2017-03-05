@@ -327,9 +327,12 @@
                                     baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset, function (e) {
                                         var xCenter = e.point.lng - xOffset;
                                         var yCenter = e.point.lat - yOffset;
-                                        networkElementService.queryRangeSectors(
-                                            neGeometryService.queryNearestRange(xCenter, yCenter), []).then(function (sectors) {
-                                                parametersDialogService.showCellsInfo(sectors);
+                                        networkElementService.queryRangePlanningSites(
+                                            neGeometryService.queryNearestRange(xCenter, yCenter)).then(function (sectors) {
+                                                if (sectors.length > 0) {
+                                                    parametersDialogService.showPlanningSitesInfo(sectors[0]);
+                                                }
+                                                
                                             });
                                     });
                                 });

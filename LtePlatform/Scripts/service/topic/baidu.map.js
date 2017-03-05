@@ -72,21 +72,21 @@
 				});
 			},
 			addDistrictBoundary: function (district, color) {
-			    var bdary = new BMap.Boundary();
-			    bdary.get(district, function (rs) { //获取行政区域
-			        var count = rs.boundaries.length; //行政区域的点有多少个
-			        if (count === 0) {
-			            return;
-			        }
-			        for (var i = 0; i < count; i++) {
-			            var ply = new BMap.Polygon(rs.boundaries[i], {
-			                strokeWeight: 2,
-			                strokeColor: color || "#00ee22",
-			                fillOpacity: 0.1
-			            }); //建立多边形覆盖物
-			            map.addOverlay(ply); //添加覆盖物
-			        }
-			    });
+				var bdary = new BMap.Boundary();
+				bdary.get(district, function (rs) { //获取行政区域
+					var count = rs.boundaries.length; //行政区域的点有多少个
+					if (count === 0) {
+						return;
+					}
+					for (var i = 0; i < count; i++) {
+						var ply = new BMap.Polygon(rs.boundaries[i], {
+							strokeWeight: 2,
+							strokeColor: color || "#00ee22",
+							fillOpacity: 0.1
+						}); //建立多边形覆盖物
+						map.addOverlay(ply); //添加覆盖物
+					}
+				});
 			},
 			removeOverlay: function(overlay) {
 				map.removeOverlay(overlay);
@@ -570,25 +570,46 @@
 				});
 			},
 			showCellsInfo: function (sectors) {
-			    var modalInstance = $uibModal.open({
-			        animation: true,
-			        templateUrl: '/appViews/Parameters/Map/CellsMapInfoBox.html',
-			        controller: 'map.sectors.dialog',
-			        size: 'lg',
-			        resolve: {
-			            dialogTitle: function () {
-			                return "小区信息列表";
-			            },
-			            sectors: function () {
-			                return sectors;
-			            }
-			        }
-			    });
-			    modalInstance.result.then(function (nei) {
-			        console.log(nei);
-			    }, function () {
-			        $log.info('Modal dismissed at: ' + new Date());
-			    });
+				var modalInstance = $uibModal.open({
+					animation: true,
+					templateUrl: '/appViews/Parameters/Map/CellsMapInfoBox.html',
+					controller: 'map.sectors.dialog',
+					size: 'lg',
+					resolve: {
+						dialogTitle: function () {
+							return "小区信息列表";
+						},
+						sectors: function () {
+							return sectors;
+						}
+					}
+				});
+				modalInstance.result.then(function (nei) {
+					console.log(nei);
+				}, function () {
+					$log.info('Modal dismissed at: ' + new Date());
+				});
+			},
+			showPlanningSitesInfo: function (site) {
+				var modalInstance = $uibModal.open({
+					animation: true,
+					templateUrl: '/appViews/Home/PlanningDetails.html',
+					controller: 'map.site.dialog',
+					size: 'lg',
+					resolve: {
+						dialogTitle: function () {
+							return "规划站点信息:"+site.formalName;
+						},
+						site: function () {
+							return site;
+						}
+					}
+				});
+				modalInstance.result.then(function (nei) {
+					console.log(nei);
+				}, function () {
+					$log.info('Modal dismissed at: ' + new Date());
+				});
 			},
 			showCollegeCellInfo: function (cell) {
 				var modalInstance = $uibModal.open({
@@ -753,17 +774,81 @@
 	})
 
 	.controller('map.sectors.dialog', function ($scope, $uibModalInstance, sectors, dialogTitle) {
-	    $scope.sectors = sectors;
-	    $scope.dialogTitle = dialogTitle;
-	    $scope.ok = function () {
-	        $uibModalInstance.close($scope.sectors);
-	    };
+		$scope.sectors = sectors;
+		$scope.dialogTitle = dialogTitle;
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.sectors);
+		};
 
-	    $scope.cancel = function () {
-	        $uibModalInstance.dismiss('cancel');
-	    };
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
 
 	})
+
+	.controller('map.site.dialog', function($scope, $uibModalInstance, site, dialogTitle) {
+		$scope.itemGroups = [
+			{
+				items: [
+					{
+						key: '正式名称',
+						value: site.formalName
+					}, {
+						key: '规划名称',
+						value: site.planName
+					}, {
+					    key: '规划编号',
+					    value: site.planNum
+					}
+				]
+			}, {
+				items: [
+					{
+						key: '区域',
+						value: site.district
+					}, {
+						key: '镇区',
+						value: site.town
+					}, {
+					    key: '获取日期',
+					    value: site.gottenDate
+					}
+				]
+			}, {
+			    items: [
+					{
+					    key: '杆塔类型',
+					    value: site.towerType
+					}, {
+					    key: '天线高度',
+					    value: site.antennaHeight
+					}, {
+					    key: '开通日期',
+					    value: site.finishedDate
+					}
+			    ]
+			},{
+				items: [
+					{
+						key: '经度',
+						value: site.longtitute
+					}, {
+						key: '纬度',
+						value: site.lattitute
+					}
+				]
+			}
+		];
+		$scope.dialogTitle = dialogTitle;
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.site);
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
+
 	.controller('college.cell.dialog', function($scope, $uibModalInstance, intraFreqHoService, interFreqHoService,
 		cell, dialogTitle) {
 		$scope.cell = cell;

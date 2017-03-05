@@ -797,6 +797,16 @@
         }
     })
 
+    .directive('planSiteDetails', function() {
+        return {
+            replace: true,
+            scope: {
+                itemGroups: '='
+            },
+            templateUrl: '/appViews/Home/GeneralTableDetails.html'
+        }
+    })
+
     .controller('CellsBasicInfoController', function($scope) {
         $scope.gridOptions = {
             columnDefs: [

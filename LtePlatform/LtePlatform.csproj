@@ -439,11 +439,13 @@
     <Content Include="appViews\Evaluation\Dialog\BuildingInfoBox.html" />
     <Content Include="appViews\Evaluation\Home.html" />
     <Content Include="appViews\HeaderMenu.html" />
+    <Content Include="appViews\Home\GeneralTableDetails.html" />
     <Content Include="appViews\Home\Kpi2G.html" />
     <Content Include="appViews\Home\Kpi4G.html" />
     <Content Include="appViews\Home\KpiDownSwitch.html" />
     <Content Include="appViews\Home\Network.html" />
     <Content Include="appViews\Home\Plan.html" />
+    <Content Include="appViews\Home\PlanningDetails.html" />
     <Content Include="appViews\Home\WorkItem.html" />
     <Content Include="appViews\Import\ImportProgress.html" />
     <Content Include="appViews\Import\Precise\WorkItem.html" />

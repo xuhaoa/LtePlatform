@@ -1,0 +1,8 @@
+﻿<table class="table table-hover">
+    <tbody>
+        <tr ng-repeat="itemGroup in itemGroups">
+            <td ng-repeat-start="item in itemGroup.items">{{item.key}}</td>
+            <td ng-repeat-end>{{item.value}}</td>
+        </tr>
+    </tbody>
+</table>
