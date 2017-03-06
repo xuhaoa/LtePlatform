@@ -55,6 +55,7 @@
             templateUrl: parametersRoot + 'kpi/FlowTable.html'
         }
     })
+
     .controller('LteENodebController', function ($scope) {
         $scope.gridOptions = {
             columnDefs: [
@@ -91,6 +92,7 @@
             }
         };
     })
+
     .controller('PlanningSiteController', function ($scope) {
         $scope.gridOptions = {
             columnDefs: [
@@ -829,7 +831,7 @@
         }
     })
 
-    .controller('CellsBasicInfoController', function($scope) {
+    .controller('CellsBasicInfoController', function ($scope, networkElementService) {
         $scope.gridOptions = {
             columnDefs: [
                 {
@@ -880,16 +882,27 @@
                     headerTooltip: function (col) {
                         return col.displayName;
                     }
+                }, {
+                    name: '查询',
+                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="grid.appScope.showCurrent(row.entity)"> \
+                            <span class="glyphicon glyphicon-search"></span>详细信息 \
+                        </button>'
                 }
             ],
             data: []
+        };
+        $scope.showCurrent = function(cell) {
+            networkElementService.queryCellInfo(cell.eNodebId, cell.sectorId).then(function (result) {
+                $scope.currentCell = result;
+            });
         };
     })
     .directive('cellsBasicInfoTable', function ($compile, calculateService) {
         return calculateService.generateShortGridDirective({
             controllerName: 'CellsBasicInfoController',
             scope: {
-                items: '='
+                items: '=',
+                currentCell: '='
             },
             argumentName: 'items'
         }, $compile);
