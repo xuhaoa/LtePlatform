@@ -763,15 +763,12 @@
         }
     })
 
-    .controller('CellDetailsController', function ($scope, networkElementService, cellHuaweiMongoService) {
+    .controller('CellDetailsController', function ($scope, networkElementService, calculateService) {
         networkElementService.queryCellInfo($scope.eNodebId, $scope.sectorId).then(function (result) {
-            $scope.lteCellDetails = result;
-        });
-        cellHuaweiMongoService.queryCellParameters($scope.eNodebId, $scope.sectorId).then(function (info) {
-            $scope.cellMongo = info;
+            $scope.itemGroups = calculateService.generateCellDetailsGroups(result);
         });
     })
-    .directive('cellDetails', function(parametersRoot) {
+    .directive('cellDetails', function() {
         return {
             controller: 'CellDetailsController',
             restrict: 'EA',
@@ -780,7 +777,45 @@
                 eNodebId: '=',
                 sectorId: '='
             },
-            templateUrl: parametersRoot + 'cell/CellDetails.html'
+            templateUrl: '/appViews/Home/GeneralTableDetails.html'
+        }
+    })
+
+    .controller('CellSectorDetailsController', function ($scope, networkElementService, calculateService) {
+        $scope.$watch('cell', function(cell) {
+            if (cell) {
+                $scope.itemGroups = calculateService.generateCellDetailsGroups($scope.cell);
+            }
+        });
+
+    })
+    .directive('cellSectorDetails', function () {
+        return {
+            controller: 'CellSectorDetailsController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                cell: '='
+            },
+            templateUrl: '/appViews/Home/GeneralTableDetails.html'
+        }
+    })
+
+    .controller('CellMongoController', function ($scope, cellHuaweiMongoService, calculateService) {
+        cellHuaweiMongoService.queryCellParameters($scope.eNodebId, $scope.sectorId).then(function (info) {
+            $scope.itemGroups = calculateService.generateCellMongoGroups(info);
+        });
+    })
+    .directive('cellMongoInfo', function () {
+        return {
+            controller: 'CellMongoController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                eNodebId: '=',
+                sectorId: '='
+            },
+            templateUrl: '/appViews/Home/GeneralTableDetails.html'
         }
     })
 

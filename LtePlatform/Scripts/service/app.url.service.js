@@ -943,24 +943,24 @@
 				};
 			},
 			generateShortGridDirective: function (settings, $compile) {
-			    return {
-			        controller: settings.controllerName,
-			        restrict: 'EA',
-			        replace: true,
-			        scope: settings.scope,
-			        template: '<div></div>',
-			        link: function (scope, element, attrs) {
-			            scope.initialize = false;
-			            scope.$watch(settings.argumentName, function (items) {
-			                scope.gridOptions.data = items;
-			                if (!scope.initialize) {
-			                    var linkDom = $compile('<div style="height: 150px" ui-grid="gridOptions"></div>')(scope);
-			                    element.append(linkDom);
-			                    scope.initialize = true;
-			                }
-			            });
-			        }
-			    };
+				return {
+					controller: settings.controllerName,
+					restrict: 'EA',
+					replace: true,
+					scope: settings.scope,
+					template: '<div></div>',
+					link: function (scope, element, attrs) {
+						scope.initialize = false;
+						scope.$watch(settings.argumentName, function (items) {
+							scope.gridOptions.data = items;
+							if (!scope.initialize) {
+								var linkDom = $compile('<div style="height: 150px" ui-grid="gridOptions"></div>')(scope);
+								element.append(linkDom);
+								scope.initialize = true;
+							}
+						});
+					}
+				};
 			},
 			generatePagingGridDirective: function (settings, $compile) {
 				return {
@@ -1021,6 +1021,96 @@
 					}
 				});
 				return _.sortBy(list, function(num) { return num[key]; });
+			},
+			generateCellDetailsGroups: function(site) {
+				return [
+				{
+					items: [
+						{
+							key: '频点',
+							value: site.frequency
+						}, {
+							key: '经度',
+							value: site.longtitute
+						}, {
+							key: '纬度',
+							value: site.lattitute
+						}
+					]
+				}, {
+				    items: [
+						{
+						    key: '天线挂高',
+						    value: site.height
+						}, {
+						    key: '方位角',
+						    value: site.azimuth
+						}, {
+						    key: '下倾角',
+						    value: site.downTilt
+						}
+				    ]
+				}, {
+					items: [
+						{
+						    key: '室内外',
+						    value: site.indoor
+						}, {
+						    key: '天线增益',
+						    value: site.antennaGain
+						}, {
+						    key: 'RS功率',
+						    value: site.rsPower
+						}
+					]
+				}, {
+					items: [
+						{
+						    key: 'PCI',
+						    value: site.pci
+						}, {
+						    key: 'PRACH',
+						    value: site.prach
+						}, {
+						    key: 'TAC',
+						    value: site.tac
+						}
+					]
+				}
+				];
+			},
+			generateCellMongoGroups: function (site) {
+			    return [
+				{
+				    items: [
+						{
+						    key: '网管PCI',
+						    value: site.phyCellId
+						}, {
+						    key: '网管PRACH',
+						    value: site.rootSequenceIdx
+						}, {
+						    key: '本地小区标识（仅华为有效）',
+						    value: site.localCellId
+						}
+				    ]
+				}, {
+				    items: [
+						{
+						    key: '服务小区偏移量',
+						    value: site.cellSpecificOffset,
+						    filter: 'dbStep32'
+						}, {
+						    key: '服务小区偏置',
+						    value: site.qoffsetFreq,
+						    filter: 'dbStep32'
+						}, {
+						    key: '前导格式',
+						    value: site.preambleFmt
+						}
+				    ]
+				}
+			    ];
 			}
 		};
 	})

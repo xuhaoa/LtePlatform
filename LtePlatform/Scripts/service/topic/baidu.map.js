@@ -773,9 +773,14 @@
 		});
 	})
 
-	.controller('map.sectors.dialog', function ($scope, $uibModalInstance, sectors, dialogTitle) {
+	.controller('map.sectors.dialog', function ($scope, $uibModalInstance, sectors, dialogTitle, networkElementService) {
 		$scope.sectors = sectors;
 		$scope.dialogTitle = dialogTitle;
+		if (sectors.length > 0) {
+		    networkElementService.queryCellInfo(sectors[0].eNodebId, sectors[0].sectorId).then(function (result) {
+		        $scope.currentCell = result;
+		    });
+		}
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.sectors);
 		};
@@ -797,8 +802,8 @@
 						key: '规划名称',
 						value: site.planName
 					}, {
-					    key: '规划编号',
-					    value: site.planNum
+						key: '规划编号',
+						value: site.planNum
 					}
 				]
 			}, {
@@ -810,23 +815,23 @@
 						key: '镇区',
 						value: site.town
 					}, {
-					    key: '获取日期',
-					    value: site.gottenDate
+						key: '获取日期',
+						value: site.gottenDate
 					}
 				]
 			}, {
-			    items: [
+				items: [
 					{
-					    key: '杆塔类型',
-					    value: site.towerType
+						key: '杆塔类型',
+						value: site.towerType
 					}, {
-					    key: '天线高度',
-					    value: site.antennaHeight
+						key: '天线高度',
+						value: site.antennaHeight
 					}, {
-					    key: '开通日期',
-					    value: site.finishedDate
+						key: '开通日期',
+						value: site.finishedDate
 					}
-			    ]
+				]
 			},{
 				items: [
 					{
