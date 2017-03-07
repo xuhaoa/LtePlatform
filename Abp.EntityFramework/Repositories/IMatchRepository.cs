@@ -59,6 +59,35 @@ namespace Abp.EntityFramework.Repositories
                 {
                     repository.Insert(stat.MapTo<TEntity>());
                 }
+                else
+                {
+                    Mapper.Map(stat, info);
+                }
+            }
+            return repository.SaveChanges();
+        }
+
+        public static int Import<TRepository, TEntity, TExcel, TTown>(this TRepository repository, IEnumerable<TExcel> stats,
+            List<TTown> towns, Func<IEnumerable<TTown>, TExcel, int> townIdFunc)
+            where TRepository : IRepository<TEntity>, IMatchRepository<TEntity, TExcel>, ISaveChanges
+            where TEntity : Entity, ITownId
+            where TTown : Entity, ITown
+        {
+            foreach (var stat in stats)
+            {
+                var info = repository.Match(stat);
+                var townId = townIdFunc(towns, stat);
+                if (info == null)
+                {
+                    info = stat.MapTo<TEntity>();
+                    info.TownId = townId;
+                    repository.Insert(info);
+                }
+                else
+                {
+                    info.TownId = townId;
+                    Mapper.Map(stat, info);
+                }
             }
             return repository.SaveChanges();
         }
@@ -73,16 +102,17 @@ namespace Abp.EntityFramework.Repositories
             foreach (var stat in stats)
             {
                 var info = repository.Match(stat);
+                var town = towns.FirstOrDefault(x => x.DistrictName == stat.District && x.TownName == stat.Town);
+                var townId = town?.Id ?? 1;
                 if (info == null)
                 {
                     info = stat.MapTo<TEntity>();
-                    var town = towns.FirstOrDefault(x => x.DistrictName == stat.District && x.TownName == stat.Town);
-                    if (town != null)
-                        info.TownId = town.Id;
+                    info.TownId = townId;
                     repository.Insert(info);
                 }
                 else
                 {
+                    info.TownId = townId;
                     Mapper.Map(stat, info);
                 }
             }

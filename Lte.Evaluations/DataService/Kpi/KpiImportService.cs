@@ -7,6 +7,7 @@ using Lte.Parameters.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Lte.Evaluations.DataService.Kpi
 {
@@ -131,7 +132,23 @@ namespace Lte.Evaluations.DataService.Kpi
             var factory = new ExcelQueryFactory { FileName = path };
             var stats = (from c in factory.Worksheet<OnlineSustainExcel>("Sheet1") select c).ToList();
             var count =
-                _onlineSustainRepository.Import<IOnlineSustainRepository, OnlineSustain, OnlineSustainExcel>(stats);
+                _onlineSustainRepository.Import<IOnlineSustainRepository, OnlineSustain, OnlineSustainExcel, Town>(stats, _towns,
+                    (towns, stat) =>
+                    {
+                        var candidateTowns = towns.Where(x => x.DistrictName == stat.District).ToList();
+                        if (!candidateTowns.Any()) candidateTowns = _towns;
+
+                        var town = ((string.IsNullOrEmpty(stat.Site)
+                            ? null
+                            : candidateTowns.FirstOrDefault(x => stat.Site.Contains(x.TownName))) ??
+                                    (string.IsNullOrEmpty(stat.Address)
+                                        ? null
+                                        : candidateTowns.FirstOrDefault(x => stat.Address.Contains(x.TownName)))) ??
+                                   (string.IsNullOrEmpty(stat.Phenomenon)
+                                       ? null
+                                       : candidateTowns.FirstOrDefault(x => stat.Phenomenon.Contains(x.TownName)));
+                        return town?.Id ?? candidateTowns.First().Id;
+                    });
             return "完成在线支撑信息导入" + count + "条";
         }
 

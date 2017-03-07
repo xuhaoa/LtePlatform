@@ -4,11 +4,12 @@ using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 using System;
+using Lte.Domain.Common.Geo;
 
 namespace Lte.MySqlFramework.Entities
 {
     [AutoMapFrom(typeof(OnlineSustainExcel), typeof(OnlineSustainDto))]
-    public class OnlineSustain: Entity
+    public class OnlineSustain: Entity, ITownId
     {
         public DateTime BeginDate { get; set; }
 
@@ -169,6 +170,9 @@ namespace Lte.MySqlFramework.Entities
 
         [ExcelColumn("是否经过预处理")]
         public string PreProcessString { get; set; }
+
+        [ExcelColumn("所属区域")]
+        public string District { get; set; }
 
         public string[] ReasonGroups => string.IsNullOrEmpty(ComplainReason)? new string[1]:  ComplainReason.GetSplittedFields('-');
 
