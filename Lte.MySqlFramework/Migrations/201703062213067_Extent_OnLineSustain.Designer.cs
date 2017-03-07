@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Update_Feeling_Rate : IMigrationMetadata
+    public sealed partial class Extent_OnLineSustain : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Update_Feeling_Rate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Extent_OnLineSustain));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702260101074_Update_Feeling_Rate"; }
+            get { return "201703062213067_Extent_OnLineSustain"; }
         }
         
         string IMigrationMetadata.Source

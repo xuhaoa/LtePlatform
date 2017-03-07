@@ -1747,21 +1747,27 @@
                 });
                 dumpProgress.queryMrsRsrpItem(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
                     record.mrsRsrpStats = result;
-                    $scope.mrsRsrpStats.push({
-                        statDate: result.statDate,
-                        data: _.map(_.range(48), function (index) {
-                            return result['rsrP_' + appFormatService.prefixInteger(index, 2)];
-                        })
-                    });
+                    if (result) {
+                        $scope.mrsRsrpStats.push({
+                            statDate: result.statDate,
+                            data: _.map(_.range(48), function(index) {
+                                return result['rsrP_' + appFormatService.prefixInteger(index, 2)];
+                            })
+                        });
+                    }
+
                 });
                 dumpProgress.queryMrsTadvItem(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
                     record.mrsTaStats = result;
-                    $scope.mrsTaStats.push({
-                        statDate: result.statDate,
-                        data: _.map(_.range(44), function (index) {
-                            return result['tadv_' + appFormatService.prefixInteger(index, 2)];
-                        })
-                    });
+                    if (result) {
+                        $scope.mrsTaStats.push({
+                            statDate: result.statDate,
+                            data: _.map(_.range(44), function(index) {
+                                return result['tadv_' + appFormatService.prefixInteger(index, 2)];
+                            })
+                        });
+                    }
+
                 });
                 dumpProgress.queryMrsPhrItem(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
                     //console.log(result['powerHeadRoom_00']);

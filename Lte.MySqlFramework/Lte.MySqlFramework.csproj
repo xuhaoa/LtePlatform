@@ -132,13 +132,13 @@
     <Compile Include="Entities\TopConnection3GCell.cs" />
     <Compile Include="Entities\TopDrop2GCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201702260101074_Update_Feeling_Rate.cs" />
-    <Compile Include="Migrations\201702260101074_Update_Feeling_Rate.Designer.cs">
-      <DependentUpon>201702260101074_Update_Feeling_Rate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201703040759297_PlanningSite_AddFields.cs" />
     <Compile Include="Migrations\201703040759297_PlanningSite_AddFields.Designer.cs">
       <DependentUpon>201703040759297_PlanningSite_AddFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703062213067_Extent_OnLineSustain.cs" />
+    <Compile Include="Migrations\201703062213067_Extent_OnLineSustain.Designer.cs">
+      <DependentUpon>201703062213067_Extent_OnLineSustain.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -148,11 +148,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702260101074_Update_Feeling_Rate.resx">
-      <DependentUpon>201702260101074_Update_Feeling_Rate.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703040759297_PlanningSite_AddFields.resx">
       <DependentUpon>201703040759297_PlanningSite_AddFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703062213067_Extent_OnLineSustain.resx">
+      <DependentUpon>201703062213067_Extent_OnLineSustain.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -28,6 +28,18 @@ namespace Lte.MySqlFramework.Entities
         [AutoMapPropertyResolve("ComplainCategoryDescription", typeof(OnlineSustainDto), typeof(ComplainCategoryTransform))]
         public ComplainCategory ComplainCategory { get; set; }
 
+        [AutoMapPropertyResolve("FirstReasonClass", typeof(OnlineSustainExcel), typeof(ComplainSourceTransform))]
+        [AutoMapPropertyResolve("ComplainSourceDescription", typeof(OnlineSustainDto), typeof(ComplainSourceTransform))]
+        public ComplainSource ComplainSource { get; set; }
+
+        [AutoMapPropertyResolve("SecondReasonClass", typeof(OnlineSustainExcel), typeof(ComplainReasonTransform))]
+        [AutoMapPropertyResolve("ComplainReasonDescription", typeof(OnlineSustainDto), typeof(ComplainReasonTransform))]
+        public ComplainReason ComplainReason { get; set; }
+
+        [AutoMapPropertyResolve("ThirdReasonClass", typeof(OnlineSustainExcel), typeof(ComplainSubReasonTransform))]
+        [AutoMapPropertyResolve("ComplainSubReasonDescription", typeof(OnlineSustainDto), typeof(ComplainSubReasonTransform))]
+        public ComplainSubReason ComplainSubReason { get; set; }
+
         public string Address { get; set; }
 
         public string Issue { get; set; }
@@ -47,6 +59,8 @@ namespace Lte.MySqlFramework.Entities
         public string FollowInfo { get; set; }
         
         public string FeedbackInfo { get; set; }
+
+        public string Site { get; set; }
     }
 
     [AutoMapFrom(typeof(OnlineSustain))]
@@ -75,6 +89,15 @@ namespace Lte.MySqlFramework.Entities
         [AutoMapPropertyResolve("ComplainCategory", typeof(OnlineSustain), typeof(ComplainCategoryDescriptionTransform))]
         public string ComplainCategoryDescription { get; set; }
 
+        [AutoMapPropertyResolve("ComplainSource", typeof(OnlineSustain), typeof(ComplainSourceDescriptionTransform))]
+        public string ComplainSourceDescription { get; set; }
+
+        [AutoMapPropertyResolve("ComplainReason", typeof(OnlineSustain), typeof(ComplainReasonDescriptionTransform))]
+        public string ComplainReasonDescription { get; set; }
+
+        [AutoMapPropertyResolve("ComplainSubReason", typeof(OnlineSustain), typeof(ComplainSubReasonDescriptionTransform))]
+        public string ComplainSubReasonDescription { get; set; }
+
         public string Address { get; set; }
 
         public string Issue { get; set; }
@@ -93,44 +116,40 @@ namespace Lte.MySqlFramework.Entities
         public string FollowInfo { get; set; }
 
         public string FeedbackInfo { get; set; }
+
+        public string Site { get; set; }
     }
 
     public class OnlineSustainExcel
     {
-        [ExcelColumn("日期")]
+        [ExcelColumn("统计日期")]
         public DateTime BeginDate { get; set; }
 
         [ExcelColumn("联系电话")]
         public string ContactPhone { get; set; }
 
-        [ExcelColumn("话务员工号")]
+        [ExcelColumn("10000号人名/工号")]
         public int StaffId { get; set; }
 
-        [ExcelColumn("现象")]
+        [ExcelColumn("投诉内容")]
         public string Phenomenon { get; set; }
 
-        [ExcelColumn("预处理（流水号）单号")]
+        [ExcelColumn("投诉单号")]
         public string SerialNumber { get; set; }
-
-        [ExcelColumn("值班人员")]
-        public string DutyStaff { get; set; }
-
-        [ExcelColumn("类型")]
+        
+        [ExcelColumn("投诉类型")]
         public string ComplainCategoryDescription { get; set; }
 
-        [ExcelColumn("投诉地址")]
+        [ExcelColumn("投诉地点")]
+        public string Site { get; set; }
+
+        [ExcelColumn("测试地点")]
         public string Address { get; set; }
 
-        [ExcelColumn("话务员咨询问题")]
+        [ExcelColumn("申告级别")]
         public string Issue { get; set; }
-
-        [ExcelColumn("专家答复、建议")]
-        public string SpecialResponse { get; set; }
-
-        [ExcelColumn("预处理是否成功")]
-        public string PreProcessString { get; set; }
-
-        [ExcelColumn("工单单号")]
+        
+        [ExcelColumn("派单原因")]
         public string WorkItemNumber { get; set; }
 
         [ExcelColumn("经度", TransformEnum.DoubleEmptyZero, 0)]
@@ -144,5 +163,19 @@ namespace Lte.MySqlFramework.Entities
 
         [ExcelColumn("现场人员反馈信息")]
         public string FeedbackInfo { get; set; }
+
+        [ExcelColumn("申告一级原因")]
+        public string ComplainReason { get; set; }
+
+        [ExcelColumn("是否经过预处理")]
+        public string PreProcessString { get; set; }
+
+        public string[] ReasonGroups => string.IsNullOrEmpty(ComplainReason)? new string[1]:  ComplainReason.GetSplittedFields('-');
+
+        public string FirstReasonClass => ReasonGroups.Length > 0 ? ReasonGroups[0] : "其他";
+
+        public string SecondReasonClass => ReasonGroups.Length > 1 ? ReasonGroups[1] : "其他";
+
+        public string ThirdReasonClass => ReasonGroups.Length > 2 ? ReasonGroups[2] : "其他";
     }
 }

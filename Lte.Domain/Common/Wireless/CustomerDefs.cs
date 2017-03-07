@@ -217,7 +217,14 @@ namespace Lte.Domain.Common.Wireless
         Wangting,
         Zhangting,
         Yingyeting,
-        Unknown
+        Unknown,
+        Malfunction,
+        Praise,
+        Bill,
+        InterComm,
+        Appliance,
+        Service,
+        Network
     }
 
     public class ComplainSourceDescriptionTransform : DescriptionTransform<ComplainSource>
@@ -265,7 +272,14 @@ namespace Lte.Domain.Common.Wireless
         BiqianMalfunction,
         NeedNewSite,
         CustomerReservation,
-        Unknown
+        Unknown,
+        NetworkQuality,
+        Bill,
+        ForeignRoam,
+        CustomerSuggestion,
+        ProvinceRoam,
+        CityRoam,
+        Service
     }
 
     public class ComplainReasonDescriptionTransform : DescriptionTransform<ComplainReason>
@@ -299,7 +313,11 @@ namespace Lte.Domain.Common.Wireless
         SubscriberFeeling,
         SubscriberTerminal,
         ReservationTest,
-        Others
+        Others,
+        CallDrop,
+        UnderConstruction,
+        BillProblem,
+        NoCoverage
     }
 
     public class ComplainSubReasonDescriptionTransform : DescriptionTransform<ComplainSubReason>
