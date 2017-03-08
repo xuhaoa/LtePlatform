@@ -53,6 +53,19 @@
                     }
                 },
                 url: "/plan"
+            })
+            .state('complain', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.complain"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Complain.html",
+                        controller: "home.complain"
+                    }
+                },
+                url: "/complain"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -107,8 +120,14 @@
                     displayName: "数据总览",
                     url: rootUrl + "/Parameters/List"
                 }, {
-                    displayName: "信息管理",
-                    url: appUrlService.getParameterUrlHost() + 'cellInfo.html'
+                    displayName: "数据维护",
+                    url: appUrlService.getParameterUrlHost() + 'main-lte-cell-info.php'
+                }, {
+                    displayName: "数据查询",
+                    url: appUrlService.getParameterUrlHost() + 'main-lte-cell-info-check.php'
+                }, {
+                    displayName: "历史信息查询",
+                    url: appUrlService.getParameterUrlHost() + 'cell-modify-record.php'
                 }, {
                     displayName: "边界漫游",
                     url: appUrlService.getParameterUrlHost() + 'lteboundary.html'
@@ -123,6 +142,23 @@
                 {
                     displayName: "规划辅助",
                     url: appUrlService.getPlanUrlHost() + 'guihuafuzhu/index/index.php'
+                }, {
+                    displayName: "完整准确性保障",
+                    url: appUrlService.getParameterUrlHost() + 'zhunquexing2.php'
+                }, {
+                    displayName: "工程入网",
+                    url: appUrlService.getParameterUrlHost() + 'zhunquexing2.php'
+                }
+            ]
+        };
+    })
+    .controller('menu.complain', function ($scope) {
+        $scope.menuItem = {
+            displayName: "投诉管理",
+            subItems: [
+                {
+                    displayName: "统计分析",
+                    url: '/#/complain/stat'
                 }
             ]
         };
@@ -294,6 +330,11 @@
         });
     })
     .controller("home.dt", function ($scope, baiduMapService) {
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
+
+    })
+    .controller("home.complain", function ($scope, baiduMapService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
 
