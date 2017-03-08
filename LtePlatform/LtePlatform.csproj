@@ -441,6 +441,7 @@
     <Content Include="appViews\HeaderMenu.html" />
     <Content Include="appViews\Home\ButtonMenu.html" />
     <Content Include="appViews\Home\Complain.html" />
+    <Content Include="appViews\Home\DatePopoverInput.html" />
     <Content Include="appViews\Home\GeneralTableDetails.html" />
     <Content Include="appViews\Home\Kpi2G.html" />
     <Content Include="appViews\Home\Kpi4G.html" />
