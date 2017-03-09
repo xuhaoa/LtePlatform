@@ -597,6 +597,42 @@
 				});
 				return results;
 			},
+			generateDrillDownPieOptions: function(stats, settings) {
+				var chart = new DrilldownPie();
+				chart.initialize(settings);
+				angular.forEach(stats, function (stat) {
+					chart.addOneSeries({
+						name: stat.type,
+						value: stat.total,
+						subData: stat.subData
+					});
+				});
+				return chart.options;
+			},
+			generateDrillDownPieOptionsWithFunc: function (stats, settings, func) {
+			    var chart = new DrilldownPie();
+			    chart.initialize(settings);
+			    angular.forEach(stats, function (stat) {
+			        chart.addOneSeries({
+			            name: func.nameFunc(stat),
+			            value: func.valueFunc(stat),
+			            subData: stat.subData
+			        });
+			    });
+			    return chart.options;
+			},
+			generateDrillDownColumnOptionsWithFunc: function (stats, settings, func) {
+			    var chart = new DrilldownColumn();
+			    chart.initialize(settings);
+			    angular.forEach(stats, function (stat) {
+			        chart.addOneSeries({
+			            name: func.nameFunc(stat),
+			            value: func.valueFunc(stat),
+			            subData: stat.subData
+			        });
+			    });
+			    return chart.options;
+			},
 			calculateMemberSum: function(array, memberList, categoryFunc) {
 				var result = _.reduce(array, function(memo, num) {
 					var temp = {};
@@ -1038,79 +1074,112 @@
 						}
 					]
 				}, {
-				    items: [
-						{
-						    key: '天线挂高',
-						    value: site.height
-						}, {
-						    key: '方位角',
-						    value: site.azimuth
-						}, {
-						    key: '下倾角',
-						    value: site.downTilt
-						}
-				    ]
-				}, {
 					items: [
 						{
-						    key: '室内外',
-						    value: site.indoor
+							key: '天线挂高',
+							value: site.height
 						}, {
-						    key: '天线增益',
-						    value: site.antennaGain
+							key: '方位角',
+							value: site.azimuth
 						}, {
-						    key: 'RS功率',
-						    value: site.rsPower
+							key: '下倾角',
+							value: site.downTilt
 						}
 					]
 				}, {
 					items: [
 						{
-						    key: 'PCI',
-						    value: site.pci
+							key: '室内外',
+							value: site.indoor
 						}, {
-						    key: 'PRACH',
-						    value: site.prach
+							key: '天线增益',
+							value: site.antennaGain
 						}, {
-						    key: 'TAC',
-						    value: site.tac
+							key: 'RS功率',
+							value: site.rsPower
+						}
+					]
+				}, {
+					items: [
+						{
+							key: 'PCI',
+							value: site.pci
+						}, {
+							key: 'PRACH',
+							value: site.prach
+						}, {
+							key: 'TAC',
+							value: site.tac
 						}
 					]
 				}
 				];
 			},
 			generateCellMongoGroups: function (site) {
-			    return [
+				return [
 				{
-				    items: [
+					items: [
 						{
-						    key: '网管PCI',
-						    value: site.phyCellId
+							key: '网管PCI',
+							value: site.phyCellId
 						}, {
-						    key: '网管PRACH',
-						    value: site.rootSequenceIdx
+							key: '网管PRACH',
+							value: site.rootSequenceIdx
 						}, {
-						    key: '本地小区标识（仅华为有效）',
-						    value: site.localCellId
+							key: '本地小区标识（仅华为有效）',
+							value: site.localCellId
 						}
-				    ]
+					]
 				}, {
-				    items: [
+					items: [
 						{
-						    key: '服务小区偏移量',
-						    value: site.cellSpecificOffset,
-						    filter: 'dbStep32'
+							key: '服务小区偏移量',
+							value: site.cellSpecificOffset,
+							filter: 'dbStep32'
 						}, {
-						    key: '服务小区偏置',
-						    value: site.qoffsetFreq,
-						    filter: 'dbStep32'
+							key: '服务小区偏置',
+							value: site.qoffsetFreq,
+							filter: 'dbStep32'
 						}, {
-						    key: '前导格式',
-						    value: site.preambleFmt
+							key: '前导格式',
+							value: site.preambleFmt
 						}
-				    ]
+					]
 				}
-			    ];
+				];
+			},
+			accumulatePreciseStat: function (source, accumulate) {
+				source.totalMrs += accumulate.totalMrs;
+				source.firstNeighbors += accumulate.firstNeighbors;
+				source.secondNeighbors += accumulate.secondNeighbors;
+				source.thirdNeighbors += accumulate.thirdNeighbors;
+			},
+			calculateDistrictRates: function (districtStat) {
+				districtStat.firstRate = 100 - 100 * districtStat.firstNeighbors / districtStat.totalMrs;
+				districtStat.preciseRate = 100 - 100 * districtStat.secondNeighbors / districtStat.totalMrs;
+				districtStat.thirdRate = 100 - 100 * districtStat.thirdNeighbors / districtStat.totalMrs;
+				return districtStat;
+			},
+			calculateTownRates: function (townStat) {
+				townStat.firstRate = 100 - 100 * townStat.firstNeighbors / townStat.totalMrs;
+				townStat.preciseRate = 100 - 100 * townStat.secondNeighbors / townStat.totalMrs;
+				townStat.thirdRate = 100 - 100 * townStat.thirdNeighbors / townStat.totalMrs;
+			},
+			getValueFromDivisionAbove: function(division, value) {
+				for (var i = 0; i < division.length; i++) {
+					if (value > division[i]) {
+						return 5 - i;
+					}
+				}
+				return 0;
+			},
+			getValueFromDivisionBelow: function(division, value) {
+				for (var i = 0; i < division.length; i++) {
+					if (value < division[i]) {
+						return 5 - i;
+					}
+				}
+				return 0;
 			}
 		};
 	})

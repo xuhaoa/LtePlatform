@@ -170,105 +170,50 @@
     .factory('preciseChartService', function (generalChartService, chartCalculateService) {
         return {
             getTypeOption: function (views) {
-                var stats = generalChartService.generateCompoundStats(views);
-
-                var chart = new DrilldownPie();
-                chart.initialize({
+                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views), {
                     title: "工单类型分布图",
                     seriesName: "工单类型"
                 });
-                angular.forEach(stats, function (stat) {
-                    chart.addOneSeries({
-                        name: stat.type,
-                        value: stat.total,
-                        subData: stat.subData
-                    });
-                });
-                return chart.options;
             },
 
             getStateOption: function (views) {
-                var stats = generalChartService.generateCompoundStats(views);
-
-                var chart = new DrilldownPie();
-                chart.initialize({
+                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views), {
                     title: "工单状态分布图",
                     seriesName: "工单状态"
                 });
-                angular.forEach(stats, function (stat) {
-                    chart.addOneSeries({
-                        name: stat.type,
-                        value: stat.total,
-                        subData: stat.subData
-                    });
-                });
-                return chart.options;
             },
 
             getDistrictOption: function (views) {
-                var stats = generalChartService.generateCompoundStats(views);
-
-                var chart = new DrilldownPie();
-                chart.initialize({
+                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views), {
                     title: "工单镇区分布图",
                     seriesName: "镇区"
                 });
-                angular.forEach(stats, function (stat) {
-                    chart.addOneSeries({
-                        name: stat.type,
-                        value: stat.total,
-                        subData: stat.subData
-                    });
-                });
-                return chart.options;
             },
 
-            getTownFlowOption: function(views) {
-                var stats = generalChartService.generateCompoundStats(views, function(view) {
+            getTownFlowOption: function (views) {
+                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views, function(view) {
                     return view.district;
                 }, function(view) {
                     return view.town;
                 }, function(view) {
                     return (view.pdcpDownlinkFlow + view.pdcpUplinkFlow) / 1024 / 1024 / 8;
-                });
-
-                var chart = new DrilldownPie();
-                chart.initialize({
+                }), {
                     title: "流量镇区分布图(TB)",
                     seriesName: "区域"
                 });
-                angular.forEach(stats, function (stat) {
-                    chart.addOneSeries({
-                        name: stat.type,
-                        value: stat.total,
-                        subData: stat.subData
-                    });
-                });
-                return chart.options;
             },
 
             getTownUsersOption: function (views) {
-                var stats = generalChartService.generateCompoundStats(views, function (view) {
+                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views, function(view) {
                     return view.district;
-                }, function (view) {
+                }, function(view) {
                     return view.town;
-                }, function (view) {
+                }, function(view) {
                     return view.maxUsers;
-                });
-
-                var chart = new DrilldownPie();
-                chart.initialize({
+                }), {
                     title: "最大在线用户数镇区分布图(TB)",
                     seriesName: "区域"
                 });
-                angular.forEach(stats, function (stat) {
-                    chart.addOneSeries({
-                        name: stat.type,
-                        value: stat.total,
-                        subData: stat.subData
-                    });
-                });
-                return chart.options;
             },
 
             getCoverageOptions: function (stats) {

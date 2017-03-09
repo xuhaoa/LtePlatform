@@ -5,40 +5,6 @@
         drop: [0.2, 0.3, 0.35, 0.4, 0.5]
     })
     .factory('appKpiService', function (chartCalculateService, generalChartService, kpiRatingDivisionDefs, flowService, calculateService) {
-        var accumulatePreciseStat = function (source, accumulate) {
-            source.totalMrs += accumulate.totalMrs;
-            source.firstNeighbors += accumulate.firstNeighbors;
-            source.secondNeighbors += accumulate.secondNeighbors;
-            source.thirdNeighbors += accumulate.thirdNeighbors;
-        };
-        var calculateDistrictRates = function (districtStat) {
-            districtStat.firstRate = 100 - 100 * districtStat.firstNeighbors / districtStat.totalMrs;
-            districtStat.preciseRate = 100 - 100 * districtStat.secondNeighbors / districtStat.totalMrs;
-            districtStat.thirdRate = 100 - 100 * districtStat.thirdNeighbors / districtStat.totalMrs;
-            return districtStat;
-        };
-        var calculateTownRates = function (townStat) {
-            townStat.firstRate = 100 - 100 * townStat.firstNeighbors / townStat.totalMrs;
-            townStat.preciseRate = 100 - 100 * townStat.secondNeighbors / townStat.totalMrs;
-            townStat.thirdRate = 100 - 100 * townStat.thirdNeighbors / townStat.totalMrs;
-        };
-        var getValueFromDivisionAbove = function(division, value) {
-            for (var i = 0; i < division.length; i++) {
-                if (value > division[i]) {
-                    return 5 - i;
-                }
-            }
-            return 0;
-        };
-        var getValueFromDivisionBelow = function (division, value) {
-            for (var i = 0; i < division.length; i++) {
-                if (value < division[i]) {
-                    return 5 - i;
-                }
-            }
-            return 0;
-        };
-        
         return {
             getDownSwitchRate: function (stats) {
                 var flow3G = 0;
@@ -62,18 +28,18 @@
                     objectRate: 90
                 };
                 angular.forEach(districtStats, function(districtStat) {
-                    accumulatePreciseStat(stat, districtStat);
+                    calculateService.accumulatePreciseStat(stat, districtStat);
                 });
-                return calculateDistrictRates(stat);
+                return calculateService.calculateDistrictRates(stat);
             },
             calculatePreciseRating: function (precise) {
-                return getValueFromDivisionAbove(kpiRatingDivisionDefs.precise, precise);
+                return calculateService.getValueFromDivisionAbove(kpiRatingDivisionDefs.precise, precise);
             },
             calculateDownSwitchRating: function (rate) {
-                return getValueFromDivisionBelow(kpiRatingDivisionDefs.downSwitch, rate);
+                return calculateService.getValueFromDivisionBelow(kpiRatingDivisionDefs.downSwitch, rate);
             },
             calculateDropStar: function (drop) {
-                return getValueFromDivisionBelow(kpiRatingDivisionDefs.drop, drop);
+                return calculateService.getValueFromDivisionBelow(kpiRatingDivisionDefs.drop, drop);
             },
             calculateFlowStats: function (cellList, flowStats, mergeStats, beginDate, endDate) {
                 flowStats.length = 0;
@@ -106,59 +72,52 @@
                 });
             },
             getMrPieOptions: function (districtStats, townStats) {
-                var chart = new DrilldownPie();
-                chart.initialize({
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
+                    return stat.totalMrs;
+                }), {
                     title: "分镇区测量报告数分布图",
                     seriesName: "区域"
+                }, {
+                    nameFunc: function(stat) {
+                        return stat.district;
+                    },
+                    valueFunc: function(stat) {
+                        return stat.districtData;
+                    }
                 });
-
-                var results = chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
-                    return stat.totalMrs;
-                });
-                angular.forEach(results, function(data) {
-                    chart.addOneSeries({
-                        name: data.district, 
-                        value: data.districtData, 
-                        subData: data.subData
-                    });
-                });
-                
-                return chart.options;
             },
             getPreciseRateOptions: function (districtStats, townStats) {
-                var chart = new DrilldownColumn();
-                chart.initialize({
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
+                    return stat.preciseRate;
+                }), {
                     title: "分镇区精确覆盖率分布图",
                     seriesName: "区域"
+                }, {
+                    nameFunc: function(stat) {
+                        return stat.district;
+                    },
+                    valueFunc: function(stat) {
+                        return stat.districtData;
+                    }
                 });
-
-                var results = chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
-                    return stat.preciseRate;
-                });
-                angular.forEach(results, function (data) {
-                    chart.addOneSeries({
-                        name: data.district,
-                        value: data.districtData,
-                        subData: data.subData
-                    });
-                });
-
-                return chart.options;
             },
             getMrsDistrictOptions: function(stats, inputDistricts){
                 var chart = new ComboChart();
-                chart.title.text = "MR总数变化趋势图";
-                var queryFunction = function (stat) {
-                    return stat.mr;
-                };
+                chart.initialize({
+                    title: "MR总数变化趋势图",
+                    xTitle: '日期',
+                    yTitle: "MR总数"
+                });
+                
                 var districts = inputDistricts.concat("全网");
-                var result = chartCalculateService.generateDateDistrictStats(stats, districts.length, queryFunction);
+                var result = chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
+                    return stat.mr;
+                });
                 chart.xAxis[0].categories = result.statDates;
-                chart.yAxis[0].title.text = "MR总数";
-                chart.xAxis[0].title.text = '日期';
+                
                 angular.forEach(districts, function(district, index) {
                     chart.series.push({
-                        type: index === districts.length - 1 ? "spline" : "column",
+                        type: "spline",
                         name: district,
                         data: result.districtStats[index]
                     });
@@ -167,18 +126,20 @@
             },
             getPreciseDistrictOptions: function(stats, inputDistricts){
                 var chart = new ComboChart();
-                chart.title.text = "精确覆盖率变化趋势图";
-                var queryFunction = function (stat) {
-                    return stat.precise;
-                };
+                chart.initialize({
+                    title: "精确覆盖率变化趋势图",
+                    xTitle: '日期',
+                    yTitle: "精确覆盖率"
+                });
+
                 var districts = inputDistricts.concat("全网");
-                var result = chartCalculateService.generateDateDistrictStats(stats, districts.length, queryFunction);
+                var result = chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
+                    return stat.precise;
+                });
                 chart.xAxis[0].categories = result.statDates;
-                chart.yAxis[0].title.text = "精确覆盖率";
-                chart.xAxis[0].title.text = '日期';
                 angular.forEach(districts, function (district, index) {
                     chart.series.push({
-                        type: index === districts.length - 1 ? "spline" : "column",
+                        type: "spline",
                         name: district,
                         data: result.districtStats[index]
                     });
