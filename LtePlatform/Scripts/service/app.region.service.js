@@ -1,291 +1,44 @@
 ﻿angular.module('myApp.region', ['myApp.url'])
-    .factory('parametersChartService', function (generalChartService) {
+    .factory('kpiPreciseService', function (generalHttpService) {
         return {
-            getDistrictLteENodebPieOptions: function (data, city) {
-                return generalChartService.getPieOptions(data, {
-                    title: city + "各区LTE基站数分布",
-                    seriesTitle: "区域"
-                }, function (subData) {
-                    return subData.district;
-                }, function (subData) {
-                    return subData.totalLteENodebs;
+            getRecentPreciseRegionKpi: function (city, initialDate) {
+                return generalHttpService.getApiData('PreciseRegion', {
+                    city: city,
+                    statDate: initialDate
                 });
             },
-            getDistrictLteCellPieOptions: function (data, city) {
-                return generalChartService.getPieOptions(data, {
-                    title: city + "各区LTE小区数分布",
-                    seriesTitle: "区域"
-                }, function (subData) {
-                    return subData.district;
-                }, function (subData) {
-                    return subData.totalLteCells;
+            getDateSpanPreciseRegionKpi: function (city, beginDate, endDate) {
+                return generalHttpService.getApiData('PreciseRegion', {
+                    city: city,
+                    begin: beginDate,
+                    end: endDate
                 });
             },
-            getDistrictCdmaBtsPieOptions: function (data, city) {
-                return generalChartService.getPieOptions(data, {
-                    title: city + "各区CDMA基站数分布",
-                    seriesTitle: "区域"
-                }, function (subData) {
-                    return subData.district;
-                }, function (subData) {
-                    return subData.totalCdmaBts;
+            getOrderSelection: function () {
+                return generalHttpService.getApiData('KpiOptions', {
+                    key: "OrderPreciseStatPolicy"
                 });
             },
-            getDistrictCdmaCellPieOptions: function (data, city) {
-                return generalChartService.getPieOptions(data, {
-                    title: city + "各区CDMA小区数分布",
-                    seriesTitle: "区域"
-                }, function (subData) {
-                    return subData.district;
-                }, function (subData) {
-                    return subData.totalCdmaCells;
+            queryTopKpis: function (begin, end, topCount, orderSelection) {
+                return generalHttpService.getApiData('PreciseStat', {
+                    'begin': begin,
+                    'end': end,
+                    'topCount': topCount,
+                    'orderSelection': orderSelection
                 });
             },
-            getTownLteENodebPieOptions: function (data, district) {
-                return generalChartService.getPieOptions(data, {
-                    title: district + "各镇LTE基站数分布",
-                    seriesTitle: "镇"
-                }, function (subData) {
-                    return subData.town;
-                }, function (subData) {
-                    return subData.totalLteENodebs;
+            queryTopKpisInDistrict: function (begin, end, topCount, orderSelection, city, district) {
+                return generalHttpService.getApiData('PreciseStat', {
+                    'begin': begin,
+                    'end': end,
+                    'topCount': topCount,
+                    'orderSelection': orderSelection,
+                    city: city,
+                    district: district
                 });
-            },
-            getTownLteCellPieOptions: function (data, district) {
-                return generalChartService.getPieOptions(data, {
-                    title: district + "各镇LTE小区数分布",
-                    seriesTitle: "镇"
-                }, function (subData) {
-                    return subData.town;
-                }, function (subData) {
-                    return subData.totalLteCells;
-                });
-            },
-            getTownCdmaBtsPieOptions: function (data, district) {
-                return generalChartService.getPieOptions(data, {
-                    title: district + "各镇CDMA基站数分布",
-                    seriesTitle: "镇"
-                }, function (subData) {
-                    return subData.town;
-                }, function (subData) {
-                    return subData.totalCdmaBts;
-                });
-            },
-            getTownCdmaCellPieOptions: function (data, district) {
-                return generalChartService.getPieOptions(data, {
-                    title: district + "各镇CDMA小区数分布",
-                    seriesTitle: "镇"
-                }, function (subData) {
-                    return subData.town;
-                }, function (subData) {
-                    return subData.totalCdmaCells;
-                });
-            },
-            getCollegeDistributionForDownlinkFlow: function (data) {
-                return generalChartService.getPieOptions(data, {
-                    title: "校园网下行流量分布",
-                    seriesTitle: "下行流量(MB)"
-                }, function (subData) {
-                    return subData.name;
-                }, function (subData) {
-                    return subData.pdcpDownlinkFlow;
-                });
-            },
-            getCollegeDistributionForUplinkFlow: function (data) {
-                return generalChartService.getPieOptions(data, {
-                    title: "校园网上行流量分布",
-                    seriesTitle: "上行流量(MB)"
-                }, function (subData) {
-                    return subData.name;
-                }, function (subData) {
-                    return subData.pdcpUplinkFlow;
-                });
-            },
-            getCollegeDistributionForAverageUsers: function (data) {
-                return generalChartService.getPieOptions(data, {
-                    title: "校园网平均用户数分布",
-                    seriesTitle: "平均用户数"
-                }, function (subData) {
-                    return subData.name;
-                }, function (subData) {
-                    return subData.averageUsers;
-                });
-            },
-            getCollegeDistributionForActiveUsers: function (data) {
-                return generalChartService.getPieOptions(data, {
-                    title: "校园网最大激活用户数分布",
-                    seriesTitle: "最大激活用户数"
-                }, function (subData) {
-                    return subData.name;
-                }, function (subData) {
-                    return subData.maxActiveUsers;
-                });
-            },
-            getCellDistributionForDownlinkFlow: function (data, index) {
-                return generalChartService.queryColumnOptions({
-                    title: "小区下行流量分布",
-                    xtitle: "小区名称",
-                    ytitle: "下行流量(MB)"
-                }, data.categories, data.dataList[index]);
-            },
-            getCellDistributionForUplinkFlow: function (data, index) {
-                return generalChartService.queryColumnOptions({
-                    title: "小区上行流量分布",
-                    xtitle: "小区名称",
-                    ytitle: "上行流量(MB)"
-                }, data.categories, data.dataList[index]);
-            },
-            getCellDistributionForAverageUsers: function (data, index) {
-                return generalChartService.queryColumnOptions({
-                    title: "平均用户数分布",
-                    xtitle: "小区名称",
-                    ytitle: "平均用户数"
-                }, data.categories, data.dataList[index]);
-            },
-            getCellDistributionForActiveUsers: function (data, index) {
-                return generalChartService.queryColumnOptions({
-                    title: "最大激活用户数分布",
-                    xtitle: "小区名称",
-                    ytitle: "最大激活用户数"
-                }, data.categories, data.dataList[index]);
-            },
-            getDateFlowOptions: function (data, index1, index2) {
-                return generalChartService.queryDoubleColumnOptions({
-                    title: "流量变化趋势",
-                    xtitle: "日期",
-                    ytitle1: "下行流量(MB)",
-                    ytitle2: "上行流量(MB)"
-                }, data.categories, data.dataList[index1], data.dataList[index2]);
-            },
-            getDateUsersOptions: function (data, index1, index2) {
-                return generalChartService.queryDoubleColumnOptions({
-                    title: "用户数变化趋势",
-                    xtitle: "日期",
-                    ytitle1: "平均用户数",
-                    ytitle2: "最大激活用户数"
-                }, data.categories, data.dataList[index1], data.dataList[index2]);
             }
         };
     })
-    .factory('preciseChartService', function (generalChartService, chartCalculateService) {
-        return {
-            getTypeOption: function (views) {
-                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views), {
-                    title: "工单类型分布图",
-                    seriesName: "工单类型"
-                });
-            },
-
-            getStateOption: function (views) {
-                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views), {
-                    title: "工单状态分布图",
-                    seriesName: "工单状态"
-                });
-            },
-
-            getDistrictOption: function (views) {
-                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views), {
-                    title: "工单镇区分布图",
-                    seriesName: "镇区"
-                });
-            },
-
-            getTownFlowOption: function (views) {
-                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views, function(view) {
-                    return view.district;
-                }, function(view) {
-                    return view.town;
-                }, function(view) {
-                    return (view.pdcpDownlinkFlow + view.pdcpUplinkFlow) / 1024 / 1024 / 8;
-                }), {
-                    title: "流量镇区分布图(TB)",
-                    seriesName: "区域"
-                });
-            },
-
-            getTownUsersOption: function (views) {
-                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views, function(view) {
-                    return view.district;
-                }, function(view) {
-                    return view.town;
-                }, function(view) {
-                    return view.maxUsers;
-                }), {
-                    title: "最大在线用户数镇区分布图(TB)",
-                    seriesName: "区域"
-                });
-            },
-
-            getCoverageOptions: function (stats) {
-                var chart = new ComboChart();
-                chart.initialize({
-                    title: '覆盖情况统计',
-                    xTitle: 'RSRP(dBm)',
-                    yTitle: 'MR次数'
-                });
-                angular.forEach(stats, function (stat, index) {
-                    var data = chartCalculateService.generateMrsRsrpStats(stat);
-                    if (index === 0) {
-                        chart.xAxis[0].categories = data.categories;
-                    }
-                    chart.series.push({
-                        type: 'spline',
-                        name: stat.statDate,
-                        data: data.values
-                    });
-                });
-                
-                return chart.options;
-            },
-
-            getTaOptions: function (stats) {
-                var chart = new ComboChart();
-                chart.initialize({
-                    title: '接入距离分布统计',
-                    xTitle: '接入距离(米)',
-                    yTitle: 'MR次数'
-                });
-                angular.forEach(stats, function (stat, index) {
-                    var data = chartCalculateService.generateMrsTaStats(stat);
-                    if (index === 0) {
-                        chart.xAxis[0].categories = data.categories;
-                    }
-                    chart.series.push({
-                        type: 'spline',
-                        name: stat.statDate,
-                        data: data.values
-                    });
-                });
-
-                return chart.options;
-            },
-
-            getRsrpTaOptions: function (stats, rsrpIndex) {
-                var chart = new ComboChart();
-                chart.initialize({
-                    title: '接入距离分布统计',
-                    xTitle: '接入距离(米)',
-                    yTitle: 'MR次数'
-                });
-                chart.legend.align = 'right';
-                angular.forEach(stats, function (stat, index) {
-                    var data = chartCalculateService.generateRsrpTaStats(stat, rsrpIndex);
-                    if (index === 0) {
-                        chart.xAxis[0].categories = data.categories;
-                        chart.title.text += '(' + data.seriesName + ')';
-                    }
-                    chart.series.push({
-                        type: 'line',
-                        name: stat.statDate,
-                        data: data.values
-                    });
-                });
-
-                return chart.options;
-            }
-        }
-    })
-
 
     .factory('networkElementService', function (generalHttpService) {
         return {
