@@ -1,19 +1,19 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LtePlatform.Models
 {
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "User Name")]
+        [Display(Name = "用户名")]
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "密码")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember Me?")]
+        [Display(Name = "记住我?")]
         public bool RememberMe { get; set; }
     }
 

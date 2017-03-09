@@ -6,7 +6,7 @@ using System;
 namespace Lte.Evaluations.ViewModels.RegionKpi
 {
     [AutoMapFrom(typeof(TownPreciseView))]
-    public class DistrictPreciseView
+    public class DistrictPreciseView : ICityDistrict
     {
         public string City { get; set; } = "-";
 

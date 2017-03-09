@@ -3,6 +3,7 @@ using AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Parameters.Entities;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Lte.Parameters.Abstract.Infrastructure
@@ -41,6 +42,15 @@ namespace Lte.Parameters.Abstract.Infrastructure
             view.District = town?.DistrictName;
             view.Town = town?.TownName;
             return view;
+        }
+
+        public static List<TTownStat> QueryTownStat<TTownStat>(this IEnumerable<TTownStat> query,
+            ITownRepository townRepository, string city)
+            where TTownStat : ITownId
+        {
+            return (from q in query
+                    join t in townRepository.GetAll(city) on q.TownId equals t.Id
+                    select q).ToList();
         }
     }
 }

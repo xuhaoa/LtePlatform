@@ -8,6 +8,8 @@ using Lte.Parameters.Abstract.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Domain.Common.Geo;
+using Lte.Evaluations.ViewModels.RegionKpi;
 
 namespace Lte.Evaluations.DataService.Kpi
 {
@@ -121,5 +123,20 @@ namespace Lte.Evaluations.DataService.Kpi
             var stats = rangeStats.Where(x => x.StatTime == maxDate).ToList();
             return stats.Select(x => x.ConstructView<TownFlowStat, TownFlowView>(_townRepository));
         }
+
+        public IEnumerable<FlowRegionDateView> QueryDateSpanStats(DateTime begin, DateTime end, string city)
+        {
+            var query = _repository.GetAllList(begin, end);
+            var result = query.QueryTownStat(_townRepository, city);
+            var townViews = result.Select(x => x.ConstructView<TownFlowStat, TownFlowView>(_townRepository)).ToList();
+            return from view in townViews
+                   group view by view.StatTime into g
+                   select new FlowRegionDateView
+                   {
+                       StatDate = g.Key,
+                       TownFlowViews = g.Select(x => x),
+                       DistrictFlowViews = g.Select(x => x).Merge(DistrictFlowView.ConstructView)
+                   };
+        } 
     }
 }

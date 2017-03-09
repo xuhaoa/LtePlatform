@@ -334,7 +334,6 @@
     <Compile Include="Controllers\Kpi\KpiDataListController.cs" />
     <Compile Include="Controllers\Kpi\KpiOptionsController.cs" />
     <Compile Include="Controllers\Kpi\PreciseImportController.cs" />
-    <Compile Include="Controllers\Kpi\PreciseRegionController.cs" />
     <Compile Include="Controllers\Kpi\PreciseStatController.cs" />
     <Compile Include="Controllers\Kpi\TopConnection3GController.cs" />
     <Compile Include="Controllers\Kpi\TopDrop2GController.cs" />

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Lte.Evaluations.ViewModels;
+using Lte.Evaluations.ViewModels.RegionKpi;
 
 namespace LtePlatform.Controllers.Kpi
 {
@@ -66,6 +67,12 @@ namespace LtePlatform.Controllers.Kpi
         public IEnumerable<TownFlowView> Get(DateTime statDate)
         {
             return _service.QueryLastDateStat(statDate);
+        }
+
+        [HttpGet]
+        public IEnumerable<FlowRegionDateView> Get(DateTime begin, DateTime end, string city)
+        {
+            return _service.QueryDateSpanStats(begin, end, city);
         } 
     }
 

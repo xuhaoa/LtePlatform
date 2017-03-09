@@ -20,11 +20,14 @@ namespace Abp.EntityFramework.Dependency
         MongoDatabase Database { get; }
     }
 
-    public interface IStatDateCell
+    public interface IStatDate
+    {
+        DateTime StatDate { get; set; }
+    }
+
+    public interface IStatDateCell : IStatDate
     {
         string CellId { get; set; }
-
-        DateTime StatDate { get; set; }
     }
 
     public interface IStatDateCellRepository<out TEntity>

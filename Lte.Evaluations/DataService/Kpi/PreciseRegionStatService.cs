@@ -6,6 +6,7 @@ using Lte.Parameters.Entities.Kpi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Domain.Common.Geo;
 
 namespace Lte.Evaluations.DataService.Kpi
 {
@@ -41,17 +42,14 @@ namespace Lte.Evaluations.DataService.Kpi
             {
                 StatDate = maxDate,
                 TownPreciseViews = townViews,
-                DistrictPreciseViews = Merge(townViews)
+                DistrictPreciseViews = townViews.Merge(DistrictPreciseView.ConstructView)
             };
         }
 
         public IEnumerable<PreciseRegionDateView> QueryDateViews(DateTime begin, DateTime end, string city)
         {
             var query = _statRepository.GetAllList(begin, end);
-            var result =
-                (from q in query
-                 join t in _townRepository.GetAll(city) on q.TownId equals t.Id
-                 select q).ToList();
+            var result = query.QueryTownStat(_townRepository, city);
             var townViews = result.Select(x => x.ConstructView<TownPreciseCoverage4GStat, TownPreciseView>(_townRepository)).ToList();
             return from view in townViews
                    group view by view.StatTime into g
@@ -59,24 +57,8 @@ namespace Lte.Evaluations.DataService.Kpi
                    {
                        StatDate = g.Key,
                        TownPreciseViews = g.Select(x => x),
-                       DistrictPreciseViews = Merge(g.Select(x => x))
+                       DistrictPreciseViews = g.Select(x => x).Merge(DistrictPreciseView.ConstructView)
                    };
         }
-
-        public static IEnumerable<DistrictPreciseView> Merge(IEnumerable<TownPreciseView> townPreciseViews)
-        {
-            var preciseViews = townPreciseViews as TownPreciseView[] ?? townPreciseViews.ToArray();
-            if (!preciseViews.Any()) return null;
-            var districts = preciseViews.Select(x => x.District).Distinct();
-            var city = preciseViews.ElementAt(0).City;
-            return districts.Select(district =>
-            {
-                var view =
-                    DistrictPreciseView.ConstructView(preciseViews.Where(x => x.District == district).ArraySum());
-                view.City = city;
-                view.District = district;
-                return view;
-            }).ToList();
-        } 
     }
 }

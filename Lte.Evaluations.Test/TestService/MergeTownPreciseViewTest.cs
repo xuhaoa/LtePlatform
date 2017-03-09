@@ -6,6 +6,7 @@ using Lte.Evaluations.Test.TestService;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using NUnit.Framework;
 using System.Linq;
+using Lte.Domain.Common.Geo;
 
 namespace Lte.Evaluations.TestService
 {
@@ -37,7 +38,7 @@ namespace Lte.Evaluations.TestService
                 FirstNeighbors = firstNeighbors[i],
                 SecondNeighbors = secondNeighbors[i]
             }).ToList();
-            var districtViews = PreciseRegionStatService.Merge(townViews);
+            var districtViews = townViews.Merge(DistrictPreciseView.ConstructView).ToList();
             Assert.AreEqual(districtViews.Count(), 1);
             PreciseViewTestService.AssertEqual(districtViews.ElementAt(0), new DistrictPreciseView
             {
@@ -68,7 +69,7 @@ namespace Lte.Evaluations.TestService
                 FirstNeighbors = firstNeighbors[i],
                 SecondNeighbors = secondNeighbors[i]
             }).ToList();
-            var districtViews = PreciseRegionStatService.Merge(townViews);
+            var districtViews = townViews.Merge(DistrictPreciseView.ConstructView).ToList();
             Assert.AreEqual(districtViews.Count(), districtCounts);
             for (var i=0; i<districtCounts; i++)
             {

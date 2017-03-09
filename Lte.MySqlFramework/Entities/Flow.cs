@@ -917,4 +917,39 @@ namespace Lte.MySqlFramework.Entities
         public double UplinkFeelingRate
             => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput / UplinkFeelingDuration;
     }
+
+    [AutoMapFrom(typeof(TownFlowView))]
+    public class DistrictFlowView : ICityDistrict
+    {
+        public string District { get; set; }
+        
+        public string City { get; set; }
+
+        public DateTime StatTime { get; set; }
+
+        public double PdcpDownlinkFlow { get; set; }
+
+        public double PdcpUplinkFlow { get; set; }
+        
+        [MemberDoc("平均用户数")]
+        public double AverageUsers { get; set; }
+        
+        [MemberDoc("最大用户数")]
+        public int MaxUsers { get; set; }
+
+        [MemberDoc("平均激活用户数")]
+        public double AverageActiveUsers { get; set; }
+
+        [MemberDoc("最大激活用户数")]
+        public int MaxActiveUsers { get; set; }
+        
+        public double DownlinkFeelingRate { get; set; }
+        
+        public double UplinkFeelingRate { get; set; }
+
+        public static DistrictFlowView ConstructView(TownFlowView townView)
+        {
+            return townView.MapTo<DistrictFlowView>();
+        }
+    }
 }
