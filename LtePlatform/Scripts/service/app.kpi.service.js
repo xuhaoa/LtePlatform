@@ -101,50 +101,25 @@
                     }
                 });
             },
-            getMrsDistrictOptions: function(stats, inputDistricts){
-                var chart = new ComboChart();
-                chart.initialize({
+            getMrsDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
+                    return stat.mr;
+                }), districts, {
                     title: "MR总数变化趋势图",
                     xTitle: '日期',
                     yTitle: "MR总数"
                 });
-                
-                var districts = inputDistricts.concat("全网");
-                var result = chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
-                    return stat.mr;
-                });
-                chart.xAxis[0].categories = result.statDates;
-                
-                angular.forEach(districts, function(district, index) {
-                    chart.series.push({
-                        type: "spline",
-                        name: district,
-                        data: result.districtStats[index]
-                    });
-                });
-                return chart.options;
             },
-            getPreciseDistrictOptions: function(stats, inputDistricts){
-                var chart = new ComboChart();
-                chart.initialize({
+            getPreciseDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
+                    return stat.precise;
+                }), districts, {
                     title: "精确覆盖率变化趋势图",
                     xTitle: '日期',
                     yTitle: "精确覆盖率"
                 });
-
-                var districts = inputDistricts.concat("全网");
-                var result = chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
-                    return stat.precise;
-                });
-                chart.xAxis[0].categories = result.statDates;
-                angular.forEach(districts, function (district, index) {
-                    chart.series.push({
-                        type: "spline",
-                        name: district,
-                        data: result.districtStats[index]
-                    });
-                });
-                return chart.options;
             },
             generateDistrictStats: function (districts, stats) {
                 var outputStats = [];
@@ -215,7 +190,7 @@
                         for (var k = 0; k < trendStat.districtStats.length; k++) {
                             if (trendStat.districtStats[k].city === currentDistrictStat.city
                                 && trendStat.districtStats[k].district === currentDistrictStat.district) {
-                                accumulatePreciseStat(trendStat.districtStats[k], currentDistrictStat);
+                                calculateService.accumulatePreciseStat(trendStat.districtStats[k], currentDistrictStat);
                                 found = true;
                                 break;
                             }
@@ -230,7 +205,7 @@
                             if (trendStat.townStats[k].city === currentTownStat.city
                                 && trendStat.townStats[k].district === currentTownStat.district
                                 && trendStat.townStats[k].town === currentTownStat.town) {
-                                accumulatePreciseStat(trendStat.townStats[k], currentTownStat);
+                                calculateService.accumulatePreciseStat(trendStat.townStats[k], currentTownStat);
                                 found = true;
                                 break;
                             }
@@ -241,10 +216,10 @@
                     });
                 }
                 angular.forEach(trendStat.districtStats, function(stat) {
-                    calculateDistrictRates(stat);
+                    calculateService.calculateDistrictRates(stat);
                 });
                 angular.forEach(trendStat.townStats, function(stat) {
-                    calculateTownRates(stat);
+                    calculateService.calculateTownRates(stat);
                 });
             },
             getPreciseObject: function(district) {

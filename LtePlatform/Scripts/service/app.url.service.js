@@ -610,25 +610,39 @@
 				return chart.options;
 			},
 			generateDrillDownPieOptionsWithFunc: function (stats, settings, func) {
-			    var chart = new DrilldownPie();
-			    chart.initialize(settings);
-			    angular.forEach(stats, function (stat) {
-			        chart.addOneSeries({
-			            name: func.nameFunc(stat),
-			            value: func.valueFunc(stat),
-			            subData: stat.subData
-			        });
-			    });
-			    return chart.options;
+				var chart = new DrilldownPie();
+				chart.initialize(settings);
+				angular.forEach(stats, function (stat) {
+					chart.addOneSeries({
+						name: func.nameFunc(stat),
+						value: func.valueFunc(stat),
+						subData: stat.subData
+					});
+				});
+				return chart.options;
 			},
 			generateDrillDownColumnOptionsWithFunc: function (stats, settings, func) {
-			    var chart = new DrilldownColumn();
+				var chart = new DrilldownColumn();
+				chart.initialize(settings);
+				angular.forEach(stats, function (stat) {
+					chart.addOneSeries({
+						name: func.nameFunc(stat),
+						value: func.valueFunc(stat),
+						subData: stat.subData
+					});
+				});
+				return chart.options;
+			},
+			generateSplineChartOptions: function(result, districts, settings) {
+			    var chart = new ComboChart();
 			    chart.initialize(settings);
-			    angular.forEach(stats, function (stat) {
-			        chart.addOneSeries({
-			            name: func.nameFunc(stat),
-			            value: func.valueFunc(stat),
-			            subData: stat.subData
+			    chart.xAxis[0].categories = result.statDates;
+
+			    angular.forEach(districts, function (district, index) {
+			        chart.series.push({
+			            type: "spline",
+			            name: district,
+			            data: result.districtStats[index]
 			        });
 			    });
 			    return chart.options;
