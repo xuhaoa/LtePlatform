@@ -1851,6 +1851,27 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
+    .controller("users.trend", function ($scope, beginDate, endDate, city, dialogTitle, $uibModalInstance,
+        kpiPreciseService, appFormatService, appKpiService, appRegionService) {
+        $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") + '-'
+            + appFormatService.getDateString(endDate.value, "yyyy年MM月dd日")
+            + dialogTitle;
+        kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value).then(function (result) {
+            appRegionService.queryDistricts(city).then(function (districts) {
+                var stats = appKpiService.generateUsersDistrictStats(districts, result);
+                $("#leftChart").highcharts(appKpiService.getMaxUsersDistrictOptions(stats, districts));
+                $("#rightChart").highcharts(appKpiService.getMaxActiveUsersDistrictOptions(stats, districts));
+            });
+
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .controller("rutrace.coverage", function ($scope, cell, $uibModalInstance,
         topPreciseService, preciseInterferenceService,
         preciseChartService, coverageService, kpiDisplayService) {
@@ -2449,6 +2470,33 @@
                             return endDate;
                         },
                         city: function() {
+                            return city;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showUsersTrend: function (city, beginDate, endDate) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'users.trend',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return city + "用户数变化趋势";
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        },
+                        city: function () {
                             return city;
                         }
                     }

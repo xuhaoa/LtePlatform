@@ -131,6 +131,26 @@
                     yTitle: "上行流量(TB)"
                 });
             },
+            getMaxUsersDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
+                    return stat.maxUsers;
+                }), districts, {
+                    title: "最大用户数变化趋势图",
+                    xTitle: '日期',
+                    yTitle: "最大用户数"
+                });
+            },
+            getMaxActiveUsersDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
+                    return stat.maxActiveUsers;
+                }), districts, {
+                    title: "最大激活用户数变化趋势图",
+                    xTitle: '日期',
+                    yTitle: "最大激活用户数"
+                });
+            },
             getPreciseDistrictOptions: function (stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
@@ -170,6 +190,39 @@
                         return {
                             pdcpDownlinkFlow: generalStat.pdcpDownlinkFlow,
                             pdcpUplinkFlow: generalStat.pdcpUplinkFlow
+                        }
+                    }
+                });
+            },
+            generateUsersDistrictStats: function (districts, stats) {
+                return chartCalculateService.generateDistrictStats(districts, stats, {
+                    districtViewFunc: function (stat) {
+                        return stat.districtFlowViews;
+                    },
+                    initializeFunc: function (generalStat) {
+                        generalStat.maxUsers = 0;
+                        generalStat.maxActiveUsers = 0;
+                    },
+                    calculateFunc: function (view) {
+                        return {
+                            maxUsers: view.maxUsers,
+                            maxActiveUsers: view.maxActiveUsers
+                        };
+                    },
+                    accumulateFunc: function (generalStat, view) {
+                        generalStat.maxUsers += view.maxUsers;
+                        generalStat.maxActiveUsers += view.maxActiveUsers;
+                    },
+                    zeroFunc: function () {
+                        return {
+                            maxUsers: 0,
+                            maxActiveUsers: 0
+                        };
+                    },
+                    totalFunc: function (generalStat) {
+                        return {
+                            maxUsers: generalStat.maxUsers,
+                            maxActiveUsers: generalStat.maxActiveUsers
                         }
                     }
                 });
