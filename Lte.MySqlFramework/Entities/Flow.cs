@@ -942,10 +942,20 @@ namespace Lte.MySqlFramework.Entities
 
         [MemberDoc("最大激活用户数")]
         public int MaxActiveUsers { get; set; }
-        
-        public double DownlinkFeelingRate { get; set; }
-        
-        public double UplinkFeelingRate { get; set; }
+
+        public double DownlinkFeelingThroughput { get; set; }
+
+        public double DownlinkFeelingDuration { get; set; }
+
+        public double DownlinkFeelingRate
+            => DownlinkFeelingDuration == 0 ? 0 : DownlinkFeelingThroughput / DownlinkFeelingDuration;
+
+        public double UplinkFeelingThroughput { get; set; }
+
+        public double UplinkFeelingDuration { get; set; }
+
+        public double UplinkFeelingRate
+            => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput / UplinkFeelingDuration;
 
         public static DistrictFlowView ConstructView(TownFlowView townView)
         {
