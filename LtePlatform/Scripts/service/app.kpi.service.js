@@ -151,6 +151,26 @@
                     yTitle: "最大激活用户数"
                 });
             },
+            getDownlinkRateDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
+                    return stat.downlinkFeelingRate;
+                }), districts, {
+                    title: "下行感知速率变化趋势图",
+                    xTitle: '日期',
+                    yTitle: "下行感知速率（Mbit/s）"
+                });
+            },
+            getUplinkRateDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
+                    return stat.uplinkFeelingRate;
+                }), districts, {
+                    title: "上行感知速率变化趋势图",
+                    xTitle: '日期',
+                    yTitle: "上行感知速率（Mbit/s）"
+                });
+            },
             getPreciseDistrictOptions: function (stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
@@ -223,6 +243,45 @@
                         return {
                             maxUsers: generalStat.maxUsers,
                             maxActiveUsers: generalStat.maxActiveUsers
+                        }
+                    }
+                });
+            },
+            generateFeelingRateDistrictStats: function (districts, stats) {
+                return chartCalculateService.generateDistrictStats(districts, stats, {
+                    districtViewFunc: function (stat) {
+                        return stat.districtFlowViews;
+                    },
+                    initializeFunc: function (generalStat) {
+                        generalStat.totalUplinkDuration = 0;
+                        generalStat.totalUplinkThroughput = 0;
+                        generalStat.totalDownlinkDuration = 0;
+                        generalStat.totalDownlinkThroughput = 0;
+                    },
+                    calculateFunc: function (view) {
+                        return {
+                            uplinkFeelingRate: view.uplinkFeelingRate,
+                            downlinkFeelingRate: view.downlinkFeelingRate
+                        };
+                    },
+                    accumulateFunc: function (generalStat, view) {
+                        generalStat.totalUplinkDuration += view.uplinkFeelingDuration;
+                        generalStat.totalUplinkThroughput += view.uplinkFeelingThroughput;
+                        generalStat.totalDownlinkDuration += view.downlinkFeelingDuration;
+                        generalStat.totalDownlinkThroughput += view.downlinkFeelingThroughput;
+                    },
+                    zeroFunc: function () {
+                        return {
+                            totalUplinkDuration: 0,
+                            totalUplinkThroughput: 0,
+                            totalDownlinkDuration: 0,
+                            totalDownlinkThroughput: 0
+                        };
+                    },
+                    totalFunc: function (generalStat) {
+                        return {
+                            uplinkFeelingRate: generalStat.totalUplinkThroughput / generalStat.totalUplinkDuration,
+                            downlinkFeelingRate: generalStat.totalDownlinkThroughput / generalStat.totalDownlinkDuration
                         }
                     }
                 });

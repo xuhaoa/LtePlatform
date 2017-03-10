@@ -1872,6 +1872,27 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
+    .controller("feelingRate.trend", function ($scope, beginDate, endDate, city, dialogTitle, $uibModalInstance,
+        kpiPreciseService, appFormatService, appKpiService, appRegionService) {
+        $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") + '-'
+            + appFormatService.getDateString(endDate.value, "yyyy年MM月dd日")
+            + dialogTitle;
+        kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value).then(function (result) {
+            appRegionService.queryDistricts(city).then(function (districts) {
+                var stats = appKpiService.generateFeelingRateDistrictStats(districts, result);
+                $("#leftChart").highcharts(appKpiService.getDownlinkRateDistrictOptions(stats, districts));
+                $("#rightChart").highcharts(appKpiService.getUplinkRateDistrictOptions(stats, districts));
+            });
+
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .controller("rutrace.coverage", function ($scope, cell, $uibModalInstance,
         topPreciseService, preciseInterferenceService,
         preciseChartService, coverageService, kpiDisplayService) {
@@ -2489,6 +2510,33 @@
                     resolve: {
                         dialogTitle: function () {
                             return city + "用户数变化趋势";
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        },
+                        city: function () {
+                            return city;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showFeelingRateTrend: function (city, beginDate, endDate) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'feelingRate.trend',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return city + "感知速率变化趋势";
                         },
                         beginDate: function () {
                             return beginDate;
