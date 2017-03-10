@@ -200,6 +200,74 @@ describe('app.url service tests', function () {
                     sumBetween110And105: 746
                 });
             });
+
+            
+        });
+
+        describe('generateDistrictStats', function() {
+            it('test single stat', function() {
+                var districts = ['chancheng', 'nanhai'];
+                var stats = [
+                    {
+                        statDate: '2017-1-1',
+                        districtFlowViews: [
+                            {
+                                district: 'chancheng',
+                                pdcpDownlinkFlow: 11,
+                                pdcpUplinkFlow: 2
+                            }
+                        ]
+                    }
+                ];
+                var result = chartCalculateService.generateDistrictStats(districts, stats, {
+                    districtViewFunc: function(stat) {
+                        return stat.districtFlowViews;
+                    },
+                    initializeFunc: function(generalStat) {
+                        generalStat.pdcpDownlinkFlow = 0;
+                        generalStat.pdcpUplinkFlow = 0;
+                    },
+                    calculateFunc: function(view) {
+                        return {
+                            pdcpDownlinkFlow: view.pdcpDownlinkFlow,
+                            pdcpUplinkFlow: view.pdcpUplinkFlow
+                        };
+                    },
+                    accumulateFunc: function(generalStat, view) {
+                        generalStat.pdcpDownlinkFlow += view.pdcpDownlinkFlow;
+                        generalStat.pdcpUplinkFlow += view.pdcpUplinkFlow;
+                    },
+                    zeroFunc: function() {
+                        return {
+                            pdcpDownlinkFlow: 0,
+                            pdcpUplinkFlow: 0
+                        };
+                    },
+                    totalFunc: function(generalStat) {
+                        return {
+                            pdcpDownlinkFlow: generalStat.pdcpDownlinkFlow,
+                            pdcpUplinkFlow: generalStat.pdcpUplinkFlow
+                        }
+                    }
+                });
+
+                expect(result).toEqual({
+                    statDate: '2017-1-1',
+                    values: [
+                    {
+                        pdcpDownlinkFlow: 11,
+                        pdcpUplinkFlow: 2
+                    },
+                    {
+                        pdcpDownlinkFlow: 0,
+                        pdcpUplinkFlow: 0
+                    },
+                    {
+                        pdcpDownlinkFlow: 11,
+                        pdcpUplinkFlow: 2
+                    }]
+                });
+            });
         });
 
         describe('calculate member sum', function () {

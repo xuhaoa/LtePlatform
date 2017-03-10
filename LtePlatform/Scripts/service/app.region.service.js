@@ -14,6 +14,13 @@
                     end: endDate
                 });
             },
+            getDateSpanFlowRegionKpi: function (city, beginDate, endDate) {
+                return generalHttpService.getApiData('TownFlow', {
+                    city: city,
+                    begin: beginDate,
+                    end: endDate
+                });
+            },
             getOrderSelection: function () {
                 return generalHttpService.getApiData('KpiOptions', {
                     key: "OrderPreciseStatPolicy"
@@ -1823,6 +1830,26 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
+    .controller("flow.trend", function ($scope, beginDate, endDate, city, dialogTitle, $uibModalInstance,
+        kpiPreciseService, appFormatService, appKpiService, appRegionService) {
+        $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") + '-'
+            + appFormatService.getDateString(endDate.value, "yyyy年MM月dd日")
+            + dialogTitle;
+        kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value).then(function (result) {
+            appRegionService.queryDistricts(city).then(function (districts) {
+                var stats = appKpiService.generateFlowDistrictStats(districts, result);
+                $("#leftChart").highcharts(appKpiService.getDownlinkFlowDistrictOptions(stats, districts));
+            });
+
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .controller("rutrace.coverage", function ($scope, cell, $uibModalInstance,
         topPreciseService, preciseInterferenceService,
         preciseChartService, coverageService, kpiDisplayService) {
@@ -2152,7 +2179,7 @@
             }
         }
     })
-    .factory('coverageDialogService', function ($uibModal, $log) {
+    .factory('coverageDialogService', function ($uibModal, $log, kpiPreciseService) {
         return {
             showDetails: function (cellName, cellId, sectorId) {
                 var modalInstance = $uibModal.open({
@@ -2395,6 +2422,33 @@
                         },
                         today: function() {
                             return today;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showFlowTrend: function(city, beginDate, endDate) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'flow.trend',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return city + "流量变化趋势";
+                        },
+                        beginDate: function() {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        },
+                        city: function() {
+                            return city;
                         }
                     }
                 });

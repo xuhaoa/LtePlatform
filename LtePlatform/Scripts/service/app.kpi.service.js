@@ -111,6 +111,16 @@
                     yTitle: "MR总数"
                 });
             },
+            getDownlinkFlowDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
+                    return stat.pdcpDownlinkFlow;
+                }), districts, {
+                    title: "下行流量变化趋势图",
+                    xTitle: '日期',
+                    yTitle: "下行流量(TB)"
+                });
+            },
             getPreciseDistrictOptions: function (stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
@@ -121,44 +131,71 @@
                     yTitle: "精确覆盖率"
                 });
             },
-            generateDistrictStats: function (districts, stats) {
-                var outputStats = [];
-                angular.forEach(stats, function(stat) {
-                    var districtViews = stat.districtPreciseViews;
-                    var statDate = stat.statDate;
-                    var totalMrs = 0;
-                    var totalSecondNeighbors = 0;
-                    var values = [];
-                    angular.forEach(districts, function(district) {
-                        for (var k = 0; k < districtViews.length; k++) {
-                            var view = districtViews[k];
-                            if (view.district === district) {
-                                values.push({
-                                    mr: view.totalMrs,
-                                    precise: view.preciseRate
-                                });
-                                totalMrs += view.totalMrs;
-                                totalSecondNeighbors += view.secondNeighbors;
-                                break;
-                            }
+            generateFlowDistrictStats: function(districts, stats) {
+                return chartCalculateService.generateDistrictStats(districts, stats, {
+                    districtViewFunc: function(stat) {
+                        return stat.districtFlowViews;
+                    },
+                    initializeFunc: function(generalStat) {
+                        generalStat.pdcpDownlinkFlow = 0;
+                        generalStat.pdcpUplinkFlow = 0;
+                    },
+                    calculateFunc: function(view) {
+                        return {
+                            pdcpDownlinkFlow: view.pdcpDownlinkFlow/1024/1024/8,
+                            pdcpUplinkFlow: view.pdcpUplinkFlow/1024/1024/8
+                        };
+                    },
+                    accumulateFunc: function(generalStat, view) {
+                        generalStat.pdcpDownlinkFlow += view.pdcpDownlinkFlow/1024 / 1024/8;
+                        generalStat.pdcpUplinkFlow += view.pdcpUplinkFlow / 1024 / 1024/8;
+                    },
+                    zeroFunc: function() {
+                        return {
+                            pdcpDownlinkFlow: 0,
+                            pdcpUplinkFlow: 0
+                        };
+                    },
+                    totalFunc: function(generalStat) {
+                        return {
+                            pdcpDownlinkFlow: generalStat.pdcpDownlinkFlow,
+                            pdcpUplinkFlow: generalStat.pdcpUplinkFlow
                         }
-                        if (k === districtViews.length) {
-                            values.push({
-                                mr: 0,
-                                precise: 0
-                            });
-                        }
-                    });
-                    values.push({
-                        mr: totalMrs,
-                        precise: 100 - 100 * totalSecondNeighbors / totalMrs
-                    });
-                    outputStats.push({
-                        statDate: statDate,
-                        values: values
-                    });
+                    }
                 });
-                return outputStats;
+            },
+            generateDistrictStats: function (districts, stats) {
+                return chartCalculateService.generateDistrictStats(districts, stats, {
+                    districtViewFunc: function (stat) {
+                        return stat.districtPreciseViews;
+                    },
+                    initializeFunc: function (generalStat) {
+                        generalStat.totalMrs = 0;
+                        generalStat.totalSecondNeighbors = 0;
+                    },
+                    calculateFunc: function (view) {
+                        return {
+                            mr: view.totalMrs,
+                            precise: view.preciseRate
+                        };
+                    },
+                    accumulateFunc: function (generalStat, view) {
+                        generalStat.totalMrs += view.totalMrs;
+                        generalStat.totalSecondNeighbors += view.secondNeighbors;
+                    },
+                    zeroFunc: function () {
+                        return {
+                            mr: 0,
+                            precise: 0
+                        };
+                    },
+                    totalFunc: function (generalStat) {
+                        return {
+                            mr: generalStat.totalMrs,
+                            precise: 100 - 100 * generalStat.totalSecondNeighbors / generalStat.totalMrs
+                        }
+                    }
+                });
             },
             calculateAverageRates: function(stats) {
                 var result = {

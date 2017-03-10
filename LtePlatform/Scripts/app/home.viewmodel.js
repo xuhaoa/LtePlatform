@@ -320,6 +320,9 @@
         $scope.showFlow = function() {
             coverageDialogService.showFlowStats($scope.statDate.value || new Date());
         };
+        $scope.showFlowTrend = function() {
+            coverageDialogService.showFlowTrend($scope.city.selected, $scope.beginDate, $scope.endDate);
+        };
         flowService.queryENodebGeoFlowByDateSpan($scope.beginDate.value, $scope.endDate.value).then(function (result) {
             $scope.flowGeoPoints = result;
         });

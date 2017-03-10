@@ -658,6 +658,35 @@
 				categoryFunc(result);
 				return result;
 			},
+			generateDistrictStats: function (districts, stats, funcs) {
+			    var outputStats = [];
+			    angular.forEach(stats, function (stat) {
+			        var districtViews = funcs.districtViewFunc(stat);
+			        var statDate = stat.statDate;
+			        var generalStat = {};
+			        funcs.initializeFunc(generalStat);
+			        var values = [];
+			        angular.forEach(districts, function (district) {
+			            for (var k = 0; k < districtViews.length; k++) {
+			                var view = districtViews[k];
+			                if (view.district === district) {
+			                    values.push(funcs.calculateFunc(view));
+			                    funcs.accumulateFunc(generalStat, view);
+			                    break;
+			                }
+			            }
+			            if (k === districtViews.length) {
+			                values.push(funcs.zeroFunc());
+			            }
+			        });
+			        values.push(funcs.totalFunc(generalStat));
+			        outputStats.push({
+			            statDate: statDate,
+			            values: values
+			        });
+			    });
+			    return outputStats;
+			},
 			generateDateDistrictStats: function (stats, districtLength, queryFunction) {
 				var statDates = [];
 				var districtStats = [];
