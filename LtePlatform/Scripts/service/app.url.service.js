@@ -691,7 +691,7 @@
 				var statDates = [];
 				var districtStats = [];
 				angular.forEach(stats, function (stat, index) {
-					statDates.push(stat.statDate);
+				    statDates.push(stat.statDate.split('T')[0]);
 					for (var j = 0; j < districtLength; j++) {
 						var statValue = stat.values[j] ? queryFunction(stat.values[j]) : 0;
 						if (index === 0) {

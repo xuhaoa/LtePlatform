@@ -1839,6 +1839,7 @@
             appRegionService.queryDistricts(city).then(function (districts) {
                 var stats = appKpiService.generateFlowDistrictStats(districts, result);
                 $("#leftChart").highcharts(appKpiService.getDownlinkFlowDistrictOptions(stats, districts));
+                $("#rightChart").highcharts(appKpiService.getUplinkFlowDistrictOptions(stats, districts));
             });
 
         });

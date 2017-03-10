@@ -121,6 +121,16 @@
                     yTitle: "下行流量(TB)"
                 });
             },
+            getUplinkFlowDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
+                    return stat.pdcpUplinkFlow;
+                }), districts, {
+                    title: "上行流量变化趋势图",
+                    xTitle: '日期',
+                    yTitle: "上行流量(TB)"
+                });
+            },
             getPreciseDistrictOptions: function (stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
