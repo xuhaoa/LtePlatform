@@ -1,529 +1,4 @@
 ﻿angular.module('myApp.kpi', ['myApp.url', 'myApp.region', "ui.bootstrap"])
-    .constant('kpiRatingDivisionDefs', {
-        precise: [94.6, 83.6, 72.6, 61.6, 50],
-        downSwitch: [3, 5, 8, 10, 15],
-        drop: [0.2, 0.3, 0.35, 0.4, 0.5]
-    })
-    .factory('appKpiService', function (chartCalculateService, generalChartService, kpiRatingDivisionDefs, flowService, calculateService) {
-        return {
-            getDownSwitchRate: function (stats) {
-                var flow3G = 0;
-                var flow4G = 0;
-                angular.forEach(stats, function(stat) {
-                    flow3G += stat.downSwitchFlow3G;
-                    flow4G += stat.flow4G;
-                });
-                return 100 * flow3G / flow4G;
-            },
-            getCityStat: function (districtStats, currentCity) {
-                var stat = {
-                    city: currentCity,
-                    district: "全网",
-                    totalMrs: 0,
-                    firstNeighbors: 0,
-                    secondNeighbors: 0,
-                    thirdNeighbors: 0,
-                    firstRate: 0,
-                    preciseRate: 0,
-                    objectRate: 90
-                };
-                angular.forEach(districtStats, function(districtStat) {
-                    calculateService.accumulatePreciseStat(stat, districtStat);
-                });
-                return calculateService.calculateDistrictRates(stat);
-            },
-            calculatePreciseRating: function (precise) {
-                return calculateService.getValueFromDivisionAbove(kpiRatingDivisionDefs.precise, precise);
-            },
-            calculateDownSwitchRating: function (rate) {
-                return calculateService.getValueFromDivisionBelow(kpiRatingDivisionDefs.downSwitch, rate);
-            },
-            calculateDropStar: function (drop) {
-                return calculateService.getValueFromDivisionBelow(kpiRatingDivisionDefs.drop, drop);
-            },
-            calculateFlowStats: function (cellList, flowStats, mergeStats, beginDate, endDate) {
-                flowStats.length = 0;
-                mergeStats.length = 0;
-                angular.forEach(cellList, function (cell) {
-                    flowService.queryCellFlowByDateSpan(cell.eNodebId, cell.sectorId,
-                        beginDate.value, endDate.value).then(function (flowList) {
-                            cell.flowList = flowList;
-                            if (flowList.length > 0) {
-                                flowStats.push(chartCalculateService.calculateMemberSum(flowList, [
-                                    'averageActiveUsers',
-                                    'averageUsers',
-                                    'maxActiveUsers',
-                                    'maxUsers',
-                                    'pdcpDownlinkFlow',
-                                    'pdcpUplinkFlow'
-                                ], function(stat) {
-                                    stat.cellName = cell.eNodebName + '-' + cell.sectorId;
-                                }));
-                                calculateService.mergeDataByKey(mergeStats, flowList, 'statTime', [
-                                    'averageActiveUsers',
-                                    'averageUsers',
-                                    'maxActiveUsers',
-                                    'maxUsers',
-                                    'pdcpDownlinkFlow',
-                                    'pdcpUplinkFlow'
-                                ]);
-                            }
-                        });
-                });
-            },
-            getMrPieOptions: function (districtStats, townStats) {
-                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
-                    return stat.totalMrs;
-                }), {
-                    title: "分镇区测量报告数分布图",
-                    seriesName: "区域"
-                }, {
-                    nameFunc: function(stat) {
-                        return stat.district;
-                    },
-                    valueFunc: function(stat) {
-                        return stat.districtData;
-                    }
-                });
-            },
-            getPreciseRateOptions: function (districtStats, townStats) {
-                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
-                    return stat.preciseRate;
-                }), {
-                    title: "分镇区精确覆盖率分布图",
-                    seriesName: "区域"
-                }, {
-                    nameFunc: function(stat) {
-                        return stat.district;
-                    },
-                    valueFunc: function(stat) {
-                        return stat.districtData;
-                    }
-                });
-            },
-            getMrsDistrictOptions: function (stats, inputDistricts) {
-                var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
-                    return stat.mr;
-                }), districts, {
-                    title: "MR总数变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "MR总数"
-                });
-            },
-            getDownlinkFlowDistrictOptions: function (stats, inputDistricts) {
-                var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
-                    return stat.pdcpDownlinkFlow;
-                }), districts, {
-                    title: "下行流量变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "下行流量(TB)"
-                });
-            },
-            getUplinkFlowDistrictOptions: function (stats, inputDistricts) {
-                var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
-                    return stat.pdcpUplinkFlow;
-                }), districts, {
-                    title: "上行流量变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "上行流量(TB)"
-                });
-            },
-            getMaxUsersDistrictOptions: function (stats, inputDistricts) {
-                var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
-                    return stat.maxUsers;
-                }), districts, {
-                    title: "最大用户数变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "最大用户数"
-                });
-            },
-            getMaxActiveUsersDistrictOptions: function (stats, inputDistricts) {
-                var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
-                    return stat.maxActiveUsers;
-                }), districts, {
-                    title: "最大激活用户数变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "最大激活用户数"
-                });
-            },
-            getDownlinkRateDistrictOptions: function (stats, inputDistricts) {
-                var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
-                    return stat.downlinkFeelingRate;
-                }), districts, {
-                    title: "下行感知速率变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "下行感知速率（Mbit/s）"
-                });
-            },
-            getUplinkRateDistrictOptions: function (stats, inputDistricts) {
-                var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
-                    return stat.uplinkFeelingRate;
-                }), districts, {
-                    title: "上行感知速率变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "上行感知速率（Mbit/s）"
-                });
-            },
-            getPreciseDistrictOptions: function (stats, inputDistricts) {
-                var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
-                    return stat.precise;
-                }), districts, {
-                    title: "精确覆盖率变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "精确覆盖率"
-                });
-            },
-            generateFlowDistrictStats: function(districts, stats) {
-                return chartCalculateService.generateDistrictStats(districts, stats, {
-                    districtViewFunc: function(stat) {
-                        return stat.districtFlowViews;
-                    },
-                    initializeFunc: function(generalStat) {
-                        generalStat.pdcpDownlinkFlow = 0;
-                        generalStat.pdcpUplinkFlow = 0;
-                    },
-                    calculateFunc: function(view) {
-                        return {
-                            pdcpDownlinkFlow: view.pdcpDownlinkFlow/1024/1024/8,
-                            pdcpUplinkFlow: view.pdcpUplinkFlow/1024/1024/8
-                        };
-                    },
-                    accumulateFunc: function(generalStat, view) {
-                        generalStat.pdcpDownlinkFlow += view.pdcpDownlinkFlow/1024 / 1024/8;
-                        generalStat.pdcpUplinkFlow += view.pdcpUplinkFlow / 1024 / 1024/8;
-                    },
-                    zeroFunc: function() {
-                        return {
-                            pdcpDownlinkFlow: 0,
-                            pdcpUplinkFlow: 0
-                        };
-                    },
-                    totalFunc: function(generalStat) {
-                        return {
-                            pdcpDownlinkFlow: generalStat.pdcpDownlinkFlow,
-                            pdcpUplinkFlow: generalStat.pdcpUplinkFlow
-                        }
-                    }
-                });
-            },
-            generateUsersDistrictStats: function (districts, stats) {
-                return chartCalculateService.generateDistrictStats(districts, stats, {
-                    districtViewFunc: function (stat) {
-                        return stat.districtFlowViews;
-                    },
-                    initializeFunc: function (generalStat) {
-                        generalStat.maxUsers = 0;
-                        generalStat.maxActiveUsers = 0;
-                    },
-                    calculateFunc: function (view) {
-                        return {
-                            maxUsers: view.maxUsers,
-                            maxActiveUsers: view.maxActiveUsers
-                        };
-                    },
-                    accumulateFunc: function (generalStat, view) {
-                        generalStat.maxUsers += view.maxUsers;
-                        generalStat.maxActiveUsers += view.maxActiveUsers;
-                    },
-                    zeroFunc: function () {
-                        return {
-                            maxUsers: 0,
-                            maxActiveUsers: 0
-                        };
-                    },
-                    totalFunc: function (generalStat) {
-                        return {
-                            maxUsers: generalStat.maxUsers,
-                            maxActiveUsers: generalStat.maxActiveUsers
-                        }
-                    }
-                });
-            },
-            generateFeelingRateDistrictStats: function (districts, stats) {
-                return chartCalculateService.generateDistrictStats(districts, stats, {
-                    districtViewFunc: function (stat) {
-                        return stat.districtFlowViews;
-                    },
-                    initializeFunc: function (generalStat) {
-                        generalStat.totalUplinkDuration = 0;
-                        generalStat.totalUplinkThroughput = 0;
-                        generalStat.totalDownlinkDuration = 0;
-                        generalStat.totalDownlinkThroughput = 0;
-                    },
-                    calculateFunc: function (view) {
-                        return {
-                            uplinkFeelingRate: view.uplinkFeelingRate,
-                            downlinkFeelingRate: view.downlinkFeelingRate
-                        };
-                    },
-                    accumulateFunc: function (generalStat, view) {
-                        generalStat.totalUplinkDuration += view.uplinkFeelingDuration;
-                        generalStat.totalUplinkThroughput += view.uplinkFeelingThroughput;
-                        generalStat.totalDownlinkDuration += view.downlinkFeelingDuration;
-                        generalStat.totalDownlinkThroughput += view.downlinkFeelingThroughput;
-                    },
-                    zeroFunc: function () {
-                        return {
-                            totalUplinkDuration: 0,
-                            totalUplinkThroughput: 0,
-                            totalDownlinkDuration: 0,
-                            totalDownlinkThroughput: 0
-                        };
-                    },
-                    totalFunc: function (generalStat) {
-                        return {
-                            uplinkFeelingRate: generalStat.totalUplinkThroughput / generalStat.totalUplinkDuration,
-                            downlinkFeelingRate: generalStat.totalDownlinkThroughput / generalStat.totalDownlinkDuration
-                        }
-                    }
-                });
-            },
-            generateDistrictStats: function (districts, stats) {
-                return chartCalculateService.generateDistrictStats(districts, stats, {
-                    districtViewFunc: function (stat) {
-                        return stat.districtPreciseViews;
-                    },
-                    initializeFunc: function (generalStat) {
-                        generalStat.totalMrs = 0;
-                        generalStat.totalSecondNeighbors = 0;
-                    },
-                    calculateFunc: function (view) {
-                        return {
-                            mr: view.totalMrs,
-                            precise: view.preciseRate
-                        };
-                    },
-                    accumulateFunc: function (generalStat, view) {
-                        generalStat.totalMrs += view.totalMrs;
-                        generalStat.totalSecondNeighbors += view.secondNeighbors;
-                    },
-                    zeroFunc: function () {
-                        return {
-                            mr: 0,
-                            precise: 0
-                        };
-                    },
-                    totalFunc: function (generalStat) {
-                        return {
-                            mr: generalStat.totalMrs,
-                            precise: 100 - 100 * generalStat.totalSecondNeighbors / generalStat.totalMrs
-                        }
-                    }
-                });
-            },
-            calculateAverageRates: function(stats) {
-                var result = {
-                    statDate: "平均值",
-                    values: []
-                };
-                if (stats.length === 0) return result;
-                for (var i = 0; i < stats.length; i++) {
-                    for (var j = 0; j < stats[i].values.length; j++) {
-                        if (i === 0) {
-                            result.values.push({
-                                mr: stats[i].values[j].mr / stats.length,
-                                precise: stats[i].values[j].precise / stats.length
-                            });
-                        } else {
-                            result.values[j].mr += stats[i].values[j].mr / stats.length;
-                            result.values[j].precise += stats[i].values[j].precise / stats.length;
-                        }
-                    }
-                }
-                return result;
-            },
-            generateTrendStatsForPie: function (trendStat, result) {
-                trendStat.districtStats = result[0].districtPreciseViews;
-                trendStat.townStats = result[0].townPreciseViews;
-                for (var i = 1; i < result.length; i++) {
-                    angular.forEach(result[i].districtPreciseViews, function (currentDistrictStat) {
-                        var found = false;
-                        for (var k = 0; k < trendStat.districtStats.length; k++) {
-                            if (trendStat.districtStats[k].city === currentDistrictStat.city
-                                && trendStat.districtStats[k].district === currentDistrictStat.district) {
-                                calculateService.accumulatePreciseStat(trendStat.districtStats[k], currentDistrictStat);
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            trendStat.districtStats.push(currentDistrictStat);
-                        }
-                    });
-                    angular.forEach(result[i].townPreciseView, function(currentTownStat) {
-                        var found = false;
-                        for (var k = 0; k < trendStat.townStats.length; k++) {
-                            if (trendStat.townStats[k].city === currentTownStat.city
-                                && trendStat.townStats[k].district === currentTownStat.district
-                                && trendStat.townStats[k].town === currentTownStat.town) {
-                                calculateService.accumulatePreciseStat(trendStat.townStats[k], currentTownStat);
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            trendStat.townStats.push(currentTownStat);
-                        }
-                    });
-                }
-                angular.forEach(trendStat.districtStats, function(stat) {
-                    calculateService.calculateDistrictRates(stat);
-                });
-                angular.forEach(trendStat.townStats, function(stat) {
-                    calculateService.calculateTownRates(stat);
-                });
-            },
-            getPreciseObject: function(district) {
-                var objectTable = {
-                    "禅城": 89.8,
-                    "南海": 90,
-                    "三水": 90,
-                    "高明": 90,
-                    "顺德": 90.2
-                };
-                return objectTable[district] === undefined ? 90 : objectTable[district];
-            },
-            generateComplainTrendOptions: function(dates, counts, objects) {
-                var chart = new TimeSeriesLine();
-                chart.title.text = '月度抱怨量变化趋势图';
-                chart.setDefaultXAxis({
-                    title: '日期',
-                    categories: dates
-                });
-                chart.setDefaultYAxis({
-                    title: '抱怨量'
-                });
-                chart.insertSeries({
-                    name: '指标值',
-                    data: counts
-                });
-                chart.insertSeries({
-                    name: '目标值',
-                    data: objects
-                });
-                return chart.options;
-            },
-            generateColumnOptions: function (stat, title, xtitle, ytitle) {
-                return generalChartService.getColumnOptions(stat, {
-                    title: title,
-                    xtitle: xtitle,
-                    ytitle: ytitle
-                }, function(data) {
-                    return data.item1;
-                }, function(data) {
-                    return data.item2;
-                });
-            },
-            generateDownlinkFlowOptions: function (stats, topic) {
-                return generalChartService.getPieOptions(stats, {
-                    title: topic + '下行PDCP层流量（MB）',
-                    seriesTitle: '下行PDCP层流量（MB）'
-                }, function (stat) {
-                    return stat.cellName;
-                }, function (stat) {
-                    return stat.pdcpDownlinkFlow;
-                });
-            },
-            generateUplinkFlowOptions: function (stats, topic) {
-                return generalChartService.getPieOptions(stats, {
-                    title: topic + '上行PDCP层流量（MB）',
-                    seriesTitle: '上行PDCP层流量（MB）'
-                }, function (stat) {
-                    return stat.cellName;
-                }, function (stat) {
-                    return stat.pdcpUplinkFlow;
-                });
-            },
-            generateMaxUsersOptions: function (stats, topic) {
-                return generalChartService.getPieOptions(stats, {
-                    title: topic + '最大连接用户数',
-                    seriesTitle: '最大连接用户数'
-                }, function (stat) {
-                    return stat.cellName;
-                }, function (stat) {
-                    return stat.maxUsers;
-                });
-            },
-            generateAverageUsersOptions: function (stats, topic) {
-                return generalChartService.getPieOptions(stats, {
-                    title: topic + '平均连接用户数',
-                    seriesTitle: '平均连接用户数'
-                }, function (stat) {
-                    return stat.cellName;
-                }, function (stat) {
-                    return stat.averageUsers;
-                });
-            },
-            generateMaxActiveUsersOptions: function (stats, topic) {
-                return generalChartService.getPieOptions(stats, {
-                    title: topic + '最大激活用户数',
-                    seriesTitle: '最大激活用户数'
-                }, function (stat) {
-                    return stat.cellName;
-                }, function (stat) {
-                    return stat.maxActiveUsers;
-                });
-            },
-            generateAverageActiveUsersOptions: function (stats, topic) {
-                return generalChartService.getPieOptions(stats, {
-                    title: topic + '平均激活用户数',
-                    seriesTitle: '平均激活用户数'
-                }, function (stat) {
-                    return stat.cellName;
-                }, function (stat) {
-                    return stat.averageActiveUsers;
-                });
-            },
-            generateMergeFlowOptions: function(stats, topic) {
-                var flowData = generalChartService.generateColumnDataByKeys(stats, 'statTime', [
-                'pdcpDownlinkFlow',
-                'pdcpUplinkFlow'
-                ]);
-                return generalChartService.queryMultipleColumnOptions({
-                    xtitle: '日期',
-                    ytitle: '流量（MB）',
-                    title: topic + '流量统计'
-                }, flowData.categories, flowData.dataList, ['下行流量', '上行流量']);
-            },
-            generateMergeUsersOptions: function(stats, topic) {
-                var usersData = generalChartService.generateColumnDataByKeys(stats, 'statTime', [
-                'averageActiveUsers',
-                'averageUsers',
-                'maxActiveUsers',
-                'maxUsers'
-                ]);
-                return generalChartService.queryMultipleColumnOptions({
-                    xtitle: '日期',
-                    ytitle: '用户数',
-                    title: topic + '用户数'
-                }, usersData.categories, usersData.dataList, ['平均激活用户数', '平均连接用户数', '最大激活用户数', '最大连接用户数']);
-            }
-        }
-    })
-    .factory('kpiChartService', function(appKpiService) {
-        return {
-            showFlowCharts: function(flowStats, topic, mergeStats) {
-                $("#downlinkFlowChart").highcharts(appKpiService.generateDownlinkFlowOptions(flowStats, topic));
-                $("#uplinkFlowChart").highcharts(appKpiService.generateUplinkFlowOptions(flowStats, topic));
-                $("#maxUsersChart").highcharts(appKpiService.generateMaxUsersOptions(flowStats, topic));
-                $("#averageUsersChart").highcharts(appKpiService.generateAverageUsersOptions(flowStats, topic));
-                $("#maxActiveUsersChart").highcharts(appKpiService.generateMaxActiveUsersOptions(flowStats, topic));
-                $("#averageActiveUsersChart").highcharts(appKpiService.generateAverageActiveUsersOptions(flowStats, topic));
-
-                $("#flowDate").highcharts(appKpiService.generateMergeFlowOptions(mergeStats, topic));
-
-                $("#usersDate").highcharts(appKpiService.generateMergeUsersOptions(mergeStats, topic));
-            }
-        };
-    })
     .factory('downSwitchService', function (generalHttpService) {
         return {
             getRecentKpi: function (city, initialDate) {
@@ -1439,4 +914,1160 @@
                 });
             }
         };
+    })
+    .controller('dump.cell.mongo', function ($scope, $uibModalInstance,
+        dumpProgress, appFormatService, dumpPreciseService, neighborMongoService,
+        preciseInterferenceService, networkElementService,
+        dialogTitle, cell, begin, end) {
+        $scope.dialogTitle = dialogTitle;
+
+        $scope.dateRecords = [];
+        $scope.currentDetails = [];
+        $scope.currentIndex = 0;
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.dateRecords);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        $scope.queryRecords = function () {
+            $scope.mrsRsrpStats = [];
+            $scope.mrsTaStats = [];
+            angular.forEach($scope.dateRecords, function (record) {
+                dumpProgress.queryExistedItems(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
+                    record.existedRecords = result;
+                });
+                dumpProgress.queryMongoItems(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
+                    record.mongoRecords = result;
+                });
+                dumpProgress.queryMrsRsrpItem(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
+                    record.mrsRsrpStats = result;
+                    if (result) {
+                        $scope.mrsRsrpStats.push({
+                            statDate: result.statDate,
+                            data: _.map(_.range(48), function (index) {
+                                return result['rsrP_' + appFormatService.prefixInteger(index, 2)];
+                            })
+                        });
+                    }
+
+                });
+                dumpProgress.queryMrsTadvItem(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
+                    record.mrsTaStats = result;
+                    if (result) {
+                        $scope.mrsTaStats.push({
+                            statDate: result.statDate,
+                            data: _.map(_.range(44), function (index) {
+                                return result['tadv_' + appFormatService.prefixInteger(index, 2)];
+                            })
+                        });
+                    }
+
+                });
+                dumpProgress.queryMrsPhrItem(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
+                    //console.log(result['powerHeadRoom_00']);
+                    record.mrsPhrStats = result;
+                });
+                dumpProgress.queryMrsTadvRsrpItem(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
+                    //console.log(result['tadv00Rsrp00']);
+                    record.mrsTaRsrpStats = result;
+                });
+            });
+        };
+
+        $scope.updateDetails = function (index) {
+            $scope.currentIndex = index % $scope.dateRecords.length;
+        };
+
+        $scope.dumpAllRecords = function () {
+            dumpPreciseService.dumpAllRecords($scope.dateRecords, 0, 0, cell.eNodebId, cell.sectorId, $scope.queryRecords);
+        };
+
+        $scope.showNeighbors = function () {
+            $scope.neighborCells = [];
+            networkElementService.queryCellNeighbors(cell.eNodebId, cell.sectorId).then(function (result) {
+                $scope.neighborCells = result;
+                angular.forEach(result, function (neighbor) {
+                    preciseInterferenceService.queryMonitor(neighbor.cellId, neighbor.sectorId).then(function (monitored) {
+                        neighbor.isMonitored = monitored;
+                    });
+                });
+            });
+
+        };
+        $scope.showReverseNeighbors = function () {
+            neighborMongoService.queryReverseNeighbors(cell.eNodebId, cell.sectorId).then(function (result) {
+                $scope.reverseCells = result;
+                angular.forEach(result, function (neighbor) {
+                    networkElementService.queryENodebInfo(neighbor.cellId).then(function (info) {
+                        neighbor.eNodebName = info.name;
+                    });
+                    preciseInterferenceService.queryMonitor(neighbor.cellId, neighbor.sectorId).then(function (monitored) {
+                        neighbor.isMonitored = monitored;
+                    });
+                });
+            });
+        }
+        $scope.updatePci = function () {
+            networkElementService.updateCellPci(cell).then(function (result) {
+                $scope.updateMessages.push({
+                    cellName: cell.name + '-' + cell.sectorId,
+                    counts: result
+                });
+                $scope.showNeighbors();
+            });
+        };
+        $scope.synchronizeNeighbors = function () {
+            var count = 0;
+            neighborMongoService.queryNeighbors(cell.eNodebId, cell.sectorId).then(function (neighbors) {
+                angular.forEach(neighbors, function (neighbor) {
+                    if (neighbor.neighborCellId > 0 && neighbor.neighborPci > 0) {
+                        networkElementService.updateNeighbors(neighbor.cellId, neighbor.sectorId, neighbor.neighborPci,
+                            neighbor.neighborCellId, neighbor.neighborSectorId).then(function () {
+                                count += 1;
+                                if (count === neighbors.length) {
+                                    $scope.updateMessages.push({
+                                        cellName: $scope.currentCellName,
+                                        counts: count
+                                    });
+                                    $scope.showNeighbors();
+                                }
+                            });
+                    } else {
+                        count += 1;
+                        if (count === neighbors.length) {
+                            $scope.updateMessages.push({
+                                cellName: $scope.currentCellName,
+                                counts: count
+                            });
+                            $scope.showNeighbors();
+                        }
+                    }
+                });
+            });
+        };
+        $scope.addMonitor = function () {
+            preciseInterferenceService.addMonitor({
+                cellId: cell.eNodebId,
+                sectorId: cell.sectorId
+            });
+        };
+        $scope.monitorNeighbors = function () {
+            angular.forEach($scope.neighborCells, function (neighbor) {
+                if (neighbor.isMonitored === false) {
+                    networkElementService.monitorNeighbors(neighbor).then(function () {
+                        neighbor.isMonitored = true;
+                    });
+                }
+            });
+            angular.forEach($scope.reverseCells, function (reverse) {
+                if (reverse.isMonitored === false) {
+                    networkElementService.monitorNeighbors({
+                        nearestCellId: reverse.cellId,
+                        nearestSectorId: reverse.sectorId
+                    }).then(function () {
+                        reverse.isMonitored = true;
+                    });
+                }
+            });
+        };
+
+        var startDate = new Date(begin);
+        while (startDate < end) {
+            var date = new Date(startDate);
+            $scope.dateRecords.push({
+                date: date,
+                existedRecords: 0,
+                existedStat: false
+            });
+            startDate.setDate(date.getDate() + 1);
+        }
+        $scope.neighborCells = [];
+        $scope.updateMessages = [];
+        preciseInterferenceService.queryMonitor(cell.eNodebId, cell.sectorId).then(function (result) {
+            $scope.cellMonitored = result;
+        });
+
+        $scope.queryRecords();
+        $scope.showReverseNeighbors();
+        $scope.showNeighbors();
+    })
+    .controller("cell.info.dialog", function ($scope, cell, dialogTitle, neighborMongoService, $uibModalInstance) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.isHuaweiCell = false;
+        $scope.eNodebId = cell.eNodebId;
+        $scope.sectorId = cell.sectorId;
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.mongoNeighbors);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        neighborMongoService.queryNeighbors(cell.eNodebId, cell.sectorId).then(function (result) {
+            $scope.mongoNeighbors = result;
+        });
+
+    })
+    .controller('neighbors.dialog', function ($scope, $uibModalInstance, geometryService,
+        dialogTitle, candidateNeighbors, currentCell) {
+        $scope.pciNeighbors = [];
+        $scope.indoorConsidered = false;
+        $scope.distanceOrder = "distance";
+        $scope.dialogTitle = dialogTitle;
+        $scope.candidateNeighbors = candidateNeighbors;
+        $scope.currentCell = currentCell;
+
+        angular.forEach($scope.candidateNeighbors, function (neighbor) {
+            neighbor.distance = geometryService.getDistance($scope.currentCell.lattitute, $scope.currentCell.longtitute,
+                neighbor.lattitute, neighbor.longtitute);
+
+            $scope.pciNeighbors.push(neighbor);
+        });
+
+        $scope.updateNearestCell = function () {
+            var minDistance = 10000;
+            angular.forEach($scope.candidateNeighbors, function (neighbor) {
+                if (neighbor.distance < minDistance && (neighbor.indoor === '室外' || $scope.indoorConsidered)) {
+                    minDistance = neighbor.distance;
+                    $scope.nearestCell = neighbor;
+                }
+            });
+
+        };
+
+        $scope.ok = function () {
+            $scope.updateNearestCell();
+            $uibModalInstance.close($scope.nearestCell);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('coverage.details.dialog', function ($scope, $uibModalInstance, cellName, cellId, sectorId,
+        topPreciseService, preciseChartService) {
+        $scope.dialogTitle = cellName + '：覆盖详细信息';
+        $scope.showCoverage = function () {
+            topPreciseService.queryRsrpTa($scope.beginDate.value, $scope.endDate.value,
+                cellId, sectorId).then(function (result) {
+                    for (var rsrpIndex = 0; rsrpIndex < 12; rsrpIndex++) {
+                        var options = preciseChartService.getRsrpTaOptions(result, rsrpIndex);
+                        $("#rsrp-ta-" + rsrpIndex).highcharts(options);
+                    }
+                });
+            topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
+                cellId, sectorId).then(function (result) {
+                    var options = preciseChartService.getCoverageOptions(result);
+                    $("#coverage-chart").highcharts(options);
+                });
+            topPreciseService.queryTa($scope.beginDate.value, $scope.endDate.value,
+                cellId, sectorId).then(function (result) {
+                    var options = preciseChartService.getTaOptions(result);
+                    $("#ta-chart").highcharts(options);
+                });
+        };
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.coverageInfos);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        $scope.showCoverage();
+    })
+    .controller("rutrace.interference", function ($scope, $uibModalInstance, cell,
+        topPreciseService, kpiDisplayService, preciseInterferenceService, neighborMongoService, networkElementService) {
+        $scope.currentCellName = cell.name + "-" + cell.sectorId;
+        $scope.dialogTitle = "TOP指标干扰分析: " + $scope.currentCellName;
+        $scope.oneAtATime = false;
+        $scope.orderPolicy = topPreciseService.getOrderPolicySelection();
+        $scope.updateMessages = [];
+
+        networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function (info) {
+            $scope.current = {
+                cellId: cell.cellId,
+                sectorId: cell.sectorId,
+                eNodebName: cell.name,
+                longtitute: info.longtitute,
+                lattitute: info.lattitute
+            };
+        });
+
+        $scope.showInterference = function () {
+            $scope.interferenceCells = [];
+            $scope.victimCells = [];
+
+            preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
+                cell.cellId, cell.sectorId).then(function (result) {
+                    angular.forEach(result, function (interference) {
+                        for (var i = 0; i < $scope.mongoNeighbors.length; i++) {
+                            var neighbor = $scope.mongoNeighbors[i];
+                            if (neighbor.neighborPci === interference.destPci) {
+                                interference.isMongoNeighbor = true;
+                                break;
+                            }
+                        }
+                    });
+                    $scope.interferenceCells = result;
+                    preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
+                        cell.cellId, cell.sectorId).then(function (victims) {
+                            angular.forEach(victims, function (victim) {
+                                for (var j = 0; j < result.length; j++) {
+                                    if (result[j].destENodebId === victim.victimENodebId
+                                        && result[j].destSectorId === victim.victimSectorId) {
+                                        victim.forwardInterferences6Db = result[j].overInterferences6Db;
+                                        victim.forwardInterferences10Db = result[j].overInterferences10Db;
+                                        break;
+                                    }
+                                }
+                            });
+                            $scope.victimCells = victims;
+                        });
+                    var pieOptions = kpiDisplayService.getInterferencePieOptions(result, $scope.currentCellName);
+                    $("#interference-over6db").highcharts(pieOptions.over6DbOption);
+                    $("#interference-over10db").highcharts(pieOptions.over10DbOption);
+                    $("#interference-mod3").highcharts(pieOptions.mod3Option);
+                    $("#interference-mod6").highcharts(pieOptions.mod6Option);
+                    topPreciseService.queryRsrpTa($scope.beginDate.value, $scope.endDate.value,
+                        cell.cellId, cell.sectorId).then(function (info) {
+                        });
+                });
+        };
+
+        $scope.updateNeighborInfos = function () {
+            preciseInterferenceService.updateInterferenceNeighbor(cell.cellId, cell.sectorId).then(function (result) {
+                $scope.updateMessages.push({
+                    cellName: $scope.currentCellName,
+                    counts: result,
+                    type: "干扰"
+                });
+            });
+
+            preciseInterferenceService.updateInterferenceVictim(cell.cellId, cell.sectorId).then(function (result) {
+                $scope.updateMessages.push({
+                    cellName: $scope.currentCellName,
+                    counts: result,
+                    type: "被干扰"
+                });
+            });
+        }
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.mongoNeighbors);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        neighborMongoService.queryNeighbors(cell.cellId, cell.sectorId).then(function (result) {
+            $scope.mongoNeighbors = result;
+            $scope.showInterference();
+            $scope.updateNeighborInfos();
+        });
+    })
+
+    .controller("town.stats", function ($scope, cityName, dialogTitle, $uibModalInstance, appRegionService, parametersChartService) {
+        $scope.dialogTitle = dialogTitle;
+        appRegionService.queryDistrictInfrastructures(cityName).then(function (result) {
+            appRegionService.accumulateCityStat(result, cityName);
+            $("#leftChart").highcharts(
+                parametersChartService.getDistrictLteENodebPieOptions(result.slice(0, result.length - 1), cityName));
+            $("#rightChart").highcharts(
+                parametersChartService.getDistrictLteCellPieOptions(result.slice(0, result.length - 1), cityName));
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller("cdma.town.stats", function ($scope, cityName, dialogTitle, $uibModalInstance, appRegionService, parametersChartService) {
+        $scope.dialogTitle = dialogTitle;
+        appRegionService.queryDistrictInfrastructures(cityName).then(function (result) {
+            appRegionService.accumulateCityStat(result, cityName);
+            $("#leftChart").highcharts(
+                parametersChartService.getDistrictCdmaBtsPieOptions(result.slice(0, result.length - 1), cityName));
+            $("#rightChart").highcharts(
+                parametersChartService.getDistrictCdmaCellPieOptions(result.slice(0, result.length - 1), cityName));
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller("flow.stats", function ($scope, today, dialogTitle, $uibModalInstance, appRegionService, preciseChartService) {
+        $scope.dialogTitle = dialogTitle;
+        appRegionService.getTownFlowStats(today).then(function (result) {
+            $("#leftChart").highcharts(preciseChartService.getTownFlowOption(result));
+            $("#rightChart").highcharts(preciseChartService.getTownUsersOption(result));
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller("flow.trend", function ($scope, beginDate, endDate, city, dialogTitle, $uibModalInstance,
+        kpiPreciseService, appFormatService, appKpiService, appRegionService) {
+        $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") + '-'
+            + appFormatService.getDateString(endDate.value, "yyyy年MM月dd日")
+            + dialogTitle;
+        kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value).then(function (result) {
+            appRegionService.queryDistricts(city).then(function (districts) {
+                var stats = appKpiService.generateFlowDistrictStats(districts, result);
+                $("#leftChart").highcharts(appKpiService.getDownlinkFlowDistrictOptions(stats, districts));
+                $("#rightChart").highcharts(appKpiService.getUplinkFlowDistrictOptions(stats, districts));
+            });
+
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller("users.trend", function ($scope, beginDate, endDate, city, dialogTitle, $uibModalInstance,
+        kpiPreciseService, appFormatService, appKpiService, appRegionService) {
+        $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") + '-'
+            + appFormatService.getDateString(endDate.value, "yyyy年MM月dd日")
+            + dialogTitle;
+        kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value).then(function (result) {
+            appRegionService.queryDistricts(city).then(function (districts) {
+                var stats = appKpiService.generateUsersDistrictStats(districts, result);
+                $("#leftChart").highcharts(appKpiService.getMaxUsersDistrictOptions(stats, districts));
+                $("#rightChart").highcharts(appKpiService.getMaxActiveUsersDistrictOptions(stats, districts));
+            });
+
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller("feelingRate.trend", function ($scope, beginDate, endDate, city, dialogTitle, $uibModalInstance,
+        kpiPreciseService, appFormatService, appKpiService, appRegionService) {
+        $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") + '-'
+            + appFormatService.getDateString(endDate.value, "yyyy年MM月dd日")
+            + dialogTitle;
+        kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value).then(function (result) {
+            appRegionService.queryDistricts(city).then(function (districts) {
+                var stats = appKpiService.generateFeelingRateDistrictStats(districts, result);
+                $("#leftChart").highcharts(appKpiService.getDownlinkRateDistrictOptions(stats, districts));
+                $("#rightChart").highcharts(appKpiService.getUplinkRateDistrictOptions(stats, districts));
+            });
+
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller("rutrace.coverage", function ($scope, cell, $uibModalInstance,
+        topPreciseService, preciseInterferenceService,
+        preciseChartService, coverageService, kpiDisplayService) {
+        $scope.currentCellName = cell.name + "-" + cell.sectorId;
+        $scope.dialogTitle = "TOP指标覆盖分析: " + $scope.currentCellName;
+        $scope.orderPolicy = topPreciseService.getOrderPolicySelection();
+        $scope.detailsDialogTitle = cell.name + "-" + cell.sectorId + "详细小区统计";
+        $scope.cellId = cell.cellId;
+        $scope.sectorId = cell.sectorId;
+        $scope.showCoverage = function () {
+            topPreciseService.queryRsrpTa($scope.beginDate.value, $scope.endDate.value,
+                cell.cellId, cell.sectorId).then(function (result) {
+                    for (var rsrpIndex = 0; rsrpIndex < 12; rsrpIndex++) {
+                        var options = preciseChartService.getRsrpTaOptions(result, rsrpIndex);
+                        $("#rsrp-ta-" + rsrpIndex).highcharts(options);
+                    }
+                });
+            topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
+                cell.cellId, cell.sectorId).then(function (result) {
+                    var options = preciseChartService.getCoverageOptions(result);
+                    $("#coverage-chart").highcharts(options);
+                });
+            topPreciseService.queryTa($scope.beginDate.value, $scope.endDate.value,
+                cell.cellId, cell.sectorId).then(function (result) {
+                    var options = preciseChartService.getTaOptions(result);
+                    $("#ta-chart").highcharts(options);
+                });
+            preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
+                cell.cellId, cell.sectorId).then(function (result) {
+                    $scope.interferenceCells = result;
+                    angular.forEach($scope.interferenceCells, function (neighbor) {
+                        if (neighbor.destENodebId > 0) {
+                            kpiDisplayService.updateCoverageKpi(neighbor, {
+                                cellId: neighbor.destENodebId,
+                                sectorId: neighbor.destSectorId
+                            }, {
+                                begin: $scope.beginDate.value,
+                                end: $scope.endDate.value
+                            });
+                        }
+                    });
+                });
+            preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
+                cell.cellId, cell.sectorId).then(function (result) {
+                    $scope.interferenceVictims = result;
+                    angular.forEach($scope.interferenceVictims, function (victim) {
+                        if (victim.victimENodebId > 0) {
+                            kpiDisplayService.updateCoverageKpi(victim, {
+                                cellId: victim.victimENodebId,
+                                sectorId: victim.victimSectorId
+                            }, {
+                                begin: $scope.beginDate.value,
+                                end: $scope.endDate.value
+                            });
+                        }
+                    });
+                });
+        };
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.interferenceCells);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        $scope.showCoverage();
+    })
+     .controller("user.roles.dialog", function ($scope, $uibModalInstance, dialogTitle, userName, authorizeService) {
+         $scope.dialogTitle = dialogTitle;
+         $scope.ok = function () {
+             $uibModalInstance.close($scope.city);
+         };
+
+         $scope.cancel = function () {
+             $uibModalInstance.dismiss('cancel');
+         };
+
+         $scope.query = function () {
+             authorizeService.queryRolesInUser(userName).then(function (roles) {
+                 $scope.existedRoles = roles;
+             });
+             authorizeService.queryCandidateRolesInUser(userName).then(function (roles) {
+                 $scope.candidateRoles = roles;
+             });
+         };
+
+         $scope.addRole = function (role) {
+             authorizeService.assignRoleInUser(userName, role).then(function (result) {
+                 if (result) {
+                     $scope.query();
+                 }
+             });
+         };
+
+         $scope.removeRole = function (role) {
+             authorizeService.releaseRoleInUser(userName, role).then(function (result) {
+                 if (result) {
+                     $scope.query();
+                 }
+             });
+         };
+
+         $scope.query();
+     })
+
+    .factory('neighborDialogService', function ($uibModal, $log, networkElementService) {
+        var matchNearest = function (nearestCell, currentNeighbor, center) {
+            networkElementService.updateNeighbors(center.cellId, center.sectorId, currentNeighbor.destPci,
+                nearestCell.eNodebId, nearestCell.sectorId).then(function () {
+                    currentNeighbor.neighborCellName = nearestCell.eNodebName + "-" + nearestCell.sectorId;
+                });
+        };
+        return {
+            dumpMongo: function (cell, beginDate, endDate) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Interference/DumpCellMongoDialog.html',
+                    controller: 'dump.cell.mongo',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return cell.name + "-" + cell.sectorId + "干扰数据导入";
+                        },
+                        cell: function () {
+                            return cell;
+                        },
+                        begin: function () {
+                            return beginDate;
+                        },
+                        end: function () {
+                            return endDate;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (info) {
+                    console.log(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showInterference: function (cell, beginDate, endDate) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Interference/Index.html',
+                    controller: 'rutrace.interference',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return cell.name + "-" + cell.sectorId + "干扰指标分析";
+                        },
+                        cell: function () {
+                            return cell;
+                        },
+                        begin: function () {
+                            return beginDate;
+                        },
+                        end: function () {
+                            return endDate;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (info) {
+                    console.log(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showCoverage: function (cell, beginDate, endDate) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Coverage/Index.html',
+                    controller: 'rutrace.coverage',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return cell.name + "-" + cell.sectorId + "覆盖指标分析";
+                        },
+                        cell: function () {
+                            return cell;
+                        },
+                        begin: function () {
+                            return beginDate;
+                        },
+                        end: function () {
+                            return endDate;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (info) {
+                    console.log(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showPrecise: function (precise) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Map/PreciseSectorMapInfoBox.html',
+                    controller: 'map.source.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return precise.eNodebName + "-" + precise.sectorId + "精确覆盖率指标";
+                        },
+                        neighbor: function () {
+                            return precise;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (sector) {
+                    console.log(sector);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+
+            },
+            showCell: function (cell) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Parameters/Region/CellInfo.html',
+                    controller: 'cell.info.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return cell.eNodebName + "-" + cell.sectorId + "小区详细信息";
+                        },
+                        cell: function () {
+                            return cell;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (sector) {
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+
+            },
+            showNeighbor: function (neighbor) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Map/NeighborMapInfoBox.html',
+                    controller: 'map.neighbor.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return neighbor.cellName + "小区信息";
+                        },
+                        neighbor: function () {
+                            return neighbor;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (nei) {
+                    console.log(nei);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showInterferenceSource: function (neighbor) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Map/SourceMapInfoBox.html',
+                    controller: 'map.source.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return neighbor.neighborCellName + "干扰源信息";
+                        },
+                        neighbor: function () {
+                            return neighbor;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (nei) {
+                    console.log(nei);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showInterferenceVictim: function (neighbor) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Map/VictimMapInfoBox.html',
+                    controller: 'map.source.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return neighbor.victimCellName + "被干扰小区信息";
+                        },
+                        neighbor: function () {
+                            return neighbor;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (nei) {
+                    console.log(nei);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            matchNeighbor: function (center, candidate, neighbors) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Interference/MatchCellDialog.html',
+                    controller: 'neighbors.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return center.eNodebName + "-" + center.sectorId + "的邻区PCI=" + candidate.destPci + "的可能小区";
+                        },
+                        candidateNeighbors: function () {
+                            return neighbors;
+                        },
+                        currentCell: function () {
+                            return center;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (nearestCell) {
+                    matchNearest(nearestCell, candidate, center);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            }
+        }
+    })
+    .factory('coverageDialogService', function ($uibModal, $log) {
+        return {
+            showDetails: function (cellName, cellId, sectorId) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Coverage/DetailsChartDialog.html',
+                    controller: 'coverage.details.dialog',
+                    size: 'lg',
+                    resolve: {
+                        cellName: function () {
+                            return cellName;
+                        },
+                        cellId: function () {
+                            return cellId;
+                        },
+                        sectorId: function () {
+                            return sectorId;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                    console.log(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showSource: function (currentView, serialNumber, callback) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Interference/SourceDialog.html',
+                    controller: 'interference.source.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return currentView.eNodebName + "-" + currentView.sectorId + "干扰源分析";
+                        },
+                        eNodebId: function () {
+                            return currentView.eNodebId;
+                        },
+                        sectorId: function () {
+                            return currentView.sectorId;
+                        },
+                        serialNumber: function () {
+                            return serialNumber;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                    callback(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showSourceDbChart: function (currentView) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Interference/SourceDbChartDialog.html',
+                    controller: 'interference.source.db.chart',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return currentView.eNodebName + "-" + currentView.sectorId + "干扰源图表";
+                        },
+                        eNodebId: function () {
+                            return currentView.eNodebId;
+                        },
+                        sectorId: function () {
+                            return currentView.sectorId;
+                        },
+                        name: function () {
+                            return currentView.eNodebName;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                    console.log(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showSourceModChart: function (currentView, callback) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Interference/SourceModChartDialog.html',
+                    controller: 'interference.source.mod.chart',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return currentView.eNodebName + "-" + currentView.sectorId + "MOD3/MOD6干扰图表";
+                        },
+                        eNodebId: function () {
+                            return currentView.eNodebId;
+                        },
+                        sectorId: function () {
+                            return currentView.sectorId;
+                        },
+                        name: function () {
+                            return currentView.eNodebName;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                    callback(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showSourceStrengthChart: function (currentView, callback) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Interference/SourceStrengthChartDialog.html',
+                    controller: 'interference.source.strength.chart',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return currentView.eNodebName + "-" + currentView.sectorId + "干扰强度图表";
+                        },
+                        eNodebId: function () {
+                            return currentView.eNodebId;
+                        },
+                        sectorId: function () {
+                            return currentView.sectorId;
+                        },
+                        name: function () {
+                            return currentView.eNodebName;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                    callback(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showInterferenceVictim: function (currentView, serialNumber, callback) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Interference/VictimDialog.html',
+                    controller: 'interference.victim.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return currentView.eNodebName + "-" + currentView.sectorId + "干扰小区分析";
+                        },
+                        eNodebId: function () {
+                            return currentView.eNodebId;
+                        },
+                        sectorId: function () {
+                            return currentView.sectorId;
+                        },
+                        serialNumber: function () {
+                            return serialNumber;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                    callback(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showCoverage: function (currentView, preciseCells, callback) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Rutrace/Interference/CoverageDialog.html',
+                    controller: 'interference.coverage.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return currentView.eNodebName + "-" + currentView.sectorId + "覆盖分析";
+                        },
+                        preciseCells: function () {
+                            return preciseCells;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                    callback(info);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showTownStats: function (cityName) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'town.stats',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "全市LTE基站小区分布";
+                        },
+                        cityName: function () {
+                            return cityName;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showCdmaTownStats: function (cityName) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'cdma.town.stats',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "全市CDMA基站小区分布";
+                        },
+                        cityName: function () {
+                            return cityName;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showFlowStats: function (today) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'flow.stats',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "全市4G流量和用户数分布";
+                        },
+                        today: function () {
+                            return today;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showFlowTrend: function (city, beginDate, endDate) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Home/FourChartDialog.html',
+                    controller: 'flow.trend',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return city + "流量变化趋势";
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        },
+                        city: function () {
+                            return city;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showUsersTrend: function (city, beginDate, endDate) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Home/FourChartDialog.html',
+                    controller: 'users.trend',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return city + "用户数变化趋势";
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        },
+                        city: function () {
+                            return city;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showFeelingRateTrend: function (city, beginDate, endDate) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Home/FourChartDialog.html',
+                    controller: 'feelingRate.trend',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return city + "感知速率变化趋势";
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        },
+                        city: function () {
+                            return city;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            },
+            showUserRoles: function (userName) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Manage/UserRolesDialog.html',
+                    controller: 'user.roles.dialog',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return userName + "角色管理";
+                        },
+                        userName: function () {
+                            return userName;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (info) {
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            }
+        }
     });
