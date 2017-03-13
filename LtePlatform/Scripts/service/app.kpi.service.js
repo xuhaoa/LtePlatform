@@ -1331,8 +1331,12 @@
         kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value).then(function (result) {
             appRegionService.queryDistricts(city).then(function (districts) {
                 var stats = appKpiService.generateFlowDistrictStats(districts, result);
+                var trendStat = {};
+                appKpiService.generateFlowTrendStatsForPie(trendStat, result);
                 $("#leftChart").highcharts(appKpiService.getDownlinkFlowDistrictOptions(stats, districts));
                 $("#rightChart").highcharts(appKpiService.getUplinkFlowDistrictOptions(stats, districts));
+                $("#thirdChart").highcharts(appKpiService.getDownlinkFlowOptions(trendStat.districtStats, trendStat.townStats));
+                $("#fourthChart").highcharts(appKpiService.getUplinkFlowOptions(trendStat.districtStats, trendStat.townStats));
             });
 
         });

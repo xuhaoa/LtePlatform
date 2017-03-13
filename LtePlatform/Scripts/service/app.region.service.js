@@ -1524,6 +1524,36 @@
                     }
                 });
             },
+            getDownlinkFlowOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.pdcpDownlinkFlow/1024/1024/8;
+                }), {
+                    title: "分镇区下行流量分布图（TB）",
+                    seriesName: "区域"
+                }, {
+                    nameFunc: function (stat) {
+                        return stat.district;
+                    },
+                    valueFunc: function (stat) {
+                        return stat.districtData;
+                    }
+                });
+            },
+            getUplinkFlowOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.pdcpUplinkFlow / 1024 / 1024 / 8;
+                }), {
+                    title: "分镇区上行流量分布图（TB）",
+                    seriesName: "区域"
+                }, {
+                    nameFunc: function (stat) {
+                        return stat.district;
+                    },
+                    valueFunc: function (stat) {
+                        return stat.districtData;
+                    }
+                });
+            },
             getMrsDistrictOptions: function (stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
@@ -1764,44 +1794,35 @@
                 return result;
             },
             generateTrendStatsForPie: function (trendStat, result) {
-                trendStat.districtStats = result[0].districtPreciseViews;
-                trendStat.townStats = result[0].townPreciseViews;
-                for (var i = 1; i < result.length; i++) {
-                    angular.forEach(result[i].districtPreciseViews, function (currentDistrictStat) {
-                        var found = false;
-                        for (var k = 0; k < trendStat.districtStats.length; k++) {
-                            if (trendStat.districtStats[k].city === currentDistrictStat.city
-                                && trendStat.districtStats[k].district === currentDistrictStat.district) {
-                                calculateService.accumulatePreciseStat(trendStat.districtStats[k], currentDistrictStat);
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            trendStat.districtStats.push(currentDistrictStat);
-                        }
-                    });
-                    angular.forEach(result[i].townPreciseView, function (currentTownStat) {
-                        var found = false;
-                        for (var k = 0; k < trendStat.townStats.length; k++) {
-                            if (trendStat.townStats[k].city === currentTownStat.city
-                                && trendStat.townStats[k].district === currentTownStat.district
-                                && trendStat.townStats[k].town === currentTownStat.town) {
-                                calculateService.accumulatePreciseStat(trendStat.townStats[k], currentTownStat);
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            trendStat.townStats.push(currentTownStat);
-                        }
-                    });
-                }
-                angular.forEach(trendStat.districtStats, function (stat) {
-                    calculateService.calculateDistrictRates(stat);
+                chartCalculateService.generateStatsForPie(trendStat, result, {
+                    districtViewsFunc: function(stat) {
+                        return stat.districtPreciseViews;
+                    },
+                    townViewsFunc: function(stat) {
+                        return stat.townPreciseViews;
+                    },
+                    accumulateFunc: function (source, accumulate) {
+                        calculateService.accumulatePreciseStat(source, accumulate);
+                    },
+                    districtCalculate: function(stat) {
+                        calculateService.calculateDistrictRates(stat);
+                    },
+                    townCalculate: function(stat) {
+                        calculateService.calculateTownRates(stat);
+                    }
                 });
-                angular.forEach(trendStat.townStats, function (stat) {
-                    calculateService.calculateTownRates(stat);
+            },
+            generateFlowTrendStatsForPie: function (trendStat, result) {
+                chartCalculateService.generateStatsForPie(trendStat, result, {
+                    districtViewsFunc: function (stat) {
+                        return stat.districtFlowViews;
+                    },
+                    townViewsFunc: function (stat) {
+                        return stat.townFlowViews;
+                    },
+                    accumulateFunc: function (source, accumulate) {
+                        calculateService.accumulateFlowStat(source, accumulate);
+                    }
                 });
             },
             getPreciseObject: function (district) {

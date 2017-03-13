@@ -659,39 +659,39 @@
 				return result;
 			},
 			generateDistrictStats: function (districts, stats, funcs) {
-			    var outputStats = [];
-			    angular.forEach(stats, function (stat) {
-			        var districtViews = funcs.districtViewFunc(stat);
-			        var statDate = stat.statDate;
-			        var generalStat = {};
-			        funcs.initializeFunc(generalStat);
-			        var values = [];
-			        angular.forEach(districts, function (district) {
-			            for (var k = 0; k < districtViews.length; k++) {
-			                var view = districtViews[k];
-			                if (view.district === district) {
-			                    values.push(funcs.calculateFunc(view));
-			                    funcs.accumulateFunc(generalStat, view);
-			                    break;
-			                }
-			            }
-			            if (k === districtViews.length) {
-			                values.push(funcs.zeroFunc());
-			            }
-			        });
-			        values.push(funcs.totalFunc(generalStat));
-			        outputStats.push({
-			            statDate: statDate,
-			            values: values
-			        });
-			    });
-			    return outputStats;
+				var outputStats = [];
+				angular.forEach(stats, function (stat) {
+					var districtViews = funcs.districtViewFunc(stat);
+					var statDate = stat.statDate;
+					var generalStat = {};
+					funcs.initializeFunc(generalStat);
+					var values = [];
+					angular.forEach(districts, function (district) {
+						for (var k = 0; k < districtViews.length; k++) {
+							var view = districtViews[k];
+							if (view.district === district) {
+								values.push(funcs.calculateFunc(view));
+								funcs.accumulateFunc(generalStat, view);
+								break;
+							}
+						}
+						if (k === districtViews.length) {
+							values.push(funcs.zeroFunc());
+						}
+					});
+					values.push(funcs.totalFunc(generalStat));
+					outputStats.push({
+						statDate: statDate,
+						values: values
+					});
+				});
+				return outputStats;
 			},
 			generateDateDistrictStats: function (stats, districtLength, queryFunction) {
 				var statDates = [];
 				var districtStats = [];
 				angular.forEach(stats, function (stat, index) {
-				    statDates.push(stat.statDate.split('T')[0]);
+					statDates.push(stat.statDate.split('T')[0]);
 					for (var j = 0; j < districtLength; j++) {
 						var statValue = stat.values[j] ? queryFunction(stat.values[j]) : 0;
 						if (index === 0) {
@@ -705,6 +705,52 @@
 					statDates: statDates,
 					districtStats: districtStats
 				};
+			},
+			generateStatsForPie: function(trendStat, result, funcs) {
+				trendStat.districtStats = funcs.districtViewsFunc(result[0]);
+				trendStat.townStats = funcs.townViewsFunc(result[0]);
+				for (var i = 1; i < result.length; i++) {
+					angular.forEach(funcs.districtViewsFunc(result[0]), function (currentDistrictStat) {
+						var found = false;
+						for (var k = 0; k < trendStat.districtStats.length; k++) {
+							if (trendStat.districtStats[k].city === currentDistrictStat.city
+								&& trendStat.districtStats[k].district === currentDistrictStat.district) {
+								funcs.accumulateFunc(trendStat.districtStats[k], currentDistrictStat);
+								found = true;
+								break;
+							}
+						}
+						if (!found) {
+							trendStat.districtStats.push(currentDistrictStat);
+						}
+					});
+					angular.forEach(result[i].townPreciseView, function (currentTownStat) {
+						var found = false;
+						for (var k = 0; k < trendStat.townStats.length; k++) {
+							if (trendStat.townStats[k].city === currentTownStat.city
+								&& trendStat.townStats[k].district === currentTownStat.district
+								&& trendStat.townStats[k].town === currentTownStat.town) {
+								funcs.accumulateFunc(trendStat.townStats[k], currentTownStat);
+								found = true;
+								break;
+							}
+						}
+						if (!found) {
+							trendStat.townStats.push(currentTownStat);
+						}
+					});
+				}
+				angular.forEach(trendStat.districtStats, function (stat) {
+					if (funcs.districtCalculate) {
+						funcs.districtCalculate(stat);
+					}
+					
+				});
+				angular.forEach(trendStat.townStats, function (stat) {
+					if (funcs.townCalculate) {
+						funcs.townCalculate(stat);
+					}
+				});
 			},
 			generateSeriesInfo: function(seriesInfo, stats, categoryKey, dataKeys) {
 				var categories = [];
@@ -1196,6 +1242,10 @@
 				source.firstNeighbors += accumulate.firstNeighbors;
 				source.secondNeighbors += accumulate.secondNeighbors;
 				source.thirdNeighbors += accumulate.thirdNeighbors;
+			},
+			accumulateFlowStat: function(source, accumulate) {
+			    source.pdcpDownlinkFlow += accumulate.pdcpDownlinkFlow;
+			    source.pdcpUplinkFlow += accumulate.pdcpUplinkFlow;
 			},
 			calculateDistrictRates: function (districtStat) {
 				districtStat.firstRate = 100 - 100 * districtStat.firstNeighbors / districtStat.totalMrs;
