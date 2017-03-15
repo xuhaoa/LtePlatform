@@ -1,4 +1,4 @@
-﻿angular.module('college.module', ['ui.grid', 'college.service', 'myApp.region', 'myApp.url'])
+﻿angular.module('college.module', ['ui.grid', 'myApp.region', 'myApp.url'])
 
     .controller('CollegeDtController', function($scope) {
         $scope.gridOptions = {

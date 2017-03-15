@@ -3,7 +3,6 @@
     'baidu.map',
     'basic.filters',
     'cell.filters',
-    'college.service',
     'college.module',
     'customer.module',
     'handoff.filters',

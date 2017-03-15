@@ -777,9 +777,9 @@
 		$scope.sectors = sectors;
 		$scope.dialogTitle = dialogTitle;
 		if (sectors.length > 0) {
-		    networkElementService.queryCellInfo(sectors[0].eNodebId, sectors[0].sectorId).then(function (result) {
-		        $scope.currentCell = result;
-		    });
+			networkElementService.queryCellInfo(sectors[0].eNodebId, sectors[0].sectorId).then(function (result) {
+				$scope.currentCell = result;
+			});
 		}
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.sectors);
@@ -879,4 +879,99 @@
 		interFreqHoService.queryCellParameters(cell.eNodebId, cell.sectorId).then(function(result) {
 			$scope.interFreqHo = result;
 		});
+	})
+	.factory('collegeMapService', function (baiduMapService, collegeService, collegeQueryService, collegeDtService) {
+		return {
+			showCollegeInfos: function (showCollegeDialogs, year) {
+				collegeService.queryStats(year).then(function (colleges) {
+					angular.forEach(colleges, function (college) {
+						var center;
+						collegeService.queryRegion(college.id).then(function (region) {
+							switch (region.regionType) {
+								case 2:
+									center = baiduMapService.drawPolygonAndGetCenter(region.info.split(';'));
+									break;
+								case 1:
+									center = baiduMapService.drawRectangleAndGetCenter(region.info.split(';'));
+									break;
+								default:
+									center = baiduMapService.drawCircleAndGetCenter(region.info.split(';'));
+									break;
+							}
+							var marker = baiduMapService.generateMarker(center.X, center.Y);
+							baiduMapService.addOneMarkerToScope(marker, showCollegeDialogs, college);
+							baiduMapService.drawLabel(college.name, center.X, center.Y);
+						});
+					});
+				});
+			},
+			drawCollegeArea: function (collegeId, callback) {
+				collegeService.queryRegion(collegeId).then(function (region) {
+					var center;
+					switch (region.regionType) {
+						case 2:
+							center = baiduMapService.drawPolygonAndGetCenter(region.info.split(';'));
+							break;
+						case 1:
+							center = baiduMapService.drawRectangleAndGetCenter(region.info.split(';'));
+							break;
+						default:
+							center = baiduMapService.drawCircleAndGetCenter(region.info.split(';'));
+							break;
+					}
+					baiduMapService.setCellFocus(center.X, center.Y);
+					callback(center);
+				});
+			},
+			showDtInfos: function (infos, begin, end) {
+				collegeQueryService.queryAll().then(function (colleges) {
+					angular.forEach(colleges, function (college) {
+						var center;
+						collegeService.queryRegion(college.id).then(function (region) {
+							switch (region.regionType) {
+								case 2:
+									center = baiduMapService.getPolygonCenter(region.info.split(';'));
+									break;
+								case 1:
+									center = baiduMapService.getRectangleCenter(region.info.split(';'));
+									break;
+								default:
+									center = baiduMapService.getCircleCenter(region.info.split(';'));
+									break;
+							}
+							var info = {
+								name: college.name,
+								centerX: center.X,
+								centerY: center.Y,
+								area: region.area,
+								file2Gs: 0,
+								file3Gs: 0,
+								file4Gs: 0
+							};
+							infos.push(info);
+							collegeDtService.updateFileInfo(info, begin, end);
+						});
+					});
+				});
+			},
+			queryCenterAndCallback: function (collegeName, callback) {
+				collegeQueryService.queryByName(collegeName).then(function (college) {
+					collegeService.queryRegion(college.id).then(function (region) {
+						var center;
+						switch (region.regionType) {
+							case 2:
+								center = baiduMapService.getPolygonCenter(region.info.split(';'));
+								break;
+							case 1:
+								center = baiduMapService.getRectangleCenter(region.info.split(';'));
+								break;
+							default:
+								center = baiduMapService.getCircleCenter(region.info.split(';'));
+								break;
+						}
+						callback(center);
+					});
+				});
+			}
+		};
 	});
