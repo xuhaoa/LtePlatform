@@ -1356,8 +1356,12 @@
         kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value).then(function (result) {
             appRegionService.queryDistricts(city).then(function (districts) {
                 var stats = appKpiService.generateUsersDistrictStats(districts, result);
+                var trendStat = {};
+                appKpiService.generateFlowTrendStatsForPie(trendStat, result);
                 $("#leftChart").highcharts(appKpiService.getMaxUsersDistrictOptions(stats, districts));
                 $("#rightChart").highcharts(appKpiService.getMaxActiveUsersDistrictOptions(stats, districts));
+                $("#thirdChart").highcharts(appKpiService.getMaxUsersOptions(trendStat.districtStats, trendStat.townStats));
+                $("#fourthChart").highcharts(appKpiService.getMaxActiveUsersOptions(trendStat.districtStats, trendStat.townStats));
             });
 
         });
@@ -1377,8 +1381,12 @@
         kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value).then(function (result) {
             appRegionService.queryDistricts(city).then(function (districts) {
                 var stats = appKpiService.generateFeelingRateDistrictStats(districts, result);
+                var trendStat = {};
+                appKpiService.generateFlowTrendStatsForPie(trendStat, result);
                 $("#leftChart").highcharts(appKpiService.getDownlinkRateDistrictOptions(stats, districts));
                 $("#rightChart").highcharts(appKpiService.getUplinkRateDistrictOptions(stats, districts));
+                $("#thirdChart").highcharts(appKpiService.getDownlinkRateOptions(trendStat.districtStats, trendStat.townStats));
+                $("#fourthChart").highcharts(appKpiService.getUplinkRateOptions(trendStat.districtStats, trendStat.townStats));
             });
 
         });

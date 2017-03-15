@@ -1554,6 +1554,66 @@
                     }
                 });
             },
+            getDownlinkRateOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.downlinkFeelingRate;
+                }), {
+                    title: "分镇区下行感知速率分布图（Mbit/s）",
+                    seriesName: "区域"
+                }, {
+                    nameFunc: function (stat) {
+                        return stat.district;
+                    },
+                    valueFunc: function (stat) {
+                        return stat.districtData;
+                    }
+                });
+            },
+            getUplinkRateOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.uplinkFeelingRate;
+                }), {
+                    title: "分镇区上行感知速率分布图（Mbit/s）",
+                    seriesName: "区域"
+                }, {
+                    nameFunc: function (stat) {
+                        return stat.district;
+                    },
+                    valueFunc: function (stat) {
+                        return stat.districtData;
+                    }
+                });
+            },
+            getMaxUsersOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.maxUsers;
+                }), {
+                    title: "分镇区最大用户数",
+                    seriesName: "区域"
+                }, {
+                    nameFunc: function (stat) {
+                        return stat.district;
+                    },
+                    valueFunc: function (stat) {
+                        return stat.districtData;
+                    }
+                });
+            },
+            getMaxActiveUsersOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.maxActiveUsers;
+                }), {
+                    title: "分镇区最大激活用户数",
+                    seriesName: "区域"
+                }, {
+                    nameFunc: function (stat) {
+                        return stat.district;
+                    },
+                    valueFunc: function (stat) {
+                        return stat.districtData;
+                    }
+                });
+            },
             getMrsDistrictOptions: function (stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
