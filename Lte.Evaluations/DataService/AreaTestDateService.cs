@@ -5,21 +5,27 @@ using Lte.Parameters.Entities.Dt;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Abp.EntityFramework.AutoMapper;
+using Lte.Parameters.Abstract.Infrastructure;
 
 namespace Lte.Evaluations.DataService
 {
     public class AreaTestDateService
     {
         private readonly IAreaTestDateRepository _repository;
+        private readonly ITownRepository _townRepository;
 
-        public AreaTestDateService(IAreaTestDateRepository repository)
+        public AreaTestDateService(IAreaTestDateRepository repository, ITownRepository townRepository)
         {
             _repository = repository;
+            _townRepository = townRepository;
         }
 
-        public IEnumerable<AreaTestDate> QueryAllList()
+        public IEnumerable<AreaTestDateView> QueryAllList()
         {
-            return _repository.AreaTestDates.ToList();
+            return
+                _repository.AreaTestDates.ToList()
+                    .Select(x => x.ConstructAreaView<AreaTestDate, AreaTestDateView>(_townRepository));
         }
     }
 

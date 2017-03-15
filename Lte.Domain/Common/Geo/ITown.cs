@@ -29,6 +29,11 @@ namespace Lte.Domain.Common.Geo
         string District { get; set; }
     }
 
+    public interface IArea
+    {
+        string Area { get; set; }
+    }
+
     public static class CityDistrictQueries
     {
         public static IEnumerable<TDistrictView> Merge<TDistrictView, TTownView>(this IEnumerable<TTownView> townPreciseViews,

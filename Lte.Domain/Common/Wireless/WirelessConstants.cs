@@ -308,7 +308,11 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(ComplainScene.CenterOfCity, "中心市区"),
                     new Tuple<object, string>(ComplainScene.ImportantRegion, "重要区域"),
                     new Tuple<object, string>(ComplainScene.Residential, "住宅小区"),
-                    new Tuple<object, string>(ComplainScene.Others, "其他")
+                    new Tuple<object, string>(ComplainScene.Others, "其他"),
+                    new Tuple<object, string>(ComplainScene.DenseUrban, "密集城区"),
+                    new Tuple<object, string>(ComplainScene.Urban, "普通城区"),
+                    new Tuple<object, string>(ComplainScene.Suburban, "郊区"),
+                    new Tuple<object, string>(ComplainScene.Rural, "农村"),    
                 }
             },
             {

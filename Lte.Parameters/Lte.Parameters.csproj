@@ -234,6 +234,10 @@
     <Compile Include="Migrations\201612210831597_Interference_Matrix_1221.Designer.cs">
       <DependentUpon>201612210831597_Interference_Matrix_1221.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703150902044_Extend_Town_Type.cs" />
+    <Compile Include="Migrations\201703150902044_Extend_Town_Type.Designer.cs">
+      <DependentUpon>201703150902044_Extend_Town_Type.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MockOperations\MockItemsAudited.cs" />
     <Compile Include="MockOperations\MockItemsRepository.cs" />
@@ -263,6 +267,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201612210831597_Interference_Matrix_1221.resx">
       <DependentUpon>201612210831597_Interference_Matrix_1221.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703150902044_Extend_Town_Type.resx">
+      <DependentUpon>201703150902044_Extend_Town_Type.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

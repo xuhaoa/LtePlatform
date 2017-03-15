@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Data.Linq.Mapping;
+using Abp.EntityFramework.AutoMapper;
+using Lte.Domain.Common;
+using Lte.Domain.Common.Geo;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.Parameters.Entities.Dt
 {
@@ -23,7 +27,7 @@ namespace Lte.Parameters.Entities.Dt
     }
 
     [Table(Name = "dbo.areaTestDate")]
-    public class AreaTestDate
+    public class AreaTestDate : IArea
     {
         [Column(Name = "area", DbType = "Char(50)")]
         public string Area { get; set; }
@@ -36,5 +40,40 @@ namespace Lte.Parameters.Entities.Dt
 
         [Column(Name = "latestTestDate4G", DbType = "Char(100)")]
         public string LatestTestDate4G { get; set; }
+
+        public DateTime LatestDate2G => Convert.ToDateTime(DateTime.Today);
+
+        public DateTime LatestDate3G => Convert.ToDateTime(DateTime.Today);
+
+        public DateTime LatestDate4G => Convert.ToDateTime(DateTime.Today);
+    }
+
+    [AutoMapFrom(typeof(AreaTestDate), typeof(Town))]
+    public class AreaTestDateView
+    {
+        public string CityName { get; set; }
+
+        public string DistrictName { get; set; }
+
+        public string TownName { get; set; }
+
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        [AutoMapPropertyResolve("AreaType", typeof(Town), typeof(ComplainSceneDescriptionTransform))]
+        public string AreaTypeDescription { get; set; }
+
+        public DateTime LatestDate2G { get; set; }
+        
+        public DateTime LatestDate3G { get; set; }
+        
+        public DateTime LatestDate4G { get; set; }
+
+        public int TotalDays2G => (DateTime.Today - LatestDate2G).Days;
+
+        public int TotalDays3G => (DateTime.Today - LatestDate3G).Days;
+
+        public int TotalDays4G => (DateTime.Today - LatestDate4G).Days;
     }
 }

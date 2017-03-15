@@ -5,6 +5,7 @@ using Lte.Parameters.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Abp.EntityFramework.AutoMapper;
 
 namespace Lte.Parameters.Abstract.Infrastructure
 {
@@ -41,6 +42,18 @@ namespace Lte.Parameters.Abstract.Infrastructure
             view.City = town?.CityName;
             view.District = town?.DistrictName;
             view.Town = town?.TownName;
+            return view;
+        }
+
+        public static TView ConstructAreaView<TStat, TView>(this TStat stat, ITownRepository repository)
+            where TStat : IArea
+        {
+            var town = repository.FirstOrDefault(x => x.TownName == stat.Area || x.DistrictName == stat.Area);
+            var view = Mapper.Map<TStat, TView>(stat);
+            if (town != null)
+            {
+                town.MapTo(view);
+            }
             return view;
         }
 

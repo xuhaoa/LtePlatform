@@ -343,7 +343,11 @@ namespace Lte.Domain.Common.Wireless
         CenterOfCity,
         ImportantRegion,
         Residential,
-        Others
+        Others,
+        DenseUrban,
+        Urban,
+        Suburban,
+        Rural
     }
 
     public class ComplainSceneDescriptionTransform : DescriptionTransform<ComplainScene>
