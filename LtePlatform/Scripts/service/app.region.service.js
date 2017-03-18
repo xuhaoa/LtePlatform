@@ -522,6 +522,9 @@
     })
     .factory('coverageService', function (generalHttpService) {
         return {
+            queryAreaTestDate: function() {
+                return generalHttpService.getApiData('AreaTestDate', {});
+            },
             queryByRasterInfo: function (info, type) {
                 var api;
                 switch (type) {

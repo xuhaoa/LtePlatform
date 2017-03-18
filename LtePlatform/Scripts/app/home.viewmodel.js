@@ -338,9 +338,12 @@
             }
         });
     })
-    .controller("home.dt", function ($scope, baiduMapService) {
+    .controller("home.dt", function ($scope, baiduMapService, coverageService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+        coverageService.queryAreaTestDate().then(function(result) {
+            console.log(result);
+        });
 
     })
     .controller("home.complain", function ($scope, baiduMapService) {
