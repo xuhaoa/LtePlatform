@@ -1,4 +1,4 @@
-﻿angular.module('myApp.url', ['ui.grid'])
+﻿angular.module('myApp.url', ['ui.grid', "ui.bootstrap"])
 	.factory('appUrlService', function() {
 		var parseQueryString = function(queryString) {
 			var data = {}, pair, separatorIndex, escapedKey, escapedValue, key, value;
@@ -215,7 +215,7 @@
 			}
 		};
 	})
-	.factory('menuItemService', function() {
+	.factory('menuItemService', function($uibModal, $log) {
 		return {
 			updateMenuItem: function (items, index, title, url, masterName) {
 				if (index >= items.length) return;
@@ -233,6 +233,34 @@
 					item.isActive = false;
 				});
 				items[index].isActive = true;
+			},
+			showGeneralDialog: function(settings) {
+				var modalInstance = $uibModal.open({
+					animation: true,
+					templateUrl: settings.templateUrl,
+					controller: settings.controller,
+					size: settings.size || 'lg',
+					resolve: settings.resolve
+				});
+				modalInstance.result.then(function (info) {
+					console.log(info);
+				}, function () {
+					$log.info('Modal dismissed at: ' + new Date());
+				});
+			},
+			showGeneralDialogWithAction: function (settings, action) {
+				var modalInstance = $uibModal.open({
+					animation: true,
+					templateUrl: settings.templateUrl,
+					controller: settings.controller,
+					size: settings.size || 'lg',
+					resolve: settings.resolve
+				});
+				modalInstance.result.then(function (info) {
+					action(info);
+				}, function () {
+					$log.info('Modal dismissed at: ' + new Date());
+				});
 			}
 		};
 	})
@@ -1314,11 +1342,14 @@
 			var dDistance = earthRadiusKm * c;
 			return dDistance;
 		};
+		var getLonLatFunc = function(centre, x, y) {
+			var lat = centre.lat + y / getDistanceFunc(centre.lat, centre.lng, centre.lat + 1, centre.lng);
+			var lng = centre.lng + x / getDistanceFunc(centre.lat, centre.lng, centre.lat, centre.lng + 1);
+			return new BMap.Point(lng, lat);
+		};
 		return {
 			getLonLatFunc: function(centre, x, y) {
-				var lat = centre.lat + y / getDistanceFunc(centre.lat, centre.lng, centre.lat + 1, centre.lng);
-				var lng = centre.lng + x / getDistanceFunc(centre.lat, centre.lng, centre.lat, centre.lng + 1);
-				return new BMap.Point(lng, lat);
+				return getLonLatFunc(centre, x, y);
 			},
 			getPositionFunc: function(centre, r, angle) {
 				var x = r * Math.cos(angle * Math.PI / 180);
@@ -1358,13 +1389,13 @@
 	.factory('geometryService', function (geometryCalculateService) {
 		return {
 			getDistance: function (p1Lat, p1Lng, p2Lat, p2Lng) {
-			    return geometryCalculateService.getDistanceFunc(p1Lat, p1Lng, p2Lat, p2Lng);
+				return geometryCalculateService.getDistanceFunc(p1Lat, p1Lng, p2Lat, p2Lng);
 			},
 			getLonLat: function (centre, x, y) {
-			    return geometryCalculateService.getLonLatFunc(centre, x, y);
+				return geometryCalculateService.getLonLatFunc(centre, x, y);
 			},
 			getPosition: function (centre, r, angle) {
-			    return geometryCalculateService.getPositionFunc(centre, r, angle);
+				return geometryCalculateService.getPositionFunc(centre, r, angle);
 			},
 			getPositionLonLat: function (centre, r, angle) {
 				var x = r * Math.cos(angle * Math.PI / 180);
@@ -1383,19 +1414,19 @@
 				var r = geometryCalculateService.getRadiusFunc(zoom).rSector * (scalor || 1);
 
 				for (i = 0; i <= r; i += r / 2) {
-				    dot = geometryCalculateService.getPositionFunc(centre, i, irotation);
+					dot = geometryCalculateService.getPositionFunc(centre, i, irotation);
 					assemble.push(dot);
 				}
 
 				for (i = 0; i <= iangle; i += iangle / 5) {
-				    dot = geometryCalculateService.getPositionFunc(centre, r, i + irotation);
+					dot = geometryCalculateService.getPositionFunc(centre, r, i + irotation);
 					assemble.push(dot);
 				}
 
 				return assemble;
 			},
 			getRadius: function (zoom) {
-			    return geometryCalculateService.getRadiusFunc(zoom);
+				return geometryCalculateService.getRadiusFunc(zoom);
 			},
 			getDtPointRadius: function (zoom) {
 				var radius = 17;
