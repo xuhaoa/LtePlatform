@@ -7,6 +7,40 @@
 		fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
 		strokeStyle: 'solid' //边线的样式，solid或dashed。
 	})
+	.value('baiduMapOptions', {
+		myKey: 'LlMnTd7NcCWI1ibhDAdKeVlG',
+		baiduApiUrl: '//api.map.baidu.com/geoconv/v1/?callback=JSON_CALLBACK',
+		baiduPlaceUrl: '//api.map.baidu.com/place/v2/suggestion?callback=JSON_CALLBACK'
+	})
+	.factory('baiduQueryService', function (generalHttpService, appUrlService, baiduMapOptions) {
+		return{
+
+			transformToBaidu: function (longtitute, lattitute) {
+			    return generalHttpService.getJsonpData(baiduMapOptions.baiduApiUrl + '&coords=' + longtitute + ',' + lattitute
+					+ '&from=1&to=5&ak=' + baiduMapOptions.myKey, function (result) {
+						return result.result[0];
+					});
+			},
+			transformBaiduCoors: function (coors) {
+			    return generalHttpService.getJsonpData(baiduMapOptions.baiduApiUrl + '&coords=' + coors.longtitute + ',' + coors.lattitute
+					+ '&from=1&to=5&ak=' + baiduMapOptions.myKey, function (result) {
+						return {
+							longtitute: result.result[0].x,
+							lattitute: result.result[0].y
+						}
+					});
+			},
+			queryBaiduPlace: function (name) {
+			    return generalHttpService.getJsonpData(baiduMapOptions.baiduPlaceUrl + '&query=' + name
+					+ '&region=佛山市&output=json&ak=' + baiduMapOptions.myKey, function (result) {
+					return result.result;
+				});
+			},
+			queryWandonglouyu: function () {
+				return generalHttpService.getUrlData(appUrlService.getPlanUrlHost() + 'phpApi/wandonglouyu.php', {});
+			}
+		}
+	})
 	.factory('baiduMapService', function (geometryService, networkElementService, drawingStyleOptions) {
 		var map = {};
 		var getCellCenter = function (cell, rCell) {
@@ -384,7 +418,7 @@
 			}
 		};
 	})
-	.factory('parametersMapService', function (baiduMapService, networkElementService, geometryService) {
+	.factory('parametersMapService', function (baiduMapService, networkElementService, baiduQueryService) {
 		var showCellSectors = function (cells, showCellInfo, xOffset, yOffset) {
 			angular.forEach(cells, function (cell) {
 				cell.longtitute += xOffset;
@@ -399,7 +433,7 @@
 			});
 		};
 		var showENodebsElements = function (eNodebs, showENodebInfo, showCellInfo) {
-			geometryService.transformToBaidu(eNodebs[0].longtitute, eNodebs[0].lattitute).then(function (coors) {
+		    baiduQueryService.transformToBaidu(eNodebs[0].longtitute, eNodebs[0].lattitute).then(function (coors) {
 				var xOffset = coors.x - eNodebs[0].longtitute;
 				var yOffset = coors.y - eNodebs[0].lattitute;
 				angular.forEach(eNodebs, function (eNodeb) {
@@ -414,7 +448,7 @@
 			});
 		};
 		var showPhpElements = function (elements, showElementInfo) {
-			geometryService.transformToBaidu(elements[0].longtitute, elements[0].lattitute).then(function (coors) {
+		    baiduQueryService.transformToBaidu(elements[0].longtitute, elements[0].lattitute).then(function (coors) {
 				var xOffset = coors.x - parseFloat(elements[0].longtitute);
 				var yOffset = coors.y - parseFloat(elements[0].lattitute);
 				angular.forEach(elements, function (element) {
@@ -427,7 +461,7 @@
 			});
 		};
 		var showCdmaElements = function (btss, showBtsInfo, showCellInfo) {
-			geometryService.transformToBaidu(btss[0].longtitute, btss[0].lattitute).then(function (coors) {
+		    baiduQueryService.transformToBaidu(btss[0].longtitute, btss[0].lattitute).then(function (coors) {
 				var xOffset = coors.x - btss[0].longtitute;
 				var yOffset = coors.y - btss[0].lattitute;
 				angular.forEach(btss, function (bts) {
@@ -471,7 +505,7 @@
 				return showCdmaElements(btss, showBtsInfo);
 			},
 			showCellSectors: function (cells, showCellInfo) {
-				geometryService.transformToBaidu(cells[0].longtitute, cells[0].lattitute).then(function (coors) {
+			    baiduQueryService.transformToBaidu(cells[0].longtitute, cells[0].lattitute).then(function (coors) {
 					var xOffset = coors.x - cells[0].longtitute;
 					var yOffset = coors.y - cells[0].lattitute;
 					baiduMapService.setCellFocus(coors.x, coors.y, 16);

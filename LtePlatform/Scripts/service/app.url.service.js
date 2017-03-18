@@ -188,6 +188,30 @@
 						deferred.reject(reason);
 					});
 				return deferred.promise;
+			},
+			getJsonpData: function(url, valueFunc) {
+				var deferred = $q.defer();
+				$http.jsonp(url).success(function (result) {
+							deferred.resolve(valueFunc(result));
+						})
+					.error(function (reason) {
+						deferred.reject(reason);
+					});
+				return deferred.promise;
+			},
+			getUrlData: function(url, params) {
+				var deferred = $q.defer();
+				$http({
+					method: 'GET',
+					url: url,
+					params: params
+				}).success(function (result) {
+					deferred.resolve(result);
+				})
+				.error(function (reason) {
+					deferred.reject(reason);
+				});
+				return deferred.promise;
 			}
 		};
 	})
@@ -1244,8 +1268,8 @@
 				source.thirdNeighbors += accumulate.thirdNeighbors;
 			},
 			accumulateFlowStat: function(source, accumulate) {
-			    source.pdcpDownlinkFlow += accumulate.pdcpDownlinkFlow;
-			    source.pdcpUplinkFlow += accumulate.pdcpUplinkFlow;
+				source.pdcpDownlinkFlow += accumulate.pdcpDownlinkFlow;
+				source.pdcpUplinkFlow += accumulate.pdcpUplinkFlow;
 			},
 			calculateDistrictRates: function (districtStat) {
 				districtStat.firstRate = 100 - 100 * districtStat.firstNeighbors / districtStat.totalMrs;
@@ -1276,7 +1300,7 @@
 			}
 		};
 	})
-	.factory('geometryService', function ($http, $q, appUrlService) {
+	.factory('geometryCalculateService', function() {
 		var getDistanceFunc = function (p1Lat, p1Lng, p2Lat, p2Lng) {
 			var earthRadiusKm = 6378.137;
 			var dLat1InRad = p1Lat * (Math.PI / 180);
@@ -1290,25 +1314,26 @@
 			var dDistance = earthRadiusKm * c;
 			return dDistance;
 		};
-		var getLonLatFunc = function (centre, x, y) {
-			var lat = centre.lat + y / getDistanceFunc(centre.lat, centre.lng, centre.lat + 1, centre.lng);
-			var lng = centre.lng + x / getDistanceFunc(centre.lat, centre.lng, centre.lat, centre.lng + 1);
-			return new BMap.Point(lng, lat);
-		};
-		var getPositionFunc = function (centre, r, angle) {
-			var x = r * Math.cos(angle * Math.PI / 180);
-			var y = r * Math.sin(angle * Math.PI / 180);
-			return getLonLatFunc(centre, x, y);
-		};
-		var getPositionRadius = function (centre, r, rad) {
-			var x = r * Math.cos(rad);
-			var y = r * Math.sin(rad);
-			return getLonLatFunc(centre, x, y);
-		};
-		var getRadiusFunc = function (zoom) {
-			var rSation = 70;
-			var rSector = 0.2;
-			switch (zoom) {
+		return {
+			getLonLatFunc: function(centre, x, y) {
+				var lat = centre.lat + y / getDistanceFunc(centre.lat, centre.lng, centre.lat + 1, centre.lng);
+				var lng = centre.lng + x / getDistanceFunc(centre.lat, centre.lng, centre.lat, centre.lng + 1);
+				return new BMap.Point(lng, lat);
+			},
+			getPositionFunc: function(centre, r, angle) {
+				var x = r * Math.cos(angle * Math.PI / 180);
+				var y = r * Math.sin(angle * Math.PI / 180);
+				return getLonLatFunc(centre, x, y);
+			},
+			getPositionRadius: function(centre, r, rad) {
+				var x = r * Math.cos(rad);
+				var y = r * Math.sin(rad);
+				return getLonLatFunc(centre, x, y);
+			},
+			getRadiusFunc: function(zoom) {
+				var rSation = 70;
+				var rSector = 0.2;
+				switch (zoom) {
 				case 15:
 					rSector *= 0.75;
 					rSation *= 0.75;
@@ -1323,28 +1348,29 @@
 					break;
 				default:
 					break;
+				}
+
+				return { rSector: rSector, rStation: rSation };
 			}
 
-			return { rSector: rSector, rStation: rSation };
 		};
-		var myKey = 'LlMnTd7NcCWI1ibhDAdKeVlG';
-		var baiduApiUrl = '//api.map.baidu.com/geoconv/v1/?callback=JSON_CALLBACK';
-		var baiduPlaceUrl = '//api.map.baidu.com/place/v2/suggestion?callback=JSON_CALLBACK';
+	})
+	.factory('geometryService', function (geometryCalculateService) {
 		return {
 			getDistance: function (p1Lat, p1Lng, p2Lat, p2Lng) {
-				return getDistanceFunc(p1Lat, p1Lng, p2Lat, p2Lng);
+			    return geometryCalculateService.getDistanceFunc(p1Lat, p1Lng, p2Lat, p2Lng);
 			},
 			getLonLat: function (centre, x, y) {
-				return getLonLatFunc(centre, x, y);
+			    return geometryCalculateService.getLonLatFunc(centre, x, y);
 			},
 			getPosition: function (centre, r, angle) {
-				return getPositionFunc(centre, r, angle);
+			    return geometryCalculateService.getPositionFunc(centre, r, angle);
 			},
 			getPositionLonLat: function (centre, r, angle) {
 				var x = r * Math.cos(angle * Math.PI / 180);
 				var y = r * Math.sin(angle * Math.PI / 180);
-				var lat = centre.lattitute + y / getDistanceFunc(centre.lattitute, centre.longtitute, centre.lattitute + 1, centre.longtitute);
-				var lng = centre.longtitute + x / getDistanceFunc(centre.lattitute, centre.longtitute, centre.lattitute, centre.longtitute + 1);
+				var lat = centre.lattitute + y / geometryCalculateService.getDistanceFunc(centre.lattitute, centre.longtitute, centre.lattitute + 1, centre.longtitute);
+				var lng = centre.longtitute + x / geometryCalculateService.getDistanceFunc(centre.lattitute, centre.longtitute, centre.lattitute, centre.longtitute + 1);
 				return {
 					longtitute: lng,
 					lattitute: lat
@@ -1354,22 +1380,22 @@
 				var assemble = [];
 				var dot;
 				var i;
-				var r = getRadiusFunc(zoom).rSector * (scalor || 1);
+				var r = geometryCalculateService.getRadiusFunc(zoom).rSector * (scalor || 1);
 
 				for (i = 0; i <= r; i += r / 2) {
-					dot = getPositionFunc(centre, i, irotation);
+				    dot = geometryCalculateService.getPositionFunc(centre, i, irotation);
 					assemble.push(dot);
 				}
 
 				for (i = 0; i <= iangle; i += iangle / 5) {
-					dot = getPositionFunc(centre, r, i + irotation);
+				    dot = geometryCalculateService.getPositionFunc(centre, r, i + irotation);
 					assemble.push(dot);
 				}
 
 				return assemble;
 			},
 			getRadius: function (zoom) {
-				return getRadiusFunc(zoom);
+			    return geometryCalculateService.getRadiusFunc(zoom);
 			},
 			getDtPointRadius: function (zoom) {
 				var radius = 17;
@@ -1394,8 +1420,8 @@
 					lng: x2,
 					lat: y2
 				};
-				var point1 = getPositionRadius(centre, -r, rad - 0.2);
-				var point2 = getPositionRadius(centre, -r, rad + 0.2);
+				var point1 = geometryCalculateService.getPositionRadius(centre, -r, rad - 0.2);
+				var point2 = geometryCalculateService.getPositionRadius(centre, -r, rad + 0.2);
 				return new BMap.Polyline([
 					new BMap.Point(x2, y2),
 					point1,
@@ -1427,54 +1453,17 @@
 				});
 				return result;
 			},
-			transformToBaidu: function (longtitute, lattitute) {
-				var deferred = $q.defer();
-				$http.jsonp(baiduApiUrl + '&coords=' + longtitute + ',' + lattitute
-						+ '&from=1&to=5&ak=' + myKey).success(function (result) {
-							deferred.resolve(result.result[0]);
-						})
-					.error(function (reason) {
-						deferred.reject(reason);
-					});
-				return deferred.promise;
-			},
-			transformBaiduCoors: function (coors) {
-				var deferred = $q.defer();
-				$http.jsonp(baiduApiUrl + '&coords=' + coors.longtitute + ',' + coors.lattitute
-						+ '&from=1&to=5&ak=' + myKey).success(function (result) {
-							deferred.resolve({
-								longtitute: result.result[0].x,
-								lattitute: result.result[0].y
-							});
-						})
-					.error(function (reason) {
-						deferred.reject(reason);
-					});
-				return deferred.promise;;
-			},
-			queryBaiduPlace: function (name) {
-				var deferred = $q.defer();
-				$http.jsonp(baiduPlaceUrl + '&query=' + name + '&region=佛山市&output=json&ak=' + myKey).success(function (result) {
-					deferred.resolve(result.result);
-				})
-					.error(function (reason) {
-						deferred.reject(reason);
-					});
-				return deferred.promise;
-			},
-			queryWandonglouyu: function () {
-				var deferred = $q.defer();
-				$http.get(appUrlService.getPlanUrlHost() + 'phpApi/wandonglouyu.php')
-					.success(function (result) {
-						deferred.resolve(result);
-					})
-					.error(function (reason) {
-						deferred.reject(reason);
-					});
-				return deferred.promise;;
-			},
 			queryMapColors: function() {
-				return ['#10d3c3', '#d310c3', '#d32310', '#10c303', '#c3d320', '#c340d3'];
+				return [
+					'#CC3333',
+					'#FFFF00',
+					'#CC9966',
+					'#003300',
+					'#99CC00',
+					'#FF9966',
+					'#CC6699',
+					'#9933FF',
+					'#333300'];
 			}
 		};
 	})

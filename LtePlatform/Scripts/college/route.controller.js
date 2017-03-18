@@ -244,7 +244,7 @@
         collegeMapService.showCollegeInfos(showCollegDialogs, $scope.collegeInfo.year.selected);
     })
     .controller("map.name", function($scope, $stateParams,
-        baiduMapService, geometryService, collegeService, collegeQueryService, collegeMapService,
+        baiduMapService, baiduQueryService, collegeService, collegeQueryService, collegeMapService,
         parametersMapService, parametersDialogService, collegeDialogService) {
 
         $scope.collegeInfo.url = $scope.rootPath + "map";
@@ -270,7 +270,7 @@
 
         collegeQueryService.queryByName($scope.collegeName).then(function(college) {
             collegeMapService.drawCollegeArea(college.id, function (center) {
-                geometryService.transformToBaidu(center.X, center.Y).then(function(coors) {
+                baiduQueryService.transformToBaidu(center.X, center.Y).then(function (coors) {
                     $scope.center = {
                         X: 2 * center.X - coors.x,
                         Y: 2 * center.Y - coors.y,
@@ -335,7 +335,7 @@
 
         collegeMapService.showDtInfos($scope.dtInfos, $scope.beginDate.value, $scope.endDate.value);
     })
-    .controller('coverage.name', function ($scope, $stateParams, baiduMapService, collegeQueryService, geometryService,
+    .controller('coverage.name', function ($scope, $stateParams, baiduMapService, collegeQueryService, baiduQueryService,
         collegeMapService, collegeDtService, coverageService, kpiDisplayService) {
         $scope.page.title = $stateParams.name + '覆盖情况评估';
         $scope.includeAllFiles = false;
@@ -379,7 +379,7 @@
             angular.forEach($scope.coveragePoints.intervals, function(interval) {
                 var coors = interval.coors;
                 if (coors.length > 0) {
-                    geometryService.transformBaiduCoors(coors[0]).then(function(newCoor) {
+                    baiduQueryService.transformBaiduCoors(coors[0]).then(function (newCoor) {
                         var xoffset = coors[0].longtitute - newCoor.longtitute;
                         var yoffset = coors[0].lattitute - newCoor.lattitute;
                         $scope.coverageOverlays.push(baiduMapService.drawMultiPoints(coors, interval.color, xoffset, yoffset));
@@ -412,7 +412,7 @@
         };
 
         collegeMapService.queryCenterAndCallback($stateParams.name, function(center) {
-            geometryService.transformToBaidu(center.X, center.Y).then(function (coors) {
+            baiduQueryService.transformToBaidu(center.X, center.Y).then(function (coors) {
                 $scope.center = {
                     centerX: 2 * center.X - coors.x,
                     centerY: 2 * center.Y - coors.y
@@ -743,7 +743,7 @@
         };
     })
 
-    .controller('cell.position.supplement.dialog', function ($scope, $uibModalInstance, collegeMapService, geometryService, collegeService,
+    .controller('cell.position.supplement.dialog', function ($scope, $uibModalInstance, collegeMapService, baiduQueryService, collegeService,
         networkElementService, neighborImportService, collegeName) {
         $scope.dialogTitle = collegeName + "LTE小区补充";
         $scope.supplementCells = [];
@@ -751,7 +751,7 @@
 
         collegeMapService.queryCenterAndCallback(collegeName, function(center) {
             collegeService.queryCells(collegeName).then(function(cells) {
-                geometryService.transformToBaidu(center.X, center.Y).then(function(coors) {
+                baiduQueryService.transformToBaidu(center.X, center.Y).then(function (coors) {
                     collegeService.queryRange(collegeName).then(function(range) {
                         networkElementService.queryRangeCells({
                             west: range.west + center.X - coors.x,
@@ -780,7 +780,7 @@
         };
     })
 
-    .controller('eNodeb.supplement.dialog', function ($scope, $uibModalInstance, networkElementService, geometryService, collegeService,
+    .controller('eNodeb.supplement.dialog', function ($scope, $uibModalInstance, networkElementService, baiduQueryService, collegeService,
         center, collegeName) {
         $scope.dialogTitle = collegeName + "LTE基站补充";
         $scope.supplementCells = [];
@@ -807,7 +807,7 @@
             { name: '与中心距离', field: 'distance', cellFilter: 'number: 2' }
         ];
 
-        geometryService.transformToBaidu(center.X, center.Y).then(function (coors) {
+        baiduQueryService.transformToBaidu(center.X, center.Y).then(function (coors) {
             collegeService.queryRange(collegeName).then(function (range) {
                 var ids = [];
                 collegeService.queryENodebs(collegeName).then(function (eNodebs) {
@@ -843,8 +843,8 @@
         };
     })
 
-    .controller('bts.supplement.dialog', function ($scope, $uibModalInstance, networkElementService, geometryService, collegeService,
-        center, collegeName) {
+    .controller('bts.supplement.dialog', function ($scope, $uibModalInstance, networkElementService, geometryService, baiduQueryService,
+        collegeService, center, collegeName) {
         $scope.dialogTitle = collegeName + "CDMA基站补充";
         $scope.supplementCells = [];
         $scope.gridOptions = {
@@ -866,7 +866,7 @@
             { name: '与中心距离', field: 'distance', cellFilter: 'number: 2' }
         ];
 
-        geometryService.transformToBaidu(center.X, center.Y).then(function (coors) {
+        baiduQueryService.transformToBaidu(center.X, center.Y).then(function (coors) {
             collegeService.queryRange(collegeName).then(function (range) {
                 var ids = [];
                 collegeService.queryBtss(collegeName).then(function (btss) {
@@ -918,7 +918,7 @@
         };
     })
     .controller('college.test3G.dialog', function ($scope, $uibModalInstance, collegeName,
-        collegeDtService, coverageService, collegeMapService, geometryService) {
+        collegeDtService, coverageService, collegeMapService, baiduQueryService) {
         $scope.dialogTitle = collegeName + "-3G测试结果上报";
         $scope.item = collegeDtService.default3GTestView(collegeName, '饭堂', '许良镇');
 
@@ -933,7 +933,7 @@
             });
         };
         collegeMapService.queryCenterAndCallback(collegeName, function (center) {
-            geometryService.transformToBaidu(center.X, center.Y).then(function (coors) {
+            baiduQueryService.transformToBaidu(center.X, center.Y).then(function (coors) {
                 $scope.center = {
                     centerX: 2 * center.X - coors.x,
                     centerY: 2 * center.Y - coors.y
@@ -960,7 +960,7 @@
         };
     })
     .controller('college.test4G.dialog', function ($scope, $uibModalInstance, collegeName,
-        collegeDtService, collegeService, networkElementService, collegeMapService, geometryService, coverageService, appFormatService) {
+        collegeDtService, collegeService, networkElementService, collegeMapService, baiduQueryService, coverageService, appFormatService) {
         $scope.dialogTitle = collegeName + "-4G测试结果上报";
         $scope.item = collegeDtService.default4GTestView(collegeName, '饭堂', '许良镇');
         collegeService.queryCells(collegeName).then(function(cellList) {
@@ -974,7 +974,7 @@
             };
         });
         collegeMapService.queryCenterAndCallback(collegeName, function (center) {
-            geometryService.transformToBaidu(center.X, center.Y).then(function (coors) {
+            baiduQueryService.transformToBaidu(center.X, center.Y).then(function (coors) {
                 $scope.center = {
                     centerX: 2 * center.X - coors.x,
                     centerY: 2 * center.Y - coors.y
@@ -1152,11 +1152,11 @@
         };
     })
     .controller('trace.planning.dialog', function($scope, $uibModalInstance, collegeName,
-    geometryService, collegeService, networkElementService, collegeMapService) {
+        baiduQueryService, collegeService, networkElementService, collegeMapService) {
         $scope.dialogTitle = collegeName + "校园网规划站点跟踪";
 
         collegeMapService.queryCenterAndCallback(collegeName, function(center) {
-            geometryService.transformToBaidu(center.X, center.Y).then(function (coors) {
+            baiduQueryService.transformToBaidu(center.X, center.Y).then(function (coors) {
                 collegeService.queryRange(collegeName).then(function (range) {
                     networkElementService.queryRangePlanningSites({
                         west: range.west + center.X - coors.x,
@@ -1224,7 +1224,7 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('college.new.dialog', function ($scope, $uibModalInstance, baiduMapService, geometryService, appRegionService, $timeout) {
+    .controller('college.new.dialog', function ($scope, $uibModalInstance, baiduMapService, geometryService, baiduQueryService, appRegionService, $timeout) {
         $scope.dialogTitle = "新建校园信息";
         $scope.collegeRegion = {
             area: 0,
@@ -1258,7 +1258,7 @@
             baiduMapService.addDrawingEventListener('polygoncomplete', $scope.savePolygonParameters);
         }, 500);
         $scope.matchPlace = function () {
-            geometryService.queryBaiduPlace($scope.collegeName).then(function (result) {
+            baiduQueryService.queryBaiduPlace($scope.collegeName).then(function (result) {
                 angular.forEach(result, function (place) {
                     var marker = baiduMapService.generateMarker(place.location.lng, place.location.lat);
                     baiduMapService.addOneMarker(marker);

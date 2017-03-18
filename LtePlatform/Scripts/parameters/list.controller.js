@@ -240,9 +240,9 @@
             $scope.showCityStats();
         });
     })
-    .controller("evaluation.home", function ($scope, $http, baiduMapService, geometryService,
+    .controller("evaluation.home", function ($scope, $http, baiduMapService, baiduQueryService,
         parametersMapService, parametersDialogService) {
-        geometryService.queryWandonglouyu().then(function (buildings) {
+        baiduQueryService.queryWandonglouyu().then(function (buildings) {
             baiduMapService.initializeMap("map", 12);
             parametersMapService.showPhpElements(buildings, parametersDialogService.showBuildingInfo);
         });

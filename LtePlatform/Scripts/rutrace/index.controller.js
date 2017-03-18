@@ -490,7 +490,7 @@
         $scope.showTrend();
     })
     .controller("rutrace.map", function ($scope, $timeout, $routeParams,
-        geometryService, baiduMapService, networkElementService, neighborDialogService, parametersDialogService,
+        baiduQueryService, baiduMapService, networkElementService, neighborDialogService, parametersDialogService,
         menuItemService, cellPreciseService, neighborMongoService, preciseInterferenceService) {
         $scope.page.title = "小区地理化分析" + ": " + $routeParams.name + "-" + $routeParams.sectorId;
         $scope.neighborLines = [];
@@ -510,7 +510,7 @@
         baiduMapService.initializeMap("all-map", 12);
         cellPreciseService.queryOneWeekKpi($routeParams.cellId, $routeParams.sectorId).then(function (cellView) {
             networkElementService.queryCellSectors([cellView]).then(function (result) {
-                geometryService.transformToBaidu(result[0].longtitute, result[0].lattitute).then(function (coors) {
+                baiduQueryService.transformToBaidu(result[0].longtitute, result[0].lattitute).then(function (coors) {
                     var xOffset = coors.x - result[0].longtitute;
                     var yOffset = coors.y - result[0].lattitute;
                     result[0].longtitute = coors.x;
@@ -543,7 +543,7 @@
         });
 
         $scope.generateComponents = function (cell) {
-            geometryService.transformToBaidu(cell.longtitute, cell.lattitute).then(function (coors) {
+            baiduQueryService.transformToBaidu(cell.longtitute, cell.lattitute).then(function (coors) {
                 var xOffset = coors.x - cell.longtitute;
                 var yOffset = coors.y - cell.lattitute;
                 neighborMongoService.queryNeighbors($routeParams.cellId, $routeParams.sectorId).then(function (neighbors) {

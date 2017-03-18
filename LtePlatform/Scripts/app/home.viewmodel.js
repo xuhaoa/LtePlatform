@@ -198,7 +198,7 @@
         }
     })
     .controller("home.network", function ($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService, authorizeService,
-        geometryService, flowService, parametersDialogService, neGeometryService) {
+        geometryService, flowService, parametersDialogService, neGeometryService, baiduQueryService) {
         baiduMapService.initializeMap("map", 11);
         var colors = geometryService.queryMapColors();
         $scope.showOutdoorSites = function () {
@@ -213,7 +213,7 @@
                         if (district) {
                             baiduMapService.addDistrictBoundary(district, colors[$index]);
                             networkElementService.queryOutdoorCellSites(city, district).then(function (sites) {
-                                geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
+                                baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
                                     var xOffset = coors.x - sites[0].longtitute;
                                     var yOffset = coors.y - sites[0].lattitute;
                                     baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset, function(e) {
@@ -245,7 +245,7 @@
                         if (district) {
                             baiduMapService.addDistrictBoundary(district, colors[$index]);
                             networkElementService.queryIndoorCellSites(city, district).then(function (sites) {
-                                geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
+                                baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
                                     var xOffset = coors.x - sites[0].longtitute;
                                     var yOffset = coors.y - sites[0].lattitute;
                                     baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset, function (e) {
@@ -273,7 +273,7 @@
             $scope.currentView = "下行感知速率";
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary("佛山");
-            geometryService.transformToBaidu($scope.flowGeoPoints[0].longtitute, $scope.flowGeoPoints[0].lattitute).then(function (coors) {
+            baiduQueryService.transformToBaidu($scope.flowGeoPoints[0].longtitute, $scope.flowGeoPoints[0].lattitute).then(function (coors) {
                 var xOffset = coors.x - $scope.flowGeoPoints[0].longtitute;
                 var yOffset = coors.y - $scope.flowGeoPoints[0].lattitute;
                 var points = _.map($scope.flowGeoPoints, function (stat) {
@@ -295,7 +295,7 @@
             $scope.currentView = "上行感知速率";
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary("佛山");
-            geometryService.transformToBaidu($scope.flowGeoPoints[0].longtitute, $scope.flowGeoPoints[0].lattitute).then(function (coors) {
+            baiduQueryService.transformToBaidu($scope.flowGeoPoints[0].longtitute, $scope.flowGeoPoints[0].lattitute).then(function (coors) {
                 var xOffset = coors.x - $scope.flowGeoPoints[0].longtitute;
                 var yOffset = coors.y - $scope.flowGeoPoints[0].lattitute;
                 var points = _.map($scope.flowGeoPoints, function (stat) {
@@ -357,7 +357,7 @@
 
     })
     .controller("home.plan", function ($scope, baiduMapService, authorizeService, networkElementService, geometryService, 
-        neGeometryService, parametersDialogService) {
+        neGeometryService, parametersDialogService, baiduQueryService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         var colors = geometryService.queryMapColors();
@@ -374,7 +374,7 @@
                         if (district) {
                             baiduMapService.addDistrictBoundary(district, colors[$index]);
                             networkElementService.queryPlanningSites(city, district).then(function (sites) {
-                                geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
+                                baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
                                     var xOffset = coors.x - sites[0].longtitute;
                                     var yOffset = coors.y - sites[0].lattitute;
                                     baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset, function (e) {
@@ -409,7 +409,7 @@
                         if (district) {
                             baiduMapService.addDistrictBoundary(district, colors[$index]);
                             networkElementService.queryOpenningSites(city, district).then(function(sites) {
-                                geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
+                                baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
                                     var xOffset = coors.x - sites[0].longtitute;
                                     var yOffset = coors.y - sites[0].lattitute;
                                     baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset, function(e) {
@@ -444,7 +444,7 @@
                         if (district) {
                             baiduMapService.addDistrictBoundary(district, colors[$index]);
                             networkElementService.queryOpennedSites(city, district).then(function(sites) {
-                                geometryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
+                                baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
                                     var xOffset = coors.x - sites[0].longtitute;
                                     var yOffset = coors.y - sites[0].lattitute;
                                     baiduMapService.drawMultiPoints(sites, colors[$index], -xOffset, -yOffset, function(e) {
