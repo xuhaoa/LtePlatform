@@ -264,6 +264,74 @@
 			}
 		};
 	})
+	.factory('preciseWorkItemGenerator', function () {
+		return {
+			generatePreciseInterferenceNeighborDtos: function (sources) {
+				var sumDb6Share = 0;
+				var sumDb10Share = 0;
+				var sumMod3Share = 0;
+				var sumMod6Share = 0;
+				var dtos = [];
+				angular.forEach(sources, function (source) {
+					sumDb6Share += source.overInterferences6Db;
+					sumDb10Share += source.overInterferences10Db;
+					sumMod3Share += source.mod3Interferences;
+					sumMod6Share += source.mod6Interferences;
+				});
+				angular.forEach(sources, function (source) {
+					if (source.destENodebId > 0 && source.destSectorId > 0) {
+						var db6Share = source.overInterferences6Db * 100 / sumDb6Share;
+						var db10Share = source.overInterferences10Db * 100 / sumDb10Share;
+						var mod3Share = source.mod3Interferences * 100 / sumMod3Share;
+						var mod6Share = source.mod6Interferences * 100 / sumMod6Share;
+						if (db6Share > 10 || db10Share > 10 || mod3Share > 10 || mod6Share > 10) {
+							dtos.push({
+								eNodebId: source.destENodebId,
+								sectorId: source.destSectorId,
+								db6Share: db6Share,
+								db10Share: db10Share,
+								mod3Share: mod3Share,
+								mod6Share: mod6Share
+							});
+						}
+					}
+				});
+				return dtos;
+			},
+			generatePreciseInterferenceVictimDtos: function (sources) {
+				var sumBackwardDb6Share = 0;
+				var sumBackwardDb10Share = 0;
+				var sumBackwardMod3Share = 0;
+				var sumBackwardMod6Share = 0;
+				var dtos = [];
+				angular.forEach(sources, function (source) {
+					sumBackwardDb6Share += source.overInterferences6Db;
+					sumBackwardDb10Share += source.overInterferences10Db;
+					sumBackwardMod3Share += source.mod3Interferences;
+					sumBackwardMod6Share += source.mod6Interferences;
+				});
+				angular.forEach(sources, function (source) {
+					if (source.victimENodebId > 0 && source.victimSectorId > 0) {
+						var db6Share = source.overInterferences6Db * 100 / sumBackwardDb6Share;
+						var db10Share = source.overInterferences10Db * 100 / sumBackwardDb10Share;
+						var mod3Share = source.mod3Interferences * 100 / sumBackwardMod3Share;
+						var mod6Share = source.mod6Interferences * 100 / sumBackwardMod6Share;
+						if (db6Share > 10 || db10Share > 10 || mod3Share > 10 || mod6Share > 10) {
+							dtos.push({
+								eNodebId: source.victimENodebId,
+								sectorId: source.victimSectorId,
+								backwardDb6Share: db6Share,
+								backwardDb10Share: db10Share,
+								backwardMod3Share: mod3Share,
+								backwardMod6Share: mod6Share
+							});
+						}
+					}
+				});
+				return dtos;
+			}
+		};
+	})
 	.factory('appFormatService', function () {
 		return {
 			getDate: function (strDate) {
