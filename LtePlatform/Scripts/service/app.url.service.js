@@ -1416,6 +1416,9 @@
 			return new BMap.Point(lng, lat);
 		};
 		return {
+		    getDistanceFunc: function(p1Lat, p1Lng, p2Lat, p2Lng) {
+		        return getDistanceFunc(p1Lat, p1Lng, p2Lat, p2Lng);
+		    },
 			getLonLatFunc: function(centre, x, y) {
 				return getLonLatFunc(centre, x, y);
 			},
