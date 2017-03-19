@@ -902,21 +902,6 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('college.supplement.dialog', function ($scope, $uibModalInstance,
-        customerQueryService, appFormatService,dialogTitle, view) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.view = view;
-
-        $scope.ok = function () {
-            $scope.view.district = $scope.district.selected;
-            $scope.view.town = $scope.town.selected;
-            $uibModalInstance.close($scope.view);
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    })
     .controller('college.test3G.dialog', function ($scope, $uibModalInstance, collegeName,
         collegeDtService, coverageService, collegeMapService, baiduQueryService) {
         $scope.dialogTitle = collegeName + "-3G测试结果上报";
@@ -1028,87 +1013,6 @@
         $scope.ok = function () {
             $scope.item.cellName = $scope.cellName.selected;
             $uibModalInstance.close($scope.item);
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    })
-    .controller('emergency.college.dialog', function ($scope, $uibModalInstance, serialNumber, collegeName,
-        collegeQueryService, appFormatService, customerQueryService, appRegionService) {
-        $scope.dialogTitle = collegeName + "应急通信车申请-" + serialNumber;
-        $scope.dto = {
-            projectName: collegeName + "应急通信车申请",
-            expectedPeople: 500000,
-            vehicles: 1,
-            area: collegeName,
-            department: "南海区分公司客响维护部",
-            person: "刘文清",
-            phone: "13392293722",
-            vehicleLocation: "门口东边100米处",
-            otherDescription: "应急通信车申请。",
-            townId: 1
-        };
-        customerQueryService.queryDemandLevelOptions().then(function (options) {
-            $scope.demandLevel = {
-                options: options,
-                selected: options[0]
-            };
-        });
-        customerQueryService.queryVehicleTypeOptions().then(function (options) {
-            $scope.vehicularType = {
-                options: options,
-                selected: options[17]
-            };
-        });
-        var transmitOptions = customerQueryService.queryTransmitFunctionOptions();
-        $scope.transmitFunction = {
-            options: transmitOptions,
-            selected: transmitOptions[0]
-        };
-        var electrictOptions = customerQueryService.queryElectricSupplyOptions();
-        $scope.electricSupply = {
-            options: electrictOptions,
-            selected: electrictOptions[0]
-        };
-        collegeQueryService.queryByNameAndYear(collegeName, $scope.collegeInfo.year.selected).then(function(item) {
-            $scope.itemBeginDate = {
-                value: appFormatService.getDate(item.oldOpenDate),
-                opened: false
-            };
-            $scope.itemEndDate = {
-                value: appFormatService.getDate(item.newOpenDate),
-                opened: false
-            };
-            $scope.dto.expectedPeople = item.expectedSubscribers;
-        });
-        customerQueryService.queryOneVip(serialNumber).then(function(item) {
-            angular.forEach($scope.district.options, function (district) {
-                if (district === item.district) {
-                    $scope.district.selected = item.district;
-                }
-            });
-            appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function(towns) {
-                $scope.town.options = towns;
-                $scope.town.selected = towns[0];
-                angular.forEach(towns, function (town) {
-                    if (town === item.town) {
-                        $scope.town.selected = town;
-                    }
-                });
-            });
-        });
-
-        $scope.ok = function () {
-            $scope.dto.demandLevelDescription = $scope.demandLevel.selected;
-            $scope.dto.beginDate = $scope.itemBeginDate.value;
-            $scope.dto.endDate = $scope.itemEndDate.value;
-            $scope.dto.vehicularTypeDescription = $scope.vehicularType.selected;
-            $scope.dto.transmitFunction = $scope.transmitFunction.selected;
-            $scope.dto.district = $scope.district.selected;
-            $scope.dto.town = $scope.town.selected;
-            $scope.dto.electricSupply = $scope.electricSupply.selected;
-            $uibModalInstance.close($scope.dto);
         };
 
         $scope.cancel = function () {
