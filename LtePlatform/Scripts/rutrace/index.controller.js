@@ -411,7 +411,7 @@
         $scope.query = function () {
             $scope.topCells = [];
             kpiPreciseService.queryTopKpisInDistrict($scope.beginDate.value, $scope.endDate.value, $scope.topCount.selected,
-                $scope.orderPolicy.selected, $scope.overallStat.city, $routeParams.district).then(function (result) {
+                $scope.orderPolicy.selected, $scope.city.selected, $routeParams.district).then(function (result) {
                     $scope.topCells = result;
                     angular.forEach(result, function (cell) {
                         workitemService.queryByCellId(cell.cellId, cell.sectorId).then(function (items) {
@@ -620,29 +620,6 @@
                 baiduMapService.addOverlays($scope.victimCircles);
                 $scope.displayVictims = true;
             }
-        };
-    })
-    .controller('map.source.dialog', function ($scope, $uibModalInstance, neighbor, dialogTitle, topPreciseService, preciseChartService) {
-        $scope.neighbor = neighbor;
-        $scope.dialogTitle = dialogTitle;
-        if (neighbor.cellId !== undefined) {
-            $scope.cellId = neighbor.cellId;
-            $scope.sectorId = neighbor.sectorId;
-        } else {
-            $scope.cellId = neighbor.destENodebId;
-            $scope.sectorId = neighbor.destSectorId;
-        }
-        topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
-            $scope.cellId, $scope.sectorId).then(function (result) {
-            var options = preciseChartService.getCoverageOptions(result);
-            $("#coverage-chart").highcharts(options);
-        });
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.neighbor);
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
         };
     })
     .controller('interference.mongo', function ($scope, neighborMongoService, neighborDialogService,

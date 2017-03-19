@@ -1061,7 +1061,31 @@
          $scope.query();
      })
 
-    .factory('neighborDialogService', function ($uibModal, $log, networkElementService) {
+    .controller('map.source.dialog', function ($scope, $uibModalInstance, neighbor, dialogTitle, topPreciseService, preciseChartService) {
+        $scope.neighbor = neighbor;
+        $scope.dialogTitle = dialogTitle;
+        if (neighbor.cellId !== undefined) {
+            $scope.cellId = neighbor.cellId;
+            $scope.sectorId = neighbor.sectorId;
+        } else {
+            $scope.cellId = neighbor.destENodebId;
+            $scope.sectorId = neighbor.destSectorId;
+        }
+        topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
+            $scope.cellId, $scope.sectorId).then(function (result) {
+                var options = preciseChartService.getCoverageOptions(result);
+                $("#coverage-chart").highcharts(options);
+            });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.neighbor);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+
+    .factory('neighborDialogService', function (menuItemService, networkElementService) {
         var matchNearest = function (nearestCell, currentNeighbor, center) {
             networkElementService.updateNeighbors(center.cellId, center.sectorId, currentNeighbor.destPci,
                 nearestCell.eNodebId, nearestCell.sectorId).then(function () {
@@ -1070,215 +1094,138 @@
         };
         return {
             dumpMongo: function (cell, beginDate, endDate) {
-                var modalInstance = $uibModal.open({
-                    animation: true,
+                menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Rutrace/Interference/DumpCellMongoDialog.html',
                     controller: 'dump.cell.mongo',
-                    size: 'lg',
                     resolve: {
-                        dialogTitle: function () {
+                        dialogTitle: function() {
                             return cell.name + "-" + cell.sectorId + "干扰数据导入";
                         },
-                        cell: function () {
+                        cell: function() {
                             return cell;
                         },
-                        begin: function () {
+                        begin: function() {
                             return beginDate;
                         },
-                        end: function () {
+                        end: function() {
                             return endDate;
                         }
                     }
-                });
-                modalInstance.result.then(function (info) {
-                    console.log(info);
-                }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
                 });
             },
             showInterference: function (cell, beginDate, endDate) {
-                var modalInstance = $uibModal.open({
-                    animation: true,
+                menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Rutrace/Interference/Index.html',
                     controller: 'rutrace.interference',
-                    size: 'lg',
                     resolve: {
-                        dialogTitle: function () {
+                        dialogTitle: function() {
                             return cell.name + "-" + cell.sectorId + "干扰指标分析";
                         },
-                        cell: function () {
+                        cell: function() {
                             return cell;
                         },
-                        begin: function () {
+                        begin: function() {
                             return beginDate;
                         },
-                        end: function () {
+                        end: function() {
                             return endDate;
                         }
                     }
-                });
-                modalInstance.result.then(function (info) {
-                    console.log(info);
-                }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
                 });
             },
             showCoverage: function (cell, beginDate, endDate) {
-                var modalInstance = $uibModal.open({
-                    animation: true,
+                menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Rutrace/Coverage/Index.html',
                     controller: 'rutrace.coverage',
-                    size: 'lg',
                     resolve: {
-                        dialogTitle: function () {
+                        dialogTitle: function() {
                             return cell.name + "-" + cell.sectorId + "覆盖指标分析";
                         },
-                        cell: function () {
+                        cell: function() {
                             return cell;
                         },
-                        begin: function () {
+                        begin: function() {
                             return beginDate;
                         },
-                        end: function () {
+                        end: function() {
                             return endDate;
                         }
                     }
                 });
-                modalInstance.result.then(function (info) {
-                    console.log(info);
-                }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
-                });
             },
             showPrecise: function (precise) {
-                var modalInstance = $uibModal.open({
-                    animation: true,
+                menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Rutrace/Map/PreciseSectorMapInfoBox.html',
                     controller: 'map.source.dialog',
-                    size: 'lg',
                     resolve: {
-                        dialogTitle: function () {
+                        dialogTitle: function() {
                             return precise.eNodebName + "-" + precise.sectorId + "精确覆盖率指标";
                         },
-                        neighbor: function () {
+                        neighbor: function() {
                             return precise;
                         }
                     }
                 });
-                modalInstance.result.then(function (sector) {
-                    console.log(sector);
-                }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
-                });
-
             },
             showCell: function (cell) {
-                var modalInstance = $uibModal.open({
-                    animation: true,
+                menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Parameters/Region/CellInfo.html',
                     controller: 'cell.info.dialog',
-                    size: 'lg',
                     resolve: {
-                        dialogTitle: function () {
+                        dialogTitle: function() {
                             return cell.eNodebName + "-" + cell.sectorId + "小区详细信息";
                         },
-                        cell: function () {
+                        cell: function() {
                             return cell;
                         }
                     }
                 });
-                modalInstance.result.then(function (sector) {
-                }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
-                });
-
-            },
-            showNeighbor: function (neighbor) {
-                var modalInstance = $uibModal.open({
-                    animation: true,
-                    templateUrl: '/appViews/Rutrace/Map/NeighborMapInfoBox.html',
-                    controller: 'map.neighbor.dialog',
-                    size: 'lg',
-                    resolve: {
-                        dialogTitle: function () {
-                            return neighbor.cellName + "小区信息";
-                        },
-                        neighbor: function () {
-                            return neighbor;
-                        }
-                    }
-                });
-                modalInstance.result.then(function (nei) {
-                    console.log(nei);
-                }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
-                });
             },
             showInterferenceSource: function (neighbor) {
-                var modalInstance = $uibModal.open({
-                    animation: true,
+                menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Rutrace/Map/SourceMapInfoBox.html',
                     controller: 'map.source.dialog',
-                    size: 'lg',
                     resolve: {
-                        dialogTitle: function () {
+                        dialogTitle: function() {
                             return neighbor.neighborCellName + "干扰源信息";
                         },
-                        neighbor: function () {
+                        neighbor: function() {
                             return neighbor;
                         }
                     }
-                });
-                modalInstance.result.then(function (nei) {
-                    console.log(nei);
-                }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
                 });
             },
             showInterferenceVictim: function (neighbor) {
-                var modalInstance = $uibModal.open({
-                    animation: true,
+                menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Rutrace/Map/VictimMapInfoBox.html',
                     controller: 'map.source.dialog',
-                    size: 'lg',
                     resolve: {
-                        dialogTitle: function () {
+                        dialogTitle: function() {
                             return neighbor.victimCellName + "被干扰小区信息";
                         },
-                        neighbor: function () {
+                        neighbor: function() {
                             return neighbor;
                         }
                     }
                 });
-                modalInstance.result.then(function (nei) {
-                    console.log(nei);
-                }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
-                });
             },
             matchNeighbor: function (center, candidate, neighbors) {
-                var modalInstance = $uibModal.open({
-                    animation: true,
+                menuItemService.showGeneralDialogWithAction({
                     templateUrl: '/appViews/Rutrace/Interference/MatchCellDialog.html',
                     controller: 'neighbors.dialog',
-                    size: 'lg',
                     resolve: {
-                        dialogTitle: function () {
+                        dialogTitle: function() {
                             return center.eNodebName + "-" + center.sectorId + "的邻区PCI=" + candidate.destPci + "的可能小区";
                         },
-                        candidateNeighbors: function () {
+                        candidateNeighbors: function() {
                             return neighbors;
                         },
-                        currentCell: function () {
+                        currentCell: function() {
                             return center;
                         }
                     }
-                });
-
-                modalInstance.result.then(function (nearestCell) {
+                }, function (nearestCell) {
                     matchNearest(nearestCell, candidate, center);
-                }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
                 });
             }
         }
