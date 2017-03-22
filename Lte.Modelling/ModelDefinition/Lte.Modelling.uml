@@ -1061,6 +1061,166 @@
         </nodes>
       </activity>
     </packageHasNamedElement>
+    <packageHasNamedElement>
+      <activity
+        Id="d3f0d312-3688-4f0a-9863-5fe1afb424da"
+        name="三网对比处理图"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false"
+        isReentrant="false"
+        isReadOnly="false"
+        isSingleExecution="false">
+        <nodes>
+          <initialNode
+            Id="f4ffabf3-5382-45eb-9a18-d2c96b8509f4"
+            name="Initial1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="df4f99be-9e79-48f7-9463-7dbd52d0e71f"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="051b2c61-dd40-4da6-a4dc-069cc6b3349e"
+                  LastKnownName="采集小区数据"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <initialNode
+            Id="8cee5a3f-484a-4b9e-9799-f35b790bd168"
+            name="Initial2"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="5b4f3e60-09d3-4c25-a739-4e672d4e655c"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="122b999c-c117-40b6-b8f8-3cbd037e9169"
+                  LastKnownName="采集MR数据"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <opaqueAction
+            Id="051b2c61-dd40-4da6-a4dc-069cc6b3349e"
+            name="采集小区数据"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="9fef27ba-3976-402c-870d-2447b4912040"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="c7e669ae-c760-4a85-a3e3-622d83cd27df"
+                  LastKnownName="计算小区邻区和覆盖区域"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="c7e669ae-c760-4a85-a3e3-622d83cd27df"
+            name="计算小区邻区和覆盖区域"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="c75d3c5d-9cf7-4c51-b040-4001b674f6b2"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="de719905-d989-4d0d-91f1-6bcf6aafab59"
+                  LastKnownName="MR关键信息提取和记录"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="d35a5f22-9030-403b-ae61-293c24d38405"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="2d2f53aa-1819-4890-af88-0cc75fc93b24"
+                  LastKnownName="计算位置和三网覆盖等信息"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="122b999c-c117-40b6-b8f8-3cbd037e9169"
+            name="采集MR数据"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="21aa0de9-5c22-4ff0-bc63-3c14300a5314"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="de719905-d989-4d0d-91f1-6bcf6aafab59"
+                  LastKnownName="MR关键信息提取和记录"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="de719905-d989-4d0d-91f1-6bcf6aafab59"
+            name="MR关键信息提取和记录"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="04005609-9dae-45f8-98b7-bf7db6cb23cf"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="2d2f53aa-1819-4890-af88-0cc75fc93b24"
+                  LastKnownName="计算位置和三网覆盖等信息"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="2d2f53aa-1819-4890-af88-0cc75fc93b24"
+            name="计算位置和三网覆盖等信息"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="865acb03-9524-4967-8d99-c84f086b7b0a"
+                isLeaf="false">
+                <forkNodeMoniker
+                  Id="17ddad3e-9849-4f10-babc-d618a141793c"
+                  LastKnownName="Fork1"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <acceptEventAction
+            Id="f0f979c8-2b72-4a1a-8209-57568852a778"
+            name="地理化显示"
+            isLeaf="false"
+            isUnmarshall="false" />
+          <acceptEventAction
+            Id="08d1ce3c-b4a8-47f4-ae56-491ba8c77e19"
+            name="统计结果输出"
+            isLeaf="false"
+            isUnmarshall="false" />
+          <forkNode
+            Id="17ddad3e-9849-4f10-babc-d618a141793c"
+            name="Fork1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="08975854-55d5-4dc4-8377-caf41a6e0d26"
+                isLeaf="false">
+                <acceptEventActionMoniker
+                  Id="f0f979c8-2b72-4a1a-8209-57568852a778"
+                  LastKnownName="地理化显示"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="0139e69e-7774-4048-be1b-432cde3d2a96"
+                isLeaf="false">
+                <acceptEventActionMoniker
+                  Id="08d1ce3c-b4a8-47f4-ae56-491ba8c77e19"
+                  LastKnownName="统计结果输出"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+        </nodes>
+      </activity>
+    </packageHasNamedElement>
   </packagedElements>
   <primitiveType
     Id="220a3521-e091-4221-bae9-3ef9018e845c"

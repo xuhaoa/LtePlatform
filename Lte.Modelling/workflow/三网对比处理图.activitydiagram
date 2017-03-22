@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" xmlns:dm11="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="4b5cf39d-bd21-41a7-b298-410938dcc338" name="三网对比处理图" linkedPackageId="d4c533b9-582f-48db-a895-20905c41f8f7" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="3ba7793f-5b61-47d6-9656-74e154bdd285">
+      <profileInstance Id="f13f9acd-9c50-45f6-b4b8-2f48675be413" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="93798e86-3c25-45da-bf81-d9532254f217">
+      <profileInstance Id="e2464090-9a2c-400e-91ba-a5118ef80743" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <activityRootModelHasActivity>
+      <activity Id="4016ad50-1f69-4e63-affa-1b40d2404e46" name="三网对比处理图" isAbstract="false" isLeaf="false" isActiveClass="false" isReentrant="false" isReadOnly="false" isSingleExecution="false">
+        <elementDefinition Id="d3f0d312-3688-4f0a-9863-5fe1afb424da" />
+        <nodes>
+          <initialNode Id="e7d827f8-e39f-497a-a5da-20b39766bede" name="Initial1" isLeaf="false">
+            <elementDefinition Id="f4ffabf3-5382-45eb-9a18-d2c96b8509f4" />
+            <flowNodeTargets>
+              <controlFlow Id="ba72d92a-908f-4c51-ad64-67f35d5d8ca5" isLeaf="false">
+                <opaqueActionMoniker Id="4f238071-285c-4081-a395-453297b53271" LastKnownName="采集小区数据" />
+                <elementDefinition Id="df4f99be-9e79-48f7-9463-7dbd52d0e71f" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <initialNode Id="ad2f9b02-a3d5-4158-9eb4-ff14cb06cffc" name="Initial2" isLeaf="false">
+            <elementDefinition Id="8cee5a3f-484a-4b9e-9799-f35b790bd168" />
+            <flowNodeTargets>
+              <controlFlow Id="88d0effe-2908-4814-a908-0da1eb83a938" isLeaf="false">
+                <opaqueActionMoniker Id="008a14cd-206d-48fc-b18f-d3b3d6779b28" LastKnownName="采集MR数据" />
+                <elementDefinition Id="5b4f3e60-09d3-4c25-a739-4e672d4e655c" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <opaqueAction Id="4f238071-285c-4081-a395-453297b53271" name="采集小区数据" isLeaf="false">
+            <elementDefinition Id="051b2c61-dd40-4da6-a4dc-069cc6b3349e" />
+            <flowNodeTargets>
+              <controlFlow Id="c1ec8b94-f924-4890-b76a-6b6d28f251ee" isLeaf="false">
+                <opaqueActionMoniker Id="d5a93ca1-d5bb-4980-bfb2-209084f391b4" LastKnownName="计算小区邻区和覆盖区域" />
+                <elementDefinition Id="9fef27ba-3976-402c-870d-2447b4912040" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="d5a93ca1-d5bb-4980-bfb2-209084f391b4" name="计算小区邻区和覆盖区域" isLeaf="false">
+            <elementDefinition Id="c7e669ae-c760-4a85-a3e3-622d83cd27df" />
+            <flowNodeTargets>
+              <controlFlow Id="16761f54-4e7f-42f9-85ef-8067a30abfcb" isLeaf="false">
+                <opaqueActionMoniker Id="3f561573-da0a-42b7-8b61-f64847539021" LastKnownName="MR关键信息提取和记录" />
+                <elementDefinition Id="c75d3c5d-9cf7-4c51-b040-4001b674f6b2" />
+              </controlFlow>
+              <controlFlow Id="f151198b-60ab-4c1a-bba8-aab65a793023" isLeaf="false">
+                <opaqueActionMoniker Id="18b25712-ce03-4853-b0d5-ce37b0e628ee" LastKnownName="计算位置和三网覆盖等信息" />
+                <elementDefinition Id="d35a5f22-9030-403b-ae61-293c24d38405" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="008a14cd-206d-48fc-b18f-d3b3d6779b28" name="采集MR数据" isLeaf="false">
+            <elementDefinition Id="122b999c-c117-40b6-b8f8-3cbd037e9169" />
+            <flowNodeTargets>
+              <controlFlow Id="6e54e578-b6c6-4ab9-b468-cadd5c2b4969" isLeaf="false">
+                <opaqueActionMoniker Id="3f561573-da0a-42b7-8b61-f64847539021" LastKnownName="MR关键信息提取和记录" />
+                <elementDefinition Id="21aa0de9-5c22-4ff0-bc63-3c14300a5314" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="3f561573-da0a-42b7-8b61-f64847539021" name="MR关键信息提取和记录" isLeaf="false">
+            <elementDefinition Id="de719905-d989-4d0d-91f1-6bcf6aafab59" />
+            <flowNodeTargets>
+              <controlFlow Id="dd7957dc-ac86-419f-abfc-3c33fd2be753" isLeaf="false">
+                <opaqueActionMoniker Id="18b25712-ce03-4853-b0d5-ce37b0e628ee" LastKnownName="计算位置和三网覆盖等信息" />
+                <elementDefinition Id="04005609-9dae-45f8-98b7-bf7db6cb23cf" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="18b25712-ce03-4853-b0d5-ce37b0e628ee" name="计算位置和三网覆盖等信息" isLeaf="false">
+            <elementDefinition Id="2d2f53aa-1819-4890-af88-0cc75fc93b24" />
+            <flowNodeTargets>
+              <controlFlow Id="8bc54cfe-22c2-4cf4-85de-c06e2726883b" isLeaf="false">
+                <forkNodeMoniker Id="31563e4c-459a-41bd-91cc-b3243f237c53" LastKnownName="Fork1" />
+                <elementDefinition Id="865acb03-9524-4967-8d99-c84f086b7b0a" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <acceptEventAction Id="da0bab1f-a62b-42c7-83fa-864ef964edd4" name="地理化显示" isLeaf="false" isUnmarshall="false">
+            <elementDefinition Id="f0f979c8-2b72-4a1a-8209-57568852a778" />
+          </acceptEventAction>
+          <acceptEventAction Id="9a5aa0c4-bb55-46c8-a10a-fb87c583c84d" name="统计结果输出" isLeaf="false" isUnmarshall="false">
+            <elementDefinition Id="08d1ce3c-b4a8-47f4-ae56-491ba8c77e19" />
+          </acceptEventAction>
+          <forkNode Id="31563e4c-459a-41bd-91cc-b3243f237c53" name="Fork1" isLeaf="false">
+            <elementDefinition Id="17ddad3e-9849-4f10-babc-d618a141793c" />
+            <flowNodeTargets>
+              <controlFlow Id="ba07a94d-3ae9-4290-ba68-10128e4d9fc6" isLeaf="false">
+                <acceptEventActionMoniker Id="da0bab1f-a62b-42c7-83fa-864ef964edd4" LastKnownName="地理化显示" />
+                <elementDefinition Id="08975854-55d5-4dc4-8377-caf41a6e0d26" />
+              </controlFlow>
+              <controlFlow Id="0017b9e9-b93c-41b0-8422-1aaec75831bd" isLeaf="false">
+                <acceptEventActionMoniker Id="9a5aa0c4-bb55-46c8-a10a-fb87c583c84d" LastKnownName="统计结果输出" />
+                <elementDefinition Id="0139e69e-7774-4048-be1b-432cde3d2a96" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+        </nodes>
+      </activity>
+    </activityRootModelHasActivity>
+  </packagedElements>
+  <package Id="d4c533b9-582f-48db-a895-20905c41f8f7" name="Lte.Modelling">
+    <elementDefinition Id="e40b4954-5f06-4ac7-8b2e-9a31ddcec1ad" />
+  </package>
+</activityRootModel>

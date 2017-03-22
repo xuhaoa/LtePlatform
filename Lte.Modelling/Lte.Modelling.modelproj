@@ -36,6 +36,13 @@
       <SubType>Content</SubType>
       <DependentUpon>workflow\overall.activitydiagram</DependentUpon>
     </Content>
+    <Content Include="workflow\三网对比处理图.activitydiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="workflow\三网对比处理图.activitydiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>workflow\三网对比处理图.activitydiagram</DependentUpon>
+    </Content>
     <Folder Include="ModelDefinition\" />
     <Content Include="ModelDefinition\Lte.Modelling.uml">
       <SubType>Content</SubType>
