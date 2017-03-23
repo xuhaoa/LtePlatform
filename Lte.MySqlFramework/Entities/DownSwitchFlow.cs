@@ -36,4 +36,19 @@ namespace Lte.MySqlFramework.Entities
         [ExcelColumn("4G用户3G流量比分子")]
         public double DownSwitchFlow3G { get; set; }
     }
+
+    public class AgisDtPoint
+    {
+        public string Operator { get; set; }
+        
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        public double UnicomRsrp { get; set; }
+
+        public double MobileRsrp { get; set; }
+
+        public double TelecomRsrp { get; set; }
+    }
 }

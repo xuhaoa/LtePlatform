@@ -1221,6 +1221,158 @@
         </nodes>
       </activity>
     </packageHasNamedElement>
+    <packageHasNamedElement>
+      <activity
+        Id="a92823f5-9e51-48f9-b4c3-bc92e8a219fb"
+        name="模拟路测处理图"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false"
+        isReentrant="false"
+        isReadOnly="false"
+        isSingleExecution="false">
+        <nodes>
+          <initialNode
+            Id="e1efb78b-2117-4563-a9b3-8f93967a2010"
+            name="Initial1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="b33c64cd-78d9-4cff-ac28-41379de50238"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="2f6081e6-349b-4873-b012-72b7d4b9d1b7"
+                  LastKnownName="采集实际路测数据"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <initialNode
+            Id="6c7984c3-4c08-4034-a054-65efcd3fecf3"
+            name="Initial2"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="242e254a-96b7-4c57-bcdf-ea439ecb4c87"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="8710fea5-5335-4219-8bf4-3e97017520e4"
+                  LastKnownName="采集MR数据"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <opaqueAction
+            Id="2f6081e6-349b-4873-b012-72b7d4b9d1b7"
+            name="采集实际路测数据"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="0bfa6e16-4191-4a84-8a98-64282a346443"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="82a770bc-0012-4996-ad1c-9d600f8e4bf2"
+                  LastKnownName="路测数据经纬度聚合，去重，作为道路经纬度表"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="82a770bc-0012-4996-ad1c-9d600f8e4bf2"
+            name="路测数据经纬度聚合，去重，作为道路经纬度表"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="0d05ae7c-cae1-4755-8eca-5f4452ec8678"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="ab80d665-3d90-4d90-91b1-89e2434177ca"
+                  LastKnownName="根据道路经纬度信息表对MR记录进行匹配和聚合"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="8710fea5-5335-4219-8bf4-3e97017520e4"
+            name="采集MR数据"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="7c91e84c-b096-4acf-bc01-94c78903acf1"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="67d356ee-8ce4-4911-8d29-519a13d7f6ab"
+                  LastKnownName="筛选带有经纬度信息的记录"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="67d356ee-8ce4-4911-8d29-519a13d7f6ab"
+            name="筛选带有经纬度信息的记录"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="0530cbd5-fa4d-4307-88a9-6d652f349094"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="ab80d665-3d90-4d90-91b1-89e2434177ca"
+                  LastKnownName="根据道路经纬度信息表对MR记录进行匹配和聚合"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="ab80d665-3d90-4d90-91b1-89e2434177ca"
+            name="根据道路经纬度信息表对MR记录进行匹配和聚合"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="0d7d82ee-aedd-4188-99d2-4817894b2dfa"
+                isLeaf="false">
+                <forkNodeMoniker
+                  Id="4f4128f0-67ed-4f0b-bc9f-5a649125f70d"
+                  LastKnownName="Fork1"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <acceptEventAction
+            Id="fc0440ed-b643-4dcb-a1d7-1309960fe9a9"
+            name="地理化显示"
+            isLeaf="false"
+            isUnmarshall="false" />
+          <acceptEventAction
+            Id="4fd3e9f7-a5a9-4235-82d1-112370c0bd9a"
+            name="统计结果输出"
+            isLeaf="false"
+            isUnmarshall="false" />
+          <forkNode
+            Id="4f4128f0-67ed-4f0b-bc9f-5a649125f70d"
+            name="Fork1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="a111dee9-fd36-4b4c-b382-7ee2cf75ae55"
+                isLeaf="false">
+                <acceptEventActionMoniker
+                  Id="fc0440ed-b643-4dcb-a1d7-1309960fe9a9"
+                  LastKnownName="地理化显示"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="8c16f50d-1ea2-4295-ae4d-4d71f7de5a7c"
+                isLeaf="false">
+                <acceptEventActionMoniker
+                  Id="4fd3e9f7-a5a9-4235-82d1-112370c0bd9a"
+                  LastKnownName="统计结果输出"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+        </nodes>
+      </activity>
+    </packageHasNamedElement>
   </packagedElements>
   <primitiveType
     Id="220a3521-e091-4221-bae9-3ef9018e845c"

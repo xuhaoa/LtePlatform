@@ -239,6 +239,7 @@
       <DependentUpon>201703150902044_Extend_Town_Type.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="MockOperations\DbHelper.cs" />
     <Compile Include="MockOperations\MockItemsAudited.cs" />
     <Compile Include="MockOperations\MockItemsRepository.cs" />
     <Compile Include="MockOperations\WorkItemConverter.cs" />
