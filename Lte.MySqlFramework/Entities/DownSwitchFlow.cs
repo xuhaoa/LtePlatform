@@ -2,6 +2,7 @@
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Regular.Attributes;
 using System;
+using Abp.EntityFramework.Dependency;
 
 namespace Lte.MySqlFramework.Entities
 {
@@ -37,7 +38,7 @@ namespace Lte.MySqlFramework.Entities
         public double DownSwitchFlow3G { get; set; }
     }
 
-    public class AgisDtPoint
+    public class AgisDtPoint : Entity, IStatDate
     {
         public string Operator { get; set; }
         
@@ -50,5 +51,7 @@ namespace Lte.MySqlFramework.Entities
         public double MobileRsrp { get; set; }
 
         public double TelecomRsrp { get; set; }
+
+        public DateTime StatDate { get; set; }
     }
 }

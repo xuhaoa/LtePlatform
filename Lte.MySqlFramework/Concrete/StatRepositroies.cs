@@ -68,4 +68,16 @@ namespace Lte.MySqlFramework.Concrete
             return Context.SaveChanges();
         }
     }
+
+    public class AgisDtPointRepository : EfRepositoryBase<MySqlContext, AgisDtPoint>, IAgisDtPointRepository
+    {
+        public AgisDtPointRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
 }

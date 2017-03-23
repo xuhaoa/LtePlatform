@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class PlanningSite_AddFields : IMigrationMetadata
+    public sealed partial class Add_AgisDtPoints : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(PlanningSite_AddFields));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_AgisDtPoints));
         
         string IMigrationMetadata.Id
         {
-            get { return "201703040759297_PlanningSite_AddFields"; }
+            get { return "201703230651416_Add_AgisDtPoints"; }
         }
         
         string IMigrationMetadata.Source

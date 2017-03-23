@@ -53,4 +53,9 @@ namespace Lte.MySqlFramework.Abstract
     {
         
     }
+
+    public interface IAgisDtPointRepository : IRepository<AgisDtPoint>, ISaveChanges
+    {
+        
+    }
 }
