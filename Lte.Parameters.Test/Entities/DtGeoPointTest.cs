@@ -84,8 +84,8 @@ namespace Lte.Parameters.Test.Entities
             var mergePoints = from point in points
                 group point by new
                 {
-                    X = point.Longtitute/0.0004,
-                    Y = point.Lattitute/0.0004
+                    X = (int)(point.Longtitute/0.0004),
+                    Y = (int)(point.Lattitute/0.0004)
                 }
                 into g
                 select new GeoPoint(g.Average(x => x.Longtitute), g.Average(x => x.Lattitute));

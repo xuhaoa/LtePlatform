@@ -5,6 +5,8 @@ using LtePlatform.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
+using Lte.Evaluations.DataService.Mr;
+using Lte.MySqlFramework.Entities;
 
 namespace LtePlatform.Controllers.Dt
 {
@@ -157,6 +159,7 @@ namespace LtePlatform.Controllers.Dt
         }
     }
 
+    [ApiControl("4G测试详细数据查询控制器")]
     public class Record4GDetailsController : ApiController
     {
         private readonly CsvFileInfoService _service;
@@ -255,5 +258,21 @@ namespace LtePlatform.Controllers.Dt
         {
             return _service.QueryAllList();
         }
+    }
+
+    public class AgisDtPointsController : ApiController
+    {
+        private readonly NearestPciCellService _service;
+
+        public AgisDtPointsController(NearestPciCellService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<AgisDtPoint> Get(DateTime begin, DateTime end)
+        {
+            return _service.QueryAgisDtPoints(begin, end);
+        } 
     }
 }

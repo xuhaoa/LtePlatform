@@ -103,10 +103,10 @@ namespace LtePlatform.Controllers
         {
             if (neighborZte != null && neighborZte.Length > 0 && !string.IsNullOrEmpty(neighborZte[0]?.FileName))
             {
-                ViewBag.Message = "共上传中兴邻区信息文件" + neighborZte.Length + "个！";
+                ViewBag.Message = "共上传AGIS信息文件" + neighborZte.Length + "个！";
                 foreach (var file in neighborZte)
                 {
-                    _neighborService.UploadZteNeighbors(new StreamReader(file.InputStream, Encoding.GetEncoding("GB2312")));
+                    _neighborService.UploadAgisDtPoints(new StreamReader(file.InputStream, Encoding.GetEncoding("GB2312")));
                 }
             }
             return View("NeighborImport");

@@ -1,11 +1,16 @@
-﻿using Lte.Evaluations.ViewModels.Mr;
+﻿using System;
+using Lte.Evaluations.ViewModels.Mr;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Neighbor;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Lte.Domain.Regular;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract;
+using Lte.MySqlFramework.Abstract;
+using Remotion.Data.Linq.Backend.SqlGeneration.SqlServer;
 
 namespace Lte.Evaluations.DataService.Mr
 {
@@ -14,17 +19,19 @@ namespace Lte.Evaluations.DataService.Mr
         private readonly INearestPciCellRepository _repository;
         private readonly ICellRepository _cellRepository;
         private readonly IENodebRepository _eNodebRepository;
+        private readonly IAgisDtPointRepository _agisRepository;
 
         private static Stack<NearestPciCell> NearestCells { get; set; }
 
         public int NearestCellCount => NearestCells.Count;
 
         public NearestPciCellService(INearestPciCellRepository repository, ICellRepository cellRepository,
-            IENodebRepository eNodebRepository)
+            IENodebRepository eNodebRepository, IAgisDtPointRepository agisRepository)
         {
             _repository = repository;
             _cellRepository = cellRepository;
             _eNodebRepository = eNodebRepository;
+            _agisRepository = agisRepository;
             if (NearestCells == null)
                 NearestCells = new Stack<NearestPciCell>();
         }
@@ -87,14 +94,29 @@ namespace Lte.Evaluations.DataService.Mr
             _repository.SaveChanges();
         }
 
-        public void UploadZteNeighbors(StreamReader reader)
+        public void UploadAgisDtPoints(StreamReader reader)
         {
-            var groupInfos = NeighborCellZteCsv.ReadNeighborCellZteCsvs(reader);
-            foreach (var info in groupInfos)
+            string line;
+            int count = 0;
+            while (!string.IsNullOrEmpty(line = reader.ReadLine()))
             {
-                var cell = NearestPciCell.ConstructCell(info, _cellRepository);
-                if (cell.Pci >= 0) NearestCells.Push(cell);
+                var fields = line.Split(',');
+                var dtPoint = new AgisDtPoint
+                {
+                    Operator = fields[0],
+                    Longtitute = fields[1].ConvertToDouble(0),
+                    Lattitute = fields[2].ConvertToDouble(0),
+                    UnicomRsrp = fields[3].ConvertToDouble(-140),
+                    MobileRsrp = fields[4].ConvertToDouble(-140),
+                    TelecomRsrp = fields[5].ConvertToDouble(-140),
+                    StatDate = DateTime.Today.AddDays(-1)
+                };
+                _agisRepository.Insert(dtPoint);
+                if (count++%1000 == 0)
+                    _agisRepository.SaveChanges();
             }
+            _agisRepository.SaveChanges();
+
         }
 
         public void UploadHwNeighbors(StreamReader reader)
@@ -133,6 +155,27 @@ namespace Lte.Evaluations.DataService.Mr
         public void ClearNeighbors()
         {
             NearestCells.Clear();
+        }
+
+        public IEnumerable<AgisDtPoint> QueryAgisDtPoints(DateTime begin, DateTime end)
+        {
+            var points = _agisRepository.GetAllList(x => x.StatDate > begin && x.StatDate <= end);
+            return from point in points
+                group point by new
+                {
+                    X = (int)(point.Longtitute/0.001),
+                    Y = (int)(point.Lattitute/0.001)
+                }
+                into g
+                select new AgisDtPoint
+                {
+                    Longtitute = g.Average(x => x.Longtitute),
+                    Lattitute = g.Average(x => x.Lattitute),
+                    UnicomRsrp = g.Average(x => x.UnicomRsrp),
+                    MobileRsrp = g.Average(x => x.MobileRsrp),
+                    TelecomRsrp = g.Average(x => x.TelecomRsrp),
+                    StatDate = g.First().StatDate
+                };
         }
     }
 }

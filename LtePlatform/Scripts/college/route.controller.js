@@ -366,11 +366,8 @@
             $scope.query();
         });
 
-        $scope.$watch('kpi.selected', function (kpi) {
-            $scope.legend = kpiDisplayService.queryCoverageLegend(kpi);
-        });
-
-        $scope.showDtPoints = function() {
+        $scope.showDtPoints = function () {
+            $scope.legend = kpiDisplayService.queryCoverageLegend($scope.kpi.selected);
             $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
             kpiDisplayService.generateCoveragePoints($scope.coveragePoints, $scope.data, $scope.kpi.selected);
             angular.forEach($scope.coverageOverlays, function(overlay) {
