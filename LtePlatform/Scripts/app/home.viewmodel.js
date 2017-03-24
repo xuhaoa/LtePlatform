@@ -74,7 +74,7 @@
                         controller: "menu.mr"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Network.html",
+                        templateUrl: viewDir + "Mr.html",
                         controller: "home.mr"
                     }
                 },
@@ -374,15 +374,39 @@
     })
     .controller("home.mr", function ($scope, baiduMapService, coverageService, kpiDisplayService, parametersMapService) {
         baiduMapService.initializeMap("map", 11);
-        baiduMapService.addCityBoundary("佛山");
+        
         var legend = kpiDisplayService.queryCoverageLegend('RSRP');
         $scope.legend.title = 'RSRP';
         $scope.legend.criteria = legend.criteria;
         $scope.legend.sign = legend.sign;
-        $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
-        coverageService.queryAgisDtPoints($scope.beginDate.value, $scope.endDate.value).then(function (result) {
-            kpiDisplayService.generateMobileRsrpPoints($scope.coveragePoints, result);
+
+        $scope.showTelecomCoverage = function () {
+            $scope.currentView = "电信";
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+            kpiDisplayService.generateTelecomRsrpPoints($scope.coveragePoints, $scope.data);
             parametersMapService.showIntervalPoints($scope.coveragePoints.intervals);
+        };
+        $scope.showUnicomCoverage = function () {
+            $scope.currentView = "联通";
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+            kpiDisplayService.generateUnicomRsrpPoints($scope.coveragePoints, $scope.data);
+            parametersMapService.showIntervalPoints($scope.coveragePoints.intervals);
+        };
+        $scope.showMobileCoverage = function () {
+            $scope.currentView = "移动";
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+            kpiDisplayService.generateMobileRsrpPoints($scope.coveragePoints, $scope.data);
+            parametersMapService.showIntervalPoints($scope.coveragePoints.intervals);
+        };
+        coverageService.queryAgisDtPoints($scope.beginDate.value, $scope.endDate.value).then(function (result) {
+            $scope.data = result;
+            $scope.showTelecomCoverage();
         });
 
     })

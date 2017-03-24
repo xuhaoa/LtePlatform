@@ -517,16 +517,19 @@
 			},
 			showIntervalPoints: function (intervals, coverageOverlays) {
 				angular.forEach(intervals, function (interval) {
-					var coors = interval.coors;
-					if (coors.length > 0) {
-						baiduQueryService.transformBaiduCoors(coors[0]).then(function (newCoor) {
-							var xoffset = coors[0].longtitute - newCoor.longtitute;
-							var yoffset = coors[0].lattitute - newCoor.lattitute;
-							var points = baiduMapService.drawMultiPoints(coors, interval.color, xoffset, yoffset);
-							if (coverageOverlays)
-								$scope.coverageOverlays.push(points);
-						});
-					}
+				    var coors = interval.coors;
+				    var index;
+				    if (coors.length === 0) {
+				        return;
+				    } else
+				        index = parseInt(coors.length / 2);
+				    baiduQueryService.transformBaiduCoors(coors[index]).then(function(newCoor) {
+				        var xoffset = coors[index].longtitute - newCoor.longtitute;
+				        var yoffset = coors[index].lattitute - newCoor.lattitute;
+				        var points = baiduMapService.drawMultiPoints(coors, interval.color, xoffset, yoffset);
+				        if (coverageOverlays)
+				            $scope.coverageOverlays.push(points);
+				    });
 				});
 			}
 		}

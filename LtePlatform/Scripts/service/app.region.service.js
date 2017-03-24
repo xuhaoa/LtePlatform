@@ -585,19 +585,19 @@
                     color: "#ff0000"
                 }, {
                     threshold: -115,
-                    color: "#7f0808"
+                    color: "#FF6666"
                 }, {
                     threshold: -110,
-                    color: "#3f0f0f"
+                    color: "#FF6600"
                 }, {
                     threshold: -105,
-                    color: "#077f7f"
+                    color: "#FFFF00"
                 }, {
                     threshold: -95,
-                    color: "#07073f"
+                    color: "#0099CC"
                 }, {
                     threshold: -80,
-                    color: "#073f07"
+                    color: "#009933"
                 }
             ],
             defaultSinrCriteria: [

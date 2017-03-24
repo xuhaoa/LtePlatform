@@ -160,22 +160,7 @@ namespace Lte.Evaluations.DataService.Mr
         public IEnumerable<AgisDtPoint> QueryAgisDtPoints(DateTime begin, DateTime end)
         {
             var points = _agisRepository.GetAllList(x => x.StatDate > begin && x.StatDate <= end);
-            return from point in points
-                group point by new
-                {
-                    X = (int)(point.Longtitute/0.001),
-                    Y = (int)(point.Lattitute/0.001)
-                }
-                into g
-                select new AgisDtPoint
-                {
-                    Longtitute = g.Average(x => x.Longtitute),
-                    Lattitute = g.Average(x => x.Lattitute),
-                    UnicomRsrp = g.Average(x => x.UnicomRsrp),
-                    MobileRsrp = g.Average(x => x.MobileRsrp),
-                    TelecomRsrp = g.Average(x => x.TelecomRsrp),
-                    StatDate = g.First().StatDate
-                };
+            return points;
         }
     }
 }
