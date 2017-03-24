@@ -2571,44 +2571,40 @@
                 return pointDef;
             },
             generateCoveragePoints: function (pointDef, points, kpi) {
-                var intervals = pointDef.intervals;
-                angular.forEach(points, function (point) {
-                    var value = 0;
+                calculateService.generateCoveragePointsWithFunc(pointDef, points, function(point) {
                     switch (kpi) {
-                        case 'Ec/Io':
-                            value = point.ecio;
-                            break;
-                        case 'RxAGC':
-                            value = point.rxAgc;
-                            break;
-                        case 'TxPower':
-                            value = point.txPower;
-                            break;
-                        case 'SINR(3G)':
-                            value = point.sinr;
-                            break;
-                        case 'RxAGC0':
-                            value = point.rxAgc0;
-                            break;
-                        case 'RxAGC1':
-                            value = point.rxAgc1;
-                            break;
-                        case 'RSRP':
-                            value = point.rsrp;
-                            break;
-                        default:
-                            value = point.sinr;
-                            break;
+                    case 'Ec/Io':
+                        return point.ecio;
+                    case 'RxAGC':
+                        return point.rxAgc;
+                    case 'TxPower':
+                        return point.txPower;
+                    case 'SINR(3G)':
+                        return point.sinr;
+                    case 'RxAGC0':
+                        return point.rxAgc0;
+                    case 'RxAGC1':
+                        return point.rxAgc1;
+                    case 'RSRP':
+                        return point.rsrp;
+                    default:
+                        return point.sinr;
                     }
-                    for (var i = 0; i < intervals.length; i++) {
-                        if ((pointDef.sign && value < intervals[i].threshold) || (!pointDef.sign && value > intervals[i].threshold)) {
-                            intervals[i].coors.push({
-                                longtitute: point.longtitute,
-                                lattitute: point.lattitute
-                            });
-                            break;
-                        }
-                    }
+                });
+            },
+            generateMobileRsrpPoints: function(pointDef, points) {
+                calculateService.generateCoveragePointsWithFunc(pointDef, points, function(point) {
+                    return point.mobileRsrp;
+                });
+            },
+            generateTelecomRsrpPoints: function (pointDef, points) {
+                calculateService.generateCoveragePointsWithFunc(pointDef, points, function (point) {
+                    return point.telecomRsrp;
+                });
+            },
+            generateUnicomRsrpPoints: function (pointDef, points) {
+                calculateService.generateCoveragePointsWithFunc(pointDef, points, function (point) {
+                    return point.unicomRsrp;
                 });
             },
             updateCoverageKpi: function (neighbor, cell, dateSpan) {

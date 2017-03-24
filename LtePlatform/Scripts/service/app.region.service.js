@@ -525,6 +525,12 @@
             queryAreaTestDate: function() {
                 return generalHttpService.getApiData('AreaTestDate', {});
             },
+            queryAgisDtPoints: function(begin, end) {
+                return generalHttpService.getApiData('AgisDtPoints', {
+                    begin: begin,
+                    end: end
+                });
+            },
             queryByRasterInfo: function (info, type) {
                 var api;
                 switch (type) {

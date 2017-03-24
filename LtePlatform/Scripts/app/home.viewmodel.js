@@ -66,6 +66,19 @@
                     }
                 },
                 url: "/complain"
+            })
+            .state('mr', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.mr"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Network.html",
+                        controller: "home.mr"
+                    }
+                },
+                url: "/mr"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -174,7 +187,15 @@
                 }, {
                     displayName: "负荷评估",
                     url: appUrlService.getParameterUrlHost() + 'ltecapability.html'
-                }, {
+                }
+            ]
+        }
+    })
+    .controller('menu.mr', function($scope) {
+        $scope.menuItem = {
+            displayName: "MR分析",
+            subItems: [
+                {
                     displayName: "工单管控",
                     url: "/Kpi/WorkItem",
                     tooltip: "对接本部优化部4G网优平台，结合日常优化，实现对日常工单的监控和分析"
@@ -343,6 +364,17 @@
         baiduMapService.addCityBoundary("佛山");
         coverageService.queryAreaTestDate().then(function(result) {
             console.log(result);
+        });
+
+    })
+    .controller("home.mr", function ($scope, baiduMapService, coverageService, kpiDisplayService) {
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
+        $scope.legend = kpiDisplayService.queryCoverageLegend('RSRP');
+        $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+        coverageService.queryAgisDtPoints($scope.beginDate.value, $scope.endDate.value).then(function (result) {
+            kpiDisplayService.generateMobileRsrpPoints($scope.coveragePoints, result);
+            console.log($scope.coveragePoints);
         });
 
     })
