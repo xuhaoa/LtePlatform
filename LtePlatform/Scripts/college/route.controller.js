@@ -336,7 +336,7 @@
         collegeMapService.showDtInfos($scope.dtInfos, $scope.beginDate.value, $scope.endDate.value);
     })
     .controller('coverage.name', function ($scope, $stateParams, baiduMapService, collegeQueryService, baiduQueryService,
-        collegeMapService, collegeDtService, coverageService, kpiDisplayService) {
+        collegeMapService, collegeDtService, coverageService, kpiDisplayService, parametersMapService) {
         $scope.page.title = $stateParams.name + '覆盖情况评估';
         $scope.includeAllFiles = false;
         $scope.network = {
@@ -373,16 +373,7 @@
             angular.forEach($scope.coverageOverlays, function(overlay) {
                 baiduMapService.removeOverlay(overlay);
             });
-            angular.forEach($scope.coveragePoints.intervals, function(interval) {
-                var coors = interval.coors;
-                if (coors.length > 0) {
-                    baiduQueryService.transformBaiduCoors(coors[0]).then(function (newCoor) {
-                        var xoffset = coors[0].longtitute - newCoor.longtitute;
-                        var yoffset = coors[0].lattitute - newCoor.lattitute;
-                        $scope.coverageOverlays.push(baiduMapService.drawMultiPoints(coors, interval.color, xoffset, yoffset));
-                    });
-                }
-            });
+            parametersMapService.showIntervalPoints($scope.coveragePoints.intervals, $scope.coveragePoints);
         };
 
         var queryRasterInfo = function(index) {

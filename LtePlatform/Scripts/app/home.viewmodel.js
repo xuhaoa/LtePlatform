@@ -367,7 +367,7 @@
         });
 
     })
-    .controller("home.mr", function ($scope, baiduMapService, coverageService, kpiDisplayService) {
+    .controller("home.mr", function ($scope, baiduMapService, coverageService, kpiDisplayService, parametersMapService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.legend = kpiDisplayService.queryCoverageLegend('RSRP');
@@ -375,6 +375,7 @@
         coverageService.queryAgisDtPoints($scope.beginDate.value, $scope.endDate.value).then(function (result) {
             kpiDisplayService.generateMobileRsrpPoints($scope.coveragePoints, result);
             console.log($scope.coveragePoints);
+            parametersMapService.showIntervalPoints($scope.coveragePoints.intervals);
         });
 
     })

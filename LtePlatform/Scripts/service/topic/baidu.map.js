@@ -16,13 +16,13 @@
 		return{
 
 			transformToBaidu: function (longtitute, lattitute) {
-			    return generalHttpService.getJsonpData(baiduMapOptions.baiduApiUrl + '&coords=' + longtitute + ',' + lattitute
+				return generalHttpService.getJsonpData(baiduMapOptions.baiduApiUrl + '&coords=' + longtitute + ',' + lattitute
 					+ '&from=1&to=5&ak=' + baiduMapOptions.myKey, function (result) {
 						return result.result[0];
 					});
 			},
 			transformBaiduCoors: function (coors) {
-			    return generalHttpService.getJsonpData(baiduMapOptions.baiduApiUrl + '&coords=' + coors.longtitute + ',' + coors.lattitute
+				return generalHttpService.getJsonpData(baiduMapOptions.baiduApiUrl + '&coords=' + coors.longtitute + ',' + coors.lattitute
 					+ '&from=1&to=5&ak=' + baiduMapOptions.myKey, function (result) {
 						return {
 							longtitute: result.result[0].x,
@@ -31,7 +31,7 @@
 					});
 			},
 			queryBaiduPlace: function (name) {
-			    return generalHttpService.getJsonpData(baiduMapOptions.baiduPlaceUrl + '&query=' + name
+				return generalHttpService.getJsonpData(baiduMapOptions.baiduPlaceUrl + '&query=' + name
 					+ '&region=佛山市&output=json&ak=' + baiduMapOptions.myKey, function (result) {
 					return result.result;
 				});
@@ -433,7 +433,7 @@
 			});
 		};
 		var showENodebsElements = function (eNodebs, showENodebInfo, showCellInfo) {
-		    baiduQueryService.transformToBaidu(eNodebs[0].longtitute, eNodebs[0].lattitute).then(function (coors) {
+			baiduQueryService.transformToBaidu(eNodebs[0].longtitute, eNodebs[0].lattitute).then(function (coors) {
 				var xOffset = coors.x - eNodebs[0].longtitute;
 				var yOffset = coors.y - eNodebs[0].lattitute;
 				angular.forEach(eNodebs, function (eNodeb) {
@@ -448,7 +448,7 @@
 			});
 		};
 		var showPhpElements = function (elements, showElementInfo) {
-		    baiduQueryService.transformToBaidu(elements[0].longtitute, elements[0].lattitute).then(function (coors) {
+			baiduQueryService.transformToBaidu(elements[0].longtitute, elements[0].lattitute).then(function (coors) {
 				var xOffset = coors.x - parseFloat(elements[0].longtitute);
 				var yOffset = coors.y - parseFloat(elements[0].lattitute);
 				angular.forEach(elements, function (element) {
@@ -461,7 +461,7 @@
 			});
 		};
 		var showCdmaElements = function (btss, showBtsInfo, showCellInfo) {
-		    baiduQueryService.transformToBaidu(btss[0].longtitute, btss[0].lattitute).then(function (coors) {
+			baiduQueryService.transformToBaidu(btss[0].longtitute, btss[0].lattitute).then(function (coors) {
 				var xOffset = coors.x - btss[0].longtitute;
 				var yOffset = coors.y - btss[0].lattitute;
 				angular.forEach(btss, function (bts) {
@@ -505,7 +505,7 @@
 				return showCdmaElements(btss, showBtsInfo);
 			},
 			showCellSectors: function (cells, showCellInfo) {
-			    baiduQueryService.transformToBaidu(cells[0].longtitute, cells[0].lattitute).then(function (coors) {
+				baiduQueryService.transformToBaidu(cells[0].longtitute, cells[0].lattitute).then(function (coors) {
 					var xOffset = coors.x - cells[0].longtitute;
 					var yOffset = coors.y - cells[0].lattitute;
 					baiduMapService.setCellFocus(coors.x, coors.y, 16);
@@ -514,6 +514,20 @@
 			},
 			showPhpElements: function (elements, showElementInfo) {
 				return showPhpElements(elements, showElementInfo);
+			},
+			showIntervalPoints: function (intervals, coverageOverlays) {
+				angular.forEach(intervals, function (interval) {
+					var coors = interval.coors;
+					if (coors.length > 0) {
+						baiduQueryService.transformBaiduCoors(coors[0]).then(function (newCoor) {
+							var xoffset = coors[0].longtitute - newCoor.longtitute;
+							var yoffset = coors[0].lattitute - newCoor.lattitute;
+							var points = baiduMapService.drawMultiPoints(coors, interval.color, xoffset, yoffset);
+							if (coverageOverlays)
+								$scope.coverageOverlays.push(points);
+						});
+					}
+				});
 			}
 		}
 	})
