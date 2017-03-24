@@ -162,5 +162,11 @@ namespace Lte.Evaluations.DataService.Mr
             var points = _agisRepository.GetAllList(x => x.StatDate > begin && x.StatDate <= end);
             return points;
         }
+
+        public IEnumerable<AgisDtPoint> QueryAgisDtPoints(DateTime begin, DateTime end, string topic)
+        {
+            var points = _agisRepository.GetAllList(x => x.StatDate > begin && x.StatDate <= end && x.Operator == topic);
+            return points;
+        }
     }
 }

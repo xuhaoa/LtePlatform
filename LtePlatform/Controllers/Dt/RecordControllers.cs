@@ -273,6 +273,12 @@ namespace LtePlatform.Controllers.Dt
         public IEnumerable<AgisDtPoint> Get(DateTime begin, DateTime end)
         {
             return _service.QueryAgisDtPoints(begin, end);
-        } 
+        }
+
+        [HttpGet]
+        public IEnumerable<AgisDtPoint> Get(DateTime begin, DateTime end, string topic)
+        {
+            return _service.QueryAgisDtPoints(begin, end, topic);
+        }
     }
 }

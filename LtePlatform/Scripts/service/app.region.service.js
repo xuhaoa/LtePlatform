@@ -531,6 +531,13 @@
                     end: end
                 });
             },
+            queryAgisDtPointsByTopic: function (begin, end, topic) {
+                return generalHttpService.getApiData('AgisDtPoints', {
+                    begin: begin,
+                    end: end,
+                    topic: topic
+                });
+            },
             queryByRasterInfo: function (info, type) {
                 var api;
                 switch (type) {

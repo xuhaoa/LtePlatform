@@ -53,5 +53,11 @@ namespace Lte.MySqlFramework.Entities
         public double TelecomRsrp { get; set; }
 
         public DateTime StatDate { get; set; }
+
+        public string Domination
+            =>
+                (TelecomRsrp >= MobileRsrp)
+                    ? (TelecomRsrp >= UnicomRsrp ? "电信主导" : "联通主导")
+                    : (MobileRsrp >= UnicomRsrp ? "移动主导" : "联通主导");
     }
 }

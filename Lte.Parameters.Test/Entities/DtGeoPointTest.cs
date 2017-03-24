@@ -152,5 +152,38 @@ namespace Lte.Parameters.Test.Entities
                 }
             }
         }
+
+        [Test]
+        public void Test_RectanglePoints()
+        {
+            using (var reader = new StreamReader(_resultFileName))
+            {
+                using (var writer = new StreamWriter(_lastFileName))
+                {
+                    string line;
+                    while (!string.IsNullOrEmpty(line = reader.ReadLine()))
+                    {
+                        var fields = line.Split(',');
+                        var dtPoint = new AgisDtPoint
+                        {
+                            Operator = "小范围",
+                            Longtitute = fields[1].ConvertToDouble(0),
+                            Lattitute = fields[2].ConvertToDouble(0),
+                            UnicomRsrp = fields[3].ConvertToInt(-140),
+                            MobileRsrp = fields[4].ConvertToInt(-140),
+                            TelecomRsrp = fields[5].ConvertToInt(-140)
+                        };
+                        if (dtPoint.Longtitute > 113.08 && dtPoint.Longtitute < 113.11 && dtPoint.Lattitute > 23 &&
+                            dtPoint.Lattitute < 23.02)
+                        {
+                            writer.WriteLine(dtPoint.Operator + "," + dtPoint.Longtitute + "," + dtPoint.Lattitute +
+                                             "," + dtPoint.UnicomRsrp + "," + dtPoint.MobileRsrp + "," +
+                                             dtPoint.TelecomRsrp);
+                        }
+                    }
+                }
+
+            }
+        }
     }
 }

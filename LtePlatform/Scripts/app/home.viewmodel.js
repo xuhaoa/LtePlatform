@@ -404,11 +404,19 @@
             kpiDisplayService.generateMobileRsrpPoints($scope.coveragePoints, $scope.data);
             parametersMapService.showIntervalPoints($scope.coveragePoints.intervals);
         };
-        coverageService.queryAgisDtPoints($scope.beginDate.value, $scope.endDate.value).then(function (result) {
-            $scope.data = result;
-            $scope.showTelecomCoverage();
-        });
-
+        $scope.showDistrictRange = function() {
+            coverageService.queryAgisDtPointsByTopic($scope.beginDate.value, $scope.endDate.value, '禅城').then(function (result) {
+                $scope.data = result;
+                $scope.showTelecomCoverage();
+            });
+        };
+        $scope.showSmallRange = function() {
+            coverageService.queryAgisDtPointsByTopic($scope.beginDate.value, $scope.endDate.value, '小范围').then(function(result) {
+                $scope.data = result;
+                $scope.showTelecomCoverage();
+            });
+        };
+        $scope.showDistrictRange();
     })
     .controller("home.complain", function ($scope, baiduMapService) {
         baiduMapService.initializeMap("map", 11);
