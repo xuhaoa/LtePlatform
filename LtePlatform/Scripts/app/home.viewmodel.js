@@ -89,6 +89,11 @@
             title: "基础数据总览"
         };
         appUrlService.initializeAuthorization();
+        $rootScope.legend = {
+            criteria: 0,
+            sign: 0,
+            title: ''
+        };
 
         var lastWeek = new Date();
         lastWeek.setDate(lastWeek.getDate() - 7);
@@ -370,11 +375,13 @@
     .controller("home.mr", function ($scope, baiduMapService, coverageService, kpiDisplayService, parametersMapService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
-        $scope.legend = kpiDisplayService.queryCoverageLegend('RSRP');
+        var legend = kpiDisplayService.queryCoverageLegend('RSRP');
+        $scope.legend.title = 'RSRP';
+        $scope.legend.criteria = legend.criteria;
+        $scope.legend.sign = legend.sign;
         $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
         coverageService.queryAgisDtPoints($scope.beginDate.value, $scope.endDate.value).then(function (result) {
             kpiDisplayService.generateMobileRsrpPoints($scope.coveragePoints, result);
-            console.log($scope.coveragePoints);
             parametersMapService.showIntervalPoints($scope.coveragePoints.intervals);
         });
 
