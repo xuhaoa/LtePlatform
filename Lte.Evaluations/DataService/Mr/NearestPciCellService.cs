@@ -10,6 +10,7 @@ using Lte.Domain.Regular;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract;
 using Lte.MySqlFramework.Abstract;
+using Lte.Parameters.Abstract.Infrastructure;
 using Remotion.Data.Linq.Backend.SqlGeneration.SqlServer;
 
 namespace Lte.Evaluations.DataService.Mr
@@ -20,18 +21,23 @@ namespace Lte.Evaluations.DataService.Mr
         private readonly ICellRepository _cellRepository;
         private readonly IENodebRepository _eNodebRepository;
         private readonly IAgisDtPointRepository _agisRepository;
+        private readonly ITownRepository _townRepository;
+        private readonly IMrGridRepository _mrGridRepository;
 
         private static Stack<NearestPciCell> NearestCells { get; set; }
 
         public int NearestCellCount => NearestCells.Count;
 
         public NearestPciCellService(INearestPciCellRepository repository, ICellRepository cellRepository,
-            IENodebRepository eNodebRepository, IAgisDtPointRepository agisRepository)
+            IENodebRepository eNodebRepository, IAgisDtPointRepository agisRepository,
+            ITownRepository townRepository, IMrGridRepository mrGridRepository)
         {
             _repository = repository;
             _cellRepository = cellRepository;
             _eNodebRepository = eNodebRepository;
             _agisRepository = agisRepository;
+            _townRepository = townRepository;
+            _mrGridRepository = mrGridRepository;
             if (NearestCells == null)
                 NearestCells = new Stack<NearestPciCell>();
         }
@@ -119,7 +125,7 @@ namespace Lte.Evaluations.DataService.Mr
 
         }
 
-        public void UploadHwNeighbors(StreamReader reader)
+        public void UploadMrGrids(StreamReader reader, string fileName)
         {
             var groupInfos = NeighborCellHwCsv.ReadNeighborCellHwCsvs(reader);
             foreach (var info in groupInfos)

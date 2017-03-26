@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using Abp.EntityFramework.Dependency;
+using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 
 namespace Lte.MySqlFramework.Entities
@@ -119,7 +121,8 @@ namespace Lte.MySqlFramework.Entities
 
         public int Frequency { get; set; }
 
-        public string Description { get; set; }
+        [AutoMapPropertyResolve("Description", typeof(MrGridXml), typeof(AlarmLevelTransform))]
+        public AlarmLevel RsrpLevel { get; set; }
 
         public string Coordinates { get; set; }
 

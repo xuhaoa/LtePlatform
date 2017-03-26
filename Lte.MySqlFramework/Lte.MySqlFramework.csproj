@@ -129,13 +129,13 @@
     <Compile Include="Entities\TopConnection3GCell.cs" />
     <Compile Include="Entities\TopDrop2GCell.cs" />
     <Compile Include="Entities\VipDemand.cs" />
-    <Compile Include="Migrations\201703230651416_Add_AgisDtPoints.cs" />
-    <Compile Include="Migrations\201703230651416_Add_AgisDtPoints.Designer.cs">
-      <DependentUpon>201703230651416_Add_AgisDtPoints.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201703260909258_Add_MrGrid.cs" />
     <Compile Include="Migrations\201703260909258_Add_MrGrid.Designer.cs">
       <DependentUpon>201703260909258_Add_MrGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703262239495_Modify_MrGrid.cs" />
+    <Compile Include="Migrations\201703262239495_Modify_MrGrid.Designer.cs">
+      <DependentUpon>201703262239495_Modify_MrGrid.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -145,11 +145,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703230651416_Add_AgisDtPoints.resx">
-      <DependentUpon>201703230651416_Add_AgisDtPoints.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703260909258_Add_MrGrid.resx">
       <DependentUpon>201703260909258_Add_MrGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703262239495_Modify_MrGrid.resx">
+      <DependentUpon>201703262239495_Modify_MrGrid.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

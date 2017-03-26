@@ -68,7 +68,10 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(AlarmLevel.Warning, "警告"),
                     new Tuple<object, string>(AlarmLevel.Urgent, "紧急"),
                     new Tuple<object, string>(AlarmLevel.Important, "重要"),
-                    new Tuple<object, string>(AlarmLevel.Tips, "提示")
+                    new Tuple<object, string>(AlarmLevel.Tips, "提示"),
+                    new Tuple<object, string>(AlarmLevel.Between100And105, "黄色 -100dbm到-105dbm"), 
+                    new Tuple<object, string>(AlarmLevel.Between105And110, "黄色 -105dbm到-110dbm"), 
+                    new Tuple<object, string>(AlarmLevel.Below110, "红色 -110dbm以下"), 
                 }
             },
             {

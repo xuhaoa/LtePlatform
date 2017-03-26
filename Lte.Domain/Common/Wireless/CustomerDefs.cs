@@ -519,7 +519,7 @@ namespace Lte.Domain.Common.Wireless
         }
     }
 
-    [EnumTypeDescription(typeof(AlarmLevel), Secondary)]
+    [EnumTypeDescription(typeof(AlarmLevel), Others)]
     public enum AlarmLevel : byte
     {
         Serious,
@@ -528,7 +528,11 @@ namespace Lte.Domain.Common.Wireless
         Warning,
         Urgent,
         Important,
-        Tips
+        Tips,
+        Others,
+        Between100And105,
+        Between105And110,
+        Below110
     }
 
     public class AlarmLevelDescriptionTransform : DescriptionTransform<AlarmLevel>
@@ -538,7 +542,7 @@ namespace Lte.Domain.Common.Wireless
 
     public class AlarmLevelTransform : EnumTransform<AlarmLevel>
     {
-        public AlarmLevelTransform() : base(AlarmLevel.Tips)
+        public AlarmLevelTransform() : base(AlarmLevel.Others)
         {
         }
     }

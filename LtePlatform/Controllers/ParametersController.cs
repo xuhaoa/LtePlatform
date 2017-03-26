@@ -117,10 +117,10 @@ namespace LtePlatform.Controllers
         {
             if (neighborHw != null && neighborHw.Length > 0 && !string.IsNullOrEmpty(neighborHw[0]?.FileName))
             {
-                ViewBag.Message = "共上传华为邻区信息文件" + neighborHw.Length + "个！";
+                ViewBag.Message = "共上传MR栅格信息文件" + neighborHw.Length + "个！";
                 foreach (var file in neighborHw)
                 {
-                    _neighborService.UploadHwNeighbors(new StreamReader(file.InputStream, Encoding.GetEncoding("GB2312")));
+                    _neighborService.UploadMrGrids(new StreamReader(file.InputStream, Encoding.GetEncoding("GB2312")), file.FileName);
                 }
             }
             return View("NeighborImport");
