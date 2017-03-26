@@ -128,6 +128,12 @@
                 $rootScope.city.options = result;
                 $rootScope.city.selected = result[0];
             });
+
+        $rootScope.indexedDB = {
+            name: 'ouyh18',
+            version: 7,
+            db: null
+        };
     })
     .controller("menu.root", function($scope, appUrlService) {
         var rootUrl = "/#";
@@ -194,7 +200,7 @@
                     url: appUrlService.getParameterUrlHost() + 'ltecapability.html'
                 }
             ]
-        }
+        };
     })
     .controller('menu.mr', function($scope) {
         $scope.menuItem = {
@@ -372,13 +378,14 @@
         });
 
     })
-    .controller("home.mr", function ($scope, baiduMapService, coverageService, kpiDisplayService, parametersMapService) {
-        baiduMapService.initializeMap("map", 11);
+    .controller("home.mr", function ($scope, baiduMapService, coverageService, kpiDisplayService, parametersMapService, appUrlService) {
+        baiduMapService.initializeMap("map", 13);
         
         var legend = kpiDisplayService.queryCoverageLegend('RSRP');
         $scope.legend.title = 'RSRP';
         $scope.legend.criteria = legend.criteria;
         $scope.legend.sign = legend.sign;
+        $scope.currentDataLabel = "districtPoints";
 
         $scope.showTelecomCoverage = function () {
             $scope.currentView = "电信";
@@ -404,19 +411,47 @@
             kpiDisplayService.generateMobileRsrpPoints($scope.coveragePoints, $scope.data);
             parametersMapService.showIntervalPoints($scope.coveragePoints.intervals);
         };
+        $scope.updateIndexedData = function() {
+            var items = [];
+            angular.forEach($scope.data, function(data) {
+                data['topic'] = data.longtitute + ',' + data.lattitute;
+                items.push(data);
+            });
+            appUrlService.refreshIndexedDb($scope.indexedDB.db, $scope.currentDataLabel, 'topic', items);
+        };
         $scope.showDistrictRange = function() {
             coverageService.queryAgisDtPointsByTopic($scope.beginDate.value, $scope.endDate.value, '禅城').then(function (result) {
                 $scope.data = result;
+                $scope.currentDataLabel = 'districtPoints';
+                $scope.updateIndexedData();
                 $scope.showTelecomCoverage();
             });
         };
         $scope.showSmallRange = function() {
             coverageService.queryAgisDtPointsByTopic($scope.beginDate.value, $scope.endDate.value, '小范围').then(function(result) {
                 $scope.data = result;
+                $scope.currentDataLabel = 'rangePoints';
+                $scope.updateIndexedData();
                 $scope.showTelecomCoverage();
             });
         };
-        $scope.showDistrictRange();
+        $scope.switchData = function() {
+            if ($scope.currentDataLabel === 'districtPoints') {
+                $scope.currentDataLabel = 'rangePoints';
+            } else {
+                $scope.currentDataLabel = 'districtPoints';
+            }
+            appUrlService.fetchStoreByCursor($scope.indexedDB.db, $scope.currentDataLabel, function (items) {
+                $scope.data = items;
+                $scope.showTelecomCoverage();
+            });
+        };
+        appUrlService.initializeIndexedDb($scope.indexedDB, ['districtPoints','rangePoints'], "topic", function () {
+            appUrlService.fetchStoreByCursor($scope.indexedDB.db, 'districtPoints', function(items) {
+                $scope.data = items;
+                $scope.showTelecomCoverage();
+            });
+        });
     })
     .controller("home.complain", function ($scope, baiduMapService) {
         baiduMapService.initializeMap("map", 11);
