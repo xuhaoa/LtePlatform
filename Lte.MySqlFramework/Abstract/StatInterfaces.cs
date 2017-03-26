@@ -58,4 +58,9 @@ namespace Lte.MySqlFramework.Abstract
     {
         
     }
+
+    public interface IMrGridRepository : IRepository<MrGrid>, ISaveChanges
+    {
+        
+    }
 }

@@ -179,6 +179,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IAgisDtPointRepository>().To<AgisDtPointRepository>();
 
+            ninjectKernel.Bind<IMrGridRepository>().To<MrGridRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();
