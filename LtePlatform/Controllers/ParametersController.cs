@@ -120,7 +120,7 @@ namespace LtePlatform.Controllers
                 ViewBag.Message = "共上传MR栅格信息文件" + neighborHw.Length + "个！";
                 foreach (var file in neighborHw)
                 {
-                    _neighborService.UploadMrGrids(new StreamReader(file.InputStream, Encoding.GetEncoding("GB2312")), file.FileName);
+                    _neighborService.UploadMrGrids(new StreamReader(file.InputStream), file.FileName);
                 }
             }
             return View("NeighborImport");

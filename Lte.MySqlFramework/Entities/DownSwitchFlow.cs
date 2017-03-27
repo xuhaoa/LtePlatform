@@ -78,6 +78,8 @@ namespace Lte.MySqlFramework.Entities
 
         public string Coordinates { get; set; }
 
+        public string CompeteDescription { get; set; }
+
         public static List<MrGridXml> ReadGridXmls(XmlDocument xml, string district)
         {
             var results = new List<MrGridXml>();
@@ -102,14 +104,48 @@ namespace Lte.MySqlFramework.Entities
                             StatDate = DateTime.Today.AddDays(-1),
                             Frequency = frequency,
                             District = district,
-                            Description = description,
-                            Coordinates = coordinates.InnerText.Replace(",50 ", ";")
+                            Description = description.Trim(),
+                            Coordinates = coordinates.InnerText.Replace(",50 ", ";"),
+                            CompeteDescription = "自身覆盖"
                         });
                     }
                 }
             }
             return results;
-        } 
+        }
+
+        public static List<MrGridXml> ReadGridXmlsWithCompete(XmlDocument xml, string district, string competeDescription)
+        {
+            var results = new List<MrGridXml>();
+            var childs = xml.ChildNodes[1].ChildNodes[0].ChildNodes;
+            for (var i = 0; i < childs.Count; i++)
+            {
+                var node = childs[i];
+                if (node.Name != "Folder") continue;
+                for (var j = 1; j < node.ChildNodes.Count; j++)
+                {
+                    var subNode = node.ChildNodes[j];
+                    var description = subNode.ChildNodes[0].InnerText;
+                    for (var k = 1; k < subNode.ChildNodes.Count; k++)
+                    {
+                        var placement = subNode.ChildNodes[k];
+                        var polygon = placement.ChildNodes[2];
+                        var bound = polygon.ChildNodes[2];
+                        var coordinates = bound.FirstChild.FirstChild;
+                        results.Add(new MrGridXml
+                        {
+                            StatDate = DateTime.Today.AddDays(-1),
+                            Frequency = -1,
+                            District = district,
+                            Description = description.Trim(),
+                            Coordinates = coordinates.InnerText.Replace(",50 ", ";"),
+                            CompeteDescription = competeDescription
+                        });
+                    }
+                }
+            }
+            return results;
+        }
     }
 
     [AutoMapFrom(typeof(MrGridXml))]
@@ -126,5 +162,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string Coordinates { get; set; }
 
+        [AutoMapPropertyResolve("CompeteDescription", typeof(MrGridXml), typeof(AlarmCategoryTransform))]
+        public AlarmCategory Compete { get; set; }
     }
 }

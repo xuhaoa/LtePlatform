@@ -22,8 +22,10 @@ using NUnit.Framework;
 using Shouldly;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Xml;
 
 namespace Lte.Evaluations.MapperService
 {
@@ -1099,6 +1101,22 @@ namespace Lte.Evaluations.MapperService
             var dest = Mapper.Map<WorkItem>(source);
             dest.Type.ShouldBe(WorkItemType.DailyReport);
             dest.Subtype.ShouldBe(WorkItemSubtype.Others);
+        }
+
+        [Test]
+        public void Test_ReadXml_WithClass()
+        {
+            var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
+            var xmlFileName = Path.Combine(excelFilesDirectory, "FS禅城RSRP渲染情况.kml");
+            var xml = new XmlDocument();
+            xml.Load(new StreamReader(xmlFileName));
+            var list = MrGridXml.ReadGridXmls(xml, "禅城").MapTo<IEnumerable<MrGrid>>();
+            foreach (var item in list)
+            {
+                Console.WriteLine(item.StatDate.ToString("yyyyMMdd") + "," + item.District + "," + item.RsrpLevel +
+                                  "," + item.Frequency + "," + item.Coordinates);
+            }
         }
     }
 

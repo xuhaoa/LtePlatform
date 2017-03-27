@@ -529,10 +529,14 @@ namespace Lte.Domain.Common.Wireless
         Urgent,
         Important,
         Tips,
-        Others,
         Between100And105,
         Between105And110,
-        Below110
+        Below110,
+        Others,
+        BadCoverageCompeteLose,
+        BadCoverageCompeteWin,
+        GoodCoverageCompeteLose,
+        GoodCoverageCompeteWin
     }
 
     public class AlarmLevelDescriptionTransform : DescriptionTransform<AlarmLevel>
@@ -555,7 +559,12 @@ namespace Lte.Domain.Common.Wireless
         ProcessError,
         Environment,
         Apparatus,
-        Huawei
+        Huawei,
+        Others,
+        Self,
+        OverallCompete,
+        MobileCompete,
+        UnicomCompete
     }
 
     public class AlarmCategoryDescriptionTransform : DescriptionTransform<AlarmCategory>

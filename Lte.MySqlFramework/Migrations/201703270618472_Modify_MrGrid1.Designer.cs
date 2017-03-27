@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Add_MrGrid : IMigrationMetadata
+    public sealed partial class Modify_MrGrid1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_MrGrid));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Modify_MrGrid1));
         
         string IMigrationMetadata.Id
         {
-            get { return "201703260909258_Add_MrGrid"; }
+            get { return "201703270618472_Modify_MrGrid1"; }
         }
         
         string IMigrationMetadata.Source

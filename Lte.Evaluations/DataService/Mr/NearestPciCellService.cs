@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
+using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Regular;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract;
@@ -127,12 +129,20 @@ namespace Lte.Evaluations.DataService.Mr
 
         public void UploadMrGrids(StreamReader reader, string fileName)
         {
-            var groupInfos = NeighborCellHwCsv.ReadNeighborCellHwCsvs(reader);
-            foreach (var info in groupInfos)
+            var xml = new XmlDocument();
+            xml.Load(reader);
+            var districts = _townRepository.GetAllList().Select(x => x.DistrictName).Distinct();
+            var district = districts.FirstOrDefault(fileName.Contains);
+            var candidateDescritions = new [] {"竞对总体", "移动竞对", "联通竞对" };
+            var competeDescription = candidateDescritions.FirstOrDefault(fileName.Contains);
+            var list = competeDescription == null
+                ? MrGridXml.ReadGridXmls(xml, district ?? "禅城")
+                : MrGridXml.ReadGridXmlsWithCompete(xml, district ?? "禅城", competeDescription);
+            foreach (var item in list)
             {
-                var cell = NearestPciCell.ConstructCell(info, _cellRepository);
-                if (cell.Pci >= 0) NearestCells.Push(cell);
+                _mrGridRepository.Insert(item.MapTo<MrGrid>());
             }
+            _mrGridRepository.SaveChanges();
         }
 
         public async Task<bool> DumpOneStat()
