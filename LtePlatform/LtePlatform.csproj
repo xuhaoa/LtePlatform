@@ -345,6 +345,7 @@
     <Compile Include="Controllers\Mongo\IntraFreqHoController.cs" />
     <Compile Include="Controllers\Mongo\NeighborCellMongoController.cs" />
     <Compile Include="Controllers\Mr\InterferenceControllers.cs" />
+    <Compile Include="Controllers\Mr\MrGridController.cs" />
     <Compile Include="Controllers\Mr\MrsControllers.cs" />
     <Compile Include="Controllers\Mr\PreciseWorkItemController.cs" />
     <Compile Include="Controllers\ParametersController.cs" />
@@ -354,7 +355,6 @@
     <Compile Include="Controllers\Parameters\DumpNeighborController.cs" />
     <Compile Include="Controllers\Parameters\ENodebController.cs" />
     <Compile Include="Controllers\Parameters\LteNeighborCellController.cs" />
-    <Compile Include="Controllers\Parameters\NearestPciCellController.cs" />
     <Compile Include="Controllers\Parameters\NewCellControllers.cs" />
     <Compile Include="Controllers\Parameters\NewENodebControllers.cs" />
     <Compile Include="Controllers\RutraceController.cs" />

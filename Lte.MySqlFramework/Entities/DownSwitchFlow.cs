@@ -3,9 +3,11 @@ using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Regular.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 
@@ -161,8 +163,39 @@ namespace Lte.MySqlFramework.Entities
         public AlarmLevel RsrpLevel { get; set; }
 
         public string Coordinates { get; set; }
-
+        
         [AutoMapPropertyResolve("CompeteDescription", typeof(MrGridXml), typeof(AlarmCategoryTransform))]
         public AlarmCategory Compete { get; set; }
+    }
+
+    [AutoMapFrom(typeof(MrGrid))]
+    public class MrCoverageGridView : IStatDate
+    {
+        public DateTime StatDate { get; set; }
+
+        public string District { get; set; }
+
+        public int Frequency { get; set; }
+
+        [AutoMapPropertyResolve("RsrpLevel", typeof(MrGrid), typeof(AlarmLevelDescriptionTransform))]
+        public string RsrpLevelDescription { get; set; }
+
+        public string Coordinates { get; set; }
+    }
+
+    [AutoMapFrom(typeof(MrGrid))]
+    public class MrCompeteGridView : IStatDate
+    {
+        public DateTime StatDate { get; set; }
+
+        public string District { get; set; }
+
+        [AutoMapPropertyResolve("RsrpLevel", typeof(MrGrid), typeof(AlarmLevelDescriptionTransform))]
+        public string RsrpLevelDescription { get; set; }
+
+        public string Coordinates { get; set; }
+
+        [AutoMapPropertyResolve("Compete", typeof(MrGrid), typeof(AlarmCategoryDescriptionTransform))]
+        public string CompeteDescription { get; set; }
     }
 }

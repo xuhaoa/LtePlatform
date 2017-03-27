@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using Abp.EntityFramework.AutoMapper;
+using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract;
@@ -183,6 +184,40 @@ namespace Lte.Evaluations.DataService.Mr
         {
             var points = _agisRepository.GetAllList(x => x.StatDate > begin && x.StatDate <= end && x.Operator == topic);
             return points;
+        }
+
+        public IEnumerable<MrCoverageGridView> QueryCoverageGridViews(DateTime initialDate, string district)
+        {
+            var beginDate = initialDate.AddDays(-100);
+            var endDate = initialDate.AddDays(1);
+            var query =
+                _mrGridRepository.GetAllList(
+                    x =>
+                        x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
+                        x.Compete == AlarmCategory.Self);
+            if (!query.Any()) return new List<MrCoverageGridView>();
+            var maxDate = query.Max(x => x.StatDate);
+            var stats = query.Where(x => x.StatDate == maxDate);
+            return stats.MapTo<IEnumerable<MrCoverageGridView>>();
+        }
+
+        public IEnumerable<MrCompeteGridView> QueryCompeteGridViews(DateTime initialDate, string district,
+            string competeDescription)
+        {
+            var competeTuple =
+                WirelessConstants.EnumDictionary["AlarmCategory"].FirstOrDefault(x => x.Item2 == competeDescription);
+            var compete = (AlarmCategory?)competeTuple?.Item1;
+            var beginDate = initialDate.AddDays(-100);
+            var endDate = initialDate.AddDays(1);
+            var query =
+                _mrGridRepository.GetAllList(
+                    x =>
+                        x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
+                        x.Frequency == -1 && x.Compete == compete);
+            if (!query.Any()) return new List<MrCompeteGridView>();
+            var maxDate = query.Max(x => x.StatDate);
+            var stats = query.Where(x => x.StatDate == maxDate);
+            return stats.MapTo<IEnumerable<MrCompeteGridView>>();
         }
     }
 }
