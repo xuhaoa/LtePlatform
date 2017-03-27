@@ -447,6 +447,7 @@
     <Content Include="appViews\Home\Kpi4G.html" />
     <Content Include="appViews\Home\KpiDownSwitch.html" />
     <Content Include="appViews\Home\Mr.html" />
+    <Content Include="appViews\Home\MrGrid.html" />
     <Content Include="appViews\Home\Network.html" />
     <Content Include="appViews\Home\Plan.html" />
     <Content Include="appViews\Home\PlanningDetails.html" />

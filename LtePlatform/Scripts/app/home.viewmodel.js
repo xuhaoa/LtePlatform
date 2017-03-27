@@ -79,6 +79,19 @@
                     }
                 },
                 url: "/mr"
+            })
+            .state('grid', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.mr"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "MrGrid.html",
+                        controller: "mr.grid"
+                    }
+                },
+                url: "/grid"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -142,7 +155,7 @@
             subItems: [
                 {
                     displayName: "数据总览",
-                    url: rootUrl + "/Parameters/List"
+                    url: rootUrl + "/"
                 }, {
                     displayName: "数据维护",
                     url: appUrlService.getParameterUrlHost() + 'main-lte-cell-info.php'
@@ -202,11 +215,18 @@
             ]
         };
     })
-    .controller('menu.mr', function($scope) {
+    .controller('menu.mr', function ($scope) {
+        var rootUrl = "/#";
         $scope.menuItem = {
             displayName: "MR分析",
             subItems: [
                 {
+                    displayName: "模拟路测",
+                    url: rootUrl + "/mr"
+                },{
+                    displayName: "栅格分析",
+                    url: rootUrl + "/grid"
+                },{
                     displayName: "工单管控",
                     url: "/Kpi/WorkItem",
                     tooltip: "对接本部优化部4G网优平台，结合日常优化，实现对日常工单的监控和分析"
@@ -452,6 +472,11 @@
                 $scope.showTelecomCoverage();
             });
         });
+    })
+    .controller("mr.grid", function ($scope, baiduMapService) {
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
+
     })
     .controller("home.complain", function ($scope, baiduMapService) {
         baiduMapService.initializeMap("map", 11);
