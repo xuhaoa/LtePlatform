@@ -478,11 +478,37 @@
             });
         });
     })
-    .controller("mr.grid", function ($scope, baiduMapService) {
+    .controller("mr.grid", function ($scope, baiduMapService, coverageService, authorizeService, kpiDisplayService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.currentView = "自身覆盖";
-
+        var legend = kpiDisplayService.queryCoverageLegend('rsrpInterval');
+        $scope.legend.title = 'RSRP区间';
+        $scope.legend.criteria = legend.criteria;
+        $scope.legend.sign = legend.sign;
+        $scope.showDistrictSelfCoverage = function(district, color) {
+            baiduMapService.addDistrictBoundary(district, color);
+            coverageService.queryMrGridSelfCoverage(district, $scope.endDate.value).then(function(result) {
+                console.log(result);
+            });
+        };
+        $scope.showMrGrid = function(district) {
+            $scope.showDistrictSelfCoverage(district, $scope.colors[0]);
+        };
+        $scope.districts = [];
+        authorizeService.queryCurrentUserName().then(function (userName) {
+            authorizeService.queryRolesInUser(userName).then(function (roles) {
+                angular.forEach(roles, function (role) {
+                    var district = authorizeService.queryRoleDistrict(role);
+                    if (district) {
+                        $scope.districts.push(district);
+                    }
+                });
+                if ($scope.districts.length > 0) {
+                    $scope.showDistrictSelfCoverage($scope.districts[0], $scope.colors[0]);
+                }
+            });
+        });
     })
     .controller("home.complain", function ($scope, baiduMapService) {
         baiduMapService.initializeMap("map", 11);

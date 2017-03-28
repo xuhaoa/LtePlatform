@@ -2544,6 +2544,11 @@
                             criteria: coverageService.defaultRsrpCriteria,
                             sign: true
                         };
+                    case 'rsrpInterval':
+                        return {
+                            criteria: coverageService.rsrpIntervalCriteria,
+                            sign: true
+                        }
                     default:
                         return {
                             criteria: coverageService.defaultSinrCriteria,

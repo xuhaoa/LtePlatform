@@ -538,6 +538,19 @@
                     topic: topic
                 });
             },
+            queryMrGridSelfCoverage: function (district, statDate) {
+                return generalHttpService.getApiData('MrGrid', {
+                    district: district,
+                    statDate: statDate
+                });
+            },
+            queryMrGridCompete: function (district, statDate, competeDescription) {
+                return generalHttpService.getApiData('MrGrid', {
+                    district: district,
+                    statDate: statDate,
+                    competeDescription: competeDescription
+                });
+            },
             queryByRasterInfo: function (info, type) {
                 var api;
                 switch (type) {
@@ -605,6 +618,18 @@
                 }, {
                     threshold: -80,
                     color: "#009933"
+                }
+            ],
+            rsrpIntervalCriteria: [
+                {
+                    threshold: "-110dbm以下",
+                    color: "#FF6666"
+                }, {
+                    threshold: "-105dbm到-110dbm",
+                    color: "#FF6600"
+                }, {
+                    threshold: "-100dbm到-105dbm",
+                    color: "#0099CC"
                 }
             ],
             defaultSinrCriteria: [
