@@ -451,6 +451,7 @@
     <Content Include="appViews\Home\Network.html" />
     <Content Include="appViews\Home\Plan.html" />
     <Content Include="appViews\Home\PlanningDetails.html" />
+    <Content Include="appViews\Home\SingleChartDialog.html" />
     <Content Include="appViews\Home\WorkItem.html" />
     <Content Include="appViews\Import\ImportProgress.html" />
     <Content Include="appViews\Import\Precise\WorkItem.html" />

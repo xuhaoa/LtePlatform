@@ -314,6 +314,9 @@
 			drawPolygonWithColor: function (coorsString, color, xoffset, yoffset) {
 				var points = [];
 				var coors = coorsString.split(';');
+				if (coors[coors.length - 2].trim() === coors[0].trim()) {
+					coors = coors.slice(0, coors.length - 2);
+				}
 				angular.forEach(coors, function(coor) {
 					if (coor.length > 1) {
 						var fields = coor.split(',');
@@ -323,6 +326,7 @@
 				var polygon = new BMap.Polygon(points,
 				{ strokeColor: color, strokeWeight: 1, strokeOpacity: 0.2, fillColor: color });
 				map.addOverlay(polygon);
+				return polygon.getPath();
 			},
 			getPolygonCenter: function(coors) {
 				var centerx = 0;

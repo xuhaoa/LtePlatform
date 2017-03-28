@@ -478,7 +478,8 @@
             });
         });
     })
-    .controller("mr.grid", function ($scope, baiduMapService, coverageService, authorizeService, kpiDisplayService, baiduQueryService) {
+    .controller("mr.grid", function ($scope, baiduMapService, coverageService, authorizeService, kpiDisplayService,
+        baiduQueryService, coverageDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.currentView = "自身覆盖";
@@ -499,20 +500,36 @@
             $scope.colorDictionary = {};
             angular.forEach(legend.criteria, function(info) {
                 $scope.colorDictionary[info.threshold] = info.color;
+                
             });
             $scope.legend.sign = legend.sign;
         };
-        
+        $scope.showGridStats = function () {
+            var keys = [];
+            angular.forEach($scope.legend.criteria, function (info) {
+                keys.push(info.threshold);
+            });
+            coverageDialogService.showGridStats($scope.currentDistrict, $scope.currentView, $scope.legend.title, $scope.areaStats, keys);
+        };
         $scope.showDistrictSelfCoverage = function (district, color) {
             baiduMapService.clearOverlays();
             baiduMapService.addDistrictBoundary(district, color);
+            $scope.areaStats = {};
+            angular.forEach($scope.legend.criteria, function(info) {
+                $scope.areaStats[info.threshold] = 0;
+            });
             coverageService.queryMrGridSelfCoverage(district, $scope.endDate.value).then(function (result) {
                 baiduQueryService.transformToBaidu(113, 23).then(function(coors) {
                     var xOffset = coors.x - 113;
                     var yOffset = coors.y - 23;
                     angular.forEach(result, function(item) {
                         var gridColor = $scope.colorDictionary[item.rsrpLevelDescription];
-                        baiduMapService.drawPolygonWithColor(item.coordinates, gridColor, -xOffset, -yOffset);
+                        var polygon = baiduMapService.drawPolygonWithColor(item.coordinates, gridColor, -xOffset, -yOffset);
+                        var area = BMapLib.GeoUtils.getPolygonArea(polygon);
+                        
+                        if (area > 0) {
+                            $scope.areaStats[item.rsrpLevelDescription] += area;
+                        }
                     });
                 });
             });
@@ -520,13 +537,22 @@
         $scope.showDistrictCompeteCoverage = function (district, color, competeDescription) {
             baiduMapService.clearOverlays();
             baiduMapService.addDistrictBoundary(district, color);
+            $scope.areaStats = {};
+            angular.forEach($scope.legend.criteria, function (info) {
+                $scope.areaStats[info.threshold] = 0;
+            });
             coverageService.queryMrGridCompete(district, $scope.endDate.value, competeDescription).then(function(result) {
                 baiduQueryService.transformToBaidu(113, 23).then(function (coors) {
                     var xOffset = coors.x - 113;
                     var yOffset = coors.y - 23;
                     angular.forEach(result, function (item) {
                         var gridColor = $scope.colorDictionary[item.rsrpLevelDescription];
-                        baiduMapService.drawPolygonWithColor(item.coordinates, gridColor, -xOffset, -yOffset);
+                        var polygon = baiduMapService.drawPolygonWithColor(item.coordinates, gridColor, -xOffset, -yOffset);
+                        var area = BMapLib.GeoUtils.getPolygonArea(polygon);
+
+                        if (area > 0) {
+                            $scope.areaStats[item.rsrpLevelDescription] += area;
+                        }
                     });
                 });
             });

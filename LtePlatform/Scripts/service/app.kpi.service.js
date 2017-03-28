@@ -831,6 +831,28 @@
         });
     })
 
+    .controller("grid.stats", function ($scope, dialogTitle, category, stats, $uibModalInstance, $timeout, generalChartService) {
+        $scope.dialogTitle = dialogTitle;
+        var options = generalChartService.getPieOptions(stats, {
+            title: dialogTitle,
+            seriesTitle: category
+        }, function(stat) {
+            return stat.key;
+        }, function(stat) {
+            return stat.value;
+        });
+        $timeout(function () {
+            $("#rightChart").highcharts(options);
+        }, 500);
+        
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .controller("town.stats", function ($scope, cityName, dialogTitle, $uibModalInstance, appRegionService, parametersChartService) {
         $scope.dialogTitle = dialogTitle;
         appRegionService.queryDistrictInfrastructures(cityName).then(function (result) {
@@ -1623,6 +1645,30 @@
                     callback(info);
                 });
             },///////////未完成
+            showGridStats: function (district, theme, category, data, keys) {
+                var stats = [];
+                angular.forEach(keys, function(key) {
+                    stats.push({
+                        key: key,
+                        value: data[key]
+                    });
+                });
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Home/SingleChartDialog.html',
+                    controller: 'grid.stats',
+                    resolve: {
+                        dialogTitle: function () {
+                            return district + theme;
+                        },
+                        category: function() {
+                            return category;
+                        },
+                        stats: function () {
+                            return stats;
+                        }
+                    }
+                });
+            },
             showTownStats: function (cityName) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Home/DoubleChartDialog.html',
