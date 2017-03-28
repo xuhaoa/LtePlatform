@@ -632,6 +632,21 @@
                     color: "#0099CC"
                 }
             ],
+            competeCriteria: [
+                {
+                    threshold: "覆盖率小于于80%且比对方差",
+                    color: "#FF0000"
+                }, {
+                    threshold: "覆盖率小于于80%且比对方好",
+                    color: "#0099CC"
+                }, {
+                    threshold: "覆盖率大于80%且低于对方5%",
+                    color: "#00FFFF"
+                }, {
+                    threshold: "覆盖率大于80%且高于对方5%",
+                    color: "#00FF00"
+                }
+            ],
             defaultSinrCriteria: [
                 {
                     threshold: -3,

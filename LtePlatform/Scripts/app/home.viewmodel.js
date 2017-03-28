@@ -478,24 +478,91 @@
             });
         });
     })
-    .controller("mr.grid", function ($scope, baiduMapService, coverageService, authorizeService, kpiDisplayService) {
+    .controller("mr.grid", function ($scope, baiduMapService, coverageService, authorizeService, kpiDisplayService, baiduQueryService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.currentView = "自身覆盖";
-        var legend = kpiDisplayService.queryCoverageLegend('rsrpInterval');
-        $scope.legend.title = 'RSRP区间';
-        $scope.legend.criteria = legend.criteria;
-        $scope.legend.sign = legend.sign;
-        $scope.showDistrictSelfCoverage = function(district, color) {
+        $scope.setRsrpLegend = function() {
+            var legend = kpiDisplayService.queryCoverageLegend('rsrpInterval');
+            $scope.legend.title = 'RSRP区间';
+            $scope.legend.criteria = legend.criteria;
+            $scope.colorDictionary = {};
+            angular.forEach(legend.criteria, function(info) {
+                $scope.colorDictionary[info.threshold] = info.color;
+            });
+            $scope.legend.sign = legend.sign;
+        };
+        $scope.setCompeteLegend = function() {
+            var legend = kpiDisplayService.queryCoverageLegend('competeResult');
+            $scope.legend.title = '竞争结果';
+            $scope.legend.criteria = legend.criteria;
+            $scope.colorDictionary = {};
+            angular.forEach(legend.criteria, function(info) {
+                $scope.colorDictionary[info.threshold] = info.color;
+            });
+            $scope.legend.sign = legend.sign;
+        };
+        
+        $scope.showDistrictSelfCoverage = function (district, color) {
+            baiduMapService.clearOverlays();
             baiduMapService.addDistrictBoundary(district, color);
-            coverageService.queryMrGridSelfCoverage(district, $scope.endDate.value).then(function(result) {
-                console.log(result);
+            coverageService.queryMrGridSelfCoverage(district, $scope.endDate.value).then(function (result) {
+                baiduQueryService.transformToBaidu(113, 23).then(function(coors) {
+                    var xOffset = coors.x - 113;
+                    var yOffset = coors.y - 23;
+                    angular.forEach(result, function(item) {
+                        var gridColor = $scope.colorDictionary[item.rsrpLevelDescription];
+                        baiduMapService.drawPolygonWithColor(item.coordinates, gridColor, -xOffset, -yOffset);
+                    });
+                });
             });
         };
-        $scope.showMrGrid = function(district) {
-            $scope.showDistrictSelfCoverage(district, $scope.colors[0]);
+        $scope.showDistrictCompeteCoverage = function (district, color, competeDescription) {
+            baiduMapService.clearOverlays();
+            baiduMapService.addDistrictBoundary(district, color);
+            coverageService.queryMrGridCompete(district, $scope.endDate.value, competeDescription).then(function(result) {
+                baiduQueryService.transformToBaidu(113, 23).then(function (coors) {
+                    var xOffset = coors.x - 113;
+                    var yOffset = coors.y - 23;
+                    angular.forEach(result, function (item) {
+                        var gridColor = $scope.colorDictionary[item.rsrpLevelDescription];
+                        baiduMapService.drawPolygonWithColor(item.coordinates, gridColor, -xOffset, -yOffset);
+                    });
+                });
+            });
+        };
+        $scope.showMrGrid = function (district) {
+            $scope.currentDistrict = district;
+            if ($scope.currentView === '自身覆盖') {
+                $scope.setRsrpLegend();
+                $scope.showDistrictSelfCoverage(district, $scope.colors[0]);
+            } else {
+                $scope.showDistrictCompeteCoverage(district, $scope.colors[0], $scope.currentView);
+            }
+            
+        };
+        $scope.showTelecomCoverage = function () {
+            $scope.currentView = "自身覆盖";
+            $scope.setRsrpLegend();
+            $scope.showDistrictSelfCoverage($scope.currentDistrict, $scope.colors[0]);
+        };
+        $scope.showMobileCompete = function () {
+            $scope.currentView = "移动竞对";
+            $scope.setCompeteLegend();
+            $scope.showDistrictCompeteCoverage($scope.currentDistrict, $scope.colors[0], $scope.currentView);
+        };
+        $scope.showUnicomCompete = function() {
+            $scope.currentView = "联通竞对";
+            $scope.setCompeteLegend();
+            $scope.showDistrictCompeteCoverage($scope.currentDistrict, $scope.colors[0], $scope.currentView);
+        };
+        $scope.showOverallCompete = function() {
+            $scope.currentView = "竞对总体";
+            $scope.setCompeteLegend();
+            $scope.showDistrictCompeteCoverage($scope.currentDistrict, $scope.colors[0], $scope.currentView);
         };
         $scope.districts = [];
+        $scope.setRsrpLegend();
         authorizeService.queryCurrentUserName().then(function (userName) {
             authorizeService.queryRolesInUser(userName).then(function (roles) {
                 angular.forEach(roles, function (role) {
@@ -505,6 +572,7 @@
                     }
                 });
                 if ($scope.districts.length > 0) {
+                    $scope.currentDistrict = $scope.districts[0];
                     $scope.showDistrictSelfCoverage($scope.districts[0], $scope.colors[0]);
                 }
             });

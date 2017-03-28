@@ -2548,7 +2548,12 @@
                         return {
                             criteria: coverageService.rsrpIntervalCriteria,
                             sign: true
-                        }
+                        };
+                    case 'competeResult':
+                        return {
+                            criteria: coverageService.competeCriteria,
+                            sign: true
+                        };
                     default:
                         return {
                             criteria: coverageService.defaultSinrCriteria,

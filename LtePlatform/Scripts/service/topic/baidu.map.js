@@ -311,6 +311,19 @@
 				{ strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.2 });
 				map.addOverlay(polygon);
 			},
+			drawPolygonWithColor: function (coorsString, color, xoffset, yoffset) {
+				var points = [];
+				var coors = coorsString.split(';');
+				angular.forEach(coors, function(coor) {
+					if (coor.length > 1) {
+						var fields = coor.split(',');
+						points.push(new BMap.Point(parseFloat(fields[0]) - xoffset, parseFloat(fields[1]) - yoffset));
+					}
+				});
+				var polygon = new BMap.Polygon(points,
+				{ strokeColor: color, strokeWeight: 1, strokeOpacity: 0.2, fillColor: color });
+				map.addOverlay(polygon);
+			},
 			getPolygonCenter: function(coors) {
 				var centerx = 0;
 				var centery = 0;
@@ -517,19 +530,19 @@
 			},
 			showIntervalPoints: function (intervals, coverageOverlays) {
 				angular.forEach(intervals, function (interval) {
-				    var coors = interval.coors;
-				    var index;
-				    if (coors.length === 0) {
-				        return;
-				    } else
-				        index = parseInt(coors.length / 2);
-				    baiduQueryService.transformBaiduCoors(coors[index]).then(function(newCoor) {
-				        var xoffset = coors[index].longtitute - newCoor.longtitute;
-				        var yoffset = coors[index].lattitute - newCoor.lattitute;
-				        var points = baiduMapService.drawMultiPoints(coors, interval.color, xoffset, yoffset);
-				        if (coverageOverlays)
-				            $scope.coverageOverlays.push(points);
-				    });
+					var coors = interval.coors;
+					var index;
+					if (coors.length === 0) {
+						return;
+					} else
+						index = parseInt(coors.length / 2);
+					baiduQueryService.transformBaiduCoors(coors[index]).then(function(newCoor) {
+						var xoffset = coors[index].longtitute - newCoor.longtitute;
+						var yoffset = coors[index].lattitute - newCoor.lattitute;
+						var points = baiduMapService.drawMultiPoints(coors, interval.color, xoffset, yoffset);
+						if (coverageOverlays)
+							$scope.coverageOverlays.push(points);
+					});
 				});
 			}
 		}
