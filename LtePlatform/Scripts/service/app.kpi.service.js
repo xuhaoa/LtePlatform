@@ -853,6 +853,54 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
+    .controller("agps.stats", function ($scope, dialogTitle, stats, $uibModalInstance, $timeout, generalChartService) {
+        $scope.dialogTitle = dialogTitle;
+        var operatorStats = [
+        {
+            operator: '移动主导',
+            count: _.countBy(stats, function (stat) { return stat.domination === '移动主导' })['true']
+        },
+        {
+            operator: '联通主导',
+            count: _.countBy(stats, function (stat) { return stat.domination === '联通主导' })['true']
+        },
+        {
+            operator: '电信主导',
+            count: _.countBy(stats, function (stat) { return stat.domination === '电信主导' })['true']
+        }];
+        var counts = stats.length;
+        var operators = ['移动', '联通', '电信'];
+        var coverages = [
+            _.countBy(stats, function(stat) { return stat.mobileRsrp >= -110 })['true'] / counts * 100,
+            _.countBy(stats, function (stat) { return stat.unicomRsrp >= -110 })['true'] / counts * 100,
+            _.countBy(stats, function (stat) { return stat.telecomRsrp >= -110 })['true'] / counts * 100
+        ];
+        $timeout(function() {
+            $("#leftChart").highcharts(generalChartService.getPieOptions(operatorStats, {
+                title: '主导运营商分布比例',
+                seriesTitle: '主导运营商'
+            }, function(stat) {
+                return stat.operator;
+            }, function(stat) {
+                return stat.count;
+            }));
+            $("#rightChart").highcharts(generalChartService.queryColumnOptions({
+                title: '运营商覆盖率比较（RSRP>=-110dBm）',
+                ytitle: '覆盖率（%）',
+                xtitle: '运营商',
+                min: 80,
+                max: 100
+            }, operators, coverages));
+        }, 500);
+        
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .controller("town.stats", function ($scope, cityName, dialogTitle, $uibModalInstance, appRegionService, parametersChartService) {
         $scope.dialogTitle = dialogTitle;
         appRegionService.queryDistrictInfrastructures(cityName).then(function (result) {
@@ -1662,6 +1710,20 @@
                         },
                         category: function() {
                             return category;
+                        },
+                        stats: function () {
+                            return stats;
+                        }
+                    }
+                });
+            },
+            showAgpsStats: function (stats) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'agps.stats',
+                    resolve: {
+                        dialogTitle: function () {
+                            return 'AGPS三网对比覆盖指标';
                         },
                         stats: function () {
                             return stats;

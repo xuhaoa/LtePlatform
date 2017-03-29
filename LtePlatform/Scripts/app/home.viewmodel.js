@@ -403,7 +403,8 @@
         });
 
     })
-    .controller("home.mr", function ($scope, baiduMapService, coverageService, kpiDisplayService, parametersMapService, appUrlService) {
+    .controller("home.mr", function ($scope, baiduMapService, coverageService, kpiDisplayService, parametersMapService, appUrlService,
+    coverageDialogService) {
         baiduMapService.initializeMap("map", 13);
         
         var legend = kpiDisplayService.queryCoverageLegend('RSRP');
@@ -411,7 +412,9 @@
         $scope.legend.criteria = legend.criteria;
         $scope.legend.sign = legend.sign;
         $scope.currentDataLabel = "districtPoints";
-
+        $scope.showStats = function() {
+            coverageDialogService.showAgpsStats($scope.data);
+        };
         $scope.showTelecomCoverage = function () {
             $scope.currentView = "电信";
             baiduMapService.clearOverlays();

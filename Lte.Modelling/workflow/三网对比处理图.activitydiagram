@@ -1,19 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" xmlns:dm11="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="4b5cf39d-bd21-41a7-b298-410938dcc338" name="三网对比处理图" linkedPackageId="d4c533b9-582f-48db-a895-20905c41f8f7" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
-  <profileInstances>
-    <packageHasProfileInstances Id="3ba7793f-5b61-47d6-9656-74e154bdd285">
-      <profileInstance Id="f13f9acd-9c50-45f6-b4b8-2f48675be413" name="StandardProfileL2">
-        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
-      </profileInstance>
-      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="93798e86-3c25-45da-bf81-d9532254f217">
-      <profileInstance Id="e2464090-9a2c-400e-91ba-a5118ef80743" name="StandardProfileL3">
-        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
-      </profileInstance>
-      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
-    </packageHasProfileInstances>
-  </profileInstances>
   <packagedElements>
     <activityRootModelHasActivity>
       <activity Id="4016ad50-1f69-4e63-affa-1b40d2404e46" name="三网对比处理图" isAbstract="false" isLeaf="false" isActiveClass="false" isReentrant="false" isReadOnly="false" isSingleExecution="false">
@@ -49,13 +35,13 @@
           <opaqueAction Id="d5a93ca1-d5bb-4980-bfb2-209084f391b4" name="计算小区邻区和覆盖区域" isLeaf="false">
             <elementDefinition Id="c7e669ae-c760-4a85-a3e3-622d83cd27df" />
             <flowNodeTargets>
-              <controlFlow Id="16761f54-4e7f-42f9-85ef-8067a30abfcb" isLeaf="false">
-                <opaqueActionMoniker Id="3f561573-da0a-42b7-8b61-f64847539021" LastKnownName="MR关键信息提取和记录" />
-                <elementDefinition Id="c75d3c5d-9cf7-4c51-b040-4001b674f6b2" />
-              </controlFlow>
               <controlFlow Id="f151198b-60ab-4c1a-bba8-aab65a793023" isLeaf="false">
                 <opaqueActionMoniker Id="18b25712-ce03-4853-b0d5-ce37b0e628ee" LastKnownName="计算位置和三网覆盖等信息" />
                 <elementDefinition Id="d35a5f22-9030-403b-ae61-293c24d38405" />
+              </controlFlow>
+              <controlFlow Id="5a4c6ef5-b039-41a6-aae3-0f930020911b" isLeaf="false">
+                <callBehaviorActionMoniker Id="09f336f1-5756-4e2a-b89a-5995ab51a9be" LastKnownName="指纹库计算和维护" />
+                <elementDefinition Id="8d24023c-8acc-4f93-9872-a691552a0f1f" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
@@ -75,14 +61,18 @@
                 <opaqueActionMoniker Id="18b25712-ce03-4853-b0d5-ce37b0e628ee" LastKnownName="计算位置和三网覆盖等信息" />
                 <elementDefinition Id="04005609-9dae-45f8-98b7-bf7db6cb23cf" />
               </controlFlow>
+              <controlFlow Id="14a6826e-c2e0-46a0-a7fc-ebefadd888fc" isLeaf="false">
+                <opaqueActionMoniker Id="b2099b11-31a4-462d-95dc-1d4e3d66a0e9" LastKnownName="经纬度信息提取" />
+                <elementDefinition Id="c54aab95-a752-4bd9-963b-8d2315e25b12" />
+              </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
           <opaqueAction Id="18b25712-ce03-4853-b0d5-ce37b0e628ee" name="计算位置和三网覆盖等信息" isLeaf="false">
             <elementDefinition Id="2d2f53aa-1819-4890-af88-0cc75fc93b24" />
             <flowNodeTargets>
-              <controlFlow Id="8bc54cfe-22c2-4cf4-85de-c06e2726883b" isLeaf="false">
-                <forkNodeMoniker Id="31563e4c-459a-41bd-91cc-b3243f237c53" LastKnownName="Fork1" />
-                <elementDefinition Id="865acb03-9524-4967-8d99-c84f086b7b0a" />
+              <controlFlow Id="fcb0e776-edf0-46db-a540-c2e472f12bec" isLeaf="false">
+                <opaqueActionMoniker Id="0c3f6739-85f8-4144-b9f6-7a7f8ec803f4" LastKnownName="覆盖和感知指标合并" />
+                <elementDefinition Id="e5456a06-f57d-4da4-9c45-0ab5f013489d" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
@@ -99,17 +89,89 @@
                 <acceptEventActionMoniker Id="da0bab1f-a62b-42c7-83fa-864ef964edd4" LastKnownName="地理化显示" />
                 <elementDefinition Id="08975854-55d5-4dc4-8377-caf41a6e0d26" />
               </controlFlow>
-              <controlFlow Id="0017b9e9-b93c-41b0-8422-1aaec75831bd" isLeaf="false">
+              <controlFlow Id="a608d979-877d-4264-ab13-264b2fdce2aa" isLeaf="false">
                 <acceptEventActionMoniker Id="9a5aa0c4-bb55-46c8-a10a-fb87c583c84d" LastKnownName="统计结果输出" />
-                <elementDefinition Id="0139e69e-7774-4048-be1b-432cde3d2a96" />
+                <elementDefinition Id="1681a620-4d79-4d6e-968f-5dbe4a4ab2b0" />
               </controlFlow>
             </flowNodeTargets>
           </forkNode>
+          <callBehaviorAction Id="09f336f1-5756-4e2a-b89a-5995ab51a9be" name="指纹库计算和维护" isLeaf="false">
+            <elementDefinition Id="66f4648e-16c9-40e2-8cb0-d7dd6b784fb2" />
+            <flowNodeTargets>
+              <controlFlow Id="6ff32719-6444-4770-9f30-1130effba749" isLeaf="false">
+                <opaqueActionMoniker Id="18b25712-ce03-4853-b0d5-ce37b0e628ee" LastKnownName="计算位置和三网覆盖等信息" />
+                <elementDefinition Id="4e82ac6c-a216-48b9-920e-c302a0312fe4" />
+              </controlFlow>
+            </flowNodeTargets>
+          </callBehaviorAction>
+          <initialNode Id="a2270491-0f61-48ce-8976-c0c1e7a8596c" name="Initial3" isLeaf="false">
+            <elementDefinition Id="95d8455c-77ab-4c4d-8c0f-79b43af08b0f" />
+            <flowNodeTargets>
+              <controlFlow Id="853bb10b-5bb6-4988-90a0-b254789f8e0c" isLeaf="false">
+                <opaqueActionMoniker Id="8624e6bc-b8be-4d40-a2a9-6fe5e79e985b" LastKnownName="采集感知APP数据" />
+                <elementDefinition Id="1159081b-1b5e-4cf2-b21b-2922b414dafb" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <opaqueAction Id="8624e6bc-b8be-4d40-a2a9-6fe5e79e985b" name="采集感知APP数据" isLeaf="false">
+            <elementDefinition Id="c0b1cfac-a0fa-4ba6-8c1b-b24b57f406f3" />
+            <flowNodeTargets>
+              <controlFlow Id="f3c1e7ba-3c4a-4189-8252-37f462962cc3" isLeaf="false">
+                <forkNodeMoniker Id="ce346e4c-9f44-46af-b90b-b2a2964db5c3" LastKnownName="Fork2" />
+                <elementDefinition Id="658583cf-8db8-4315-9f13-13a86b34ba05" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <forkNode Id="ce346e4c-9f44-46af-b90b-b2a2964db5c3" name="Fork2" isLeaf="false">
+            <elementDefinition Id="97bf014e-953f-4a83-8ba7-131fea9a9556" />
+            <flowNodeTargets>
+              <controlFlow Id="b2bbedbf-e5df-4e73-a567-b44a67cad8ea" isLeaf="false">
+                <opaqueActionMoniker Id="b2099b11-31a4-462d-95dc-1d4e3d66a0e9" LastKnownName="经纬度信息提取" />
+                <elementDefinition Id="e56f64ec-8e49-4bf6-82a2-b0f00a14f431" />
+              </controlFlow>
+              <controlFlow Id="975faded-b953-451a-9487-1ae59c94b989" isLeaf="false">
+                <opaqueActionMoniker Id="0c3f6739-85f8-4144-b9f6-7a7f8ec803f4" LastKnownName="覆盖和感知指标合并" />
+                <elementDefinition Id="9caa0f59-2bbb-4f88-a192-b32fb76b71b7" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+          <opaqueAction Id="b2099b11-31a4-462d-95dc-1d4e3d66a0e9" name="经纬度信息提取" isLeaf="false">
+            <elementDefinition Id="e9c779a3-a257-4071-b866-6fc70868a037" />
+            <flowNodeTargets>
+              <controlFlow Id="9505a639-e95e-403a-b607-12de756a7008" isLeaf="false">
+                <callBehaviorActionMoniker Id="09f336f1-5756-4e2a-b89a-5995ab51a9be" LastKnownName="指纹库计算和维护" />
+                <elementDefinition Id="a684c2e0-d8d0-4a59-b7fe-7b2a0c239991" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="0c3f6739-85f8-4144-b9f6-7a7f8ec803f4" name="覆盖和感知指标合并" isLeaf="false">
+            <elementDefinition Id="7ba0e571-f9c1-4c99-a261-205705101b89" />
+            <flowNodeTargets>
+              <controlFlow Id="37130ceb-6273-4a90-9f25-44e86533d0ce" isLeaf="false">
+                <forkNodeMoniker Id="31563e4c-459a-41bd-91cc-b3243f237c53" LastKnownName="Fork1" />
+                <elementDefinition Id="dbfc8fd8-b4cf-46f2-afbf-793cba9ee8c6" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
         </nodes>
       </activity>
     </activityRootModelHasActivity>
   </packagedElements>
   <package Id="d4c533b9-582f-48db-a895-20905c41f8f7" name="Lte.Modelling">
     <elementDefinition Id="e40b4954-5f06-4ac7-8b2e-9a31ddcec1ad" />
+    <profileInstances>
+      <packageHasProfileInstances Id="3ba7793f-5b61-47d6-9656-74e154bdd285">
+        <profileInstance Id="f13f9acd-9c50-45f6-b4b8-2f48675be413" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="93798e86-3c25-45da-bf81-d9532254f217">
+        <profileInstance Id="e2464090-9a2c-400e-91ba-a5118ef80743" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
   </package>
 </activityRootModel>

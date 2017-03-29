@@ -659,6 +659,12 @@
                 chart.xAxis[0].title.text = setting.xtitle;
                 chart.yAxis[0].title.text = setting.ytitle;
                 chart.xAxis[0].categories = categories;
+                if (setting.min) {
+                    chart.setDefaultYAxis({ min: setting.min });
+                }
+                if (setting.max) {
+                    chart.setDefaultYAxis({ max: setting.max });
+                }
                 chart.series.push({
                     type: "column",
                     name: setting.ytitle,

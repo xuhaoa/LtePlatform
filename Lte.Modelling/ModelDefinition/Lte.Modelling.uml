@@ -1123,19 +1123,19 @@
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="c75d3c5d-9cf7-4c51-b040-4001b674f6b2"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="de719905-d989-4d0d-91f1-6bcf6aafab59"
-                  LastKnownName="MR关键信息提取和记录"
-                  LastKnownLocation="Lte.Modelling.uml" />
-              </controlFlow>
-              <controlFlow
                 Id="d35a5f22-9030-403b-ae61-293c24d38405"
                 isLeaf="false">
                 <opaqueActionMoniker
                   Id="2d2f53aa-1819-4890-af88-0cc75fc93b24"
                   LastKnownName="计算位置和三网覆盖等信息"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="8d24023c-8acc-4f93-9872-a691552a0f1f"
+                isLeaf="false">
+                <callBehaviorActionMoniker
+                  Id="66f4648e-16c9-40e2-8cb0-d7dd6b784fb2"
+                  LastKnownName="指纹库计算和维护"
                   LastKnownLocation="Lte.Modelling.uml" />
               </controlFlow>
             </flowNodeTargets>
@@ -1168,6 +1168,14 @@
                   LastKnownName="计算位置和三网覆盖等信息"
                   LastKnownLocation="Lte.Modelling.uml" />
               </controlFlow>
+              <controlFlow
+                Id="c54aab95-a752-4bd9-963b-8d2315e25b12"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="e9c779a3-a257-4071-b866-6fc70868a037"
+                  LastKnownName="经纬度信息提取"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
           <opaqueAction
@@ -1176,11 +1184,11 @@
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="865acb03-9524-4967-8d99-c84f086b7b0a"
+                Id="e5456a06-f57d-4da4-9c45-0ab5f013489d"
                 isLeaf="false">
-                <forkNodeMoniker
-                  Id="17ddad3e-9849-4f10-babc-d618a141793c"
-                  LastKnownName="Fork1"
+                <opaqueActionMoniker
+                  Id="7ba0e571-f9c1-4c99-a261-205705101b89"
+                  LastKnownName="覆盖和感知指标合并"
                   LastKnownLocation="Lte.Modelling.uml" />
               </controlFlow>
             </flowNodeTargets>
@@ -1209,7 +1217,7 @@
                   LastKnownLocation="Lte.Modelling.uml" />
               </controlFlow>
               <controlFlow
-                Id="0139e69e-7774-4048-be1b-432cde3d2a96"
+                Id="1681a620-4d79-4d6e-968f-5dbe4a4ab2b0"
                 isLeaf="false">
                 <acceptEventActionMoniker
                   Id="08d1ce3c-b4a8-47f4-ae56-491ba8c77e19"
@@ -1218,6 +1226,104 @@
               </controlFlow>
             </flowNodeTargets>
           </forkNode>
+          <callBehaviorAction
+            Id="66f4648e-16c9-40e2-8cb0-d7dd6b784fb2"
+            name="指纹库计算和维护"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="4e82ac6c-a216-48b9-920e-c302a0312fe4"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="2d2f53aa-1819-4890-af88-0cc75fc93b24"
+                  LastKnownName="计算位置和三网覆盖等信息"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </callBehaviorAction>
+          <initialNode
+            Id="95d8455c-77ab-4c4d-8c0f-79b43af08b0f"
+            name="Initial3"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="1159081b-1b5e-4cf2-b21b-2922b414dafb"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="c0b1cfac-a0fa-4ba6-8c1b-b24b57f406f3"
+                  LastKnownName="采集感知APP数据"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <opaqueAction
+            Id="c0b1cfac-a0fa-4ba6-8c1b-b24b57f406f3"
+            name="采集感知APP数据"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="658583cf-8db8-4315-9f13-13a86b34ba05"
+                isLeaf="false">
+                <forkNodeMoniker
+                  Id="97bf014e-953f-4a83-8ba7-131fea9a9556"
+                  LastKnownName="Fork2"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <forkNode
+            Id="97bf014e-953f-4a83-8ba7-131fea9a9556"
+            name="Fork2"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="e56f64ec-8e49-4bf6-82a2-b0f00a14f431"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="e9c779a3-a257-4071-b866-6fc70868a037"
+                  LastKnownName="经纬度信息提取"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="9caa0f59-2bbb-4f88-a192-b32fb76b71b7"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="7ba0e571-f9c1-4c99-a261-205705101b89"
+                  LastKnownName="覆盖和感知指标合并"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+          <opaqueAction
+            Id="e9c779a3-a257-4071-b866-6fc70868a037"
+            name="经纬度信息提取"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="a684c2e0-d8d0-4a59-b7fe-7b2a0c239991"
+                isLeaf="false">
+                <callBehaviorActionMoniker
+                  Id="66f4648e-16c9-40e2-8cb0-d7dd6b784fb2"
+                  LastKnownName="指纹库计算和维护"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="7ba0e571-f9c1-4c99-a261-205705101b89"
+            name="覆盖和感知指标合并"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="dbfc8fd8-b4cf-46f2-afbf-793cba9ee8c6"
+                isLeaf="false">
+                <forkNodeMoniker
+                  Id="17ddad3e-9849-4f10-babc-d618a141793c"
+                  LastKnownName="Fork1"
+                  LastKnownLocation="Lte.Modelling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
         </nodes>
       </activity>
     </packageHasNamedElement>
