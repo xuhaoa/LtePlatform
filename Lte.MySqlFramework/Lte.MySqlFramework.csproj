@@ -126,9 +126,7 @@
     <Compile Include="Entities\PlanningSite.cs" />
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
     <Compile Include="Entities\RruEntities.cs" />
-    <Compile Include="Entities\TopConnection3GCell.cs" />
-    <Compile Include="Entities\TopDrop2GCell.cs" />
-    <Compile Include="Entities\VipDemand.cs" />
+    <Compile Include="Entities\TopKpis.cs" />
     <Compile Include="Migrations\201703262239495_Modify_MrGrid.cs" />
     <Compile Include="Migrations\201703262239495_Modify_MrGrid.Designer.cs">
       <DependentUpon>201703262239495_Modify_MrGrid.cs</DependentUpon>

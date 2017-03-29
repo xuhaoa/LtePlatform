@@ -4,8 +4,10 @@ using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 using System;
+using Abp.EntityFramework.Dependency;
 using Abp.EntityFramework.Repositories;
 using Lte.Domain.Common.Geo;
+using Lte.Domain.LinqToCsv;
 
 namespace Lte.MySqlFramework.Entities
 {
@@ -377,5 +379,221 @@ namespace Lte.MySqlFramework.Entities
         public DateTime BeginDate { get; set; }
 
         public DateTime? FinishDate { get; set; }
+    }
+
+    public class WebBrowsingCsv : IGeoPoint<double>
+    {
+        [CsvColumn(Name = "MEID")]
+        public string Meid { get; set; }
+
+        [CsvColumn(Name = "PhoneType")]
+        public string PhoneType { get; set; }
+
+        [CsvColumn(Name = "Longitude")]
+        public double Longtitute { get; set; }
+
+        [CsvColumn(Name = "Latitude")]
+        public double Lattitute { get; set; }
+
+        [CsvColumn(Name = "LocationDesc")]
+        public string LocationDesc { get; set; }
+
+        [CsvColumn(Name = "NetType")]
+        public string NetType { get; set; }
+
+        [CsvColumn(Name = "APN")]
+        public string Apn { get; set; }
+
+        [CsvColumn(Name = "LteCi")]
+        public string LteCi { get; set; }
+
+        [CsvColumn(Name = "LteRsrp")]
+        public string LteRsrpString { get; set; }
+
+        [CsvColumn(Name = "LteSinr")]
+        public string LteSinrString { get; set; }
+
+        [CsvColumn(Name = "WebsiteName")]
+        public string WebsiteName { get; set; }
+
+        [CsvColumn(Name = "PageURL")]
+        public string PageUrl { get; set; }
+
+        [CsvColumn(Name = "PageSurfTime")]
+        public DateTime PageSurfTime { get; set; }
+
+        [CsvColumn(Name = "FirstByteDelay")]
+        public int FirstByteDelay { get; set; }
+
+        [CsvColumn(Name = "PageOpenDelay")]
+        public int PageOpenDelay { get; set; }
+
+        [CsvColumn(Name = "DnsDelay")]
+        public int DnsDelay { get; set; }
+
+        [CsvColumn(Name = "ConnDelay")]
+        public int ConnectionDelay { get; set; }
+
+        [CsvColumn(Name = "ReqDelay")]
+        public int RequestDelay { get; set; }
+
+        [CsvColumn(Name = "ResDelay")]
+        public int ResponseDelay { get; set; }
+
+        [CsvColumn(Name = "PageSize")]
+        public double PageSize { get; set; }
+
+        [CsvColumn(Name = "PageAvgSpeed")]
+        public double PageAvgSpeed { get; set; }
+    }
+
+    [AutoMapFrom(typeof(WebBrowsingCsv))]
+    public class WebBrowsing : Entity, IGeoPoint<double>, IStatDate
+    {
+        public string Meid { get; set; }
+        
+        public string PhoneType { get; set; }
+
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        [AutoMapPropertyResolve("PageSurfTime", typeof(WebBrowsingCsv))]
+        public DateTime StatDate { get; set; }
+        
+        public string LocationDesc { get; set; }
+        
+        public string NetType { get; set; }
+        
+        public string Apn { get; set; }
+        
+        public string LteCi { get; set; }
+
+        [AutoMapPropertyResolve("LteRsrpString", typeof(WebBrowsingCsv), typeof(StringToDoubleTransform))]
+        public double LteRsrp { get; set; }
+
+        [AutoMapPropertyResolve("LteSinrString", typeof(WebBrowsingCsv), typeof(StringToDoubleTransform))]
+        public double LteSinr { get; set; }
+        
+        public string WebsiteName { get; set; }
+        
+        public string PageUrl { get; set; }
+        
+        public int FirstByteDelay { get; set; }
+        
+        public int PageOpenDelay { get; set; }
+        
+        public int DnsDelay { get; set; }
+
+        public int ConnectionDelay { get; set; }
+        
+        public int RequestDelay { get; set; }
+        
+        public int ResponseDelay { get; set; }
+        
+        public double PageSize { get; set; }
+        
+        public double PageAvgSpeed { get; set; }
+    }
+
+    public class AppStreamingCsv : IGeoPoint<double>
+    {
+        [CsvColumn(Name = "MEID")]
+        public string Meid { get; set; }
+
+        [CsvColumn(Name = "PhoneType")]
+        public string PhoneType { get; set; }
+
+        [CsvColumn(Name = "Longitude")]
+        public double Longtitute { get; set; }
+
+        [CsvColumn(Name = "Latitude")]
+        public double Lattitute { get; set; }
+
+        [CsvColumn(Name = "LocationDesc")]
+        public string LocationDesc { get; set; }
+
+        [CsvColumn(Name = "NetType")]
+        public string NetType { get; set; }
+
+        [CsvColumn(Name = "APN")]
+        public string Apn { get; set; }
+
+        [CsvColumn(Name = "LteCi")]
+        public string LteCi { get; set; }
+
+        [CsvColumn(Name = "LteRsrp")]
+        public string LteRsrpString { get; set; }
+
+        [CsvColumn(Name = "LteSinr")]
+        public string LteSinrString { get; set; }
+
+        [CsvColumn(Name = "VideoName")]
+        public string VideoName { get; set; }
+
+        [CsvColumn(Name = "VideoURL")]
+        public string VideoUrl { get; set; }
+
+        [CsvColumn(Name = "VideoTestTime")]
+        public DateTime VideoTestTime { get; set; }
+
+        [CsvColumn(Name = "VideoAvgSpeed")]
+        public double VideoAvgSpeed { get; set; }
+
+        [CsvColumn(Name = "VideoPeakSpeed")]
+        public double VideoPeakSpeed { get; set; }
+
+        [CsvColumn(Name = "3GIMSI_LAST4")]
+        public double TotalVideoSize { get; set; }
+
+        [CsvColumn(Name = "BufferCounter")]
+        public int BufferCounter { get; set; }
+
+        [CsvColumn(Name = "VideoSize")]
+        public string VideoSizeString { get; set; }
+    }
+
+    [AutoMapFrom(typeof(AppStreamingCsv))]
+    public class AppSteam : Entity, IGeoPoint<double>, IStatDate
+    {
+        public string Meid { get; set; }
+
+        public string PhoneType { get; set; }
+
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        public string LocationDesc { get; set; }
+
+        public string NetType { get; set; }
+
+        public string Apn { get; set; }
+
+        public string LteCi { get; set; }
+
+        [AutoMapPropertyResolve("LteRsrpString", typeof(AppStreamingCsv), typeof(StringToDoubleTransform))]
+        public double LteRsrp { get; set; }
+
+        [AutoMapPropertyResolve("LteSinrString", typeof(AppStreamingCsv), typeof(StringToDoubleTransform))]
+        public double LteSinr { get; set; }
+        
+        public string VideoName { get; set; }
+        
+        public string VideoUrl { get; set; }
+
+        [AutoMapPropertyResolve("VideoTestTime", typeof(AppStreamingCsv))]
+        public DateTime StatDate { get; set; }
+        
+        public double VideoAvgSpeed { get; set; }
+        
+        public double VideoPeakSpeed { get; set; }
+        
+        public double TotalVideoSize { get; set; }
+        
+        public int BufferCounter { get; set; }
+
+        [AutoMapPropertyResolve("VideoSizeString", typeof(AppStreamingCsv), typeof(StringToDoubleTransform))]
+        public double VideoSize { get; set; }
     }
 }
