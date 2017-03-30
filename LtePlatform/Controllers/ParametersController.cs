@@ -5,6 +5,7 @@ using Lte.Evaluations.DataService.Mr;
 using LtePlatform.Models;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -121,6 +122,34 @@ namespace LtePlatform.Controllers
                 foreach (var file in neighborHw)
                 {
                     _neighborService.UploadMrGrids(new StreamReader(file.InputStream), file.FileName);
+                }
+            }
+            return View("NeighborImport");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> WebBrowsingPost(HttpPostedFileBase[] webBrowsing)
+        {
+            if (webBrowsing != null && webBrowsing.Length > 0 && !string.IsNullOrEmpty(webBrowsing[0]?.FileName))
+            {
+                ViewBag.Message = "共上传网页浏览信息文件" + webBrowsing.Length + "个！";
+                foreach (var file in webBrowsing)
+                {
+                    await _neighborService.UploadWebBrowsings(new StreamReader(file.InputStream, Encoding.GetEncoding("GB2312")));
+                }
+            }
+            return View("NeighborImport");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> StreamingPost(HttpPostedFileBase[] streaming)
+        {
+            if (streaming != null && streaming.Length > 0 && !string.IsNullOrEmpty(streaming[0]?.FileName))
+            {
+                ViewBag.Message = "共上传视频信息文件" + streaming.Length + "个！";
+                foreach (var file in streaming)
+                {
+                    await _neighborService.UploadStreamings(new StreamReader(file.InputStream, Encoding.GetEncoding("GB2312")));
                 }
             }
             return View("NeighborImport");

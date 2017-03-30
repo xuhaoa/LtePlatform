@@ -67,6 +67,36 @@
                     </div>
                 </div>
             }
+            using (Html.BeginForm("WebBrowsingPost", "Parameters",
+                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+            {
+                <div class="form-group">
+                    <label class="col-md-4 control-label">网页浏览APP信息导入：</label>
+                    <div class="col-md-6">
+                        <input name="webBrowsing" class="form-control" type="file" multiple accept=".csv" />
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>导入
+                        </button>
+                    </div>
+                </div>
+            }
+            using (Html.BeginForm("StreamingPost", "Parameters",
+                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+            {
+                <div class="form-group">
+                    <label class="col-md-4 control-label">视频APP信息导入：</label>
+                    <div class="col-md-6">
+                        <input name="streaming" class="form-control" type="file" multiple accept=".csv" />
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>导入
+                        </button>
+                    </div>
+                </div>
+            }
         }
     </div>
     <div class="col-md-6" ng-controller="neighbor.import">

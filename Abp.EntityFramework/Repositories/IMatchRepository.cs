@@ -181,6 +181,7 @@ namespace Abp.EntityFramework.Repositories
             where TRepository : IRepository<TEntity>, IMatchRepository<TEntity, TDto>, ISaveChanges
             where TEntity : Entity, new()
         {
+            var count = 0;
             foreach (var stat in stats)
             {
                 var info = repository.Match(stat);
@@ -193,6 +194,8 @@ namespace Abp.EntityFramework.Repositories
                     Mapper.Map(stat, info);
                     await repository.UpdateAsync(info);
                 }
+                if (count++%1000 == 0)
+                    repository.SaveChanges();
             }
             
             return repository.SaveChanges();

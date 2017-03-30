@@ -8,7 +8,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using Abp.EntityFramework.AutoMapper;
+using Abp.EntityFramework.Repositories;
 using Lte.Domain.Common.Wireless;
+using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.Regular;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract;
@@ -150,6 +152,18 @@ namespace Lte.Evaluations.DataService.Mr
                 _mrGridRepository.Insert(item.MapTo<MrGrid>());
             }
             _mrGridRepository.SaveChanges();
+        }
+
+        public async Task<int> UploadWebBrowsings(StreamReader reader)
+        {
+            var csvs = CsvContext.Read<WebBrowsingCsv>(reader);
+            return await _browsingRepository.UpdateMany<IWebBrowsingRepository, WebBrowsing, WebBrowsingCsv>(csvs);
+        }
+
+        public async Task<int> UploadStreamings(StreamReader reader)
+        {
+            var csvs = CsvContext.Read<AppStreamingCsv>(reader);
+            return await _streamRepository.UpdateMany<IAppStreamRepository, AppSteam, AppStreamingCsv>(csvs);
         }
 
         public async Task<bool> DumpOneStat()
