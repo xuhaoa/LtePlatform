@@ -71,5 +71,9 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<AgisDtPoint> AgisDtPoints { get; set; }
 
         public DbSet<MrGrid> MrGrids { get; set; }
+
+        public DbSet<AppSteam> AppSteams { get; set; }
+
+        public DbSet<WebBrowsing> WebBrowsings { get; set; }
     }
 }
