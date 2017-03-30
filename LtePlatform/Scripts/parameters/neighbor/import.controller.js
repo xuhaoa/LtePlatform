@@ -10,25 +10,6 @@
         value: new Date(),
         opened: false
     };
-    $scope.progressInfo = {
-        totalSuccessItems: 0,
-        totalFailItems: 0,
-        totalDumpItems: 0
-    };
-    $scope.clearItems = function () {
-        basicImportService.clearDumpNeighbors().then(function () {
-            $scope.progressInfo.totalDumpItems = 0;
-            $scope.progressInfo.totalSuccessItems = 0;
-            $scope.progressInfo.totalFailItems = 0;
-        });
-    };
-    $scope.dumpItems = function () {
-        basicImportService.dumpSingleItem().then(function (result) {
-            neighborImportService.updateSuccessProgress(result, $scope.progressInfo, $scope.dumpNeighborItems);
-        }, function () {
-            neighborImportService.updateFailProgress($scope.progressInfo, $scope.dumpNeighborItems);
-        });
-    };
 
     $scope.huaweiInfo = {
         totalSuccessItems: 0,
@@ -69,9 +50,6 @@
         });
     };
     $scope.updateDumpHistory = function() {
-        basicImportService.queryDumpNeighbors().then(function(result) {
-            $scope.progressInfo.totalDumpItems = result;
-        });
         flowImportService.queryHuaweiFlows().then(function(result) {
             $scope.huaweiInfo.totalDumpItems = result;
         });
@@ -81,7 +59,7 @@
         flowImportService.queryDumpHistory($scope.beginDate.value, $scope.endDate.value).then(function (result) {
             $scope.dumpHistory = result;
             angular.forEach(result, function (record) {
-                if (record.huaweiItems > 6100 && record.zteItems > 12000 && record.townStats === 0) {
+                if (record.huaweiItems > 6900 && record.zteItems > 12500 && record.townStats === 0) {
                     flowImportService.dumpTownStats(record.dateString).then(function(count) {
                         record.townStats = count;
                     });

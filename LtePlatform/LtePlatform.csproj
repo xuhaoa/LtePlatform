@@ -352,7 +352,6 @@
     <Compile Include="Controllers\Parameters\CellControllers.cs" />
     <Compile Include="Controllers\Parameters\DumpAlarmController.cs" />
     <Compile Include="Controllers\Parameters\DumpExcelControllers.cs" />
-    <Compile Include="Controllers\Parameters\DumpNeighborController.cs" />
     <Compile Include="Controllers\Parameters\ENodebController.cs" />
     <Compile Include="Controllers\Parameters\LteNeighborCellController.cs" />
     <Compile Include="Controllers\Parameters\NewCellControllers.cs" />

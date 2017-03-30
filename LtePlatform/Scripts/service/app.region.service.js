@@ -347,12 +347,6 @@
                     rruName: name
                 });
             },
-            queryDumpNeighbors: function () {
-                return generalHttpService.getApiData('DumpNeighbor', {});
-            },
-            clearDumpNeighbors: function () {
-                return generalHttpService.deleteApiData('DumpNeighbor');
-            },
             dumpSingleItem: function () {
                 return generalHttpService.putApiData('DumpNeighbor', {});
             }

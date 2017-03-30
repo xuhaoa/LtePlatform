@@ -27,13 +27,17 @@ namespace Lte.Evaluations.DataService.Mr
         private readonly ITownRepository _townRepository;
         private readonly IMrGridRepository _mrGridRepository;
 
+        private readonly IAppStreamRepository _streamRepository;
+        private readonly IWebBrowsingRepository _browsingRepository;
+
         private static Stack<NearestPciCell> NearestCells { get; set; }
 
         public int NearestCellCount => NearestCells.Count;
 
         public NearestPciCellService(INearestPciCellRepository repository, ICellRepository cellRepository,
             IENodebRepository eNodebRepository, IAgisDtPointRepository agisRepository,
-            ITownRepository townRepository, IMrGridRepository mrGridRepository)
+            ITownRepository townRepository, IMrGridRepository mrGridRepository,
+            IAppStreamRepository streamRepository, IWebBrowsingRepository browsingRepository)
         {
             _repository = repository;
             _cellRepository = cellRepository;
@@ -41,6 +45,8 @@ namespace Lte.Evaluations.DataService.Mr
             _agisRepository = agisRepository;
             _townRepository = townRepository;
             _mrGridRepository = mrGridRepository;
+            _streamRepository = streamRepository;
+            _browsingRepository = browsingRepository;
             if (NearestCells == null)
                 NearestCells = new Stack<NearestPciCell>();
         }
