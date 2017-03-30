@@ -253,4 +253,38 @@ namespace Lte.MySqlFramework.Concrete
             return Context.SaveChanges();
         }
     }
+
+    public class WebBrowsingRepository : EfRepositoryBase<MySqlContext, WebBrowsing>, IWebBrowsingRepository
+    {
+        public WebBrowsingRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public WebBrowsing Match(WebBrowsingCsv stat)
+        {
+            return FirstOrDefault(x => x.Meid == stat.Meid && x.StatDate == stat.PageSurfTime);
+        }
+        
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
+    public class AppStreamRepository : EfRepositoryBase<MySqlContext, AppSteam>, IAppStreamRepository
+    {
+        public AppStreamRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public AppSteam Match(AppStreamingCsv stat)
+        {
+            return FirstOrDefault(x => x.Meid == stat.Meid && x.StatDate == stat.VideoTestTime);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
 }

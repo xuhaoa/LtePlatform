@@ -77,4 +77,16 @@ namespace Lte.MySqlFramework.Abstract
     {
         
     }
+
+    public interface IWebBrowsingRepository : IRepository<WebBrowsing>, IMatchRepository<WebBrowsing, WebBrowsingCsv>, 
+        ISaveChanges
+    {
+        
+    }
+
+    public interface IAppStreamRepository : IRepository<AppSteam>, IMatchRepository<AppSteam, AppStreamingCsv>,
+        ISaveChanges
+    {
+        
+    }
 }

@@ -181,6 +181,10 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IMrGridRepository>().To<MrGridRepository>();
 
+            ninjectKernel.Bind<IAppStreamRepository>().To<AppStreamRepository>();
+
+            ninjectKernel.Bind<IWebBrowsingRepository>().To<WebBrowsingRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();
