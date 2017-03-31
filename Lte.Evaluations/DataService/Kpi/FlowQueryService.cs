@@ -8,8 +8,10 @@ using Lte.Parameters.Abstract.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Evaluations.ViewModels.RegionKpi;
+using Abp.EntityFramework.Dependency;
 
 namespace Lte.Evaluations.DataService.Kpi
 {
@@ -115,12 +117,7 @@ namespace Lte.Evaluations.DataService.Kpi
 
         public IEnumerable<TownFlowView> QueryLastDateStat(DateTime initialDate)
         {
-            var beginDate = initialDate.AddDays(-100);
-            var endDate = initialDate.AddDays(1);
-            var rangeStats = _repository.GetAllList(beginDate, endDate);
-            if (rangeStats.Count == 0) return new List<TownFlowView>();
-            var maxDate = rangeStats.Max(x => x.StatTime);
-            var stats = rangeStats.Where(x => x.StatTime == maxDate).ToList();
+            var stats = _repository.Query(initialDate, (repository, beginDate, endDate) => repository.GetAllList(beginDate, endDate));
             return stats.Select(x => x.ConstructView<TownFlowStat, TownFlowView>(_townRepository));
         }
 
@@ -138,5 +135,49 @@ namespace Lte.Evaluations.DataService.Kpi
                        DistrictFlowViews = g.Select(x => x).Merge(DistrictFlowView.ConstructView)
                    };
         } 
+    }
+
+    public class DownSwitchFlowService
+    {
+        private readonly IDownSwitchFlowRepository _repository;
+
+        private readonly IAppStreamRepository _streamRepository;
+        private readonly IWebBrowsingRepository _browsingRepository;
+
+        public DownSwitchFlowService(IDownSwitchFlowRepository repository,
+            IAppStreamRepository streamRepository, IWebBrowsingRepository browsingRepository)
+        {
+            _repository = repository;
+            _streamRepository = streamRepository;
+            _browsingRepository = browsingRepository;
+        }
+
+        public DownSwitchFlowDateView QueryLastDateStat(DateTime initialDate, string city)
+        {
+            var stats = _repository.QueryDate(initialDate,
+                (repository, beginDate, endDate) => repository.GetAllList(beginDate, endDate)).ToList();
+            return new DownSwitchFlowDateView
+            {
+                StatDate = stats.Any() ? stats.First().StatDate : initialDate,
+                City = city,
+                DownSwitchFlowViews = stats.MapTo<IEnumerable<DownSwitchFlowView>>()
+            };
+        }
+
+        public IEnumerable<AppSteam> QueryAppSteams(DateTime initialDate)
+        {
+            return
+                _streamRepository.QueryDate(initialDate,
+                    (repository, beginDate, endDate) =>
+                        repository.GetAllList(x => x.StatDate >= beginDate && x.StatDate < endDate)).ToList();
+        }
+
+        public IEnumerable<WebBrowsing> QueryBrowsings(DateTime initialDate)
+        {
+            return
+                _browsingRepository.QueryDate(initialDate,
+                    (repository, beginDate, endDate) =>
+                        repository.GetAllList(x => x.StatDate >= beginDate && x.StatDate < endDate)).ToList();
+        }
     }
 }

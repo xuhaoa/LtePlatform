@@ -125,7 +125,7 @@ namespace Lte.Parameters.Entities.Kpi
     }
 
     [AutoMapFrom(typeof(PreciseCoverage4G))]
-    public class TownPreciseCoverage4GStat : Entity, ITownId
+    public class TownPreciseCoverage4GStat : Entity, ITownId, IStatTime
     {
         public DateTime StatTime { get; set; }
 

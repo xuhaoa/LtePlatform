@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Abp.EntityFramework.Dependency;
 using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
@@ -839,7 +840,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte))]
-    public class TownFlowStat : Entity, ITownId
+    public class TownFlowStat : Entity, ITownId, IStatTime
     {
         public int TownId { get; set; }
 

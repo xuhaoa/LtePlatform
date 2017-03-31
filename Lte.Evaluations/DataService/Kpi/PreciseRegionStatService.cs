@@ -6,6 +6,7 @@ using Lte.Parameters.Entities.Kpi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common.Geo;
 
 namespace Lte.Evaluations.DataService.Kpi
@@ -24,23 +25,22 @@ namespace Lte.Evaluations.DataService.Kpi
 
         public PreciseRegionDateView QueryLastDateStat(DateTime initialDate, string city)
         {
-            var beginDate = initialDate.AddDays(-100);
-            var endDate = initialDate.AddDays(1);
-            var query =
-                _statRepository.GetAllList(beginDate, endDate);
-            var result =
-                (from q in query
-                    join t in _townRepository.GetAll(city) on q.TownId equals t.Id
-                    select q).ToList();
-            if (result.Count == 0) return null;
-            var maxDate = result.Max(x => x.StatTime);
-            var townViews =
-                result.Where(x => x.StatTime == maxDate)
+            var stats = _statRepository.Query(initialDate, (repository, beginDate, endDate) =>
+            {
+                var query =
+                    _statRepository.GetAllList(beginDate, endDate);
+                return
+                    (from q in query
+                        join t in _townRepository.GetAll(city) on q.TownId equals t.Id
+                        select q).ToList();
+            });
+            var townViews = stats
                     .Select(x => x.ConstructView<TownPreciseCoverage4GStat, TownPreciseView>(_townRepository))
                     .ToList();
+
             return new PreciseRegionDateView
             {
-                StatDate = maxDate,
+                StatDate = townViews.Any() ? townViews.First().StatTime : initialDate,
                 TownPreciseViews = townViews,
                 DistrictPreciseViews = townViews.Merge(DistrictPreciseView.ConstructView)
             };

@@ -13,7 +13,7 @@ using Lte.Domain.Regular;
 
 namespace Lte.MySqlFramework.Entities
 {
-    public class DownSwitchFlow : Entity
+    public class DownSwitchFlow : Entity, IStatDate
     {
         public DateTime StatDate { get; set; }
 

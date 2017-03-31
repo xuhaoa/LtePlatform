@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Abp.EntityFramework.Dependency;
 
 namespace Lte.Evaluations.DataService.Kpi
 {
@@ -24,24 +25,29 @@ namespace Lte.Evaluations.DataService.Kpi
 
         public async Task<CdmaRegionDateView> QueryLastDateStat(DateTime initialDate, string city)
         {
-            var beginDate = initialDate.AddDays(-100);
-            var endDate = initialDate.AddDays(1);
-            var query = await _statRepository.GetAllListAsync(beginDate, endDate);
-            var regions
-                = (await _regionRepository.GetAllListAsync(city)).Select(x => x.Region).Distinct().OrderBy(x => x);
-            var result = (from q in query
-                join r in regions
-                    on q.Region equals r
-                select q).ToList();
-            if (result.Count == 0) return null;
-            var maxDate = result.Max(x => x.StatDate);
-            var stats = result.Where(x => x.StatDate == maxDate).ToList();
+            var stats = (await _statRepository.QueryAsync(initialDate, async (statRepository, beginDate, endDate) =>
+            {
+                var query = await statRepository.GetAllListAsync(beginDate, endDate);
+                var regions
+                    = (await _regionRepository.GetAllListAsync(city)).Select(x => x.Region).Distinct().OrderBy(x => x);
+                var result = (from q in query
+                    join r in regions
+                        on q.Region equals r
+                    select q).ToList();
+                return result;
+            })).ToList();
+            if (!stats.Any())
+                return new CdmaRegionDateView
+                {
+                    StatDate = initialDate,
+                    StatViews = new List<CdmaRegionStatView>()
+                };
             var cityStat = stats.ArraySum();
             cityStat.Region = city;
             stats.Add(cityStat);
             return new CdmaRegionDateView
             {
-                StatDate = maxDate,
+                StatDate = stats.First().StatDate,
                 StatViews = Mapper.Map<List<CdmaRegionStat>, List<CdmaRegionStatView>>(stats)
             };
         }

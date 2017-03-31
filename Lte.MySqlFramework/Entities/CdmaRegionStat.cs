@@ -2,11 +2,12 @@
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Regular.Attributes;
 using System;
+using Abp.EntityFramework.Dependency;
 
 namespace Lte.MySqlFramework.Entities
 {
     [AutoMapFrom(typeof(CdmaRegionStatExcel))]
-    public class CdmaRegionStat : Entity
+    public class CdmaRegionStat : Entity, IStatDate
     {
         public string Region { get; set; }
         

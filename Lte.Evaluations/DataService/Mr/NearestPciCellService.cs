@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using Abp.EntityFramework.AutoMapper;
+using Abp.EntityFramework.Dependency;
 using Abp.EntityFramework.Repositories;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToCsv.Context;
@@ -16,7 +17,6 @@ using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract;
 using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract.Infrastructure;
-using Remotion.Data.Linq.Backend.SqlGeneration.SqlServer;
 
 namespace Lte.Evaluations.DataService.Mr
 {
@@ -166,34 +166,6 @@ namespace Lte.Evaluations.DataService.Mr
             return await _streamRepository.UpdateMany<IAppStreamRepository, AppSteam, AppStreamingCsv>(csvs);
         }
 
-        public async Task<bool> DumpOneStat()
-        {
-            var stat = NearestCells.Pop();
-            if (stat == null) return false;
-            var item =
-                _repository.FirstOrDefault(
-                    x =>
-                        x.CellId == stat.CellId && x.SectorId == stat.SectorId && x.Pci == stat.Pci);
-            if (item == null)
-            {
-                await _repository.InsertAsync(stat);
-            }
-            else if (stat.TotalTimes > 0)
-            {
-                item.NearestSectorId = stat.NearestSectorId;
-                item.NearestCellId = stat.NearestCellId;
-                item.TotalTimes = stat.TotalTimes;
-                await _repository.UpdateAsync(item);
-            }
-            _repository.SaveChanges();
-            return true;
-        }
-        
-        public void ClearNeighbors()
-        {
-            NearestCells.Clear();
-        }
-
         public IEnumerable<AgisDtPoint> QueryAgisDtPoints(DateTime begin, DateTime end)
         {
             var points = _agisRepository.GetAllList(x => x.StatDate > begin && x.StatDate <= end);
@@ -208,16 +180,11 @@ namespace Lte.Evaluations.DataService.Mr
 
         public IEnumerable<MrCoverageGridView> QueryCoverageGridViews(DateTime initialDate, string district)
         {
-            var beginDate = initialDate.AddDays(-100);
-            var endDate = initialDate.AddDays(1);
-            var query =
-                _mrGridRepository.GetAllList(
+            var stats =
+                _mrGridRepository.QueryDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(
                     x =>
                         x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
-                        x.Compete == AlarmCategory.Self);
-            if (!query.Any()) return new List<MrCoverageGridView>();
-            var maxDate = query.Max(x => x.StatDate);
-            var stats = query.Where(x => x.StatDate == maxDate);
+                        x.Compete == AlarmCategory.Self)).ToList();
             return stats.MapTo<IEnumerable<MrCoverageGridView>>();
         }
 
@@ -227,16 +194,12 @@ namespace Lte.Evaluations.DataService.Mr
             var competeTuple =
                 WirelessConstants.EnumDictionary["AlarmCategory"].FirstOrDefault(x => x.Item2 == competeDescription);
             var compete = (AlarmCategory?)competeTuple?.Item1;
-            var beginDate = initialDate.AddDays(-100);
-            var endDate = initialDate.AddDays(1);
-            var query =
-                _mrGridRepository.GetAllList(
+
+            var stats =
+                _mrGridRepository.QueryDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(
                     x =>
                         x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
-                        x.Frequency == -1 && x.Compete == compete);
-            if (!query.Any()) return new List<MrCompeteGridView>();
-            var maxDate = query.Max(x => x.StatDate);
-            var stats = query.Where(x => x.StatDate == maxDate);
+                        x.Frequency == -1 && x.Compete == compete)).ToList();
             return stats.MapTo<IEnumerable<MrCompeteGridView>>();
         }
     }
