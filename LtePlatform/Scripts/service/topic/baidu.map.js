@@ -418,6 +418,11 @@
 				});
 				map.addOverlay(label);
 			},
+			drawCustomizeLabel: function(lon, lat, text, details, lines) {
+			    var myCompOverlay = new ComplexCustomOverlay(new BMap.Point(lon, lat), text, details, lines);
+
+			    map.addOverlay(myCompOverlay);
+			},
 			drawMultiPoints: function(coors, color, xoffset, yoffset, callback) {
 				var points = [];  // 添加海量点数据
 				angular.forEach(coors, function(data) {

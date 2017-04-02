@@ -510,6 +510,10 @@
     <None Include="Content\themes\base\datepicker.scss" />
     <None Include="Content\themes\base\dialog.scss" />
     <None Include="Content\themes\base\draggable.scss" />
+    <Content Include="Content\themes\baidu\box.css">
+      <DependentUpon>box.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\themes\baidu\label.png" />
     <Content Include="Content\themes\base\accordion.css">
       <DependentUpon>accordion.scss</DependentUpon>
     </Content>
@@ -827,6 +831,7 @@
     <Content Include="Scripts\angular-ui\vfs_fonts.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\baidu\plugins\ComplexCustomOverlay.js" />
     <Content Include="Scripts\baidu\plugins\GeoUtils.js" />
     <Content Include="Scripts\baidu\plugins\Heatmap_min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1609,7 +1614,6 @@
     <Content Include="Scripts\jquery-ui-1.12.0.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
     <Content Include="Scripts\kpi\workitem.import.js" />
-    <Content Include="Scripts\mycharts\gaugeMeter.js" />
     <Content Include="Scripts\college\route.controller.js" />
     <Content Include="Scripts\kpi\precise.import.js" />
     <Content Include="Scripts\mycharts\column3d.js" />
@@ -1688,11 +1692,8 @@
     <Content Include="Scripts\app\html5csv.js" />
     <Content Include="Scripts\app\lz-string.js" />
     <Content Include="Scripts\app\lz-string.min.js" />
-    <Content Include="Scripts\baidu\cloud\page.js" />
-    <Content Include="Scripts\baidu\cloud\timecontrol.js" />
     <Content Include="Scripts\baidu\plugins\baidu.tangram.js" />
     <Content Include="Scripts\baidu\plugins\InfoBox.js" />
-    <Content Include="Scripts\baidu\cloud\gridmap.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />

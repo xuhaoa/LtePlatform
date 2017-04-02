@@ -411,11 +411,17 @@
             }
         });
     })
-    .controller("home.dt", function ($scope, baiduMapService, coverageService) {
+    .controller("home.dt", function ($scope, baiduMapService, coverageService, appFormatService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
-        coverageService.queryAreaTestDate().then(function(result) {
-            console.log(result);
+        coverageService.queryAreaTestDate().then(function (result) {
+            angular.forEach(result, function (item) {
+                baiduMapService.drawCustomizeLabel(item.longtitute, item.lattitute, item.cityName + item.districtName + item.townName,
+                    '4G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate4G), 'yyyy-MM-dd')
+                    + '<br/>3G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate3G), 'yyyy-MM-dd')
+                    + '<br/>2G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate2G), 'yyyy-MM-dd'), 3);
+            });
+
         });
 
     })
