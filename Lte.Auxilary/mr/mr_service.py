@@ -174,6 +174,7 @@ class MroReader:
             'RsrpBetween110105': 1 if item['Rsrp']<35 and item['Rsrp']>=30 else 0,
             'RsrpBetween105100': 1 if item['Rsrp']<40 and item['Rsrp']>=35 else 0,
             'RsrpBetween10090': 1 if item['Rsrp']<50 and item['Rsrp']>=40 else 0,
+            'RsrpAbove90': 1 if item['Rsrp']>=50 else 0,
             'NeighborRsrpBelow120': 1 if item['NeighborRsrp']<20 else 0,
             'NeighborRsrpBetween120110': 1 if item['NeighborRsrp']<30 and item['NeighborRsrp']>=20 else 0,
             'NeighborRsrpBetween110105': 1 if item['NeighborRsrp']<35 and item['NeighborRsrp']>=30 else 0,

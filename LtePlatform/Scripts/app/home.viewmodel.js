@@ -92,6 +92,19 @@
                     }
                 },
                 url: "/grid"
+            })
+            .state('app', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.mr"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "MrGrid.html",
+                        controller: "mr.app"
+                    }
+                },
+                url: "/app"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -227,7 +240,10 @@
                 },{
                     displayName: "栅格分析",
                     url: rootUrl + "/grid"
-                },{
+                }, {
+                    displayName: "APP分析",
+                    url: rootUrl + "/app"
+                }, {
                     displayName: "工单管控",
                     url: "/Kpi/WorkItem",
                     tooltip: "对接本部优化部4G网优平台，结合日常优化，实现对日常工单的监控和分析"
@@ -606,6 +622,11 @@
                 }
             });
         });
+    })
+    .controller("mr.app", function ($scope, baiduMapService) {
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
+
     })
     .controller("home.complain", function ($scope, baiduMapService) {
         baiduMapService.initializeMap("map", 11);

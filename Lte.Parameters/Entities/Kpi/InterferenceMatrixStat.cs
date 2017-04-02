@@ -145,7 +145,19 @@ namespace Lte.Parameters.Entities.Kpi
 
         public int RsrpBetween10090 { get; set; }
 
-        public int RsrpAbove90 { get; set; }
+        public int? RsrpAbove90 { get; set; }
+
+        public int? NeighborRsrpBelow120 { get; set; }
+
+        public int? NeighborRsrpBetween120110 { get; set; }
+
+        public int? NeighborRsrpBetween110105 { get; set; }
+
+        public int? NeighborRsrpBetween105100 { get; set; }
+
+        public int? NeighborRsrpBetween10090 { get; set; }
+
+        public int? NeighborRsrpAbove90 { get; set; }
 
         public int Ta0or1 { get; set; }
 
