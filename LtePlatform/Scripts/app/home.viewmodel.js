@@ -219,8 +219,12 @@
             displayName: "指标优化",
             subItems: [
                 {
+                    displayName: "指标总览",
+                    url: "/Rutrace",
+                    tooltip: "4G总体指标"
+                }, {
                     displayName: "质量分析",
-                    url: appUrlService.getTopnUrlHost(),
+                    url: appUrlService.getTopnUrlHost() + '2g_home',
                     tooltip: "4G网络质量分析与日常优化"
                 }, {
                     displayName: "负荷评估",

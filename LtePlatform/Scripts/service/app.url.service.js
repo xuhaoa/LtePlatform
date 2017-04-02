@@ -78,7 +78,7 @@
                 return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:8001/' : 'http://10.17.165.111:8001/';
             },
             getTopnUrlHost: function () {
-                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:8888/' : 'http://10.17.165.111:8888/';
+                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:8006/' : 'http://10.17.165.111:8006/';
             },
             initializeIndexedDb: function (myDb, storeNames, key, callback) {
                 var version = myDb.version || 1;

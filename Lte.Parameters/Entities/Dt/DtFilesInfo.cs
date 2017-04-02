@@ -4,6 +4,7 @@ using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
+using Lte.Domain.Regular;
 
 namespace Lte.Parameters.Entities.Dt
 {
@@ -41,11 +42,11 @@ namespace Lte.Parameters.Entities.Dt
         [Column(Name = "latestTestDate4G", DbType = "Char(100)")]
         public string LatestTestDate4G { get; set; }
 
-        public DateTime LatestDate2G => Convert.ToDateTime(DateTime.Today);
+        public DateTime LatestDate2G => LatestTestDate2G.Trim().ConvertToDateTime(DateTime.Today);
 
-        public DateTime LatestDate3G => Convert.ToDateTime(DateTime.Today);
+        public DateTime LatestDate3G => LatestTestDate3G.Trim().ConvertToDateTime(DateTime.Today);
 
-        public DateTime LatestDate4G => Convert.ToDateTime(DateTime.Today);
+        public DateTime LatestDate4G => LatestTestDate4G.Trim().ConvertToDateTime(DateTime.Today);
     }
 
     [AutoMapFrom(typeof(AreaTestDate), typeof(Town))]
