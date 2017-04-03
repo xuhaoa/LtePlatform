@@ -45,22 +45,31 @@ namespace Lte.MySqlFramework.Entities
         public double DownSwitchFlow3G { get; set; }
     }
 
+    [TypeDoc("AGPS数据点数据结构")]
     public class AgisDtPoint : Entity, IStatDate
     {
+        [MemberDoc("统计主题")]
         public string Operator { get; set; }
-        
+
+        [MemberDoc("经度")]
         public double Longtitute { get; set; }
 
+        [MemberDoc("纬度")]
         public double Lattitute { get; set; }
 
+        [MemberDoc("联通RSRP")]
         public double UnicomRsrp { get; set; }
 
+        [MemberDoc("移动RSRP")]
         public double MobileRsrp { get; set; }
 
+        [MemberDoc("电信RSRP")]
         public double TelecomRsrp { get; set; }
 
+        [MemberDoc("统计日期")]
         public DateTime StatDate { get; set; }
 
+        [MemberDoc("主导运营商")]
         public string Domination
             =>
                 (TelecomRsrp >= MobileRsrp)

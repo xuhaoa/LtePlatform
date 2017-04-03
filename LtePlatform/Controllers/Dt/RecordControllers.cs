@@ -47,6 +47,7 @@ namespace LtePlatform.Controllers.Dt
         }
     }
 
+    [ApiControl("2G测试详细数据查询控制器")]
     public class Record2GDetailsController : ApiController
     {
         private readonly CsvFileInfoService _service;
@@ -103,6 +104,7 @@ namespace LtePlatform.Controllers.Dt
         }
     }
 
+    [ApiControl("3G测试详细数据查询控制器")]
     public class Record3GDetailsController : ApiController
     {
         private readonly CsvFileInfoService _service;
@@ -260,6 +262,7 @@ namespace LtePlatform.Controllers.Dt
         }
     }
 
+    [ApiControl("带有AGPS详细信息数据点查询控制器")]
     public class AgisDtPointsController : ApiController
     {
         private readonly NearestPciCellService _service;
@@ -270,12 +273,21 @@ namespace LtePlatform.Controllers.Dt
         }
 
         [HttpGet]
+        [ApiDoc("查询日期范围内带有AGPS详细信息数据点")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiResponse("日期范围内带有AGPS详细信息数据点")]
         public IEnumerable<AgisDtPoint> Get(DateTime begin, DateTime end)
         {
             return _service.QueryAgisDtPoints(begin, end);
         }
 
         [HttpGet]
+        [ApiDoc("查询日期范围内和指定主题带有AGPS详细信息数据点")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiParameterDoc("topic", "指定主题")]
+        [ApiResponse("日期范围内和指定主题带有AGPS详细信息数据点")]
         public IEnumerable<AgisDtPoint> Get(DateTime begin, DateTime end, string topic)
         {
             return _service.QueryAgisDtPoints(begin, end, topic);
