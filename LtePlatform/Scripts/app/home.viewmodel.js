@@ -643,9 +643,43 @@
         baiduMapService.addCityBoundary("佛山");
 
     })
-    .controller("home.kpi", function ($scope, baiduMapService) {
+    .controller("home.kpi", function ($scope, baiduMapService, authorizeService, kpiPreciseService, networkElementService, baiduQueryService,
+    neighborDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+
+        $scope.showPreciseRate = function (city, district, color) {
+            baiduMapService.addDistrictBoundary(district, color);
+            kpiPreciseService.queryTopKpisInDistrict($scope.beginDate.value, $scope.endDate.value, 10,
+                '按照精确覆盖率升序', city, district).then(function (result) {
+                networkElementService.queryCellSectors(result).then(function(cells) {
+                    baiduQueryService.transformToBaidu(cells[0].longtitute, cells[0].lattitute).then(function(coors) {
+                        var xOffset = coors.x - cells[0].longtitute;
+                        var yOffset = coors.y - cells[0].lattitute;
+                        angular.forEach(cells, function (cell) {
+                            cell.longtitute += xOffset;
+                            cell.lattitute += yOffset;
+                            var sectorTriangle = baiduMapService.generateSector(cell, "blue", 1.25);
+                            baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showPrecise, cell);
+                        });
+                    });
+                });
+            });
+        }
+
+        $scope.districts = [];
+        authorizeService.queryCurrentUserName().then(function (userName) {
+            authorizeService.queryRolesInUser(userName).then(function (roles) {
+                angular.forEach(roles, function (role, $index) {
+                    var district = authorizeService.queryRoleDistrict(role);
+                    if (district) {
+                        $scope.districts.push(district);
+                        $scope.showPreciseRate($scope.city.selected || "佛山", district, $scope.colors[$index]);
+                    }
+
+                });
+            });
+        });
 
     })
     .controller("home.plan", function ($scope, baiduMapService, authorizeService, networkElementService, geometryService, 
