@@ -2483,7 +2483,7 @@
                 chart.xAxis[0].categories = seriesData.categories;
                 chart.yAxis[0].title.text = "MR数量";
                 chart.xAxis[0].title.text = '日期';
-                chartCalculateService.writeSeriesData(series.series, seriesData.info, dataKeys);
+                chartCalculateService.writeSeriesData(chart.series, seriesData.info, dataKeys);
                 return chart.options;
             },
             getPreciseOptions: function (stats, title) {

@@ -7,13 +7,13 @@ namespace Lte.Parameters.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Extend_Town_Type : IMigrationMetadata
+    public sealed partial class Update_Precise_Coverage_SQLServer : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Extend_Town_Type));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Update_Precise_Coverage_SQLServer));
         
         string IMigrationMetadata.Id
         {
-            get { return "201703150902044_Extend_Town_Type"; }
+            get { return "201704052227299_Update_Precise_Coverage_SQLServer"; }
         }
         
         string IMigrationMetadata.Source

@@ -7,13 +7,13 @@ namespace Lte.Parameters.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Interference_Matrix_1221 : IMigrationMetadata
+    public sealed partial class Update_Precise_Coverage_SQLServer1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Interference_Matrix_1221));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Update_Precise_Coverage_SQLServer1));
         
         string IMigrationMetadata.Id
         {
-            get { return "201612210831597_Interference_Matrix_1221"; }
+            get { return "201704052236141_Update_Precise_Coverage_SQLServer1"; }
         }
         
         string IMigrationMetadata.Source

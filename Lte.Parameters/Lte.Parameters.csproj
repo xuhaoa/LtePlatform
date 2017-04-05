@@ -230,13 +230,13 @@
     <Compile Include="Entities\Town.cs" />
     <Compile Include="Entities\Work\WorkItem.cs" />
     <Compile Include="Entities\Work\WorkItemExcel.cs" />
-    <Compile Include="Migrations\201612210831597_Interference_Matrix_1221.cs" />
-    <Compile Include="Migrations\201612210831597_Interference_Matrix_1221.Designer.cs">
-      <DependentUpon>201612210831597_Interference_Matrix_1221.cs</DependentUpon>
+    <Compile Include="Migrations\201704052227299_Update_Precise_Coverage_SQLServer.cs" />
+    <Compile Include="Migrations\201704052227299_Update_Precise_Coverage_SQLServer.Designer.cs">
+      <DependentUpon>201704052227299_Update_Precise_Coverage_SQLServer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703150902044_Extend_Town_Type.cs" />
-    <Compile Include="Migrations\201703150902044_Extend_Town_Type.Designer.cs">
-      <DependentUpon>201703150902044_Extend_Town_Type.cs</DependentUpon>
+    <Compile Include="Migrations\201704052236141_Update_Precise_Coverage_SQLServer1.cs" />
+    <Compile Include="Migrations\201704052236141_Update_Precise_Coverage_SQLServer1.Designer.cs">
+      <DependentUpon>201704052236141_Update_Precise_Coverage_SQLServer1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MockOperations\DbHelper.cs" />
@@ -266,11 +266,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612210831597_Interference_Matrix_1221.resx">
-      <DependentUpon>201612210831597_Interference_Matrix_1221.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704052227299_Update_Precise_Coverage_SQLServer.resx">
+      <DependentUpon>201704052227299_Update_Precise_Coverage_SQLServer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703150902044_Extend_Town_Type.resx">
-      <DependentUpon>201703150902044_Extend_Town_Type.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704052236141_Update_Precise_Coverage_SQLServer1.resx">
+      <DependentUpon>201704052236141_Update_Precise_Coverage_SQLServer1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
