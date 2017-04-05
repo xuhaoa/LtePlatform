@@ -141,6 +141,7 @@
 /// <reference path="service/filters/basic.js" />
 /// <reference path="service/filters/cell.js" />
 /// <reference path="service/filters/handoff.js" />
+/// <reference path="service/test.js" />
 /// <reference path="service/topic/baidu.map.js" />
 /// <reference path="spin.min.js" />
 /// <reference path="test/directives/app.spec.js" />

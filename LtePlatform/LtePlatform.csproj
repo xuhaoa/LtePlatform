@@ -1627,6 +1627,7 @@
     <Content Include="Scripts\service\filters\basic.js" />
     <Content Include="Scripts\service\filters\cell.js" />
     <Content Include="Scripts\service\filters\handoff.js" />
+    <Content Include="Scripts\service\test.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\spin.min.js" />
     <Content Include="Scripts\test\mock\underscore.array.spec.js" />
