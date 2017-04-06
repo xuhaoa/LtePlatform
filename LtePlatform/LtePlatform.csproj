@@ -1888,7 +1888,6 @@
     <Content Include="appViews\College\Coverage\CollegeMap.html" />
     <Content Include="Scripts\service\app.region.service.js" />
     <None Include="Views\Kpi\PreciseImport.cshtml" />
-    <Content Include="appViews\Import\Precise\Import.html" />
     <Content Include="Views\Kpi\WorkItemImport.cshtml" />
     <Content Include="appViews\Rutrace\Map\NeighborMapInfoBox.html" />
     <Content Include="appViews\BasicKpi\TopDrop2G.html" />

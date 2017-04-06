@@ -80,6 +80,13 @@
             getTopnUrlHost: function () {
                 return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:8006/' : 'http://10.17.165.111:8006/';
             },
+            getInterferenceHost: function () {
+                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:8004/' : 'http://10.17.165.111:8004/';
+            },
+            getCustomerHost: function () {
+                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.41:8099/' : 'http://10.17.165.100:8099/';
+            },
+            
             initializeIndexedDb: function (myDb, storeNames, key, callback) {
                 var version = myDb.version || 1;
                 var request = window.indexedDB.open(myDb.name, version);
@@ -143,6 +150,13 @@
                 };
             }
         };
+    })
+    .controller('header.menu', function ($scope, appUrlService) {
+        $scope.interferenceUrl = appUrlService.getInterferenceHost();
+        $scope.complainUrl = appUrlService.getCustomerHost() + 'IndexOfComplaints.aspx';
+        $scope.emergencyUrl = appUrlService.getCustomerHost() + 'IndexOfEmerCom.aspx';
+        $scope.repeaterUrl = appUrlService.getCustomerHost() + 'IndexOfMicro.aspx';
+        $scope.marketUrl = appUrlService.getCustomerHost() + 'IndexOfTelJobs.aspx';
     })
     .factory('generalHttpService', function ($q, $http, appUrlService) {
         return {

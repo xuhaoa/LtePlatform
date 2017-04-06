@@ -24,7 +24,7 @@
                 <img width="60" src="~/Content/Images/Logo_new_version.png" ng-click="sideBarShown=!sideBarShown" />
             </div>
             <div class="navbar-collapse collapse">
-                <div ng-include="'/appViews/HeaderMenu.html'"></div>
+                <div ng-include="'/appViews/HeaderMenu.html'" ng-controller="header.menu"></div>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

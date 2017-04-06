@@ -25,6 +25,14 @@ namespace Lte.Evaluations.ViewModels.RegionKpi
         public double FirstRate => 100 - (double)FirstNeighbors * 100 / TotalMrs;
 
         public double ThirdRate => 100 - (double) ThirdNeighbors*100/TotalMrs;
+        
+        public int NeighborsMore { get; set; }
+
+        public int InterFirstNeighbors { get; set; }
+
+        public int InterSecondNeighbors { get; set; }
+
+        public int InterThirdNeighbors { get; set; }
 
         public static DistrictPreciseView ConstructView(TownPreciseView townView)
         {
@@ -58,5 +66,13 @@ namespace Lte.Evaluations.ViewModels.RegionKpi
         public double FirstRate => 100 - (double)FirstNeighbors * 100 / TotalMrs;
 
         public double ThirdRate => 100 - (double)ThirdNeighbors * 100 / TotalMrs;
+
+        public int NeighborsMore { get; set; }
+
+        public int InterFirstNeighbors { get; set; }
+
+        public int InterSecondNeighbors { get; set; }
+
+        public int InterThirdNeighbors { get; set; }
     }
 }
