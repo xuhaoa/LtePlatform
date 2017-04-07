@@ -22,6 +22,22 @@ namespace Lte.Parameters.Entities.Kpi
 
         public byte SectorId { get; set; }
 
+        public int Neighbors0 { get; set; }
+
+        public int Neighbors1 { get; set; }
+
+        public int Neighbors2 { get; set; }
+
+        public int Neighbors3 { get; set; }
+
+        public int NeighborsMore { get; set; }
+
+        public int InterFirstNeighbors => Neighbors1 + Neighbors2 + Neighbors3 + NeighborsMore;
+
+        public int InterSecondNeighbors => Neighbors2 + Neighbors3 + NeighborsMore;
+
+        public int InterThirdNeighbors => Neighbors3 + NeighborsMore;
+
         public int TotalMrs { get; set; }
 
         public int ThirdNeighbors { get; set; }
@@ -138,5 +154,13 @@ namespace Lte.Parameters.Entities.Kpi
         public int SecondNeighbors { get; set; }
 
         public int FirstNeighbors { get; set; }
+
+        public int NeighborsMore { get; set; }
+
+        public int InterFirstNeighbors { get; set; }
+
+        public int InterSecondNeighbors { get; set; }
+
+        public int InterThirdNeighbors { get; set; }
     }
 }
