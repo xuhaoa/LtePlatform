@@ -127,7 +127,7 @@
                 });
 
             },
-            fetchStoreByCursor(db, storeName, callback) {
+            fetchStoreByCursor:function(db, storeName, callback) {
                 var transaction = db.transaction(storeName);
                 var store = transaction.objectStore(storeName);
                 var request = store.openCursor();
