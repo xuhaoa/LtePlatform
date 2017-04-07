@@ -58,6 +58,16 @@ namespace Lte.Evaluations.ViewModels.Kpi
         public double UplinkFeelingRate
             => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput/UplinkFeelingDuration;
 
+        public double RedirectCdma2000 { get; set; }
+
+        [AutoMapPropertyResolve("SchedulingTm3", typeof(FlowZte))]
+        public double SchedulingTimes { get; set; }
+
+        [AutoMapPropertyResolve("SchedulingTm3Rank2", typeof(FlowZte))]
+        public double SchedulingRank2 { get; set; }
+
+        public double Rank2Rate => SchedulingTimes == 0 ? 100 : SchedulingRank2/SchedulingTimes*100;
+
         public static FlowView Average(IEnumerable<FlowView> views)
         {
             if (views == null || !views.Any()) return null;
@@ -76,7 +86,10 @@ namespace Lte.Evaluations.ViewModels.Kpi
                 DownlinkFeelingDuration = views.Average(x=>x.DownlinkFeelingDuration),
                 DownlinkFeelingThroughput = views.Average(x=>x.DownlinkFeelingDuration),
                 UplinkFeelingDuration = views.Average(x=>x.UplinkFeelingDuration),
-                UplinkFeelingThroughput = views.Average(x=>x.UplinkFeelingThroughput)
+                UplinkFeelingThroughput = views.Average(x=>x.UplinkFeelingThroughput),
+                RedirectCdma2000 = views.Average(x=>x.RedirectCdma2000),
+                SchedulingTimes = views.Average(x=>x.SchedulingTimes),
+                SchedulingRank2 = views.Average(x=>x.SchedulingRank2)
             };
         }
     }

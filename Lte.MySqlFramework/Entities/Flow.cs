@@ -70,6 +70,8 @@ namespace Lte.MySqlFramework.Entities
         
         public int RedirectB2 { get; set; }
 
+        public int RedirectCdma2000 => RedirectA2 + RedirectB2;
+
         public double DownlinkFeelingThroughput => Qci8DownlinkIpThroughput + Qci9DownlinkIpThroughput;
 
         public double DownlinkFeelingDuration => Qci8DownlinkIpDuration + Qci9DownlinkIpDuration;
@@ -200,34 +202,74 @@ namespace Lte.MySqlFramework.Entities
         public byte SectorId { get; set; }
 
         [CsvColumn(Name = "最大RRC连接用户数_1")]
-        public int MaxRrcUsers { get; set; }
+        public int OldMaxRrcUsers { get; set; }
+
+        [CsvColumn(Name = "最大RRC连接用户数-FDD")]
+        public int NewMaxRrcUsers { get; set; }
+
+        public int MaxRrcUsers => OldMaxRrcUsers + NewMaxRrcUsers;
 
         [CsvColumn(Name = "上行平均激活用户数_1")]
-        public double UplinkAverageActiveUsers { get; set; }
+        public double OldUlAverageActiveUsers { get; set; }
+
+        [CsvColumn(Name = "上行平均激活用户数-FDD_1484414261455-0-71")]
+        public double NewUlAvgActUsers { get; set; }
+
+        public double UplinkAverageActiveUsers => OldUlAverageActiveUsers + NewUlAvgActUsers;
 
         [CsvColumn(Name = "下行平均激活用户数_1")]
-        public double DownlinkAverageActiveUsers { get; set; }
+        public double OldDlAverageActiveUsers { get; set; }
+
+        [CsvColumn(Name = "下行平均激活用户数-FDD_1484414261455-0-72")]
+        public double NewDlAvgActUsers { get; set; }
+
+        public double DownlinkAverageActiveUsers => OldDlAverageActiveUsers + NewDlAvgActUsers;
 
         [CsvColumn(Name = "平均RRC连接用户数_1")]
         public double AverageRrcUsers { get; set; }
 
         [CsvColumn(Name = "平均激活用户数_1")]
-        public double AverageActiveUsers { get; set; }
+        public double OldAverageActiveUsers { get; set; }
+
+        [CsvColumn(Name = "平均激活用户数")]
+        public double NewAvgActUsers { get; set; }
+
+        public double AverageActiveUsers => OldAverageActiveUsers + NewAvgActUsers;
 
         [CsvColumn(Name = "最大激活用户数_1")]
         public int MaxActiveUsers { get; set; }
 
         [CsvColumn(Name = "小区PDCP接收上行数据的总时长(s)")]
-        public int PdcpUplinkDuration { get; set; }
+        public int OldPdcpUplinkDuration { get; set; }
+
+        [CsvColumn(Name = "小区PDCP接收上行数据的总时长(s)")]
+        public int NewPdcpUlDuration { get; set; }
+
+        public int PdcpUplinkDuration => OldPdcpUplinkDuration + NewPdcpUlDuration;
 
         [CsvColumn(Name = "小区PDCP发送下行数据的总时长(s)")]
-        public int PdcpDownlinkDuration { get; set; }
+        public int OldPdcpDownlinkDuration { get; set; }
+
+        [CsvColumn(Name = "小区PDCP发送下行数据的总时长(s)")]
+        public int NewPdcpDlDuration { get; set; }
+
+        public int PdcpDownlinkDuration => OldPdcpDownlinkDuration + NewPdcpDlDuration;
 
         [CsvColumn(Name = "小区上行PDCP层流量（MB）")]
-        public double UplindPdcpFlowInMByte { get; set; }
+        public double OldUlPdcpFlowInMByte { get; set; }
+
+        [CsvColumn(Name = "小区上行PDCP层流量（MB）")]
+        public double NewUlPdcpFlowInMByte { get; set; }
+
+        public double UplindPdcpFlowInMByte => OldUlPdcpFlowInMByte + NewUlPdcpFlowInMByte;
 
         [CsvColumn(Name = "小区下行PDCP层流量（MB）")]
-        public double DownlinkPdcpFlowInMByte { get; set; }
+        public double OldDlPdcpFlowInMByte { get; set; }
+
+        [CsvColumn(Name = "小区下行PDCP层流量（MB）")]
+        public double NewDlPdcpFlowInMByte { get; set; }
+
+        public double DownlinkPdcpFlowInMByte => OldDlPdcpFlowInMByte + NewDlPdcpFlowInMByte;
 
         [CsvColumn(Name = "QCI8小区上行IP Throughput数据量高(兆比特)")]
         public string Qci8UplinkIpThroughputHigh { get; set; }
@@ -555,6 +597,8 @@ namespace Lte.MySqlFramework.Entities
 
         [AutoMapPropertyResolve("SchedulingRank2String", typeof(FlowHuaweiCsv), typeof(StringToIntTransform))]
         public int SchedulingRank2 { get; set; }
+
+        public int SchedulingTimes => SchedulingRank1 + SchedulingRank2;
 
         public int RedirectCdma2000 { get; set; }
 
