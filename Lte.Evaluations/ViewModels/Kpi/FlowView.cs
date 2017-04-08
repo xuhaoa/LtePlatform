@@ -84,7 +84,7 @@ namespace Lte.Evaluations.ViewModels.Kpi
                 AverageActiveUsers = views.Average(x => x.AverageActiveUsers),
                 MaxActiveUsers = views.Max(x => x.MaxActiveUsers),
                 DownlinkFeelingDuration = views.Average(x=>x.DownlinkFeelingDuration),
-                DownlinkFeelingThroughput = views.Average(x=>x.DownlinkFeelingDuration),
+                DownlinkFeelingThroughput = views.Average(x=>x.DownlinkFeelingThroughput),
                 UplinkFeelingDuration = views.Average(x=>x.UplinkFeelingDuration),
                 UplinkFeelingThroughput = views.Average(x=>x.UplinkFeelingThroughput),
                 RedirectCdma2000 = views.Average(x=>x.RedirectCdma2000),
