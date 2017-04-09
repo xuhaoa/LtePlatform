@@ -88,6 +88,8 @@ namespace Lte.Parameters.Entities.Neighbor
 
         public int QoffsetFreq { get; set; }
 
+        public int? CellReselPriority { get; set; }
+
         public ObjectId Id { get; set; }
 
         public bool IsTransient()

@@ -680,19 +680,19 @@
             baiduMapService.addDistrictBoundary(district, color);
             kpiPreciseService.queryTopDownSwitchInDistrict($scope.beginDate.value, $scope.endDate.value, 10,
                 city, district).then(function (result) {
-                    networkElementService.queryCellSectors(result).then(function (cells) {
-                        baiduQueryService.transformToBaidu(cells[0].longtitute, cells[0].lattitute).then(function (coors) {
-                            var xOffset = coors.x - cells[0].longtitute;
-                            var yOffset = coors.y - cells[0].lattitute;
-                            angular.forEach(cells, function (cell) {
-                                cell.longtitute += xOffset;
-                                cell.lattitute += yOffset;
-                                var sectorTriangle = baiduMapService.generateSector(cell, "blue", 1.25);
-                                baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showPrecise, cell);
-                            });
+                angular.forEach(result, function(item) {
+                    networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function(cell) {
+                        baiduQueryService.transformToBaidu(cell.longtitute, cell.lattitute).then(function(coors) {
+                            item = angular.extend(item, cell);
+                            cell.longtitute = coors.x;
+                            cell.lattitute = coors.y;
+                            var sectorTriangle = baiduMapService.generateSector(cell, "blue", 1.25);
+                            baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showFlowCell, item);
                         });
                     });
                 });
+
+            });
         };
         $scope.showTopDownSwitch = function() {
             $scope.currentView = "4G下切3G";

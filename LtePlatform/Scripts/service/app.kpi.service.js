@@ -1251,6 +1251,20 @@
                     }
                 });
             },
+            showFlowCell: function (cell) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Parameters/Region/CellInfo.html',
+                    controller: 'cell.info.dialog',
+                    resolve: {
+                        dialogTitle: function () {
+                            return cell.eNodebName + "-" + cell.sectorId + "小区详细信息";
+                        },
+                        cell: function () {
+                            return cell;
+                        }
+                    }
+                });
+            },
             showInterferenceSource: function (neighbor) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Rutrace/Map/SourceMapInfoBox.html',
