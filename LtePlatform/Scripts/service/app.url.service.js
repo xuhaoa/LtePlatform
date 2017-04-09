@@ -1406,6 +1406,89 @@
                 }
                 ];
             },
+            generateFlowDetailsGroups: function (site) {
+                return [
+                {
+                    items: [
+                        {
+                            key: '小区名称',
+                            value: site.eNodebName + '-' +site.sectorId
+                        }, {
+                            key: '经度',
+                            value: site.longtitute
+                        }, {
+                            key: '纬度',
+                            value: site.lattitute
+                        }
+                    ]
+                }, {
+                    items: [
+                        {
+                            key: '天线挂高',
+                            value: site.height
+                        }, {
+                            key: '方位角',
+                            value: site.azimuth
+                        }, {
+                            key: '下倾角',
+                            value: site.downTilt
+                        }
+                    ]
+                }, {
+                    items: [
+                        {
+                            key: '室内外',
+                            value: site.indoor
+                        }, {
+                            key: '天线增益',
+                            value: site.antennaGain
+                        }, {
+                            key: 'RS功率',
+                            value: site.rsPower
+                        }
+                    ]
+                }, {
+                    items: [
+                        {
+                            key: '下行流量（MB）',
+                            value: site.pdcpDownlinkFlow
+                        }, {
+                            key: '上行流量（MB）',
+                            value: site.pdcpUplinkFlow
+                        }, {
+                            key: '用户数',
+                            value: site.maxUsers
+                        }
+                    ]
+                }, {
+                    items: [
+                        {
+                            key: '下行感知速率（Mbit/s）',
+                            value: site.downlinkFeelingRate
+                        }, {
+                            key: '上行感知速率（Mbit/s）',
+                            value: site.uplinkFeelingRate
+                        }, {
+                            key: 'PCI',
+                            value: site.pci
+                        }
+                    ]
+                }, {
+                    items: [
+                        {
+                            key: '4G下切3G次数',
+                            value: site.redirectCdma2000
+                        }, {
+                            key: '4G双流比',
+                            value: site.rank2Rate
+                        }, {
+                            key: 'PRACH',
+                            value: site.prach
+                        }
+                    ]
+                }
+                ];
+            },
             generateCellMongoGroups: function (site) {
                 return [
                 {

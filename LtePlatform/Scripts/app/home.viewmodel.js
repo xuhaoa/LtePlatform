@@ -703,6 +703,33 @@
                 $scope.showDownSwitchSite(city, district, $scope.colors[$index]);
             });
         };
+        $scope.showRank2Site = function (city, district, color) {
+            baiduMapService.addDistrictBoundary(district, color);
+            kpiPreciseService.queryTopRank2InDistrict($scope.beginDate.value, $scope.endDate.value, 10,
+                city, district).then(function (result) {
+                    angular.forEach(result, function (item) {
+                        networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function (cell) {
+                            baiduQueryService.transformToBaidu(cell.longtitute, cell.lattitute).then(function (coors) {
+                                item = angular.extend(item, cell);
+                                cell.longtitute = coors.x;
+                                cell.lattitute = coors.y;
+                                var sectorTriangle = baiduMapService.generateSector(cell, "blue", 1.25);
+                                baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showFlowCell, item);
+                            });
+                        });
+                    });
+
+                });
+        };
+        $scope.showTopScheduling = function () {
+            $scope.currentView = "4G双流比";
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            var city = $scope.city.selected;
+            angular.forEach($scope.districts, function (district, $index) {
+                $scope.showRank2Site(city, district, $scope.colors[$index]);
+            });
+        };
         $scope.districts = [];
         authorizeService.queryCurrentUserName().then(function (userName) {
             authorizeService.queryRolesInUser(userName).then(function (roles) {

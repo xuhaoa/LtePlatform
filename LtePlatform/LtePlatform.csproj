@@ -466,6 +466,7 @@
     <Content Include="appViews\Parameters\Import\HotSpotCell.html" />
     <Content Include="appViews\Parameters\Map\CellsMapInfoBox.html" />
     <Content Include="appViews\Parameters\Region\ENodebFlow.html" />
+    <Content Include="appViews\Parameters\Region\FlowKpiInfo.html" />
     <Content Include="appViews\Parameters\Region\TopicCells.html" />
     <Content Include="appViews\Parameters\Topic.html" />
     <Content Include="appViews\Rutrace\Coverage\DetailsChartDialog.html" />

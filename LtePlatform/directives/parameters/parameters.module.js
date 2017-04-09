@@ -783,7 +783,7 @@
         }
     })
 
-    .controller('CellSectorDetailsController', function ($scope, networkElementService, calculateService) {
+    .controller('CellSectorDetailsController', function ($scope, calculateService) {
         $scope.$watch('cell', function(cell) {
             if (cell) {
                 $scope.itemGroups = calculateService.generateCellDetailsGroups($scope.cell);
@@ -794,6 +794,26 @@
     .directive('cellSectorDetails', function () {
         return {
             controller: 'CellSectorDetailsController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                cell: '='
+            },
+            templateUrl: '/appViews/Home/GeneralTableDetails.html'
+        }
+    })
+
+    .controller('FlowSectorDetailsController', function ($scope, calculateService) {
+        $scope.$watch('cell', function (cell) {
+            if (cell) {
+                $scope.itemGroups = calculateService.generateFlowDetailsGroups($scope.cell);
+            }
+        });
+
+    })
+    .directive('flowSectorDetails', function () {
+        return {
+            controller: 'FlowSectorDetailsController',
             restrict: 'EA',
             replace: true,
             scope: {

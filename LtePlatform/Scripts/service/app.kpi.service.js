@@ -670,6 +670,20 @@
         });
 
     })
+    .controller("flow.kpi.dialog", function ($scope, cell, dialogTitle, $uibModalInstance) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.cell = cell;
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.mongoNeighbors);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+
+    })
     .controller('neighbors.dialog', function ($scope, $uibModalInstance, geometryService,
         dialogTitle, candidateNeighbors, currentCell) {
         $scope.pciNeighbors = [];
@@ -1253,11 +1267,11 @@
             },
             showFlowCell: function (cell) {
                 menuItemService.showGeneralDialog({
-                    templateUrl: '/appViews/Parameters/Region/CellInfo.html',
-                    controller: 'cell.info.dialog',
+                    templateUrl: '/appViews/Parameters/Region/FlowKpiInfo.html',
+                    controller: 'flow.kpi.dialog',
                     resolve: {
                         dialogTitle: function () {
-                            return cell.eNodebName + "-" + cell.sectorId + "小区详细信息";
+                            return cell.eNodebName + "-" + cell.sectorId + "小区流量相关指标信息";
                         },
                         cell: function () {
                             return cell;
