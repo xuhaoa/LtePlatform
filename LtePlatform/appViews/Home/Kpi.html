@@ -1,0 +1,67 @@
+﻿<div class="btn-group-sm col-md-4" uib-dropdown dropdown-append-to-body>
+    <button id="single-button" type="button" class="btn btn-sm btn-default"
+            uib-dropdown-toggle ng-disabled="disabled">
+        <strong>总体指标</strong>
+        <span class="caret"></span>
+    </button>
+    <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
+        <li role="menuitem">
+            <a class="btn btn-sm btn-warning" ng-click="showPreciseStats()">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+                精确覆盖率
+            </a>
+        </li>
+        <li role="menuitem">
+            <a class="btn btn-sm btn-success" ng-click="showDownSwitchStats()">
+                <i class="glyphicon glyphicon-tree-conifer"></i>
+                4G下切3G
+            </a>
+        </li>
+        <li role="menuitem">
+            <a class="btn btn-sm btn-success" ng-click="showSchedulingStats()">
+                <i class="glyphicon glyphicon-flag"></i>
+                4G双流比
+            </a>
+        </li>
+        <li role="menuitem">
+            <a class="btn btn-sm btn-success" ng-click="showRrcStats()">
+                <i class="glyphicon glyphicon-flag"></i>
+                RRC连接成功率
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="btn-group-sm col-md-4" uib-dropdown dropdown-append-to-body>
+    <button id="view-button" type="button" class="btn btn-sm btn-default"
+            uib-dropdown-toggle ng-disabled="disabled">
+        <strong>TOP-{{currentView}}</strong>
+        <span class="caret"></span>
+    </button>
+    <ul uib-dropdown-menu role="menu" aria-labelledby="view-button">
+        <li role="menuitem">
+            <a class="btn btn-sm btn-success" ng-click="showTopPrecise()">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+                精确覆盖率
+            </a>
+        </li>
+        <li role="menuitem">
+            <a class="btn btn-sm btn-success" ng-click="showTopDownSwitch()">
+                <i class="glyphicon glyphicon-tree-conifer"></i>
+                4G下切3G
+            </a>
+        </li>
+        <li role="menuitem">
+            <a class="btn btn-sm btn-success" ng-click="showTopScheduling()">
+                <i class="glyphicon glyphicon-flag"></i>
+                4G双流比
+            </a>
+        </li>
+        <li role="menuitem">
+            <a class="btn btn-sm btn-success" ng-click="showTopRrc()">
+                <i class="glyphicon glyphicon-flag"></i>
+                RRC连接成功率
+            </a>
+        </li>
+    </ul>
+</div>

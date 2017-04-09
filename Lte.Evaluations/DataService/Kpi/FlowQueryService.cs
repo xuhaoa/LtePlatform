@@ -61,18 +61,18 @@ namespace Lte.Evaluations.DataService.Kpi
         public IEnumerable<FlowView> QueryTopDownSwitchViews(string city, string district, DateTime begin, DateTime end, int topCount)
         {
             var results = QueryDistrictFlowViews(city, district,
-                _zteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectA2 + x.RedirectB2 > 20),
-                _huaweiRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectCdma2000 > 20));
-            return results.Where(x => x.RedirectCdma2000 > 200).OrderByDescending(x => x.RedirectCdma2000).Take(topCount);
+                _zteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectA2 + x.RedirectB2 > 2000),
+                _huaweiRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectCdma2000 > 2000));
+            return results.Where(x => x.RedirectCdma2000 > 2000).OrderByDescending(x => x.RedirectCdma2000).Take(topCount);
         }
 
         public IEnumerable<FlowView> QueryTopRank2Views(string city, string district, DateTime begin, DateTime end,
             int topCount)
         {
             var results = QueryDistrictFlowViews(city, district,
-                _zteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.SchedulingTm3 > 1000),
+                _zteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.SchedulingTm3 > 5000),
                 _huaweiRepository.GetAllList(
-                    x => x.StatTime >= begin && x.StatTime < end && x.SchedulingRank1 + x.SchedulingRank2 > 1000));
+                    x => x.StatTime >= begin && x.StatTime < end && x.SchedulingRank1 + x.SchedulingRank2 > 5000));
             return results.Where(x => x.SchedulingTimes > 10000).OrderBy(x => x.Rank2Rate).Take(topCount);
         }
 
@@ -91,28 +91,33 @@ namespace Lte.Evaluations.DataService.Kpi
             {
                 return new List<FlowView>();
             }
-            var zteViews =
-                from item in zteStats
-                join eNodeb in eNodebs on item.ENodebId equals eNodeb.ENodebId
-                select item.MapTo<FlowView>();
-            var huaweiQuery =
-                (from item in huaweiStats
-                    join eNodeb in eNodebs on item.ENodebId equals eNodeb.ENodebId
-                    select item).ToList();
-            var huaweiViews = new List<FlowView>();
-            if (huaweiQuery.Any())
+            var zteViews = new List<FlowView>();
+            foreach (var zteStat in zteStats.OrderBy(x=> x.ENodebId))
             {
-                var views = (from query in huaweiQuery
-                    join cell in _huaweiCellRepository.GetAllList() on query.LocalCellId equals cell.LocalCellId
-                    select new
-                    {
-                        View = query.MapTo<FlowView>(),
-                        SectorId = cell.CellId
-                    }).ToList();
-                views.ForEach(x => x.View.SectorId = (byte) x.SectorId);
-                huaweiViews = views.Select(x => x.View).ToList();
+                var eNodeb = eNodebs.FirstOrDefault(x => x.ENodebId == zteStat.ENodebId);
+
+                if (eNodeb == null) continue;
+                var view = zteStat.MapTo<FlowView>();
+                view.ENodebName = eNodeb.Name;
+                zteViews.Add(view);
             }
-            return from query in zteViews.Concat(huaweiViews)
+            var huaweiViews = new List<FlowView>();
+            var huaweiCells = _huaweiCellRepository.GetAllList();
+            foreach (var query in huaweiStats.OrderBy(x => x.ENodebId))
+            {
+                var eNodeb = eNodebs.FirstOrDefault(x => x.ENodebId == query.ENodebId);
+
+                if (eNodeb == null) continue;
+                var view = query.MapTo<FlowView>();
+                view.ENodebName = eNodeb.Name;
+                var cell =
+                    huaweiCells.FirstOrDefault(
+                        x => x.eNodeB_Id == query.ENodebId && x.LocalCellId == query.LocalCellId);
+                if (cell != null)
+                    view.SectorId = (byte)cell.CellId;
+                huaweiViews.Add(view);
+            }
+            return from query in zteViews.Concat(huaweiViews).ToList()
                 group query by new
                 {
                     query.ENodebId,

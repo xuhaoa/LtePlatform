@@ -35,7 +35,7 @@
                         controller: "menu.kpi"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Network.html",
+                        templateUrl: viewDir + "Kpi.html",
                         controller: "home.kpi"
                     }
                 },
@@ -647,16 +647,17 @@
     neighborDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+        $scope.currentView = "精确覆盖率";
 
-        $scope.showPreciseRate = function (city, district, color) {
+        $scope.showPreciseRate = function(city, district, color) {
             baiduMapService.addDistrictBoundary(district, color);
             kpiPreciseService.queryTopKpisInDistrict($scope.beginDate.value, $scope.endDate.value, 10,
-                '按照精确覆盖率升序', city, district).then(function (result) {
+                '按照精确覆盖率升序', city, district).then(function(result) {
                 networkElementService.queryCellSectors(result).then(function(cells) {
                     baiduQueryService.transformToBaidu(cells[0].longtitute, cells[0].lattitute).then(function(coors) {
                         var xOffset = coors.x - cells[0].longtitute;
                         var yOffset = coors.y - cells[0].lattitute;
-                        angular.forEach(cells, function (cell) {
+                        angular.forEach(cells, function(cell) {
                             cell.longtitute += xOffset;
                             cell.lattitute += yOffset;
                             var sectorTriangle = baiduMapService.generateSector(cell, "blue", 1.25);
@@ -665,8 +666,43 @@
                     });
                 });
             });
-        }
-
+        };
+        $scope.showTopPrecise = function() {
+            $scope.currentView = "精确覆盖率";
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            var city = $scope.city.selected;
+            angular.forEach($scope.districts, function(district, $index) {
+                $scope.showPreciseRate(city, district, $scope.colors[$index]);
+            });
+        };
+        $scope.showDownSwitchSite = function (city, district, color) {
+            baiduMapService.addDistrictBoundary(district, color);
+            kpiPreciseService.queryTopDownSwitchInDistrict($scope.beginDate.value, $scope.endDate.value, 10,
+                city, district).then(function (result) {
+                    networkElementService.queryCellSectors(result).then(function (cells) {
+                        baiduQueryService.transformToBaidu(cells[0].longtitute, cells[0].lattitute).then(function (coors) {
+                            var xOffset = coors.x - cells[0].longtitute;
+                            var yOffset = coors.y - cells[0].lattitute;
+                            angular.forEach(cells, function (cell) {
+                                cell.longtitute += xOffset;
+                                cell.lattitute += yOffset;
+                                var sectorTriangle = baiduMapService.generateSector(cell, "blue", 1.25);
+                                baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showPrecise, cell);
+                            });
+                        });
+                    });
+                });
+        };
+        $scope.showTopDownSwitch = function() {
+            $scope.currentView = "4G下切3G";
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            var city = $scope.city.selected;
+            angular.forEach($scope.districts, function(district, $index) {
+                $scope.showDownSwitchSite(city, district, $scope.colors[$index]);
+            });
+        };
         $scope.districts = [];
         authorizeService.queryCurrentUserName().then(function (userName) {
             authorizeService.queryRolesInUser(userName).then(function (roles) {
@@ -686,6 +722,7 @@
         neGeometryService, parametersDialogService, baiduQueryService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+        $scope.currentView = "所有站点";
         $scope.showPlanningSite = function(city, district, color) {
             baiduMapService.addDistrictBoundary(district, color);
             networkElementService.queryPlanningSites(city, district).then(function(sites) {

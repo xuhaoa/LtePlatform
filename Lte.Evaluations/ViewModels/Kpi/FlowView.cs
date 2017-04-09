@@ -9,7 +9,7 @@ using Lte.Domain.Common.Geo;
 
 namespace Lte.Evaluations.ViewModels.Kpi
 {
-    [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte))]
+    [AutoMapFrom(typeof (FlowHuawei), typeof (FlowZte))]
     [TypeDoc("小区单日流量统计视图")]
     public class FlowView
     {
@@ -21,6 +21,8 @@ namespace Lte.Evaluations.ViewModels.Kpi
 
         [MemberDoc("扇区编号")]
         public byte SectorId { get; set; }
+
+        public string ENodebName { get; set; }
 
         [AutoMapPropertyResolve("DownlinkPdcpFlow", typeof(FlowZte))]
         [MemberDoc("PDCP层下行流量")]
@@ -68,15 +70,18 @@ namespace Lte.Evaluations.ViewModels.Kpi
 
         public double Rank2Rate => SchedulingTimes == 0 ? 100 : SchedulingRank2/SchedulingTimes*100;
 
-        public static FlowView Average(IEnumerable<FlowView> views)
+        public static FlowView Average(IEnumerable<FlowView> stats)
         {
-            if (views == null || !views.Any()) return null;
+            if (stats == null) return null;
+            var views = stats.ToList();
+            if (!views.Any()) return null;
             var first = views.FirstOrDefault();
             return new FlowView
             {
                 StatTime = first.StatTime,
                 ENodebId = first.ENodebId,
                 SectorId = first.SectorId,
+                ENodebName = first.ENodebName,
                 PdcpUplinkFlow = views.Average(x => x.PdcpUplinkFlow),
                 PdcpDownlinkFlow = views.Average(x => x.PdcpDownlinkFlow),
                 AverageUsers = views.Average(x => x.AverageUsers),

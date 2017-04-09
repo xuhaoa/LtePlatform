@@ -442,6 +442,7 @@
     <Content Include="appViews\Home\DatePopoverInput.html" />
     <Content Include="appViews\Home\FourChartDialog.html" />
     <Content Include="appViews\Home\GeneralTableDetails.html" />
+    <Content Include="appViews\Home\Kpi.html" />
     <Content Include="appViews\Home\Kpi2G.html" />
     <Content Include="appViews\Home\Kpi4G.html" />
     <Content Include="appViews\Home\KpiDownSwitch.html" />
