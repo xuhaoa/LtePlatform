@@ -687,7 +687,11 @@
                             cell.longtitute = coors.x;
                             cell.lattitute = coors.y;
                             var sectorTriangle = baiduMapService.generateSector(cell, "blue", 1.25);
-                            baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showFlowCell, item);
+                            baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showFlowCell, {
+                                item: item,
+                                beginDate: $scope.beginDate,
+                                endDate: $scope.endDate
+                            });
                         });
                     });
                 });
@@ -714,7 +718,11 @@
                                 cell.longtitute = coors.x;
                                 cell.lattitute = coors.y;
                                 var sectorTriangle = baiduMapService.generateSector(cell, "blue", 1.25);
-                                baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showFlowCell, item);
+                                baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showFlowCell, {
+                                    item: item,
+                                    beginDate: $scope.beginDate,
+                                    endDate: $scope.endDate
+                                });
                             });
                         });
                     });

@@ -255,15 +255,15 @@ namespace Lte.MySqlFramework.Entities
 
         public int PdcpDownlinkDuration => OldPdcpDownlinkDuration + NewPdcpDlDuration;
 
-        [CsvColumn(Name = "小区上行PDCP层流量（MB）")]
+        [CsvColumn(Name = "小区上行PDCP层流量（MB）_1440661576499")]
         public double OldUlPdcpFlowInMByte { get; set; }
 
-        [CsvColumn(Name = "小区上行PDCP层流量（MB）")]
+        [CsvColumn(Name = "小区下行PDCP层流量（MB）")]
         public double NewUlPdcpFlowInMByte { get; set; }
 
         public double UplindPdcpFlowInMByte => OldUlPdcpFlowInMByte + NewUlPdcpFlowInMByte;
 
-        [CsvColumn(Name = "小区下行PDCP层流量（MB）")]
+        [CsvColumn(Name = "小区下行PDCP层流量（MB）_1440661576499")]
         public double OldDlPdcpFlowInMByte { get; set; }
 
         [CsvColumn(Name = "小区下行PDCP层流量（MB）")]

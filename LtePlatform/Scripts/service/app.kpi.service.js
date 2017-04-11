@@ -670,7 +670,8 @@
         });
 
     })
-    .controller("flow.kpi.dialog", function ($scope, cell, dialogTitle, $uibModalInstance) {
+    .controller("flow.kpi.dialog", function ($scope, cell, begin, end, dialogTitle, flowService, generalChartService,
+        $uibModalInstance) {
         $scope.dialogTitle = dialogTitle;
         $scope.cell = cell;
 
@@ -682,7 +683,68 @@
             $uibModalInstance.dismiss('cancel');
         };
 
-
+        flowService.queryCellFlowByDateSpan(cell.eNodebId, cell.sectorId, begin, end).then(function (result) {
+            var dates = _.map(result, function(stat) {
+                return stat.statTime;
+            });
+            $("#flowChart").highcharts(generalChartService.queryMultipleColumnOptions({
+                title: '流量统计',
+                xtitle: '日期',
+                ytitle: '流量（MB）'
+            }, dates, [
+                _.map(result, function(stat) {
+                    return stat.pdcpDownlinkFlow;
+                }), 
+                _.map(result, function(stat) {
+                    return stat.pdcpUplinkFlow;
+                })
+            ], ['下行流量', '上行流量']));
+            $("#feelingRateChart").highcharts(generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                title: '感知速率',
+                xtitle: '日期',
+                ytitles: ['感知速率（Mbit/s）', '用户数']
+            }, dates, [
+                _.map(result, function(stat) {
+                    return stat.downlinkFeelingRate;
+                }),
+                _.map(result, function(stat) {
+                    return stat.uplinkFeelingRate;
+                }),
+                _.map(result, function(stat) {
+                    return stat.maxUsers;
+                })
+            ], ['下行感知速率', '上行感知速率', '用户数'], ['line', 'line', 'column'], [0, 0, 1]));
+            $("#downSwitchChart").highcharts(generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                title: '4G下切3G次数统计',
+                xtitle: '日期',
+                ytitles: ['4G下切3G次数', '流量（MB）']
+            }, dates, [
+                _.map(result, function (stat) {
+                    return stat.redirectCdma2000;
+                }),
+                _.map(result, function (stat) {
+                    return stat.pdcpDownlinkFlow;
+                }),
+                _.map(result, function (stat) {
+                    return stat.pdcpUplinkFlow;
+                })
+            ], ['4G下切3G次数', '下行流量', '上行流量'], ['column', 'line', 'line'], [0, 1, 1]));
+            $("#rank2Chart").highcharts(generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                title: '4G双流比统计',
+                xtitle: '日期',
+                ytitles: ['4G双流比（%）', '感知速率（Mbit/s）']
+            }, dates, [
+                _.map(result, function (stat) {
+                    return stat.rank2Rate;
+                }),
+                _.map(result, function (stat) {
+                    return stat.downlinkFeelingRate;
+                }),
+                _.map(result, function (stat) {
+                    return stat.uplinkFeelingRate;
+                })
+            ], ['4G双流比', '下行感知速率', '上行感知速率'], ['column', 'line', 'line'], [0, 1, 1]));
+        });
     })
     .controller('neighbors.dialog', function ($scope, $uibModalInstance, geometryService,
         dialogTitle, candidateNeighbors, currentCell) {
@@ -1271,10 +1333,16 @@
                     controller: 'flow.kpi.dialog',
                     resolve: {
                         dialogTitle: function () {
-                            return cell.eNodebName + "-" + cell.sectorId + "小区流量相关指标信息";
+                            return cell.item.eNodebName + "-" + cell.item.sectorId + "小区流量相关指标信息";
                         },
                         cell: function () {
-                            return cell;
+                            return cell.item;
+                        },
+                        begin: function() {
+                            return cell.beginDate.value;
+                        },
+                        end: function() {
+                            return cell.endDate.value;
                         }
                     }
                 });

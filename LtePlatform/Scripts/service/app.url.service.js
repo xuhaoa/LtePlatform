@@ -740,6 +740,7 @@
                 chart.xAxis[0].title.text = setting.xtitle;
                 chart.yAxis[0].title.text = setting.ytitles[0];
                 chart.pushOneYAxis(setting.ytitles[1]);
+
                 chart.xAxis[0].categories = categories;
                 angular.forEach(dataList, function (data, $index) {
                     chart.series.push({

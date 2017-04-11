@@ -100,20 +100,14 @@ angular.extend(ComboChart.prototype.options, GeneralChart.prototype.options, {
     yAxis: []
 });
 ComboChart.prototype.pushOneYAxis = function (yLabel) {
-    var length = this.yAxis.length;
     this.yAxis.push({
         labels: {
-            format: '{value}',
-            style: {
-                color: Highcharts.getOptions().colors[length]
-            }
+            format: '{value}'
         },
         title: {
-            text: yLabel,
-            style: {
-                color: Highcharts.getOptions().colors[length]
-            }
-        }
+            text: yLabel
+        },
+        opposite: true
     });
 };
 ComboChart.prototype.initialize=function(settings) {
