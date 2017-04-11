@@ -121,6 +121,7 @@
 /// <reference path="modernizr-2.6.2.js" />
 /// <reference path="mycharts/column3d.js" />
 /// <reference path="mycharts/combochart.js" />
+/// <reference path="mycharts/combo-examples.js" />
 /// <reference path="mycharts/drilldown.chart.js" />
 /// <reference path="numeric/numeric.js" />
 /// <reference path="numeric/quadprog.js" />

@@ -129,7 +129,7 @@
         $scope.showTrend = function () {
             kpi2GService.queryKpiTrend(city, $scope.beginDate.value, $scope.endDate.value).then(function (data) {
                 angular.forEach($scope.kpi.options, function (option, $index) {
-                    $("#kpi-" + $index).highcharts(kpiDisplayService.generateComboChartOptions(data, option, city));
+                    $("#kpi-" + $index).highcharts(kpiDisplayService.generateComboChartOptions(data, option));
                 });
             });
         };
@@ -2399,7 +2399,8 @@
             }
         };
     })
-    .factory('kpiDisplayService', function (appFormatService, coverageService, topPreciseService, calculateService, chartCalculateService) {
+    .factory('kpiDisplayService', function (appFormatService, coverageService, topPreciseService, calculateService, chartCalculateService,
+    generalChartService) {
         return {
             generatePreciseBarOptions: function (districtStats, cityStat) {
                 var chart = new BarChart();
@@ -2453,31 +2454,25 @@
                 chart.asignSeries(series);
                 return chart.options;
             },
-            generateComboChartOptions: function (data, name, city) {
-                var chart = new ComboChart();
-                chart.title.text = name;
+            generateComboChartOptions: function (data, name) {
+                var setting = {
+                    title: name,
+                    xtitle: '日期',
+                    ytitle: name
+                };
+                var categories = data.statDates;
+                var dataList = [];
+                var seriesTitle = [];
+                var typeList = [];
                 var kpiOption = appFormatService.lowerFirstLetter(name);
-                chart.xAxis[0].categories = data.statDates;
-                chart.yAxis[0].title.text = name;
-                chart.xAxis[0].title.text = '日期';
-                for (var i = 0; i < data.regionList.length - 1; i++) {
-                    chart.series.push({
-                        type: kpiOption === "2G呼建(%)" ? 'line' : 'column',
-                        name: data.regionList[i],
-                        data: data.kpiDetails[kpiOption][i]
-                    });
-                }
-                chart.series.push({
-                    type: 'spline',
-                    name: city,
-                    data: data.kpiDetails[kpiOption][data.regionList.length - 1],
-                    marker: {
-                        lineWidth: 2,
-                        lineColor: Highcharts.getOptions().colors[3],
-                        fillColor: 'white'
-                    }
+                var type = kpiOption === "2G呼建(%)" ? 'line' : 'column';
+                angular.forEach(data.regionList, function(item, $index) {
+                    typeList.push($index === data.regionList.length - 1 ? 'spline' : type);
+                    dataList.push(data.kpiDetails[kpiOption][$index]);
+                    seriesTitle.push(item);
                 });
-                return chart.options;
+
+                return generalChartService.queryMultipleComboOptions(setting, categories, dataList, seriesTitle, typeList);
             },
             getMrsOptions: function (stats, title) {
                 var chart = new ComboChart();

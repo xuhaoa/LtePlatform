@@ -917,6 +917,14 @@ namespace Lte.MySqlFramework.Entities
         public double UplinkFeelingThroughput { get; set; }
 
         public double UplinkFeelingDuration { get; set; }
+
+        [AutoMapPropertyResolve("SchedulingTm3Rank2", typeof(FlowZte))]
+        public double SchedulingRank2 { get; set; }
+
+        [AutoMapPropertyResolve("SchedulingTm3", typeof(FlowZte))]
+        public double SchedulingTimes { get; set; }
+        
+        public int RedirectCdma2000 { get; set; }
     }
 
     [AutoMapFrom(typeof(TownFlowStat))]
@@ -961,6 +969,14 @@ namespace Lte.MySqlFramework.Entities
 
         public double UplinkFeelingRate
             => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput / UplinkFeelingDuration;
+        
+        public double SchedulingRank2 { get; set; }
+        
+        public double SchedulingTimes { get; set; }
+
+        public double Rank2Rate => SchedulingTimes == 0 ? 100 : SchedulingRank2 / SchedulingTimes * 100;
+
+        public int RedirectCdma2000 { get; set; }
     }
 
     [AutoMapFrom(typeof(TownFlowView))]
@@ -1001,11 +1017,6 @@ namespace Lte.MySqlFramework.Entities
 
         public double UplinkFeelingRate
             => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput / UplinkFeelingDuration;
-
-        public static DistrictFlowView ConstructView(TownFlowView townView)
-        {
-            return townView.MapTo<DistrictFlowView>();
-        }
     }
 
     [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte))]

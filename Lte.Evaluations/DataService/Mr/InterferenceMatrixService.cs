@@ -131,6 +131,19 @@ namespace Lte.Evaluations.DataService.Mr
             return cellList;
         }
 
+        public async Task<IEnumerable<NeighborRsrpView>> QueryNeiborRsrpViews(int eNodebId, byte sectorId, DateTime date)
+        {
+            var stats= await _mongoRepository.GetListAsync(eNodebId + "-" + sectorId, date);
+            var groups = stats.GroupBy(x => x.NeighborEarfcn);
+            return groups.Select(x =>
+            {
+                var view = x.Select(g => g).MapTo<IEnumerable<NeighborRsrpView>>().ArraySum();
+                view.StatDate = date.Date;
+                view.NeighborEarfcn = x.Key;
+                return view;
+            });
+        }
+
         public async Task<List<InterferenceMatrixStat>> QueryStats(int eNodebId, byte sectorId, DateTime time)
         {
             var statList = await _mongoRepository.GetListAsync(eNodebId + "-" + sectorId, time);

@@ -209,7 +209,7 @@ namespace Lte.Evaluations.DataService.Kpi
                    {
                        StatDate = g.Key,
                        TownFlowViews = g.Select(x => x),
-                       DistrictFlowViews = g.Select(x => x).Merge(DistrictFlowView.ConstructView)
+                       DistrictFlowViews = g.Select(x => x).Merge(v =>v.MapTo<DistrictFlowView>())
                    };
         } 
     }

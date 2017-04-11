@@ -719,6 +719,38 @@
                 });
                 return chart.options;
             },
+            queryMultipleComboOptions: function (setting, categories, dataList, seriesTitle, typeList) {
+                var chart = new ComboChart();
+                chart.title.text = setting.title;
+                chart.xAxis[0].title.text = setting.xtitle;
+                chart.yAxis[0].title.text = setting.ytitle;
+                chart.xAxis[0].categories = categories;
+                angular.forEach(dataList, function (data, $index) {
+                    chart.series.push({
+                        type: typeList[$index],
+                        name: seriesTitle[$index],
+                        data: data
+                    });
+                });
+                return chart.options;
+            },
+            queryMultipleComboOptionsWithDoubleAxes: function (setting, categories, dataList, seriesTitle, typeList, yAxisList) {
+                var chart = new ComboChart();
+                chart.title.text = setting.title;
+                chart.xAxis[0].title.text = setting.xtitle;
+                chart.yAxis[0].title.text = setting.ytitles[0];
+                chart.pushOneYAxis(setting.ytitles[1]);
+                chart.xAxis[0].categories = categories;
+                angular.forEach(dataList, function (data, $index) {
+                    chart.series.push({
+                        type: typeList[$index],
+                        name: seriesTitle[$index],
+                        data: data,
+                        yAxis: yAxisList[$index]
+                    });
+                });
+                return chart.options;
+            },
             generateColumnData: function (stats, categoriesFunc, dataFuncs) {
                 var result = {
                     categories: [],

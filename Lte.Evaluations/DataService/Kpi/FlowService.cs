@@ -341,7 +341,10 @@ namespace Lte.Evaluations.DataService.Kpi
                     DownlinkFeelingDuration = g.Sum(x=>x.DownlinkFeelingDuration),
                     DownlinkFeelingThroughput = g.Sum(x=>x.DownlinkFeelingThroughput),
                     UplinkFeelingDuration = g.Sum(x=>x.UplinkFeelingDuration),
-                    UplinkFeelingThroughput = g.Sum(x=>x.UplinkFeelingThroughput)
+                    UplinkFeelingThroughput = g.Sum(x=>x.UplinkFeelingThroughput),
+                    SchedulingTimes = g.Sum(x=>x.SchedulingTimes),
+                    SchedulingRank2 = g.Sum(x=>x.SchedulingRank2),
+                    RedirectCdma2000 = g.Sum(x=>x.RedirectCdma2000)
                 };
             return mergeStats;
         }
