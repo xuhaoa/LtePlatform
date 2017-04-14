@@ -1231,6 +1231,67 @@
         };
     })
 
+    .controller('query.setting.dialog', function ($scope, $uibModalInstance, city, dialogTitle,
+    appRegionService, parametersMapService, parametersDialogService) {
+        $scope.network = {
+            options: ["LTE", "CDMA"],
+            selected: "LTE"
+        };
+        $scope.queryText = "";
+        $scope.city = city;
+        $scope.dialogTitle = dialogTitle;
+
+        $scope.updateDistricts = function () {
+            appRegionService.queryDistricts($scope.city.selected).then(function (result) {
+                $scope.district.options = result;
+                $scope.district.selected = result[0];
+            });
+        };
+        $scope.updateTowns = function () {
+            appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function (result) {
+                $scope.town.options = result;
+                $scope.town.selected = result[0];
+            });
+        };
+
+        $scope.queryItems = function () {
+            if ($scope.network.selected === "LTE") {
+                if ($scope.queryText.trim() === "") {
+                    parametersMapService.showElementsInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected,
+                        parametersDialogService.showENodebInfo, parametersDialogService.showCellInfo);
+                } else {
+                    parametersMapService.showElementsWithGeneralName($scope.queryText, parametersDialogService.showENodebInfo, parametersDialogService.showCellInfo);
+                }
+            } else {
+                if ($scope.queryText.trim() === "") {
+                    parametersMapService.showCdmaInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected,
+                        parametersDialogService.showBtsInfo, parametersDialogService.showCdmaCellInfo);
+                } else {
+                    parametersMapService.showCdmaWithGeneralName($scope.queryText, parametersDialogService.showBtsInfo, parametersDialogService.showCdmaCellInfo);
+                }
+            }
+        };
+        appRegionService.queryDistricts($scope.city.selected).then(function (districts) {
+            $scope.district = {
+                options: districts,
+                selected: districts[0]
+            };
+            appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function (towns) {
+                $scope.town = {
+                    options: towns,
+                    selected: towns[0]
+                };
+            });
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.neighbor);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+
     .factory('neighborDialogService', function (menuItemService, networkElementService) {
         var matchNearest = function (nearestCell, currentNeighbor, center) {
             networkElementService.updateNeighbors(center.cellId, center.sectorId, currentNeighbor.destPci,
@@ -1323,6 +1384,20 @@
                         },
                         cell: function() {
                             return cell;
+                        }
+                    }
+                });
+            },
+            setQueryConditions: function(city) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Parameters/QueryMap.html',
+                    controller: 'query.setting.dialog',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "小区信息查询条件设置";
+                        },
+                        city: function () {
+                            return city;
                         }
                     }
                 });

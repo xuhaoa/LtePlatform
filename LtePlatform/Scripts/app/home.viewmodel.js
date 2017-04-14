@@ -15,6 +15,19 @@
                 },
                 url: "/"
             })
+            .state('query', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.root"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Query.html",
+                        controller: "home.query"
+                    }
+                },
+                url: "/query"
+            })
             .state('dt', {
                 views: {
                     'menu': {
@@ -175,7 +188,7 @@
                     url: appUrlService.getParameterUrlHost() + 'main-lte-cell-info.php'
                 }, {
                     displayName: "数据查询",
-                    url: appUrlService.getParameterUrlHost() + 'main-lte-cell-info-check.php'
+                    url: rootUrl + "/query"
                 }, {
                     displayName: "历史信息查询",
                     url: appUrlService.getParameterUrlHost() + 'cell-modify-record.php'
@@ -642,6 +655,15 @@
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
 
+    })
+    .controller("home.query", function ($scope, baiduMapService, neighborDialogService) {
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
+        $scope.queryConditions = function() {
+            neighborDialogService.setQueryConditions($scope.city);
+        };
+
+        
     })
     .controller("home.kpi", function ($scope, baiduMapService, authorizeService, kpiPreciseService, networkElementService, baiduQueryService,
     neighborDialogService) {
