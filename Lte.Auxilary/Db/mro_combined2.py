@@ -11,7 +11,7 @@ time+=datetime.timedelta(hours=-24)
 time=time.replace(hour=0,minute=0,second=0)
 datestr=time.strftime("%Y%m%d")
 
-for pci in range(252):
+for pci in range(252,504):
     for nPci in range(504):
         Pci_List=list(db['mro_'+datestr].find({'Pci': pci, 'NeighborPci': nPci}))
         if len(Pci_List)>0:

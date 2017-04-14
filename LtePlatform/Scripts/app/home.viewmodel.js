@@ -659,7 +659,8 @@
     .controller("home.query", function ($scope, baiduMapService, neighborDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
-        $scope.queryConditions = function() {
+        $scope.queryConditions = function () {
+            baiduMapService.clearOverlays();
             neighborDialogService.setQueryConditions($scope.city);
         };
 
