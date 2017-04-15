@@ -663,8 +663,11 @@
             baiduMapService.clearOverlays();
             neighborDialogService.setQueryConditions($scope.city);
         };
+        $scope.queryByTowns = function() {
+            baiduMapService.clearOverlays();
+            neighborDialogService.queryList($scope.city);
+        };
 
-        
     })
     .controller("home.kpi", function ($scope, baiduMapService, authorizeService, kpiPreciseService, networkElementService, baiduQueryService,
     neighborDialogService) {

@@ -2,19 +2,6 @@
     .config(function($stateProvider, $urlRouterProvider) {
         var viewDir = "/appViews/Parameters/";
         $stateProvider
-            .state('list', {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.root"
-                    },
-                    "contents": {
-                        templateUrl: viewDir + "List.html",
-                        controller: "parameters.list"
-                    }
-                },
-                url: "/"
-            })
             .state('topic', {
                 views: {
                     'menu': {
@@ -188,44 +175,6 @@
         $rootScope.closeAlert = function (messages, index) {
             messages.splice(index, 1);
         };
-    })
-    .controller("parameters.list", function($scope, appRegionService, parametersChartService) {
-        $scope.page.title = "基础数据总览";
-        $scope.city = {
-            selected: "",
-            options: []
-        };
-        $scope.showCityStats = function() {
-            appRegionService.queryDistrictInfrastructures($scope.city.selected).then(function(result) {
-                appRegionService.accumulateCityStat(result, $scope.city.selected);
-                $scope.districtStats = result;
-
-                $("#cityLteENodebConfig").highcharts(parametersChartService.getDistrictLteENodebPieOptions(result.slice(0, result.length - 1),
-                    $scope.city.selected));
-                $("#cityLteCellConfig").highcharts(parametersChartService.getDistrictLteCellPieOptions(result.slice(0, result.length - 1),
-                    $scope.city.selected));
-                $("#cityCdmaENodebConfig").highcharts(parametersChartService.getDistrictCdmaBtsPieOptions(result.slice(0, result.length - 1),
-                    $scope.city.selected));
-                $("#cityCdmaCellConfig").highcharts(parametersChartService.getDistrictCdmaCellPieOptions(result.slice(0, result.length - 1),
-                    $scope.city.selected));
-            });
-        };
-        $scope.$watch('currentDistrict', function(district) {
-            if ($scope.city === undefined) return;
-            appRegionService.queryTownInfrastructures($scope.city.selected, district).then(function(result) {
-                $scope.townStats = result;
-                $("#districtLteENodebConfig").highcharts(parametersChartService.getTownLteENodebPieOptions(result, district));
-                $("#districtLteCellConfig").highcharts(parametersChartService.getTownLteCellPieOptions(result, district));
-                $("#districtCdmaENodebConfig").highcharts(parametersChartService.getTownCdmaBtsPieOptions(result, district));
-                $("#districtCdmaCellConfig").highcharts(parametersChartService.getTownCdmaCellPieOptions(result, district));
-            });
-        });
-
-        appRegionService.initializeCities().then(function(result) {
-            $scope.city.options = result;
-            $scope.city.selected = result[0];
-            $scope.showCityStats();
-        });
     })
     .controller("evaluation.home", function ($scope, $http, baiduMapService, baiduQueryService,
         parametersMapService, parametersDialogService) {
