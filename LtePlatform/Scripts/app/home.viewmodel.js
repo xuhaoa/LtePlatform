@@ -118,6 +118,19 @@
                     }
                 },
                 url: "/app"
+            })
+            .state('analysis', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.mr"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "MrGrid.html",
+                        controller: "network.analysis"
+                    }
+                },
+                url: "/analysis"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -283,8 +296,8 @@
             ]
         }
     })
-    .controller("home.network", function ($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService, authorizeService,
-        geometryService, flowService, parametersDialogService, neGeometryService, baiduQueryService) {
+    .controller("home.network", function ($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService,
+        geometryService, flowService, parametersDialogService, neGeometryService, baiduQueryService, dumpPreciseService) {
         baiduMapService.initializeMap("map", 11);
 
         $scope.showDistrictOutdoor = function(district, color) {
@@ -414,16 +427,8 @@
         
         $scope.$watch('city.selected', function(city) {
             if (city) {
-                authorizeService.queryCurrentUserName().then(function (userName) {
-                    authorizeService.queryRolesInUser(userName).then(function (roles) {
-                        angular.forEach(roles, function (role, $index) {
-                            var district = authorizeService.queryRoleDistrict(role);
-                            if (district) {
-                                $scope.districts.push(district);
-                                $scope.showDistrictOutdoor(district, $scope.colors[$index]);
-                            }
-                        });
-                    });
+                dumpPreciseService.generateUsersDistrict(city, $scope.districts, function(district, $index) {
+                    $scope.showDistrictOutdoor(district, $scope.colors[$index]);
                 });
             }
         });
@@ -656,6 +661,10 @@
         baiduMapService.addCityBoundary("佛山");
 
     })
+    .controller("network.analysis", function($scope, baiduMapService) {
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
+    })
     .controller("home.query", function ($scope, baiduMapService, neighborDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
@@ -669,7 +678,7 @@
         };
 
     })
-    .controller("home.kpi", function ($scope, baiduMapService, authorizeService, kpiPreciseService, networkElementService, baiduQueryService,
+    .controller("home.kpi", function ($scope, baiduMapService, dumpPreciseService, kpiPreciseService, networkElementService, baiduQueryService,
     neighborDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
@@ -765,21 +774,12 @@
             });
         };
         $scope.districts = [];
-        authorizeService.queryCurrentUserName().then(function (userName) {
-            authorizeService.queryRolesInUser(userName).then(function (roles) {
-                angular.forEach(roles, function (role, $index) {
-                    var district = authorizeService.queryRoleDistrict(role);
-                    if (district) {
-                        $scope.districts.push(district);
-                        $scope.showPreciseRate($scope.city.selected || "佛山", district, $scope.colors[$index]);
-                    }
-
-                });
-            });
+        dumpPreciseService.generateUsersDistrict($scope.city.selected || "佛山", $scope.districts, function(district, $index) {
+            $scope.showPreciseRate($scope.city.selected || "佛山", district, $scope.colors[$index]);
         });
 
     })
-    .controller("home.plan", function ($scope, baiduMapService, authorizeService, networkElementService, geometryService, 
+    .controller("home.plan", function ($scope, baiduMapService, dumpPreciseService, networkElementService, geometryService,
         neGeometryService, parametersDialogService, baiduQueryService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
@@ -872,16 +872,7 @@
             });
         };
         $scope.districts = [];
-        authorizeService.queryCurrentUserName().then(function (userName) {
-            authorizeService.queryRolesInUser(userName).then(function (roles) {
-                angular.forEach(roles, function (role, $index) {
-                    var district = authorizeService.queryRoleDistrict(role);
-                    if (district) {
-                        $scope.districts.push(district);
-                        $scope.showPlanningSite($scope.city.selected || "佛山", district, $scope.colors[$index]);
-                    }
-
-                });
-            });
+        dumpPreciseService.generateUsersDistrict($scope.city.selected || "佛山", $scope.districts, function(district, $index) {
+            $scope.showPlanningSite($scope.city.selected || "佛山", district, $scope.colors[$index]);
         });
     });

@@ -1020,7 +1020,7 @@
 
         return serviceInstance;
     })
-    .factory('dumpPreciseService', function (dumpProgress, networkElementService) {
+    .factory('dumpPreciseService', function (dumpProgress, networkElementService, authorizeService) {
         var serviceInstance = {};
         serviceInstance.dumpAllRecords = function (records, outerIndex, innerIndex, eNodebId, sectorId, queryFunc) {
             if (outerIndex >= records.length) {
@@ -1067,6 +1067,23 @@
                 cell.finished = true;
             }
         };
+            serviceInstance.generateUsersDistrict = function(city, districts, callback) {
+                if (city) {
+                    authorizeService.queryCurrentUserName().then(function (userName) {
+                        authorizeService.queryRolesInUser(userName).then(function (roles) {
+                            angular.forEach(roles, function (role, $index) {
+                                var district = authorizeService.queryRoleDistrict(role);
+                                if (district) {
+                                    districts.push(district);
+                                    if (callback) {
+                                        callback(district, $index);
+                                    }
+                                }
+                            });
+                        });
+                    });
+                }
+            };
 
         return serviceInstance;
     })
