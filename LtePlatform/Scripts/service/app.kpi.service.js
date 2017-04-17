@@ -1231,8 +1231,8 @@
         };
     })
 
-    .controller('query.setting.dialog', function ($scope, $uibModalInstance, city, dialogTitle,
-    appRegionService, parametersMapService, parametersDialogService) {
+    .controller('query.setting.dialog', function ($scope, $uibModalInstance, city, dialogTitle, beginDate, endDate,
+    appRegionService, parametersMapService, parametersDialogService, networkElementService) {
         $scope.network = {
             options: ["LTE", "CDMA"],
             selected: "LTE"
@@ -1240,6 +1240,10 @@
         $scope.queryText = "";
         $scope.city = city;
         $scope.dialogTitle = dialogTitle;
+        $scope.beginDate = beginDate;
+        $scope.endDate = endDate;
+        $scope.eNodebList = [];
+        $scope.btsList = [];
 
         $scope.updateDistricts = function () {
             appRegionService.queryDistricts($scope.city.selected).then(function (result) {
@@ -1257,17 +1261,23 @@
         $scope.queryItems = function () {
             if ($scope.network.selected === "LTE") {
                 if ($scope.queryText.trim() === "") {
-                    parametersMapService.showElementsInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected,
-                        parametersDialogService.showENodebInfo, parametersDialogService.showCellInfo);
+                    networkElementService.queryENodebsInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected).then(function (eNodebs) {
+                        $scope.eNodebList = eNodebs;
+                    });
                 } else {
-                    parametersMapService.showElementsWithGeneralName($scope.queryText, parametersDialogService.showENodebInfo, parametersDialogService.showCellInfo);
+                    networkElementService.queryENodebsByGeneralName($scope.queryText).then(function (eNodebs) {
+                        $scope.eNodebList = eNodebs;
+                    });
                 }
             } else {
                 if ($scope.queryText.trim() === "") {
-                    parametersMapService.showCdmaInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected,
-                        parametersDialogService.showBtsInfo, parametersDialogService.showCdmaCellInfo);
+                    networkElementService.queryBtssInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected).then(function (btss) {
+                        $scope.btsList = btss;
+                    });
                 } else {
-                    parametersMapService.showCdmaWithGeneralName($scope.queryText, parametersDialogService.showBtsInfo, parametersDialogService.showCdmaCellInfo);
+                    networkElementService.queryBtssByGeneralName($scope.queryText).then(function (btss) {
+                        $scope.btsList = btss;
+                    });
                 }
             }
         };
@@ -1284,6 +1294,21 @@
             });
         });
         $scope.ok = function () {
+            if ($scope.network.selected === "LTE") {
+                if ($scope.queryText.trim() === "") {
+                    parametersMapService.showElementsInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected,
+                        parametersDialogService.showENodebInfo, parametersDialogService.showCellInfo);
+                } else {
+                    parametersMapService.showElementsWithGeneralName($scope.queryText, parametersDialogService.showENodebInfo, parametersDialogService.showCellInfo);
+                }
+            } else {
+                if ($scope.queryText.trim() === "") {
+                    parametersMapService.showCdmaInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected,
+                        parametersDialogService.showBtsInfo, parametersDialogService.showCdmaCellInfo);
+                } else {
+                    parametersMapService.showCdmaWithGeneralName($scope.queryText, parametersDialogService.showBtsInfo, parametersDialogService.showCdmaCellInfo);
+                }
+            }
             $uibModalInstance.close($scope.neighbor);
         };
 
@@ -1426,7 +1451,7 @@
                     }
                 });
             },
-            setQueryConditions: function(city) {
+            setQueryConditions: function(city, beginDate, endDate) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Parameters/QueryMap.html',
                     controller: 'query.setting.dialog',
@@ -1436,6 +1461,12 @@
                         },
                         city: function () {
                             return city;
+                        },
+                        beginDate: function() {
+                            return beginDate;
+                        },
+                        endDate: function() {
+                            return endDate;
                         }
                     }
                 });

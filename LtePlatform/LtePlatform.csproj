@@ -1898,8 +1898,6 @@
     <Content Include="appViews\WorkItem\List.html" />
     <None Include="Views\Parameters\AlarmImport.cshtml" />
     <Content Include="Views\Shared\_AlertPanel.cshtml" />
-    <Content Include="appViews\Parameters\Region\ENodebTable.html" />
-    <Content Include="appViews\Parameters\Region\BtsTable.html" />
     <Content Include="appViews\College\Infrastructure\DistributionDialog.html" />
     <None Include="Views\Parameters\BasicImport.cshtml" />
     <None Include="Views\Parameters\NeighborImport.cshtml" />

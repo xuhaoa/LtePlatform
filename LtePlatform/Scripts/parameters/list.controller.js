@@ -15,32 +15,6 @@
                 },
                 url: "/topic"
             })
-            .state('eNodebList', {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.town"
-                    },
-                    "contents": {
-                        templateUrl: viewDir + "Region/ENodebTable.html",
-                        controller: "eNodeb.list"
-                    }
-                },
-                url: "/eNodebList/:city/:district/:town"
-            })
-            .state('btsList', {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.town"
-                    },
-                    "contents": {
-                        templateUrl: viewDir + "Region/BtsTable.html",
-                        controller: "bts.list"
-                    }
-                },
-                url: "/btsList/:city/:district/:town"
-            })
             .state('eNodebInfo', {
                 views: {
                     'menu': {
@@ -273,18 +247,6 @@
         //查询基站异频切换参数
         interFreqHoService.queryENodebParameters($stateParams.eNodebId).then(function (result) {
             $scope.interFreqHo = result;
-        });
-    })
-    .controller("eNodeb.list", function ($scope, $stateParams, networkElementService) {
-        $scope.page.title = $stateParams.city + $stateParams.district + $stateParams.town + "LTE基站列表";
-        networkElementService.queryENodebsInOneTown($stateParams.city, $stateParams.district, $stateParams.town).then(function (result) {
-            $scope.eNodebList = result;
-        });
-    })
-    .controller("bts.list", function ($scope, $stateParams, networkElementService) {
-        $scope.page.title = $stateParams.city + $stateParams.district + $stateParams.town + "CDMA基站列表";
-        networkElementService.queryBtssInOneTown($stateParams.city, $stateParams.district, $stateParams.town).then(function (result) {
-            $scope.btsList = result;
         });
     })
     .controller("menu.root", function ($scope) {

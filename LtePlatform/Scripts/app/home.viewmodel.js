@@ -670,7 +670,7 @@
         baiduMapService.addCityBoundary("佛山");
         $scope.queryConditions = function () {
             baiduMapService.clearOverlays();
-            neighborDialogService.setQueryConditions($scope.city);
+            neighborDialogService.setQueryConditions($scope.city, $scope.beginDate, $scope.endDate);
         };
         $scope.queryByTowns = function() {
             baiduMapService.clearOverlays();
