@@ -1303,10 +1303,9 @@
                 }
             } else {
                 if ($scope.queryText.trim() === "") {
-                    parametersMapService.showCdmaInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected,
-                        parametersDialogService.showBtsInfo, parametersDialogService.showCdmaCellInfo);
+                    parametersMapService.showCdmaInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected);
                 } else {
-                    parametersMapService.showCdmaWithGeneralName($scope.queryText, parametersDialogService.showBtsInfo, parametersDialogService.showCdmaCellInfo);
+                    parametersMapService.showCdmaWithGeneralName($scope.queryText);
                 }
             }
             $uibModalInstance.close($scope.neighbor);
