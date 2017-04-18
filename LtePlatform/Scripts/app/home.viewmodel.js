@@ -218,7 +218,7 @@
             subItems: [
                 {
                     displayName: "规划辅助",
-                    url: appUrlService.getPlanUrlHost() + 'guihuafuzhu/index/index.php'
+                    url: appUrlService.getPlanUrlHost() + 'guihua'
                 }, {
                     displayName: "完整准确性保障",
                     url: appUrlService.getParameterUrlHost() + 'zhunquexing2.php'

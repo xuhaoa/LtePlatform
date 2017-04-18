@@ -66,7 +66,7 @@
             getAccessToken: getAccessToken,
             initializeAuthorization: initializeAuthorization,
             getPlanUrlHost: function() {
-                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:8002/' : 'http://10.17.165.111:8002/';
+                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:8070/' : 'http://10.17.165.111:8070/';
             },
             getDtUrlHost: function() {
                 return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.41:2888/' : 'http://10.17.165.100:2888/';

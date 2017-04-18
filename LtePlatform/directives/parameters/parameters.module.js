@@ -398,27 +398,14 @@
             data: []
         };
     })
-    .directive('btsPlainTable', function ($compile) {
-        return {
-            controller: 'BtsPlainController',
-            restrict: 'EA',
-            replace: true,
+    .directive('btsPlainTable', function ($compile, calculateService) {
+        return calculateService.generatePagingGridDirective({
+            controllerName: 'BtsPlainController',
             scope: {
                 items: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 600px"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
+            argumentName: 'items'
+        }, $compile);
     })
 
     .controller('CellDialogController', function ($scope) {

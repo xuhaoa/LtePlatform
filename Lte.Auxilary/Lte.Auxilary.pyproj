@@ -37,6 +37,9 @@
     <Compile Include="Db\mro_combined3.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Db\mro_combined4.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Db\mro_combined_test.py">
       <SubType>Code</SubType>
     </Compile>
@@ -221,6 +224,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Db\mro_combined3.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Db\mro_combined4.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Db\mrs_combined.sh">
