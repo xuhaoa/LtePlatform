@@ -489,7 +489,7 @@
 					var marker = baiduMapService.generateIconMarker(bts.longtitute, bts.lattitute,
 						"/Content/Images/Hotmap/site_bl.png");
 					baiduMapService.addOneMarkerToScope(marker, function(item) {
-					    parametersDialogService.showBtsInfo(item);
+						parametersDialogService.showBtsInfo(item);
 					}, bts);
 					networkElementService.queryCdmaCellInfosInOneBts(bts.btsId).then(function (cells) {
 						angular.forEach(cells, function (cell) {
@@ -614,24 +614,17 @@
 				});
 			},
 			showBtsInfo: function (bts) {
-				var modalInstance = $uibModal.open({
-					animation: true,
+				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Parameters/Map/BtsMapInfoBox.html',
 					controller: 'map.bts.dialog',
-					size: 'sm',
 					resolve: {
-						dialogTitle: function () {
+						dialogTitle: function() {
 							return bts.name + "-" + "基站基本信息";
 						},
-						bts: function () {
+						bts: function() {
 							return bts;
 						}
 					}
-				});
-				modalInstance.result.then(function (info) {
-					console.log(info);
-				}, function () {
-					$log.info('Modal dismissed at: ' + new Date());
 				});
 			},
 			showCellInfo: function (cell) {
@@ -821,10 +814,16 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
-	.controller('map.bts.dialog', function($scope, $uibModalInstance, bts, dialogTitle) {
+	.controller('map.bts.dialog', function ($scope, $uibModalInstance, bts, dialogTitle, networkElementService) {
 		$scope.bts = bts;
 		$scope.dialogTitle = dialogTitle;
 
+		networkElementService.queryBtsInfo(bts.btsId).then(function (result) {
+		    $scope.btsDetails = result;
+		});
+		networkElementService.queryCdmaCellViews(bts.name).then(function (result) {
+		    $scope.cdmaCellList = result;
+		});
 		$scope.ok = function() {
 			$uibModalInstance.close($scope.bts);
 		};

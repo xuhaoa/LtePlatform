@@ -54,19 +54,6 @@
                 },
                 url: "/alarm/:eNodebId/:name"
             })
-            .state('btsInfo', {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.cdma"
-                    },
-                    "contents": {
-                        templateUrl: viewDir + "Region/BtsInfo.html",
-                        controller: "bts.info"
-                    }
-                },
-                url: "/btsInfo/:btsId/:name"
-            })
             .state('cdmaCellInfo', {
                 views: {
                     'menu': {
@@ -160,12 +147,7 @@
     })
     .controller("bts.info", function ($scope, $stateParams, networkElementService) {
         $scope.page.title = $stateParams.name + "CDMA基础信息";
-        networkElementService.queryBtsInfo($stateParams.btsId).then(function (result) {
-            $scope.btsDetails = result;
-        });
-        networkElementService.queryCdmaCellViews($stateParams.name).then(function (result) {
-            $scope.cdmaCellList = result;
-        });
+        
     })
     .controller("cdmaCell.info", function ($scope, $stateParams, networkElementService) {
         $scope.page.title = $stateParams.name + "-" + $stateParams.sectorId + "小区信息";
