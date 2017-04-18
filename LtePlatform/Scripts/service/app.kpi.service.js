@@ -1297,9 +1297,9 @@
             if ($scope.network.selected === "LTE") {
                 if ($scope.queryText.trim() === "") {
                     parametersMapService.showElementsInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected,
-                        parametersDialogService.showENodebInfo, parametersDialogService.showCellInfo);
+                        $scope.beginDate, $scope.endDate);
                 } else {
-                    parametersMapService.showElementsWithGeneralName($scope.queryText, parametersDialogService.showENodebInfo, parametersDialogService.showCellInfo);
+                    parametersMapService.showElementsWithGeneralName($scope.queryText, $scope.beginDate, $scope.endDate);
                 }
             } else {
                 if ($scope.queryText.trim() === "") {

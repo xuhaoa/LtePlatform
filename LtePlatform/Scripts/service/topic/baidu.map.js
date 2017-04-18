@@ -419,9 +419,9 @@
 				map.addOverlay(label);
 			},
 			drawCustomizeLabel: function(lon, lat, text, details, lines) {
-			    var myCompOverlay = new ComplexCustomOverlay(new BMap.Point(lon, lat), text, details, lines);
+				var myCompOverlay = new ComplexCustomOverlay(new BMap.Point(lon, lat), text, details, lines);
 
-			    map.addOverlay(myCompOverlay);
+				map.addOverlay(myCompOverlay);
 			},
 			drawMultiPoints: function(coors, color, xoffset, yoffset, callback) {
 				var points = [];  // 添加海量点数据
@@ -440,21 +440,8 @@
 			}
 		};
 	})
-	.factory('parametersMapService', function (baiduMapService, networkElementService, baiduQueryService) {
-		var showCellSectors = function (cells, showCellInfo, xOffset, yOffset) {
-			angular.forEach(cells, function (cell) {
-				cell.longtitute += xOffset;
-				cell.lattitute += yOffset;
-				var cellSector = baiduMapService.generateSector(cell);
-				baiduMapService.addOneSectorToScope(cellSector, showCellInfo, cell);
-			});
-		};
-		var showSectors = function (queryFunc, eNodebId, xOffset, yOffset, showCellInfo) {
-			queryFunc(eNodebId).then(function (cells) {
-				showCellSectors(cells, showCellInfo, xOffset, yOffset);
-			});
-		};
-		var showENodebsElements = function (eNodebs, showENodebInfo, showCellInfo) {
+	.factory('parametersMapService', function (baiduMapService, networkElementService, baiduQueryService, parametersDialogService) {
+	    var showENodebsElements = function (eNodebs, beginDate, endDate) {
 			baiduQueryService.transformToBaidu(eNodebs[0].longtitute, eNodebs[0].lattitute).then(function (coors) {
 				var xOffset = coors.x - eNodebs[0].longtitute;
 				var yOffset = coors.y - eNodebs[0].lattitute;
@@ -463,9 +450,19 @@
 					eNodeb.lattitute += yOffset;
 					var marker = baiduMapService.generateIconMarker(eNodeb.longtitute, eNodeb.lattitute,
 						"/Content/Images/Hotmap/site_or.png");
-					baiduMapService.addOneMarkerToScope(marker, showENodebInfo, eNodeb);
-					if (showCellInfo !== undefined)
-						showSectors(networkElementService.queryCellInfosInOneENodeb, eNodeb.eNodebId, xOffset, yOffset, showCellInfo);
+					baiduMapService.addOneMarkerToScope(marker, function(item) {
+					    parametersDialogService.showENodebInfo(item, beginDate, endDate);
+					}, eNodeb);
+					networkElementService.queryCellInfosInOneENodeb(eNodeb.eNodebId).then(function(cells) {
+					    angular.forEach(cells, function (cell) {
+					        cell.longtitute += xOffset;
+					        cell.lattitute += yOffset;
+					        var cellSector = baiduMapService.generateSector(cell);
+					        baiduMapService.addOneSectorToScope(cellSector, function (item) {
+					            parametersDialogService.showCellInfo(item);
+					        }, cell);
+					    });
+					});
 				});
 			});
 		};
@@ -482,7 +479,7 @@
 				});
 			});
 		};
-		var showCdmaElements = function (btss, showBtsInfo, showCellInfo) {
+		var showCdmaElements = function (btss, showBtsInfo) {
 			baiduQueryService.transformToBaidu(btss[0].longtitute, btss[0].lattitute).then(function (coors) {
 				var xOffset = coors.x - btss[0].longtitute;
 				var yOffset = coors.y - btss[0].lattitute;
@@ -492,32 +489,40 @@
 					var marker = baiduMapService.generateIconMarker(bts.longtitute, bts.lattitute,
 						"/Content/Images/Hotmap/site_bl.png");
 					baiduMapService.addOneMarkerToScope(marker, showBtsInfo, bts);
-					if (showCellInfo !== undefined)
-						showSectors(networkElementService.queryCdmaCellInfosInOneBts, bts.btsId, xOffset, yOffset, showCellInfo);
+					networkElementService.queryCdmaCellInfosInOneBts(bts.btsId).then(function (cells) {
+					    angular.forEach(cells, function (cell) {
+					        cell.longtitute += xOffset;
+					        cell.lattitute += yOffset;
+					        var cellSector = baiduMapService.generateSector(cell);
+					        baiduMapService.addOneSectorToScope(cellSector, function (item) {
+					            parametersDialogService.showCdmaCellInfo(item);
+					        }, cell);
+					    });
+					});
 				});
 			});
 		};
 		return {
-			showElementsInOneTown: function (city, district, town, showENodebInfo, showCellInfo) {
+		    showElementsInOneTown: function (city, district, town, beginDate, endDate) {
 				networkElementService.queryENodebsInOneTown(city, district, town).then(function (eNodebs) {
-					showENodebsElements(eNodebs, showENodebInfo, showCellInfo);
+				    showENodebsElements(eNodebs, beginDate, endDate);
 				});
 			},
-			showElementsWithGeneralName: function (name, showENodebInfo, showCellInfo) {
+		    showElementsWithGeneralName: function (name, beginDate, endDate) {
 				networkElementService.queryENodebsByGeneralName(name).then(function (eNodebs) {
 					if (eNodebs.length === 0) return;
-					showENodebsElements(eNodebs, showENodebInfo, showCellInfo);
+					showENodebsElements(eNodebs, beginDate, endDate);
 				});
 			},
-			showCdmaInOneTown: function (city, district, town, showBtsInfo, showCellInfo) {
+			showCdmaInOneTown: function (city, district, town, showBtsInfo) {
 				networkElementService.queryBtssInOneTown(city, district, town).then(function (btss) {
-					showCdmaElements(btss, showBtsInfo, showCellInfo);
+					showCdmaElements(btss, showBtsInfo);
 				});
 			},
-			showCdmaWithGeneralName: function (name, showBtsInfo, showCellInfo) {
+			showCdmaWithGeneralName: function (name, showBtsInfo) {
 				networkElementService.queryBtssByGeneralName(name).then(function (btss) {
 					if (btss.length === 0) return;
-					showCdmaElements(btss, showBtsInfo, showCellInfo);
+					showCdmaElements(btss, showBtsInfo);
 				});
 			},
 			showENodebsElements: function (eNodebs, showENodebInfo) {
@@ -531,7 +536,14 @@
 					var xOffset = coors.x - cells[0].longtitute;
 					var yOffset = coors.y - cells[0].lattitute;
 					baiduMapService.setCellFocus(coors.x, coors.y, 16);
-					showCellSectors(cells, showCellInfo, xOffset, yOffset);
+					angular.forEach(cells, function (cell) {
+					    cell.longtitute += xOffset;
+					    cell.lattitute += yOffset;
+					    var cellSector = baiduMapService.generateSector(cell);
+					    baiduMapService.addOneSectorToScope(cellSector, function (item) {
+					        showCellInfo(item);
+					    }, cell);
+					});
 				});
 			},
 			showPhpElements: function (elements, showElementInfo) {
@@ -556,27 +568,26 @@
 			}
 		}
 	})
-	.factory('parametersDialogService', function ($uibModal, $log) {
+	.factory('parametersDialogService', function ($uibModal, $log, menuItemService) {
 		return {
-			showENodebInfo: function (eNodeb) {
-				var modalInstance = $uibModal.open({
-					animation: true,
+		    showENodebInfo: function (eNodeb, beginDate, endDate) {
+				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Parameters/Map/ENodebMapInfoBox.html',
 					controller: 'map.eNodeb.dialog',
-					size: 'sm',
 					resolve: {
 						dialogTitle: function () {
 							return eNodeb.name + "-" + "基站基本信息";
 						},
 						eNodeb: function () {
 							return eNodeb;
+						},
+						beginDate: function() {
+							return beginDate;
+						},
+						endDate: function() {
+							return endDate;
 						}
 					}
-				});
-				modalInstance.result.then(function (info) {
-					console.log(info);
-				}, function () {
-					$log.info('Modal dismissed at: ' + new Date());
 				});
 			},
 			showDistributionInfo: function (distribution) {
