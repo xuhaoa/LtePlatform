@@ -495,6 +495,7 @@
 						angular.forEach(cells, function (cell) {
 							cell.longtitute += xOffset;
 							cell.lattitute += yOffset;
+						    cell.btsId = bts.btsId;
 							var cellSector = baiduMapService.generateSector(cell);
 							baiduMapService.addOneSectorToScope(cellSector, function (item) {
 								parametersDialogService.showCdmaCellInfo(item);
@@ -712,24 +713,17 @@
 				});
 			},
 			showCdmaCellInfo: function (cell) {
-				var modalInstance = $uibModal.open({
-					animation: true,
+				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Parameters/Map/CdmaCellInfoBox.html',
 					controller: 'map.cdma.cell.dialog',
-					size: 'sm',
 					resolve: {
-						dialogTitle: function () {
+						dialogTitle: function() {
 							return cell.cellName + "小区信息";
 						},
-						neighbor: function () {
+						neighbor: function() {
 							return cell;
 						}
 					}
-				});
-				modalInstance.result.then(function (nei) {
-					console.log(nei);
-				}, function () {
-					$log.info('Modal dismissed at: ' + new Date());
 				});
 			},
 			showCollegeCdmaCellInfo: function (cell) {
@@ -819,10 +813,10 @@
 		$scope.dialogTitle = dialogTitle;
 
 		networkElementService.queryBtsInfo(bts.btsId).then(function (result) {
-		    $scope.btsDetails = result;
+			$scope.btsDetails = result;
 		});
 		networkElementService.queryCdmaCellViews(bts.name).then(function (result) {
-		    $scope.cdmaCellList = result;
+			$scope.cdmaCellList = result;
 		});
 		$scope.ok = function() {
 			$uibModalInstance.close($scope.bts);
@@ -832,14 +826,16 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
-	.controller('map.cdma.cell.dialog', function($scope, $uibModalInstance, neighbor, dialogTitle) {
-		$scope.neighbor = neighbor;
+	.controller('map.cdma.cell.dialog', function($scope, $uibModalInstance, neighbor, dialogTitle,
+		networkElementService) {
+		$scope.cdmaCellDetails = neighbor;
 		$scope.dialogTitle = dialogTitle;
-
 		$scope.ok = function() {
 			$uibModalInstance.close($scope.neighbor);
 		};
-
+		networkElementService.queryCdmaCellInfo(neighbor.btsId, neighbor.sectorId).then(function (result) {
+		    angular.extend($scope.cdmaCellDetails, result);
+		});
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss('cancel');
 		};

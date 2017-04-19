@@ -14,6 +14,7 @@ os.chdir('/home/wireless/huawei_mro')
 date_dir=generate_date_hours_shift(shift=-5)
 afilter = ['CDMA']
 db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
+begin=datetime.datetime.now()
 
 try:
     if db['mro_'+date_dir].index_information().get('Pci_1_NeighborPci_1')==None:
@@ -45,6 +46,8 @@ for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
         print(name)
         if name in DFList:
             pass
+        if datetime.datetime.now()>begin+datetime.timedelta(hours=1):
+            os._exit(0)
         try:
             zFile=zipfile.ZipFile(currrent_dir + name, 'r')
             root = etree.fromstring(zFile.read(zFile.namelist()[0]))
