@@ -459,7 +459,7 @@
 							cell.lattitute += yOffset;
 							var cellSector = baiduMapService.generateSector(cell);
 							baiduMapService.addOneSectorToScope(cellSector, function (item) {
-								parametersDialogService.showCellInfo(item);
+								parametersDialogService.showCellInfo(item, beginDate, endDate);
 							}, cell);
 						});
 					});
@@ -495,7 +495,7 @@
 						angular.forEach(cells, function (cell) {
 							cell.longtitute += xOffset;
 							cell.lattitute += yOffset;
-						    cell.btsId = bts.btsId;
+							cell.btsId = bts.btsId;
 							var cellSector = baiduMapService.generateSector(cell);
 							baiduMapService.addOneSectorToScope(cellSector, function (item) {
 								parametersDialogService.showCdmaCellInfo(item);
@@ -628,7 +628,7 @@
 					}
 				});
 			},
-			showCellInfo: function (cell) {
+			showCellInfo: function (cell, beginDate, endDate) {
 				var modalInstance = $uibModal.open({
 					animation: true,
 					templateUrl: '/appViews/Rutrace/Map/NeighborMapInfoBox.html',
@@ -640,6 +640,12 @@
 						},
 						neighbor: function () {
 							return cell;
+						},
+						beginDate: function() {
+							return beginDate;
+						},
+						endDate: function() {
+							return endDate;
 						}
 					}
 				});
@@ -834,7 +840,7 @@
 			$uibModalInstance.close($scope.neighbor);
 		};
 		networkElementService.queryCdmaCellInfo(neighbor.btsId, neighbor.sectorId).then(function (result) {
-		    angular.extend($scope.cdmaCellDetails, result);
+			angular.extend($scope.cdmaCellDetails, result);
 		});
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss('cancel');
@@ -852,18 +858,29 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
-	.controller('map.neighbor.dialog', function($scope, $uibModalInstance, intraFreqHoService, interFreqHoService,
-		neighbor, dialogTitle) {
+	.controller('map.neighbor.dialog', function($scope, $uibModalInstance, intraFreqHoService, interFreqHoService, networkElementService, neighborDialogService,
+		neighbor, dialogTitle, beginDate, endDate) {
 		$scope.neighbor = neighbor;
 		$scope.eNodebId = neighbor.otherInfos.split(': ')[5];
 		$scope.sectorId = neighbor.cellName.split('-')[1];
 		$scope.dialogTitle = dialogTitle;
+		$scope.beginDate = beginDate;
+		$scope.endDate = endDate;
 		$scope.parameter = {
 			options: [
 				'基本参数', '同频切换', 'A1异频切换',
 				'A2异频切换', 'A3异频切换', 'A4异频切换', 'A5异频切换'
 			],
 			selected: '基本参数'
+		};
+
+		$scope.dump = function () {
+		    neighborDialogService.dumpMongo({
+		        eNodebId: $scope.eNodebId,
+		        sectorId: $scope.sectorId,
+		        pci: neighbor.pci,
+		        name: neighbor.cellName.split('-')[0]
+		    }, $scope.beginDate.value, $scope.endDate.value);
 		};
 
 		$scope.ok = function() {

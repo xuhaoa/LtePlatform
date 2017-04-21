@@ -695,7 +695,7 @@
                         angular.forEach(cells, function(cell) {
                             cell.longtitute += xOffset;
                             cell.lattitute += yOffset;
-                            var sectorTriangle = baiduMapService.generateSector(cell, "blue", 1.25);
+                            var sectorTriangle = baiduMapService.generateSector(cell, "blue", 5);
                             baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showPrecise, cell);
                         });
                     });
@@ -721,7 +721,7 @@
                             item = angular.extend(item, cell);
                             cell.longtitute = coors.x;
                             cell.lattitute = coors.y;
-                            var sectorTriangle = baiduMapService.generateSector(cell, "blue", 1.25);
+                            var sectorTriangle = baiduMapService.generateSector(cell, "blue", 5);
                             baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showFlowCell, {
                                 item: item,
                                 beginDate: $scope.beginDate,
@@ -752,7 +752,7 @@
                                 item = angular.extend(item, cell);
                                 cell.longtitute = coors.x;
                                 cell.lattitute = coors.y;
-                                var sectorTriangle = baiduMapService.generateSector(cell, "blue", 1.25);
+                                var sectorTriangle = baiduMapService.generateSector(cell, "blue", 5);
                                 baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showFlowCell, {
                                     item: item,
                                     beginDate: $scope.beginDate,
