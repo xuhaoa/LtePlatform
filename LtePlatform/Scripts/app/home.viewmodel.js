@@ -200,9 +200,6 @@
                     displayName: "数据维护",
                     url: appUrlService.getParameterUrlHost() + 'main-lte-cell-info.php'
                 }, {
-                    displayName: "数据查询",
-                    url: rootUrl + "/query"
-                }, {
                     displayName: "历史信息查询",
                     url: appUrlService.getParameterUrlHost() + 'cell-modify-record.php'
                 }, {
