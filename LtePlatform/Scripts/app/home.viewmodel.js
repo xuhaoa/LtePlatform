@@ -698,31 +698,44 @@
         parametersDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+        $scope.currentView = "镇区站点";
         $scope.queryConditions = function () {
             baiduMapService.clearOverlays();
             neighborDialogService.setQueryConditions($scope.city, $scope.beginDate, $scope.endDate);
         };
         $scope.queryByTowns = function() {
             baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
             neighborDialogService.queryList($scope.city);
+        };
+        $scope.showDistrictTownStat = function(district, color) {
+            baiduMapService.addDistrictBoundary(district, color);
+            appRegionService.queryTownInfrastructures($scope.city.selected, district).then(function(result) {
+                angular.forEach(result, function(stat) {
+                    appRegionService.queryTown($scope.city.selected, district, stat.town).then(function (town) {
+                        angular.extend(stat, town);
+                        var marker = baiduMapService.generateIconMarker(stat.longtitute, stat.lattitute,
+                            "/Content/Images/Hotmap/site_or.png");
+                        baiduMapService.addOneMarkerToScope(marker, function(item) {
+                            parametersDialogService.showTownENodebInfo(item, $scope.city.selected, district);
+                        }, stat);
+                    });
+                });
+            });
+        };
+        $scope.showTownSites = function() {
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            $scope.currentView = "镇区站点";
+            angular.forEach($scope.districts, function(district, $index) {
+                $scope.showDistrictTownStat(district, $scope.colors[$index]);
+            });
         };
         $scope.districts = [];
         $scope.$watch('city.selected', function (city) {
             if (city) {
                 dumpPreciseService.generateUsersDistrict(city, $scope.districts, function (district, $index) {
-                    baiduMapService.addDistrictBoundary(district, $scope.colors[$index]);
-                    appRegionService.queryTownInfrastructures($scope.city.selected, district).then(function (result) {
-                        angular.forEach(result, function(stat) {
-                            appRegionService.queryTown(city, district, stat.town).then(function(town) {
-                                angular.extend(stat, town);
-                                var marker = baiduMapService.generateIconMarker(stat.longtitute, stat.lattitute,
-                                    "/Content/Images/Hotmap/site_or.png");
-                                baiduMapService.addOneMarkerToScope(marker, function (item) {
-                                    parametersDialogService.showTownENodebInfo(item, city, district);
-                                }, stat);
-                            });
-                        });
-                    });
+                    $scope.showDistrictTownStat(district, $scope.colors[$index]);
                 });
                 
             }

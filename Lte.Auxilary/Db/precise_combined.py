@@ -5,6 +5,7 @@ import json
 import datetime
 
 db = MongoClient('mongodb://root:Abcdef9*@10.17.165.111')['ouyh']
+db2 = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
 
 time=datetime.datetime.today()
 time+=datetime.timedelta(hours=-24)
@@ -17,5 +18,5 @@ stat=df.groupby(['CellId']).sum().reset_index()
 statList = json.loads(stat.T.to_json()).values()
 for item in statList:
     item.update({'StatDate': time})
-db['precise_combined'].insert_many(statList)
+db2['precise_combined'].insert_many(statList)
 print('Precise inserted items: ', len(statList))
