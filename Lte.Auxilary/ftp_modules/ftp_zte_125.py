@@ -6,7 +6,7 @@ from pymongo import MongoClient
 from customize_utilities import *
 import sys
 
-db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
+db = MongoClient('mongodb://root:Abcdef9*@10.17.165.111')['ouyh']
   
 host_ip = '132.122.152.125'
 FOLDER_ZTE = ['/'+sys.argv[2]+'/']

@@ -1,1 +1,1 @@
-/home/wireless/env/py3env/bin/python /home/wireless/Public/ftp_huawei.py 132.122.152.115 132.122.155.214 MR_HW_SOURCE_D 2
+/home/wireless/anaconda3/bin/python /home/wireless/Public/ftp_huawei.py 132.122.152.115 132.122.155.214 MR_HW_SOURCE_D 2

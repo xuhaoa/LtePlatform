@@ -1,1 +1,1 @@
-/home/wireless/env/py3env/bin/python /home/wireless/Public/precise_combined.py
+/home/wireless/anaconda3/bin/python /home/wireless/Public/precise_combined.py

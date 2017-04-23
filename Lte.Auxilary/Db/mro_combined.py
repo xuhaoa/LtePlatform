@@ -4,14 +4,14 @@ from pandas import DataFrame, Series
 import json
 import datetime
 
-db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
+db = MongoClient('mongodb://root:Abcdef9*@10.17.165.111')['ouyh']
 
 time=datetime.datetime.today()
 time+=datetime.timedelta(hours=-24)
 time=time.replace(hour=0,minute=0,second=0)
 datestr=time.strftime("%Y%m%d")
 
-for pci in range(126):
+for pci in range(504):
     for nPci in range(504):
         Pci_List=list(db['mro_'+datestr].find({'Pci': pci, 'NeighborPci': nPci}))
         if len(Pci_List)>0:

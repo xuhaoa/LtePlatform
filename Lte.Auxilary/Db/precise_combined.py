@@ -4,7 +4,7 @@ from pandas import DataFrame, Series
 import json
 import datetime
 
-db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
+db = MongoClient('mongodb://root:Abcdef9*@10.17.165.111')['ouyh']
 
 time=datetime.datetime.today()
 time+=datetime.timedelta(hours=-24)
