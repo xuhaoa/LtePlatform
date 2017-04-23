@@ -255,22 +255,20 @@ namespace Lte.Evaluations.DataService.Kpi
         {
             var end = statDate.AddDays(1);
             var townStatList = new List<TownFlowStat>();
-            townStatList.AddRange(
-                _huaweiRepository.GetAllList(statDate, end)
-                    .GetTownStats<FlowHuawei, TownFlowStat>(_eNodebRepository));
-            townStatList.AddRange(
-                _zteRepository.GetAllList(statDate, end)
-                    .GetTownStats<FlowZte, TownFlowStat>(_eNodebRepository));
+            var huaweiFlows = _huaweiRepository.GetAllList(statDate, end);
+            townStatList.AddRange(huaweiFlows.GetTownStats<FlowHuawei, TownFlowStat>(_eNodebRepository));
+            var zteFlows = _zteRepository.GetAllList(statDate, end);
+            townStatList.AddRange(zteFlows.GetTownStats<FlowZte, TownFlowStat>(_eNodebRepository));
             return townStatList;
         }
 
         public IEnumerable<ENodebFlowView> GetENodebFlowViews(DateTime begin, DateTime end)
         {
             var eNodebStatList = new List<ENodebFlowView>();
-            eNodebStatList.AddRange(_huaweiRepository.GetAllList(begin, end)
-                .GetENodebStats<FlowHuawei, ENodebFlowView>(_eNodebRepository));
-            eNodebStatList.AddRange(_zteRepository.GetAllList(begin, end)
-                .GetENodebStats<FlowZte, ENodebFlowView>(_eNodebRepository));
+            var huaweiFlows = _huaweiRepository.GetAllList(begin, end);
+            eNodebStatList.AddRange(huaweiFlows.GetENodebStats<FlowHuawei, ENodebFlowView>(_eNodebRepository));
+            var zteFlows = _zteRepository.GetAllList(begin, end);
+            eNodebStatList.AddRange(zteFlows.GetENodebStats<FlowZte, ENodebFlowView>(_eNodebRepository));
             return eNodebStatList.GetMergeStats();
         } 
     }

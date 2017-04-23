@@ -593,6 +593,26 @@
 					}
 				});
 			},
+			showTownENodebInfo: function (item, city, district) {
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Parameters/Region/TownENodebInfo.html',
+					controller: 'town.eNodeb.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return city + district + item.town + "-" + "基站基本信息";
+						},
+						city: function () {
+							return city;
+						},
+						district: function () {
+							return district;
+						},
+						town: function () {
+							return item.town;
+						}
+					}
+				});
+			},
 			showDistributionInfo: function (distribution) {
 				var modalInstance = $uibModal.open({
 					animation: true,
@@ -814,6 +834,24 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
+	.controller('town.eNodeb.dialog', function($scope, $uibModalInstance, dialogTitle, city, district, town,
+		networkElementService) {
+		$scope.dialogTitle = dialogTitle;
+		networkElementService.queryENodebsInOneTown(city, district, town).then(function (eNodebs) {
+			$scope.eNodebList = eNodebs;
+		});
+		networkElementService.queryBtssInOneTown(city, district, town).then(function (btss) {
+		    $scope.btsList = btss;
+		});
+
+		$scope.ok = function () {
+		    $uibModalInstance.close($scope.eNodeb);
+		};
+
+		$scope.cancel = function () {
+		    $uibModalInstance.dismiss('cancel');
+		};
+	})
 	.controller('map.bts.dialog', function ($scope, $uibModalInstance, bts, dialogTitle, networkElementService) {
 		$scope.bts = bts;
 		$scope.dialogTitle = dialogTitle;
@@ -875,12 +913,12 @@
 		};
 
 		$scope.dump = function () {
-		    neighborDialogService.dumpMongo({
-		        eNodebId: $scope.eNodebId,
-		        sectorId: $scope.sectorId,
-		        pci: neighbor.pci,
-		        name: neighbor.cellName.split('-')[0]
-		    }, $scope.beginDate.value, $scope.endDate.value);
+			neighborDialogService.dumpMongo({
+				eNodebId: $scope.eNodebId,
+				sectorId: $scope.sectorId,
+				pci: neighbor.pci,
+				name: neighbor.cellName.split('-')[0]
+			}, $scope.beginDate.value, $scope.endDate.value);
 		};
 
 		$scope.ok = function() {

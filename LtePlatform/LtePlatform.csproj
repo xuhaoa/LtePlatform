@@ -440,6 +440,7 @@
     <Content Include="appViews\Home\ButtonMenu.html" />
     <Content Include="appViews\Home\Complain.html" />
     <Content Include="appViews\Home\DatePopoverInput.html" />
+    <Content Include="appViews\Home\Flow.html" />
     <Content Include="appViews\Home\FourChartDialog.html" />
     <Content Include="appViews\Home\GeneralTableDetails.html" />
     <Content Include="appViews\Home\Kpi.html" />
@@ -469,6 +470,7 @@
     <Content Include="appViews\Parameters\Region\ENodebFlow.html" />
     <Content Include="appViews\Parameters\Region\FlowKpiInfo.html" />
     <Content Include="appViews\Parameters\Region\TopicCells.html" />
+    <Content Include="appViews\Parameters\Region\TownENodebInfo.html" />
     <Content Include="appViews\Parameters\Topic.html" />
     <Content Include="appViews\Rutrace\Coverage\DetailsChartDialog.html" />
     <Content Include="appViews\Rutrace\Coverage\Trend.html" />
