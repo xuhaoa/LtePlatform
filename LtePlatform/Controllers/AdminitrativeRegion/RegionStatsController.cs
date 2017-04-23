@@ -35,4 +35,36 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
             return _service.QueryTownStats(city, district);
         }
     }
+
+    public class DistrictIndoorCellsController : ApiController
+    {
+        private readonly TownQueryService _service;
+
+        public DistrictIndoorCellsController(TownQueryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public List<DistrictIndoorStat> Get(string city)
+        {
+            return _service.QueryDistrictIndoorStats(city);
+        } 
+    }
+
+    public class DistrictBandCellsController : ApiController
+    {
+        private readonly TownQueryService _service;
+
+        public DistrictBandCellsController(TownQueryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public List<DistrictBandClassStat> Get(string city)
+        {
+            return _service.QueryDistrictBandStats(city);
+        }
+    }
 }
