@@ -2007,6 +2007,8 @@ body .ui-tooltip {
   position: relative;
   border: 1px solid #b0b6be; }
 
+
+
 div#contentWrapper {
   overflow: hidden;
   position: relative;
@@ -2038,6 +2040,8 @@ div#contentWrapper {
 
 .cloudmap-search-city {
   margin-bottom: 20px; }
+
+
 
 .cloudmap-search-b {
   background-image: url(/Content/Images/Hotmap/map_u7.png);

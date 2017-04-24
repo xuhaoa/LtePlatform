@@ -86,6 +86,9 @@
             getCustomerHost: function () {
                 return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.41:8099/' : 'http://10.17.165.100:8099/';
             },
+            getStationHost: function () {
+                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:9000/' : 'http://10.17.165.111:9000/';
+            },
             
             initializeIndexedDb: function (myDb, storeNames, key, callback) {
                 var version = myDb.version || 1;

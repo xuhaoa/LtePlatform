@@ -1,4 +1,47 @@
 ﻿angular.module('myApp.kpi', ['myApp.url', 'myApp.region', "ui.bootstrap"])
+    .controller('station.search.dialog', function ($scope, $uibModalInstance, dialogTitle) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.message = "";
+        $scope.stationName = "利新大厦";
+        $scope.stations = [];
+
+        $scope.search = function () {
+            $http({
+                method: 'get',
+                url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/search/curr_page/3/page_size/20/stationName/'+$scope.stationName+'/areaName/FS禅城',
+            }).then(function successCallback(response) {
+                $scope.stations = response.data.result.rows;
+            }, function errorCallback(response) {
+                // 请求失败执行代码
+            });
+        }
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.message);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .factory('stationDialogService', function (menuItemService) {
+     
+        return {
+            showSearchDialog: function (dialogTitle) {
+                
+                menuItemService.showGeneralDialog( {
+                    templateUrl: '/appViews/Home/SearchStationDialog.html',
+                    controller: 'station.search.dialog',
+                    resolve: {
+                        dialogTitle: function () {
+                            return  "楼宇查询";
+                        }
+                    }
+                });
+            }
+        };
+    })
+
     .controller('workitem.feedback.dialog', function ($scope, $uibModalInstance, input, dialogTitle) {
         $scope.item = input;
         $scope.dialogTitle = dialogTitle;
@@ -2691,22 +2734,22 @@
             generateCoveragePoints: function (pointDef, points, kpi) {
                 calculateService.generateCoveragePointsWithFunc(pointDef, points, function(point) {
                     switch (kpi) {
-                    case 'Ec/Io':
-                        return point.ecio;
-                    case 'RxAGC':
-                        return point.rxAgc;
-                    case 'TxPower':
-                        return point.txPower;
-                    case 'SINR(3G)':
-                        return point.sinr;
-                    case 'RxAGC0':
-                        return point.rxAgc0;
-                    case 'RxAGC1':
-                        return point.rxAgc1;
-                    case 'RSRP':
-                        return point.rsrp;
-                    default:
-                        return point.sinr;
+                        case 'Ec/Io':
+                            return point.ecio;
+                        case 'RxAGC':
+                            return point.rxAgc;
+                        case 'TxPower':
+                            return point.txPower;
+                        case 'SINR(3G)':
+                            return point.sinr;
+                        case 'RxAGC0':
+                            return point.rxAgc0;
+                        case 'RxAGC1':
+                            return point.rxAgc1;
+                        case 'RSRP':
+                            return point.rsrp;
+                        default:
+                            return point.sinr;
                     }
                 });
             },

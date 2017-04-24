@@ -67,6 +67,21 @@
 				map.addControl(topLeftControl);
 				map.addControl(topLeftNavigation);
 			},
+			setCenter: function (distinctIndex) {
+			    if (distinctIndex == 1) {
+			        map.centerAndZoom(new BMap.Point(113.30, 22.80), 12);
+			    } else if (distinctIndex == 2) {
+			        map.centerAndZoom(new BMap.Point(113.15, 23.03), 12);
+			    } else if (distinctIndex == 3) {
+			        map.centerAndZoom(new BMap.Point(113.12, 23.02), 12);
+			    } else if (distinctIndex == 4) {
+			        map.centerAndZoom(new BMap.Point(112.87, 23.17), 12);
+			    } else if (distinctIndex == 5) {
+			        map.centerAndZoom(new BMap.Point(112.88, 22.90), 12);
+			    } else {
+			        map.centerAndZoom(new BMap.Point(113.01, 23.02), 11);
+			    }
+			},
 			initializeDrawingManager: function() {
 				drawingManager = new BMapLib.DrawingManager(map, {
 					isOpen: true, //是否开启绘制模式
@@ -423,20 +438,55 @@
 
 			    map.addOverlay(myCompOverlay);
 			},
-			drawMultiPoints: function(coors, color, xoffset, yoffset, callback) {
-				var points = [];  // 添加海量点数据
-				angular.forEach(coors, function(data) {
-					points.push(new BMap.Point(data.longtitute - xoffset, data.lattitute - yoffset));
-				});
-				var options = {
-					size: BMAP_POINT_SIZE_SMALL,
-					color: color
-				}
-				var pointCollection = new BMap.PointCollection(points, options);  // 初始化PointCollection
-				if (callback)
-					pointCollection.addEventListener('click', callback);
-				map.addOverlay(pointCollection);  // 添加Overlay
-				return pointCollection;
+			drawMultiPoints: function (coors, color, xoffset, yoffset, callback) {
+			    var points = [];  // 添加海量点数据
+			    angular.forEach(coors, function (data) {
+			        points.push(new BMap.Point(data.longtitute - xoffset, data.lattitute - yoffset));
+			    });
+			    var options = {
+			        size: BMAP_POINT_SIZE_SMALL,
+			        color: color
+			    }
+			    var pointCollection = new BMap.PointCollection(points, options);  // 初始化PointCollection
+			    if (callback)
+			        pointCollection.addEventListener('click', callback);
+			    map.addOverlay(pointCollection);  // 添加Overlay
+			    return pointCollection;
+			},
+		    //传统方式添加Station标注
+			drawPointsUsual: function(coors, xoffset, yoffset,callback) {
+			    angular.forEach(coors, function (data) {
+			        var myIcon = new BMap.Icon("/Content/Images/Hotmap/markers.png", new BMap.Size(23, 25), {
+			            offset: new BMap.Size(10, 25),
+			            imageOffset: new BMap.Size(0, (0 - data.index + 1) * 25)
+			        });
+			        var point = new BMap.Point(data.longtitute - xoffset, data.lattitute - yoffset);
+			        var marker = new BMap.Marker(point, { icon: myIcon });
+			        marker.data = data;
+			        marker.addEventListener("click", callback);
+			        map.addOverlay(marker)
+			    });
+			    return;
+			},
+            //添加海量Station
+			drawPointCollection: function (coors, color, xoffset, yoffset, callback) {
+			    
+			    var points = [];  // 添加海量点数据
+			    angular.forEach(coors, function (data) {
+			        var p = new BMap.Point(data.longtitute - xoffset, data.lattitute - yoffset);
+			        p.data = data;
+			        points.push(p);
+			    });
+			    var options = {
+			        size: BMAP_POINT_SIZE_SMALL,
+			        shape: BMAP_POINT_SHAPE_CIRCLE,
+			        color: color
+			    }
+			    var pointCollection = new BMap.PointCollection(points, options);  // 初始化PointCollection
+			    if (callback)
+			        pointCollection.addEventListener('click', callback);
+			    map.addOverlay(pointCollection);  // 添加Overlay
+			    return pointCollection;
 			}
 		};
 	})
@@ -557,133 +607,237 @@
 		}
 	})
 	.factory('parametersDialogService', function ($uibModal, $log) {
-		return {
-			showENodebInfo: function (eNodeb) {
-				var modalInstance = $uibModal.open({
-					animation: true,
-					templateUrl: '/appViews/Parameters/Map/ENodebMapInfoBox.html',
-					controller: 'map.eNodeb.dialog',
-					size: 'sm',
-					resolve: {
-						dialogTitle: function () {
-							return eNodeb.name + "-" + "基站基本信息";
-						},
-						eNodeb: function () {
-							return eNodeb;
-						}
-					}
-				});
-				modalInstance.result.then(function (info) {
-					console.log(info);
-				}, function () {
-					$log.info('Modal dismissed at: ' + new Date());
-				});
-			},
-			showDistributionInfo: function (distribution) {
-				var modalInstance = $uibModal.open({
-					animation: true,
-					templateUrl: '/appViews/Parameters/Map/DistributionMapInfoBox.html',
-					controller: 'map.distribution.dialog',
-					size: 'sm',
-					resolve: {
-						dialogTitle: function () {
-							return distribution.name + "-" + "室内分布基本信息";
-						},
-						distribution: function () {
-							return distribution;
-						}
-					}
-				});
-				modalInstance.result.then(function (info) {
-					console.log(info);
-				}, function () {
-					$log.info('Modal dismissed at: ' + new Date());
-				});
-			},
-			showBtsInfo: function (bts) {
-				var modalInstance = $uibModal.open({
-					animation: true,
-					templateUrl: '/appViews/Parameters/Map/BtsMapInfoBox.html',
-					controller: 'map.bts.dialog',
-					size: 'sm',
-					resolve: {
-						dialogTitle: function () {
-							return bts.name + "-" + "基站基本信息";
-						},
-						bts: function () {
-							return bts;
-						}
-					}
-				});
-				modalInstance.result.then(function (info) {
-					console.log(info);
-				}, function () {
-					$log.info('Modal dismissed at: ' + new Date());
-				});
-			},
-			showCellInfo: function (cell) {
-				var modalInstance = $uibModal.open({
-					animation: true,
-					templateUrl: '/appViews/Rutrace/Map/NeighborMapInfoBox.html',
-					controller: 'map.neighbor.dialog',
-					size: 'lg',
-					resolve: {
-						dialogTitle: function () {
-							return cell.cellName + "小区信息";
-						},
-						neighbor: function () {
-							return cell;
-						}
-					}
-				});
-				modalInstance.result.then(function (nei) {
-					console.log(nei);
-				}, function () {
-					$log.info('Modal dismissed at: ' + new Date());
-				});
-			},
-			showCellsInfo: function (sectors) {
-				var modalInstance = $uibModal.open({
-					animation: true,
-					templateUrl: '/appViews/Parameters/Map/CellsMapInfoBox.html',
-					controller: 'map.sectors.dialog',
-					size: 'lg',
-					resolve: {
-						dialogTitle: function () {
-							return "小区信息列表";
-						},
-						sectors: function () {
-							return sectors;
-						}
-					}
-				});
-				modalInstance.result.then(function (nei) {
-					console.log(nei);
-				}, function () {
-					$log.info('Modal dismissed at: ' + new Date());
-				});
-			},
-			showPlanningSitesInfo: function (site) {
-				var modalInstance = $uibModal.open({
-					animation: true,
-					templateUrl: '/appViews/Home/PlanningDetails.html',
-					controller: 'map.site.dialog',
-					size: 'lg',
-					resolve: {
-						dialogTitle: function () {
-							return "规划站点信息:"+site.formalName;
-						},
-						site: function () {
-							return site;
-						}
-					}
-				});
-				modalInstance.result.then(function (nei) {
-					console.log(nei);
-				}, function () {
-					$log.info('Modal dismissed at: ' + new Date());
-				});
-			},
+	    return {
+	        showENodebInfo: function (eNodeb) {
+	            var modalInstance = $uibModal.open({
+	                animation: true,
+	                templateUrl: '/appViews/Parameters/Map/ENodebMapInfoBox.html',
+	                controller: 'map.eNodeb.dialog',
+	                size: 'sm',
+	                resolve: {
+	                    dialogTitle: function () {
+	                        return eNodeb.name + "-" + "基站基本信息";
+	                    },
+	                    eNodeb: function () {
+	                        return eNodeb;
+	                    }
+	                }
+	            });
+	            modalInstance.result.then(function (info) {
+	                console.log(info);
+	            }, function () {
+	                $log.info('Modal dismissed at: ' + new Date());
+	            });
+	        },
+	        showDistributionInfo: function (distribution) {
+	            var modalInstance = $uibModal.open({
+	                animation: true,
+	                templateUrl: '/appViews/Parameters/Map/DistributionMapInfoBox.html',
+	                controller: 'map.distribution.dialog',
+	                size: 'sm',
+	                resolve: {
+	                    dialogTitle: function () {
+	                        return distribution.name + "-" + "室内分布基本信息";
+	                    },
+	                    distribution: function () {
+	                        return distribution;
+	                    }
+	                }
+	            });
+	            modalInstance.result.then(function (info) {
+	                console.log(info);
+	            }, function () {
+	                $log.info('Modal dismissed at: ' + new Date());
+	            });
+	        },
+	        showBtsInfo: function (bts) {
+	            var modalInstance = $uibModal.open({
+	                animation: true,
+	                templateUrl: '/appViews/Parameters/Map/BtsMapInfoBox.html',
+	                controller: 'map.bts.dialog',
+	                size: 'sm',
+	                resolve: {
+	                    dialogTitle: function () {
+	                        return bts.name + "-" + "基站基本信息";
+	                    },
+	                    bts: function () {
+	                        return bts;
+	                    }
+	                }
+	            });
+	            modalInstance.result.then(function (info) {
+	                console.log(info);
+	            }, function () {
+	                $log.info('Modal dismissed at: ' + new Date());
+	            });
+	        },
+	        showCellInfo: function (cell) {
+	            var modalInstance = $uibModal.open({
+	                animation: true,
+	                templateUrl: '/appViews/Rutrace/Map/NeighborMapInfoBox.html',
+	                controller: 'map.neighbor.dialog',
+	                size: 'lg',
+	                resolve: {
+	                    dialogTitle: function () {
+	                        return cell.cellName + "小区信息";
+	                    },
+	                    neighbor: function () {
+	                        return cell;
+	                    }
+	                }
+	            });
+	            modalInstance.result.then(function (nei) {
+	                console.log(nei);
+	            }, function () {
+	                $log.info('Modal dismissed at: ' + new Date());
+	            });
+	        },
+	        showCellsInfo: function (sectors) {
+	            var modalInstance = $uibModal.open({
+	                animation: true,
+	                templateUrl: '/appViews/Parameters/Map/CellsMapInfoBox.html',
+	                controller: 'map.sectors.dialog',
+	                size: 'lg',
+	                resolve: {
+	                    dialogTitle: function () {
+	                        return "小区信息列表";
+	                    },
+	                    sectors: function () {
+	                        return sectors;
+	                    }
+	                }
+	            });
+	            modalInstance.result.then(function (nei) {
+	                console.log(nei);
+	            }, function () {
+	                $log.info('Modal dismissed at: ' + new Date());
+	            });
+	        },
+	        showPlanningSitesInfo: function (site) {
+	            var modalInstance = $uibModal.open({
+	                animation: true,
+	                templateUrl: '/appViews/Home/PlanningDetails.html',
+	                controller: 'map.site.dialog',
+	                size: 'lg',
+	                resolve: {
+	                    dialogTitle: function () {
+	                        return "规划站点信息:"+site.formalName;
+	                    },
+	                    site: function () {
+	                        return site;
+	                    }
+	                }
+	            });
+	            modalInstance.result.then(function (nei) {
+	                console.log(nei);
+	            }, function () {
+	                $log.info('Modal dismissed at: ' + new Date());
+	            });
+	        },
+	        //显示站点信息
+	        showStationInfo: function (station) {
+	            var modalInstance = $uibModal.open({
+	                animation: true,
+	                templateUrl: '/appViews/Home/StationDetails.html',
+	                controller: 'map.station.dialog',
+	                size: 'lg',
+	                resolve: {
+	                    dialogTitle: function () {
+	                        return "站点信息:" + station.StationName;
+	                    },
+	                    station: function () {
+	                        return station;
+	                    }
+	                }
+	            });
+	            modalInstance.result.then(function (nei) {
+	                console.log(nei);
+	            }, function () {
+	                $log.info('Modal dismissed at: ' + new Date());
+	            });
+	        },
+	        showStationList: function () {
+	            var modalInstance = $uibModal.open({
+	                animation: true,
+	                templateUrl: '/appViews/Home/StationListDialog.html',
+	                controller: 'map.stationList.dialog',
+	                size: 'lg',
+	                resolve: {
+	                    dialogTitle: function () {
+	                        return "站点列表";
+	                    }
+	                }
+	            });
+	            modalInstance.result.then(function (nei) {
+	                console.log(nei);
+	            }, function () {
+	                $log.info('Modal dismissed at: ' + new Date());
+	            });
+	        },
+	        showStationDetails: function (stationId) {
+	            
+	            var modalInstance = $uibModal.open({
+	                animation: true,
+	                templateUrl: '/appViews/Home/StationDetail.html',
+	                controller: 'map.stationDetail.dialog',
+	                size: 'lg',
+	                resolve: {
+	                    dialogTitle: function () {
+	                        return "站点详情";
+	                    },
+	                    stationId: function () {
+	                        return stationId;
+	                    }
+	                }
+	            });
+	            modalInstance.result.then(function (nei) {
+	                console.log(nei);
+	            }, function () {
+	                $log.info('Modal dismissed at: ' + new Date());
+	            });
+	        },
+	        showStationEdit: function (stationId) {
+
+	            var modalInstance = $uibModal.open({
+	                animation: true,
+	                templateUrl: '/appViews/Home/StationEdit.html',
+	                controller: 'map.stationEdit.dialog',
+	                size: 'lg',
+	                resolve: {
+	                    dialogTitle: function () {
+	                        return "编辑站点";
+	                    },
+	                    stationId: function () {
+	                        return stationId;
+	                    }
+	                }
+	            });
+	            
+	            modalInstance.result.then(function (nei) {
+	                console.log(nei);
+	            }, function () {
+	                $log.info('Modal dismissed at: ' + new Date());
+	            });
+	        },
+	        showStationAdd: function () {
+
+	            var modalInstance = $uibModal.open({
+	                animation: true,
+	                templateUrl: '/appViews/Home/StationAdd.html',
+	                controller: 'map.stationAdd.dialog',
+	                size: 'lg',
+	                resolve: {
+	                    dialogTitle: function () {
+	                        return "站点添加";
+	                    }
+	                }
+	            });
+	            modalInstance.result.then(function (nei) {
+	                console.log(nei);
+	            }, function () {
+	                $log.info('Modal dismissed at: ' + new Date());
+	            });
+	        },
 			showCollegeCellInfo: function (cell) {
 				var modalInstance = $uibModal.open({
 					animation: true,
@@ -927,6 +1081,276 @@
 		};
 	})
 
+   	.controller('map.station.dialog', function($scope, $uibModalInstance, station, dialogTitle) {
+		$scope.itemGroups = [
+			{
+				items: [
+					{
+						key: '站点名称',
+						value: station.StationName
+					}, {
+						key: '机房名称',
+						value: station.EngineRoom
+					}, {
+						key: '站点类型',
+						value: station.StationType
+					}
+				]
+			}, {
+				items: [
+					{
+						key: '区域',
+						value: station.AreaName
+					}, {
+						key: '镇区',
+						value: station.Town
+					}, {
+						key: '安装地址',
+						value: station.InstallAddr
+					}
+				]
+			}, {
+				items: [
+					{
+						key: '杆塔类型',
+						value: station.TowerType
+					}, {
+						key: '天线高度',
+						value: station.TowerHeight
+					}, {
+						key: '开通日期',
+						value: station.IntersectionDate
+					}
+				]
+			},{
+				items: [
+					{
+						key: '经度',
+						value: station.longtitute
+					}, {
+						key: '纬度',
+						value: station.lattitute
+					}
+				]
+			}
+		];
+		$scope.dialogTitle = dialogTitle;
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.site);
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+   	})
+    .controller('map.stationList.dialog', function ($scope, $http, dialogTitle, $uibModalInstance, parametersDialogService) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.distincts = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
+        $scope.stationList = [];
+        $scope.page = 1;
+        $scope.stationName = '';
+        $scope.totolPage = 1;
+        $http({
+            method: 'get',
+            url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/search/curr_page/0/page_size/10',
+        }).then(function successCallback(response) {
+            $scope.stationList = response.data.result.rows;
+            $scope.totolPage = response.data.result.total_pages;
+            $scope.page = response.data.result.curr_page;
+        }, function errorCallback(response) {
+            // 请求失败执行代码
+        });
+        $scope.details = function (stationId) {
+            parametersDialogService.showStationDetails(stationId);
+        }
+
+        $scope.delete = function (stationId) {
+            if (confirm("你确定删除该站点？")) {
+                $http({
+                    method: 'post',
+                    url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/delete',
+                    data: {
+                        "idList": stationId
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    transformRequest: function (obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }).then(function successCallback(response) {
+                    alert(response.data.description);
+                    $scope.jumpPage($scope.page);
+                }, function errorCallback(response) {
+                    // 请求失败执行代码
+                });
+            } else {
+                
+            }
+        }
+        $scope.edit = function (stationId) {
+            parametersDialogService.showStationEdit(stationId);
+        }
+        $scope.addStation = function () {
+            parametersDialogService.showStationAdd();
+        }
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        }
+        $scope.search = function () {
+            $scope.page = 1;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.firstPage = function () {
+            $scope.page = 1;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.lastPage = function () {
+            $scope.page = $scope.totolPage;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.prevPage = function () {
+            if ($scope.page != 1)
+                $scope.page--;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.nextPage = function () {
+            if ($scope.page != $scope.totolPage)
+                $scope.page++;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.jumpPage = function (page) {
+            if (page >= $scope.totolPage)
+                page = $scope.totolPage;
+            $http({
+                method: 'post',
+                url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/search',
+                data:{
+                    "curr_page":page,
+                    "page_size":10,
+                    "stationName":$scope.stationName,
+                    "areaName": $scope.selectDistinct
+                },
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+            }).then(function successCallback(response) {
+                $scope.stationList = response.data.result.rows;
+                $scope.totolPage = response.data.result.total_pages;
+                $scope.page = response.data.result.curr_page;
+            }, function errorCallback(response) {
+                // 请求失败执行代码
+            });
+        }
+    })
+    .controller('map.stationDetail.dialog', function ($scope, $http, stationId, dialogTitle, $uibModalInstance) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.station;
+        $http({
+            method: 'post',
+            url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/single',
+            data: {
+                "id": stationId
+            },
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function (obj) {
+                var str = [];
+                for (var p in obj) {
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+        }).then(function successCallback(response) {
+            $scope.station = response.data.result[0];
+        }, function errorCallback(response) {
+            // 请求失败执行代码
+        });
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        }
+    })
+    .controller('map.stationEdit.dialog', function ($scope, $http, stationId, dialogTitle, $uibModalInstance) {
+         $scope.dialogTitle = dialogTitle;
+         $scope.station;
+         $http({
+             method: 'post',
+             url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/single',
+             data: {
+                 "id": stationId
+             },
+             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+             transformRequest: function (obj) {
+                 var str = [];
+                 for (var p in obj) {
+                     str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                 }
+                 return str.join("&");
+             }
+         }).then(function successCallback(response) {
+             $scope.station = response.data.result[0];
+         }, function errorCallback(response) {
+             // 请求失败执行代码
+         });
+         $scope.ok = function () {
+             $http({
+                 method: 'post',
+                 url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/update',
+                 data: {
+                     "Station": JSON.stringify($scope.station)
+                 },
+                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                 transformRequest: function (obj) {
+                     var str = [];
+                     for (var p in obj) {
+                         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                     }
+                     return str.join("&");
+                 }
+             }).then(function successCallback(response) {
+                 alert(response.data.description);
+             }, function errorCallback(response) {
+                 // 请求失败执行代码
+             });
+         }
+         $scope.cancel = function () {
+             $uibModalInstance.dismiss('cancel');
+         }
+    })
+    .controller('map.stationAdd.dialog', function ($scope, $http, dialogTitle, $uibModalInstance) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.station;
+        $scope.ok = function () {
+            $http({
+                method: 'post',
+                url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/add',
+                data: {
+                    "Station": JSON.stringify($scope.station)
+                },
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+            }).then(function successCallback(response) {
+                alert(response.data.description);
+            }, function errorCallback(response) {
+                // 请求失败执行代码
+            });
+        }
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        }
+    })
 	.controller('college.cell.dialog', function($scope, $uibModalInstance, intraFreqHoService, interFreqHoService,
 		cell, dialogTitle) {
 		$scope.cell = cell;

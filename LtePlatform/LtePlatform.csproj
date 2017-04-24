@@ -450,7 +450,14 @@
     <Content Include="appViews\Home\Network.html" />
     <Content Include="appViews\Home\Plan.html" />
     <Content Include="appViews\Home\PlanningDetails.html" />
+    <Content Include="appViews\Home\StationAdd.html" />
+    <Content Include="appViews\Home\StationDetail.html" />
+    <Content Include="appViews\Home\StationEdit.html" />
+    <Content Include="appViews\Home\StationListDialog.html" />
     <Content Include="appViews\Home\SingleChartDialog.html" />
+    <Content Include="appViews\Home\Station.html" />
+    <Content Include="appViews\Home\StationDetails.html" />
+    <Content Include="appViews\Home\StationSearchMenu.html" />
     <Content Include="appViews\Home\WorkItem.html" />
     <Content Include="appViews\Import\ImportProgress.html" />
     <Content Include="appViews\Import\Precise\WorkItem.html" />
@@ -491,6 +498,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\Hotmap\icon_search.png" />
     <Content Include="Content\jasmine\jasmine.css" />
     <Content Include="Content\jasmine\jasmine_favicon.png" />
     <Content Include="Content\Site.css">
