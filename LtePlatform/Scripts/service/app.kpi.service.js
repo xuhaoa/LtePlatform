@@ -1353,7 +1353,7 @@
 
         $scope.showCityStats();
     })
-    .controller('cell.type.chart', function ($scope, $uibModalInstance, city, dialogTitle, appRegionService) {
+    .controller('cell.type.chart', function ($scope, $uibModalInstance, city, dialogTitle, appRegionService, parametersChartService) {
         $scope.dialogTitle = dialogTitle;
         $scope.ok = function () {
             $uibModalInstance.close($scope.neighbor);
@@ -1363,10 +1363,10 @@
             $uibModalInstance.dismiss('cancel');
         };
         appRegionService.queryDistrictIndoorCells(city.selected).then(function(stats) {
-            console.log(stats);
+            $("#leftChart").highcharts(parametersChartService.getCellIndoorTypeColumnOptions(stats));
         });
-        appRegionService.queryDistrictBandCells(city.selected).then(function(stats) {
-            console.log(stats);
+        appRegionService.queryDistrictBandCells(city.selected).then(function (stats) {
+            $("#rightChart").highcharts(parametersChartService.getCellBandClassColumnOptions(stats));
         });
     })
 

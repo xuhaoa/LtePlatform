@@ -124,10 +124,10 @@ describe('chart object tests', function() {
             var base = new GeneralChart();
 
             expect(base.options.title).toEqual({
-                text: 'new title'
+                text: ''
             });
             expect(options.title).toEqual({
-                text: 'new title'
+                text: ''
             });
         });
 
@@ -392,6 +392,122 @@ describe('chart object tests', function() {
             expect(options.credits).toEqual({
                 enabled: false
             });
+        });
+    });
+
+    describe('stack column chart options test', function () {
+        var chart = new StackColumnChart();
+        var options = chart.options;
+
+        it('should be able to get the title text', function () {
+            expect(options.title).toEqual({
+                text: ''
+            });
+        });
+
+        it('should be able to set the title text', function () {
+            chart.title.text = "精确覆盖率统计";
+            expect(options.title).toEqual({
+                text: '精确覆盖率统计'
+            });
+        });
+
+        it('should be able to get default yAxis properties', function () {
+            expect(options.yAxis.labels.format).toBe('{value}');
+            expect(options.yAxis.labels.style.color).toBe('0');
+            expect(options.yAxis.title.text).toBe('YLabel');
+            expect(options.yAxis.title.style.color).toBe('0');
+        });
+
+        it('should be able to asign one series', function () {
+            chart.series.push({
+                name: 'abcde',
+                data: [1, 2, 3, 4]
+            });
+            expect(chart.series.length).toBe(1);
+            expect(chart.options.series.length).toBe(1);
+        });
+
+        it('should be able to set the default yAxis properties', function () {
+            chart.setDefaultYAxis({
+                title: 'new y axis title',
+                min: 12,
+                max: 34
+            });
+            expect(options.yAxis).toEqual({
+                labels: {
+                    format: '{value}',
+                    style: {
+                        color: '0'
+                    }
+                },
+                title: {
+                    text: 'new y axis title',
+                    style: {
+                        color: '0'
+                    }
+                },
+                min: 12,
+                max: 34,
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+            });
+        });
+
+        it('should be able to get xAxis properties', function () {
+            expect(options.xAxis.title.text).toBe('xLabel');
+            expect(options.xAxis.title.style.color).toBe('0');
+        });
+
+        it('should be able to get legend property', function () {
+            expect(options.legend).toEqual({
+                layout: 'vertical',
+                align: 'left',
+                x: 100,
+                verticalAlign: 'top',
+                y: 30,
+                floating: true,
+                backgroundColor: '#FFFFFF',
+                enabled: true
+            });
+            chart.legend.enabled = false;
+            expect(options.legend).toEqual({
+                layout: 'vertical',
+                align: 'left',
+                x: 100,
+                verticalAlign: 'top',
+                y: 30,
+                floating: true,
+                backgroundColor: '#FFFFFF',
+                enabled: false
+            });
+        });
+
+        it('should be able to get tooltip property', function () {
+            expect(options.tooltip).toEqual({
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<b>{point.y:.2f}</b>'
+            });
+        });
+
+        it('should be able to get chart type', function () {
+            expect(options.chart).toEqual({
+                type: 'column'
+            });
+        });
+
+        it('should be able to get plot options', function () {
+            var dataLabels = options.plotOptions.column.dataLabels;
+            expect(dataLabels.enabled).toBe(true);
+            expect(dataLabels.style).toEqual({
+                textShadow: '0 0 3px black'
+            });
+            expect(dataLabels.color).toBe('white');
         });
     });
 });

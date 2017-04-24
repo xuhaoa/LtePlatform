@@ -667,6 +667,25 @@
                 });
                 return chart.options;
             },
+            getStackColumnOptions: function (stats, setting, categoriesFunc, dataFuncList) {
+                var chart = new StackColumnChart();
+                chart.title.text = setting.title;
+                chart.xAxis.title.text = setting.xtitle;
+                chart.yAxis.title.text = setting.ytitle;
+                chart.xAxis.categories = _.map(stats, function(stat) {
+                    return categoriesFunc(stat);
+                });
+                angular.forEach(dataFuncList, function(dataFunc, $index) {
+                    chart.series.push({
+                        name: setting.seriesTitles[$index],
+                        data: _.map(stats, function(stat) {
+                            return dataFunc(stat);
+                        })
+                    });
+                });
+                
+                return chart.options;
+            },
             queryColumnOptions: function (setting, categories, data) {
                 var chart = new ComboChart();
                 chart.title.text = setting.title;
@@ -1948,6 +1967,42 @@
                     ytitle1: "平均用户数",
                     ytitle2: "最大激活用户数"
                 }, data.categories, data.dataList[index1], data.dataList[index2]);
+            },
+            getCellIndoorTypeColumnOptions: function(stats) {
+                return generalChartService.getStackColumnOptions(stats, {
+                    title: '各区室内外小区分布',
+                    xtitle: '区域',
+                    ytitle: '小区数',
+                    seriesTitles: ['室内小区', '室外小区']
+                }, function(stat) {
+                    return stat.district;
+                }, [
+                    function(stat) {
+                        return stat.totalIndoorCells;
+                    }, function(stat) {
+                        return stat.totalOutdoorCells;
+                    }
+                ]);
+            },
+            getCellBandClassColumnOptions: function(stats) {
+                return generalChartService.getStackColumnOptions(stats, {
+                    title: '各区小区频段分布',
+                    xtitle: '区域',
+                    ytitle: '小区数',
+                    seriesTitles: ['2.1G频段', '1.8G频段', '800M频段', 'TDD频段']
+                }, function(stat) {
+                    return stat.district;
+                }, [
+                    function(stat) {
+                        return stat.band1Cells;
+                    }, function(stat) {
+                        return stat.band3Cells;
+                    }, function (stat) {
+                        return stat.band5Cells;
+                    }, function (stat) {
+                        return stat.band41Cells;
+                    }
+                ]);
             }
         };
     })
