@@ -454,6 +454,13 @@
     <Content Include="appViews\Home\PlanningDetails.html" />
     <Content Include="appViews\Home\Query.html" />
     <Content Include="appViews\Home\SingleChartDialog.html" />
+    <Content Include="appViews\Home\Station.html" />
+    <Content Include="appViews\Home\StationAdd.html" />
+    <Content Include="appViews\Home\StationDetail.html" />
+    <Content Include="appViews\Home\StationDetails.html" />
+    <Content Include="appViews\Home\StationEdit.html" />
+    <Content Include="appViews\Home\StationListDialog.html" />
+    <Content Include="appViews\Home\StationSearchMenu.html" />
     <Content Include="appViews\Home\WorkItem.html" />
     <Content Include="appViews\Import\ImportProgress.html" />
     <Content Include="appViews\Import\Precise\WorkItem.html" />

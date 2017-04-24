@@ -86,6 +86,9 @@
             getCustomerHost: function () {
                 return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.41:8099/' : 'http://10.17.165.100:8099/';
             },
+            getPhpHost: function () {
+                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:9000/' : 'http://10.17.165.111:9000/';
+            },
             
             initializeIndexedDb: function (myDb, storeNames, key, callback) {
                 var version = myDb.version || 1;
@@ -240,6 +243,28 @@
                         deferred.resolve(result);
                     })
                     .error(function(reason) {
+                        deferred.reject(reason);
+                    });
+                return deferred.promise;
+            },
+            postPhpUrlData: function(url, data) {
+                var deferred = $q.defer();
+                $http({
+                    method: 'POST',
+                    url: url,
+                    data: data,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    transformRequest: function (obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }).success(function (result) {
+                    deferred.resolve(result);
+                })
+                    .error(function (reason) {
                         deferred.reject(reason);
                     });
                 return deferred.promise;
