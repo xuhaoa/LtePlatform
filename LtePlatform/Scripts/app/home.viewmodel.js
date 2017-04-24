@@ -254,19 +254,13 @@
         };
     })
 
-    .controller("menu.station", function ($scope, generalHttpService, distinctIndex, baiduMapService, parametersDialogService, baiduQueryService,
-        appUrlService) {
+    .controller("menu.station", function ($scope, downSwitchService, distinctIndex, baiduMapService, parametersDialogService, baiduQueryService) {
         $scope.stationName = "";
         $scope.stations = [];
         $scope.areaNames = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
         $scope.search = function () {
-            generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search', {
-                "curr_page": 1,
-                "page_size": 5,
-                "stationName": $scope.stationName,
-                "areaName": $scope.areaNames[distinctIndex]
-            }).then(function(response) {
-                $scope.stations = response.data.result.rows;
+            downSwitchService.getStationByName($scope.stationName, $scope.areaNames[distinctIndex], 1, 10).then(function(response) {
+                $scope.stations = response.result.rows;
             });
         }
         $scope.showStationInfo = function (index) {

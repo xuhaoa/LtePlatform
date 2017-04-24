@@ -1597,12 +1597,20 @@
             }
         };
     })
-    .factory('downSwitchService', function(generalHttpService) {
+    .factory('downSwitchService', function (generalHttpService, appUrlService) {
         return {
             getRecentKpi: function(city, initialDate) {
                 return generalHttpService.getApiData('DownSwitchFlow', {
                     city: city,
                     statDate: initialDate
+                });
+            },
+            getStationByName: function(name, areaName, page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "stationName": name,
+                    "areaName": areaName
                 });
             }
         };
