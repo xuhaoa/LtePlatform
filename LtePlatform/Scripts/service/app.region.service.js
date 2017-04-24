@@ -1744,6 +1744,16 @@
                     city: cityName
                 });
             },
+            queryDistrictIndoorCells: function (cityName) {
+                return generalHttpService.getApiData('DistrictIndoorCells', {
+                    city: cityName
+                });
+            },
+            queryDistrictBandCells: function (cityName) {
+                return generalHttpService.getApiData('DistrictBandCells', {
+                    city: cityName
+                });
+            },
             queryTowns: function (cityName, districtName) {
                 return generalHttpService.getApiData('CityList', {
                     city: cityName,

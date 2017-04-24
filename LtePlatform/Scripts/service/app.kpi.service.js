@@ -1353,6 +1353,22 @@
 
         $scope.showCityStats();
     })
+    .controller('cell.type.chart', function ($scope, $uibModalInstance, city, dialogTitle, appRegionService) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.neighbor);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+        appRegionService.queryDistrictIndoorCells(city.selected).then(function(stats) {
+            console.log(stats);
+        });
+        appRegionService.queryDistrictBandCells(city.selected).then(function(stats) {
+            console.log(stats);
+        });
+    })
 
     .factory('neighborDialogService', function (menuItemService, networkElementService) {
         var matchNearest = function (nearestCell, currentNeighbor, center) {
@@ -1477,6 +1493,20 @@
                     resolve: {
                         dialogTitle: function () {
                             return "全网基站小区信息统计";
+                        },
+                        city: function () {
+                            return city;
+                        }
+                    }
+                });
+            },
+            queryCellTypeChart: function (city) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'cell.type.chart',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "全网小区类型统计";
                         },
                         city: function () {
                             return city;

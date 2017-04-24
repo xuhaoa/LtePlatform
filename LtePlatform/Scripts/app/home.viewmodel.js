@@ -708,6 +708,9 @@
             baiduMapService.addCityBoundary("佛山");
             neighborDialogService.queryList($scope.city);
         };
+        $scope.queryType = function() {
+            neighborDialogService.queryCellTypeChart($scope.city);
+        };
         $scope.showDistrictTownStat = function(district, color) {
             baiduMapService.addDistrictBoundary(district, color);
             appRegionService.queryTownInfrastructures($scope.city.selected, district).then(function(result) {
