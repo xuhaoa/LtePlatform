@@ -553,6 +553,169 @@
             },
             prefixInteger: function (num, length) {
                 return (Array(length).join('0') + num).slice(-length);
+            },
+            generateSiteGroups: function(site) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '正式名称',
+                                value: site.formalName
+                            }, {
+                                key: '规划名称',
+                                value: site.planName
+                            }, {
+                                key: '规划编号',
+                                value: site.planNum
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '区域',
+                                value: site.district
+                            }, {
+                                key: '镇区',
+                                value: site.town
+                            }, {
+                                key: '获取日期',
+                                value: site.gottenDate
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '杆塔类型',
+                                value: site.towerType
+                            }, {
+                                key: '天线高度',
+                                value: site.antennaHeight
+                            }, {
+                                key: '开通日期',
+                                value: site.finishedDate
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: site.longtitute
+                            }, {
+                                key: '纬度',
+                                value: site.lattitute
+                            }
+                        ]
+                    }
+                ];
+            },
+            generateStationGroups: function(station) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '站点名称',
+                                value: station.StationName
+                            }, {
+                                key: '机房名称',
+                                value: station.EngineRoom
+                            }, {
+                                key: '站点类型',
+                                value: station.StationType
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '区域',
+                                value: station.AreaName
+                            }, {
+                                key: '镇区',
+                                value: station.Town
+                            }, {
+                                key: '安装地址',
+                                value: station.InstallAddr
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '杆塔类型',
+                                value: station.TowerType
+                            }, {
+                                key: '天线高度',
+                                value: station.TowerHeight
+                            }, {
+                                key: '开通日期',
+                                value: station.IntersectionDate
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: station.longtitute
+                            }, {
+                                key: '纬度',
+                                value: station.lattitute
+                            }, {
+                                key: '系统站址ID',
+                                value: station.SysStationId
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '机房归属',
+                                value: station.RoomAttribution
+                            }, {
+                                key: '是否新建机房',
+                                value: station.IsNewRoom
+                            }, {
+                                key: 'CL网是否共用天线',
+                                value: station.IsShare
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '网络类型',
+                                value: station.NetType
+                            }, {
+                                key: '是否高危站点',
+                                value: station.IsDangerous
+                            }, {
+                                key: '是否简易机房',
+                                value: station.IsSimple
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '属地性质',
+                                value: station.AttributionNature
+                            }, {
+                                key: '是否新建铁塔',
+                                value: station.IsNewTower
+                            }, {
+                                key: '铁塔归属',
+                                value: station.TowerAttribution
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '铁塔高度',
+                                value: station.TowerHeight
+                            }, {
+                                key: '铁塔类型',
+                                value: station.TowerType
+                            }, {
+                                key: '铁塔编号',
+                                value: station.TowerCode
+                            }
+                        ]
+                    }
+                ];
             }
         }
     })
