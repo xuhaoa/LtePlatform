@@ -324,6 +324,9 @@
                 }, {
                     displayName: "负荷评估",
                     url: appUrlService.getParameterUrlHost() + 'ltecapability.html'
+                }, {
+                    displayName: "E-RAB优化",
+                    url: appUrlService.getPlanUrlHost() + 'erab'
                 }
             ]
         };
@@ -361,6 +364,9 @@
                     displayName: "路测管理",
                     url: appUrlService.getDtUrlHost2(),
                     tooltip: "路测综合管理"
+                }, {
+                    displayName: "CQT管理",
+                    url: appUrlService.getPlanUrlHost() + 'CQT'
                 }
             ]
         }
