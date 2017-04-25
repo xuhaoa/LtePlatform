@@ -75,5 +75,7 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<AppSteam> AppSteams { get; set; }
 
         public DbSet<WebBrowsing> WebBrowsings { get; set; }
+
+        public DbSet<StationDictionary> StationDictionaries { get; set; }
     }
 }

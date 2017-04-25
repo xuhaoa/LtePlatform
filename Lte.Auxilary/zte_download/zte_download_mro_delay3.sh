@@ -1,0 +1,1 @@
+/home/wireless/anaconda3/bin/python /home/wireless/Public/ftp_zte.py 3

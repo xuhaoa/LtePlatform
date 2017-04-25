@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Modify_App_Browsing : IMigrationMetadata
+    public sealed partial class Create_StationDictionary : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Modify_App_Browsing));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Create_StationDictionary));
         
         string IMigrationMetadata.Id
         {
-            get { return "201703300344114_Modify_App_Browsing"; }
+            get { return "201704250816308_Create_StationDictionary"; }
         }
         
         string IMigrationMetadata.Source
