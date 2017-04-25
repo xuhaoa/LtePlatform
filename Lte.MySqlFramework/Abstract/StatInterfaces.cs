@@ -63,4 +63,10 @@ namespace Lte.MySqlFramework.Abstract
     {
         
     }
+
+    public interface IStationDictionaryRepository : IRepository<StationDictionary>,
+        IMatchRepository<StationDictionary, StationDictionaryExcel>, ISaveChanges
+    {
+        
+    }
 }

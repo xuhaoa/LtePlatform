@@ -185,6 +185,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IWebBrowsingRepository>().To<WebBrowsingRepository>();
 
+            ninjectKernel.Bind<IStationDictionaryRepository>().To<StationDictionaryRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();

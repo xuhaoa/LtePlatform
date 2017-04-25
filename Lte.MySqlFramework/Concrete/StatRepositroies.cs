@@ -92,4 +92,22 @@ namespace Lte.MySqlFramework.Concrete
             return Context.SaveChanges();
         }
     }
+
+    public class StationDictionaryRepository : EfRepositoryBase<MySqlContext, StationDictionary>,
+        IStationDictionaryRepository
+    {
+        public StationDictionaryRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public StationDictionary Match(StationDictionaryExcel stat)
+        {
+            return FirstOrDefault(x => x.StationNum == stat.StationNum);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
 }

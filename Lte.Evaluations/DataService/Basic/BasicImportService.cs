@@ -5,6 +5,9 @@ using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using System.Collections.Generic;
 using System.Linq;
+using Abp.EntityFramework.Repositories;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.DataService.Basic
 {
@@ -14,14 +17,17 @@ namespace Lte.Evaluations.DataService.Basic
         private readonly ICellRepository _cellRepository;
         private readonly IBtsRepository _btsRepository;
         private readonly ICdmaCellRepository _cdmaCellRepository;
+        private readonly IStationDictionaryRepository _stationDictionary;
 
         public BasicImportService(IENodebRepository eNodebRepository, ICellRepository cellRepository,
-            IBtsRepository btsRepository, ICdmaCellRepository cdmaCellRepository)
+            IBtsRepository btsRepository, ICdmaCellRepository cdmaCellRepository, 
+            IStationDictionaryRepository stationDictionary)
         {
             _eNodebRepository = eNodebRepository;
             _cellRepository = cellRepository;
             _btsRepository = btsRepository;
             _cdmaCellRepository = cdmaCellRepository;
+            _stationDictionary = stationDictionary;
         }
 
         public static List<ENodebExcel> ENodebExcels { get; set; } = new List<ENodebExcel>();
@@ -48,6 +54,13 @@ namespace Lte.Evaluations.DataService.Basic
                 select c).ToList();
             CdmaCellExcels = (from c in repo.Worksheet<CdmaCellExcel>("小区级")
                 select c).ToList();
+        }
+
+        public int ImportStationDictionaries(string path)
+        {
+            var repo = new ExcelQueryFactory { FileName = path };
+            var excels = (from c in repo.Worksheet<StationDictionaryExcel>("L网网元台账对应关系") select c).ToList();
+            return _stationDictionary.Import<IStationDictionaryRepository, StationDictionary, StationDictionaryExcel>(excels);
         }
 
         public IEnumerable<ENodebExcel> GetNewENodebExcels()

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Remotion.Data.Linq.Parsing.Structure.IntermediateModel;
 
 namespace LtePlatform.Controllers
 {
@@ -91,6 +92,18 @@ namespace LtePlatform.Controllers
                 _basicImportService.ImportCdmaParameters(cdmaPath);
             }
             return RedirectToAction("BasicImport");
+        }
+
+        public ActionResult StationDictionaryPost()
+        {
+            var dictFile = Request.Files["stationDictionary"];
+            if (dictFile!=null&& dictFile.FileName!="")
+            {
+                var dictPath = dictFile.UploadParametersFile();
+                var count = _basicImportService.ImportStationDictionaries(dictPath);
+                ViewBag.Message = "共上传LTE站点对应关系记录" + count + "条";
+            } 
+            return View("BasicImport");
         }
 
         [Authorize]
