@@ -1619,6 +1619,11 @@
                     page_size: pageSize,
                     areaName: areaName
                 });
+            },
+            getStationById: function(id) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/single', {
+                    "id": id
+                });
             }
         };
     })

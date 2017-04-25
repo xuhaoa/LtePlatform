@@ -775,20 +775,6 @@
 					}
 				});
 			},
-			showStationDetails: function (stationId) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/Home/StationDetail.html',
-					controller: 'map.stationDetail.dialog',
-					resolve: {
-						dialogTitle: function() {
-							return "站点详情";
-						},
-						stationId: function() {
-							return stationId;
-						}
-					}
-				});
-			},
 			showStationEdit: function (stationId) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Home/StationEdit.html',
@@ -1161,8 +1147,63 @@
 					}, {
 						key: '纬度',
 						value: station.lattitute
+					}, {
+					    key: '系统站址ID',
+					    value: station.SysStationId
 					}
 				]
+			}, {
+			    items: [
+					{
+					    key: '机房归属',
+					    value: station.RoomAttribution
+					}, {
+					    key: '是否新建机房',
+					    value: station.IsNewRoom
+					}, {
+					    key: 'CL网是否共用天线',
+					    value: station.IsShare
+					}
+			    ]
+			}, {
+			    items: [
+					{
+					    key: '网络类型',
+					    value: station.NetType
+					}, {
+					    key: '是否高危站点',
+					    value: station.IsDangerous
+					}, {
+					    key: '是否简易机房',
+					    value: station.IsSimple
+					}
+			    ]
+			}, {
+			    items: [
+					{
+					    key: '属地性质',
+					    value: station.AttributionNature
+					}, {
+					    key: '是否新建铁塔',
+					    value: station.IsNewTower
+					}, {
+					    key: '铁塔归属',
+					    value: station.TowerAttribution
+					}
+			    ]
+			}, {
+			    items: [
+					{
+					    key: '铁塔高度',
+					    value: station.TowerHeight
+					}, {
+					    key: '铁塔类型',
+					    value: station.TowerType
+					}, {
+					    key: '铁塔编号',
+					    value: station.TowerCode
+					}
+			    ]
 			}
 		];
 		$scope.dialogTitle = dialogTitle;
@@ -1174,7 +1215,8 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
-	.controller('map.stationList.dialog', function ($scope, $http, dialogTitle, $uibModalInstance, parametersDialogService) {
+	.controller('map.stationList.dialog', function ($scope, $http, dialogTitle, $uibModalInstance, parametersDialogService,
+		downSwitchService) {
 		$scope.dialogTitle = dialogTitle;
 		$scope.distincts = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
 		$scope.stationList = [];
@@ -1192,7 +1234,9 @@
 			// 请求失败执行代码
 		});
 		$scope.details = function (stationId) {
-			parametersDialogService.showStationDetails(stationId);
+			downSwitchService.getStationById(stationId).then(function(result) {
+				parametersDialogService.showStationInfo(result.result[0]);
+			});
 		}
 
 		$scope.delete = function (stationId) {
@@ -1279,32 +1323,6 @@
 			}, function errorCallback(response) {
 				// 请求失败执行代码
 			});
-		}
-	})
-	.controller('map.stationDetail.dialog', function ($scope, $http, stationId, dialogTitle, $uibModalInstance) {
-		$scope.dialogTitle = dialogTitle;
-		$scope.station;
-		$http({
-			method: 'post',
-			url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/single',
-			data: {
-				"id": stationId
-			},
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-			transformRequest: function (obj) {
-				var str = [];
-				for (var p in obj) {
-					str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-				}
-				return str.join("&");
-			}
-		}).then(function successCallback(response) {
-			$scope.station = response.data.result[0];
-		}, function errorCallback(response) {
-			// 请求失败执行代码
-		});
-		$scope.cancel = function () {
-			$uibModalInstance.dismiss('cancel');
 		}
 	})
 	.controller('map.stationEdit.dialog', function ($scope, $http, stationId, dialogTitle, $uibModalInstance) {
