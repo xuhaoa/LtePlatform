@@ -1612,6 +1612,13 @@
                     "stationName": name,
                     "areaName": areaName
                 });
+            },
+            getStationsByAreaName: function(areaName, page, pageSize) {
+                return generalHttpService.getMvcData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search/', {
+                    curr_page: page,
+                    page_size: pageSize,
+                    areaName: areaName
+                });
             }
         };
     })
