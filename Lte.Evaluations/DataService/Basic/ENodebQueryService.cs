@@ -19,11 +19,14 @@ namespace Lte.Evaluations.DataService.Basic
     {
         private readonly ITownRepository _townRepository;
         private readonly IENodebRepository _eNodebRepository;
+        private readonly IStationDictionaryRepository _stationDictionaryRepository;
 
-        public ENodebQueryService(ITownRepository townRepository, IENodebRepository eNodebRepository)
+        public ENodebQueryService(ITownRepository townRepository, IENodebRepository eNodebRepository,
+            IStationDictionaryRepository stationDictionaryRepository)
         {
             _townRepository = townRepository;
             _eNodebRepository = eNodebRepository;
+            _stationDictionaryRepository = stationDictionaryRepository;
         }
 
         public IEnumerable<ENodebView> GetByTownNames(string city, string district, string town)
@@ -67,6 +70,17 @@ namespace Lte.Evaluations.DataService.Basic
         public ENodebView GetByENodebId(int eNodebId)
         {
             var item = _eNodebRepository.GetByENodebId(eNodebId);
+            return item?.MapTo<ENodebView>();
+        }
+
+        public ENodebView GetByStationNum(string stationNum)
+        {
+            var station =
+                _stationDictionaryRepository.FirstOrDefault(x => x.StationNum == stationNum && x.IsRru == false);
+            if (station == null) return null;
+            var item = _eNodebRepository.GetByENodebId(station.ENodebId);
+            if (item != null) return item.MapTo<ENodebView>();
+            item = _eNodebRepository.FirstOrDefault(x => x.PlanNum == station.PlanNum);
             return item?.MapTo<ENodebView>();
         }
 

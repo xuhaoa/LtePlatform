@@ -32,20 +32,18 @@ namespace LtePlatform.Controllers.Parameters
         [ApiDoc("使用名称模糊查询，可以先后匹配基站名称、基站编号、规划编号和地址")]
         [ApiParameterDoc("name", "模糊查询的名称")]
         [ApiResponse("查询得到的基站列表结果，如果没有则会报错")]
-        public IHttpActionResult Get(string name)
+        public IEnumerable<ENodebView> Get(string name)
         {
-            var result = _service.GetByGeneralName(name);
-            return result == null ? (IHttpActionResult)BadRequest("No eNodebs given the query conditions!") : Ok(result);
+            return _service.GetByGeneralName(name);
         }
 
         [HttpGet]
         [ApiDoc("根据基站编号条件查询基站")]
         [ApiParameterDoc("eNodebId", "基站编号")]
         [ApiResponse("查询得到的基站列表结果，如果没有则会报错")]
-        public IHttpActionResult Get(int eNodebId)
+        public ENodebView Get(int eNodebId)
         {
-            var result = _service.GetByENodebId(eNodebId);
-            return result == null ? (IHttpActionResult)BadRequest("No eNodebs given the query conditions!") : Ok(result);
+            return _service.GetByENodebId(eNodebId);
         }
 
         [HttpGet]
@@ -67,6 +65,22 @@ namespace LtePlatform.Controllers.Parameters
         public IEnumerable<ENodebView> Post(ENodebRangeContainer container)
         {
             return _service.QueryENodebViews(container);
+        }
+    }
+
+    public class ENodebStationController : ApiController
+    {
+        private readonly ENodebQueryService _service;
+
+        public ENodebStationController(ENodebQueryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public ENodebView Get(string stationNum)
+        {
+            return _service.GetByStationNum(stationNum);
         }
     }
 
