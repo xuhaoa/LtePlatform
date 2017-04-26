@@ -881,12 +881,11 @@
 	})
 
 	.controller('map.eNodeb.dialog', function($scope, $uibModalInstance, eNodeb, dialogTitle,
-		networkElementService, cellHuaweiMongoService, alarmImportService, intraFreqHoService, interFreqHoService) {
-		$scope.eNodeb = eNodeb;
+		networkElementService, cellHuaweiMongoService, alarmImportService, intraFreqHoService, interFreqHoService, appFormatService) {
 		$scope.dialogTitle = dialogTitle;
 		//查询基站基本信息
 		networkElementService.queryENodebInfo(eNodeb.eNodebId).then(function (result) {
-			$scope.eNodebDetails = result;
+		    $scope.eNodebGroups = appFormatService.generateENodebGroups(result);
 			if (result.factory === '华为') {
 				cellHuaweiMongoService.queryLocalCellDef(result.eNodebId).then(function (cellDef) {
 					alarmImportService.updateHuaweiAlarmInfos(cellDef).then(function () { });
@@ -910,7 +909,7 @@
 		});
 
 		$scope.ok = function() {
-			$uibModalInstance.close($scope.eNodeb);
+			$uibModalInstance.close($scope.eNodebGroups);
 		};
 
 		$scope.cancel = function() {
