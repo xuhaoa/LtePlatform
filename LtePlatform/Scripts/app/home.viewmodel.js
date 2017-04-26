@@ -484,11 +484,11 @@
         $scope.distincts = new Array('佛山市','顺德区', '南海区', '禅城区', '三水区', '高明区' );
         $scope.distinct = "佛山市";
         $scope.stationss = [];
-        $scope.stationss[1] = [];
-        $scope.stationss[2] = [];
-        $scope.stationss[3] = [];
-        $scope.stationss[4] = [];
-        $scope.stationss[5] = [];
+        $scope.stationss[1] = [];//顺德区
+        $scope.stationss[2] = [];//南海区
+        $scope.stationss[3] = [];//禅城区
+        $scope.stationss[4] = [];//三水区
+        $scope.stationss[5] = [];//高明区
         //获取站点
         $scope.getStations = function (areaName,index) {       
             $http({
@@ -517,9 +517,15 @@
             }
                 
         };
+        $scope.importData = function () {
+            parametersDialogService.showImportList();
+        };
+        $scope.outportData = function () {
+            parametersDialogService.showOutportList();
+        };
         $scope.showStationList = function () {
             parametersDialogService.showStationList();
-        }
+        };
         $scope.$watch('stationss[1]', function () {
             //alert($scope.stationss[1].length);
             if (!$scope.stationss[1].length)

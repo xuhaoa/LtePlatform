@@ -457,6 +457,7 @@
     <Content Include="appViews\Home\SingleChartDialog.html" />
     <Content Include="appViews\Home\Station.html" />
     <Content Include="appViews\Home\StationDetails.html" />
+    <Content Include="appViews\Home\StationOutportDialog.html" />
     <Content Include="appViews\Home\StationSearchMenu.html" />
     <Content Include="appViews\Home\WorkItem.html" />
     <Content Include="appViews\Import\ImportProgress.html" />
@@ -481,6 +482,7 @@
     <Content Include="appViews\Rutrace\Map\VictimMapInfoBox.html" />
     <Content Include="appViews\Rutrace\WorkItem\CellTrend.html" />
     <Content Include="appViews\Rutrace\WorkItem\ForCell.html" />
+    <Content Include="appViews\ShowImportDialog.html" />
     <Content Include="appViews\Test\Simple\CellClass.html" />
     <Content Include="appViews\Test\Simple\GridBinding.html" />
     <Content Include="appViews\Test\Simple\GridFilter.html" />

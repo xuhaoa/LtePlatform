@@ -774,6 +774,42 @@
 	                $log.info('Modal dismissed at: ' + new Date());
 	            });
 	        },
+	        showOutportList: function () {
+	            var modalInstance = $uibModal.open({
+	                animation: true,
+	                templateUrl: '/appViews/Home/StationOutportDialog.html',
+	                controller: 'map.stationOutport.dialog',
+	                size: 'lg',
+	                resolve: {
+	                    dialogTitle: function () {
+	                        return "台帐下载";
+	                    }
+	                }
+	            });
+	            modalInstance.result.then(function (nei) {
+	                console.log(nei);
+	            }, function () {
+	                $log.info('Modal dismissed at: ' + new Date());
+	            });
+	        },
+	        showImportList: function () {
+	            var modalInstance = $uibModal.open({
+	                animation: true,
+	                templateUrl: '/appViews/Home/StationImportDialog.html',
+	                controller: 'map.stationImport.dialog',
+	                size: 'lg',
+	                resolve: {
+	                    dialogTitle: function () {
+	                        return "台帐上传";
+	                    }
+	                }
+	            });
+	            modalInstance.result.then(function (nei) {
+	                console.log(nei);
+	            }, function () {
+	                $log.info('Modal dismissed at: ' + new Date());
+	            });
+	        },
 	        showStationDetails: function (stationId) {
 	            
 	            var modalInstance = $uibModal.open({
@@ -1249,6 +1285,29 @@
                 // 请求失败执行代码
             });
         }
+    })
+
+    .controller('map.stationOutport.dialog', function ($scope, $http, dialogTitle, $uibModalInstance, parametersDialogService) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.stationOutport = function () {
+            location.href = "http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/download";
+        }
+        $scope.indoorOutport = function () {
+        }
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('map.stationImport.dialog', function ($scope, $http, dialogTitle, $uibModalInstance, parametersDialogService) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.stationImport = function () {
+            //location.href = "http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/download";
+        }
+        $scope.indoorImport = function () {
+        }
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
     })
     .controller('map.stationDetail.dialog', function ($scope, $http, stationId, dialogTitle, $uibModalInstance) {
         $scope.dialogTitle = dialogTitle;
