@@ -424,6 +424,9 @@
     <Content Include="zte_download\zte_download_mro_125_183_delay2.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="zte_download\zte_download_mro_125_183_delay3.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="zte_download\zte_download_mro_125_229.sh">
       <SubType>Code</SubType>
     </Content>
@@ -431,6 +434,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mro_125_229_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_mro_125_229_delay3.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mro_125_delay1.sh">

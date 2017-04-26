@@ -1036,7 +1036,7 @@
 	})
 
 	.controller('map.site.dialog', function($scope, $uibModalInstance, site, dialogTitle, appFormatService) {
-	    $scope.itemGroups = appFormatService.generateSiteGroups(site);
+		$scope.itemGroups = appFormatService.generateSiteGroups(site);
 		$scope.dialogTitle = dialogTitle;
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.site);
@@ -1047,8 +1047,11 @@
 		};
 	})
 
-	.controller('map.station.dialog', function ($scope, $uibModalInstance, station, dialogTitle, appFormatService) {
-	    $scope.itemGroups = appFormatService.generateStationGroups(station);
+	.controller('map.station.dialog', function ($scope, $uibModalInstance, station, dialogTitle, appFormatService, networkElementService) {
+		$scope.itemGroups = appFormatService.generateStationGroups(station);
+		networkElementService.queryENodebStationInfo(station.StationId).then(function(eNodeb) {
+		    $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
+		});
 		$scope.dialogTitle = dialogTitle;
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.site);
