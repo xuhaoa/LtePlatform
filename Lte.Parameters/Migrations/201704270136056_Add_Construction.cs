@@ -3,7 +3,7 @@ namespace Lte.Parameters.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Update_Precise_Coverage_SQLServer : DbMigration
+    public partial class Add_Construction : DbMigration
     {
         public override void Up()
         {
@@ -12,10 +12,18 @@ namespace Lte.Parameters.Migrations
             AddColumn("dbo.PreciseCoverage4G", "Neighbors2", c => c.Int(nullable: false));
             AddColumn("dbo.PreciseCoverage4G", "Neighbors3", c => c.Int(nullable: false));
             AddColumn("dbo.PreciseCoverage4G", "NeighborsMore", c => c.Int(nullable: false));
+            AddColumn("dbo.TownPreciseCoverage4GStat", "NeighborsMore", c => c.Int(nullable: false));
+            AddColumn("dbo.TownPreciseCoverage4GStat", "InterFirstNeighbors", c => c.Int(nullable: false));
+            AddColumn("dbo.TownPreciseCoverage4GStat", "InterSecondNeighbors", c => c.Int(nullable: false));
+            AddColumn("dbo.TownPreciseCoverage4GStat", "InterThirdNeighbors", c => c.Int(nullable: false));
         }
         
         public override void Down()
         {
+            DropColumn("dbo.TownPreciseCoverage4GStat", "InterThirdNeighbors");
+            DropColumn("dbo.TownPreciseCoverage4GStat", "InterSecondNeighbors");
+            DropColumn("dbo.TownPreciseCoverage4GStat", "InterFirstNeighbors");
+            DropColumn("dbo.TownPreciseCoverage4GStat", "NeighborsMore");
             DropColumn("dbo.PreciseCoverage4G", "NeighborsMore");
             DropColumn("dbo.PreciseCoverage4G", "Neighbors3");
             DropColumn("dbo.PreciseCoverage4G", "Neighbors2");

@@ -4,10 +4,11 @@ using Lte.Domain.Regular;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Basic;
 using System;
+using Lte.Parameters.Entities;
 
 namespace Lte.Evaluations.ViewModels.Basic
 {
-    [AutoMapFrom(typeof(ENodeb))]
+    [AutoMapFrom(typeof(ENodeb), typeof(Town))]
     public class ENodebView : IGeoPointReadonly<double>
     {
         public int ENodebId { get; set; }
@@ -33,6 +34,12 @@ namespace Lte.Evaluations.ViewModels.Basic
         public DateTime OpenDate { get; set; }
 
         public string OpenDateString => OpenDate.ToShortDateString();
+
+        public string CityName { get; set; }
+
+        public string DistrictName { get; set; }
+
+        public string TownName { get; set; }
     }
 
     [AutoMapFrom(typeof(PlanningSite))]
