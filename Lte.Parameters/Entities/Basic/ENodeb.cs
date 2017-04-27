@@ -205,7 +205,38 @@ namespace Lte.Parameters.Entities.Basic
 
     public class FSLEnodeb : Entity
     {
-        public string FSLNo { get; set; }
+        [MaxLength(200)]
+        public string FSLNO { get; set; }
+
+        public int? ENODEBID { get; set; }
+
+        [MaxLength(200)]
+        public string ENODEBNAME { get; set; }
+
+        public double? LONGITUDE { get; set; }
+
+        public double? LATITIUDE { get; set; }
+
+        [MaxLength(2)]
+        public string INDOOR { get; set; }
+
+        [MaxLength(200)]
+        public string FSCNO { get; set; }
+
+        [MaxLength(200)]
+        public string SITENO { get; set; }
+
+        [MaxLength(200)]
+        public string AREA { get; set; }
+
+        [MaxLength(200)]
+        public string MKTCENTER { get; set; }
+
+        [MaxLength(200)]
+        public string ADDRESS { get; set; }
+
+        [MaxLength(1000)]
+        public string REMARK { get; set; }
     }
 
     public class Enodeb_Base : Entity
@@ -261,13 +292,13 @@ namespace Lte.Parameters.Entities.Basic
         [MaxLength(200)]
         public string ISTRANSFER { get; set; }
 
-        public DateTime OPEN_TIME { get; set; }
+        public DateTime? OPEN_TIME { get; set; }
 
-        public DateTime COMPLETED_TIME { get; set; }
+        public DateTime? COMPLETED_TIME { get; set; }
 
-        public DateTime CONSTRCTION_TIME { get; set; }
+        public DateTime? CONSTRCTION_TIME { get; set; }
 
-        public DateTime UPLOAD_TIME { get; set; }
+        public DateTime? UPLOAD_TIME { get; set; }
 
         [MaxLength(200)]
         public string CONSTRUCTION_COMPANY { get; set; }
