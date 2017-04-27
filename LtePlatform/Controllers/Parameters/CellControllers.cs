@@ -104,6 +104,22 @@ namespace LtePlatform.Controllers.Parameters
         }
     }
 
+    public class CellStationController : ApiController
+    {
+        private readonly CellService _service;
+
+        public CellStationController(CellService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<CellRruView> Get(string stationNum)
+        {
+            return _service.GetByStationNum(stationNum);
+        } 
+    }
+
     public class OutdoorCellSiteController : ApiController
     {
         private readonly CellService _service;

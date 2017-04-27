@@ -750,7 +750,7 @@
 					}
 				});
 			},
-			showStationInfo: function (station) {
+			showStationInfo: function (station, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Home/StationDetails.html',
 					controller: 'map.station.dialog',
@@ -760,6 +760,12 @@
 						},
 						station: function() {
 							return station;
+						},
+						beginDate: function() {
+							return beginDate;
+						},
+						endDate: function() {
+							return endDate;
 						}
 					}
 				});
@@ -885,7 +891,7 @@
 		$scope.dialogTitle = dialogTitle;
 		//查询基站基本信息
 		networkElementService.queryENodebInfo(eNodeb.eNodebId).then(function (result) {
-		    $scope.eNodebGroups = appFormatService.generateENodebGroups(result);
+			$scope.eNodebGroups = appFormatService.generateENodebGroups(result);
 			if (result.factory === '华为') {
 				cellHuaweiMongoService.queryLocalCellDef(result.eNodebId).then(function (cellDef) {
 					alarmImportService.updateHuaweiAlarmInfos(cellDef).then(function () { });
@@ -1046,10 +1052,20 @@
 		};
 	})
 
-	.controller('map.station.dialog', function ($scope, $uibModalInstance, station, dialogTitle, appFormatService, networkElementService) {
+	.controller('map.station.dialog', function ($scope, $uibModalInstance, station, dialogTitle, beginDate, endDate,
+		appFormatService, networkElementService) {
+		$scope.beginDate = beginDate;
+		$scope.endDate = endDate;
 		$scope.itemGroups = appFormatService.generateStationGroups(station);
-		networkElementService.queryENodebStationInfo(station.StationId).then(function(eNodeb) {
-		    $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
+		$scope.cellList = [];
+		networkElementService.queryENodebStationInfo(station.StationId).then(function (eNodeb) {
+			if (eNodeb) {
+				$scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
+			}
+			
+		});
+		networkElementService.queryCellStationInfo(station.StationId).then(function(cellList) {
+			$scope.cellList = cellList;
 		});
 		$scope.dialogTitle = dialogTitle;
 		$scope.ok = function () {

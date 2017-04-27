@@ -265,7 +265,7 @@
         }
         $scope.showStationInfo = function (index) {
             document.getElementById("cardlist").style.display = "none";
-            parametersDialogService.showStationInfo($scope.stations[index - 1]);
+            parametersDialogService.showStationInfo($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
         }
         $scope.$watch('stations', function () {
             baiduMapService.clearOverlays();

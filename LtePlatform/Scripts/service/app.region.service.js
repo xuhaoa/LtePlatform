@@ -87,6 +87,11 @@
                     cellId: eNodebId
                 });
             },
+            queryCellStationInfo: function (stationNum) {
+                return generalHttpService.getApiData('CellStation', {
+                    stationNum: stationNum
+                });
+            },
             queryCellSectorIds: function(name) {
                 return generalHttpService.getApiData('Cell', {
                     eNodebName: name
