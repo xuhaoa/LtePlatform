@@ -453,6 +453,7 @@
     <Content Include="appViews\Home\StationAdd.html" />
     <Content Include="appViews\Home\StationDetail.html" />
     <Content Include="appViews\Home\StationEdit.html" />
+    <Content Include="appViews\Home\StationImportDialog.html" />
     <Content Include="appViews\Home\StationListDialog.html" />
     <Content Include="appViews\Home\SingleChartDialog.html" />
     <Content Include="appViews\Home\Station.html" />

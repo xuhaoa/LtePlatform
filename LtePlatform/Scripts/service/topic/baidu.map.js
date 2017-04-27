@@ -1289,6 +1289,7 @@
 
     .controller('map.stationOutport.dialog', function ($scope, $http, dialogTitle, $uibModalInstance, parametersDialogService) {
         $scope.dialogTitle = dialogTitle;
+        
         $scope.stationOutport = function () {
             location.href = "http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/download";
         }
@@ -1300,8 +1301,57 @@
     })
     .controller('map.stationImport.dialog', function ($scope, $http, dialogTitle, $uibModalInstance, parametersDialogService) {
         $scope.dialogTitle = dialogTitle;
+        
+        $scope.upload = function () {          
+            var f = document.getElementById('file');
+            var file = document.getElementById('file').files[0];
+
+            var reader = new FileReader();
+
+            reader.onloadend = function (e) {
+                $http({
+                    method: 'POST',
+                    url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/upload',
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: {
+                        //filename:document.getElementsByClassName('input-file')[0].files[0],
+                        filename: f.value,
+                        content:e.target.result,
+                        problemType: '3'
+                    },
+                    transformRequest: (data, headersGetter) => {
+                        let formData = new FormData();
+                        angular.forEach(data, function (value, key) {
+                            formData.append(key, value);
+                        });
+                        return formData;
+                    }
+                })
+                .success(() => {
+                alert('Upload Successfully');
+            })
+                .error(() => {
+                alert('Fail to upload, please upload again');
+            });
+                
+            }
+            reader.readAsText(file);
+
+            
+            
+        }
+       
+        //inject angular file upload directives and service.angular.module('myApp', ['angularFileUpload']);var MyCtrl = [ '$scope', '$upload', function($scope, $upload) {
+        $scope.onFileSelect = function ($files) {    //$files: an array of files selected, each file has name, size, and type.
+            alert("111");
+            alert($files.name);
+           
+            
+        };
         $scope.stationImport = function () {
-            //location.href = "http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/download";
+
         }
         $scope.indoorImport = function () {
         }
