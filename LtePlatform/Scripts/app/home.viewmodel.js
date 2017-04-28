@@ -353,17 +353,17 @@
             ]
         }
     })
-    .controller('menu.dt', function($scope, appUrlService) {
+    .controller('menu.dt', function ($scope, appUrlService) {
+        var rootUrl = "/#";
         $scope.menuItem = {
             displayName: "路测管理",
             subItems: [
                 {
-                    displayName: "路测分析",
-                    url: appUrlService.getDtUrlHost() + 'admin'
+                    displayName: "路测数据总览",
+                    url: rootUrl + "/dt"
                 }, {
-                    displayName: "路测管理",
-                    url: appUrlService.getDtUrlHost2(),
-                    tooltip: "路测综合管理"
+                    displayName: "路测分析",
+                    url: appUrlService.getDtUrlHost()
                 }, {
                     displayName: "CQT管理",
                     url: appUrlService.getPlanUrlHost() + 'CQT'
