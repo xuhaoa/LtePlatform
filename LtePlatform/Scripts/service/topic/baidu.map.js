@@ -1302,7 +1302,7 @@
     .controller('map.stationImport.dialog', function ($scope, $http, dialogTitle, $uibModalInstance, parametersDialogService) {
         $scope.dialogTitle = dialogTitle;
         
-        $scope.upload = function () {          
+        $scope.stationImport = function () {
             var f = document.getElementById('file');
             var file = document.getElementById('file').files[0];
 
@@ -1317,7 +1317,7 @@
                     },
                     data: {
                         //filename:document.getElementsByClassName('input-file')[0].files[0],
-                        filename: f.value,
+                        filename: "stationImport",
                         content:e.target.result,
                         problemType: '3'
                     },
@@ -1337,24 +1337,17 @@
             });
                 
             }
-            reader.readAsText(file);
-
-            
-            
+            reader.readAsText(file);         
         }
        
         //inject angular file upload directives and service.angular.module('myApp', ['angularFileUpload']);var MyCtrl = [ '$scope', '$upload', function($scope, $upload) {
-        $scope.onFileSelect = function ($files) {    //$files: an array of files selected, each file has name, size, and type.
-            alert("111");
-            alert($files.name);
-           
-            
+        $scope.onFileSelect = function ($files) {    //$files: an array of files selected, each file has name, size, and type.            
+            alert($files.name);    
         };
-        $scope.stationImport = function () {
-
-        }
+        
         $scope.indoorImport = function () {
         }
+
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
