@@ -29,6 +29,12 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        public IEnumerable<ENodebView> Get(string city, string district)
+        {
+            return _service.GetByDistrictNames(city, district);
+        }
+
+        [HttpGet]
         [ApiDoc("使用名称模糊查询，可以先后匹配基站名称、基站编号、规划编号和地址")]
         [ApiParameterDoc("name", "模糊查询的名称")]
         [ApiResponse("查询得到的基站列表结果，如果没有则会报错")]

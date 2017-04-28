@@ -224,7 +224,7 @@
 				map.addOverlay(marker);
 			},
 			addOneMarkerToScope: function(marker, callback, data) {
-				map.addOverlay(marker);
+			    map.addOverlay(marker);
 				marker.addEventListener("click", function() {
 					callback(data);
 				});
@@ -481,7 +481,7 @@
 		};
 	})
 	.factory('parametersMapService', function (baiduMapService, networkElementService, baiduQueryService, parametersDialogService) {
-		var showENodebsElements = function (eNodebs, beginDate, endDate) {
+		var showENodebsElements = function (eNodebs, beginDate, endDate, shouldShowCells) {
 			baiduQueryService.transformToBaidu(eNodebs[0].longtitute, eNodebs[0].lattitute).then(function (coors) {
 				var xOffset = coors.x - eNodebs[0].longtitute;
 				var yOffset = coors.y - eNodebs[0].lattitute;
@@ -493,16 +493,19 @@
 					baiduMapService.addOneMarkerToScope(marker, function(item) {
 						parametersDialogService.showENodebInfo(item, beginDate, endDate);
 					}, eNodeb);
-					networkElementService.queryCellInfosInOneENodeb(eNodeb.eNodebId).then(function(cells) {
-						angular.forEach(cells, function (cell) {
-							cell.longtitute += xOffset;
-							cell.lattitute += yOffset;
-							var cellSector = baiduMapService.generateSector(cell);
-							baiduMapService.addOneSectorToScope(cellSector, function (item) {
-								parametersDialogService.showCellInfo(item, beginDate, endDate);
-							}, cell);
-						});
-					});
+				    if (shouldShowCells) {
+				        networkElementService.queryCellInfosInOneENodeb(eNodeb.eNodebId).then(function(cells) {
+				            angular.forEach(cells, function(cell) {
+				                cell.longtitute += xOffset;
+				                cell.lattitute += yOffset;
+				                var cellSector = baiduMapService.generateSector(cell);
+				                baiduMapService.addOneSectorToScope(cellSector, function(item) {
+				                    parametersDialogService.showCellInfo(item, beginDate, endDate);
+				                }, cell);
+				            });
+				        });
+				    }
+
 				});
 			});
 		};
@@ -548,13 +551,13 @@
 		return {
 			showElementsInOneTown: function (city, district, town, beginDate, endDate) {
 				networkElementService.queryENodebsInOneTown(city, district, town).then(function (eNodebs) {
-					showENodebsElements(eNodebs, beginDate, endDate);
+					showENodebsElements(eNodebs, beginDate, endDate, true);
 				});
 			},
 			showElementsWithGeneralName: function (name, beginDate, endDate) {
 				networkElementService.queryENodebsByGeneralName(name).then(function (eNodebs) {
 					if (eNodebs.length === 0) return;
-					showENodebsElements(eNodebs, beginDate, endDate);
+					showENodebsElements(eNodebs, beginDate, endDate, true);
 				});
 			},
 			showCdmaInOneTown: function (city, district, town) {
@@ -568,8 +571,8 @@
 					showCdmaElements(btss);
 				});
 			},
-			showENodebsElements: function (eNodebs, showENodebInfo) {
-				return showENodebsElements(eNodebs, showENodebInfo);
+			showENodebs: function (eNodebs, beginDate, endDate) {
+				showENodebsElements(eNodebs, beginDate, endDate, false);
 			},
 			showBtssElements: function (btss) {
 				return showCdmaElements(btss);

@@ -142,6 +142,12 @@
                     town: town
                 });
             },
+            queryENodebsInOneDistrict: function (city, district) {
+                return generalHttpService.getApiData('ENodeb', {
+                    city: city,
+                    district: district
+                });
+            },
             queryENodebsByGeneralName: function(name) {
                 return generalHttpService.getApiData('ENodeb', {
                     name: name

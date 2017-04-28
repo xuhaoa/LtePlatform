@@ -372,7 +372,7 @@
         }
     })
     .controller("home.network", function ($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService,
-        geometryService, parametersDialogService, neGeometryService, baiduQueryService, dumpPreciseService) {
+        geometryService, parametersDialogService, neGeometryService, baiduQueryService, dumpPreciseService, parametersMapService) {
         baiduMapService.initializeMap("map", 11);
 
         $scope.showDistrictOutdoor = function(district, color) {
@@ -431,13 +431,33 @@
             });
         };
 
-        $scope.showOneENodeb=function(district, color) {
+        $scope.showDistrictENodebs = function(district, color) {
             var city = $scope.city.selected;
             baiduMapService.addDistrictBoundary(district, color);
-            networkElementService.queryIndoorCellSites(city, district).then(function(eNodebs) {
-                
+            networkElementService.queryENodebsInOneDistrict(city, district).then(function (sites) {
+                parametersMapService.showENodebs(eNodebs, $scope.beginDate, $scope.endDate);
+                baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
+                    var xOffset = coors.x - sites[0].longtitute;
+                    var yOffset = coors.y - sites[0].lattitute;
+                    baiduMapService.drawMultiPoints(sites, color, -xOffset, -yOffset, function (e) {
+                        var xCenter = e.point.lng - xOffset;
+                        var yCenter = e.point.lat - yOffset;
+                        networkElementService.queryRangeSectors(
+                            neGeometryService.queryNearestRange(xCenter, yCenter), []).then(function (sectors) {
+                                parametersDialogService.showCellsInfo(sectors);
+                            });
+                    });
+                });
             });
-        }
+        };
+        $scope.showLteENodebs = function() {
+            $scope.currentView = "LTE基站";
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            angular.forEach($scope.districts, function(district, $index) {
+                $scope.showDistrictENodebs(district, $scope.colors[$index]);
+            });
+        };
 
         $scope.showLteTownStats = function () {
             var city = $scope.city.selected;

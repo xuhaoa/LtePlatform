@@ -49,6 +49,17 @@ namespace Lte.Evaluations.DataService.Basic
             return from town in towns
                 join eNodeb in _eNodebRepository.GetAllList() on town.Id equals eNodeb.TownId
                 select eNodeb;
+        }
+
+        public IEnumerable<ENodebView> GetByDistrictNames(string city, string district)
+        {
+            var list = GetENodebsByDistrict(city, district).ToList().MapTo<List<ENodebView>>();
+            list.ForEach(x =>
+            {
+                x.CityName = city;
+                x.DistrictName = district;
+            });
+            return list;
         } 
 
         public IEnumerable<ENodebView> GetByGeneralName(string name)
