@@ -374,7 +374,7 @@
     .controller("home.network", function ($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService,
         geometryService, parametersDialogService, neGeometryService, baiduQueryService, dumpPreciseService, parametersMapService) {
         baiduMapService.initializeMap("map", 11);
-
+        $scope.currentView = "LTE基站";
         $scope.showDistrictOutdoor = function(district, color) {
             var city = $scope.city.selected;
             baiduMapService.addDistrictBoundary(district, color);
@@ -435,17 +435,19 @@
             var city = $scope.city.selected;
             baiduMapService.addDistrictBoundary(district, color);
             networkElementService.queryENodebsInOneDistrict(city, district).then(function (sites) {
-                parametersMapService.showENodebs(eNodebs, $scope.beginDate, $scope.endDate);
                 baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
                     var xOffset = coors.x - sites[0].longtitute;
                     var yOffset = coors.y - sites[0].lattitute;
                     baiduMapService.drawMultiPoints(sites, color, -xOffset, -yOffset, function (e) {
                         var xCenter = e.point.lng - xOffset;
                         var yCenter = e.point.lat - yOffset;
-                        networkElementService.queryRangeSectors(
-                            neGeometryService.queryNearestRange(xCenter, yCenter), []).then(function (sectors) {
-                                parametersDialogService.showCellsInfo(sectors);
-                            });
+                        var container = neGeometryService.queryNearestRange(xCenter, yCenter);
+                        container.excludedIds = [];
+                        networkElementService.queryRangeENodebs(container).then(function(items) {
+                            if (items.length) {
+                                parametersDialogService.showENodebInfo(items[0], $scope.beginDate, $scope.endDate);
+                            }
+                        });
                     });
                 });
             });
@@ -472,7 +474,7 @@
         $scope.$watch('city.selected', function(city) {
             if (city) {
                 dumpPreciseService.generateUsersDistrict(city, $scope.districts, function(district, $index) {
-                    $scope.showDistrictOutdoor(district, $scope.colors[$index]);
+                    $scope.showDistrictENodebs(district, $scope.colors[$index]);
                 });
             }
         });
