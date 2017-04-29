@@ -224,7 +224,7 @@
 				map.addOverlay(marker);
 			},
 			addOneMarkerToScope: function(marker, callback, data) {
-			    map.addOverlay(marker);
+				map.addOverlay(marker);
 				marker.addEventListener("click", function() {
 					callback(data);
 				});
@@ -493,18 +493,18 @@
 					baiduMapService.addOneMarkerToScope(marker, function(item) {
 						parametersDialogService.showENodebInfo(item, beginDate, endDate);
 					}, eNodeb);
-				    if (shouldShowCells) {
-				        networkElementService.queryCellInfosInOneENodeb(eNodeb.eNodebId).then(function(cells) {
-				            angular.forEach(cells, function(cell) {
-				                cell.longtitute += xOffset;
-				                cell.lattitute += yOffset;
-				                var cellSector = baiduMapService.generateSector(cell);
-				                baiduMapService.addOneSectorToScope(cellSector, function(item) {
-				                    parametersDialogService.showCellInfo(item, beginDate, endDate);
-				                }, cell);
-				            });
-				        });
-				    }
+					if (shouldShowCells) {
+						networkElementService.queryCellInfosInOneENodeb(eNodeb.eNodebId).then(function(cells) {
+							angular.forEach(cells, function(cell) {
+								cell.longtitute += xOffset;
+								cell.lattitute += yOffset;
+								var cellSector = baiduMapService.generateSector(cell);
+								baiduMapService.addOneSectorToScope(cellSector, function(item) {
+									parametersDialogService.showCellInfo(item, beginDate, endDate);
+								}, cell);
+							});
+						});
+					}
 
 				});
 			});
@@ -890,14 +890,24 @@
 	})
 
 	.controller('map.eNodeb.dialog', function($scope, $uibModalInstance, eNodeb, dialogTitle,
-		networkElementService, cellHuaweiMongoService, alarmImportService, intraFreqHoService, interFreqHoService, appFormatService) {
+		networkElementService, cellHuaweiMongoService, alarmImportService, intraFreqHoService, interFreqHoService, appFormatService,
+		downSwitchService) {
 		$scope.dialogTitle = dialogTitle;
 		//查询基站基本信息
-		networkElementService.queryENodebInfo(eNodeb.eNodebId).then(function (result) {
+		networkElementService.queryENodebInfo(eNodeb.eNodebId).then(function(result) {
 			$scope.eNodebGroups = appFormatService.generateENodebGroups(result);
+			networkElementService.queryStationByENodeb(eNodeb.eNodebId, eNodeb.planNum).then(function(dict) {
+				if (dict) {
+					downSwitchService.getStationById(dict.stationNum).then(function(stations) {
+						stations.result[0].Town = result.townName;
+						$scope.stationGroups = appFormatService.generateStationGroups(stations.result[0]);
+					});
+				}
+
+			});
 			if (result.factory === '华为') {
-				cellHuaweiMongoService.queryLocalCellDef(result.eNodebId).then(function (cellDef) {
-					alarmImportService.updateHuaweiAlarmInfos(cellDef).then(function () { });
+				cellHuaweiMongoService.queryLocalCellDef(result.eNodebId).then(function(cellDef) {
+					alarmImportService.updateHuaweiAlarmInfos(cellDef).then(function() {});
 				});
 			}
 		});

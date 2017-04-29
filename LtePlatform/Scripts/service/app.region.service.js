@@ -135,6 +135,12 @@
                     stationNum: stationNum
                 });
             },
+            queryStationByENodeb: function(eNodebId, planNum) {
+                return generalHttpService.getApiData('ENodebStation', {
+                    eNodebId: eNodebId,
+                    planNum: planNum
+                });
+            },
             queryENodebsInOneTown: function(city, district, town) {
                 return generalHttpService.getApiData('ENodeb', {
                     city: city,

@@ -4,6 +4,7 @@ using Lte.Evaluations.ViewModels.Basic;
 using LtePlatform.Models;
 using System.Collections.Generic;
 using System.Web.Http;
+using Lte.MySqlFramework.Entities;
 
 namespace LtePlatform.Controllers.Parameters
 {
@@ -87,6 +88,12 @@ namespace LtePlatform.Controllers.Parameters
         public ENodebView Get(string stationNum)
         {
             return _service.GetByStationNum(stationNum);
+        }
+
+        [HttpGet]
+        public StationDictionary Get(int eNodebId, string planNum)
+        {
+            return _service.GetStationDictionary(eNodebId, planNum);
         }
     }
 

@@ -108,6 +108,12 @@ namespace Lte.Evaluations.DataService.Basic
             return result;
         }
 
+        public StationDictionary GetStationDictionary(int eNodebId, string planNum)
+        {
+            return _stationDictionaryRepository.FirstOrDefault(x => x.ENodebId == eNodebId && x.IsRru == false) ??
+                   _stationDictionaryRepository.FirstOrDefault(x => x.PlanNum == planNum);
+        }
+
         public IEnumerable<ENodebView> QueryENodebViews(double west, double east, double south, double north)
         {
             var eNodebs = _eNodebRepository.GetAllList(west, east, south, north);
