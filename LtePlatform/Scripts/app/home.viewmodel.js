@@ -372,7 +372,7 @@
         }
     })
     .controller("home.network", function ($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService,
-        geometryService, parametersDialogService, neGeometryService, baiduQueryService, dumpPreciseService, parametersMapService) {
+        geometryService, parametersDialogService, neGeometryService, baiduQueryService, dumpPreciseService) {
         baiduMapService.initializeMap("map", 11);
         $scope.currentView = "LTE基站";
         $scope.showDistrictOutdoor = function(district, color) {
@@ -527,7 +527,6 @@
         };
         $scope.reflashMap(0);
     })
-    .controller("station.list", function () { })
 
     .controller('home.flow', function ($scope, baiduMapService, baiduQueryService, coverageDialogService, flowService) {
         baiduMapService.initializeMap("map", 11);
@@ -592,15 +591,20 @@
             $scope.showFeelingRate();
         });
     })
-    .controller("home.dt", function ($scope, baiduMapService, coverageService, appFormatService) {
+    .controller("home.dt", function ($scope, baiduMapService, coverageService, appFormatService, parametersDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         coverageService.queryAreaTestDate().then(function (result) {
-            angular.forEach(result, function (item) {
-                baiduMapService.drawCustomizeLabel(item.longtitute, item.lattitute, item.cityName + item.districtName + item.townName,
+            angular.forEach(result, function(item) {
+                baiduMapService.drawCustomizeLabel(item.longtitute, item.lattitute + 0.005, item.cityName + item.districtName + item.townName,
                     '4G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate4G), 'yyyy-MM-dd')
                     + '<br/>3G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate3G), 'yyyy-MM-dd')
                     + '<br/>2G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate2G), 'yyyy-MM-dd'), 3);
+                var marker = baiduMapService.generateIconMarker(item.longtitute, item.lattitute,
+                    "/Content/Images/Hotmap/site_or.png");
+                baiduMapService.addOneMarkerToScope(marker, function(eNodeb) {
+                    parametersDialogService.showTownENodebInfo(eNodeb, $scope.city.selected, district);
+                }, item);
             });
 
         });
