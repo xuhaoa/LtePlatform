@@ -327,17 +327,6 @@
         }, $compile);
     })
 
-    .directive('eNodebDetailsTable', function(parametersRoot) {
-        return {
-            restrict: 'ECMA',
-            replace: true,
-            scope: {
-                eNodebDetails: '='
-            },
-            templateUrl: parametersRoot + 'eNodeb/ENodebDetailsTable.html'
-        }
-    })
-
     .controller('CdmaBtsController', function ($scope) {
         $scope.gridOptions = {
             columnDefs: [

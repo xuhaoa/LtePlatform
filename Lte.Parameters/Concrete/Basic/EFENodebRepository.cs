@@ -73,4 +73,57 @@ namespace Lte.Parameters.Concrete.Basic
         {
         }
     }
+
+    public class Construction_InformationRepository : EfRepositoryBase<EFParametersContext, Construction_Information>,
+        IConstruction_InformationRepository
+    {
+        public Construction_InformationRepository(IDbContextProvider<EFParametersContext> dbContextProvider)
+            : base(dbContextProvider)
+        {
+        }
+
+        public Construction_Information GetByFslNo(string fslNo)
+        {
+            return FirstOrDefault(o => o.FSLNO == fslNo);
+        }
+
+        public Construction_Information GetBySiteNo(string siteNo)
+        {
+            return FirstOrDefault(o => o.SITENO == siteNo);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
+    public class Enodeb_BaseRepository : EfRepositoryBase<EFParametersContext, Enodeb_Base>, IEnodeb_BaseRepository
+    {
+        public Enodeb_BaseRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public Enodeb_Base GetByENodebId(int eNodebId)
+        {
+            return FirstOrDefault(o => o.ENODEBID == eNodebId);
+        }
+
+        public Enodeb_Base GetByName(string name)
+        {
+            return FirstOrDefault(o => o.ENODEBNAME == name);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
+    public class FSLEnodebRepository : EfRepositoryBase<EFParametersContext, FSLEnodeb>, IFSLEnodebRepository
+    {
+        public FSLEnodebRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+    }
 }

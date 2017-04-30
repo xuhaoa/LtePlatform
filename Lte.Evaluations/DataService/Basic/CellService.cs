@@ -20,12 +20,15 @@ namespace Lte.Evaluations.DataService.Basic
         private readonly ICellRepository _repository;
         private readonly IENodebRepository _eNodebRepository;
         private readonly ILteRruRepository _rruRepository;
+        private readonly IStationDictionaryRepository _stationDictionaryRepository;
 
-        public CellService(ICellRepository repository, IENodebRepository eNodebRepository, ILteRruRepository rruRepository)
+        public CellService(ICellRepository repository, IENodebRepository eNodebRepository, ILteRruRepository rruRepository,
+            IStationDictionaryRepository stationDictionaryRepository)
         {
             _repository = repository;
             _eNodebRepository = eNodebRepository;
             _rruRepository = rruRepository;
+            _stationDictionaryRepository = stationDictionaryRepository;
         }
 
         public CellView GetCell(int eNodebId, byte sectorId)
@@ -45,6 +48,17 @@ namespace Lte.Evaluations.DataService.Basic
             return cells.Any()
                 ? cells.Select(x => CellRruView.ConstructView(x, _eNodebRepository, _rruRepository))
                 : new List<CellRruView>();
+        }
+
+        public IEnumerable<CellRruView> GetByStationNum(string stationNum)
+        {
+            var station =
+                _stationDictionaryRepository.FirstOrDefault(x => x.StationNum == stationNum);
+            if (station == null) return null;
+            var item = _eNodebRepository.GetByENodebId(station.ENodebId) ??
+                       _eNodebRepository.FirstOrDefault(x => x.PlanNum == station.PlanNum);
+            if (item == null) return new List<CellRruView>();
+            return GetCellViews(item.ENodebId);
         }
 
         public IEnumerable<CellView> GetNearbyCellsWithPci(int eNodebId, byte sectorId, short pci)

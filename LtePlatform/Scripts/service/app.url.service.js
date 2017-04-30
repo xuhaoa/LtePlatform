@@ -160,6 +160,7 @@
         $scope.emergencyUrl = appUrlService.getCustomerHost() + 'IndexOfEmerCom.aspx';
         $scope.repeaterUrl = appUrlService.getCustomerHost() + 'IndexOfMicro.aspx';
         $scope.marketUrl = appUrlService.getCustomerHost() + 'IndexOfTelJobs.aspx';
+        $scope.rfUrl = appUrlService.getParameterUrlHost() + 'RadioFreqency.html';
     })
     .factory('generalHttpService', function ($q, $http, appUrlService) {
         return {
@@ -712,6 +713,76 @@
                             }, {
                                 key: '铁塔编号',
                                 value: station.TowerCode
+                            }
+                        ]
+                    }
+                ];
+            },
+            generateENodebGroups: function(station) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '基站名称',
+                                value: station.name
+                            }, {
+                                key: '基站编号',
+                                value: station.eNodebId
+                            }, {
+                                key: '城市',
+                                value: station.cityName
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '区域',
+                                value: station.districtName
+                            }, {
+                                key: '镇区',
+                                value: station.townName
+                            }, {
+                                key: '安装地址',
+                                value: station.address
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '规划编号',
+                                value: station.planNum
+                            }, {
+                                key: '入网日期',
+                                value: station.openDate
+                            }, {
+                                key: '厂家',
+                                value: station.factory
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: station.longtitute
+                            }, {
+                                key: '纬度',
+                                value: station.lattitute
+                            }, {
+                                key: '制式',
+                                value: station.divisionDuplex
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '网关',
+                                value: station.gatewayIp.addressString
+                            }, {
+                                key: 'IP',
+                                value: station.ip.addressString
+                            }, {
+                                key: '是否在用',
+                                value: station.isInUse
                             }
                         ]
                     }

@@ -6,49 +6,7 @@
 </div>
 <div class="modal-body">
     <div class="row">
-        <div class="col-md-4 infoBoxContent">
-            <div class="title">
-                <strong>LTE基站基本信息: </strong>
-            </div>
-            <div class="list">
-                <ul>
-                    <li>
-                        <div class="left">基站编号</div>
-                        <div class="rmb">{{eNodeb.eNodebId}}</div>
-                    </li>
-                    <li>
-                        <div class="left">基站名称</div>
-                        <div class="rmb">{{eNodeb.name}}</div>
-                    </li>
-                    <li>
-                        <div class="left">规划编号</div>
-                        <div class="rmb">{{eNodeb.planNum}}</div>
-                    </li>
-                    <li>
-                        <div class="left">入网日期</div>
-                        <div class="rmb">{{eNodeb.openDate | date: "yyyy-MM-dd"}}</div>
-                    </li>
-                    <li>
-                        <div class="left">经度</div>
-                        <div class="rmb">{{eNodeb.longtitute | number: 4}}</div>
-                    </li>
-                    <li>
-                        <div class="left">纬度</div>
-                        <div class="rmb">{{eNodeb.lattitute | number: 4}}</div>
-                    </li>
-                    <li>
-                        <div class="left">厂家</div>
-                        <div class="rmb">{{eNodeb.factory}}</div>
-                    </li>
-                    <li>
-                        <p>{{eNodeb.address}}</p>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div e-nodeb-details-table e-nodeb-details="eNodebDetails"></div>
-        </div>
+        <div plan-site-details item-groups="eNodebGroups"></div>
     </div>
     <div uib-tabset active="active">
         <div uib-tab index="0" heading="小区列表">
@@ -59,6 +17,9 @@
             <div e-nodeb-intra-freq intra-freq-ho="intraFreqHo"></div>
             <h4 class="text-primary">公共异频切换参数</h4>
             <div e-nodeb-inter-freq inter-freq-ho="interFreqHo"></div>
+        </div>
+        <div uib-tab index="2" heading="站址信息">
+            <div plan-site-details item-groups="stationGroups"></div>
         </div>
     </div>
     

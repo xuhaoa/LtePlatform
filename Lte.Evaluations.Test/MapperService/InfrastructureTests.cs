@@ -35,7 +35,7 @@ namespace Lte.Evaluations.MapperService
             module.PostInitialize();
             _eNodebRepository.MockThreeENodebs();
             _repository.MockRangeCells();
-            _service = new CellService(_repository.Object, _eNodebRepository.Object, _rruRepository.Object);
+            _service = new CellService(_repository.Object, _eNodebRepository.Object, _rruRepository.Object, null);
         }
 
         [Test]

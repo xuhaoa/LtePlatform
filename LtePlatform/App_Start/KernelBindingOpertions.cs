@@ -187,6 +187,12 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IStationDictionaryRepository>().To<StationDictionaryRepository>();
 
+            ninjectKernel.Bind<IConstruction_InformationRepository>().To<Construction_InformationRepository>();
+
+            ninjectKernel.Bind<IEnodeb_BaseRepository>().To<Enodeb_BaseRepository>();
+
+            ninjectKernel.Bind<IFSLEnodebRepository>().To<FSLEnodebRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();

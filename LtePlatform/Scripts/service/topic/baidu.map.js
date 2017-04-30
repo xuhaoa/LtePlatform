@@ -42,7 +42,11 @@
 		}
 	})
 	.factory('baiduMapService', function (geometryService, networkElementService, drawingStyleOptions) {
-		var map = {};
+		var mapStructure = {
+			mainMap: {},
+			subMap: {}
+		};
+		var map = mapStructure.mainMap;
 		var getCellCenter = function (cell, rCell) {
 			return geometryService.getPositionLonLat(cell, rCell, cell.azimuth);
 		};
@@ -66,6 +70,12 @@
 
 				map.addControl(topLeftControl);
 				map.addControl(topLeftNavigation);
+			},
+			switchSubMap: function() {
+				map = mapStructure.subMap;
+			},
+			switchMainMap: function() {
+				map = mapStructure.mainMap;
 			},
 			setCenter: function (distinctIndex) {
 				var lonDictionary = [113.30, 113.15, 113.12, 112.87, 112.88, 113.01];
@@ -481,7 +491,7 @@
 		};
 	})
 	.factory('parametersMapService', function (baiduMapService, networkElementService, baiduQueryService, parametersDialogService) {
-		var showENodebsElements = function (eNodebs, beginDate, endDate) {
+		var showENodebsElements = function (eNodebs, beginDate, endDate, shouldShowCells) {
 			baiduQueryService.transformToBaidu(eNodebs[0].longtitute, eNodebs[0].lattitute).then(function (coors) {
 				var xOffset = coors.x - eNodebs[0].longtitute;
 				var yOffset = coors.y - eNodebs[0].lattitute;
@@ -493,16 +503,19 @@
 					baiduMapService.addOneMarkerToScope(marker, function(item) {
 						parametersDialogService.showENodebInfo(item, beginDate, endDate);
 					}, eNodeb);
-					networkElementService.queryCellInfosInOneENodeb(eNodeb.eNodebId).then(function(cells) {
-						angular.forEach(cells, function (cell) {
-							cell.longtitute += xOffset;
-							cell.lattitute += yOffset;
-							var cellSector = baiduMapService.generateSector(cell);
-							baiduMapService.addOneSectorToScope(cellSector, function (item) {
-								parametersDialogService.showCellInfo(item, beginDate, endDate);
-							}, cell);
+					if (shouldShowCells) {
+						networkElementService.queryCellInfosInOneENodeb(eNodeb.eNodebId).then(function(cells) {
+							angular.forEach(cells, function(cell) {
+								cell.longtitute += xOffset;
+								cell.lattitute += yOffset;
+								var cellSector = baiduMapService.generateSector(cell);
+								baiduMapService.addOneSectorToScope(cellSector, function(item) {
+									parametersDialogService.showCellInfo(item, beginDate, endDate);
+								}, cell);
+							});
 						});
-					});
+					}
+
 				});
 			});
 		};
@@ -548,13 +561,13 @@
 		return {
 			showElementsInOneTown: function (city, district, town, beginDate, endDate) {
 				networkElementService.queryENodebsInOneTown(city, district, town).then(function (eNodebs) {
-					showENodebsElements(eNodebs, beginDate, endDate);
+					showENodebsElements(eNodebs, beginDate, endDate, true);
 				});
 			},
 			showElementsWithGeneralName: function (name, beginDate, endDate) {
 				networkElementService.queryENodebsByGeneralName(name).then(function (eNodebs) {
 					if (eNodebs.length === 0) return;
-					showENodebsElements(eNodebs, beginDate, endDate);
+					showENodebsElements(eNodebs, beginDate, endDate, true);
 				});
 			},
 			showCdmaInOneTown: function (city, district, town) {
@@ -568,8 +581,8 @@
 					showCdmaElements(btss);
 				});
 			},
-			showENodebsElements: function (eNodebs, showENodebInfo) {
-				return showENodebsElements(eNodebs, showENodebInfo);
+			showENodebs: function (eNodebs, beginDate, endDate) {
+				showENodebsElements(eNodebs, beginDate, endDate, false);
 			},
 			showBtssElements: function (btss) {
 				return showCdmaElements(btss);
@@ -611,7 +624,7 @@
 			}
 		}
 	})
-	.factory('parametersDialogService', function ($uibModal, $log, menuItemService) {
+	.factory('parametersDialogService', function ($uibModal, $log, menuItemService, baiduMapService) {
 		return {
 			showENodebInfo: function (eNodeb, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
@@ -651,6 +664,22 @@
 							return item.town;
 						}
 					}
+				});
+			},
+			showTownDtInfo: function (item) {
+				menuItemService.showGeneralDialogWithAction({
+					templateUrl: '/appViews/College/Coverage/CollegeMap.html',
+					controller: 'town.dt.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return item.cityName + item.districtName + item.townName + "-" + "路测数据文件信息";
+						},
+						item: function () {
+							return item;
+						}
+					}
+				}, function(info) {
+					baiduMapService.switchMainMap();
 				});
 			},
 			showDistributionInfo: function (distribution) {
@@ -750,7 +779,7 @@
 					}
 				});
 			},
-			showStationInfo: function (station) {
+			showStationInfo: function (station, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Home/StationDetails.html',
 					controller: 'map.station.dialog',
@@ -760,6 +789,12 @@
 						},
 						station: function() {
 							return station;
+						},
+						beginDate: function() {
+							return beginDate;
+						},
+						endDate: function() {
+							return endDate;
 						}
 					}
 				});
@@ -881,15 +916,24 @@
 	})
 
 	.controller('map.eNodeb.dialog', function($scope, $uibModalInstance, eNodeb, dialogTitle,
-		networkElementService, cellHuaweiMongoService, alarmImportService, intraFreqHoService, interFreqHoService) {
-		$scope.eNodeb = eNodeb;
+		networkElementService, cellHuaweiMongoService, alarmImportService, intraFreqHoService, interFreqHoService, appFormatService,
+		downSwitchService) {
 		$scope.dialogTitle = dialogTitle;
 		//查询基站基本信息
-		networkElementService.queryENodebInfo(eNodeb.eNodebId).then(function (result) {
-			$scope.eNodebDetails = result;
+		networkElementService.queryENodebInfo(eNodeb.eNodebId).then(function(result) {
+			$scope.eNodebGroups = appFormatService.generateENodebGroups(result);
+			networkElementService.queryStationByENodeb(eNodeb.eNodebId, eNodeb.planNum).then(function(dict) {
+				if (dict) {
+					downSwitchService.getStationById(dict.stationNum).then(function(stations) {
+						stations.result[0].Town = result.townName;
+						$scope.stationGroups = appFormatService.generateStationGroups(stations.result[0]);
+					});
+				}
+
+			});
 			if (result.factory === '华为') {
-				cellHuaweiMongoService.queryLocalCellDef(result.eNodebId).then(function (cellDef) {
-					alarmImportService.updateHuaweiAlarmInfos(cellDef).then(function () { });
+				cellHuaweiMongoService.queryLocalCellDef(result.eNodebId).then(function(cellDef) {
+					alarmImportService.updateHuaweiAlarmInfos(cellDef).then(function() {});
 				});
 			}
 		});
@@ -910,7 +954,7 @@
 		});
 
 		$scope.ok = function() {
-			$uibModalInstance.close($scope.eNodeb);
+			$uibModalInstance.close($scope.eNodebGroups);
 		};
 
 		$scope.cancel = function() {
@@ -935,6 +979,77 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
+	.controller('town.dt.dialog', function ($scope, $uibModalInstance, dialogTitle, item,
+		kpiDisplayService, baiduMapService, parametersMapService, coverageService, $timeout) {
+		$scope.dialogTitle = dialogTitle;
+		
+		$scope.includeAllFiles = false;
+		$scope.network = {
+			options: ['2G', '3G', '4G'],
+			selected: '2G'
+		};
+		$scope.dataFile = {
+			options: [],
+			selected: ''
+		};
+		$scope.data = [];
+		$scope.coverageOverlays = [];
+
+		$scope.query = function () {
+		};
+
+		$scope.$watch('network.selected', function () {
+			$scope.query();
+		});
+
+		$scope.showDtPoints = function () {
+			$scope.legend = kpiDisplayService.queryCoverageLegend($scope.kpi.selected);
+			$scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+			kpiDisplayService.generateCoveragePoints($scope.coveragePoints, $scope.data, $scope.kpi.selected);
+			angular.forEach($scope.coverageOverlays, function (overlay) {
+				baiduMapService.removeOverlay(overlay);
+			});
+			parametersMapService.showIntervalPoints($scope.coveragePoints.intervals, $scope.coveragePoints);
+		};
+
+		var queryRasterInfo = function (index) {
+			coverageService.queryByRasterInfo($scope.dataFile.options[index], $scope.network.selected).then(function (result) {
+				$scope.data.push.apply($scope.data, result);
+				if (index < $scope.dataFile.options.length - 1) {
+					queryRasterInfo(index + 1);
+				} else {
+					$scope.showDtPoints();
+				}
+			});
+		};
+
+		$scope.showResults = function () {
+			$scope.data = [];
+			if ($scope.includeAllFiles) {
+				queryRasterInfo(0);
+			} else {
+				coverageService.queryByRasterInfo($scope.dataFile.selected, $scope.network.selected).then(function (result) {
+					$scope.data = result;
+					$scope.showDtPoints();
+				});
+			}
+		};
+
+		$timeout(function() {
+			baiduMapService.switchSubMap();
+			baiduMapService.initializeMap("all-map", 14);
+			baiduMapService.setCellFocus(item.longtitute, item.lattitute, 14);
+		}, 1000);
+		
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.eNodeb);
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
+
 	.controller('map.bts.dialog', function ($scope, $uibModalInstance, bts, dialogTitle, networkElementService) {
 		$scope.bts = bts;
 		$scope.dialogTitle = dialogTitle;
@@ -1036,7 +1151,7 @@
 	})
 
 	.controller('map.site.dialog', function($scope, $uibModalInstance, site, dialogTitle, appFormatService) {
-	    $scope.itemGroups = appFormatService.generateSiteGroups(site);
+		$scope.itemGroups = appFormatService.generateSiteGroups(site);
 		$scope.dialogTitle = dialogTitle;
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.site);
@@ -1047,8 +1162,21 @@
 		};
 	})
 
-	.controller('map.station.dialog', function ($scope, $uibModalInstance, station, dialogTitle, appFormatService) {
-	    $scope.itemGroups = appFormatService.generateStationGroups(station);
+	.controller('map.station.dialog', function ($scope, $uibModalInstance, station, dialogTitle, beginDate, endDate,
+		appFormatService, networkElementService) {
+		$scope.beginDate = beginDate;
+		$scope.endDate = endDate;
+		$scope.itemGroups = appFormatService.generateStationGroups(station);
+		$scope.cellList = [];
+		networkElementService.queryENodebStationInfo(station.StationId).then(function (eNodeb) {
+			if (eNodeb) {
+				$scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
+			}
+			
+		});
+		networkElementService.queryCellStationInfo(station.StationId).then(function(cellList) {
+			$scope.cellList = cellList;
+		});
 		$scope.dialogTitle = dialogTitle;
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.site);

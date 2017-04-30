@@ -229,6 +229,9 @@
     <Content Include="Db\mro_combined4.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Db\mro_combined5.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Db\mrs_combined.sh">
       <SubType>Code</SubType>
     </Content>
@@ -256,10 +259,16 @@
     <Content Include="huawei_download\huawei_download_mro_112_216_delay2.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="huawei_download\huawei_download_mro_112_216_delay3.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="huawei_download\huawei_download_mro_112_delay1.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="huawei_download\huawei_download_mro_112_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="huawei_download\huawei_download_mro_112_delay3.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="huawei_download\huawei_download_mro_124.sh">
@@ -274,16 +283,25 @@
     <Content Include="huawei_download\huawei_download_mro_124_215_delay2.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="huawei_download\huawei_download_mro_124_215_delay3.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="huawei_download\huawei_download_mro_124_delay1.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="huawei_download\huawei_download_mro_124_delay2.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="huawei_download\huawei_download_mro_124_delay3.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="huawei_download\huawei_download_mro_delay1.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="huawei_download\huawei_download_mro_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="huawei_download\huawei_download_mro_delay3.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="huawei_download\huawei_download_mrs.sh">
@@ -299,6 +317,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="huawei_download\huawei_download_mrs_112_216_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="huawei_download\huawei_download_mrs_112_216_delay3.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="huawei_download\huawei_download_mrs_112_delay1.sh">
@@ -424,6 +445,9 @@
     <Content Include="zte_download\zte_download_mro_125_183_delay2.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="zte_download\zte_download_mro_125_183_delay3.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="zte_download\zte_download_mro_125_229.sh">
       <SubType>Code</SubType>
     </Content>
@@ -431,6 +455,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mro_125_229_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_mro_125_229_delay3.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mro_125_delay1.sh">
@@ -466,6 +493,9 @@
     <Content Include="zte_download\zte_download_mrs_125_138_delay2.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="zte_download\zte_download_mrs_125_138_delay3.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="zte_download\zte_download_mrs_125_181.sh">
       <SubType>Code</SubType>
     </Content>
@@ -482,6 +512,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mrs_125_183_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_mrs_125_183_delay3.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mrs_125_229.sh">

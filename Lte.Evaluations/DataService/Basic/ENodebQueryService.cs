@@ -32,9 +32,15 @@ namespace Lte.Evaluations.DataService.Basic
         public IEnumerable<ENodebView> GetByTownNames(string city, string district, string town)
         {
             var townItem = _townRepository.QueryTown(city, district, town);
-            return townItem == null
-                ? null
-                : _eNodebRepository.GetAll().Where(x => x.TownId == townItem.Id).ToList().MapTo<IEnumerable<ENodebView>>();
+            var list = _eNodebRepository.GetAll().Where(x => x.TownId == townItem.Id).ToList().MapTo<List<ENodebView>>();
+
+            list.ForEach(x=>
+            {
+                x.CityName = city;
+                x.DistrictName = district;
+                x.TownName = town;
+            });
+            return list;
         }
 
         public IEnumerable<ENodeb> GetENodebsByDistrict(string city, string district)
@@ -45,6 +51,17 @@ namespace Lte.Evaluations.DataService.Basic
             return from town in towns
                 join eNodeb in _eNodebRepository.GetAllList() on town.Id equals eNodeb.TownId
                 select eNodeb;
+        }
+
+        public IEnumerable<ENodebView> GetByDistrictNames(string city, string district)
+        {
+            var list = GetENodebsByDistrict(city, district).ToList().MapTo<List<ENodebView>>();
+            list.ForEach(x =>
+            {
+                x.CityName = city;
+                x.DistrictName = district;
+            });
+            return list;
         } 
 
         public IEnumerable<ENodebView> GetByGeneralName(string name)
@@ -72,7 +89,11 @@ namespace Lte.Evaluations.DataService.Basic
         public ENodebView GetByENodebId(int eNodebId)
         {
             var item = _eNodebRepository.GetByENodebId(eNodebId);
-            return item?.MapTo<ENodebView>();
+            if (item == null) return null;
+            var town = _townRepository.Get(item.TownId);
+            var result = item.MapTo<ENodebView>();
+            town.MapTo(result);
+            return result;
         }
 
         public ENodebView GetByStationNum(string stationNum)
@@ -80,10 +101,19 @@ namespace Lte.Evaluations.DataService.Basic
             var station =
                 _stationDictionaryRepository.FirstOrDefault(x => x.StationNum == stationNum && x.IsRru == false);
             if (station == null) return null;
-            var item = _eNodebRepository.GetByENodebId(station.ENodebId);
-            if (item != null) return item.MapTo<ENodebView>();
-            item = _eNodebRepository.FirstOrDefault(x => x.PlanNum == station.PlanNum);
-            return item?.MapTo<ENodebView>();
+            var item = _eNodebRepository.GetByENodebId(station.ENodebId) ??
+                       _eNodebRepository.FirstOrDefault(x => x.PlanNum == station.PlanNum);
+            var result = item?.MapTo<ENodebView>();
+            if (result == null) return null;
+            var town = _townRepository.Get(item.TownId);
+            town.MapTo(result);
+            return result;
+        }
+
+        public StationDictionary GetStationDictionary(int eNodebId, string planNum)
+        {
+            return _stationDictionaryRepository.FirstOrDefault(x => x.ENodebId == eNodebId && x.IsRru == false) ??
+                   _stationDictionaryRepository.FirstOrDefault(x => x.PlanNum == planNum);
         }
 
         public IEnumerable<ENodebView> QueryENodebViews(double west, double east, double south, double north)

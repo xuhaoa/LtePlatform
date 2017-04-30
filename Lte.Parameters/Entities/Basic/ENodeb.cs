@@ -202,4 +202,111 @@ namespace Lte.Parameters.Entities.Basic
         [ExcelColumn("BSC编号")]
         public short BscId { get; set; }
     }
+
+    public class FSLEnodeb : Entity
+    {
+        [MaxLength(200)]
+        public string FSLNO { get; set; }
+
+        public int? ENODEBID { get; set; }
+
+        [MaxLength(200)]
+        public string ENODEBNAME { get; set; }
+
+        public double? LONGITUDE { get; set; }
+
+        public double? LATITIUDE { get; set; }
+
+        [MaxLength(2)]
+        public string INDOOR { get; set; }
+
+        [MaxLength(200)]
+        public string FSCNO { get; set; }
+
+        [MaxLength(200)]
+        public string SITENO { get; set; }
+
+        [MaxLength(200)]
+        public string AREA { get; set; }
+
+        [MaxLength(200)]
+        public string MKTCENTER { get; set; }
+
+        [MaxLength(200)]
+        public string ADDRESS { get; set; }
+
+        [MaxLength(1000)]
+        public string REMARK { get; set; }
+    }
+
+    public class Enodeb_Base : Entity
+    {
+        [MaxLength(200)]
+        public string FSLNO { get; set; }
+
+        public int ENODEBID { get; set; }
+
+        [MaxLength(200)]
+        public string ENODEBNAME { get; set; }
+
+        public double LONGITUDE { get; set; }
+
+        public double LATITIUDE { get; set; }
+
+        [MaxLength(2)]
+        public string INDOOR { get; set; }
+
+        [MaxLength(200)]
+        public string FSCNO { get; set; }
+
+        [MaxLength(200)]
+        public string SITENO { get; set; }
+
+        [MaxLength(200)]
+        public string AREA { get; set; }
+
+        [MaxLength(200)]
+        public string MKTCENTER { get; set; }
+
+        [MaxLength(200)]
+        public string ADDRESS { get; set; }
+
+        [MaxLength(1000)]
+        public string REMARK { get; set; }
+    }
+
+    public class Construction_Information : Entity
+    {
+        [MaxLength(200)]
+        public string FSLNO { get; set; }
+
+        [MaxLength(200)]
+        public string SITENO { get; set; }
+
+        [MaxLength(200)]
+        public string CONSTRUCT_STAUS { get; set; }
+
+        [MaxLength(200)]
+        public string PLANNING_ENDOBENAME { get; set; }
+
+        [MaxLength(200)]
+        public string ISTRANSFER { get; set; }
+
+        public DateTime? OPEN_TIME { get; set; }
+
+        public DateTime? COMPLETED_TIME { get; set; }
+
+        public DateTime? CONSTRCTION_TIME { get; set; }
+
+        public DateTime? UPLOAD_TIME { get; set; }
+
+        [MaxLength(200)]
+        public string CONSTRUCTION_COMPANY { get; set; }
+
+        [MaxLength(200)]
+        public string CONSTRUCTION_WORK { get; set; }
+
+        [MaxLength(200)]
+        public string BLUEPRINT { get; set; }
+    }
 }

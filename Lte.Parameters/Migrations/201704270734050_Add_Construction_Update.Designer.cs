@@ -7,13 +7,13 @@ namespace Lte.Parameters.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Update_Precise_Coverage_SQLServer : IMigrationMetadata
+    public sealed partial class Add_Construction_Update : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Update_Precise_Coverage_SQLServer));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_Construction_Update));
         
         string IMigrationMetadata.Id
         {
-            get { return "201704052227299_Update_Precise_Coverage_SQLServer"; }
+            get { return "201704270734050_Add_Construction_Update"; }
         }
         
         string IMigrationMetadata.Source
