@@ -46,6 +46,52 @@ namespace Lte.Evaluations.DataService.Basic
                 .Select(x => x.DistrictName).Distinct().ToList();
         }
 
+        public List<DistrictIndoorStat> QueryDistrictIndoorStats(string city)
+        {
+            var eNodebTownIds = _eNodebRepository.GetAllInUseList().Select(x => new
+            {
+                x.TownId,
+                x.ENodebId
+            });
+            var allCells = _cellRepository.GetAllInUseList();
+            return (from district in GetDistricts(city)
+                let townList = _repository.GetAllList(city, district)
+                let cells = (from t in townList
+                    join e in eNodebTownIds on t.Id equals e.TownId
+                    join c in allCells on e.ENodebId equals c.ENodebId
+                    select c)
+                select new DistrictIndoorStat
+                {
+                    District = district,
+                    TotalIndoorCells = cells.Count(x => !x.IsOutdoor),
+                    TotalOutdoorCells = cells.Count(x => x.IsOutdoor)
+                }).ToList();
+        }
+
+        public List<DistrictBandClassStat> QueryDistrictBandStats(string city)
+        {
+            var eNodebTownIds = _eNodebRepository.GetAllList().Select(x => new
+            {
+                x.TownId,
+                x.ENodebId
+            });
+            var allCells = _cellRepository.GetAllInUseList();
+            return (from district in GetDistricts(city)
+                    let townList = _repository.GetAllList(city, district)
+                    let cells = (from t in townList
+                                 join e in eNodebTownIds on t.Id equals e.TownId
+                                 join c in allCells on e.ENodebId equals c.ENodebId
+                                 select c)
+                    select new DistrictBandClassStat
+                    {
+                        District = district,
+                        Band1Cells = cells.Count(x => x.BandClass == 1),
+                        Band3Cells = cells.Count(x => x.BandClass == 3),
+                        Band5Cells = cells.Count(x => x.BandClass == 5),
+                        Band41Cells = cells.Count(x => x.BandClass == 41)
+                    }).ToList();
+        }
+
         public List<DistrictStat> QueryDistrictStats(string city)
         {
             var eNodebTownIds = _eNodebRepository.GetAllInUseList().Select(x => new

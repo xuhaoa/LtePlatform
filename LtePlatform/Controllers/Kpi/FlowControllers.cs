@@ -50,6 +50,38 @@ namespace LtePlatform.Controllers.Kpi
         }
     }
 
+    public class TopDownSwitchController : ApiController
+    {
+        private readonly FlowQueryService _service;
+
+        public TopDownSwitchController(FlowQueryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<FlowView> Get(string city, string district, DateTime begin, DateTime end, int topCount)
+        {
+            return _service.QueryTopDownSwitchViews(city, district, begin, end, topCount);
+        } 
+    }
+
+    public class TopRank2Controller : ApiController
+    {
+        private readonly FlowQueryService _service;
+
+        public TopRank2Controller(FlowQueryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<FlowView> Get(string city, string district, DateTime begin, DateTime end, int topCount)
+        {
+            return _service.QueryTopRank2Views(city, district, begin, end, topCount);
+        }
+    }
+
     [ApiControl("镇级流量查询控制器")]
     public class TownFlowController : ApiController
     {

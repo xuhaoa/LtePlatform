@@ -333,7 +333,7 @@ namespace Lte.Evaluations.MapperService
         {
             var csv = new FlowZteCsv
             {
-                AverageActiveUsers = 123.4,
+                OldAverageActiveUsers = 123.4,
                 AverageRrcUsers = 223.4,
                 MaxActiveUsers = 234,
                 StatTime = new DateTime(2016,3,4),
@@ -381,8 +381,8 @@ namespace Lte.Evaluations.MapperService
                 Qci9UplinkIpThroughputDuration = "27000",
                 SchedulingTm3 = 17,
                 SchedulingTm3Rank2 = 19,
-                PdcpDownlinkDuration = 25,
-                PdcpUplinkDuration = 112
+                OldPdcpDownlinkDuration = 25,
+                OldPdcpUplinkDuration = 112
             };
             var item = csv.MapTo<FlowZte>();
             item.Qci8DownlinkIpDuration.ShouldBe(234);
@@ -400,11 +400,11 @@ namespace Lte.Evaluations.MapperService
         {
             var csv = new FlowZteCsv
             {
-                MaxRrcUsers = 0,
-                DownlinkAverageActiveUsers = 1,
-                UplinkAverageActiveUsers = 2,
-                DownlinkPdcpFlowInMByte = 3,
-                UplindPdcpFlowInMByte = 4
+                OldMaxRrcUsers = 0,
+                OldDlAverageActiveUsers = 1,
+                OldUlAverageActiveUsers = 2,
+                OldDlPdcpFlowInMByte = 3,
+                OldUlPdcpFlowInMByte = 4
             };
             var item = csv.MapTo<FlowZte>();
             item.MaxRrcUsers.ShouldBe(0);

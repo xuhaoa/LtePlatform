@@ -2,32 +2,6 @@
     .config(function($stateProvider, $urlRouterProvider) {
         var viewDir = "/appViews/Parameters/";
         $stateProvider
-            .state('list', {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.root"
-                    },
-                    "contents": {
-                        templateUrl: viewDir + "List.html",
-                        controller: "parameters.list"
-                    }
-                },
-                url: "/"
-            })
-            .state('query', {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.root"
-                    },
-                    "contents": {
-                        templateUrl: viewDir + "QueryMap.html",
-                        controller: "query.map"
-                    }
-                },
-                url: "/query"
-            })
             .state('topic', {
                 views: {
                     'menu': {
@@ -40,45 +14,6 @@
                     }
                 },
                 url: "/topic"
-            })
-            .state('eNodebList', {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.town"
-                    },
-                    "contents": {
-                        templateUrl: viewDir + "Region/ENodebTable.html",
-                        controller: "eNodeb.list"
-                    }
-                },
-                url: "/eNodebList/:city/:district/:town"
-            })
-            .state('btsList', {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.town"
-                    },
-                    "contents": {
-                        templateUrl: viewDir + "Region/BtsTable.html",
-                        controller: "bts.list"
-                    }
-                },
-                url: "/btsList/:city/:district/:town"
-            })
-            .state('eNodebInfo', {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.lte"
-                    },
-                    "contents": {
-                        templateUrl: viewDir + "Region/ENodebInfo.html",
-                        controller: "eNodeb.info"
-                    }
-                },
-                url: "/eNodebInfo/:eNodebId/:name"
             })
             .state('topicCells', {
                 views: {
@@ -118,19 +53,6 @@
                     }
                 },
                 url: "/alarm/:eNodebId/:name"
-            })
-            .state('btsInfo', {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.cdma"
-                    },
-                    "contents": {
-                        templateUrl: viewDir + "Region/BtsInfo.html",
-                        controller: "bts.info"
-                    }
-                },
-                url: "/btsInfo/:btsId/:name"
             })
             .state('cdmaCellInfo', {
                 views: {
@@ -202,112 +124,11 @@
             messages.splice(index, 1);
         };
     })
-    .controller("parameters.list", function($scope, appRegionService, parametersChartService) {
-        $scope.page.title = "基础数据总览";
-        $scope.city = {
-            selected: "",
-            options: []
-        };
-        $scope.showCityStats = function() {
-            appRegionService.queryDistrictInfrastructures($scope.city.selected).then(function(result) {
-                appRegionService.accumulateCityStat(result, $scope.city.selected);
-                $scope.districtStats = result;
-
-                $("#cityLteENodebConfig").highcharts(parametersChartService.getDistrictLteENodebPieOptions(result.slice(0, result.length - 1),
-                    $scope.city.selected));
-                $("#cityLteCellConfig").highcharts(parametersChartService.getDistrictLteCellPieOptions(result.slice(0, result.length - 1),
-                    $scope.city.selected));
-                $("#cityCdmaENodebConfig").highcharts(parametersChartService.getDistrictCdmaBtsPieOptions(result.slice(0, result.length - 1),
-                    $scope.city.selected));
-                $("#cityCdmaCellConfig").highcharts(parametersChartService.getDistrictCdmaCellPieOptions(result.slice(0, result.length - 1),
-                    $scope.city.selected));
-            });
-        };
-        $scope.$watch('currentDistrict', function(district) {
-            if ($scope.city === undefined) return;
-            appRegionService.queryTownInfrastructures($scope.city.selected, district).then(function(result) {
-                $scope.townStats = result;
-                $("#districtLteENodebConfig").highcharts(parametersChartService.getTownLteENodebPieOptions(result, district));
-                $("#districtLteCellConfig").highcharts(parametersChartService.getTownLteCellPieOptions(result, district));
-                $("#districtCdmaENodebConfig").highcharts(parametersChartService.getTownCdmaBtsPieOptions(result, district));
-                $("#districtCdmaCellConfig").highcharts(parametersChartService.getTownCdmaCellPieOptions(result, district));
-            });
-        });
-
-        appRegionService.initializeCities().then(function(result) {
-            $scope.city.options = result;
-            $scope.city.selected = result[0];
-            $scope.showCityStats();
-        });
-    })
     .controller("evaluation.home", function ($scope, $http, baiduMapService, baiduQueryService,
         parametersMapService, parametersDialogService) {
         baiduQueryService.queryWandonglouyu().then(function (buildings) {
             baiduMapService.initializeMap("map", 12);
             parametersMapService.showPhpElements(buildings, parametersDialogService.showBuildingInfo);
-        });
-    })
-    .controller("query.map", function($scope, $uibModal, $log, appRegionService, baiduMapService, parametersMapService,
-        parametersDialogService) {
-        $scope.page.title = "小区地图查询";
-        $scope.network = {
-            options: ["LTE", "CDMA"],
-            selected: "LTE"
-        };
-        $scope.city = {
-            selected: "",
-            options: []
-        };
-        $scope.queryText = "";
-
-        $scope.updateDistricts = function() {
-            appRegionService.queryDistricts($scope.city.selected).then(function(result) {
-                $scope.district.options = result;
-                $scope.district.selected = result[0];
-            });
-        };
-        $scope.updateTowns = function() {
-            appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function(result) {
-                $scope.town.options = result;
-                $scope.town.selected = result[0];
-            });
-        };
-
-        $scope.queryItems = function() {
-            baiduMapService.clearOverlays();
-            if ($scope.network.selected === "LTE") {
-                if ($scope.queryText.trim() === "") {
-                    parametersMapService.showElementsInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected,
-                        parametersDialogService.showENodebInfo, parametersDialogService.showCellInfo);
-                } else {
-                    parametersMapService.showElementsWithGeneralName($scope.queryText, parametersDialogService.showENodebInfo, parametersDialogService.showCellInfo);
-                }
-            } else {
-                if ($scope.queryText.trim() === "") {
-                    parametersMapService.showCdmaInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected,
-                        parametersDialogService.showBtsInfo, parametersDialogService.showCdmaCellInfo);
-                } else {
-                    parametersMapService.showCdmaWithGeneralName($scope.queryText, parametersDialogService.showBtsInfo, parametersDialogService.showCdmaCellInfo);
-                }
-            }
-        };
-
-        appRegionService.initializeCities().then(function(result) {
-            $scope.city.options = result;
-            $scope.city.selected = result[0];
-            baiduMapService.initializeMap("map", 12);
-            appRegionService.queryDistricts($scope.city.selected).then(function(districts) {
-                $scope.district = {
-                    options: districts,
-                    selected: districts[0]
-                };
-                appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function(towns) {
-                    $scope.town = {
-                        options: towns,
-                        selected: towns[0]
-                    };
-                });
-            });
         });
     })
     .controller("query.topic", function ($scope, customerDialogService, basicImportService) {
@@ -324,21 +145,10 @@
         };
         $scope.query();
     })
-    .controller("bts.info", function ($scope, $stateParams, networkElementService) {
-        $scope.page.title = $stateParams.name + "CDMA基础信息";
-        networkElementService.queryBtsInfo($stateParams.btsId).then(function (result) {
-            $scope.btsDetails = result;
-        });
-        networkElementService.queryCdmaCellViews($stateParams.name).then(function (result) {
-            $scope.cdmaCellList = result;
-        });
-    })
     .controller("cdmaCell.info", function ($scope, $stateParams, networkElementService) {
         $scope.page.title = $stateParams.name + "-" + $stateParams.sectorId + "小区信息";
         $scope.isHuaweiCell = false;
-        networkElementService.queryCdmaCellInfo($stateParams.btsId, $stateParams.sectorId).then(function (result) {
-            $scope.cdmaCellDetails = result;
-        });
+        
     })
     .controller("eNodeb.alarm", function ($scope, $stateParams, alarmsService) {
         $scope.eNodebName = $stateParams.name;
@@ -366,53 +176,6 @@
         };
 
         $scope.searchAlarms();
-    })
-    .controller("eNodeb.info", function ($scope, $stateParams, networkElementService, cellHuaweiMongoService,
-        alarmImportService, intraFreqHoService, interFreqHoService, appRegionService) {
-        $scope.page.title = $stateParams.name + "LTE基础信息";
-
-        appRegionService.queryENodebTown($stateParams.eNodebId).then(function (result) {
-            $scope.city = result.item1;
-            $scope.district = result.item2;
-            $scope.town = result.item3;
-        });
-
-        //查询基站基本信息
-        networkElementService.queryENodebInfo($stateParams.eNodebId).then(function (result) {
-            $scope.eNodebDetails = result;
-            if (result.factory === '华为') {
-                cellHuaweiMongoService.queryLocalCellDef(result.eNodebId).then(function (cellDef) {
-                    alarmImportService.updateHuaweiAlarmInfos(cellDef).then(function () { });
-                });
-            }
-        });
-
-        //查询该基站下带的小区列表
-        networkElementService.queryCellViewsInOneENodeb($stateParams.eNodebId).then(function (result) {
-            $scope.cellList = result;
-        });
-
-        //查询基站同频切换参数
-        intraFreqHoService.queryENodebParameters($stateParams.eNodebId).then(function (result) {
-            $scope.intraFreqHo = result;
-        });
-
-        //查询基站异频切换参数
-        interFreqHoService.queryENodebParameters($stateParams.eNodebId).then(function (result) {
-            $scope.interFreqHo = result;
-        });
-    })
-    .controller("eNodeb.list", function ($scope, $stateParams, networkElementService) {
-        $scope.page.title = $stateParams.city + $stateParams.district + $stateParams.town + "LTE基站列表";
-        networkElementService.queryENodebsInOneTown($stateParams.city, $stateParams.district, $stateParams.town).then(function (result) {
-            $scope.eNodebList = result;
-        });
-    })
-    .controller("bts.list", function ($scope, $stateParams, networkElementService) {
-        $scope.page.title = $stateParams.city + $stateParams.district + $stateParams.town + "CDMA基站列表";
-        networkElementService.queryBtssInOneTown($stateParams.city, $stateParams.district, $stateParams.town).then(function (result) {
-            $scope.btsList = result;
-        });
     })
     .controller("menu.root", function ($scope) {
         $scope.menuTitle = "功能列表";

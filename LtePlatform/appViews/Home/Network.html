@@ -8,37 +8,13 @@
         <li role="menuitem">
             <a class="btn btn-sm btn-warning" ng-click="showLteTownStats()">
                 <i class="glyphicon glyphicon-fullscreen"></i>
-                LTE
+                LTE统计
             </a>
         </li>
         <li role="menuitem">
             <a class="btn btn-sm btn-success" ng-click="showCdmaTownStats()">
                 <i class="glyphicon glyphicon-tree-conifer"></i>
-                CDMA
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showFlow()">
-                <i class="glyphicon glyphicon-flag"></i>
-                流量分布
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showFlowTrend()">
-                <i class="glyphicon glyphicon-apple"></i>
-                流量趋势
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showUsersTrend()">
-                <i class="glyphicon glyphicon-barcode"></i>
-                用户数趋势
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showFeelingRateTrend()">
-                <i class="glyphicon glyphicon-barcode"></i>
-                感知速率趋势
+                CDMA统计
             </a>
         </li>
     </ul>
@@ -52,27 +28,21 @@
     </button>
     <ul uib-dropdown-menu role="menu" aria-labelledby="view-button">
         <li role="menuitem">
+            <a class="btn btn-sm btn-success" ng-click="showLteENodebs()">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+                LTE基站
+            </a>
+        </li>
+        <li role="menuitem">
             <a class="btn btn-sm btn-success" ng-click="showOutdoorSites()">
                 <i class="glyphicon glyphicon-fullscreen"></i>
-                室外站点
+                室外小区
             </a>
         </li>
         <li role="menuitem">
             <a class="btn btn-sm btn-success" ng-click="showIndoorSites()">
                 <i class="glyphicon glyphicon-tree-conifer"></i>
-                室内站点
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showFeelingRate()">
-                <i class="glyphicon glyphicon-flag"></i>
-                下行感知速率
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showUplinkFeelingRate()">
-                <i class="glyphicon glyphicon-flag"></i>
-                上行感知速率
+                室内小区
             </a>
         </li>
     </ul>

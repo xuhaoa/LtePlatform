@@ -1,0 +1,1 @@
+/home/wireless/anaconda3/bin/python /home/wireless/Public/precise_combined.py

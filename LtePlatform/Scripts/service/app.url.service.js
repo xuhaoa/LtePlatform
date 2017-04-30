@@ -66,7 +66,7 @@
             getAccessToken: getAccessToken,
             initializeAuthorization: initializeAuthorization,
             getPlanUrlHost: function() {
-                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:8002/' : 'http://10.17.165.111:8002/';
+                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:8070/' : 'http://10.17.165.111:8070/';
             },
             getDtUrlHost: function() {
                 return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.41:2888/' : 'http://10.17.165.100:2888/';
@@ -86,7 +86,7 @@
             getCustomerHost: function () {
                 return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.41:8099/' : 'http://10.17.165.100:8099/';
             },
-            getStationHost: function () {
+            getPhpHost: function () {
                 return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:9000/' : 'http://10.17.165.111:9000/';
             },
             
@@ -243,6 +243,28 @@
                         deferred.resolve(result);
                     })
                     .error(function(reason) {
+                        deferred.reject(reason);
+                    });
+                return deferred.promise;
+            },
+            postPhpUrlData: function(url, data) {
+                var deferred = $q.defer();
+                $http({
+                    method: 'POST',
+                    url: url,
+                    data: data,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    transformRequest: function (obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }).success(function (result) {
+                    deferred.resolve(result);
+                })
+                    .error(function (reason) {
                         deferred.reject(reason);
                     });
                 return deferred.promise;
@@ -531,6 +553,169 @@
             },
             prefixInteger: function (num, length) {
                 return (Array(length).join('0') + num).slice(-length);
+            },
+            generateSiteGroups: function(site) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '正式名称',
+                                value: site.formalName
+                            }, {
+                                key: '规划名称',
+                                value: site.planName
+                            }, {
+                                key: '规划编号',
+                                value: site.planNum
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '区域',
+                                value: site.district
+                            }, {
+                                key: '镇区',
+                                value: site.town
+                            }, {
+                                key: '获取日期',
+                                value: site.gottenDate
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '杆塔类型',
+                                value: site.towerType
+                            }, {
+                                key: '天线高度',
+                                value: site.antennaHeight
+                            }, {
+                                key: '开通日期',
+                                value: site.finishedDate
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: site.longtitute
+                            }, {
+                                key: '纬度',
+                                value: site.lattitute
+                            }
+                        ]
+                    }
+                ];
+            },
+            generateStationGroups: function(station) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '站点名称',
+                                value: station.StationName
+                            }, {
+                                key: '机房名称',
+                                value: station.EngineRoom
+                            }, {
+                                key: '站点类型',
+                                value: station.StationType
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '区域',
+                                value: station.AreaName
+                            }, {
+                                key: '镇区',
+                                value: station.Town
+                            }, {
+                                key: '安装地址',
+                                value: station.InstallAddr
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '杆塔类型',
+                                value: station.TowerType
+                            }, {
+                                key: '天线高度',
+                                value: station.TowerHeight
+                            }, {
+                                key: '开通日期',
+                                value: station.IntersectionDate
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: station.longtitute
+                            }, {
+                                key: '纬度',
+                                value: station.lattitute
+                            }, {
+                                key: '系统站址ID',
+                                value: station.SysStationId
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '机房归属',
+                                value: station.RoomAttribution
+                            }, {
+                                key: '是否新建机房',
+                                value: station.IsNewRoom
+                            }, {
+                                key: 'CL网是否共用天线',
+                                value: station.IsShare
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '网络类型',
+                                value: station.NetType
+                            }, {
+                                key: '是否高危站点',
+                                value: station.IsDangerous
+                            }, {
+                                key: '是否简易机房',
+                                value: station.IsSimple
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '属地性质',
+                                value: station.AttributionNature
+                            }, {
+                                key: '是否新建铁塔',
+                                value: station.IsNewTower
+                            }, {
+                                key: '铁塔归属',
+                                value: station.TowerAttribution
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '铁塔高度',
+                                value: station.TowerHeight
+                            }, {
+                                key: '铁塔类型',
+                                value: station.TowerType
+                            }, {
+                                key: '铁塔编号',
+                                value: station.TowerCode
+                            }
+                        ]
+                    }
+                ];
             }
         }
     })
@@ -670,6 +855,25 @@
                 });
                 return chart.options;
             },
+            getStackColumnOptions: function (stats, setting, categoriesFunc, dataFuncList) {
+                var chart = new StackColumnChart();
+                chart.title.text = setting.title;
+                chart.xAxis.title.text = setting.xtitle;
+                chart.yAxis.title.text = setting.ytitle;
+                chart.xAxis.categories = _.map(stats, function(stat) {
+                    return categoriesFunc(stat);
+                });
+                angular.forEach(dataFuncList, function(dataFunc, $index) {
+                    chart.series.push({
+                        name: setting.seriesTitles[$index],
+                        data: _.map(stats, function(stat) {
+                            return dataFunc(stat);
+                        })
+                    });
+                });
+                
+                return chart.options;
+            },
             queryColumnOptions: function (setting, categories, data) {
                 var chart = new ComboChart();
                 chart.title.text = setting.title;
@@ -718,6 +922,39 @@
                         type: "column",
                         name: seriesTitle[$index],
                         data: data
+                    });
+                });
+                return chart.options;
+            },
+            queryMultipleComboOptions: function (setting, categories, dataList, seriesTitle, typeList) {
+                var chart = new ComboChart();
+                chart.title.text = setting.title;
+                chart.xAxis[0].title.text = setting.xtitle;
+                chart.yAxis[0].title.text = setting.ytitle;
+                chart.xAxis[0].categories = categories;
+                angular.forEach(dataList, function (data, $index) {
+                    chart.series.push({
+                        type: typeList[$index],
+                        name: seriesTitle[$index],
+                        data: data
+                    });
+                });
+                return chart.options;
+            },
+            queryMultipleComboOptionsWithDoubleAxes: function (setting, categories, dataList, seriesTitle, typeList, yAxisList) {
+                var chart = new ComboChart();
+                chart.title.text = setting.title;
+                chart.xAxis[0].title.text = setting.xtitle;
+                chart.yAxis[0].title.text = setting.ytitles[0];
+                chart.pushOneYAxis(setting.ytitles[1]);
+
+                chart.xAxis[0].categories = categories;
+                angular.forEach(dataList, function (data, $index) {
+                    chart.series.push({
+                        type: typeList[$index],
+                        name: seriesTitle[$index],
+                        data: data,
+                        yAxis: yAxisList[$index]
                     });
                 });
                 return chart.options;
@@ -1409,6 +1646,89 @@
                 }
                 ];
             },
+            generateFlowDetailsGroups: function (site) {
+                return [
+                {
+                    items: [
+                        {
+                            key: '小区名称',
+                            value: site.eNodebName + '-' +site.sectorId
+                        }, {
+                            key: '经度',
+                            value: site.longtitute
+                        }, {
+                            key: '纬度',
+                            value: site.lattitute
+                        }
+                    ]
+                }, {
+                    items: [
+                        {
+                            key: '天线挂高',
+                            value: site.height
+                        }, {
+                            key: '方位角',
+                            value: site.azimuth
+                        }, {
+                            key: '下倾角',
+                            value: site.downTilt
+                        }
+                    ]
+                }, {
+                    items: [
+                        {
+                            key: '室内外',
+                            value: site.indoor
+                        }, {
+                            key: '天线增益',
+                            value: site.antennaGain
+                        }, {
+                            key: 'RS功率',
+                            value: site.rsPower
+                        }
+                    ]
+                }, {
+                    items: [
+                        {
+                            key: '下行流量（MB）',
+                            value: site.pdcpDownlinkFlow
+                        }, {
+                            key: '上行流量（MB）',
+                            value: site.pdcpUplinkFlow
+                        }, {
+                            key: '用户数',
+                            value: site.maxUsers
+                        }
+                    ]
+                }, {
+                    items: [
+                        {
+                            key: '下行感知速率（Mbit/s）',
+                            value: site.downlinkFeelingRate
+                        }, {
+                            key: '上行感知速率（Mbit/s）',
+                            value: site.uplinkFeelingRate
+                        }, {
+                            key: 'PCI',
+                            value: site.pci
+                        }
+                    ]
+                }, {
+                    items: [
+                        {
+                            key: '4G下切3G次数',
+                            value: site.redirectCdma2000
+                        }, {
+                            key: '4G双流比',
+                            value: site.rank2Rate
+                        }, {
+                            key: 'PRACH',
+                            value: site.prach
+                        }
+                    ]
+                }
+                ];
+            },
             generateCellMongoGroups: function (site) {
                 return [
                 {
@@ -1835,6 +2155,42 @@
                     ytitle1: "平均用户数",
                     ytitle2: "最大激活用户数"
                 }, data.categories, data.dataList[index1], data.dataList[index2]);
+            },
+            getCellIndoorTypeColumnOptions: function(stats) {
+                return generalChartService.getStackColumnOptions(stats, {
+                    title: '各区室内外小区分布',
+                    xtitle: '区域',
+                    ytitle: '小区数',
+                    seriesTitles: ['室内小区', '室外小区']
+                }, function(stat) {
+                    return stat.district;
+                }, [
+                    function(stat) {
+                        return stat.totalIndoorCells;
+                    }, function(stat) {
+                        return stat.totalOutdoorCells;
+                    }
+                ]);
+            },
+            getCellBandClassColumnOptions: function(stats) {
+                return generalChartService.getStackColumnOptions(stats, {
+                    title: '各区小区频段分布',
+                    xtitle: '区域',
+                    ytitle: '小区数',
+                    seriesTitles: ['2.1G频段', '1.8G频段', '800M频段', 'TDD频段']
+                }, function(stat) {
+                    return stat.district;
+                }, [
+                    function(stat) {
+                        return stat.band1Cells;
+                    }, function(stat) {
+                        return stat.band3Cells;
+                    }, function (stat) {
+                        return stat.band5Cells;
+                    }, function (stat) {
+                        return stat.band41Cells;
+                    }
+                ]);
             }
         };
     })

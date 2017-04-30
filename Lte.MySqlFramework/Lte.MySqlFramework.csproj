@@ -127,13 +127,13 @@
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
-    <Compile Include="Migrations\201703292302114_Add_App_Record.cs" />
-    <Compile Include="Migrations\201703292302114_Add_App_Record.Designer.cs">
-      <DependentUpon>201703292302114_Add_App_Record.cs</DependentUpon>
+    <Compile Include="Migrations\201704102206210_Update_TownFlowStat.cs" />
+    <Compile Include="Migrations\201704102206210_Update_TownFlowStat.Designer.cs">
+      <DependentUpon>201704102206210_Update_TownFlowStat.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703300344114_Modify_App_Browsing.cs" />
-    <Compile Include="Migrations\201703300344114_Modify_App_Browsing.Designer.cs">
-      <DependentUpon>201703300344114_Modify_App_Browsing.cs</DependentUpon>
+    <Compile Include="Migrations\201704250816308_Create_StationDictionary.cs" />
+    <Compile Include="Migrations\201704250816308_Create_StationDictionary.Designer.cs">
+      <DependentUpon>201704250816308_Create_StationDictionary.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -143,11 +143,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703292302114_Add_App_Record.resx">
-      <DependentUpon>201703292302114_Add_App_Record.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704102206210_Update_TownFlowStat.resx">
+      <DependentUpon>201704102206210_Update_TownFlowStat.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703300344114_Modify_App_Browsing.resx">
-      <DependentUpon>201703300344114_Modify_App_Browsing.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704250816308_Create_StationDictionary.resx">
+      <DependentUpon>201704250816308_Create_StationDictionary.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

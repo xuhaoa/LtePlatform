@@ -70,6 +70,8 @@ namespace Lte.MySqlFramework.Entities
         
         public int RedirectB2 { get; set; }
 
+        public int RedirectCdma2000 => RedirectA2 + RedirectB2;
+
         public double DownlinkFeelingThroughput => Qci8DownlinkIpThroughput + Qci9DownlinkIpThroughput;
 
         public double DownlinkFeelingDuration => Qci8DownlinkIpDuration + Qci9DownlinkIpDuration;
@@ -200,34 +202,74 @@ namespace Lte.MySqlFramework.Entities
         public byte SectorId { get; set; }
 
         [CsvColumn(Name = "最大RRC连接用户数_1")]
-        public int MaxRrcUsers { get; set; }
+        public int OldMaxRrcUsers { get; set; }
+
+        [CsvColumn(Name = "最大RRC连接用户数-FDD")]
+        public int NewMaxRrcUsers { get; set; }
+
+        public int MaxRrcUsers => OldMaxRrcUsers + NewMaxRrcUsers;
 
         [CsvColumn(Name = "上行平均激活用户数_1")]
-        public double UplinkAverageActiveUsers { get; set; }
+        public double OldUlAverageActiveUsers { get; set; }
+
+        [CsvColumn(Name = "上行平均激活用户数-FDD_1484414261455-0-71")]
+        public double NewUlAvgActUsers { get; set; }
+
+        public double UplinkAverageActiveUsers => OldUlAverageActiveUsers + NewUlAvgActUsers;
 
         [CsvColumn(Name = "下行平均激活用户数_1")]
-        public double DownlinkAverageActiveUsers { get; set; }
+        public double OldDlAverageActiveUsers { get; set; }
+
+        [CsvColumn(Name = "下行平均激活用户数-FDD_1484414261455-0-72")]
+        public double NewDlAvgActUsers { get; set; }
+
+        public double DownlinkAverageActiveUsers => OldDlAverageActiveUsers + NewDlAvgActUsers;
 
         [CsvColumn(Name = "平均RRC连接用户数_1")]
         public double AverageRrcUsers { get; set; }
 
         [CsvColumn(Name = "平均激活用户数_1")]
-        public double AverageActiveUsers { get; set; }
+        public double OldAverageActiveUsers { get; set; }
+
+        [CsvColumn(Name = "平均激活用户数")]
+        public double NewAvgActUsers { get; set; }
+
+        public double AverageActiveUsers => OldAverageActiveUsers + NewAvgActUsers;
 
         [CsvColumn(Name = "最大激活用户数_1")]
         public int MaxActiveUsers { get; set; }
 
         [CsvColumn(Name = "小区PDCP接收上行数据的总时长(s)")]
-        public int PdcpUplinkDuration { get; set; }
+        public int OldPdcpUplinkDuration { get; set; }
+
+        [CsvColumn(Name = "小区PDCP接收上行数据的总时长(s)")]
+        public int NewPdcpUlDuration { get; set; }
+
+        public int PdcpUplinkDuration => OldPdcpUplinkDuration + NewPdcpUlDuration;
 
         [CsvColumn(Name = "小区PDCP发送下行数据的总时长(s)")]
-        public int PdcpDownlinkDuration { get; set; }
+        public int OldPdcpDownlinkDuration { get; set; }
 
-        [CsvColumn(Name = "小区上行PDCP层流量（MB）")]
-        public double UplindPdcpFlowInMByte { get; set; }
+        [CsvColumn(Name = "小区PDCP发送下行数据的总时长(s)")]
+        public int NewPdcpDlDuration { get; set; }
+
+        public int PdcpDownlinkDuration => OldPdcpDownlinkDuration + NewPdcpDlDuration;
+
+        [CsvColumn(Name = "小区上行PDCP层流量（MB）_1440661576499")]
+        public double OldUlPdcpFlowInMByte { get; set; }
 
         [CsvColumn(Name = "小区下行PDCP层流量（MB）")]
-        public double DownlinkPdcpFlowInMByte { get; set; }
+        public double NewUlPdcpFlowInMByte { get; set; }
+
+        public double UplindPdcpFlowInMByte => OldUlPdcpFlowInMByte + NewUlPdcpFlowInMByte;
+
+        [CsvColumn(Name = "小区下行PDCP层流量（MB）_1440661576499")]
+        public double OldDlPdcpFlowInMByte { get; set; }
+
+        [CsvColumn(Name = "小区下行PDCP层流量（MB）")]
+        public double NewDlPdcpFlowInMByte { get; set; }
+
+        public double DownlinkPdcpFlowInMByte => OldDlPdcpFlowInMByte + NewDlPdcpFlowInMByte;
 
         [CsvColumn(Name = "QCI8小区上行IP Throughput数据量高(兆比特)")]
         public string Qci8UplinkIpThroughputHigh { get; set; }
@@ -556,6 +598,8 @@ namespace Lte.MySqlFramework.Entities
         [AutoMapPropertyResolve("SchedulingRank2String", typeof(FlowHuaweiCsv), typeof(StringToIntTransform))]
         public int SchedulingRank2 { get; set; }
 
+        public int SchedulingTimes => SchedulingRank1 + SchedulingRank2;
+
         public int RedirectCdma2000 { get; set; }
 
         public double DownlinkFeelingThroughput => PdcpDownlinkFlow - LastTtiDownlinkFlow;
@@ -873,6 +917,14 @@ namespace Lte.MySqlFramework.Entities
         public double UplinkFeelingThroughput { get; set; }
 
         public double UplinkFeelingDuration { get; set; }
+
+        [AutoMapPropertyResolve("SchedulingTm3Rank2", typeof(FlowZte))]
+        public double SchedulingRank2 { get; set; }
+
+        [AutoMapPropertyResolve("SchedulingTm3", typeof(FlowZte))]
+        public double SchedulingTimes { get; set; }
+        
+        public int RedirectCdma2000 { get; set; }
     }
 
     [AutoMapFrom(typeof(TownFlowStat))]
@@ -917,6 +969,14 @@ namespace Lte.MySqlFramework.Entities
 
         public double UplinkFeelingRate
             => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput / UplinkFeelingDuration;
+        
+        public double SchedulingRank2 { get; set; }
+        
+        public double SchedulingTimes { get; set; }
+
+        public double Rank2Rate => SchedulingTimes == 0 ? 100 : SchedulingRank2 / SchedulingTimes * 100;
+
+        public int RedirectCdma2000 { get; set; }
     }
 
     [AutoMapFrom(typeof(TownFlowView))]
@@ -957,10 +1017,182 @@ namespace Lte.MySqlFramework.Entities
 
         public double UplinkFeelingRate
             => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput / UplinkFeelingDuration;
+    }
 
-        public static DistrictFlowView ConstructView(TownFlowView townView)
+    [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte))]
+    [TypeDoc("小区单日流量统计视图")]
+    public class FlowView
+    {
+        [MemberDoc("统计时间")]
+        public DateTime StatTime { get; set; }
+
+        [MemberDoc("基站编号")]
+        public int ENodebId { get; set; }
+
+        [MemberDoc("扇区编号")]
+        public byte SectorId { get; set; }
+
+        public string ENodebName { get; set; }
+
+        [AutoMapPropertyResolve("DownlinkPdcpFlow", typeof(FlowZte))]
+        [MemberDoc("PDCP层下行流量")]
+        public double PdcpDownlinkFlow { get; set; }
+
+        [AutoMapPropertyResolve("UplindPdcpFlow", typeof(FlowZte))]
+        [MemberDoc("PDCP层上行流量")]
+        public double PdcpUplinkFlow { get; set; }
+
+        [AutoMapPropertyResolve("AverageRrcUsers", typeof(FlowZte))]
+        [MemberDoc("平均用户数")]
+        public double AverageUsers { get; set; }
+
+        [AutoMapPropertyResolve("MaxRrcUsers", typeof(FlowZte))]
+        [MemberDoc("最大用户数")]
+        public int MaxUsers { get; set; }
+
+        [MemberDoc("平均激活用户数")]
+        public double AverageActiveUsers { get; set; }
+
+        [MemberDoc("最大激活用户数")]
+        public int MaxActiveUsers { get; set; }
+
+        public double DownlinkFeelingThroughput { get; set; }
+
+        public double DownlinkFeelingDuration { get; set; }
+
+        public double DownlinkFeelingRate
+            => DownlinkFeelingDuration == 0 ? 0 : DownlinkFeelingThroughput / DownlinkFeelingDuration;
+
+        public double UplinkFeelingThroughput { get; set; }
+
+        public double UplinkFeelingDuration { get; set; }
+
+        public double UplinkFeelingRate
+            => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput / UplinkFeelingDuration;
+
+        public double RedirectCdma2000 { get; set; }
+
+        [AutoMapPropertyResolve("SchedulingTm3", typeof(FlowZte))]
+        public double SchedulingTimes { get; set; }
+
+        [AutoMapPropertyResolve("SchedulingTm3Rank2", typeof(FlowZte))]
+        public double SchedulingRank2 { get; set; }
+
+        public double Rank2Rate => SchedulingTimes == 0 ? 100 : SchedulingRank2 / SchedulingTimes * 100;
+
+        public static FlowView Average(IEnumerable<FlowView> stats)
         {
-            return townView.MapTo<DistrictFlowView>();
+            if (stats == null) return null;
+            var views = stats.ToList();
+            if (!views.Any()) return null;
+            var first = views.FirstOrDefault();
+            return new FlowView
+            {
+                StatTime = first.StatTime,
+                ENodebId = first.ENodebId,
+                SectorId = first.SectorId,
+                ENodebName = first.ENodebName,
+                PdcpUplinkFlow = views.Average(x => x.PdcpUplinkFlow),
+                PdcpDownlinkFlow = views.Average(x => x.PdcpDownlinkFlow),
+                AverageUsers = views.Average(x => x.AverageUsers),
+                MaxUsers = views.Max(x => x.MaxUsers),
+                AverageActiveUsers = views.Average(x => x.AverageActiveUsers),
+                MaxActiveUsers = views.Max(x => x.MaxActiveUsers),
+                DownlinkFeelingDuration = views.Average(x => x.DownlinkFeelingDuration),
+                DownlinkFeelingThroughput = views.Average(x => x.DownlinkFeelingThroughput),
+                UplinkFeelingDuration = views.Average(x => x.UplinkFeelingDuration),
+                UplinkFeelingThroughput = views.Average(x => x.UplinkFeelingThroughput),
+                RedirectCdma2000 = views.Average(x => x.RedirectCdma2000),
+                SchedulingTimes = views.Average(x => x.SchedulingTimes),
+                SchedulingRank2 = views.Average(x => x.SchedulingRank2)
+            };
         }
+    }
+
+    [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte))]
+    public class ENodebFlowView : IENodebId, IGeoPoint<double>
+    {
+        public int ENodebId { get; set; }
+
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        [AutoMapPropertyResolve("DownlinkPdcpFlow", typeof(FlowZte))]
+        [MemberDoc("PDCP层下行流量")]
+        public double PdcpDownlinkFlow { get; set; }
+
+        [AutoMapPropertyResolve("UplindPdcpFlow", typeof(FlowZte))]
+        [MemberDoc("PDCP层上行流量")]
+        public double PdcpUplinkFlow { get; set; }
+
+        [AutoMapPropertyResolve("AverageRrcUsers", typeof(FlowZte))]
+        [MemberDoc("平均用户数")]
+        public double AverageUsers { get; set; }
+
+        [AutoMapPropertyResolve("MaxRrcUsers", typeof(FlowZte))]
+        [MemberDoc("最大用户数")]
+        public int MaxUsers { get; set; }
+
+        [MemberDoc("平均激活用户数")]
+        public double AverageActiveUsers { get; set; }
+
+        [MemberDoc("最大激活用户数")]
+        public int MaxActiveUsers { get; set; }
+
+        public double DownlinkFeelingThroughput { get; set; }
+
+        public double DownlinkFeelingDuration { get; set; }
+
+        public double DownlinkFeelingRate
+            => DownlinkFeelingDuration == 0 ? 0 : DownlinkFeelingThroughput / DownlinkFeelingDuration;
+
+        public double UplinkFeelingThroughput { get; set; }
+
+        public double UplinkFeelingDuration { get; set; }
+
+        public double UplinkFeelingRate
+            => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput / UplinkFeelingDuration;
+
+    }
+
+    [AutoMapFrom(typeof(FlowView))]
+    [TypeDoc("聚合流量统计视图")]
+    public class AggregateFlowView
+    {
+        [MemberDoc("小区个数")]
+        public int CellCount { get; set; }
+
+        [MemberDoc("PDCP层下行流量")]
+        public double PdcpDownlinkFlow { get; set; }
+
+        [MemberDoc("PDCP层上行流量")]
+        public double PdcpUplinkFlow { get; set; }
+
+        [MemberDoc("平均用户数")]
+        public double AverageUsers { get; set; }
+
+        [MemberDoc("最大用户数")]
+        public int MaxUsers { get; set; }
+
+        [MemberDoc("平均激活用户数")]
+        public double AverageActiveUsers { get; set; }
+
+        [MemberDoc("最大激活用户数")]
+        public int MaxActiveUsers { get; set; }
+
+        public double DownlinkFeelingThroughput { get; set; }
+
+        public double DownlinkFeelingDuration { get; set; }
+
+        public double DownlinkFeelingRate
+            => DownlinkFeelingDuration == 0 ? 0 : DownlinkFeelingThroughput / DownlinkFeelingDuration;
+
+        public double UplinkFeelingThroughput { get; set; }
+
+        public double UplinkFeelingDuration { get; set; }
+
+        public double UplinkFeelingRate
+            => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput / UplinkFeelingDuration;
     }
 }

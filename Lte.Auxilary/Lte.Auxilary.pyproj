@@ -31,10 +31,22 @@
     <Compile Include="Db\mro_combined.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Db\mro_combined2.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Db\mro_combined3.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Db\mro_combined4.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Db\mro_combined_test.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Db\mrs_combined.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Db\precise_combined.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="demo\beer.py" />
@@ -208,7 +220,19 @@
     <Content Include="Db\mro_combined.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Db\mro_combined2.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Db\mro_combined3.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Db\mro_combined4.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Db\mrs_combined.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Db\precise_combined.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Db\sp_get2GFileContentsRasterConsidered.sql" />
@@ -376,6 +400,9 @@
     <Content Include="zte_download\zte_download_mro_125_138_delay2.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="zte_download\zte_download_mro_125_138_delay3.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="zte_download\zte_download_mro_125_181.sh">
       <SubType>Code</SubType>
     </Content>
@@ -383,6 +410,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mro_125_181_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_mro_125_181_delay3.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mro_125_183.sh">
@@ -409,10 +439,16 @@
     <Content Include="zte_download\zte_download_mro_125_delay2.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="zte_download\zte_download_mro_125_delay3.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="zte_download\zte_download_mro_delay1.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mro_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_mro_delay3.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mrs.sh">

@@ -172,7 +172,7 @@
         $scope.showTrend = function () {
             kpi2GService.queryKpiTrend(city, $scope.beginDate.value, $scope.endDate.value).then(function (data) {
                 angular.forEach($scope.kpi.options, function (option, $index) {
-                    $("#kpi-" + $index).highcharts(kpiDisplayService.generateComboChartOptions(data, option, city));
+                    $("#kpi-" + $index).highcharts(kpiDisplayService.generateComboChartOptions(data, option));
                 });
             });
         };
@@ -713,6 +713,82 @@
         });
 
     })
+    .controller("flow.kpi.dialog", function ($scope, cell, begin, end, dialogTitle, flowService, generalChartService,
+        $uibModalInstance) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.cell = cell;
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.mongoNeighbors);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        flowService.queryCellFlowByDateSpan(cell.eNodebId, cell.sectorId, begin, end).then(function (result) {
+            var dates = _.map(result, function(stat) {
+                return stat.statTime;
+            });
+            $("#flowChart").highcharts(generalChartService.queryMultipleColumnOptions({
+                title: '流量统计',
+                xtitle: '日期',
+                ytitle: '流量（MB）'
+            }, dates, [
+                _.map(result, function(stat) {
+                    return stat.pdcpDownlinkFlow;
+                }), 
+                _.map(result, function(stat) {
+                    return stat.pdcpUplinkFlow;
+                })
+            ], ['下行流量', '上行流量']));
+            $("#feelingRateChart").highcharts(generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                title: '感知速率',
+                xtitle: '日期',
+                ytitles: ['感知速率（Mbit/s）', '用户数']
+            }, dates, [
+                _.map(result, function(stat) {
+                    return stat.downlinkFeelingRate;
+                }),
+                _.map(result, function(stat) {
+                    return stat.uplinkFeelingRate;
+                }),
+                _.map(result, function(stat) {
+                    return stat.maxUsers;
+                })
+            ], ['下行感知速率', '上行感知速率', '用户数'], ['line', 'line', 'column'], [0, 0, 1]));
+            $("#downSwitchChart").highcharts(generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                title: '4G下切3G次数统计',
+                xtitle: '日期',
+                ytitles: ['4G下切3G次数', '流量（MB）']
+            }, dates, [
+                _.map(result, function (stat) {
+                    return stat.redirectCdma2000;
+                }),
+                _.map(result, function (stat) {
+                    return stat.pdcpDownlinkFlow;
+                }),
+                _.map(result, function (stat) {
+                    return stat.pdcpUplinkFlow;
+                })
+            ], ['4G下切3G次数', '下行流量', '上行流量'], ['column', 'line', 'line'], [0, 1, 1]));
+            $("#rank2Chart").highcharts(generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                title: '4G双流比统计',
+                xtitle: '日期',
+                ytitles: ['4G双流比（%）', '感知速率（Mbit/s）']
+            }, dates, [
+                _.map(result, function (stat) {
+                    return stat.rank2Rate;
+                }),
+                _.map(result, function (stat) {
+                    return stat.downlinkFeelingRate;
+                }),
+                _.map(result, function (stat) {
+                    return stat.uplinkFeelingRate;
+                })
+            ], ['4G双流比', '下行感知速率', '上行感知速率'], ['column', 'line', 'line'], [0, 1, 1]));
+        });
+    })
     .controller('neighbors.dialog', function ($scope, $uibModalInstance, geometryService,
         dialogTitle, candidateNeighbors, currentCell) {
         $scope.pciNeighbors = [];
@@ -1198,6 +1274,145 @@
         };
     })
 
+    .controller('query.setting.dialog', function ($scope, $uibModalInstance, city, dialogTitle, beginDate, endDate,
+    appRegionService, parametersMapService, parametersDialogService, networkElementService) {
+        $scope.network = {
+            options: ["LTE", "CDMA"],
+            selected: "LTE"
+        };
+        $scope.queryText = "";
+        $scope.city = city;
+        $scope.dialogTitle = dialogTitle;
+        $scope.beginDate = beginDate;
+        $scope.endDate = endDate;
+        $scope.eNodebList = [];
+        $scope.btsList = [];
+
+        $scope.updateDistricts = function () {
+            appRegionService.queryDistricts($scope.city.selected).then(function (result) {
+                $scope.district.options = result;
+                $scope.district.selected = result[0];
+            });
+        };
+        $scope.updateTowns = function () {
+            appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function (result) {
+                $scope.town.options = result;
+                $scope.town.selected = result[0];
+            });
+        };
+
+        $scope.queryItems = function () {
+            if ($scope.network.selected === "LTE") {
+                if ($scope.queryText.trim() === "") {
+                    networkElementService.queryENodebsInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected).then(function (eNodebs) {
+                        $scope.eNodebList = eNodebs;
+                    });
+                } else {
+                    networkElementService.queryENodebsByGeneralName($scope.queryText).then(function (eNodebs) {
+                        $scope.eNodebList = eNodebs;
+                    });
+                }
+            } else {
+                if ($scope.queryText.trim() === "") {
+                    networkElementService.queryBtssInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected).then(function (btss) {
+                        $scope.btsList = btss;
+                    });
+                } else {
+                    networkElementService.queryBtssByGeneralName($scope.queryText).then(function (btss) {
+                        $scope.btsList = btss;
+                    });
+                }
+            }
+        };
+        appRegionService.queryDistricts($scope.city.selected).then(function (districts) {
+            $scope.district = {
+                options: districts,
+                selected: districts[0]
+            };
+            appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function (towns) {
+                $scope.town = {
+                    options: towns,
+                    selected: towns[0]
+                };
+            });
+        });
+        $scope.ok = function () {
+            if ($scope.network.selected === "LTE") {
+                if ($scope.queryText.trim() === "") {
+                    parametersMapService.showElementsInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected,
+                        $scope.beginDate, $scope.endDate);
+                } else {
+                    parametersMapService.showElementsWithGeneralName($scope.queryText, $scope.beginDate, $scope.endDate);
+                }
+            } else {
+                if ($scope.queryText.trim() === "") {
+                    parametersMapService.showCdmaInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected);
+                } else {
+                    parametersMapService.showCdmaWithGeneralName($scope.queryText);
+                }
+            }
+            $uibModalInstance.close($scope.neighbor);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+
+    .controller("parameters.list", function ($scope, $uibModalInstance, city, dialogTitle, appRegionService, parametersChartService) {
+        $scope.city = city;
+        $scope.dialogTitle = dialogTitle;
+        $scope.showCityStats = function () {
+            appRegionService.queryDistrictInfrastructures($scope.city.selected).then(function (result) {
+                appRegionService.accumulateCityStat(result, $scope.city.selected);
+                $scope.districtStats = result;
+
+                $("#cityLteENodebConfig").highcharts(parametersChartService.getDistrictLteENodebPieOptions(result.slice(0, result.length - 1),
+                    $scope.city.selected));
+                $("#cityLteCellConfig").highcharts(parametersChartService.getDistrictLteCellPieOptions(result.slice(0, result.length - 1),
+                    $scope.city.selected));
+                $("#cityCdmaENodebConfig").highcharts(parametersChartService.getDistrictCdmaBtsPieOptions(result.slice(0, result.length - 1),
+                    $scope.city.selected));
+                $("#cityCdmaCellConfig").highcharts(parametersChartService.getDistrictCdmaCellPieOptions(result.slice(0, result.length - 1),
+                    $scope.city.selected));
+            });
+        };
+        $scope.$watch('currentDistrict', function (district) {
+            appRegionService.queryTownInfrastructures($scope.city.selected, district).then(function (result) {
+                $scope.townStats = result;
+                $("#districtLteENodebConfig").highcharts(parametersChartService.getTownLteENodebPieOptions(result, district));
+                $("#districtLteCellConfig").highcharts(parametersChartService.getTownLteCellPieOptions(result, district));
+                $("#districtCdmaENodebConfig").highcharts(parametersChartService.getTownCdmaBtsPieOptions(result, district));
+                $("#districtCdmaCellConfig").highcharts(parametersChartService.getTownCdmaCellPieOptions(result, district));
+            });
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.neighbor);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        $scope.showCityStats();
+    })
+    .controller('cell.type.chart', function ($scope, $uibModalInstance, city, dialogTitle, appRegionService, parametersChartService) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.neighbor);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+        appRegionService.queryDistrictIndoorCells(city.selected).then(function(stats) {
+            $("#leftChart").highcharts(parametersChartService.getCellIndoorTypeColumnOptions(stats));
+        });
+        appRegionService.queryDistrictBandCells(city.selected).then(function (stats) {
+            $("#rightChart").highcharts(parametersChartService.getCellBandClassColumnOptions(stats));
+        });
+    })
+
     .factory('neighborDialogService', function (menuItemService, networkElementService) {
         var matchNearest = function (nearestCell, currentNeighbor, center) {
             networkElementService.updateNeighbors(center.cellId, center.sectorId, currentNeighbor.destPci,
@@ -1290,6 +1505,74 @@
                         },
                         cell: function() {
                             return cell;
+                        }
+                    }
+                });
+            },
+            setQueryConditions: function(city, beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Parameters/QueryMap.html',
+                    controller: 'query.setting.dialog',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "小区信息查询条件设置";
+                        },
+                        city: function () {
+                            return city;
+                        },
+                        beginDate: function() {
+                            return beginDate;
+                        },
+                        endDate: function() {
+                            return endDate;
+                        }
+                    }
+                });
+            },
+            queryList: function (city) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Parameters/List.html',
+                    controller: 'parameters.list',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "全网基站小区信息统计";
+                        },
+                        city: function () {
+                            return city;
+                        }
+                    }
+                });
+            },
+            queryCellTypeChart: function (city) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'cell.type.chart',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "全网小区类型统计";
+                        },
+                        city: function () {
+                            return city;
+                        }
+                    }
+                });
+            },
+            showFlowCell: function (cell) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Parameters/Region/FlowKpiInfo.html',
+                    controller: 'flow.kpi.dialog',
+                    resolve: {
+                        dialogTitle: function () {
+                            return cell.item.eNodebName + "-" + cell.item.sectorId + "小区流量相关指标信息";
+                        },
+                        cell: function () {
+                            return cell.item;
+                        },
+                        begin: function() {
+                            return cell.beginDate.value;
+                        },
+                        end: function() {
+                            return cell.endDate.value;
                         }
                     }
                 });
@@ -2414,7 +2697,8 @@
             }
         };
     })
-    .factory('kpiDisplayService', function (appFormatService, coverageService, topPreciseService, calculateService, chartCalculateService) {
+    .factory('kpiDisplayService', function (appFormatService, coverageService, topPreciseService, calculateService, chartCalculateService,
+    generalChartService) {
         return {
             generatePreciseBarOptions: function (districtStats, cityStat) {
                 var chart = new BarChart();
@@ -2468,31 +2752,25 @@
                 chart.asignSeries(series);
                 return chart.options;
             },
-            generateComboChartOptions: function (data, name, city) {
-                var chart = new ComboChart();
-                chart.title.text = name;
+            generateComboChartOptions: function (data, name) {
+                var setting = {
+                    title: name,
+                    xtitle: '日期',
+                    ytitle: name
+                };
+                var categories = data.statDates;
+                var dataList = [];
+                var seriesTitle = [];
+                var typeList = [];
                 var kpiOption = appFormatService.lowerFirstLetter(name);
-                chart.xAxis[0].categories = data.statDates;
-                chart.yAxis[0].title.text = name;
-                chart.xAxis[0].title.text = '日期';
-                for (var i = 0; i < data.regionList.length - 1; i++) {
-                    chart.series.push({
-                        type: kpiOption === "2G呼建(%)" ? 'line' : 'column',
-                        name: data.regionList[i],
-                        data: data.kpiDetails[kpiOption][i]
-                    });
-                }
-                chart.series.push({
-                    type: 'spline',
-                    name: city,
-                    data: data.kpiDetails[kpiOption][data.regionList.length - 1],
-                    marker: {
-                        lineWidth: 2,
-                        lineColor: Highcharts.getOptions().colors[3],
-                        fillColor: 'white'
-                    }
+                var type = kpiOption === "2G呼建(%)" ? 'line' : 'column';
+                angular.forEach(data.regionList, function(item, $index) {
+                    typeList.push($index === data.regionList.length - 1 ? 'spline' : type);
+                    dataList.push(data.kpiDetails[kpiOption][$index]);
+                    seriesTitle.push(item);
                 });
-                return chart.options;
+
+                return generalChartService.queryMultipleComboOptions(setting, categories, dataList, seriesTitle, typeList);
             },
             getMrsOptions: function (stats, title) {
                 var chart = new ComboChart();

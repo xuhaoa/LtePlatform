@@ -176,6 +176,28 @@ namespace LtePlatform.Controllers.Mr
 
     }
 
+    public class NeiborRsrpMongoController : ApiController
+    {
+        private readonly InterferenceMongoService _service;
+
+        public NeiborRsrpMongoController(InterferenceMongoService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        [ApiDoc("根据小区信息和时间戳信息从MongoDB数据库中获取统计信息")]
+        [ApiParameterDoc("eNodebId", "基站编号")]
+        [ApiParameterDoc("sectorId", "扇区编号")]
+        [ApiParameterDoc("date", "时间戳信息")]
+        [ApiResponse("统计信息")]
+        public async Task<IEnumerable<NeighborRsrpView>> Get(int eNodebId, byte sectorId, DateTime date)
+        {
+            return await _service.QueryNeiborRsrpViews(eNodebId, sectorId, date);
+        }
+
+    }
+
     [ApiControl("干扰矩阵信息查询控制器")]
     public class InterferenceMatrixController : ApiController
     {

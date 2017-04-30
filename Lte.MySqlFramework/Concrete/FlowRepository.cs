@@ -4,6 +4,7 @@ using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Lte.MySqlFramework.Concrete
 {
@@ -91,7 +92,7 @@ namespace Lte.MySqlFramework.Concrete
 
         public List<TownFlowStat> GetAllList(DateTime begin, DateTime end)
         {
-            return GetAllList(x => x.StatTime >= begin && x.StatTime < end);
+            return GetAllList(x => x.StatTime >= begin && x.StatTime < end).OrderBy(x => x.StatTime).ToList();
         }
 
         public int SaveChanges()

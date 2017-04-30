@@ -8,10 +8,12 @@ using Lte.Parameters.Abstract.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Abp.EntityFramework.Dependency;
+using Castle.Core.Internal;
 
 namespace Lte.Evaluations.DataService.Kpi
 {
@@ -21,14 +23,17 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly IFlowZteRepository _zteRepository;
         private readonly IENodebRepository _eNodebRepository;
         private readonly ICellHuaweiMongoRepository _huaweiCellRepository;
+        private readonly ITownRepository _townRepository;
 
         public FlowQueryService(IFlowHuaweiRepository huaweiRepository, IFlowZteRepository zteRepository,
-            IENodebRepository eNodebRepository, ICellHuaweiMongoRepository huaweiCellRepository)
+            IENodebRepository eNodebRepository, ICellHuaweiMongoRepository huaweiCellRepository,
+            ITownRepository townRepository)
         {
             _huaweiRepository = huaweiRepository;
             _zteRepository = zteRepository;
             _eNodebRepository = eNodebRepository;
             _huaweiCellRepository = huaweiCellRepository;
+            _townRepository = townRepository;
         }
 
         private IDateSpanQuery<List<FlowView>> ConstructQuery(int eNodebId, byte sectorId)
@@ -51,6 +56,78 @@ namespace Lte.Evaluations.DataService.Kpi
         {
             var query = ConstructQuery(eNodebId, sectorId);
             return FlowView.Average(query?.Query(begin, end));
+        }
+
+        public IEnumerable<FlowView> QueryTopDownSwitchViews(string city, string district, DateTime begin, DateTime end, int topCount)
+        {
+            var results = QueryDistrictFlowViews(city, district,
+                _zteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectA2 + x.RedirectB2 > 2000),
+                _huaweiRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectCdma2000 > 2000));
+            return results.OrderByDescending(x => x.RedirectCdma2000).Take(topCount);
+        }
+
+        public IEnumerable<FlowView> QueryTopRank2Views(string city, string district, DateTime begin, DateTime end,
+            int topCount)
+        {
+            var results = QueryDistrictFlowViews(city, district,
+                _zteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.SchedulingTm3 > 10000000),
+                _huaweiRepository.GetAllList(
+                    x => x.StatTime >= begin && x.StatTime < end && x.SchedulingRank1 + x.SchedulingRank2 > 20000000));
+            return results.OrderBy(x => x.Rank2Rate).Take(topCount);
+        }
+
+        private IEnumerable<FlowView> QueryDistrictFlowViews(string city, string district, 
+            List<FlowZte> zteStats, List<FlowHuawei> huaweiStats)
+        {
+            var towns = _townRepository.GetAllList(city, district);
+            if (!towns.Any())
+            {
+                return new List<FlowView>();
+            }
+            var eNodebs = (from eNodeb in _eNodebRepository.GetAllList()
+                join town in towns on eNodeb.TownId equals town.Id
+                select eNodeb).ToList();
+            if (!eNodebs.Any())
+            {
+                return new List<FlowView>();
+            }
+            var zteViews = new List<FlowView>();
+            var zteGroups = zteStats.GroupBy(x => new
+            {
+                x.ENodebId,
+                x.SectorId
+            });
+            foreach (var group in zteGroups)
+            {
+                var eNodeb = eNodebs.FirstOrDefault(x => x.ENodebId == group.Key.ENodebId);
+
+                if (eNodeb == null) continue;
+                var views = group.Select(g => g.MapTo<FlowView>());
+                var view = FlowView.Average(views);
+                view.ENodebName = eNodeb.Name;
+                zteViews.Add(view);
+            }
+            var huaweiViews = new List<FlowView>();
+            if (eNodebs.FirstOrDefault(x => x.Factory == "华为") == null) return zteViews;
+            var huaweiGroups = huaweiStats.GroupBy(x => new
+            {
+                x.ENodebId,
+                x.LocalCellId
+            });
+            foreach (var group in huaweiGroups)
+            {
+                var eNodeb = eNodebs.FirstOrDefault(x => x.ENodebId == group.Key.ENodebId);
+
+                if (eNodeb == null) continue;
+                var views = group.Select(g => g.MapTo<FlowView>());
+                var view = FlowView.Average(views);
+                view.ENodebName = eNodeb.Name;
+                var cell = _huaweiCellRepository.GetByLocal(group.Key.ENodebId, group.Key.LocalCellId);
+                view.SectorId = (byte)(cell?.CellId??group.Key.LocalCellId);
+                huaweiViews.Add(view);
+            }
+
+            return zteViews.Concat(huaweiViews).ToList();
         }
     }
 
@@ -132,7 +209,7 @@ namespace Lte.Evaluations.DataService.Kpi
                    {
                        StatDate = g.Key,
                        TownFlowViews = g.Select(x => x),
-                       DistrictFlowViews = g.Select(x => x).Merge(DistrictFlowView.ConstructView)
+                       DistrictFlowViews = g.Select(x => x).Merge(v =>v.MapTo<DistrictFlowView>())
                    };
         } 
     }
