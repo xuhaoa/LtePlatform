@@ -39,11 +39,21 @@ namespace Lte.Evaluations.DataService
             _repository = repository;
             _fileRepository = fileRepository;
         }
+
+        public IEnumerable<RasterInfo> GetAllList()
+        {
+            return _repository.RasterInfos;
+        } 
         
         public IEnumerable<FileRasterInfoView> QueryFileNames(string dataType, double west, double east, double south,
             double north)
         {
             var infos = _repository.GetAllList(dataType, west, east, south, north);
+            return GetFileRasterInfoViews(dataType, infos);
+        }
+
+        private static IEnumerable<FileRasterInfoView> GetFileRasterInfoViews(string dataType, List<RasterInfo> infos)
+        {
             if (!infos.Any())
                 return new List<FileRasterInfoView>();
 
@@ -52,27 +62,45 @@ namespace Lte.Evaluations.DataService
             var tuples = query.Aggregate((x, y) => x.Concat(y)).Distinct();
 
             return from tuple in tuples
-                   group tuple by tuple.Item2
+                group tuple by tuple.Item2
                 into g
-                   select new FileRasterInfoView
-                   {
-                       CsvFileName = g.Key,
-                       RasterNums = g.Select(x => x.Item1)
-                   };
+                select new FileRasterInfoView
+                {
+                    CsvFileName = g.Key,
+                    RasterNums = g.Select(x => x.Item1)
+                };
         }
 
-        public IEnumerable<FileRasterInfoView> QueryFileNames(string dataType, double west, double east, double south,
-            double north, DateTime begin, DateTime end)
+        public IEnumerable<FileRasterInfoView> QueryFileNames(string dataType, string town)
         {
-            var views = QueryFileNames(dataType, west, east, south, north);
+            var infos = _repository.GetAllList(dataType, town);
+            return GetFileRasterInfoViews(dataType, infos);
+        }
+
+        public IEnumerable<FileRasterInfoView> QueryFileNames(string dataType, string townName, DateTime begin,
+            DateTime end)
+        {
+            var views = QueryFileNames(dataType, townName);
+            return GetFileRasterInfoViews(begin, end, views);
+        }
+        
+        private IEnumerable<FileRasterInfoView> GetFileRasterInfoViews(DateTime begin, DateTime end, IEnumerable<FileRasterInfoView> views)
+        {
             if (!views.Any()) return new List<FileRasterInfoView>();
 
             var fileInfos = _fileRepository.GetAllList(begin, end);
             if (!fileInfos.Any()) return new List<FileRasterInfoView>();
 
             return from fileInfo in fileInfos
-                   join view in views on fileInfo.CsvFileName.Split('.')[0] equals view.CsvFileName
+                join view in views on fileInfo.CsvFileName.Split('.')[0] equals view.CsvFileName.Split('.')[0]
                    select view;
+        }
+
+        public IEnumerable<FileRasterInfoView> QueryFileNames(string dataType, double west, double east, double south,
+            double north, DateTime begin, DateTime end)
+        {
+            var views = QueryFileNames(dataType, west, east, south, north);
+            return GetFileRasterInfoViews(begin, end, views);
         }
     }
 

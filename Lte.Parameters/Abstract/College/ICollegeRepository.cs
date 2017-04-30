@@ -48,5 +48,9 @@ namespace Lte.Parameters.Abstract.College
         IQueryable<RasterInfo> RasterInfos { get; }
         
         List<RasterInfo> GetAllList(string dataType, double west, double east, double south, double north);
+
+        List<RasterInfo> GetAllList(string dataType);
+
+        List<RasterInfo> GetAllList(string dataType, string townName);
     }
 }

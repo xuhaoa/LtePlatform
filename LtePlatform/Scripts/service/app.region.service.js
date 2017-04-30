@@ -1234,6 +1234,14 @@
                     begin: begin,
                     end: end
                 });
+            },
+            queryTownRaster: function (dataType, town, begin, end) {
+                return generalHttpService.getApiData('RasterFile', {
+                    dataType: dataType,
+                    townName: town,
+                    begin: begin,
+                    end: end
+                });
             }
         }
     })

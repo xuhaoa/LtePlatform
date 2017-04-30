@@ -21,7 +21,7 @@ namespace Lte.Parameters.Concrete.College
 
         public IQueryable<RasterInfo> RasterInfos => _context.RasterInfos;
 
-        public List<RasterInfo> GetAllList()
+        private List<RasterInfo> GetAllList()
         {
             if (_list == null || !_list.Any())
                 _list = RasterInfos.ToList();
@@ -33,11 +33,24 @@ namespace Lte.Parameters.Concrete.College
             switch (dataType)
             {
                 case "2G":
-                    return GetAllList().Where(x => x.CsvFilesName2G != "").ToList();
+                    return RasterInfos.Where(x => x.CsvFilesName2G != "").ToList();
                 case "3G":
-                    return GetAllList().Where(x => x.CsvFilesName3G != "").ToList();
+                    return RasterInfos.Where(x => x.CsvFilesName3G != "").ToList();
                 default:
-                    return GetAllList().Where(x => x.CsvFilesName4G != "").ToList();
+                    return RasterInfos.Where(x => x.CsvFilesName4G != "").ToList();
+            }
+        }
+
+        public List<RasterInfo> GetAllList(string dataType, string townName)
+        {
+            switch (dataType)
+            {
+                case "2G":
+                    return RasterInfos.Where(x => x.CsvFilesName2G != "" && x.Area == townName).ToList();
+                case "3G":
+                    return RasterInfos.Where(x => x.CsvFilesName3G != "" && x.Area == townName).ToList();
+                default:
+                    return RasterInfos.Where(x => x.CsvFilesName4G != "" && x.Area == townName).ToList();
             }
         }
 

@@ -980,7 +980,7 @@
 		};
 	})
 	.controller('town.dt.dialog', function ($scope, $uibModalInstance, dialogTitle, item,
-		kpiDisplayService, baiduMapService, parametersMapService, coverageService, $timeout) {
+		kpiDisplayService, baiduMapService, parametersMapService, coverageService, collegeService) {
 		$scope.dialogTitle = dialogTitle;
 		
 		$scope.includeAllFiles = false;
@@ -996,6 +996,13 @@
 		$scope.coverageOverlays = [];
 
 		$scope.query = function () {
+		    collegeService.queryTownRaster($scope.network.selected, item.townName, $scope.beginDate.value, $scope.endDate.value).then(function (results) {
+		        baiduMapService.switchSubMap();
+		        baiduMapService.initializeMap("all-map", 14);
+		        baiduMapService.setCellFocus(item.longtitute, item.lattitute, 14);
+		        console.log(results);
+		    });
+
 		};
 
 		$scope.$watch('network.selected', function () {
@@ -1035,12 +1042,6 @@
 			}
 		};
 
-		$timeout(function() {
-			baiduMapService.switchSubMap();
-			baiduMapService.initializeMap("all-map", 14);
-			baiduMapService.setCellFocus(item.longtitute, item.lattitute, 14);
-		}, 1000);
-		
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.eNodeb);
 		};
