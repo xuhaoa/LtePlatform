@@ -996,12 +996,16 @@
 		$scope.coverageOverlays = [];
 
 		$scope.query = function () {
-		    collegeService.queryTownRaster($scope.network.selected, item.townName, $scope.beginDate.value, $scope.endDate.value).then(function (results) {
-		        baiduMapService.switchSubMap();
-		        baiduMapService.initializeMap("all-map", 14);
-		        baiduMapService.setCellFocus(item.longtitute, item.lattitute, 14);
-		        console.log(results);
-		    });
+			$scope.kpi = kpiDisplayService.queryKpiOptions($scope.network.selected);
+			collegeService.queryTownRaster($scope.network.selected, item.townName, $scope.beginDate.value, $scope.endDate.value).then(function (results) {
+				baiduMapService.switchSubMap();
+				baiduMapService.initializeMap("all-map", 14);
+				baiduMapService.setCellFocus(item.longtitute, item.lattitute, 14);
+				if (results.length) {
+					$scope.dataFile.options = results;
+					$scope.dataFile.selected = results[0];
+				}
+			});
 
 		};
 

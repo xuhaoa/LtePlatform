@@ -10,7 +10,7 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-ALTER PROCEDURE [dbo].[sp_get4GFileContentsRasterConsidered] 
+CREATE PROCEDURE [dbo].[sp_get4GFileContentsRasterConsidered] 
 	-- Add the parameters for the stored procedure here
 	@tableName varchar(max),
 	@rasterNum int
