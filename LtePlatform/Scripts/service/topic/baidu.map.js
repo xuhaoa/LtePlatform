@@ -42,7 +42,11 @@
 		}
 	})
 	.factory('baiduMapService', function (geometryService, networkElementService, drawingStyleOptions) {
-		var map = {};
+		var mapStructure = {
+			mainMap: {},
+			subMap: {}
+		};
+		var map = mapStructure.mainMap;
 		var getCellCenter = function (cell, rCell) {
 			return geometryService.getPositionLonLat(cell, rCell, cell.azimuth);
 		};
@@ -66,6 +70,12 @@
 
 				map.addControl(topLeftControl);
 				map.addControl(topLeftNavigation);
+			},
+			switchSubMap: function() {
+				map = mapStructure.subMap;
+			},
+			switchMainMap: function() {
+				map = mapStructure.mainMap;
 			},
 			setCenter: function (distinctIndex) {
 				var lonDictionary = [113.30, 113.15, 113.12, 112.87, 112.88, 113.01];
@@ -614,7 +624,7 @@
 			}
 		}
 	})
-	.factory('parametersDialogService', function ($uibModal, $log, menuItemService) {
+	.factory('parametersDialogService', function ($uibModal, $log, menuItemService, baiduMapService) {
 		return {
 			showENodebInfo: function (eNodeb, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
@@ -654,6 +664,22 @@
 							return item.town;
 						}
 					}
+				});
+			},
+			showTownDtInfo: function (item) {
+				menuItemService.showGeneralDialogWithAction({
+					templateUrl: '/appViews/College/Coverage/CollegeMap.html',
+					controller: 'town.dt.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return item.cityName + item.districtName + item.townName + "-" + "路测数据文件信息";
+						},
+						item: function () {
+							return item;
+						}
+					}
+				}, function(info) {
+					baiduMapService.switchMainMap();
 				});
 			},
 			showDistributionInfo: function (distribution) {
@@ -953,6 +979,77 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
+	.controller('town.dt.dialog', function ($scope, $uibModalInstance, dialogTitle, item,
+		kpiDisplayService, baiduMapService, parametersMapService, coverageService, $timeout) {
+		$scope.dialogTitle = dialogTitle;
+		
+		$scope.includeAllFiles = false;
+		$scope.network = {
+			options: ['2G', '3G', '4G'],
+			selected: '2G'
+		};
+		$scope.dataFile = {
+			options: [],
+			selected: ''
+		};
+		$scope.data = [];
+		$scope.coverageOverlays = [];
+
+		$scope.query = function () {
+		};
+
+		$scope.$watch('network.selected', function () {
+			$scope.query();
+		});
+
+		$scope.showDtPoints = function () {
+			$scope.legend = kpiDisplayService.queryCoverageLegend($scope.kpi.selected);
+			$scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+			kpiDisplayService.generateCoveragePoints($scope.coveragePoints, $scope.data, $scope.kpi.selected);
+			angular.forEach($scope.coverageOverlays, function (overlay) {
+				baiduMapService.removeOverlay(overlay);
+			});
+			parametersMapService.showIntervalPoints($scope.coveragePoints.intervals, $scope.coveragePoints);
+		};
+
+		var queryRasterInfo = function (index) {
+			coverageService.queryByRasterInfo($scope.dataFile.options[index], $scope.network.selected).then(function (result) {
+				$scope.data.push.apply($scope.data, result);
+				if (index < $scope.dataFile.options.length - 1) {
+					queryRasterInfo(index + 1);
+				} else {
+					$scope.showDtPoints();
+				}
+			});
+		};
+
+		$scope.showResults = function () {
+			$scope.data = [];
+			if ($scope.includeAllFiles) {
+				queryRasterInfo(0);
+			} else {
+				coverageService.queryByRasterInfo($scope.dataFile.selected, $scope.network.selected).then(function (result) {
+					$scope.data = result;
+					$scope.showDtPoints();
+				});
+			}
+		};
+
+		$timeout(function() {
+			baiduMapService.switchSubMap();
+			baiduMapService.initializeMap("all-map", 14);
+			baiduMapService.setCellFocus(item.longtitute, item.lattitute, 14);
+		}, 1000);
+		
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.eNodeb);
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
+
 	.controller('map.bts.dialog', function ($scope, $uibModalInstance, bts, dialogTitle, networkElementService) {
 		$scope.bts = bts;
 		$scope.dialogTitle = dialogTitle;

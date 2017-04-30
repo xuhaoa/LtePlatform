@@ -602,9 +602,7 @@
                     + '<br/>2G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate2G), 'yyyy-MM-dd'), 3);
                 var marker = baiduMapService.generateIconMarker(item.longtitute, item.lattitute,
                     "/Content/Images/Hotmap/site_or.png");
-                baiduMapService.addOneMarkerToScope(marker, function(eNodeb) {
-                    parametersDialogService.showTownENodebInfo(eNodeb, $scope.city.selected, district);
-                }, item);
+                baiduMapService.addOneMarkerToScope(marker, parametersDialogService.showTownDtInfo, item);
             });
 
         });
