@@ -5,6 +5,7 @@ using NUnit.Framework;
 using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Domain.Common;
 
 namespace Abp.EntityFramework.Tests.AutoMapper
 {
@@ -33,16 +34,7 @@ namespace Abp.EntityFramework.Tests.AutoMapper
             Assert.IsNotNull(stat);
             stat.Name.ShouldBe("abc123");
         }
-
-        [Test]
-        public void Map_SourceType_Test()
-        {
-            var info = new IndoorDistributionExcel {SourceType = "type 1"};
-            var stat = info.MapTo<IndoorDistribution>();
-            Assert.IsNotNull(stat);
-            stat.SourceType.ShouldBe("type 1");
-        }
-
+        
         [Test]
         public void Map_List_Test()
         {

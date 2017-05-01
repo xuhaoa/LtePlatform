@@ -352,10 +352,9 @@
     <Compile Include="Controllers\Parameters\CellControllers.cs" />
     <Compile Include="Controllers\Parameters\DumpAlarmController.cs" />
     <Compile Include="Controllers\Parameters\DumpExcelControllers.cs" />
-    <Compile Include="Controllers\Parameters\ENodebController.cs" />
+    <Compile Include="Controllers\Parameters\ENodebControllers.cs" />
     <Compile Include="Controllers\Parameters\LteNeighborCellController.cs" />
     <Compile Include="Controllers\Parameters\NewCellControllers.cs" />
-    <Compile Include="Controllers\Parameters\NewENodebControllers.cs" />
     <Compile Include="Controllers\RutraceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

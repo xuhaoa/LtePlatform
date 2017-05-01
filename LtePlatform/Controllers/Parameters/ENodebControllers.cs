@@ -4,7 +4,9 @@ using Lte.Evaluations.ViewModels.Basic;
 using LtePlatform.Models;
 using System.Collections.Generic;
 using System.Web.Http;
+using Lte.Evaluations.DataService.Dump;
 using Lte.MySqlFramework.Entities;
+using Lte.Parameters.Entities.Basic;
 
 namespace LtePlatform.Controllers.Parameters
 {
@@ -149,6 +151,7 @@ namespace LtePlatform.Controllers.Parameters
         }
     }
 
+    [ApiControl("地理规划站点查询控制器")]
     public class PlanningSiteRangeController : ApiController
     {
         private readonly PlanningQueryService _service;
@@ -159,12 +162,19 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        [ApiDoc("查询地理范围内的规划站点")]
+        [ApiParameterDoc("west", "坐标西界")]
+        [ApiParameterDoc("east", "坐标东界")]
+        [ApiParameterDoc("south", "坐标南界")]
+        [ApiParameterDoc("north", "坐标北界")]
+        [ApiResponse("地理范围内的规划站点")]
         public IEnumerable<PlanningSiteView> Get(double west, double east, double south, double north)
         {
             return _service.QueryPlanningSiteViews(west, east, south, north);
         } 
     }
 
+    [ApiControl("规划站点查询控制器")]
     public class PlanningSiteController : ApiController
     {
         private readonly PlanningQueryService _service;
@@ -175,12 +185,17 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        [ApiDoc("查询区域内的规划点")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiResponse("规划点视图列表")]
         public IEnumerable<PlanningSiteView> Get(string city, string district)
         {
             return _service.GetENodebsByDistrict(city, district);
         } 
     }
 
+    [ApiControl("未开通规划站点查询控制器")]
     public class OpenningSiteController : ApiController
     {
         private readonly PlanningQueryService _service;
@@ -191,12 +206,17 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        [ApiDoc("查询区域内未开通的规划点")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiResponse("未开通规划点视图列表")]
         public IEnumerable<PlanningSiteView> Get(string city, string district)
         {
             return _service.GetENodebsByDistrict(city, district, false);
         }
     }
 
+    [ApiControl("已开通规划站点查询控制器")]
     public class OpennedSiteController : ApiController
     {
         private readonly PlanningQueryService _service;
@@ -207,9 +227,83 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        [ApiDoc("查询区域内已开通的规划点")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiResponse("已开通规划点视图列表")]
         public IEnumerable<PlanningSiteView> Get(string city, string district)
         {
             return _service.GetENodebsByDistrict(city, district, true);
         }
+    }
+
+    public class NewENodebExcelsController : ApiController
+    {
+        private readonly BasicImportService _service;
+        private readonly ENodebDumpService _dumpService;
+
+        public NewENodebExcelsController(BasicImportService service, ENodebDumpService dumpService)
+        {
+            _service = service;
+            _dumpService = dumpService;
+        }
+
+        [HttpGet]
+        public IEnumerable<ENodebExcel> Get()
+        {
+            return _service.GetNewENodebExcels();
+        }
+
+        [HttpPost]
+        public int Post(NewENodebListContainer container)
+        {
+            return _dumpService.DumpNewEnodebExcels(container.Infos);
+        }
+    }
+
+    public class NewBtsExcelsController : ApiController
+    {
+        private readonly BasicImportService _service;
+        private readonly BtsDumpService _dumpService;
+
+        public NewBtsExcelsController(BasicImportService service, BtsDumpService dumpService)
+        {
+            _service = service;
+            _dumpService = dumpService;
+        }
+
+        [HttpGet]
+        public IEnumerable<BtsExcel> Get()
+        {
+            return _service.GetNewBtsExcels();
+        }
+
+        [HttpPost]
+        public int Post(NewBtsListContainer container)
+        {
+            return _dumpService.DumpBtsExcels(container.Infos);
+        }
+    }
+
+    public class ConstructionController : ApiController
+    {
+        private readonly ENodebQueryService _service;
+
+        public ConstructionController(ENodebQueryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<Enodeb_Base> Get()
+        {
+            return _service.QueryEnodebBases();
+        }
+
+        [HttpGet]
+        public IEnumerable<Enodeb_Base> Get(string searchText)
+        {
+            return _service.QueryEnodebBases(searchText);
+        } 
     }
 }

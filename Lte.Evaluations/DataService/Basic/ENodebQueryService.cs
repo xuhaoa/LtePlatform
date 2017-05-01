@@ -20,13 +20,15 @@ namespace Lte.Evaluations.DataService.Basic
         private readonly ITownRepository _townRepository;
         private readonly IENodebRepository _eNodebRepository;
         private readonly IStationDictionaryRepository _stationDictionaryRepository;
+        private readonly IEnodeb_BaseRepository _enodebBaseRepository;
 
         public ENodebQueryService(ITownRepository townRepository, IENodebRepository eNodebRepository,
-            IStationDictionaryRepository stationDictionaryRepository)
+            IStationDictionaryRepository stationDictionaryRepository, IEnodeb_BaseRepository enodebBaseRepository)
         {
             _townRepository = townRepository;
             _eNodebRepository = eNodebRepository;
             _stationDictionaryRepository = stationDictionaryRepository;
+            _enodebBaseRepository = enodebBaseRepository;
         }
 
         public IEnumerable<ENodebView> GetByTownNames(string city, string district, string town)
@@ -131,6 +133,18 @@ namespace Lte.Evaluations.DataService.Basic
                 select eNodeb;
             eNodebs = eNodebs.Except(excludedENodebs).ToList();
             return eNodebs.Any() ? eNodebs.MapTo<IEnumerable<ENodebView>>() : new List<ENodebView>();
+        }
+
+        public IEnumerable<Enodeb_Base> QueryEnodebBases()
+        {
+            return _enodebBaseRepository.GetAllList();
+        }
+
+        public IEnumerable<Enodeb_Base> QueryEnodebBases(string searchText)
+        {
+            return string.IsNullOrEmpty(searchText)
+                ? QueryEnodebBases()
+                : _enodebBaseRepository.GetAllList(x => x.ENODEBNAME.Contains(searchText));
         } 
     }
 

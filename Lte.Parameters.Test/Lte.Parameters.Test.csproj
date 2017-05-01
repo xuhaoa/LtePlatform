@@ -149,7 +149,6 @@
     <Compile Include="Channel\ChannelRepositoryTests.cs" />
     <Compile Include="Entities\DtGeoPointTest.cs" />
     <Compile Include="Entities\DtGridTest.cs" />
-    <Compile Include="Entities\IndoorDistributionTest.cs" />
     <Compile Include="Entities\ReadNeighborCellCsvTest.cs" />
     <Compile Include="Excel\BtsExcelTest.cs" />
     <Compile Include="Excel\CdmaCellExcelTest.cs" />

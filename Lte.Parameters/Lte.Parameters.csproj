@@ -209,7 +209,6 @@
     <Compile Include="Entities\Dt\DtFilesInfo.cs" />
     <Compile Include="Entities\Basic\ENodeb.cs" />
     <Compile Include="Entities\Dt\FileRecords.cs" />
-    <Compile Include="Entities\IndoorDistributionExcel.cs" />
     <Compile Include="Entities\InfrastructureInfo.cs" />
     <Compile Include="Entities\Kpi\InterferenceMatrixStat.cs" />
     <Compile Include="Entities\Neighbor\EutranInterNFreq.cs" />
