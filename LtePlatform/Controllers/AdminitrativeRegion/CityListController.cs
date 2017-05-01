@@ -66,6 +66,10 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         }
 
         [HttpGet]
+        [ApiDoc("查询指定镇区信息")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区")]
+        [ApiParameterDoc("town", "镇")]
         public Town Get(string city, string district, string town)
         {
             return _service.GetTown(city, district, town);

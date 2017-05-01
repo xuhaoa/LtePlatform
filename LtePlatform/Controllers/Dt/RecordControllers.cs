@@ -222,7 +222,7 @@ namespace LtePlatform.Controllers.Dt
         }
 
         [HttpGet]
-        [ApiDoc("查询包含指定数据类型和坐标范围的所有网格的测试文件信息")]
+        [ApiDoc("查询包含指定数据类型和镇区的所有网格的测试文件信息")]
         [ApiParameterDoc("dataType", "指定数据类型（2G、3G、4G）")]
         [ApiParameterDoc("townName", "镇区名称")]
         [ApiParameterDoc("begin", "开始日期")]
@@ -234,12 +234,17 @@ namespace LtePlatform.Controllers.Dt
         }
 
         [HttpGet]
+        [ApiDoc("查询包含指定数据类型和镇区的所有网格的测试文件信息")]
+        [ApiParameterDoc("dataType", "指定数据类型（2G、3G、4G）")]
+        [ApiParameterDoc("townName", "镇区名称")]
+        [ApiResponse("包含指定数据类型的所有网格的测试文件信息视图，包括测试文件编号和包含的网格编号列表")]
         public IEnumerable<FileRasterInfoView> Get(string dataType, string townName)
         {
             return _service.QueryFileNames(dataType, townName);
         }
 
         [HttpGet]
+        [ApiDoc("测试用API")]
         public IEnumerable<RasterInfo> Get()
         {
             return _service.GetAllList();

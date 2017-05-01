@@ -36,6 +36,7 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         }
     }
 
+    [ApiControl("区域室内小区查询控制器")]
     public class DistrictIndoorCellsController : ApiController
     {
         private readonly TownQueryService _service;
@@ -46,12 +47,16 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         }
 
         [HttpGet]
+        [ApiDoc("查询指定城市内各区室内外小区数量")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiResponse("各区室内外小区数量")]
         public List<DistrictIndoorStat> Get(string city)
         {
             return _service.QueryDistrictIndoorStats(city);
         } 
     }
 
+    [ApiControl("区域小区频段分布查询控制器")]
     public class DistrictBandCellsController : ApiController
     {
         private readonly TownQueryService _service;
@@ -62,6 +67,9 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         }
 
         [HttpGet]
+        [ApiDoc("查询区域小区频段分布")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiResponse("各区小区频段分布")]
         public List<DistrictBandClassStat> Get(string city)
         {
             return _service.QueryDistrictBandStats(city);
