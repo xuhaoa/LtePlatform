@@ -2,19 +2,6 @@
     .config(function($stateProvider, $urlRouterProvider) {
         var viewDir = "/appViews/Parameters/";
         $stateProvider
-            .state('topic', {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.root"
-                    },
-                    "contents": {
-                        templateUrl: viewDir + "Topic.html",
-                        controller: "query.topic"
-                    }
-                },
-                url: "/topic"
-            })
             .state('topicCells', {
                 views: {
                     'menu': {
@@ -130,20 +117,6 @@
             baiduMapService.initializeMap("map", 12);
             parametersMapService.showPhpElements(buildings, parametersDialogService.showBuildingInfo);
         });
-    })
-    .controller("query.topic", function ($scope, customerDialogService, basicImportService) {
-        $scope.page.title = "专题优化管理";
-        $scope.query = function () {
-            basicImportService.queryAllHotSpots().then(function (result) {
-                $scope.hotSpotList = result;
-            });
-        };
-        $scope.addHotSpot = function () {
-            customerDialogService.constructHotSpot(function() {
-                $scope.query();
-            });
-        };
-        $scope.query();
     })
     .controller("cdmaCell.info", function ($scope, $stateParams, networkElementService) {
         $scope.page.title = $stateParams.name + "-" + $stateParams.sectorId + "小区信息";

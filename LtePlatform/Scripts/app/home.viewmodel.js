@@ -28,6 +28,19 @@
                 },
                 url: "/query"
             })
+            .state('topic', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.query"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/Parameters/Topic.html",
+                        controller: "query.topic"
+                    }
+                },
+                url: "/topic"
+            })
             .state('station', {
                 views: {
                     'menu': {
@@ -249,6 +262,9 @@
                 }, {
                     displayName: "流量经营",
                     url: rootUrl + '/flow'
+                }, {
+                    displayName: "专题优化",
+                    url: rootUrl + '/topic'
                 }
             ]
         };
@@ -825,6 +841,20 @@
     .controller("network.analysis", function($scope, baiduMapService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+    })
+    .controller("query.topic", function ($scope, baiduMapService, customerDialogService, basicImportService) {
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
+        $scope.query = function () {
+            basicImportService.queryAllHotSpots().then(function (result) {
+                $scope.hotSpotList = result;
+            });
+        };
+        $scope.addHotSpot = function () {
+            customerDialogService.constructHotSpot(function () {
+                $scope.query();
+            });
+        };
     })
     .controller("home.query", function ($scope, baiduMapService, neighborDialogService, dumpPreciseService, appRegionService,
         parametersDialogService) {

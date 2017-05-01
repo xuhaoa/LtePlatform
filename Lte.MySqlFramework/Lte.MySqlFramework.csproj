@@ -139,6 +139,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Abstract\OldHotSpots.json" />
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
