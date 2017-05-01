@@ -3,6 +3,7 @@ using Abp.EntityFramework.Repositories;
 using Lte.MySqlFramework.Entities;
 using System;
 using System.Collections.Generic;
+using Lte.Domain.Common;
 
 namespace Lte.MySqlFramework.Abstract
 {
@@ -66,6 +67,12 @@ namespace Lte.MySqlFramework.Abstract
 
     public interface IStationDictionaryRepository : IRepository<StationDictionary>,
         IMatchRepository<StationDictionary, StationDictionaryExcel>, ISaveChanges
+    {
+        
+    }
+
+    public interface IDistributionRepository : IRepository<DistributionSystem>,
+        IMatchRepository<DistributionSystem, IndoorDistributionExcel>, ISaveChanges
     {
         
     }

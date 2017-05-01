@@ -106,6 +106,18 @@ namespace LtePlatform.Controllers
             return View("BasicImport");
         }
 
+        public ActionResult DistributionPost()
+        {
+            var distributionFile = Request.Files["distribution"];
+            if (distributionFile!=null&&distributionFile.FileName!="")
+            {
+                var path = distributionFile.UploadParametersFile();
+                var count = _basicImportService.ImportDistributions(path);
+                ViewBag.Message = "共上传室内分布记录" + count + "条";
+            }
+            return View("BasicImport");
+        }
+
         [Authorize]
         public ActionResult NeighborImport()
         {

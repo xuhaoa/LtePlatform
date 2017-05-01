@@ -24,7 +24,7 @@ namespace Lte.Evaluations.DataService.Dump
         public void TestFixtureSetup()
         {
             _service = new BasicImportService(_eNodebRepository.Object, _cellRepository.Object, _btsRepository.Object,
-                _cdmaCellRepository.Object, null);
+                _cdmaCellRepository.Object, null, null);
             _eNodebRepository.MockThreeENodebs();
             _btsRepository.MockThreeBtss();
             _cellRepository.MockSixCells();

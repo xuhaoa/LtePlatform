@@ -4,6 +4,7 @@ using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using System;
 using System.Collections.Generic;
+using Lte.Domain.Common;
 
 namespace Lte.MySqlFramework.Concrete
 {
@@ -103,6 +104,23 @@ namespace Lte.MySqlFramework.Concrete
         public StationDictionary Match(StationDictionaryExcel stat)
         {
             return FirstOrDefault(x => x.StationNum == stat.StationNum);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
+    public class DistributionRepository : EfRepositoryBase<MySqlContext, DistributionSystem>, IDistributionRepository
+    {
+        public DistributionRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public DistributionSystem Match(IndoorDistributionExcel stat)
+        {
+            return FirstOrDefault(x => x.Name == stat.Name);
         }
 
         public int SaveChanges()

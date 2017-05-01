@@ -64,6 +64,23 @@
                         </div>
                     </div>
                 }
+                @using (Html.BeginForm("DistributionPost", "Parameters",
+                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                {
+                    <p>
+                        <label class="control-label">室内分布信息文件选择：</label>
+                    </p>
+                    <div class="form-group">
+                        <div class="col-md-8">
+                            <input name="distribution" class="form-control" type="file" accept=".xlsx" />
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-save"></span>保存
+                            </button>
+                        </div>
+                    </div>
+                }
             </div>
             <div class="col-md-8">
                 <div uib-alert ng-repeat="message in importData.updateMessages" type="{{message.type}}" dismiss-on-timeout="2000" close="closeAlert($index)">

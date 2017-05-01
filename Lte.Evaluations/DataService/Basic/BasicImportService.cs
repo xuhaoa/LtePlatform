@@ -18,16 +18,18 @@ namespace Lte.Evaluations.DataService.Basic
         private readonly IBtsRepository _btsRepository;
         private readonly ICdmaCellRepository _cdmaCellRepository;
         private readonly IStationDictionaryRepository _stationDictionary;
+        private readonly IDistributionRepository _distributionRepository;
 
         public BasicImportService(IENodebRepository eNodebRepository, ICellRepository cellRepository,
             IBtsRepository btsRepository, ICdmaCellRepository cdmaCellRepository, 
-            IStationDictionaryRepository stationDictionary)
+            IStationDictionaryRepository stationDictionary, IDistributionRepository distributionRepository)
         {
             _eNodebRepository = eNodebRepository;
             _cellRepository = cellRepository;
             _btsRepository = btsRepository;
             _cdmaCellRepository = cdmaCellRepository;
             _stationDictionary = stationDictionary;
+            _distributionRepository = distributionRepository;
         }
 
         public static List<ENodebExcel> ENodebExcels { get; set; } = new List<ENodebExcel>();
@@ -61,6 +63,13 @@ namespace Lte.Evaluations.DataService.Basic
             var repo = new ExcelQueryFactory { FileName = path };
             var excels = (from c in repo.Worksheet<StationDictionaryExcel>("L网网元台账对应关系") select c).ToList();
             return _stationDictionary.Import<IStationDictionaryRepository, StationDictionary, StationDictionaryExcel>(excels);
+        }
+
+        public int ImportDistributions(string path)
+        {
+            var repo = new ExcelQueryFactory { FileName = path };
+            var excels = (from c in repo.Worksheet<IndoorDistributionExcel>("室分总表") select c).ToList();
+            return _distributionRepository.Import<IDistributionRepository, DistributionSystem, IndoorDistributionExcel>(excels);
         }
 
         public IEnumerable<ENodebExcel> GetNewENodebExcels()

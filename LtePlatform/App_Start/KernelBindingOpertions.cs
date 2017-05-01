@@ -193,6 +193,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IFSLEnodebRepository>().To<FSLEnodebRepository>();
 
+            ninjectKernel.Bind<IDistributionRepository>().To<DistributionRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();
