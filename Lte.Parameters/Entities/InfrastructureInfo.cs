@@ -16,17 +16,24 @@ namespace Lte.Parameters.Entities
         public InfrastructureType InfrastructureType { get; set; }
 
         public int InfrastructureId { get; set; }
+
+        public string Address { get; set; }
+
+        public string SourceName { get; set; }
+
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
     }
 
-    [AutoMapFrom(typeof(InfrastructureInfo), typeof(IndoorDistribution))]
+    [AutoMapFrom(typeof(InfrastructureInfo))]
     public class HotSpotView
     {
         [AutoMapPropertyResolve("HotspotType", typeof(InfrastructureInfo), typeof(HotspotTypeDescriptionTransform))]
         public string TypeDescription { get; set; }
 
         public string HotspotName { get; set; }
-
-        [AutoMapPropertyResolve("Range", typeof(IndoorDistribution))]
+        
         public string Address { get; set; }
 
         public string SourceName { get; set; }

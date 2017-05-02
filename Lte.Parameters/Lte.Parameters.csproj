@@ -229,13 +229,13 @@
     <Compile Include="Entities\Town.cs" />
     <Compile Include="Entities\Work\WorkItem.cs" />
     <Compile Include="Entities\Work\WorkItemExcel.cs" />
-    <Compile Include="Migrations\201704270136056_Add_Construction.cs" />
-    <Compile Include="Migrations\201704270136056_Add_Construction.Designer.cs">
-      <DependentUpon>201704270136056_Add_Construction.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201704270734050_Add_Construction_Update.cs" />
     <Compile Include="Migrations\201704270734050_Add_Construction_Update.Designer.cs">
       <DependentUpon>201704270734050_Add_Construction_Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705020056557_Update_HotSpot.cs" />
+    <Compile Include="Migrations\201705020056557_Update_HotSpot.Designer.cs">
+      <DependentUpon>201705020056557_Update_HotSpot.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MockOperations\DbHelper.cs" />
@@ -265,11 +265,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201704270136056_Add_Construction.resx">
-      <DependentUpon>201704270136056_Add_Construction.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704270734050_Add_Construction_Update.resx">
       <DependentUpon>201704270734050_Add_Construction_Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705020056557_Update_HotSpot.resx">
+      <DependentUpon>201705020056557_Update_HotSpot.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

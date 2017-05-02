@@ -7,13 +7,13 @@ namespace Lte.Parameters.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Add_Construction : IMigrationMetadata
+    public sealed partial class Update_HotSpot : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_Construction));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Update_HotSpot));
         
         string IMigrationMetadata.Id
         {
-            get { return "201704270136056_Add_Construction"; }
+            get { return "201705020056557_Update_HotSpot"; }
         }
         
         string IMigrationMetadata.Source
