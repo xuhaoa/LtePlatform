@@ -203,45 +203,29 @@ namespace Lte.Evaluations.DataService.College
     public class HotSpotService
     {
         private readonly IInfrastructureRepository _repository;
-        private readonly IIndoorDistributionRepository _distributionRepository;
 
-        public HotSpotService(IInfrastructureRepository repository, IIndoorDistributionRepository distributionRepository)
+        public HotSpotService(IInfrastructureRepository repository)
         {
             _repository = repository;
-            _distributionRepository = distributionRepository;
         }
 
         public async Task<int> SaveBuildingHotSpot(string name, string typeDescription, string address, string description)
         {
-            var infrastructureId =
-                (await
-                    _distributionRepository.FirstOrDefaultAsync(
-                        x =>
-                            x.Name == "Hot Spot" && x.Range == address && x.SourceType == "Hot Spot"))?.Id ??
-
-                await _distributionRepository.InsertAndGetIdAsync(new IndoorDistribution
-                            {
-                                Name = "Hot Spot",
-                                Range = address,
-                                SourceType = "Hot Spot",
-                                SourceName = description
-                            });
-
-            await _repository.InsertHotSpot(name, typeDescription.GetEnumType<HotspotType>(), infrastructureId);
+            await _repository.InsertAsync(new InfrastructureInfo
+            {
+                HotspotName = name,
+                Address = address,
+                HotspotType = typeDescription.GetEnumType<HotspotType>(),
+                SourceName = description,
+                InfrastructureType = InfrastructureType.HotSpot
+            });
             return _repository.SaveChanges();
         }
 
         public IEnumerable<HotSpotView> QueryHotSpotViews()
         {
-            var results = _repository.GetAllHotSpots();
-            foreach (var info in results)
-            {
-                var distribution = _distributionRepository.FirstOrDefault(x =>
-                    x.Name == "Hot Spot" && x.Id == info.InfrastructureId && x.SourceType == "Hot Spot");
-                var result = info.MapTo<HotSpotView>();
-                distribution?.MapTo(result);
-                yield return result;
-            }
+            var results = _repository.GetAllHotSpots().MapTo<IEnumerable<HotSpotView>>();
+            return results;
         } 
     }
 }

@@ -90,30 +90,6 @@ namespace Lte.Parameters.Concrete.Infrastructure
                 });
             }
         }
-
-        public async Task InsertHotSpot(string name, HotspotType type, int infrastructureId)
-        {
-            var infrastructure = FirstOrDefault(x =>
-                x.HotspotType == type && x.HotspotName == name && x.InfrastructureType == InfrastructureType.HotSpot);
-            if (infrastructure == null)
-            {
-                await InsertAsync(new InfrastructureInfo
-                {
-                    HotspotName = name,
-                    HotspotType = type,
-                    InfrastructureType = InfrastructureType.HotSpot,
-                    InfrastructureId = infrastructureId
-                });
-            }
-            else
-            {
-                infrastructure.HotspotName = name;
-                infrastructure.HotspotType = type;
-                infrastructure.InfrastructureType = InfrastructureType.HotSpot;
-                infrastructure.InfrastructureId = infrastructureId;
-            }
-        }
-
         public int SaveChanges()
         {
             return Context.SaveChanges();

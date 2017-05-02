@@ -24,8 +24,6 @@ namespace Lte.Parameters.Abstract.Infrastructure
         Task InsertCollegeENodeb(string collegeName, int id);
 
         Task InsertCollegeBts(string collegeName, int id);
-
-        Task InsertHotSpot(string name, HotspotType type, int infrastructureId);
     }
 
     public interface IIndoorDistributionRepository : IRepository<IndoorDistribution>, ISaveChanges
