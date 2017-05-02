@@ -1527,6 +1527,31 @@
                         0.500032002 * array[10]
                     ]
                 };
+            },
+            updateHeatMapIntervalDefs: function (intervalDef, max) {
+                var gradient = {};
+                var heatIntervals = [
+                {
+                    key: 0.2,
+                    color: 'rgb(100,255,100)'
+                }, {
+                    key: 0.5,
+                    color: 'rgb(100, 255, 255)'
+                }, {
+                    key: 0.7,
+                    color: 'rgb(255,100,200)'
+                }, {
+                    key: 0.85,
+                    color: 'rgb(255,100,100)'
+                }];
+                angular.forEach(heatIntervals, function (interval) {
+                    gradient[interval.key] = interval.color;
+                    intervalDef.push({
+                        color: interval.color,
+                        threshold: interval.key * max
+                    });
+                });
+                return gradient;
             }
         };
     })

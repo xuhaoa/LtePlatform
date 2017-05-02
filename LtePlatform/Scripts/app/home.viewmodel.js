@@ -565,7 +565,7 @@
         $scope.reflashMap(0);
     })
 
-    .controller('home.flow', function ($scope, baiduMapService, baiduQueryService, coverageDialogService, flowService) {
+    .controller('home.flow', function ($scope, baiduMapService, baiduQueryService, coverageDialogService, flowService, chartCalculateService) {
         baiduMapService.initializeMap("map", 11);
         $scope.showFeelingRate = function () {
             if (!$scope.flowGeoPoints) {
@@ -575,15 +575,24 @@
             $scope.currentView = "下行感知速率";
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary("佛山");
+            $scope.legend.intervals = [];
+            var max = 60;
+            var gradient = chartCalculateService.updateHeatMapIntervalDefs($scope.legend.intervals, max);
+            $scope.legend.title = '速率（Mbit/s）';
             baiduQueryService.transformToBaidu($scope.flowGeoPoints[0].longtitute, $scope.flowGeoPoints[0].lattitute).then(function (coors) {
                 var xOffset = coors.x - $scope.flowGeoPoints[0].longtitute;
                 var yOffset = coors.y - $scope.flowGeoPoints[0].lattitute;
                 var points = _.map($scope.flowGeoPoints, function (stat) {
                     return { "lng": stat.longtitute + xOffset, "lat": stat.lattitute + yOffset, "count": stat.downlinkFeelingRate };
                 });
-                var heatmapOverlay = new BMapLib.HeatmapOverlay({ "radius": 20 });
+                
+                var heatmapOverlay = new BMapLib.HeatmapOverlay({
+                    "radius": 10,
+                    "opacity": 50,
+                    "gradient": gradient
+                });
                 baiduMapService.addOverlays([heatmapOverlay]);
-                heatmapOverlay.setDataSet({ data: points, max: 50 });
+                heatmapOverlay.setDataSet({ data: points, max: max });
                 heatmapOverlay.show();
             });
         };
@@ -596,15 +605,22 @@
             $scope.currentView = "上行感知速率";
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary("佛山");
+            $scope.legend.intervals = [];
+            var max = 10;
+            var gradient = chartCalculateService.updateHeatMapIntervalDefs($scope.legend.intervals, max);
             baiduQueryService.transformToBaidu($scope.flowGeoPoints[0].longtitute, $scope.flowGeoPoints[0].lattitute).then(function (coors) {
                 var xOffset = coors.x - $scope.flowGeoPoints[0].longtitute;
                 var yOffset = coors.y - $scope.flowGeoPoints[0].lattitute;
                 var points = _.map($scope.flowGeoPoints, function (stat) {
                     return { "lng": stat.longtitute + xOffset, "lat": stat.lattitute + yOffset, "count": stat.uplinkFeelingRate };
                 });
-                var heatmapOverlay = new BMapLib.HeatmapOverlay({ "radius": 20 });
+                var heatmapOverlay = new BMapLib.HeatmapOverlay({
+                    "radius": 10,
+                    "opacity": 50,
+                    "gradient": gradient
+                });
                 baiduMapService.addOverlays([heatmapOverlay]);
-                heatmapOverlay.setDataSet({ data: points, max: 10 });
+                heatmapOverlay.setDataSet({ data: points, max: max });
                 heatmapOverlay.show();
             });
 
@@ -874,6 +890,16 @@
         $scope.updateMap = function() {
             basicImportService.queryAllHotSpots().then(function(result) {
                 $scope.hotSpotList = result;
+                angular.forEach(result, function (item) {
+                    baiduMapService.drawCustomizeLabel(item.longtitute, item.lattitute + 0.005,
+                        item.hotspotName,
+                        '地址:' + item.address
+                        + '<br/>类型:' + item.typeDescription
+                        + '<br/>说明:' + item.sourceName, 3);
+                    var marker = baiduMapService.generateIconMarker(item.longtitute, item.lattitute,
+                        "/Content/Images/Hotmap/site_or.png");
+                    baiduMapService.addOneMarkerToScope(marker, function(stat){}, item);
+                });
             });
         };
         $scope.addHotSpot = function () {
@@ -906,6 +932,10 @@
                 angular.forEach(result, function(stat) {
                     appRegionService.queryTown($scope.city.selected, district, stat.town).then(function (town) {
                         angular.extend(stat, town);
+                        baiduMapService.drawCustomizeLabel(stat.longtitute, stat.lattitute + 0.005,
+                            stat.cityName + stat.districtName + stat.townName,
+                    'LTE基站个数:' + stat.totalLteENodebs + '<br/>LTE小区个数:' + stat.totalLteCells
+                    + '<br/>CDMA基站个数:' + stat.totalCdmaBts + '<br/>CDMA小区个数:' + stat.totalCdmaCells, 4);
                         var marker = baiduMapService.generateIconMarker(stat.longtitute, stat.lattitute,
                             "/Content/Images/Hotmap/site_or.png");
                         baiduMapService.addOneMarkerToScope(marker, function(item) {
