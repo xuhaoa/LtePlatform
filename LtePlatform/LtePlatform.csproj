@@ -598,7 +598,6 @@
     <Content Include="Content\ui-grid.svg" />
     <Content Include="directives\app\CityDistrictSelection.Tpl.html" />
     <Content Include="directives\app\CitySelection.Tpl.html" />
-    <Content Include="directives\app\CoverageLegend.Tpl.html" />
     <Content Include="directives\app\DateSelection.Tpl.html" />
     <Content Include="directives\app\DistrictTownPlain.Tpl.html" />
     <Content Include="directives\app\DistrictTownSelection.Tpl.html" />
@@ -1740,7 +1739,6 @@
     <None Include="Properties\PublishProfiles\Lte-ftp-219.pubxml" />
     <None Include="Properties\PublishProfiles\Lte2.pubxml" />
     <Content Include="Scripts\coffee-script.js" />
-    <Content Include="Scripts\app\dt\list.viewmodel.js" />
     <Content Include="Scripts\highcharts\adapters\standalone-framework.js" />
     <Content Include="Scripts\highcharts\adapters\standalone-framework.src.js" />
     <Content Include="Scripts\highcharts\highcharts-ng.js" />

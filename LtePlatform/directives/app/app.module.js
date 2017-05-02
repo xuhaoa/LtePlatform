@@ -249,7 +249,8 @@ angular.module('app.directives.glyphicon', [])
             }
         }
     })
-    .directive('coverageLegend', function(appRoot) {
+
+    .directive('coverageLegend', function() {
         return {
             restrict: 'EA',
             replace: true,
@@ -258,7 +259,37 @@ angular.module('app.directives.glyphicon', [])
                 criteria: '=',
                 sign: '='
             },
-            templateUrl: appRoot + 'CoverageLegend.Tpl.html'
+            template: '<div class="map-w"> \
+                <ul id="colorBar"> \
+                    <li class="map-w-1">{{legendTitle}}</li> \
+                    <li ng-repeat="criterion in criteria" class="map-w-i" \
+                        ng-style="{\'background-color\': criterion.color, \'border\': criterion.color}" style="border: 1px solid"> \
+                        {{sign !== false ? "&lt;" : "&gt;"}}{{criterion.threshold}} \
+                    </li> \
+                    <li class="map-w-i" style="background-color: #077f07; border: 1px solid #077f07"> \
+                        {{sign !== false ? "&gt;=" : "&lt;="}}{{criteria[criteria.length-1].threshold}} \
+                    </li> \
+                </ul> \
+            </div>'
+        };
+    })
+    .directive('simpleLegend', function() {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                legendTitle: '=',
+                criteria: '='
+            },
+            template: '<div class="map-w"> \
+                <ul id="colorBar"> \
+                    <li class="map-w-1">{{legendTitle}}</li> \
+                    <li ng-repeat="criterion in criteria" class="map-w-i" \
+                        ng-style="{\'background-color\': criterion.color, \'border\': criterion.color}" style="border: 1px solid"> \
+                        {{criterion.threshold}} \
+                    </li> \
+                </ul> \
+            </div>'
         };
     });
     

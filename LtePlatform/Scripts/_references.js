@@ -53,7 +53,6 @@
 /// <reference path="angular-ui-router.min.js" />
 /// <reference path="app/base64-string.js" />
 /// <reference path="app/common.js" />
-/// <reference path="app/dt/list.viewmodel.js" />
 /// <reference path="app/home.viewmodel.js" />
 /// <reference path="app/html5csv.js" />
 /// <reference path="app/lz-string.js" />

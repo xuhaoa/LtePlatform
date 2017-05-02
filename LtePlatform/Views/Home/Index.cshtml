@@ -16,8 +16,8 @@
     <div class="map-top-left">
         <div ui-view="menu"></div>
     </div>
-    <div coverage-legend legend-title="legend.title" criteria="legend.criteria" sign="legend.sign"></div>
-    
+    <div ng-show="legend.criteria.length" coverage-legend legend-title="legend.title" criteria="legend.criteria" sign="legend.sign"></div>
+    <div ng-show="legend.intervals.length" simple-legend legend-title="legend.title" criteria="legend.intervals"></div>
 </div>
 
 @section Scripts{
