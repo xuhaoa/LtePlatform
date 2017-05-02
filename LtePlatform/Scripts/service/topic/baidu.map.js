@@ -685,7 +685,7 @@
 			showHotSpotsInfo: function (hotSpotList) {
 				menuItemService.showGeneralDialogWithAction({
 					templateUrl: '/appViews/Parameters/Map/HotSpotInfoBox.html',
-					controller: 'hot.spot.dialog',
+					controller: 'hot.spot.info.dialog',
 					resolve: {
 						dialogTitle: function () {
 							return "热点信息列表";
@@ -1151,7 +1151,7 @@
 		});
 	})
 
-	.controller('hot.spot.dialog', function ($scope, $uibModalInstance, dialogTitle, hotSpotList) {
+	.controller('hot.spot.info.dialog', function ($scope, $uibModalInstance, dialogTitle, hotSpotList) {
 		$scope.dialogTitle = dialogTitle;
 		$scope.hotSpotList = hotSpotList;
 
