@@ -230,6 +230,23 @@
             $scope.showTrend();
         });
     })
+
+    .controller("topic.cells", function ($scope, $uibModalInstance, dialogTitle, name, complainService) {
+        $scope.dialogTitle = dialogTitle;
+        complainService.queryHotSpotCells(name).then(function (existedCells) {
+            $scope.cellList = existedCells;
+        });
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.trendStat);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+    })
+
     .factory('workItemDialog', function ($uibModal, $log, workitemService) {
         return {
             feedback: function (view, callbackFunc) {
@@ -317,6 +334,26 @@
                         },
                         endDate: function () {
                             return endDate;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                }, function () {
+                });
+            },
+            showHotSpotCells: function (name) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '/appViews/Parameters/Region/TopicCells.html',
+                    controller: 'topic.cells',
+                    size: 'lg',
+                    resolve: {
+                        dialogTitle: function () {
+                            return name + "热点小区信息";
+                        },
+                        name: function () {
+                            return name;
                         }
                     }
                 });

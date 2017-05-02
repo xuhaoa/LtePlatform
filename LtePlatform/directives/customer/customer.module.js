@@ -94,44 +94,27 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
                 { field: 'longtitute', name: '经度' },
                 { field: 'lattitute', name: '纬度' },
                 {
-                    name: '小区信息',
-                    cellTemplate: '<div class="btn-group-sm">' +
-                        '<button class="btn btn-sm btn-success" ng-click="grid.appScope.cellInfo(row.entity)">编辑</button>' +
-                        '<a class="btn btn-sm btn-primary" href="/Parameters/List#/topicCells/{{row.entity.hotspotName}}">详细</a>' +
-                        '</div>'
-                },
-                {
-                    name: '查询',
-                    cellTemplate: '<div class="btn-group-sm" uib-dropdown dropdown-append-to-body> \
-                        <button id="single-button" type="button" class="btn btn-sm btn-default" \
-                            uib-dropdown-toggle ng-disabled="disabled"> \
-                            查询 <span class="caret"></span> \
-                        </button> \
-                        <ul uib-dropdown-menu role="menu" aria-labelledby="single-button"> \
-                            <li role="menuitem"> \
-                                <a ng-href="{{grid.appScope.rootPath}}eNodebInfo/{{row.entity.eNodebId}}/{{row.entity.name}}" \
-                                    class="btn btn-sm" ng-class="{\'btn-default\': !row.entity.isInUse, \'btn-success\': row.entity.isInUse}">详细信息</a> \
-                            </li> \
-                            <li role="menuitem"> \
-                                <a ng-href="{{grid.appScope.rootPath}}alarm/{{row.entity.eNodebId}}/{{row.entity.name}}" ng-show="row.entity.isInUse" \
-                                    class="btn btn-sm btn-default">告警查询</a> \
-                            </li> \
-                            <li role="menuitem"> \
-                                <a ng-click="grid.appScope.showFlow(row.entity)" class="btn btn-sm btn-default">流量查询</a> \
-                            </li> \
-                        </ul> \
-                    </div>'
+                    name: '信息',
+                    cellTemplate: '<div class="btn-group-sm"> \
+                        <button class="btn btn-sm btn-success" ng-click="grid.appScope.editInfo(row.entity)">编辑</button> \
+                        <button class="btn btn-sm btn-primary" ng-click="grid.appScope.showCells(row.entity.hotspotName)">小区</button> \
+                        <button class="btn btn-sm btn-default" ng-click="grid.appScope.showFlow(row.entity)">流量</button> \
+                        </div>',
+                    width: 200
                 }
             ],
             data: []
         };
-        $scope.cellInfo = function (spot) {
+        $scope.editInfo = function (spot) {
             customerDialogService.manageHotSpotCells(spot, function() {
 
             });
         };
         $scope.showFlow = function (hotSpot) {
             workItemDialog.showHotSpotFlow(hotSpot, $scope.beginDate, $scope.endDate);
+        };
+        $scope.showCells = function(name) {
+            workItemDialog.showHotSpotCells(name);
         };
     })
     .directive('hotSpotList', function ($compile) {

@@ -2,19 +2,6 @@
     .config(function($stateProvider, $urlRouterProvider) {
         var viewDir = "/appViews/Parameters/";
         $stateProvider
-            .state('topicCells', {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/GeneralMenu.html",
-                        controller: "menu.topic"
-                    },
-                    "contents": {
-                        templateUrl: viewDir + "Region/TopicCells.html",
-                        controller: "topic.cells"
-                    }
-                },
-                url: "/topicCells/:name"
-            })
             .state('buildings', {
                 views: {
                     'menu': {
@@ -195,13 +182,6 @@
         menuItemService.updateMenuItem($scope.menuItems, 0,
             $stateParams.city + $stateParams.district + $stateParams.town + "CDMA基站列表",
             $scope.rootPath + "btsList" + "/" + $stateParams.city + "/" + $stateParams.district + "/" + $stateParams.town);
-    })
-
-    .controller("topic.cells", function ($scope, $stateParams, complainService) {
-        $scope.page.title = $stateParams.name + "热点小区信息";
-        complainService.queryHotSpotCells($stateParams.name).then(function (existedCells) {
-            $scope.cellList = existedCells;
-        });
     })
 
     .controller('map.building.dialog', function ($scope, $uibModalInstance, building, dialogTitle) {
