@@ -184,8 +184,9 @@
         };
         appUrlService.initializeAuthorization();
         $rootScope.legend = {
-            criteria: 0,
-            sign: 0,
+            criteria: [],
+            intervals: [],
+            sign: true,
             title: ''
         };
 
@@ -394,6 +395,10 @@
         $scope.showDistrictOutdoor = function(district, color) {
             var city = $scope.city.selected;
             baiduMapService.addDistrictBoundary(district, color);
+            $scope.legend.intervals.push({
+                threshold: district,
+                color: color
+            });
             networkElementService.queryOutdoorCellSites(city, district).then(function(sites) {
                 baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
                     var xOffset = coors.x - sites[0].longtitute;
@@ -413,7 +418,9 @@
         $scope.showOutdoorSites = function () {
             $scope.currentView = "室外小区";
             baiduMapService.clearOverlays();
-            baiduMapService.addCityBoundary("佛山");
+            baiduMapService.addCityBoundary($scope.city.selected);
+            $scope.legend.title = $scope.city.selected;
+            $scope.legend.intervals = [];
             angular.forEach($scope.districts, function(district, $index) {
                 $scope.showDistrictOutdoor(district, $scope.colors[$index]);
             });
@@ -422,6 +429,10 @@
         $scope.showDistrictIndoor = function(district, color) {
             var city = $scope.city.selected;
             baiduMapService.addDistrictBoundary(district, color);
+            $scope.legend.intervals.push({
+                threshold: district,
+                color: color
+            });
             networkElementService.queryIndoorCellSites(city, district).then(function(sites) {
                 baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
                     var xOffset = coors.x - sites[0].longtitute;
@@ -441,7 +452,9 @@
         $scope.showIndoorSites = function () {
             $scope.currentView = "室内小区";
             baiduMapService.clearOverlays();
-            baiduMapService.addCityBoundary("佛山");
+            baiduMapService.addCityBoundary($scope.city.selected);
+            $scope.legend.title = $scope.city.selected;
+            $scope.legend.intervals = [];
             angular.forEach($scope.districts, function (district, $index) {
                 $scope.showDistrictIndoor(district, $scope.colors[$index]);
             });
@@ -450,6 +463,10 @@
         $scope.showDistrictENodebs = function(district, color) {
             var city = $scope.city.selected;
             baiduMapService.addDistrictBoundary(district, color);
+            $scope.legend.intervals.push({
+                threshold: district,
+                color: color
+            });
             networkElementService.queryENodebsInOneDistrict(city, district).then(function (sites) {
                 baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
                     var xOffset = coors.x - sites[0].longtitute;
@@ -471,7 +488,9 @@
         $scope.showLteENodebs = function() {
             $scope.currentView = "LTE基站";
             baiduMapService.clearOverlays();
-            baiduMapService.addCityBoundary("佛山");
+            baiduMapService.addCityBoundary($scope.city.selected);
+            $scope.legend.title = $scope.city.selected;
+            $scope.legend.intervals = [];
             angular.forEach($scope.districts, function(district, $index) {
                 $scope.showDistrictENodebs(district, $scope.colors[$index]);
             });
@@ -489,6 +508,8 @@
         
         $scope.$watch('city.selected', function(city) {
             if (city) {
+                $scope.legend.title = city;
+                $scope.legend.intervals = [];
                 dumpPreciseService.generateUsersDistrict(city, $scope.districts, function(district, $index) {
                     $scope.showDistrictENodebs(district, $scope.colors[$index]);
                 });
@@ -610,6 +631,7 @@
     .controller("home.dt", function ($scope, baiduMapService, coverageService, appFormatService, parametersDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+        $scope.legend.intervals = [];
         coverageService.queryAreaTestDate().then(function (result) {
             angular.forEach(result, function(item) {
                 baiduMapService.drawCustomizeLabel(item.longtitute, item.lattitute + 0.005, item.cityName + item.districtName + item.townName,
@@ -904,6 +926,7 @@
         $scope.districts = [];
         $scope.$watch('city.selected', function (city) {
             if (city) {
+                $scope.legend.intervals = [];
                 dumpPreciseService.generateUsersDistrict(city, $scope.districts, function (district, $index) {
                     $scope.showDistrictTownStat(district, $scope.colors[$index]);
                 });
