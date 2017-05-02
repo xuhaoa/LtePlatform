@@ -682,6 +682,20 @@
 					baiduMapService.switchMainMap();
 				});
 			},
+			showHotSpotsInfo: function (hotSpotList) {
+				menuItemService.showGeneralDialogWithAction({
+					templateUrl: '/appViews/Parameters/Map/HotSpotInfoBox.html',
+					controller: 'hot.spot.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return "热点信息列表";
+						},
+						hotSpotList: function () {
+							return hotSpotList;
+						}
+					}
+				});
+			},
 			showDistributionInfo: function (distribution) {
 				var modalInstance = $uibModal.open({
 					animation: true,
@@ -1135,6 +1149,20 @@
 		interFreqHoService.queryCellParameters($scope.eNodebId, $scope.sectorId).then(function (result) {
 			$scope.interFreqHo = result;
 		});
+	})
+
+	.controller('hot.spot.dialog', function ($scope, $uibModalInstance, dialogTitle, hotSpotList) {
+		$scope.dialogTitle = dialogTitle;
+		$scope.hotSpotList = hotSpotList;
+
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.neighbor);
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+
 	})
 
 	.controller('map.sectors.dialog', function ($scope, $uibModalInstance, sectors, dialogTitle, networkElementService) {

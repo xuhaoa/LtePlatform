@@ -842,19 +842,24 @@
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
     })
-    .controller("query.topic", function ($scope, baiduMapService, customerDialogService, basicImportService) {
+    .controller("query.topic", function ($scope, baiduMapService, customerDialogService, basicImportService, parametersDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.query = function () {
-            basicImportService.queryAllHotSpots().then(function (result) {
+            parametersDialogService.showHotSpotsInfo($scope.hotSpotList);
+        };
+
+        $scope.updateMap = function() {
+            basicImportService.queryAllHotSpots().then(function(result) {
                 $scope.hotSpotList = result;
             });
         };
         $scope.addHotSpot = function () {
             customerDialogService.constructHotSpot(function () {
-                $scope.query();
+                $scope.updateMap();
             });
         };
+        $scope.updateMap();
     })
     .controller("home.query", function ($scope, baiduMapService, neighborDialogService, dumpPreciseService, appRegionService,
         parametersDialogService) {
