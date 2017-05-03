@@ -788,6 +788,146 @@
                     }
                 ];
             },
+            generateCellGroups: function (cell) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '小区名称',
+                                value: cell.cellName
+                            }, {
+                                key: '基站编号',
+                                value: cell.eNodebId
+                            }, {
+                                key: 'TAC',
+                                value: cell.tac
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '频段',
+                                value: cell.bandClass
+                            }, {
+                                key: '频点',
+                                value: cell.frequency
+                            }, {
+                                key: '天线增益',
+                                value: cell.antennaGain
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '天线挂高',
+                                value: cell.height
+                            }, {
+                                key: '方位角',
+                                value: cell.azimuth
+                            }, {
+                                key: '下倾角',
+                                value: cell.downTilt
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: cell.longtitute
+                            }, {
+                                key: '纬度',
+                                value: cell.lattitute
+                            }, {
+                                key: '室内外',
+                                value: cell.indoor
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: 'PCI',
+                                value: cell.pci
+                            }, {
+                                key: 'PRACH',
+                                value: cell.prach
+                            }, {
+                                key: 'RS功率',
+                                value: cell.rsPower
+                            }
+                        ]
+                    }
+                ];
+            },
+            generateCdmaCellGroups: function (cell) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '基站名称',
+                                value: cell.btsName
+                            }, {
+                                key: '基站编号',
+                                value: cell.btsId
+                            }, {
+                                key: '扇区编号',
+                                value: cell.sectorId
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '1X频点',
+                                value: cell.onexFrequencyList
+                            }, {
+                                key: 'DO频点',
+                                value: cell.evdoFrequencyList
+                            }, {
+                                key: '天线增益',
+                                value: cell.antennaGain
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '天线挂高',
+                                value: cell.height
+                            }, {
+                                key: '方位角',
+                                value: cell.azimuth
+                            }, {
+                                key: '下倾角',
+                                value: cell.downTilt
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: cell.longtitute
+                            }, {
+                                key: '纬度',
+                                value: cell.lattitute
+                            }, {
+                                key: '室内外',
+                                value: cell.indoor
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: 'PN',
+                                value: cell.pn
+                            }, {
+                                key: 'LAC',
+                                value: cell.lac
+                            }, {
+                                key: '小区编号',
+                                value: cell.cellId
+                            }
+                        ]
+                    }
+                ];
+            },
             generateDistributionGroups: function (station) {
                 return [
                     {

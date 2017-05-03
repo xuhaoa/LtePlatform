@@ -78,9 +78,9 @@
 				map = mapStructure.mainMap;
 			},
 			addClickListener: function(callback) {
-			    map.addEventListener('click', function(e) {
-			        callback(e);
-			    });
+				map.addEventListener('click', function(e) {
+					callback(e);
+				});
 			},
 			setCenter: function (distinctIndex) {
 				var lonDictionary = [113.30, 113.15, 113.12, 112.87, 112.88, 113.01];
@@ -1108,10 +1108,21 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
-	.controller('map.distribution.dialog', function($scope, $uibModalInstance, distribution, dialogTitle, appFormatService) {
+	.controller('map.distribution.dialog', function($scope, $uibModalInstance, distribution, dialogTitle, appFormatService,
+		networkElementService) {
 		$scope.distribution = distribution;
 		$scope.dialogTitle = dialogTitle;
 		$scope.distributionGroups = appFormatService.generateDistributionGroups(distribution);
+		if (distribution.eNodebId > 0) {
+			networkElementService.queryCellInfo(distribution.eNodebId, distribution.lteSectorId).then(function(cell) {
+				$scope.lteGroups = appFormatService.generateCellGroups(cell);
+			});
+		}
+		if (distribution.btsId > 0) {
+		    networkElementService.queryCdmaCellInfo(distribution.btsId, distribution.cdmaSectorId).then(function(cell) {
+		        $scope.cdmaGroups = appFormatService.generateCdmaCellGroups(cell);
+		    });
+		}
 
 		$scope.ok = function() {
 			$uibModalInstance.close($scope.distributionGroups);
