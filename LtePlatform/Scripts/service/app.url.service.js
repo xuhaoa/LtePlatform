@@ -787,6 +787,115 @@
                         ]
                     }
                 ];
+            },
+            generateDistributionGroups: function (station) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '室分名称',
+                                value: station.name
+                            }, {
+                                key: '城市',
+                                value: station.city
+                            }, {
+                                key: '区域',
+                                value: station.district
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '站点编号',
+                                value: station.stationNum
+                            }, {
+                                key: '地址',
+                                value: station.address
+                            }, {
+                                key: '维护单位',
+                                value: station.server
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '是否为LTE RRU',
+                                value: station.isLteRru ? '是' : '否'
+                            }, {
+                                key: 'LTE基站编号',
+                                value: station.eNodebId
+                            }, {
+                                key: 'LTE小区编号',
+                                value: station.lteSectorId
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '是否为CDMA RRU',
+                                value: station.isCdmaRru ? '是' : '否'
+                            }, {
+                                key: 'CDMA基站编号',
+                                value: station.btsId
+                            }, {
+                                key: 'CDMA小区编号',
+                                value: station.cdmaSectorId
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: station.longtitute
+                            }, {
+                                key: '纬度',
+                                value: station.lattitute
+                            }, {
+                                key: '干放个数',
+                                value: station.amplifiers
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '规模',
+                                value: station.scaleDescription
+                            }, {
+                                key: '服务区域编码',
+                                value: station.serviceArea
+                            }, {
+                                key: '有源器件数',
+                                value: station.sourceAppliances
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '室外微基站数',
+                                value: station.outdoorPicos
+                            }, {
+                                key: '室外拉远数',
+                                value: station.outdoorRrus
+                            }, {
+                                key: '室外直放站数',
+                                value: station.outdoorRepeaters
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '室内微基站数',
+                                value: station.indoorPicos
+                            }, {
+                                key: '室内拉远数',
+                                value: station.indoorRrus
+                            }, {
+                                key: '室内直放站数',
+                                value: station.indoorRepeaters
+                            }
+                        ]
+                    }
+                ];
             }
         }
     })

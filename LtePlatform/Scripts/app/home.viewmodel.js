@@ -921,7 +921,7 @@
                             var container = neGeometryService.queryNearestRange(xCenter, yCenter);
                             networkElementService.queryRangeDistributions(container).then(function (items) {
                                 if (items.length) {
-                                    console.log(items[0]);
+                                    parametersDialogService.showDistributionInfo(items[0]);
                                 }
                             });
                         });
