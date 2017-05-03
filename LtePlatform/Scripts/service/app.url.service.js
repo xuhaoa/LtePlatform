@@ -1005,6 +1005,14 @@
                     south: yCenter - 1e-6,
                     north: yCenter + 1e-6
                 };
+            },
+            queryNearRange: function (xCenter, yCenter) {
+                return {
+                    west: xCenter - 1e-2,
+                    east: xCenter + 1e-2,
+                    south: yCenter - 1e-2,
+                    north: yCenter + 1e-2
+                };
             }
         };
     })

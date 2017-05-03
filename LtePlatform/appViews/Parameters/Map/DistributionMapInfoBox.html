@@ -5,7 +5,16 @@
     <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
 <div class="modal-body">
+    <h4>室内分布基本信息</h4>
     <div plan-site-details item-groups="distributionGroups"></div>
+    <div ng-show="distribution.eNodebId>0">
+        <h4>LTE小区信息</h4>
+        <div plan-site-details item-groups="lteGroups"></div>
+    </div>
+    <div ng-show="distribution.btsId>0">
+        <h4>CDMA小区信息</h4>
+        <div plan-site-details item-groups="cdmaGroups"></div>
+    </div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-warning" ng-click="ok()">OK</button>

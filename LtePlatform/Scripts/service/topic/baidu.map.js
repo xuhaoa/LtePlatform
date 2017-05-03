@@ -77,6 +77,11 @@
 			switchMainMap: function() {
 				map = mapStructure.mainMap;
 			},
+			addClickListener: function(callback) {
+			    map.addEventListener('click', function(e) {
+			        callback(e);
+			    });
+			},
 			setCenter: function (distinctIndex) {
 				var lonDictionary = [113.30, 113.15, 113.12, 112.87, 112.88, 113.01];
 				var latDictionay = [22.80, 23.03, 23.02, 23.17, 22.90, 23.02];
@@ -298,6 +303,15 @@
 			},
 			generateMarker: function(longtitute, lattitute) {
 				return new BMap.Marker(new BMap.Point(longtitute, lattitute));
+			},
+			generateCircleMarker: function(longtitute, lattitute, color) {
+				return new BMap.Circle(new BMap.Point(longtitute, lattitute), 5,
+				{
+					strokeColor: color,
+					strokeWeight: 1,
+					strokeOpacity: 0.8,
+					fillColor: color
+				});
 			},
 			drawPolygonAndGetCenter: function(coors) {
 				var centerx = 0;
@@ -697,18 +711,18 @@
 				});
 			},
 			showDistributionInfo: function (distribution) {
-			    menuItemService.showGeneralDialog({
-			        templateUrl: '/appViews/Parameters/Map/DistributionMapInfoBox.html',
-			        controller: 'map.distribution.dialog',
-			        resolve: {
-			            dialogTitle: function() {
-			                return distribution.name + "-" + "室内分布基本信息";
-			            },
-			            distribution: function() {
-			                return distribution;
-			            }
-			        }
-			    });
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Parameters/Map/DistributionMapInfoBox.html',
+					controller: 'map.distribution.dialog',
+					resolve: {
+						dialogTitle: function() {
+							return distribution.name + "-" + "室内分布基本信息";
+						},
+						distribution: function() {
+							return distribution;
+						}
+					}
+				});
 			},
 			showBtsInfo: function (bts) {
 				menuItemService.showGeneralDialog({
@@ -1095,8 +1109,9 @@
 		};
 	})
 	.controller('map.distribution.dialog', function($scope, $uibModalInstance, distribution, dialogTitle, appFormatService) {
-		$scope.distributionGroups = appFormatService.generateDistributionGroups(distribution);
+		$scope.distribution = distribution;
 		$scope.dialogTitle = dialogTitle;
+		$scope.distributionGroups = appFormatService.generateDistributionGroups(distribution);
 
 		$scope.ok = function() {
 			$uibModalInstance.close($scope.distributionGroups);
