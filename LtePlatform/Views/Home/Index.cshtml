@@ -13,12 +13,27 @@
             </button>
         </div>
     </div>
+    <div class="map-middle-right">
+        <div ui-view="filter"></div>
+    </div>
     <div class="map-top-left">
         <div ui-view="menu"></div>
     </div>
     <div coverage-legend legend-title="legend.title" criteria="legend.criteria" sign="legend.sign"></div>
     
 </div>
+<style type="text/css">
+
+.map-middle-right {
+  bottom: auto;
+  right: 30px;
+  top: 200px;
+  left: auto; 
+  position: absolute;
+  z-index: 1001;
+}
+</style>
+
 
 @section Scripts{
     <script src="http://api.map.baidu.com/api?v=2.0&ak=OeWDTDlnolWHBNP1GSkDph34"></script>

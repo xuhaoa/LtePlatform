@@ -17,7 +17,7 @@ textarea {
 .padding-error {
   padding-top: 20px; }
 
-.map-control-group, .map-top-right, .map-top-left {
+.map-control-group, .map-top-right, .map-top-left, .map-middle-right {
   position: absolute;
   z-index: 1001; }
 
@@ -38,6 +38,12 @@ textarea {
   right: auto;
   top: 10px;
   left: 170px; }
+
+.map-middle-right {
+  bottom: auto;
+  right: 30px;
+  top: 100px;
+  left: auto; }
 
 .tooltip.customClass .tooltip-inner {
   color: #880000;

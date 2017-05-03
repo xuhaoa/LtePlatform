@@ -89,7 +89,9 @@
             getPhpHost: function () {
                 return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:9000/' : 'http://10.17.165.111:9000/';
             },
-            
+            getPhpLocalhost: function () {
+                return 'http://219.128.254.36:9000/';
+            },
             initializeIndexedDb: function (myDb, storeNames, key, callback) {
                 var version = myDb.version || 1;
                 var request = window.indexedDB.open(myDb.name, version);
@@ -713,6 +715,19 @@
                             }, {
                                 key: '铁塔编号',
                                 value: station.TowerCode
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '站点级别',
+                                value: station.StationGrade
+                            }, {
+                                key: '是否动力配套',
+                                value: station.IsPower
+                            }, {
+                                key: '是否BBU池',
+                                value: station.IsBBU
                             }
                         ]
                     }

@@ -1635,6 +1635,19 @@
                     "areaName": areaName
                 });
             },
+            getStationByFilter: function (areaName, stationGrade, netType, roomAttribution, towerAttribution,isPower, isBBU, page, pageSize) {               
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Station/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,                  
+                    "areaName": areaName,
+                    "netType": netType,
+                    "stationGrade": stationGrade,
+                    "roomAttribution": roomAttribution,
+                    "towerAttribution": towerAttribution,
+                    "isBBU": isBBU,
+                    "isPower": isPower
+                });
+            },
             getStationsByAreaName: function(areaName, page, pageSize) {
                 return generalHttpService.getMvcData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search/', {
                     curr_page: page,
