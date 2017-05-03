@@ -15,20 +15,17 @@
 		}
 	}
 	.list {
-		width:268px;
 		border:solid 1px $color-light-orange;
 		border-top:none;
 		background:$color-all-white;
-		height:260px;
 		ul {
 			margin:0;
 			padding:5px;
 			list-style:none;
 			li {
-				float:left;
-				width:255px;
 				border-bottom:solid 1px $color-light-orange;
 				padding:2px 0;
+				height: 26px;
 			}
 			.last {
 				border:none;

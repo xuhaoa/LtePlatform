@@ -4,8 +4,8 @@
     </button>
     <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
-<div class="modal-body">
-    <div class="infoBoxContent">
+<div class="modal-body row">
+    <div class="infoBoxContent col-md-4">
         <div lte-cell-basic-info neighbor="neighbor" ng-show="parameter.selected==='基本参数'"></div>
         <div cell-intra-freq e-nodeb-id="eNodebId" sector-id="sectorId" ng-show="parameter.selected==='同频切换'"></div>
         <div a1-inter-freq inter-freq-ho="interFreqHo" ng-show="parameter.selected==='A1异频切换'"></div>
@@ -13,6 +13,9 @@
         <div a3-inter-freq inter-freq-ho="interFreqHo" ng-show="parameter.selected==='A3异频切换'"></div>
         <div a4-inter-freq inter-freq-ho="interFreqHo" ng-show="parameter.selected==='A4异频切换'"></div>
         <div a5-inter-freq inter-freq-ho="interFreqHo" ng-show="parameter.selected==='A5异频切换'"></div>
+    </div>
+    <div class="col-md-8">
+        
     </div>
 </div>
 <div class="modal-footer">

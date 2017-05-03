@@ -324,20 +324,17 @@ ul.nav-navbar-list .open > a.dropdown-toggle {
     .infoBoxContent .title .price {
       color: #FFFF00; }
   .infoBoxContent .list {
-    width: 268px;
     border: solid 1px #4FA5FC;
     border-top: none;
-    background: #fff;
-    height: 260px; }
+    background: #fff; }
     .infoBoxContent .list ul {
       margin: 0;
       padding: 5px;
       list-style: none; }
       .infoBoxContent .list ul li {
-        float: left;
-        width: 255px;
         border-bottom: solid 1px #4FA5FC;
-        padding: 2px 0; }
+        padding: 2px 0;
+        height: 26px; }
       .infoBoxContent .list ul .last {
         border: none; }
       .infoBoxContent .list ul img {
