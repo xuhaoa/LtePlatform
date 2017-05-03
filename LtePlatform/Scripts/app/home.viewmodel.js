@@ -165,7 +165,7 @@
                         controller: "menu.analysis"
                     },
                     "contents": {
-                        templateUrl: viewDir + "MrGrid.html",
+                        templateUrl: viewDir + "Analysis.html",
                         controller: "network.analysis"
                     }
                 },
@@ -905,39 +905,44 @@
                 return !site.isLteRru && !site.isCdmaRru;
             }
         ];
-
-        $scope.showDistrictDistributions = function (district) {
-            baiduMapService.addDistrictBoundary(district);
-            $scope.updateSourceLegendDefs();
-            networkElementService.queryDistributionsInOneDistrict(district).then(function (sites) {
-                baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
-                    var xOffset = coors.x - sites[0].longtitute;
-                    var yOffset = coors.y - sites[0].lattitute;
-                    angular.forEach($scope.distributionFilters, function(filter, $index) {
-                        var stats = _.filter(sites, filter);
-                        baiduMapService.drawMultiPoints(stats, $scope.colors[$index], -xOffset, -yOffset, function(e) {
-                            var xCenter = e.point.lng - xOffset;
-                            var yCenter = e.point.lat - yOffset;
-                            var container = neGeometryService.queryNearestRange(xCenter, yCenter);
-                            networkElementService.queryRangeDistributions(container).then(function (items) {
-                                if (items.length) {
-                                    parametersDialogService.showDistributionInfo(items[0]);
-                                }
-                            });
+        $scope.displaySourceDistributions = function(sites) {
+            baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
+                var xOffset = coors.x - sites[0].longtitute;
+                var yOffset = coors.y - sites[0].lattitute;
+                angular.forEach($scope.distributionFilters, function (filter, $index) {
+                    var stats = _.filter(sites, filter);
+                    baiduMapService.drawMultiPoints(stats, $scope.colors[$index], -xOffset, -yOffset, function (e) {
+                        var xCenter = e.point.lng - xOffset;
+                        var yCenter = e.point.lat - yOffset;
+                        var container = neGeometryService.queryNearestRange(xCenter, yCenter);
+                        networkElementService.queryRangeDistributions(container).then(function (items) {
+                            if (items.length) {
+                                parametersDialogService.showDistributionInfo(items[0]);
+                            }
                         });
                     });
-
                 });
             });
         };
-        $scope.showDistributions = function () {
+        $scope.showDistrictDistributions = function (district) {
+            baiduMapService.addDistrictBoundary(district);
+            networkElementService.queryDistributionsInOneDistrict(district).then(function (sites) {
+                angular.forEach(sites, function(site) {
+                    $scope.indoorDistributions.push(site);
+                });
+                $scope.displaySourceDistributions(sites);
+            });
+        };
+        $scope.showSourceDistributions = function () {
             $scope.currentView = "信源类别";
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary($scope.city.selected);
+            $scope.updateSourceLegendDefs();
             
             angular.forEach($scope.districts, function (district) {
-                $scope.showDistrictDistributions(district);
+                baiduMapService.addDistrictBoundary(district);
             });
+            $scope.displaySourceDistributions($scope.indoorDistributions);
         };
         $scope.updateSourceLegendDefs = function() {
             $scope.legend.title = "信源类别";
@@ -955,6 +960,7 @@
             if (city) {
                 $scope.legend.title = '信源类别';
                 $scope.updateSourceLegendDefs();
+                $scope.indoorDistributions = [];
                 dumpPreciseService.generateUsersDistrict(city, $scope.districts, function (district) {
                     $scope.showDistrictDistributions(district);
                 });
