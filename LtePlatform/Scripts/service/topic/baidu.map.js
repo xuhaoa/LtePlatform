@@ -504,7 +504,8 @@
 			}
 		};
 	})
-	.factory('parametersMapService', function (baiduMapService, networkElementService, baiduQueryService, parametersDialogService) {
+	.factory('parametersMapService', function (baiduMapService, networkElementService, baiduQueryService, parametersDialogService,
+		neGeometryService) {
 		var showENodebsElements = function (eNodebs, beginDate, endDate, shouldShowCells) {
 			baiduQueryService.transformToBaidu(eNodebs[0].longtitute, eNodebs[0].lattitute).then(function (coors) {
 				var xOffset = coors.x - eNodebs[0].longtitute;
@@ -633,6 +634,25 @@
 						var points = baiduMapService.drawMultiPoints(coors, interval.color, xoffset, yoffset);
 						if (coverageOverlays)
 							$scope.coverageOverlays.push(points);
+					});
+				});
+			},
+			displaySourceDistributions: function (sites, filters, colors) {
+				baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
+					var xOffset = coors.x - sites[0].longtitute;
+					var yOffset = coors.y - sites[0].lattitute;
+					angular.forEach(filters, function(filter, $index) {
+						var stats = _.filter(sites, filter);
+						baiduMapService.drawMultiPoints(stats, colors[$index], -xOffset, -yOffset, function(e) {
+							var xCenter = e.point.lng - xOffset;
+							var yCenter = e.point.lat - yOffset;
+							var container = neGeometryService.queryNearestRange(xCenter, yCenter);
+							networkElementService.queryRangeDistributions(container).then(function(items) {
+								if (items.length) {
+									parametersDialogService.showDistributionInfo(items[0]);
+								}
+							});
+						});
 					});
 				});
 			}
@@ -1119,9 +1139,9 @@
 			});
 		}
 		if (distribution.btsId > 0) {
-		    networkElementService.queryCdmaCellInfo(distribution.btsId, distribution.cdmaSectorId).then(function(cell) {
-		        $scope.cdmaGroups = appFormatService.generateCdmaCellGroups(cell);
-		    });
+			networkElementService.queryCdmaCellInfo(distribution.btsId, distribution.cdmaSectorId).then(function(cell) {
+				$scope.cdmaGroups = appFormatService.generateCdmaCellGroups(cell);
+			});
 		}
 
 		$scope.ok = function() {

@@ -890,9 +890,10 @@
 
     })
     .controller("network.analysis", function ($scope, baiduMapService, networkElementService, dumpPreciseService,
-        baiduQueryService, neGeometryService, parametersDialogService) {
+        baiduQueryService, neGeometryService, parametersMapService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+        $scope.currentView = "信源类别";
         $scope.districts = [];
         $scope.distributionFilters = [
             function(site) {
@@ -905,32 +906,13 @@
                 return !site.isLteRru && !site.isCdmaRru;
             }
         ];
-        $scope.displaySourceDistributions = function(sites) {
-            baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
-                var xOffset = coors.x - sites[0].longtitute;
-                var yOffset = coors.y - sites[0].lattitute;
-                angular.forEach($scope.distributionFilters, function (filter, $index) {
-                    var stats = _.filter(sites, filter);
-                    baiduMapService.drawMultiPoints(stats, $scope.colors[$index], -xOffset, -yOffset, function (e) {
-                        var xCenter = e.point.lng - xOffset;
-                        var yCenter = e.point.lat - yOffset;
-                        var container = neGeometryService.queryNearestRange(xCenter, yCenter);
-                        networkElementService.queryRangeDistributions(container).then(function (items) {
-                            if (items.length) {
-                                parametersDialogService.showDistributionInfo(items[0]);
-                            }
-                        });
-                    });
-                });
-            });
-        };
         $scope.showDistrictDistributions = function (district) {
             baiduMapService.addDistrictBoundary(district);
             networkElementService.queryDistributionsInOneDistrict(district).then(function (sites) {
                 angular.forEach(sites, function(site) {
                     $scope.indoorDistributions.push(site);
                 });
-                $scope.displaySourceDistributions(sites);
+                parametersMapService.displaySourceDistributions($scope.indoorDistributions, $scope.distributionFilters, $scope.colors);
             });
         };
         $scope.showSourceDistributions = function () {
@@ -942,7 +924,7 @@
             angular.forEach($scope.districts, function (district) {
                 baiduMapService.addDistrictBoundary(district);
             });
-            $scope.displaySourceDistributions($scope.indoorDistributions);
+            parametersMapService.displaySourceDistributions($scope.indoorDistributions, $scope.distributionFilters, $scope.colors);
         };
         $scope.updateSourceLegendDefs = function() {
             $scope.legend.title = "信源类别";
