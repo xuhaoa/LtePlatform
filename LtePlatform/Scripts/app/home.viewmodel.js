@@ -162,7 +162,7 @@
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.mr"
+                        controller: "menu.analysis"
                     },
                     "contents": {
                         templateUrl: viewDir + "MrGrid.html",
@@ -386,8 +386,21 @@
                     url: appUrlService.getPlanUrlHost() + 'CQT'
                 }
             ]
+        };
+    })
+    .controller("menu.analysis", function($scope) {
+        var rootUrl = "/#";
+        $scope.menuItem = {
+            displayName: "网络分析",
+            subItems: [
+                {
+                    displayName: "室内分布",
+                    url: rootUrl + "/analysis"
+                }
+            ]
         }
     })
+
     .controller("home.network", function ($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService,
         geometryService, parametersDialogService, neGeometryService, baiduQueryService, dumpPreciseService) {
         baiduMapService.initializeMap("map", 11);
@@ -876,9 +889,20 @@
         baiduMapService.addCityBoundary("佛山");
 
     })
-    .controller("network.analysis", function($scope, baiduMapService) {
+    .controller("network.analysis", function ($scope, baiduMapService, networkElementService, dumpPreciseService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+        $scope.districts = [];
+        $scope.$watch('city.selected', function (city) {
+            if (city) {
+                $scope.legend.title = '信源类别';
+                $scope.legend.intervals = [];
+                dumpPreciseService.generateUsersDistrict(city, $scope.districts, function (district) {
+                    networkElementService.queryDistributionsInOneDistrict(district).then(function(stats) {
+                    });
+                });
+            }
+        });
     })
     .controller("query.topic", function ($scope, baiduMapService, customerDialogService, basicImportService, parametersDialogService) {
         baiduMapService.initializeMap("map", 11);

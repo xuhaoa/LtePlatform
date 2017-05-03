@@ -154,6 +154,11 @@
                     district: district
                 });
             },
+            queryDistributionsInOneDistrict: function (district) {
+                return generalHttpService.getApiData('Distribution', {
+                    district: district
+                });
+            },
             queryENodebsByGeneralName: function(name) {
                 return generalHttpService.getApiData('ENodeb', {
                     name: name
