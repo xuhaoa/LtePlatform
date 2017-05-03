@@ -92,5 +92,9 @@ namespace Lte.MySqlFramework.Entities
         public int BtsId { get; set; }
 
         public byte CdmaSectorId { get; set; }
+
+        public bool IsLteRru => ENodebId > 0;
+
+        public bool IsCdmaRru => BtsId > 0;
     }
 }

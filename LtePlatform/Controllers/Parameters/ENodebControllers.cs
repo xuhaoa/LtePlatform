@@ -306,4 +306,20 @@ namespace LtePlatform.Controllers.Parameters
             return _service.QueryEnodebBases(searchText);
         } 
     }
+
+    public class DistributionController : ApiController
+    {
+        private readonly ENodebQueryService _service;
+
+        public DistributionController(ENodebQueryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<DistributionSystem> Get(string district)
+        {
+            return _service.QueryDistributionSystems(district);
+        } 
+    }
 }
