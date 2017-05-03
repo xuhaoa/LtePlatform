@@ -414,6 +414,9 @@ describe('underscore collection tests', function() {
             expect(_.find(obj, function(x) {
                 return x.x === 4;
             })).toEqual({ x: 4, z: 1 });
+            expect(_.find(obj, function (x) {
+                return x.x > 1;
+            })).toEqual({ x: 2, z: 2 });
         });
 
         it('called with context', function() {

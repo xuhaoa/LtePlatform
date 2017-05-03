@@ -125,6 +125,14 @@ namespace Lte.Evaluations.DataService.Basic
             return eNodebs.Any() ? eNodebs.MapTo<IEnumerable<ENodebView>>() : new List<ENodebView>();
         }
 
+        public IEnumerable<DistributionSystem> QueryDistributionSystems(double west, double east, double south,
+            double north)
+        {
+            return
+                _distributionRepository.GetAllList(
+                    x => x.Longtitute >= west && x.Longtitute <= east && x.Lattitute >= south && x.Lattitute <= north);
+        }
+
         public IEnumerable<ENodebView> QueryENodebViews(ENodebRangeContainer container)
         {
             var eNodebs =

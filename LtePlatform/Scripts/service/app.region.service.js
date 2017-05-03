@@ -211,6 +211,14 @@
                     north: range.north
                 });
             },
+            queryRangeDistributions: function (range) {
+                return generalHttpService.getApiData('Distribution', {
+                    west: range.west,
+                    east: range.east,
+                    south: range.south,
+                    north: range.north
+                });
+            },
             queryRangeENodebs: function(container) {
                 return generalHttpService.postApiData('ENodeb', container);
             },
