@@ -4126,7 +4126,7 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('map.college.dialog', function ($scope, $uibModalInstance, college, dialogTitle,
+    .controller('map.college.dialog', function ($scope, $uibModalInstance, college, year, dialogTitle,
         collegeQueryService, generalChartService, parametersChartService, emergencyService) {
         $scope.college = college;
         $scope.dialogTitle = dialogTitle;
@@ -4150,14 +4150,14 @@
             });
         };
         $scope.query();
-        collegeQueryService.queryByNameAndYear(college.name, $scope.collegeInfo.year.selected).then(function (info) {
+        collegeQueryService.queryByNameAndYear(college.name, year).then(function (info) {
             if (info) {
                 $scope.college.expectedSubscribers = info.expectedSubscribers;
                 $scope.college.oldOpenDate = info.oldOpenDate;
                 $scope.college.newOpenDate = info.newOpenDate;
             }
         });
-        emergencyService.queryCollegeVipDemand($scope.collegeInfo.year.selected, college.name).then(function (item) {
+        emergencyService.queryCollegeVipDemand(year, college.name).then(function (item) {
             if (item) {
                 $scope.college.serialNumber = item.serialNumber;
                 $scope.college.currentStateDescription = item.currentStateDescription;
@@ -4429,7 +4429,7 @@
                     callback(info);
                 });
             },
-            showCollegDialog: function (college) {
+            showCollegDialog: function (college, year) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/College/Table/CollegeMapInfoBox.html',
                     controller: 'map.college.dialog',
@@ -4439,6 +4439,9 @@
                         },
                         college: function() {
                             return college;
+                        },
+                        year: function() {
+                            return year;
                         }
                     }
                 });

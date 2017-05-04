@@ -5,19 +5,7 @@
             .state('root', {
                 templateUrl: viewDir + "Root.html"
             })
-            .state('root.map', {
-                views: {
-                    "contents": {
-                        template: '<div id="all-map" style="width: 100%;height: 600px;overflow: hidden;margin:0;"></div>',
-                        controller: "all.map"
-                    },
-                    'collegeList': {
-                        templateUrl: viewDir + "CollegeMenuType.html",
-                        controller: "college.menu"
-                    }
-                },
-                url: "/"
-            }).state('root.collegeMap', {
+            .state('root.collegeMap', {
                 views: {
                     "contents": {
                         templateUrl: viewDir + "CollegeMap.html",
@@ -229,19 +217,6 @@
         emergencyService.queryCollegeVipDemands($scope.collegeInfo.year.selected).then(function(items) {
             $scope.collegeInfo.supportInfos = items;
         });
-    })
-    .controller("all.map", function($scope, collegeDialogService, baiduMapService, collegeMapService) {
-        $scope.collegeInfo.url = $scope.rootPath + "map";
-        $scope.page.title = "校园网总览";
-
-        var showCollegDialogs = function(college) {
-            collegeDialogService.showCollegDialog(college);
-        };
-
-        baiduMapService.initializeMap("all-map", 11);
-        baiduMapService.addCityBoundary("佛山");
-
-        collegeMapService.showCollegeInfos(showCollegDialogs, $scope.collegeInfo.year.selected);
     })
     .controller("map.name", function($scope, $stateParams,
         baiduMapService, baiduQueryService, collegeService, collegeQueryService, collegeMapService,

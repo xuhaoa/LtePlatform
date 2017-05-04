@@ -170,6 +170,19 @@
                     }
                 },
                 url: "/analysis"
+            })
+            .state('collegeMap', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.analysis"
+                    },
+                    "contents": {
+                        templateUrl: '/appViews/College/CollegeMenu.html',
+                        controller: "college.map"
+                    }
+                },
+                url: "/collegeMap"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -396,6 +409,9 @@
                 {
                     displayName: "室内分布",
                     url: rootUrl + "/analysis"
+                }, {
+                    displayName: "校园网地图",
+                    url: rootUrl + "/collegeMap"
                 }
             ]
         }
@@ -984,6 +1000,34 @@
             }
         });
     })
+    .controller("college.map", function ($scope, collegeDialogService, baiduMapService, collegeMapService) {
+        $scope.collegeInfo = {
+            year: {
+                options: [2015, 2016, 2017, 2018, 2019],
+                selected: new Date().getYear() + 1900
+            }
+        };
+        $scope.displayCollegeMap = function () {
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary($scope.city.selected);
+            collegeMapService.showCollegeInfos(function(college) {
+                collegeDialogService.showCollegDialog(college, $scope.collegeInfo.year.selected);
+            }, $scope.collegeInfo.year.selected);
+        };
+        $scope.maintainInfo = function() {
+
+        };
+
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
+
+        $scope.$watch('collegeInfo.year.selected', function(year) {
+            if (year > 0) {
+                $scope.displayCollegeMap();
+            }
+        });
+    })
+
     .controller("query.topic", function ($scope, baiduMapService, customerDialogService, basicImportService, parametersDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
