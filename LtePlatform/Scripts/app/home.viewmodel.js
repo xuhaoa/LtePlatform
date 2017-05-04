@@ -1000,7 +1000,7 @@
             }
         });
     })
-    .controller("college.map", function ($scope, collegeDialogService, baiduMapService, collegeMapService) {
+    .controller("college.map", function ($scope, collegeDialogService, baiduMapService, collegeMapService, parametersDialogService) {
         $scope.collegeInfo = {
             year: {
                 options: [2015, 2016, 2017, 2018, 2019],
@@ -1015,7 +1015,7 @@
             }, $scope.collegeInfo.year.selected);
         };
         $scope.maintainInfo = function() {
-
+            parametersDialogService.maintainCollegeInfo($scope.collegeInfo.year.selected);
         };
 
         baiduMapService.initializeMap("map", 11);
