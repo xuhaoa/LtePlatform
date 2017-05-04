@@ -97,4 +97,52 @@ namespace Lte.MySqlFramework.Entities
 
         public bool IsCdmaRru => BtsId > 0;
     }
+
+    public class HotSpotENodebId : Entity, IHotSpot, IENodebId
+    {
+        public HotspotType HotspotType { get; set; }
+
+        public string HotspotName { get; set; }
+
+        public InfrastructureType InfrastructureType { get; set; }
+        
+        public int ENodebId { get; set; }
+    }
+
+    public class HotSpotCellId : Entity, IHotSpot, ILteCellQuery
+    {
+        public HotspotType HotspotType { get; set; }
+
+        public string HotspotName { get; set; }
+
+        public InfrastructureType InfrastructureType { get; set; }
+
+        public int ENodebId { get; set; }
+
+        public byte SectorId { get; set; }
+    }
+
+    public class HotSpotBtsId : Entity, IHotSpot, IBtsIdQuery
+    {
+        public HotspotType HotspotType { get; set; }
+
+        public string HotspotName { get; set; }
+
+        public InfrastructureType InfrastructureType { get; set; }
+
+        public int BtsId { get; set; }
+    }
+
+    public class HotSpotCdmaCellId : Entity, IHotSpot, ICdmaCellQuery
+    {
+        public HotspotType HotspotType { get; set; }
+
+        public string HotspotName { get; set; }
+
+        public InfrastructureType InfrastructureType { get; set; }
+
+        public int BtsId { get; set; }
+
+        public byte SectorId { get; set; }
+    }
 }

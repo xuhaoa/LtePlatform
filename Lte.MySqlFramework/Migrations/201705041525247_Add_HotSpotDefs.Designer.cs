@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Create_StationDictionary : IMigrationMetadata
+    public sealed partial class Add_HotSpotDefs : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Create_StationDictionary));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_HotSpotDefs));
         
         string IMigrationMetadata.Id
         {
-            get { return "201704250816308_Create_StationDictionary"; }
+            get { return "201705041525247_Add_HotSpotDefs"; }
         }
         
         string IMigrationMetadata.Source

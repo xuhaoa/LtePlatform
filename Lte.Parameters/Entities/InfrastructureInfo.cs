@@ -7,7 +7,7 @@ using Lte.Domain.Common.Wireless;
 
 namespace Lte.Parameters.Entities
 {
-    public class InfrastructureInfo : Entity
+    public class InfrastructureInfo : Entity, IHotSpot
     {
         public HotspotType HotspotType { get; set; }
 

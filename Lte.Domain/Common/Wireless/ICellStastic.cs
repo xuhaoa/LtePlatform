@@ -1,4 +1,6 @@
-﻿namespace Lte.Domain.Common.Wireless
+﻿using Lte.Domain.Common.Geo;
+
+namespace Lte.Domain.Common.Wireless
 {
     public interface ICellStastic
     {
@@ -17,18 +19,30 @@
 
     public interface IBtsIdQuery
     {
-        int BtsId { get; }
+        int BtsId { get; set; }
     }
 
-    public interface ILteCellQuery
+    public interface ILteCellQuery : IENodebId
     {
-        int ENodebId { get; set; }
+        byte SectorId { get; set; }
+    }
 
+    public interface ICdmaCellQuery : IBtsIdQuery
+    {
         byte SectorId { get; set; }
     }
 
     public interface IWorkItemCell : ILteCellQuery
     {
         string WorkItemNumber { get; set; }
+    }
+
+    public interface IHotSpot
+    {
+        HotspotType HotspotType { get; set; }
+
+        string HotspotName { get; set; }
+
+        InfrastructureType InfrastructureType { get; set; }
     }
 }

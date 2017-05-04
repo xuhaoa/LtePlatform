@@ -79,5 +79,13 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<StationDictionary> StationDictionaries { get; set; }
 
         public DbSet<DistributionSystem> DistributionSystems { get; set; }
+
+        public DbSet<HotSpotENodebId> HotSpotENodebIds { get; set; }
+
+        public DbSet<HotSpotCellId> HotSpotCellIds { get; set; }
+
+        public DbSet<HotSpotBtsId> HotSpotBtsIds { get; set; }
+
+        public DbSet<HotSpotCdmaCellId> HotSpotCdmaCellIds { get; set; }
     }
 }
