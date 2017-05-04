@@ -906,6 +906,17 @@
                 return !site.isLteRru && !site.isCdmaRru;
             }
         ];
+        $scope.scaleFilters = [
+            function(site) {
+                return site.scaleDescription === '超大型';
+            }, function(site) {
+                return site.scaleDescription === '大型';
+            }, function(site) {
+                return site.scaleDescription === '中型';
+            }, function(site) {
+                return site.scaleDescription === '小型';
+            }
+        ];
         $scope.showDistrictDistributions = function (district) {
             baiduMapService.addDistrictBoundary(district);
             networkElementService.queryDistributionsInOneDistrict(district).then(function (sites) {
@@ -915,6 +926,7 @@
                 parametersMapService.displaySourceDistributions($scope.indoorDistributions, $scope.distributionFilters, $scope.colors);
             });
         };
+
         $scope.showSourceDistributions = function () {
             $scope.currentView = "信源类别";
             baiduMapService.clearOverlays();
@@ -926,10 +938,33 @@
             });
             parametersMapService.displaySourceDistributions($scope.indoorDistributions, $scope.distributionFilters, $scope.colors);
         };
+        $scope.showScaleDistributions = function() {
+            $scope.currentView = "规模";
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary($scope.city.selected);
+            $scope.updateScaleLegendDefs();
+
+            angular.forEach($scope.districts, function(district) {
+                baiduMapService.addDistrictBoundary(district);
+            });
+            parametersMapService.displaySourceDistributions($scope.indoorDistributions, $scope.scaleFilters, $scope.colors);
+        };
+
         $scope.updateSourceLegendDefs = function() {
             $scope.legend.title = "信源类别";
             $scope.legend.intervals = [];
             var sourceDefs = ['LC信源', '纯L信源', '纯C信源', '非RRU信源'];
+            angular.forEach(sourceDefs, function(def, $index) {
+                $scope.legend.intervals.push({
+                    threshold: def,
+                    color: $scope.colors[$index]
+                });
+            });
+        };
+        $scope.updateScaleLegendDefs = function() {
+            $scope.legend.title = "规模";
+            $scope.legend.intervals = [];
+            var sourceDefs = ['超大型', '大型', '中型', '小型'];
             angular.forEach(sourceDefs, function(def, $index) {
                 $scope.legend.intervals.push({
                     threshold: def,
