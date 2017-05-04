@@ -1017,6 +1017,9 @@
         $scope.maintainInfo = function() {
             parametersDialogService.maintainCollegeInfo($scope.collegeInfo.year.selected);
         };
+        $scope.showFlow = function() {
+            parametersDialogService.showCollegeFlow($scope.collegeInfo.year.selected);
+        };
 
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");

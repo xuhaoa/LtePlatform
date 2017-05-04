@@ -960,6 +960,20 @@
 						}
 					}
 				});
+			},
+			showCollegeFlow: function (year) {
+				menuItemService.showGeneralDialog({
+				    templateUrl: '/appViews/College/Test/Flow.html',
+					controller: 'college.flow',
+					resolve: {
+						dialogTitle: function () {
+						    return "校园流量分析（" + year + "年）";
+						},
+						year: function () {
+							return year;
+						}
+					}
+				});
 			}
 		};
 	})
@@ -1497,7 +1511,7 @@
 			collegeQueryService.queryYearList(year).then(function(colleges) {
 				$scope.collegeYearList = colleges;
 			});
-		    $scope.updateCollegeStatus($scope.collegeName);
+			$scope.updateCollegeStatus($scope.collegeName);
 		};
 		$scope.updateCollegeStatus = function(name) {
 			collegeQueryService.queryByNameAndYear(name, year).then(function(info) {
@@ -1545,6 +1559,44 @@
 
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss('cancel');
+		};
+
+	})
+	.controller("college.flow", function ($scope, $uibModalInstance, dialogTitle, year, collegeQueryService, parametersChartService) {
+		$scope.dialogTitle = dialogTitle;
+		$scope.collegeStatCount = 0;
+		$scope.query = function () {
+			angular.forEach($scope.collegeList, function (college) {
+				collegeQueryService.queryCollegeFlow(college.name, $scope.beginDate.value, $scope.endDate.value).then(function (stat) {
+					college.pdcpDownlinkFlow = stat.pdcpDownlinkFlow;
+					college.pdcpUplinkFlow = stat.pdcpUplinkFlow;
+					college.averageUsers = stat.averageUsers;
+					college.cellCount = stat.cellCount;
+					college.maxActiveUsers = stat.maxActiveUsers;
+					$scope.collegeStatCount += 1;
+				});
+			});
+		};
+		$scope.$watch('collegeStatCount', function (count) {
+			if ($scope.collegeList && count === $scope.collegeList.length && count > 0) {
+				$("#downloadFlowConfig").highcharts(parametersChartService.getCollegeDistributionForDownlinkFlow($scope.collegeList));
+				$("#uploadFlowConfig").highcharts(parametersChartService.getCollegeDistributionForUplinkFlow($scope.collegeList));
+				$("#averageUsersConfig").highcharts(parametersChartService.getCollegeDistributionForAverageUsers($scope.collegeList));
+				$("#activeUsersConfig").highcharts(parametersChartService.getCollegeDistributionForActiveUsers($scope.collegeList));
+				$scope.collegeStatCount = 0;
+			}
+		});
+		collegeQueryService.queryYearList(year).then(function (colleges) {
+			$scope.collegeList = colleges;
+			$scope.query();
+		});
+
+		$scope.ok = function () {
+		    $uibModalInstance.close($scope.cell);
+		};
+
+		$scope.cancel = function () {
+		    $uibModalInstance.dismiss('cancel');
 		};
 
 	})

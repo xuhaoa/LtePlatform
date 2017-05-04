@@ -17,18 +17,6 @@
                     }
                 },
                 url: "/map/:name/:type"
-            }).state('root.query', {
-                views: {
-                    "contents": {
-                        templateUrl: viewDir + "Stat.html",
-                        controller: "all.query"
-                    },
-                    'collegeList': {
-                        templateUrl: viewDir + "CollegeMenu.html",
-                        controller: "college.menu"
-                    }
-                },
-                url: "/query"
             }).state('root.collegeQuery', {
                 views: {
                     "contents": {
@@ -388,36 +376,6 @@
     })
 
 
-    .controller("all.flow", function ($scope, collegeQueryService, parametersChartService) {
-        $scope.collegeInfo.url = $scope.rootPath + "flow";
-        $scope.page.title = "流量分析";
-        $scope.collegeStatCount = 0;
-        $scope.query = function() {
-            angular.forEach($scope.collegeList, function(college) {
-                collegeQueryService.queryCollegeFlow(college.name, $scope.beginDate.value, $scope.endDate.value).then(function(stat) {
-                    college.pdcpDownlinkFlow = stat.pdcpDownlinkFlow;
-                    college.pdcpUplinkFlow = stat.pdcpUplinkFlow;
-                    college.averageUsers = stat.averageUsers;
-                    college.cellCount = stat.cellCount;
-                    college.maxActiveUsers = stat.maxActiveUsers;
-                    $scope.collegeStatCount += 1;
-                });
-            });
-        };
-        $scope.$watch('collegeStatCount', function(count) {
-            if ($scope.collegeList && count === $scope.collegeList.length && count > 0) {
-                $("#downloadFlowConfig").highcharts(parametersChartService.getCollegeDistributionForDownlinkFlow($scope.collegeList));
-                $("#uploadFlowConfig").highcharts(parametersChartService.getCollegeDistributionForUplinkFlow($scope.collegeList));
-                $("#averageUsersConfig").highcharts(parametersChartService.getCollegeDistributionForAverageUsers($scope.collegeList));
-                $("#activeUsersConfig").highcharts(parametersChartService.getCollegeDistributionForActiveUsers($scope.collegeList));
-                $scope.collegeStatCount = 0;
-            }
-        });
-        collegeQueryService.queryYearList($scope.collegeInfo.year.selected).then(function (colleges) {
-            $scope.collegeList = colleges;
-            $scope.query();
-        });
-    })
     .controller("flow.name", function ($scope, $stateParams, collegeService, appKpiService, kpiChartService) {
         $scope.page.title = $stateParams.name + "流量分析";
         $scope.flowStats = [];
