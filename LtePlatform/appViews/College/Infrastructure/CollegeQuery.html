@@ -1,11 +1,16 @@
-﻿<h4 class="text-primary">{{collegeName}}基础信息查询与编辑</h4>
+﻿<div class="modal-header modal-header-teal">
+    <button type="button" class="close" ng-click="cancel()" aria-hidden="true">
+        &times;
+    </button>
+    <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
+</div>
 <div uib-accordion>
     <div uib-accordion-group class="panel panel-primary" is-open="true">
         <div uib-accordion-heading>
             LTE基站列表
             <div class="badge">{{eNodebList.length}}</div>
         </div>
-        <div e-nodeb-plain-table items="eNodebList" root-path="parametersPath"></div>
+        <div e-nodeb-plain-table items="eNodebList" begin-date="beginDate" end-date="endDate"></div>
     </div>
     <div uib-accordion-group class="panel panel-success">
         <div uib-accordion-heading>
@@ -14,14 +19,14 @@
         </div>
         <button class="btn btn-sm btn-warning" ng-click="supplementCells()">补充小区（根据基站）</button>
         <button class="btn btn-sm btn-warning" ng-click="supplementLonelyCells()">补充小区（根据位置）</button>
-        <div lte-cell-table items="cellList" root-path="parametersPath"></div>
+        <div lte-cell-table items="cellList" begin-date="beginDate" end-date="endDate"></div>
     </div>
     <div uib-accordion-group class="panel panel-default">
         <div uib-accordion-heading>
             CDMA基站列表
             <div class="badge">{{btsList.length}}</div>
         </div>
-        <div bts-plain-table items="btsList" root-path="parametersPath"></div>
+        <div bts-plain-table items="btsList"></div>
     </div>
     <div uib-accordion-group class="panel panel-warning">
         <div uib-accordion-heading>
@@ -31,4 +36,7 @@
         <div cdma-cell-table items="cdmaCellList"></div>
     </div>
 </div>
-    
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">退出</button>
+</div>    

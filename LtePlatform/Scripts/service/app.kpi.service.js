@@ -4172,6 +4172,41 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
+    
+    .controller("college.query.name", function ($scope, $uibModalInstance, dialogTitle, name, collegeService, collegeDialogService) {
+        $scope.collegeName = name;
+        $scope.dialogTitle = dialogTitle;
+        $scope.updateLteCells = function () {
+            collegeService.queryCells($scope.collegeName).then(function (cells) {
+                $scope.cellList = cells;
+            });
+        };
+        $scope.supplementCells = function () {
+            collegeDialogService.supplementENodebCells($scope.eNodebList, $scope.cellList, $scope.collegeName, $scope.updateLteCells);
+        };
+        $scope.supplementLonelyCells = function() {
+            collegeDialogService.supplementPositionCells($scope.collegeName, $scope.updateLteCells);
+        };
+        collegeService.queryENodebs($scope.collegeName).then(function (eNodebs) {
+            $scope.eNodebList = eNodebs;
+        });
+        $scope.updateLteCells();
+        collegeService.queryBtss($scope.collegeName).then(function (btss) {
+            $scope.btsList = btss;
+        });
+        collegeService.queryCdmaCells($scope.collegeName).then(function (cells) {
+            $scope.cdmaCellList = cells;
+        });
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.college);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+
     .controller('college.new.dialog', function ($scope, $uibModalInstance, baiduMapService, geometryService, baiduQueryService, appRegionService, $timeout) {
         $scope.dialogTitle = "新建校园信息";
         $scope.collegeRegion = {
@@ -4289,6 +4324,14 @@
                     resolve: resolveScope(name, "CDMA室分信息")
                 });
             },
+            showCollegeDetails: function (name) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: collegeInfrastructurePath + 'CollegeQuery.html',
+                    controller: 'college.query.name',
+                    resolve: resolveScope(name, "详细信息")
+                });
+            },
+
             addYearInfo: function (item, name, year, callback) {
                 menuItemService.showGeneralDialogWithAction({
                     templateUrl: collegeInfrastructurePath + 'YearInfoDialog.html',

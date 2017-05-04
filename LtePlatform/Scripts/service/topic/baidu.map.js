@@ -1489,19 +1489,23 @@
 			$scope.collegeInfo.names = result;
 			$scope.collegeName = $scope.collegeInfo.names[0];
 		});
-		$scope.collegeExisted = true;
 
-		collegeService.queryStats(year).then(function (colleges) {
-			$scope.collegeList = colleges;
-		});
-		collegeQueryService.queryYearList(year).then(function (colleges) {
-			$scope.collegeYearList = colleges;
-		});
-
-		$scope.$watch('collegeName', function (name) {
-			collegeQueryService.queryByNameAndYear(name, year).then(function (info) {
+		$scope.updateInfos = function() {
+			collegeService.queryStats(year).then(function(colleges) {
+				$scope.collegeList = colleges;
+			});
+			collegeQueryService.queryYearList(year).then(function(colleges) {
+				$scope.collegeYearList = colleges;
+			});
+		    $scope.updateCollegeStatus($scope.collegeName);
+		};
+		$scope.updateCollegeStatus = function(name) {
+			collegeQueryService.queryByNameAndYear(name, year).then(function(info) {
 				$scope.collegeExisted = !!info;
 			});
+		};
+		$scope.$watch('collegeName', function (name) {
+			$scope.updateCollegeStatus(name);
 		});
 		$scope.addOneCollegeMarkerInfo = function () {
 			collegeQueryService.queryByNameAndYear($scope.collegeName, year - 1).then(function (item) {
@@ -1517,21 +1521,23 @@
 							collegeId: college.id
 						};
 						collegeDialogService.addYearInfo(item, $scope.collegeName, year, function () {
-							$scope.updateInfos(year);
+							$scope.updateInfos();
 						});
 					});
 				} else {
 					collegeDialogService.addYearInfo(item, $scope.collegeName, year, function () {
-						$scope.updateInfos(year);
+						$scope.updateInfos();
 					});
 				}
 			});
 		};
 		$scope.createNewCollege = function () {
 			collegeDialogService.addNewCollege(function() {
-			    $scope.updateInfos(year);
+				$scope.updateInfos();
 			});
 		};
+
+		$scope.updateInfos();
 
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.cell);

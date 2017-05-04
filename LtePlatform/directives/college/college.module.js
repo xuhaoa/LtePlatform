@@ -288,6 +288,10 @@
         $scope.showCdmaDistributions = function(name) {
             collegeDialogService.showCdmaDistributions(name);
         };
+        $scope.showDetails = function(name) {
+            collegeDialogService.showCollegeDetails(name);
+        };
+
         $scope.gridOptions = {
             columnDefs: [
                 { field: 'name', name: '校园名称', width: 170, enableColumnResizing: false },
@@ -315,18 +319,17 @@
                 },
                 {
                     name: '4G室分数',
-                    cellTemplate: '<button class="btn btn-sm btn-success" ng-click="grid.appScope.showLteDistributions(row.entity.name)">' +
+                    cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.showLteDistributions(row.entity.name)">' +
                         '详情<span class="badge pull-right">{{row.entity.totalLteIndoors}}</span></button>'
                 },
                 {
                     name: '3G室分数',
-                    cellTemplate: '<button class="btn btn-sm btn-success" ng-click="grid.appScope.showCdmaDistributions(row.entity.name)">' +
+                    cellTemplate: '<button class="btn btn-sm btn-default" ng-click="grid.appScope.showCdmaDistributions(row.entity.name)">' +
                         '详情<span class="badge pull-right">{{row.entity.totalCdmaIndoors}}</span></button>'
                 },
                 {
                     name: '详细信息',
-                    cellTemplate: '<a ng-href="{{grid.appScope.rootPath}}query/{{row.entity.name}}" class="btn btn-sm btn-success">详细</a>',
-                    width: 40
+                    cellTemplate: '<button class="btn btn-sm btn-success" ng-click="grid.appScope.showDetails(row.entity.name)">详细</button>'
                 }
             ],
             data: []
@@ -336,8 +339,7 @@
         return calculateService.generateGridDirective({
             controllerName: 'CollegeStatController',
             scope: {
-                collegeList: '=',
-                rootPath: '='
+                collegeList: '='
             },
             argumentName: 'collegeList'
         }, $compile);

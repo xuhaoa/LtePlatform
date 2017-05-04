@@ -696,27 +696,14 @@
             data: []
         };
     })
-    .directive('cdmaCellTable', function ($compile) {
-        return {
-            restrict: 'EA',
-            controller: 'CdmaCellController',
-            replace: true,
+    .directive('cdmaCellTable', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'CdmaCellController',
             scope: {
                 items: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        }
+            argumentName: 'items'
+        }, $compile);
     })
 
     .controller('CellDetailsController', function ($scope, networkElementService, calculateService) {
