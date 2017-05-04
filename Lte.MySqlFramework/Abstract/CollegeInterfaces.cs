@@ -31,4 +31,23 @@ namespace Lte.MySqlFramework.Abstract
     {
     }
 
+    public interface IHotSpotENodebRepository : IRepository<HotSpotENodebId>, ISaveChanges
+    {
+        
+    }
+
+    public interface IHotSpotCellRepository : IRepository<HotSpotCellId>, ISaveChanges
+    {
+        
+    }
+
+    public interface IHotSpotBtsRepository : IRepository<HotSpotBtsId>, ISaveChanges
+    {
+        
+    }
+
+    public interface IHotSpotCdmaCellRepository : IRepository<HotSpotCdmaCellId>, ISaveChanges
+    {
+        
+    }
 }

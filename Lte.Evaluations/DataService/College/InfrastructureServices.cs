@@ -12,15 +12,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Wireless;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.DataService.College
 {
     public class CollegeENodebService
     {
-        private readonly IInfrastructureRepository _repository;
+        private readonly IHotSpotENodebRepository _repository;
         private readonly IENodebRepository _eNodebRepository;
 
-        public CollegeENodebService(IInfrastructureRepository repository, IENodebRepository eNodebRepository)
+        public CollegeENodebService(IHotSpotENodebRepository repository, IENodebRepository eNodebRepository)
         {
             _repository = repository;
             _eNodebRepository = eNodebRepository;
@@ -28,9 +30,13 @@ namespace Lte.Evaluations.DataService.College
 
         public IEnumerable<ENodebView> Query(string collegeName)
         {
-            var ids = _repository.GetCollegeInfrastructureIds(collegeName, InfrastructureType.ENodeb);
+            var ids =
+                _repository.GetAllList(
+                    x =>
+                        x.HotspotName == collegeName && x.HotspotType == HotspotType.College &&
+                        x.InfrastructureType == InfrastructureType.ENodeb);
             return (from id in ids
-                select _eNodebRepository.Get(id)
+                select _eNodebRepository.GetByENodebId(id.ENodebId)
                 into eNodeb
                 where eNodeb != null
                 select Mapper.Map<ENodeb, ENodebView>(eNodeb)).ToList();
@@ -40,9 +46,12 @@ namespace Lte.Evaluations.DataService.College
         {
             foreach (var eNodebId in container.ENodebIds)
             {
-                var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
-                if (eNodeb==null) continue;
-                await _repository.InsertCollegeENodeb(container.CollegeName, eNodeb.Id);
+                await _repository.InsertAsync(new HotSpotENodebId
+                {
+                    ENodebId = eNodebId,
+                    HotspotType = HotspotType.College,
+                    HotspotName = container.CollegeName
+                });
             }
             return _repository.SaveChanges();
         } 
@@ -50,11 +59,11 @@ namespace Lte.Evaluations.DataService.College
 
     public class CollegeBtssService
     {
-        private readonly IInfrastructureRepository _repository;
+        private readonly IHotSpotBtsRepository _repository;
         private readonly IBtsRepository _btsRepository;
         private readonly ITownRepository _townRepository;
 
-        public CollegeBtssService(IInfrastructureRepository repository, IBtsRepository btsRepository, ITownRepository townRepository)
+        public CollegeBtssService(IHotSpotBtsRepository repository, IBtsRepository btsRepository, ITownRepository townRepository)
         {
             _repository = repository;
             _btsRepository = btsRepository;
@@ -63,8 +72,12 @@ namespace Lte.Evaluations.DataService.College
 
         public IEnumerable<CdmaBtsView> Query(string collegeName)
         {
-            var ids = _repository.GetCollegeInfrastructureIds(collegeName, InfrastructureType.CdmaBts);
-            var btss = ids.Select(_btsRepository.Get).Where(bts => bts != null).ToList();
+            var ids =
+                _repository.GetAllList(
+                    x =>
+                        x.HotspotName == collegeName && x.HotspotType == HotspotType.College &&
+                        x.InfrastructureType == InfrastructureType.CdmaBts);
+            var btss = ids.Select(x => _btsRepository.GetByBtsId(x.BtsId)).Where(bts => bts != null).ToList();
             var views = Mapper.Map<List<CdmaBts>, List<CdmaBtsView>>(btss);
             views.ForEach(x =>
             {
@@ -82,9 +95,12 @@ namespace Lte.Evaluations.DataService.College
         {
             foreach (var btsId in container.BtsIds)
             {
-                var bts = _btsRepository.GetByBtsId(btsId);
-                if (bts == null) continue;
-                await _repository.InsertCollegeBts(container.CollegeName, bts.Id);
+                await _repository.InsertAsync(new HotSpotBtsId
+                {
+                    BtsId = btsId,
+                    HotspotName = container.CollegeName,
+                    HotspotType = HotspotType.College
+                });
             }
             return _repository.SaveChanges();
         }
@@ -92,11 +108,11 @@ namespace Lte.Evaluations.DataService.College
 
     public class CollegeCellsService
     {
-        private readonly IInfrastructureRepository _repository;
+        private readonly IHotSpotCellRepository _repository;
         private readonly ICellRepository _cellRepository;
         private readonly IENodebRepository _eNodebRepository;
 
-        public CollegeCellsService(IInfrastructureRepository repository, ICellRepository cellRepository,
+        public CollegeCellsService(IHotSpotCellRepository repository, ICellRepository cellRepository,
             IENodebRepository eNodebRepository)
         {
             _repository = repository;
@@ -106,8 +122,15 @@ namespace Lte.Evaluations.DataService.College
 
         public IEnumerable<SectorView> Query(string collegeName)
         {
-            var ids = _repository.GetCollegeInfrastructureIds(collegeName, InfrastructureType.Cell);
-            var query = ids.Select(_cellRepository.Get).Where(cell => cell != null).ToList();
+            var ids =
+                _repository.GetAllList(
+                    x =>
+                        x.HotspotName == collegeName && x.HotspotType == HotspotType.College &&
+                        x.InfrastructureType == InfrastructureType.Cell);
+            var query =
+                ids.Select(x => _cellRepository.GetBySectorId(x.ENodebId, x.SectorId))
+                    .Where(cell => cell != null)
+                    .ToList();
             return query.Any()
                 ? Mapper.Map<IEnumerable<CellView>, IEnumerable<SectorView>>(
                     query.Select(x => CellView.ConstructView(x, _eNodebRepository)))
@@ -129,7 +152,13 @@ namespace Lte.Evaluations.DataService.College
                                  where cell != null
                                  select cell)
             {
-                await _repository.InsertHotSpotCell(container.CollegeName, hotSpot.HotspotType, cell.Id);
+                await _repository.InsertAsync(new HotSpotCellId
+                {
+                    ENodebId = cell.ENodebId,
+                    SectorId = cell.SectorId,
+                    HotspotType = HotspotType.College,
+                    HotspotName = container.CollegeName
+                });
             }
             return _repository.SaveChanges();
         }
@@ -137,11 +166,11 @@ namespace Lte.Evaluations.DataService.College
 
     public class CollegeCdmaCellsService
     {
-        private readonly IInfrastructureRepository _repository;
+        private readonly IHotSpotCdmaCellRepository _repository;
         private readonly ICdmaCellRepository _cellRepository;
         private readonly IBtsRepository _btsRepository;
 
-        public CollegeCdmaCellsService(IInfrastructureRepository repository, ICdmaCellRepository cellRepository,
+        public CollegeCdmaCellsService(IHotSpotCdmaCellRepository repository, ICdmaCellRepository cellRepository,
             IBtsRepository btsRepository)
         {
             _repository = repository;
@@ -151,12 +180,43 @@ namespace Lte.Evaluations.DataService.College
 
         public IEnumerable<SectorView> Query(string collegeName)
         {
-            var ids = _repository.GetCollegeInfrastructureIds(collegeName, InfrastructureType.CdmaCell);
-            var query = ids.Select(_cellRepository.Get).Where(cell => cell != null).ToList();
+            var ids =
+                _repository.GetAllList(
+                    x =>
+                        x.HotspotType == HotspotType.College && x.InfrastructureType == InfrastructureType.CdmaCell &&
+                        x.HotspotName == collegeName);
+            var query =
+                ids.Select(x => _cellRepository.GetBySectorId(x.BtsId, x.SectorId)).Where(cell => cell != null).ToList();
             return query.Any()
                 ? Mapper.Map<IEnumerable<CdmaCellView>, IEnumerable<SectorView>>(
                     query.Select(x => CdmaCellView.ConstructView(x, _btsRepository)))
                 : null;
+        }
+
+        public async Task<int> UpdateHotSpotCells(CollegeCellNamesContainer container)
+        {
+            var hotSpot = await _repository.FirstOrDefaultAsync(x => x.HotspotName == container.CollegeName);
+            if (hotSpot == null) return 0;
+            foreach (var cell in from cellName in container.CellNames
+                                 select cellName.GetSplittedFields('-')
+                                 into fields
+                                 where fields.Length > 1
+                                 let bts = _btsRepository.GetByName(fields[0])
+                                 where bts != null
+                                 select _cellRepository.GetBySectorId(bts.BtsId, fields[1].ConvertToByte(0))
+                                 into cell
+                                 where cell != null
+                                 select cell)
+            {
+                await _repository.InsertAsync(new HotSpotCdmaCellId
+                {
+                    BtsId = cell.BtsId,
+                    SectorId = cell.SectorId,
+                    HotspotType = HotspotType.College,
+                    HotspotName = container.CollegeName
+                });
+            }
+            return _repository.SaveChanges();
         }
     }
 

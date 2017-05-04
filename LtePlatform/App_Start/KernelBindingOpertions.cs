@@ -195,6 +195,14 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IDistributionRepository>().To<DistributionRepository>();
 
+            ninjectKernel.Bind<IHotSpotENodebRepository>().To<HotSpotENodebRepository>();
+
+            ninjectKernel.Bind<IHotSpotBtsRepository>().To<HotSpotBtsRepository>();
+
+            ninjectKernel.Bind<IHotSpotCellRepository>().To<HotSpotCellRepository>();
+
+            ninjectKernel.Bind<IHotSpotCdmaCellRepository>().To<HotSpotCdmaCellRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();

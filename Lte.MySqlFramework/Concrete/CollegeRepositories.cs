@@ -85,4 +85,52 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
+    public class HotSpotENodebRepository : EfRepositoryBase<MySqlContext, HotSpotENodebId>, IHotSpotENodebRepository
+    {
+        public HotSpotENodebRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
+    public class HotSpotCellRepository : EfRepositoryBase<MySqlContext, HotSpotCellId>, IHotSpotCellRepository
+    {
+        public HotSpotCellRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
+    public class HotSpotBtsRepository : EfRepositoryBase<MySqlContext, HotSpotBtsId>, IHotSpotBtsRepository
+    {
+        public HotSpotBtsRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
+    public class HotSpotCdmaCellRepository : EfRepositoryBase<MySqlContext, HotSpotCdmaCellId>,
+        IHotSpotCdmaCellRepository
+    {
+        public HotSpotCdmaCellRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
 }

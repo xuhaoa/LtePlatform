@@ -1288,6 +1288,19 @@
             saveCollegeCells: function(container) {
                 return generalHttpService.postApiData('CollegeCellContainer', container);
             },
+            queryCollegeCellSectors: function(collegeName) {
+                return generalHttpService.getApiData('CollegeCellContainer', {
+                    collegeName: collegeName
+                });
+            },
+            saveCollegeCdmaCells: function (container) {
+                return generalHttpService.postApiData('CollegeCdmaCellContainer', container);
+            },
+            queryCollegeCdmaCellSectors: function (collegeName) {
+                return generalHttpService.getApiData('CollegeCdmaCellContainer', {
+                    collegeName: collegeName
+                });
+            },
             saveCollegeENodebs: function(container) {
                 return generalHttpService.postApiData('CollegeENodeb', container);
             },

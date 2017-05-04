@@ -104,7 +104,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string HotspotName { get; set; }
 
-        public InfrastructureType InfrastructureType { get; set; }
+        public InfrastructureType InfrastructureType { get; set; } = InfrastructureType.ENodeb;
         
         public int ENodebId { get; set; }
     }
@@ -115,7 +115,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string HotspotName { get; set; }
 
-        public InfrastructureType InfrastructureType { get; set; }
+        public InfrastructureType InfrastructureType { get; set; } = InfrastructureType.Cell;
 
         public int ENodebId { get; set; }
 
@@ -128,7 +128,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string HotspotName { get; set; }
 
-        public InfrastructureType InfrastructureType { get; set; }
+        public InfrastructureType InfrastructureType { get; set; } = InfrastructureType.CdmaBts;
 
         public int BtsId { get; set; }
     }
@@ -139,7 +139,7 @@ namespace Lte.MySqlFramework.Entities
 
         public string HotspotName { get; set; }
 
-        public InfrastructureType InfrastructureType { get; set; }
+        public InfrastructureType InfrastructureType { get; set; } = InfrastructureType.CdmaCell;
 
         public int BtsId { get; set; }
 
