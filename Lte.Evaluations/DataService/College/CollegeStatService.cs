@@ -22,13 +22,22 @@ namespace Lte.Evaluations.DataService.College
         private readonly ICollegeRepository _repository;
         private readonly IInfrastructureRepository _infrastructureRepository;
         private readonly ICollegeYearRepository _yearRepository;
+        private readonly IHotSpotENodebRepository _eNodebRepository;
+        private readonly IHotSpotCellRepository _cellRepository;
+        private readonly IHotSpotBtsRepository _btsRepository;
+        private readonly IHotSpotCdmaCellRepository _cdmaCellRepository;
 
         public CollegeStatService(ICollegeRepository repository, IInfrastructureRepository infrastructureRepository,
-            ICollegeYearRepository yearRepository)
+            ICollegeYearRepository yearRepository, IHotSpotENodebRepository eNodebRepository, IHotSpotCellRepository cellRepository,
+            IHotSpotBtsRepository btsRepository, IHotSpotCdmaCellRepository cdmaCellRepository)
         {
             _repository = repository;
             _infrastructureRepository = infrastructureRepository;
             _yearRepository = yearRepository;
+            _eNodebRepository = eNodebRepository;
+            _cellRepository = cellRepository;
+            _btsRepository = btsRepository;
+            _cdmaCellRepository = cdmaCellRepository;
         }
         
         public CollegeInfo QueryInfo(int id)
@@ -89,7 +98,7 @@ namespace Lte.Evaluations.DataService.College
             return info == null
                 ? null
                 : new CollegeStat(_repository, info, _yearRepository.GetByCollegeAndYear(id, year),
-                    _infrastructureRepository);
+                    _infrastructureRepository, _eNodebRepository, _cellRepository, _btsRepository, _cdmaCellRepository);
         }
 
         public IEnumerable<CollegeStat> QueryStats(int year)
@@ -97,10 +106,11 @@ namespace Lte.Evaluations.DataService.College
             var infos = _repository.GetAllList();
             return !infos.Any()
                 ? new List<CollegeStat>()
-                : (infos.Select(
+                : infos.Select(
                     x =>
                         new CollegeStat(_repository, x, _yearRepository.GetByCollegeAndYear(x.Id, year),
-                            _infrastructureRepository))).Where(x=>x.ExpectedSubscribers > 0);
+                            _infrastructureRepository, _eNodebRepository, _cellRepository, _btsRepository, _cdmaCellRepository))
+                            .Where(x=>x.ExpectedSubscribers > 0);
         }
 
         public List<CollegeInfo> QueryInfos()

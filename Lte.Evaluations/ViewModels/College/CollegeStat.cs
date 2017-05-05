@@ -8,6 +8,7 @@ using Lte.Parameters.Entities.College;
 using System;
 using System.Runtime.Serialization;
 using Lte.Domain.Common.Wireless;
+using Lte.MySqlFramework.Abstract;
 
 namespace Lte.Evaluations.ViewModels.College
 {
@@ -56,30 +57,39 @@ namespace Lte.Evaluations.ViewModels.College
         public int TotalCdmaIndoors { get; set; }
 
         public CollegeStat(ICollegeRepository repository, CollegeInfo info, CollegeYearInfo yearInfo,
-            IInfrastructureRepository infrastructureRepository)
+            IInfrastructureRepository infrastructureRepository, IHotSpotENodebRepository eNodebRepository,
+            IHotSpotCellRepository cellRepository, IHotSpotBtsRepository btsRepository, 
+            IHotSpotCdmaCellRepository cdmaCellRepository)
         {
-            CollegeRegion region = repository.GetRegion(info.Id);
             Name = info.Name;
             ExpectedSubscribers = yearInfo?.ExpectedSubscribers ?? 0;
-            Area = region?.Area??0;
+            Area = repository.GetRegion(info.Id)?.Area??0;
             Id = info.Id;
             UpdateStats(infrastructureRepository);
+            TotalLteENodebs =
+                eNodebRepository.Count(
+                    x =>
+                        x.HotspotName == Name && x.HotspotType == HotspotType.College &&
+                        x.InfrastructureType == InfrastructureType.ENodeb);
+            TotalLteCells =
+                cellRepository.Count(
+                    x =>
+                        x.HotspotName == Name && x.HotspotType == HotspotType.College &&
+                        x.InfrastructureType == InfrastructureType.Cell);
+            TotalCdmaBts =
+                btsRepository.Count(
+                    x =>
+                        x.HotspotName == Name && x.HotspotType == HotspotType.College &&
+                        x.InfrastructureType == InfrastructureType.CdmaBts);
+            TotalCdmaCells =
+                cdmaCellRepository.Count(
+                    x =>
+                        x.HotspotName == Name && x.HotspotType == HotspotType.College &&
+                        x.InfrastructureType == InfrastructureType.CdmaCell);
         }
 
         private void UpdateStats(IInfrastructureRepository repository)
         {
-            TotalLteENodebs = repository.Count(x => x.HotspotName == Name
-                                                    && x.HotspotType == HotspotType.College
-                                                    && x.InfrastructureType == InfrastructureType.ENodeb);
-            TotalLteCells = repository.Count(x => x.HotspotName == Name
-                                                  && x.HotspotType == HotspotType.College
-                                                  && x.InfrastructureType == InfrastructureType.Cell);
-            TotalCdmaBts = repository.Count(x => x.HotspotName == Name
-                                                 && x.HotspotType == HotspotType.College
-                                                 && x.InfrastructureType == InfrastructureType.CdmaBts);
-            TotalCdmaCells = repository.Count(x => x.HotspotName == Name
-                                                   && x.HotspotType == HotspotType.College
-                                                   && x.InfrastructureType == InfrastructureType.CdmaCell);
             TotalLteIndoors = repository.Count(x => x.HotspotName == Name
                                                     && x.HotspotType == HotspotType.College
                                                     && x.InfrastructureType == InfrastructureType.LteIndoor);
