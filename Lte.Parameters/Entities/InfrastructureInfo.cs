@@ -7,8 +7,10 @@ using Lte.Domain.Common.Wireless;
 
 namespace Lte.Parameters.Entities
 {
+    [AutoMapFrom(typeof(HotSpotView))]
     public class InfrastructureInfo : Entity, IHotSpot
     {
+        [AutoMapPropertyResolve("TypeDescription", typeof(HotSpotView), typeof(HotspotTypeTransform))]
         public HotspotType HotspotType { get; set; }
 
         public string HotspotName { get; set; }

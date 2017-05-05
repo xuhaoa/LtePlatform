@@ -265,16 +265,22 @@ namespace Lte.Evaluations.DataService.College
             _repository = repository;
         }
 
-        public async Task<int> SaveBuildingHotSpot(string name, string typeDescription, string address, string description)
+        public async Task<int> SaveBuildingHotSpot(HotSpotView dto)
         {
-            await _repository.InsertAsync(new InfrastructureInfo
+            var info =
+                _repository.FirstOrDefault(
+                    x => x.HotspotName == dto.HotspotName && x.InfrastructureType == InfrastructureType.HotSpot);
+            if (info == null)
             {
-                HotspotName = name,
-                Address = address,
-                HotspotType = typeDescription.GetEnumType<HotspotType>(),
-                SourceName = description,
-                InfrastructureType = InfrastructureType.HotSpot
-            });
+                info = dto.MapTo<InfrastructureInfo>();
+                info.InfrastructureType = InfrastructureType.HotSpot;
+                await _repository.InsertAsync(info);
+            }
+            else
+            {
+                dto.MapTo(info);
+            }
+            
             return _repository.SaveChanges();
         }
 

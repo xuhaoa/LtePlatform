@@ -55,8 +55,15 @@
 			getMap: function() {
 				return map;
 			},
-			initializeMap: function(tag, zoomLevel) {
-				map = new BMap.Map(tag);
+			initializeMap: function (tag, zoomLevel) {
+				if (map === mapStructure.mainMap) {
+					mapStructure.mainMap = new BMap.Map(tag);
+					map = mapStructure.mainMap;
+				} else {
+					mapStructure.subMap = new BMap.Map(tag);
+					map = mapStructure.subMap;
+				}
+			    
 				map.centerAndZoom(new BMap.Point(113.01, 23.02), zoomLevel);
 				map.setMinZoom(8); //设置地图最小级别
 				map.setMaxZoom(17); //设置地图最大级别
@@ -78,9 +85,7 @@
 				map = mapStructure.mainMap;
 			},
 			addClickListener: function(callback) {
-				map.addEventListener('click', function(e) {
-					callback(e);
-				});
+				map.addEventListener('click', callback);
 			},
 			setCenter: function (distinctIndex) {
 				var lonDictionary = [113.30, 113.15, 113.12, 112.87, 112.88, 113.01];
@@ -963,11 +968,11 @@
 			},
 			showCollegeFlow: function (year) {
 				menuItemService.showGeneralDialog({
-				    templateUrl: '/appViews/College/Test/Flow.html',
+					templateUrl: '/appViews/College/Test/Flow.html',
 					controller: 'college.flow',
 					resolve: {
 						dialogTitle: function () {
-						    return "校园流量分析（" + year + "年）";
+							return "校园流量分析（" + year + "年）";
 						},
 						year: function () {
 							return year;
@@ -1592,11 +1597,11 @@
 		});
 
 		$scope.ok = function () {
-		    $uibModalInstance.close($scope.cell);
+			$uibModalInstance.close($scope.cell);
 		};
 
 		$scope.cancel = function () {
-		    $uibModalInstance.dismiss('cancel');
+			$uibModalInstance.dismiss('cancel');
 		};
 
 	})

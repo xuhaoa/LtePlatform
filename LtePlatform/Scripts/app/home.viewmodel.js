@@ -1055,8 +1055,10 @@
         };
         $scope.addHotSpot = function () {
             customerDialogService.constructHotSpot(function () {
+                baiduMapService.switchMainMap();
+                baiduMapService.clearOverlays();
                 $scope.updateMap();
-            });
+            }, baiduMapService.switchMainMap);
         };
         $scope.updateMap();
     })

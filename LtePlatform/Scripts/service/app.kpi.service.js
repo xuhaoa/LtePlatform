@@ -2418,19 +2418,25 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('hot.spot.dialog', function ($scope, dialogTitle, $uibModalInstance, kpiPreciseService) {
+    .controller('hot.spot.dialog', function ($scope, dialogTitle, $uibModalInstance, kpiPreciseService, baiduMapService) {
         $scope.dialogTitle = dialogTitle;
+        $scope.dto = {
+            longtitute: 112.99,
+            lattitute: 22.98
+        };
+        
         kpiPreciseService.getHotSpotTypeSelection().then(function(result) {
             $scope.spotType = {
                 options: result,
                 selected: result[0]
             };
+            baiduMapService.switchSubMap();
+            baiduMapService.initializeMap("hot-map", 15);
+            baiduMapService.addClickListener(function(e) {
+                $scope.dto.longtitute = e.point.lng;
+                $scope.dto.lattitute = e.point.lat;
+            });
         });
-        $scope.dto = {
-            longtitute: 112.99,
-            lattitute: 23.01
-        };
-        
         $scope.ok = function () {
             $scope.dto.typeDescription = $scope.spotType.selected;
             $uibModalInstance.close($scope.dto);
@@ -2560,8 +2566,8 @@
                     });
                 });
             },
-            constructHotSpot: function (callback) {
-                menuItemService.showGeneralDialogWithAction({
+            constructHotSpot: function (callback, callback2) {
+                menuItemService.showGeneralDialogWithDoubleAction({
                     templateUrl: '/appViews/Parameters/Import/HotSpot.html',
                     controller: 'hot.spot.dialog',
                     resolve: {
@@ -2573,7 +2579,7 @@
                     basicImportService.dumpOneHotSpot(dto).then(function(result) {
                         callback();
                     });
-                });
+                }, callback2);
             },
             manageHotSpotCells: function (hotSpot, callback) {
                 menuItemService.showGeneralDialogWithAction({

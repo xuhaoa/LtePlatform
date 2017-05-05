@@ -363,6 +363,20 @@
                 }, function () {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
+            },
+            showGeneralDialogWithDoubleAction: function (settings, action, action2) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: settings.templateUrl,
+                    controller: settings.controller,
+                    size: settings.size || 'lg',
+                    resolve: settings.resolve
+                });
+                modalInstance.result.then(function (info) {
+                    action(info);
+                }, function () {
+                    action2();
+                });
             }
         };
     })

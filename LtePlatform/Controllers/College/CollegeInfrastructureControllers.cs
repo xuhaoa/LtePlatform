@@ -235,7 +235,7 @@ namespace LtePlatform.Controllers.College
         [ApiParameterDoc("dto", "热点信息")]
         public async Task<int> Post(HotSpotView dto)
         {
-            return await _service.SaveBuildingHotSpot(dto.HotspotName, dto.TypeDescription, dto.Address, dto.SourceName);
+            return await _service.SaveBuildingHotSpot(dto);
         }
 
         [HttpGet]
