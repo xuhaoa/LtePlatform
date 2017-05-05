@@ -139,8 +139,6 @@ namespace Lte.Evaluations.DataService.College
         
         public async Task<int> UpdateHotSpotCells(CollegeCellNamesContainer container)
         {
-            var hotSpot = await _repository.FirstOrDefaultAsync(x => x.HotspotName == container.CollegeName);
-            if (hotSpot == null) return 0;
             foreach (var cell in from cellName in container.CellNames
                                  select cellName.GetSplittedFields('-')
                                  into fields
@@ -195,8 +193,6 @@ namespace Lte.Evaluations.DataService.College
 
         public async Task<int> UpdateHotSpotCells(CollegeCellNamesContainer container)
         {
-            var hotSpot = await _repository.FirstOrDefaultAsync(x => x.HotspotName == container.CollegeName);
-            if (hotSpot == null) return 0;
             foreach (var cell in from cellName in container.CellNames
                                  select cellName.GetSplittedFields('-')
                                  into fields

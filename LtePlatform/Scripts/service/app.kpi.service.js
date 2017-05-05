@@ -3678,10 +3678,24 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('cell.dialog', function ($scope, $uibModalInstance, collegeService, name, dialogTitle) {
+    .controller('cell.dialog', function ($scope, $uibModalInstance, collegeService, collegeDialogService,
+        name, dialogTitle) {
         $scope.dialogTitle = dialogTitle;
-        collegeService.queryCells(name).then(function (result) {
-            $scope.cellList = result;
+        $scope.updateLteCells = function () {
+            collegeService.queryCells(name).then(function (cells) {
+                $scope.cellList = cells;
+            });
+        };
+        $scope.supplementCells = function () {
+            collegeDialogService.supplementENodebCells($scope.eNodebList, $scope.cellList, name, $scope.updateLteCells);
+        };
+        $scope.supplementLonelyCells = function () {
+            collegeDialogService.supplementPositionCells(name, $scope.updateLteCells);
+        };
+
+        $scope.updateLteCells();
+        collegeService.queryENodebs(name).then(function (eNodebs) {
+            $scope.eNodebList = eNodebs;
         });
 
         $scope.ok = function () {
@@ -4180,12 +4194,6 @@
             collegeService.queryCells($scope.collegeName).then(function (cells) {
                 $scope.cellList = cells;
             });
-        };
-        $scope.supplementCells = function () {
-            collegeDialogService.supplementENodebCells($scope.eNodebList, $scope.cellList, $scope.collegeName, $scope.updateLteCells);
-        };
-        $scope.supplementLonelyCells = function() {
-            collegeDialogService.supplementPositionCells($scope.collegeName, $scope.updateLteCells);
         };
         collegeService.queryENodebs($scope.collegeName).then(function (eNodebs) {
             $scope.eNodebList = eNodebs;

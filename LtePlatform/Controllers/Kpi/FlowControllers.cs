@@ -133,7 +133,9 @@ namespace LtePlatform.Controllers.Kpi
                 cells.Select(cell => _service.QueryAverageView(cell.ENodebId, cell.SectorId, begin, end))
                     .Where(view => view != null)
                     .ToList();
-            var result = stats.ArraySum().MapTo<AggregateFlowView>();
+            var result = stats.Any()
+                ? stats.ArraySum().MapTo<AggregateFlowView>()
+                : new AggregateFlowView();
             result.CellCount = stats.Count;
             return result;
         }
@@ -148,8 +150,9 @@ namespace LtePlatform.Controllers.Kpi
         {
             var cells = _collegeCellViewService.GetViews(collegeName);
             var viewList = cells.Select(cell => _service.QueryFlow(cell.ENodebId, cell.SectorId, beginDate, endDate))
-                .Where(views => views != null)
+                .Where(views => views != null && views.Any())
                 .Aggregate((x, y) => x.Concat(y).ToList());
+            if (!viewList.Any()) return new List<FlowView>();
             return viewList.GroupBy(x => x.StatTime).Select(x =>
             {
                 var stat = x.ArraySum();

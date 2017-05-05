@@ -17,8 +17,6 @@
             LTE小区列表
             <div class="badge">{{cellList.length}}</div>
         </div>
-        <button class="btn btn-sm btn-warning" ng-click="supplementCells()">补充小区（根据基站）</button>
-        <button class="btn btn-sm btn-warning" ng-click="supplementLonelyCells()">补充小区（根据位置）</button>
         <div lte-cell-table items="cellList" begin-date="beginDate" end-date="endDate"></div>
     </div>
     <div uib-accordion-group class="panel panel-default">
