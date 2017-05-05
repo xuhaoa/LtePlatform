@@ -478,7 +478,7 @@
 					points.push(p);
 				});
 				var options = {
-					size: BMAP_POINT_SIZE_SMALL,
+					size: BMAP_POINT_SIZE_BIG,
 					shape: BMAP_POINT_SHAPE_CIRCLE,
 					color: color
 				}
@@ -799,6 +799,26 @@
 					}
 				});
 			},
+			showAlarmStationInfo: function (station,beginDate, endDate) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/AlarmStationDetails.html',
+			        controller: 'map.alarmStation.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "告警信息:" + station.StationName;
+			            },
+			            station: function () {
+			                return station;
+			            },
+			            beginDate: function () {
+							return beginDate;
+						},
+						endDate: function() {
+							return endDate;
+						}
+			        }
+			    });
+			},
 			showStationList: function () {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Home/StationListDialog.html',
@@ -809,6 +829,20 @@
 						}
 					}
 				});
+			},
+			showAlarmHistoryList: function (alarmStation) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/AlarmHistoryListDialog.html',
+			        controller: 'map.alarmHistoryList.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "告警历史：" + alarmStation.NetAdminName;
+			            },
+			            alarmStation: function () {
+			                return alarmStation;
+			            }
+			        }
+			    });
 			},
 			showStationEdit: function (stationId) {
 				menuItemService.showGeneralDialog({
@@ -1186,6 +1220,30 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
+    .controller('map.alarmStation.dialog', function ($scope, $uibModalInstance, station, beginDate, endDate, dialogTitle,
+        appFormatService, downSwitchService, parametersDialogService) {
+        $scope.station = station;
+        downSwitchService.getAlarmStationById(station.StationId, 0, 10000).then(function (response) {
+            $scope.alarmStations = response.result;
+        });
+        $scope.showHistory = function (NetAdminId) {
+            parametersDialogService.showAlarmHistoryList(NetAdminId);
+        };
+        $scope.showStationInfo = function () {
+            downSwitchService.getStationById(station.StationId).then(function (result) {               
+                parametersDialogService.showStationInfo(result.result[0],beginDate, endDate);
+			});
+        };
+
+        $scope.dialogTitle = dialogTitle;
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.site);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
 	.controller('map.stationList.dialog', function ($scope, $http, dialogTitle, $uibModalInstance, parametersDialogService,
 		downSwitchService) {
 		$scope.dialogTitle = dialogTitle;
@@ -1296,6 +1354,58 @@
 			});
 		}
 	})
+    .controller('map.alarmHistoryList.dialog', function ($scope, $http, dialogTitle, alarmStation, $uibModalInstance, parametersDialogService,
+		downSwitchService) {
+        $scope.levels = [
+       { value: '', name: '全部' },
+       { value: '0', name: '紧急' },
+       { value: '1', name: '重要' },
+       { value: '2', name: '一般' }
+        ];
+        $scope.alarmStation = alarmStation;
+        $scope.dialogTitle = dialogTitle;
+        $scope.page = 1;
+        $scope.totolPage = 1;
+        $scope.records = 0;
+        $scope.alarmList = new Array();
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        }
+        $scope.search = function () {
+            $scope.page = 1;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.firstPage = function () {
+            $scope.page = 1;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.lastPage = function () {
+            $scope.page = $scope.totolPage;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.prevPage = function () {
+            if ($scope.page != 1)
+                $scope.page--;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.nextPage = function () {
+            if ($scope.page != $scope.totolPage)
+                $scope.page++;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.jumpPage = function (page) {
+            if (page >= $scope.totolPage)
+                page = $scope.totolPage;
+            downSwitchService.getAlarmHistorybyId($scope.alarmStation.NetAdminId, page, 10, $scope.selectLevel.value).then(function (response) {
+                $scope.alarmList = response.result.rows;
+                $scope.totolPage = response.result.total_pages;
+                $scope.page = response.result.curr_page;
+                $scope.records = response.result.records;
+            });
+        }
+
+    })
 	.controller('map.stationEdit.dialog', function ($scope, $http, stationId, dialogTitle, $uibModalInstance) {
 		$scope.dialogTitle = dialogTitle;
 		$scope.station;

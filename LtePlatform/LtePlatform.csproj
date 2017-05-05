@@ -437,6 +437,11 @@
     <Content Include="appViews\Evaluation\Dialog\BuildingInfoBox.html" />
     <Content Include="appViews\Evaluation\Home.html" />
     <Content Include="appViews\HeaderMenu.html" />
+    <Content Include="appViews\Home\Alarm.html" />
+    <Content Include="appViews\Home\AlarmFilter.html" />
+    <Content Include="appViews\Home\AlarmHistoryListDialog.html" />
+    <Content Include="appViews\Home\AlarmSearchMenu.html" />
+    <Content Include="appViews\Home\AlarmStationDetails.html" />
     <Content Include="appViews\Home\ButtonMenu.html" />
     <Content Include="appViews\Home\Complain.html" />
     <Content Include="appViews\Home\DatePopoverInput.html" />
