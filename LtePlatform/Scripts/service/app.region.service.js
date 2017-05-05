@@ -26,6 +26,11 @@
                     key: "OrderPreciseStatPolicy"
                 });
             },
+            getHotSpotTypeSelection: function () {
+                return generalHttpService.getApiData('KpiOptions', {
+                    key: "HotspotType"
+                });
+            },
             queryTopKpis: function(begin, end, topCount, orderSelection) {
                 return generalHttpService.getApiData('PreciseStat', {
                     'begin': begin,

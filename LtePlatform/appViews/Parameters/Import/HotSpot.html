@@ -4,33 +4,48 @@
     </button>
     <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
-<div class="modal-body form-horizontal">
-    <div class="form-group">
-        <label class="col-md-2 control-label">热点类型</label>
-        <div class="col-md-10">
-            <select class="form-control" ng-model="spotType.selected" ng-options="c as c for c in spotType.options"></select>
+<div class="modal-body form-horizontal row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-md-2 control-label">热点类型</label>
+            <div class="col-md-10">
+                <select class="form-control" ng-model="spotType.selected" ng-options="c as c for c in spotType.options"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">经度</label>
+            <div class="col-md-10">
+                <span class="form-control">{{dto.longtitute}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">纬度</label>
+            <div class="col-md-10">
+                <span class="form-control">{{dto.lattitute}}</span>
+            </div>
         </div>
     </div>
-    <form name="signup_form" novalidate class="form-horizontal">
+    
+    <form name="signup_form" novalidate class="form-horizontal col-md-6">
         <div class="form-group">
             <label class="col-md-2 control-label">热点名称</label>
             <div class="col-md-10">
                 <input ng-model="dto.hotSpotName" class="form-control" ng-required="true"
-                       form-field-error="{required: '热点名称是必须填的！'}" />
+                       form-field-error="{required: '热点名称是必须填的！'}"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-2 control-label">热点地址</label>
             <div class="col-md-10">
                 <input ng-model="dto.address" class="form-control" ng-required="true"
-                       form-field-error="{required: '热点地址是必须填的！'}" />
+                       form-field-error="{required: '热点地址是必须填的！'}"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-2 control-label">热点描述</label>
             <div class="col-md-10">
                 <input ng-model="dto.sourceName" class="form-control" ng-required="true"
-                       form-field-error="{required: '热点描述是必须填的！'}" />
+                       form-field-error="{required: '热点描述是必须填的！'}"/>
             </div>
         </div>
     </form>

@@ -2418,12 +2418,19 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller('hot.spot.dialog', function ($scope, dialogTitle, $uibModalInstance) {
+    .controller('hot.spot.dialog', function ($scope, dialogTitle, $uibModalInstance, kpiPreciseService) {
         $scope.dialogTitle = dialogTitle;
-        $scope.spotType = {
-            options: ["楼宇", "校园网", "医院", "商场", "交通枢纽", "其他"],
-            selected: "楼宇"
-        }
+        kpiPreciseService.getHotSpotTypeSelection().then(function(result) {
+            $scope.spotType = {
+                options: result,
+                selected: result[0]
+            };
+        });
+        $scope.dto = {
+            longtitute: 112.99,
+            lattitute: 23.01
+        };
+        
         $scope.ok = function () {
             $scope.dto.typeDescription = $scope.spotType.selected;
             $uibModalInstance.close($scope.dto);
