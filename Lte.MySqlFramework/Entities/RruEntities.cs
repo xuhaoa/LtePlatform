@@ -3,6 +3,7 @@ using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
+using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
 {
@@ -109,8 +110,25 @@ namespace Lte.MySqlFramework.Entities
         public int ENodebId { get; set; }
     }
 
+    public class HotSpotCellExcel
+    {
+        [ExcelColumn("热点类型")]
+        public string HotSpotTypeDescription { get; set; }
+
+        [ExcelColumn("热点名称")]
+        public string HotspotName { get; set; }
+
+        [ExcelColumn("基站编号")]
+        public int ENodebId { get; set; }
+
+        [ExcelColumn("小区编号")]
+        public byte SectorId { get; set; }
+    }
+
+    [AutoMapFrom(typeof(HotSpotCellExcel))]
     public class HotSpotCellId : Entity, IHotSpot, ILteCellQuery
     {
+        [AutoMapPropertyResolve("HotSpotTypeDescription", typeof(HotSpotCellExcel), typeof(HotspotTypeTransform))]
         public HotspotType HotspotType { get; set; }
 
         public string HotspotName { get; set; }

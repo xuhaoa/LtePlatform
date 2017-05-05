@@ -4,6 +4,9 @@ using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using System;
 using System.Collections.Generic;
+using Abp.Extensions;
+using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.MySqlFramework.Concrete
 {
@@ -106,6 +109,12 @@ namespace Lte.MySqlFramework.Concrete
         public int SaveChanges()
         {
             return Context.SaveChanges();
+        }
+
+        public HotSpotCellId Match(HotSpotCellExcel stat)
+        {
+            var type = stat.HotSpotTypeDescription.GetEnumType<HotspotType>();
+            return FirstOrDefault(x => x.HotspotType == type && x.HotspotName == stat.HotspotName);
         }
     }
 

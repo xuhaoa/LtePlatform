@@ -36,7 +36,7 @@ namespace Lte.MySqlFramework.Abstract
         
     }
 
-    public interface IHotSpotCellRepository : IRepository<HotSpotCellId>, ISaveChanges
+    public interface IHotSpotCellRepository : IRepository<HotSpotCellId>, ISaveChanges, IMatchRepository<HotSpotCellId, HotSpotCellExcel>
     {
         
     }

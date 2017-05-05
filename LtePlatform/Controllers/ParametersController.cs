@@ -118,6 +118,18 @@ namespace LtePlatform.Controllers
             return View("BasicImport");
         }
 
+        public ActionResult HotSpotPost()
+        {
+            var hotSpotFile = Request.Files["hotSpot"];
+            if (hotSpotFile != null && hotSpotFile.FileName != "")
+            {
+                var path = hotSpotFile.UploadParametersFile();
+                var count = _basicImportService.ImportHotSpots(path);
+                ViewBag.Message = "共上传热点基础数据记录" + count + "条";
+            }
+            return View("BasicImport");
+        }
+
         [Authorize]
         public ActionResult NeighborImport()
         {

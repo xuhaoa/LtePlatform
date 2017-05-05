@@ -19,10 +19,12 @@ namespace Lte.Evaluations.DataService.Basic
         private readonly ICdmaCellRepository _cdmaCellRepository;
         private readonly IStationDictionaryRepository _stationDictionary;
         private readonly IDistributionRepository _distributionRepository;
+        private readonly IHotSpotCellRepository _hotSpotCellRepository;
 
         public BasicImportService(IENodebRepository eNodebRepository, ICellRepository cellRepository,
             IBtsRepository btsRepository, ICdmaCellRepository cdmaCellRepository, 
-            IStationDictionaryRepository stationDictionary, IDistributionRepository distributionRepository)
+            IStationDictionaryRepository stationDictionary, IDistributionRepository distributionRepository,
+            IHotSpotCellRepository hotSpotCellRepository)
         {
             _eNodebRepository = eNodebRepository;
             _cellRepository = cellRepository;
@@ -30,6 +32,7 @@ namespace Lte.Evaluations.DataService.Basic
             _cdmaCellRepository = cdmaCellRepository;
             _stationDictionary = stationDictionary;
             _distributionRepository = distributionRepository;
+            _hotSpotCellRepository = hotSpotCellRepository;
         }
 
         public static List<ENodebExcel> ENodebExcels { get; set; } = new List<ENodebExcel>();
@@ -70,6 +73,13 @@ namespace Lte.Evaluations.DataService.Basic
             var repo = new ExcelQueryFactory { FileName = path };
             var excels = (from c in repo.Worksheet<IndoorDistributionExcel>("室分总表") select c).ToList();
             return _distributionRepository.Import<IDistributionRepository, DistributionSystem, IndoorDistributionExcel>(excels);
+        }
+
+        public int ImportHotSpots(string path)
+        {
+            var repo = new ExcelQueryFactory { FileName = path };
+            var excels = (from c in repo.Worksheet<HotSpotCellExcel>("基础信息") select c).ToList();
+            return _hotSpotCellRepository.Import<IHotSpotCellRepository, HotSpotCellId, HotSpotCellExcel>(excels);
         }
 
         public IEnumerable<ENodebExcel> GetNewENodebExcels()

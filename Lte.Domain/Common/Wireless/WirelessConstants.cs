@@ -538,7 +538,12 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(HotspotType.ShoppingMall, "商场"),
                     new Tuple<object, string>(HotspotType.TopPrecise, "TOP小区"),
                     new Tuple<object, string>(HotspotType.Transportation, "交通枢纽"),
-                    new Tuple<object, string>(HotspotType.Others, "其他"),       
+                    new Tuple<object, string>(HotspotType.Others, "其他"),    
+                    new Tuple<object, string>(HotspotType.Highway, "高速公路"),  
+                    new Tuple<object, string>(HotspotType.Railway, "高速铁路"),  
+                    new Tuple<object, string>(HotspotType.Railway, "高速铁路"), 
+                    new Tuple<object, string>(HotspotType.Downtown, "高价值区域"),  
+                    new Tuple<object, string>(HotspotType.Subway, "地铁"), 
                 }
             }
         };

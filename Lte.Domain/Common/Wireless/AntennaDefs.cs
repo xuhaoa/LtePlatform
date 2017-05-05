@@ -81,7 +81,11 @@ namespace Lte.Domain.Common.Wireless
         Building,
         Transportation,
         TopPrecise, 
-        Others
+        Others,
+        Highway,
+        Railway,
+        Subway,
+        Downtown
     }
 
     public class HotspotTypeDescriptionTransform : DescriptionTransform<HotspotType>
