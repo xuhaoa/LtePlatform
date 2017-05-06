@@ -73,14 +73,9 @@ namespace Lte.Evaluations.DataService.College
 
         public IEnumerable<CellRruView> GetRruViews(string name)
         {
-            var hotSpot =
-                _repository.FirstOrDefault(
-                    x => x.HotspotName == name && x.InfrastructureType == InfrastructureType.HotSpot);
-            if (hotSpot == null) return new List<CellRruView>();
             var ids = _repository.GetAllList(
                     x =>
-                        x.HotspotType == hotSpot.HotspotType && x.HotspotName == name &&
-                        x.InfrastructureType == InfrastructureType.Cell);
+                        x.HotspotName == name && x.InfrastructureType == InfrastructureType.Cell);
             var query = ids.Select(x => _cellRepository.GetBySectorId(x.ENodebId, x.SectorId)).Where(cell => cell != null).ToList();
             return query.Any()
                 ? query.Select(x => CellRruView.ConstructView(x, _eNodebRepository, _rruRepository))
