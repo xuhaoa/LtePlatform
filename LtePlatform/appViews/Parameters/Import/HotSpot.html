@@ -11,21 +11,21 @@
             <div class="form-group">
                 <label class="col-md-2 control-label">热点名称</label>
                 <div class="col-md-10">
-                    <input ng-model="dto.hotSpotName" class="form-control" ng-required="true"
+                    <input ng-disabled="modify" ng-model="dto.hotspotName" class="form-control" ng-required="true"
                            form-field-error="{required: '热点名称是必须填的！'}" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label">热点地址</label>
                 <div class="col-md-10">
-                    <input ng-model="dto.address" class="form-control" ng-required="true"
+                    <input ng-disabled="modify" ng-model="dto.address" class="form-control" ng-required="true"
                            form-field-error="{required: '热点地址是必须填的！'}" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label">热点描述</label>
                 <div class="col-md-10">
-                    <input ng-model="dto.sourceName" class="form-control" ng-required="true"
+                    <input ng-disabled="modify" ng-model="dto.sourceName" class="form-control" ng-required="true"
                            form-field-error="{required: '热点描述是必须填的！'}" />
                 </div>
             </div>
@@ -41,14 +41,14 @@
             <div class="form-group">
                 <label class="col-md-2 control-label">经度</label>
                 <div class="col-md-10">
-                    <input ng-model="dto.longtitute" class="form-control" ng-required="true"
+                    <input disabled ng-model="dto.longtitute" class="form-control" ng-required="true"
                            form-field-error="{required: '经度是必须填的！'}" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label">纬度</label>
                 <div class="col-md-10">
-                    <input ng-model="dto.lattitute" class="form-control" ng-required="true"
+                    <input disabled ng-model="dto.lattitute" class="form-control" ng-required="true"
                            form-field-error="{required: '纬度是必须填的！'}" />
                 </div>
             </div>

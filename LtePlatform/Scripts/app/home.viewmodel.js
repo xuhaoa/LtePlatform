@@ -1049,7 +1049,13 @@
                         + '<br/>说明:' + item.sourceName, 3);
                     var marker = baiduMapService.generateIconMarker(item.longtitute, item.lattitute,
                         "/Content/Images/Hotmap/site_or.png");
-                    baiduMapService.addOneMarkerToScope(marker, function(stat){}, item);
+                    baiduMapService.addOneMarkerToScope(marker, function(stat) {
+                        customerDialogService.modifyHotSpot(stat, function () {
+                            baiduMapService.switchMainMap();
+                            baiduMapService.clearOverlays();
+                            $scope.updateMap();
+                        }, baiduMapService.switchMainMap);
+                    }, item);
                 });
             });
         };

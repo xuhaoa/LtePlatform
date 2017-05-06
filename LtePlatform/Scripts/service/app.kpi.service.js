@@ -2435,6 +2435,37 @@
             baiduMapService.addClickListener(function(e) {
                 $scope.dto.longtitute = e.point.lng;
                 $scope.dto.lattitute = e.point.lat;
+                baiduMapService.clearOverlays();
+                baiduMapService.addOneMarker(baiduMapService.generateMarker($scope.dto.longtitute, $scope.dto.lattitute));
+            });
+        });
+        $scope.ok = function () {
+            $scope.dto.typeDescription = $scope.spotType.selected;
+            $uibModalInstance.close($scope.dto);
+        };
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('hot.spot.modify', function ($scope, dialogTitle, dto, $uibModalInstance, kpiPreciseService, baiduMapService) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.dto = dto;
+        $scope.modify = true;
+
+        kpiPreciseService.getHotSpotTypeSelection().then(function (result) {
+            $scope.spotType = {
+                options: result,
+                selected: $scope.dto.typeDescription
+            };
+            baiduMapService.switchSubMap();
+            baiduMapService.initializeMap("hot-map", 15);
+            baiduMapService.addOneMarker(baiduMapService.generateMarker($scope.dto.longtitute, $scope.dto.lattitute));
+            baiduMapService.setCellFocus($scope.dto.longtitute, $scope.dto.lattitute);
+            baiduMapService.addClickListener(function (e) {
+                $scope.dto.longtitute = e.point.lng;
+                $scope.dto.lattitute = e.point.lat;
+                baiduMapService.clearOverlays();
+                baiduMapService.addOneMarker(baiduMapService.generateMarker($scope.dto.longtitute, $scope.dto.lattitute));
             });
         });
         $scope.ok = function () {
@@ -2577,6 +2608,24 @@
                     }
                 }, function(dto) {
                     basicImportService.dumpOneHotSpot(dto).then(function(result) {
+                        callback();
+                    });
+                }, callback2);
+            },
+            modifyHotSpot: function (item, callback, callback2) {
+                menuItemService.showGeneralDialogWithDoubleAction({
+                    templateUrl: '/appViews/Parameters/Import/HotSpot.html',
+                    controller: 'hot.spot.modify',
+                    resolve: {
+                        dialogTitle: function () {
+                            return '修改热点信息-' + item.hotspotName;
+                        },
+                        dto: function() {
+                            return item;
+                        }
+                    }
+                }, function (dto) {
+                    basicImportService.dumpOneHotSpot(dto).then(function (result) {
                         callback();
                     });
                 }, callback2);
