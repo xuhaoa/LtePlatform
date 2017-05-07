@@ -126,7 +126,7 @@
                         controller: "menu.college"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Complain.html",
+                        templateUrl: "/appViews/College/Root.html",
                         controller: "home.college"
                     }
                 },
@@ -1175,6 +1175,25 @@
             baiduMapService.setCellFocus(hotSpot.longtitute, hotSpot.lattitute, 13);
         };
         basicImportService.queryHotSpotsByType("高价值区域").then(function (spots) {
+            $scope.hotSpots = spots;
+            $scope.showView($scope.hotSpots[0]);
+        });
+    })
+    .controller("home.college", function ($scope, baiduMapService, collegeQueryService, parametersMapService, collegeService,
+    collegeMapService) {
+        baiduMapService.initializeMap("map", 11);
+        $scope.year = new Date().getYear() + 1900;
+        $scope.showView = function (college) {
+            $scope.currentView = college.name;
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            parametersMapService.showHotSpotCellSectors(college.name, $scope.beginDate, $scope.endDate);
+            collegeService.queryRegion(college.id).then(function(region) {
+                var center = collegeMapService.queryRegionCenter(region);
+                baiduMapService.setCellFocus(center.X, center.Y, 15);
+            });
+        };
+        collegeQueryService.queryAll().then(function (spots) {
             $scope.hotSpots = spots;
             $scope.showView($scope.hotSpots[0]);
         });

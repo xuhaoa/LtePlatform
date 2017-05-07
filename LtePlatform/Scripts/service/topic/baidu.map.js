@@ -588,13 +588,13 @@
 				});
 			},
 			showHotSpotCellSectors: function(hotSpotName, beginDate, endDate) {
-			    collegeQueryService.queryHotSpotSectors(hotSpotName).then(function(sectors) {
-			        baiduQueryService.transformToBaidu(sectors[0].longtitute, sectors[0].lattitute).then(function(coors) {
-			            var xOffset = coors.x - sectors[0].longtitute;
-			            var yOffset = coors.y - sectors[0].lattitute;
-			            showCellSectors(sectors, xOffset, yOffset, beginDate, endDate);
-			        });
-			    });
+				collegeQueryService.queryHotSpotSectors(hotSpotName).then(function(sectors) {
+					baiduQueryService.transformToBaidu(sectors[0].longtitute, sectors[0].lattitute).then(function(coors) {
+						var xOffset = coors.x - sectors[0].longtitute;
+						var yOffset = coors.y - sectors[0].lattitute;
+						showCellSectors(sectors, xOffset, yOffset, beginDate, endDate);
+					});
+				});
 			},
 			showElementsWithGeneralName: function (name, beginDate, endDate) {
 				networkElementService.queryENodebsByGeneralName(name).then(function (eNodebs) {
@@ -1710,6 +1710,16 @@
 						callback(center);
 					});
 				});
+			},
+			queryRegionCenter: function(region) {
+				switch (region.regionType) {
+					case 2:
+						return baiduMapService.getPolygonCenter(region.info.split(';'));
+					case 1:
+						return baiduMapService.getRectangleCenter(region.info.split(';'));
+					default:
+						return baiduMapService.getCircleCenter(region.info.split(';'));
+				}
 			}
 		};
 	});
