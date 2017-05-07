@@ -209,6 +209,19 @@
                     }
                 },
                 url: "/railway"
+            })
+            .state('subway', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.analysis"
+                    },
+                    "contents": {
+                        templateUrl: '/appViews/Evaluation/Subway.html',
+                        controller: "analysis.subway"
+                    }
+                },
+                url: "/subway"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -1092,6 +1105,20 @@
             baiduMapService.setCellFocus(hotSpot.longtitute, hotSpot.lattitute, 13);
         };
         basicImportService.queryHotSpotsByType("高速铁路").then(function (spots) {
+            $scope.hotSpots = spots;
+            $scope.showView($scope.hotSpots[0]);
+        });
+    })
+    .controller("analysis.subway", function ($scope, baiduMapService, basicImportService, parametersMapService) {
+        baiduMapService.initializeMap("map", 11);
+        $scope.showView = function (hotSpot) {
+            $scope.currentView = hotSpot.hotspotName;
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            parametersMapService.showHotSpotCellSectors(hotSpot.hotspotName, $scope.beginDate, $scope.endDate);
+            baiduMapService.setCellFocus(hotSpot.longtitute, hotSpot.lattitute, 13);
+        };
+        basicImportService.queryHotSpotsByType("地铁").then(function (spots) {
             $scope.hotSpots = spots;
             $scope.showView($scope.hotSpots[0]);
         });
