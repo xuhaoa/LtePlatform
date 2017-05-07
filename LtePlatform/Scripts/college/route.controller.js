@@ -230,15 +230,7 @@
         baiduMapService.initializeMap("all-map", 15);
 
         collegeQueryService.queryByName($scope.collegeName).then(function(college) {
-            collegeMapService.drawCollegeArea(college.id, function (center) {
-                baiduQueryService.transformToBaidu(center.X, center.Y).then(function (coors) {
-                    $scope.center = {
-                        X: 2 * center.X - coors.x,
-                        Y: 2 * center.Y - coors.y,
-                        points: center.points
-                    };
-                });
-            });
+            
         });
 
         switch ($stateParams.type) {

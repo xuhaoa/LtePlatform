@@ -411,7 +411,6 @@
     <Content Include="appViews\College\Table\CdmaCellBasicInfo.html" />
     <Content Include="appViews\College\Table\CdmaCellInfoBox.html" />
     <Content Include="appViews\College\Table\CollegeCellBasicInfo.html" />
-    <Content Include="appViews\College\Table\CollegeCellInfoBox.html" />
     <Content Include="appViews\College\Test\CollegeFlow.html" />
     <Content Include="appViews\College\Test\Flow.html" />
     <Content Include="appViews\College\Test\Planning.html" />

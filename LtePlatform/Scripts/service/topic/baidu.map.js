@@ -894,27 +894,6 @@
 					}
 				});
 			},
-			showCollegeCellInfo: function (cell) {
-				var modalInstance = $uibModal.open({
-					animation: true,
-					templateUrl: '/appViews/College/Table/CollegeCellInfoBox.html',
-					controller: 'college.cell.dialog',
-					size: 'sm',
-					resolve: {
-						dialogTitle: function () {
-							return cell.eNodebName + "-" + cell.sectorId + "小区信息";
-						},
-						cell: function () {
-							return cell;
-						}
-					}
-				});
-				modalInstance.result.then(function (nei) {
-					console.log(nei);
-				}, function () {
-					$log.info('Modal dismissed at: ' + new Date());
-				});
-			},
 			showCdmaCellInfo: function (cell) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Parameters/Map/CdmaCellInfoBox.html',
@@ -1483,32 +1462,6 @@
 		}
 	})
 
-	.controller('college.cell.dialog', function($scope, $uibModalInstance, intraFreqHoService, interFreqHoService,
-		cell, dialogTitle) {
-		$scope.cell = cell;
-		$scope.dialogTitle = dialogTitle;
-		$scope.parameter = {
-			options: [
-				'基本参数', '同频切换', 'A1异频切换',
-				'A2异频切换', 'A3异频切换', 'A4异频切换', 'A5异频切换'
-			],
-			selected: '基本参数'
-		};
-		$scope.eNodebId = cell.eNodebId;
-		$scope.sectorId = cell.sectorId;
-
-		$scope.ok = function() {
-			$uibModalInstance.close($scope.cell);
-		};
-
-		$scope.cancel = function() {
-			$uibModalInstance.dismiss('cancel');
-		};
-
-		interFreqHoService.queryCellParameters(cell.eNodebId, cell.sectorId).then(function(result) {
-			$scope.interFreqHo = result;
-		});
-	})
 	.controller("maintain.college.dialog", function ($scope, $uibModalInstance, dialogTitle, year,
 		collegeService, collegeQueryService, collegeDialogService, appFormatService) {
 		$scope.dialogTitle = dialogTitle;
