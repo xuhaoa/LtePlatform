@@ -434,6 +434,7 @@
     <Content Include="appViews\Customer\VipList.html" />
     <Content Include="appViews\Evaluation\Dialog\BuildingInfoBox.html" />
     <Content Include="appViews\Evaluation\Highway.html" />
+    <Content Include="appViews\Evaluation\Railway.html" />
     <Content Include="appViews\HeaderMenu.html" />
     <Content Include="appViews\Home\Analysis.html" />
     <Content Include="appViews\Home\ButtonMenu.html" />
