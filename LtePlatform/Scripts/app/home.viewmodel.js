@@ -1055,14 +1055,18 @@
             }
         });
     })
-    .controller("analysis.highway", function ($scope, baiduMapService, basicImportService) {
+    .controller("analysis.highway", function ($scope, baiduMapService, basicImportService, parametersMapService) {
         baiduMapService.initializeMap("map", 11);
-        baiduMapService.addCityBoundary("佛山");
-        $scope.showView = function(hotSpot) {
-            console.log(hotSpot);
+        $scope.showView = function (hotSpot) {
+            $scope.currentView = hotSpot.hotspotName;
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            parametersMapService.showHotSpotCellSectors(hotSpot.hotspotName, $scope.beginDate, $scope.endDate);
+            baiduMapService.setCellFocus(hotSpot.longtitute, hotSpot.lattitute, 13);
         };
         basicImportService.queryHotSpotsByType("高速公路").then(function(spots) {
             $scope.hotSpots = spots;
+            $scope.showView($scope.hotSpots[0]);
         });
     })
 

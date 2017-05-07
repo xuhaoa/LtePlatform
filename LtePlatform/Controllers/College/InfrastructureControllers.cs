@@ -77,7 +77,7 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("校园网LTE小区列表")]
         public IEnumerable<CellRruView> Get(string collegeName)
         {
-            return _viewService.GetViews(collegeName);
+            return _viewService.GetCollegeViews(collegeName);
         }
     }
 
@@ -97,7 +97,27 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("热点LTE小区列表")]
         public IEnumerable<CellRruView> Get(string name)
         {
-            return _viewService.GetRruViews(name);
+            return _viewService.GetHotSpotViews(name);
+        }
+    }
+
+    [ApiControl("查询热点LTE扇区的控制器")]
+    public class HotSpotSectorsController : ApiController
+    {
+        private readonly CollegeCellViewService _viewService;
+
+        public HotSpotSectorsController(CollegeCellViewService viewService)
+        {
+            _viewService = viewService;
+        }
+
+        [HttpGet]
+        [ApiDoc("查询热点LTE小区")]
+        [ApiParameterDoc("name", "热点名称")]
+        [ApiResponse("热点LTE小区列表")]
+        public IEnumerable<SectorView> Get(string name)
+        {
+            return _viewService.QueryHotSpotSectors(name);
         }
     }
 
@@ -117,7 +137,7 @@ namespace LtePlatform.Controllers.College
         [ApiResponse("热点LTE小区列表")]
         public IEnumerable<SectorView> Get(string collegeName)
         {
-            return _service.Query(collegeName);
+            return _service.QueryCollegeSectors(collegeName);
         }
 
         [HttpPost]

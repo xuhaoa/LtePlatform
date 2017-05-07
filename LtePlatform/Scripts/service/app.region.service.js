@@ -1303,6 +1303,11 @@
                     collegeName: collegeName
                 });
             },
+            queryHotSpotSectors: function (name) {
+                return generalHttpService.getApiData('HotSpotSectors', {
+                    name: name
+                });
+            },
             saveCollegeCdmaCells: function (container) {
                 return generalHttpService.postApiData('CollegeCdmaCellContainer', container);
             },

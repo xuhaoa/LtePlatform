@@ -125,7 +125,7 @@ namespace Lte.Evaluations.DataService.College
             _rruRepository = rruRepository;
         }
 
-        public IEnumerable<CellRruView> GetViews(string collegeName)
+        public IEnumerable<CellRruView> GetCollegeViews(string collegeName)
         {
             var ids =
                 _repository.GetAllList(
@@ -141,7 +141,7 @@ namespace Lte.Evaluations.DataService.College
                 : new List<CellRruView>();
         }
 
-        public IEnumerable<CellRruView> GetRruViews(string name)
+        public IEnumerable<CellRruView> GetHotSpotViews(string name)
         {
             var ids = _repository.GetAllList(
                     x =>
@@ -152,13 +152,28 @@ namespace Lte.Evaluations.DataService.College
                 : new List<CellRruView>();
         }
 
-        public IEnumerable<SectorView> Query(string collegeName)
+        public IEnumerable<SectorView> QueryCollegeSectors(string collegeName)
         {
             var ids =
                 _repository.GetAllList(
                     x =>
                         x.HotspotName == collegeName && x.HotspotType == HotspotType.College &&
                         x.InfrastructureType == InfrastructureType.Cell);
+            var query =
+                ids.Select(x => _cellRepository.GetBySectorId(x.ENodebId, x.SectorId))
+                    .Where(cell => cell != null)
+                    .ToList();
+            return query.Any()
+                ? Mapper.Map<IEnumerable<CellView>, IEnumerable<SectorView>>(
+                    query.Select(x => CellView.ConstructView(x, _eNodebRepository)))
+                : null;
+        }
+
+        public IEnumerable<SectorView> QueryHotSpotSectors(string name)
+        {
+            var ids =
+                _repository.GetAllList(
+                    x => x.HotspotName == name && x.InfrastructureType == InfrastructureType.Cell);
             var query =
                 ids.Select(x => _cellRepository.GetBySectorId(x.ENodebId, x.SectorId))
                     .Where(cell => cell != null)

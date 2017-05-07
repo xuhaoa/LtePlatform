@@ -63,7 +63,7 @@
 					mapStructure.subMap = new BMap.Map(tag);
 					map = mapStructure.subMap;
 				}
-			    
+				
 				map.centerAndZoom(new BMap.Point(113.01, 23.02), zoomLevel);
 				map.setMinZoom(8); //设置地图最小级别
 				map.setMaxZoom(17); //设置地图最大级别
@@ -510,7 +510,17 @@
 		};
 	})
 	.factory('parametersMapService', function (baiduMapService, networkElementService, baiduQueryService, parametersDialogService,
-		neGeometryService) {
+		neGeometryService, collegeQueryService) {
+		var showCellSectors = function(cells, xOffset, yOffset, beginDate, endDate) {
+			angular.forEach(cells, function (cell) {
+				cell.longtitute += xOffset;
+				cell.lattitute += yOffset;
+				var cellSector = baiduMapService.generateSector(cell);
+				baiduMapService.addOneSectorToScope(cellSector, function (item) {
+					parametersDialogService.showCellInfo(item, beginDate, endDate);
+				}, cell);
+			});
+		};
 		var showENodebsElements = function (eNodebs, beginDate, endDate, shouldShowCells) {
 			baiduQueryService.transformToBaidu(eNodebs[0].longtitute, eNodebs[0].lattitute).then(function (coors) {
 				var xOffset = coors.x - eNodebs[0].longtitute;
@@ -525,14 +535,7 @@
 					}, eNodeb);
 					if (shouldShowCells) {
 						networkElementService.queryCellInfosInOneENodeb(eNodeb.eNodebId).then(function(cells) {
-							angular.forEach(cells, function(cell) {
-								cell.longtitute += xOffset;
-								cell.lattitute += yOffset;
-								var cellSector = baiduMapService.generateSector(cell);
-								baiduMapService.addOneSectorToScope(cellSector, function(item) {
-									parametersDialogService.showCellInfo(item, beginDate, endDate);
-								}, cell);
-							});
+							showCellSectors(cells, xOffset, yOffset, beginDate, endDate);
 						});
 					}
 
@@ -583,6 +586,15 @@
 				networkElementService.queryENodebsInOneTown(city, district, town).then(function (eNodebs) {
 					showENodebsElements(eNodebs, beginDate, endDate, true);
 				});
+			},
+			showHotSpotCellSectors: function(hotSpotName, beginDate, endDate) {
+			    collegeQueryService.queryHotSpotSectors(hotSpotName).then(function(sectors) {
+			        baiduQueryService.transformToBaidu(sectors[0].longtitute, sectors[0].lattitute).then(function(coors) {
+			            var xOffset = coors.x - sectors[0].longtitute;
+			            var yOffset = coors.y - sectors[0].lattitute;
+			            showCellSectors(sectors, xOffset, yOffset, beginDate, endDate);
+			        });
+			    });
 			},
 			showElementsWithGeneralName: function (name, beginDate, endDate) {
 				networkElementService.queryENodebsByGeneralName(name).then(function (eNodebs) {
