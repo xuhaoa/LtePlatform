@@ -156,7 +156,6 @@
     })
     .controller('header.menu', function ($scope, appUrlService) {
         $scope.interferenceUrl = appUrlService.getInterferenceHost();
-        $scope.complainUrl = appUrlService.getCustomerHost() + 'IndexOfComplaints.aspx';
         $scope.emergencyUrl = appUrlService.getCustomerHost() + 'IndexOfEmerCom.aspx';
         $scope.repeaterUrl = appUrlService.getCustomerHost() + 'IndexOfMicro.aspx';
         $scope.marketUrl = appUrlService.getCustomerHost() + 'IndexOfTelJobs.aspx';

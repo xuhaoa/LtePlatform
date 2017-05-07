@@ -119,6 +119,19 @@
                 },
                 url: "/complain"
             })
+            .state('college', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.college"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Complain.html",
+                        controller: "home.college"
+                    }
+                },
+                url: "/college"
+            })
             .state('mr', {
                 views: {
                     'menu': {
@@ -222,6 +235,19 @@
                     }
                 },
                 url: "/subway"
+            })
+            .state('highvalue', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.analysis"
+                    },
+                    "contents": {
+                        templateUrl: '/appViews/Evaluation/HighValue.html',
+                        controller: "analysis.highvalue"
+                    }
+                },
+                url: "/highvalue"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -367,17 +393,33 @@
             ]
         };
     })
-    .controller('menu.complain', function ($scope) {
+
+    .controller('menu.complain', function ($scope, appUrlService) {
         $scope.menuItem = {
             displayName: "投诉管理",
             subItems: [
                 {
                     displayName: "统计分析",
-                    url: '/#/complain/stat'
+                    url: '/#/complain'
+                }, {
+                    displayName: "在线支撑",
+                    url: appUrlService.getCustomerHost() + 'IndexOfComplaints.aspx'
                 }
             ]
         };
     })
+    .controller('menu.college', function ($scope) {
+        $scope.menuItem = {
+            displayName: "校园网专题",
+            subItems: [
+                {
+                    displayName: "小区分布",
+                    url: '/#/college'
+                }
+            ]
+        };
+    })
+
     .controller('menu.kpi', function($scope, appUrlService) {
         $scope.menuItem = {
             displayName: "指标优化",
@@ -1119,6 +1161,20 @@
             baiduMapService.setCellFocus(hotSpot.longtitute, hotSpot.lattitute, 13);
         };
         basicImportService.queryHotSpotsByType("地铁").then(function (spots) {
+            $scope.hotSpots = spots;
+            $scope.showView($scope.hotSpots[0]);
+        });
+    })
+    .controller("analysis.highvalue", function ($scope, baiduMapService, basicImportService, parametersMapService) {
+        baiduMapService.initializeMap("map", 11);
+        $scope.showView = function (hotSpot) {
+            $scope.currentView = hotSpot.hotspotName;
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            parametersMapService.showHotSpotCellSectors(hotSpot.hotspotName, $scope.beginDate, $scope.endDate);
+            baiduMapService.setCellFocus(hotSpot.longtitute, hotSpot.lattitute, 13);
+        };
+        basicImportService.queryHotSpotsByType("高价值区域").then(function (spots) {
             $scope.hotSpots = spots;
             $scope.showView($scope.hotSpots[0]);
         });

@@ -433,6 +433,7 @@
     <Content Include="appViews\Customer\Process\Vip.html" />
     <Content Include="appViews\Customer\VipList.html" />
     <Content Include="appViews\Evaluation\Dialog\BuildingInfoBox.html" />
+    <Content Include="appViews\Evaluation\HighValue.html" />
     <Content Include="appViews\Evaluation\Highway.html" />
     <Content Include="appViews\Evaluation\Railway.html" />
     <Content Include="appViews\Evaluation\Subway.html" />
