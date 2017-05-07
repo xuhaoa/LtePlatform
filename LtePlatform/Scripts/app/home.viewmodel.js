@@ -183,6 +183,19 @@
                     }
                 },
                 url: "/collegeMap"
+            })
+            .state('highway', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.analysis"
+                    },
+                    "contents": {
+                        templateUrl: '/appViews/Evaluation/Highway.html',
+                        controller: "analysis.highway"
+                    }
+                },
+                url: "/highway"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -412,6 +425,18 @@
                 }, {
                     displayName: "校园网地图",
                     url: rootUrl + "/collegeMap"
+                }, {
+                    displayName: "高速专题",
+                    url: rootUrl + "/highway"
+                }, {
+                    displayName: "高铁专题",
+                    url: rootUrl + "/railway"
+                }, {
+                    displayName: "地铁专题",
+                    url: rootUrl + "/subway"
+                }, {
+                    displayName: "高价值区域",
+                    url: rootUrl + "/highvalue"
                 }
             ]
         }
@@ -1028,6 +1053,16 @@
             if (year > 0) {
                 $scope.displayCollegeMap();
             }
+        });
+    })
+    .controller("analysis.highway", function ($scope, baiduMapService, basicImportService) {
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
+        $scope.showView = function(hotSpot) {
+            console.log(hotSpot);
+        };
+        basicImportService.queryHotSpotsByType("高速公路").then(function(spots) {
+            $scope.hotSpots = spots;
         });
     })
 

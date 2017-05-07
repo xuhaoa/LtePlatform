@@ -109,7 +109,6 @@
     <Compile Include="DataService\Kpi\CdmaRegionStatService.cs" />
     <Compile Include="DataService\Basic\CellService.cs" />
     <Compile Include="DataService\College\CollegeTestService.cs" />
-    <Compile Include="DataService\College\ParameterServices.cs" />
     <Compile Include="DataService\College\InfrastructureServices.cs" />
     <Compile Include="DataService\College\CollegeStatService.cs" />
     <Compile Include="DataService\Dump\BtsDumpService.cs" />

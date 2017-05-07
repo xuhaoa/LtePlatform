@@ -399,6 +399,11 @@
             queryAllHotSpots: function() {
                 return generalHttpService.getApiData('HotSpot', {});
             },
+            queryHotSpotsByType: function (type) {
+                return generalHttpService.getApiData('HotSpot', {
+                    type: type
+                });
+            },
             queryHotSpotCells: function(name) {
                 return generalHttpService.getApiData('LteRruCell', {
                     rruName: name

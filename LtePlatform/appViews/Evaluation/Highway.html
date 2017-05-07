@@ -1,20 +1,20 @@
 ﻿<div class="btn-group-sm col-md-4" uib-dropdown dropdown-append-to-body>
     <button id="single-button" type="button" class="btn btn-sm btn-default"
             uib-dropdown-toggle ng-disabled="disabled">
-        <strong>室内分布</strong>
+        <strong>高速专题</strong>
         <span class="caret"></span>
     </button>
     <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
         <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="query()">
+            <a class="btn btn-sm btn-success" ng-click="showFlow()">
                 <i class="glyphicon glyphicon-flag"></i>
-                信源统计
+                流量分布
             </a>
         </li>
         <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="addHotSpot()">
+            <a class="btn btn-sm btn-success" ng-click="showFlowTrend()">
                 <i class="glyphicon glyphicon-apple"></i>
-                类别统计
+                流量趋势
             </a>
         </li>
         <li role="menuitem">
@@ -39,16 +39,10 @@
         <span class="caret"></span>
     </button>
     <ul uib-dropdown-menu role="menu" aria-labelledby="view-button">
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showSourceDistributions()">
+        <li role="menuitem" ng-repeat="hotSpot in hotSpots">
+            <a class="btn btn-sm btn-default" ng-click="showView(hotSpot)">
                 <i class="glyphicon glyphicon-flag"></i>
-                信源类别
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showScaleDistributions()">
-                <i class="glyphicon glyphicon-flag"></i>
-                规模
+                {{hotSpot.hotspotName}}小区分布
             </a>
         </li>
     </ul>

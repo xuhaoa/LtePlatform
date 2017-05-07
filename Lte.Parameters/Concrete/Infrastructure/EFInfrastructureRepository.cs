@@ -34,12 +34,7 @@ namespace Lte.Parameters.Concrete.Infrastructure
         {
             return GetAll().Where(x => x.HotspotType == HotspotType.TopPrecise).ToList();
         }
-
-        public List<InfrastructureInfo> GetAllHotSpots()
-        {
-            return GetAll().Where(x => x.InfrastructureType == InfrastructureType.HotSpot).ToList();
-        }
-
+        
         public async Task InsertHotSpotCell(string hotSpotName, HotspotType hotspotType, int id)
         {
             var infrastructure = FirstOrDefault(x =>

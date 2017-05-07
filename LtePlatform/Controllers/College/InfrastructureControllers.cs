@@ -104,9 +104,9 @@ namespace LtePlatform.Controllers.College
     [ApiControl("校园网/热点小区批量更新控制器")]
     public class CollegeCellContainerController : ApiController
     {
-        private readonly CollegeCellsService _service;
+        private readonly CollegeCellViewService _service;
 
-        public CollegeCellContainerController(CollegeCellsService serive)
+        public CollegeCellContainerController(CollegeCellViewService serive)
         {
             _service = serive;
         }
@@ -152,9 +152,9 @@ namespace LtePlatform.Controllers.College
     [ApiControl("校园网/热点小区批量更新控制器")]
     public class CollegeCdmaCellContainerController : ApiController
     {
-        private readonly CollegeCdmaCellsService _service;
+        private readonly CollegeCdmaCellViewService _service;
 
-        public CollegeCdmaCellContainerController(CollegeCdmaCellsService serive)
+        public CollegeCdmaCellContainerController(CollegeCdmaCellViewService serive)
         {
             _service = serive;
         }
@@ -244,6 +244,15 @@ namespace LtePlatform.Controllers.College
         public IEnumerable<HotSpotView> Get()
         {
             return _service.QueryHotSpotViews();
+        }
+
+        [HttpGet]
+        [ApiDoc("查询热点信息")]
+        [ApiParameterDoc("type", "热点类型描述")]
+        [ApiResponse("热点信息")]
+        public IEnumerable<HotSpotView> Get(string type)
+        {
+            return _service.QueryHotSpotViews(type);
         }
     }
 }

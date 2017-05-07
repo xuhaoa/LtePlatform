@@ -54,7 +54,7 @@
         });
     })
     .controller("hotSpot.flow", function ($scope, $uibModalInstance, hotSpot, beginDate, endDate,
-        basicImportService, appKpiService, kpiChartService) {
+        complainService, appKpiService, kpiChartService) {
         $scope.eNodebName = hotSpot.hotspotName;
         $scope.flowStats = [];
         $scope.mergeStats = [];
@@ -74,7 +74,7 @@
             $uibModalInstance.dismiss('cancel');
         };
 
-        basicImportService.queryHotSpotCells(hotSpot.hotspotName).then(function (result) {
+        complainService.queryHotSpotCells(hotSpot.hotspotName).then(function (result) {
             $scope.cellList = result;
             $scope.queryFlow();
         });

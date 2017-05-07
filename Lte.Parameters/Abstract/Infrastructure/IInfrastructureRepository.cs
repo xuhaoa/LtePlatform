@@ -16,9 +16,7 @@ namespace Lte.Parameters.Abstract.Infrastructure
         InfrastructureInfo GetTopPreciseMonitor(int id);
 
         List<InfrastructureInfo> GetAllPreciseMonitor();
-
-        List<InfrastructureInfo> GetAllHotSpots();
-
+        
         Task InsertHotSpotCell(string hotSpotName, HotspotType hotspotType, int id);
 
         Task InsertCollegeENodeb(string collegeName, int id);
