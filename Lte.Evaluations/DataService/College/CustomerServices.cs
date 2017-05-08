@@ -386,14 +386,11 @@ namespace Lte.Evaluations.DataService.College
     {
         private readonly IComplainItemRepository _repository;
         private readonly ITownRepository _townRepository;
-        private readonly IComplainProcessRepository _processRepository;
 
-        public ComplainService(IComplainItemRepository repository, ITownRepository townRepository,
-            IComplainProcessRepository processRepository)
+        public ComplainService(IComplainItemRepository repository, ITownRepository townRepository)
         {
             _repository = repository;
             _townRepository = townRepository;
-            _processRepository = processRepository;
         }
 
         public IEnumerable<ComplainPositionDto> QueryPositionDtos(DateTime begin, DateTime end)

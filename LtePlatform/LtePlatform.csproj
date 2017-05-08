@@ -282,8 +282,6 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\UserContextConfiguration.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Areas\CustomerPage\Controllers\CustomerController.cs" />
-    <Compile Include="Areas\CustomerPage\CustomerPageAreaRegistration.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
     <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
@@ -315,13 +313,11 @@
     <Compile Include="Controllers\Account\UserContextController.cs" />
     <Compile Include="Controllers\AdminitrativeRegion\CityListController.cs" />
     <Compile Include="Controllers\AdminitrativeRegion\RegionStatsController.cs" />
-    <Compile Include="Controllers\CollegeController.cs" />
     <Compile Include="Controllers\College\CollegeTestControllers.cs" />
     <Compile Include="Controllers\College\InfrastructureControllers.cs" />
     <Compile Include="Controllers\College\CollegeKpiController.cs" />
     <Compile Include="Controllers\College\CollegeQueryController.cs" />
     <Compile Include="Controllers\College\CustomerControllers.cs" />
-    <Compile Include="Controllers\DtController.cs" />
     <Compile Include="Controllers\Dt\RecordControllers.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JasmineController.cs" />
@@ -1732,11 +1728,8 @@
     <Content Include="appViews\Test\Angular\RootProperty.html" />
     <Content Include="appViews\Test\Angular\Chapter9Ari.html" />
     <Content Include="appViews\Test\Chapter10\demo.dateparser.html" />
-    <Content Include="Areas\CustomerPage\Views\web.config" />
-    <None Include="Areas\CustomerPage\Views\Customer\Index.cshtml" />
     <Content Include="Areas\HelpPage\Web.config" />
     <Content Include="Areas\HelpPage\_ViewStart.cshtml" />
-    <Content Include="Areas\CustomerPage\Views\_ViewStart.cshtml" />
     <None Include="Areas\TestPage\Views\AngularTest\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Lte-ftp-219.pubxml" />
     <None Include="Properties\PublishProfiles\Lte2.pubxml" />
@@ -1842,24 +1835,16 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\College\Map.cshtml" />
     <Content Include="Scripts\service\topic\baidu.map.js" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Views\Jasmine\SpecRunner.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
-    <None Include="Views\Parameters\List.cshtml" />
-    <Content Include="Views\Dt\List.cshtml" />
-    <Content Include="Views\Kpi\WorkItem.cshtml" />
     <Content Include="Views\Kpi\Import.cshtml" />
     <Content Include="appViews\BasicKpi\Index.html" />
     <Content Include="appViews\College\CollegeMenu.html" />
     <Content Include="appViews\College\Test\Construct3GTest.html" />
     <Content Include="appViews\College\Test\Construct4GTest.html" />
-    <Content Include="Views\College\_KpiReport.cshtml" />
-    <Content Include="Views\College\_EditKpi.cshtml" />
-    <Content Include="Views\College\_PreciseKpi.cshtml" />
-    <Content Include="Views\Dt\_List.cshtml" />
     <Content Include="appViews\College\Table\CollegeMapInfoBox.html" />
     <Content Include="appViews\Rutrace\Map\PreciseSectorMapInfoBox.html" />
     <Content Include="appViews\College\Table\DistributionMapInfoBox.html" />
@@ -1895,8 +1880,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\CustomerPage\Models\" />
-    <Folder Include="Areas\CustomerPage\Views\Shared\" />
     <Folder Include="Areas\HelpPage\Views\Shared\" />
     <Folder Include="Areas\TestPage\Views\Shared\" />
   </ItemGroup>

@@ -28,12 +28,7 @@ namespace LtePlatform.Controllers
             _neighborService = neighborService;
             _flowService = flowService;
         }
-
-        public ActionResult List()
-        {
-            return View();
-        }
-
+        
         public ActionResult AlarmImport()
         {
             return View();

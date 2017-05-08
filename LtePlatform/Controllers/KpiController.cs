@@ -27,11 +27,6 @@ namespace LtePlatform.Controllers
             _workItemService = workItemService;
         }
         
-        public ActionResult WorkItem()
-        {
-            return View();
-        }
-        
         [Authorize]
         public ActionResult Import()
         {

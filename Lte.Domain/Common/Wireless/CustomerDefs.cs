@@ -266,7 +266,7 @@ namespace Lte.Domain.Common.Wireless
 
     public class CustomerTypeTransform : EnumTransform<CustomerType>
     {
-        public CustomerTypeTransform(CustomerType defaultEnum) : base(defaultEnum)
+        public CustomerTypeTransform() : base(CustomerType.Unknown)
         {
         }
     }
