@@ -622,6 +622,60 @@
                     }
                 ];
             },
+            generateSiteDetailsGroups: function (site) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '天线类型',
+                                value: site.antennaType
+                            }, {
+                                key: '完工日期',
+                                value: site.completeDate
+                            }, {
+                                key: '合同签订日期',
+                                value: site.contractDate
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '是否获取',
+                                value: site.isGotton ?  '已获取' : '未获取'
+                            }, {
+                                key: '受阻说明',
+                                value: site.shouzuShuoming
+                            }, {
+                                key: '站点类型',
+                                value: site.siteCategory
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '站点来源',
+                                value: site.siteSource
+                            }, {
+                                key: '铁塔联系人',
+                                value: site.towerContaction
+                            }, {
+                                key: '铁塔盖章方案',
+                                value: site.towerScheme
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '铁塔规划需求名',
+                                value: site.towerSiteName
+                            }, {
+                                key: '验收交付时间',
+                                value: site.yanshouDate
+                            }
+                        ]
+                    }
+                ];
+            },
             generateStationGroups: function(station) {
                 return [
                     {

@@ -5,6 +5,17 @@
 <div class="modal-body form-horizontal">
     <div plan-site-details item-groups="itemGroups"></div>
 </div>
+<div uib-tabset active="active">
+    <div uib-tab index="0" heading="详细信息">
+        <div plan-site-details item-groups="detailsGroups"></div>
+    </div>
+    <div uib-tab index="1" heading="基站信息">
+        <div plan-site-details item-groups="eNodebGroups" ng-show="eNodeb"></div>
+    </div>
+    <div uib-tab index="2" heading="小区列表">
+        <div lte-cell-table items="cellList" begin-date="beginDate" end-date="endDate" ng-show="eNodeb"></div>
+    </div>
+</div>
 <div class="modal-footer">
     <button class="btn btn-warning" ng-click="ok()">保存信息</button>
     <button class="btn btn-default" type="button" ng-click="cancel()">放弃保存</button>

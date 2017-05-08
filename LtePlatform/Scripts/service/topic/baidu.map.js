@@ -1242,6 +1242,7 @@
 
 	.controller('map.site.dialog', function($scope, $uibModalInstance, site, dialogTitle, appFormatService) {
 		$scope.itemGroups = appFormatService.generateSiteGroups(site);
+		$scope.detailsGroups = appFormatService.generateSiteDetailsGroups(site);
 		$scope.dialogTitle = dialogTitle;
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.site);

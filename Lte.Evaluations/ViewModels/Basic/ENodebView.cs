@@ -50,6 +50,7 @@ namespace Lte.Evaluations.ViewModels.Basic
         public string District { get; set; }
 
         public string Town { get; set; }
+
         public string PlanNum { get; set; }
 
         public string PlanName { get; set; }
@@ -64,10 +65,30 @@ namespace Lte.Evaluations.ViewModels.Basic
 
         public double? AntennaHeight { get; set; }
 
+        public DateTime? CompleteDate { get; set; }
+
+        public DateTime? YanshouDate { get; set; }
+
+        public bool IsGotton { get; set; }
+
+        public string SiteCategory { get; set; }
+
+        public string SiteSource { get; set; }
+
+        public string ShouzuShuoming { get; set; }
+
         public DateTime? GottenDate { get; set; }
+
+        public string TowerContaction { get; set; }
 
         public DateTime? ContractDate { get; set; }
 
         public DateTime? FinishedDate { get; set; }
+
+        public string TowerScheme { get; set; }
+
+        public string TowerSiteName { get; set; }
+
+        public string AntennaType { get; set; }
     }
 }
