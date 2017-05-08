@@ -245,7 +245,18 @@ namespace Lte.Domain.Common.Wireless
         Individual,
         Family,
         Company,
-        Unknown
+        Unknown,
+        Juminzhuzhai,
+        Shangwubangong,
+        Shangyequ,
+        Zhuzhaiqu,
+        Gongyequ,
+        OldZhuzhai,
+        NewZhuzhai,
+        ShangwuChangsuo,
+        LowZhuzhai,
+        HighZhuzhai,
+        Jiaoyisuo
     }
 
     public class CustomerTypeDescriptionTransform : DescriptionTransform<CustomerType>
@@ -317,7 +328,9 @@ namespace Lte.Domain.Common.Wireless
         CallDrop,
         UnderConstruction,
         BillProblem,
-        NoCoverage
+        NoCoverage,
+        PoorCoverage,
+        Normal
     }
 
     public class ComplainSubReasonDescriptionTransform : DescriptionTransform<ComplainSubReason>
@@ -374,7 +387,9 @@ namespace Lte.Domain.Common.Wireless
         Others,
         Voice,
         Web,
-        ShortMessage
+        ShortMessage,
+        WeakCoverage,
+        DeepCoverage
     }
 
     public class ComplainCategoryDescriptionTransform : DescriptionTransform<ComplainCategory>

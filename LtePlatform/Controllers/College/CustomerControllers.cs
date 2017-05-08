@@ -340,36 +340,7 @@ namespace LtePlatform.Controllers.College
             return await _service.UpdateAsync(dto);
         }
     }
-
-    public class ComplainProcessController : ApiController
-    {
-        private readonly ComplainService _service;
-
-        public ComplainProcessController(ComplainService service)
-        {
-            _service = service;
-        }
-
-        [HttpGet]
-        public IEnumerable<ComplainProcessDto> Get(string serialNumber)
-        {
-            return _service.QueryProcess(serialNumber);
-        }
-
-        [Authorize]
-        [HttpPost]
-        public async Task<ComplainProcessDto> Post(ComplainDto dto)
-        {
-            return await _service.ConstructProcess(dto, User.Identity.Name);
-        }
-
-        [HttpPut]
-        public async Task<int> Put(ComplainProcessDto dto)
-        {
-            return await _service.UpdateAsync(dto);
-        }
-    }
-
+    
     [ApiControl("分公司需求查询控制器")]
     public class BranchDemandController : ApiController
     {

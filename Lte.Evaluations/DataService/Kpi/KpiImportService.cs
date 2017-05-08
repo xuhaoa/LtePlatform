@@ -23,6 +23,7 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly IBranchDemandRepository _branchDemandRepository;
         private readonly IOnlineSustainRepository _onlineSustainRepository;
         private readonly IPlanningSiteRepository _planningSiteRepository;
+        private readonly IComplainProcessRepository _processRepository;
         private readonly List<Town> _towns; 
 
         public KpiImportService(ICdmaRegionStatRepository regionStatRepository,
@@ -31,7 +32,7 @@ namespace Lte.Evaluations.DataService.Kpi
             IDownSwitchFlowRepository downSwitchRepository, IVipDemandRepository vipDemandRepository,
             IComplainItemRepository complainItemRepository, IBranchDemandRepository branchDemandRepository,
             IOnlineSustainRepository onlineSustainRepository, IPlanningSiteRepository planningSiteRepository, 
-            ITownRepository townRepository)
+            IComplainProcessRepository processRepository, ITownRepository townRepository)
         {
             _regionStatRepository = regionStatRepository;
             _top2GRepository = top2GRepository;
@@ -43,6 +44,7 @@ namespace Lte.Evaluations.DataService.Kpi
             _branchDemandRepository = branchDemandRepository;
             _onlineSustainRepository = onlineSustainRepository;
             _planningSiteRepository = planningSiteRepository;
+            _processRepository = processRepository;
             _towns = townRepository.GetAllList();
         }
         public List<string> Import(string path, IEnumerable<string> regions)
@@ -135,6 +137,15 @@ namespace Lte.Evaluations.DataService.Kpi
                 _onlineSustainRepository.Import<IOnlineSustainRepository, OnlineSustain, OnlineSustainExcel, Town>(stats, _towns,
                     (towns, stat) =>
                     {
+                        if (!string.IsNullOrEmpty(stat.Town))
+                        {
+                            var candidateTown =
+                                towns.FirstOrDefault(x => x.DistrictName == stat.District && x.TownName == stat.Town);
+                            if (candidateTown != null)
+                            {
+                                return candidateTown.Id;
+                            }
+                        }
                         var candidateTowns = towns.Where(x => x.DistrictName == stat.District).ToList();
                         if (!candidateTowns.Any()) candidateTowns = _towns;
 
@@ -149,7 +160,9 @@ namespace Lte.Evaluations.DataService.Kpi
                                        : candidateTowns.FirstOrDefault(x => stat.Phenomenon.Contains(x.TownName)));
                         return town?.Id ?? candidateTowns.First().Id;
                     });
-            return "完成在线支撑信息导入" + count + "条";
+            var count2 =
+                _processRepository.Import<IComplainProcessRepository, ComplainProcess, OnlineSustainExcel>(stats);
+            return "完成在线支撑信息导入" + count + "条; " + "处理记录" + count2 + "条";
         }
 
         public string ImportPlanningSite(string path)

@@ -434,31 +434,11 @@ namespace Lte.Evaluations.DataService.College
             var item = _repository.FirstOrDefault(x => x.SerialNumber == serialNumber);
             return Mapper.Map<ComplainItem, ComplainDto>(item);
         }
-
-        public async Task<ComplainProcessDto> ConstructProcess(ComplainDto dto, string userName)
-        {
-            return await
-                _repository
-                    .ConstructProcess
-                    <IComplainItemRepository, IComplainProcessRepository, ComplainItem,
-                        ComplainDto, ComplainProcess, ComplainProcessDto>(_processRepository, dto, userName);
-        }
-
-        public IEnumerable<ComplainProcessDto> QueryProcess(string serialNumber)
-        {
-            var items = _processRepository.GetAllList(serialNumber);
-            return Mapper.Map<List<ComplainProcess>, IEnumerable<ComplainProcessDto>>(items);
-        }
-
+        
         public async Task<int> UpdateAsync(ComplainDto dto)
         {
             return await _repository.UpdateOne<IComplainItemRepository, ComplainItem, ComplainDto>(dto);
         } 
-
-        public async Task<int> UpdateAsync(ComplainProcessDto dto)
-        {
-            return await _processRepository.UpdateOne<IComplainProcessRepository, ComplainProcess, ComplainProcessDto>(dto);
-        }
     }
 
     public class BranchDemandService : IDateSpanService<BranchDemand>

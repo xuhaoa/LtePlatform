@@ -28,6 +28,8 @@ namespace Lte.MySqlFramework.Entities
 
         public string DutyStaff { get; set; }
 
+        public string ComplainNumber { get; set; }
+
         [AutoMapPropertyResolve("ComplainCategoryDescription", typeof(OnlineSustainExcel), typeof(ComplainCategoryTransform))]
         [AutoMapPropertyResolve("ComplainCategoryDescription", typeof(OnlineSustainDto), typeof(ComplainCategoryTransform))]
         public ComplainCategory ComplainCategory { get; set; }
@@ -59,8 +61,6 @@ namespace Lte.MySqlFramework.Entities
         public double Longtitute { get; set; }
 
         public double Lattitute { get; set; }
-        
-        public string FollowInfo { get; set; }
         
         public string FeedbackInfo { get; set; }
 
@@ -123,38 +123,77 @@ namespace Lte.MySqlFramework.Entities
 
         public string Site { get; set; }
     }
-
+    
     public class OnlineSustainExcel
     {
         [ExcelColumn("统计日期")]
         public DateTime BeginDate { get; set; }
 
-        [ExcelColumn("联系电话")]
-        public string ContactPhone { get; set; }
+        [ExcelColumn("投诉单号")]
+        public string SerialNumber { get; set; }
+        
+        [ExcelColumn("是否经过预处理")]
+        public string PreProcessString { get; set; }
 
         [ExcelColumn("10000号人名/工号")]
         public int StaffId { get; set; }
 
-        [ExcelColumn("投诉内容")]
-        public string Phenomenon { get; set; }
+        [ExcelColumn("派单原因")]
+        public string WorkItemNumber { get; set; }
 
-        [ExcelColumn("投诉单号")]
-        public string SerialNumber { get; set; }
-        
-        [ExcelColumn("投诉类型")]
-        public string ComplainCategoryDescription { get; set; }
+        [ExcelColumn("申告号码")]
+        public string ComplainNumber { get; set; }
+
+        [ExcelColumn("联系电话")]
+        public string ContactPhone { get; set; }
 
         [ExcelColumn("投诉地点")]
         public string Site { get; set; }
 
-        [ExcelColumn("测试地点")]
-        public string Address { get; set; }
+        [ExcelColumn("投诉内容")]
+        public string Phenomenon { get; set; }
+
+        [ExcelColumn("申告一级原因")]
+        public string ComplainReason { get; set; }
+
+        [ExcelColumn("投诉类型")]
+        public string ComplainCategoryDescription { get; set; }
 
         [ExcelColumn("申告级别")]
         public string Issue { get; set; }
         
-        [ExcelColumn("派单原因")]
-        public string WorkItemNumber { get; set; }
+        [ExcelColumn("所属区域")]
+        public string District { get; set; }
+
+        [ExcelColumn("镇区")]
+        public string Town { get; set; }
+
+        [ExcelColumn("地貌类型")]//Process--
+        public string AreaTypeDescription { get; set; }
+
+        [ExcelColumn("申告来源")]
+        public string ComplainSourceDescription { get; set; }
+
+        [ExcelColumn("信息点类型1")]//Process--
+        public string InfoType1 { get; set; }
+
+        [ExcelColumn("信息点类型2")]//Process--
+        public string InfoType2 { get; set; }
+
+        [ExcelColumn("信息点类型3")]//Process--
+        public string InfoType3 { get; set; }
+
+        [ExcelColumn("原因分析")]//Process--
+        public string ComplainCauseDescription { get; set; }
+
+        [ExcelColumn("处理过程及建议")]//Process--
+        public string ProcessSuggestion { get; set; }
+        
+        [ExcelColumn("处理日期")]//Process--
+        public DateTime? ProcessDate { get; set; }
+
+        [ExcelColumn("测试地点")]
+        public string Address { get; set; }
 
         [ExcelColumn("经度", TransformEnum.DoubleEmptyZero, 0)]
         public double Longtitute { get; set; }
@@ -162,20 +201,53 @@ namespace Lte.MySqlFramework.Entities
         [ExcelColumn("纬度", TransformEnum.DoubleEmptyZero, 0)]
         public double Lattitute { get; set; }
 
-        [ExcelColumn("后续跟进")]
-        public string FollowInfo { get; set; }
+        [ExcelColumn("接收电平")]//Process--
+        public short? ReceiveLevel { get; set; }
 
-        [ExcelColumn("现场人员反馈信息")]
+        [ExcelColumn("发射电平")]//Process--
+        public short? TransmitLevel { get; set; }
+
+        [ExcelColumn("最大PN")]//Process--
+        public short? Pn { get; set; }
+
+        [ExcelColumn("ECIO")]//Process--
+        public double? EcIo { get; set; }
+
+        [ExcelColumn("主要影响基站（名称）")]//Process--
+        public string BtsName { get; set; }
+
+        [ExcelColumn("主要影响基站（BSC号）")]//Process--
+        public byte? BscId { get; set; }
+
+        [ExcelColumn("主要影响基站（基站号）")]//Process--
+        public int? BtsId { get; set; }
+
+        [ExcelColumn("覆盖等级")]//Process--
+        public byte? CoverageLevel { get; set; }
+
+        [ExcelColumn("覆盖类型")]//Process--
+        public string CoverageTypeDescription { get; set; }
+
+        [ExcelColumn("用户反馈情况")]
         public string FeedbackInfo { get; set; }
 
-        [ExcelColumn("申告一级原因")]
-        public string ComplainReason { get; set; }
+        [ExcelColumn("处理/测试人")]//Process--
+        public string ProcessPerson { get; set; }
 
-        [ExcelColumn("是否经过预处理")]
-        public string PreProcessString { get; set; }
+        [ExcelColumn("解决否")]//Process--
+        public string ResolveDescription { get; set; }
 
-        [ExcelColumn("所属区域")]
-        public string District { get; set; }
+        [ExcelColumn("解决方案（分类）")]//Process--
+        public string ResolveScheme { get; set; }
+
+        [ExcelColumn("原因定位")]//Process--
+        public string ResolveCauseDescription { get; set; }
+
+        [ExcelColumn("已规划基站")]//Process--
+        public string PlanSite { get; set; }
+
+        [ExcelColumn("最终解决时间")]//Process--
+        public DateTime? ResolveDate { get; set; }
 
         public string[] ReasonGroups => string.IsNullOrEmpty(ComplainReason)? new string[1]:  ComplainReason.GetSplittedFields('-');
 
@@ -184,6 +256,62 @@ namespace Lte.MySqlFramework.Entities
         public string SecondReasonClass => ReasonGroups.Length > 1 ? ReasonGroups[1] : "其他";
 
         public string ThirdReasonClass => ReasonGroups.Length > 2 ? ReasonGroups[2] : "其他";
+    }
+
+    [AutoMapFrom(typeof(OnlineSustainExcel))]
+    public class ComplainProcess : Entity
+    {
+        public string SerialNumber { get; set; }
+        
+        [AutoMapPropertyResolve("AreaTypeDescription", typeof(OnlineSustainExcel), typeof(ComplainSceneTransform))]
+        public ComplainScene ComplainScene { get; set; }
+
+        [AutoMapPropertyResolve("InfoType1", typeof(OnlineSustainExcel), typeof(CustomerTypeTransform))]
+        public CustomerType CustomerType1 { get; set; }
+
+        [AutoMapPropertyResolve("InfoType2", typeof(OnlineSustainExcel), typeof(CustomerTypeTransform))]
+        public CustomerType CustomerType2 { get; set; }
+
+        [AutoMapPropertyResolve("InfoType3", typeof(OnlineSustainExcel), typeof(CustomerTypeTransform))]
+        public CustomerType CustomerType3 { get; set; }
+
+        public string ProcessSuggestion { get; set; }
+
+        public DateTime BeginDate { get; set; }
+
+        public DateTime? ProcessDate { get; set; }
+
+        public short? ReceiveLevel { get; set; }
+        
+        public short? TransmitLevel { get; set; }
+        
+        public short? Pn { get; set; }
+        
+        public double? EcIo { get; set; }
+        
+        public string BtsName { get; set; }
+        
+        public byte? BscId { get; set; }
+        
+        public int? BtsId { get; set; }
+
+        public byte? CoverageLevel { get; set; }
+
+        [AutoMapPropertyResolve("CoverageTypeDescription", typeof(OnlineSustainExcel), typeof(ComplainCategoryTransform))]
+        public ComplainCategory ComplainCategory { get; set; }
+
+        public string ProcessPerson { get; set; }
+        
+        [AutoMapPropertyResolve("ResolveDescription", typeof(OnlineSustainExcel), typeof(YesToBoolTransform))]
+        public bool IsResolved { get; set; }
+        
+        public string ResolveScheme { get; set; }
+        
+        public string ResolveCauseDescription { get; set; }
+        
+        public string PlanSite { get; set; }
+        
+        public DateTime? ResolveDate { get; set; }
     }
 
     [AutoMapFrom(typeof(EmergencyCommunicationDto))]

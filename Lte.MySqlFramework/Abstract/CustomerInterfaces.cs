@@ -40,7 +40,7 @@ namespace Lte.MySqlFramework.Abstract
 
     public interface IComplainProcessRepository
         : IRepository<ComplainProcess>,
-            IMatchRepository<ComplainProcess, ComplainProcessDto>,
+            IMatchRepository<ComplainProcess, OnlineSustainExcel>,
             ISaveChanges
     {
         List<ComplainProcess> GetAllList(string serialNumber);

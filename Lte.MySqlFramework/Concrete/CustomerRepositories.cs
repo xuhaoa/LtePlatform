@@ -122,10 +122,9 @@ namespace Lte.MySqlFramework.Concrete
         {
         }
 
-        public ComplainProcess Match(ComplainProcessDto stat)
+        public ComplainProcess Match(OnlineSustainExcel stat)
         {
-            var state = stat.ComplainStateDescription.GetEnumType<ComplainState>();
-            return FirstOrDefault(x => x.SerialNumber == stat.SerialNumber && x.ComplainState == state);
+            return FirstOrDefault(x => x.SerialNumber == stat.SerialNumber);
         }
 
         public int SaveChanges()

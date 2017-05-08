@@ -67,7 +67,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [AutoMapFrom(typeof(ComplainItem))]
-    public class ComplainDto : IConstructDto<ComplainProcessDto>, IStateChange
+    public class ComplainDto : IStateChange
     {
         public string SerialNumber { get; set; }
 
@@ -123,65 +123,8 @@ namespace Lte.MySqlFramework.Entities
                 return nextState == null ? null : ((ComplainState)nextState).GetEnumDescription();
             }
         }
-
-        public ComplainProcessDto Construct(string userName)
-        {
-            return new ComplainProcessDto
-            {
-                SerialNumber = SerialNumber,
-                ContactPerson = userName,
-                BeginTime = DateTime.Now,
-                ComplainStateDescription = CurrentStateDescription
-            };
-        }
     }
-
-    [AutoMapFrom(typeof(ComplainProcessDto))]
-    public class ComplainProcess : Entity
-    {
-        public string SerialNumber { get; set; }
-
-        [AutoMapPropertyResolve("ComplainStateDescription", typeof(ComplainProcessDto), typeof(ComplainStateTransform))]
-        public ComplainState ComplainState { get; set; }
-
-        public DateTime BeginTime { get; set; }
-
-        public string BeginInfo { get; set; }
-
-        public DateTime ProcessTime { get; set; }
-
-        public string ProcessPerson { get; set; }
-
-        public string ProcessInfo { get; set; }
-
-        public string AttachFilePath { get; set; }
-
-        public string ContactPerson { get; set; }
-    }
-
-    [AutoMapFrom(typeof(ComplainProcess))]
-    public class ComplainProcessDto
-    {
-        public string SerialNumber { get; set; }
-
-        [AutoMapPropertyResolve("ComplainState", typeof(ComplainProcess), typeof(ComplainStateDescriptionTransform))]
-        public string ComplainStateDescription { get; set; }
-
-        public DateTime BeginTime { get; set; }
-
-        public string BeginInfo { get; set; }
-
-        public DateTime ProcessTime { get; set; }
-
-        public string ProcessPerson { get; set; }
-
-        public string ProcessInfo { get; set; }
-
-        public string AttachFilePath { get; set; }
-
-        public string ContactPerson { get; set; }
-    }
-
+    
     [AutoMapFrom(typeof(ComplainItem))]
     public class ComplainPositionDto
     {

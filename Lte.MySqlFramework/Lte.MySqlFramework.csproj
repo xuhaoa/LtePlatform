@@ -127,13 +127,13 @@
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
-    <Compile Include="Migrations\201705010944485_Add_Distribution_System.cs" />
-    <Compile Include="Migrations\201705010944485_Add_Distribution_System.Designer.cs">
-      <DependentUpon>201705010944485_Add_Distribution_System.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201705041525247_Add_HotSpotDefs.cs" />
     <Compile Include="Migrations\201705041525247_Add_HotSpotDefs.Designer.cs">
       <DependentUpon>201705041525247_Add_HotSpotDefs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705080424595_Update_OnlineSustain.cs" />
+    <Compile Include="Migrations\201705080424595_Update_OnlineSustain.Designer.cs">
+      <DependentUpon>201705080424595_Update_OnlineSustain.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -144,11 +144,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705010944485_Add_Distribution_System.resx">
-      <DependentUpon>201705010944485_Add_Distribution_System.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705041525247_Add_HotSpotDefs.resx">
       <DependentUpon>201705041525247_Add_HotSpotDefs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705080424595_Update_OnlineSustain.resx">
+      <DependentUpon>201705080424595_Update_OnlineSustain.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

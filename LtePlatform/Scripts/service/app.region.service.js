@@ -1581,17 +1581,6 @@
                     end: end
                 });
             },
-            queryComplainProcessList: function(number) {
-                return generalHttpService.getApiData('ComplainProcess', {
-                    serialNumber: number
-                });
-            },
-            createComplainProcess: function(dto) {
-                return generalHttpService.postApiDataWithHeading('ComplainProcess', dto);
-            },
-            updateComplainProcess: function(process) {
-                return generalHttpService.putApiData('ComplainProcess', process);
-            },
             updateComplain: function(dto) {
                 return generalHttpService.putApiData("ComplainQuery", dto);
             },
