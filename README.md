@@ -3,7 +3,21 @@ This is a .net solution for LTE wireless network optimization when I work in Chi
 该解决方案是一个主要以WEB页面形式为呈现方式的综合网络优化分析呈现平台。该平台的程序是一个用Visual Studio开发的解决方案。
 
 ## 解决方案总体结构
-解决方案共分22个项目，其中程序项目11个，测试项目11个。分为后端模块、前端模块和辅助模块三部分。
+解决方案共分22个项目，其中程序项目11个（主项目8个，辅助项目3个），测试项目11个。分为后端模块、前端模块和辅助模块三部分。
+### 主项目
+#### Abp.EntityFramework
+#### Lte.Domain
+#### TraceParser
+#### ZipLib
+#### Lte.MySqlFramework
+#### Lte.Parameters
+#### Lte.Evaluations
+#### LtePlatform
+### 辅助项目
+#### Lte.Auxilary
+#### Lte.Android
+#### Lte.Ionic
+### 测试项目
 
 ## 后端模块
 ### 数据库接口模块
