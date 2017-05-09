@@ -799,6 +799,34 @@
 					}
 				});
 			},
+			showZeroFlowInfo: function (station) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/SpecialStationDetails.html',
+			        controller: 'map.zero-flow.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "站点信息:" + station.enodebName;
+			            },
+			            station: function () {
+			                return station;
+			            }
+			        }
+			    });
+			},
+			showZeroVoiceInfo: function (station) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/SpecialStationDetails.html',
+			        controller: 'map.zero-voice.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "站点信息:" + station.BTSName;
+			            },
+			            station: function () {
+			                return station;
+			            }
+			        }
+			    });
+			},
 			showSpecialStationInfo: function (station) {
 			    menuItemService.showGeneralDialog({
 			        templateUrl: '/appViews/Home/SpecialStationDetails.html',
@@ -817,6 +845,20 @@
 			    menuItemService.showGeneralDialog({
 			        templateUrl: '/appViews/Home/SpecialStationDetails.html',
 			        controller: 'map.special-indoor.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "站点信息:" + station.enodebName;
+			            },
+			            station: function () {
+			                return station;
+			            }
+			        }
+			    });
+			},
+			showFaultStationInfo: function (station) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/SpecialStationDetails.html',
+			        controller: 'map.fault-station.dialog',
 			        resolve: {
 			            dialogTitle: function () {
 			                return "站点信息:" + station.enodebName;
@@ -1260,6 +1302,30 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
+    .controller('map.zero-voice.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+		appFormatService, networkElementService) {
+
+        $scope.itemGroups = appFormatService.generateZeroVoiceGroups(station);
+
+        $scope.dialogTitle = dialogTitle;
+
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('map.zero-flow.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+		appFormatService, networkElementService) {
+
+        $scope.itemGroups = appFormatService.generateZeroFlowGroups(station);
+
+        $scope.dialogTitle = dialogTitle;
+
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .controller('map.special-indoor.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
 		appFormatService, networkElementService) {
 
@@ -1272,6 +1338,18 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
+     .controller('map.fault-station.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+		appFormatService, networkElementService) {
+
+         $scope.itemGroups = appFormatService.generateFaultStationGroups(station);
+
+         $scope.dialogTitle = dialogTitle;
+
+
+         $scope.cancel = function () {
+             $uibModalInstance.dismiss('cancel');
+         };
+     })
     .controller('map.alarmStation.dialog', function ($scope, $uibModalInstance, station, beginDate, endDate, dialogTitle,
         appFormatService, downSwitchService, parametersDialogService) {
         $scope.station = station;

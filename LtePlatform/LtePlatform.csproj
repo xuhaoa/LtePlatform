@@ -443,8 +443,10 @@
     <Content Include="appViews\Home\AlarmSearchMenu.html" />
     <Content Include="appViews\Home\AlarmStationDetails.html" />
     <Content Include="appViews\Home\ButtonMenu.html" />
+    <Content Include="appViews\Home\ClearZero.html" />
     <Content Include="appViews\Home\Complain.html" />
     <Content Include="appViews\Home\DatePopoverInput.html" />
+    <Content Include="appViews\Home\FaultStation.html" />
     <Content Include="appViews\Home\Flow.html" />
     <Content Include="appViews\Home\FourChartDialog.html" />
     <Content Include="appViews\Home\GeneralTableDetails.html" />

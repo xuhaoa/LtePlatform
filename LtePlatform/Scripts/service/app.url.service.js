@@ -829,6 +829,181 @@
                        }
                 ]
             },
+            generateZeroFlowGroups: function (station) {
+                return [
+                       {
+                           items: [
+                               {
+                                   key: '基站名',
+                                   value: station.enodebName
+                               }, {
+                                   key: '地市',
+                                   value: station.city
+                               }, {
+                                   key: '厂家',
+                                   value: station.factory
+                               }
+                           ]
+                       }, {
+                           items: [
+                               {
+                                   key: '是否断站',
+                                   value: station.isOff
+                               }, {
+                                   key: '是否存在小区退服',
+                                   value: station.isOut
+                               }, {
+                                   key: 'BBU是否交维',
+                                   value: station.isIntersect
+                               }
+                           ]
+                       }, {
+                           items: [
+                                {
+                                    key: 'BBU是否下挂RRU',
+                                    value: station.isUnderbarrel
+                                }, {
+                                    key: '是否已解决',
+                                    value: station.isSolve
+                                }, {
+                                    key: '零流量原因类型',
+                                    value: station.reasonType
+                                }
+                           ]
+                       }, {
+                           items: [
+                                {
+                                    key: '计划解决时间',
+                                    value: station.planDate
+                                }, {
+                                    key: '完成时间',
+                                    value: station.finishDate
+                                }, {
+                                    key: '责任单位',
+                                    value: station.unit
+                                }
+                           ]
+                       }, {
+                           items: [
+                                {
+                                    key: '经度',
+                                    value: station.longtitute
+                                }, {
+                                    key: '纬度',
+                                    value: station.lattitute
+                                }, {
+                                    key: '解决措施',
+                                    value: station.solution
+                                }
+                           ]
+                       }
+                ]
+            },
+            generateZeroVoiceGroups: function (station) {
+                return [
+                       {
+                           items: [
+                               {
+                                   key: '基站名',
+                                   value: station.BTSName
+                               }, {
+                                   key: '地市',
+                                   value: station.city
+                               }, {
+                                   key: '厂家',
+                                   value: station.factory
+                               }
+                           ]
+                       }, {
+                           items: [
+                               {
+                                   key: '是否断站',
+                                   value: station.isOff
+                               }, {
+                                   key: '是否存在小区退服',
+                                   value: station.isOut
+                               }, {
+                                   key: 'BBU是否交维',
+                                   value: station.isIntersect
+                               }
+                           ]
+                       }, {
+                           items: [
+                                {
+                                    key: 'BBU是否下挂RRU',
+                                    value: station.isUnderbarrel
+                                }, {
+                                    key: '是否已解决',
+                                    value: station.isSolve
+                                }, {
+                                    key: '零话务原因类型',
+                                    value: station.reasonType
+                                }
+                           ]
+                       }, {
+                           items: [
+                                {
+                                    key: '计划解决时间',
+                                    value: station.planDate
+                                }, {
+                                    key: 'BTSTYPE',
+                                    value: station.BTSTYPE
+                                }, {
+                                    key: '责任单位',
+                                    value: station.unit
+                                }
+                           ]
+                       }, {
+                           items: [
+                                {
+                                    key: '经度',
+                                    value: station.longtitute
+                                }, {
+                                    key: '纬度',
+                                    value: station.lattitute
+                                }, {
+                                    key: '解决措施',
+                                    value: station.solution
+                                }
+                           ]
+                       }
+                ]
+            },
+            generateFaultStationGroups: function (station) {
+                return [
+                       {
+                           items: [
+                               {
+                                   key: '站点名称',
+                                   value: station.enodebName
+                               }, {
+                                   key: '单号',
+                                   value: station.orderId
+                               }, {
+                                   key: '告警名称',
+                                   value: station.alarmName
+                               }
+                           ]
+                       }, {
+                           items: [
+                               {
+                                   key: '故障反馈',
+                                   value: station.feedback
+                               }
+                           ]
+                       }, {
+                           items: [
+                               {
+                                   key: '经度',
+                                   value: station.longtitute
+                               }, {
+                                   key: '纬度',
+                                   value: station.lattitute
+                               }
+                           ]
+                       }
+                ]
+            },
             generateENodebGroups: function(station) {
                 return [
                     {

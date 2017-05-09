@@ -1708,6 +1708,26 @@
                     "page_size": pageSize,
                     "recoverName": recoverName
                 });
+            },
+            getFaultStations: function (page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Fault/search', {
+                    "curr_page": page,
+                    "page_size": pageSize
+                });
+            },
+            getZeroVoice: function (isSolve,page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/ZeroVoice/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "isSolve": isSolve
+                });
+            },
+            getZeroFlow: function (isSolve,page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/ZeroFlow/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "isSolve": isSolve
+                });
             }
         };
     })

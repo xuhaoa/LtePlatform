@@ -55,50 +55,57 @@
                     "contents": {
                         templateUrl: viewDir + "Alarm.html",
                         controller: "alarm.network"
-                    }/*,
-                    "filter": {
-                        templateUrl: viewDir + "AlarmFilter.html",
-                        controller: "alarm.filter"
-                    }*/
+                    }
 
                 },
                 url: "/alarm"
             })
             .state('special-station', {
-                views: {/*
-                    'menu': {
-                        templateUrl: viewDir + "AlarmSearchMenu.html",
-                        controller: "menu.alarm"
-                    },*/
+                views: {
                     "contents": {
                         templateUrl: viewDir + "SpecialStation.html",
                         controller: "special-station.network"
-                    }/*,
-                    "filter": {
-                        templateUrl: viewDir + "AlarmFilter.html",
-                        controller: "alarm.filter"
-                    }*/
+                    }
 
                 },
                 url: "/special-station"
             })
             .state('special-indoor', {
-                views: {/*
-                    'menu': {
-                        templateUrl: viewDir + "AlarmSearchMenu.html",
-                        controller: "menu.alarm"
-                    },*/
+                views: {
                     "contents": {
                         templateUrl: viewDir + "SpecialStation.html",
                         controller: "special-indoor.network"
-                    }/*,
-                    "filter": {
-                        templateUrl: viewDir + "AlarmFilter.html",
-                        controller: "alarm.filter"
-                    }*/
+                    }
 
                 },
                 url: "/special-indoor"
+            })
+            .state('long-term', {
+                views: {
+                    "contents": {
+                        templateUrl: viewDir + "FaultStation.html",
+                        controller: "fault-station.network"
+                    }
+                },
+                url: "/long-term"
+            })
+            .state('clear-flow', {
+                views: {
+                    "contents": {
+                        templateUrl: viewDir + "ClearZero.html",
+                        controller: "clear-flow.network"
+                    }
+                },
+                url: "/clear-flow"
+            })
+            .state('clear-voice', {
+                views: {
+                    "contents": {
+                        templateUrl: viewDir + "ClearZero.html",
+                        controller: "clear-voice.network"
+                    }
+                },
+                url: "/clear-voice"
             })
             .state('flow', {
                 views: {
@@ -900,7 +907,7 @@
         $scope.stationss[2] = [];
         baiduMapService.initializeMap("map", 13);
 
-        $scope.colorFault = new Array("#FF0000", "#FFFF00");
+        $scope.colorFault = new Array("#FF0000", "#00FF00");
 
         
         $scope.recoverIndex = 0;
@@ -955,7 +962,7 @@
         $scope.stationss[2] = [];
         baiduMapService.initializeMap("map", 13);
 
-        $scope.colorFault = new Array("#FF0000", "#FFFF00");
+        $scope.colorFault = new Array("#FF0000", "#00FF00");
 
 
         $scope.recoverIndex = 0;
@@ -1002,7 +1009,162 @@
         };
         $scope.reflashMap();
     })
+    .controller("clear-voice.network", function ($scope, downSwitchService, baiduMapService, geometryService,
+        parametersDialogService, baiduQueryService) {
 
+        $scope.isRecovers = new Array('未解决', '已解决', '全部');
+        $scope.isRecover = new Array('未解决', '已解决');
+        $scope.stationss = [];
+        $scope.stationss[1] = [];
+        $scope.stationss[2] = [];
+        baiduMapService.initializeMap("map", 13);
+
+        $scope.colorFault = new Array("#FF0000", "#00FF00");
+
+
+        $scope.recoverIndex = 0;
+        $scope.recoverName = $scope.isRecovers[$scope.recoverIndex];
+
+
+
+        //获取站点
+        $scope.getStations = function (recoverIndex) {
+
+            var recoverName = $scope.isRecover[recoverIndex];
+            downSwitchService.getZeroVoice(recoverName, 0, 10000).then(function (response) {
+
+                $scope.stationss[recoverIndex] = response.result.rows;
+                var color = $scope.colorFault[recoverIndex];
+                baiduQueryService.transformToBaidu($scope.stationss[recoverIndex][0].longtitute, $scope.stationss[recoverIndex][0].lattitute).then(function (coors) {
+                    var xOffset = coors.x - $scope.stationss[recoverIndex][0].longtitute;
+                    var yOffset = coors.y - $scope.stationss[recoverIndex][0].lattitute;
+                    baiduMapService.drawPointCollection($scope.stationss[recoverIndex], color, -xOffset, -yOffset, function (e) {
+                        parametersDialogService.showZeroVoiceInfo(e.point.data);
+                    });
+                });
+            });
+        };
+
+
+        $scope.changeRecover = function (index) {
+            $scope.recoverIndex = index;
+            $scope.recoverName = $scope.isRecovers[$scope.recoverIndex];
+            $scope.reflashMap();
+        };
+
+        $scope.reflashMap = function () {
+            baiduMapService.clearOverlays();
+            baiduMapService.setCenter(0);
+            if ($scope.recoverIndex == 2) {
+                for (var i = 0; i < 2; ++i) {
+                    $scope.getStations(i);
+                }
+            } else {
+                $scope.getStations($scope.recoverIndex);
+            }
+
+        };
+        $scope.reflashMap();
+    })
+    .controller("clear-flow.network", function ($scope, downSwitchService, baiduMapService, geometryService,
+        parametersDialogService, baiduQueryService) {
+
+        $scope.isRecovers = new Array('未解决', '已解决', '全部');
+        $scope.isRecover = new Array('未解决', '已解决');
+        $scope.stationss = [];
+        $scope.stationss[1] = [];
+        $scope.stationss[2] = [];
+        baiduMapService.initializeMap("map", 13);
+
+        $scope.colorFault = new Array("#FF0000", "#00FF00");
+
+
+        $scope.recoverIndex = 0;
+        $scope.recoverName = $scope.isRecovers[$scope.recoverIndex];
+
+
+
+        //获取站点
+        $scope.getStations = function (recoverIndex) {
+
+            var recoverName = $scope.isRecover[recoverIndex];
+            downSwitchService.getZeroFlow(recoverName, 0, 10000).then(function (response) {
+
+                $scope.stationss[recoverIndex] = response.result.rows;
+                var color = $scope.colorFault[recoverIndex];
+                baiduQueryService.transformToBaidu($scope.stationss[recoverIndex][0].longtitute, $scope.stationss[recoverIndex][0].lattitute).then(function (coors) {
+                    var xOffset = coors.x - $scope.stationss[recoverIndex][0].longtitute;
+                    var yOffset = coors.y - $scope.stationss[recoverIndex][0].lattitute;
+                    baiduMapService.drawPointCollection($scope.stationss[recoverIndex], color, -xOffset, -yOffset, function (e) {
+                        parametersDialogService.showZeroFlowInfo(e.point.data);
+                    });
+                });
+            });
+        };
+
+
+        $scope.changeRecover = function (index) {
+            $scope.recoverIndex = index;
+            $scope.recoverName = $scope.isRecovers[$scope.recoverIndex];
+            $scope.reflashMap();
+        };
+
+        $scope.reflashMap = function () {
+            baiduMapService.clearOverlays();
+            baiduMapService.setCenter(0);
+            if ($scope.recoverIndex == 2) {
+                for (var i = 0; i < 2; ++i) {
+                    $scope.getStations(i);
+                }
+            } else {
+                $scope.getStations($scope.recoverIndex);
+            }
+
+        };
+        $scope.reflashMap();
+    })
+    
+    .controller("fault-station.network", function ($scope, downSwitchService, baiduMapService, geometryService,
+        parametersDialogService, baiduQueryService) {
+
+
+        $scope.stationss = [];
+        $scope.stationss[1] = [];
+        $scope.stationss[2] = [];
+        baiduMapService.initializeMap("map", 13);
+
+        $scope.colorFault = new Array("#FF0000", "#00FF00");
+
+
+
+
+        //获取站点
+        $scope.getStations = function () {
+
+            downSwitchService.getFaultStations(0, 10000).then(function (response) {
+
+                $scope.stationss[1] = response.result.rows;
+                var color = $scope.colorFault[0];
+                baiduQueryService.transformToBaidu($scope.stationss[1][0].longtitute, $scope.stationss[1][0].lattitute).then(function (coors) {
+                    var xOffset = coors.x - $scope.stationss[1][0].longtitute;
+                    var yOffset = coors.y - $scope.stationss[1][0].lattitute;
+                    baiduMapService.drawPointCollection($scope.stationss[1], color, -xOffset, -yOffset, function (e) {
+                        parametersDialogService.showFaultStationInfo(e.point.data);
+                    });
+                });
+            });
+        };
+
+
+
+
+        $scope.reflashMap = function () {
+            baiduMapService.clearOverlays();
+            baiduMapService.setCenter(0);
+            $scope.getStations();
+        };
+        $scope.reflashMap();
+    })
     .controller('home.flow', function ($scope, baiduMapService, baiduQueryService, coverageDialogService, flowService) {
         baiduMapService.initializeMap("map", 11);
         $scope.showFeelingRate = function () {
