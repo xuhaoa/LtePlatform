@@ -925,6 +925,37 @@
                     }
                 ];
             },
+            generateRruGroups: function (cell) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '天线厂家',
+                                value: cell.antennaFactoryDescription
+                            }, {
+                                key: '天线信息',
+                                value: cell.antennaInfo
+                            }, {
+                                key: '天线型号',
+                                value: cell.antennaModel
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '电下倾角',
+                                value: cell.eTilt
+                            }, {
+                                key: '机械下倾',
+                                value: cell.mTilt
+                            }, {
+                                key: 'RRU名称',
+                                value: cell.rruName
+                            }
+                        ]
+                    }
+                ];
+            },
             generateCdmaCellGroups: function (cell) {
                 return [
                     {

@@ -15,7 +15,9 @@
     </div>
     <div uib-tab index="2" heading="小区列表">
         <div ng-repeat="group in cellGroups">
+            <h5>{{group.cellName}}</h5>
             <div plan-site-details item-groups="group.cellGroup"></div>
+            <div plan-site-details item-groups="group.rruGroup"></div>
         </div>
         
     </div>

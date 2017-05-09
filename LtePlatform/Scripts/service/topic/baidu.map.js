@@ -1252,7 +1252,9 @@
 				networkElementService.queryLteRrusFromPlanNum(site.planNum).then(function (cells) {
 					angular.forEach(cells, function(cell) {
 						$scope.cellGroups.push({
-							cellGroup: appFormatService.generateCellGroups(cell)
+							cellName: cell.cellName,
+							cellGroup: appFormatService.generateCellGroups(cell),
+							rruGroup: appFormatService.generateRruGroups(cell)
 						});
 					});
 
