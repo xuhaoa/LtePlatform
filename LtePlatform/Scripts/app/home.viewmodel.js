@@ -1415,6 +1415,18 @@
                 });
             });
         };
+        $scope.updateBelongingLegendDefs = function () {
+            $scope.legend.title = "站点归属";
+            $scope.legend.intervals = [];
+            var sourceDefs = ['电信自建', '铁塔建设', '未确定'];
+            angular.forEach(sourceDefs, function (def, $index) {
+                $scope.legend.intervals.push({
+                    threshold: def,
+                    color: $scope.colors[$index+1]
+                });
+            });
+        };
+
         $scope.showPlanningSite = function(city, district, color) {
             baiduMapService.addDistrictBoundary(district, color);
             networkElementService.queryOpenningSites(city, district).then(function(sites) {
@@ -1497,15 +1509,19 @@
                 baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
                     var xOffset = coors.x - sites[0].longtitute;
                     var yOffset = coors.y - sites[0].lattitute;
-                    baiduMapService.drawMultiPoints(sites, color, -xOffset, -yOffset, function(e) {
-                        var xCenter = e.point.lng - xOffset;
-                        var yCenter = e.point.lat - yOffset;
-                        networkElementService.queryRangePlanningSites(
-                            neGeometryService.queryNearestRange(xCenter, yCenter)).then(function(sectors) {
-                            if (sectors.length > 0) {
-                                parametersDialogService.showPlanningSitesInfo(sectors[0]);
-                            }
+                    var keys = ['电信自建', '铁塔建设', null];
+                    angular.forEach(keys, function(key, $index) {
+                        var subSites = _.filter(sites, { siteCategory: key });
+                        baiduMapService.drawMultiPoints(subSites, $scope.colors[$index + 1], -xOffset, -yOffset, function (e) {
+                            var xCenter = e.point.lng - xOffset;
+                            var yCenter = e.point.lat - yOffset;
+                            networkElementService.queryRangePlanningSites(
+                                neGeometryService.queryNearestRange(xCenter, yCenter)).then(function(sectors) {
+                                if (sectors.length > 0) {
+                                    parametersDialogService.showPlanningSitesInfo(sectors[0]);
+                                }
 
+                            });
                         });
                     });
                 });
@@ -1515,6 +1531,7 @@
             $scope.currentView = "已开通站点";
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary("佛山");
+            $scope.updateBelongingLegendDefs();
             var city = $scope.city.selected;
             angular.forEach($scope.districts, function(district, $index) {
                 $scope.showOpenSite(city, district, $scope.colors[$index]);
