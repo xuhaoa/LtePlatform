@@ -104,6 +104,26 @@ namespace LtePlatform.Controllers.Parameters
         }
     }
 
+    public class CellInUseController : ApiController
+    {
+        private readonly CellService _service;
+
+        public CellInUseController(CellService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        [ApiDoc("给定基站编号对定的扇区视图对象列表")]
+        [ApiParameterDoc("eNodebId", "基站编号")]
+        [ApiResponse("对定的扇区视图对象列表")]
+        public IEnumerable<SectorView> Get(int eNodebId)
+        {
+            return _service.QuerySectorsInUse(eNodebId);
+        }
+
+    }
+
     public class CellStationController : ApiController
     {
         private readonly CellService _service;

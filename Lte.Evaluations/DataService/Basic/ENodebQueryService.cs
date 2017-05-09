@@ -37,7 +37,7 @@ namespace Lte.Evaluations.DataService.Basic
         public IEnumerable<ENodebView> GetByTownNames(string city, string district, string town)
         {
             var townItem = _townRepository.QueryTown(city, district, town);
-            var list = _eNodebRepository.GetAll().Where(x => x.TownId == townItem.Id).ToList().MapTo<List<ENodebView>>();
+            var list = _eNodebRepository.GetAllList(x => x.TownId == townItem.Id).MapTo<List<ENodebView>>();
 
             list.ForEach(x=>
             {
@@ -46,6 +46,11 @@ namespace Lte.Evaluations.DataService.Basic
                 x.TownName = town;
             });
             return list;
+        }
+
+        public IEnumerable<ENodebView> GetByTownNamesInUse(string city, string district, string town)
+        {
+            return GetByTownNames(city, district, town).Where(x => x.IsInUse);
         }
 
         public IEnumerable<ENodeb> GetENodebsByDistrict(string city, string district)
@@ -88,6 +93,11 @@ namespace Lte.Evaluations.DataService.Basic
                     .ToArray();
             return items.Any() ? items.MapTo<IEnumerable<ENodebView>>() : null;
         }
+
+        public IEnumerable<ENodebView> GetByGeneralNameInUse(string name)
+        {
+            return GetByGeneralName(name).Where(x => x.IsInUse);
+        } 
 
         public ENodebView GetByENodebId(int eNodebId)
         {

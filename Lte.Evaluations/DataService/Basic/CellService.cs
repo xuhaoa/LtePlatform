@@ -88,6 +88,15 @@ namespace Lte.Evaluations.DataService.Basic
                 : new List<SectorView>();
         }
 
+        public IEnumerable<SectorView> QuerySectorsInUse(int eNodebId)
+        {
+            var cells = _repository.GetAllInUseList().Where(x => x.ENodebId == eNodebId).ToList();
+            return cells.Any()
+                ? Mapper.Map<IEnumerable<CellView>, IEnumerable<SectorView>>(
+                    cells.Select(x => CellView.ConstructView(x, _eNodebRepository)))
+                : new List<SectorView>();
+        }
+
         public IEnumerable<SectorView> QuerySectors(double west, double east, double south, double north)
         {
             var cells = _repository.GetAllList(west, east, south, north);

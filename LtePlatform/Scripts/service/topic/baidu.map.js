@@ -534,7 +534,7 @@
 						parametersDialogService.showENodebInfo(item, beginDate, endDate);
 					}, eNodeb);
 					if (shouldShowCells) {
-						networkElementService.queryCellInfosInOneENodeb(eNodeb.eNodebId).then(function(cells) {
+						networkElementService.queryCellInfosInOneENodebUse(eNodeb.eNodebId).then(function(cells) {
 							showCellSectors(cells, xOffset, yOffset, beginDate, endDate);
 						});
 					}
@@ -583,7 +583,7 @@
 		};
 		return {
 			showElementsInOneTown: function (city, district, town, beginDate, endDate) {
-				networkElementService.queryENodebsInOneTown(city, district, town).then(function (eNodebs) {
+				networkElementService.queryENodebsInOneTownUse(city, district, town).then(function (eNodebs) {
 					showENodebsElements(eNodebs, beginDate, endDate, true);
 				});
 			},
@@ -597,7 +597,7 @@
 				});
 			},
 			showElementsWithGeneralName: function (name, beginDate, endDate) {
-				networkElementService.queryENodebsByGeneralName(name).then(function (eNodebs) {
+				networkElementService.queryENodebsByGeneralNameInUse(name).then(function (eNodebs) {
 					if (eNodebs.length === 0) return;
 					showENodebsElements(eNodebs, beginDate, endDate, true);
 				});

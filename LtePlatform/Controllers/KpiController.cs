@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace LtePlatform.Controllers
 {
+    [Authorize(Roles = "指标导入")]
     public class KpiController : Controller
     {
         private readonly TownQueryService _townService;
@@ -27,14 +28,12 @@ namespace LtePlatform.Controllers
             _workItemService = workItemService;
         }
         
-        [Authorize]
         public ActionResult Import()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize]
         public ViewResult KpiImport()
         {
             var message = new List<string>();
@@ -62,7 +61,6 @@ namespace LtePlatform.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public ViewResult SwitchImport()
         {
             var httpPostedFileBase = Request.Files["downSwitch"];
@@ -79,7 +77,6 @@ namespace LtePlatform.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public ViewResult VipDemandImport()
         {
             var httpPostedFileBase = Request.Files["vipDemand"];
@@ -96,7 +93,6 @@ namespace LtePlatform.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public ViewResult ComplainImport()
         {
             var httpPostedFileBase = Request.Files["complain"];
@@ -113,7 +109,6 @@ namespace LtePlatform.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public ViewResult BranchImport()
         {
             var httpPostedFileBase = Request.Files["branch"];
@@ -130,7 +125,6 @@ namespace LtePlatform.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public ViewResult OnlineImport()
         {
             var httpPostedFileBase = Request.Files["online"];
@@ -147,7 +141,6 @@ namespace LtePlatform.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public ViewResult PlanningImport()
         {
             var httpPostedFileBase = Request.Files["planning"];
@@ -162,15 +155,13 @@ namespace LtePlatform.Controllers
             }
             return View("Import");
         }
-
-        [Authorize]
+        
         public ActionResult PreciseImport()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize]
         public ViewResult PrecisePost()
         {
             var message = new List<string>();
@@ -188,15 +179,13 @@ namespace LtePlatform.Controllers
             ViewBag.Message = message;
             return View("PreciseImport");
         }
-
-        [Authorize]
+        
         public ActionResult WorkItemImport()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize]
         public ActionResult WorkItemPost()
         {
             var httpPostedFileBase = Request.Files["workItem"];

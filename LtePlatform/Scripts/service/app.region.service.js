@@ -87,6 +87,11 @@
                     eNodebId: eNodebId
                 });
             },
+            queryCellInfosInOneENodebUse: function (eNodebId) {
+                return generalHttpService.getApiData('CellInUse', {
+                    eNodebId: eNodebId
+                });
+            },
             queryCellViewsInOneENodeb: function(eNodebId) {
                 return generalHttpService.getApiData('Cell', {
                     cellId: eNodebId
@@ -153,6 +158,13 @@
                     town: town
                 });
             },
+            queryENodebsInOneTownUse: function (city, district, town) {
+                return generalHttpService.getApiData('ENodebInUse', {
+                    city: city,
+                    district: district,
+                    town: town
+                });
+            },
             queryENodebsInOneDistrict: function (city, district) {
                 return generalHttpService.getApiData('ENodeb', {
                     city: city,
@@ -166,6 +178,11 @@
             },
             queryENodebsByGeneralName: function(name) {
                 return generalHttpService.getApiData('ENodeb', {
+                    name: name
+                });
+            },
+            queryENodebsByGeneralNameInUse: function (name) {
+                return generalHttpService.getApiData('ENodebInUse', {
                     name: name
                 });
             },
