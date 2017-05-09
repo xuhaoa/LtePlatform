@@ -82,6 +82,11 @@
                     cellName: cellName
                 });
             },
+            queryLteRrusFromPlanNum: function (planNum) {
+                return generalHttpService.getApiData('CellStation', {
+                    planNum: planNum
+                });
+            },
             queryCellInfosInOneENodeb: function(eNodebId) {
                 return generalHttpService.getApiData('Cell', {
                     eNodebId: eNodebId

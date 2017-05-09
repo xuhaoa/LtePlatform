@@ -181,6 +181,15 @@ namespace Lte.Evaluations.ViewModels.Basic
             rru?.MapTo(view);
             return view;
         }
+
+        public static CellRruView ConstructView(Cell cell, IENodebRepository repository, LteRru rru)
+        {
+            var view = Mapper.Map<Cell, CellRruView>(cell);
+            var eNodeb = repository.GetByENodebId(cell.ENodebId);
+            view.ENodebName = eNodeb?.Name;
+            rru?.MapTo(view);
+            return view;
+        }
     }
 
     [AutoMapFrom(typeof(CdmaCell))]

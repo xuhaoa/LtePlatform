@@ -61,6 +61,18 @@ namespace Lte.Evaluations.DataService.Basic
             return GetCellViews(item.ENodebId);
         }
 
+        public IEnumerable<CellRruView> GetByPlanNum(string planNum)
+        {
+            var rrus = _rruRepository.GetAllList(x => x.PlanNum == planNum);
+            if (!rrus.Any()) return new List<CellRruView>();
+            return rrus.Select(rru =>
+            {
+                var cell =
+                    _repository.FirstOrDefault(x => x.ENodebId == rru.ENodebId && x.LocalSectorId == rru.LocalSectorId);
+                return cell == null ? null : CellRruView.ConstructView(cell, _eNodebRepository, rru);
+            }).Where(rru => rru != null);
+        } 
+
         public IEnumerable<CellView> GetNearbyCellsWithPci(int eNodebId, byte sectorId, short pci)
         {
             var cell = _repository.GetBySectorId(eNodebId, sectorId);

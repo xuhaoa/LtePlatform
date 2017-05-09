@@ -1243,9 +1243,20 @@
 	.controller('map.site.dialog', function ($scope, $uibModalInstance, site, dialogTitle, appFormatService, networkElementService) {
 		$scope.itemGroups = appFormatService.generateSiteGroups(site);
 		$scope.detailsGroups = appFormatService.generateSiteDetailsGroups(site);
+		$scope.cellGroups = [];
 		networkElementService.queryENodebByPlanNum(site.planNum).then(function(eNodeb) {
 			if (eNodeb) {
 				$scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
+				$scope.eNodeb = eNodeb;
+			} else {
+				networkElementService.queryLteRrusFromPlanNum(site.planNum).then(function (cells) {
+					angular.forEach(cells, function(cell) {
+						$scope.cellGroups.push({
+							cellGroup: appFormatService.generateCellGroups(cell)
+						});
+					});
+
+				});
 			}
 		});
 		$scope.dialogTitle = dialogTitle;

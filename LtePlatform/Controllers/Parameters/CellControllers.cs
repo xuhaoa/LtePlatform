@@ -137,7 +137,13 @@ namespace LtePlatform.Controllers.Parameters
         public IEnumerable<CellRruView> Get(string stationNum)
         {
             return _service.GetByStationNum(stationNum);
-        } 
+        }
+
+        [HttpGet]
+        public IEnumerable<CellRruView> GetViews(string planNum)
+        {
+            return _service.GetByPlanNum(planNum);
+        }
     }
 
     public class OutdoorCellSiteController : ApiController
