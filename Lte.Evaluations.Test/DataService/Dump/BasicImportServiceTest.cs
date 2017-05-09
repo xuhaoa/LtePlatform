@@ -1,4 +1,6 @@
-﻿using Lte.Domain.Common;
+﻿using System;
+using System.IO;
+using Lte.Domain.Common;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.MockItems;
 using Lte.Parameters.Abstract.Basic;
@@ -7,6 +9,7 @@ using Moq;
 using NUnit.Framework;
 using Shouldly;
 using System.Linq;
+using Lte.Domain.LinqToExcel;
 
 namespace Lte.Evaluations.DataService.Dump
 {
@@ -46,7 +49,7 @@ namespace Lte.Evaluations.DataService.Dump
         [TestCase(new[] { 1, 2, 3, 4, 5 }, new[] { 4, 5 })]
         public void Test_GetNewENodebExcels(int[] inputENodebIds, int[] outputENodebIds)
         {
-            BasicImportService.ENodebExcels = inputENodebIds.Select(x => new ENodebExcel
+            BasicImportContainer.ENodebExcels = inputENodebIds.Select(x => new ENodebExcel
             {
                 ENodebId = x,
                 Name = "ENodeb-" + x
@@ -83,7 +86,7 @@ namespace Lte.Evaluations.DataService.Dump
         public void Test_GetNewCellExcels(int[] inputENodebIds, byte[] inputSectorIds, int[] outputENodebIds,
             byte[] outputSectorIds)
         {
-            BasicImportService.CellExcels = inputENodebIds.Select((t, i) => new CellExcel
+            BasicImportContainer.CellExcels = inputENodebIds.Select((t, i) => new CellExcel
             {
                 ENodebId = t,
                 SectorId = inputSectorIds[i],
@@ -121,7 +124,7 @@ namespace Lte.Evaluations.DataService.Dump
         public void Test_GetNewCellExcels_PciConsidered(int[] inputENodebIds, byte[] inputSectorIds, short[] inputPcis,
             int[] outputENodebIds, byte[] outputSectorIds)
         {
-            BasicImportService.CellExcels = inputENodebIds.Select((t, i) => new CellExcel
+            BasicImportContainer.CellExcels = inputENodebIds.Select((t, i) => new CellExcel
             {
                 ENodebId = t,
                 SectorId = inputSectorIds[i],
@@ -153,6 +156,42 @@ namespace Lte.Evaluations.DataService.Dump
             var results = _service.GetNewCdmaCellExcels().ToArray();
             results.Select(x => x.BtsId).ToArray().ShouldBe(outputBtsIds);
             results.Select(x => x.SectorId).ToArray().ShouldBe(outputSectorIds);
+        }
+
+        [Test]
+        public void Test_ExcelReader()
+        {
+            var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
+            var path = Path.Combine(excelFilesDirectory, "LteCells.xlsx");
+            var service = new BasicImportService(null, null, null, null, null, null, null);
+            //service.ImportLteParameters(path);
+            var repo = new ExcelQueryFactory { FileName = path };
+            var cellExcels = (from c in repo.Worksheet<CellExcel>("小区级")
+                              select c).ToList();
+            cellExcels[0].PlanNum.ShouldBe("FSL13996");
+            BasicImportContainer.CellExcels = cellExcels;
+            BasicImportContainer.CellExcels.ShouldNotBeNull();
+            BasicImportContainer.CellExcels[0].PlanNum.ShouldBe("FSL13996");
+            BasicImportContainer.CellExcels[0].Azimuth.ShouldBe(140);
+            BasicImportContainer.CellExcels[0].ENodebId.ShouldBe(870238);
+            BasicImportContainer.CellExcels[0].AntennaInfo.ShouldBe("4端口单频F");
+        }
+        
+        [Test]
+        public void Test_ExcelReader3()
+        {
+            var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
+            var path = Path.Combine(excelFilesDirectory, "LteCells.xlsx");
+            var service = new BasicImportService(null, null, null, null, null, null, null);
+            BasicImportContainer.CellExcels = service.ImportCellExcels(path);
+
+            BasicImportContainer.CellExcels.ShouldNotBeNull();
+            BasicImportContainer.CellExcels[0].PlanNum.ShouldBe("FSL13996");
+            BasicImportContainer.CellExcels[0].Azimuth.ShouldBe(140);
+            BasicImportContainer.CellExcels[0].ENodebId.ShouldBe(870238);
+            BasicImportContainer.CellExcels[0].AntennaInfo.ShouldBe("4端口单频F");
         }
     }
 }

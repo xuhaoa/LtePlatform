@@ -102,11 +102,22 @@ namespace Lte.Evaluations.DataService.Basic
         public ENodebView GetByENodebId(int eNodebId)
         {
             var item = _eNodebRepository.GetByENodebId(eNodebId);
+            return GenerateENodebView(item);
+        }
+
+        private ENodebView GenerateENodebView(ENodeb item)
+        {
             if (item == null) return null;
             var town = _townRepository.Get(item.TownId);
             var result = item.MapTo<ENodebView>();
             town.MapTo(result);
             return result;
+        }
+
+        public ENodebView GetByPlanNum(string planNum)
+        {
+            var item = _eNodebRepository.FirstOrDefault(x => x.PlanNum == planNum);
+            return GenerateENodebView(item);
         }
 
         public ENodebView GetByStationNum(string stationNum)
@@ -116,11 +127,7 @@ namespace Lte.Evaluations.DataService.Basic
             if (station == null) return null;
             var item = _eNodebRepository.GetByENodebId(station.ENodebId) ??
                        _eNodebRepository.FirstOrDefault(x => x.PlanNum == station.PlanNum);
-            var result = item?.MapTo<ENodebView>();
-            if (result == null) return null;
-            var town = _townRepository.Get(item.TownId);
-            town.MapTo(result);
-            return result;
+            return GenerateENodebView(item);
         }
 
         public StationDictionary GetStationDictionary(int eNodebId, string planNum)

@@ -77,6 +77,22 @@ namespace LtePlatform.Controllers.Parameters
         }
     }
 
+    public class ENodebQueryController : ApiController
+    {
+        private readonly ENodebQueryService _service;
+
+        public ENodebQueryController(ENodebQueryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public ENodebView Get(string planNum)
+        {
+            return _service.GetByPlanNum(planNum);
+        }
+    }
+
     public class ENodebInUseController : ApiController
     {
         private readonly ENodebQueryService _service;

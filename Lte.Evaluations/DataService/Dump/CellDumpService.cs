@@ -88,11 +88,11 @@ namespace Lte.Evaluations.DataService.Dump
                 var result = _cellRepository.Insert(cell);
                 if (result == null) return false;
                 var item =
-                    BasicImportService.CellExcels.FirstOrDefault(
+                    BasicImportContainer.CellExcels.FirstOrDefault(
                         x => x.ENodebId == info.ENodebId && x.SectorId == info.SectorId);
                 if (item != null)
                 {
-                    BasicImportService.CellExcels.Remove(item);
+                    BasicImportContainer.CellExcels.Remove(item);
                 }
                 _cellRepository.SaveChanges();
                 return true;
@@ -118,34 +118,12 @@ namespace Lte.Evaluations.DataService.Dump
             _cellRepository.SaveChanges();
         }
 
-        public async Task<int> ImportRru(IEnumerable<CellExcel> infos)
+        public async Task<int> ImportRru()
         {
-            var sectorInfos = from info in infos
-                group info by new
-                {
-                    info.ENodebId,
-                    info.LocalSectorId
-                }
-                into g
-                let firstInfo = g.First()
-                select new CellExcel
-                {
-                    ENodebId = g.Key.ENodebId,
-                    LocalSectorId = g.Key.LocalSectorId,
-                    RruName = firstInfo.RruName,
-                    AntennaInfo = firstInfo.AntennaInfo,
-                    AntennaFactoryString = firstInfo.AntennaFactoryString,
-                    AntennaModel = firstInfo.AntennaModel,
-                    CanBeETiltDescription = firstInfo.CanBeETiltDescription,
-                    IsBeautifyDescription = firstInfo.IsBeautifyDescription,
-                    IsCaDescription = firstInfo.IsCaDescription
-                };
-            int count = 0;
-            foreach (var info in sectorInfos)
-            {
-                count += await _rruRepository.UpdateOne<ILteRruRepository, LteRru, CellExcel>(info);
-            }
-            return count;
+            var info = BasicImportContainer.CellExcels[BasicImportContainer.LteRruIndex];
+            await _rruRepository.UpdateOne<ILteRruRepository, LteRru, CellExcel>(info);
+            BasicImportContainer.LteRruIndex++;
+            return BasicImportContainer.LteRruIndex < BasicImportContainer.CellExcels.Count ? BasicImportContainer.LteRruIndex : -1;
         }
 
         public async Task<int> UpdateCells(IEnumerable<CellExcel> infos)

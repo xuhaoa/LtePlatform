@@ -24,7 +24,7 @@ namespace Lte.Parameters.Test.Excel
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
             _excelFileName = Path.Combine(excelFilesDirectory, "Cell.xlsx");
-            _worksheetName = "Cell";
+            _worksheetName = "小区级";
         }
 
         [SetUp]
@@ -40,9 +40,10 @@ namespace Lte.Parameters.Test.Excel
                 select c).ToList();
 
             Assert.IsNotNull(info);
-            Assert.AreEqual(info.Count, 5);
-            info[0].ENodebId.ShouldBe(499773);
-            info[1].SectorId.ShouldBe((byte)1);
+            Assert.AreEqual(info.Count, 9);
+            info[0].ENodebId.ShouldBe(870238);
+            info[0].PlanNum.ShouldBe("FSL13996");
+            info[1].SectorId.ShouldBe((byte)0);
             info[2].AntennaInfo.ShouldBe("6端口三频C/F/T");
         }
     }

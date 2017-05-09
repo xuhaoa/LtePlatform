@@ -156,9 +156,7 @@ namespace Abp.EntityFramework.Repositories
             }
             else
             {
-                Mapper.Map(stat, info);
-                
-                await repository.UpdateAsync(info);
+                stat.MapTo(info);
             }
             return repository.SaveChanges();
         }

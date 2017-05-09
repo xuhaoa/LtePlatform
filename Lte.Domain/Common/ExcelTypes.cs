@@ -90,6 +90,9 @@ namespace Lte.Domain.Common
         [ExcelColumn("CELL_ID", TransformEnum.ByteRemoveQuotions)]
         public byte SectorId { get; set; }
 
+        [ExcelColumn("FSL编号")]
+        public string PlanNum { get; set; }
+
         [ExcelColumn("SectorID")]
         public byte LocalSectorId { get; set; }
 

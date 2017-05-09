@@ -72,7 +72,9 @@ namespace LtePlatform.Controllers
             if (lteFile != null && lteFile.FileName != "")
             {
                 var ltePath = lteFile.UploadParametersFile();
-                _basicImportService.ImportLteParameters(ltePath);
+                BasicImportContainer.ENodebExcels = _basicImportService.ImportENodebExcels(ltePath);
+                BasicImportContainer.CellExcels = _basicImportService.ImportCellExcels(ltePath);
+                BasicImportContainer.LteRruIndex = 0;
             }
             return RedirectToAction("BasicImport");
         }

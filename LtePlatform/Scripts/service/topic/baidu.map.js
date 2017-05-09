@@ -1240,9 +1240,14 @@
 
 	})
 
-	.controller('map.site.dialog', function($scope, $uibModalInstance, site, dialogTitle, appFormatService) {
+	.controller('map.site.dialog', function ($scope, $uibModalInstance, site, dialogTitle, appFormatService, networkElementService) {
 		$scope.itemGroups = appFormatService.generateSiteGroups(site);
 		$scope.detailsGroups = appFormatService.generateSiteDetailsGroups(site);
+		networkElementService.queryENodebByPlanNum(site.planNum).then(function(eNodeb) {
+			if (eNodeb) {
+				$scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
+			}
+		});
 		$scope.dialogTitle = dialogTitle;
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.site);

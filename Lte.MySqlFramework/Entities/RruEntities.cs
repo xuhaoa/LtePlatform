@@ -28,6 +28,8 @@ namespace Lte.MySqlFramework.Entities
 
         public string RruName { get; set; }
 
+        public string PlanNum { get; set; }
+
         public string AntennaInfo { get; set; }
 
         [AutoMapPropertyResolve("AntennaFactoryString", typeof(CellExcel), typeof(AntennaFactoryTransform))]

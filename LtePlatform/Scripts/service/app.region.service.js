@@ -140,6 +140,11 @@
                     eNodebId: eNodebId
                 });
             },
+            queryENodebByPlanNum: function (planNum) {
+                return generalHttpService.getApiData('ENodebQuery', {
+                    planNum: planNum
+                });
+            },
             queryENodebStationInfo: function (stationNum) {
                 return generalHttpService.getApiData('ENodebStation', {
                     stationNum: stationNum

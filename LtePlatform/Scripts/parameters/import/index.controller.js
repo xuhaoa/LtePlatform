@@ -114,6 +114,7 @@
         $scope.newCellsImport = true;
         $scope.newBtssImport = true;
         $scope.newCdmaCellsImport = true;
+        $scope.totalDumpRrus = 0;
 
         $scope.postAllENodebs = function() {
             if ($scope.importData.newENodebs.length > 0) {
@@ -175,14 +176,12 @@
         };
 
         $scope.importLteRrus = function() {
-            if ($scope.importData.cellCount > 0) {
-                basicImportService.dumpLteRrus().then(function(result) {
-                    $scope.importData.updateMessages.push({
-                        contents: "完成LTE RRU导入" + result + "个",
-                        type: 'success'
-                    });
-                });
-            }
+            basicImportService.dumpLteRrus().then(function (result) {
+                if (result > 0) {
+                    $scope.totalDumpRrus = result;
+                    $scope.importLteRrus();
+                }
+            });
         };
 
         $scope.importCdmaRrus = function() {

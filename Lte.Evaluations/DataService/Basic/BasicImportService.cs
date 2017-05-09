@@ -11,6 +11,14 @@ using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.DataService.Basic
 {
+    public static class BasicImportContainer
+    {
+        public static List<ENodebExcel> ENodebExcels { get; set; } = new List<ENodebExcel>();
+
+        public static List<CellExcel> CellExcels { get; set; } = new List<CellExcel>();
+        public static int LteRruIndex { get; set; }
+    }
+
     public class BasicImportService
     {
         private readonly IENodebRepository _eNodebRepository;
@@ -35,22 +43,21 @@ namespace Lte.Evaluations.DataService.Basic
             _hotSpotCellRepository = hotSpotCellRepository;
         }
 
-        public static List<ENodebExcel> ENodebExcels { get; set; } = new List<ENodebExcel>();
-
-        public static List<CellExcel> CellExcels { get; set; } = new List<CellExcel>();
-
         public static List<BtsExcel> BtsExcels { get; set; } = new List<BtsExcel>();
 
         public static List<CdmaCellExcel> CdmaCellExcels { get; set; } = new List<CdmaCellExcel>();
 
-        public void ImportLteParameters(string path)
+        public List<ENodebExcel> ImportENodebExcels(string path)
         {
-            var repo = new ExcelQueryFactory {FileName = path};
-            ENodebExcels = (from c in repo.Worksheet<ENodebExcel>("基站级")
-                select c).ToList();
-            CellExcels = (from c in repo.Worksheet<CellExcel>("小区级")
-                select c).ToList();
+            var repo = new ExcelQueryFactory { FileName = path };
+            return (from c in repo.Worksheet<ENodebExcel>("基站级") select c).ToList();
         }
+
+        public List<CellExcel> ImportCellExcels(string path)
+        {
+            var repo = new ExcelQueryFactory { FileName = path };
+            return (from c in repo.Worksheet<CellExcel>("小区级") select c).ToList();
+        } 
 
         public void ImportCdmaParameters(string path)
         {
@@ -84,8 +91,8 @@ namespace Lte.Evaluations.DataService.Basic
 
         public IEnumerable<ENodebExcel> GetNewENodebExcels()
         {
-            if (!ENodebExcels.Any()) return new List<ENodebExcel>();
-            return from info in ENodebExcels
+            if (!BasicImportContainer.ENodebExcels.Any()) return new List<ENodebExcel>();
+            return from info in BasicImportContainer.ENodebExcels
                 join eNodeb in _eNodebRepository.GetAllInUseList()
                     on info.ENodebId equals eNodeb.ENodebId into eNodebQuery
                 from eq in eNodebQuery.DefaultIfEmpty()
@@ -95,9 +102,9 @@ namespace Lte.Evaluations.DataService.Basic
 
         public IEnumerable<int> GetVanishedENodebIds()
         {
-            if (!ENodebExcels.Any()) return new List<int>();
+            if (!BasicImportContainer.ENodebExcels.Any()) return new List<int>();
             return from eNodeb in _eNodebRepository.GetAllInUseList()
-                join info in ENodebExcels
+                join info in BasicImportContainer.ENodebExcels
                     on eNodeb.ENodebId equals info.ENodebId into eNodebQuery
                 from eq in eNodebQuery.DefaultIfEmpty()
                 where eq == null
@@ -117,8 +124,8 @@ namespace Lte.Evaluations.DataService.Basic
 
         public IEnumerable<CellExcel> GetNewCellExcels()
         {
-            if (!CellExcels.Any()) return new List<CellExcel>();
-            return from info in CellExcels
+            if (!BasicImportContainer.CellExcels.Any()) return new List<CellExcel>();
+            return from info in BasicImportContainer.CellExcels
                 join cell in _cellRepository.GetAllInUseList()
                     on new {info.ENodebId, info.SectorId, info.Pci} equals 
                     new {cell.ENodebId, cell.SectorId, cell.Pci} into cellQuery
@@ -129,9 +136,9 @@ namespace Lte.Evaluations.DataService.Basic
 
         public IEnumerable<CellIdPair> GetVanishedCellIds()
         {
-            if (!CellExcels.Any()) return new List<CellIdPair>();
+            if (!BasicImportContainer.CellExcels.Any()) return new List<CellIdPair>();
             return from cell in _cellRepository.GetAllInUseList()
-                join info in CellExcels
+                join info in BasicImportContainer.CellExcels
                     on new {cell.ENodebId, cell.SectorId} equals new {info.ENodebId, info.SectorId}
                     into cellQuery
                 from cq in cellQuery.DefaultIfEmpty()

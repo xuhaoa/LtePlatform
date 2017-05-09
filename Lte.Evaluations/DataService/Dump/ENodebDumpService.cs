@@ -64,10 +64,10 @@ namespace Lte.Evaluations.DataService.Dump
                 eNodeb = ENodeb.ConstructENodeb(info, _townRepository);
                 var result = _eNodebRepository.Insert(eNodeb);
                 if (result == null) return false;
-                var item = BasicImportService.ENodebExcels.FirstOrDefault(x => x.ENodebId == info.ENodebId);
+                var item = BasicImportContainer.ENodebExcels.FirstOrDefault(x => x.ENodebId == info.ENodebId);
                 if (item != null)
                 {
-                    BasicImportService.ENodebExcels.Remove(item);
+                    BasicImportContainer.ENodebExcels.Remove(item);
                 }
                 _eNodebRepository.SaveChanges();
                 return true;

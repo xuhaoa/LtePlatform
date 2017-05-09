@@ -52,19 +52,19 @@ namespace LtePlatform.Controllers.Parameters
         [HttpPut]
         public async Task<int> Put()
         {
-            return await _service.ImportRru(BasicImportService.CellExcels);
+            return await _service.ImportRru();
         }
 
         [HttpPost]
         public async Task<int> Post()
         {
-            return await _service.UpdateCells(BasicImportService.CellExcels);
+            return await _service.UpdateCells(BasicImportContainer.CellExcels);
         }
 
         [HttpGet]
         public int Get()
         {
-            return BasicImportService.CellExcels.Count;
+            return BasicImportContainer.CellExcels.Count;
         }
     }
 
