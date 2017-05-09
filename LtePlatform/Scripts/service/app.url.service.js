@@ -733,6 +733,102 @@
                     }
                 ];
             },
+            generateSpecialStationGroups: function (station) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '网管站名',
+                                value: station.enodebName
+                            }, {
+                                key: '基站编号',
+                                value: station.stationId
+                            }, {
+                                key: '行政区',
+                                value: station.areaName
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '归属',
+                                value: station.alongTo
+                            }, {
+                                key: '基站ID',
+                                value: station.enodebId
+                            }, {
+                                key: '故障',
+                                value: station.fault
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '故障分类',
+                                value: station.faultType
+                            }, {
+                                key: '是否恢复',
+                                value: station.isRecover
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: station.longtitute
+                            }, {
+                                key: '纬度',
+                                value: station.lattitute
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '反馈',
+                                value: station.feedback
+                            }
+                        ]
+                    }
+                ]
+            },
+            generateSpecialIndoorGroups: function(station) {
+                return  [
+                       {
+                           items: [
+                               {
+                                   key: '站点名称',
+                                   value: station.enodebName
+                               }, {
+                                   key: '行政区',
+                                   value: station.areaName
+                               }, {
+                                   key: '割接后施主基站',
+                                   value: station.afterName
+                               }
+                           ]
+                       }, {
+                           items: [
+                               {
+                                   key: '故障类型',
+                                   value: station.faultType
+                               }, {
+                                   key: '解决方案',
+                                   value: station.solution
+                               }
+                           ]
+                       }, {
+                           items: [
+                               {
+                                   key: '经度',
+                                   value: station.longtitute
+                               }, {
+                                   key: '纬度',
+                                   value: station.lattitute
+                               }
+                           ]
+                       }
+                ]
+            },
             generateENodebGroups: function(station) {
                 return [
                     {

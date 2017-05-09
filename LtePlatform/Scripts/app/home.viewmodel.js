@@ -64,6 +64,42 @@
                 },
                 url: "/alarm"
             })
+            .state('special-station', {
+                views: {/*
+                    'menu': {
+                        templateUrl: viewDir + "AlarmSearchMenu.html",
+                        controller: "menu.alarm"
+                    },*/
+                    "contents": {
+                        templateUrl: viewDir + "SpecialStation.html",
+                        controller: "special-station.network"
+                    }/*,
+                    "filter": {
+                        templateUrl: viewDir + "AlarmFilter.html",
+                        controller: "alarm.filter"
+                    }*/
+
+                },
+                url: "/special-station"
+            })
+            .state('special-indoor', {
+                views: {/*
+                    'menu': {
+                        templateUrl: viewDir + "AlarmSearchMenu.html",
+                        controller: "menu.alarm"
+                    },*/
+                    "contents": {
+                        templateUrl: viewDir + "SpecialStation.html",
+                        controller: "special-indoor.network"
+                    }/*,
+                    "filter": {
+                        templateUrl: viewDir + "AlarmFilter.html",
+                        controller: "alarm.filter"
+                    }*/
+
+                },
+                url: "/special-indoor"
+            })
             .state('flow', {
                 views: {
                     'menu': {
@@ -851,6 +887,118 @@
                     }
                 }
             }
+        };
+        $scope.reflashMap();
+    })
+    .controller("special-station.network", function ($scope, downSwitchService, baiduMapService, geometryService,
+        parametersDialogService, baiduQueryService) {
+        
+        $scope.isRecovers = new Array('未恢复', '已恢复', '全部');
+        $scope.isRecover = new Array('否', '是');
+        $scope.stationss = [];
+        $scope.stationss[1] = [];
+        $scope.stationss[2] = [];
+        baiduMapService.initializeMap("map", 13);
+
+        $scope.colorFault = new Array("#FF0000", "#FFFF00");
+
+        
+        $scope.recoverIndex = 0;
+        $scope.recoverName = $scope.isRecovers[$scope.recoverIndex];
+      
+        
+
+        //获取站点
+        $scope.getStations = function (recoverIndex) {          
+            var recoverName = $scope.isRecover[recoverIndex];
+            downSwitchService.getSpecialStations(recoverName, 0, 10000).then(function (response) {
+                $scope.stationss[recoverIndex] = response.result.rows;
+                var color = $scope.colorFault[recoverIndex];
+                baiduQueryService.transformToBaidu($scope.stationss[recoverIndex][0].longtitute, $scope.stationss[recoverIndex][0].lattitute).then(function (coors) {
+                    var xOffset = coors.x - $scope.stationss[recoverIndex][0].longtitute;
+                    var yOffset = coors.y - $scope.stationss[recoverIndex][0].lattitute;
+                    baiduMapService.drawPointCollection($scope.stationss[recoverIndex], color, -xOffset, -yOffset, function (e) {
+                        parametersDialogService.showSpecialStationInfo(e.point.data);
+                    });
+                });
+            });
+        };
+
+        
+        $scope.changeRecover = function (index) {
+            $scope.recoverIndex = index;
+            $scope.recoverName = $scope.isRecovers[$scope.recoverIndex];
+            $scope.reflashMap();
+        };
+        
+        $scope.reflashMap = function () {
+            baiduMapService.clearOverlays();
+            baiduMapService.setCenter(0);
+            if ($scope.recoverIndex == 2) {
+                for (var i = 0; i < 2; ++i) {
+                    $scope.getStations(i);
+                }
+            } else {
+                $scope.getStations($scope.recoverIndex);             
+            }
+            
+        };
+        $scope.reflashMap();
+    })
+    .controller("special-indoor.network", function ($scope, downSwitchService, baiduMapService, geometryService,
+        parametersDialogService, baiduQueryService) {
+
+        $scope.isRecovers = new Array('未恢复', '已恢复', '全部');
+        $scope.isRecover = new Array('否', '是');
+        $scope.stationss = [];
+        $scope.stationss[1] = [];
+        $scope.stationss[2] = [];
+        baiduMapService.initializeMap("map", 13);
+
+        $scope.colorFault = new Array("#FF0000", "#FFFF00");
+
+
+        $scope.recoverIndex = 0;
+        $scope.recoverName = $scope.isRecovers[$scope.recoverIndex];
+
+
+
+        //获取站点
+        $scope.getStations = function (recoverIndex) {
+
+            var recoverName = $scope.isRecover[recoverIndex];
+            downSwitchService.getSpecialIndoor(recoverName, 0, 10000).then(function (response) {
+
+                $scope.stationss[recoverIndex] = response.result.rows;
+                var color = $scope.colorFault[recoverIndex];
+                baiduQueryService.transformToBaidu($scope.stationss[recoverIndex][0].longtitute, $scope.stationss[recoverIndex][0].lattitute).then(function (coors) {
+                    var xOffset = coors.x - $scope.stationss[recoverIndex][0].longtitute;
+                    var yOffset = coors.y - $scope.stationss[recoverIndex][0].lattitute;
+                    baiduMapService.drawPointCollection($scope.stationss[recoverIndex], color, -xOffset, -yOffset, function (e) {
+                        parametersDialogService.showSpecialIndoorInfo(e.point.data);
+                    });
+                });
+            });
+        };
+
+
+        $scope.changeRecover = function (index) {
+            $scope.recoverIndex = index;
+            $scope.recoverName = $scope.isRecovers[$scope.recoverIndex];
+            $scope.reflashMap();
+        };
+
+        $scope.reflashMap = function () {
+            baiduMapService.clearOverlays();
+            baiduMapService.setCenter(0);
+            if ($scope.recoverIndex == 2) {
+                for (var i = 0; i < 2; ++i) {
+                    $scope.getStations(i);
+                }
+            } else {
+                $scope.getStations($scope.recoverIndex);
+            }
+
         };
         $scope.reflashMap();
     })

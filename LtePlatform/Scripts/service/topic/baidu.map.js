@@ -15,7 +15,7 @@
 	.factory('baiduQueryService', function (generalHttpService, appUrlService, baiduMapOptions) {
 		return{
 
-			transformToBaidu: function (longtitute, lattitute) {
+		    transformToBaidu: function (longtitute, lattitute) {		        
 				return generalHttpService.getJsonpData(baiduMapOptions.baiduApiUrl + '&coords=' + longtitute + ',' + lattitute
 					+ '&from=1&to=5&ak=' + baiduMapOptions.myKey, function (result) {
 						return result.result[0];
@@ -799,6 +799,34 @@
 					}
 				});
 			},
+			showSpecialStationInfo: function (station) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/SpecialStationDetails.html',
+			        controller: 'map.special-station.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "站点信息:" + station.enodebName;
+			            },
+			            station: function () {
+			                return station;
+			            }
+			        }
+			    });
+			},
+			showSpecialIndoorInfo: function (station) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/SpecialStationDetails.html',
+			        controller: 'map.special-indoor.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "站点信息:" + station.enodebName;
+			            },
+			            station: function () {
+			                return station;
+			            }
+			        }
+			    });
+			},
 			showAlarmStationInfo: function (station,beginDate, endDate) {
 			    menuItemService.showGeneralDialog({
 			        templateUrl: '/appViews/Home/AlarmStationDetails.html',
@@ -1220,6 +1248,30 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
+    .controller('map.special-station.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+		appFormatService, networkElementService) {
+        
+        $scope.itemGroups = appFormatService.generateSpecialStationGroups(station);
+        
+        $scope.dialogTitle = dialogTitle;
+       
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('map.special-indoor.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+		appFormatService, networkElementService) {
+
+        $scope.itemGroups = appFormatService.generateSpecialIndoorGroups(station);
+
+        $scope.dialogTitle = dialogTitle;
+        
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .controller('map.alarmStation.dialog', function ($scope, $uibModalInstance, station, beginDate, endDate, dialogTitle,
         appFormatService, downSwitchService, parametersDialogService) {
         $scope.station = station;

@@ -1693,6 +1693,21 @@
                     "curr_page": curr_page,
                     "page_size": page_size
                 });
+            },
+            getSpecialStations: function (recoverName, page, pageSize) {
+              
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Special/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "recoverName": recoverName
+                });
+            },
+            getSpecialIndoor: function (recoverName, page, pageSize) {          
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/SpecialIndoor/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "recoverName": recoverName
+                });
             }
         };
     })

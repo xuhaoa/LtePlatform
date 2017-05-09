@@ -457,6 +457,7 @@
     <Content Include="appViews\Home\Network.html" />
     <Content Include="appViews\Home\Plan.html" />
     <Content Include="appViews\Home\PlanningDetails.html" />
+    <Content Include="appViews\Home\SpecialStationDetails.html" />
     <Content Include="appViews\Home\StationAdd.html" />
     <Content Include="appViews\Home\StationDetail.html" />
     <Content Include="appViews\Home\StationEdit.html" />
@@ -494,6 +495,7 @@
     <Content Include="appViews\Rutrace\WorkItem\CellTrend.html" />
     <Content Include="appViews\Rutrace\WorkItem\ForCell.html" />
     <Content Include="appViews\ShowImportDialog.html" />
+    <Content Include="appViews\Home\SpecialStation.html" />
     <Content Include="appViews\Test\Simple\CellClass.html" />
     <Content Include="appViews\Test\Simple\GridBinding.html" />
     <Content Include="appViews\Test\Simple\GridFilter.html" />
