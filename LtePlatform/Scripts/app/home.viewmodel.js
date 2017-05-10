@@ -62,6 +62,10 @@
             })
             .state('special-station', {
                 views: {
+                    'menu': {
+                        templateUrl: "/appViews/Title.html",
+                        controller: "menu.special"
+                    },
                     "contents": {
                         templateUrl: viewDir + "SpecialStation.html",
                         controller: "special-station.network"
@@ -72,6 +76,10 @@
             })
             .state('special-indoor', {
                 views: {
+                    'menu': {
+                        templateUrl: "/appViews/Title.html",
+                        controller: "menu.special-indoor"
+                    },
                     "contents": {
                         templateUrl: viewDir + "SpecialStation.html",
                         controller: "special-indoor.network"
@@ -82,6 +90,10 @@
             })
             .state('long-term', {
                 views: {
+                    'menu': {
+                        templateUrl: "/appViews/Title.html",
+                        controller: "menu.fault"
+                    },
                     "contents": {
                         templateUrl: viewDir + "FaultStation.html",
                         controller: "fault-station.network"
@@ -91,6 +103,10 @@
             })
             .state('clear-flow', {
                 views: {
+                    'menu': {
+                        templateUrl: "/appViews/Title.html",
+                        controller: "menu.flow"
+                    },
                     "contents": {
                         templateUrl: viewDir + "ClearZero.html",
                         controller: "clear-flow.network"
@@ -100,6 +116,10 @@
             })
             .state('clear-voice', {
                 views: {
+                    'menu': {
+                        templateUrl: "/appViews/Title.html",
+                        controller: "menu.voice"
+                    },
                     "contents": {
                         templateUrl: viewDir + "ClearZero.html",
                         controller: "clear-voice.network"
@@ -307,6 +327,36 @@
             ]
         };
     })
+     .controller("menu.special", function ($scope, appUrlService) {
+         var rootUrl = "/#";
+         $scope.menuItem = {
+             displayName: "网运专项-基站"
+         };
+     })
+    .controller("menu.special-indoor", function ($scope, appUrlService) {
+        var rootUrl = "/#";
+        $scope.menuItem = {
+            displayName: "网运专项-室分"
+        };
+    })
+    .controller("menu.fault", function ($scope, appUrlService) {
+        var rootUrl = "/#";
+        $scope.menuItem = {
+            displayName: "长期故障"
+        };
+    })
+    .controller("menu.voice", function ($scope, appUrlService) {
+        var rootUrl = "/#";
+        $scope.menuItem = {
+            displayName: "清网排障-零话务"
+        };
+    })
+     .controller("menu.flow", function ($scope, appUrlService) {
+         var rootUrl = "/#";
+         $scope.menuItem = {
+             displayName: "清网排障-零流量"
+         };
+     })
     .controller("menu.query", function ($scope, appUrlService) {
         var rootUrl = "/#";
         $scope.menuItem = {
@@ -1127,6 +1177,7 @@
     .controller("fault-station.network", function ($scope, downSwitchService, baiduMapService, geometryService,
         parametersDialogService, baiduQueryService) {
 
+       
 
         $scope.stationss = [];
         $scope.stationss[1] = [];

@@ -1352,6 +1352,12 @@
      })
     .controller('map.alarmStation.dialog', function ($scope, $uibModalInstance, station, beginDate, endDate, dialogTitle,
         appFormatService, downSwitchService, parametersDialogService) {
+        $scope.levels = [
+       { value: '0', name: '紧急' },
+       { value: '1', name: '重要' },
+       { value: '2', name: '一般' },
+       { value: '', name: '全部' }
+        ];
         $scope.station = station;
         downSwitchService.getAlarmStationById(station.StationId, 0, 10000).then(function (response) {
             $scope.alarmStations = response.result;
@@ -1487,10 +1493,10 @@
     .controller('map.alarmHistoryList.dialog', function ($scope, $http, dialogTitle, alarmStation, $uibModalInstance, parametersDialogService,
 		downSwitchService) {
         $scope.levels = [
-       { value: '', name: '全部' },
        { value: '0', name: '紧急' },
        { value: '1', name: '重要' },
-       { value: '2', name: '一般' }
+       { value: '2', name: '一般' },
+       { value: '' , name: '全部' }
         ];
         $scope.alarmStation = alarmStation;
         $scope.dialogTitle = dialogTitle;
@@ -1499,12 +1505,15 @@
         $scope.records = 0;
         $scope.alarmList = new Array();
 
+        
+
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         }
         $scope.search = function () {
-            $scope.page = 1;
+            $scope.page = 1;          
             $scope.jumpPage($scope.page);
+            
         }
         $scope.firstPage = function () {
             $scope.page = 1;

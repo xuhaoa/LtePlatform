@@ -471,6 +471,7 @@
     <Content Include="appViews\Home\StationDetails.html" />
     <Content Include="appViews\Home\StationOutportDialog.html" />
     <Content Include="appViews\Home\StationSearchMenu.html" />
+    <Content Include="appViews\Title.html" />
     <Content Include="appViews\Home\WorkItem.html" />
     <Content Include="appViews\Import\ImportProgress.html" />
     <Content Include="appViews\Import\Precise\WorkItem.html" />

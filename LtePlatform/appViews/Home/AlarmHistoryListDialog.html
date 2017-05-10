@@ -12,8 +12,10 @@
         <input type="text" ng-model="alarmCode" placeholder="告警码">
         告警级别:
         <select ng-init="selectLevel=levels[0]" ng-model="selectLevel" ng-options="level.name for level in levels"></select>
+        
         <button ng-click="search()">查询</button>
         <br>
+
 
         <table class="table table-striped">
             <thead>
@@ -27,9 +29,10 @@
             </thead>
             <tbody>
                 <tr ng-repeat="alarm in alarmList">
-                    <td>{{alarm.AlarmLevel}}</td>
+                    <td>{{levels[alarm.AlarmLevel].name}}</td>
                     <td>{{alarm.AlarmId}}</td>
                     <td>{{alarm.HappenTime}}</td>
+                    <td>{{alarm.RecoverTime}}</td>
                     <td align="center">{{alarm.Details}}</td>
                 </tr>
             </tbody>
