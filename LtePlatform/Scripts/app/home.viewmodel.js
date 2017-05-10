@@ -1705,7 +1705,7 @@
         $scope.netType = 'L';
         $scope.levelIndex = 0;
         $scope.level = $scope.levelNames[$scope.levelIndex];
-        $scope.distinctIndex = 5;
+        $scope.distinctIndex = 0;
 
         //获取站点
         $scope.getStations = function (areaIndex, levelIndex) {

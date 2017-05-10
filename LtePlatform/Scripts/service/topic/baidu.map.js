@@ -872,6 +872,20 @@
 					}
 				});
 			},
+			showSpecialStationInfo: function (station) {
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
+					controller: 'map.special-station.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return "站点信息:" + station.enodebName;
+						},
+						station: function () {
+							return station;
+						}
+					}
+				});
+			},
 			showStationInfo: function (station, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Home/StationDetails.html',
@@ -1524,6 +1538,68 @@
 			$uibModalInstance.dismiss('cancel');
 		}
 	})
+
+
+	.controller('map.special-station.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+		appFormatService, networkElementService) {
+
+		$scope.itemGroups = appFormatService.generateSpecialStationGroups(station);
+
+		$scope.dialogTitle = dialogTitle;
+
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
+	.controller('map.zero-voice.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+		appFormatService, networkElementService) {
+
+		$scope.itemGroups = appFormatService.generateZeroVoiceGroups(station);
+
+		$scope.dialogTitle = dialogTitle;
+
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
+	.controller('map.zero-flow.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+		appFormatService, networkElementService) {
+
+		$scope.itemGroups = appFormatService.generateZeroFlowGroups(station);
+
+		$scope.dialogTitle = dialogTitle;
+
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
+	.controller('map.special-indoor.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+		appFormatService, networkElementService) {
+
+		$scope.itemGroups = appFormatService.generateSpecialIndoorGroups(station);
+
+		$scope.dialogTitle = dialogTitle;
+
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
+	 .controller('map.fault-station.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+		appFormatService, networkElementService) {
+
+		 $scope.itemGroups = appFormatService.generateFaultStationGroups(station);
+
+		 $scope.dialogTitle = dialogTitle;
+
+
+		 $scope.cancel = function () {
+			 $uibModalInstance.dismiss('cancel');
+		 };
+	 })
 
 	.controller('map.alarmStation.dialog', function ($scope, $uibModalInstance, station, beginDate, endDate, dialogTitle,
 		appFormatService, downSwitchService, parametersDialogService) {

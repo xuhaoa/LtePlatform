@@ -956,6 +956,277 @@
                     }
                 ];
             },
+            generateSpecialStationGroups: function (station) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '网管站名',
+                                value: station.enodebName
+                            }, {
+                                key: '基站编号',
+                                value: station.stationId
+                            }, {
+                                key: '行政区',
+                                value: station.areaName
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '归属',
+                                value: station.alongTo
+                            }, {
+                                key: '基站ID',
+                                value: station.enodebId
+                            }, {
+                                key: '故障',
+                                value: station.fault
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '故障分类',
+                                value: station.faultType
+                            }, {
+                                key: '是否恢复',
+                                value: station.isRecover
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: station.longtitute
+                            }, {
+                                key: '纬度',
+                                value: station.lattitute
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '反馈',
+                                value: station.feedback
+                            }
+                        ]
+                    }
+                ];
+            },
+            generateSpecialIndoorGroups: function (station) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '站点名称',
+                                value: station.enodebName
+                            }, {
+                                key: '行政区',
+                                value: station.areaName
+                            }, {
+                                key: '割接后施主基站',
+                                value: station.afterName
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '故障类型',
+                                value: station.faultType
+                            }, {
+                                key: '解决方案',
+                                value: station.solution
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: station.longtitute
+                            }, {
+                                key: '纬度',
+                                value: station.lattitute
+                            }
+                        ]
+                    }
+                ];
+            },
+            generateZeroFlowGroups: function (station) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '基站名',
+                                value: station.enodebName
+                            }, {
+                                key: '地市',
+                                value: station.city
+                            }, {
+                                key: '厂家',
+                                value: station.factory
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '是否断站',
+                                value: station.isOff
+                            }, {
+                                key: '是否存在小区退服',
+                                value: station.isOut
+                            }, {
+                                key: 'BBU是否交维',
+                                value: station.isIntersect
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: 'BBU是否下挂RRU',
+                                value: station.isUnderbarrel
+                            }, {
+                                key: '是否已解决',
+                                value: station.isSolve
+                            }, {
+                                key: '零流量原因类型',
+                                value: station.reasonType
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '计划解决时间',
+                                value: station.planDate
+                            }, {
+                                key: '完成时间',
+                                value: station.finishDate
+                            }, {
+                                key: '责任单位',
+                                value: station.unit
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: station.longtitute
+                            }, {
+                                key: '纬度',
+                                value: station.lattitute
+                            }, {
+                                key: '解决措施',
+                                value: station.solution
+                            }
+                        ]
+                    }
+                ];
+            },
+            generateZeroVoiceGroups: function (station) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '基站名',
+                                value: station.BTSName
+                            }, {
+                                key: '地市',
+                                value: station.city
+                            }, {
+                                key: '厂家',
+                                value: station.factory
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '是否断站',
+                                value: station.isOff
+                            }, {
+                                key: '是否存在小区退服',
+                                value: station.isOut
+                            }, {
+                                key: 'BBU是否交维',
+                                value: station.isIntersect
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: 'BBU是否下挂RRU',
+                                value: station.isUnderbarrel
+                            }, {
+                                key: '是否已解决',
+                                value: station.isSolve
+                            }, {
+                                key: '零话务原因类型',
+                                value: station.reasonType
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '计划解决时间',
+                                value: station.planDate
+                            }, {
+                                key: 'BTSTYPE',
+                                value: station.BTSTYPE
+                            }, {
+                                key: '责任单位',
+                                value: station.unit
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: station.longtitute
+                            }, {
+                                key: '纬度',
+                                value: station.lattitute
+                            }, {
+                                key: '解决措施',
+                                value: station.solution
+                            }
+                        ]
+                    }
+                ];
+            },
+            generateFaultStationGroups: function (station) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '站点名称',
+                                value: station.enodebName
+                            }, {
+                                key: '单号',
+                                value: station.orderId
+                            }, {
+                                key: '告警名称',
+                                value: station.alarmName
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '故障反馈',
+                                value: station.feedback
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: station.longtitute
+                            }, {
+                                key: '纬度',
+                                value: station.lattitute
+                            }
+                        ]
+                    }
+                ];
+            },
             generateCdmaCellGroups: function (cell) {
                 return [
                     {
@@ -2042,175 +2313,175 @@
             },
             generateCellDetailsGroups: function(site) {
                 return [
-                {
-                    items: [
-                        {
-                            key: '频点',
-                            value: site.frequency
-                        }, {
-                            key: '经度',
-                            value: site.longtitute
-                        }, {
-                            key: '纬度',
-                            value: site.lattitute
-                        }
-                    ]
-                }, {
-                    items: [
-                        {
-                            key: '天线挂高',
-                            value: site.height
-                        }, {
-                            key: '方位角',
-                            value: site.azimuth
-                        }, {
-                            key: '下倾角',
-                            value: site.downTilt
-                        }
-                    ]
-                }, {
-                    items: [
-                        {
-                            key: '室内外',
-                            value: site.indoor
-                        }, {
-                            key: '天线增益',
-                            value: site.antennaGain
-                        }, {
-                            key: 'RS功率',
-                            value: site.rsPower
-                        }
-                    ]
-                }, {
-                    items: [
-                        {
-                            key: 'PCI',
-                            value: site.pci
-                        }, {
-                            key: 'PRACH',
-                            value: site.prach
-                        }, {
-                            key: 'TAC',
-                            value: site.tac
-                        }
-                    ]
-                }
+                    {
+                        items: [
+                            {
+                                key: '频点',
+                                value: site.frequency
+                            }, {
+                                key: '经度',
+                                value: site.longtitute
+                            }, {
+                                key: '纬度',
+                                value: site.lattitute
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '天线挂高',
+                                value: site.height
+                            }, {
+                                key: '方位角',
+                                value: site.azimuth
+                            }, {
+                                key: '下倾角',
+                                value: site.downTilt
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '室内外',
+                                value: site.indoor
+                            }, {
+                                key: '天线增益',
+                                value: site.antennaGain
+                            }, {
+                                key: 'RS功率',
+                                value: site.rsPower
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: 'PCI',
+                                value: site.pci
+                            }, {
+                                key: 'PRACH',
+                                value: site.prach
+                            }, {
+                                key: 'TAC',
+                                value: site.tac
+                            }
+                        ]
+                    }
                 ];
             },
             generateFlowDetailsGroups: function (site) {
                 return [
-                {
-                    items: [
-                        {
-                            key: '小区名称',
-                            value: site.eNodebName + '-' +site.sectorId
-                        }, {
-                            key: '经度',
-                            value: site.longtitute
-                        }, {
-                            key: '纬度',
-                            value: site.lattitute
-                        }
-                    ]
-                }, {
-                    items: [
-                        {
-                            key: '天线挂高',
-                            value: site.height
-                        }, {
-                            key: '方位角',
-                            value: site.azimuth
-                        }, {
-                            key: '下倾角',
-                            value: site.downTilt
-                        }
-                    ]
-                }, {
-                    items: [
-                        {
-                            key: '室内外',
-                            value: site.indoor
-                        }, {
-                            key: '天线增益',
-                            value: site.antennaGain
-                        }, {
-                            key: 'RS功率',
-                            value: site.rsPower
-                        }
-                    ]
-                }, {
-                    items: [
-                        {
-                            key: '下行流量（MB）',
-                            value: site.pdcpDownlinkFlow
-                        }, {
-                            key: '上行流量（MB）',
-                            value: site.pdcpUplinkFlow
-                        }, {
-                            key: '用户数',
-                            value: site.maxUsers
-                        }
-                    ]
-                }, {
-                    items: [
-                        {
-                            key: '下行感知速率（Mbit/s）',
-                            value: site.downlinkFeelingRate
-                        }, {
-                            key: '上行感知速率（Mbit/s）',
-                            value: site.uplinkFeelingRate
-                        }, {
-                            key: 'PCI',
-                            value: site.pci
-                        }
-                    ]
-                }, {
-                    items: [
-                        {
-                            key: '4G下切3G次数',
-                            value: site.redirectCdma2000
-                        }, {
-                            key: '4G双流比',
-                            value: site.rank2Rate
-                        }, {
-                            key: 'PRACH',
-                            value: site.prach
-                        }
-                    ]
-                }
+                    {
+                        items: [
+                            {
+                                key: '小区名称',
+                                value: site.eNodebName + '-' + site.sectorId
+                            }, {
+                                key: '经度',
+                                value: site.longtitute
+                            }, {
+                                key: '纬度',
+                                value: site.lattitute
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '天线挂高',
+                                value: site.height
+                            }, {
+                                key: '方位角',
+                                value: site.azimuth
+                            }, {
+                                key: '下倾角',
+                                value: site.downTilt
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '室内外',
+                                value: site.indoor
+                            }, {
+                                key: '天线增益',
+                                value: site.antennaGain
+                            }, {
+                                key: 'RS功率',
+                                value: site.rsPower
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '下行流量（MB）',
+                                value: site.pdcpDownlinkFlow
+                            }, {
+                                key: '上行流量（MB）',
+                                value: site.pdcpUplinkFlow
+                            }, {
+                                key: '用户数',
+                                value: site.maxUsers
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '下行感知速率（Mbit/s）',
+                                value: site.downlinkFeelingRate
+                            }, {
+                                key: '上行感知速率（Mbit/s）',
+                                value: site.uplinkFeelingRate
+                            }, {
+                                key: 'PCI',
+                                value: site.pci
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '4G下切3G次数',
+                                value: site.redirectCdma2000
+                            }, {
+                                key: '4G双流比',
+                                value: site.rank2Rate
+                            }, {
+                                key: 'PRACH',
+                                value: site.prach
+                            }
+                        ]
+                    }
                 ];
             },
             generateCellMongoGroups: function (site) {
                 return [
-                {
-                    items: [
-                        {
-                            key: '网管PCI',
-                            value: site.phyCellId
-                        }, {
-                            key: '网管PRACH',
-                            value: site.rootSequenceIdx
-                        }, {
-                            key: '本地小区标识（仅华为有效）',
-                            value: site.localCellId
-                        }
-                    ]
-                }, {
-                    items: [
-                        {
-                            key: '服务小区偏移量',
-                            value: site.cellSpecificOffset,
-                            filter: 'dbStep32'
-                        }, {
-                            key: '服务小区偏置',
-                            value: site.qoffsetFreq,
-                            filter: 'dbStep32'
-                        }, {
-                            key: '前导格式',
-                            value: site.preambleFmt
-                        }
-                    ]
-                }
+                    {
+                        items: [
+                            {
+                                key: '网管PCI',
+                                value: site.phyCellId
+                            }, {
+                                key: '网管PRACH',
+                                value: site.rootSequenceIdx
+                            }, {
+                                key: '本地小区标识（仅华为有效）',
+                                value: site.localCellId
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '服务小区偏移量',
+                                value: site.cellSpecificOffset,
+                                filter: 'dbStep32'
+                            }, {
+                                key: '服务小区偏置',
+                                value: site.qoffsetFreq,
+                                filter: 'dbStep32'
+                            }, {
+                                key: '前导格式',
+                                value: site.preambleFmt
+                            }
+                        ]
+                    }
                 ];
             },
             accumulatePreciseStat: function (source, accumulate) {
