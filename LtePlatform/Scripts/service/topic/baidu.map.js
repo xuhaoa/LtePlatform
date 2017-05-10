@@ -1257,7 +1257,17 @@
 							rruGroup: appFormatService.generateRruGroups(cell)
 						});
 					});
-
+					if (cells.length) {
+					    networkElementService.queryENodebInfo(cells[0].eNodebId).then(function (item) {
+							if (item) {
+								$scope.eNodebGroups = appFormatService.generateENodebGroups(item);
+								$scope.eNodeb = item;
+							    networkElementService.queryCellViewsInOneENodeb(item.eNodebId).then(function(cellList) {
+							        $scope.cellList = cellList;
+							    });
+							}
+						});
+					}
 				});
 			}
 		});

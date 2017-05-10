@@ -4,6 +4,7 @@
 </div>
 <div class="modal-body form-horizontal">
     <div plan-site-details item-groups="itemGroups"></div>
+    <div lte-cell-table items="cellList" begin-date="beginDate" end-date="endDate" ng-show="eNodeb"></div>
 </div>
 <div uib-tabset active="active">
     <div uib-tab index="0" heading="详细信息">
@@ -11,7 +12,6 @@
     </div>
     <div uib-tab index="1" heading="基站小区信息">
         <div plan-site-details item-groups="eNodebGroups" ng-show="eNodeb"></div>
-        <div lte-cell-table items="cellList" begin-date="beginDate" end-date="endDate" ng-show="eNodeb"></div>
     </div>
     <div uib-tab index="2" heading="小区列表">
         <div ng-repeat="group in cellGroups">
