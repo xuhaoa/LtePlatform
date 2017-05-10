@@ -249,6 +249,7 @@
                 },
                 url: "/highvalue"
             })
+
             .state('alarm', {
                 views: {
                     'menu': {
@@ -262,6 +263,73 @@
 
                 },
                 url: "/alarm"
+            })
+            .state('special-station', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.checking"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "SpecialStation.html",
+                        controller: "special-station.network"
+                    }
+
+                },
+                url: "/special-station"
+            })
+            .state('special-indoor', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.checking"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "SpecialStation.html",
+                        controller: "special-indoor.network"
+                    }
+
+                },
+                url: "/special-indoor"
+            })
+            .state('long-term', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.checking"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "FaultStation.html",
+                        controller: "fault-station.network"
+                    }
+                },
+                url: "/long-term"
+            })
+            .state('clear-flow', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.checking"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "ClearZero.html",
+                        controller: "clear-flow.network"
+                    }
+                },
+                url: "/clear-flow"
+            })
+            .state('clear-voice', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.checking"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "ClearZero.html",
+                        controller: "clear-voice.network"
+                    }
+                },
+                url: "/clear-voice"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -399,6 +467,60 @@
             });
         });
     })
+
+    .controller("menu.alarm", function ($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService) {
+
+        $scope.stationName = "";
+        $scope.stations = [];
+
+        $scope.search = function () {
+            downSwitchService.getAlarmStationByName($scope.stationName, 1, 10).then(function (response) {
+                $scope.stations = response.result.rows;
+            });
+        }
+        $scope.showStationInfo = function (index) {
+            document.getElementById("cardlist").style.display = "none";
+            parametersDialogService.showAlarmStationInfo($scope.stations[index - 1]);
+        }
+        $scope.$watch('stations', function () {
+            baiduMapService.clearOverlays();
+            if (!$scope.stations.length)
+                return;
+            document.getElementById("cardlist").style.display = "inline";
+            baiduQueryService.transformToBaidu($scope.stations[0].longtitute, $scope.stations[0].lattitute).then(function (coors) {
+                var xOffset = coors.x - $scope.stations[0].longtitute;
+                var yOffset = coors.y - $scope.stations[0].lattitute;
+                baiduMapService.drawPointsUsual($scope.stations, -xOffset, -yOffset, function () {
+                    parametersDialogService.showAlarmStationInfo(this.data, $scope.beginDate, $scope.endDate);
+                });
+            });
+        });
+    })
+
+    .controller('menu.checking', function ($scope) {
+        $scope.menuItem = {
+            displayName: "网络整治",
+            subItems: [
+                {
+                    displayName: "网运专项-基站",
+                    url: '/#/special-station'
+                }, {
+                    displayName: "网运专项-室分",
+                    url: '/#/special-indoor'
+                }, {
+                    displayName: "长期故障",
+                    url: '/#/long-term'
+                }, {
+                    displayName: "清网排障-零流量",
+                    url: '/#/clear-flow'
+                }, {
+                    displayName: "清网排障-零话务",
+                    url: '/#/clear-voice'
+                }
+            ]
+        };
+    })
+
     .controller('menu.plan', function($scope, appUrlService) {
         $scope.menuItem = {
             displayName: "规划支撑",
@@ -1564,36 +1686,6 @@
         $scope.updateConstructionLegendDefs();
         dumpPreciseService.generateUsersDistrict($scope.city.selected || "佛山", $scope.districts, function(district, $index) {
             $scope.showPlanningSite($scope.city.selected || "佛山", district, $scope.colors[$index]);
-        });
-    })
-
-
-    .controller("menu.alarm", function ($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService) {
-
-        $scope.stationName = "";
-        $scope.stations = [];
-
-        $scope.search = function () {
-            downSwitchService.getAlarmStationByName($scope.stationName, 1, 10).then(function (response) {
-                $scope.stations = response.result.rows;
-            });
-        }
-        $scope.showStationInfo = function (index) {
-            document.getElementById("cardlist").style.display = "none";
-            parametersDialogService.showAlarmStationInfo($scope.stations[index - 1]);
-        }
-        $scope.$watch('stations', function () {
-            baiduMapService.clearOverlays();
-            if (!$scope.stations.length)
-                return;
-            document.getElementById("cardlist").style.display = "inline";
-            baiduQueryService.transformToBaidu($scope.stations[0].longtitute, $scope.stations[0].lattitute).then(function (coors) {
-                var xOffset = coors.x - $scope.stations[0].longtitute;
-                var yOffset = coors.y - $scope.stations[0].lattitute;
-                baiduMapService.drawPointsUsual($scope.stations, -xOffset, -yOffset, function () {
-                    parametersDialogService.showAlarmStationInfo(this.data, $scope.beginDate, $scope.endDate);
-                });
-            });
         });
     })
 

@@ -2429,7 +2429,7 @@
             queryMapColors: function() {
                 return [
                     '#CC3333',
-                    '#FFFF00',
+                    '#3366D0',
                     '#CC9966',
                     '#003300',
                     '#99CC00',
