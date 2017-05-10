@@ -435,6 +435,7 @@
     <Content Include="appViews\Evaluation\HighValue.html" />
     <Content Include="appViews\Evaluation\Highway.html" />
     <Content Include="appViews\Evaluation\Railway.html" />
+    <Content Include="appViews\Evaluation\SpecialStation.html" />
     <Content Include="appViews\Evaluation\Subway.html" />
     <Content Include="appViews\HeaderMenu.html" />
     <Content Include="appViews\Home\Analysis.html" />
