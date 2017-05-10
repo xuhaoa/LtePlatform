@@ -1,0 +1,53 @@
+﻿<div class="modal-header">
+
+    <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+
+    <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
+
+    <button class="btn btn-default" type="button" ng-click="showStationInfo()">站点信息</button>
+</div>
+<div class="modal-body form-horizontal">
+    <ul>
+        <li ng-repeat="alarmStation in alarmStations">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="text-align:center">网管名称</label>
+                <div class="col-sm-4">
+                    <span class="form-control">{{alarmStation.NetAdminName}}</span>
+                </div>
+                <label class="col-sm-2 control-label" style="text-align:center">网络类型</label>
+                <div class="col-sm-2">
+                    <span class="form-control">{{alarmStation.NetType}}</span>
+                </div>
+                <div class="col-sm-2">
+                    <button ng-click="showHistory(alarmStation)">历史告警</button>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <td>告警级别</td>
+                        <td>告警码</td>
+                        <td>告警时间</td>
+                        <td style="align-content: center">定位</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="alarm in alarmStation.AlarmList">
+                        <td>{{alarm.AlarmLevel}}</td>
+                        <td>{{alarm.AlarmId}}</td>
+                        <td>{{alarm.HappenTime}}</td>
+                        <td style="align-content: center">{{alarm.Details}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default" type="button" ng-click="cancel()">关闭窗口</button>
+</div>
+<style>
+    li {
+        list-style-type: none;
+    }
+</style>

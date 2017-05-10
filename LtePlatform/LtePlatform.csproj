@@ -427,6 +427,10 @@
     <Content Include="appViews\Customer\Process\Emergency.html" />
     <Content Include="appViews\Customer\Process\Vip.html" />
     <Content Include="appViews\Customer\VipList.html" />
+    <Content Include="appViews\Evaluation\Alarm.html" />
+    <Content Include="appViews\Evaluation\AlarmSearchMenu.html" />
+    <Content Include="appViews\Evaluation\AlarmStationDetails.html" />
+    <Content Include="appViews\Evaluation\Dialog\AlarmHistoryListDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\BuildingInfoBox.html" />
     <Content Include="appViews\Evaluation\HighValue.html" />
     <Content Include="appViews\Evaluation\Highway.html" />

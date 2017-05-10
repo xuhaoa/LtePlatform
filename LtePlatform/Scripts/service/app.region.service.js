@@ -1711,6 +1711,83 @@
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/single', {
                     "id": id
                 });
+            },
+            getAlarmStationByName: function (name, page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "stationName": name
+                });
+            },
+            getStationByFilter: function (areaName, stationGrade, netType, roomAttribution, towerAttribution,isPower, isBBU, page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "areaName": areaName,
+                    "netType": netType,
+                    "stationGrade": stationGrade,
+                    "roomAttribution": roomAttribution,
+                    "towerAttribution": towerAttribution,
+                    "isBBU": isBBU,
+                    "isPower": isPower
+                });
+            },
+            getAlarmStations: function (areaName, levelIndex, netType, page, pageSize) {               
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Alarm/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "area_id": areaName,
+                    "net_type": netType,
+                    "alarmLevel": levelIndex
+                });
+            },
+            getAlarmStationById: function (id) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Alarm/single/', {
+                    station_id: id
+                });
+            },
+            getAlarmHistorybyId: function (id, currPage, pageSize, alarmLevel) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Alarmhistory/search', {
+                    "id": id,
+                    "alarmLevel": alarmLevel,
+                    "curr_page": currPage,
+                    "page_size": pageSize
+                });
+            },
+            getSpecialStations: function (recoverName, page, pageSize) {
+              
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Special/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "recoverName": recoverName
+                });
+            },
+            getSpecialIndoor: function (recoverName, page, pageSize) {          
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/SpecialIndoor/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "recoverName": recoverName
+                });
+            },
+            getFaultStations: function (page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Fault/search', {
+                    "curr_page": page,
+                    "page_size": pageSize
+                });
+            },
+            getZeroVoice: function (isSolve,page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/ZeroVoice/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "isSolve": isSolve
+                });
+            },
+            getZeroFlow: function (isSolve,page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/ZeroFlow/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "isSolve": isSolve
+                });
             }
         };
     })
