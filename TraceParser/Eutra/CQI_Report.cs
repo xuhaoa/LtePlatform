@@ -1,53 +1,42 @@
 ﻿using Lte.Domain.Common;
 using System;
 using System.Collections.Generic;
+using TraceParser.Common;
 
 namespace TraceParser.Eutra
 {
     [Serializable]
-    public class CQI_ReportConfig
+    public class CQI_ReportConfig : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public CQI_ReportModeAperiodic? cqi_ReportModeAperiodic { get; set; }
 
         public CQI_ReportPeriodic cqi_ReportPeriodic { get; set; }
 
         public long nomPDSCH_RS_EPRE_Offset { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CQI_ReportConfig>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CQI_ReportConfig Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CQI_ReportConfig config, BitArrayInputStream input)
             {
-                CQI_ReportConfig config = new CQI_ReportConfig();
-                config.InitDefaults();
-                BitMaskStream stream = new BitMaskStream(input, 2);
+                var stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    int nBits = 3;
-                    config.cqi_ReportModeAperiodic = (CQI_ReportModeAperiodic)input.ReadBits(nBits);
+                    config.cqi_ReportModeAperiodic = (CQI_ReportModeAperiodic)input.ReadBits(3);
                 }
-                config.nomPDSCH_RS_EPRE_Offset = input.ReadBits(3) + -1;
+                config.nomPDSCH_RS_EPRE_Offset = input.ReadBits(3) - 1;
                 if (stream.Read())
                 {
                     config.cqi_ReportPeriodic = CQI_ReportPeriodic.PerDecoder.Instance.Decode(input);
                 }
-                return config;
             }
         }
     }
 
     [Serializable]
-    public class CQI_ReportConfig_r10
+    public class CQI_ReportConfig_r10 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public CQI_ReportAperiodic_r10 cqi_ReportAperiodic_r10 { get; set; }
 
         public CQI_ReportPeriodic_r10 cqi_ReportPeriodic_r10 { get; set; }
@@ -59,92 +48,74 @@ namespace TraceParser.Eutra
         public pmi_RI_Report_r9_Enum? pmi_RI_Report_r9 { get; set; }
 
         [Serializable]
-        public class csi_SubframePatternConfig_r10_Type
+        public class csi_SubframePatternConfig_r10_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
-            public object release { get; set; }
-
             public setup_Type setup { get; set; }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<csi_SubframePatternConfig_r10_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public csi_SubframePatternConfig_r10_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(csi_SubframePatternConfig_r10_Type config, BitArrayInputStream input)
                 {
-                    csi_SubframePatternConfig_r10_Type type = new csi_SubframePatternConfig_r10_Type();
-                    type.InitDefaults();
                     switch (input.ReadBits(1))
                     {
                         case 0:
-                            return type;
+                            return;
 
                         case 1:
-                            type.setup = setup_Type.PerDecoder.Instance.Decode(input);
-                            return type;
+                            config.setup = setup_Type.PerDecoder.Instance.Decode(input);
+                            return;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
                 }
             }
 
             [Serializable]
-            public class setup_Type
+            public class setup_Type : TraceConfig
             {
-                public void InitDefaults()
-                {
-                }
-
                 public MeasSubframePattern_r10 csi_MeasSubframeSet1_r10 { get; set; }
 
                 public MeasSubframePattern_r10 csi_MeasSubframeSet2_r10 { get; set; }
 
-                public class PerDecoder
+                public class PerDecoder : DecoderBase<setup_Type>
                 {
                     public static readonly PerDecoder Instance = new PerDecoder();
-
-                    public setup_Type Decode(BitArrayInputStream input)
+                    
+                    protected override void ProcessConfig(setup_Type config, BitArrayInputStream input)
                     {
-                        setup_Type type = new setup_Type();
-                        type.InitDefaults();
-                        type.csi_MeasSubframeSet1_r10 = MeasSubframePattern_r10.PerDecoder.Instance.Decode(input);
-                        type.csi_MeasSubframeSet2_r10 = MeasSubframePattern_r10.PerDecoder.Instance.Decode(input);
-                        return type;
+                        config.csi_MeasSubframeSet1_r10 = MeasSubframePattern_r10.PerDecoder.Instance.Decode(input);
+                        config.csi_MeasSubframeSet2_r10 = MeasSubframePattern_r10.PerDecoder.Instance.Decode(input);
                     }
                 }
             }
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CQI_ReportConfig_r10>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
 
-            public CQI_ReportConfig_r10 Decode(BitArrayInputStream input)
+            protected override void ProcessConfig(CQI_ReportConfig_r10 config, BitArrayInputStream input)
             {
-                CQI_ReportConfig_r10 _r = new CQI_ReportConfig_r10();
-                _r.InitDefaults();
-                BitMaskStream stream = new BitMaskStream(input, 4);
+                var stream = new BitMaskStream(input, 4);
                 if (stream.Read())
                 {
-                    _r.cqi_ReportAperiodic_r10 = CQI_ReportAperiodic_r10.PerDecoder.Instance.Decode(input);
+                    config.cqi_ReportAperiodic_r10 = CQI_ReportAperiodic_r10.PerDecoder.Instance.Decode(input);
                 }
-                _r.nomPDSCH_RS_EPRE_Offset = input.ReadBits(3) + -1;
+                config.nomPDSCH_RS_EPRE_Offset = input.ReadBits(3) + -1;
                 if (stream.Read())
                 {
-                    _r.cqi_ReportPeriodic_r10 = CQI_ReportPeriodic_r10.PerDecoder.Instance.Decode(input);
+                    config.cqi_ReportPeriodic_r10 = CQI_ReportPeriodic_r10.PerDecoder.Instance.Decode(input);
                 }
                 if (stream.Read())
                 {
                     const int nBits = 1;
-                    _r.pmi_RI_Report_r9 = (pmi_RI_Report_r9_Enum)input.ReadBits(nBits);
+                    config.pmi_RI_Report_r9 = (pmi_RI_Report_r9_Enum)input.ReadBits(nBits);
                 }
                 if (stream.Read())
                 {
-                    _r.csi_SubframePatternConfig_r10 = csi_SubframePatternConfig_r10_Type.PerDecoder.Instance.Decode(input);
+                    config.csi_SubframePatternConfig_r10 = csi_SubframePatternConfig_r10_Type.PerDecoder.Instance.Decode(input);
                 }
-                return _r;
             }
         }
 
@@ -155,38 +126,27 @@ namespace TraceParser.Eutra
     }
 
     [Serializable]
-    public class CQI_ReportConfig_v1130
+    public class CQI_ReportConfig_v1130 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public CQI_ReportBoth_r11 cqi_ReportBoth_r11 { get; set; }
 
         public CQI_ReportPeriodic_v1130 cqi_ReportPeriodic_v1130 { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CQI_ReportConfig_v1130>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CQI_ReportConfig_v1130 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CQI_ReportConfig_v1130 config, BitArrayInputStream input)
             {
-                CQI_ReportConfig_v1130 _v = new CQI_ReportConfig_v1130();
-                _v.InitDefaults();
-                _v.cqi_ReportPeriodic_v1130 = CQI_ReportPeriodic_v1130.PerDecoder.Instance.Decode(input);
-                _v.cqi_ReportBoth_r11 = CQI_ReportBoth_r11.PerDecoder.Instance.Decode(input);
-                return _v;
+                config.cqi_ReportPeriodic_v1130 = CQI_ReportPeriodic_v1130.PerDecoder.Instance.Decode(input);
+                config.cqi_ReportBoth_r11 = CQI_ReportBoth_r11.PerDecoder.Instance.Decode(input);
             }
         }
     }
 
     [Serializable]
-    public class CQI_ReportConfig_v920
+    public class CQI_ReportConfig_v920 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public cqi_Mask_r9_Enum? cqi_Mask_r9 { get; set; }
 
         public pmi_RI_Report_r9_Enum? pmi_RI_Report_r9 { get; set; }
@@ -196,27 +156,21 @@ namespace TraceParser.Eutra
             setup
         }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CQI_ReportConfig_v920>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CQI_ReportConfig_v920 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CQI_ReportConfig_v920 config, BitArrayInputStream input)
             {
-                int num2;
-                CQI_ReportConfig_v920 _v = new CQI_ReportConfig_v920();
-                _v.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    num2 = 1;
-                    _v.cqi_Mask_r9 = (cqi_Mask_r9_Enum)input.ReadBits(num2);
+                    config.cqi_Mask_r9 = (cqi_Mask_r9_Enum)input.ReadBits(1);
                 }
                 if (stream.Read())
                 {
-                    num2 = 1;
-                    _v.pmi_RI_Report_r9 = (pmi_RI_Report_r9_Enum)input.ReadBits(num2);
+                    config.pmi_RI_Report_r9 = (pmi_RI_Report_r9_Enum)input.ReadBits(1);
                 }
-                return _v;
             }
         }
 
@@ -227,12 +181,8 @@ namespace TraceParser.Eutra
     }
 
     [Serializable]
-    public class CQI_ReportConfigSCell_r10
+    public class CQI_ReportConfigSCell_r10 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public CQI_ReportModeAperiodic? cqi_ReportModeAperiodic_r10 { get; set; }
 
         public CQI_ReportPeriodic_r10 cqi_ReportPeriodicSCell_r10 { get; set; }
@@ -241,32 +191,26 @@ namespace TraceParser.Eutra
 
         public pmi_RI_Report_r10_Enum? pmi_RI_Report_r10 { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CQI_ReportConfigSCell_r10>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CQI_ReportConfigSCell_r10 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CQI_ReportConfigSCell_r10 config, BitArrayInputStream input)
             {
-                int num2;
-                CQI_ReportConfigSCell_r10 _r = new CQI_ReportConfigSCell_r10();
-                _r.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 3);
                 if (stream.Read())
                 {
-                    num2 = 3;
-                    _r.cqi_ReportModeAperiodic_r10 = (CQI_ReportModeAperiodic)input.ReadBits(num2);
+                    config.cqi_ReportModeAperiodic_r10 = (CQI_ReportModeAperiodic)input.ReadBits(3);
                 }
-                _r.nomPDSCH_RS_EPRE_Offset_r10 = input.ReadBits(3) + -1;
+                config.nomPDSCH_RS_EPRE_Offset_r10 = input.ReadBits(3) + -1;
                 if (stream.Read())
                 {
-                    _r.cqi_ReportPeriodicSCell_r10 = CQI_ReportPeriodic_r10.PerDecoder.Instance.Decode(input);
+                    config.cqi_ReportPeriodicSCell_r10 = CQI_ReportPeriodic_r10.PerDecoder.Instance.Decode(input);
                 }
                 if (stream.Read())
                 {
-                    num2 = 1;
-                    _r.pmi_RI_Report_r10 = (pmi_RI_Report_r10_Enum)input.ReadBits(num2);
+                    config.pmi_RI_Report_r10 = (pmi_RI_Report_r10_Enum)input.ReadBits(1);
                 }
-                return _r;
             }
         }
 
@@ -277,102 +221,78 @@ namespace TraceParser.Eutra
     }
 
     [Serializable]
-    public class CQI_ReportAperiodic_r10
+    public class CQI_ReportAperiodic_r10 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public object release { get; set; }
 
         public setup_Type setup { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CQI_ReportAperiodic_r10>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CQI_ReportAperiodic_r10 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CQI_ReportAperiodic_r10 config, BitArrayInputStream input)
             {
-                CQI_ReportAperiodic_r10 _r = new CQI_ReportAperiodic_r10();
-                _r.InitDefaults();
                 switch (input.ReadBits(1))
                 {
                     case 0:
-                        return _r;
+                        return;
 
                     case 1:
-                        _r.setup = setup_Type.PerDecoder.Instance.Decode(input);
-                        return _r;
+                        config.setup = setup_Type.PerDecoder.Instance.Decode(input);
+                        return;
                 }
                 throw new Exception(GetType().Name + ":NoChoice had been choose");
             }
         }
 
         [Serializable]
-        public class setup_Type
+        public class setup_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public aperiodicCSI_Trigger_r10_Type aperiodicCSI_Trigger_r10 { get; set; }
 
             public CQI_ReportModeAperiodic cqi_ReportModeAperiodic_r10 { get; set; }
 
             [Serializable]
-            public class aperiodicCSI_Trigger_r10_Type
+            public class aperiodicCSI_Trigger_r10_Type : TraceConfig
             {
-                public void InitDefaults()
-                {
-                }
-
                 public string trigger1_r10 { get; set; }
 
                 public string trigger2_r10 { get; set; }
 
-                public class PerDecoder
+                public class PerDecoder : DecoderBase<aperiodicCSI_Trigger_r10_Type>
                 {
                     public static readonly PerDecoder Instance = new PerDecoder();
-
-                    public aperiodicCSI_Trigger_r10_Type Decode(BitArrayInputStream input)
+                    
+                    protected override void ProcessConfig(aperiodicCSI_Trigger_r10_Type config, BitArrayInputStream input)
                     {
-                        aperiodicCSI_Trigger_r10_Type type = new aperiodicCSI_Trigger_r10_Type();
-                        type.InitDefaults();
-                        type.trigger1_r10 = input.ReadBitString(8);
-                        type.trigger2_r10 = input.ReadBitString(8);
-                        return type;
+                        config.trigger1_r10 = input.ReadBitString(8);
+                        config.trigger2_r10 = input.ReadBitString(8);
                     }
                 }
             }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<setup_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public setup_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(setup_Type config, BitArrayInputStream input)
                 {
-                    setup_Type type = new setup_Type();
-                    type.InitDefaults();
                     BitMaskStream stream = new BitMaskStream(input, 1);
                     const int nBits = 3;
-                    type.cqi_ReportModeAperiodic_r10 = (CQI_ReportModeAperiodic)input.ReadBits(nBits);
+                    config.cqi_ReportModeAperiodic_r10 = (CQI_ReportModeAperiodic)input.ReadBits(nBits);
                     if (stream.Read())
                     {
-                        type.aperiodicCSI_Trigger_r10 = aperiodicCSI_Trigger_r10_Type.PerDecoder.Instance.Decode(input);
+                        config.aperiodicCSI_Trigger_r10 = aperiodicCSI_Trigger_r10_Type.PerDecoder.Instance.Decode(input);
                     }
-                    return type;
                 }
             }
         }
     }
 
     [Serializable]
-    public class CQI_ReportAperiodicProc_r11
+    public class CQI_ReportAperiodicProc_r11 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public CQI_ReportModeAperiodic cqi_ReportModeAperiodic_r11 { get; set; }
 
         public bool trigger01_r11 { get; set; }
@@ -381,31 +301,23 @@ namespace TraceParser.Eutra
 
         public bool trigger11_r11 { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CQI_ReportAperiodicProc_r11>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CQI_ReportAperiodicProc_r11 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CQI_ReportAperiodicProc_r11 config, BitArrayInputStream input)
             {
-                CQI_ReportAperiodicProc_r11 _r = new CQI_ReportAperiodicProc_r11();
-                _r.InitDefaults();
-                int nBits = 3;
-                _r.cqi_ReportModeAperiodic_r11 = (CQI_ReportModeAperiodic)input.ReadBits(nBits);
-                _r.trigger01_r11 = input.ReadBit() == 1;
-                _r.trigger10_r11 = input.ReadBit() == 1;
-                _r.trigger11_r11 = input.ReadBit() == 1;
-                return _r;
+                config.cqi_ReportModeAperiodic_r11 = (CQI_ReportModeAperiodic)input.ReadBits(3);
+                config.trigger01_r11 = input.ReadBit() == 1;
+                config.trigger10_r11 = input.ReadBit() == 1;
+                config.trigger11_r11 = input.ReadBit() == 1;
             }
         }
     }
 
     [Serializable]
-    public class CQI_ReportBoth_r11
+    public class CQI_ReportBoth_r11 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public List<CSI_IM_Config_r11> csi_IM_ConfigToAddModList_r11 { get; set; }
 
         public List<long> csi_IM_ConfigToReleaseList_r11 { get; set; }
@@ -414,95 +326,74 @@ namespace TraceParser.Eutra
 
         public List<long> csi_ProcessToReleaseList_r11 { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CQI_ReportBoth_r11>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CQI_ReportBoth_r11 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CQI_ReportBoth_r11 config, BitArrayInputStream input)
             {
-                int num2;
-                CQI_ReportBoth_r11 _r = new CQI_ReportBoth_r11();
-                _r.InitDefaults();
-                BitMaskStream stream = new BitMaskStream(input, 4);
+                var stream = new BitMaskStream(input, 4);
                 if (stream.Read())
                 {
-                    _r.csi_IM_ConfigToReleaseList_r11 = new List<long>();
-                    num2 = 2;
-                    int num3 = input.ReadBits(num2) + 1;
-                    for (int i = 0; i < num3; i++)
+                    config.csi_IM_ConfigToReleaseList_r11 = new List<long>();
+                    for (int i = 0; i < input.ReadBits(2) + 1; i++)
                     {
                         long item = input.ReadBits(2) + 1;
-                        _r.csi_IM_ConfigToReleaseList_r11.Add(item);
+                        config.csi_IM_ConfigToReleaseList_r11.Add(item);
                     }
                 }
                 if (stream.Read())
                 {
-                    _r.csi_IM_ConfigToAddModList_r11 = new List<CSI_IM_Config_r11>();
-                    num2 = 2;
-                    int num6 = input.ReadBits(num2) + 1;
-                    for (int j = 0; j < num6; j++)
+                    config.csi_IM_ConfigToAddModList_r11 = new List<CSI_IM_Config_r11>();
+                    for (int j = 0; j < input.ReadBits(1) + 1; j++)
                     {
-                        CSI_IM_Config_r11 _r2 = CSI_IM_Config_r11.PerDecoder.Instance.Decode(input);
-                        _r.csi_IM_ConfigToAddModList_r11.Add(_r2);
+                        config.csi_IM_ConfigToAddModList_r11.Add(CSI_IM_Config_r11.PerDecoder.Instance.Decode(input));
                     }
                 }
                 if (stream.Read())
                 {
-                    _r.csi_ProcessToReleaseList_r11 = new List<long>();
-                    num2 = 2;
-                    int num8 = input.ReadBits(num2) + 1;
-                    for (int k = 0; k < num8; k++)
+                    config.csi_ProcessToReleaseList_r11 = new List<long>();
+                    for (int k = 0; k < input.ReadBits(2) + 1; k++)
                     {
-                        long num10 = input.ReadBits(2) + 1;
-                        _r.csi_ProcessToReleaseList_r11.Add(num10);
+                        config.csi_ProcessToReleaseList_r11.Add(input.ReadBits(2) + 1);
                     }
                 }
                 if (stream.Read())
                 {
-                    _r.csi_ProcessToAddModList_r11 = new List<CSI_Process_r11>();
-                    num2 = 2;
-                    int num11 = input.ReadBits(num2) + 1;
+                    config.csi_ProcessToAddModList_r11 = new List<CSI_Process_r11>();
+                    int num11 = input.ReadBits(2) + 1;
                     for (int m = 0; m < num11; m++)
                     {
-                        CSI_Process_r11 _r3 = CSI_Process_r11.PerDecoder.Instance.Decode(input);
-                        _r.csi_ProcessToAddModList_r11.Add(_r3);
+                        config.csi_ProcessToAddModList_r11.Add(CSI_Process_r11.PerDecoder.Instance.Decode(input));
                     }
                 }
-                return _r;
             }
         }
     }
 
     [Serializable]
-    public class CQI_ReportBothProc_r11
+    public class CQI_ReportBothProc_r11 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public pmi_RI_Report_r11_Enum? pmi_RI_Report_r11 { get; set; }
 
         public long? ri_Ref_CSI_ProcessId_r11 { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CQI_ReportBothProc_r11>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
 
-            public CQI_ReportBothProc_r11 Decode(BitArrayInputStream input)
+            protected override void ProcessConfig(CQI_ReportBothProc_r11 config, BitArrayInputStream input)
             {
-                CQI_ReportBothProc_r11 _r = new CQI_ReportBothProc_r11();
-                _r.InitDefaults();
                 BitMaskStream stream = new BitMaskStream(input, 2);
                 if (stream.Read())
                 {
-                    _r.ri_Ref_CSI_ProcessId_r11 = input.ReadBits(2) + 1;
+                    config.ri_Ref_CSI_ProcessId_r11 = input.ReadBits(2) + 1;
                 }
                 if (stream.Read())
                 {
                     int nBits = 1;
-                    _r.pmi_RI_Report_r11 = (pmi_RI_Report_r11_Enum)input.ReadBits(nBits);
+                    config.pmi_RI_Report_r11 = (pmi_RI_Report_r11_Enum)input.ReadBits(nBits);
                 }
-                return _r;
             }
         }
 
