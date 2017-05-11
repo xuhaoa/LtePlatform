@@ -400,7 +400,7 @@
         };
         $rootScope.colors = geometryService.queryMapColors();
     })
-    .controller("menu.root", function($scope, appUrlService) {
+    .controller("menu.root", function($scope) {
         $scope.menuItem = {
             displayName: "站点信息",
             subItems: [
@@ -559,8 +559,11 @@
                     displayName: "专题优化",
                     url: '/#/topic'
                 }, {
-                    displayName: "E-RAB优化",
+                    displayName: "容量优化",
                     url: appUrlService.getPlanUrlHost() + 'erab'
+                }, {
+                    displayName: "室分专项",
+                    url: appUrlService.getDistributionHost()
                 }
             ]
         };
