@@ -117,6 +117,7 @@
 /// <reference path="kpi/precise.import.js" />
 /// <reference path="kpi/workitem.import.js" />
 /// <reference path="kpi/workitem/index.controller.js" />
+/// <reference path="laydate/laydate.js" />
 /// <reference path="manage/index.viewmodel.js" />
 /// <reference path="modernizr-2.6.2.js" />
 /// <reference path="mycharts/combochart.js" />

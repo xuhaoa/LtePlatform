@@ -1686,12 +1686,14 @@
                     "id": id
                 });
             },
-            getAlarmHistorybyId: function (id, curr_page,page_size,alarmLevel) {
+            getAlarmHistorybyFilter: function (id, curr_page,page_size,alarmLevel,beginDate,endDate) {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Alarmhistory/search', {
                     "id": id,
                     "alarmLevel": alarmLevel,
                     "curr_page": curr_page,
-                    "page_size": page_size
+                    "page_size": page_size,
+                    "starttime": beginDate,
+                    "endtime": endDate
                 });
             },
             getSpecialStations: function (recoverName, page, pageSize) {

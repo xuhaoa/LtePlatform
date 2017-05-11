@@ -1504,7 +1504,8 @@
         $scope.totolPage = 1;
         $scope.records = 0;
         $scope.alarmList = new Array();
-
+        $scope.starttime = '';
+        $scope.endtime = '';
         
 
         $scope.cancel = function () {
@@ -1536,7 +1537,8 @@
         $scope.jumpPage = function (page) {
             if (page >= $scope.totolPage)
                 page = $scope.totolPage;
-            downSwitchService.getAlarmHistorybyId($scope.alarmStation.NetAdminId, page, 10, $scope.selectLevel.value).then(function (response) {
+            downSwitchService.getAlarmHistorybyFilter($scope.alarmStation.NetAdminId, page, 10, $scope.selectLevel.value,
+            $scope.starttime,$scope.endtime).then(function (response) {
                 $scope.alarmList = response.result.rows;
                 $scope.totolPage = response.result.total_pages;
                 $scope.page = response.result.curr_page;
