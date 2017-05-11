@@ -19,7 +19,7 @@
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.query"
+                        controller: "menu.root"
                     },
                     "contents": {
                         templateUrl: viewDir + "Query.html",
@@ -32,7 +32,7 @@
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.query"
+                        controller: "menu.kpi"
                     },
                     "contents": {
                         templateUrl: "/appViews/Parameters/Topic.html",
@@ -58,7 +58,7 @@
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.query"
+                        controller: "menu.root"
                     },
                     "contents": {
                         templateUrl: viewDir + "Flow.html",
@@ -408,32 +408,11 @@
                     displayName: "数据总览",
                     url: "/#/"
                 }, {
-                    displayName: "历史信息查询",
-                    url: appUrlService.getParameterUrlHost() + 'cell-modify-record.php'
-                }, {
-                    displayName: "边界漫游",
-                    url: appUrlService.getParameterUrlHost() + 'lteboundary.html'
-                }
-            ]
-        };
-    })
-    .controller("menu.query", function ($scope, appUrlService) {
-        var rootUrl = "/#";
-        $scope.menuItem = {
-            displayName: "站点查询",
-            subItems: [
-                {
                     displayName: "数据查询",
-                    url: rootUrl + "/query"
-                }, {
-                    displayName: "数据维护",
-                    url: appUrlService.getParameterUrlHost() + 'main-lte-cell-info.php'
+                    url: "/#/query"
                 }, {
                     displayName: "流量经营",
-                    url: rootUrl + '/flow'
-                }, {
-                    displayName: "专题优化",
-                    url: rootUrl + '/topic'
+                    url: '/#/flow'
                 }
             ]
         };
@@ -577,8 +556,8 @@
                     url: appUrlService.getTopnUrlHost() + '2g_home',
                     tooltip: "4G网络质量分析与日常优化"
                 }, {
-                    displayName: "负荷评估",
-                    url: appUrlService.getParameterUrlHost() + 'ltecapability.html'
+                    displayName: "专题优化",
+                    url: '/#/topic'
                 }, {
                     displayName: "E-RAB优化",
                     url: appUrlService.getPlanUrlHost() + 'erab'
