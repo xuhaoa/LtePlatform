@@ -886,6 +886,62 @@
 					}
 				});
 			},
+			showSpecialIndoorInfo: function (station) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
+			        controller: 'map.special-indoor.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "站点信息:" + station.enodebName;
+			            },
+			            station: function () {
+			                return station;
+			            }
+			        }
+			    });
+			},
+			showFaultStationInfo: function (station) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
+			        controller: 'map.fault-station.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "站点信息:" + station.enodebName;
+			            },
+			            station: function () {
+			                return station;
+			            }
+			        }
+			    });
+			},
+			showZeroFlowInfo: function (station) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
+			        controller: 'map.zero-flow.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "站点信息:" + station.enodebName;
+			            },
+			            station: function () {
+			                return station;
+			            }
+			        }
+			    });
+			},
+			showZeroVoiceInfo: function (station) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
+			        controller: 'map.zero-voice.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "站点信息:" + station.BTSName;
+			            },
+			            station: function () {
+			                return station;
+			            }
+			        }
+			    });
+			},
 			showStationInfo: function (station, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Home/StationDetails.html',

@@ -430,9 +430,11 @@
     <Content Include="appViews\Evaluation\Alarm.html" />
     <Content Include="appViews\Evaluation\AlarmSearchMenu.html" />
     <Content Include="appViews\Evaluation\AlarmStationDetails.html" />
+    <Content Include="appViews\Evaluation\ClearZero.html" />
     <Content Include="appViews\Evaluation\Dialog\AlarmHistoryListDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\BuildingInfoBox.html" />
     <Content Include="appViews\Evaluation\Dialog\SpecialStationDetails.html" />
+    <Content Include="appViews\Evaluation\FaultStation.html" />
     <Content Include="appViews\Evaluation\HighValue.html" />
     <Content Include="appViews\Evaluation\Highway.html" />
     <Content Include="appViews\Evaluation\Railway.html" />
