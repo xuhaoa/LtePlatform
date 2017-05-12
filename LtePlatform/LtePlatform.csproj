@@ -1601,6 +1601,14 @@
     <Content Include="Scripts\kpi\workitem.import.js" />
     <Content Include="Scripts\college\route.controller.js" />
     <Content Include="Scripts\kpi\precise.import.js" />
+    <Content Include="Scripts\laydate\laydate.js" />
+    <Content Include="Scripts\laydate\need\laydate.css" />
+    <Content Include="Scripts\laydate\skins\dahong\icon.png" />
+    <Content Include="Scripts\laydate\skins\dahong\laydate.css" />
+    <Content Include="Scripts\laydate\skins\default\icon.png" />
+    <Content Include="Scripts\laydate\skins\default\laydate.css" />
+    <Content Include="Scripts\laydate\skins\molv\icon.png" />
+    <Content Include="Scripts\laydate\skins\molv\laydate.css" />
     <Content Include="Scripts\mycharts\combo-examples.js" />
     <Content Include="Scripts\parameters\import\index.controller.js" />
     <Content Include="Scripts\parameters\neighbor\import.controller.js" />

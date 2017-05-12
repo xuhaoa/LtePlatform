@@ -488,16 +488,17 @@
 				});
 				return;
 			},
-			drawPointCollection: function (coors, color, xoffset, yoffset, callback) {
+			drawPointCollection: function (coors, color, xoffset, yoffset, callback, pointSize) {
 
-				var points = [];  // 添加海量点数据
+			    var points = [];  // 添加海量点数据
+			    var size = pointSize || BMAP_POINT_SIZE_BIG;
 				angular.forEach(coors, function (data) {
 					var p = new BMap.Point(data.longtitute - xoffset, data.lattitute - yoffset);
 					p.data = data;
 					points.push(p);
 				});
 				var options = {
-					size: BMAP_POINT_SIZE_SMALL,
+					size: size,
 					shape: BMAP_POINT_SHAPE_CIRCLE,
 					color: color
 				}
