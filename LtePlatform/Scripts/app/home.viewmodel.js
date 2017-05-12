@@ -1216,9 +1216,48 @@
         baiduMapService.addCityBoundary("佛山");
 
     })
-    .controller("home.complain", function ($scope, baiduMapService) {
+    .controller("home.complain", function ($scope, baiduMapService, dumpPreciseService, complainService, baiduQueryService, neGeometryService,
+        networkElementService, parametersDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+
+        $scope.showDistrictComplains = function(district, color) {
+            var city = $scope.city.selected;
+            baiduMapService.addDistrictBoundary(district, color);
+            $scope.legend.intervals.push({
+                threshold: district,
+                color: color
+            });
+            complainService.queryLastMonthOnlineListInOneDistrict($scope.endDate.value, city, district).then(function (sites) {
+                baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
+                    var xOffset = coors.x - sites[0].longtitute;
+                    var yOffset = coors.y - sites[0].lattitute;
+                    baiduMapService.drawMultiPoints(sites, color, -xOffset, -yOffset, function (e) {
+                        var xCenter = e.point.lng - xOffset;
+                        var yCenter = e.point.lat - yOffset;
+                        var container = neGeometryService.queryNearestRange(xCenter, yCenter);
+                        container.excludedIds = [];
+                        networkElementService.queryRangeENodebs(container).then(function (items) {
+                            if (items.length) {
+                                parametersDialogService.showENodebInfo(items[0], $scope.beginDate, $scope.endDate);
+                            }
+                        });
+                    });
+                });
+            });
+        };
+
+        $scope.districts = [];
+
+        $scope.$watch('city.selected', function (city) {
+            if (city) {
+                $scope.legend.title = city;
+                $scope.legend.intervals = [];
+                dumpPreciseService.generateUsersDistrict(city, $scope.districts, function (district, $index) {
+                    $scope.showDistrictComplains(district, $scope.colors[$index]);
+                });
+            }
+        });
 
     })
     .controller("network.analysis", function ($scope, baiduMapService, networkElementService, dumpPreciseService,

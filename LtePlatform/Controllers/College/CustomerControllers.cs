@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Abp.EntityFramework.AutoMapper;
 
 namespace LtePlatform.Controllers.College
 {
@@ -382,15 +383,35 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
-        public async Task<int> GetCount(DateTime today)
-        {
-            return await _service.QueryCount<OnlineSustainService, OnlineSustain>(today);
-        }
-
-        [HttpGet]
         public List<OnlineSustainDto> Get(DateTime begin, DateTime end)
         {
             return _service.QueryList(begin, end);
+        }
+
+        public IEnumerable<OnlineSustainDto> Get(DateTime today)
+        {
+            return _service.QueryList(today);
+        }
+
+        public IEnumerable<OnlineSustainDto> Get(DateTime today, string city, string district)
+        {
+            return _service.QueryList(today, city, district);
+        }
+    }
+
+    public class SustainCountController : ApiController
+    {
+        private readonly OnlineSustainService _service;
+
+        public SustainCountController(OnlineSustainService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public async Task<int> GetCount(DateTime today)
+        {
+            return await _service.QueryCount<OnlineSustainService, OnlineSustain>(today);
         }
 
     }

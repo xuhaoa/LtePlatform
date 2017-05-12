@@ -108,11 +108,20 @@ namespace Lte.Evaluations.DataService.College
             return new Tuple<IEnumerable<string>, IEnumerable<int>>(dateStrings, counts);
         }
 
+        public static IEnumerable<TItem> QueryItems<TService, TItem>(this TService service, DateTime today)
+            where TService : IDateSpanService<TItem>
+        {
+            var begin = new DateTime(today.Year, today.Month, 1).AddMonths(-1);
+            var end = new DateTime(today.Year, today.Month, 1);
+            return service.QueryItems(begin, end);
+        }
+
         public static async Task<int> QueryCount<TService, TItem>(this TService service, DateTime today)
             where TService : IDateSpanService<TItem>
         {
-            var begin = new DateTime(today.Year, today.Month, 1);
-            return await service.QueryCount(begin, today.AddDays(1));
+            var begin = new DateTime(today.Year, today.Month, 1).AddMonths(-1);
+            var end = new DateTime(today.Year, today.Month, 1);
+            return await service.QueryCount(begin, end);
         }
 
         public static async Task<Tuple<List<string>, List<int>>> QueryCounts<TService, TItem>(this TService service,
@@ -467,10 +476,12 @@ namespace Lte.Evaluations.DataService.College
     public class OnlineSustainService : IDateSpanService<OnlineSustain>
     {
         private readonly IOnlineSustainRepository _repository;
+        private readonly ITownRepository _townRepository;
 
-        public OnlineSustainService(IOnlineSustainRepository repository)
+        public OnlineSustainService(IOnlineSustainRepository repository, ITownRepository townRepository)
         {
             _repository = repository;
+            _townRepository = townRepository;
         }
 
         public List<OnlineSustain> QueryItems(DateTime begin, DateTime end)
@@ -486,7 +497,52 @@ namespace Lte.Evaluations.DataService.College
         public List<OnlineSustainDto> QueryList(DateTime begin, DateTime end)
         {
             var items = _repository.GetAllList(begin, end);
-            return Mapper.Map<List<OnlineSustain>, List<OnlineSustainDto>>(items);
+            var views = items.MapTo<List<OnlineSustainDto>>();
+            views.ForEach(x =>
+            {
+                var town = _townRepository.Get(x.TownId);
+                x.City = town?.CityName;
+                x.District = town?.DistrictName;
+                x.Town = town?.TownName;
+            });
+            return views;
+        }
+
+        public IEnumerable<OnlineSustainDto> QueryList(DateTime today)
+        {
+            var views =
+                this.QueryItems<OnlineSustainService, OnlineSustain>(today).MapTo<List<OnlineSustainDto>>();
+            views.ForEach(x =>
+            {
+                var town = _townRepository.Get(x.TownId);
+                x.City = town?.CityName;
+                x.District = town?.DistrictName;
+                x.Town = town?.TownName;
+            });
+            return views;
+        }
+
+        public IEnumerable<OnlineSustainDto> QueryList(DateTime today, string city, string district)
+        {
+            var items =
+                this.QueryItems<OnlineSustainService, OnlineSustain>(today);
+            var towns = _townRepository.GetAllList(x => x.CityName == city && x.DistrictName == district);
+            var views = from item in items
+                join town in towns on item.TownId equals town.Id
+                select new
+                {
+                    Town = town,
+                    Item = item
+                };
+            return views.Select(x =>
+            {
+                var view = x.Item.MapTo<OnlineSustainDto>();
+                view.City = city;
+                view.District = district;
+                view.Town = x.Town.TownName;
+                return view;
+            });
+
         }
     }
 }

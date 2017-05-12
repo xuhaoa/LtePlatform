@@ -1585,8 +1585,8 @@
                     today: today
                 });
             },
-            queryOnlineSustains: function(today) {
-                return generalHttpService.getApiData('OnlineSustain', {
+            queryLastMonthSustainCount: function(today) {
+                return generalHttpService.getApiData('SustainCount', {
                     today: today
                 });
             },
@@ -1606,6 +1606,18 @@
                 return generalHttpService.getApiData("OnlineSustain", {
                     begin: begin,
                     end: end
+                });
+            },
+            queryLastMonthOnlineList: function (today) {
+                return generalHttpService.getApiData("OnlineSustain", {
+                    today: today
+                });
+            },
+            queryLastMonthOnlineListInOneDistrict: function (today, city, district) {
+                return generalHttpService.getApiData("OnlineSustain", {
+                    today: today,
+                    city: city,
+                    district: district
                 });
             },
             updateComplain: function(dto) {
