@@ -1,0 +1,52 @@
+﻿<style>
+    li {
+        list-style-type: none;
+    }
+
+    option {
+        width: 100px;
+    }
+
+    select {
+        font-weight: bold;
+    }
+</style>
+<ul>
+    <li>
+        <select ng-model="selectedGrade" ng-change="change()" class="btn btn-sm btn-default">
+            <option value="" style="color: #b6b6b6" disabled selected>请选择站点级别</option>
+            <option ng-repeat="x in grades" value="{{x.value}}">{{x.name}}</option>
+        </select>
+    </li>
+    <li>
+        <select ng-model="selectedRoomAttribution" ng-change="change()" class="btn btn-sm btn-default">
+            <option value="" style="color: #b6b6b6" disabled selected>请选择机房归属</option>
+            <option ng-repeat="x in roomAttributions" value="{{x.value}}">{{x.name}}</option>
+        </select>
+    </li>
+    <li>
+        <select ng-model="selectedTowerAttribution" ng-change="change()" class="btn btn-sm btn-default">
+            <option value="" style="color: #b6b6b6" disabled selected>请选择铁塔归属</option>
+            <option ng-repeat="x in towerAttributions" value="{{x.value}}">{{x.name}}</option>
+        </select>
+    </li>
+    <li>
+        <select ng-model="selectedIsBBU" ng-change="change()" class="btn btn-sm btn-default">
+            <option value="" style="color: #b6b6b6" disabled selected>请选择是否BBU池</option>
+            <option ng-repeat="x in isBBUs" value="{{x.value}}">{{x.name}}</option>
+        </select>
+    </li>
+    <li>
+        <select ng-model="selectedNetType" ng-change="change()" class="btn btn-sm btn-default">
+            <option value="" style="color: #b6b6b6" disabled selected>请选择网络类型</option>
+            <option ng-repeat="x in netTypes" value="{{x.value}}">{{x.name}}</option>
+        </select>
+    </li>
+    <li>
+        <select ng-model="selectedIsPower" ng-change="change()" class="btn btn-sm btn-default">
+            <option value="" style="color: #b6b6b6" disabled selected>请选择动力配套</option>
+            <option ng-repeat="x in isPowers" value="{{x.value}}">{{x.name}}</option>
+        </select>
+    </li>
+
+</ul>

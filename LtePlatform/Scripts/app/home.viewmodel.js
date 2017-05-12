@@ -41,6 +41,7 @@
                 },
                 url: "/topic"
             })
+
             .state('station', {
                 views: {
                     'menu': {
@@ -50,7 +51,12 @@
                     "contents": {
                         templateUrl: viewDir + "Station.html",
                         controller: "station.network"
+                    },
+                    "filter": {
+                        templateUrl: viewDir + "StationFilter.html",
+                        controller: "station.filter"
                     }
+
                 },
                 url: "/station"
             })
@@ -446,6 +452,97 @@
         });
     })
 
+    .controller("station.filter", function ($scope, downSwitchService, myValue, baiduMapService, geometryService,
+        parametersDialogService, baiduQueryService) {
+        $scope.grades = [
+            { value: '', name: '所有级别' },
+            { value: 'A', name: '站点级别A' },
+            { value: 'B', name: '站点级别B' },
+            { value: 'C', name: '站点级别C' },
+            { value: 'D', name: '站点级别D' }
+        ];
+        $scope.roomAttributions = [
+            { value: '', name: '所有机房' },
+            { value: '电信', name: '电信机房' },
+            { value: '铁塔', name: '铁塔机房' },
+            { value: '联通', name: '联通机房' }
+        ];
+        $scope.towerAttributions = [
+            { value: '', name: '全部杆塔' },
+            { value: '电信', name: '电信杆塔' },
+            { value: '铁塔', name: '铁塔杆塔' },
+            { value: '联通', name: '联通杆塔' }
+        ];
+        $scope.isBBUs = [
+            { value: '', name: '全部BBU' },
+            { value: '是', name: 'BBU池' },
+            { value: '否', name: '非BBU池' }
+        ];
+        $scope.netTypes = [
+            { value: '', name: '全部网络' },
+            { value: 'C', name: 'C网络' },
+            { value: 'L', name: 'L网络' },
+            { value: 'VL', name: 'VL网络' },
+            { value: 'C+L', name: 'C+L网络' },
+            { value: 'C+VL', name: 'C+VL网络' },
+            { value: 'L+VL', name: 'L+VL网络' }
+        ];
+        $scope.isPowers = [
+            { value: '', name: '所有动力配套' },
+            { value: '是', name: '有动力配套' },
+            { value: '否', name: '没有动力配套' }
+        ];
+
+        $scope.stationss = [];
+        $scope.stationss[1] = [];
+        $scope.stationss[2] = [];
+        $scope.stationss[3] = [];
+        $scope.stationss[4] = [];
+        $scope.stationss[5] = [];
+        $scope.areaNames = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
+        baiduMapService.initializeMap("map", 13);
+
+        $scope.getStations = function (areaName, index) {
+            downSwitchService.getStationByFilter(areaName, myValue.stationGrade, myValue.netType, myValue.roomAttribution,
+                 myValue.towerAttribution, myValue.isPower, myValue.isBBU, 0, 10000).then(function (response) {
+                     $scope.stationss[index] = response.result.rows;
+                     var color = $scope.colors[index];
+                     baiduQueryService.transformToBaidu($scope.stationss[index][0].longtitute, $scope.stationss[index][0].lattitute).then(function (coors) {
+                         var xOffset = coors.x - $scope.stationss[index][0].longtitute;
+                         var yOffset = coors.y - $scope.stationss[index][0].lattitute;
+                         baiduMapService.drawPointCollection($scope.stationss[index], color, -xOffset, -yOffset, function (e) {
+                             parametersDialogService.showStationInfo(e.point.data);
+                         });
+                     });
+                 });
+        };
+
+        $scope.reflashMap = function () {
+
+            baiduMapService.clearOverlays();
+            var areaName = $scope.areaNames[myValue.distinctIndex];
+            baiduMapService.setCenter(myValue.distinctIndex);
+            if (myValue.distinctIndex !== 0) {
+                $scope.getStations(areaName, myValue.distinctIndex);
+            } else {
+                for (var i = 1; i < 6; ++i) {
+                    $scope.getStations($scope.areaNames[i], i);
+                }
+            }
+
+        };
+        $scope.change = function () {
+            myValue.stationGrade = $scope.selectedGrade;
+            myValue.netType = $scope.selectedNetType;
+            myValue.roomAttribution = $scope.selectedRoomAttribution;
+            myValue.towerAttribution = $scope.selectedTowerAttribution;
+            myValue.isPower = $scope.selectedIsPower;
+            myValue.isBBU = $scope.selectedIsBBU;
+            $scope.reflashMap();
+        };
+        //$scope.reflashMap();
+    })
+
     .controller("menu.alarm", function ($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService) {
 
         $scope.stationName = "";
@@ -787,7 +884,7 @@
                     var xOffset = coors.x - $scope.stationss[index][0].longtitute;
                     var yOffset = coors.y - $scope.stationss[index][0].lattitute;
                     baiduMapService.drawPointCollection($scope.stationss[index], color, -xOffset, -yOffset, function (e) {
-                        parametersDialogService.showStationInfo(e.point.data);
+                        console.log(e.point.data);
                     });
                 });
             });

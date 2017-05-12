@@ -44,6 +44,15 @@ textarea {
 	left: auto;
 }
 
+.map-middle-right {
+  bottom: auto;
+  right: 0px;
+  top: 200px;
+  left: auto; 
+  position: absolute;
+  z-index: 1001;
+}
+
 .map-top-left{
 	@extend %map-common;
 	bottom: auto;

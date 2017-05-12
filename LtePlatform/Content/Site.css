@@ -33,6 +33,14 @@ textarea {
   top: 10px;
   left: auto; }
 
+.map-middle-right {
+  bottom: auto;
+  right: 0px;
+  top: 200px;
+  left: auto;
+  position: absolute;
+  z-index: 1001; }
+
 .map-top-left {
   bottom: auto;
   right: auto;
@@ -252,12 +260,14 @@ ul.nav-navbar-list .open > a.dropdown-toggle {
     border-top-right-radius: 0px;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px; } }
+
 @media (max-width: 768px) {
   .widget-left {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px; } }
+
 .chat ul {
   list-style: none;
   margin: -15px;
@@ -405,8 +415,10 @@ ul.nav-navbar-list .open > a.dropdown-toggle {
     left: .5em;
     top: 50%;
     margin-top: -8px; }
+
 .ui-accordion .ui-accordion-icons {
   padding-left: 2.2em; }
+
 .ui-accordion .ui-accordion-content {
   padding: 1em 2.2em;
   border-top: 0;
@@ -2649,24 +2661,30 @@ div#contentWrapper {
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   white-space: pre-wrap; }
+
 .help-page .warning-message-container {
   margin-top: 20px;
   padding: 0 10px;
   color: #525252;
   background: #EFDCA9;
   border: 1px solid #CCCCCC; }
+
 .help-page h1, .help-page .h1 {
   font-size: 36px;
   line-height: normal; }
+
 .help-page h2, .help-page .h2 {
   font-size: 24px; }
+
 .help-page h3, .help-page .h3 {
   font-size: 20px; }
+
 .help-page a {
   color: #0000EE;
   text-decoration: none; }
   .help-page a:hover {
     background-color: transparent; }
+
 .help-page .sample-header {
   border: 2px solid #D4D4D4;
   background: #00497E;
@@ -2675,6 +2693,7 @@ div#contentWrapper {
   border-bottom: none;
   display: inline-block;
   margin: 10px 0px 0px 0px; }
+
 .help-page .sample-content {
   display: block;
   border-width: 0;
@@ -2682,18 +2701,25 @@ div#contentWrapper {
   background: #FFFFFF;
   border: 2px solid #D4D4D4;
   margin: 0px 0px 10px 0px; }
+
 .help-page .api-name {
   width: 40%; }
+
 .help-page .api-documentation {
   width: 60%; }
+
 .help-page .parameter-name {
   width: 20%; }
+
 .help-page .parameter-documentation {
   width: 40%; }
+
 .help-page .parameter-type {
   width: 20%; }
+
 .help-page .parameter-annotations {
   width: 20%; }
+
 .help-page section {
   padding-top: 5px;
   padding-bottom: 5px; }
@@ -2743,4 +2769,3 @@ div#contentWrapper {
     color: #fff;
     font-weight: bold; }
 
-/*# sourceMappingURL=Site.css.map */
