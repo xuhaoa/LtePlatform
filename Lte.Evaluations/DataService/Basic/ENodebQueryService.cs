@@ -138,7 +138,8 @@ namespace Lte.Evaluations.DataService.Basic
 
         public IEnumerable<ENodebView> QueryENodebViews(double west, double east, double south, double north)
         {
-            var eNodebs = _eNodebRepository.GetAllList(west, east, south, north);
+            var eNodebs = _eNodebRepository.GetAllList(x => x.Longtitute >= west && x.Longtitute <= east
+                && x.Lattitute >= south && x.Lattitute <= north);
             return eNodebs.Any() ? eNodebs.MapTo<IEnumerable<ENodebView>>() : new List<ENodebView>();
         }
 
@@ -153,7 +154,8 @@ namespace Lte.Evaluations.DataService.Basic
         public IEnumerable<ENodebView> QueryENodebViews(ENodebRangeContainer container)
         {
             var eNodebs =
-                _eNodebRepository.GetAllList(container.West, container.East, container.South, container.North)
+                _eNodebRepository.GetAllList(x => x.Longtitute >= container.West && x.Longtitute <= container.East
+                                                  && x.Lattitute >= container.South && x.Lattitute <= container.North)
                     .Where(x => x.IsInUse)
                     .ToList();
             var excludedENodebs = from eNodeb in eNodebs

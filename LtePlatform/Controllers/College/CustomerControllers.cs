@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Abp.EntityFramework.AutoMapper;
 
 namespace LtePlatform.Controllers.College
 {
@@ -373,6 +372,7 @@ namespace LtePlatform.Controllers.College
 
     }
 
+    [ApiControl("在线支撑查询控制器")]
     public class OnlineSustainController : ApiController
     {
         private readonly OnlineSustainService _service;
@@ -388,15 +388,23 @@ namespace LtePlatform.Controllers.College
             return _service.QueryList(begin, end);
         }
 
+        [HttpGet]
         public IEnumerable<OnlineSustainDto> Get(DateTime today)
         {
             return _service.QueryList(today);
         }
 
+        [HttpGet]
         public IEnumerable<OnlineSustainDto> Get(DateTime today, string city, string district)
         {
             return _service.QueryList(today, city, district);
         }
+
+        [HttpGet]
+        public IEnumerable<OnlineSustainDto> Get(double west, double east, double south, double north)
+        {
+            return _service.QueryList(west, east, south, north);
+        } 
     }
 
     public class SustainCountController : ApiController

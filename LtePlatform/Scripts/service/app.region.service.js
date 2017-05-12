@@ -254,6 +254,14 @@
             queryRangeENodebs: function(container) {
                 return generalHttpService.postApiData('ENodeb', container);
             },
+            queryRangeComplains: function (range) {
+                return generalHttpService.getApiData('OnlineSustain', {
+                    west: range.west,
+                    east: range.east,
+                    south: range.south,
+                    north: range.north
+                });
+            },
             queryRangeBtss: function(container) {
                 return generalHttpService.postApiData('Bts', container);
             },

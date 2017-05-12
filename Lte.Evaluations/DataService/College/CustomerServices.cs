@@ -544,5 +544,20 @@ namespace Lte.Evaluations.DataService.College
             });
 
         }
+
+        public IEnumerable<OnlineSustainDto> QueryList(double west, double east, double south, double north)
+        {
+            var items = _repository.GetAllList(x => x.Longtitute >= west && x.Longtitute <= east
+                                                    && x.Lattitute >= south && x.Lattitute <= north);
+            var views = items.MapTo<List<OnlineSustainDto>>();
+            views.ForEach(x =>
+            {
+                var town = _townRepository.Get(x.TownId);
+                x.City = town?.CityName;
+                x.District = town?.DistrictName;
+                x.Town = town?.TownName;
+            });
+            return views;
+        } 
     }
 }

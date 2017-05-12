@@ -1236,10 +1236,9 @@
                         var xCenter = e.point.lng - xOffset;
                         var yCenter = e.point.lat - yOffset;
                         var container = neGeometryService.queryNearestRange(xCenter, yCenter);
-                        container.excludedIds = [];
-                        networkElementService.queryRangeENodebs(container).then(function (items) {
+                        networkElementService.queryRangeComplains(container).then(function (items) {
                             if (items.length) {
-                                parametersDialogService.showENodebInfo(items[0], $scope.beginDate, $scope.endDate);
+                                console.log(items);
                             }
                         });
                     });
