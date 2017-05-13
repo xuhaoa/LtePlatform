@@ -3,6 +3,7 @@ using Abp.Domain.Entities.Auditing;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Regular.Attributes;
 using System;
+using Lte.Domain.Common.Geo;
 
 namespace Lte.MySqlFramework.Entities
 {
@@ -206,5 +207,12 @@ namespace Lte.MySqlFramework.Entities
         public DateTime NewOpenDate { get; set; }
 
         public int ExpectedSubscribers => CurrentSubscribers + NewSubscribers - GraduateStudents;
+    }
+
+    public class TownBoundary : Entity, ITownId
+    {
+        public int TownId { get; set; }
+
+        public string Boundary { get; set; }
     }
 }

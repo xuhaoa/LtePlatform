@@ -87,5 +87,7 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<HotSpotBtsId> HotSpotBtsIds { get; set; }
 
         public DbSet<HotSpotCdmaCellId> HotSpotCdmaCellIds { get; set; }
+
+        public DbSet<TownBoundary> TownBoundaries { get; set; }
     }
 }
