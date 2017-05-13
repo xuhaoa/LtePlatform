@@ -7,13 +7,36 @@
 <div class="modal-body">
     <h4>室内分布基本信息</h4>
     <div plan-site-details item-groups="distributionGroups"></div>
-    <div ng-show="distribution.eNodebId>0">
-        <h4>LTE小区信息</h4>
-        <div plan-site-details item-groups="lteGroups"></div>
+    <div class="row">
+        <div plan-site-details item-groups="eNodebGroups"></div>
     </div>
-    <div ng-show="distribution.btsId>0">
-        <h4>CDMA小区信息</h4>
-        <div plan-site-details item-groups="cdmaGroups"></div>
+    <div uib-tabset active="active">
+        <div uib-tab index="0" heading="LTE小区信息">
+            <div plan-site-details item-groups="lteGroups"></div>
+        </div>
+        <div uib-tab index="1" heading="CDMA小区信息">
+            <div plan-site-details item-groups="cdmaGroups"></div>
+        </div>
+        <div uib-tab index="2" heading="告警信息" ng-show="distribution.eNodebId > 0">
+            <div class="row">
+                <div class="col-md-6">
+                    <div date-span-column begin-date="beginDate" end-date="endDate"></div>
+                </div>
+                <div class="col-md-6">
+                    <label>告警等级：</label>
+                    <div class="input-group">
+                        <select ng-model="alarmLevel.selected" class="form-control" ng-options="level for level in alarmLevel.options"></select>
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" ng-click="searchAlarms()">
+                                <i class="glyphicon glyphicon-search"></i>
+                                查询
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div alarm-table alarms="alarms"></div>
+        </div>
     </div>
 </div>
 <div class="modal-footer">
