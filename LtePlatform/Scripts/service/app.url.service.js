@@ -925,6 +925,97 @@
                     }
                 ];
             },
+            generateSustainGroups: function (cell) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '工单编号',
+                                value: cell.serialNumber
+                            }, {
+                                key: '派单日期',
+                                value: cell.beginDate
+                            }, {
+                                key: '投诉站点',
+                                value: cell.site
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '投诉分类',
+                                value: cell.complainCategoryDescription
+                            }, {
+                                key: '投诉原因',
+                                value: cell.complainReasonDescription
+                            }, {
+                                key: '投诉子原因',
+                                value: cell.complainSubReasonDescription
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '投诉地址',
+                                value: cell.address
+                            }, {
+                                key: '联系电话',
+                                value: cell.contactPhone
+                            }, {
+                                key: '是否预处理',
+                                value: cell.isPreProcessedDescription
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '城市',
+                                value: cell.city
+                            }, {
+                                key: '区域',
+                                value: cell.district
+                            }, {
+                                key: '镇区',
+                                value: cell.town
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: cell.longtitute
+                            }, {
+                                key: '纬度',
+                                value: cell.lattitute
+                            }, {
+                                key: '专家回复',
+                                value: cell.specialResponse
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '投诉来源',
+                                value: cell.complainSourceDescription
+                            }, {
+                                key: '问题描述',
+                                value: cell.issue
+                            }, {
+                                key: '反馈信息',
+                                value: cell.feedbackInfo
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '投诉现象',
+                                value: cell.phenomenon,
+                                span: 5
+                            }
+                        ]
+                    }
+                ];
+            },
             generateRruGroups: function (cell) {
                 return [
                     {

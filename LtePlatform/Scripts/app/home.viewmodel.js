@@ -1238,7 +1238,7 @@
                         var container = neGeometryService.queryNearestRange(xCenter, yCenter);
                         networkElementService.queryRangeComplains(container).then(function (items) {
                             if (items.length) {
-                                console.log(items);
+                                parametersDialogService.showOnlineSustainInfos(items);
                             }
                         });
                     });

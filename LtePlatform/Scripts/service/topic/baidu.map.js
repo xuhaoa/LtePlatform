@@ -490,8 +490,8 @@
 			},
 			drawPointCollection: function (coors, color, xoffset, yoffset, callback, pointSize) {
 
-			    var points = [];  // 添加海量点数据
-			    var size = pointSize || BMAP_POINT_SIZE_BIG;
+				var points = [];  // 添加海量点数据
+				var size = pointSize || BMAP_POINT_SIZE_BIG;
 				angular.forEach(coors, function (data) {
 					var p = new BMap.Point(data.longtitute - xoffset, data.lattitute - yoffset);
 					p.data = data;
@@ -839,6 +839,20 @@
 					}
 				});
 			},
+			showOnlineSustainInfos: function (items) {
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Customer/Complain/Online.html',
+					controller: 'online.sustain.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return "在线支撑基本信息";
+						},
+						items: function () {
+							return items;
+						}
+					}
+				});
+			},
 			showAlarmStationInfo: function (station, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Evaluation/AlarmStationDetails.html',
@@ -888,60 +902,60 @@
 				});
 			},
 			showSpecialIndoorInfo: function (station) {
-			    menuItemService.showGeneralDialog({
-			        templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
-			        controller: 'map.special-indoor.dialog',
-			        resolve: {
-			            dialogTitle: function () {
-			                return "站点信息:" + station.enodebName;
-			            },
-			            station: function () {
-			                return station;
-			            }
-			        }
-			    });
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
+					controller: 'map.special-indoor.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return "站点信息:" + station.enodebName;
+						},
+						station: function () {
+							return station;
+						}
+					}
+				});
 			},
 			showFaultStationInfo: function (station) {
-			    menuItemService.showGeneralDialog({
-			        templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
-			        controller: 'map.fault-station.dialog',
-			        resolve: {
-			            dialogTitle: function () {
-			                return "站点信息:" + station.enodebName;
-			            },
-			            station: function () {
-			                return station;
-			            }
-			        }
-			    });
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
+					controller: 'map.fault-station.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return "站点信息:" + station.enodebName;
+						},
+						station: function () {
+							return station;
+						}
+					}
+				});
 			},
 			showZeroFlowInfo: function (station) {
-			    menuItemService.showGeneralDialog({
-			        templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
-			        controller: 'map.zero-flow.dialog',
-			        resolve: {
-			            dialogTitle: function () {
-			                return "站点信息:" + station.enodebName;
-			            },
-			            station: function () {
-			                return station;
-			            }
-			        }
-			    });
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
+					controller: 'map.zero-flow.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return "站点信息:" + station.enodebName;
+						},
+						station: function () {
+							return station;
+						}
+					}
+				});
 			},
 			showZeroVoiceInfo: function (station) {
-			    menuItemService.showGeneralDialog({
-			        templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
-			        controller: 'map.zero-voice.dialog',
-			        resolve: {
-			            dialogTitle: function () {
-			                return "站点信息:" + station.BTSName;
-			            },
-			            station: function () {
-			                return station;
-			            }
-			        }
-			    });
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
+					controller: 'map.zero-voice.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return "站点信息:" + station.BTSName;
+						},
+						station: function () {
+							return station;
+						}
+					}
+				});
 			},
 			showStationInfo: function (station, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
@@ -1122,6 +1136,23 @@
 		};
 
 		$scope.cancel = function() {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
+	.controller('online.sustain.dialog', function ($scope, $uibModalInstance, items, dialogTitle,
+		networkElementService, cellHuaweiMongoService, alarmImportService, intraFreqHoService, interFreqHoService, appFormatService) {
+		$scope.dialogTitle = dialogTitle;
+		$scope.itemGroups = [];
+		
+		angular.forEach(items, function (item) {
+		    $scope.itemGroups.push(appFormatService.generateSustainGroups(item));
+		});
+
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.eNodebGroups);
+		};
+
+		$scope.cancel = function () {
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
