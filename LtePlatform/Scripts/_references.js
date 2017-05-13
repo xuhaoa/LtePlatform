@@ -129,7 +129,6 @@
 /// <reference path="numeric/svd.js" />
 /// <reference path="parameters/alarmimport.controller.js" />
 /// <reference path="parameters/import/index.controller.js" />
-/// <reference path="parameters/list.controller.js" />
 /// <reference path="parameters/neighbor/import.controller.js" />
 /// <reference path="r.js" />
 /// <reference path="require.js" />

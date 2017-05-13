@@ -1095,9 +1095,22 @@
 
 	.controller('map.eNodeb.dialog', function($scope, $uibModalInstance, eNodeb, dialogTitle,
 		networkElementService, cellHuaweiMongoService, alarmImportService, intraFreqHoService, interFreqHoService, appFormatService,
-		downSwitchService) {
+		downSwitchService, alarmsService) {
 		$scope.dialogTitle = dialogTitle;
-		//查询基站基本信息
+		$scope.alarmLevel = {
+			options: ["严重告警", "重要以上告警", "所有告警"],
+			selected: "重要以上告警"
+		};
+		$scope.alarms = [];
+		$scope.searchAlarms = function () {
+			alarmsService.queryENodebAlarmsByDateSpanAndLevel(eNodeb.eNodebId,
+				$scope.beginDate.value, $scope.endDate.value, $scope.alarmLevel.selected).then(function (result) {
+					$scope.alarms = result;
+				});
+		};
+
+		$scope.searchAlarms();
+
 		networkElementService.queryENodebInfo(eNodeb.eNodebId).then(function(result) {
 			$scope.eNodebGroups = appFormatService.generateENodebGroups(result);
 			networkElementService.queryStationByENodeb(eNodeb.eNodebId, eNodeb.planNum).then(function(dict) {
