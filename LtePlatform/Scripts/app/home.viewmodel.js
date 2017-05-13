@@ -28,6 +28,19 @@
                 },
                 url: "/query"
             })
+            .state('building', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.root"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Query.html",
+                        controller: "evaluation.home"
+                    }
+                },
+                url: "/building"
+            })
             .state('topic', {
                 views: {
                     'menu': {
@@ -419,6 +432,9 @@
                 }, {
                     displayName: "流量经营",
                     url: '/#/flow'
+                }, {
+                    displayName: "万栋楼宇",
+                    url: '/#/building'
                 }
             ]
         };
@@ -862,6 +878,15 @@
         });
     })
 
+    .controller("evaluation.home", function ($scope, baiduMapService, baiduQueryService,
+        parametersMapService, parametersDialogService) {
+        baiduMapService.initializeMap("map", 12);
+        baiduQueryService.queryWandonglouyu().then(function (buildings) {
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            parametersMapService.showPhpElements(buildings, parametersDialogService.showBuildingInfo);
+        });
+    })
     .controller("station.network", function ($scope, downSwitchService, distinctIndex, baiduMapService, geometryService,
         parametersDialogService, baiduQueryService) {
         $scope.areaNames = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');

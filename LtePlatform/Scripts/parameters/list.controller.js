@@ -98,13 +98,6 @@
             messages.splice(index, 1);
         };
     })
-    .controller("evaluation.home", function ($scope, $http, baiduMapService, baiduQueryService,
-        parametersMapService, parametersDialogService) {
-        baiduQueryService.queryWandonglouyu().then(function (buildings) {
-            baiduMapService.initializeMap("map", 12);
-            parametersMapService.showPhpElements(buildings, parametersDialogService.showBuildingInfo);
-        });
-    })
     .controller("cdmaCell.info", function ($scope, $stateParams, networkElementService) {
         $scope.page.title = $stateParams.name + "-" + $stateParams.sectorId + "小区信息";
         $scope.isHuaweiCell = false;
@@ -182,17 +175,4 @@
         menuItemService.updateMenuItem($scope.menuItems, 0,
             $stateParams.city + $stateParams.district + $stateParams.town + "CDMA基站列表",
             $scope.rootPath + "btsList" + "/" + $stateParams.city + "/" + $stateParams.district + "/" + $stateParams.town);
-    })
-
-    .controller('map.building.dialog', function ($scope, $uibModalInstance, building, dialogTitle) {
-        $scope.building = building;
-        $scope.dialogTitle = dialogTitle;
-
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.building);
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
     });

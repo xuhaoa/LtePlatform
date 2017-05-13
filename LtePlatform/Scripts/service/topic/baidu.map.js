@@ -37,7 +37,7 @@
 				});
 			},
 			queryWandonglouyu: function () {
-				return generalHttpService.getUrlData(appUrlService.getPlanUrlHost() + 'phpApi/wandonglouyu.php', {});
+				return generalHttpService.getUrlData(appUrlService.getBuildingUrlHost() + 'phpApi/wandonglouyu.php', {});
 			}
 		}
 	})
@@ -1145,7 +1145,7 @@
 		$scope.itemGroups = [];
 		
 		angular.forEach(items, function (item) {
-		    $scope.itemGroups.push(appFormatService.generateSustainGroups(item));
+			$scope.itemGroups.push(appFormatService.generateSustainGroups(item));
 		});
 
 		$scope.ok = function () {
@@ -1874,6 +1874,19 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 
+	})
+
+	.controller('map.building.dialog', function ($scope, $uibModalInstance, building, dialogTitle) {
+		$scope.building = building;
+		$scope.dialogTitle = dialogTitle;
+
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.building);
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
 	})
 
 	.factory('collegeMapService', function (baiduMapService, collegeService, collegeQueryService, collegeDtService) {
