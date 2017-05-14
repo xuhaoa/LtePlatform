@@ -133,7 +133,7 @@
 				});
 			},
 			addBoundary: function(coors, color, xOffset, yOffset) {
-			    var points = [];
+				var points = [];
 				angular.forEach(coors, function(coor) {
 					points.push(new BMap.Point(coor.longtitute + xOffset, coor.lattitute + yOffset));
 				});
@@ -1340,7 +1340,7 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
-	.controller('map.neighbor.dialog', function($scope, $uibModalInstance, intraFreqHoService, interFreqHoService, networkElementService, neighborDialogService,
+	.controller('map.neighbor.dialog', function($scope, $uibModalInstance, interFreqHoService, neighborDialogService, flowService, appKpiService,
 		neighbor, dialogTitle, beginDate, endDate) {
 		$scope.neighbor = neighbor;
 		$scope.eNodebId = neighbor.otherInfos.split(': ')[5];
@@ -1372,9 +1372,16 @@
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss('cancel');
 		};
+		$scope.queryFlow = function() {
+			flowService.queryCellFlowByDateSpan($scope.eNodebId, $scope.sectorId, $scope.beginDate.value, $scope.endDate.value).then(function(results) {
+			    $("#flowChart").highcharts(appKpiService.generateMergeFlowOptions(results, neighbor.cellName));
+			    $("#usersChart").highcharts(appKpiService.generateMergeUsersOptions(results, neighbor.cellName));
+			});
+		};
 
 		interFreqHoService.queryCellParameters($scope.eNodebId, $scope.sectorId).then(function (result) {
 			$scope.interFreqHo = result;
+			$scope.queryFlow();
 		});
 	})
 

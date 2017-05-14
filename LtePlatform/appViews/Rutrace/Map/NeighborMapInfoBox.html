@@ -15,7 +15,13 @@
         <div a5-inter-freq inter-freq-ho="interFreqHo" ng-show="parameter.selected==='A5异频切换'"></div>
     </div>
     <div class="col-md-8">
-        
+        <div date-span-row begin-date="beginDate" end-date="endDate">
+            <button class="btn btn-sm btn-primary" ng-click="queryFlow()">
+                <i class="glyphicon glyphicon-search"></i>
+            </button>
+        </div>
+        <div style="min-height: 400px" id="flowChart"></div>
+        <div style="min-height: 400px" id="usersChart"></div>
     </div>
 </div>
 <div class="modal-footer">
