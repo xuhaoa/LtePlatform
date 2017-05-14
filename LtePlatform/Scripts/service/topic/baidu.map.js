@@ -132,6 +132,15 @@
 					}
 				});
 			},
+			addBoundary: function(coors, color, xOffset, yOffset) {
+			    var points = [];
+				angular.forEach(coors, function(coor) {
+					points.push(new BMap.Point(coor.longtitute + xOffset, coor.lattitute + yOffset));
+				});
+				var polygon = new BMap.Polygon(points,
+				{ strokeColor: color, strokeWeight: 2, strokeOpacity: 0.2 });
+				map.addOverlay(polygon);
+			},
 			addDistrictBoundary: function (district, color) {
 				var bdary = new BMap.Boundary();
 				bdary.get(district, function (rs) { //获取行政区域
@@ -1301,21 +1310,21 @@
 		$scope.dialogTitle = dialogTitle;
 		$scope.distributionGroups = appFormatService.generateDistributionGroups(distribution);
 		$scope.alarmLevel = {
-		    options: ["严重告警", "重要以上告警", "所有告警"],
-		    selected: "重要以上告警"
+			options: ["严重告警", "重要以上告警", "所有告警"],
+			selected: "重要以上告警"
 		};
 		$scope.alarms = [];
 		$scope.searchAlarms = function () {
-		    alarmsService.queryENodebAlarmsByDateSpanAndLevel(distribution.eNodebId,
+			alarmsService.queryENodebAlarmsByDateSpanAndLevel(distribution.eNodebId,
 				$scope.beginDate.value, $scope.endDate.value, $scope.alarmLevel.selected).then(function (result) {
-				    $scope.alarms = result;
+					$scope.alarms = result;
 				});
 		};
 		if (distribution.eNodebId > 0) {
 			networkElementService.queryCellInfo(distribution.eNodebId, distribution.lteSectorId).then(function(cell) {
 				$scope.lteGroups = appFormatService.generateCellGroups(cell);
 			});
-		    $scope.searchAlarms();
+			$scope.searchAlarms();
 		}
 		if (distribution.btsId > 0) {
 			networkElementService.queryCdmaCellInfo(distribution.btsId, distribution.cdmaSectorId).then(function(cell) {

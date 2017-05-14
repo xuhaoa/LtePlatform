@@ -1014,19 +1014,32 @@
             $scope.showFeelingRate();
         });
     })
-    .controller("home.dt", function ($scope, baiduMapService, coverageService, appFormatService, parametersDialogService) {
+    .controller("home.dt", function ($scope, baiduMapService, coverageService, appFormatService, parametersDialogService,
+        appRegionService, baiduQueryService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.legend.intervals = [];
         coverageService.queryAreaTestDate().then(function (result) {
-            angular.forEach(result, function(item) {
-                baiduMapService.drawCustomizeLabel(item.longtitute, item.lattitute + 0.005, item.cityName + item.districtName + item.townName,
-                    '4G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate4G), 'yyyy-MM-dd')
-                    + '<br/>3G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate3G), 'yyyy-MM-dd')
-                    + '<br/>2G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate2G), 'yyyy-MM-dd'), 3);
-                var marker = baiduMapService.generateIconMarker(item.longtitute, item.lattitute,
-                    "/Content/Images/Hotmap/site_or.png");
-                baiduMapService.addOneMarkerToScope(marker, parametersDialogService.showTownDtInfo, item);
+            angular.forEach(result, function(item, $index) {
+                if (item.cityName) {
+                    baiduMapService.drawCustomizeLabel(item.longtitute, item.lattitute + 0.005, item.cityName + item.districtName + item.townName,
+                        '4G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate4G), 'yyyy-MM-dd')
+                        + '<br/>3G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate3G), 'yyyy-MM-dd')
+                        + '<br/>2G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate2G), 'yyyy-MM-dd'), 3);
+                    var marker = baiduMapService.generateIconMarker(item.longtitute, item.lattitute,
+                        "/Content/Images/Hotmap/site_or.png");
+                    baiduMapService.addOneMarkerToScope(marker, parametersDialogService.showTownDtInfo, item);
+                    appRegionService.queryTownBoundaries(item.cityName, item.districtName, item.townName).then(function (boundaries) {
+                        angular.forEach(boundaries, function (boundary) {
+                            baiduQueryService.transformToBaidu(boundary.boundaryGeoPoints[0].longtitute, boundary.boundaryGeoPoints[0].lattitute).then(function (coors) {
+                                var xOffset = coors.x - boundary.boundaryGeoPoints[0].longtitute;
+                                var yOffset = coors.y - boundary.boundaryGeoPoints[0].lattitute;
+                                baiduMapService.addBoundary(boundary.boundaryGeoPoints, $scope.colors[$index % $scope.colors.length], xOffset, yOffset);
+                            });
+                        });
+                    });
+                }
+
             });
 
         });
