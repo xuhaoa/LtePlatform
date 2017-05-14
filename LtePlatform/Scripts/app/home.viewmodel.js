@@ -1542,7 +1542,7 @@
         $scope.updateMap();
     })
     .controller("home.query", function ($scope, baiduMapService, neighborDialogService, dumpPreciseService, appRegionService,
-        parametersDialogService) {
+        parametersDialogService, baiduQueryService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.currentView = "镇区站点";
@@ -1561,18 +1561,27 @@
         $scope.showDistrictTownStat = function(district, color) {
             baiduMapService.addDistrictBoundary(district, color);
             appRegionService.queryTownInfrastructures($scope.city.selected, district).then(function(result) {
-                angular.forEach(result, function(stat) {
+                angular.forEach(result, function(stat, $index) {
                     appRegionService.queryTown($scope.city.selected, district, stat.town).then(function (town) {
                         angular.extend(stat, town);
                         baiduMapService.drawCustomizeLabel(stat.longtitute, stat.lattitute + 0.005,
                             stat.cityName + stat.districtName + stat.townName,
-                    'LTE基站个数:' + stat.totalLteENodebs + '<br/>LTE小区个数:' + stat.totalLteCells
-                    + '<br/>CDMA基站个数:' + stat.totalCdmaBts + '<br/>CDMA小区个数:' + stat.totalCdmaCells, 4);
+                            'LTE基站个数:' + stat.totalLteENodebs + '<br/>LTE小区个数:' + stat.totalLteCells
+                            + '<br/>CDMA基站个数:' + stat.totalCdmaBts + '<br/>CDMA小区个数:' + stat.totalCdmaCells, 4);
                         var marker = baiduMapService.generateIconMarker(stat.longtitute, stat.lattitute,
                             "/Content/Images/Hotmap/site_or.png");
                         baiduMapService.addOneMarkerToScope(marker, function(item) {
                             parametersDialogService.showTownENodebInfo(item, $scope.city.selected, district);
                         }, stat);
+                        appRegionService.queryTownBoundaries(stat.cityName, stat.districtName, stat.townName).then(function (boundaries) {
+                            angular.forEach(boundaries, function (boundary) {
+                                baiduQueryService.transformToBaidu(boundary.boundaryGeoPoints[0].longtitute, boundary.boundaryGeoPoints[0].lattitute).then(function (coors) {
+                                    var xOffset = coors.x - boundary.boundaryGeoPoints[0].longtitute;
+                                    var yOffset = coors.y - boundary.boundaryGeoPoints[0].lattitute;
+                                    baiduMapService.addBoundary(boundary.boundaryGeoPoints, $scope.colors[$index % $scope.colors.length], xOffset, yOffset);
+                                });
+                            });
+                        });
                     });
                 });
             });
