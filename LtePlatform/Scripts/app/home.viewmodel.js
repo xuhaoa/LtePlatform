@@ -1479,11 +1479,12 @@
         });
     })
     .controller("home.college", function ($scope, baiduMapService, collegeQueryService, parametersMapService, collegeService,
-    collegeMapService, baiduQueryService) {
+        collegeMapService, baiduQueryService, collegeDialogService) {
         baiduMapService.initializeMap("map", 11);
         $scope.year = new Date().getYear() + 1900;
         $scope.showView = function (college) {
             $scope.currentView = college.name;
+            $scope.currentCollege = college;
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary("佛山");
             collegeMapService.drawCollegeArea(college.id, function (center) {
@@ -1498,6 +1499,26 @@
             
             parametersMapService.showHotSpotCellSectors(college.name, $scope.beginDate, $scope.endDate);
         };
+
+        $scope.addENodebs = function () {
+            collegeDialogService.addENodeb($scope.currentView, $scope.center, function (count) {
+                $scope.page.messages.push({
+                    type: 'success',
+                    contents: '增加ENodeb' + count + '个'
+                });
+                $scope.showView($scope.currentCollege);
+            });
+        };
+        $scope.addBts = function () {
+            collegeDialogService.addBts($scope.currentView, $scope.center, function (count) {
+                $scope.page.messages.push({
+                    type: 'success',
+                    contents: '增加Bts' + count + '个'
+                });
+                $scope.showView($scope.currentCollege);
+            });
+        };
+
         collegeQueryService.queryAll().then(function (spots) {
             $scope.hotSpots = spots;
             $scope.showView($scope.hotSpots[0]);

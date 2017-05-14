@@ -1,4 +1,7 @@
-﻿<div class="btn-group-sm col-md-2" uib-dropdown dropdown-append-to-body>
+﻿<div uib-alert ng-repeat="message in updateMessages" class="alert-success" dismiss-on-timeout="2000" close="closeAlert(updateMessages, $index)">
+        {{message.cellName}}更新{{message.topic}}小区信息{{message.counts}}条
+    </div>
+<div class="btn-group-sm col-md-2" uib-dropdown dropdown-append-to-body>
     <button id="single-button" type="button" class="btn btn-sm btn-default"
             uib-dropdown-toggle ng-disabled="disabled">
         <strong>校园网专题</strong>
@@ -6,15 +9,15 @@
     </button>
     <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
         <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showFlow()">
+            <a class="btn btn-sm btn-success" ng-click="addENodebs()">
                 <i class="glyphicon glyphicon-flag"></i>
-                流量分布
+                新增LTE基站
             </a>
         </li>
         <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showFlowTrend()">
+            <a class="btn btn-sm btn-success" ng-click="addBts()">
                 <i class="glyphicon glyphicon-apple"></i>
-                流量趋势
+                新增CDMA基站
             </a>
         </li>
         <li role="menuitem">

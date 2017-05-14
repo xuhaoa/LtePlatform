@@ -210,23 +210,7 @@
 
         $scope.collegeInfo.url = $scope.rootPath + "map";
         $scope.collegeName = $stateParams.name;
-        $scope.addENodebs = function () {
-            collegeDialogService.addENodeb($scope.collegeName, $scope.center, function (count) {
-                $scope.page.messages.push({
-                    type: 'success',
-                    contents: '增加ENodeb' + count + '个'
-                });
-            });
-        };
-        $scope.addBts = function() {
-            collegeDialogService.addBts($scope.collegeName, $scope.center, function (count) {
-                $scope.page.messages.push({
-                    type: 'success',
-                    contents: '增加Bts' + count + '个'
-                });
-            });
-        };
-
+        
         baiduMapService.initializeMap("all-map", 15);
 
         collegeQueryService.queryByName($scope.collegeName).then(function(college) {
