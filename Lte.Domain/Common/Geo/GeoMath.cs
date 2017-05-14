@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Lte.Domain.Common.Geo
 {
@@ -46,13 +45,13 @@ namespace Lte.Domain.Common.Geo
 
         public static double AngleBetweenAzimuths(double a1, double a2)
         {
-            double diff = Math.Abs(a1 - a2) % 360;
+            var diff = Math.Abs(a1 - a2) % 360;
             return (diff <= 180) ? diff : 360 - diff;
         }
 
         public static double AllAngleBetweenAzimuths(double a1, double a2)
         {
-            double diff = (a1 - a2) % 360;
+            var diff = (a1 - a2) % 360;
             if (diff <= 180 && diff >= -180) { return diff; }
             if (diff > 180) { return diff - 360; }
             return diff + 360;
@@ -60,29 +59,57 @@ namespace Lte.Domain.Common.Geo
 
         public static IGeoPoint<double> Move(this IGeoPoint<double> origin, double radiusInMeter, double azimuth)
         {
-            double degree = radiusInMeter * 180 / 1000 / EarthRadius / Math.Cos(origin.Lattitute * Math.PI / 180);
+            var degree = radiusInMeter * 180 / 1000 / EarthRadius / Math.Cos(origin.Lattitute * Math.PI / 180);
             return new GeoPoint(origin.Longtitute + degree * Math.Sin(azimuth * Math.PI / 180),
                 origin.Lattitute + degree * Math.Cos(azimuth * Math.PI / 180));
         }
 
-        public static IEnumerable<TPoint> FilterGeoPointList<TPoint>(this IGeoPointReadonly<double> center,
-            IEnumerable<TPoint> inputCellList, double degreeSpan)
-            where TPoint : IGeoPointReadonly<double>
+        /// <summary>  
+        /// 判断点是否在多边形内.  
+        /// ----------原理----------  
+        /// 注意到如果从P作水平向左的射线的话，如果P在多边形内部，那么这条射线与多边形的交点必为奇数，  
+        /// 如果P在多边形外部，则交点个数必为偶数(0也在内)。  
+        /// </summary>  
+        /// <param name="checkPoint">要判断的点</param>  
+        /// <param name="polygonPoints">多边形的顶点</param>  
+        /// <returns></returns>  
+        public static bool IsInPolygon(GeoPoint checkPoint, List<GeoPoint> polygonPoints)
         {
-            if (degreeSpan <= 0) { degreeSpan = 0.01; }
-            return inputCellList.Where(s => s.Longtitute >= center.Longtitute - degreeSpan
-                && s.Longtitute <= center.Longtitute + degreeSpan
-                && s.Lattitute >= center.Lattitute - degreeSpan
-                && s.Lattitute <= center.Lattitute + degreeSpan);
+            var inside = false;
+            var pointCount = polygonPoints.Count;
+            for (int i = 0, j = pointCount - 1; i < pointCount; j = i, i++)
+                //第一个点和最后一个点作为第一条线，之后是第一个点和第二个点作为第二条线，之后是第二个点与第三个点，第三个点与第四个点...  
+            {
+                var p1 = polygonPoints[i];
+                var p2 = polygonPoints[j];
+                if (checkPoint.Lattitute < p2.Lattitute)
+                {  
+                    if (p1.Lattitute > checkPoint.Lattitute) continue; 
+                    if (PointIsAboveTheRay(checkPoint, p1, p2))
+                        //斜率判断,在P1和P2之间且在P1P2右侧  
+                    {
+                        //射线与多边形交点为奇数时则在多边形之内，若为偶数个交点时则在多边形之外。  
+                        //由于inside初始值为false，即交点数为零。所以当有第一个交点时，则必为奇数，则在内部，此时为inside=(!inside)  
+                        //所以当有第二个交点时，则必为偶数，则在外部，此时为inside=(!inside)  
+                        inside = (!inside);
+                    }
+                }
+                else if (checkPoint.Lattitute < p1.Lattitute)
+                {
+                    //p2正好在射线中或者在射线下方，p1在射线上  
+                    if (PointIsAboveTheRay(checkPoint, p1, p2))//斜率判断,在P1和P2之间且在P1P2右侧  
+                    {
+                        inside = (!inside);
+                    }
+                }
+            }
+            return inside;
         }
 
-        public static IEnumerable<TPoint> FilterGeoPointList<TPoint>(this IEnumerable<TPoint> inputCellList,
-            double west, double south, double east, double north)
-            where TPoint : IGeoPointReadonly<double>
+        private static bool PointIsAboveTheRay(GeoPoint checkPoint, GeoPoint p1, GeoPoint p2)
         {
-            return inputCellList.Where(s =>
-                s.Longtitute >= west && s.Lattitute >= south
-                && s.Longtitute <= east && s.Lattitute <= north);
+            return (checkPoint.Lattitute - p1.Lattitute)*(p2.Longtitute - p1.Longtitute) >
+                   (checkPoint.Longtitute - p1.Longtitute)*(p2.Lattitute - p1.Lattitute);
         }
     }
 }

@@ -10,6 +10,8 @@ using System.Xml;
 using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Dependency;
 using Abp.EntityFramework.Repositories;
+using Lte.Domain.Common;
+using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.Regular;
@@ -31,6 +33,7 @@ namespace Lte.Evaluations.DataService.Mr
 
         private readonly IAppStreamRepository _streamRepository;
         private readonly IWebBrowsingRepository _browsingRepository;
+        private readonly ITownBoundaryRepository _boundaryRepository;
 
         private static Stack<NearestPciCell> NearestCells { get; set; }
 
@@ -39,7 +42,8 @@ namespace Lte.Evaluations.DataService.Mr
         public NearestPciCellService(INearestPciCellRepository repository, ICellRepository cellRepository,
             IENodebRepository eNodebRepository, IAgisDtPointRepository agisRepository,
             ITownRepository townRepository, IMrGridRepository mrGridRepository,
-            IAppStreamRepository streamRepository, IWebBrowsingRepository browsingRepository)
+            IAppStreamRepository streamRepository, IWebBrowsingRepository browsingRepository,
+            ITownBoundaryRepository boundaryRepository)
         {
             _repository = repository;
             _cellRepository = cellRepository;
@@ -49,6 +53,7 @@ namespace Lte.Evaluations.DataService.Mr
             _mrGridRepository = mrGridRepository;
             _streamRepository = streamRepository;
             _browsingRepository = browsingRepository;
+            _boundaryRepository = boundaryRepository;
             if (NearestCells == null)
                 NearestCells = new Stack<NearestPciCell>();
         }
@@ -185,6 +190,33 @@ namespace Lte.Evaluations.DataService.Mr
                     x =>
                         x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
                         x.Compete == AlarmCategory.Self)).ToList();
+            return stats.MapTo<IEnumerable<MrCoverageGridView>>();
+        }
+
+        public IEnumerable<MrCoverageGridView> QueryCoverageGridViews(DateTime initialDate, string district, string town)
+        {
+            var townItem = _townRepository.QueryTown(district, town);
+            if (townItem == null) return new List<MrCoverageGridView>();
+            var boundaries = _boundaryRepository.GetAllList(x => x.TownId == townItem.Id).Select(x =>
+            {
+                var coors = x.Boundary.GetSplittedFields(' ');
+                var coorList = new List<GeoPoint>();
+                for (var i = 0; i < coors.Length/2; i++)
+                {
+                    coorList.Add(new GeoPoint(coors[i*2].ConvertToDouble(0), coors[i*2 + 1].ConvertToDouble(0)));
+                }
+                return coorList;
+            });
+            var stats =
+                _mrGridRepository.QueryDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(
+                    x =>
+                        x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
+                        x.Compete == AlarmCategory.Self)).Where(x =>
+                        {
+                            var fields = x.Coordinates.GetSplittedFields(';')[0].GetSplittedFields(',');
+                            var point = new GeoPoint(fields[0].ConvertToDouble(0), fields[1].ConvertToDouble(0));
+                            return boundaries.Aggregate(false, (current, boundary) => current || GeoMath.IsInPolygon(point, boundary));
+                        });
             return stats.MapTo<IEnumerable<MrCoverageGridView>>();
         }
 

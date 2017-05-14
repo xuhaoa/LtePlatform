@@ -43,6 +43,28 @@ namespace LtePlatform.Controllers.Mr
         } 
     }
 
+    public class TownMrGridController : ApiController
+    {
+        private readonly NearestPciCellService _service;
+
+        public TownMrGridController(NearestPciCellService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        [ApiDoc("查询指定区域最近日期内的MR覆盖率栅格信息")]
+        [ApiParameterDoc("statDate", "初始日期")]
+        [ApiParameterDoc("district", "指定区域")]
+        [ApiParameterDoc("town", "指定镇区")]
+        [ApiResponse("指定区域最近日期内的MR覆盖率栅格信息列表")]
+        public IEnumerable<MrCoverageGridView> Get(DateTime statDate, string district, string town)
+        {
+            return _service.QueryCoverageGridViews(statDate, district, town);
+        }
+
+    }
+
     [ApiControl("WEB浏览APP数据查询控制器")]
     public class WebBrowsingController : ApiController
     {

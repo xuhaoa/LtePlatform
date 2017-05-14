@@ -97,9 +97,16 @@ namespace Abp.EntityFramework.Dependency
             where TEntity : Entity, IStatDate
             where TRepository : IRepository<TEntity>
         {
-            var beginDate = initialDate.AddDays(-100);
+            var beginDate = initialDate.AddDays(-1);
             var endDate = initialDate.AddDays(1);
-            var result = queryDateFunc(repository, beginDate, endDate);
+            List<TEntity> result = new List<TEntity>();
+            while (!result.Any())
+            {
+                if (beginDate < endDate.AddMonths(-6)) return new List<TEntity>();
+                result = queryDateFunc(repository, beginDate, endDate);
+                beginDate = beginDate.AddDays(-1);
+            }
+            
             var maxDate = result.Max(x => x.StatDate);
             return result.Where(x => x.StatDate == maxDate);
         }
