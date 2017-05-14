@@ -128,4 +128,16 @@ namespace Lte.MySqlFramework.Concrete
             return Context.SaveChanges();
         }
     }
+
+    public class TownBoundaryRepository : EfRepositoryBase<MySqlContext, TownBoundary>, ITownBoundaryRepository
+    {
+        public TownBoundaryRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
 }

@@ -225,6 +225,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<ILteRruRepository>().To<LteRruRepository>();
 
+            ninjectKernel.Bind<ITownBoundaryRepository>().To<TownBoundaryRepository>();
+
             ninjectKernel.Bind<CellService>().ToSelf();
 
             ninjectKernel.Bind<CdmaCellService>().ToSelf();

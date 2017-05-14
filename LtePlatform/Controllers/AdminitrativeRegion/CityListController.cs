@@ -2,7 +2,9 @@
 using Lte.Parameters.Entities;
 using LtePlatform.Models;
 using System;
+using System.Collections.Generic;
 using System.Web.Http;
+using Lte.MySqlFramework.Entities;
 
 namespace LtePlatform.Controllers.AdminitrativeRegion
 {
@@ -73,6 +75,22 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         public Town Get(string city, string district, string town)
         {
             return _service.GetTown(city, district, town);
+        }
+    }
+
+    public class TownBoundaryController : ApiController
+    {
+        private readonly TownQueryService _service;
+
+        public TownBoundaryController(TownQueryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<TownBoundaryView> Get(string city, string district, string town)
+        {
+            return _service.GetTownBoundaryViews(city, district, town);
         }
     }
 }

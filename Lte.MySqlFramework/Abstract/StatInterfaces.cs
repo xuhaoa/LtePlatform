@@ -76,4 +76,9 @@ namespace Lte.MySqlFramework.Abstract
     {
         
     }
+
+    public interface ITownBoundaryRepository : IRepository<TownBoundary>, ISaveChanges
+    {
+        
+    }
 }

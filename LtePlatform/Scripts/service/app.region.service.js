@@ -1975,6 +1975,13 @@
                     town: town
                 });
             },
+            queryTownBoundaries: function (city, district, town) {
+                return generalHttpService.getApiData('TownBoundary', {
+                    city: city,
+                    district: district,
+                    town: town
+                });
+            },
             queryENodebTown: function(eNodebId) {
                 return generalHttpService.getApiData('Town', {
                     eNodebId: eNodebId

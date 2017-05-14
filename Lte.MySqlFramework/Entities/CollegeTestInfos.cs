@@ -3,6 +3,7 @@ using Abp.Domain.Entities.Auditing;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Regular.Attributes;
 using System;
+using System.Collections.Generic;
 using Lte.Domain.Common.Geo;
 
 namespace Lte.MySqlFramework.Entities
@@ -214,5 +215,12 @@ namespace Lte.MySqlFramework.Entities
         public int TownId { get; set; }
 
         public string Boundary { get; set; }
+    }
+
+    public class TownBoundaryView
+    {
+        public string Town { get; set; }
+
+        public List<GeoPoint> BoundaryGeoPoints { get; set; }
     }
 }

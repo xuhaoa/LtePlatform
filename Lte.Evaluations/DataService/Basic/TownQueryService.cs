@@ -5,6 +5,11 @@ using Lte.Parameters.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Domain.Common;
+using Lte.Domain.Common.Geo;
+using Lte.Domain.Regular;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.DataService.Basic
 {
@@ -16,10 +21,11 @@ namespace Lte.Evaluations.DataService.Basic
         private readonly IBtsRepository _btsRepository;
         private readonly ICellRepository _cellRepository;
         private readonly ICdmaCellRepository _cdmaCellRepository;
+        private readonly ITownBoundaryRepository _boundaryRepository;
 
         public TownQueryService(ITownRepository repository, IRegionRepository regionRepository,
             IENodebRepository eNodebRepositroy, IBtsRepository btsRepository,
-            ICellRepository cellRepository, ICdmaCellRepository cdmaCellRepository)
+            ICellRepository cellRepository, ICdmaCellRepository cdmaCellRepository, ITownBoundaryRepository boundaryRepository)
         {
             _repository = repository;
             _regionRepository = regionRepository;
@@ -27,6 +33,7 @@ namespace Lte.Evaluations.DataService.Basic
             _btsRepository = btsRepository;
             _cellRepository = cellRepository;
             _cdmaCellRepository = cdmaCellRepository;
+            _boundaryRepository = boundaryRepository;
         }
 
         public List<string> GetCities()
@@ -173,6 +180,29 @@ namespace Lte.Evaluations.DataService.Basic
             return town == null
                 ? null
                 : new Tuple<string, string, string>(town.CityName, town.DistrictName, town.TownName);
+        }
+
+        public IEnumerable<TownBoundaryView> GetTownBoundaryViews(string city, string district, string town)
+        {
+            var item = _repository.QueryTown(city, district, town);
+            if (item == null) return new List<TownBoundaryView>();
+            var coors = _boundaryRepository.GetAllList(x => x.TownId == item.Id);
+            var boundaries = new List<TownBoundaryView>();
+            foreach (var coor in coors)
+            {
+                var coorList = coor.Boundary.GetSplittedFields(' ');
+                var boundaryPoints = new List<GeoPoint>();
+                for (var i = 0; i < coorList.Length/2; i++)
+                {
+                    boundaryPoints.Add(new GeoPoint(coorList[i * 2].ConvertToDouble(0), coorList[i * 2 + 1].ConvertToDouble(0)));
+                }
+                boundaries.Add(new TownBoundaryView
+                {
+                    Town = town,
+                    BoundaryGeoPoints = boundaryPoints
+                });
+            }
+            return boundaries;
         }
     }
 }
