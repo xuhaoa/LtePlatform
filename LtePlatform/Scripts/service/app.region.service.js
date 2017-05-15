@@ -635,9 +635,24 @@
                     statDate: statDate
                 });
             },
+            queryTownMrGridSelfCoverage: function (district, town, statDate) {
+                return generalHttpService.getApiData('TownMrGrid', {
+                    district: district,
+                    town: town,
+                    statDate: statDate
+                });
+            },
             queryMrGridCompete: function(district, statDate, competeDescription) {
                 return generalHttpService.getApiData('MrGrid', {
                     district: district,
+                    statDate: statDate,
+                    competeDescription: competeDescription
+                });
+            },
+            queryTownMrGridCompete: function (district, town, statDate, competeDescription) {
+                return generalHttpService.getApiData('TownMrGrid', {
+                    district: district,
+                    town: town,
                     statDate: statDate,
                     competeDescription: competeDescription
                 });

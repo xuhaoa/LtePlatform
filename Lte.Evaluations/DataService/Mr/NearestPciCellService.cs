@@ -234,5 +234,38 @@ namespace Lte.Evaluations.DataService.Mr
                         x.Frequency == -1 && x.Compete == compete)).ToList();
             return stats.MapTo<IEnumerable<MrCompeteGridView>>();
         }
+
+        public IEnumerable<MrCompeteGridView> QueryCompeteGridViews(DateTime initialDate, string district, string town,
+            string competeDescription)
+        {
+
+            var townItem = _townRepository.QueryTown(district, town);
+            if (townItem == null) return new List<MrCompeteGridView>();
+            var boundaries = _boundaryRepository.GetAllList(x => x.TownId == townItem.Id).Select(x =>
+            {
+                var coors = x.Boundary.GetSplittedFields(' ');
+                var coorList = new List<GeoPoint>();
+                for (var i = 0; i < coors.Length / 2; i++)
+                {
+                    coorList.Add(new GeoPoint(coors[i * 2].ConvertToDouble(0), coors[i * 2 + 1].ConvertToDouble(0)));
+                }
+                return coorList;
+            });
+            var competeTuple =
+                WirelessConstants.EnumDictionary["AlarmCategory"].FirstOrDefault(x => x.Item2 == competeDescription);
+            var compete = (AlarmCategory?)competeTuple?.Item1;
+
+            var stats =
+                _mrGridRepository.QueryDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(
+                    x =>
+                        x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
+                        x.Frequency == -1 && x.Compete == compete)).Where(x =>
+                        {
+                            var fields = x.Coordinates.GetSplittedFields(';')[0].GetSplittedFields(',');
+                            var point = new GeoPoint(fields[0].ConvertToDouble(0), fields[1].ConvertToDouble(0));
+                            return boundaries.Aggregate(false, (current, boundary) => current || GeoMath.IsInPolygon(point, boundary));
+                        });
+            return stats.MapTo<IEnumerable<MrCompeteGridView>>();
+        }
     }
 }

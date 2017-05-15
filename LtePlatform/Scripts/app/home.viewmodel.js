@@ -1124,46 +1124,44 @@
         });
     })
     .controller("mr.grid", function ($scope, baiduMapService, coverageService, authorizeService, kpiDisplayService,
-        baiduQueryService, coverageDialogService) {
+        baiduQueryService, coverageDialogService, appRegionService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.currentView = "自身覆盖";
         $scope.setRsrpLegend = function() {
             var legend = kpiDisplayService.queryCoverageLegend('rsrpInterval');
             $scope.legend.title = 'RSRP区间';
-            $scope.legend.criteria = legend.criteria;
+            $scope.legend.intervals = legend.criteria;
             $scope.colorDictionary = {};
             angular.forEach(legend.criteria, function(info) {
                 $scope.colorDictionary[info.threshold] = info.color;
             });
-            $scope.legend.sign = legend.sign;
         };
         $scope.setCompeteLegend = function() {
             var legend = kpiDisplayService.queryCoverageLegend('competeResult');
             $scope.legend.title = '竞争结果';
-            $scope.legend.criteria = legend.criteria;
+            $scope.legend.intervals = legend.criteria;
             $scope.colorDictionary = {};
             angular.forEach(legend.criteria, function(info) {
                 $scope.colorDictionary[info.threshold] = info.color;
                 
             });
-            $scope.legend.sign = legend.sign;
         };
         $scope.showGridStats = function () {
             var keys = [];
-            angular.forEach($scope.legend.criteria, function (info) {
+            angular.forEach($scope.legend.intervals, function (info) {
                 keys.push(info.threshold);
             });
             coverageDialogService.showGridStats($scope.currentDistrict, $scope.currentView, $scope.legend.title, $scope.areaStats, keys);
         };
-        $scope.showDistrictSelfCoverage = function (district, color) {
+        $scope.showDistrictSelfCoverage = function (district, town, color) {
             baiduMapService.clearOverlays();
             baiduMapService.addDistrictBoundary(district, color);
             $scope.areaStats = {};
-            angular.forEach($scope.legend.criteria, function(info) {
+            angular.forEach($scope.legend.intervals, function(info) {
                 $scope.areaStats[info.threshold] = 0;
             });
-            coverageService.queryMrGridSelfCoverage(district, $scope.endDate.value).then(function (result) {
+            coverageService.queryTownMrGridSelfCoverage(district, town, $scope.endDate.value).then(function (result) {
                 baiduQueryService.transformToBaidu(113, 23).then(function(coors) {
                     var xOffset = coors.x - 113;
                     var yOffset = coors.y - 23;
@@ -1179,14 +1177,14 @@
                 });
             });
         };
-        $scope.showDistrictCompeteCoverage = function (district, color, competeDescription) {
+        $scope.showDistrictCompeteCoverage = function (district, town, color, competeDescription) {
             baiduMapService.clearOverlays();
             baiduMapService.addDistrictBoundary(district, color);
             $scope.areaStats = {};
             angular.forEach($scope.legend.criteria, function (info) {
                 $scope.areaStats[info.threshold] = 0;
             });
-            coverageService.queryMrGridCompete(district, $scope.endDate.value, competeDescription).then(function(result) {
+            coverageService.queryTownMrGridCompete(district, town, $scope.endDate.value, competeDescription).then(function(result) {
                 baiduQueryService.transformToBaidu(113, 23).then(function (coors) {
                     var xOffset = coors.x - 113;
                     var yOffset = coors.y - 23;
@@ -1202,35 +1200,36 @@
                 });
             });
         };
-        $scope.showMrGrid = function (district) {
+        $scope.showMrGrid = function (district, town) {
             $scope.currentDistrict = district;
+            $scope.currentTown = town;
             if ($scope.currentView === '自身覆盖') {
                 $scope.setRsrpLegend();
-                $scope.showDistrictSelfCoverage(district, $scope.colors[0]);
+                $scope.showDistrictSelfCoverage(district, town, $scope.colors[0]);
             } else {
-                $scope.showDistrictCompeteCoverage(district, $scope.colors[0], $scope.currentView);
+                $scope.showDistrictCompeteCoverage(district, town, $scope.colors[0], $scope.currentView);
             }
             
         };
         $scope.showTelecomCoverage = function () {
             $scope.currentView = "自身覆盖";
             $scope.setRsrpLegend();
-            $scope.showDistrictSelfCoverage($scope.currentDistrict, $scope.colors[0]);
+            $scope.showDistrictSelfCoverage($scope.currentDistrict, town, $scope.colors[0]);
         };
         $scope.showMobileCompete = function () {
             $scope.currentView = "移动竞对";
             $scope.setCompeteLegend();
-            $scope.showDistrictCompeteCoverage($scope.currentDistrict, $scope.colors[0], $scope.currentView);
+            $scope.showDistrictCompeteCoverage($scope.currentDistrict, town, $scope.colors[0], $scope.currentView);
         };
         $scope.showUnicomCompete = function() {
             $scope.currentView = "联通竞对";
             $scope.setCompeteLegend();
-            $scope.showDistrictCompeteCoverage($scope.currentDistrict, $scope.colors[0], $scope.currentView);
+            $scope.showDistrictCompeteCoverage($scope.currentDistrict, town, $scope.colors[0], $scope.currentView);
         };
         $scope.showOverallCompete = function() {
             $scope.currentView = "竞对总体";
             $scope.setCompeteLegend();
-            $scope.showDistrictCompeteCoverage($scope.currentDistrict, $scope.colors[0], $scope.currentView);
+            $scope.showDistrictCompeteCoverage($scope.currentDistrict, town, $scope.colors[0], $scope.currentView);
         };
         $scope.districts = [];
         $scope.setRsrpLegend();
@@ -1239,13 +1238,14 @@
                 angular.forEach(roles, function (role) {
                     var district = authorizeService.queryRoleDistrict(role);
                     if (district) {
-                        $scope.districts.push(district);
+                        appRegionService.queryTowns($scope.city.selected, district).then(function(towns) {
+                            $scope.districts.push({
+                                name: district,
+                                towns: towns
+                            });
+                        });
                     }
                 });
-                if ($scope.districts.length > 0) {
-                    $scope.currentDistrict = $scope.districts[0];
-                    $scope.showDistrictSelfCoverage($scope.districts[0], $scope.colors[0]);
-                }
             });
         });
     })

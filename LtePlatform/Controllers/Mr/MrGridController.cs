@@ -63,6 +63,17 @@ namespace LtePlatform.Controllers.Mr
             return _service.QueryCoverageGridViews(statDate, district, town);
         }
 
+        [HttpGet]
+        [ApiDoc("查询指定区域最近日期内的栅格竞争信息")]
+        [ApiParameterDoc("statDate", "初始日期")]
+        [ApiParameterDoc("district", "指定区域")]
+        [ApiParameterDoc("town", "指定镇区")]
+        [ApiParameterDoc("competeDescription", "竞争信息类型")]
+        [ApiResponse("指定区域最近日期内的栅格竞争信息列表")]
+        public IEnumerable<MrCompeteGridView> Get(DateTime statDate, string district, string town, string competeDescription)
+        {
+            return _service.QueryCompeteGridViews(statDate, district, town, competeDescription);
+        }
     }
 
     [ApiControl("WEB浏览APP数据查询控制器")]
