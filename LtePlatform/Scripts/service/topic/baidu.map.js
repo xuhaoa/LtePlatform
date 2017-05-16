@@ -520,7 +520,7 @@
 		};
 	})
 	.factory('parametersMapService', function (baiduMapService, networkElementService, baiduQueryService, parametersDialogService,
-		neGeometryService, collegeQueryService) {
+		neGeometryService, collegeQueryService, appRegionService) {
 		var showCellSectors = function(cells, xOffset, yOffset, beginDate, endDate) {
 			angular.forEach(cells, function (cell) {
 				cell.longtitute += xOffset;
@@ -679,6 +679,17 @@
 									parametersDialogService.showDistributionInfo(items[0]);
 								}
 							});
+						});
+					});
+				});
+			},
+			showTownBoundaries: function(city, district, town, color) {
+				appRegionService.queryTownBoundaries(city, district, town).then(function (boundaries) {
+					angular.forEach(boundaries, function (boundary) {
+						baiduQueryService.transformToBaidu(boundary.boundaryGeoPoints[0].longtitute, boundary.boundaryGeoPoints[0].lattitute).then(function (coors) {
+							var xOffset = coors.x - boundary.boundaryGeoPoints[0].longtitute;
+							var yOffset = coors.y - boundary.boundaryGeoPoints[0].lattitute;
+							baiduMapService.addBoundary(boundary.boundaryGeoPoints, color, xOffset, yOffset);
 						});
 					});
 				});
@@ -1374,8 +1385,8 @@
 		};
 		$scope.queryFlow = function() {
 			flowService.queryCellFlowByDateSpan($scope.eNodebId, $scope.sectorId, $scope.beginDate.value, $scope.endDate.value).then(function(results) {
-			    $("#flowChart").highcharts(appKpiService.generateMergeFlowOptions(results, neighbor.cellName));
-			    $("#usersChart").highcharts(appKpiService.generateMergeUsersOptions(results, neighbor.cellName));
+				$("#flowChart").highcharts(appKpiService.generateMergeFlowOptions(results, neighbor.cellName));
+				$("#usersChart").highcharts(appKpiService.generateMergeUsersOptions(results, neighbor.cellName));
 			});
 		};
 

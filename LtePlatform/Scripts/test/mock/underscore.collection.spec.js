@@ -396,6 +396,10 @@ describe('underscore collection tests', function() {
         });
         // 
 
+        it('Matching an object like _.findWhere 2.', function () {
+            var list = [{ name: 1, towns: [1,2,3] }, { a: 2, b: 2 }, { a: 1, b: 3 }, { a: 1, b: 4 }, { a: 2, b: 4 }];
+            expect(_.find(list, { name: 1 }).towns[0]).toEqual(1);
+        });
         it('found the first "2" and broke the loop', function() {
             var result = _.find([1, 2, 3], function(num) { return num * 2 === 4; });
             expect(result).toEqual(2);

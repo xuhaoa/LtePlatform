@@ -1015,7 +1015,7 @@
         });
     })
     .controller("home.dt", function ($scope, baiduMapService, coverageService, appFormatService, parametersDialogService,
-        appRegionService, baiduQueryService) {
+        parametersMapService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.legend.intervals = [];
@@ -1029,15 +1029,7 @@
                     var marker = baiduMapService.generateIconMarker(item.longtitute, item.lattitute,
                         "/Content/Images/Hotmap/site_or.png");
                     baiduMapService.addOneMarkerToScope(marker, parametersDialogService.showTownDtInfo, item);
-                    appRegionService.queryTownBoundaries(item.cityName, item.districtName, item.townName).then(function (boundaries) {
-                        angular.forEach(boundaries, function (boundary) {
-                            baiduQueryService.transformToBaidu(boundary.boundaryGeoPoints[0].longtitute, boundary.boundaryGeoPoints[0].lattitute).then(function (coors) {
-                                var xOffset = coors.x - boundary.boundaryGeoPoints[0].longtitute;
-                                var yOffset = coors.y - boundary.boundaryGeoPoints[0].lattitute;
-                                baiduMapService.addBoundary(boundary.boundaryGeoPoints, $scope.colors[$index % $scope.colors.length], xOffset, yOffset);
-                            });
-                        });
-                    });
+                    parametersMapService.showTownBoundaries(item.cityName, item.districtName, item.townName, $scope.colors[$index % $scope.colors.length]);
                 }
 
             });
@@ -1124,7 +1116,7 @@
         });
     })
     .controller("mr.grid", function ($scope, baiduMapService, coverageService, authorizeService, kpiDisplayService,
-        baiduQueryService, coverageDialogService, appRegionService) {
+        baiduQueryService, coverageDialogService, appRegionService, parametersMapService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.currentView = "自身覆盖";
@@ -1157,22 +1149,28 @@
         $scope.showDistrictSelfCoverage = function (district, town, color) {
             baiduMapService.clearOverlays();
             baiduMapService.addDistrictBoundary(district, color);
+            parametersMapService.showTownBoundaries($scope.city.selected, district, town, color);
             $scope.areaStats = {};
             angular.forEach($scope.legend.intervals, function(info) {
                 $scope.areaStats[info.threshold] = 0;
             });
             coverageService.queryTownMrGridSelfCoverage(district, town, $scope.endDate.value).then(function (result) {
-                baiduQueryService.transformToBaidu(113, 23).then(function(coors) {
-                    var xOffset = coors.x - 113;
-                    var yOffset = coors.y - 23;
-                    angular.forEach(result, function(item) {
-                        var gridColor = $scope.colorDictionary[item.rsrpLevelDescription];
-                        var polygon = baiduMapService.drawPolygonWithColor(item.coordinates, gridColor, -xOffset, -yOffset);
-                        var area = BMapLib.GeoUtils.getPolygonArea(polygon);
-                        
-                        if (area > 0) {
-                            $scope.areaStats[item.rsrpLevelDescription] += area;
-                        }
+                appRegionService.queryTown($scope.city.selected, district, town).then(function(stat) {
+                    var longtitute = stat.longtitute;
+                    var lattitute = stat.lattitute;
+                    baiduQueryService.transformToBaidu(longtitute, lattitute).then(function(coors) {
+                        var xOffset = coors.x - longtitute;
+                        var yOffset = coors.y - lattitute;
+                        baiduMapService.setCellFocus(coors.x, coors.y, 15);
+                        angular.forEach(result, function(item) {
+                            var gridColor = $scope.colorDictionary[item.rsrpLevelDescription];
+                            var polygon = baiduMapService.drawPolygonWithColor(item.coordinates, gridColor, -xOffset, -yOffset);
+                            var area = BMapLib.GeoUtils.getPolygonArea(polygon);
+
+                            if (area > 0) {
+                                $scope.areaStats[item.rsrpLevelDescription] += area;
+                            }
+                        });
                     });
                 });
             });
@@ -1211,6 +1209,9 @@
             }
             
         };
+        $scope.showDistrictMrGrid = function (district) {
+            $scope.showMrGrid(district.name, district.towns[0]);
+        };
         $scope.showTelecomCoverage = function () {
             $scope.currentView = "自身覆盖";
             $scope.setRsrpLegend();
@@ -1219,17 +1220,17 @@
         $scope.showMobileCompete = function () {
             $scope.currentView = "移动竞对";
             $scope.setCompeteLegend();
-            $scope.showDistrictCompeteCoverage($scope.currentDistrict, town, $scope.colors[0], $scope.currentView);
+            $scope.showDistrictCompeteCoverage($scope.currentDistrict, $scope.currentTown, $scope.colors[0], $scope.currentView);
         };
         $scope.showUnicomCompete = function() {
             $scope.currentView = "联通竞对";
             $scope.setCompeteLegend();
-            $scope.showDistrictCompeteCoverage($scope.currentDistrict, town, $scope.colors[0], $scope.currentView);
+            $scope.showDistrictCompeteCoverage($scope.currentDistrict, $scope.currentTown, $scope.colors[0], $scope.currentView);
         };
         $scope.showOverallCompete = function() {
             $scope.currentView = "竞对总体";
             $scope.setCompeteLegend();
-            $scope.showDistrictCompeteCoverage($scope.currentDistrict, town, $scope.colors[0], $scope.currentView);
+            $scope.showDistrictCompeteCoverage($scope.currentDistrict, $scope.currentTown, $scope.colors[0], $scope.currentView);
         };
         $scope.districts = [];
         $scope.setRsrpLegend();
@@ -1238,7 +1239,10 @@
                 angular.forEach(roles, function (role) {
                     var district = authorizeService.queryRoleDistrict(role);
                     if (district) {
-                        appRegionService.queryTowns($scope.city.selected, district).then(function(towns) {
+                        appRegionService.queryTowns($scope.city.selected, district).then(function (towns) {
+                            if (!$scope.districts.length) {
+                                $scope.showMrGrid(district, towns[0]);
+                            }
                             $scope.districts.push({
                                 name: district,
                                 towns: towns
@@ -1563,7 +1567,7 @@
         $scope.updateMap();
     })
     .controller("home.query", function ($scope, baiduMapService, neighborDialogService, dumpPreciseService, appRegionService,
-        parametersDialogService, baiduQueryService) {
+        parametersDialogService, parametersMapService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.currentView = "镇区站点";
@@ -1594,15 +1598,7 @@
                         baiduMapService.addOneMarkerToScope(marker, function(item) {
                             parametersDialogService.showTownENodebInfo(item, $scope.city.selected, district);
                         }, stat);
-                        appRegionService.queryTownBoundaries(stat.cityName, stat.districtName, stat.townName).then(function (boundaries) {
-                            angular.forEach(boundaries, function (boundary) {
-                                baiduQueryService.transformToBaidu(boundary.boundaryGeoPoints[0].longtitute, boundary.boundaryGeoPoints[0].lattitute).then(function (coors) {
-                                    var xOffset = coors.x - boundary.boundaryGeoPoints[0].longtitute;
-                                    var yOffset = coors.y - boundary.boundaryGeoPoints[0].lattitute;
-                                    baiduMapService.addBoundary(boundary.boundaryGeoPoints, $scope.colors[$index % $scope.colors.length], xOffset, yOffset);
-                                });
-                            });
-                        });
+                        parametersMapService.showTownBoundaries(item.cityName, item.districtName, item.townName, $scope.colors[$index % $scope.colors.length]);
                     });
                 });
             });
