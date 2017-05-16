@@ -75,38 +75,38 @@ namespace Lte.Domain.Common.Geo
         /// <returns></returns>  
         public static bool IsInPolygon(GeoPoint checkPoint, List<GeoPoint> polygonPoints)
         {
-            var inside = false;
             var pointCount = polygonPoints.Count;
+            var transferList = new List<bool>();
             for (int i = 0, j = pointCount - 1; i < pointCount; j = i, i++)
                 //第一个点和最后一个点作为第一条线，之后是第一个点和第二个点作为第二条线，之后是第二个点与第三个点，第三个点与第四个点...  
             {
                 var p1 = polygonPoints[i];
                 var p2 = polygonPoints[j];
-                if (checkPoint.Lattitute < p2.Lattitute)
-                {  
-                    if (p1.Lattitute > checkPoint.Lattitute) continue; 
-                    if (PointIsAboveTheRay(checkPoint, p1, p2))
-                        //斜率判断,在P1和P2之间且在P1P2右侧  
-                    {
-                        //射线与多边形交点为奇数时则在多边形之内，若为偶数个交点时则在多边形之外。  
-                        //由于inside初始值为false，即交点数为零。所以当有第一个交点时，则必为奇数，则在内部，此时为inside=(!inside)  
-                        //所以当有第二个交点时，则必为偶数，则在外部，此时为inside=(!inside)  
-                        inside = (!inside);
-                    }
-                }
-                else if (checkPoint.Lattitute < p1.Lattitute)
-                {
-                    //p2正好在射线中或者在射线下方，p1在射线上  
-                    if (PointIsAboveTheRay(checkPoint, p1, p2))//斜率判断,在P1和P2之间且在P1P2右侧  
-                    {
-                        inside = (!inside);
-                    }
-                }
+                if ((checkPoint.Lattitute > p2.Lattitute && checkPoint.Lattitute > p1.Lattitute) ||
+                    (checkPoint.Lattitute < p1.Lattitute && checkPoint.Lattitute < p2.Lattitute)) continue;
+                transferList.Add(PointIsAboveTheRay(checkPoint, p1, p2));
+                    //射线与多边形交点为奇数时则在多边形之内，若为偶数个交点时则在多边形之外。  
+                    //由于inside初始值为false，即交点数为零。所以当有第一个交点时，则必为奇数，则在内部，此时为inside=(!inside)  
+                    //所以当有第二个交点时，则必为偶数，则在外部，此时为inside=(!inside)  
             }
-            return inside;
+            return CalculateTransfer(transferList);
         }
 
-        private static bool PointIsAboveTheRay(GeoPoint checkPoint, GeoPoint p1, GeoPoint p2)
+        private static bool CalculateTransfer(List<bool> transferList)
+        {
+            var trueTransfer = 0;
+            var falseTransfer = 0;
+            for (var i = 0; i < transferList.Count; i++)
+            {
+                if (transferList[i] && transferList[(i + 1)%transferList.Count]) trueTransfer++;
+                if (!transferList[i] && !transferList[(i + 1)%transferList.Count]) falseTransfer++;
+            }
+            if (trueTransfer > 0 && trueTransfer%2 == 0) return true;
+            if (falseTransfer > 0 && falseTransfer%2 == 0) return true;
+            return false;
+        }
+
+        public static bool PointIsAboveTheRay(GeoPoint checkPoint, GeoPoint p1, GeoPoint p2)
         {
             return (checkPoint.Lattitute - p1.Lattitute)*(p2.Longtitute - p1.Longtitute) >
                    (checkPoint.Longtitute - p1.Longtitute)*(p2.Lattitute - p1.Lattitute);

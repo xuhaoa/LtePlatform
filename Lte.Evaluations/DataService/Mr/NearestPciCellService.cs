@@ -215,7 +215,7 @@ namespace Lte.Evaluations.DataService.Mr
                         {
                             var fields = x.Coordinates.GetSplittedFields(';')[0].GetSplittedFields(',');
                             var point = new GeoPoint(fields[0].ConvertToDouble(0), fields[1].ConvertToDouble(0));
-                            return boundaries.Aggregate(false, (current, boundary) => current || GeoMath.IsInPolygon(point, boundary));
+                            return boundaries.Any(boundary => GeoMath.IsInPolygon(point, boundary));
                         });
             return stats.MapTo<IEnumerable<MrCoverageGridView>>();
         }
