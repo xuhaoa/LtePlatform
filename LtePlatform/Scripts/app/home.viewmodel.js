@@ -349,6 +349,32 @@
                     }
                 },
                 url: "/clear-voice"
+            })
+            .state('construction', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.construction"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/Evaluation/BtsConstruction.html",
+                        controller: "bts.construction"
+                    }
+                },
+                url: "/construction"
+            })
+            .state('blueprint', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.construction"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/Evaluation/BtsConstruction.html",
+                        controller: "bts.blueprint"
+                    }
+                },
+                url: "/blueprint"
             });
         $urlRouterProvider.otherwise('/');
     })
@@ -468,8 +494,7 @@
         });
     })
 
-    .controller("station.filter", function ($scope, downSwitchService, myValue, baiduMapService, geometryService,
-        parametersDialogService, baiduQueryService) {
+    .controller("station.filter", function ($scope, downSwitchService, myValue, baiduMapService, collegeMapService) {
         $scope.grades = [
             { value: '', name: '所有级别' },
             { value: 'A', name: '站点级别A' },
@@ -508,28 +533,15 @@
             { value: '是', name: '有动力配套' },
             { value: '否', name: '没有动力配套' }
         ];
-
-        $scope.stationss = [];
-        $scope.stationss[1] = [];
-        $scope.stationss[2] = [];
-        $scope.stationss[3] = [];
-        $scope.stationss[4] = [];
-        $scope.stationss[5] = [];
+        
         $scope.areaNames = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
-        baiduMapService.initializeMap("map", 13);
 
         $scope.getStations = function (areaName, index) {
             downSwitchService.getStationByFilter(areaName, myValue.stationGrade, myValue.netType, myValue.roomAttribution,
                  myValue.towerAttribution, myValue.isPower, myValue.isBBU, 0, 10000).then(function (response) {
-                     $scope.stationss[index] = response.result.rows;
+                     var stations = response.result.rows;
                      var color = $scope.colors[index];
-                     baiduQueryService.transformToBaidu($scope.stationss[index][0].longtitute, $scope.stationss[index][0].lattitute).then(function (coors) {
-                         var xOffset = coors.x - $scope.stationss[index][0].longtitute;
-                         var yOffset = coors.y - $scope.stationss[index][0].lattitute;
-                         baiduMapService.drawPointCollection($scope.stationss[index], color, -xOffset, -yOffset, function (e) {
-                             parametersDialogService.showStationInfo(e.point.data);
-                         });
-                     });
+                     collegeMapService.showMaintainStations(stations, color);
                  });
         };
 
@@ -556,7 +568,6 @@
             myValue.isBBU = $scope.selectedIsBBU;
             $scope.reflashMap();
         };
-        //$scope.reflashMap();
     })
 
     .controller("menu.alarm", function ($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService) {
@@ -748,6 +759,20 @@
             ]
         }
     })
+    .controller('menu.construction', function ($scope) {
+        $scope.menuItem = {
+            displayName: "基站建设",
+            subItems: [
+                {
+                    displayName: "建设情况",
+                    url: "/#/construction"
+                }, {
+                    displayName: "图纸管理",
+                    url: "/#/blueprint"
+                }
+            ]
+        };
+    })
 
     .controller("home.network", function ($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService,
         geometryService, parametersDialogService, neGeometryService, baiduQueryService, dumpPreciseService) {
@@ -888,30 +913,18 @@
         });
     })
     .controller("station.network", function ($scope, downSwitchService, distinctIndex, baiduMapService, geometryService,
-        parametersDialogService, baiduQueryService) {
+        parametersDialogService, collegeMapService) {
         $scope.areaNames = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
         $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
         $scope.distinct = "佛山市";
-        $scope.stationss = [];
-        $scope.stationss[1] = [];
-        $scope.stationss[2] = [];
-        $scope.stationss[3] = [];
-        $scope.stationss[4] = [];
-        $scope.stationss[5] = [];
         baiduMapService.initializeMap("map", 13);
         baiduMapService.setCenter(distinctIndex);
         //获取站点
         $scope.getStations = function (areaName, index) {
             downSwitchService.getStationsByAreaName(areaName, 0, 10000).then(function (response) {
-                $scope.stationss[index] = response.result.rows;
-                var color = $scope.colors[index];        
-                baiduQueryService.transformToBaidu($scope.stationss[index][0].longtitute, $scope.stationss[index][0].lattitute).then(function (coors) {
-                    var xOffset = coors.x - $scope.stationss[index][0].longtitute;
-                    var yOffset = coors.y - $scope.stationss[index][0].lattitute;
-                    baiduMapService.drawPointCollection($scope.stationss[index], color, -xOffset, -yOffset, function (e) {
-                        console.log(e.point.data);
-                    });
-                });
+                var stations = response.result.rows;
+                var color = $scope.colors[index];
+                collegeMapService.showMaintainStations(stations, color);
             });
         };
         $scope.reflashMap = function (areaNameIndex) {

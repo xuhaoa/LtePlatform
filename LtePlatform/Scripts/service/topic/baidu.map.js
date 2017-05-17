@@ -1942,7 +1942,7 @@
 	})
 
 	.factory('collegeMapService', function (baiduMapService, collegeService, collegeQueryService, collegeDtService,
-		baiduQueryService) {
+		baiduQueryService, parametersDialogService) {
 		return {
 			showCollegeInfos: function (showCollegeDialogs, year) {
 				collegeService.queryStats(year).then(function (colleges) {
@@ -2060,6 +2060,15 @@
 						}
 					});
 				});
+			},
+			showMaintainStations: function(stations, color) {
+			    baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function (coors) {
+			        var xOffset = coors.x - stations[0].longtitute;
+			        var yOffset = coors.y - stations[0].lattitute;
+			        baiduMapService.drawPointCollection(stations, color, -xOffset, -yOffset, function (e) {
+			            parametersDialogService.showStationInfo(e.point.data);
+			        });
+			    });
 			}
 		};
 	});
