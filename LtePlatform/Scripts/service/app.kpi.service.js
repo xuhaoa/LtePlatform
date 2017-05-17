@@ -2013,7 +2013,7 @@
                     callback(info);
                 });
             },///////////未完成
-            showGridStats: function (district, theme, category, data, keys) {
+            showGridStats: function (district, town, theme, category, data, keys) {
                 var stats = [];
                 angular.forEach(keys, function(key) {
                     stats.push({
@@ -2026,7 +2026,7 @@
                     controller: 'grid.stats',
                     resolve: {
                         dialogTitle: function () {
-                            return district + theme;
+                            return district + town + theme;
                         },
                         category: function() {
                             return category;

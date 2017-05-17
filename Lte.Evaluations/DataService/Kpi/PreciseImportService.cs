@@ -85,6 +85,10 @@ namespace Lte.Evaluations.DataService.Kpi
                     SecondNeighbors = g.Sum(x => x.SecondNeighbors),
                     ThirdNeighbors = g.Sum(x => x.ThirdNeighbors),
                     TotalMrs = g.Sum(x => x.TotalMrs),
+                    InterFirstNeighbors = g.Sum(x => x.InterFirstNeighbors),
+                    InterSecondNeighbors = g.Sum(x => x.InterSecondNeighbors),
+                    InterThirdNeighbors = g.Sum(x => x.InterThirdNeighbors),
+                    NeighborsMore = g.Sum(x => x.NeighborsMore),
                     StatTime = statTime
                 };
             return mergeStats.Select(x => x.ConstructView<TownPreciseCoverage4GStat, TownPreciseView>(_townRepository));
@@ -149,6 +153,11 @@ namespace Lte.Evaluations.DataService.Kpi
                 item.FirstNeighbors = stat.FirstNeighbors;
                 item.SecondNeighbors = stat.SecondNeighbors;
                 item.ThirdNeighbors = stat.ThirdNeighbors;
+                if (stat.Neighbors0 > 0) item.Neighbors0 = stat.Neighbors0;
+                if (stat.Neighbors1 > 0) item.Neighbors1 = stat.Neighbors1;
+                if (stat.Neighbors2 > 0) item.Neighbors2 = stat.Neighbors2;
+                if (stat.Neighbors3 > 0) item.Neighbors3 = stat.Neighbors3;
+                if (stat.NeighborsMore > 0) item.NeighborsMore = stat.NeighborsMore;
             }
             _repository.SaveChanges();
             return true;

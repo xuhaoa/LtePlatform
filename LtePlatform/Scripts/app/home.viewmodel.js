@@ -755,7 +755,7 @@
         $scope.currentView = "LTE基站";
         $scope.showDistrictOutdoor = function(district, color) {
             var city = $scope.city.selected;
-            baiduMapService.addDistrictBoundary(district, color);
+            baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
             $scope.legend.intervals.push({
                 threshold: district,
                 color: color
@@ -789,7 +789,7 @@
 
         $scope.showDistrictIndoor = function(district, color) {
             var city = $scope.city.selected;
-            baiduMapService.addDistrictBoundary(district, color);
+            baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
             $scope.legend.intervals.push({
                 threshold: district,
                 color: color
@@ -823,7 +823,7 @@
 
         $scope.showDistrictENodebs = function(district, color) {
             var city = $scope.city.selected;
-            baiduMapService.addDistrictBoundary(district, color);
+            baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
             $scope.legend.intervals.push({
                 threshold: district,
                 color: color
@@ -1125,8 +1125,10 @@
             $scope.legend.title = 'RSRP区间';
             $scope.legend.intervals = legend.criteria;
             $scope.colorDictionary = {};
+            $scope.areaStats = {};
             angular.forEach(legend.criteria, function(info) {
                 $scope.colorDictionary[info.threshold] = info.color;
+                $scope.areaStats[info.threshold] = 0;
             });
         };
         $scope.setCompeteLegend = function() {
@@ -1134,9 +1136,10 @@
             $scope.legend.title = '竞争结果';
             $scope.legend.intervals = legend.criteria;
             $scope.colorDictionary = {};
+            $scope.areaStats = {};
             angular.forEach(legend.criteria, function(info) {
                 $scope.colorDictionary[info.threshold] = info.color;
-                
+                $scope.areaStats[info.threshold] = 0;
             });
         };
         $scope.showGridStats = function () {
@@ -1144,16 +1147,13 @@
             angular.forEach($scope.legend.intervals, function (info) {
                 keys.push(info.threshold);
             });
-            coverageDialogService.showGridStats($scope.currentDistrict, $scope.currentView, $scope.legend.title, $scope.areaStats, keys);
+            coverageDialogService.showGridStats($scope.currentDistrict, $scope.currentTown, $scope.currentView, $scope.legend.title, $scope.areaStats, keys);
         };
         $scope.showDistrictSelfCoverage = function (district, town, color) {
             baiduMapService.clearOverlays();
-            baiduMapService.addDistrictBoundary(district, color);
+            baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
             parametersMapService.showTownBoundaries($scope.city.selected, district, town, color);
-            $scope.areaStats = {};
-            angular.forEach($scope.legend.intervals, function(info) {
-                $scope.areaStats[info.threshold] = 0;
-            });
+            
             coverageService.queryTownMrGridSelfCoverage(district, town, $scope.endDate.value).then(function (result) {
                 appRegionService.queryTown($scope.city.selected, district, town).then(function(stat) {
                     var longtitute = stat.longtitute;
@@ -1161,7 +1161,7 @@
                     baiduQueryService.transformToBaidu(longtitute, lattitute).then(function(coors) {
                         var xOffset = coors.x - longtitute;
                         var yOffset = coors.y - lattitute;
-                        baiduMapService.setCellFocus(coors.x, coors.y, 15);
+                        baiduMapService.setCellFocus(coors.x, coors.y, 14);
                         angular.forEach(result, function(item) {
                             var gridColor = $scope.colorDictionary[item.rsrpLevelDescription];
                             var polygon = baiduMapService.drawPolygonWithColor(item.coordinates, gridColor, -xOffset, -yOffset);
@@ -1177,11 +1177,8 @@
         };
         $scope.showDistrictCompeteCoverage = function (district, town, color, competeDescription) {
             baiduMapService.clearOverlays();
-            baiduMapService.addDistrictBoundary(district, color);
-            $scope.areaStats = {};
-            angular.forEach($scope.legend.criteria, function (info) {
-                $scope.areaStats[info.threshold] = 0;
-            });
+            baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
+            
             coverageService.queryTownMrGridCompete(district, town, $scope.endDate.value, competeDescription).then(function(result) {
                 baiduQueryService.transformToBaidu(113, 23).then(function (coors) {
                     var xOffset = coors.x - 113;
@@ -1190,7 +1187,7 @@
                         var gridColor = $scope.colorDictionary[item.rsrpLevelDescription];
                         var polygon = baiduMapService.drawPolygonWithColor(item.coordinates, gridColor, -xOffset, -yOffset);
                         var area = BMapLib.GeoUtils.getPolygonArea(polygon);
-
+                        
                         if (area > 0) {
                             $scope.areaStats[item.rsrpLevelDescription] += area;
                         }
@@ -1265,7 +1262,7 @@
 
         $scope.showDistrictComplains = function(district, color) {
             var city = $scope.city.selected;
-            baiduMapService.addDistrictBoundary(district, color);
+            baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
             $scope.legend.intervals.push({
                 threshold: district,
                 color: color
@@ -1330,7 +1327,7 @@
             }
         ];
         $scope.showDistrictDistributions = function (district) {
-            baiduMapService.addDistrictBoundary(district);
+            baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区');
             networkElementService.queryDistributionsInOneDistrict(district).then(function (sites) {
                 angular.forEach(sites, function(site) {
                     $scope.indoorDistributions.push(site);
@@ -1346,7 +1343,7 @@
             $scope.updateSourceLegendDefs();
             
             angular.forEach($scope.districts, function (district) {
-                baiduMapService.addDistrictBoundary(district);
+                baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区');
             });
             parametersMapService.displaySourceDistributions($scope.indoorDistributions, $scope.distributionFilters, $scope.colors);
         };
@@ -1357,7 +1354,7 @@
             $scope.updateScaleLegendDefs();
 
             angular.forEach($scope.districts, function(district) {
-                baiduMapService.addDistrictBoundary(district);
+                baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区');
             });
             parametersMapService.displaySourceDistributions($scope.indoorDistributions, $scope.scaleFilters, $scope.colors);
         };
@@ -1584,7 +1581,7 @@
             neighborDialogService.queryCellTypeChart($scope.city);
         };
         $scope.showDistrictTownStat = function(district, color) {
-            baiduMapService.addDistrictBoundary(district, color);
+            baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
             appRegionService.queryTownInfrastructures($scope.city.selected, district).then(function(result) {
                 angular.forEach(result, function(stat, $index) {
                     appRegionService.queryTown($scope.city.selected, district, stat.town).then(function (town) {
@@ -1629,7 +1626,7 @@
         $scope.currentView = "精确覆盖率";
 
         $scope.showPreciseRate = function(city, district, color) {
-            baiduMapService.addDistrictBoundary(district, color);
+            baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
             kpiPreciseService.queryTopKpisInDistrict($scope.beginDate.value, $scope.endDate.value, 10,
                 '按照精确覆盖率升序', city, district).then(function(result) {
                 networkElementService.queryCellSectors(result).then(function(cells) {
@@ -1656,7 +1653,7 @@
             });
         };
         $scope.showDownSwitchSite = function (city, district, color) {
-            baiduMapService.addDistrictBoundary(district, color);
+            baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
             kpiPreciseService.queryTopDownSwitchInDistrict($scope.beginDate.value, $scope.endDate.value, 10,
                 city, district).then(function (result) {
                 angular.forEach(result, function(item) {
@@ -1687,7 +1684,7 @@
             });
         };
         $scope.showRank2Site = function (city, district, color) {
-            baiduMapService.addDistrictBoundary(district, color);
+            baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
             kpiPreciseService.queryTopRank2InDistrict($scope.beginDate.value, $scope.endDate.value, 10,
                 city, district).then(function (result) {
                     angular.forEach(result, function (item) {
@@ -1753,7 +1750,7 @@
         };
 
         $scope.showPlanningSite = function(city, district, color) {
-            baiduMapService.addDistrictBoundary(district, color);
+            baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
             networkElementService.queryOpenningSites(city, district).then(function(sites) {
                 baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
                     var xOffset = coors.x - sites[0].longtitute;
@@ -1800,7 +1797,7 @@
             });
         };
         $scope.showOpenningSite = function(city, district, color) {
-            baiduMapService.addDistrictBoundary(district, color);
+            baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
             networkElementService.queryOpenningSites(city, district).then(function(sites) {
                 baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
                     var xOffset = coors.x - sites[0].longtitute;
@@ -1829,7 +1826,7 @@
             });
         };
         $scope.showOpenSite = function(city, district, color) {
-            baiduMapService.addDistrictBoundary(district, color);
+            baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
             networkElementService.queryOpennedSites(city, district).then(function(sites) {
                 baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
                     var xOffset = coors.x - sites[0].longtitute;

@@ -1681,7 +1681,7 @@
 
 
 	.controller('map.special-station.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
-		appFormatService, networkElementService) {
+		appFormatService) {
 
 		$scope.itemGroups = appFormatService.generateSpecialStationGroups(station);
 
@@ -1693,7 +1693,7 @@
 		};
 	})
 	.controller('map.zero-voice.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
-		appFormatService, networkElementService) {
+		appFormatService) {
 
 		$scope.itemGroups = appFormatService.generateZeroVoiceGroups(station);
 
@@ -1705,7 +1705,7 @@
 		};
 	})
 	.controller('map.zero-flow.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
-		appFormatService, networkElementService) {
+		appFormatService) {
 
 		$scope.itemGroups = appFormatService.generateZeroFlowGroups(station);
 
@@ -1717,7 +1717,7 @@
 		};
 	})
 	.controller('map.special-indoor.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
-		appFormatService, networkElementService) {
+		appFormatService) {
 
 		$scope.itemGroups = appFormatService.generateSpecialIndoorGroups(station);
 
@@ -1729,7 +1729,7 @@
 		};
 	})
 	 .controller('map.fault-station.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
-		appFormatService, networkElementService) {
+		appFormatService) {
 
 		 $scope.itemGroups = appFormatService.generateFaultStationGroups(station);
 
