@@ -1941,7 +1941,8 @@
 		};
 	})
 
-	.factory('collegeMapService', function (baiduMapService, collegeService, collegeQueryService, collegeDtService) {
+	.factory('collegeMapService', function (baiduMapService, collegeService, collegeQueryService, collegeDtService,
+		baiduQueryService) {
 		return {
 			showCollegeInfos: function (showCollegeDialogs, year) {
 				collegeService.queryStats(year).then(function (colleges) {
@@ -2043,6 +2044,22 @@
 					default:
 						return baiduMapService.getCircleCenter(region.info.split(';'));
 				}
+			},
+			showRsrpMrGrid: function(result, longtitute, lattitute, areaStats, colorDictionary) {
+				baiduQueryService.transformToBaidu(longtitute, lattitute).then(function (coors) {
+					var xOffset = coors.x - longtitute;
+					var yOffset = coors.y - lattitute;
+					baiduMapService.setCellFocus(coors.x, coors.y, 14);
+					angular.forEach(result, function (item) {
+						var gridColor = colorDictionary[item.rsrpLevelDescription];
+						var polygon = baiduMapService.drawPolygonWithColor(item.coordinates, gridColor, -xOffset, -yOffset);
+						var area = BMapLib.GeoUtils.getPolygonArea(polygon);
+
+						if (area > 0) {
+							areaStats[item.rsrpLevelDescription] += area;
+						}
+					});
+				});
 			}
 		};
 	});
