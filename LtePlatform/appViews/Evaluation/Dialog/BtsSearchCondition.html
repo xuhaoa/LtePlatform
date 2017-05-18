@@ -1,0 +1,18 @@
+﻿<div style="width:300px">
+    <div class="form-group" style="float:left;line-height: 22px;margin-right:15px;">
+        <label>区县：</label>
+        <select ng-model="district.selected" ng-options="c as c for c in district.options"></select>
+        <label>营服中心：</label>
+        <select ng-model="town.selected" ng-options="t as t for t in town.options"></select>
+    </div>
+    <div class="form-group" style="float: left">
+        <label>状态：</label>
+        <select ng-model="status.selected" ng-options="s as s for s in status.options"></select>
+    </div>
+    <div class="form-group" style="float: left">
+        <label>基站名</label>
+        <input style="width: 100px" class="ui-widget" ng-model="btsName" placeholder="请输入"/>
+        <div class="btn btn-sm btn-primary" ng-click="query()">查询</div>
+        <div class="btn btn-sm btn-default" ng-click="reset()">重置</div>
+    </div>
+</div>

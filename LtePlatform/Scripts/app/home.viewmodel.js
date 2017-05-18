@@ -1887,9 +1887,38 @@
         
     })
 
-    .controller("bts.construction", function($scope, baiduMapService) {
+    .controller("bts.construction", function ($scope, baiduMapService, dumpPreciseService, appRegionService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+
+        $scope.status = {
+            options: ['全部', '审计会审', '天馈施工', '整体完工', '基站开通', '其他'],
+            selected: '全部'
+        };
+
+        $scope.$watch('city.selected', function (city) {
+            if (city) {
+                $scope.district = {
+                    options: ['全部'],
+                    selected: '全部'
+                };
+                $scope.town = {
+                    options: ['全部'],
+                    selected: '全部'
+                };
+                dumpPreciseService.generateUsersDistrict(city, $scope.district.options);
+            }
+        });
+        $scope.$watch('district.selected', function(district) {
+            if (district && district !== '全部') {
+                appRegionService.queryTowns($scope.city.selected, district).then(function(towns) {
+                    $scope.town.options = ['全部'];
+                    angular.forEach(towns, function(town) {
+                        $scope.town.options.push(town);
+                    });
+                });
+            }
+        });
     })
 
     .controller("alarm.network", function ($scope, downSwitchService, baiduMapService, geometryService,
