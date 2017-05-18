@@ -482,6 +482,7 @@
     <Content Include="appViews\Parameters\Import\HotSpotCell.html" />
     <Content Include="appViews\Parameters\Map\CellsMapInfoBox.html" />
     <Content Include="appViews\Parameters\Map\HotSpotInfoBox.html" />
+    <Content Include="appViews\Parameters\Region\BtsConstruction.html" />
     <Content Include="appViews\Parameters\Region\ENodebFlow.html" />
     <Content Include="appViews\Parameters\Region\FlowKpiInfo.html" />
     <Content Include="appViews\Parameters\Region\TopicCells.html" />
@@ -511,6 +512,17 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\BtsIcons\alarm_blue.png" />
+    <Content Include="Content\Images\BtsIcons\alarm_green.png" />
+    <Content Include="Content\Images\BtsIcons\alarm_lightblue.png" />
+    <Content Include="Content\Images\BtsIcons\alarm_lightyellow.png" />
+    <Content Include="Content\Images\BtsIcons\alarm_purple.png" />
+    <Content Include="Content\Images\BtsIcons\alarm_red.png" />
+    <Content Include="Content\Images\BtsIcons\alarm_yellow.png" />
+    <Content Include="Content\Images\BtsIcons\icon.png" />
+    <Content Include="Content\Images\BtsIcons\m_2_end.png" />
+    <Content Include="Content\Images\BtsIcons\m_6_end.png" />
+    <Content Include="Content\Images\BtsIcons\m_8_end.png" />
     <Content Include="Content\Images\Hotmap\icon_search.png" />
     <Content Include="Content\Images\Hotmap\marker.png" />
     <Content Include="Content\Images\Hotmap\markers.png" />

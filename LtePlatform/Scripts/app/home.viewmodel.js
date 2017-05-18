@@ -357,7 +357,7 @@
                         controller: "menu.construction"
                     },
                     "contents": {
-                        templateUrl: "/appViews/Evaluation/BtsConstruction.html",
+                        templateUrl: "/appViews/Parameters/Region/BtsConstruction.html",
                         controller: "bts.construction"
                     }
                 },
@@ -370,7 +370,7 @@
                         controller: "menu.construction"
                     },
                     "contents": {
-                        templateUrl: "/appViews/Evaluation/BtsConstruction.html",
+                        templateUrl: "/appViews/Parameters/Region/BluePrint.html",
                         controller: "bts.blueprint"
                     }
                 },
@@ -1735,6 +1735,7 @@
         });
 
     })
+
     .controller("home.plan", function ($scope, baiduMapService, dumpPreciseService, networkElementService, geometryService,
         neGeometryService, parametersDialogService, baiduQueryService) {
         baiduMapService.initializeMap("map", 11);
@@ -1876,9 +1877,19 @@
         };
         $scope.districts = [];
         $scope.updateConstructionLegendDefs();
-        dumpPreciseService.generateUsersDistrict($scope.city.selected || "佛山", $scope.districts, function(district, $index) {
-            $scope.showPlanningSite($scope.city.selected || "佛山", district, $scope.colors[$index]);
+        $scope.$watch('city.selected', function(city) {
+            if (city) {
+                dumpPreciseService.generateUsersDistrict(city, $scope.districts, function (district, $index) {
+                    $scope.showPlanningSite(city, district, $scope.colors[$index]);
+                });
+            }
         });
+        
+    })
+
+    .controller("bts.construction", function($scope, baiduMapService) {
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
     })
 
     .controller("alarm.network", function ($scope, downSwitchService, baiduMapService, geometryService,

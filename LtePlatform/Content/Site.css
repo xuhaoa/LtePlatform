@@ -2012,10 +2012,28 @@ body .ui-tooltip {
   position: relative;
   border: 1px solid #b0b6be; }
 
-div#contentWrapper {
-  overflow: hidden;
-  position: relative;
+.shuru {
+  position: absolute;
+  right: 10px;
+  top: 40px;
+  padding: 8px 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px; }
+
+.wenben {
+  width: 149px;
+  height: 22px;
+  background-color: #ffffff;
+  border: 1px solid #5689ed;
   float: left; }
+
+.anniu {
+  background-image: url(../../Images/BtsIcons/icon.png);
+  background-repeat: no-repeat;
+  width: 16px;
+  height: 16px;
+  margin: 3px 8px;
+  cursor: pointer; }
 
 .cloudmap-baiduwrapper {
   overflow: hidden;
@@ -2138,22 +2156,27 @@ div#contentWrapper {
 
 .search-item .col-l {
   float: left; }
-
-.search-item .no-1 {
-  background-image: url(/Content/Images/Hotmap/marker.png);
-  width: 18px;
-  height: 25px;
-  display: inline-block;
-  margin-left: 6px;
-  margin-top: 4px;
-  text-align: center;
-  color: white; }
-
-.search-item .col-r {
-  float: right;
-  width: 75px;
-  margin-right: 10px;
-  text-align: right; }
+  .search-item .col-l .no-1 {
+    background-image: url(/Content/Images/Hotmap/marker.png);
+    width: 18px;
+    height: 25px;
+    display: inline-block;
+    margin-left: 6px;
+    margin-top: 4px;
+    text-align: center;
+    color: white; }
+  .search-item .col-l .col-r {
+    float: right;
+    width: 75px;
+    margin-right: 10px;
+    text-align: right; }
+  .search-item .col-l .row, .search-item .col-l .search-item .select-row, .search-item .col-l .search-item .content-des {
+    padding: 5px 0;
+    line-height: 1.2; }
+  .search-item .col-l .addr {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
 
 .mr_90 {
   margin-right: 90px; }
@@ -2161,48 +2184,14 @@ div#contentWrapper {
 .ml_30 {
   margin-left: 30px !important; }
 
-.search-item .row, .search-item .select-row, .search-item .content-des {
-  padding: 5px 0;
-  line-height: 1.2; }
-
 .n-blue {
   color: #3385ff !important; }
-
-.search-item .addr {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; }
 
 .n-grey {
   color: #666 !important; }
 
 .children-container {
   display: none; }
-
-.index-s {
-  height: 35px;
-  width: 250px;
-  float: left; }
-
-.index-s-1 {
-  background-color: #ffffff;
-  border: 1px solid #dbdbdb;
-  width: 162px;
-  height: 21px;
-  margin-left: 10px;
-  color: #a6a6a6;
-  text-indent: 3px; }
-
-.index-s-2 {
-  background-image: url(/Content/Images/Hotmap/map_u2.png?111);
-  background-repeat: no-repeat;
-  width: 48px;
-  height: 25px;
-  margin-left: 5px;
-  cursor: pointer; }
-
-.index-s-2:hover {
-  background-image: url(/Content/Images/Hotmap/map_u3.png); }
 
 .index-x {
   margin-left: 12px;
