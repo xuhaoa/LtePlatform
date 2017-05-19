@@ -2802,6 +2802,18 @@
                     '#CC6699',
                     '#9933FF',
                     '#333300'];
+            },
+            queryConstructionIcon: function(status) {
+                var urlDictionary= {
+                    '审计会审': "/Content/Images/BtsIcons/alarm_lightyellow.png",
+                    '天馈施工': "/Content/Images/BtsIcons/alarm_yellow.png",
+                    '整体完工': "/Content/Images/BtsIcons/alarm_lightblue.png",
+                    '基站开通': "/Content/Images/BtsIcons/alarm_green.png",
+                    '其他': "/Content/Images/BtsIcons/alarm_red.png"
+                }
+                var url = urlDictionary[status];
+                if (!url) url = "/Content/Images/BtsIcons/alarm_purple.png";
+                return new BMap.Icon(url, new BMap.Size(22, 28));
             }
         };
     })

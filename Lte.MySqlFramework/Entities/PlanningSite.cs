@@ -293,6 +293,14 @@ namespace Lte.MySqlFramework.Entities
         [AutoMapPropertyResolve("UPLOAD_TIME", typeof(ConstructionInformation))]
         public DateTime? UploadTime { get; set; }
 
+        public string Status
+            =>
+                OpenTime != null
+                    ? "基站开通"
+                    : (CompletedTime != null
+                        ? "整体完工"
+                        : (ConstructionTime != null ? "天馈施工" : (IsTransfer != null ? "审计会审" : "其他")));
+
         [AutoMapPropertyResolve("CONSTRUCTION_COMPANY", typeof(ConstructionInformation))]
         public string ConstructionCompany { get; set; }
 

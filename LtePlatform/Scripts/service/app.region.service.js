@@ -608,6 +608,24 @@
                     begin: begin,
                     end: end
                 });
+            },
+            queryConstructionByTownAndName: function(district, town, name) {
+                return generalHttpService.getApiData('Construction', {
+                    district: district,
+                    town: town,
+                    searchTxt: name
+                });
+            },
+            queryConstructionByTownAndNameInBoundary: function(district, town, name, range) {
+                return generalHttpService.getApiData('Construction', {
+                    district: district,
+                    town: town,
+                    searchTxt: name,
+                    west: range.west,
+                    east: range.east,
+                    south: range.south,
+                    north: range.north
+                });
             }
         };
     })

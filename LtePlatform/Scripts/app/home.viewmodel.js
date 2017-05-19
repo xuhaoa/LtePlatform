@@ -1887,7 +1887,7 @@
         
     })
 
-    .controller("bts.construction", function ($scope, baiduMapService, dumpPreciseService, appRegionService) {
+    .controller("bts.construction", function ($scope, baiduMapService, dumpPreciseService, appRegionService, flowService, collegeMapService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
 
@@ -1895,17 +1895,43 @@
             options: ['全部', '审计会审', '天馈施工', '整体完工', '基站开通', '其他'],
             selected: '全部'
         };
+        $scope.bts = {
+            name: '',
+            outOfBoundary: true
+        };
+
+        $scope.district = {
+            options: ['全部'],
+            selected: '全部'
+        };
+
+        $scope.town = {
+            options: ['全部'],
+            selected: '全部'
+        };
+
+        $scope.queryConstructionPoints = function () {
+            baiduMapService.clearOverlays();
+            if ($scope.bts.outOfBoundary) {
+                flowService.queryConstructionByTownAndName($scope.district.selected, $scope.town.selected, $scope.bts.name).then(function(sites) {
+                    if ($scope.status.selected === '全部') {
+
+                    } else {
+                        var filterSites = _.filter(sites, { status: $scope.status.selected });
+                        collegeMapService.showConstructionSites(filterSites, $scope.status.selected, function(site) {
+                            console.log(site);
+                        });
+                    }
+                });
+            } else {
+                flowService.queryConstructionByTownAndNameInBoundary($scope.district.selected, $scope.town.selected, $scope.bts.name, baiduMapService.getRange()).then(function(sites) {
+
+                });
+            }
+        };
 
         $scope.$watch('city.selected', function (city) {
             if (city) {
-                $scope.district = {
-                    options: ['全部'],
-                    selected: '全部'
-                };
-                $scope.town = {
-                    options: ['全部'],
-                    selected: '全部'
-                };
                 dumpPreciseService.generateUsersDistrict(city, $scope.district.options);
             }
         });

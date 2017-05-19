@@ -87,6 +87,17 @@
 			addClickListener: function(callback) {
 				map.addEventListener('click', callback);
 			},
+			getRange: function() {
+				var bounds = map.getBounds();
+				var sw = bounds.getSouthWest();
+				var ne = bounds.getNorthEast();
+				return {
+					west: sw.lng,
+					east: ne.lng,
+					south: sw.lat,
+					north: ne.lat
+				};
+			},
 			setCenter: function (distinctIndex) {
 				var lonDictionary = [113.30, 113.15, 113.12, 112.87, 112.88, 113.01];
 				var latDictionay = [22.80, 23.03, 23.02, 23.17, 22.90, 23.02];
@@ -1942,7 +1953,7 @@
 	})
 
 	.factory('collegeMapService', function (baiduMapService, collegeService, collegeQueryService, collegeDtService,
-		baiduQueryService, parametersDialogService) {
+		baiduQueryService, parametersDialogService, geometryService) {
 		return {
 			showCollegeInfos: function (showCollegeDialogs, year) {
 				collegeService.queryStats(year).then(function (colleges) {
@@ -2062,13 +2073,26 @@
 				});
 			},
 			showMaintainStations: function(stations, color) {
-			    baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function (coors) {
-			        var xOffset = coors.x - stations[0].longtitute;
-			        var yOffset = coors.y - stations[0].lattitute;
-			        baiduMapService.drawPointCollection(stations, color, -xOffset, -yOffset, function (e) {
-			            parametersDialogService.showStationInfo(e.point.data);
-			        });
-			    });
+				baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function (coors) {
+					var xOffset = coors.x - stations[0].longtitute;
+					var yOffset = coors.y - stations[0].lattitute;
+					baiduMapService.drawPointCollection(stations, color, -xOffset, -yOffset, function (e) {
+						parametersDialogService.showStationInfo(e.point.data);
+					});
+				});
+			},
+			showConstructionSites: function(stations, status, callback) {
+				baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function (coors) {
+					var xOffset = coors.x - stations[0].longtitute;
+					var yOffset = coors.y - stations[0].lattitute;
+				    baiduMapService.setCellFocus(coors.x, coors.y, 15);
+					angular.forEach(stations, function(item) {
+						var marker = new BMap.Marker(new BMap.Point(item.longtitute + xOffset, item.lattitute + yOffset), {
+							icon: geometryService.queryConstructionIcon(status)
+						});
+						baiduMapService.addOneMarkerToScope(marker, callback, item);
+					});
+				});
 			}
 		};
 	});
