@@ -332,6 +332,28 @@ namespace LtePlatform.Controllers.Parameters
         }
     }
 
+    public class ENodebBaseController : ApiController
+    {
+        private readonly ENodebQueryService _service;
+
+        public ENodebBaseController(ENodebQueryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<ENodebBase> Get()
+        {
+            return _service.QueryEnodebBases();
+        }
+
+        [HttpGet]
+        public IEnumerable<ENodebBase> Get(string searchText)
+        {
+            return _service.QueryEnodebBases(searchText);
+        } 
+    }
+
     public class ConstructionController : ApiController
     {
         private readonly ENodebQueryService _service;
@@ -342,15 +364,16 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
-        public IEnumerable<Enodeb_Base> Get()
+        public IEnumerable<ConstructionView> Get(string searchTxt, double west,
+            double east, double south, double north, string district, string town)
         {
-            return _service.QueryEnodebBases();
+            return _service.QueryConstructionInformations(searchTxt, west, east, south, north, district, town);
         }
 
         [HttpGet]
-        public IEnumerable<Enodeb_Base> Get(string searchText)
+        public IEnumerable<ConstructionView> Get(string searchTxt, string district, string town)
         {
-            return _service.QueryEnodebBases(searchText);
+            return _service.QueryConstructionInformations(searchTxt, district, town);
         } 
     }
 

@@ -46,11 +46,7 @@ namespace Lte.Parameters.Concrete
         public DbSet<WorkItem> WorkItems { get; set; }
 
         public DbSet<InterferenceMatrixStat> InterferenceMatrices { get; set; }
+        
 
-        public DbSet<FSLEnodeb> FSLEnodebs { get; set; }
-
-        public DbSet<Enodeb_Base> Enodeb_Bases { get; set; }
-
-        public DbSet<Construction_Information> Construction_Informations { get; set; }
     }
 }

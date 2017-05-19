@@ -190,9 +190,7 @@ namespace LtePlatform
             ninjectKernel.Bind<IConstruction_InformationRepository>().To<Construction_InformationRepository>();
 
             ninjectKernel.Bind<IEnodeb_BaseRepository>().To<Enodeb_BaseRepository>();
-
-            ninjectKernel.Bind<IFSLEnodebRepository>().To<FSLEnodebRepository>();
-
+            
             ninjectKernel.Bind<IDistributionRepository>().To<DistributionRepository>();
 
             ninjectKernel.Bind<IHotSpotENodebRepository>().To<HotSpotENodebRepository>();

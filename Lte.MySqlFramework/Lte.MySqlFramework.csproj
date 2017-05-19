@@ -127,13 +127,13 @@
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
-    <Compile Include="Migrations\201705090917580_Add_Rru_Fsl.cs" />
-    <Compile Include="Migrations\201705090917580_Add_Rru_Fsl.Designer.cs">
-      <DependentUpon>201705090917580_Add_Rru_Fsl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201705131516372_Add_Town_Boundary.cs" />
     <Compile Include="Migrations\201705131516372_Add_Town_Boundary.Designer.cs">
       <DependentUpon>201705131516372_Add_Town_Boundary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705190052101_Change_Construction.cs" />
+    <Compile Include="Migrations\201705190052101_Change_Construction.Designer.cs">
+      <DependentUpon>201705190052101_Change_Construction.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -144,11 +144,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705090917580_Add_Rru_Fsl.resx">
-      <DependentUpon>201705090917580_Add_Rru_Fsl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705131516372_Add_Town_Boundary.resx">
       <DependentUpon>201705131516372_Add_Town_Boundary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705190052101_Change_Construction.resx">
+      <DependentUpon>201705190052101_Change_Construction.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

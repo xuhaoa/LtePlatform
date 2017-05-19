@@ -22,16 +22,18 @@ namespace Lte.Evaluations.DataService.Basic
         private readonly IStationDictionaryRepository _stationDictionaryRepository;
         private readonly IEnodeb_BaseRepository _enodebBaseRepository;
         private readonly IDistributionRepository _distributionRepository;
+        private readonly IConstruction_InformationRepository _constructionRepository;
 
         public ENodebQueryService(ITownRepository townRepository, IENodebRepository eNodebRepository,
             IStationDictionaryRepository stationDictionaryRepository, IEnodeb_BaseRepository enodebBaseRepository,
-            IDistributionRepository distributionRepository)
+            IDistributionRepository distributionRepository, IConstruction_InformationRepository constructionRepository)
         {
             _townRepository = townRepository;
             _eNodebRepository = eNodebRepository;
             _stationDictionaryRepository = stationDictionaryRepository;
             _enodebBaseRepository = enodebBaseRepository;
             _distributionRepository = distributionRepository;
+            _constructionRepository = constructionRepository;
         }
 
         public IEnumerable<ENodebView> GetByTownNames(string city, string district, string town)
@@ -165,12 +167,12 @@ namespace Lte.Evaluations.DataService.Basic
             return eNodebs.Any() ? eNodebs.MapTo<IEnumerable<ENodebView>>() : new List<ENodebView>();
         }
 
-        public IEnumerable<Enodeb_Base> QueryEnodebBases()
+        public IEnumerable<ENodebBase> QueryEnodebBases()
         {
             return _enodebBaseRepository.GetAllList();
         }
 
-        public IEnumerable<Enodeb_Base> QueryEnodebBases(string searchText)
+        public IEnumerable<ENodebBase> QueryEnodebBases(string searchText)
         {
             return string.IsNullOrEmpty(searchText)
                 ? QueryEnodebBases()
@@ -182,6 +184,51 @@ namespace Lte.Evaluations.DataService.Basic
             return _distributionRepository.GetAllList(x => x.District == district);
         }
 
+        public IEnumerable<ConstructionView> QueryConstructionInformations(string searchTxt, double west,
+            double east, double south, double north, string district, string town)
+        {
+            var btsList =
+                _enodebBaseRepository.GetAllList(
+                    x => x.LONGITUDE > west && x.LONGITUDE < east && x.LATITIUDE > south && x.LATITIUDE < north);
+            return QueryConstructionViews(searchTxt, district, town, btsList);
+        }
+
+        public IEnumerable<ConstructionView> QueryConstructionInformations(string searchTxt, string district,
+            string town)
+        {
+            return QueryConstructionViews(searchTxt, district, town, _enodebBaseRepository.GetAllList());
+        } 
+
+        private IEnumerable<ConstructionView> QueryConstructionViews(string searchTxt, string district, string town, List<ENodebBase> btsList)
+        {
+            if (!string.IsNullOrEmpty(searchTxt))
+            {
+                btsList = btsList.Where(o => o.ENODEBNAME == searchTxt).ToList();
+            }
+            if (district != "全部")
+            {
+                btsList = btsList.Where(o => o.AREA == district).ToList();
+            }
+
+            if (town != "全部")
+            {
+                btsList = btsList.Where(o => o.MKTCENTER == town).ToList();
+            }
+            var conList = _constructionRepository.GetAllList();
+            var constructionList = from c in conList
+                join b in btsList on c.FSLNO equals b.FSLNO
+                select new
+                {
+                    Bts = b,
+                    Con = c
+                };
+            return constructionList.Select(x =>
+            {
+                var view = x.Con.MapTo<ConstructionView>();
+                x.Bts.MapTo(view);
+                return view;
+            });
+        }
     }
 
     public class PlanningQueryService

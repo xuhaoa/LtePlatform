@@ -28,22 +28,5 @@ namespace Lte.Parameters.Abstract.Basic
 
         int SaveChanges();
     }
-
-    public interface IConstruction_InformationRepository : IRepository<Construction_Information>, ISaveChanges
-    {
-        Construction_Information GetByFslNo(string fslNo);
-
-        Construction_Information GetBySiteNo(string siteNo);
-    }
-
-    public interface IEnodeb_BaseRepository : IRepository<Enodeb_Base>, ISaveChanges
-    {
-        Enodeb_Base GetByENodebId(int eNodebId);
-
-        Enodeb_Base GetByName(string name);
-    }
-
-    public interface IFSLEnodebRepository : IRepository<FSLEnodeb>
-    {
-    }
+    
 }

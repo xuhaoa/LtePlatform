@@ -140,4 +140,51 @@ namespace Lte.MySqlFramework.Concrete
             return Context.SaveChanges();
         }
     }
+
+    public class Construction_InformationRepository : EfRepositoryBase<MySqlContext, ConstructionInformation>,
+        IConstruction_InformationRepository
+    {
+        public Construction_InformationRepository(IDbContextProvider<MySqlContext> dbContextProvider)
+            : base(dbContextProvider)
+        {
+        }
+
+        public ConstructionInformation GetByFslNo(string fslNo)
+        {
+            return FirstOrDefault(o => o.FSLNO == fslNo);
+        }
+
+        public ConstructionInformation GetBySiteNo(string siteNo)
+        {
+            return FirstOrDefault(o => o.SITENO == siteNo);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
+    public class Enodeb_BaseRepository : EfRepositoryBase<MySqlContext, ENodebBase>, IEnodeb_BaseRepository
+    {
+        public Enodeb_BaseRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public ENodebBase GetByENodebId(int eNodebId)
+        {
+            return FirstOrDefault(o => o.ENODEBID == eNodebId);
+        }
+
+        public ENodebBase GetByName(string name)
+        {
+            return FirstOrDefault(o => o.ENODEBNAME == name);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
 }
