@@ -1913,7 +1913,8 @@
         $scope.queryConstructionPoints = function () {
             baiduMapService.clearOverlays();
             if ($scope.bts.outOfBoundary) {
-                flowService.queryConstructionByTownAndName($scope.district.selected, $scope.town.selected, $scope.bts.name).then(function(sites) {
+                flowService.queryConstructionByTownAndName($scope.district.selected,
+                    $scope.town.selected, $scope.bts.name).then(function (sites) {
                     if ($scope.status.selected === '全部') {
 
                     } else {
@@ -1924,7 +1925,8 @@
                     }
                 });
             } else {
-                flowService.queryConstructionByTownAndNameInBoundary($scope.district.selected, $scope.town.selected, $scope.bts.name, baiduMapService.getRange()).then(function(sites) {
+                flowService.queryConstructionByTownAndNameInBoundary($scope.district.selected,
+                    $scope.town.selected, $scope.bts.name, baiduMapService.getRange()).then(function (sites) {
 
                 });
             }

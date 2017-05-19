@@ -51,11 +51,6 @@
                 }
             }
         };
-        var getAccessToken = function() {
-            var token = sessionStorage.getItem("accessToken");
-            if (!token) initializeAuthorization();
-            return token || sessionStorage.getItem("accessToken");
-        };
         return {
             getApiUrl: function(topic) {
                 return '/api/' + topic;
@@ -63,7 +58,11 @@
             userInfoUrl: "/api/Me",
             siteUrl: "/",
             parseQueryString: parseQueryString,
-            getAccessToken: getAccessToken,
+            getAccessToken: function() {
+                var token = sessionStorage.getItem("accessToken");
+                if (!token) initializeAuthorization();
+                return token || sessionStorage.getItem("accessToken");
+            },
             initializeAuthorization: initializeAuthorization,
             getPlanUrlHost: function() {
                 return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:8070/' : 'http://10.17.165.111:8070/';

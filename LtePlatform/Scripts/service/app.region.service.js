@@ -612,14 +612,14 @@
             queryConstructionByTownAndName: function(district, town, name) {
                 return generalHttpService.getApiData('Construction', {
                     district: district,
-                    town: town,
+                    town: town + '营服中心',
                     searchTxt: name
                 });
             },
             queryConstructionByTownAndNameInBoundary: function(district, town, name, range) {
                 return generalHttpService.getApiData('Construction', {
                     district: district,
-                    town: town,
+                    town: town + '营服中心',
                     searchTxt: name,
                     west: range.west,
                     east: range.east,
