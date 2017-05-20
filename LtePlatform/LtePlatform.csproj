@@ -1630,12 +1630,33 @@
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\rutrace\index.controller.js" />
     <Content Include="Scripts\service\app.kpi.service.js" />
-    <Content Include="Scripts\service\app.url.service.js" />
+    <Content Include="Scripts\service\app\url.js" />
+    <Content Include="Scripts\service\app\url.min.js" />
+    <Content Include="Scripts\service\Gruntfile.es5.js">
+      <DependentUpon>Gruntfile.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\service\Gruntfile.es5.min.js">
+      <DependentUpon>Gruntfile.es5.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\service\url\app.url.es5.js">
+      <DependentUpon>app.url.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\service\url\app.url.es5.min.js">
+      <DependentUpon>app.url.es5.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\service\url\app.url.js" />
     <Content Include="Scripts\service\filters\basic.js" />
     <Content Include="Scripts\service\filters\cell.js" />
     <Content Include="Scripts\service\filters\handoff.js" />
+    <Content Include="Scripts\service\Gruntfile.js" />
+    <Content Include="Scripts\service\url\calculation.js" />
+    <Content Include="Scripts\service\url\core.js" />
+    <Content Include="Scripts\service\url\format.js" />
+    <Content Include="Scripts\service\url\geometry.js" />
+    <Content Include="Scripts\service\url\menu.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\spin.min.js" />
+    <Content Include="Scripts\test\mock\app.url.mock.js" />
     <Content Include="Scripts\test\mock\underscore.array.spec.js" />
     <Content Include="Scripts\test\mock\underscore.chaining.spec.js" />
     <Content Include="Scripts\test\mock\underscore.collection.spec.js" />
@@ -1881,6 +1902,7 @@
     <Content Include="appViews\College\Coverage\All.html" />
     <Content Include="appViews\College\Coverage\CollegeMap.html" />
     <Content Include="Scripts\service\app.region.service.js" />
+    <Content Include="Scripts\service\package.json" />
     <None Include="Views\Kpi\PreciseImport.cshtml" />
     <Content Include="Views\Kpi\WorkItemImport.cshtml" />
     <Content Include="appViews\Rutrace\Map\NeighborMapInfoBox.html" />

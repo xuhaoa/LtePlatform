@@ -1,4 +1,4 @@
-﻿angular.module('myApp.url', ['ui.grid', "ui.bootstrap"])
+angular.module('app.core', [])
     .factory('appUrlService', function() {
         var parseQueryString = function(queryString) {
             var data = {}, pair, separatorIndex, escapedKey, escapedValue, key, value;
@@ -70,48 +70,57 @@
             getDtUrlHost: function() {
                 return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.38:2888/' : 'http://10.17.165.100:2888/';
             },
-            getDistributionHost: function () {
+            getDistributionHost: function() {
                 return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:8086/' : 'http://10.17.165.111:8086/';
             },
             getParameterUrlHost: function() {
                 return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:8001/' : 'http://10.17.165.111:8001/';
             },
-            getBuildingUrlHost: function () {
+            getBuildingUrlHost: function() {
                 return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:8002/' : 'http://10.17.165.111:8002/';
             },
-            getTopnUrlHost: function () {
+            getTopnUrlHost: function() {
                 return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:8006/' : 'http://10.17.165.111:8006/';
             },
-            getInterferenceHost: function () {
+            getInterferenceHost: function() {
                 return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:8004/' : 'http://10.17.165.111:8004/';
             },
-            getCustomerHost: function () {
+            getCustomerHost: function() {
                 return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.38:8099/' : 'http://10.17.165.100:8099/';
             },
-            getPhpHost: function () {
+            getPhpHost: function() {
                 return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:9000/' : 'http://10.17.165.111:9000/';
             },
-            
-            initializeIndexedDb: function (myDb, storeNames, key, callback) {
+            getPhpUriComponent: function(obj) {
+                var str = [];
+                for (var p in obj) {
+                    if (obj.hasOwnProperty(p)) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                }
+                return str.join("&");
+            },
+
+            initializeIndexedDb: function(myDb, storeNames, key, callback) {
                 var version = myDb.version || 1;
                 var request = window.indexedDB.open(myDb.name, version);
-                request.onerror = function (e) {
+                request.onerror = function(e) {
                     console.log(e.currentTarget.error.message);
                 };
-                request.onsuccess = function (e) {
+                request.onsuccess = function(e) {
                     myDb.db = e.target.result;
                     if (callback) {
                         callback();
                     }
                 };
-                request.onupgradeneeded = function (e) {
+                request.onupgradeneeded = function(e) {
                     var db = e.target.result;
                     angular.forEach(storeNames, function(storeName) {
                         if (!db.objectStoreNames.contains(storeName)) {
                             db.createObjectStore(storeName, { keyPath: key });
                         }
                     });
-                    
+
                     console.log('DB version changed to ' + version);
                 };
             },
@@ -120,14 +129,14 @@
                 var store = transaction.objectStore(storeName);
                 var request = store.get(key);
                 value[keyName] = key;
-                request.onsuccess = function (e) {
+                request.onsuccess = function(e) {
                     var item = e.target.result;
                     if (item) {
                         store.put(value);
                     } else {
                         store.add(value);
                     }
-                    
+
                 }
             },
             refreshIndexedDb: function(db, storeName, keyName, items) {
@@ -139,24 +148,24 @@
                 });
 
             },
-            fetchStoreByCursor(db, storeName, callback) {
+            fetchStoreByCursor: function(db, storeName, callback) {
                 var transaction = db.transaction(storeName);
                 var store = transaction.objectStore(storeName);
                 var request = store.openCursor();
                 var data = [];
-                request.onsuccess = function (e) {
+                request.onsuccess = function(e) {
                     var cursor = e.target.result;
                     if (cursor) {
                         data.push(cursor.value);
                         cursor.continue();
-                    } else if(callback) {
+                    } else if (callback) {
                         callback(data);
                     }
                 };
             }
         };
     })
-    .controller('header.menu', function ($scope, appUrlService) {
+    .controller('header.menu', function($scope, appUrlService) {
         $scope.interferenceUrl = appUrlService.getInterferenceHost();
         $scope.emergencyUrl = appUrlService.getCustomerHost() + 'IndexOfEmerCom.aspx';
         $scope.repeaterUrl = appUrlService.getCustomerHost() + 'IndexOfMicro.aspx';
@@ -179,7 +188,7 @@
                 });
                 return deferred.promise;
             },
-            getApiData: function(topic, params) {
+            getApiData: function (topic, params) {
                 var deferred = $q.defer();
                 $http({
                     method: 'GET',
@@ -210,7 +219,7 @@
                 });
                 return deferred.promise;
             },
-            postApiData: function(topic, data) {
+            postApiData: function (topic, data) {
                 var deferred = $q.defer();
                 $http.post(appUrlService.getApiUrl(topic), data)
                     .success(function (result) {
@@ -235,21 +244,21 @@
             postApiDataWithHeading: function (topic, data) {
                 var deferred = $q.defer();
                 $http({
-                        method: 'POST',
-                        url: appUrlService.getApiUrl(topic),
-                        data: data,
-                        headers: {
-                            'Authorization': 'Bearer ' + appUrlService.getAccessToken()
-                        }
-                    }).success(function(result) {
-                        deferred.resolve(result);
-                    })
-                    .error(function(reason) {
+                    method: 'POST',
+                    url: appUrlService.getApiUrl(topic),
+                    data: data,
+                    headers: {
+                        'Authorization': 'Bearer ' + appUrlService.getAccessToken()
+                    }
+                }).success(function (result) {
+                    deferred.resolve(result);
+                })
+                    .error(function (reason) {
                         deferred.reject(reason);
                     });
                 return deferred.promise;
             },
-            postPhpUrlData: function(url, data) {
+            postPhpUrlData: function (url, data) {
                 var deferred = $q.defer();
                 $http({
                     method: 'POST',
@@ -257,11 +266,7 @@
                     data: data,
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     transformRequest: function (obj) {
-                        var str = [];
-                        for (var p in obj) {
-                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                        }
-                        return str.join("&");
+                        return appUrlService.getPhpUriComponent(obj);
                     }
                 }).success(function (result) {
                     deferred.resolve(result);
@@ -282,7 +287,7 @@
                     });
                 return deferred.promise;
             },
-            deleteApiData: function(topic) {
+            deleteApiData: function (topic) {
                 var deferred = $q.defer();
                 $http.delete(appUrlService.getApiUrl(topic)).success(function (result) {
                     deferred.resolve(result);
@@ -292,17 +297,17 @@
                     });
                 return deferred.promise;
             },
-            getJsonpData: function(url, valueFunc) {
+            getJsonpData: function (url, valueFunc) {
                 var deferred = $q.defer();
                 $http.jsonp(url).success(function (result) {
-                            deferred.resolve(valueFunc(result));
-                        })
+                    deferred.resolve(valueFunc(result));
+                })
                     .error(function (reason) {
                         deferred.reject(reason);
                     });
                 return deferred.promise;
             },
-            getUrlData: function(url, params) {
+            getUrlData: function (url, params) {
                 var deferred = $q.defer();
                 $http({
                     method: 'GET',
@@ -317,10 +322,11 @@
                 return deferred.promise;
             }
         };
-    })
+    });
+angular.module('app.menu', ['ui.grid', "ui.bootstrap"])
     .factory('menuItemService', function($uibModal, $log) {
         return {
-            updateMenuItem: function (items, index, title, url, masterName) {
+            updateMenuItem: function(items, index, title, url, masterName) {
                 if (index >= items.length) return;
                 masterName = masterName || "";
                 var subItems = items[index].subItems;
@@ -345,13 +351,13 @@
                     size: settings.size || 'lg',
                     resolve: settings.resolve
                 });
-                modalInstance.result.then(function (info) {
+                modalInstance.result.then(function(info) {
                     console.log(info);
-                }, function () {
+                }, function() {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
-            showGeneralDialogWithAction: function (settings, action) {
+            showGeneralDialogWithAction: function(settings, action) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: settings.templateUrl,
@@ -359,13 +365,13 @@
                     size: settings.size || 'lg',
                     resolve: settings.resolve
                 });
-                modalInstance.result.then(function (info) {
+                modalInstance.result.then(function(info) {
                     action(info);
-                }, function () {
+                }, function() {
                     $log.info('Modal dismissed at: ' + new Date());
                 });
             },
-            showGeneralDialogWithDoubleAction: function (settings, action, action2) {
+            showGeneralDialogWithDoubleAction: function(settings, action, action2) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: settings.templateUrl,
@@ -373,82 +379,15 @@
                     size: settings.size || 'lg',
                     resolve: settings.resolve
                 });
-                modalInstance.result.then(function (info) {
+                modalInstance.result.then(function(info) {
                     action(info);
-                }, function () {
+                }, function() {
                     action2();
                 });
             }
         };
-    })
-    .factory('preciseWorkItemGenerator', function () {
-        return {
-            generatePreciseInterferenceNeighborDtos: function (sources) {
-                var sumDb6Share = 0;
-                var sumDb10Share = 0;
-                var sumMod3Share = 0;
-                var sumMod6Share = 0;
-                var dtos = [];
-                angular.forEach(sources, function (source) {
-                    sumDb6Share += source.overInterferences6Db;
-                    sumDb10Share += source.overInterferences10Db;
-                    sumMod3Share += source.mod3Interferences;
-                    sumMod6Share += source.mod6Interferences;
-                });
-                angular.forEach(sources, function (source) {
-                    if (source.destENodebId > 0 && source.destSectorId > 0) {
-                        var db6Share = source.overInterferences6Db * 100 / sumDb6Share;
-                        var db10Share = source.overInterferences10Db * 100 / sumDb10Share;
-                        var mod3Share = source.mod3Interferences * 100 / sumMod3Share;
-                        var mod6Share = source.mod6Interferences * 100 / sumMod6Share;
-                        if (db6Share > 10 || db10Share > 10 || mod3Share > 10 || mod6Share > 10) {
-                            dtos.push({
-                                eNodebId: source.destENodebId,
-                                sectorId: source.destSectorId,
-                                db6Share: db6Share,
-                                db10Share: db10Share,
-                                mod3Share: mod3Share,
-                                mod6Share: mod6Share
-                            });
-                        }
-                    }
-                });
-                return dtos;
-            },
-            generatePreciseInterferenceVictimDtos: function (sources) {
-                var sumBackwardDb6Share = 0;
-                var sumBackwardDb10Share = 0;
-                var sumBackwardMod3Share = 0;
-                var sumBackwardMod6Share = 0;
-                var dtos = [];
-                angular.forEach(sources, function (source) {
-                    sumBackwardDb6Share += source.overInterferences6Db;
-                    sumBackwardDb10Share += source.overInterferences10Db;
-                    sumBackwardMod3Share += source.mod3Interferences;
-                    sumBackwardMod6Share += source.mod6Interferences;
-                });
-                angular.forEach(sources, function (source) {
-                    if (source.victimENodebId > 0 && source.victimSectorId > 0) {
-                        var db6Share = source.overInterferences6Db * 100 / sumBackwardDb6Share;
-                        var db10Share = source.overInterferences10Db * 100 / sumBackwardDb10Share;
-                        var mod3Share = source.mod3Interferences * 100 / sumBackwardMod3Share;
-                        var mod6Share = source.mod6Interferences * 100 / sumBackwardMod6Share;
-                        if (db6Share > 10 || db10Share > 10 || mod3Share > 10 || mod6Share > 10) {
-                            dtos.push({
-                                eNodebId: source.victimENodebId,
-                                sectorId: source.victimSectorId,
-                                backwardDb6Share: db6Share,
-                                backwardDb10Share: db10Share,
-                                backwardMod3Share: mod3Share,
-                                backwardMod6Share: mod6Share
-                            });
-                        }
-                    }
-                });
-                return dtos;
-            }
-        };
-    })
+    });
+angular.module('app.format', [])
     .factory('appFormatService', function () {
         return {
             getDate: function (strDate) {
@@ -570,7 +509,7 @@
             prefixInteger: function (num, length) {
                 return (Array(length).join('0') + num).slice(-length);
             },
-            generateSiteGroups: function(site) {
+            generateSiteGroups: function (site) {
                 return [
                     {
                         items: [
@@ -643,7 +582,7 @@
                         items: [
                             {
                                 key: '是否获取',
-                                value: site.isGotton ?  '已获取' : '未获取'
+                                value: site.isGotton ? '已获取' : '未获取'
                             }, {
                                 key: '受阻说明',
                                 value: site.shouzuShuoming
@@ -678,7 +617,7 @@
                     }
                 ];
             },
-            generateStationGroups: function(station) {
+            generateStationGroups: function (station) {
                 return [
                     {
                         items: [
@@ -787,7 +726,7 @@
                     }
                 ];
             },
-            generateENodebGroups: function(station) {
+            generateENodebGroups: function (station) {
                 return [
                     {
                         items: [
@@ -1501,312 +1440,6 @@
             }
         }
     })
-    .factory('neGeometryService', function () {
-        var isLongtituteValid = function (longtitute) {
-            return (!isNaN(longtitute)) && longtitute > 112 && longtitute < 114;
-        };
-
-        var isLattituteValid = function (lattitute) {
-            return (!isNaN(lattitute)) && lattitute > 22 && lattitute < 24;
-        };
-
-        var isLonLatValid = function (item) {
-            return isLongtituteValid(item.longtitute) && isLattituteValid(item.lattitute);
-        };
-
-        var mapLonLat = function (source, destination) {
-            source.longtitute = destination.longtitute;
-            source.lattitute = destination.lattitute;
-        };
-
-        return {
-            queryENodebLonLatEdits: function (eNodebs) {
-                var result = [];
-                for (var index = 0; index < eNodebs.length; index++) {
-                    if (!isLonLatValid(eNodebs[index])) {
-                        result.push({
-                            index: index,
-                            eNodebId: eNodebs[index].eNodebId,
-                            name: eNodebs[index].name,
-                            district: eNodebs[index].districtName,
-                            town: eNodebs[index].townName,
-                            longtitute: eNodebs[index].longtitute,
-                            lattitute: eNodebs[index].lattitute
-                        });
-                    }
-                }
-                return result;
-            },
-            queryBtsLonLatEdits: function (btss) {
-                var result = [];
-                for (var index = 0; index < btss.length; index++) {
-                    if (!isLonLatValid(btss[index])) {
-                        result.push({
-                            index: index,
-                            bscId: btss[index].bscId,
-                            btsId: btss[index].btsId,
-                            name: btss[index].name,
-                            districtName: btss[index].districtName,
-                            longtitute: eNodebs[index].longtitute,
-                            lattitute: eNodebs[index].lattitute
-                        });
-                    }
-                }
-                return result;
-            },
-            queryCellLonLatEdits: function (cells) {
-                var result = [];
-                for (var index = 0; index < cells.length; index++) {
-                    if (!isLonLatValid(cells[index])) {
-                        result.push({
-                            index: index,
-                            eNodebId: cells[index].eNodebId,
-                            sectorId: cells[index].sectorId,
-                            frequency: cells[index].frequency,
-                            isIndoor: cells[index].isIndoor,
-                            longtitute: cells[index].longtitute,
-                            lattitute: cells[index].lattitute
-                        });
-                    }
-                }
-                return result;
-            },
-            queryCdmaCellLonLatEdits: function (cells) {
-                var result = [];
-                for (var index = 0; index < cells.length; index++) {
-                    if (!isLonLatValid(cells[index])) {
-                        result.push({
-                            index: index,
-                            btsId: cells[index].btsId,
-                            sectorId: cells[index].sectorId,
-                            frequency: cells[index].frequency,
-                            isIndoor: cells[index].isIndoor,
-                            longtitute: cells[index].longtitute,
-                            lattitute: cells[index].lattitute
-                        });
-                    }
-                }
-                return result;
-            },
-            mapLonLatEdits: function (sourceFunc, destList) {
-                var sourceList = sourceFunc();
-                for (var i = 0; i < destList.length; i++) {
-                    destList[i].longtitute = parseFloat(destList[i].longtitute);
-                    destList[i].lattitute = parseFloat(destList[i].lattitute);
-                    if (isLonLatValid(destList[i])) {
-                        console.log(destList[i]);
-                        mapLonLat(sourceList[destList[i].index], destList[i]);
-                    }
-                }
-                sourceFunc(sourceList);
-            },
-            queryNearestRange: function(xCenter, yCenter) {
-                return {
-                    west: xCenter - 1e-6,
-                    east: xCenter + 1e-6,
-                    south: yCenter - 1e-6,
-                    north: yCenter + 1e-6
-                };
-            },
-            queryNearRange: function (xCenter, yCenter) {
-                return {
-                    west: xCenter - 1e-2,
-                    east: xCenter + 1e-2,
-                    south: yCenter - 1e-2,
-                    north: yCenter + 1e-2
-                };
-            }
-        };
-    })
-    .factory('generalChartService', function () {
-        return {
-            getPieOptions: function (data, setting, subNameFunc, subDataFunc) {
-                var chart = new GradientPie();
-                chart.title.text = setting.title;
-                chart.series[0].name = setting.seriesTitle;
-                angular.forEach(data, function (subData) {
-                    chart.series[0].data.push({
-                        name: subNameFunc(subData),
-                        y: subDataFunc(subData)
-                    });
-                });
-                return chart.options;
-            },
-            getColumnOptions: function (stat, setting, categoriesFunc, dataFunc) {
-                var chart = new ComboChart();
-                chart.title.text = setting.title;
-                chart.xAxis[0].title.text = setting.xtitle;
-                chart.yAxis[0].title.text = setting.ytitle;
-                chart.xAxis[0].categories = categoriesFunc(stat);
-                chart.series.push({
-                    type: "column",
-                    name: setting.ytitle,
-                    data: dataFunc(stat)
-                });
-                return chart.options;
-            },
-            getStackColumnOptions: function (stats, setting, categoriesFunc, dataFuncList) {
-                var chart = new StackColumnChart();
-                chart.title.text = setting.title;
-                chart.xAxis.title.text = setting.xtitle;
-                chart.yAxis.title.text = setting.ytitle;
-                chart.xAxis.categories = _.map(stats, function(stat) {
-                    return categoriesFunc(stat);
-                });
-                angular.forEach(dataFuncList, function(dataFunc, $index) {
-                    chart.series.push({
-                        name: setting.seriesTitles[$index],
-                        data: _.map(stats, function(stat) {
-                            return dataFunc(stat);
-                        })
-                    });
-                });
-                
-                return chart.options;
-            },
-            queryColumnOptions: function (setting, categories, data) {
-                var chart = new ComboChart();
-                chart.title.text = setting.title;
-                chart.xAxis[0].title.text = setting.xtitle;
-                chart.yAxis[0].title.text = setting.ytitle;
-                chart.xAxis[0].categories = categories;
-                if (setting.min) {
-                    chart.setDefaultYAxis({ min: setting.min });
-                }
-                if (setting.max) {
-                    chart.setDefaultYAxis({ max: setting.max });
-                }
-                chart.series.push({
-                    type: "column",
-                    name: setting.ytitle,
-                    data: data
-                });
-                return chart.options;
-            },
-            queryDoubleColumnOptions: function (setting, categories, data1, data2) {
-                var chart = new ComboChart();
-                chart.title.text = setting.title;
-                chart.xAxis[0].title.text = setting.xtitle;
-                chart.yAxis[0].title.text = setting.ytitle;
-                chart.xAxis[0].categories = categories;
-                chart.series.push({
-                    type: "column",
-                    name: setting.ytitle1,
-                    data: data1
-                });
-                chart.series.push({
-                    type: "column",
-                    name: setting.ytitle2,
-                    data: data2
-                });
-                return chart.options;
-            },
-            queryMultipleColumnOptions: function (setting, categories, dataList, seriesTitle) {
-                var chart = new ComboChart();
-                chart.title.text = setting.title;
-                chart.xAxis[0].title.text = setting.xtitle;
-                chart.yAxis[0].title.text = setting.ytitle;
-                chart.xAxis[0].categories = categories;
-                angular.forEach(dataList, function(data, $index) {
-                    chart.series.push({
-                        type: "column",
-                        name: seriesTitle[$index],
-                        data: data
-                    });
-                });
-                return chart.options;
-            },
-            queryMultipleComboOptions: function (setting, categories, dataList, seriesTitle, typeList) {
-                var chart = new ComboChart();
-                chart.title.text = setting.title;
-                chart.xAxis[0].title.text = setting.xtitle;
-                chart.yAxis[0].title.text = setting.ytitle;
-                chart.xAxis[0].categories = categories;
-                angular.forEach(dataList, function (data, $index) {
-                    chart.series.push({
-                        type: typeList[$index],
-                        name: seriesTitle[$index],
-                        data: data
-                    });
-                });
-                return chart.options;
-            },
-            queryMultipleComboOptionsWithDoubleAxes: function (setting, categories, dataList, seriesTitle, typeList, yAxisList) {
-                var chart = new ComboChart();
-                chart.title.text = setting.title;
-                chart.xAxis[0].title.text = setting.xtitle;
-                chart.yAxis[0].title.text = setting.ytitles[0];
-                chart.pushOneYAxis(setting.ytitles[1]);
-
-                chart.xAxis[0].categories = categories;
-                angular.forEach(dataList, function (data, $index) {
-                    chart.series.push({
-                        type: typeList[$index],
-                        name: seriesTitle[$index],
-                        data: data,
-                        yAxis: yAxisList[$index]
-                    });
-                });
-                return chart.options;
-            },
-            generateColumnData: function (stats, categoriesFunc, dataFuncs) {
-                var result = {
-                    categories: [],
-                    dataList: []
-                };
-                angular.forEach(dataFuncs, function (func) {
-                    result.dataList.push([]);
-                });
-                angular.forEach(stats, function (stat) {
-                    result.categories.push(categoriesFunc(stat));
-                    angular.forEach(dataFuncs, function (func, index) {
-                        result.dataList[index].push(func(stat));
-                    });
-                });
-                return result;
-            },
-            generateColumnDataByKeys: function (stats, categoriesKey, dataKeys) {
-                var result = {
-                    categories: [],
-                    dataList: []
-                };
-                angular.forEach(dataKeys, function (key) {
-                    result.dataList.push([]);
-                });
-                angular.forEach(stats, function (stat) {
-                    result.categories.push(stat[categoriesKey]);
-                    angular.forEach(dataKeys, function (key, index) {
-                        result.dataList[index].push(stat[key]);
-                    });
-                });
-                return result;
-            },
-            generateCompoundStats: function (views, getType, getSubType, getTotal) {
-                var stats = [];
-                angular.forEach(views, function (view) {
-                    var type = getType !== undefined ? getType(view) : view.type;
-                    var subType = getSubType !== undefined ? getSubType(view) : view.subType;
-                    var total = getTotal !== undefined ? getTotal(view) : view.total;
-                    var j;
-                    for (j = 0; j < stats.length; j++) {
-                        if (stats[j].type === (type || '无有效值')) {
-                            stats[j].total += total;
-                            stats[j].subData.push([subType || '无有效值', total]);
-                            break;
-                        }
-                    }
-                    if (j === stats.length) {
-                        stats.push({
-                            type: type || '无有效值',
-                            total: total,
-                            subData: [[subType || '无有效值', total]]
-                        });
-                    }
-                });
-                return stats;
-            }
-        };
-    })
     .factory('chartCalculateService', function (appFormatService) {
         return {
             generateDrillDownData: function (districtStats, townStats, queryFunction) {
@@ -1829,7 +1462,7 @@
                 });
                 return results;
             },
-            generateDrillDownPieOptions: function(stats, settings) {
+            generateDrillDownPieOptions: function (stats, settings) {
                 var chart = new DrilldownPie();
                 chart.initialize(settings);
                 angular.forEach(stats, function (stat) {
@@ -1865,7 +1498,7 @@
                 });
                 return chart.options;
             },
-            generateSplineChartOptions: function(result, districts, settings) {
+            generateSplineChartOptions: function (result, districts, settings) {
                 var chart = new ComboChart();
                 chart.initialize(settings);
                 chart.xAxis[0].categories = result.statDates;
@@ -1879,10 +1512,10 @@
                 });
                 return chart.options;
             },
-            calculateMemberSum: function(array, memberList, categoryFunc) {
-                var result = _.reduce(array, function(memo, num) {
+            calculateMemberSum: function (array, memberList, categoryFunc) {
+                var result = _.reduce(array, function (memo, num) {
                     var temp = {};
-                    angular.forEach(memberList, function(member) {
+                    angular.forEach(memberList, function (member) {
                         temp[member] = memo[member] + num[member];
                     });
                     return temp;
@@ -1938,7 +1571,7 @@
                     districtStats: districtStats
                 };
             },
-            generateStatsForPie: function(trendStat, result, funcs) {
+            generateStatsForPie: function (trendStat, result, funcs) {
                 trendStat.districtStats = funcs.districtViewsFunc(result[0]);
                 trendStat.townStats = funcs.townViewsFunc(result[0]);
                 for (var i = 1; i < result.length; i++) {
@@ -1976,7 +1609,7 @@
                     if (funcs.districtCalculate) {
                         funcs.districtCalculate(stat);
                     }
-                    
+
                 });
                 angular.forEach(trendStat.townStats, function (stat) {
                     if (funcs.townCalculate) {
@@ -1984,14 +1617,14 @@
                     }
                 });
             },
-            generateSeriesInfo: function(seriesInfo, stats, categoryKey, dataKeys) {
+            generateSeriesInfo: function (seriesInfo, stats, categoryKey, dataKeys) {
                 var categories = [];
-                angular.forEach(dataKeys, function(key) {
+                angular.forEach(dataKeys, function (key) {
                     seriesInfo[key].data = [];
                 });
                 angular.forEach(stats, function (stat) {
                     categories.push(stat[categoryKey]);
-                    angular.forEach(dataKeys, function(key) {
+                    angular.forEach(dataKeys, function (key) {
                         seriesInfo[key].data.push(stat[key]);
                     });
                 });
@@ -2000,8 +1633,8 @@
                     info: seriesInfo
                 };
             },
-            writeSeriesData: function(series, seriesInfo, dataKeys) {
-                angular.forEach(dataKeys, function(key) {
+            writeSeriesData: function (series, seriesInfo, dataKeys) {
+                angular.forEach(dataKeys, function (key) {
                     series.push({
                         type: seriesInfo[key].type,
                         name: seriesInfo[key].name,
@@ -2009,7 +1642,7 @@
                     });
                 });
             },
-            generateMrsRsrpStats: function(stats) {
+            generateMrsRsrpStats: function (stats) {
                 var categories = _.range(-140, -43);
                 var values = _.range(0, 97, 0);
                 var array = _.map(_.range(48), function (index) {
@@ -2052,7 +1685,7 @@
                     values: values
                 };
             },
-            generateCoverageStats: function(stats) {
+            generateCoverageStats: function (stats) {
                 var array = _.map(_.range(48), function (index) {
                     var value = stats['rsrP_' + appFormatService.prefixInteger(index, 2)];
                     return _.isNumber(value) ? value : 0;
@@ -2155,7 +1788,7 @@
                     ]
                 };
             },
-            generateOverCoverageStats: function(stats) {
+            generateOverCoverageStats: function (stats) {
                 var array = _.map(_.range(45), function (index) {
                     var value = stats['tadv_' + appFormatService.prefixInteger(index, 2)];
                     return _.isNumber(value) ? value : 0;
@@ -2169,24 +1802,24 @@
                     over: _.reduce(arrayOver, function (memo, num) { return memo + num; }, 0)
                 }
             },
-            generateRsrpTaStats: function(stats, rsrpIndex) {
+            generateRsrpTaStats: function (stats, rsrpIndex) {
                 var rsrpDivisions = [
                     -110,
-                    - 105,
-                    - 100,
-                    - 95,
-                    - 90,
-                    - 85,
-                    - 80,
-                    - 75,
-                    - 70,
-                    - 65,
-                    - 60,
-                    - 44
+                    -105,
+                    -100,
+                    -95,
+                    -90,
+                    -85,
+                    -80,
+                    -75,
+                    -70,
+                    -65,
+                    -60,
+                    -44
                 ];
                 rsrpIndex = Math.min(Math.max(0, rsrpIndex), 11);
                 var array = _.map(_.range(11), function (index) {
-                    var value = stats['tadv' + appFormatService.prefixInteger(index, 2) + 'Rsrp' +appFormatService.prefixInteger(rsrpIndex, 2)];
+                    var value = stats['tadv' + appFormatService.prefixInteger(index, 2) + 'Rsrp' + appFormatService.prefixInteger(rsrpIndex, 2)];
                     return _.isNumber(value) ? value : 0;
                 });
                 return {
@@ -2274,12 +1907,12 @@
             }
         };
     })
-    .factory('calculateService', function(chartCalculateService) {
+    .factory('calculateService', function (chartCalculateService) {
         return {
-            calculateOverCoverageRate: function(taList) {
+            calculateOverCoverageRate: function (taList) {
                 var sum = 0;
                 var sumOver = 0;
-                angular.forEach(taList, function(ta) {
+                angular.forEach(taList, function (ta) {
                     var stat = chartCalculateService.generateOverCoverageStats(ta);
                     sum += stat.total;
                     sumOver += stat.over;
@@ -2304,7 +1937,7 @@
                     rate105: (sum115 + sum110 + sum105) / sum
                 };
             },
-            generateGridDirective: function(settings, $compile) {
+            generateGridDirective: function (settings, $compile) {
                 return {
                     controller: settings.controllerName,
                     restrict: 'EA',
@@ -2364,7 +1997,7 @@
                     }
                 };
             },
-            generateSelectionGridDirective: function(settings, $compile) {
+            generateSelectionGridDirective: function (settings, $compile) {
                 return {
                     controller: settings.controllerName,
                     restrict: 'EA',
@@ -2384,27 +2017,27 @@
                     }
                 };
             },
-            mergeDataByKey: function(list, data, key, dataKeys) {
-                angular.forEach(data, function(num) {
+            mergeDataByKey: function (list, data, key, dataKeys) {
+                angular.forEach(data, function (num) {
                     var finder = {};
                     finder[key] = num[key];
                     var match = _.where(list, finder);
                     if (match.length > 0) {
-                        angular.forEach(dataKeys, function(dataKey) {
+                        angular.forEach(dataKeys, function (dataKey) {
                             match[0][dataKey] += num[dataKey];
                         });
                     } else {
                         var newNum = {};
                         newNum[key] = num[key];
-                        angular.forEach(dataKeys, function(dataKey) {
+                        angular.forEach(dataKeys, function (dataKey) {
                             newNum[dataKey] = num[dataKey];
                         });
                         list.push(newNum);
                     }
                 });
-                return _.sortBy(list, function(num) { return num[key]; });
+                return _.sortBy(list, function (num) { return num[key]; });
             },
-            generateCellDetailsGroups: function(site) {
+            generateCellDetailsGroups: function (site) {
                 return [
                     {
                         items: [
@@ -2583,7 +2216,7 @@
                 source.secondNeighbors += accumulate.secondNeighbors;
                 source.thirdNeighbors += accumulate.thirdNeighbors;
             },
-            accumulateFlowStat: function(source, accumulate) {
+            accumulateFlowStat: function (source, accumulate) {
                 source.pdcpDownlinkFlow += accumulate.pdcpDownlinkFlow;
                 source.pdcpUplinkFlow += accumulate.pdcpUplinkFlow;
             },
@@ -2598,7 +2231,7 @@
                 townStat.preciseRate = 100 - 100 * townStat.secondNeighbors / townStat.totalMrs;
                 townStat.thirdRate = 100 - 100 * townStat.thirdNeighbors / townStat.totalMrs;
             },
-            getValueFromDivisionAbove: function(division, value) {
+            getValueFromDivisionAbove: function (division, value) {
                 for (var i = 0; i < division.length; i++) {
                     if (value > division[i]) {
                         return 5 - i;
@@ -2606,7 +2239,7 @@
                 }
                 return 0;
             },
-            getValueFromDivisionBelow: function(division, value) {
+            getValueFromDivisionBelow: function (division, value) {
                 for (var i = 0; i < division.length; i++) {
                     if (value < division[i]) {
                         return 5 - i;
@@ -2631,8 +2264,127 @@
             }
         };
     })
+    .factory('preciseChartService', function(generalChartService, chartCalculateService) {
+        return {
+            getTypeOption: function(views) {
+                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views), {
+                    title: "工单类型分布图",
+                    seriesName: "工单类型"
+                });
+            },
+
+            getStateOption: function(views) {
+                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views), {
+                    title: "工单状态分布图",
+                    seriesName: "工单状态"
+                });
+            },
+
+            getDistrictOption: function(views) {
+                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views), {
+                    title: "工单镇区分布图",
+                    seriesName: "镇区"
+                });
+            },
+
+            getTownFlowOption: function(views) {
+                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views, function(view) {
+                    return view.district;
+                }, function(view) {
+                    return view.town;
+                }, function(view) {
+                    return (view.pdcpDownlinkFlow + view.pdcpUplinkFlow) / 1024 / 1024 / 8;
+                }), {
+                    title: "流量镇区分布图(TB)",
+                    seriesName: "区域"
+                });
+            },
+
+            getTownUsersOption: function(views) {
+                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views, function(view) {
+                    return view.district;
+                }, function(view) {
+                    return view.town;
+                }, function(view) {
+                    return view.maxUsers;
+                }), {
+                    title: "最大在线用户数镇区分布图(TB)",
+                    seriesName: "区域"
+                });
+            },
+
+            getCoverageOptions: function(stats) {
+                var chart = new ComboChart();
+                chart.initialize({
+                    title: '覆盖情况统计',
+                    xTitle: 'RSRP(dBm)',
+                    yTitle: 'MR次数'
+                });
+                angular.forEach(stats, function(stat, index) {
+                    var data = chartCalculateService.generateMrsRsrpStats(stat);
+                    if (index === 0) {
+                        chart.xAxis[0].categories = data.categories;
+                    }
+                    chart.series.push({
+                        type: 'spline',
+                        name: stat.statDate,
+                        data: data.values
+                    });
+                });
+
+                return chart.options;
+            },
+
+            getTaOptions: function(stats) {
+                var chart = new ComboChart();
+                chart.initialize({
+                    title: '接入距离分布统计',
+                    xTitle: '接入距离(米)',
+                    yTitle: 'MR次数'
+                });
+                angular.forEach(stats, function(stat, index) {
+                    var data = chartCalculateService.generateMrsTaStats(stat);
+                    if (index === 0) {
+                        chart.xAxis[0].categories = data.categories;
+                    }
+                    chart.series.push({
+                        type: 'spline',
+                        name: stat.statDate,
+                        data: data.values
+                    });
+                });
+
+                return chart.options;
+            },
+
+            getRsrpTaOptions: function(stats, rsrpIndex) {
+                var chart = new ComboChart();
+                chart.initialize({
+                    title: '接入距离分布统计',
+                    xTitle: '接入距离(米)',
+                    yTitle: 'MR次数'
+                });
+                chart.legend.align = 'right';
+                angular.forEach(stats, function(stat, index) {
+                    var data = chartCalculateService.generateRsrpTaStats(stat, rsrpIndex);
+                    if (index === 0) {
+                        chart.xAxis[0].categories = data.categories;
+                        chart.title.text += '(' + data.seriesName + ')';
+                    }
+                    chart.series.push({
+                        type: 'line',
+                        name: stat.statDate,
+                        data: data.values
+                    });
+                });
+
+                return chart.options;
+            }
+        }
+    });
+angular.module('app.geometry', [])
     .factory('geometryCalculateService', function() {
-        var getDistanceFunc = function (p1Lat, p1Lng, p2Lat, p2Lng) {
+        var getDistanceFunc = function(p1Lat, p1Lng, p2Lat, p2Lng) {
             var earthRadiusKm = 6378.137;
             var dLat1InRad = p1Lat * (Math.PI / 180);
             var dLong1InRad = p1Lng * (Math.PI / 180);
@@ -2692,18 +2444,18 @@
 
         };
     })
-    .factory('geometryService', function (geometryCalculateService) {
+    .factory('geometryService', function(geometryCalculateService) {
         return {
-            getDistance: function (p1Lat, p1Lng, p2Lat, p2Lng) {
+            getDistance: function(p1Lat, p1Lng, p2Lat, p2Lng) {
                 return geometryCalculateService.getDistanceFunc(p1Lat, p1Lng, p2Lat, p2Lng);
             },
-            getLonLat: function (centre, x, y) {
+            getLonLat: function(centre, x, y) {
                 return geometryCalculateService.getLonLatFunc(centre, x, y);
             },
-            getPosition: function (centre, r, angle) {
+            getPosition: function(centre, r, angle) {
                 return geometryCalculateService.getPositionFunc(centre, r, angle);
             },
-            getPositionLonLat: function (centre, r, angle) {
+            getPositionLonLat: function(centre, r, angle) {
                 var x = r * Math.cos(angle * Math.PI / 180);
                 var y = r * Math.sin(angle * Math.PI / 180);
                 var lat = centre.lattitute + y / geometryCalculateService.getDistanceFunc(centre.lattitute, centre.longtitute, centre.lattitute + 1, centre.longtitute);
@@ -2713,7 +2465,7 @@
                     lattitute: lat
                 };
             },
-            generateSectorPolygonPoints: function (centre, irotation, iangle, zoom, scalor) {
+            generateSectorPolygonPoints: function(centre, irotation, iangle, zoom, scalor) {
                 var assemble = [];
                 var dot;
                 var i;
@@ -2731,27 +2483,27 @@
 
                 return assemble;
             },
-            getRadius: function (zoom) {
+            getRadius: function(zoom) {
                 return geometryCalculateService.getRadiusFunc(zoom);
             },
-            getDtPointRadius: function (zoom) {
+            getDtPointRadius: function(zoom) {
                 var radius = 17;
                 switch (zoom) {
-                    case 15:
-                        radius *= 0.9;
-                        break;
-                    case 16:
-                        radius *= 0.8;
-                        break;
-                    case 17:
-                        radius *= 0.75;
-                        break;
-                    default:
-                        break;
+                case 15:
+                    radius *= 0.9;
+                    break;
+                case 16:
+                    radius *= 0.8;
+                    break;
+                case 17:
+                    radius *= 0.75;
+                    break;
+                default:
+                    break;
                 }
                 return radius;
             },
-            getArrowLine: function (x1, y1, x2, y2, r) {
+            getArrowLine: function(x1, y1, x2, y2, r) {
                 var rad = Math.atan2(y2 - y1, x2 - x1);
                 var centre = {
                     lng: x2,
@@ -2767,24 +2519,24 @@
                     new BMap.Point(x1, y1)
                 ], { strokeColor: "blue", strokeWeight: 1 });
             },
-            getLine: function (x1, y1, x2, y2, color) {
+            getLine: function(x1, y1, x2, y2, color) {
                 color = color || "orange";
                 return new BMap.Polyline([
                     new BMap.Point(x2, y2),
                     new BMap.Point(x1, y1)
                 ], { strokeColor: color, strokeWeight: 1 });
             },
-            getCircle: function (x, y, r, color, callback, neighbor) {
+            getCircle: function(x, y, r, color, callback, neighbor) {
                 color = color || "orange";
                 var circle = new BMap.Circle(new BMap.Point(x, y), r, { strokeColor: color, fillColor: color });
-                circle.addEventListener("click", function () {
+                circle.addEventListener("click", function() {
                     callback(neighbor);
                 });
                 return circle;
             },
-            getPathInfo: function (path) {
+            getPathInfo: function(path) {
                 var result = '';
-                angular.forEach(path, function (point, $index) {
+                angular.forEach(path, function(point, $index) {
                     if ($index > 0) result += ';';
                     result += point.lng + ';' + point.lat;
                 });
@@ -2800,10 +2552,11 @@
                     '#FF9966',
                     '#CC6699',
                     '#9933FF',
-                    '#333300'];
+                    '#333300'
+                ];
             },
             queryConstructionIcon: function(status) {
-                var urlDictionary= {
+                var urlDictionary = {
                     '审计会审': "/Content/Images/BtsIcons/alarm_lightyellow.png",
                     '天馈施工': "/Content/Images/BtsIcons/alarm_yellow.png",
                     '整体完工': "/Content/Images/BtsIcons/alarm_lightblue.png",
@@ -2815,159 +2568,533 @@
                 return new BMap.Icon(url, new BMap.Size(22, 28));
             }
         };
-    })
-
-    .factory('parametersChartService', function (generalChartService) {
+    });
+angular.module('app.calculation', [])
+    .factory('preciseWorkItemGenerator', function() {
         return {
-            getDistrictLteENodebPieOptions: function (data, city) {
+            generatePreciseInterferenceNeighborDtos: function(sources) {
+                var sumDb6Share = 0;
+                var sumDb10Share = 0;
+                var sumMod3Share = 0;
+                var sumMod6Share = 0;
+                var dtos = [];
+                angular.forEach(sources, function(source) {
+                    sumDb6Share += source.overInterferences6Db;
+                    sumDb10Share += source.overInterferences10Db;
+                    sumMod3Share += source.mod3Interferences;
+                    sumMod6Share += source.mod6Interferences;
+                });
+                angular.forEach(sources, function(source) {
+                    if (source.destENodebId > 0 && source.destSectorId > 0) {
+                        var db6Share = source.overInterferences6Db * 100 / sumDb6Share;
+                        var db10Share = source.overInterferences10Db * 100 / sumDb10Share;
+                        var mod3Share = source.mod3Interferences * 100 / sumMod3Share;
+                        var mod6Share = source.mod6Interferences * 100 / sumMod6Share;
+                        if (db6Share > 10 || db10Share > 10 || mod3Share > 10 || mod6Share > 10) {
+                            dtos.push({
+                                eNodebId: source.destENodebId,
+                                sectorId: source.destSectorId,
+                                db6Share: db6Share,
+                                db10Share: db10Share,
+                                mod3Share: mod3Share,
+                                mod6Share: mod6Share
+                            });
+                        }
+                    }
+                });
+                return dtos;
+            },
+            generatePreciseInterferenceVictimDtos: function(sources) {
+                var sumBackwardDb6Share = 0;
+                var sumBackwardDb10Share = 0;
+                var sumBackwardMod3Share = 0;
+                var sumBackwardMod6Share = 0;
+                var dtos = [];
+                angular.forEach(sources, function(source) {
+                    sumBackwardDb6Share += source.overInterferences6Db;
+                    sumBackwardDb10Share += source.overInterferences10Db;
+                    sumBackwardMod3Share += source.mod3Interferences;
+                    sumBackwardMod6Share += source.mod6Interferences;
+                });
+                angular.forEach(sources, function(source) {
+                    if (source.victimENodebId > 0 && source.victimSectorId > 0) {
+                        var db6Share = source.overInterferences6Db * 100 / sumBackwardDb6Share;
+                        var db10Share = source.overInterferences10Db * 100 / sumBackwardDb10Share;
+                        var mod3Share = source.mod3Interferences * 100 / sumBackwardMod3Share;
+                        var mod6Share = source.mod6Interferences * 100 / sumBackwardMod6Share;
+                        if (db6Share > 10 || db10Share > 10 || mod3Share > 10 || mod6Share > 10) {
+                            dtos.push({
+                                eNodebId: source.victimENodebId,
+                                sectorId: source.victimSectorId,
+                                backwardDb6Share: db6Share,
+                                backwardDb10Share: db10Share,
+                                backwardMod3Share: mod3Share,
+                                backwardMod6Share: mod6Share
+                            });
+                        }
+                    }
+                });
+                return dtos;
+            }
+        };
+    })
+    .factory('neGeometryService', function() {
+        var isLongtituteValid = function(longtitute) {
+            return (!isNaN(longtitute)) && longtitute > 112 && longtitute < 114;
+        };
+
+        var isLattituteValid = function(lattitute) {
+            return (!isNaN(lattitute)) && lattitute > 22 && lattitute < 24;
+        };
+
+        var isLonLatValid = function(item) {
+            return isLongtituteValid(item.longtitute) && isLattituteValid(item.lattitute);
+        };
+
+        var mapLonLat = function(source, destination) {
+            source.longtitute = destination.longtitute;
+            source.lattitute = destination.lattitute;
+        };
+
+        return {
+            queryENodebLonLatEdits: function(eNodebs) {
+                var result = [];
+                for (var index = 0; index < eNodebs.length; index++) {
+                    if (!isLonLatValid(eNodebs[index])) {
+                        result.push({
+                            index: index,
+                            eNodebId: eNodebs[index].eNodebId,
+                            name: eNodebs[index].name,
+                            district: eNodebs[index].districtName,
+                            town: eNodebs[index].townName,
+                            longtitute: eNodebs[index].longtitute,
+                            lattitute: eNodebs[index].lattitute
+                        });
+                    }
+                }
+                return result;
+            },
+            queryBtsLonLatEdits: function(btss) {
+                var result = [];
+                for (var index = 0; index < btss.length; index++) {
+                    if (!isLonLatValid(btss[index])) {
+                        result.push({
+                            index: index,
+                            bscId: btss[index].bscId,
+                            btsId: btss[index].btsId,
+                            name: btss[index].name,
+                            districtName: btss[index].districtName,
+                            longtitute: eNodebs[index].longtitute,
+                            lattitute: eNodebs[index].lattitute
+                        });
+                    }
+                }
+                return result;
+            },
+            queryCellLonLatEdits: function(cells) {
+                var result = [];
+                for (var index = 0; index < cells.length; index++) {
+                    if (!isLonLatValid(cells[index])) {
+                        result.push({
+                            index: index,
+                            eNodebId: cells[index].eNodebId,
+                            sectorId: cells[index].sectorId,
+                            frequency: cells[index].frequency,
+                            isIndoor: cells[index].isIndoor,
+                            longtitute: cells[index].longtitute,
+                            lattitute: cells[index].lattitute
+                        });
+                    }
+                }
+                return result;
+            },
+            queryCdmaCellLonLatEdits: function(cells) {
+                var result = [];
+                for (var index = 0; index < cells.length; index++) {
+                    if (!isLonLatValid(cells[index])) {
+                        result.push({
+                            index: index,
+                            btsId: cells[index].btsId,
+                            sectorId: cells[index].sectorId,
+                            frequency: cells[index].frequency,
+                            isIndoor: cells[index].isIndoor,
+                            longtitute: cells[index].longtitute,
+                            lattitute: cells[index].lattitute
+                        });
+                    }
+                }
+                return result;
+            },
+            mapLonLatEdits: function(sourceFunc, destList) {
+                var sourceList = sourceFunc();
+                for (var i = 0; i < destList.length; i++) {
+                    destList[i].longtitute = parseFloat(destList[i].longtitute);
+                    destList[i].lattitute = parseFloat(destList[i].lattitute);
+                    if (isLonLatValid(destList[i])) {
+                        console.log(destList[i]);
+                        mapLonLat(sourceList[destList[i].index], destList[i]);
+                    }
+                }
+                sourceFunc(sourceList);
+            },
+            queryNearestRange: function(xCenter, yCenter) {
+                return {
+                    west: xCenter - 1e-6,
+                    east: xCenter + 1e-6,
+                    south: yCenter - 1e-6,
+                    north: yCenter + 1e-6
+                };
+            },
+            queryNearRange: function(xCenter, yCenter) {
+                return {
+                    west: xCenter - 1e-2,
+                    east: xCenter + 1e-2,
+                    south: yCenter - 1e-2,
+                    north: yCenter + 1e-2
+                };
+            }
+        };
+    })
+    .factory('generalChartService', function() {
+        return {
+            getPieOptions: function(data, setting, subNameFunc, subDataFunc) {
+                var chart = new GradientPie();
+                chart.title.text = setting.title;
+                chart.series[0].name = setting.seriesTitle;
+                angular.forEach(data, function(subData) {
+                    chart.series[0].data.push({
+                        name: subNameFunc(subData),
+                        y: subDataFunc(subData)
+                    });
+                });
+                return chart.options;
+            },
+            getColumnOptions: function(stat, setting, categoriesFunc, dataFunc) {
+                var chart = new ComboChart();
+                chart.title.text = setting.title;
+                chart.xAxis[0].title.text = setting.xtitle;
+                chart.yAxis[0].title.text = setting.ytitle;
+                chart.xAxis[0].categories = categoriesFunc(stat);
+                chart.series.push({
+                    type: "column",
+                    name: setting.ytitle,
+                    data: dataFunc(stat)
+                });
+                return chart.options;
+            },
+            getStackColumnOptions: function(stats, setting, categoriesFunc, dataFuncList) {
+                var chart = new StackColumnChart();
+                chart.title.text = setting.title;
+                chart.xAxis.title.text = setting.xtitle;
+                chart.yAxis.title.text = setting.ytitle;
+                chart.xAxis.categories = _.map(stats, function(stat) {
+                    return categoriesFunc(stat);
+                });
+                angular.forEach(dataFuncList, function(dataFunc, $index) {
+                    chart.series.push({
+                        name: setting.seriesTitles[$index],
+                        data: _.map(stats, function(stat) {
+                            return dataFunc(stat);
+                        })
+                    });
+                });
+
+                return chart.options;
+            },
+            queryColumnOptions: function(setting, categories, data) {
+                var chart = new ComboChart();
+                chart.title.text = setting.title;
+                chart.xAxis[0].title.text = setting.xtitle;
+                chart.yAxis[0].title.text = setting.ytitle;
+                chart.xAxis[0].categories = categories;
+                if (setting.min) {
+                    chart.setDefaultYAxis({ min: setting.min });
+                }
+                if (setting.max) {
+                    chart.setDefaultYAxis({ max: setting.max });
+                }
+                chart.series.push({
+                    type: "column",
+                    name: setting.ytitle,
+                    data: data
+                });
+                return chart.options;
+            },
+            queryDoubleColumnOptions: function(setting, categories, data1, data2) {
+                var chart = new ComboChart();
+                chart.title.text = setting.title;
+                chart.xAxis[0].title.text = setting.xtitle;
+                chart.yAxis[0].title.text = setting.ytitle;
+                chart.xAxis[0].categories = categories;
+                chart.series.push({
+                    type: "column",
+                    name: setting.ytitle1,
+                    data: data1
+                });
+                chart.series.push({
+                    type: "column",
+                    name: setting.ytitle2,
+                    data: data2
+                });
+                return chart.options;
+            },
+            queryMultipleColumnOptions: function(setting, categories, dataList, seriesTitle) {
+                var chart = new ComboChart();
+                chart.title.text = setting.title;
+                chart.xAxis[0].title.text = setting.xtitle;
+                chart.yAxis[0].title.text = setting.ytitle;
+                chart.xAxis[0].categories = categories;
+                angular.forEach(dataList, function(data, $index) {
+                    chart.series.push({
+                        type: "column",
+                        name: seriesTitle[$index],
+                        data: data
+                    });
+                });
+                return chart.options;
+            },
+            queryMultipleComboOptions: function(setting, categories, dataList, seriesTitle, typeList) {
+                var chart = new ComboChart();
+                chart.title.text = setting.title;
+                chart.xAxis[0].title.text = setting.xtitle;
+                chart.yAxis[0].title.text = setting.ytitle;
+                chart.xAxis[0].categories = categories;
+                angular.forEach(dataList, function(data, $index) {
+                    chart.series.push({
+                        type: typeList[$index],
+                        name: seriesTitle[$index],
+                        data: data
+                    });
+                });
+                return chart.options;
+            },
+            queryMultipleComboOptionsWithDoubleAxes: function(setting, categories, dataList, seriesTitle, typeList, yAxisList) {
+                var chart = new ComboChart();
+                chart.title.text = setting.title;
+                chart.xAxis[0].title.text = setting.xtitle;
+                chart.yAxis[0].title.text = setting.ytitles[0];
+                chart.pushOneYAxis(setting.ytitles[1]);
+
+                chart.xAxis[0].categories = categories;
+                angular.forEach(dataList, function(data, $index) {
+                    chart.series.push({
+                        type: typeList[$index],
+                        name: seriesTitle[$index],
+                        data: data,
+                        yAxis: yAxisList[$index]
+                    });
+                });
+                return chart.options;
+            },
+            generateColumnData: function(stats, categoriesFunc, dataFuncs) {
+                var result = {
+                    categories: [],
+                    dataList: []
+                };
+                angular.forEach(dataFuncs, function(func) {
+                    result.dataList.push([]);
+                });
+                angular.forEach(stats, function(stat) {
+                    result.categories.push(categoriesFunc(stat));
+                    angular.forEach(dataFuncs, function(func, index) {
+                        result.dataList[index].push(func(stat));
+                    });
+                });
+                return result;
+            },
+            generateColumnDataByKeys: function(stats, categoriesKey, dataKeys) {
+                var result = {
+                    categories: [],
+                    dataList: []
+                };
+                angular.forEach(dataKeys, function(key) {
+                    result.dataList.push([]);
+                });
+                angular.forEach(stats, function(stat) {
+                    result.categories.push(stat[categoriesKey]);
+                    angular.forEach(dataKeys, function(key, index) {
+                        result.dataList[index].push(stat[key]);
+                    });
+                });
+                return result;
+            },
+            generateCompoundStats: function(views, getType, getSubType, getTotal) {
+                var stats = [];
+                angular.forEach(views, function(view) {
+                    var type = getType !== undefined ? getType(view) : view.type;
+                    var subType = getSubType !== undefined ? getSubType(view) : view.subType;
+                    var total = getTotal !== undefined ? getTotal(view) : view.total;
+                    var j;
+                    for (j = 0; j < stats.length; j++) {
+                        if (stats[j].type === (type || '无有效值')) {
+                            stats[j].total += total;
+                            stats[j].subData.push([subType || '无有效值', total]);
+                            break;
+                        }
+                    }
+                    if (j === stats.length) {
+                        stats.push({
+                            type: type || '无有效值',
+                            total: total,
+                            subData: [[subType || '无有效值', total]]
+                        });
+                    }
+                });
+                return stats;
+            }
+        };
+    })
+    .factory('parametersChartService', function(generalChartService) {
+        return {
+            getDistrictLteENodebPieOptions: function(data, city) {
                 return generalChartService.getPieOptions(data, {
                     title: city + "各区LTE基站数分布",
                     seriesTitle: "区域"
-                }, function (subData) {
+                }, function(subData) {
                     return subData.district;
-                }, function (subData) {
+                }, function(subData) {
                     return subData.totalLteENodebs;
                 });
             },
-            getDistrictLteCellPieOptions: function (data, city) {
+            getDistrictLteCellPieOptions: function(data, city) {
                 return generalChartService.getPieOptions(data, {
                     title: city + "各区LTE小区数分布",
                     seriesTitle: "区域"
-                }, function (subData) {
+                }, function(subData) {
                     return subData.district;
-                }, function (subData) {
+                }, function(subData) {
                     return subData.totalLteCells;
                 });
             },
-            getDistrictCdmaBtsPieOptions: function (data, city) {
+            getDistrictCdmaBtsPieOptions: function(data, city) {
                 return generalChartService.getPieOptions(data, {
                     title: city + "各区CDMA基站数分布",
                     seriesTitle: "区域"
-                }, function (subData) {
+                }, function(subData) {
                     return subData.district;
-                }, function (subData) {
+                }, function(subData) {
                     return subData.totalCdmaBts;
                 });
             },
-            getDistrictCdmaCellPieOptions: function (data, city) {
+            getDistrictCdmaCellPieOptions: function(data, city) {
                 return generalChartService.getPieOptions(data, {
                     title: city + "各区CDMA小区数分布",
                     seriesTitle: "区域"
-                }, function (subData) {
+                }, function(subData) {
                     return subData.district;
-                }, function (subData) {
+                }, function(subData) {
                     return subData.totalCdmaCells;
                 });
             },
-            getTownLteENodebPieOptions: function (data, district) {
+            getTownLteENodebPieOptions: function(data, district) {
                 return generalChartService.getPieOptions(data, {
                     title: district + "各镇LTE基站数分布",
                     seriesTitle: "镇"
-                }, function (subData) {
+                }, function(subData) {
                     return subData.town;
-                }, function (subData) {
+                }, function(subData) {
                     return subData.totalLteENodebs;
                 });
             },
-            getTownLteCellPieOptions: function (data, district) {
+            getTownLteCellPieOptions: function(data, district) {
                 return generalChartService.getPieOptions(data, {
                     title: district + "各镇LTE小区数分布",
                     seriesTitle: "镇"
-                }, function (subData) {
+                }, function(subData) {
                     return subData.town;
-                }, function (subData) {
+                }, function(subData) {
                     return subData.totalLteCells;
                 });
             },
-            getTownCdmaBtsPieOptions: function (data, district) {
+            getTownCdmaBtsPieOptions: function(data, district) {
                 return generalChartService.getPieOptions(data, {
                     title: district + "各镇CDMA基站数分布",
                     seriesTitle: "镇"
-                }, function (subData) {
+                }, function(subData) {
                     return subData.town;
-                }, function (subData) {
+                }, function(subData) {
                     return subData.totalCdmaBts;
                 });
             },
-            getTownCdmaCellPieOptions: function (data, district) {
+            getTownCdmaCellPieOptions: function(data, district) {
                 return generalChartService.getPieOptions(data, {
                     title: district + "各镇CDMA小区数分布",
                     seriesTitle: "镇"
-                }, function (subData) {
+                }, function(subData) {
                     return subData.town;
-                }, function (subData) {
+                }, function(subData) {
                     return subData.totalCdmaCells;
                 });
             },
-            getCollegeDistributionForDownlinkFlow: function (data) {
+            getCollegeDistributionForDownlinkFlow: function(data) {
                 return generalChartService.getPieOptions(data, {
                     title: "校园网下行流量分布",
                     seriesTitle: "下行流量(MB)"
-                }, function (subData) {
+                }, function(subData) {
                     return subData.name;
-                }, function (subData) {
+                }, function(subData) {
                     return subData.pdcpDownlinkFlow;
                 });
             },
-            getCollegeDistributionForUplinkFlow: function (data) {
+            getCollegeDistributionForUplinkFlow: function(data) {
                 return generalChartService.getPieOptions(data, {
                     title: "校园网上行流量分布",
                     seriesTitle: "上行流量(MB)"
-                }, function (subData) {
+                }, function(subData) {
                     return subData.name;
-                }, function (subData) {
+                }, function(subData) {
                     return subData.pdcpUplinkFlow;
                 });
             },
-            getCollegeDistributionForAverageUsers: function (data) {
+            getCollegeDistributionForAverageUsers: function(data) {
                 return generalChartService.getPieOptions(data, {
                     title: "校园网平均用户数分布",
                     seriesTitle: "平均用户数"
-                }, function (subData) {
+                }, function(subData) {
                     return subData.name;
-                }, function (subData) {
+                }, function(subData) {
                     return subData.averageUsers;
                 });
             },
-            getCollegeDistributionForActiveUsers: function (data) {
+            getCollegeDistributionForActiveUsers: function(data) {
                 return generalChartService.getPieOptions(data, {
                     title: "校园网最大激活用户数分布",
                     seriesTitle: "最大激活用户数"
-                }, function (subData) {
+                }, function(subData) {
                     return subData.name;
-                }, function (subData) {
+                }, function(subData) {
                     return subData.maxActiveUsers;
                 });
             },
-            getCellDistributionForDownlinkFlow: function (data, index) {
+            getCellDistributionForDownlinkFlow: function(data, index) {
                 return generalChartService.queryColumnOptions({
                     title: "小区下行流量分布",
                     xtitle: "小区名称",
                     ytitle: "下行流量(MB)"
                 }, data.categories, data.dataList[index]);
             },
-            getCellDistributionForUplinkFlow: function (data, index) {
+            getCellDistributionForUplinkFlow: function(data, index) {
                 return generalChartService.queryColumnOptions({
                     title: "小区上行流量分布",
                     xtitle: "小区名称",
                     ytitle: "上行流量(MB)"
                 }, data.categories, data.dataList[index]);
             },
-            getCellDistributionForAverageUsers: function (data, index) {
+            getCellDistributionForAverageUsers: function(data, index) {
                 return generalChartService.queryColumnOptions({
                     title: "平均用户数分布",
                     xtitle: "小区名称",
                     ytitle: "平均用户数"
                 }, data.categories, data.dataList[index]);
             },
-            getCellDistributionForActiveUsers: function (data, index) {
+            getCellDistributionForActiveUsers: function(data, index) {
                 return generalChartService.queryColumnOptions({
                     title: "最大激活用户数分布",
                     xtitle: "小区名称",
                     ytitle: "最大激活用户数"
                 }, data.categories, data.dataList[index]);
             },
-            getDateFlowOptions: function (data, index1, index2) {
+            getDateFlowOptions: function(data, index1, index2) {
                 return generalChartService.queryDoubleColumnOptions({
                     title: "流量变化趋势",
                     xtitle: "日期",
@@ -2975,7 +3102,7 @@
                     ytitle2: "上行流量(MB)"
                 }, data.categories, data.dataList[index1], data.dataList[index2]);
             },
-            getDateUsersOptions: function (data, index1, index2) {
+            getDateUsersOptions: function(data, index1, index2) {
                 return generalChartService.queryDoubleColumnOptions({
                     title: "用户数变化趋势",
                     xtitle: "日期",
@@ -3012,130 +3139,13 @@
                         return stat.band1Cells;
                     }, function(stat) {
                         return stat.band3Cells;
-                    }, function (stat) {
+                    }, function(stat) {
                         return stat.band5Cells;
-                    }, function (stat) {
+                    }, function(stat) {
                         return stat.band41Cells;
                     }
                 ]);
             }
         };
-    })
-    .factory('preciseChartService', function (generalChartService, chartCalculateService) {
-        return {
-            getTypeOption: function (views) {
-                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views), {
-                    title: "工单类型分布图",
-                    seriesName: "工单类型"
-                });
-            },
-
-            getStateOption: function (views) {
-                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views), {
-                    title: "工单状态分布图",
-                    seriesName: "工单状态"
-                });
-            },
-
-            getDistrictOption: function (views) {
-                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views), {
-                    title: "工单镇区分布图",
-                    seriesName: "镇区"
-                });
-            },
-
-            getTownFlowOption: function (views) {
-                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views, function (view) {
-                    return view.district;
-                }, function (view) {
-                    return view.town;
-                }, function (view) {
-                    return (view.pdcpDownlinkFlow + view.pdcpUplinkFlow) / 1024 / 1024 / 8;
-                }), {
-                    title: "流量镇区分布图(TB)",
-                    seriesName: "区域"
-                });
-            },
-
-            getTownUsersOption: function (views) {
-                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views, function (view) {
-                    return view.district;
-                }, function (view) {
-                    return view.town;
-                }, function (view) {
-                    return view.maxUsers;
-                }), {
-                    title: "最大在线用户数镇区分布图(TB)",
-                    seriesName: "区域"
-                });
-            },
-
-            getCoverageOptions: function (stats) {
-                var chart = new ComboChart();
-                chart.initialize({
-                    title: '覆盖情况统计',
-                    xTitle: 'RSRP(dBm)',
-                    yTitle: 'MR次数'
-                });
-                angular.forEach(stats, function (stat, index) {
-                    var data = chartCalculateService.generateMrsRsrpStats(stat);
-                    if (index === 0) {
-                        chart.xAxis[0].categories = data.categories;
-                    }
-                    chart.series.push({
-                        type: 'spline',
-                        name: stat.statDate,
-                        data: data.values
-                    });
-                });
-
-                return chart.options;
-            },
-
-            getTaOptions: function (stats) {
-                var chart = new ComboChart();
-                chart.initialize({
-                    title: '接入距离分布统计',
-                    xTitle: '接入距离(米)',
-                    yTitle: 'MR次数'
-                });
-                angular.forEach(stats, function (stat, index) {
-                    var data = chartCalculateService.generateMrsTaStats(stat);
-                    if (index === 0) {
-                        chart.xAxis[0].categories = data.categories;
-                    }
-                    chart.series.push({
-                        type: 'spline',
-                        name: stat.statDate,
-                        data: data.values
-                    });
-                });
-
-                return chart.options;
-            },
-
-            getRsrpTaOptions: function (stats, rsrpIndex) {
-                var chart = new ComboChart();
-                chart.initialize({
-                    title: '接入距离分布统计',
-                    xTitle: '接入距离(米)',
-                    yTitle: 'MR次数'
-                });
-                chart.legend.align = 'right';
-                angular.forEach(stats, function (stat, index) {
-                    var data = chartCalculateService.generateRsrpTaStats(stat, rsrpIndex);
-                    if (index === 0) {
-                        chart.xAxis[0].categories = data.categories;
-                        chart.title.text += '(' + data.seriesName + ')';
-                    }
-                    chart.series.push({
-                        type: 'line',
-                        name: stat.statDate,
-                        data: data.values
-                    });
-                });
-
-                return chart.options;
-            }
-        }
     });
+angular.module('myApp.url', ['app.core', 'app.menu', 'app.format', 'app.geometry', 'app.calculation']);

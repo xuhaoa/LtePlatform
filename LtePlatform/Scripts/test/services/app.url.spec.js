@@ -7,12 +7,22 @@
 /// <reference path="../../underscore.min.js"/>
 /// <reference path="../mock/highcharts.mock.js"/>
 /// <reference path="../../mycharts/comboChart.js"/>
-/// <reference path="../../ui-grid.js"/>
-/// <reference path="../../service/app.url.service.js"/>
+/// <reference path="../mock/app.url.mock.js"/>
 
 describe('app.url service tests', function () {
-    beforeEach(module('ui.grid'));
     beforeEach(module('myApp.url'));
+
+    describe('first test', function () {
+        var appUrlService;
+
+        beforeEach(inject(function (_appUrlService_) {
+            appUrlService = _appUrlService_;
+        }));
+        it('should pass the foo test', function() {
+            expect(1).toEqual(1);
+        });
+
+    });
 
     describe('test url generator', function() {
         var appUrlService;
@@ -113,7 +123,6 @@ describe('app.url service tests', function () {
     describe('test calculate chart service test', function() {
         var chartCalculateService;
         var appFormatService;
-        beforeEach(module('myApp.url'));
 
         beforeEach(inject(function(_chartCalculateService_, _appFormatService_) {
             chartCalculateService = _chartCalculateService_;

@@ -6,5 +6,13 @@
   {
     "outputFile": "Content/Site.css",
     "inputFile": "Content/Site.scss"
+  },
+  {
+    "outputFile": "Scripts/service/Gruntfile.es5.js",
+    "inputFile": "Scripts/service/Gruntfile.js"
+  },
+  {
+    "outputFile": "Scripts/service/url/app.url.es5.js",
+    "inputFile": "Scripts/service/url/app.url.js"
   }
 ]
