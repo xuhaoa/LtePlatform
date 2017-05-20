@@ -1,0 +1,1 @@
+﻿angular.module('myApp.kpi', ['kpi.core', 'kpi.college', "kpi.coverage", 'kpi.customer', 'kpi.parameter', 'kpi.work']);

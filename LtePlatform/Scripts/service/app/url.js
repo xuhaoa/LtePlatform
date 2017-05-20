@@ -2635,6 +2635,24 @@ angular.module('app.calculation', [])
                     }
                 });
                 return dtos;
+            },
+
+            calculatePlatformInfo: function (comments) {
+                var platformInfos = [];
+                if (comments) {
+                    var fields = comments.split('[');
+                    if (fields.length > 1) {
+                        angular.forEach(fields, function (field) {
+                            var subFields = field.split(']');
+                            platformInfos.push({
+                                time: subFields[0],
+                                contents: subFields[1]
+                            });
+                        });
+                    }
+                }
+
+                return platformInfos;
             }
         };
     })
