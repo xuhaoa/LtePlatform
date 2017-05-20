@@ -3712,6 +3712,22 @@
             }
         }
     })
+    .factory('kpiChartService', function (appKpiService) {
+        return {
+            showFlowCharts: function (flowStats, topic, mergeStats) {
+                $("#downlinkFlowChart").highcharts(appKpiService.generateDownlinkFlowOptions(flowStats, topic));
+                $("#uplinkFlowChart").highcharts(appKpiService.generateUplinkFlowOptions(flowStats, topic));
+                $("#maxUsersChart").highcharts(appKpiService.generateMaxUsersOptions(flowStats, topic));
+                $("#averageUsersChart").highcharts(appKpiService.generateAverageUsersOptions(flowStats, topic));
+                $("#maxActiveUsersChart").highcharts(appKpiService.generateMaxActiveUsersOptions(flowStats, topic));
+                $("#averageActiveUsersChart").highcharts(appKpiService.generateAverageActiveUsersOptions(flowStats, topic));
+
+                $("#flowDate").highcharts(appKpiService.generateMergeFlowOptions(mergeStats, topic));
+
+                $("#usersDate").highcharts(appKpiService.generateMergeUsersOptions(mergeStats, topic));
+            }
+        };
+    })
     .controller('eNodeb.dialog', function ($scope, $uibModalInstance, collegeService, name, dialogTitle) {
         $scope.dialogTitle = dialogTitle;
         collegeService.queryENodebs(name).then(function (result) {

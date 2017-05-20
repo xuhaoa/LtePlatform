@@ -4,15 +4,13 @@
 /// <reference path="../../jasmine/console.js"/>
 /// <reference path="../../jasmine/jasmine.js"/>
 /// <reference path="../../jasmine/jasmine-html.js"/>
-/// <reference path="../../underscore.min.js"/>
-/// <reference path="../mock/highcharts.mock.js"/>
-/// <reference path="../../mycharts/comboChart.js"/>
-/// <reference path="../mock/app.url.mock.js"/>
+/// <reference path="../../service/url/core.js"/>
+/// <reference path="../../service/url/format.js"/>
 
-describe('app.url service tests', function () {
-    beforeEach(module('myApp.url'));
+describe('app.core service tests', function () {
+    beforeEach(module('app.core'));
 
-    describe('first test', function () {
+    describe('appUrlService tests', function () {
         var appUrlService;
 
         beforeEach(inject(function (_appUrlService_) {
@@ -21,21 +19,167 @@ describe('app.url service tests', function () {
         it('should pass the foo test', function() {
             expect(1).toEqual(1);
         });
+        it('test the getApiUrl', function() {
+            expect(appUrlService.getApiUrl('Foo')).toEqual('/api/Foo');
+        });
 
-    });
-
-    describe('test url generator', function() {
-        var appUrlService;
-
-        beforeEach(inject(function(_appUrlService_) {
-            appUrlService = _appUrlService_;
-        }));
-
-        it('should be able to get the correct api route', function() {
+        it('should be able to get the correct api route', function () {
             expect(appUrlService.getApiUrl('Test')).toEqual('/api/Test');
+        });
+
+        it('test getPhpUriComponent', function() {
+            expect(appUrlService.getPhpUriComponent({
+                first: 1,
+                second: '2'
+            })).toEqual('first=1&second=2');
         });
     });
 
+    describe('generalHttpService tests', function() {
+        var $httpBackend, $rootScope, appUrlService, generalHttpService;
+
+        beforeEach(inject(function(_$httpBackend_, _$rootScope_, _appUrlService_, _generalHttpService_) {
+            $httpBackend = _$httpBackend_;
+            $rootScope = _$rootScope_;
+            appUrlService = _appUrlService_;
+            generalHttpService = _generalHttpService_;
+        }));
+
+        it("should make a request to the backend", function() {
+            $httpBackend.expect('GET', '/api/CurrentUser').respond(200, { name: 'aaa' });
+            generalHttpService.getApiData('CurrentUser', {}).then(function(user) {
+                expect(user.name).toEqual('aaa');
+            });
+            $httpBackend.flush();
+        });
+
+        it('test a get request with parameters to the backend', function() {
+            $httpBackend.expect('GET', '/api/User?id=123').respond(200, { name: 'abc' });
+            generalHttpService.getApiData('User', {id: 123}).then(function(user) {
+                expect(user.name).toEqual('abc');
+            });
+            $httpBackend.flush(1);
+        });
+
+        it('test a get request with dynamic parameters to the backend', function () {
+            angular.forEach([12, 34, 556, 7899], function(id) {
+                $httpBackend.expect('GET', '/api/User?id=' + id).respond(200, { name: 'abc' + id });
+                generalHttpService.getApiData('User', { id: id }).then(function(user) {
+                    expect(user.name).toEqual('abc' + id);
+                });
+                $httpBackend.flush(1);
+            });
+        });
+
+        it ('test a post request with dynamic parameters to the backend', function() {
+            $httpBackend.whenPOST('/api/Phone').respond(function (method, url, data) {
+                var phone = angular.fromJson(data);
+                return [200, phone.number, {}];
+            });
+            generalHttpService.postApiData('Phone', { number: 123456 }).then(function(number) {
+                expect(number).toEqual(123456);
+            });
+            $httpBackend.flush(1);
+        });
+    });
+});
+
+describe('app.format service tests', function () {
+    beforeEach(module('app.format'));
+    describe('App format test', function() {
+        var appFormatService;
+
+        beforeEach(inject(function(_appFormatService_) {
+            appFormatService = _appFormatService_;
+        }));
+
+        describe('test searchPattern function', function() {
+            it('Should be able to search one pattern in a test', function() {
+                var options = ['123', '134', '135'];
+                var item = appFormatService.searchPattern(options, '12345');
+                expect(item).toEqual('123');
+            });
+
+            it('Should be able to return null id pattern not found', function() {
+                var options = ['abcd', 'cdefg', '1234'];
+                var item = appFormatService.searchPattern(options, 'acdef');
+                expect(item).toBeNull();
+            });
+
+            it('Can match chinese character pattern', function() {
+                var options = ['禅城', '南海', '顺德'];
+                var item = appFormatService.searchPattern(options, '佛山市顺德区乐从镇');
+                expect(item).toEqual('顺德');
+            });
+        });
+        
+
+        it('Can get one date from the string like "2016-07-13"', function() {
+            var dateString = "2016-04-12";
+            var date = appFormatService.getDate(dateString);
+            expect(date.getFullYear()).toEqual(2016);
+            expect(date.getMonth()).toEqual(3);
+            expect(date.getDate()).toEqual(12);
+        });
+
+        it('Can get one date from the string like "2016/7/5"', function() {
+            var dateString = "2016/7/5";
+            var date = appFormatService.getDate(dateString);
+            expect(date.getFullYear()).toEqual(2016);
+            expect(date.getMonth()).toEqual(7);
+            expect(date.getDate()).toEqual(5);
+        });
+
+        it('Can get UTC time', function() {
+            var dateString = "2016/7/5 15:22:18";
+            var date = appFormatService.getUTCTime(dateString);
+            expect(date).toEqual(1473088938000);
+        });
+
+        it('Can get date string', function() {
+            var date = new Date(2016, 4, 28);
+            var dateString1 = appFormatService.getDateString(date, "yyyy-MM-dd");
+            expect(dateString1).toEqual("2016-05-28");
+        });
+
+        it('should be able to calculate Averages', function() {
+            var data = [
+                {
+                    value1: 2,
+                    value2: 3
+                }, {
+                    value1: 0,
+                    value2: 3
+                }, {
+                    value1: 2,
+                    value2: 0
+                }, {
+                    value1: 4,
+                    value2: 4
+                }
+            ];
+            var averages = appFormatService.calculateAverages(data, [
+                function(item) {
+                    return item.value1;
+                }, function(item) {
+                    return item.value2;
+                }
+            ]);
+            expect(averages.length).toEqual(2);
+            expect(averages).toContain({
+                sum: 8,
+                count: 3
+            });
+            expect(averages).toContain({
+                sum: 10,
+                count: 3
+            });
+        });
+    });
+
+});
+
+describe('app.calculation service tests', function() {
     describe('test general chart service', function() {
         var generalChartService;
         beforeEach(module('myApp.url'));
@@ -79,16 +223,16 @@ describe('app.url service tests', function () {
             });
         });
 
-        it('should be able to generateColumnData', function () {
-            var categoriesFunc = function (stat) {
+        it('should be able to generateColumnData', function() {
+            var categoriesFunc = function(stat) {
                 return stat.key;
             };
             var dataFuncs = [
-                function (stat) {
+                function(stat) {
                     return stat.value1;
-                }, function (stat) {
+                }, function(stat) {
                     return stat.value2;
-                }, function (stat) {
+                }, function(stat) {
                     return stat.value3;
                 }
             ];
@@ -210,7 +354,7 @@ describe('app.url service tests', function () {
                 });
             });
 
-            
+
         });
 
         describe('generateDistrictStats', function() {
@@ -263,23 +407,24 @@ describe('app.url service tests', function () {
                 expect(result).toEqual({
                     statDate: '2017-1-1',
                     values: [
-                    {
-                        pdcpDownlinkFlow: 11,
-                        pdcpUplinkFlow: 2
-                    },
-                    {
-                        pdcpDownlinkFlow: 0,
-                        pdcpUplinkFlow: 0
-                    },
-                    {
-                        pdcpDownlinkFlow: 11,
-                        pdcpUplinkFlow: 2
-                    }]
+                        {
+                            pdcpDownlinkFlow: 11,
+                            pdcpUplinkFlow: 2
+                        },
+                        {
+                            pdcpDownlinkFlow: 0,
+                            pdcpUplinkFlow: 0
+                        },
+                        {
+                            pdcpDownlinkFlow: 11,
+                            pdcpUplinkFlow: 2
+                        }
+                    ]
                 });
             });
         });
 
-        describe('calculate member sum', function () {
+        describe('calculate member sum', function() {
             var array = [
                 {
                     statTime: '2016-11-22',
@@ -384,15 +529,15 @@ describe('app.url service tests', function () {
             });
         });
 
-        describe('generateRsrpTaStats', function () {
-            it('can generate rsrp ta stats with empty set', function () {
+        describe('generateRsrpTaStats', function() {
+            it('can generate rsrp ta stats with empty set', function() {
                 var result = chartCalculateService.generateRsrpTaStats({}, 0);
                 expect(result.categories.length).toBe(25);
                 expect(result.categories[0]).toBe(100);
                 expect(result.categories[24]).toBe(15000);
                 expect(result.values.length).toBe(25);
             });
-            it('can calculate the real case', function () {
+            it('can calculate the real case', function() {
                 var stats = {
                     "id": "581ac18fd03b4f503655edf7",
                     "cellId": "502970-2",
@@ -638,94 +783,6 @@ describe('app.url service tests', function () {
         });
     });
 
-    describe('App format test', function () {
-        var appFormatService;
-
-        beforeEach(inject(function (_appFormatService_) {
-            appFormatService = _appFormatService_;
-        }));
-
-        it('Should be able to search one pattern in a test', function () {
-            var options = ['123', '134', '135'];
-            var item = appFormatService.searchPattern(options, '12345');
-            expect(item).toEqual('123');
-        });
-
-        it('Should be able to return null id pattern not found', function () {
-            var options = ['abcd', 'cdefg', '1234'];
-            var item = appFormatService.searchPattern(options, 'acdef');
-            expect(item).toBeNull();
-        });
-
-        it('Can match chinese character pattern', function () {
-            var options = ['禅城', '南海', '顺德'];
-            var item = appFormatService.searchPattern(options, '佛山市顺德区乐从镇');
-            expect(item).toEqual('顺德');
-        });
-
-        it('Can get one date from the string like "2016-07-13"', function () {
-            var dateString = "2016-04-12";
-            var date = appFormatService.getDate(dateString);
-            expect(date.getFullYear()).toEqual(2016);
-            expect(date.getMonth()).toEqual(3);
-            expect(date.getDate()).toEqual(12);
-        });
-
-        it('Can get one date from the string like "2016/7/5"', function () {
-            var dateString = "2016/7/5";
-            var date = appFormatService.getDate(dateString);
-            expect(date.getFullYear()).toEqual(2016);
-            expect(date.getMonth()).toEqual(7);
-            expect(date.getDate()).toEqual(5);
-        });
-
-        it('Can get UTC time', function () {
-            var dateString = "2016/7/5 15:22:18";
-            var date = appFormatService.getUTCTime(dateString);
-            expect(date).toEqual(1473088938000);
-        });
-
-        it('Can get date string', function () {
-            var date = new Date(2016, 4, 28);
-            var dateString1 = appFormatService.getDateString(date, "yyyy-MM-dd");
-            expect(dateString1).toEqual("2016-05-28");
-        });
-
-        it('should be able to calculate Averages', function () {
-            var data = [
-                {
-                    value1: 2,
-                    value2: 3
-                }, {
-                    value1: 0,
-                    value2: 3
-                }, {
-                    value1: 2,
-                    value2: 0
-                }, {
-                    value1: 4,
-                    value2: 4
-                }
-            ];
-            var averages = appFormatService.calculateAverages(data, [
-                function (item) {
-                    return item.value1;
-                }, function (item) {
-                    return item.value2;
-                }
-            ]);
-            expect(averages.length).toEqual(2);
-            expect(averages).toContain({
-                sum: 8,
-                count: 3
-            });
-            expect(averages).toContain({
-                sum: 10,
-                count: 3
-            });
-        });
-    });
-
     describe('calculate service', function() {
         var calculateService;
 
@@ -775,7 +832,7 @@ describe('app.url service tests', function () {
                     }
                 ]);
             });
-            it('should be able to calculate the empty list and sort output', function () {
+            it('should be able to calculate the empty list and sort output', function() {
                 var list = [];
                 var data = [
                     {
@@ -815,13 +872,15 @@ describe('app.url service tests', function () {
                     }
                 ]);
             });
-            it('should be able to calculate the non-empty list and sort output', function () {
-                var list = [{
+            it('should be able to calculate the non-empty list and sort output', function() {
+                var list = [
+                    {
                         aaa: 0,
                         bb: 1,
                         ccc: 2,
                         dddd: 3
-                    }];
+                    }
+                ];
                 var data = [
                     {
                         aaa: 4,
@@ -855,13 +914,15 @@ describe('app.url service tests', function () {
                     }
                 ]);
             });
-            it('should be able to calculate the non-empty list and sum up', function () {
-                var list = [{
-                    aaa: 0,
-                    bb: 1,
-                    ccc: 2,
-                    dddd: 3
-                }];
+            it('should be able to calculate the non-empty list and sum up', function() {
+                var list = [
+                    {
+                        aaa: 0,
+                        bb: 1,
+                        ccc: 2,
+                        dddd: 3
+                    }
+                ];
                 var data = [
                     {
                         aaa: 0,
@@ -902,5 +963,5 @@ describe('app.url service tests', function () {
             });
         });
     });
-
-});
+    
+})

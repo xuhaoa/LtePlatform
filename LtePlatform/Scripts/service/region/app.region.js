@@ -1,0 +1,1 @@
+﻿angular.module('myApp.region', ['region.basic', 'region.authorize', 'region.college', 'region.network']);

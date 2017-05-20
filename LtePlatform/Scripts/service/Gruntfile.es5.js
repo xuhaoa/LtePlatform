@@ -13,7 +13,8 @@ module.exports = function (grunt) {
         concat: {
             "foo": {
                 "files": {
-                    'app/url.js': ['url/core.js', 'url/menu.js', 'url/format.js', 'url/geometry.js', 'url/calculation.js', 'url/app.url.js']
+                    'app/url.js': ['url/core.js', 'url/menu.js', 'url/format.js', 'url/geometry.js', 'url/calculation.js', 'url/app.url.js'],
+                    'app/region.js': ['region/basic.js', 'region/authorize.js', 'region/college.js', 'region/network.js', 'region/app.region.js']
                 }
             }
         }

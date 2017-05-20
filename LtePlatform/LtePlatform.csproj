@@ -1630,6 +1630,7 @@
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\rutrace\index.controller.js" />
     <Content Include="Scripts\service\app.kpi.service.js" />
+    <Content Include="Scripts\service\app\region.js" />
     <Content Include="Scripts\service\app\url.js" />
     <Content Include="Scripts\service\app\url.min.js" />
     <Content Include="Scripts\service\Gruntfile.es5.js">
@@ -1638,6 +1639,10 @@
     <Content Include="Scripts\service\Gruntfile.es5.min.js">
       <DependentUpon>Gruntfile.es5.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\service\region\authorize.js" />
+    <Content Include="Scripts\service\region\basic.js" />
+    <Content Include="Scripts\service\region\college.js" />
+    <Content Include="Scripts\service\region\network.js" />
     <Content Include="Scripts\service\url\app.url.es5.js">
       <DependentUpon>app.url.js</DependentUpon>
     </Content>
@@ -1901,7 +1906,7 @@
     <Content Include="appViews\College\Table\DistributionMapInfoBox.html" />
     <Content Include="appViews\College\Coverage\All.html" />
     <Content Include="appViews\College\Coverage\CollegeMap.html" />
-    <Content Include="Scripts\service\app.region.service.js" />
+    <Content Include="Scripts\service\region\app.region.js" />
     <Content Include="Scripts\service\package.json" />
     <None Include="Views\Kpi\PreciseImport.cshtml" />
     <Content Include="Views\Kpi\WorkItemImport.cshtml" />
