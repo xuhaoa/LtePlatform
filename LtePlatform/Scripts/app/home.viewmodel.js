@@ -1887,12 +1887,13 @@
         
     })
 
-    .controller("bts.construction", function ($scope, baiduMapService, dumpPreciseService, appRegionService, flowService, collegeMapService) {
+    .controller("bts.construction", function ($scope, baiduMapService, dumpPreciseService, appRegionService, flowService, collegeMapService,
+    geometryService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
 
         $scope.status = {
-            options: ['全部', '审计会审', '天馈施工', '整体完工', '基站开通', '其他'],
+            options: geometryService.constructionStateOptions,
             selected: '全部'
         };
         $scope.bts = {
@@ -1916,12 +1917,22 @@
                 flowService.queryConstructionByTownAndName($scope.district.selected,
                     $scope.town.selected, $scope.bts.name).then(function (sites) {
                     if ($scope.status.selected === '全部') {
-
+                        var states = $scope.status.options.slice(1, $scope.status.options.length - 1);
+                        angular.forEach(states, function(status) {
+                            var subSites = _.filter(sites, { status: status });
+                            if (subSites.length) {
+                                collegeMapService.showConstructionSites(subSites, status, function (site) {
+                                    console.log(site);
+                                });
+                            }
+                        });
                     } else {
                         var filterSites = _.filter(sites, { status: $scope.status.selected });
-                        collegeMapService.showConstructionSites(filterSites, $scope.status.selected, function(site) {
-                            console.log(site);
-                        });
+                        if (filterSites.length) {
+                            collegeMapService.showConstructionSites(filterSites, $scope.status.selected, function(site) {
+                                console.log(site);
+                            });
+                        }
                     }
                 });
             } else {

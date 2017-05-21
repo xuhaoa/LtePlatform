@@ -182,6 +182,7 @@
                 var url = urlDictionary[status];
                 if (!url) url = "/Content/Images/BtsIcons/alarm_purple.png";
                 return new BMap.Icon(url, new BMap.Size(22, 28));
-            }
+            },
+            constructionStateOptions: ['全部', '审计会审', '天馈施工', '整体完工', '基站开通', '其他']
         };
     });

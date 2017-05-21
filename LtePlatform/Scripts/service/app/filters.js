@@ -134,4 +134,4 @@ angular.module('handoff.filters', [])
         };
     });
 
-angular.module('app.filters', ['filters.basic', 'cell.filters', 'handoff.filters']);
+angular.module('app.filters', ['basic.filters', 'cell.filters', 'handoff.filters']);
