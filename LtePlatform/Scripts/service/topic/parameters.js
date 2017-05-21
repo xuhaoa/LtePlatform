@@ -278,36 +278,46 @@
 		};
 	})
 
-	.controller('map.stationEdit.dialog', function ($scope, $http, stationId, dialogTitle, $uibModalInstance, downSwitchService) {
+	.controller('map.stationEdit.dialog', function ($scope, stationId, dialogTitle, $uibModalInstance, downSwitchService) {
 		$scope.dialogTitle = dialogTitle;
 		$scope.station = '';
 		downSwitchService.getStationById(stationId).then(function(result) {
 			$scope.station = result.result[0];
 		});
 		$scope.ok = function () {
-		    downSwitchService.updateStation({
-		        "Station": JSON.stringify($scope.station)
-		    }).then(function(result) {
-		        alert(result.description);
-		    });
+			downSwitchService.updateStation({
+				"Station": JSON.stringify($scope.station)
+			}).then(function(result) {
+				alert(result.description);
+			});
 		}
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss('cancel');
 		}
 	})
-	.controller('map.stationAdd.dialog', function ($scope, $http, dialogTitle, $uibModalInstance, downSwitchService) {
+	.controller('map.stationAdd.dialog', function ($scope, dialogTitle, $uibModalInstance, downSwitchService) {
 		$scope.dialogTitle = dialogTitle;
 		$scope.station = '';
 		$scope.ok = function () {
-		    downSwitchService.addStation({
-		        "Station": JSON.stringify($scope.station)
-		    }).then(function(result) {
-		        alert(result.description);
-		    });
+			downSwitchService.addStation({
+				"Station": JSON.stringify($scope.station)
+			}).then(function(result) {
+				alert(result.description);
+			});
 		}
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss('cancel');
 		}
+	})
+	.controller('map.construction.dialog', function ($scope, $uibModalInstance, dialogTitle, site) {
+		$scope.dialogTitle = dialogTitle;
+		$scope.site = site;
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.site);
+		};
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
 	})
 
 
@@ -409,29 +419,43 @@
 				});
 			},
 			showStationEdit: function (stationId) {
-			    menuItemService.showGeneralDialog({
-			        templateUrl: '/appViews/Home/StationEdit.html',
-			        controller: 'map.stationEdit.dialog',
-			        resolve: {
-			            dialogTitle: function () {
-			                return "编辑站点";
-			            },
-			            stationId: function () {
-			                return stationId;
-			            }
-			        }
-			    });
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Home/StationEdit.html',
+					controller: 'map.stationEdit.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return "编辑站点";
+						},
+						stationId: function () {
+							return stationId;
+						}
+					}
+				});
 			},
 			showStationAdd: function () {
-			    menuItemService.showGeneralDialog({
-			        templateUrl: '/appViews/Home/StationAdd.html',
-			        controller: 'map.stationAdd.dialog',
-			        resolve: {
-			            dialogTitle: function () {
-			                return "站点添加";
-			            }
-			        }
-			    });
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Home/StationAdd.html',
+					controller: 'map.stationAdd.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return "站点添加";
+						}
+					}
+				});
+			},
+			showConstructionInfo: function(site) {
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/BasicKpi/Construction.html',
+					controller: 'map.construction.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return site.eNodebName + "站点信息";
+						},
+						site: function() {
+							return site;
+						}
+					}
+				});
 			}
 		}
 	})

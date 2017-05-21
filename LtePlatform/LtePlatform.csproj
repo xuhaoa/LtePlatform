@@ -386,6 +386,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="appViews\BasicKpi\Construction.html" />
     <Content Include="appViews\BasicKpi\TopConnection3GTrend.html" />
     <Content Include="appViews\BasicKpi\TopDrop2GTrend.html" />
     <Content Include="appViews\BasicKpi\Trend.html" />

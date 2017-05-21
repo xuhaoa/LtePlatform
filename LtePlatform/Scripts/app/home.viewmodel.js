@@ -1888,9 +1888,26 @@
     })
 
     .controller("bts.construction", function ($scope, baiduMapService, dumpPreciseService, appRegionService, flowService, collegeMapService,
-    geometryService) {
+    geometryService, parametersDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+        $scope.legend.title = "建设状态";
+        $scope.legend.intervals = [{
+            threshold: "审计会审",
+            color: "#ffdf47"
+        },{
+            threshold: "天馈施工",
+            color: "#ff883a"
+        }, {
+            threshold: "整体完工",
+            color: "#63afff"
+        }, {
+            threshold: "基站开通",
+            color: "#00c952"
+        }, {
+            threshold: "其他",
+            color: "#ff0000"
+        }];
 
         $scope.status = {
             options: geometryService.constructionStateOptions,
@@ -1922,7 +1939,7 @@
                             var subSites = _.filter(sites, { status: status });
                             if (subSites.length) {
                                 collegeMapService.showConstructionSites(subSites, status, function (site) {
-                                    console.log(site);
+                                    parametersDialogService.showConstructionInfo(site);
                                 });
                             }
                         });
@@ -1930,7 +1947,7 @@
                         var filterSites = _.filter(sites, { status: $scope.status.selected });
                         if (filterSites.length) {
                             collegeMapService.showConstructionSites(filterSites, $scope.status.selected, function(site) {
-                                console.log(site);
+                                parametersDialogService.showConstructionInfo(site);
                             });
                         }
                     }
