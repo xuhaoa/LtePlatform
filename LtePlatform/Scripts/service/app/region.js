@@ -931,6 +931,11 @@ angular.module('region.basic', ['app.core'])
                     "areaName": areaName
                 });
             },
+            deleteStationById: function(stationId) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/delete', {
+                    "idList": stationId
+                });
+            },
             getStationsByAreaName: function (areaName, page, pageSize) {
                 return generalHttpService.getMvcData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search/', {
                     curr_page: page,
@@ -938,10 +943,22 @@ angular.module('region.basic', ['app.core'])
                     areaName: areaName
                 });
             },
+            getStations: function(page, pageSize) {
+                return generalHttpService.getMvcData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search/', {
+                    curr_page: page,
+                    page_size: pageSize
+                });
+            },
             getStationById: function (id) {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/single', {
                     "id": id
                 });
+            },
+            updateStation: function(station) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/update', station);
+            },
+            addStation: function (station) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/add', station);
             },
             getAlarmStationByName: function (name, page, pageSize) {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search', {

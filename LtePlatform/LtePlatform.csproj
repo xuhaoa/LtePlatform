@@ -404,8 +404,6 @@
     <Content Include="appViews\College\Infrastructure\NewCollegeDialog.html" />
     <Content Include="appViews\College\Infrastructure\YearInfoDialog.html" />
     <Content Include="appViews\College\Stat.html" />
-    <Content Include="appViews\College\Table\CdmaCellBasicInfo.html" />
-    <Content Include="appViews\College\Table\CdmaCellInfoBox.html" />
     <Content Include="appViews\College\Table\CollegeCellBasicInfo.html" />
     <Content Include="appViews\College\Test\CollegeFlow.html" />
     <Content Include="appViews\College\Test\Flow.html" />
@@ -1630,6 +1628,7 @@
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\rutrace\index.controller.js" />
     <Content Include="Scripts\service\app\kpi.js" />
+    <Content Include="Scripts\service\app\topic.js" />
     <Content Include="Scripts\service\kpi\app.kpi.js" />
     <Content Include="Scripts\service\app\region.js" />
     <Content Include="Scripts\service\app\url.js" />
@@ -1650,6 +1649,10 @@
     <Content Include="Scripts\service\region\basic.js" />
     <Content Include="Scripts\service\region\college.js" />
     <Content Include="Scripts\service\region\network.js" />
+    <Content Include="Scripts\service\topic\basic.js" />
+    <Content Include="Scripts\service\topic\college.js" />
+    <Content Include="Scripts\service\topic\dialog.js" />
+    <Content Include="Scripts\service\topic\parameters.js" />
     <Content Include="Scripts\service\url\app.url.es5.js">
       <DependentUpon>app.url.js</DependentUpon>
     </Content>

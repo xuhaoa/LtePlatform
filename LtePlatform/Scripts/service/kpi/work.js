@@ -242,6 +242,66 @@
         };
 
     })
+    .controller('map.station.dialog', function($scope, $uibModalInstance, station, dialogTitle, beginDate, endDate,
+        appFormatService, networkElementService) {
+        $scope.beginDate = beginDate;
+        $scope.endDate = endDate;
+        $scope.itemGroups = appFormatService.generateStationGroups(station);
+        $scope.cellList = [];
+        networkElementService.queryENodebStationInfo(station.StationId).then(function(eNodeb) {
+            if (eNodeb) {
+                $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
+            }
+
+        });
+        networkElementService.queryCellStationInfo(station.StationId).then(function(cellList) {
+            $scope.cellList = cellList;
+        });
+        $scope.dialogTitle = dialogTitle;
+        $scope.ok = function() {
+            $uibModalInstance.close($scope.site);
+        };
+
+        $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('map.distribution.dialog', function($scope, $uibModalInstance, distribution, dialogTitle, appFormatService,
+        networkElementService, alarmsService) {
+        $scope.distribution = distribution;
+        $scope.dialogTitle = dialogTitle;
+        $scope.distributionGroups = appFormatService.generateDistributionGroups(distribution);
+        $scope.alarmLevel = {
+            options: ["严重告警", "重要以上告警", "所有告警"],
+            selected: "重要以上告警"
+        };
+        $scope.alarms = [];
+        $scope.searchAlarms = function() {
+            alarmsService.queryENodebAlarmsByDateSpanAndLevel(distribution.eNodebId,
+                $scope.beginDate.value, $scope.endDate.value, $scope.alarmLevel.selected).then(function(result) {
+                $scope.alarms = result;
+            });
+        };
+        if (distribution.eNodebId > 0) {
+            networkElementService.queryCellInfo(distribution.eNodebId, distribution.lteSectorId).then(function(cell) {
+                $scope.lteGroups = appFormatService.generateCellGroups(cell);
+            });
+            $scope.searchAlarms();
+        }
+        if (distribution.btsId > 0) {
+            networkElementService.queryCdmaCellInfo(distribution.btsId, distribution.cdmaSectorId).then(function(cell) {
+                $scope.cdmaGroups = appFormatService.generateCdmaCellGroups(cell);
+            });
+        }
+
+        $scope.ok = function() {
+            $uibModalInstance.close($scope.distributionGroups);
+        };
+
+        $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .factory('workItemDialog', function(menuItemService, workitemService) {
         return {
             feedback: function(view, callbackFunc) {
@@ -415,6 +475,40 @@
                         },
                         topCount: function() {
                             return topCount;
+                        }
+                    }
+                });
+            },
+            showStationInfo: function(station, beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Home/StationDetails.html',
+                    controller: 'map.station.dialog',
+                    resolve: {
+                        dialogTitle: function() {
+                            return "站点信息:" + station.StationName;
+                        },
+                        station: function() {
+                            return station;
+                        },
+                        beginDate: function() {
+                            return beginDate;
+                        },
+                        endDate: function() {
+                            return endDate;
+                        }
+                    }
+                });
+            },
+            showDistributionInfo: function(distribution) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Parameters/Map/DistributionMapInfoBox.html',
+                    controller: 'map.distribution.dialog',
+                    resolve: {
+                        dialogTitle: function() {
+                            return distribution.name + "-" + "室内分布基本信息";
+                        },
+                        distribution: function() {
+                            return distribution;
                         }
                     }
                 });

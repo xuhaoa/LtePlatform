@@ -570,7 +570,7 @@
         };
     })
 
-    .controller("menu.alarm", function ($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService) {
+    .controller("menu.alarm", function ($scope, downSwitchService, baiduMapService, mapDialogService, baiduQueryService) {
 
         $scope.stationName = "";
         $scope.stations = [];
@@ -582,7 +582,7 @@
         }
         $scope.showStationInfo = function (index) {
             document.getElementById("cardlist").style.display = "none";
-            parametersDialogService.showAlarmStationInfo($scope.stations[index - 1]);
+            mapDialogService.showAlarmStationInfo($scope.stations[index - 1]);
         }
         $scope.$watch('stations', function () {
             baiduMapService.clearOverlays();
@@ -593,7 +593,7 @@
                 var xOffset = coors.x - $scope.stations[0].longtitute;
                 var yOffset = coors.y - $scope.stations[0].lattitute;
                 baiduMapService.drawPointsUsual($scope.stations, -xOffset, -yOffset, function () {
-                    parametersDialogService.showAlarmStationInfo(this.data, $scope.beginDate, $scope.endDate);
+                    mapDialogService.showAlarmStationInfo(this.data, $scope.beginDate, $scope.endDate);
                 });
             });
         });
@@ -775,7 +775,7 @@
     })
 
     .controller("home.network", function ($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService,
-        geometryService, parametersDialogService, neGeometryService, baiduQueryService, dumpPreciseService) {
+        geometryService, parametersDialogService, mapDialogService, neGeometryService, baiduQueryService, dumpPreciseService) {
         baiduMapService.initializeMap("map", 11);
         $scope.currentView = "LTE基站";
         $scope.showDistrictOutdoor = function(district, color) {
@@ -794,7 +794,7 @@
                         var yCenter = e.point.lat - yOffset;
                         networkElementService.queryRangeSectors(
                             neGeometryService.queryNearestRange(xCenter, yCenter), []).then(function(sectors) {
-                            parametersDialogService.showCellsInfo(sectors);
+                            mapDialogService.showCellsInfo(sectors);
                         });
                     });
                 });
@@ -828,7 +828,7 @@
                         var yCenter = e.point.lat - yOffset;
                         networkElementService.queryRangeSectors(
                             neGeometryService.queryNearestRange(xCenter, yCenter), []).then(function(sectors) {
-                            parametersDialogService.showCellsInfo(sectors);
+                            mapDialogService.showCellsInfo(sectors);
                         });
                     });
                 });
@@ -904,12 +904,12 @@
     })
 
     .controller("evaluation.home", function ($scope, baiduMapService, baiduQueryService,
-        parametersMapService, parametersDialogService) {
+        parametersMapService, mapDialogService) {
         baiduMapService.initializeMap("map", 12);
         baiduQueryService.queryWandonglouyu().then(function (buildings) {
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary("佛山");
-            parametersMapService.showPhpElements(buildings, parametersDialogService.showBuildingInfo);
+            parametersMapService.showPhpElements(buildings, mapDialogService.showBuildingInfo);
         });
     })
     .controller("station.network", function ($scope, downSwitchService, distinctIndex, baiduMapService, geometryService,
@@ -1271,7 +1271,7 @@
 
     })
     .controller("home.complain", function ($scope, baiduMapService, dumpPreciseService, complainService, baiduQueryService, neGeometryService,
-        networkElementService, parametersDialogService) {
+        networkElementService, mapDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
 
@@ -1292,7 +1292,7 @@
                         var container = neGeometryService.queryNearestRange(xCenter, yCenter);
                         networkElementService.queryRangeComplains(container).then(function (items) {
                             if (items.length) {
-                                parametersDialogService.showOnlineSustainInfos(items);
+                                mapDialogService.showOnlineSustainInfos(items);
                             }
                         });
                     });
@@ -1408,7 +1408,7 @@
             }
         });
     })
-    .controller("college.map", function ($scope, collegeDialogService, baiduMapService, collegeMapService, parametersDialogService) {
+    .controller("college.map", function ($scope, collegeDialogService, baiduMapService, collegeMapService) {
         $scope.collegeInfo = {
             year: {
                 options: [2015, 2016, 2017, 2018, 2019],
@@ -1423,10 +1423,10 @@
             }, $scope.collegeInfo.year.selected);
         };
         $scope.maintainInfo = function() {
-            parametersDialogService.maintainCollegeInfo($scope.collegeInfo.year.selected);
+            collegeDialogService.maintainCollegeInfo($scope.collegeInfo.year.selected);
         };
         $scope.showFlow = function() {
-            parametersDialogService.showCollegeFlow($scope.collegeInfo.year.selected);
+            collegeDialogService.showCollegeFlow($scope.collegeInfo.year.selected);
         };
 
         baiduMapService.initializeMap("map", 11);
@@ -1541,11 +1541,11 @@
         });
     })
 
-    .controller("query.topic", function ($scope, baiduMapService, customerDialogService, basicImportService, parametersDialogService) {
+    .controller("query.topic", function ($scope, baiduMapService, customerDialogService, basicImportService, mapDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.query = function () {
-            parametersDialogService.showHotSpotsInfo($scope.hotSpotList);
+            mapDialogService.showHotSpotsInfo($scope.hotSpotList);
         };
 
         $scope.updateMap = function() {
@@ -1579,7 +1579,7 @@
         $scope.updateMap();
     })
     .controller("home.query", function ($scope, baiduMapService, neighborDialogService, dumpPreciseService, appRegionService,
-        parametersDialogService, parametersMapService) {
+        mapDialogService, parametersMapService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.currentView = "镇区站点";
@@ -1608,7 +1608,7 @@
                         var marker = baiduMapService.generateIconMarker(stat.longtitute, stat.lattitute,
                             "/Content/Images/Hotmap/site_or.png");
                         baiduMapService.addOneMarkerToScope(marker, function(item) {
-                            parametersDialogService.showTownENodebInfo(item, $scope.city.selected, district);
+                            mapDialogService.showTownENodebInfo(item, $scope.city.selected, district);
                         }, stat);
                         parametersMapService.showTownBoundaries(item.cityName, item.districtName, item.townName, $scope.colors[$index % $scope.colors.length]);
                     });
@@ -1737,7 +1737,7 @@
     })
 
     .controller("home.plan", function ($scope, baiduMapService, dumpPreciseService, networkElementService, geometryService,
-        neGeometryService, parametersDialogService, baiduQueryService) {
+        neGeometryService, mapDialogService, baiduQueryService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.currentView = "所有站点";
@@ -1777,7 +1777,7 @@
                         networkElementService.queryRangePlanningSites(
                             neGeometryService.queryNearestRange(xCenter, yCenter)).then(function(sectors) {
                             if (sectors.length > 0) {
-                                parametersDialogService.showPlanningSitesInfo(sectors[0]);
+                                mapDialogService.showPlanningSitesInfo(sectors[0]);
                             }
 
                         });
@@ -1794,7 +1794,7 @@
                         networkElementService.queryRangePlanningSites(
                             neGeometryService.queryNearestRange(xCenter, yCenter)).then(function (sectors) {
                                 if (sectors.length > 0) {
-                                    parametersDialogService.showPlanningSitesInfo(sectors[0]);
+                                    mapDialogService.showPlanningSitesInfo(sectors[0]);
                                 }
 
                             });
@@ -1824,7 +1824,7 @@
                         networkElementService.queryRangePlanningSites(
                             neGeometryService.queryNearestRange(xCenter, yCenter)).then(function(sectors) {
                             if (sectors.length > 0) {
-                                parametersDialogService.showPlanningSitesInfo(sectors[0]);
+                                mapDialogService.showPlanningSitesInfo(sectors[0]);
                             }
 
                         });
@@ -1856,7 +1856,7 @@
                             networkElementService.queryRangePlanningSites(
                                 neGeometryService.queryNearestRange(xCenter, yCenter)).then(function(sectors) {
                                 if (sectors.length > 0) {
-                                    parametersDialogService.showPlanningSitesInfo(sectors[0]);
+                                    mapDialogService.showPlanningSitesInfo(sectors[0]);
                                 }
 
                             });
@@ -1950,7 +1950,7 @@
     })
 
     .controller("alarm.network", function ($scope, downSwitchService, baiduMapService, geometryService,
-        parametersDialogService, baiduQueryService) {
+        mapDialogService, baiduQueryService) {
         $scope.areaNames = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
         $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
         $scope.levelNames = new Array('紧急', '重要', '一般', '全部');
@@ -1980,7 +1980,7 @@
                     var xOffset = coors.x - $scope.stationss[areaIndex][0].longtitute;
                     var yOffset = coors.y - $scope.stationss[areaIndex][0].lattitute;
                     baiduMapService.drawPointCollection($scope.stationss[areaIndex], color, -xOffset, -yOffset, function (e) {
-                        parametersDialogService.showAlarmStationInfo(e.point.data, $scope.beginDate, $scope.endDate);
+                        mapDialogService.showAlarmStationInfo(e.point.data, $scope.beginDate, $scope.endDate);
                     });
                 });
             });
@@ -2032,7 +2032,7 @@
     })
 
     .controller("special-station.network", function ($scope, downSwitchService, baiduMapService, geometryService,
-        parametersDialogService, baiduQueryService) {
+        mapDialogService, baiduQueryService) {
 
         $scope.isRecovers = new Array('未恢复', '已恢复', '全部');
         $scope.isRecover = new Array('否', '是');
@@ -2056,7 +2056,7 @@
                     var xOffset = coors.x - $scope.stationss[recoverIndex][0].longtitute;
                     var yOffset = coors.y - $scope.stationss[recoverIndex][0].lattitute;
                     baiduMapService.drawPointCollection($scope.stationss[recoverIndex], color, -xOffset, -yOffset, function (e) {
-                        parametersDialogService.showSpecialStationInfo(e.point.data);
+                        mapDialogService.showSpecialStationInfo(e.point.data);
                     });
                 });
             });
@@ -2084,7 +2084,7 @@
         $scope.reflashMap();
     })
     .controller("special-indoor.network", function ($scope, downSwitchService, baiduMapService, geometryService,
-        parametersDialogService, baiduQueryService) {
+        mapDialogService, baiduQueryService) {
 
         $scope.isRecovers = new Array('未恢复', '已恢复', '全部');
         $scope.isRecover = new Array('否', '是');
@@ -2113,7 +2113,7 @@
                     var xOffset = coors.x - $scope.stationss[recoverIndex][0].longtitute;
                     var yOffset = coors.y - $scope.stationss[recoverIndex][0].lattitute;
                     baiduMapService.drawPointCollection($scope.stationss[recoverIndex], color, -xOffset, -yOffset, function (e) {
-                        parametersDialogService.showSpecialIndoorInfo(e.point.data);
+                        mapDialogService.showSpecialIndoorInfo(e.point.data);
                     });
                 });
             });
@@ -2141,7 +2141,7 @@
         $scope.reflashMap();
     })
     .controller("clear-voice.network", function ($scope, downSwitchService, baiduMapService, geometryService,
-        parametersDialogService, baiduQueryService) {
+        mapDialogService, baiduQueryService) {
 
         $scope.isRecovers = new Array('未解决', '已解决', '全部');
         $scope.isRecover = new Array('未解决', '已解决');
@@ -2170,7 +2170,7 @@
                     var xOffset = coors.x - $scope.stationss[recoverIndex][0].longtitute;
                     var yOffset = coors.y - $scope.stationss[recoverIndex][0].lattitute;
                     baiduMapService.drawPointCollection($scope.stationss[recoverIndex], color, -xOffset, -yOffset, function (e) {
-                        parametersDialogService.showZeroVoiceInfo(e.point.data);
+                        mapDialogService.showZeroVoiceInfo(e.point.data);
                     });
                 });
             });
@@ -2198,7 +2198,7 @@
         $scope.reflashMap();
     })
     .controller("clear-flow.network", function ($scope, downSwitchService, baiduMapService, geometryService,
-        parametersDialogService, baiduQueryService) {
+        mapDialogService, baiduQueryService) {
 
         $scope.isRecovers = new Array('未解决', '已解决', '全部');
         $scope.isRecover = new Array('未解决', '已解决');
@@ -2227,7 +2227,7 @@
                     var xOffset = coors.x - $scope.stationss[recoverIndex][0].longtitute;
                     var yOffset = coors.y - $scope.stationss[recoverIndex][0].lattitute;
                     baiduMapService.drawPointCollection($scope.stationss[recoverIndex], color, -xOffset, -yOffset, function (e) {
-                        parametersDialogService.showZeroFlowInfo(e.point.data);
+                        mapDialogService.showZeroFlowInfo(e.point.data);
                     });
                 });
             });
@@ -2256,7 +2256,7 @@
     })
 
     .controller("fault-station.network", function ($scope, downSwitchService, baiduMapService, geometryService,
-        parametersDialogService, baiduQueryService) {
+        mapDialogService, baiduQueryService) {
 
 
 
@@ -2281,7 +2281,7 @@
                     var xOffset = coors.x - $scope.stationss[1][0].longtitute;
                     var yOffset = coors.y - $scope.stationss[1][0].lattitute;
                     baiduMapService.drawPointCollection($scope.stationss[1], color, -xOffset, -yOffset, function (e) {
-                        parametersDialogService.showFaultStationInfo(e.point.data);
+                        mapDialogService.showFaultStationInfo(e.point.data);
                     });
                 });
             });
