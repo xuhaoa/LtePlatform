@@ -1,11 +1,9 @@
 ﻿angular.module('app.common', [
+    'app.filters',
     'app.module',
     'baidu.map',
-    'basic.filters',
-    'cell.filters',
     'college.module',
     'customer.module',
-    'handoff.filters',
     "highcharts-ng",
     'myApp.kpi',
     'myApp.region',

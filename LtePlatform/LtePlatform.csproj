@@ -1627,8 +1627,10 @@
     <Content Include="Scripts\r.js" />
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\rutrace\index.controller.js" />
+    <Content Include="Scripts\service\app\filters.js" />
     <Content Include="Scripts\service\app\kpi.js" />
     <Content Include="Scripts\service\app\topic.js" />
+    <Content Include="Scripts\service\filters\combined.js" />
     <Content Include="Scripts\service\kpi\app.kpi.js" />
     <Content Include="Scripts\service\app\region.js" />
     <Content Include="Scripts\service\app\url.js" />
