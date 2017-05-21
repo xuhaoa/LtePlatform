@@ -104,6 +104,7 @@ namespace LtePlatform.Controllers.Parameters
         }
     }
 
+    [ApiControl("在用小区查询控制器")]
     public class CellInUseController : ApiController
     {
         private readonly CellService _service;
@@ -124,6 +125,7 @@ namespace LtePlatform.Controllers.Parameters
 
     }
 
+    [ApiControl("小区站址查询控制器")]
     public class CellStationController : ApiController
     {
         private readonly CellService _service;
@@ -134,18 +136,25 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        [ApiDoc("根据站址编号查询小区RRU信息")]
+        [ApiParameterDoc("stationNum", "站址编号")]
+        [ApiResponse("小区RRU信息列表")]
         public IEnumerable<CellRruView> Get(string stationNum)
         {
             return _service.GetByStationNum(stationNum);
         }
 
         [HttpGet]
+        [ApiDoc("根据规划编号查询小区RRU信息")]
+        [ApiParameterDoc("planNum", "规划编号")]
+        [ApiResponse("小区RRU信息列表")]
         public IEnumerable<CellRruView> GetViews(string planNum)
         {
             return _service.GetByPlanNum(planNum);
         }
     }
 
+    [ApiControl("室外小区站点查询控制器")]
     public class OutdoorCellSiteController : ApiController
     {
         private readonly CellService _service;
@@ -158,12 +167,17 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        [ApiDoc("分区查询室外小区站点")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiResponse("小区经纬度列表")]
         public IEnumerable<GeoPoint> Get(string city, string district)
         {
             return _service.QueryOutdoorCellSites(_eNodebQueryService.GetENodebsByDistrict(city, district));
         } 
     }
 
+    [ApiControl("室内小区站点查询控制器")]
     public class IndoorCellSiteController : ApiController
     {
         private readonly CellService _service;
@@ -176,6 +190,10 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        [ApiDoc("分区查询室内小区站点")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiResponse("小区经纬度列表")]
         public IEnumerable<GeoPoint> Get(string city, string district)
         {
             return _service.QueryIndoorCellSites(_eNodebQueryService.GetENodebsByDistrict(city, district));
@@ -202,6 +220,7 @@ namespace LtePlatform.Controllers.Parameters
         }
     }
 
+    [ApiControl("LTE RRU 查询控制器")]
     public class LteRruCellController : ApiController
     {
         private readonly CellService _service;
@@ -211,6 +230,10 @@ namespace LtePlatform.Controllers.Parameters
             _service = service;
         }
 
+        [HttpGet]
+        [ApiDoc("根据RRU名称查询小区列表")]
+        [ApiParameterDoc("rruName", "RRU名称")]
+        [ApiResponse("小区信息列表")]
         public IEnumerable<CellView> Get(string rruName)
         {
             return _service.QueryByRruName(rruName);

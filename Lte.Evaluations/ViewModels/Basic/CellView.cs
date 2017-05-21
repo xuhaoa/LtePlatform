@@ -318,8 +318,10 @@ namespace Lte.Evaluations.ViewModels.Basic
         [MemberDoc("小区名称，用于辨析小区")]
         public string CellName { get; set; }
 
+        [MemberDoc("基站编号")]
         public int ENodebId { get; set; }
 
+        [MemberDoc("扇区编号")]
         public byte SectorId { get; set; }
 
         [MemberDoc("是否为室内小区")]
