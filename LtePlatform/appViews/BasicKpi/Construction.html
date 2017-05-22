@@ -10,6 +10,39 @@
             <div plan-site-details item-groups="constructionGroups"></div>
         </div>
         <div uib-tab index="1" heading="基站图纸">
+            <div infotype="swg">
+                <div class="bts_info_dwg_upload">
+                    <button type="button" class="btn btn-warning glyphicon glyphicon-upload">
+                        上传
+                    </button>
+                </div>
+                <table class="table bts_info_dwg_table">
+                    <thead>
+                        <tr>
+                            <th>文件名称</th>
+                            <th>上传日期</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in dwgList" file="{{item.fileName}}">
+                            <td>{{item.fileName}}</td>
+                            <td>{{item.createTime}}</td>
+                            <td>
+                                <a class="glyphicon glyphicon-download bts_info_dwg_table_a" uib-tooltip="下载图纸"
+                                   tooltip-placement="bottom" ng-click="download(item.fileName)"></a>
+                                <a class="glyphicon glyphicon-zoom-in bts_info_dwg_table_a" uib-tooltip="查看图纸,请允许浏览器弹出窗口"
+                                   tooltip-placement="bottom" ng-show="item.fileName.indexOf('pdf') > -1" ng-click="view(item.fileName)"></a>
+                                <a class="glyphicon glyphicon-trash bts_info_dwg_table_a" uib-tooltip="删除图纸"
+                                   tooltip-placement="bottom" ng-click="delete(item.fileName)"></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div infotype="uploadDwg">
+                <input id="btsInfo_upload_dwg" name="tsInfo_upload_dwg[]" type="file" multiple class="file-loading">
+            </div>
             
         </div>
         <div uib-tab index="2" heading="基站图片">

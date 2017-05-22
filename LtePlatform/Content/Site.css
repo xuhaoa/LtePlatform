@@ -1,4 +1,4 @@
-/* Override the default bootstrap behavior where horizontal description lists 
+﻿/* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
 .dl-horizontal dt {
@@ -71,6 +71,22 @@ textarea {
 .dark-overlay {
   background: rgba(0, 0, 0, 0.05);
   text-align: center; }
+
+.bts_info_dwg_table {
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 10px; }
+
+.bts_info_dwg_table_a {
+  cursor: pointer;
+  padding-right: 5px;
+  font-size: 15px; }
+
+.bts_info_dwg_upload {
+  width: 100%;
+  text-align: right;
+  padding-right: 30px;
+  margin-top: 5px; }
 
 body {
   padding-top: 70px;
@@ -260,12 +276,14 @@ ul.nav-navbar-list .open > a.dropdown-toggle {
     border-top-right-radius: 0px;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px; } }
+
 @media (max-width: 768px) {
   .widget-left {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px; } }
+
 .chat ul {
   list-style: none;
   margin: -15px;
@@ -413,8 +431,10 @@ ul.nav-navbar-list .open > a.dropdown-toggle {
     left: .5em;
     top: 50%;
     margin-top: -8px; }
+
 .ui-accordion .ui-accordion-icons {
   padding-left: 2.2em; }
+
 .ui-accordion .ui-accordion-content {
   padding: 1em 2.2em;
   border-top: 0;
@@ -2647,24 +2667,30 @@ body .ui-tooltip {
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   white-space: pre-wrap; }
+
 .help-page .warning-message-container {
   margin-top: 20px;
   padding: 0 10px;
   color: #525252;
   background: #EFDCA9;
   border: 1px solid #CCCCCC; }
+
 .help-page h1, .help-page .h1 {
   font-size: 36px;
   line-height: normal; }
+
 .help-page h2, .help-page .h2 {
   font-size: 24px; }
+
 .help-page h3, .help-page .h3 {
   font-size: 20px; }
+
 .help-page a {
   color: #0000EE;
   text-decoration: none; }
   .help-page a:hover {
     background-color: transparent; }
+
 .help-page .sample-header {
   border: 2px solid #D4D4D4;
   background: #00497E;
@@ -2673,6 +2699,7 @@ body .ui-tooltip {
   border-bottom: none;
   display: inline-block;
   margin: 10px 0px 0px 0px; }
+
 .help-page .sample-content {
   display: block;
   border-width: 0;
@@ -2680,18 +2707,25 @@ body .ui-tooltip {
   background: #FFFFFF;
   border: 2px solid #D4D4D4;
   margin: 0px 0px 10px 0px; }
+
 .help-page .api-name {
   width: 40%; }
+
 .help-page .api-documentation {
   width: 60%; }
+
 .help-page .parameter-name {
   width: 20%; }
+
 .help-page .parameter-documentation {
   width: 40%; }
+
 .help-page .parameter-type {
   width: 20%; }
+
 .help-page .parameter-annotations {
   width: 20%; }
+
 .help-page section {
   padding-top: 5px;
   padding-bottom: 5px; }
@@ -2741,4 +2775,3 @@ body .ui-tooltip {
     color: #fff;
     font-weight: bold; }
 
-/*# sourceMappingURL=Site.css.map */
