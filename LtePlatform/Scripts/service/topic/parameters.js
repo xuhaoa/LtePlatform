@@ -309,9 +309,12 @@
 			$uibModalInstance.dismiss('cancel');
 		}
 	})
-	.controller('map.construction.dialog', function ($scope, $uibModalInstance, dialogTitle, site) {
+	.controller('map.construction.dialog', function ($scope, $uibModalInstance, dialogTitle, site, appFormatService) {
 		$scope.dialogTitle = dialogTitle;
 		$scope.site = site;
+
+		$scope.constructionGroups = appFormatService.generateConstructionGroups(site);
+
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.site);
 		};

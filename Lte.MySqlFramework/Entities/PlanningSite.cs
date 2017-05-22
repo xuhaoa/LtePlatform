@@ -299,7 +299,7 @@ namespace Lte.MySqlFramework.Entities
                     ? "基站开通"
                     : (CompletedTime != null
                         ? "整体完工"
-                        : (ConstructionTime != null ? "天馈施工" : (IsTransfer != null ? "审计会审" : "其他")));
+                        : (ConstructionTime != null ? "天馈施工" : (UploadTime != null ? "审计会审" : "其他")));
 
         [AutoMapPropertyResolve("CONSTRUCTION_COMPANY", typeof(ConstructionInformation))]
         public string ConstructionCompany { get; set; }
@@ -324,5 +324,11 @@ namespace Lte.MySqlFramework.Entities
 
         [AutoMapPropertyResolve("MKTCENTER", typeof(ENodebBase))]
         public string Town { get; set; }
+
+        [AutoMapPropertyResolve("INDOOR", typeof(ENodebBase))]
+        public string IsIndoor { get; set; }
+
+        [AutoMapPropertyResolve("FSCNO", typeof(ENodebBase))]
+        public string FscNumber { get; set; }
     }
 }

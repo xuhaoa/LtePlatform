@@ -46,6 +46,9 @@
     <Compile Include="Db\mrs_combined.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Db\position_combined.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Db\precise_combined.py">
       <SubType>Code</SubType>
     </Compile>
@@ -541,6 +544,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mrs_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_mrs_delay3.sh">
       <SubType>Code</SubType>
     </Content>
   </ItemGroup>

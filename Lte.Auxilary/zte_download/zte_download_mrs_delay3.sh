@@ -1,0 +1,1 @@
+/home/wireless/env/py3env/bin/python /home/wireless/Public/ftp_zte_mrs.py 3

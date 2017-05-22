@@ -1048,6 +1048,76 @@
                         ]
                     }
                 ];
+            },
+            generateConstructionGroups: function (station) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '站点名称',
+                                value: station.eNodebName
+                            }, {
+                                key: '营销中心',
+                                value: station.town
+                            }, {
+                                key: '区域',
+                                value: station.district
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '站点编号',
+                                value: station.siteNumber
+                            }, {
+                                key: 'FSL编号',
+                                value: station.fslNumber
+                            }, {
+                                key: 'FSC编号',
+                                value: station.fscNumber
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '是否室内',
+                                value: station.isIndoor
+                            }, {
+                                key: '是否已移交',
+                                value: station.isTransfer
+                            }, {
+                                key: '会审时间',
+                                value: station.uploadTime
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: station.longtitute
+                            }, {
+                                key: '纬度',
+                                value: station.lattitute
+                            }, {
+                                key: '建设状态',
+                                value: station.status
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '开通时间',
+                                value: station.openTime
+                            }, {
+                                key: '完工时间',
+                                value: station.completedTime
+                            }, {
+                                key: '建设时间',
+                                value: station.constructionTime
+                            }
+                        ]
+                    }
+                ];
             }
         }
     })

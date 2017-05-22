@@ -1928,34 +1928,38 @@
             selected: '全部'
         };
 
+        $scope.showConstructionSites = function(sites) {
+            if ($scope.status.selected === '全部') {
+                var states = $scope.status.options.slice(1, $scope.status.options.length - 1);
+                angular.forEach(states, function(status) {
+                    var subSites = _.filter(sites, { status: status });
+                    if (subSites.length) {
+                        collegeMapService.showConstructionSites(subSites, status, function(site) {
+                            parametersDialogService.showConstructionInfo(site);
+                        });
+                    }
+                });
+            } else {
+                var filterSites = _.filter(sites, { status: $scope.status.selected });
+                if (filterSites.length) {
+                    collegeMapService.showConstructionSites(filterSites, $scope.status.selected, function(site) {
+                        parametersDialogService.showConstructionInfo(site);
+                    });
+                }
+            }
+        };
+
         $scope.queryConstructionPoints = function () {
             baiduMapService.clearOverlays();
             if ($scope.bts.outOfBoundary) {
                 flowService.queryConstructionByTownAndName($scope.district.selected,
                     $scope.town.selected, $scope.bts.name).then(function (sites) {
-                    if ($scope.status.selected === '全部') {
-                        var states = $scope.status.options.slice(1, $scope.status.options.length - 1);
-                        angular.forEach(states, function(status) {
-                            var subSites = _.filter(sites, { status: status });
-                            if (subSites.length) {
-                                collegeMapService.showConstructionSites(subSites, status, function (site) {
-                                    parametersDialogService.showConstructionInfo(site);
-                                });
-                            }
-                        });
-                    } else {
-                        var filterSites = _.filter(sites, { status: $scope.status.selected });
-                        if (filterSites.length) {
-                            collegeMapService.showConstructionSites(filterSites, $scope.status.selected, function(site) {
-                                parametersDialogService.showConstructionInfo(site);
-                            });
-                        }
-                    }
+                    $scope.showConstructionSites(sites);
                 });
             } else {
                 flowService.queryConstructionByTownAndNameInBoundary($scope.district.selected,
                     $scope.town.selected, $scope.bts.name, baiduMapService.getRange()).then(function (sites) {
-
+                    $scope.showConstructionSites(sites);
                 });
             }
         };
