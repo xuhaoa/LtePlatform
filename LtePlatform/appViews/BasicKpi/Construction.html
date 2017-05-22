@@ -10,7 +10,7 @@
             <div plan-site-details item-groups="constructionGroups"></div>
         </div>
         <div uib-tab index="1" heading="基站图纸">
-            <div infotype="swg">
+            <div infotype="swg" ng-hide="upload.dwg">
                 <div class="bts_info_dwg_upload">
                     <button type="button" class="btn btn-warning glyphicon glyphicon-upload">
                         上传
@@ -40,7 +40,7 @@
                     </tbody>
                 </table>
             </div>
-            <div infotype="uploadDwg">
+            <div infotype="uploadDwg" class="bts_info_content" ng-show="upload.dwg">
                 <input id="btsInfo_upload_dwg" name="tsInfo_upload_dwg[]" type="file" multiple class="file-loading">
             </div>
             

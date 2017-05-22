@@ -312,7 +312,9 @@
 	.controller('map.construction.dialog', function ($scope, $uibModalInstance, dialogTitle, site, appFormatService) {
 		$scope.dialogTitle = dialogTitle;
 		$scope.site = site;
-
+		$scope.upload = {
+			dwg: false
+		};
 		$scope.constructionGroups = appFormatService.generateConstructionGroups(site);
 
 		$scope.ok = function () {
