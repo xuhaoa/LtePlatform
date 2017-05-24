@@ -148,17 +148,7 @@ namespace Lte.MySqlFramework.Concrete
             : base(dbContextProvider)
         {
         }
-
-        public ConstructionInformation GetByFslNo(string fslNo)
-        {
-            return FirstOrDefault(o => o.FSLNO == fslNo);
-        }
-
-        public ConstructionInformation GetBySiteNo(string siteNo)
-        {
-            return FirstOrDefault(o => o.SITENO == siteNo);
-        }
-
+        
         public int SaveChanges()
         {
             return Context.SaveChanges();
@@ -170,15 +160,17 @@ namespace Lte.MySqlFramework.Concrete
         public Enodeb_BaseRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public ENodebBase GetByENodebId(int eNodebId)
+        
+        public int SaveChanges()
         {
-            return FirstOrDefault(o => o.ENODEBID == eNodebId);
+            return Context.SaveChanges();
         }
+    }
 
-        public ENodebBase GetByName(string name)
+    public class BluePrintRepository : EfRepositoryBase<MySqlContext, BluePrint>, IBluePrintRepository
+    {
+        public BluePrintRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
-            return FirstOrDefault(o => o.ENODEBNAME == name);
         }
 
         public int SaveChanges()
@@ -186,5 +178,4 @@ namespace Lte.MySqlFramework.Concrete
             return Context.SaveChanges();
         }
     }
-
 }

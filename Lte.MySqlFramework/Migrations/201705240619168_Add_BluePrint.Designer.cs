@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Add_Town_Boundary : IMigrationMetadata
+    public sealed partial class Add_BluePrint : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_Town_Boundary));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_BluePrint));
         
         string IMigrationMetadata.Id
         {
-            get { return "201705131516372_Add_Town_Boundary"; }
+            get { return "201705240619168_Add_BluePrint"; }
         }
         
         string IMigrationMetadata.Source

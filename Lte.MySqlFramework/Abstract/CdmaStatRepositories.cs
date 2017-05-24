@@ -48,16 +48,14 @@ namespace Lte.MySqlFramework.Abstract
 
     public interface IConstruction_InformationRepository : IRepository<ConstructionInformation>, ISaveChanges
     {
-        ConstructionInformation GetByFslNo(string fslNo);
-
-        ConstructionInformation GetBySiteNo(string siteNo);
     }
 
     public interface IEnodeb_BaseRepository : IRepository<ENodebBase>, ISaveChanges
     {
-        ENodebBase GetByENodebId(int eNodebId);
-
-        ENodebBase GetByName(string name);
     }
 
+    public interface IBluePrintRepository : IRepository<BluePrint>, ISaveChanges
+    {
+        
+    }
 }

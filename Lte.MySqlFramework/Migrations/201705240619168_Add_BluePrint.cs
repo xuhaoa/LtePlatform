@@ -3,17 +3,19 @@ namespace Lte.MySqlFramework.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Add_Town_Boundary : DbMigration
+    public partial class Add_BluePrint : DbMigration
     {
         public override void Up()
         {
             CreateTable(
-                "dbo.TownBoundaries",
+                "dbo.BluePrints",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        TownId = c.Int(nullable: false),
-                        Boundary = c.String(unicode: false),
+                        FslNumber = c.String(unicode: false),
+                        FileName = c.String(unicode: false),
+                        Folder = c.String(unicode: false),
+                        DesignBrief = c.String(unicode: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -21,7 +23,7 @@ namespace Lte.MySqlFramework.Migrations
         
         public override void Down()
         {
-            DropTable("dbo.TownBoundaries");
+            DropTable("dbo.BluePrints");
         }
     }
 }
