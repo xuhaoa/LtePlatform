@@ -50,7 +50,7 @@ class MroReader:
                 neighbor_list=[]
                 neighbor_stat=NeighborStat(item_id+'-'+item_element.attrib['id'], 0)
                 for item_v in item_element:
-                    item_value = item_v.text.replace('NIL', '-1').replace('N','').replace('E','').split(' ')
+                    item_value = item_v.text.replace('NIL', '-1').replace('N','').replace('E','').replace('HRPD', '-2').replace('BC0', '-2').replace('|', '1').split(' ')
                     _item_sub_dict = dict(zip(item_key, map(to_dec, item_value)))
                     _item_sub_dict = {k: v for k, v in _item_sub_dict.items() if not any(ext in k for ext in self.afilter)}
                     max_telecom_rsrp=0

@@ -1,0 +1,1 @@
+/home/wireless/env/py3env/bin/python /home/wireless/Public/position_combined.py 10.17.165.106

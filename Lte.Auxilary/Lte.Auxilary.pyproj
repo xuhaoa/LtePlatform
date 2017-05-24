@@ -49,6 +49,9 @@
     <Compile Include="Db\position_combined.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Db\position_combine_106.sh">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Db\precise_combined.py">
       <SubType>Code</SubType>
     </Compile>
@@ -236,6 +239,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Db\mrs_combined.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Db\position_combine_111.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Db\precise_combined.sh">

@@ -14,7 +14,7 @@ os.chdir('/home/wireless/huawei_mro')
 date_dir=generate_date_hours_shift(shift=-5)
 afilter = ['Qci', 'Utra', 'Gsm', 'Tdd']
 _startTime=''
-db = MongoClient('mongodb://root:Abcdef9*@10.17.165.111')['ouyh']
+db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
 
 _DFlist = list(db['Mro_DFlist_'+date_dir].find({}, {'dfName': 1, '_id': 0}))      
 DFList = [item.get('dfName') for item in _DFlist]
@@ -46,8 +46,11 @@ for root, dirs_no, files in os.walk('/home/wireless/huawei_mro/'+date_dir):
         if (item_id!=''):
             mro_output=reader.map_rsrp_diff(item_id)
             if len(mro_output)>0:
+                print(name+':')
+                print(len(mro_output))
                 for item in mro_output:
                     item.update({'StartTime': startTime})
+                print('mro_'+date_dir)
                 db['mro_'+date_dir].insert_many(mro_output)
             if len(reader.item_positions)>0:
                 for item in reader.item_positions:
