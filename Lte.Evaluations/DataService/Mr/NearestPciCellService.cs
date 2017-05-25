@@ -22,18 +22,52 @@ using Lte.Parameters.Abstract.Infrastructure;
 
 namespace Lte.Evaluations.DataService.Mr
 {
+    internal class TownSupportService
+    {
+        private readonly ITownRepository _townRepository;
+        private readonly ITownBoundaryRepository _boundaryRepository;
+
+        public TownSupportService(ITownRepository townRepository, ITownBoundaryRepository boundaryRepository)
+        {
+            _townRepository = townRepository;
+            _boundaryRepository = boundaryRepository;
+        }
+
+        public string QueryFileNameDistrict(string fileName)
+        {
+            var districts = _townRepository.GetAllList().Select(x => x.DistrictName).Distinct();
+            return districts.FirstOrDefault(fileName.Contains);
+        }
+
+        public IEnumerable<List<GeoPoint>> QueryTownBoundaries(string district, string town)
+        {
+            var townItem = _townRepository.QueryTown(district, town);
+            if (townItem == null) return null;
+            return _boundaryRepository.GetAllList(x => x.TownId == townItem.Id).Select(x =>
+            {
+                var coors = x.Boundary.GetSplittedFields(' ');
+                var coorList = new List<GeoPoint>();
+                for (var i = 0; i < coors.Length / 2; i++)
+                {
+                    coorList.Add(new GeoPoint(coors[i * 2].ConvertToDouble(0), coors[i * 2 + 1].ConvertToDouble(0)));
+                }
+                return coorList;
+            });
+        } 
+    }
     public class NearestPciCellService
     {
         private readonly INearestPciCellRepository _repository;
         private readonly ICellRepository _cellRepository;
         private readonly IENodebRepository _eNodebRepository;
         private readonly IAgisDtPointRepository _agisRepository;
-        private readonly ITownRepository _townRepository;
+        
         private readonly IMrGridRepository _mrGridRepository;
 
         private readonly IAppStreamRepository _streamRepository;
         private readonly IWebBrowsingRepository _browsingRepository;
-        private readonly ITownBoundaryRepository _boundaryRepository;
+
+        private readonly TownSupportService _service;
 
         private static Stack<NearestPciCell> NearestCells { get; set; }
 
@@ -49,11 +83,10 @@ namespace Lte.Evaluations.DataService.Mr
             _cellRepository = cellRepository;
             _eNodebRepository = eNodebRepository;
             _agisRepository = agisRepository;
-            _townRepository = townRepository;
             _mrGridRepository = mrGridRepository;
             _streamRepository = streamRepository;
             _browsingRepository = browsingRepository;
-            _boundaryRepository = boundaryRepository;
+            _service = new TownSupportService(townRepository, boundaryRepository);
             if (NearestCells == null)
                 NearestCells = new Stack<NearestPciCell>();
         }
@@ -145,8 +178,8 @@ namespace Lte.Evaluations.DataService.Mr
         {
             var xml = new XmlDocument();
             xml.Load(reader);
-            var districts = _townRepository.GetAllList().Select(x => x.DistrictName).Distinct();
-            var district = districts.FirstOrDefault(fileName.Contains);
+            
+            var district = _service.QueryFileNameDistrict(fileName);
             var candidateDescritions = new [] {"竞对总体", "移动竞对", "联通竞对" };
             var competeDescription = candidateDescritions.FirstOrDefault(fileName.Contains);
             var list = competeDescription == null
@@ -189,24 +222,14 @@ namespace Lte.Evaluations.DataService.Mr
                 _mrGridRepository.QueryDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(
                     x =>
                         x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
-                        x.Compete == AlarmCategory.Self)).ToList();
+                        x.Compete == AlarmCategory.Self));
             return stats.MapTo<IEnumerable<MrCoverageGridView>>();
         }
 
         public IEnumerable<MrCoverageGridView> QueryCoverageGridViews(DateTime initialDate, string district, string town)
         {
-            var townItem = _townRepository.QueryTown(district, town);
-            if (townItem == null) return new List<MrCoverageGridView>();
-            var boundaries = _boundaryRepository.GetAllList(x => x.TownId == townItem.Id).Select(x =>
-            {
-                var coors = x.Boundary.GetSplittedFields(' ');
-                var coorList = new List<GeoPoint>();
-                for (var i = 0; i < coors.Length/2; i++)
-                {
-                    coorList.Add(new GeoPoint(coors[i*2].ConvertToDouble(0), coors[i*2 + 1].ConvertToDouble(0)));
-                }
-                return coorList;
-            });
+            var boundaries = _service.QueryTownBoundaries(district, town);
+            if (boundaries == null) return new List<MrCoverageGridView>();
             var stats =
                 _mrGridRepository.QueryDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(
                     x =>
@@ -239,18 +262,8 @@ namespace Lte.Evaluations.DataService.Mr
             string competeDescription)
         {
 
-            var townItem = _townRepository.QueryTown(district, town);
-            if (townItem == null) return new List<MrCompeteGridView>();
-            var boundaries = _boundaryRepository.GetAllList(x => x.TownId == townItem.Id).Select(x =>
-            {
-                var coors = x.Boundary.GetSplittedFields(' ');
-                var coorList = new List<GeoPoint>();
-                for (var i = 0; i < coors.Length / 2; i++)
-                {
-                    coorList.Add(new GeoPoint(coors[i * 2].ConvertToDouble(0), coors[i * 2 + 1].ConvertToDouble(0)));
-                }
-                return coorList;
-            });
+            var boundaries = _service.QueryTownBoundaries(district, town);
+            if (boundaries == null) return new List<MrCompeteGridView>();
             var competeTuple =
                 WirelessConstants.EnumDictionary["AlarmCategory"].FirstOrDefault(x => x.Item2 == competeDescription);
             var compete = (AlarmCategory?)competeTuple?.Item1;

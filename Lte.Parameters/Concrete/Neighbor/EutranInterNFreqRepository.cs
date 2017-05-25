@@ -4,6 +4,7 @@ using Lte.Parameters.Entities.Neighbor;
 using MongoDB.Bson;
 using System.Collections.Generic;
 using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Infrastructure;
 
 namespace Lte.Parameters.Concrete.Neighbor
 {

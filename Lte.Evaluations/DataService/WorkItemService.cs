@@ -6,7 +6,6 @@ using Lte.Domain.LinqToExcel;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Evaluations.ViewModels.Precise;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities.Work;
@@ -14,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lte.Parameters.Abstract.Kpi;
 
 namespace Lte.Evaluations.DataService
 {

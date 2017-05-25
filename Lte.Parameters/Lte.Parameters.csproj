@@ -146,12 +146,11 @@
     <Compile Include="Abstract\College\ICollegeRepository.cs" />
     <Compile Include="Abstract\Basic\IENodebRepository.cs" />
     <Compile Include="Abstract\Infrastructure\IInfrastructureRepository.cs" />
-    <Compile Include="Abstract\NeighborRepositories.cs" />
+    <Compile Include="Abstract\Infrastructure\NeighborRepositories.cs" />
     <Compile Include="Abstract\Kpi\MrMongoInterfaces.cs" />
     <Compile Include="Abstract\IPagingRepository.cs" />
     <Compile Include="Abstract\Kpi\PreciseInterfaces.cs" />
     <Compile Include="Abstract\Infrastructure\IRegionRepository.cs" />
-    <Compile Include="Abstract\IWorkItemRepository.cs" />
     <Compile Include="Abstract\PagingRepositoryBase.cs" />
     <Compile Include="Abstract\Switch\ICellMeasGroupZteRepository.cs" />
     <Compile Include="Abstract\Switch\IInterFreqHoGroupRepository.cs" />
@@ -163,7 +162,7 @@
     <Compile Include="Concrete\Basic\EUtranCellFDDZteRepository.cs" />
     <Compile Include="Concrete\Channel\CellPcRepositories.cs" />
     <Compile Include="Concrete\Channel\PDSCHCfgRepository.cs" />
-    <Compile Include="Concrete\EFAlarmRepository.cs" />
+    <Compile Include="Concrete\Kpi\EFAlarmRepository.cs" />
     <Compile Include="Concrete\Basic\EFCellRepository.cs" />
     <Compile Include="Concrete\College\EFTestRepositories.cs" />
     <Compile Include="Concrete\College\EFCollegeRepository.cs" />
@@ -176,7 +175,6 @@
     <Compile Include="Concrete\Kpi\PreciseRepositories.cs" />
     <Compile Include="Concrete\Kpi\EFRegionRepository.cs" />
     <Compile Include="Concrete\Infrastructure\EFTownRepository.cs" />
-    <Compile Include="Concrete\EFWorkItemRepository.cs" />
     <Compile Include="Concrete\MasterTestContext.cs" />
     <Compile Include="Concrete\Kpi\InterferenceMongoRepository.cs" />
     <Compile Include="Concrete\MyMongoProvider.cs" />
@@ -202,7 +200,7 @@
     <Compile Include="Entities\Basic\CellHuaweiMongo.cs" />
     <Compile Include="Entities\Basic\Cell.cs" />
     <Compile Include="Entities\College\CollegeInfo.cs" />
-    <Compile Include="Abstract\IAlarmRepository.cs" />
+    <Compile Include="Abstract\Kpi\IAlarmRepository.cs" />
     <Compile Include="Entities\Dt\DtFilesInfo.cs" />
     <Compile Include="Entities\Basic\ENodeb.cs" />
     <Compile Include="Entities\Dt\FileRecords.cs" />

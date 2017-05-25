@@ -15,7 +15,7 @@ using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.DataService.College

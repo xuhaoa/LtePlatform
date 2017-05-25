@@ -5,6 +5,7 @@ using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Lte.Parameters.Entities.Channel;
 
 namespace Lte.Parameters.Abstract.Kpi
 {
@@ -45,5 +46,15 @@ namespace Lte.Parameters.Abstract.Kpi
     public interface IMrsTadvRepository : IRepository<MrsTadvStat, ObjectId>, IStatDateCellRepository<MrsTadvStat>
     {
         
+    }
+
+    public interface ITelecomAgpsRepository : IRepository<AgpsMongo, ObjectId>, IStatDateCellRepository<AgpsMongo>
+    {
+        
+    }
+
+    public interface IMobileAgpsRepository : IRepository<AgpsMongo, ObjectId>, IStatDateCellRepository<AgpsMongo>
+    {
+
     }
 }

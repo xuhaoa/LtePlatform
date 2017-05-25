@@ -6,6 +6,7 @@ using Lte.Parameters.Entities.Switch;
 using System.Collections.Generic;
 using System.Linq;
 using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Infrastructure;
 
 namespace Lte.Evaluations.DataService.Switch
 {

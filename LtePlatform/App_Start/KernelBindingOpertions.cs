@@ -227,6 +227,10 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IBluePrintRepository>().To<BluePrintRepository>();
 
+            ninjectKernel.Bind<ITelecomAgpsRepository>().To<TelecomAgpsRepository>();
+
+            ninjectKernel.Bind<IMobileAgpsRepository>().To<MobileAgpsRepository>();
+
             ninjectKernel.Bind<CellService>().ToSelf();
 
             ninjectKernel.Bind<CdmaCellService>().ToSelf();

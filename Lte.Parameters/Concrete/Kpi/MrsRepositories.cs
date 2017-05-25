@@ -5,6 +5,7 @@ using Lte.Parameters.Entities.Kpi;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
+using Lte.Parameters.Entities.Channel;
 
 namespace Lte.Parameters.Concrete.Kpi
 {
@@ -117,6 +118,52 @@ namespace Lte.Parameters.Concrete.Kpi
         }
 
         public IEnumerable<MrsTadvStat> GetList(string cellId, DateTime begin, DateTime end)
+        {
+            return this.Query(cellId, begin, end);
+        }
+    }
+
+    public class TelecomAgpsRepository : MongoDbRepositoryBase<AgpsMongo, ObjectId>, ITelecomAgpsRepository
+    {
+        public TelecomAgpsRepository(IMongoDatabaseProvider databaseProvider) : base(databaseProvider)
+        {
+            CollectionName = "position_telecom_combined";
+        }
+
+        public TelecomAgpsRepository() : this(new MyMongoProvider("ouyh"))
+        {
+
+        }
+
+        public AgpsMongo Get(string cellId, DateTime statDate)
+        {
+            return this.Query(cellId, statDate);
+        }
+
+        public IEnumerable<AgpsMongo> GetList(string cellId, DateTime begin, DateTime end)
+        {
+            return this.Query(cellId, begin, end);
+        }
+    }
+
+    public class MobileAgpsRepository : MongoDbRepositoryBase<AgpsMongo, ObjectId>, IMobileAgpsRepository
+    {
+        public MobileAgpsRepository(IMongoDatabaseProvider databaseProvider) : base(databaseProvider)
+        {
+            CollectionName = "position_mobile_combined";
+        }
+
+        public MobileAgpsRepository() : this(new MyMongoProvider("ouyh"))
+        {
+
+        }
+
+        public AgpsMongo Get(string cellId, DateTime statDate)
+        {
+            return this.Query(cellId, statDate);
+        }
+
+        public IEnumerable<AgpsMongo> GetList(string cellId, DateTime begin, DateTime end)
         {
             return this.Query(cellId, begin, end);
         }

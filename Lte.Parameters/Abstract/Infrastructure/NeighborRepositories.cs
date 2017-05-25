@@ -1,12 +1,12 @@
-﻿using Abp.Domain.Repositories;
-using Lte.Parameters.Entities.Kpi;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Abp.Domain.Repositories;
+using Lte.Parameters.Entities.Kpi;
 using Lte.Parameters.Entities.Neighbor;
 using MongoDB.Bson;
 
-namespace Lte.Parameters.Abstract
+namespace Lte.Parameters.Abstract.Infrastructure
 {
     public interface IInterferenceMatrixRepository : IRepository<InterferenceMatrixStat>
     {

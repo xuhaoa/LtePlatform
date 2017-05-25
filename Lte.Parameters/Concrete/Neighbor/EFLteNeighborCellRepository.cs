@@ -3,6 +3,7 @@ using Abp.EntityFramework.Repositories;
 using Lte.Parameters.Entities.Neighbor;
 using System.Collections.Generic;
 using Lte.Parameters.Abstract;
+using Lte.Parameters.Abstract.Infrastructure;
 
 namespace Lte.Parameters.Concrete.Neighbor
 {
