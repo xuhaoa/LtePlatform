@@ -1,8 +1,14 @@
-﻿using Lte.Evaluations.DataService.Basic;
+﻿using System;
+using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.ViewModels.Basic;
 using LtePlatform.Models;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Lte.Evaluations.DataService.Dump;
 using Lte.MySqlFramework.Entities;
@@ -402,6 +408,57 @@ namespace LtePlatform.Controllers.Parameters
         public IEnumerable<DistributionSystem> Get(double west, double east, double south, double north)
         {
             return _service.QueryDistributionSystems(west, east, south, north);
+        }
+    }
+
+    public class DwgController : ApiController
+    {
+        private readonly ENodebQueryService _service;
+
+        public DwgController(ENodebQueryService service)
+        {
+            _service = service;
+        }
+
+        public async Task<IHttpActionResult> Upload()
+        {
+            if (!Request.Content.IsMimeMultipartContent())
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+
+            Func<HttpRequestMessage, string, string> getQuerystring = (request, key) =>
+            {
+                var queryStrings = request.GetQueryNameValuePairs();
+                if (queryStrings == null)
+                    return null;
+
+                var match = queryStrings.FirstOrDefault(kv => string.Compare(kv.Key, key, StringComparison.OrdinalIgnoreCase) == 0);
+                return string.IsNullOrEmpty(match.Value) ? null : match.Value;
+            };
+
+            var btsId = getQuerystring(Request, "btsId");
+            var directory = getQuerystring(Request, "directory");
+
+            if (string.IsNullOrEmpty(btsId) || string.IsNullOrEmpty(directory))
+            {
+                throw new DirectoryNotFoundException("基站ID或者图纸目录为空");
+            }
+
+            var provider = new MultipartMemoryStreamProvider();
+            await Request.Content.ReadAsMultipartAsync(provider);
+            var dwgService = new BtsDwgService(directory, btsId);
+
+            foreach (var file in provider.Contents)
+            {
+                if (string.IsNullOrEmpty(file.Headers.ContentDisposition.FileName)) { continue; }
+
+                var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
+                var buffer = await file.ReadAsByteArrayAsync();
+
+                dwgService.Save(filename, buffer);
+                _service.SaveVisioPath(btsId, filename);
+            }
+
+            return Ok(new { Result = 1 });
         }
     }
 }

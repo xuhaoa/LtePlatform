@@ -23,10 +23,12 @@ namespace Lte.Evaluations.DataService.Basic
         private readonly IEnodeb_BaseRepository _enodebBaseRepository;
         private readonly IDistributionRepository _distributionRepository;
         private readonly IConstruction_InformationRepository _constructionRepository;
+        private readonly IBluePrintRepository _bluePrintRepository;
 
         public ENodebQueryService(ITownRepository townRepository, IENodebRepository eNodebRepository,
             IStationDictionaryRepository stationDictionaryRepository, IEnodeb_BaseRepository enodebBaseRepository,
-            IDistributionRepository distributionRepository, IConstruction_InformationRepository constructionRepository)
+            IDistributionRepository distributionRepository, IConstruction_InformationRepository constructionRepository,
+            IBluePrintRepository bluePrintRepository)
         {
             _townRepository = townRepository;
             _eNodebRepository = eNodebRepository;
@@ -34,6 +36,7 @@ namespace Lte.Evaluations.DataService.Basic
             _enodebBaseRepository = enodebBaseRepository;
             _distributionRepository = distributionRepository;
             _constructionRepository = constructionRepository;
+            _bluePrintRepository = bluePrintRepository;
         }
 
         public IEnumerable<ENodebView> GetByTownNames(string city, string district, string town)
@@ -228,6 +231,34 @@ namespace Lte.Evaluations.DataService.Basic
                 x.Bts.MapTo(view);
                 return view;
             });
+        }
+
+        public int SaveVisioPath(string fslNumber, string path)
+        {
+            var item =
+                _bluePrintRepository.FirstOrDefault(
+                    x => x.FslNumber == fslNumber && x.Folder == fslNumber && x.FileName == path);
+            if (item != null) return _bluePrintRepository.SaveChanges();
+            {
+                var stat =
+                    _bluePrintRepository.FirstOrDefault(
+                        x => x.FslNumber == fslNumber && x.Folder == fslNumber && string.IsNullOrEmpty(x.FileName));
+                if (stat == null)
+                {
+                    item = new BluePrint
+                    {
+                        FslNumber = fslNumber,
+                        Folder = fslNumber,
+                        FileName = path
+                    };
+                    _bluePrintRepository.Insert(item);
+                }
+                else
+                {
+                    stat.FileName = path;
+                }
+            }
+            return _bluePrintRepository.SaveChanges();
         }
     }
 
