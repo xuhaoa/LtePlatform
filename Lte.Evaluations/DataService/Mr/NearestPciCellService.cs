@@ -19,6 +19,8 @@ using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract;
 using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract.Infrastructure;
+using Lte.Parameters.Abstract.Kpi;
+using Lte.Parameters.Entities.Channel;
 
 namespace Lte.Evaluations.DataService.Mr
 {
@@ -55,6 +57,102 @@ namespace Lte.Evaluations.DataService.Mr
             });
         } 
     }
+
+    internal class AgpsService
+    {
+        private readonly ITelecomAgpsRepository _telecomAgpsRepository;
+        private readonly IMobileAgpsRepository _mobileAgpsRepository;
+
+        public AgpsService(ITelecomAgpsRepository telecomAgpsRepository, IMobileAgpsRepository mobileAgpsRepository)
+        {
+            _telecomAgpsRepository = telecomAgpsRepository;
+            _mobileAgpsRepository = mobileAgpsRepository;
+        }
+
+        public IEnumerable<AgpsCoverageView> QueryTelecomCoverageViews(DateTime begin, DateTime end,
+            IEnumerable<List<GeoPoint>> boundaries)
+        {
+            return new List<AgpsCoverageView>();
+        } 
+    }
+
+    internal class MrGridService
+    {
+        private readonly IMrGridRepository _repository;
+
+        public MrGridService(IMrGridRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public void UploadMrGrids(XmlDocument xml, string district, string fileName)
+        {
+            var candidateDescritions = new[] { "竞对总体", "移动竞对", "联通竞对" };
+            var competeDescription = candidateDescritions.FirstOrDefault(fileName.Contains);
+            var list = competeDescription == null
+                ? MrGridXml.ReadGridXmls(xml, district ?? "禅城")
+                : MrGridXml.ReadGridXmlsWithCompete(xml, district ?? "禅城", competeDescription);
+            foreach (var item in list)
+            {
+                _repository.Insert(item.MapTo<MrGrid>());
+            }
+            _repository.SaveChanges();
+        }
+
+        public IEnumerable<MrCoverageGridView> QueryCoverageGridViews(DateTime initialDate, string district)
+        {
+            var stats =
+                _repository.QueryDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(
+                    x =>
+                        x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
+                        x.Compete == AlarmCategory.Self));
+            return stats.MapTo<IEnumerable<MrCoverageGridView>>();
+        }
+
+        public IEnumerable<MrCoverageGridView> QueryCoverageGridViews(DateTime initialDate,
+            IEnumerable<List<GeoPoint>> boundaries, string district)
+        {
+            var stats =
+                _repository.QueryDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(
+                    x =>
+                        x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
+                        x.Compete == AlarmCategory.Self)).Where(x =>
+                        {
+                            var fields = x.Coordinates.GetSplittedFields(';')[0].GetSplittedFields(',');
+                            var point = new GeoPoint(fields[0].ConvertToDouble(0), fields[1].ConvertToDouble(0));
+                            return boundaries.Any(boundary => GeoMath.IsInPolygon(point, boundary));
+                        });
+            return stats.MapTo<IEnumerable<MrCoverageGridView>>();
+        }
+
+        public IEnumerable<MrCompeteGridView> QueryCompeteGridViews(DateTime initialDate, string district,
+            AlarmCategory? compete)
+        {
+            var stats =
+                _repository.QueryDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(
+                    x =>
+                        x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
+                        x.Frequency == -1 && x.Compete == compete)).ToList();
+            return stats.MapTo<IEnumerable<MrCompeteGridView>>();
+        }
+
+        public IEnumerable<MrCompeteGridView> QueryCompeteGridViews(DateTime initialDate, string district,
+            AlarmCategory? compete, IEnumerable<List<GeoPoint>> boundaries)
+        {
+            var stats =
+                _repository.QueryDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(
+                    x =>
+                        x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
+                        x.Frequency == -1 && x.Compete == compete)).Where(x =>
+                        {
+                            var fields = x.Coordinates.GetSplittedFields(';')[0].GetSplittedFields(',');
+                            var point = new GeoPoint(fields[0].ConvertToDouble(0), fields[1].ConvertToDouble(0));
+                            return boundaries.Aggregate(false, (current, boundary) => current || GeoMath.IsInPolygon(point, boundary));
+                        });
+            return stats.MapTo<IEnumerable<MrCompeteGridView>>();
+        }
+    }
+
     public class NearestPciCellService
     {
         private readonly INearestPciCellRepository _repository;
@@ -62,31 +160,34 @@ namespace Lte.Evaluations.DataService.Mr
         private readonly IENodebRepository _eNodebRepository;
         private readonly IAgisDtPointRepository _agisRepository;
         
-        private readonly IMrGridRepository _mrGridRepository;
-
         private readonly IAppStreamRepository _streamRepository;
         private readonly IWebBrowsingRepository _browsingRepository;
 
         private readonly TownSupportService _service;
+        private readonly AgpsService _agpsService;
+        private readonly MrGridService _mrGridService;
 
         private static Stack<NearestPciCell> NearestCells { get; set; }
-
-        public int NearestCellCount => NearestCells.Count;
 
         public NearestPciCellService(INearestPciCellRepository repository, ICellRepository cellRepository,
             IENodebRepository eNodebRepository, IAgisDtPointRepository agisRepository,
             ITownRepository townRepository, IMrGridRepository mrGridRepository,
             IAppStreamRepository streamRepository, IWebBrowsingRepository browsingRepository,
-            ITownBoundaryRepository boundaryRepository)
+            ITownBoundaryRepository boundaryRepository, ITelecomAgpsRepository telecomAgpsRepository,
+            IMobileAgpsRepository mobileAgpsRepository)
         {
             _repository = repository;
             _cellRepository = cellRepository;
             _eNodebRepository = eNodebRepository;
             _agisRepository = agisRepository;
-            _mrGridRepository = mrGridRepository;
+            
             _streamRepository = streamRepository;
             _browsingRepository = browsingRepository;
+
             _service = new TownSupportService(townRepository, boundaryRepository);
+            _agpsService = new AgpsService(telecomAgpsRepository, mobileAgpsRepository);
+            _mrGridService = new MrGridService(mrGridRepository);
+            
             if (NearestCells == null)
                 NearestCells = new Stack<NearestPciCell>();
         }
@@ -180,16 +281,7 @@ namespace Lte.Evaluations.DataService.Mr
             xml.Load(reader);
             
             var district = _service.QueryFileNameDistrict(fileName);
-            var candidateDescritions = new [] {"竞对总体", "移动竞对", "联通竞对" };
-            var competeDescription = candidateDescritions.FirstOrDefault(fileName.Contains);
-            var list = competeDescription == null
-                ? MrGridXml.ReadGridXmls(xml, district ?? "禅城")
-                : MrGridXml.ReadGridXmlsWithCompete(xml, district ?? "禅城", competeDescription);
-            foreach (var item in list)
-            {
-                _mrGridRepository.Insert(item.MapTo<MrGrid>());
-            }
-            _mrGridRepository.SaveChanges();
+            _mrGridService.UploadMrGrids(xml, district, fileName);
         }
 
         public async Task<int> UploadWebBrowsings(StreamReader reader)
@@ -218,30 +310,23 @@ namespace Lte.Evaluations.DataService.Mr
 
         public IEnumerable<MrCoverageGridView> QueryCoverageGridViews(DateTime initialDate, string district)
         {
-            var stats =
-                _mrGridRepository.QueryDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(
-                    x =>
-                        x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
-                        x.Compete == AlarmCategory.Self));
-            return stats.MapTo<IEnumerable<MrCoverageGridView>>();
+            return _mrGridService.QueryCoverageGridViews(initialDate, district);
         }
 
         public IEnumerable<MrCoverageGridView> QueryCoverageGridViews(DateTime initialDate, string district, string town)
         {
             var boundaries = _service.QueryTownBoundaries(district, town);
             if (boundaries == null) return new List<MrCoverageGridView>();
-            var stats =
-                _mrGridRepository.QueryDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(
-                    x =>
-                        x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
-                        x.Compete == AlarmCategory.Self)).Where(x =>
-                        {
-                            var fields = x.Coordinates.GetSplittedFields(';')[0].GetSplittedFields(',');
-                            var point = new GeoPoint(fields[0].ConvertToDouble(0), fields[1].ConvertToDouble(0));
-                            return boundaries.Any(boundary => GeoMath.IsInPolygon(point, boundary));
-                        });
-            return stats.MapTo<IEnumerable<MrCoverageGridView>>();
+            return _mrGridService.QueryCoverageGridViews(initialDate, boundaries, district);
         }
+
+        public IEnumerable<AgpsCoverageView> QueryTelecomCoverageViews(DateTime begin, DateTime end, string district,
+            string town)
+        {
+            var boundaries = _service.QueryTownBoundaries(district, town);
+            if (boundaries == null) return new List<AgpsCoverageView>();
+            return _agpsService.QueryTelecomCoverageViews(begin, end, boundaries);
+        } 
 
         public IEnumerable<MrCompeteGridView> QueryCompeteGridViews(DateTime initialDate, string district,
             string competeDescription)
@@ -250,12 +335,7 @@ namespace Lte.Evaluations.DataService.Mr
                 WirelessConstants.EnumDictionary["AlarmCategory"].FirstOrDefault(x => x.Item2 == competeDescription);
             var compete = (AlarmCategory?)competeTuple?.Item1;
 
-            var stats =
-                _mrGridRepository.QueryDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(
-                    x =>
-                        x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
-                        x.Frequency == -1 && x.Compete == compete)).ToList();
-            return stats.MapTo<IEnumerable<MrCompeteGridView>>();
+            return _mrGridService.QueryCompeteGridViews(initialDate, district, compete);
         }
 
         public IEnumerable<MrCompeteGridView> QueryCompeteGridViews(DateTime initialDate, string district, string town,
@@ -268,17 +348,7 @@ namespace Lte.Evaluations.DataService.Mr
                 WirelessConstants.EnumDictionary["AlarmCategory"].FirstOrDefault(x => x.Item2 == competeDescription);
             var compete = (AlarmCategory?)competeTuple?.Item1;
 
-            var stats =
-                _mrGridRepository.QueryDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(
-                    x =>
-                        x.StatDate >= beginDate && x.StatDate < endDate && x.District == district &&
-                        x.Frequency == -1 && x.Compete == compete)).Where(x =>
-                        {
-                            var fields = x.Coordinates.GetSplittedFields(';')[0].GetSplittedFields(',');
-                            var point = new GeoPoint(fields[0].ConvertToDouble(0), fields[1].ConvertToDouble(0));
-                            return boundaries.Aggregate(false, (current, boundary) => current || GeoMath.IsInPolygon(point, boundary));
-                        });
-            return stats.MapTo<IEnumerable<MrCompeteGridView>>();
+            return _mrGridService.QueryCompeteGridViews(initialDate, district, compete, boundaries);
         }
     }
 }
