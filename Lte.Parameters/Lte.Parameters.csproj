@@ -187,12 +187,9 @@
     <Compile Include="Concrete\Switch\EUtranCellMeasurementZteRepository.cs" />
     <Compile Include="Entities\Basic\EUtranCellFDDZte.cs" />
     <Compile Include="Entities\Basic\PrachFDDZte.cs" />
-    <Compile Include="Entities\Channel\CellDlpcPdschPa.cs" />
-    <Compile Include="Entities\Channel\CellUlpcComm.cs" />
-    <Compile Include="Entities\Channel\ECellEquipmentFunctionZte.cs" />
-    <Compile Include="Entities\Channel\PDSCHCfg.cs" />
-    <Compile Include="Entities\Channel\PowerControlDLZte.cs" />
-    <Compile Include="Entities\Channel\PowerControlULZte.cs" />
+    <Compile Include="Entities\Channel\AgpsMongo.cs" />
+    <Compile Include="Entities\Channel\Pdsch.cs" />
+    <Compile Include="Entities\Channel\PowerControl.cs" />
     <Compile Include="Entities\Kpi\MrsStats.cs" />
     <Compile Include="Entities\Neighbor\ExternalEUtranCellFDDZte.cs" />
     <Compile Include="Concrete\Switch\CellMeasGroupZteRepository.cs" />

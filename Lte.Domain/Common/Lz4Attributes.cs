@@ -41,12 +41,12 @@ namespace Lte.Domain.Common
         public AssertionConditionType ConditionType { get; }
     }
 
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Method)]
     internal sealed class AssertionMethodAttribute : Attribute
     {
     }
 
-    [BaseTypeRequired(typeof(Attribute)), AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+    [BaseTypeRequired(typeof(Attribute)), AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     internal sealed class BaseTypeRequiredAttribute : Attribute
     {
         private readonly Type[] myBaseTypes;
@@ -66,28 +66,33 @@ namespace Lte.Domain.Common
     }
 
     [AttributeUsage(AttributeTargets.Delegate | AttributeTargets.Parameter
-        | AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method,
-        AllowMultiple = false, Inherited = true)]
+        | AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method)]
     public sealed class CanBeNullAttribute : Attribute
     {
     }
 
-    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Property)]
+    public sealed class ArraySumProtectionAttribute : Attribute
+    {
+        
+    }
+
+    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Struct | AttributeTargets.Class)]
     internal sealed class CannotApplyEqualityOperatorAttribute : Attribute
     {
     }
 
-    [AttributeUsage(AttributeTargets.Parameter, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Parameter)]
     internal sealed class InstantHandleAttribute : Attribute
     {
     }
 
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Parameter)]
     internal sealed class InvokerParameterNameAttribute : Attribute
     {
     }
 
-    [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.All)]
     internal sealed class LocalizationRequiredAttribute : Attribute
     {
         public LocalizationRequiredAttribute(bool required)
@@ -109,7 +114,7 @@ namespace Lte.Domain.Common
         public bool Required { get; set; }
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class)]
     internal sealed class MeansImplicitUseAttribute : Attribute
     {
         [UsedImplicitly]
@@ -140,7 +145,7 @@ namespace Lte.Domain.Common
     }
 
     [AttributeUsage(AttributeTargets.Delegate | AttributeTargets.Parameter | AttributeTargets.Field 
-        | AttributeTargets.Property | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+        | AttributeTargets.Property | AttributeTargets.Method)]
     public sealed class NotNullAttribute : Attribute
     {
     }
@@ -157,12 +162,12 @@ namespace Lte.Domain.Common
         }
     }
 
-    [AttributeUsage(AttributeTargets.Method, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Method)]
     internal sealed class PureAttribute : Attribute
     {
     }
 
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Constructor, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Constructor)]
     internal sealed class StringFormatMethodAttribute : Attribute
     {
         private readonly string myFormatParameterName;
@@ -181,12 +186,12 @@ namespace Lte.Domain.Common
         }
     }
 
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Method)]
     public sealed class TerminatesProgramAttribute : Attribute
     {
     }
 
-    [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.All)]
     internal sealed class UsedImplicitlyAttribute : Attribute
     {
         [UsedImplicitly]

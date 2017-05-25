@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
+using Lte.Domain.Common;
 
 namespace Lte.Domain.Regular
 {
@@ -44,28 +46,34 @@ namespace Lte.Domain.Regular
         public static void Increase<T>(this T source, T increment)
         {
             var properties = (typeof(T)).GetProperties();
-            foreach (var property in properties.Where(property => property.CanWrite))
+            foreach (var property in from property in properties.Where(property => property.CanWrite)
+                let attribute = property.GetCustomAttribute<ArraySumProtectionAttribute>()
+                where attribute == null
+                select property)
             {
+                ;
                 switch (property.PropertyType.Name)
                 {
                     case "Int16":
                         var value16
-                            = (short)((short)property.GetValue(increment, null) + (short)property.GetValue(source, null));
+                            =
+                            (short)
+                                ((short) property.GetValue(increment, null) + (short) property.GetValue(source, null));
                         property.SetValue(source, value16, null);
                         break;
                     case "Int32":
                         property.SetValue(source,
-                            (int)property.GetValue(increment, null) + (int)property.GetValue(source, null),
+                            (int) property.GetValue(increment, null) + (int) property.GetValue(source, null),
                             null);
                         break;
                     case "Int64":
                         property.SetValue(source,
-                            (long)property.GetValue(increment, null) + (long)property.GetValue(source, null),
+                            (long) property.GetValue(increment, null) + (long) property.GetValue(source, null),
                             null);
                         break;
                     case "Double":
                         property.SetValue(source,
-                            (double)property.GetValue(increment, null) + (double)property.GetValue(source, null),
+                            (double) property.GetValue(increment, null) + (double) property.GetValue(source, null),
                             null);
                         break;
                 }
@@ -76,7 +84,10 @@ namespace Lte.Domain.Regular
         {
             var properties = (typeof(T)).GetProperties();
 
-            foreach (var property in properties.Where(property => property.CanWrite))
+            foreach (var property in from property in properties.Where(property => property.CanWrite)
+                                     let attribute = property.GetCustomAttribute<ArraySumProtectionAttribute>()
+                                     where attribute == null
+                                     select property)
             {
                 switch (property.PropertyType.Name)
                 {
@@ -124,7 +135,9 @@ namespace Lte.Domain.Regular
             var properties = (typeof(T)).GetProperties();
             foreach (var property in properties
                 .Where(property => property.CanRead && property.CanWrite)
-                .Where(property => property.PropertyType.Name == "DateTime"))
+                .Where(property => (property.PropertyType.Name != "Int16" && property.PropertyType.Name != "Int32"
+                && property.PropertyType.Name != "Int64" && property.PropertyType.Name != "Double")
+                || property.GetCustomAttribute<ArraySumProtectionAttribute>() != null))
             {
                 property.SetValue(destination, property.GetValue(source, null), null);
             }
