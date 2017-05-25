@@ -7,6 +7,7 @@ using System.Web.Http;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.DataService.Mr;
 using Lte.MySqlFramework.Entities;
+using Lte.Parameters.Entities.Channel;
 using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.Mr
@@ -73,6 +74,23 @@ namespace LtePlatform.Controllers.Mr
         public IEnumerable<MrCompeteGridView> Get(DateTime statDate, string district, string town, string competeDescription)
         {
             return _service.QueryCompeteGridViews(statDate, district, town, competeDescription);
+        }
+    }
+
+    public class AgpsTelecomController : ApiController
+    {
+        private readonly NearestPciCellService _service;
+
+        public AgpsTelecomController(NearestPciCellService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<AgpsCoverageView> Get(DateTime begin, DateTime end, string district,
+            string town)
+        {
+            return _service.QueryTelecomCoverageViews(begin, end, district, town);
         }
     }
 

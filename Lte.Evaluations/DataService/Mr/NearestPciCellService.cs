@@ -72,7 +72,21 @@ namespace Lte.Evaluations.DataService.Mr
         public IEnumerable<AgpsCoverageView> QueryTelecomCoverageViews(DateTime begin, DateTime end,
             IEnumerable<List<GeoPoint>> boundaries)
         {
-            return new List<AgpsCoverageView>();
+            var west = (int)((boundaries.Select(x => x.Select(t => t.Longtitute).Min()).Min() - 112)/0.00049);
+            var east = (int)((boundaries.Select(x => x.Select(t => t.Longtitute).Max()).Max() - 112)/0.00049);
+            var south = (int)((boundaries.Select(x => x.Select(t => t.Lattitute).Min()).Min() - 22)/0.00045);
+            var north = (int)((boundaries.Select(x => x.Select(t => t.Lattitute).Max()).Max() - 22)/0.00045);
+            var stats =
+                _telecomAgpsRepository.GetAllList(
+                    x =>
+                        x.StatDate >= begin && x.StatDate < end && x.X >= west && x.X < east && x.Y >= south &&
+                        x.Y < north);
+            if (!stats.Any()) return new List<AgpsCoverageView>();
+            var filterStats =
+                stats.GroupBy(x => new {x.X, x.Y})
+                    .Select(x => x.Average())
+                    .Where(x => boundaries.Any(boundary => GeoMath.IsInPolygon(new GeoPoint(x.Longtitute, x.Lattitute), boundary)));
+            return filterStats.MapTo<List<AgpsCoverageView>>();
         } 
     }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
@@ -27,6 +28,7 @@ namespace Lte.Parameters.Entities.Channel
         [ArraySumProtection]
         public int X { get; set; }
 
+        [ArraySumProtection]
         public int Y { get; set; }
 
         public double Longtitute => 112 + X*0.00049;
@@ -44,6 +46,7 @@ namespace Lte.Parameters.Entities.Channel
         public int GoodCount100 { get; set; }
     }
 
+    [AutoMapFrom(typeof(AgpsMongo))]
     public class AgpsCoverageView : IStatDate, IGeoPoint<double>
     {
         public DateTime StatDate { get; set; }
