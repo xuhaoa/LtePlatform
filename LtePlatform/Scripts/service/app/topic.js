@@ -847,6 +847,37 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 			dwg: false
 		};
 		$scope.constructionGroups = appFormatService.generateConstructionGroups(site);
+		$scope.uploadNewDwg = function() {
+			$scope.upload.dwg = true;
+			var $uploader = $("#btsInfo_upload_dwg");
+
+			//配置上传控件
+			$uploader.fileinput({
+				language: "zh",//本地化语言
+				uploadUrl: "/api/DWGUpload?Directory=" + setting.dwgPath + "&BtsId=" + setting.btsId,
+				uploadAsync: true,
+				minFileCount: 1,
+				maxFileCount: 6,//一次最多上传数量
+				overwriteInitial: false,
+				allowedFileExtensions: ["pdf", "vsd", "vsdx"],
+				previewSettings: {
+					image: { width: "120px", height: "80px" },
+				},
+				initialPreviewAsData: true // identify if you are sending preview data only and not the markup
+			}).on('fileuploaded', function (event, data, id, index) {
+				$scope.upload.dwg = false;
+				$scope.getDwgList();
+			}).on('filebatchuploaderror', function (event, data, previewId, index) {
+				$scope.upload.dwg = false;
+			});
+
+			//清空已选
+			$uploader.fileinput('clear');
+		};
+
+		$scope.getDwgList = function() {
+
+		};
 
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.site);

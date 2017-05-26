@@ -21,7 +21,13 @@
         <button type="submit" class="btn btn-sm btn-primary" ng-click="queryAgps()">
             查询
         </button>
-        <div class="btn btn-sm btn-default" ng-click="displayAgps">
+        <div ng-disabled="!telecomAgps.length" ng-show="type.selected === '电信'" class="btn btn-sm btn-default" ng-click="displayTelecomAgps()">
+            显示
+        </div>
+        <div ng-disabled="!mobileAgps.length" ng-show="type.selected === '移动'" class="btn btn-sm btn-default" ng-click="displayMobileAgps()">
+            显示
+        </div>
+        <div ng-disabled="!unicomAgps.length" ng-show="type.selected === '联通'" class="btn btn-sm btn-default" ng-click="displayUnicomAgps()">
             显示
         </div>
     </div>

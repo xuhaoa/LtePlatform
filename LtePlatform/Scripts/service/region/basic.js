@@ -317,6 +317,14 @@
                     topic: topic
                 });
             },
+            queryAgpsTelecomByTown: function(begin, end, district, town) {
+                return generalHttpService.getApiData('AgpsTelecom', {
+                    begin: begin,
+                    end: end,
+                    district: district,
+                    town: town
+                });
+            },
             queryMrGridSelfCoverage: function (district, statDate) {
                 return generalHttpService.getApiData('MrGrid', {
                     district: district,
