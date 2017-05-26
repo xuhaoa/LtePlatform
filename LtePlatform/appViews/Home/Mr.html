@@ -1,7 +1,7 @@
 ﻿<div class="btn-group-sm col-md-4" uib-dropdown dropdown-append-to-body>
     <button id="single-button" type="button" class="btn btn-sm btn-default"
             uib-dropdown-toggle ng-disabled="disabled">
-        <strong>MR统计功能</strong>
+        <strong>覆盖-{{currentView}}</strong>
         <span class="caret"></span>
     </button>
     <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
@@ -11,6 +11,25 @@
                 指标统计
             </a>
         </li>
+        <li role="menuitem">
+            <a class="btn btn-sm btn-success" ng-click="showTelecomCoverage()">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+                电信
+            </a>
+        </li>
+        <li role="menuitem">
+            <a class="btn btn-sm btn-success" ng-click="showMobileCoverage()">
+                <i class="glyphicon glyphicon-tree-conifer"></i>
+                移动
+            </a>
+        </li>
+        <li role="menuitem">
+            <a class="btn btn-sm btn-success" ng-click="showUnicomCoverage()">
+                <i class="glyphicon glyphicon-flag"></i>
+                联通
+            </a>
+        </li>
+        <li class="divider"></li>
         <li role="menuitem">
             <a class="btn btn-sm btn-success" ng-click="switchData()">
                 <i class="glyphicon glyphicon-apple"></i>
@@ -32,30 +51,9 @@
     </ul>
 </div>
 
-<div class="btn-group-sm col-md-4" uib-dropdown dropdown-append-to-body>
-    <button id="view-button" type="button" class="btn btn-sm btn-default"
-            uib-dropdown-toggle ng-disabled="disabled">
-        <strong>覆盖-{{currentView}}</strong>
-        <span class="caret"></span>
+<div class="btn-group-sm col-md-4">
+    <button uib-popover-template="'/appViews/Evaluation/Dialog/AgpsSearchCondition.html'" popover-title="查询条件设定" popover-placement="bottom-right"
+       class="btn btn-default btn-sm">
+        查询数据
     </button>
-    <ul uib-dropdown-menu role="menu" aria-labelledby="view-button">
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showTelecomCoverage()">
-                <i class="glyphicon glyphicon-fullscreen"></i>
-                电信
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showMobileCoverage()">
-                <i class="glyphicon glyphicon-tree-conifer"></i>
-                移动
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showUnicomCoverage()">
-                <i class="glyphicon glyphicon-flag"></i>
-                联通
-            </a>
-        </li>
-    </ul>
 </div>

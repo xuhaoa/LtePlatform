@@ -800,13 +800,17 @@
                 });
             });
         };
+        $scope.initializeLegend = function() {
+            $scope.legend.title = $scope.city.selected;
+            $scope.legend.intervals = [];
+            $scope.legend.criteria = [];
+        };
         
         $scope.showOutdoorSites = function () {
             $scope.currentView = "室外小区";
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary($scope.city.selected);
-            $scope.legend.title = $scope.city.selected;
-            $scope.legend.intervals = [];
+            $scope.initializeLegend();
             angular.forEach($scope.districts, function(district, $index) {
                 $scope.showDistrictOutdoor(district, $scope.colors[$index]);
             });
@@ -839,8 +843,7 @@
             $scope.currentView = "室内小区";
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary($scope.city.selected);
-            $scope.legend.title = $scope.city.selected;
-            $scope.legend.intervals = [];
+            $scope.initializeLegend();
             angular.forEach($scope.districts, function (district, $index) {
                 $scope.showDistrictIndoor(district, $scope.colors[$index]);
             });
@@ -875,8 +878,7 @@
             $scope.currentView = "LTE基站";
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary($scope.city.selected);
-            $scope.legend.title = $scope.city.selected;
-            $scope.legend.intervals = [];
+            $scope.initializeLegend();
             angular.forEach($scope.districts, function(district, $index) {
                 $scope.showDistrictENodebs(district, $scope.colors[$index]);
             });
@@ -894,8 +896,7 @@
         
         $scope.$watch('city.selected', function(city) {
             if (city) {
-                $scope.legend.title = city;
-                $scope.legend.intervals = [];
+                $scope.initializeLegend();
                 dumpPreciseService.generateUsersDistrict(city, $scope.districts, function(district, $index) {
                     $scope.showDistrictENodebs(district, $scope.colors[$index]);
                 });
@@ -1051,12 +1052,13 @@
 
     })
     .controller("home.mr", function ($scope, baiduMapService, coverageService, kpiDisplayService, parametersMapService, appUrlService,
-    coverageDialogService) {
+    coverageDialogService, dumpPreciseService, appRegionService) {
         baiduMapService.initializeMap("map", 13);
         
         var legend = kpiDisplayService.queryCoverageLegend('RSRP');
         $scope.legend.title = 'RSRP';
         $scope.legend.criteria = legend.criteria;
+        $scope.legend.intervals = [];
         $scope.legend.sign = legend.sign;
         $scope.currentDataLabel = "districtPoints";
         $scope.showStats = function() {
@@ -1126,6 +1128,33 @@
                 $scope.data = items;
                 $scope.showTelecomCoverage();
             });
+        });
+        $scope.type = {
+            options: ['电信', '移动', '联通'],
+            selected: '电信'
+        };
+        $scope.$watch('city.selected', function (city) {
+            if (city) {
+                var districts = [];
+                dumpPreciseService.generateUsersDistrict(city, districts, function(district, $index) {
+                    if ($index === 0) {
+                        $scope.district = {
+                            options: districts,
+                            selected: districts[0]
+                        };
+                    }
+                });
+            }
+        });
+        $scope.$watch('district.selected', function (district) {
+            if (district) {
+                appRegionService.queryTowns($scope.city.selected, district).then(function (towns) {
+                    $scope.town = {
+                        options: towns,
+                        selected: towns[0]
+                    };
+                });
+            }
         });
     })
     .controller("mr.grid", function ($scope, baiduMapService, coverageService, authorizeService, kpiDisplayService,

@@ -1,0 +1,28 @@
+﻿<div style="width: 300px">
+    <div class="form-group" style="float: left; line-height: 22px; margin-right: 15px;">
+        <label>区县：</label>
+        <select ng-model="district.selected" ng-options="c as c for c in district.options"></select>
+        <label>镇区：</label>
+        <select ng-model="town.selected" ng-options="t as t for t in town.options"></select>
+    </div>
+    <div class="form-group" style="float: left">
+        <label>开始日期：</label>
+        {{beginDate.value | date: "yyyy-MM-dd"}}
+        <br/>
+        <label>结束日期：</label>
+        {{endDate.value | date: "yyyy-MM-dd"}}
+    </div>
+    <div class="form-group" style="float: left">
+        <label>类别</label>
+        <select ng-model="type.selected" ng-options="t as t for t in type.options"></select>
+        <span ng-show="type.selected === '电信'">{{telecomAgps.length}}</span>
+        <span ng-show="type.selected === '移动'">{{mobileAgps.length}}</span>
+        <span ng-show="type.selected === '联通'">{{unicomAgps.length}}</span>
+        <button type="submit" class="btn btn-sm btn-primary" ng-click="queryAgps()">
+            查询
+        </button>
+        <div class="btn btn-sm btn-default" ng-click="displayAgps">
+            显示
+        </div>
+    </div>
+</div>
