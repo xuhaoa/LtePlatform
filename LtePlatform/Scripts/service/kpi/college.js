@@ -8,6 +8,12 @@
 				$scope.eNodebList = result;
 			});
 		};
+		$scope.page = {
+			messages: []
+		};
+		$scope.closeAlert = function(messages, $index) {
+			messages.splice($index, 1);
+		};
 		collegeQueryService.queryByName(name).then(function (college) {
 			collegeService.queryRegion(college.id).then(function(region) {
 				var center = geometryService.queryRegionCenter(region);

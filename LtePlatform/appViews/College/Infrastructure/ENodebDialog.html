@@ -5,6 +5,9 @@
     <h4 class="modal-title">{{dialogTitle}}</h4>
 </div>
 <div class="modal-body">
+    <div uib-alert ng-repeat="message in page.messages" class="alert-{{message.type}}" dismiss-on-timeout="2000" close="closeAlert(page.messages, $index)">
+        {{message.contents}}
+    </div>
     <div e-nodeb-table items="eNodebList"></div>
 </div>
 
