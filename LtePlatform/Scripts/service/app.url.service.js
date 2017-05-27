@@ -66,28 +66,28 @@
             getAccessToken: getAccessToken,
             initializeAuthorization: initializeAuthorization,
             getPlanUrlHost: function() {
-                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:8070/' : 'http://10.17.165.111:8070/';
+                return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:8070/' : 'http://10.17.165.111:8070/';
             },
             getDtUrlHost: function() {
-                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.41:2888/' : 'http://10.17.165.100:2888/';
+                return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.38:2888/' : 'http://10.17.165.100:2888/';
             },
             getDtUrlHost2: function () {
-                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.41:2868/' : 'http://10.17.165.100:2868/';
+                return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.38:2868/' : 'http://10.17.165.100:2868/';
             },
             getParameterUrlHost: function() {
-                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:8001/' : 'http://10.17.165.111:8001/';
+                return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:8001/' : 'http://10.17.165.111:8001/';
             },
             getTopnUrlHost: function () {
-                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:8006/' : 'http://10.17.165.111:8006/';
+                return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:8006/' : 'http://10.17.165.111:8006/';
             },
             getInterferenceHost: function () {
-                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:8004/' : 'http://10.17.165.111:8004/';
+                return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:8004/' : 'http://10.17.165.111:8004/';
             },
             getCustomerHost: function () {
-                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.41:8099/' : 'http://10.17.165.100:8099/';
+                return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.38:8099/' : 'http://10.17.165.100:8099/';
             },
             getPhpHost: function () {
-                return (window.location.hostname === '219.128.254.41') ? 'http://219.128.254.36:9000/' : 'http://10.17.165.111:9000/';
+                return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:9000/' : 'http://10.17.165.111:9000/';
             },
             getPhpLocalhost: function () {
                 return 'http://219.128.254.36:9000/';
@@ -1002,6 +1002,47 @@
                                }
                            ]
                        }
+                ]
+            },
+            generateCheckingStationGroups: function (station) {
+                return [
+                     {
+                         items: [
+                             {
+                                 key: '网元编号',
+                                 value: station.enodebCode
+                             }, {
+                                 key: '网元名称',
+                                 value: station.enodebName
+                             }, {
+                                 key: '网格名称',
+                                 value: station.areaName
+                             }
+                         ]
+                     },{
+                      items: [
+                             {
+                                 key: '巡检单位',
+                                 value: station.checkingComp
+                             }, {
+                                 key: '巡检人',
+                                 value: station.checkingMan
+                             }, {
+                                 key: '状态',
+                                 value: station.status
+                             }
+                         ]
+                     }, {
+                         items: [
+                                {
+                                    key: '经度',
+                                    value: station.longtitute
+                                }, {
+                                    key: '纬度',
+                                    value: station.lattitute
+                                }
+                         ]
+                     }
                 ]
             },
             generateENodebGroups: function(station) {

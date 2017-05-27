@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="~/Content/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="~/Content/font-awesome.min.css"/>
     <link rel="stylesheet" href="~/Content/Site.min.css"/>
+
+   <!-- <link rel="stylesheet" type="text/css" href="~/Content/jquery.easymenu.css" />-->
+    <link rel="stylesheet" type="text/css" href="~/Content/menu.css" />
     <meta http-equiv="cache-control" content="no-cache,no-store, must-revalidate" />
     <meta http-equiv="pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -27,7 +30,7 @@
                 <img width="60" src="~/Content/Images/Logo_new_version.png" ng-click="sideBarShown=!sideBarShown" />
             </div>
             <div class="navbar-collapse collapse">
-                <div ng-include="'/appViews/HeaderMenu.html'" ng-controller="header.menu"></div>
+                <div ng-include="'/appViews/HeaderMenu.html'" ng-controller="header.menu" id="menu" stype="width: 100%;"></div>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
@@ -82,8 +85,12 @@
 <script src="~/directives/customer/customer.module.js"></script>
 <script src="~/directives/college/college.module.js"></script>
     <script src="~/Scripts/app/common.js"></script>
-
-
+    <!--
+    <script type="text/javascript" src="~/Scripts/jquery.easymenu.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-3.1.0.min.js"></script>-->
+    
+    <script type="text/javascript" src="~/Scripts/jquery.js"></script>
+    <script type="text/javascript" src="~/Scripts/menu.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -443,10 +443,18 @@
     <Content Include="appViews\Home\AlarmSearchMenu.html" />
     <Content Include="appViews\Home\AlarmStationDetails.html" />
     <Content Include="appViews\Home\ButtonMenu.html" />
+    <Content Include="appViews\Home\Checking.html" />
     <Content Include="appViews\Home\ClearZero.html" />
+    <Content Include="appViews\Home\Common.html" />
+    <Content Include="appViews\Home\CommonMenu.html" />
+    <Content Include="appViews\Home\CommonStationAdd.html" />
+    <Content Include="appViews\Home\CommonStationDetails.html" />
+    <Content Include="appViews\Home\CommonStationEdit.html" />
+    <Content Include="appViews\Home\CommonStationListDialog.html" />
     <Content Include="appViews\Home\Complain.html" />
     <Content Include="appViews\Home\DatePopoverInput.html" />
     <Content Include="appViews\Home\FaultStation.html" />
+    <Content Include="appViews\Home\Fixing.html" />
     <Content Include="appViews\Home\Flow.html" />
     <Content Include="appViews\Home\FourChartDialog.html" />
     <Content Include="appViews\Home\GeneralTableDetails.html" />
@@ -519,8 +527,16 @@
     <Content Include="Content\Images\Hotmap\icon_search.png" />
     <Content Include="Content\Images\Hotmap\marker.png" />
     <Content Include="Content\Images\Hotmap\markers.png" />
+    <Content Include="Content\Images\item-pointer-mover.gif" />
+    <Content Include="Content\Images\item-pointer.gif" />
+    <Content Include="Content\Images\lava.gif" />
+    <Content Include="Content\Images\lava.png" />
+    <Content Include="Content\Images\main-bg.png" />
+    <Content Include="Content\Images\main-delimiter.png" />
     <Content Include="Content\jasmine\jasmine.css" />
     <Content Include="Content\jasmine\jasmine_favicon.png" />
+    <Content Include="Content\jquery.easymenu.css" />
+    <Content Include="Content\menu.css" />
     <Content Include="Content\Site.css">
       <DependentUpon>Site.scss</DependentUpon>
     </Content>
@@ -1606,6 +1622,8 @@
     <Content Include="Scripts\jquery-3.1.0.slim.min.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
+    <Content Include="Scripts\jquery.easymenu.js" />
+    <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\kpi\workitem.import.js" />
     <Content Include="Scripts\college\route.controller.js" />
     <Content Include="Scripts\kpi\precise.import.js" />
@@ -1617,6 +1635,7 @@
     <Content Include="Scripts\laydate\skins\default\laydate.css" />
     <Content Include="Scripts\laydate\skins\molv\icon.png" />
     <Content Include="Scripts\laydate\skins\molv\laydate.css" />
+    <Content Include="Scripts\menu.js" />
     <Content Include="Scripts\mycharts\combo-examples.js" />
     <Content Include="Scripts\parameters\import\index.controller.js" />
     <Content Include="Scripts\parameters\neighbor\import.controller.js" />

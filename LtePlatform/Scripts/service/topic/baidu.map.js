@@ -799,6 +799,20 @@
 					}
 				});
 			},
+			showCommonStationInfo: function (station) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/CommonStationDetails.html',
+			        controller: 'map.common-station.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "站点信息:" + station.name;
+			            },
+			            station: function () {
+			                return station;
+			            }
+			        }
+			    });
+			},
 			showZeroFlowInfo: function (station) {
 			    menuItemService.showGeneralDialog({
 			        templateUrl: '/appViews/Home/SpecialStationDetails.html',
@@ -889,6 +903,20 @@
 			        }
 			    });
 			},
+			showCheckingStationInfo: function (station) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/SpecialStationDetails.html',
+			        controller: 'map.checkingStation.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "巡检信息:" + station.enodebName;
+			            },
+			            station: function () {
+			                return station;
+			            }
+			        }
+			    });
+			},
 			showStationList: function () {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Home/StationListDialog.html',
@@ -899,6 +927,20 @@
 						}
 					}
 				});
+			},
+			showCommonStationList: function (type) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/CommonStationListDialog.html',
+			        controller: 'map.common-stationList.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "公共列表";
+			            },
+			            type: function () {
+			                return type;
+			            }
+			        }
+			    });
 			},
 			showAlarmHistoryList: function (alarmStation) {
 			    menuItemService.showGeneralDialog({
@@ -928,6 +970,20 @@
 					}
 				});
 			},
+			showCommonStationEdit: function (stationId) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/CommonStationEdit.html',
+			        controller: 'map.common-stationEdit.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "编辑站点";
+			            },
+			            stationId: function () {
+			                return stationId;
+			            }
+			        }
+			    });
+			},
 			showStationAdd: function () {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Home/StationAdd.html',
@@ -938,6 +994,17 @@
 						}
 					}
 				});
+			},
+			showCommonStationAdd: function () {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/CommonStationAdd.html',
+			        controller: 'map.common-stationAdd.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "站点添加";
+			            }
+			        }
+			    });
 			},
 			showCollegeCellInfo: function (cell) {
 				var modalInstance = $uibModal.open({
@@ -1290,6 +1357,14 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
+    .controller('map.common-station.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+		appFormatService, networkElementService) {
+        $scope.station = station;
+        $scope.dialogTitle = dialogTitle;
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .controller('map.special-station.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
 		appFormatService, networkElementService) {
         
@@ -1350,6 +1425,18 @@
              $uibModalInstance.dismiss('cancel');
          };
      })
+    .controller('map.checkingStation.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+		appFormatService, networkElementService) {
+
+        $scope.itemGroups = appFormatService.generateCheckingStationGroups(station);
+
+        $scope.dialogTitle = dialogTitle;
+
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .controller('map.alarmStation.dialog', function ($scope, $uibModalInstance, station, beginDate, endDate, dialogTitle,
         appFormatService, downSwitchService, parametersDialogService) {
         $scope.levels = [
@@ -1490,6 +1577,118 @@
 			});
 		}
 	})
+	.controller('map.common-stationList.dialog', function ($scope, $http, dialogTitle,type, $uibModalInstance, parametersDialogService,
+		downSwitchService) {
+		$scope.dialogTitle = dialogTitle;
+		$scope.distincts = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
+		$scope.stationList = [];
+		$scope.page = 1;
+		$scope.stationName = '';
+		$scope.totolPage = 1;
+		$http({
+			method: 'get',
+			url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/StationCommon/search/curr_page/0/page_size/10/type/'+type,
+		}).then(function successCallback(response) {
+			$scope.stationList = response.data.result.rows;
+			$scope.totolPage = response.data.result.total_pages;
+			$scope.page = response.data.result.curr_page;
+		}, function errorCallback(response) {
+			// 请求失败执行代码
+		});
+		$scope.details = function (stationId) {
+			downSwitchService.getCommonStationById(stationId).then(function(result) {
+				parametersDialogService.showCommonStationInfo(result.result[0]);
+			});
+		}
+
+		$scope.delete = function (stationId) {
+			if (confirm("你确定删除该站点？")) {
+				$http({
+					method: 'post',
+					url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/StationCommon/delete',
+					data: {
+						"idList": stationId
+					},
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+					transformRequest: function (obj) {
+						var str = [];
+						for (var p in obj) {
+							str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+						}
+						return str.join("&");
+					}
+				}).then(function successCallback(response) {
+					alert(response.data.description);
+					$scope.jumpPage($scope.page);
+				}, function errorCallback(response) {
+					// 请求失败执行代码
+				});
+			} else {
+
+			}
+		}
+		$scope.edit = function (stationId) {
+			parametersDialogService.showCommonStationEdit(stationId);
+		}
+		$scope.addStation = function () {
+			parametersDialogService.showCommonStationAdd();
+		}
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		}
+		$scope.search = function () {
+			$scope.page = 1;
+			$scope.jumpPage($scope.page);
+		}
+		$scope.firstPage = function () {
+			$scope.page = 1;
+			$scope.jumpPage($scope.page);
+		}
+		$scope.lastPage = function () {
+			$scope.page = $scope.totolPage;
+			$scope.jumpPage($scope.page);
+		}
+		$scope.prevPage = function () {
+			if ($scope.page != 1)
+				$scope.page--;
+			$scope.jumpPage($scope.page);
+		}
+		$scope.nextPage = function () {
+			if ($scope.page != $scope.totolPage)
+				$scope.page++;
+			$scope.jumpPage($scope.page);
+		}
+		$scope.jumpPage = function (page) {
+			if (page >= $scope.totolPage)
+				page = $scope.totolPage;
+			$http({
+				method: 'post',
+				url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/StationCommon/search',
+				data: {
+					"curr_page": page,
+					"page_size": 10,
+					"stationName": $scope.stationName,
+					"areaName": $scope.selectDistinct,
+                    "type":type
+				},
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+				transformRequest: function (obj) {
+					var str = [];
+					for (var p in obj) {
+						str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+					}
+					return str.join("&");
+				}
+			}).then(function successCallback(response) {
+				$scope.stationList = response.data.result.rows;
+				$scope.totolPage   = response.data.result.total_pages;
+				$scope.page        = response.data.result.curr_page;
+				$scope.records     = response.data.result.records;
+			}, function errorCallback(response) {
+				// 请求失败执行代码
+			});
+		}
+	})
     .controller('map.alarmHistoryList.dialog', function ($scope, $http, dialogTitle, alarmStation, $uibModalInstance, parametersDialogService,
 		downSwitchService) {
         $scope.levels = [
@@ -1594,6 +1793,53 @@
 			$uibModalInstance.dismiss('cancel');
 		}
 	})
+	.controller('map.common-stationEdit.dialog', function ($scope, $http, stationId, dialogTitle, $uibModalInstance) {
+	    $scope.dialogTitle = dialogTitle;
+	    $scope.station;
+	    $http({
+	        method: 'post',
+	        url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/StationCommon/single',
+	        data: {
+	            "id": stationId
+	        },
+	        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+	        transformRequest: function (obj) {
+	            var str = [];
+	            for (var p in obj) {
+	                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+	            }
+	            return str.join("&");
+	        }
+	    }).then(function successCallback(response) {
+	        $scope.station = response.data.result[0];
+	    }, function errorCallback(response) {
+	        // 请求失败执行代码
+	    });
+	    $scope.ok = function () {
+	        $http({
+	            method: 'post',
+	            url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/update',
+	            data: {
+	                "Station": JSON.stringify($scope.station)
+	            },
+	            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+	            transformRequest: function (obj) {
+	                var str = [];
+	                for (var p in obj) {
+	                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+	                }
+	                return str.join("&");
+	            }
+	        }).then(function successCallback(response) {
+	            alert(response.data.description);
+	        }, function errorCallback(response) {
+	            // 请求失败执行代码
+	        });
+	    }
+	    $scope.cancel = function () {
+	        $uibModalInstance.dismiss('cancel');
+	    }
+	})
 	.controller('map.stationAdd.dialog', function ($scope, $http, dialogTitle, $uibModalInstance) {
 		$scope.dialogTitle = dialogTitle;
 		$scope.station;
@@ -1622,54 +1868,33 @@
 			$uibModalInstance.dismiss('cancel');
 		}
 	})
-        .controller('map.stationAdd.dialog', function ($scope, $http, dialogTitle, $uibModalInstance) {
-            $scope.stationImport = function () {
-                var files = document.getElementById("file");
-                var file = files[0];
-                var reader = new FileReader();
-                reader.onloadend = function (e) {
-                    $http({
-                        method: 'POST',
-                        url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/upload',
-                        headers: {
-                            'Content-Type': undefine
-                        },
-                        data: {
-                            //filename:document.getElementsByClassName('input-file')[0].files[0],
-                            filename: "stationImport",
-                            content: e.target.result,
-                            problemType: '3'
-                        },
-                        transformRequest: (data, headersGetter) => {
-                            let formData = new FormData();
-                            angular.forEach(data, function (value, key) {
-                                formData.append(key, value);
-                            });
-                            return formData;
-                        }
-                    })
-                    .success(() => {
-                        alert('Upload Successfully');
-                    })
-                    .error(() => {
-                        alert('Fail to upload, please upload again');
-                    });
-
+    .controller('map.common-stationAdd.dialog', function ($scope, $http, dialogTitle, $uibModalInstance) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.station;
+        $scope.ok = function () {
+            $http({
+                method: 'post',
+                url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/StationCommon/add',
+                data: {
+                    "Station": JSON.stringify($scope.station)
+                },
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
                 }
-                reader.readAsText(file);
-
-            }
-        //inject angular file upload directives and service.angular.module('myApp', ['angularFileUpload']);var MyCtrl = [ '$scope', '$upload', function($scope, $upload) {
-        $scope.onFileSelect = function ($files) {    //$files: an array of files selected, each file has name, size, and type.            
-            alert($files.name);    
-        };
-        
-        $scope.indoorImport = function () {
+            }).then(function successCallback(response) {
+                alert(response.data.description);
+            }, function errorCallback(response) {
+                // 请求失败执行代码
+            });
         }
-
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
-        };
+        }
     })
     .controller('map.stationDetail.dialog', function ($scope, $http, stationId, dialogTitle, $uibModalInstance) {
         $scope.dialogTitle = dialogTitle;
