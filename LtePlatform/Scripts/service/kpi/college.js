@@ -1,9 +1,24 @@
 ﻿angular.module('kpi.college', ['myApp.url', 'myApp.region', "ui.bootstrap"])
-	.controller('eNodeb.dialog', function($scope, $uibModalInstance, collegeService, name, dialogTitle) {
+	.controller('eNodeb.dialog', function ($scope, $uibModalInstance, collegeService, collegeDialogService, name, dialogTitle) {
 		$scope.dialogTitle = dialogTitle;
-		collegeService.queryENodebs(name).then(function(result) {
-			$scope.eNodebList = result;
-		});
+		$scope.query = function() {
+			collegeService.queryENodebs(name).then(function(result) {
+				$scope.eNodebList = result;
+			});
+		};
+		
+		$scope.addENodebs = function () {
+			collegeDialogService.addENodeb(name, center, function (count) {
+				$scope.page.messages.push({
+					type: 'success',
+					contents: '增加ENodeb' + count + '个'
+				});
+				$scope.query();
+			});
+		};
+
+		$scope.query();
+		
 
 		$scope.ok = function() {
 			$uibModalInstance.close($scope.eNodebList);
@@ -185,34 +200,38 @@
 		};
 	})
 	.controller('eNodeb.supplement.dialog', function($scope, $uibModalInstance, networkElementService, geometryService,
-		baiduQueryService, collegeService,
+		baiduQueryService, collegeService, 
 		center, collegeName) {
 		$scope.dialogTitle = collegeName + "LTE基站补充";
 		$scope.supplementENodebs = [];
 		$scope.gridApi = {};
-		
-		baiduQueryService.transformToBaidu(center.X, center.Y).then(function(coors) {
-			collegeService.queryRange(collegeName).then(function(range) {
-				var ids = [];
-				collegeService.queryENodebs(collegeName).then(function(eNodebs) {
-					angular.forEach(eNodebs, function(eNodeb) {
-						ids.push(eNodeb.eNodebId);
-					});
-					networkElementService.queryRangeENodebs({
-						west: range.west + center.X - coors.x,
-						east: range.east + center.X - coors.x,
-						south: range.south + center.Y - coors.y,
-						north: range.north + center.Y - coors.y,
-						excludedIds: ids
-					}).then(function(results) {
-						angular.forEach(results, function(item) {
-							item.distance = geometryService.getDistance(item.lattitute, item.longtitute, coors.y, coors.x);
+
+		$scope.query = function() {
+			baiduQueryService.transformToBaidu(center.X, center.Y).then(function(coors) {
+				collegeService.queryRange(collegeName).then(function(range) {
+					var ids = [];
+					collegeService.queryENodebs(collegeName).then(function(eNodebs) {
+						angular.forEach(eNodebs, function(eNodeb) {
+							ids.push(eNodeb.eNodebId);
 						});
-						$scope.supplementENodebs = results;
+						networkElementService.queryRangeENodebs({
+							west: range.west + center.X - coors.x,
+							east: range.east + center.X - coors.x,
+							south: range.south + center.Y - coors.y,
+							north: range.north + center.Y - coors.y,
+							excludedIds: ids
+						}).then(function(results) {
+							angular.forEach(results, function(item) {
+								item.distance = geometryService.getDistance(item.lattitute, item.longtitute, coors.y, coors.x);
+							});
+							$scope.supplementENodebs = results;
+						});
 					});
 				});
 			});
-		});
+		};
+
+		$scope.query();
 
 		$scope.ok = function() {
 			$uibModalInstance.close($scope.gridApi.selection.getSelectedRows());
@@ -634,72 +653,72 @@
 	})
 	.controller("maintain.college.dialog", function ($scope, $uibModalInstance, dialogTitle, year,
 		collegeService, collegeQueryService, collegeDialogService, appFormatService) {
-	    $scope.dialogTitle = dialogTitle;
-	    $scope.collegeYearList = [];
-	    $scope.collegeInfo = {
-	        names: []
-	    };
-	    collegeService.queryNames().then(function (result) {
-	        $scope.collegeInfo.names = result;
-	        $scope.collegeName = $scope.collegeInfo.names[0];
-	    });
+		$scope.dialogTitle = dialogTitle;
+		$scope.collegeYearList = [];
+		$scope.collegeInfo = {
+			names: []
+		};
+		collegeService.queryNames().then(function (result) {
+			$scope.collegeInfo.names = result;
+			$scope.collegeName = $scope.collegeInfo.names[0];
+		});
 
-	    $scope.updateInfos = function () {
-	        collegeService.queryStats(year).then(function (colleges) {
-	            $scope.collegeList = colleges;
-	        });
-	        collegeQueryService.queryYearList(year).then(function (colleges) {
-	            $scope.collegeYearList = colleges;
-	        });
-	        $scope.updateCollegeStatus($scope.collegeName);
-	    };
-	    $scope.updateCollegeStatus = function (name) {
-	        collegeQueryService.queryByNameAndYear(name, year).then(function (info) {
-	            $scope.collegeExisted = !!info;
-	        });
-	    };
-	    $scope.$watch('collegeName', function (name) {
-	        $scope.updateCollegeStatus(name);
-	    });
-	    $scope.addOneCollegeMarkerInfo = function () {
-	        collegeQueryService.queryByNameAndYear($scope.collegeName, year - 1).then(function (item) {
-	            if (!item) {
-	                var begin = new Date();
-	                begin.setDate(begin.getDate() - 365 - 7);
-	                var end = new Date();
-	                end.setDate(end.getDate() - 365);
-	                collegeQueryService.queryByName($scope.collegeName).then(function (college) {
-	                    item = {
-	                        oldOpenDate: appFormatService.getDateString(begin, 'yyyy-MM-dd'),
-	                        newOpenDate: appFormatService.getDateString(end, 'yyyy-MM-dd'),
-	                        collegeId: college.id
-	                    };
-	                    collegeDialogService.addYearInfo(item, $scope.collegeName, year, function () {
-	                        $scope.updateInfos();
-	                    });
-	                });
-	            } else {
-	                collegeDialogService.addYearInfo(item, $scope.collegeName, year, function () {
-	                    $scope.updateInfos();
-	                });
-	            }
-	        });
-	    };
-	    $scope.createNewCollege = function () {
-	        collegeDialogService.addNewCollege(function () {
-	            $scope.updateInfos();
-	        });
-	    };
+		$scope.updateInfos = function () {
+			collegeService.queryStats(year).then(function (colleges) {
+				$scope.collegeList = colleges;
+			});
+			collegeQueryService.queryYearList(year).then(function (colleges) {
+				$scope.collegeYearList = colleges;
+			});
+			$scope.updateCollegeStatus($scope.collegeName);
+		};
+		$scope.updateCollegeStatus = function (name) {
+			collegeQueryService.queryByNameAndYear(name, year).then(function (info) {
+				$scope.collegeExisted = !!info;
+			});
+		};
+		$scope.$watch('collegeName', function (name) {
+			$scope.updateCollegeStatus(name);
+		});
+		$scope.addOneCollegeMarkerInfo = function () {
+			collegeQueryService.queryByNameAndYear($scope.collegeName, year - 1).then(function (item) {
+				if (!item) {
+					var begin = new Date();
+					begin.setDate(begin.getDate() - 365 - 7);
+					var end = new Date();
+					end.setDate(end.getDate() - 365);
+					collegeQueryService.queryByName($scope.collegeName).then(function (college) {
+						item = {
+							oldOpenDate: appFormatService.getDateString(begin, 'yyyy-MM-dd'),
+							newOpenDate: appFormatService.getDateString(end, 'yyyy-MM-dd'),
+							collegeId: college.id
+						};
+						collegeDialogService.addYearInfo(item, $scope.collegeName, year, function () {
+							$scope.updateInfos();
+						});
+					});
+				} else {
+					collegeDialogService.addYearInfo(item, $scope.collegeName, year, function () {
+						$scope.updateInfos();
+					});
+				}
+			});
+		};
+		$scope.createNewCollege = function () {
+			collegeDialogService.addNewCollege(function () {
+				$scope.updateInfos();
+			});
+		};
 
-	    $scope.updateInfos();
+		$scope.updateInfos();
 
-	    $scope.ok = function () {
-	        $uibModalInstance.close($scope.cell);
-	    };
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.cell);
+		};
 
-	    $scope.cancel = function () {
-	        $uibModalInstance.dismiss('cancel');
-	    };
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
 
 	})
 
@@ -976,32 +995,32 @@
 				});
 			},
 			showCollegeFlow: function(year) {
-		        menuItemService.showGeneralDialog({
-		            templateUrl: '/appViews/College/Test/Flow.html',
-		            controller: 'college.flow',
-		            resolve: {
-		                dialogTitle: function() {
-		                    return "校园流量分析（" + year + "年）";
-		                },
-		                year: function() {
-		                    return year;
-		                }
-		            }
-		        });
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/College/Test/Flow.html',
+					controller: 'college.flow',
+					resolve: {
+						dialogTitle: function() {
+							return "校园流量分析（" + year + "年）";
+						},
+						year: function() {
+							return year;
+						}
+					}
+				});
 			},
 			maintainCollegeInfo: function (year) {
-			    menuItemService.showGeneralDialog({
-			        templateUrl: '/appViews/College/Stat.html',
-			        controller: 'maintain.college.dialog',
-			        resolve: {
-			            dialogTitle: function () {
-			                return "校园基础信息维护（" + year + "年）";
-			            },
-			            year: function () {
-			                return year;
-			            }
-			        }
-			    });
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/College/Stat.html',
+					controller: 'maintain.college.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return "校园基础信息维护（" + year + "年）";
+						},
+						year: function () {
+							return year;
+						}
+					}
+				});
 			}
 		};
 	});

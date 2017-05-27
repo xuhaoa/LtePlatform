@@ -5,11 +5,11 @@
     <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
 <div class="modal-body">
-    <button class="btn btn-sm btn-warning" ng-click="supplementCells()">补充小区（根据基站）</button>
-    <button class="btn btn-sm btn-warning" ng-click="supplementLonelyCells()">补充小区（根据位置）</button>
     <div cell-dialog-table items="cellList"></div>
 </div>
 <div class="modal-footer">
+    <button class="btn btn-sm btn-primary" ng-click="supplementCells()">补充小区（根据基站）</button>
+    <button class="btn btn-sm btn-primary" ng-click="supplementLonelyCells()">补充小区（根据位置）</button>
     <button class="btn btn-warning" ng-click="ok()">OK</button>
-    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-default" type="button" ng-click="cancel()">Cancel</button>
 </div>

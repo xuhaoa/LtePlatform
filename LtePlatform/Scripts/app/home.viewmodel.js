@@ -1567,15 +1567,6 @@
             parametersMapService.showHotSpotCellSectors(college.name, $scope.beginDate, $scope.endDate);
         };
 
-        $scope.addENodebs = function () {
-            collegeDialogService.addENodeb($scope.currentView, $scope.center, function (count) {
-                $scope.page.messages.push({
-                    type: 'success',
-                    contents: '增加ENodeb' + count + '个'
-                });
-                $scope.showView($scope.currentCollege);
-            });
-        };
         $scope.addBts = function () {
             collegeDialogService.addBts($scope.currentView, $scope.center, function (count) {
                 $scope.page.messages.push({
