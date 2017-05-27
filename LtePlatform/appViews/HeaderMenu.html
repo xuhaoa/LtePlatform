@@ -5,14 +5,27 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-blue-azure" role="menu" aria-labelledby="infrastructure">
             <li role="presentation">
-                <a role="menuitem" ng-href="/#/station">
+                <a role="menuitem" href="" ng-mouseover="commonMenu.$folded = !commonMenu.$folded">
+                    <i ng-if="commonMenu.$folded" class="glyphicon glyphicon-chevron-down"></i>
+                    <i ng-if="!commonMenu.$folded" class="glyphicon glyphicon-chevron-up"></i>
+                    公共信息
+                </a>
+            </li>
+            <li role="presentation" ng-if="!commonMenu.$folded">
+                <a role="menuitem" ng-href="/#/station" style="padding-left: 50px">
                     基站站点
                     <i class="glyphicon glyphicon-apple"></i>
                 </a>
             </li>
-            <li role="presentation">
-                <a role="menuitem" ng-href="/#/analysis">
+            <li role="presentation" ng-if="!commonMenu.$folded">
+                <a role="menuitem" ng-href="/#/analysis" style="padding-left: 50px">
                     室分站点
+                    <i class="glyphicon glyphicon-apple"></i>
+                </a>
+            </li>
+            <li role="presentation" ng-if="!commonMenu.$folded">
+                <a role="menuitem" ng-href="/#/common" style="padding-left: 50px">
+                    标准站址
                     <i class="glyphicon glyphicon-apple"></i>
                 </a>
             </li>

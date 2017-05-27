@@ -171,6 +171,9 @@ angular.module('app.core', [])
         $scope.repeaterUrl = appUrlService.getCustomerHost() + 'IndexOfMicro.aspx';
         $scope.marketUrl = appUrlService.getCustomerHost() + 'IndexOfTelJobs.aspx';
         $scope.rfUrl = appUrlService.getParameterUrlHost() + 'RadioFreqency.html';
+        $scope.commonMenu = {
+            $folded: true
+        };
     })
     .factory('generalHttpService', function ($q, $http, appUrlService) {
         return {

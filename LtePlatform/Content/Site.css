@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -340,6 +341,27 @@ ul.nav-navbar-list .open > a.dropdown-toggle {
 #checkbox {
   margin: 0; }
 
+/**
+ *********************************************
+ * Prototype of styles for horizontal CSS-menu
+ * @data 30.06.2017 øwww.16sucai.com
+ * @Modified by Ouyang Hui
+ *********************************************
+ * (X)HTML-scheme:
+ *  <div id="menu">
+ *      <ul class="menu">
+ *          <li><a href="#" class="parent"><span>level 1</span></a>
+ *              <ul>
+ *                  <li><a href="#" class="parent"><span>level 2</span></a>
+ *                      <ul><li><a href="#"><span>level 3</span></a></li></ul>
+ *                  </li>
+ *              </ul>
+ *          </li>
+ *          <li class="last"><a href="#"><span>level 1</span></a></li>
+ *      </ul>
+ *  </div>
+ *********************************************
+ */
 .infoBoxContent {
   font-size: 12px; }
   .infoBoxContent .title {
