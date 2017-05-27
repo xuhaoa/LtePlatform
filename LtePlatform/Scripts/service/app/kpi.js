@@ -1273,25 +1273,8 @@ angular.module('kpi.college', ['myApp.url', 'myApp.region', "ui.bootstrap", 'top
 	.controller('bts.supplement.dialog', function($scope, $uibModalInstance, networkElementService, geometryService, baiduQueryService,
 		collegeService, center, collegeName) {
 		$scope.dialogTitle = collegeName + "CDMA基站补充";
-		$scope.supplementCells = [];
-		$scope.gridOptions = {
-			enableRowSelection: true,
-			enableSelectAll: true,
-			selectionRowHeaderWidth: 35,
-			rowHeight: 35,
-			showGridFooter: true
-		};
-		$scope.gridOptions.multiSelect = true;
-		$scope.gridOptions.columnDefs = [
-			{ field: 'btsId', name: 'CDMA基站编号' },
-			{ field: 'name', name: '基站名称', width: 120 },
-			{ field: 'btsId', name: 'BSC编号' },
-			{ field: 'longtitute', name: '经度' },
-			{ field: 'lattitute', name: '纬度' },
-			{ field: 'address', name: '地址', width: 300, enableColumnResizing: false },
-			{ field: 'isInUse', name: '是否在用', cellFilter: 'yesNoChinese' },
-			{ name: '与中心距离', field: 'distance', cellFilter: 'number: 2' }
-		];
+		$scope.supplementBts = [];
+		$scope.gridApi = {};
 
 		baiduQueryService.transformToBaidu(center.X, center.Y).then(function(coors) {
 			collegeService.queryRange(collegeName).then(function(range) {
@@ -1310,16 +1293,11 @@ angular.module('kpi.college', ['myApp.url', 'myApp.region', "ui.bootstrap", 'top
 						angular.forEach(results, function(item) {
 							item.distance = geometryService.getDistance(item.lattitute, item.longtitute, coors.y, coors.x);
 						});
-						$scope.supplementCells = results;
-						$scope.gridOptions.data = results;
+						$scope.supplementBts = results;
 					});
 				});
 			});
 		});
-
-		$scope.gridOptions.onRegisterApi = function(gridApi) {
-			$scope.gridApi = gridApi;
-		};
 
 		$scope.ok = function() {
 			$uibModalInstance.close($scope.gridApi.selection.getSelectedRows());
@@ -1997,7 +1975,7 @@ angular.module('kpi.college', ['myApp.url', 'myApp.region', "ui.bootstrap", 'top
 			},
 			addBts: function(collegeName, center, callback) {
 				menuItemService.showGeneralDialogWithAction({
-					templateUrl: '/appViews/College/Infrastructure/CellSupplementDialog.html',
+					templateUrl: '/appViews/College/Infrastructure/BtsSupplementDialog.html',
 					controller: 'bts.supplement.dialog',
 					resolve: {
 						collegeName: function() {

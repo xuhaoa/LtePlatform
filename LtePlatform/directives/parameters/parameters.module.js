@@ -357,14 +357,14 @@
 		};
 	})
 	.directive('eNodebSelectionTable', function ($compile, calculateService) {
-	    return calculateService.generateSelectionGridDirective({
-	        controllerName: 'ENodebSelectionController',
-	        scope: {
-	            items: '=',
-	            gridApi: '='
-	        },
-	        argumentName: 'items'
-	    }, $compile);
+		return calculateService.generateSelectionGridDirective({
+			controllerName: 'ENodebSelectionController',
+			scope: {
+				items: '=',
+				gridApi: '='
+			},
+			argumentName: 'items'
+		}, $compile);
 	})
 
 	.controller('CdmaBtsController', function ($scope) {
@@ -435,6 +435,42 @@
 			},
 			argumentName: 'items'
 		}, $compile);
+	})
+
+	.controller('BtsSelectionController', function($scope) {
+	    $scope.gridOptions = {
+	        enableRowSelection: true,
+	        enableSelectAll: true,
+	        selectionRowHeaderWidth: 35,
+	        rowHeight: 35,
+	        showGridFooter: true
+	    };
+	    $scope.gridOptions.multiSelect = true;
+	    $scope.gridOptions.columnDefs = [
+			{ field: 'btsId', name: 'CDMA基站编号' },
+			{ field: 'name', name: '基站名称', width: 120 },
+			{ field: 'btsId', name: 'BSC编号' },
+			{ field: 'longtitute', name: '经度' },
+			{ field: 'lattitute', name: '纬度' },
+			{ field: 'address', name: '地址', width: 300, enableColumnResizing: false },
+			{ field: 'isInUse', name: '是否在用', cellFilter: 'yesNoChinese' },
+			{ name: '与中心距离', field: 'distance', cellFilter: 'number: 2' }
+	    ];
+
+	    $scope.gridOptions.data = [];
+	    $scope.gridOptions.onRegisterApi = function (gridApi) {
+	        $scope.gridApi = gridApi;
+	    };
+	})
+	.directive('btsSelectionTable', function ($compile, calculateService) {
+	    return calculateService.generateSelectionGridDirective({
+	        controllerName: 'BtsSelectionController',
+	        scope: {
+	            items: '=',
+	            gridApi: '='
+	        },
+	        argumentName: 'items'
+	    }, $compile);
 	})
 
 	.controller('CellDialogController', function ($scope) {
