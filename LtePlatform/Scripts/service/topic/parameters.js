@@ -496,7 +496,7 @@
 		}
 	})
 	.factory('parametersMapService', function(baiduMapService, networkElementService, baiduQueryService, workItemDialog,
-		neGeometryService, collegeQueryService, appRegionService, parametersDialogService) {
+		neGeometryService, collegeQueryService, appRegionService, parametersDialogService, collegeService) {
 		var showCellSectors = function(cells, xOffset, yOffset, beginDate, endDate) {
 			angular.forEach(cells, function(cell) {
 				cell.longtitute += xOffset;
@@ -581,6 +581,11 @@
 						showCellSectors(sectors, xOffset, yOffset, beginDate, endDate);
 					});
 				});
+			},
+			showCollegeENodebs: function(name, beginDate, endDate) {
+			    collegeService.queryENodebs(name).then(function(eNodebs) {
+			        showENodebsElements(eNodebs, beginDate, endDate);
+			    });
 			},
 			showElementsWithGeneralName: function(name, beginDate, endDate) {
 				networkElementService.queryENodebsByGeneralNameInUse(name).then(function(eNodebs) {

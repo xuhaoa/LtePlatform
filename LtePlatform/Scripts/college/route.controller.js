@@ -206,30 +206,12 @@
     })
     .controller("map.name", function($scope, $stateParams,
         baiduMapService, baiduQueryService, collegeService, collegeQueryService, collegeMapService,
-        parametersMapService, parametersDialogService, collegeDialogService) {
+        parametersMapService, parametersDialogService) {
 
         $scope.collegeInfo.url = $scope.rootPath + "map";
         $scope.collegeName = $stateParams.name;
         
-        baiduMapService.initializeMap("all-map", 15);
-
-        collegeQueryService.queryByName($scope.collegeName).then(function(college) {
-            
-        });
-
         switch ($stateParams.type) {
-        case 'lte':
-            collegeService.queryENodebs($scope.collegeName).then(function (eNodebs) {
-                if (eNodebs.length) {
-                    parametersMapService.showENodebsElements(eNodebs, parametersDialogService.showENodebInfo);
-                }
-            });
-            collegeService.queryCells($scope.collegeName).then(function (cells) {
-                if (cells.length) {
-                    parametersMapService.showCellSectors(cells, parametersDialogService.showCollegeCellInfo);
-                }
-            });
-            break;
         case 'cdma':
             collegeService.queryBtss($scope.collegeName).then(function (btss) {
                 if (btss.length) {

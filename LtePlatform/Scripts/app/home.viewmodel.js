@@ -1565,6 +1565,7 @@
             });
             
             parametersMapService.showHotSpotCellSectors(college.name, $scope.beginDate, $scope.endDate);
+            parametersMapService.showCollegeENodebs(college.name, $scope.beginDate, $scope.endDate);
         };
 
         $scope.addBts = function () {
