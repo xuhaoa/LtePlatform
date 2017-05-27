@@ -190,11 +190,12 @@
                 },
                 url: "/app"
             })
+
             .state('analysis', {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.analysis"
+                        controller: "menu.distribution"
                     },
                     "contents": {
                         templateUrl: viewDir + "Analysis.html",
@@ -732,29 +733,36 @@
             ]
         };
     })
-    .controller("menu.analysis", function($scope) {
-        var rootUrl = "/#";
+    .controller("menu.distribution", function ($scope) {
         $scope.menuItem = {
-            displayName: "网络分析",
+            displayName: "室内分布",
             subItems: [
                 {
-                    displayName: "室内分布",
-                    url: rootUrl + "/analysis"
-                }, {
-                    displayName: "校园网地图",
-                    url: rootUrl + "/collegeMap"
+                    displayName: "基本信息",
+                    url: "/#/analysis"
+                }
+            ]
+        }
+    })
+    .controller("menu.analysis", function($scope) {
+        $scope.menuItem = {
+            displayName: "四高一地",
+            subItems: [
+                {
+                    displayName: "高校专题",
+                    url: "/#/collegeMap"
                 }, {
                     displayName: "高速专题",
-                    url: rootUrl + "/highway"
+                    url: "/#/highway"
                 }, {
                     displayName: "高铁专题",
-                    url: rootUrl + "/railway"
-                }, {
-                    displayName: "地铁专题",
-                    url: rootUrl + "/subway"
+                    url: "/#/railway"
                 }, {
                     displayName: "高价值区域",
-                    url: rootUrl + "/highvalue"
+                    url: "/#/highvalue"
+                }, {
+                    displayName: "地铁专题",
+                    url: "/#/subway"
                 }
             ]
         }
