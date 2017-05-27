@@ -46,19 +46,9 @@
 			showDtInfos: function(infos, begin, end) {
 				collegeQueryService.queryAll().then(function(colleges) {
 					angular.forEach(colleges, function(college) {
-						var center;
-						collegeService.queryRegion(college.id).then(function(region) {
-							switch (region.regionType) {
-							case 2:
-								center = baiduMapService.getPolygonCenter(region.info.split(';'));
-								break;
-							case 1:
-								center = baiduMapService.getRectangleCenter(region.info.split(';'));
-								break;
-							default:
-								center = baiduMapService.getCircleCenter(region.info.split(';'));
-								break;
-							}
+						
+					    collegeService.queryRegion(college.id).then(function (region) {
+					        var center = geometryService.queryRegionCenter(region);
 							var info = {
 								name: college.name,
 								centerX: center.X,
@@ -77,31 +67,10 @@
 			queryCenterAndCallback: function(collegeName, callback) {
 				collegeQueryService.queryByName(collegeName).then(function(college) {
 					collegeService.queryRegion(college.id).then(function(region) {
-						var center;
-						switch (region.regionType) {
-						case 2:
-							center = baiduMapService.getPolygonCenter(region.info.split(';'));
-							break;
-						case 1:
-							center = baiduMapService.getRectangleCenter(region.info.split(';'));
-							break;
-						default:
-							center = baiduMapService.getCircleCenter(region.info.split(';'));
-							break;
-						}
+					    var center = geometryService.queryRegionCenter(region);
 						callback(center);
 					});
 				});
-			},
-			queryRegionCenter: function(region) {
-				switch (region.regionType) {
-				case 2:
-					return baiduMapService.getPolygonCenter(region.info.split(';'));
-				case 1:
-					return baiduMapService.getRectangleCenter(region.info.split(';'));
-				default:
-					return baiduMapService.getCircleCenter(region.info.split(';'));
-				}
 			},
 			showRsrpMrGrid: function(result, longtitute, lattitute, areaStats, colorDictionary) {
 				baiduQueryService.transformToBaidu(longtitute, lattitute).then(function(coors) {

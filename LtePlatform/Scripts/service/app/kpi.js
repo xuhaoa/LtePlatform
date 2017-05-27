@@ -974,18 +974,30 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
             }
         };
     });
-angular.module('kpi.college', ['myApp.url', 'myApp.region', "ui.bootstrap"])
-	.controller('eNodeb.dialog', function ($scope, $uibModalInstance, collegeService, collegeDialogService, name, dialogTitle) {
+angular.module('kpi.college', ['myApp.url', 'myApp.region', "ui.bootstrap", 'topic.basic'])
+	.controller('eNodeb.dialog', function ($scope, $uibModalInstance, collegeService, collegeDialogService, geometryService, collegeQueryService,
+		baiduQueryService,
+		name, dialogTitle) {
 		$scope.dialogTitle = dialogTitle;
 		$scope.query = function() {
 			collegeService.queryENodebs(name).then(function(result) {
 				$scope.eNodebList = result;
 			});
 		};
+		collegeQueryService.queryByName(name).then(function (college) {
+			collegeService.queryRegion(college.id).then(function(region) {
+				var center = geometryService.queryRegionCenter(region);
+				baiduQueryService.transformToBaidu(center.X, center.Y).then(function (coors) {
+					$scope.center = {
+						X: 2 * center.X - coors.x,
+						Y: 2 * center.Y - coors.y
+					};
+				});
+			});
+		});
 		
 		$scope.addENodebs = function () {
-			console.log(collegeName);
-			collegeDialogService.addENodeb(collegeName, center, function (count) {
+			collegeDialogService.addENodeb(name, $scope.center, function (count) {
 				$scope.page.messages.push({
 					type: 'success',
 					contents: '增加ENodeb' + count + '个'
@@ -995,6 +1007,7 @@ angular.module('kpi.college', ['myApp.url', 'myApp.region', "ui.bootstrap"])
 		};
 
 		$scope.query();
+		
 
 		$scope.ok = function() {
 			$uibModalInstance.close($scope.eNodebList);

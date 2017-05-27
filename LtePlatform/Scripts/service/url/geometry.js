@@ -35,6 +35,36 @@
                 var y = r * Math.sin(rad);
                 return getLonLatFunc(centre, x, y);
             },
+            getPolygonCenter: function (coors) {
+                var centerx = 0;
+                var centery = 0;
+                for (var p = 0; p < coors.length / 2; p++) {
+                    centerx += parseFloat(coors[2 * p]);
+                    centery += parseFloat(coors[2 * p + 1]);
+                }
+                centerx /= coors.length / 2;
+                centery /= coors.length / 2;
+                return {
+                    X: centerx,
+                    Y: centery
+                };
+            },
+            getRectangleCenter: function (coors) {
+                var centerx = (parseFloat(coors[0]) + parseFloat(coors[2])) / 2;
+                var centery = (parseFloat(coors[1]) + parseFloat(coors[3])) / 2;
+                return {
+                    X: centerx,
+                    Y: centery
+                };
+            },
+            getCircleCenter: function (coors) {
+                var centerx = parseFloat(coors[0]);
+                var centery = parseFloat(coors[1]);
+                return {
+                    X: centerx,
+                    Y: centery
+                };
+            },
             getRadiusFunc: function(zoom) {
                 var rSation = 70;
                 var rSector = 0.2;
@@ -157,6 +187,16 @@
                     result += point.lng + ';' + point.lat;
                 });
                 return result;
+            },
+            queryRegionCenter: function (region) {
+                switch (region.regionType) {
+                    case 2:
+                        return geometryCalculateService.getPolygonCenter(region.info.split(';'));
+                    case 1:
+                        return geometryCalculateService.getRectangleCenter(region.info.split(';'));
+                    default:
+                        return geometryCalculateService.getCircleCenter(region.info.split(';'));
+                }
             },
             queryMapColors: function() {
                 return [

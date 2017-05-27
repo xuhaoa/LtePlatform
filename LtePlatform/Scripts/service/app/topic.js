@@ -383,20 +383,6 @@ angular.module('topic.basic', ['myApp.url', 'myApp.region'])
                 map.addOverlay(polygon);
                 return polygon.getPath();
             },
-            getPolygonCenter: function(coors) {
-                var centerx = 0;
-                var centery = 0;
-                for (var p = 0; p < coors.length / 2; p++) {
-                    centerx += parseFloat(coors[2 * p]);
-                    centery += parseFloat(coors[2 * p + 1]);
-                }
-                centerx /= coors.length / 2;
-                centery /= coors.length / 2;
-                return {
-                    X: centerx,
-                    Y: centery
-                };
-            },
             drawRectangleAndGetCenter: function(coors) {
                 var centerx = (parseFloat(coors[0]) + parseFloat(coors[2])) / 2;
                 var centery = (parseFloat(coors[1]) + parseFloat(coors[3])) / 2;
@@ -423,14 +409,6 @@ angular.module('topic.basic', ['myApp.url', 'myApp.region'])
                 ], { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.2 });
                 map.addOverlay(rectangle);
             },
-            getRectangleCenter: function(coors) {
-                var centerx = (parseFloat(coors[0]) + parseFloat(coors[2])) / 2;
-                var centery = (parseFloat(coors[1]) + parseFloat(coors[3])) / 2;
-                return {
-                    X: centerx,
-                    Y: centery
-                };
-            },
             drawCircleAndGetCenter: function(coors) {
                 var centerx = parseFloat(coors[0]);
                 var centery = parseFloat(coors[1]);
@@ -449,14 +427,6 @@ angular.module('topic.basic', ['myApp.url', 'myApp.region'])
                     parseFloat(coors[2]),
                     { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.2 });
                 map.addOverlay(circle);
-            },
-            getCircleCenter: function(coors) {
-                var centerx = parseFloat(coors[0]);
-                var centery = parseFloat(coors[1]);
-                return {
-                    X: centerx,
-                    Y: centery
-                };
             },
             drawLabel: function(name, longtitute, lattitute) {
                 var opts = {
@@ -1252,19 +1222,9 @@ angular.module('topic.college', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topi
 			showDtInfos: function(infos, begin, end) {
 				collegeQueryService.queryAll().then(function(colleges) {
 					angular.forEach(colleges, function(college) {
-						var center;
-						collegeService.queryRegion(college.id).then(function(region) {
-							switch (region.regionType) {
-							case 2:
-								center = baiduMapService.getPolygonCenter(region.info.split(';'));
-								break;
-							case 1:
-								center = baiduMapService.getRectangleCenter(region.info.split(';'));
-								break;
-							default:
-								center = baiduMapService.getCircleCenter(region.info.split(';'));
-								break;
-							}
+						
+					    collegeService.queryRegion(college.id).then(function (region) {
+					        var center = geometryService.queryRegionCenter(region);
 							var info = {
 								name: college.name,
 								centerX: center.X,
@@ -1283,31 +1243,10 @@ angular.module('topic.college', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topi
 			queryCenterAndCallback: function(collegeName, callback) {
 				collegeQueryService.queryByName(collegeName).then(function(college) {
 					collegeService.queryRegion(college.id).then(function(region) {
-						var center;
-						switch (region.regionType) {
-						case 2:
-							center = baiduMapService.getPolygonCenter(region.info.split(';'));
-							break;
-						case 1:
-							center = baiduMapService.getRectangleCenter(region.info.split(';'));
-							break;
-						default:
-							center = baiduMapService.getCircleCenter(region.info.split(';'));
-							break;
-						}
+					    var center = geometryService.queryRegionCenter(region);
 						callback(center);
 					});
 				});
-			},
-			queryRegionCenter: function(region) {
-				switch (region.regionType) {
-				case 2:
-					return baiduMapService.getPolygonCenter(region.info.split(';'));
-				case 1:
-					return baiduMapService.getRectangleCenter(region.info.split(';'));
-				default:
-					return baiduMapService.getCircleCenter(region.info.split(';'));
-				}
 			},
 			showRsrpMrGrid: function(result, longtitute, lattitute, areaStats, colorDictionary) {
 				baiduQueryService.transformToBaidu(longtitute, lattitute).then(function(coors) {
