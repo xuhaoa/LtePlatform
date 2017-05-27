@@ -47,11 +47,45 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
-	.controller('bts.dialog', function($scope, $uibModalInstance, collegeService, name, dialogTitle) {
+	.controller('bts.dialog', function ($scope, $uibModalInstance, collegeService, collegeDialogService,
+		collegeQueryService, geometryService, baiduQueryService,
+		name, dialogTitle) {
 		$scope.dialogTitle = dialogTitle;
-		collegeService.queryBtss(name).then(function(result) {
-			$scope.btsList = result;
+		$scope.page = {
+			messages: []
+		};
+		$scope.closeAlert = function (messages, $index) {
+			messages.splice($index, 1);
+		};
+		collegeQueryService.queryByName(name).then(function (college) {
+			collegeService.queryRegion(college.id).then(function (region) {
+				var center = geometryService.queryRegionCenter(region);
+				baiduQueryService.transformToBaidu(center.X, center.Y).then(function (coors) {
+					$scope.center = {
+						X: 2 * center.X - coors.x,
+						Y: 2 * center.Y - coors.y
+					};
+				});
+			});
 		});
+
+		$scope.query = function() {
+			collegeService.queryBtss(name).then(function(result) {
+				$scope.btsList = result;
+			});
+		};
+
+		$scope.addBts = function () {
+			collegeDialogService.addBts(name, $scope.center, function (count) {
+				$scope.page.messages.push({
+					type: 'success',
+					contents: '增加Bts' + count + '个'
+				});
+				$scope.query();
+			});
+		};
+
+		$scope.query();
 
 		$scope.ok = function() {
 			$uibModalInstance.close($scope.btsList);
@@ -741,10 +775,7 @@
 
 	})
 
-	.value('collegeInfrastructurePath', '/appViews/College/Infrastructure/')
-	.value('collegeTestPath', '/appViews/College/Test/')
-	.factory('collegeDialogService', function(collegeInfrastructurePath, collegeTestPath,
-		collegeQueryService, menuItemService) {
+	.factory('collegeDialogService', function(collegeQueryService, menuItemService) {
 		var resolveScope = function(name, topic) {
 			return {
 				dialogTitle: function() {
@@ -758,49 +789,49 @@
 		return {
 			showENodebs: function(name) {
 				menuItemService.showGeneralDialog({
-					templateUrl: collegeInfrastructurePath + 'ENodebDialog.html',
+					templateUrl: '/appViews/College/Infrastructure/ENodebDialog.html',
 					controller: 'eNodeb.dialog',
 					resolve: resolveScope(name, "LTE基站信息")
 				});
 			},
 			showCells: function(name) {
 				menuItemService.showGeneralDialog({
-					templateUrl: collegeInfrastructurePath + 'LteCellDialog.html',
+					templateUrl: '/appViews/College/Infrastructure/LteCellDialog.html',
 					controller: 'cell.dialog',
 					resolve: resolveScope(name, "LTE小区信息")
 				});
 			},
 			showBtss: function(name) {
 				menuItemService.showGeneralDialog({
-					templateUrl: collegeInfrastructurePath + 'BtsDialog.html',
+					templateUrl: '/appViews/College/Infrastructure/BtsDialog.html',
 					controller: 'bts.dialog',
 					resolve: resolveScope(name, "CDMA基站信息")
 				});
 			},
 			showCdmaCells: function(name) {
 				menuItemService.showGeneralDialog({
-					templateUrl: collegeInfrastructurePath + 'CdmaCellDialog.html',
+					templateUrl: '/appViews/College/Infrastructure/CdmaCellDialog.html',
 					controller: 'cdmaCell.dialog',
 					resolve: resolveScope(name, "CDMA小区信息")
 				});
 			},
 			showLteDistributions: function(name) {
 				menuItemService.showGeneralDialog({
-					templateUrl: collegeInfrastructurePath + 'DistributionDialog.html',
+					templateUrl: '/appViews/College/Infrastructure/DistributionDialog.html',
 					controller: 'lte.distribution.dialog',
 					resolve: resolveScope(name, "LTE室分信息")
 				});
 			},
 			showCdmaDistributions: function(name) {
 				menuItemService.showGeneralDialog({
-					templateUrl: collegeInfrastructurePath + 'DistributionDialog.html',
+					templateUrl: '/appViews/College/Infrastructure/DistributionDialog.html',
 					controller: 'cdma.distribution.dialog',
 					resolve: resolveScope(name, "CDMA室分信息")
 				});
 			},
 			showCollegeDetails: function(name) {
 				menuItemService.showGeneralDialog({
-					templateUrl: collegeInfrastructurePath + 'CollegeQuery.html',
+					templateUrl: '/appViews/College/Infrastructure/CollegeQuery.html',
 					controller: 'college.query.name',
 					resolve: resolveScope(name, "详细信息")
 				});
@@ -808,7 +839,7 @@
 
 			addYearInfo: function(item, name, year, callback) {
 				menuItemService.showGeneralDialogWithAction({
-					templateUrl: collegeInfrastructurePath + 'YearInfoDialog.html',
+					templateUrl: '/appViews/College/Infrastructure/YearInfoDialog.html',
 					controller: 'year.info.dialog',
 					resolve: {
 						name: function() {
@@ -829,7 +860,7 @@
 			},
 			addNewCollege: function(callback) {
 				menuItemService.showGeneralDialogWithAction({
-					templateUrl: collegeInfrastructurePath + 'NewCollegeDialog.html',
+					templateUrl: '/appViews/College/Infrastructure/NewCollegeDialog.html',
 					controller: 'college.new.dialog',
 					resolve: {}
 				}, function(info) {
@@ -840,7 +871,7 @@
 			},
 			supplementENodebCells: function(eNodebs, cells, collegeName, callback) {
 				menuItemService.showGeneralDialogWithAction({
-					templateUrl: collegeInfrastructurePath + 'CellSupplementDialog.html',
+					templateUrl: '/appViews/College/Infrastructure/CellSupplementDialog.html',
 					controller: 'cell.supplement.dialog',
 					resolve: {
 						eNodebs: function() {
@@ -869,7 +900,7 @@
 			},
 			supplementPositionCells: function(collegeName, callback) {
 				menuItemService.showGeneralDialogWithAction({
-					templateUrl: collegeInfrastructurePath + 'CellSupplementDialog.html',
+					templateUrl: '/appViews/College/Infrastructure/CellSupplementDialog.html',
 					controller: 'cell.position.supplement.dialog',
 					resolve: {
 						collegeName: function() {
@@ -892,7 +923,7 @@
 			},
 			construct3GTest: function(collegeName) {
 				menuItemService.showGeneralDialogWithAction({
-					templateUrl: collegeTestPath + 'Construct3GTest.html',
+					templateUrl: '/appViews/College/Test/Construct3GTest.html',
 					controller: 'college.test3G.dialog',
 					resolve: {
 						collegeName: function() {
@@ -907,7 +938,7 @@
 			},
 			construct4GTest: function(collegeName) {
 				menuItemService.showGeneralDialogWithAction({
-					templateUrl: collegeTestPath + 'Construct4GTest.html',
+					templateUrl: '/appViews/College/Test/Construct4GTest.html',
 					controller: 'college.test4G.dialog',
 					resolve: {
 						collegeName: function() {
@@ -922,7 +953,7 @@
 			},
 			processTest: function(collegeName, callback) {
 				menuItemService.showGeneralDialogWithAction({
-					templateUrl: collegeTestPath + 'Process.html',
+					templateUrl: '/appViews/College/Test/Process.html',
 					controller: 'test.process.dialog',
 					resolve: {
 						collegeName: function() {
@@ -935,7 +966,7 @@
 			},
 			tracePlanning: function(collegeName, callback) {
 				menuItemService.showGeneralDialogWithAction({
-					templateUrl: collegeTestPath + 'Planning.html',
+					templateUrl: '/appViews/College/Test/Planning.html',
 					controller: 'trace.planning.dialog',
 					resolve: {
 						collegeName: function() {
