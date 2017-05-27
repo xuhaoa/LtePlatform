@@ -394,6 +394,7 @@
     <Content Include="appViews\BasicKpi\TopConnection3GTrend.html" />
     <Content Include="appViews\BasicKpi\TopDrop2GTrend.html" />
     <Content Include="appViews\BasicKpi\Trend.html" />
+    <Content Include="appViews\College\Infrastructure\ENodebSupplementDialog.html" />
     <Content Include="appViews\College\Root.html" />
     <Content Include="appViews\College\CollegeMap.html" />
     <Content Include="appViews\College\CollegeMenuType.html" />
