@@ -7,6 +7,8 @@ using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Neighbor;
 using System.Collections.Generic;
+using System.Linq;
+using Lte.Domain.Common.Geo;
 
 namespace Lte.Evaluations.MapperSerive.Infrastructure
 {
@@ -114,6 +116,25 @@ namespace Lte.Evaluations.MapperSerive.Infrastructure
         public int GetHashCode(PciCellPair obj)
         {
             return obj.ENodebId * 839 + obj.Pci;
+        }
+    }
+
+    public class IntRangeContainer
+    {
+        public int West { get; set; }
+
+        public int East { get; set; }
+        
+        public int South { get; set; }
+        
+        public int North { get; set; }
+
+        public IntRangeContainer(IEnumerable<List<GeoPoint>> boundaries)
+        {
+            West = (int)((boundaries.Select(x => x.Select(t => t.Longtitute).Min()).Min() - 112) / 0.00049);
+            East = (int)((boundaries.Select(x => x.Select(t => t.Longtitute).Max()).Max() - 112) / 0.00049);
+            South = (int)((boundaries.Select(x => x.Select(t => t.Lattitute).Min()).Min() - 22) / 0.00045);
+            North = (int)((boundaries.Select(x => x.Select(t => t.Lattitute).Max()).Max() - 22) / 0.00045);
         }
     }
 

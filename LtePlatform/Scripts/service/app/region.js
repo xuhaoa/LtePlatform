@@ -325,6 +325,14 @@ angular.module('region.basic', ['app.core'])
                     town: town
                 });
             },
+            queryAgpsMobileByTown: function (begin, end, district, town) {
+                return generalHttpService.getApiData('AgpsMobile', {
+                    begin: begin,
+                    end: end,
+                    district: district,
+                    town: town
+                });
+            },
             queryMrGridSelfCoverage: function (district, statDate) {
                 return generalHttpService.getApiData('MrGrid', {
                     district: district,

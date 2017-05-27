@@ -15,6 +15,7 @@ using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.Regular;
+using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract;
 using Lte.MySqlFramework.Abstract;
@@ -41,7 +42,7 @@ namespace Lte.Evaluations.DataService.Mr
             return districts.FirstOrDefault(fileName.Contains);
         }
 
-        public IEnumerable<List<GeoPoint>> QueryTownBoundaries(string district, string town)
+        public List<List<GeoPoint>> QueryTownBoundaries(string district, string town)
         {
             var townItem = _townRepository.QueryTown(district, town);
             if (townItem == null) return null;
@@ -54,7 +55,7 @@ namespace Lte.Evaluations.DataService.Mr
                     coorList.Add(new GeoPoint(coors[i * 2].ConvertToDouble(0), coors[i * 2 + 1].ConvertToDouble(0)));
                 }
                 return coorList;
-            });
+            }).ToList();
         } 
     }
 
@@ -70,24 +71,38 @@ namespace Lte.Evaluations.DataService.Mr
         }
 
         public IEnumerable<AgpsCoverageView> QueryTelecomCoverageViews(DateTime begin, DateTime end,
-            IEnumerable<List<GeoPoint>> boundaries)
+            List<List<GeoPoint>> boundaries)
         {
-            var west = (int)((boundaries.Select(x => x.Select(t => t.Longtitute).Min()).Min() - 112)/0.00049);
-            var east = (int)((boundaries.Select(x => x.Select(t => t.Longtitute).Max()).Max() - 112)/0.00049);
-            var south = (int)((boundaries.Select(x => x.Select(t => t.Lattitute).Min()).Min() - 22)/0.00045);
-            var north = (int)((boundaries.Select(x => x.Select(t => t.Lattitute).Max()).Max() - 22)/0.00045);
+            var range = new IntRangeContainer(boundaries);
             var stats =
                 _telecomAgpsRepository.GetAllList(
                     x =>
-                        x.StatDate >= begin && x.StatDate < end && x.X >= west && x.X < east && x.Y >= south &&
-                        x.Y < north);
-            if (!stats.Any()) return new List<AgpsCoverageView>();
+                        x.StatDate >= begin && x.StatDate < end && x.X >= range.West && x.X < range.East &&
+                        x.Y >= range.South && x.Y < range.North);
+            return !stats.Any() ? new List<AgpsCoverageView>() : GenerateCoverageViews(boundaries, stats);
+        }
+
+        public IEnumerable<AgpsCoverageView> QueryMobileCoverageViews(DateTime begin, DateTime end,
+            List<List<GeoPoint>> boundaries)
+        {
+            var range = new IntRangeContainer(boundaries);
+            var stats =
+                _mobileAgpsRepository.GetAllList(
+                    x =>
+                        x.StatDate >= begin && x.StatDate < end && x.X >= range.West && x.X < range.East &&
+                        x.Y >= range.South && x.Y < range.North);
+            return !stats.Any() ? new List<AgpsCoverageView>() : GenerateCoverageViews(boundaries, stats);
+        }
+
+        private static IEnumerable<AgpsCoverageView> GenerateCoverageViews(List<List<GeoPoint>> boundaries, List<AgpsMongo> stats)
+        {
             var filterStats =
                 stats.GroupBy(x => new {x.X, x.Y})
                     .Select(x => x.Average())
-                    .Where(x => boundaries.Any(boundary => GeoMath.IsInPolygon(new GeoPoint(x.Longtitute, x.Lattitute), boundary)));
+                    .Where(
+                        x => boundaries.Any(boundary => GeoMath.IsInPolygon(new GeoPoint(x.Longtitute, x.Lattitute), boundary)));
             return filterStats.MapTo<List<AgpsCoverageView>>();
-        } 
+        }
     }
 
     internal class MrGridService
@@ -338,9 +353,19 @@ namespace Lte.Evaluations.DataService.Mr
             string town)
         {
             var boundaries = _service.QueryTownBoundaries(district, town);
-            if (boundaries == null) return new List<AgpsCoverageView>();
-            return _agpsService.QueryTelecomCoverageViews(begin, end, boundaries);
-        } 
+            return boundaries == null
+                ? new List<AgpsCoverageView>()
+                : _agpsService.QueryTelecomCoverageViews(begin, end, boundaries);
+        }
+
+        public IEnumerable<AgpsCoverageView> QueryMobileCoverageViews(DateTime begin, DateTime end, string district,
+            string town)
+        {
+            var boundaries = _service.QueryTownBoundaries(district, town);
+            return boundaries == null
+                ? new List<AgpsCoverageView>()
+                : _agpsService.QueryMobileCoverageViews(begin, end, boundaries);
+        }
 
         public IEnumerable<MrCompeteGridView> QueryCompeteGridViews(DateTime initialDate, string district,
             string competeDescription)

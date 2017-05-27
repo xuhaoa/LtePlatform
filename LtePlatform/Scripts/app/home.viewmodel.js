@@ -1129,6 +1129,12 @@
                     coverageService.queryAgpsTelecomByTown($scope.beginDate.value, $scope.endDate.value, $scope.district.selected, $scope.town.selected).then(function(result) {
                         $scope.telecomAgps = result;
                     });
+                    break;
+                case '移动':
+                    coverageService.queryAgpsMobileByTown($scope.beginDate.value, $scope.endDate.value, $scope.district.selected, $scope.town.selected).then(function (result) {
+                        $scope.mobileAgps = result;
+                    });
+                    break;
             }
         };
         appUrlService.initializeIndexedDb($scope.indexedDB, ['districtPoints','rangePoints'], "topic", function () {

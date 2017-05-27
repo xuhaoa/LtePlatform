@@ -94,6 +94,23 @@ namespace LtePlatform.Controllers.Mr
         }
     }
 
+    public class AgpsMobileController : ApiController
+    {
+        private readonly NearestPciCellService _service;
+
+        public AgpsMobileController(NearestPciCellService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<AgpsCoverageView> Get(DateTime begin, DateTime end, string district,
+            string town)
+        {
+            return _service.QueryMobileCoverageViews(begin, end, district, town);
+        }
+    }
+
     [ApiControl("WEB浏览APP数据查询控制器")]
     public class WebBrowsingController : ApiController
     {
