@@ -419,6 +419,11 @@
             sign: true,
             title: ''
         };
+        $rootScope.initializeLegend = function () {
+            $rootScope.legend.title = $rootScope.city.selected;
+            $rootScope.legend.intervals = [];
+            $rootScope.legend.criteria = [];
+        };
 
         var lastWeek = new Date();
         lastWeek.setDate(lastWeek.getDate() - 7);
@@ -826,11 +831,6 @@
                 });
             });
         };
-        $scope.initializeLegend = function() {
-            $scope.legend.title = $scope.city.selected;
-            $scope.legend.intervals = [];
-            $scope.legend.criteria = [];
-        };
         
         $scope.showOutdoorSites = function () {
             $scope.currentView = "室外小区";
@@ -939,13 +939,14 @@
             parametersMapService.showPhpElements(buildings, mapDialogService.showBuildingInfo);
         });
     })
-    .controller("station.network", function ($scope, downSwitchService, distinctIndex, baiduMapService, geometryService,
-        parametersDialogService, collegeMapService) {
-        $scope.areaNames = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
-        $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
-        $scope.distinct = "佛山市";
+    .controller("station.network", function ($scope, downSwitchService, baiduMapService, geometryService,
+        parametersDialogService, collegeMapService, dumpPreciseService) {
+        $scope.areaNames = ['全市'];
+        $scope.distincts = ['佛山市'];
+        $scope.districts = [];
+        $scope.distinct = $scope.distincts[0];
         baiduMapService.initializeMap("map", 13);
-        baiduMapService.setCenter(distinctIndex);
+        baiduMapService.setCenter(0);
         //获取站点
         $scope.getStations = function (areaName, index) {
             downSwitchService.getStationsByAreaName(areaName, 0, 10000).then(function (response) {
@@ -956,23 +957,34 @@
         };
         $scope.reflashMap = function (areaNameIndex) {
             baiduMapService.clearOverlays();
-            distinctIndex = areaNameIndex;
             var areaName = $scope.areaNames[areaNameIndex];
             $scope.distinct = $scope.distincts[areaNameIndex];
-            baiduMapService.setCenter(areaNameIndex);
-            if (distinctIndex !== 0) {
-                $scope.getStations(areaName, distinctIndex);
+            baiduMapService.setCenter(dumpPreciseService.getDistrictIndex(areaName));
+            if (areaNameIndex !== 0) {
+                $scope.getStations(areaName, areaNameIndex);
             } else {
-                for (var i = 1; i < 6; ++i) {
-                    $scope.getStations($scope.areaNames[i], i);
-                }
+                angular.forEach($scope.areaNames.slice(1, $scope.areaNames.length), function(name, $index) {
+                    $scope.getStations(name, $index);
+                });
             }
 
         };
         $scope.showStationList = function() {
             parametersDialogService.showStationList();
         };
-        $scope.reflashMap(0);
+
+        $scope.$watch('city.selected', function (city) {
+            if (city) {
+                $scope.initializeLegend();
+                baiduMapService.clearOverlays();
+                dumpPreciseService.generateUsersDistrict(city, $scope.districts, function (district, $index) {
+                    $scope.areaNames.push('FS' + district);
+                    $scope.distincts.push(district + '区');
+                    $scope.getStations('FS' + district, $index + 1);
+                });
+            }
+        });
+        
     })
 
     .controller('home.flow', function ($scope, baiduMapService, baiduQueryService, coverageDialogService, flowService, chartCalculateService) {
@@ -1198,7 +1210,7 @@
             }
         });
     })
-    .controller("mr.grid", function ($scope, baiduMapService, coverageService, authorizeService, kpiDisplayService,
+    .controller("mr.grid", function ($scope, baiduMapService, coverageService, dumpPreciseService, kpiDisplayService,
         baiduQueryService, coverageDialogService, appRegionService, parametersMapService, collegeMapService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
@@ -1315,24 +1327,22 @@
         };
         $scope.districts = [];
         $scope.setRsrpLegend();
-        authorizeService.queryCurrentUserName().then(function (userName) {
-            authorizeService.queryRolesInUser(userName).then(function (roles) {
-                angular.forEach(roles, function (role) {
-                    var district = authorizeService.queryRoleDistrict(role);
-                    if (district) {
-                        appRegionService.queryTowns($scope.city.selected, district).then(function (towns) {
-                            if (!$scope.districts.length) {
-                                $scope.showMrGrid(district, towns[0]);
-                            }
-                            towns.push('全区');
-                            $scope.districts.push({
-                                name: district,
-                                towns: towns
-                            });
+        $scope.$watch('city.selected', function(city) {
+            if (city) {
+                var districts = [];
+                dumpPreciseService.generateUsersDistrict(city, districts, function(district, $index) {
+                    appRegionService.queryTowns($scope.city.selected, district).then(function(towns) {
+                        towns.push('全区');
+                        $scope.districts.push({
+                            name: district,
+                            towns: towns
                         });
-                    }
+                        if ($index === 0) {
+                            $scope.showMrGrid(district, towns[0]);
+                        }
+                    });
                 });
-            });
+            }
         });
     })
     .controller("mr.app", function ($scope, baiduMapService) {

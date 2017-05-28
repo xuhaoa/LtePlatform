@@ -2197,6 +2197,16 @@ angular.module('region.network', ['app.core'])
                 });
             }
         };
+        serviceInstance.getDistrictIndex = function(areaName) {
+            var dictionary = {
+                "FS顺德": 1,
+                "FS南海": 2,
+                "FS禅城": 3,
+                "FS三水": 4,
+                "FS高明": 5
+            };
+            return dictionary[areaName];
+        };
 
         return serviceInstance;
     });
