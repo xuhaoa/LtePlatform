@@ -284,11 +284,25 @@
                 },
                 url: "/alarm"
             })
+
+            .state('fixing', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.fixing"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/Evaluation/Fixing.html",
+                        controller: "fixing.network"
+                    }
+                },
+                url: "/fixing"
+            })
             .state('special-station', {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.checking"
+                        controller: "menu.fixing"
                     },
                     "contents": {
                         templateUrl: "/appViews/Evaluation/SpecialStation.html",
@@ -302,7 +316,7 @@
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.checking"
+                        controller: "menu.fixing"
                     },
                     "contents": {
                         templateUrl: "/appViews/Evaluation/SpecialStation.html",
@@ -316,7 +330,7 @@
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.checking"
+                        controller: "menu.fixing"
                     },
                     "contents": {
                         templateUrl: "/appViews/Evaluation/FaultStation.html",
@@ -329,7 +343,7 @@
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.checking"
+                        controller: "menu.fixing"
                     },
                     "contents": {
                         templateUrl: "/appViews/Evaluation/ClearZero.html",
@@ -342,7 +356,7 @@
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.checking"
+                        controller: "menu.fixing"
                     },
                     "contents": {
                         templateUrl: "/appViews/Evaluation/ClearZero.html",
@@ -351,6 +365,7 @@
                 },
                 url: "/clear-voice"
             })
+
             .state('construction', {
                 views: {
                     'menu': {
@@ -600,11 +615,14 @@
         });
     })
 
-    .controller('menu.checking', function ($scope) {
+    .controller('menu.fixing', function ($scope) {
         $scope.menuItem = {
             displayName: "网络整治",
             subItems: [
                 {
+                    displayName: "网络整治",
+                    url: '/#/fixing'
+                }, {
                     displayName: "网运专项-基站",
                     url: '/#/special-station'
                 }, {
@@ -2095,6 +2113,86 @@
         };
         $scope.reflashMap();
     })
+    
+    .controller("fixing.network", function ($scope, downSwitchService, baiduMapService, geometryService,
+        parametersDialogService, baiduQueryService) {
+        $scope.areaNames = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
+        $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
+        $scope.statusNames = new Array('很紧急', '紧急', '极重要','重要','一般','整治完成', '全部');
+        $scope.distinct = "佛山市";
+        $scope.stationss = [];
+        $scope.stationss[1] = [];
+        $scope.stationss[2] = [];
+        $scope.stationss[3] = [];
+        $scope.stationss[4] = [];
+        $scope.stationss[5] = [];
+        baiduMapService.initializeMap("map", 13);
+
+        $scope.colorAlarm = new Array("#FF0000", "#FF8C00", "#FFFF00","#FF00FF","#FF008C","#00FF00");
+
+        $scope.statusIndex = 0;
+        $scope.status = $scope.statusNames[$scope.statusIndex];
+        $scope.distinctIndex = 0;
+
+        //获取站点
+        $scope.getStations = function (areaIndex, index) {
+            var areaName = $scope.areaNames[areaIndex];
+            var status = $scope.statusNames[index];
+            downSwitchService.getFixingStation(areaName, status, 0, 10000).then(function (response) {
+
+                $scope.stationss[areaIndex] = response.result.rows;
+                var color = $scope.colorAlarm[index];
+                baiduQueryService.transformToBaidu($scope.stationss[areaIndex][0].longtitute, $scope.stationss[areaIndex][0].lattitute).then(function (coors) {
+                    var xOffset = coors.x - $scope.stationss[areaIndex][0].longtitute;
+                    var yOffset = coors.y - $scope.stationss[areaIndex][0].lattitute;
+                    baiduMapService.drawPointCollection($scope.stationss[areaIndex], color, -xOffset, -yOffset, function (e) {
+                        parametersDialogService.showCheckingStationInfo(e.point.data);
+                    });
+                });
+            });
+        };
+
+        $scope.changeDistinct = function (index) {
+
+            $scope.distinctIndex = index;
+            $scope.distinct = $scope.distincts[$scope.distinctIndex];
+
+            $scope.reflashMap();
+        };
+        $scope.changeStatus = function (index) {
+            $scope.statusIndex = index;
+            $scope.status = $scope.statusNames[$scope.statusIndex];
+
+            $scope.reflashMap();
+        };
+
+        $scope.reflashMap = function () {
+            baiduMapService.clearOverlays();
+            baiduMapService.setCenter($scope.distinctIndex);
+            if ($scope.distinctIndex !== 0) {
+                if ($scope.statusIndex !== 6) {
+                    $scope.getStations($scope.distinctIndex, $scope.statusIndex);
+                } else {
+                    for (var i = 0; i < 6; ++i) {
+                        $scope.getStations($scope.distinctIndex, i);
+                    }
+                }
+            } else {
+                if ($scope.statusIndex !== 6) {
+                    for (var i = 1; i < 6; ++i) {
+                        $scope.getStations(i, $scope.statusIndex);
+                    }
+                } else {
+                    for (var i = 1; i < 6; ++i) {
+                        for (var j = 0; j < 6; ++j)
+                            $scope.getStations(i, j);
+                    }
+                }
+            }
+        };
+        $scope.reflashMap();
+    })
+
 
     .controller("special-station.network", function ($scope, downSwitchService, baiduMapService, geometryService,
         mapDialogService, baiduQueryService) {
