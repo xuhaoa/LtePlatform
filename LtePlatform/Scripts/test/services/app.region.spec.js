@@ -8,10 +8,58 @@
 /// <reference path="../../mycharts/comboChart.js"/>
 /// <reference path="../../mycharts/drilldown.chart.js"/>
 /// <reference path="../../ui-grid.js"/>
-/// <reference path="../../service/app.url.service.js"/>
-/// <reference path="../../service/app.region.service.js"/>
+/// <reference path="../../underscore.min.js"/>
+/// <reference path="../../service/url/core.js"/>
+/// <reference path="../../service/region/authorize.js"/>
+
+describe('region.authorize module services test', function() {
+    beforeEach(module('app.core'));
+    beforeEach(module('region.authorize'));
+
+    describe('authorizeService test', function () {
+        var authorizeService;
+        var roleDistrictDictionary;
+        beforeEach(inject(function(_authorizeService_, _roleDistrictDictionary_) {
+            authorizeService = _authorizeService_;
+            roleDistrictDictionary = _roleDistrictDictionary_;
+        }));
+        it('should pass the simple test', function() {
+            expect(1).toEqual(1);
+        });
+        it('should able to get the dictionary', function() {
+            expect(roleDistrictDictionary).toEqual([
+                {
+                    role: "顺德管理",
+                    district: "顺德"
+                }, {
+                    role: "南海管理",
+                    district: "南海"
+                }, {
+                    role: "禅城管理",
+                    district: "禅城"
+                }, {
+                    role: "三水管理",
+                    district: "三水"
+                }, {
+                    role: "高明管理",
+                    district: "高明"
+                }
+            ]);
+        });
+        it('test the queryRoleDistricts function', function() {
+            var roles = ["禅城管理", "南海管理", "顺德管理"];
+            var districts = authorizeService.queryRoleDistricts(roles);
+            expect(districts).toEqual(["顺德", "南海", "禅城"]);
+        });
+        it('test the queryRoleDistricts function with other roles', function () {
+            var roles = ["禅城管理", "管理员", "南海管理", "顺德管理"];
+            var districts = authorizeService.queryRoleDistricts(roles);
+            expect(districts).toEqual(["顺德", "南海", "禅城"]);
+        });
+    });
+});
+
 describe('app.region module services tests', function () {
-    beforeEach(module('ui.grid'));
     beforeEach(module('myApp.url'));
     beforeEach(module('myApp.region'));
 

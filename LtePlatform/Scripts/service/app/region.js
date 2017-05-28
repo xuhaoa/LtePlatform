@@ -1376,13 +1376,24 @@ angular.module('region.basic', ['app.core'])
         };
     });
 angular.module('region.authorize', ['app.core'])
-    .constant('roleDistrictDictionary', {
-        "顺德管理": "顺德",
-        "南海管理": "南海",
-        "禅城管理": "禅城",
-        "三水管理": "三水",
-        "高明管理": "高明"
-    })
+    .constant('roleDistrictDictionary', [
+        {
+            role: "顺德管理",
+            district: "顺德"
+        }, {
+            role: "南海管理",
+            district: "南海"
+        }, {
+            role: "禅城管理",
+            district: "禅城"
+        }, {
+            role: "三水管理",
+            district: "三水"
+        }, {
+            role: "高明管理",
+            district: "高明"
+        }
+    ])
     .factory('authorizeService', function(generalHttpService, roleDistrictDictionary) {
         return {
             queryCurrentUserInfo: function() {
@@ -1455,8 +1466,15 @@ angular.module('region.authorize', ['app.core'])
             confirmEmail: function(input) {
                 return generalHttpService.postMvcData('/Manage/ConfirmEmail', input);
             },
-            queryRoleDistrict: function(role) {
-                return roleDistrictDictionary[role];
+            queryRoleDistricts: function (roles) {
+                var districts = [];
+                angular.forEach(roleDistrictDictionary, function(dict) {
+                    var role = _.find(roles, function(x) { return x === dict.role });
+                    if (role) {
+                        districts.push(dict.district);
+                    }
+                });
+                return districts;
             }
         };
     });
@@ -2167,14 +2185,12 @@ angular.module('region.network', ['app.core'])
         serviceInstance.generateUsersDistrict = function(city, districts, callback) {
             if (city) {
                 authorizeService.queryCurrentUserName().then(function(userName) {
-                    authorizeService.queryRolesInUser(userName).then(function(roles) {
-                        angular.forEach(roles, function(role, $index) {
-                            var district = authorizeService.queryRoleDistrict(role);
-                            if (district) {
-                                districts.push(district);
-                                if (callback) {
-                                    callback(district, $index);
-                                }
+                    authorizeService.queryRolesInUser(userName).then(function (roles) {
+                        var roleDistricts = authorizeService.queryRoleDistricts(roles);
+                        angular.forEach(roleDistricts, function (district, $index) {
+                            districts.push(district);
+                            if (callback) {
+                                callback(district, $index);
                             }
                         });
                     });

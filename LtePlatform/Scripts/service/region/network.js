@@ -487,14 +487,12 @@
         serviceInstance.generateUsersDistrict = function(city, districts, callback) {
             if (city) {
                 authorizeService.queryCurrentUserName().then(function(userName) {
-                    authorizeService.queryRolesInUser(userName).then(function(roles) {
-                        angular.forEach(roles, function(role, $index) {
-                            var district = authorizeService.queryRoleDistrict(role);
-                            if (district) {
-                                districts.push(district);
-                                if (callback) {
-                                    callback(district, $index);
-                                }
+                    authorizeService.queryRolesInUser(userName).then(function (roles) {
+                        var roleDistricts = authorizeService.queryRoleDistricts(roles);
+                        angular.forEach(roleDistricts, function (district, $index) {
+                            districts.push(district);
+                            if (callback) {
+                                callback(district, $index);
                             }
                         });
                     });

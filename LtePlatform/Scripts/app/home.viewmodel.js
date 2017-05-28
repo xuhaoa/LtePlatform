@@ -1077,6 +1077,7 @@
         });
 
     })
+
     .controller("home.mr", function ($scope, baiduMapService, coverageService, kpiDisplayService, parametersMapService, appUrlService,
     coverageDialogService, dumpPreciseService, appRegionService) {
         baiduMapService.initializeMap("map", 13);
@@ -1339,6 +1340,7 @@
         baiduMapService.addCityBoundary("佛山");
 
     })
+
     .controller("home.complain", function ($scope, baiduMapService, dumpPreciseService, complainService, baiduQueryService, neGeometryService,
         networkElementService, mapDialogService) {
         baiduMapService.initializeMap("map", 11);
