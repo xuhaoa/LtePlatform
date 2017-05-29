@@ -127,13 +127,13 @@
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
-    <Compile Include="Migrations\201705190052101_Change_Construction.cs" />
-    <Compile Include="Migrations\201705190052101_Change_Construction.Designer.cs">
-      <DependentUpon>201705190052101_Change_Construction.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201705240619168_Add_BluePrint.cs" />
     <Compile Include="Migrations\201705240619168_Add_BluePrint.Designer.cs">
       <DependentUpon>201705240619168_Add_BluePrint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705291741016_Add_Micro_Entities.cs" />
+    <Compile Include="Migrations\201705291741016_Add_Micro_Entities.Designer.cs">
+      <DependentUpon>201705291741016_Add_Micro_Entities.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -144,11 +144,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705190052101_Change_Construction.resx">
-      <DependentUpon>201705190052101_Change_Construction.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705240619168_Add_BluePrint.resx">
       <DependentUpon>201705240619168_Add_BluePrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705291741016_Add_Micro_Entities.resx">
+      <DependentUpon>201705291741016_Add_Micro_Entities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

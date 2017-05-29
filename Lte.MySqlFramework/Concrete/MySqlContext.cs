@@ -95,5 +95,9 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<ConstructionInformation> Construction_Informations { get; set; }
 
         public DbSet<BluePrint> BluePrints { get; set; }
+
+        public DbSet<MicroItem> MicroItems { get; set; }
+
+        public DbSet<MicroAddress> MicroAddresses { get; set; }
     }
 }

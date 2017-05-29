@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Change_Construction : IMigrationMetadata
+    public sealed partial class Add_Micro_Entities : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Change_Construction));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_Micro_Entities));
         
         string IMigrationMetadata.Id
         {
-            get { return "201705190052101_Change_Construction"; }
+            get { return "201705291741016_Add_Micro_Entities"; }
         }
         
         string IMigrationMetadata.Source
