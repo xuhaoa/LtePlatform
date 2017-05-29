@@ -286,4 +286,28 @@ namespace Lte.MySqlFramework.Concrete
             return Context.SaveChanges();
         }
     }
+
+    public class MicroItemRepository : EfRepositoryBase<MySqlContext, MicroItem>, IMicroItemRepository
+    {
+        public MicroItemRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
+    public class MicroAddressRepository : EfRepositoryBase<MySqlContext, MicroAddress>, IMicroAddressRepository
+    {
+        public MicroAddressRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
 }

@@ -201,6 +201,10 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IHotSpotCdmaCellRepository>().To<HotSpotCdmaCellRepository>();
 
+            ninjectKernel.Bind<IMicroItemRepository>().To<MicroItemRepository>();
+
+            ninjectKernel.Bind<IMicroAddressRepository>().To<MicroAddressRepository>();
+
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();

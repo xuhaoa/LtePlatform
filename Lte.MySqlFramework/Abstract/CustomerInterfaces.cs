@@ -89,4 +89,14 @@ namespace Lte.MySqlFramework.Abstract
     {
         
     }
+
+    public interface IMicroItemRepository : IRepository<MicroItem>, ISaveChanges
+    {
+        
+    }
+
+    public interface IMicroAddressRepository : IRepository<MicroAddress>, ISaveChanges
+    {
+        
+    }
 }
