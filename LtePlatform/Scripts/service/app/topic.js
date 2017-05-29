@@ -1663,7 +1663,7 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 	 })
 
 	.controller('map.alarmStation.dialog', function ($scope, $uibModalInstance, station, beginDate, endDate, dialogTitle,
-		appFormatService, downSwitchService, parametersDialogService, mapDialogService) {
+		appFormatService, downSwitchService, workItemDialog, mapDialogService) {
 	    $scope.station = station;
 	    downSwitchService.getAlarmStationById(station.StationId, 0, 10000).then(function (response) {
 	        $scope.alarmStations = response.result;
@@ -1673,7 +1673,7 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 	    };
 	    $scope.showStationInfo = function () {
 	        downSwitchService.getStationById(station.StationId).then(function (result) {
-	            parametersDialogService.showStationInfo(result.result[0], beginDate, endDate);
+	            workItemDialog.showStationInfo(result.result[0], beginDate, endDate);
 	        });
 	    };
 

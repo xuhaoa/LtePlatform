@@ -465,6 +465,13 @@
             db: null
         };
         $rootScope.colors = geometryService.queryMapColors();
+
+        $rootScope.areaNames = ['全市'];
+        $rootScope.distincts = ['佛山市'];
+        $rootScope.pushStationArea = function(district) {
+            $rootScope.areaNames.push('FS' + district);
+            $rootScope.distincts.push(district + '区');
+        };
     })
     .controller("menu.root", function($scope) {
         $scope.menuItem = {
@@ -487,7 +494,7 @@
         };
     })
 
-    .controller("menu.station", function ($scope, downSwitchService, distinctIndex, baiduMapService, parametersDialogService, baiduQueryService) {
+    .controller("menu.station", function ($scope, downSwitchService, distinctIndex, baiduMapService, workItemDialog, baiduQueryService) {
         $scope.stationName = "";
         $scope.stations = [];
         $scope.areaNames = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
@@ -498,7 +505,7 @@
         }
         $scope.showStationInfo = function (index) {
             document.getElementById("cardlist").style.display = "none";
-            parametersDialogService.showStationInfo($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
+            workItemDialog.showStationInfo($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
         }
         $scope.$watch('stations', function () {
             baiduMapService.clearOverlays();
@@ -509,13 +516,13 @@
                 var xOffset = coors.x - $scope.stations[0].longtitute;
                 var yOffset = coors.y - $scope.stations[0].lattitute;
                 baiduMapService.drawPointsUsual($scope.stations, -xOffset, -yOffset, function () {
-                    parametersDialogService.showStationInfo(this.data);
+                    workItemDialog.showStationInfo(this.data, $scope.beginDate, $scope.endDate);
                 });
             });
         });
     })
 
-    .controller("station.filter", function ($scope, downSwitchService, myValue, baiduMapService, collegeMapService) {
+    .controller("station.filter", function ($scope, downSwitchService, myValue, baiduMapService, collegeMapService, dumpPreciseService) {
         $scope.grades = [
             { value: '', name: '所有级别' },
             { value: 'A', name: '站点级别A' },
@@ -555,13 +562,15 @@
             { value: '否', name: '没有动力配套' }
         ];
         
-        $scope.areaNames = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
-
         $scope.getStations = function (areaName, index) {
             downSwitchService.getStationByFilter(areaName, myValue.stationGrade, myValue.netType, myValue.roomAttribution,
                  myValue.towerAttribution, myValue.isPower, myValue.isBBU, 0, 10000).then(function (response) {
                      var stations = response.result.rows;
                      var color = $scope.colors[index];
+                     $scope.legend.intervals.push({
+                         threshold: areaName,
+                         color: color
+                     });
                      collegeMapService.showMaintainStations(stations, color);
                  });
         };
@@ -569,14 +578,16 @@
         $scope.reflashMap = function () {
 
             baiduMapService.clearOverlays();
+            $scope.initializeLegend();
             var areaName = $scope.areaNames[myValue.distinctIndex];
-            baiduMapService.setCenter(myValue.distinctIndex);
             if (myValue.distinctIndex !== 0) {
+                baiduMapService.setCenter(dumpPreciseService.getDistrictIndex(areaName));
                 $scope.getStations(areaName, myValue.distinctIndex);
             } else {
-                for (var i = 1; i < 6; ++i) {
-                    $scope.getStations($scope.areaNames[i], i);
-                }
+                baiduMapService.setCenter(0);
+                angular.forEach($scope.areaNames.slice(1, $scope.areaNames.length), function (name, $index) {
+                    $scope.getStations(name, $index);
+                });
             }
 
         };
@@ -941,28 +952,33 @@
     })
     .controller("station.network", function ($scope, downSwitchService, baiduMapService, geometryService,
         parametersDialogService, collegeMapService, dumpPreciseService) {
-        $scope.areaNames = ['全市'];
-        $scope.distincts = ['佛山市'];
         $scope.districts = [];
         $scope.distinct = $scope.distincts[0];
         baiduMapService.initializeMap("map", 13);
-        baiduMapService.setCenter(0);
+        
         //获取站点
         $scope.getStations = function (areaName, index) {
             downSwitchService.getStationsByAreaName(areaName, 0, 10000).then(function (response) {
                 var stations = response.result.rows;
                 var color = $scope.colors[index];
+                $scope.legend.intervals.push({
+                    threshold: areaName,
+                    color: color
+                });
                 collegeMapService.showMaintainStations(stations, color);
             });
         };
         $scope.reflashMap = function (areaNameIndex) {
             baiduMapService.clearOverlays();
+            $scope.initializeLegend();
             var areaName = $scope.areaNames[areaNameIndex];
             $scope.distinct = $scope.distincts[areaNameIndex];
-            baiduMapService.setCenter(dumpPreciseService.getDistrictIndex(areaName));
+            
             if (areaNameIndex !== 0) {
+                baiduMapService.setCenter(dumpPreciseService.getDistrictIndex(areaName));
                 $scope.getStations(areaName, areaNameIndex);
             } else {
+                baiduMapService.setCenter(0);
                 angular.forEach($scope.areaNames.slice(1, $scope.areaNames.length), function(name, $index) {
                     $scope.getStations(name, $index);
                 });
@@ -978,8 +994,7 @@
                 $scope.initializeLegend();
                 baiduMapService.clearOverlays();
                 dumpPreciseService.generateUsersDistrict(city, $scope.districts, function (district, $index) {
-                    $scope.areaNames.push('FS' + district);
-                    $scope.distincts.push(district + '区');
+                    $scope.pushStationArea(district);
                     $scope.getStations('FS' + district, $index + 1);
                 });
             }
