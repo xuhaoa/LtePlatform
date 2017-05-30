@@ -1509,6 +1509,110 @@ angular.module('app.format', [])
                         ]
                     }
                 ];
+            },
+            generateMicroAddressGroups: function (station) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '地址编号',
+                                value: station.addressNumber
+                            }, {
+                                key: '镇区',
+                                value: station.town
+                            }, {
+                                key: '区域',
+                                value: station.district
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '经度',
+                                value: station.longtitute
+                            }, {
+                                key: '纬度',
+                                value: station.lattitute
+                            }, {
+                                key: '施主基站',
+                                value: station.baseStation
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '详细地址',
+                                value: station.address,
+                                span: 5
+                            }
+                        ]
+                    }
+                ];
+            },
+            generateMicroItemGroups: function (station) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '设备名称',
+                                value: station.name
+                            }, {
+                                key: '设备型号',
+                                value: station.type,
+                                span: 3
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '设备编码',
+                                value: station.itemNumber
+                            }, {
+                                key: '设备厂家',
+                                value: station.factory
+                            }, {
+                                key: '资产编号',
+                                value: station.materialNumber
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '出仓日期',
+                                value: station.borrowDate
+                            }, {
+                                key: '领取人',
+                                value: station.borrower
+                            }, {
+                                key: '编号',
+                                value: station.serialNumber
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '投诉人',
+                                value: station.complainer
+                            }, {
+                                key: '投诉电话',
+                                value: station.complainPhone
+                            }, {
+                                key: '是否交申请表',
+                                value: station.submitForm
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '是否交协议',
+                                value: station.protocol
+                            }, {
+                                key: '备注',
+                                value: station.comments
+                            }
+                        ]
+                    }
+                ];
             }
         }
     })

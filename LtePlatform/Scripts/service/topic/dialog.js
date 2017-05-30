@@ -229,7 +229,7 @@
 		};
 
 	})
-	.controller('micro.dialog', function ($scope, $uibModalInstance, dialogTitle, item) {
+	.controller('micro.dialog', function ($scope, $uibModalInstance, dialogTitle, item, appFormatService) {
 		$scope.dialogTitle = dialogTitle;
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.eNodebGroups);
@@ -237,6 +237,12 @@
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss('cancel');
 		};
+
+		$scope.detailsGroups = appFormatService.generateMicroAddressGroups(item);
+		$scope.microGroups = [];
+		angular.forEach(item.microItems, function(micro) {
+			$scope.microGroups.push(appFormatService.generateMicroItemGroups(micro));
+		});
 	})
 
 	.controller('town.eNodeb.dialog', function ($scope, $uibModalInstance, dialogTitle, city, district, town,

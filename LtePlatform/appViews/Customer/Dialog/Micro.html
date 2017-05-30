@@ -5,7 +5,10 @@
     <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
 <div class="modal-body form-horizontal">
-    
+    <h4>地址信息</h4>
+    <div plan-site-details item-groups="detailsGroups"></div>
+    <h4>手机伴侣列表</h4>
+    <div ng-repeat="group in microGroups" plan-site-details item-groups="group"></div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-warning" ng-click="ok()">保存信息</button>
