@@ -462,6 +462,7 @@
     <Content Include="appViews\Home\Kpi2G.html" />
     <Content Include="appViews\Home\Kpi4G.html" />
     <Content Include="appViews\Home\KpiDownSwitch.html" />
+    <Content Include="appViews\Home\Micro.html" />
     <Content Include="appViews\Home\Mr.html" />
     <Content Include="appViews\Home\MrGrid.html" />
     <Content Include="appViews\Home\Network.html" />
@@ -566,6 +567,7 @@
     <None Include="Content\themes\base\datepicker.scss" />
     <None Include="Content\themes\base\dialog.scss" />
     <None Include="Content\themes\base\draggable.scss" />
+    <Content Include="Content\themes\baidu\address.png" />
     <Content Include="Content\themes\baidu\box.css">
       <DependentUpon>box.scss</DependentUpon>
     </Content>

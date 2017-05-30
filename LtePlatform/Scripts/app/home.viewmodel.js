@@ -125,6 +125,7 @@
                 },
                 url: "/plan"
             })
+
             .state('complain', {
                 views: {
                     'menu': {
@@ -132,11 +133,24 @@
                         controller: "menu.complain"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Complain.html",
+                        templateUrl: "/appViews/Home/Complain.html",
                         controller: "home.complain"
                     }
                 },
                 url: "/complain"
+            })
+            .state('micro', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.complain"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/Home/Micro.html",
+                        controller: "complain.micro"
+                    }
+                },
+                url: "/micro"
             })
             .state('college', {
                 views: {
@@ -151,6 +165,7 @@
                 },
                 url: "/college"
             })
+
             .state('mr', {
                 views: {
                     'menu': {
@@ -683,6 +698,9 @@
                 {
                     displayName: "统计分析",
                     url: '/#/complain'
+                }, {
+                    displayName: "手机伴侣",
+                    url: '/#/micro'
                 }, {
                     displayName: "在线支撑",
                     url: appUrlService.getCustomerHost() + 'IndexOfComplaints.aspx'
@@ -1409,6 +1427,11 @@
         });
 
     })
+    .controller("complain.micro", function($scope, baiduMapService) {
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
+    })
+
     .controller("network.analysis", function ($scope, baiduMapService, networkElementService, dumpPreciseService,
         baiduQueryService, neGeometryService, parametersMapService) {
         baiduMapService.initializeMap("map", 11);

@@ -274,6 +274,9 @@
                     end: end,
                     level: level
                 });
+            },
+            queryMicroItems: function() {
+                return generalHttpService.getApiData('MicroAmplifier', {});
             }
         };
     })

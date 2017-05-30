@@ -274,6 +274,9 @@ angular.module('region.basic', ['app.core'])
                     end: end,
                     level: level
                 });
+            },
+            queryMicroItems: function() {
+                return generalHttpService.getApiData('MicroAmplifier', {});
             }
         };
     })

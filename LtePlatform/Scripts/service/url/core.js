@@ -168,7 +168,6 @@
     .controller('header.menu', function($scope, appUrlService) {
         $scope.interferenceUrl = appUrlService.getInterferenceHost();
         $scope.emergencyUrl = appUrlService.getCustomerHost() + 'IndexOfEmerCom.aspx';
-        $scope.repeaterUrl = appUrlService.getCustomerHost() + 'IndexOfMicro.aspx';
         $scope.marketUrl = appUrlService.getCustomerHost() + 'IndexOfTelJobs.aspx';
         $scope.rfUrl = appUrlService.getParameterUrlHost() + 'RadioFreqency.html';
         $scope.commonMenu = {
