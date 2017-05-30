@@ -236,8 +236,25 @@ namespace Lte.MySqlFramework.Entities
 
         public double AverageActiveUsers => OldAverageActiveUsers + NewAvgActUsers;
 
+        public int MaxActiveUsers
+            =>
+                OldMaxActiveUsers + UplinkQci8MaxActiveUsers + UplinkQci9MaxActiveUsers + DownlinkQci8MaxActiveUsers +
+                DownlinkQci9MaxActiveUsers;
+
         [CsvColumn(Name = "最大激活用户数_1")]
-        public int MaxActiveUsers { get; set; }
+        public int OldMaxActiveUsers { get; set; }
+
+        [CsvColumn(Name = "[LTE]上行QCI8最大激活用户数")]
+        public int UplinkQci8MaxActiveUsers { get; set; }
+
+        [CsvColumn(Name = "[LTE]上行QCI9最大激活用户数")]
+        public int UplinkQci9MaxActiveUsers { get; set; }
+
+        [CsvColumn(Name = "[LTE]下行QCI8最大激活用户数")]
+        public int DownlinkQci8MaxActiveUsers { get; set; }
+
+        [CsvColumn(Name = "[LTE]下行QCI9最大激活用户数")]
+        public int DownlinkQci9MaxActiveUsers { get; set; }
 
         [CsvColumn(Name = "小区PDCP接收上行数据的总时长(s)")]
         public int OldPdcpUplinkDuration { get; set; }
@@ -258,7 +275,7 @@ namespace Lte.MySqlFramework.Entities
         [CsvColumn(Name = "小区上行PDCP层流量（MB）_1440661576499")]
         public double OldUlPdcpFlowInMByte { get; set; }
 
-        [CsvColumn(Name = "小区下行PDCP层流量（MB）")]
+        [CsvColumn(Name = "小区上行PDCP层流量（MB）")]
         public double NewUlPdcpFlowInMByte { get; set; }
 
         public double UplindPdcpFlowInMByte => OldUlPdcpFlowInMByte + NewUlPdcpFlowInMByte;

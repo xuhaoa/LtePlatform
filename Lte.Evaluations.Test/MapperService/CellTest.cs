@@ -335,7 +335,7 @@ namespace Lte.Evaluations.MapperService
             {
                 OldAverageActiveUsers = 123.4,
                 AverageRrcUsers = 223.4,
-                MaxActiveUsers = 234,
+                OldMaxActiveUsers = 234,
                 StatTime = new DateTime(2016,3,4),
                 ENodebId = 123,
                 SectorId = 6
