@@ -340,9 +340,9 @@ namespace LtePlatform.Controllers.Parameters
 
     public class ENodebBaseController : ApiController
     {
-        private readonly ENodebQueryService _service;
+        private readonly BtsConstructionService _service;
 
-        public ENodebBaseController(ENodebQueryService service)
+        public ENodebBaseController(BtsConstructionService service)
         {
             _service = service;
         }
@@ -362,9 +362,9 @@ namespace LtePlatform.Controllers.Parameters
 
     public class ConstructionController : ApiController
     {
-        private readonly ENodebQueryService _service;
+        private readonly BtsConstructionService _service;
 
-        public ConstructionController(ENodebQueryService service)
+        public ConstructionController(BtsConstructionService service)
         {
             _service = service;
         }
@@ -413,9 +413,9 @@ namespace LtePlatform.Controllers.Parameters
 
     public class DwgController : ApiController
     {
-        private readonly ENodebQueryService _service;
+        private readonly BluePrintService _service;
 
-        public DwgController(ENodebQueryService service)
+        public DwgController(BluePrintService service)
         {
             _service = service;
         }

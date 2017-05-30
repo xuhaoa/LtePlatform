@@ -187,9 +187,9 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IStationDictionaryRepository>().To<StationDictionaryRepository>();
 
-            ninjectKernel.Bind<IConstruction_InformationRepository>().To<Construction_InformationRepository>();
+            ninjectKernel.Bind<IConstructionInformationRepository>().To<Construction_InformationRepository>();
 
-            ninjectKernel.Bind<IEnodeb_BaseRepository>().To<Enodeb_BaseRepository>();
+            ninjectKernel.Bind<IEnodebBaseRepository>().To<Enodeb_BaseRepository>();
             
             ninjectKernel.Bind<IDistributionRepository>().To<DistributionRepository>();
 
@@ -209,14 +209,6 @@ namespace LtePlatform
 
             ninjectKernel.Bind<CollegeStatService>().ToSelf();
 
-            ninjectKernel.Bind<ENodebQueryService>().ToSelf();
-
-            ninjectKernel.Bind<BtsQueryService>().ToSelf();
-
-            ninjectKernel.Bind<CollegeENodebService>().ToSelf();
-
-            ninjectKernel.Bind<CollegeBtssService>().ToSelf();
-
             ninjectKernel.Bind<IEmergencyProcessRepository>().To<EmergencyProcessRepository>();
 
             ninjectKernel.Bind<IEmergencyFiberWorkItemRepository>().To<EmergencyFiberWorkItemRepository>();
@@ -234,6 +226,18 @@ namespace LtePlatform
             ninjectKernel.Bind<ITelecomAgpsRepository>().To<TelecomAgpsRepository>();
 
             ninjectKernel.Bind<IMobileAgpsRepository>().To<MobileAgpsRepository>();
+
+            ninjectKernel.Bind<ENodebQueryService>().ToSelf();
+
+            ninjectKernel.Bind<BluePrintService>().ToSelf();
+
+            ninjectKernel.Bind<BtsConstructionService>().ToSelf();
+
+            ninjectKernel.Bind<BtsQueryService>().ToSelf();
+
+            ninjectKernel.Bind<CollegeENodebService>().ToSelf();
+
+            ninjectKernel.Bind<CollegeBtssService>().ToSelf();
 
             ninjectKernel.Bind<CellService>().ToSelf();
 
@@ -326,6 +330,8 @@ namespace LtePlatform
             ninjectKernel.Bind<UlOpenLoopPcService>().ToSelf();
 
             ninjectKernel.Bind<ComplainService>().ToSelf();
+
+            ninjectKernel.Bind<MicroAmplifierService>().ToSelf();
 
             ninjectKernel.Bind<PlanningQueryService>().ToSelf();
 

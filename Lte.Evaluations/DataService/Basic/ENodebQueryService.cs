@@ -20,23 +20,16 @@ namespace Lte.Evaluations.DataService.Basic
         private readonly ITownRepository _townRepository;
         private readonly IENodebRepository _eNodebRepository;
         private readonly IStationDictionaryRepository _stationDictionaryRepository;
-        private readonly IEnodeb_BaseRepository _enodebBaseRepository;
         private readonly IDistributionRepository _distributionRepository;
-        private readonly IConstruction_InformationRepository _constructionRepository;
-        private readonly IBluePrintRepository _bluePrintRepository;
 
         public ENodebQueryService(ITownRepository townRepository, IENodebRepository eNodebRepository,
-            IStationDictionaryRepository stationDictionaryRepository, IEnodeb_BaseRepository enodebBaseRepository,
-            IDistributionRepository distributionRepository, IConstruction_InformationRepository constructionRepository,
-            IBluePrintRepository bluePrintRepository)
+            IStationDictionaryRepository stationDictionaryRepository,
+            IDistributionRepository distributionRepository)
         {
             _townRepository = townRepository;
             _eNodebRepository = eNodebRepository;
             _stationDictionaryRepository = stationDictionaryRepository;
-            _enodebBaseRepository = enodebBaseRepository;
             _distributionRepository = distributionRepository;
-            _constructionRepository = constructionRepository;
-            _bluePrintRepository = bluePrintRepository;
         }
 
         public IEnumerable<ENodebView> GetByTownNames(string city, string district, string town)
@@ -170,6 +163,25 @@ namespace Lte.Evaluations.DataService.Basic
             return eNodebs.Any() ? eNodebs.MapTo<IEnumerable<ENodebView>>() : new List<ENodebView>();
         }
 
+        public IEnumerable<DistributionSystem> QueryDistributionSystems(string district)
+        {
+            return _distributionRepository.GetAllList(x => x.District == district);
+        }
+
+    }
+
+    public class BtsConstructionService
+    {
+        private readonly IConstructionInformationRepository _constructionRepository;
+        private readonly IEnodebBaseRepository _enodebBaseRepository;
+
+        public BtsConstructionService(IConstructionInformationRepository constructionRepository, 
+            IEnodebBaseRepository enodebBaseRepository)
+        {
+            _constructionRepository = constructionRepository;
+            _enodebBaseRepository = enodebBaseRepository;
+        }
+
         public IEnumerable<ENodebBase> QueryEnodebBases()
         {
             return _enodebBaseRepository.GetAllList();
@@ -180,11 +192,6 @@ namespace Lte.Evaluations.DataService.Basic
             return string.IsNullOrEmpty(searchText)
                 ? QueryEnodebBases()
                 : _enodebBaseRepository.GetAllList(x => x.ENODEBNAME.Contains(searchText));
-        }
-
-        public IEnumerable<DistributionSystem> QueryDistributionSystems(string district)
-        {
-            return _distributionRepository.GetAllList(x => x.District == district);
         }
 
         public IEnumerable<ConstructionView> QueryConstructionInformations(string searchTxt, double west,
@@ -200,7 +207,7 @@ namespace Lte.Evaluations.DataService.Basic
             string town)
         {
             return QueryConstructionViews(searchTxt, district, town, _enodebBaseRepository.GetAllList());
-        } 
+        }
 
         private IEnumerable<ConstructionView> QueryConstructionViews(string searchTxt, string district, string town, List<ENodebBase> btsList)
         {
@@ -219,18 +226,30 @@ namespace Lte.Evaluations.DataService.Basic
             }
             var conList = _constructionRepository.GetAllList();
             var constructionList = from c in conList
-                join b in btsList on c.FSLNO equals b.FSLNO
-                select new
-                {
-                    Bts = b,
-                    Con = c
-                };
+                                   join b in btsList on c.FSLNO equals b.FSLNO
+                                   select new
+                                   {
+                                       Bts = b,
+                                       Con = c
+                                   };
             return constructionList.Select(x =>
             {
                 var view = x.Con.MapTo<ConstructionView>();
                 x.Bts.MapTo(view);
                 return view;
             });
+        }
+
+    }
+
+    public class BluePrintService
+    {
+        private readonly IBluePrintRepository _bluePrintRepository;
+
+        public BluePrintService(IBluePrintRepository bluePrintRepository)
+        {
+
+            _bluePrintRepository = bluePrintRepository;
         }
 
         public int SaveVisioPath(string fslNumber, string path)

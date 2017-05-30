@@ -216,6 +216,7 @@ namespace Lte.MySqlFramework.Entities
         public int TownId { get; set; }
     }
 
+    [AutoMapFrom(typeof(MicroAddress))]
     public class MicroAmplifierView : IGeoPoint<double>, IDistrictTown
     {
         public string AddressNumber { get; set; }

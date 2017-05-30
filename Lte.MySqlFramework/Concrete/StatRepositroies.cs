@@ -142,7 +142,7 @@ namespace Lte.MySqlFramework.Concrete
     }
 
     public class Construction_InformationRepository : EfRepositoryBase<MySqlContext, ConstructionInformation>,
-        IConstruction_InformationRepository
+        IConstructionInformationRepository
     {
         public Construction_InformationRepository(IDbContextProvider<MySqlContext> dbContextProvider)
             : base(dbContextProvider)
@@ -155,7 +155,7 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class Enodeb_BaseRepository : EfRepositoryBase<MySqlContext, ENodebBase>, IEnodeb_BaseRepository
+    public class Enodeb_BaseRepository : EfRepositoryBase<MySqlContext, ENodebBase>, IEnodebBaseRepository
     {
         public Enodeb_BaseRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {

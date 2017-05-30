@@ -46,11 +46,11 @@ namespace Lte.MySqlFramework.Abstract
         LteRru Get(int eNodebId, byte localSectorId);
     }
 
-    public interface IConstruction_InformationRepository : IRepository<ConstructionInformation>, ISaveChanges
+    public interface IConstructionInformationRepository : IRepository<ConstructionInformation>, ISaveChanges
     {
     }
 
-    public interface IEnodeb_BaseRepository : IRepository<ENodebBase>, ISaveChanges
+    public interface IEnodebBaseRepository : IRepository<ENodebBase>, ISaveChanges
     {
     }
 

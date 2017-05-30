@@ -383,30 +383,49 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
+        [ApiDoc("查询指定日期范围内的在线支撑记录")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiResponse("指定日期范围内的在线支撑记录")]
         public List<OnlineSustainDto> Get(DateTime begin, DateTime end)
         {
             return _service.QueryList(begin, end);
         }
 
         [HttpGet]
+        [ApiDoc("查询指定日期的前一个月的在线支撑记录")]
+        [ApiParameterDoc("today", "指定日期")]
+        [ApiResponse("指定日期的前一个月的在线支撑记录")]
         public IEnumerable<OnlineSustainDto> Get(DateTime today)
         {
             return _service.QueryList(today);
         }
 
         [HttpGet]
+        [ApiDoc("查询指定区域内指定日期的前一个月的在线支撑记录")]
+        [ApiParameterDoc("today", "指定日期")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiResponse("指定区域内指定日期的前一个月的在线支撑记录")]
         public IEnumerable<OnlineSustainDto> Get(DateTime today, string city, string district)
         {
             return _service.QueryList(today, city, district);
         }
 
         [HttpGet]
+        [ApiDoc("查询指定地理范围内的在线支撑记录")]
+        [ApiParameterDoc("west", "西边经度")]
+        [ApiParameterDoc("east", "东边经度")]
+        [ApiParameterDoc("south", "南边纬度")]
+        [ApiParameterDoc("north", "北边纬度")]
+        [ApiResponse("指定地理范围内的在线支撑记录")]
         public IEnumerable<OnlineSustainDto> Get(double west, double east, double south, double north)
         {
             return _service.QueryList(west, east, south, north);
         } 
     }
 
+    [ApiControl("在线支撑次数查询控制器")]
     public class SustainCountController : ApiController
     {
         private readonly OnlineSustainService _service;
@@ -417,10 +436,32 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
+        [ApiDoc("查询指定日期的前一个月的在线支撑次数")]
+        [ApiParameterDoc("today", "指定日期")]
+        [ApiResponse("指定日期的前一个月的在线支撑次数")]
         public async Task<int> GetCount(DateTime today)
         {
             return await _service.QueryCount<OnlineSustainService, OnlineSustain>(today);
         }
 
+    }
+
+    [ApiControl("手机伴侣查询控制器")]
+    public class MicroAmplifierController : ApiController
+    {
+        private readonly MicroAmplifierService _service;
+
+        public MicroAmplifierController(MicroAmplifierService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        [ApiDoc("查询全网手机伴侣分布")]
+        [ApiResponse("全网手机伴侣分布")]
+        public IEnumerable<MicroAmplifierView> Get()
+        {
+            return _service.QueryMicroAmplifierViews();
+        }
     }
 }
