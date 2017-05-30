@@ -1419,7 +1419,7 @@
         $scope.$watch('city.selected', function (city) {
             if (city) {
                 $scope.legend.title = city;
-                $scope.legend.intervals = [];
+                $scope.initializeLegend();
                 dumpPreciseService.generateUsersDistrict(city, $scope.districts, function (district, $index) {
                     $scope.showDistrictComplains(district, $scope.colors[$index]);
                 });
@@ -1427,9 +1427,19 @@
         });
 
     })
-    .controller("complain.micro", function($scope, baiduMapService) {
+    .controller("complain.micro", function ($scope, baiduMapService, alarmsService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+
+        $scope.initializeLegend();
+        alarmsService.queryMicroItems().then(function(items) {
+            angular.forEach(items, function(item) {
+                var marker = baiduMapService.generateIconMarker(item.longtitute, item.lattitute, "/Content/themes/baidu/address.png");
+                baiduMapService.addOneMarkerToScope(marker, function(stat) {
+                    console.log(stat);
+                }, item);
+            });
+        });
     })
 
     .controller("network.analysis", function ($scope, baiduMapService, networkElementService, dumpPreciseService,

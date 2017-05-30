@@ -1,7 +1,7 @@
 ﻿<div class="btn-group-sm col-md-4" uib-dropdown dropdown-append-to-body>
     <button id="single-button" type="button" class="btn btn-sm btn-default"
             uib-dropdown-toggle ng-disabled="disabled">
-        <strong>投诉统计</strong>
+        <strong>数据维护</strong>
         <span class="caret"></span>
     </button>
     <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
@@ -27,29 +27,8 @@
 </div>
 
 <div class="btn-group-sm col-md-4" uib-dropdown dropdown-append-to-body>
-    <button id="view-button" type="button" class="btn btn-sm btn-default"
-            uib-dropdown-toggle ng-disabled="disabled">
-        <strong>视图-{{currentView}}</strong>
-        <span class="caret"></span>
+    <button uib-popover-template="'/appViews/Evaluation/Dialog/BtsSearchCondition.html'" popover-title="查询条件设定" popover-placement="bottom-right"
+            class="btn btn-default btn-sm">
+        查询数据
     </button>
-    <ul uib-dropdown-menu role="menu" aria-labelledby="view-button">
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showAllSites()">
-                <i class="glyphicon glyphicon-fullscreen"></i>
-                所有站点
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showOpenningSites()">
-                <i class="glyphicon glyphicon-tree-conifer"></i>
-                待开通站点
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showOpenSites()">
-                <i class="glyphicon glyphicon-flag"></i>
-                已开通站点
-            </a>
-        </li>
-    </ul>
 </div>
