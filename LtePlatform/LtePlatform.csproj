@@ -438,6 +438,7 @@
     <Content Include="appViews\Evaluation\AlarmFilter.html" />
     <Content Include="appViews\Evaluation\AlarmSearchMenu.html" />
     <Content Include="appViews\Evaluation\AlarmStationDetails.html" />
+    <Content Include="appViews\Evaluation\Checking.html" />
     <Content Include="appViews\Evaluation\ClearZero.html" />
     <Content Include="appViews\Evaluation\Dialog\AgpsSearchCondition.html" />
     <Content Include="appViews\Evaluation\Dialog\AlarmHistoryListDialog.html" />
