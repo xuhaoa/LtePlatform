@@ -1021,6 +1021,23 @@
                     "page_size": pageSize
                 });
             },
+
+            getCheckingStation: function (areaName, status, page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Checking/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "areaName": areaName,
+                    "status": status
+                });
+            },
+            getFixingStation: function (areaName, status, page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Fixing/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "areaName": areaName,
+                    "status": status
+                });
+            },
             getSpecialStations: function (recoverName, page, pageSize) {
 
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Special/search', {

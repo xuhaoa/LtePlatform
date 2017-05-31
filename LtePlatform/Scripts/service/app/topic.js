@@ -1420,6 +1420,20 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 					}
 				});
 			},
+			showCheckingStationInfo: function (station) {
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
+					controller: 'map.checkingStation.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return "巡检信息:" + station.enodebName;
+						},
+						station: function () {
+							return station;
+						}
+					}
+				});
+			},
 			showSpecialStationInfo: function (station) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
@@ -1692,6 +1706,18 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 		 };
 	 })
 
+	.controller('map.checkingStation.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+		appFormatService) {
+
+		$scope.itemGroups = appFormatService.generateCheckingStationGroups(station);
+
+		$scope.dialogTitle = dialogTitle;
+
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
 	.controller('map.alarmStation.dialog', function ($scope, $uibModalInstance, station, beginDate, endDate, dialogTitle,
 		appFormatService, downSwitchService, workItemDialog, mapDialogService) {
 		$scope.station = station;

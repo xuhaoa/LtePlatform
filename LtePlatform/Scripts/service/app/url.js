@@ -1261,6 +1261,48 @@ angular.module('app.format', [])
                     }
                 ];
             },
+            generateCheckingStationGroups: function (station) {
+                return [
+                     {
+                         items: [
+                             {
+                                 key: '网元编号',
+                                 value: station.enodebCode
+                             }, {
+                                 key: '网元名称',
+                                 value: station.enodebName
+                             }, {
+                                 key: '网格名称',
+                                 value: station.areaName
+                             }
+                         ]
+                     }, {
+                         items: [
+                                {
+                                    key: '巡检单位',
+                                    value: station.checkingComp
+                                }, {
+                                    key: '巡检人',
+                                    value: station.checkingMan
+                                }, {
+                                    key: '状态',
+                                    value: station.status
+                                }
+                         ]
+                     }, {
+                         items: [
+                                {
+                                    key: '经度',
+                                    value: station.longtitute
+                                }, {
+                                    key: '纬度',
+                                    value: station.lattitute
+                                }
+                         ]
+                     }
+                ]
+            },
+
             generateCdmaCellGroups: function (cell) {
                 return [
                     {
