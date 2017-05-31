@@ -439,6 +439,30 @@
             $rootScope.legend.intervals = [];
             $rootScope.legend.criteria = [];
         };
+        $rootScope.initializeFaultLegend = function(colors) {
+            $rootScope.legend.title = "故障状态";
+            $rootScope.legend.intervals = [
+                {
+                    threshold: '未恢复',
+                    color: colors[0]
+                }, {
+                    threshold: '已恢复',
+                    color: colors[1]
+                }
+            ];
+        };
+        $rootScope.initializeSolveLegend = function(colors) {
+            $rootScope.legend.title = "问题状态";
+            $rootScope.legend.intervals = [
+                {
+                    threshold: '未解决',
+                    color: colors[0]
+                }, {
+                    threshold: '已解决',
+                    color: colors[1]
+                }
+            ];
+        };
 
         var lastWeek = new Date();
         lastWeek.setDate(lastWeek.getDate() - 7);
@@ -2327,14 +2351,7 @@
         };
         $scope.initializeLegend();
         $scope.legend.title = "故障状态";
-        $scope.legend.intervals.push({
-            threshold: '未恢复',
-            color: $scope.colors[0]
-        });
-        $scope.legend.intervals.push({
-            threshold: '已恢复',
-            color: $scope.colors[1]
-        });
+        $scope.initializeFaultLegend($scope.colors);
         $scope.reflashMap();
     })
     .controller("special-indoor.network", function ($scope, downSwitchService, baiduMapService, geometryService,
@@ -2342,18 +2359,12 @@
 
         $scope.isRecovers = new Array('未恢复', '已恢复', '全部');
         $scope.isRecover = new Array('否', '是');
-        $scope.stationss = [];
-        $scope.stationss[1] = [];
-        $scope.stationss[2] = [];
         baiduMapService.initializeMap("map", 13);
 
         $scope.colorFault = new Array("#FF0000", "#00FF00");
 
-
         $scope.recoverIndex = 0;
         $scope.recoverName = $scope.isRecovers[$scope.recoverIndex];
-
-
 
         //获取站点
         $scope.getStations = function (recoverIndex) {
@@ -2361,12 +2372,12 @@
             var recoverName = $scope.isRecover[recoverIndex];
             downSwitchService.getSpecialIndoor(recoverName, 0, 10000).then(function (response) {
 
-                $scope.stationss[recoverIndex] = response.result.rows;
+                var stations = response.result.rows;
                 var color = $scope.colorFault[recoverIndex];
-                baiduQueryService.transformToBaidu($scope.stationss[recoverIndex][0].longtitute, $scope.stationss[recoverIndex][0].lattitute).then(function (coors) {
-                    var xOffset = coors.x - $scope.stationss[recoverIndex][0].longtitute;
-                    var yOffset = coors.y - $scope.stationss[recoverIndex][0].lattitute;
-                    baiduMapService.drawPointCollection($scope.stationss[recoverIndex], color, -xOffset, -yOffset, function (e) {
+                baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function (coors) {
+                    var xOffset = coors.x - stations[0].longtitute;
+                    var yOffset = coors.y - stations[0].lattitute;
+                    baiduMapService.drawPointCollection(stations, color, -xOffset, -yOffset, function (e) {
                         mapDialogService.showSpecialIndoorInfo(e.point.data);
                     });
                 });
@@ -2392,6 +2403,8 @@
             }
 
         };
+        $scope.initializeLegend();
+        $scope.initializeFaultLegend($scope.colorFault);
         $scope.reflashMap();
     })
     .controller("clear-voice.network", function ($scope, downSwitchService, baiduMapService, geometryService,
@@ -2399,9 +2412,6 @@
 
         $scope.isRecovers = new Array('未解决', '已解决', '全部');
         $scope.isRecover = new Array('未解决', '已解决');
-        $scope.stationss = [];
-        $scope.stationss[1] = [];
-        $scope.stationss[2] = [];
         baiduMapService.initializeMap("map", 13);
 
         $scope.colorFault = new Array("#FF0000", "#00FF00");
@@ -2418,12 +2428,12 @@
             var recoverName = $scope.isRecover[recoverIndex];
             downSwitchService.getZeroVoice(recoverName, 0, 10000).then(function (response) {
 
-                $scope.stationss[recoverIndex] = response.result.rows;
+                var stations = response.result.rows;
                 var color = $scope.colorFault[recoverIndex];
-                baiduQueryService.transformToBaidu($scope.stationss[recoverIndex][0].longtitute, $scope.stationss[recoverIndex][0].lattitute).then(function (coors) {
-                    var xOffset = coors.x - $scope.stationss[recoverIndex][0].longtitute;
-                    var yOffset = coors.y - $scope.stationss[recoverIndex][0].lattitute;
-                    baiduMapService.drawPointCollection($scope.stationss[recoverIndex], color, -xOffset, -yOffset, function (e) {
+                baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function (coors) {
+                    var xOffset = coors.x - stations[0].longtitute;
+                    var yOffset = coors.y - stations[0].lattitute;
+                    baiduMapService.drawPointCollection(stations, color, -xOffset, -yOffset, function (e) {
                         mapDialogService.showZeroVoiceInfo(e.point.data);
                     });
                 });
@@ -2449,6 +2459,8 @@
             }
 
         };
+        $scope.initializeLegend();
+        $scope.initializeSolveLegend($scope.colorFault);
         $scope.reflashMap();
     })
     .controller("clear-flow.network", function ($scope, downSwitchService, baiduMapService, geometryService,
@@ -2456,17 +2468,12 @@
 
         $scope.isRecovers = new Array('未解决', '已解决', '全部');
         $scope.isRecover = new Array('未解决', '已解决');
-        $scope.stationss = [];
-        $scope.stationss[1] = [];
-        $scope.stationss[2] = [];
         baiduMapService.initializeMap("map", 13);
 
         $scope.colorFault = new Array("#FF0000", "#00FF00");
 
-
         $scope.recoverIndex = 0;
         $scope.recoverName = $scope.isRecovers[$scope.recoverIndex];
-
 
 
         //获取站点
@@ -2474,19 +2481,17 @@
 
             var recoverName = $scope.isRecover[recoverIndex];
             downSwitchService.getZeroFlow(recoverName, 0, 10000).then(function (response) {
-
-                $scope.stationss[recoverIndex] = response.result.rows;
+                var stations = response.result.rows;
                 var color = $scope.colorFault[recoverIndex];
-                baiduQueryService.transformToBaidu($scope.stationss[recoverIndex][0].longtitute, $scope.stationss[recoverIndex][0].lattitute).then(function (coors) {
-                    var xOffset = coors.x - $scope.stationss[recoverIndex][0].longtitute;
-                    var yOffset = coors.y - $scope.stationss[recoverIndex][0].lattitute;
-                    baiduMapService.drawPointCollection($scope.stationss[recoverIndex], color, -xOffset, -yOffset, function (e) {
+                baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function (coors) {
+                    var xOffset = coors.x - stations[0].longtitute;
+                    var yOffset = coors.y - stations[0].lattitute;
+                    baiduMapService.drawPointCollection(stations, color, -xOffset, -yOffset, function (e) {
                         mapDialogService.showZeroFlowInfo(e.point.data);
                     });
                 });
             });
         };
-
 
         $scope.changeRecover = function (index) {
             $scope.recoverIndex = index;
@@ -2506,6 +2511,8 @@
             }
 
         };
+        $scope.initializeLegend();
+        $scope.initializeSolveLegend($scope.colorFault);
         $scope.reflashMap();
     })
 
