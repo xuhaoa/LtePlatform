@@ -2283,9 +2283,6 @@
 
         $scope.isRecovers = new Array('未恢复', '已恢复', '全部');
         $scope.isRecover = new Array('否', '是');
-        $scope.stationss = [];
-        $scope.stationss[1] = [];
-        $scope.stationss[2] = [];
         baiduMapService.initializeMap("map", 13);
 
         $scope.recoverIndex = 0;
@@ -2297,12 +2294,12 @@
         $scope.getStations = function (recoverIndex) {
             var recoverName = $scope.isRecover[recoverIndex];
             downSwitchService.getSpecialStations(recoverName, 0, 10000).then(function (response) {
-                $scope.stationss[recoverIndex] = response.result.rows;
+                var stations = response.result.rows;
                 var color = $scope.colors[recoverIndex];
-                baiduQueryService.transformToBaidu($scope.stationss[recoverIndex][0].longtitute, $scope.stationss[recoverIndex][0].lattitute).then(function (coors) {
-                    var xOffset = coors.x - $scope.stationss[recoverIndex][0].longtitute;
-                    var yOffset = coors.y - $scope.stationss[recoverIndex][0].lattitute;
-                    baiduMapService.drawPointCollection($scope.stationss[recoverIndex], color, -xOffset, -yOffset, function (e) {
+                baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function (coors) {
+                    var xOffset = coors.x - stations[0].longtitute;
+                    var yOffset = coors.y - stations[0].lattitute;
+                    baiduMapService.drawPointCollection(stations, color, -xOffset, -yOffset, function (e) {
                         mapDialogService.showSpecialStationInfo(e.point.data);
                     });
                 });
@@ -2328,6 +2325,16 @@
             }
 
         };
+        $scope.initializeLegend();
+        $scope.legend.title = "故障状态";
+        $scope.legend.intervals.push({
+            threshold: '未恢复',
+            color: $scope.colors[0]
+        });
+        $scope.legend.intervals.push({
+            threshold: '已恢复',
+            color: $scope.colors[1]
+        });
         $scope.reflashMap();
     })
     .controller("special-indoor.network", function ($scope, downSwitchService, baiduMapService, geometryService,
