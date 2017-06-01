@@ -238,281 +238,6 @@
             <param name="args">Format arguments</param>
             <returns>Localized string</returns>
         </member>
-        <member name="T:Abp.DisposeAction">
-            <summary>
-            This class can be used to provide an action when
-            Dipose method is called.
-            </summary>
-        </member>
-        <member name="M:Abp.DisposeAction.#ctor(System.Action)">
-            <summary>
-            Creates a new <see cref="T:Abp.DisposeAction"/> object.
-            </summary>
-            <param name="action">Action to be executed when this object is disposed.</param>
-        </member>
-        <member name="T:Abp.IGuidGenerator">
-            <summary>
-            Used to generate Ids.
-            </summary>
-        </member>
-        <member name="M:Abp.IGuidGenerator.Create">
-            <summary>
-            Creates a GUID.
-            </summary>
-        </member>
-        <member name="T:Abp.IShouldInitialize">
-            <summary>
-            Defines interface for objects those should be Initialized before using it.
-            If the object resolved using dependency injection, <see cref="M:Castle.Core.IInitializable.Initialize"/>
-            method is automatically called just after creation of the object.
-            </summary>
-        </member>
-        <member name="T:Abp.IUserIdentifier">
-            <summary>
-            Interface to get a user identifier.
-            </summary>
-        </member>
-        <member name="P:Abp.IUserIdentifier.TenantId">
-            <summary>
-            Tenant Id. Can be null for host users.
-            </summary>
-        </member>
-        <member name="P:Abp.IUserIdentifier.UserId">
-            <summary>
-            Id of the user.
-            </summary>
-        </member>
-        <member name="T:Abp.NamedTypeSelector">
-            <summary>
-            Used to represent a named type selector.
-            </summary>
-        </member>
-        <member name="P:Abp.NamedTypeSelector.Name">
-            <summary>
-            Name of the selector.
-            </summary>
-        </member>
-        <member name="P:Abp.NamedTypeSelector.Predicate">
-            <summary>
-            Predicate.
-            </summary>
-        </member>
-        <member name="M:Abp.NamedTypeSelector.#ctor(System.String,System.Func{System.Type,System.Boolean})">
-            <summary>
-            Creates new <see cref="T:Abp.NamedTypeSelector"/> object.
-            </summary>
-            <param name="name">Name</param>
-            <param name="predicate">Predicate</param>
-        </member>
-        <member name="T:Abp.NameValue">
-            <summary>
-            Can be used to store Name/Value (or Key/Value) pairs.
-            </summary>
-        </member>
-        <member name="M:Abp.NameValue.#ctor">
-            <summary>
-            Creates a new <see cref="T:Abp.NameValue"/>.
-            </summary>
-        </member>
-        <member name="M:Abp.NameValue.#ctor(System.String,System.String)">
-            <summary>
-            Creates a new <see cref="T:Abp.NameValue"/>.
-            </summary>
-        </member>
-        <member name="T:Abp.NameValue`1">
-            <summary>
-            Can be used to store Name/Value (or Key/Value) pairs.
-            </summary>
-        </member>
-        <member name="P:Abp.NameValue`1.Name">
-            <summary>
-            Name.
-            </summary>
-        </member>
-        <member name="P:Abp.NameValue`1.Value">
-            <summary>
-            Value.
-            </summary>
-        </member>
-        <member name="M:Abp.NameValue`1.#ctor">
-            <summary>
-            Creates a new <see cref="T:Abp.NameValue"/>.
-            </summary>
-        </member>
-        <member name="M:Abp.NameValue`1.#ctor(System.String,`0)">
-            <summary>
-            Creates a new <see cref="T:Abp.NameValue"/>.
-            </summary>
-        </member>
-        <member name="T:Abp.RandomHelper">
-            <summary>
-            A shortcut to use <see cref="T:System.Random"/> class.
-            Also provides some useful methods.
-            </summary>
-        </member>
-        <member name="M:Abp.RandomHelper.GetRandom(System.Int32,System.Int32)">
-            <summary>
-            Returns a random number within a specified range.
-            </summary>
-            <param name="minValue">The inclusive lower bound of the random number returned.</param>
-            <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
-            <returns>
-            A 32-bit signed integer greater than or equal to minValue and less than maxValue; 
-            that is, the range of return values includes minValue but not maxValue. 
-            If minValue equals maxValue, minValue is returned.
-            </returns>
-        </member>
-        <member name="M:Abp.RandomHelper.GetRandom(System.Int32)">
-            <summary>
-            Returns a nonnegative random number less than the specified maximum.
-            </summary>
-            <param name="maxValue">The exclusive upper bound of the random number to be generated. maxValue must be greater than or equal to zero.</param>
-            <returns>
-            A 32-bit signed integer greater than or equal to zero, and less than maxValue; 
-            that is, the range of return values ordinarily includes zero but not maxValue. 
-            However, if maxValue equals zero, maxValue is returned.
-            </returns>
-        </member>
-        <member name="M:Abp.RandomHelper.GetRandom">
-            <summary>
-            Returns a nonnegative random number.
-            </summary>
-            <returns>A 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.</returns>
-        </member>
-        <member name="M:Abp.RandomHelper.GetRandomOf``1(``0[])">
-            <summary>
-            Gets random of given objects.
-            </summary>
-            <typeparam name="T">Type of the objects</typeparam>
-            <param name="objs">List of object to select a random one</param>
-        </member>
-        <member name="M:Abp.RandomHelper.GenerateRandomizedList``1(System.Collections.Generic.IEnumerable{``0})">
-            <summary>
-            Generates a randomized list from given enumerable.
-            </summary>
-            <typeparam name="T">Type of items in the list</typeparam>
-            <param name="items">items</param>
-        </member>
-        <member name="T:Abp.RegularGuidGenerator">
-            <summary>
-            Implements <see cref="T:Abp.IGuidGenerator"/> by using <see cref="M:System.Guid.NewGuid"/>.
-            </summary>
-        </member>
-        <member name="T:Abp.SequentialGuidGenerator">
-            <summary>
-            Implements <see cref="T:Abp.IGuidGenerator"/> by creating sequential Guids.
-            This code is taken from https://github.com/jhtodd/SequentialGuid/blob/master/SequentialGuid/Classes/SequentialGuid.cs
-            </summary>
-        </member>
-        <member name="P:Abp.SequentialGuidGenerator.Instance">
-            <summary>
-            Gets the singleton <see cref="T:Abp.SequentialGuidGenerator"/> instance.
-            </summary>
-        </member>
-        <member name="M:Abp.SequentialGuidGenerator.#ctor">
-            <summary>
-            Prevents a default instance of the <see cref="T:Abp.SequentialGuidGenerator"/> class from being created.
-            Use <see cref="P:Abp.SequentialGuidGenerator.Instance"/>.
-            </summary>
-        </member>
-        <member name="T:Abp.SequentialGuidGenerator.SequentialGuidDatabaseType">
-            <summary>
-            Database type to generate GUIDs.
-            </summary>
-        </member>
-        <member name="T:Abp.SequentialGuidGenerator.SequentialGuidType">
-            <summary>
-            Describes the type of a sequential GUID value.
-            </summary>
-        </member>
-        <member name="F:Abp.SequentialGuidGenerator.SequentialGuidType.SequentialAsString">
-            <summary>
-            The GUID should be sequential when formatted using the
-            <see cref="M:System.Guid.ToString" /> method.
-            </summary>
-        </member>
-        <member name="F:Abp.SequentialGuidGenerator.SequentialGuidType.SequentialAsBinary">
-            <summary>
-            The GUID should be sequential when formatted using the
-            <see cref="M:System.Guid.ToByteArray" /> method.
-            </summary>
-        </member>
-        <member name="F:Abp.SequentialGuidGenerator.SequentialGuidType.SequentialAtEnd">
-            <summary>
-            The sequential portion of the GUID should be located at the end
-            of the Data4 block.
-            </summary>
-        </member>
-        <member name="T:Abp.UserIdentifier">
-            <summary>
-            Used to identify a user.
-            </summary>
-        </member>
-        <member name="P:Abp.UserIdentifier.TenantId">
-            <summary>
-            Tenant Id of the user.
-            Can be null for host users in a multi tenant application.
-            </summary>
-        </member>
-        <member name="P:Abp.UserIdentifier.UserId">
-            <summary>
-            Id of the user.
-            </summary>
-        </member>
-        <member name="M:Abp.UserIdentifier.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Abp.UserIdentifier"/> class.
-            </summary>
-        </member>
-        <member name="M:Abp.UserIdentifier.#ctor(System.Nullable{System.Int32},System.Int64)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Abp.UserIdentifier"/> class.
-            </summary>
-            <param name="tenantId">Tenant Id of the user.</param>
-            <param name="userId">Id of the user.</param>
-        </member>
-        <member name="M:Abp.UserIdentifier.Parse(System.String)">
-            <summary>
-            Parses given string and creates a new <see cref="T:Abp.UserIdentifier"/> object.
-            </summary>
-            <param name="userIdentifierString">
-            Should be formatted one of the followings:
-            
-            - "userId@tenantId". Ex: "42@3" (for tenant users).
-            - "userId". Ex: 1 (for host users)
-            </param>
-        </member>
-        <member name="M:Abp.UserIdentifier.ToUserIdentifierString">
-            <summary>
-            Creates a string represents this <see cref="T:Abp.UserIdentifier"/> instance.
-            Formatted one of the followings:
-            
-            - "userId@tenantId". Ex: "42@3" (for tenant users).
-            - "userId". Ex: 1 (for host users)
-            
-            Returning string can be used in <see cref="M:Abp.UserIdentifier.Parse(System.String)"/> method to re-create identical <see cref="T:Abp.UserIdentifier"/> object.
-            </summary>
-        </member>
-        <member name="M:Abp.UserIdentifier.GetHashCode">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.UserIdentifier.op_Equality(Abp.UserIdentifier,Abp.UserIdentifier)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.UserIdentifier.op_Inequality(Abp.UserIdentifier,Abp.UserIdentifier)">
-            <inheritdoc/>
-        </member>
-        <member name="T:Abp.UserIdentifierExtensions">
-            <summary>
-            Extension methods for <see cref="T:Abp.UserIdentifier"/> and <see cref="T:Abp.IUserIdentifier"/>.
-            </summary>
-        </member>
-        <member name="M:Abp.UserIdentifierExtensions.ToUserIdentifier(Abp.IUserIdentifier)">
-            <summary>
-            Creates a new <see cref="T:Abp.UserIdentifier"/> object from any object implements <see cref="T:Abp.IUserIdentifier"/>.
-            </summary>
-            <param name="userIdentifier">User identifier.</param>
-        </member>
         <member name="T:Abp.Application.Features.Feature">
             <summary>
             Defines a feature of the application. A <see cref="T:Abp.Application.Features.Feature"/> can be used in a multi-tenant application
@@ -1529,21 +1254,6 @@
             It can be overrided for custom mapping.
             </summary>
         </member>
-        <member name="T:Abp.Application.Services.IApplicationService">
-            <summary>
-            This interface must be implemented by all application services to identify them by convention.
-            </summary>
-        </member>
-        <member name="P:Abp.Application.Services.RemoteServiceAttribute.IsEnabled">
-            <summary>
-            Default: true.
-            </summary>
-        </member>
-        <member name="P:Abp.Application.Services.RemoteServiceAttribute.IsMetadataEnabled">
-            <summary>
-            Default: true.
-            </summary>
-        </member>
         <member name="T:Abp.Application.Services.Dto.AuditedEntityDto">
             <summary>
             A shortcut of <see cref="T:Abp.Application.Services.Dto.AuditedEntityDto`1"/> for most used primary key type (<see cref="T:System.Int32"/>).
@@ -1895,6 +1605,21 @@
         <member name="T:Abp.Application.Services.Dto.PagedResultRequestDto">
             <summary>
             Simply implements <see cref="T:Abp.Application.Services.Dto.IPagedResultRequest"/>.
+            </summary>
+        </member>
+        <member name="T:Abp.Application.Services.IApplicationService">
+            <summary>
+            This interface must be implemented by all application services to identify them by convention.
+            </summary>
+        </member>
+        <member name="P:Abp.Application.Services.RemoteServiceAttribute.IsEnabled">
+            <summary>
+            Default: true.
+            </summary>
+        </member>
+        <member name="P:Abp.Application.Services.RemoteServiceAttribute.IsMetadataEnabled">
+            <summary>
+            Default: true.
             </summary>
         </member>
         <member name="T:Abp.Auditing.AuditedAttribute">
@@ -2895,106 +2620,6 @@
             and job execution is not enabled (<see cref="P:Abp.BackgroundJobs.IBackgroundJobConfiguration.IsJobExecutionEnabled"/>) for the application.
             </summary>
         </member>
-        <member name="T:Abp.Collections.ITypeList">
-            <summary>
-            A shortcut for <see cref="T:Abp.Collections.ITypeList`1"/> to use object as base type.
-            </summary>
-        </member>
-        <member name="T:Abp.Collections.ITypeList`1">
-            <summary>
-            Extends <see cref="T:System.Collections.Generic.IList`1"/> to add restriction a specific base type.
-            </summary>
-            <typeparam name="TBaseType">Base Type of <see cref="T:System.Type"/>s in this list</typeparam>
-        </member>
-        <member name="M:Abp.Collections.ITypeList`1.Add``1">
-            <summary>
-            Adds a type to list.
-            </summary>
-            <typeparam name="T">Type</typeparam>
-        </member>
-        <member name="M:Abp.Collections.ITypeList`1.Contains``1">
-            <summary>
-            Checks if a type exists in the list.
-            </summary>
-            <typeparam name="T">Type</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Abp.Collections.ITypeList`1.Remove``1">
-            <summary>
-            Removes a type from list
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="T:Abp.Collections.TypeList">
-            <summary>
-            A shortcut for <see cref="T:Abp.Collections.TypeList`1"/> to use object as base type.
-            </summary>
-        </member>
-        <member name="T:Abp.Collections.TypeList`1">
-            <summary>
-            Extends <see cref="T:System.Collections.Generic.List`1"/> to add restriction a specific base type.
-            </summary>
-            <typeparam name="TBaseType">Base Type of <see cref="T:System.Type"/>s in this list</typeparam>
-        </member>
-        <member name="P:Abp.Collections.TypeList`1.Count">
-            <summary>
-            Gets the count.
-            </summary>
-            <value>The count.</value>
-        </member>
-        <member name="P:Abp.Collections.TypeList`1.IsReadOnly">
-            <summary>
-            Gets a value indicating whether this instance is read only.
-            </summary>
-            <value><c>true</c> if this instance is read only; otherwise, <c>false</c>.</value>
-        </member>
-        <member name="P:Abp.Collections.TypeList`1.Item(System.Int32)">
-            <summary>
-            Gets or sets the <see cref="T:System.Type"/> at the specified index.
-            </summary>
-            <param name="index">Index.</param>
-        </member>
-        <member name="M:Abp.Collections.TypeList`1.#ctor">
-            <summary>
-            Creates a new <see cref="T:Abp.Collections.TypeList`1"/> object.
-            </summary>
-        </member>
-        <member name="M:Abp.Collections.TypeList`1.Add``1">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Collections.TypeList`1.Add(System.Type)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Collections.TypeList`1.Insert(System.Int32,System.Type)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Collections.TypeList`1.IndexOf(System.Type)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Collections.TypeList`1.Contains``1">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Collections.TypeList`1.Contains(System.Type)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Collections.TypeList`1.Remove``1">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Collections.TypeList`1.Remove(System.Type)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Collections.TypeList`1.RemoveAt(System.Int32)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Collections.TypeList`1.Clear">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Collections.TypeList`1.CopyTo(System.Type[],System.Int32)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Collections.TypeList`1.GetEnumerator">
-            <inheritdoc/>
-        </member>
         <member name="T:Abp.Collections.Extensions.CollectionExtensions">
             <summary>
             Extension methods for Collections.
@@ -3126,6 +2751,106 @@
             <param name="getDependencies">Function to resolve the dependencies</param>
             <param name="sorted">List with the sortet items</param>
             <param name="visited">Dictionary with the visited items</param>
+        </member>
+        <member name="T:Abp.Collections.ITypeList">
+            <summary>
+            A shortcut for <see cref="T:Abp.Collections.ITypeList`1"/> to use object as base type.
+            </summary>
+        </member>
+        <member name="T:Abp.Collections.ITypeList`1">
+            <summary>
+            Extends <see cref="T:System.Collections.Generic.IList`1"/> to add restriction a specific base type.
+            </summary>
+            <typeparam name="TBaseType">Base Type of <see cref="T:System.Type"/>s in this list</typeparam>
+        </member>
+        <member name="M:Abp.Collections.ITypeList`1.Add``1">
+            <summary>
+            Adds a type to list.
+            </summary>
+            <typeparam name="T">Type</typeparam>
+        </member>
+        <member name="M:Abp.Collections.ITypeList`1.Contains``1">
+            <summary>
+            Checks if a type exists in the list.
+            </summary>
+            <typeparam name="T">Type</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Abp.Collections.ITypeList`1.Remove``1">
+            <summary>
+            Removes a type from list
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Abp.Collections.TypeList">
+            <summary>
+            A shortcut for <see cref="T:Abp.Collections.TypeList`1"/> to use object as base type.
+            </summary>
+        </member>
+        <member name="T:Abp.Collections.TypeList`1">
+            <summary>
+            Extends <see cref="T:System.Collections.Generic.List`1"/> to add restriction a specific base type.
+            </summary>
+            <typeparam name="TBaseType">Base Type of <see cref="T:System.Type"/>s in this list</typeparam>
+        </member>
+        <member name="P:Abp.Collections.TypeList`1.Count">
+            <summary>
+            Gets the count.
+            </summary>
+            <value>The count.</value>
+        </member>
+        <member name="P:Abp.Collections.TypeList`1.IsReadOnly">
+            <summary>
+            Gets a value indicating whether this instance is read only.
+            </summary>
+            <value><c>true</c> if this instance is read only; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:Abp.Collections.TypeList`1.Item(System.Int32)">
+            <summary>
+            Gets or sets the <see cref="T:System.Type"/> at the specified index.
+            </summary>
+            <param name="index">Index.</param>
+        </member>
+        <member name="M:Abp.Collections.TypeList`1.#ctor">
+            <summary>
+            Creates a new <see cref="T:Abp.Collections.TypeList`1"/> object.
+            </summary>
+        </member>
+        <member name="M:Abp.Collections.TypeList`1.Add``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Collections.TypeList`1.Add(System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Collections.TypeList`1.Insert(System.Int32,System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Collections.TypeList`1.IndexOf(System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Collections.TypeList`1.Contains``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Collections.TypeList`1.Contains(System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Collections.TypeList`1.Remove``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Collections.TypeList`1.Remove(System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Collections.TypeList`1.RemoveAt(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Collections.TypeList`1.Clear">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Collections.TypeList`1.CopyTo(System.Type[],System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Collections.TypeList`1.GetEnumerator">
+            <inheritdoc/>
         </member>
         <member name="T:Abp.Configuration.CacheManagerSettingExtensions">
             <summary>
@@ -4112,6 +3837,11 @@
             Used to configure notification system.
             </summary>
         </member>
+        <member name="P:Abp.Configuration.Startup.IAbpStartupConfiguration.EmbeddedResources">
+            <summary>
+            Used to configure embedded resources.
+            </summary>
+        </member>
         <member name="M:Abp.Configuration.Startup.IAbpStartupConfiguration.ReplaceService(System.Type,System.Action)">
             <summary>
             Used to replace a service type.
@@ -4231,6 +3961,11 @@
             <summary>
             Is multi-tenancy enabled?
             Default value: false.
+            </summary>
+        </member>
+        <member name="P:Abp.Configuration.Startup.IMultiTenancyConfig.Resolvers">
+            <summary>
+            A list of contributors for tenant resolve process.
             </summary>
         </member>
         <member name="T:Abp.Configuration.Startup.INavigationConfiguration">
@@ -4918,211 +4653,17 @@
             The instance.
             </value>
         </member>
-        <member name="T:Abp.Domain.Entities.Entity">
+        <member name="T:Abp.DisposeAction">
             <summary>
-            A shortcut of <see cref="T:Abp.Domain.Entities.Entity`1"/> for most used primary key type (<see cref="T:System.Int32"/>).
+            This class can be used to provide an action when
+            Dipose method is called.
             </summary>
         </member>
-        <member name="T:Abp.Domain.Entities.Entity`1">
+        <member name="M:Abp.DisposeAction.#ctor(System.Action)">
             <summary>
-            Basic implementation of IEntity interface.
-            An entity can inherit this class of directly implement to IEntity interface.
+            Creates a new <see cref="T:Abp.DisposeAction"/> object.
             </summary>
-            <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
-        </member>
-        <member name="P:Abp.Domain.Entities.Entity`1.Id">
-            <summary>
-            Unique identifier for this entity.
-            </summary>
-        </member>
-        <member name="M:Abp.Domain.Entities.Entity`1.IsTransient">
-            <summary>
-            Checks if this entity is transient (it has not an Id).
-            </summary>
-            <returns>True, if this entity is transient</returns>
-        </member>
-        <member name="M:Abp.Domain.Entities.Entity`1.Equals(System.Object)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Domain.Entities.Entity`1.GetHashCode">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Domain.Entities.Entity`1.op_Equality(Abp.Domain.Entities.Entity{`0},Abp.Domain.Entities.Entity{`0})">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Domain.Entities.Entity`1.op_Inequality(Abp.Domain.Entities.Entity{`0},Abp.Domain.Entities.Entity{`0})">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Domain.Entities.Entity`1.ToString">
-            <inheritdoc/>
-        </member>
-        <member name="T:Abp.Domain.Entities.EntityExtensions">
-            <summary>
-            Some useful extension methods for Entities.
-            </summary>
-        </member>
-        <member name="M:Abp.Domain.Entities.EntityExtensions.IsNullOrDeleted(Abp.Domain.Entities.ISoftDelete)">
-            <summary>
-            Check if this Entity is null of marked as deleted.
-            </summary>
-        </member>
-        <member name="M:Abp.Domain.Entities.EntityExtensions.UnDelete(Abp.Domain.Entities.ISoftDelete)">
-            <summary>
-            Undeletes this entity by setting <see cref="P:Abp.Domain.Entities.ISoftDelete.IsDeleted"/> to false and
-            <see cref="T:Abp.Domain.Entities.Auditing.IDeletionAudited"/> properties to null.
-            </summary>
-        </member>
-        <member name="T:Abp.Domain.Entities.EntityHelper">
-            <summary>
-            Some helper methods for entities.
-            </summary>
-        </member>
-        <member name="M:Abp.Domain.Entities.EntityHelper.GetPrimaryKeyType(System.Type)">
-            <summary>
-            Gets primary key type of given entity type
-            </summary>
-        </member>
-        <member name="T:Abp.Domain.Entities.EntityIdentifier">
-            <summary>
-            Used to identify an entity.
-            Can be used to store an entity <see cref="P:Abp.Domain.Entities.EntityIdentifier.Type"/> and <see cref="P:Abp.Domain.Entities.EntityIdentifier.Id"/>.
-            </summary>
-        </member>
-        <member name="P:Abp.Domain.Entities.EntityIdentifier.Type">
-            <summary>
-            Entity Type.
-            </summary>
-        </member>
-        <member name="P:Abp.Domain.Entities.EntityIdentifier.Id">
-            <summary>
-            Entity's Id.
-            </summary>
-        </member>
-        <member name="M:Abp.Domain.Entities.EntityIdentifier.#ctor">
-            <summary>
-            Added for serialization purposes.
-            </summary>
-        </member>
-        <member name="M:Abp.Domain.Entities.EntityIdentifier.#ctor(System.Type,System.Object)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Abp.Domain.Entities.EntityIdentifier"/> class.
-            </summary>
-            <param name="type">Entity type.</param>
-            <param name="id">Id of the entity.</param>
-        </member>
-        <member name="T:Abp.Domain.Entities.EntityNotFoundException">
-            <summary>
-            This exception is thrown if an entity excepted to be found but not found.
-            </summary>
-        </member>
-        <member name="P:Abp.Domain.Entities.EntityNotFoundException.EntityType">
-            <summary>
-            Type of the entity.
-            </summary>
-        </member>
-        <member name="P:Abp.Domain.Entities.EntityNotFoundException.Id">
-            <summary>
-            Id of the Entity.
-            </summary>
-        </member>
-        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor">
-            <summary>
-            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
-            </summary>
-        </member>
-        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
-            </summary>
-        </member>
-        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor(System.Type,System.Object)">
-            <summary>
-            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
-            </summary>
-        </member>
-        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor(System.Type,System.Object,System.Exception)">
-            <summary>
-            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
-            </summary>
-        </member>
-        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor(System.String)">
-            <summary>
-            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
-            </summary>
-            <param name="message">Exception message</param>
-        </member>
-        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor(System.String,System.Exception)">
-            <summary>
-            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
-            </summary>
-            <param name="message">Exception message</param>
-            <param name="innerException">Inner exception</param>
-        </member>
-        <member name="T:Abp.Domain.Entities.IEntity">
-            <summary>
-            A shortcut of <see cref="T:Abp.Domain.Entities.IEntity`1"/> for most used primary key type (<see cref="T:System.Int32"/>).
-            </summary>
-        </member>
-        <member name="T:Abp.Domain.Entities.IEntity`1">
-            <summary>
-            Defines interface for base entity type. All entities in the system must implement this interface.
-            </summary>
-            <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
-        </member>
-        <member name="P:Abp.Domain.Entities.IEntity`1.Id">
-            <summary>
-            Unique identifier for this entity.
-            </summary>
-        </member>
-        <member name="M:Abp.Domain.Entities.IEntity`1.IsTransient">
-            <summary>
-            Checks if this entity is transient (not persisted to database and it has not an <see cref="P:Abp.Domain.Entities.IEntity`1.Id"/>).
-            </summary>
-            <returns>True, if this entity is transient</returns>
-        </member>
-        <member name="T:Abp.Domain.Entities.IMayHaveTenant">
-            <summary>
-            Implement this interface for an entity which may optionally have TenantId.
-            </summary>
-        </member>
-        <member name="P:Abp.Domain.Entities.IMayHaveTenant.TenantId">
-            <summary>
-            TenantId of this entity.
-            </summary>
-        </member>
-        <member name="T:Abp.Domain.Entities.IMustHaveTenant">
-            <summary>
-            Implement this interface for an entity which must have TenantId.
-            </summary>
-        </member>
-        <member name="P:Abp.Domain.Entities.IMustHaveTenant.TenantId">
-            <summary>
-            TenantId of this entity.
-            </summary>
-        </member>
-        <member name="T:Abp.Domain.Entities.IPassivable">
-            <summary>
-            This interface is used to make an entity active/passive.
-            </summary>
-        </member>
-        <member name="P:Abp.Domain.Entities.IPassivable.IsActive">
-            <summary>
-            True: This entity is active.
-            False: This entity is not active.
-            </summary>
-        </member>
-        <member name="T:Abp.Domain.Entities.ISoftDelete">
-            <summary>
-            Used to standardize soft deleting entities.
-            Soft-delete entities are not actually deleted,
-            marked as IsDeleted = true in the database,
-            but can not be retrieved to the application.
-            </summary>
-        </member>
-        <member name="P:Abp.Domain.Entities.ISoftDelete.IsDeleted">
-            <summary>
-            Used to mark an Entity as 'Deleted'. 
-            </summary>
+            <param name="action">Action to be executed when this object is disposed.</param>
         </member>
         <member name="T:Abp.Domain.Entities.Auditing.AuditedAggregateRoot">
             <summary>
@@ -5501,6 +5042,212 @@
         <member name="P:Abp.Domain.Entities.Auditing.IModificationAudited`1.LastModifierUser">
             <summary>
             Reference to the last modifier user of this entity.
+            </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.Entity">
+            <summary>
+            A shortcut of <see cref="T:Abp.Domain.Entities.Entity`1"/> for most used primary key type (<see cref="T:System.Int32"/>).
+            </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.Entity`1">
+            <summary>
+            Basic implementation of IEntity interface.
+            An entity can inherit this class of directly implement to IEntity interface.
+            </summary>
+            <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
+        </member>
+        <member name="P:Abp.Domain.Entities.Entity`1.Id">
+            <summary>
+            Unique identifier for this entity.
+            </summary>
+        </member>
+        <member name="M:Abp.Domain.Entities.Entity`1.IsTransient">
+            <summary>
+            Checks if this entity is transient (it has not an Id).
+            </summary>
+            <returns>True, if this entity is transient</returns>
+        </member>
+        <member name="M:Abp.Domain.Entities.Entity`1.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Domain.Entities.Entity`1.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Domain.Entities.Entity`1.op_Equality(Abp.Domain.Entities.Entity{`0},Abp.Domain.Entities.Entity{`0})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Domain.Entities.Entity`1.op_Inequality(Abp.Domain.Entities.Entity{`0},Abp.Domain.Entities.Entity{`0})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Domain.Entities.Entity`1.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Abp.Domain.Entities.EntityExtensions">
+            <summary>
+            Some useful extension methods for Entities.
+            </summary>
+        </member>
+        <member name="M:Abp.Domain.Entities.EntityExtensions.IsNullOrDeleted(Abp.Domain.Entities.ISoftDelete)">
+            <summary>
+            Check if this Entity is null of marked as deleted.
+            </summary>
+        </member>
+        <member name="M:Abp.Domain.Entities.EntityExtensions.UnDelete(Abp.Domain.Entities.ISoftDelete)">
+            <summary>
+            Undeletes this entity by setting <see cref="P:Abp.Domain.Entities.ISoftDelete.IsDeleted"/> to false and
+            <see cref="T:Abp.Domain.Entities.Auditing.IDeletionAudited"/> properties to null.
+            </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.EntityHelper">
+            <summary>
+            Some helper methods for entities.
+            </summary>
+        </member>
+        <member name="M:Abp.Domain.Entities.EntityHelper.GetPrimaryKeyType(System.Type)">
+            <summary>
+            Gets primary key type of given entity type
+            </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.EntityIdentifier">
+            <summary>
+            Used to identify an entity.
+            Can be used to store an entity <see cref="P:Abp.Domain.Entities.EntityIdentifier.Type"/> and <see cref="P:Abp.Domain.Entities.EntityIdentifier.Id"/>.
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.EntityIdentifier.Type">
+            <summary>
+            Entity Type.
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.EntityIdentifier.Id">
+            <summary>
+            Entity's Id.
+            </summary>
+        </member>
+        <member name="M:Abp.Domain.Entities.EntityIdentifier.#ctor">
+            <summary>
+            Added for serialization purposes.
+            </summary>
+        </member>
+        <member name="M:Abp.Domain.Entities.EntityIdentifier.#ctor(System.Type,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Abp.Domain.Entities.EntityIdentifier"/> class.
+            </summary>
+            <param name="type">Entity type.</param>
+            <param name="id">Id of the entity.</param>
+        </member>
+        <member name="T:Abp.Domain.Entities.EntityNotFoundException">
+            <summary>
+            This exception is thrown if an entity excepted to be found but not found.
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.EntityNotFoundException.EntityType">
+            <summary>
+            Type of the entity.
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.EntityNotFoundException.Id">
+            <summary>
+            Id of the Entity.
+            </summary>
+        </member>
+        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor">
+            <summary>
+            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
+            </summary>
+        </member>
+        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
+            </summary>
+        </member>
+        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor(System.Type,System.Object)">
+            <summary>
+            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
+            </summary>
+        </member>
+        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor(System.Type,System.Object,System.Exception)">
+            <summary>
+            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
+            </summary>
+        </member>
+        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor(System.String)">
+            <summary>
+            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
+            </summary>
+            <param name="message">Exception message</param>
+        </member>
+        <member name="M:Abp.Domain.Entities.EntityNotFoundException.#ctor(System.String,System.Exception)">
+            <summary>
+            Creates a new <see cref="T:Abp.Domain.Entities.EntityNotFoundException"/> object.
+            </summary>
+            <param name="message">Exception message</param>
+            <param name="innerException">Inner exception</param>
+        </member>
+        <member name="T:Abp.Domain.Entities.IEntity">
+            <summary>
+            A shortcut of <see cref="T:Abp.Domain.Entities.IEntity`1"/> for most used primary key type (<see cref="T:System.Int32"/>).
+            </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.IEntity`1">
+            <summary>
+            Defines interface for base entity type. All entities in the system must implement this interface.
+            </summary>
+            <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
+        </member>
+        <member name="P:Abp.Domain.Entities.IEntity`1.Id">
+            <summary>
+            Unique identifier for this entity.
+            </summary>
+        </member>
+        <member name="M:Abp.Domain.Entities.IEntity`1.IsTransient">
+            <summary>
+            Checks if this entity is transient (not persisted to database and it has not an <see cref="P:Abp.Domain.Entities.IEntity`1.Id"/>).
+            </summary>
+            <returns>True, if this entity is transient</returns>
+        </member>
+        <member name="T:Abp.Domain.Entities.IMayHaveTenant">
+            <summary>
+            Implement this interface for an entity which may optionally have TenantId.
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.IMayHaveTenant.TenantId">
+            <summary>
+            TenantId of this entity.
+            </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.IMustHaveTenant">
+            <summary>
+            Implement this interface for an entity which must have TenantId.
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.IMustHaveTenant.TenantId">
+            <summary>
+            TenantId of this entity.
+            </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.IPassivable">
+            <summary>
+            This interface is used to make an entity active/passive.
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.IPassivable.IsActive">
+            <summary>
+            True: This entity is active.
+            False: This entity is not active.
+            </summary>
+        </member>
+        <member name="T:Abp.Domain.Entities.ISoftDelete">
+            <summary>
+            Used to standardize soft deleting entities.
+            Soft-delete entities are not actually deleted,
+            marked as IsDeleted = true in the database,
+            but can not be retrieved to the application.
+            </summary>
+        </member>
+        <member name="P:Abp.Domain.Entities.ISoftDelete.IsDeleted">
+            <summary>
+            Used to mark an Entity as 'Deleted'. 
             </summary>
         </member>
         <member name="T:Abp.Domain.Policies.IPolicy">
@@ -6518,6 +6265,141 @@
             </summary>
             <typeparam name="TValueObject">The type of the value object.</typeparam>
         </member>
+        <member name="T:Abp.Events.Bus.Entities.EntityChangedEventData`1">
+            <summary>
+            Used to pass data for an event when an entity (<see cref="T:Abp.Domain.Entities.IEntity"/>) is changed (created, updated or deleted).
+            See <see cref="T:Abp.Events.Bus.Entities.EntityCreatedEventData`1"/>, <see cref="T:Abp.Events.Bus.Entities.EntityDeletedEventData`1"/> and <see cref="T:Abp.Events.Bus.Entities.EntityUpdatedEventData`1"/> classes.
+            </summary>
+            <typeparam name="TEntity">Entity type</typeparam>
+        </member>
+        <member name="M:Abp.Events.Bus.Entities.EntityChangedEventData`1.#ctor(`0)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="entity">Changed entity in this event</param>
+        </member>
+        <member name="T:Abp.Events.Bus.Entities.EntityChangeEventHelper">
+            <summary>
+            Used to trigger entity change events.
+            </summary>
+        </member>
+        <member name="T:Abp.Events.Bus.Entities.EntityChangingEventData`1">
+            <summary>
+            Used to pass data for an event when an entity (<see cref="T:Abp.Domain.Entities.IEntity"/>) is being changed (creating, updating or deleting).
+            See <see cref="T:Abp.Events.Bus.Entities.EntityCreatingEventData`1"/>, <see cref="T:Abp.Events.Bus.Entities.EntityDeletingEventData`1"/> and <see cref="T:Abp.Events.Bus.Entities.EntityUpdatingEventData`1"/> classes.
+            </summary>
+            <typeparam name="TEntity">Entity type</typeparam>
+        </member>
+        <member name="M:Abp.Events.Bus.Entities.EntityChangingEventData`1.#ctor(`0)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="entity">Changing entity in this event</param>
+        </member>
+        <member name="T:Abp.Events.Bus.Entities.EntityCreatedEventData`1">
+            <summary>
+            This type of event can be used to notify just after creation of an Entity.
+            </summary>
+            <typeparam name="TEntity">Entity type</typeparam>
+        </member>
+        <member name="M:Abp.Events.Bus.Entities.EntityCreatedEventData`1.#ctor(`0)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="entity">The entity which is created</param>
+        </member>
+        <member name="T:Abp.Events.Bus.Entities.EntityCreatingEventData`1">
+            <summary>
+            This type of event is used to notify just before creation of an Entity.
+            </summary>
+            <typeparam name="TEntity">Entity type</typeparam>
+        </member>
+        <member name="M:Abp.Events.Bus.Entities.EntityCreatingEventData`1.#ctor(`0)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="entity">The entity which is being created</param>
+        </member>
+        <member name="T:Abp.Events.Bus.Entities.EntityDeletedEventData`1">
+            <summary>
+            This type of event can be used to notify just after deletion of an Entity.
+            </summary>
+            <typeparam name="TEntity">Entity type</typeparam>
+        </member>
+        <member name="M:Abp.Events.Bus.Entities.EntityDeletedEventData`1.#ctor(`0)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="entity">The entity which is deleted</param>
+        </member>
+        <member name="T:Abp.Events.Bus.Entities.EntityDeletingEventData`1">
+            <summary>
+            This type of event is used to notify just before deletion of an Entity.
+            </summary>
+            <typeparam name="TEntity">Entity type</typeparam>
+        </member>
+        <member name="M:Abp.Events.Bus.Entities.EntityDeletingEventData`1.#ctor(`0)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="entity">The entity which is being deleted</param>
+        </member>
+        <member name="T:Abp.Events.Bus.Entities.EntityEventData`1">
+            <summary>
+            Used to pass data for an event that is related to with an <see cref="T:Abp.Domain.Entities.IEntity"/> object.
+            </summary>
+            <typeparam name="TEntity">Entity type</typeparam>
+        </member>
+        <member name="P:Abp.Events.Bus.Entities.EntityEventData`1.Entity">
+            <summary>
+            Related entity with this event.
+            </summary>
+        </member>
+        <member name="M:Abp.Events.Bus.Entities.EntityEventData`1.#ctor(`0)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="entity">Related entity with this event</param>
+        </member>
+        <member name="T:Abp.Events.Bus.Entities.EntityUpdatedEventData`1">
+            <summary>
+            This type of event can be used to notify just after update of an Entity.
+            </summary>
+            <typeparam name="TEntity">Entity type</typeparam>
+        </member>
+        <member name="M:Abp.Events.Bus.Entities.EntityUpdatedEventData`1.#ctor(`0)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="entity">The entity which is updated</param>
+        </member>
+        <member name="T:Abp.Events.Bus.Entities.EntityUpdatingEventData`1">
+            <summary>
+            This type of event is used to notify just before update of an Entity.
+            </summary>
+            <typeparam name="TEntity">Entity type</typeparam>
+        </member>
+        <member name="M:Abp.Events.Bus.Entities.EntityUpdatingEventData`1.#ctor(`0)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="entity">The entity which is being updated</param>
+        </member>
+        <member name="T:Abp.Events.Bus.Entities.IEntityChangeEventHelper">
+            <summary>
+            Used to trigger entity change events.
+            </summary>
+        </member>
+        <member name="T:Abp.Events.Bus.Entities.NullEntityChangeEventHelper">
+            <summary>
+            Null-object implementation of <see cref="T:Abp.Events.Bus.Entities.IEntityChangeEventHelper"/>.
+            </summary>
+        </member>
+        <member name="P:Abp.Events.Bus.Entities.NullEntityChangeEventHelper.Instance">
+            <summary>
+            Gets single instance of <see cref="T:Abp.Events.Bus.NullEventBus"/> class.
+            </summary>
+        </member>
         <member name="T:Abp.Events.Bus.EventBus">
             <summary>
             Implements EventBus as Singleton pattern.
@@ -6633,6 +6515,167 @@
             <summary>
             Constructor.
             </summary>
+        </member>
+        <member name="T:Abp.Events.Bus.Exceptions.AbpHandledExceptionData">
+            <summary>
+            This type of events are used to notify for exceptions handled by ABP infrastructure.
+            </summary>
+        </member>
+        <member name="M:Abp.Events.Bus.Exceptions.AbpHandledExceptionData.#ctor(System.Exception)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="exception">Exception object</param>
+        </member>
+        <member name="T:Abp.Events.Bus.Exceptions.ExceptionData">
+            <summary>
+            This type of events can be used to notify for an exception.
+            </summary>
+        </member>
+        <member name="P:Abp.Events.Bus.Exceptions.ExceptionData.Exception">
+            <summary>
+            Exception object.
+            </summary>
+        </member>
+        <member name="M:Abp.Events.Bus.Exceptions.ExceptionData.#ctor(System.Exception)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="exception">Exception object</param>
+        </member>
+        <member name="T:Abp.Events.Bus.Factories.IEventHandlerFactory">
+            <summary>
+            Defines an interface for factories those are responsible to create/get and release of event handlers.
+            </summary>
+        </member>
+        <member name="M:Abp.Events.Bus.Factories.IEventHandlerFactory.GetHandler">
+            <summary>
+            Gets an event handler.
+            </summary>
+            <returns>The event handler</returns>
+        </member>
+        <member name="M:Abp.Events.Bus.Factories.IEventHandlerFactory.ReleaseHandler(Abp.Events.Bus.Handlers.IEventHandler)">
+            <summary>
+            Releases an event handler.
+            </summary>
+            <param name="handler">Handle to be released</param>
+        </member>
+        <member name="T:Abp.Events.Bus.Factories.Internals.FactoryUnregistrar">
+            <summary>
+            Used to unregister a <see cref="T:Abp.Events.Bus.Factories.IEventHandlerFactory"/> on <see cref="M:Abp.Events.Bus.Factories.Internals.FactoryUnregistrar.Dispose"/> method.
+            </summary>
+        </member>
+        <member name="T:Abp.Events.Bus.Factories.Internals.SingleInstanceHandlerFactory">
+            <summary>
+            This <see cref="T:Abp.Events.Bus.Factories.IEventHandlerFactory"/> implementation is used to handle events
+            by a single instance object. 
+            </summary>
+            <remarks>
+            This class always gets the same single instance of handler.
+            </remarks>
+        </member>
+        <member name="P:Abp.Events.Bus.Factories.Internals.SingleInstanceHandlerFactory.HandlerInstance">
+            <summary>
+            The event handler instance.
+            </summary>
+        </member>
+        <member name="M:Abp.Events.Bus.Factories.Internals.SingleInstanceHandlerFactory.#ctor(Abp.Events.Bus.Handlers.IEventHandler)">
+            <summary>
+            
+            </summary>
+            <param name="handler"></param>
+        </member>
+        <member name="T:Abp.Events.Bus.Factories.Internals.TransientEventHandlerFactory`1">
+            <summary>
+            This <see cref="T:Abp.Events.Bus.Factories.IEventHandlerFactory"/> implementation is used to handle events
+            by a single instance object. 
+            </summary>
+            <remarks>
+            This class always gets the same single instance of handler.
+            </remarks>
+        </member>
+        <member name="M:Abp.Events.Bus.Factories.Internals.TransientEventHandlerFactory`1.GetHandler">
+            <summary>
+            Creates a new instance of the handler object.
+            </summary>
+            <returns>The handler object</returns>
+        </member>
+        <member name="M:Abp.Events.Bus.Factories.Internals.TransientEventHandlerFactory`1.ReleaseHandler(Abp.Events.Bus.Handlers.IEventHandler)">
+            <summary>
+            Disposes the handler object if it's <see cref="T:System.IDisposable"/>. Does nothing if it's not.
+            </summary>
+            <param name="handler">Handler to be released</param>
+        </member>
+        <member name="T:Abp.Events.Bus.Factories.IocHandlerFactory">
+            <summary>
+            This <see cref="T:Abp.Events.Bus.Factories.IEventHandlerFactory"/> implementation is used to get/release
+            handlers using Ioc.
+            </summary>
+        </member>
+        <member name="P:Abp.Events.Bus.Factories.IocHandlerFactory.HandlerType">
+            <summary>
+            Type of the handler.
+            </summary>
+        </member>
+        <member name="M:Abp.Events.Bus.Factories.IocHandlerFactory.#ctor(Abp.Dependency.IIocResolver,System.Type)">
+            <summary>
+            Creates a new instance of <see cref="T:Abp.Events.Bus.Factories.IocHandlerFactory"/> class.
+            </summary>
+            <param name="iocResolver"></param>
+            <param name="handlerType">Type of the handler</param>
+        </member>
+        <member name="M:Abp.Events.Bus.Factories.IocHandlerFactory.GetHandler">
+            <summary>
+            Resolves handler object from Ioc container.
+            </summary>
+            <returns>Resolved handler object</returns>
+        </member>
+        <member name="M:Abp.Events.Bus.Factories.IocHandlerFactory.ReleaseHandler(Abp.Events.Bus.Handlers.IEventHandler)">
+            <summary>
+            Releases handler object using Ioc container.
+            </summary>
+            <param name="handler">Handler to be released</param>
+        </member>
+        <member name="T:Abp.Events.Bus.Handlers.IEventHandler">
+            <summary>
+            Undirect base interface for all event handlers.
+            Implement <see cref="T:Abp.Events.Bus.Handlers.IEventHandler`1"/> instead of this one.
+            </summary>
+        </member>
+        <member name="T:Abp.Events.Bus.Handlers.IEventHandler`1">
+            <summary>
+            Defines an interface of a class that handles events of type <see cref="!:TEventData"/>.
+            </summary>
+            <typeparam name="TEventData">Event type to handle</typeparam>
+        </member>
+        <member name="M:Abp.Events.Bus.Handlers.IEventHandler`1.HandleEvent(`0)">
+            <summary>
+            Handler handles the event by implementing this method.
+            </summary>
+            <param name="eventData">Event data</param>
+        </member>
+        <member name="T:Abp.Events.Bus.Handlers.Internals.ActionEventHandler`1">
+            <summary>
+            This event handler is an adapter to be able to use an action as <see cref="T:Abp.Events.Bus.Handlers.IEventHandler`1"/> implementation.
+            </summary>
+            <typeparam name="TEventData">Event type</typeparam>
+        </member>
+        <member name="P:Abp.Events.Bus.Handlers.Internals.ActionEventHandler`1.Action">
+            <summary>
+            Action to handle the event.
+            </summary>
+        </member>
+        <member name="M:Abp.Events.Bus.Handlers.Internals.ActionEventHandler`1.#ctor(System.Action{`0})">
+            <summary>
+            Creates a new instance of <see cref="T:Abp.Events.Bus.Handlers.Internals.ActionEventHandler`1"/>.
+            </summary>
+            <param name="handler">Action to handle the event</param>
+        </member>
+        <member name="M:Abp.Events.Bus.Handlers.Internals.ActionEventHandler`1.HandleEvent(`0)">
+            <summary>
+            Handles the event.
+            </summary>
+            <param name="eventData"></param>
         </member>
         <member name="T:Abp.Events.Bus.IEventBus">
             <summary>
@@ -6901,302 +6944,6 @@
         </member>
         <member name="M:Abp.Events.Bus.NullEventBus.TriggerAsync(System.Type,System.Object,Abp.Events.Bus.IEventData)">
             <inheritdoc/>
-        </member>
-        <member name="T:Abp.Events.Bus.Entities.EntityChangedEventData`1">
-            <summary>
-            Used to pass data for an event when an entity (<see cref="T:Abp.Domain.Entities.IEntity"/>) is changed (created, updated or deleted).
-            See <see cref="T:Abp.Events.Bus.Entities.EntityCreatedEventData`1"/>, <see cref="T:Abp.Events.Bus.Entities.EntityDeletedEventData`1"/> and <see cref="T:Abp.Events.Bus.Entities.EntityUpdatedEventData`1"/> classes.
-            </summary>
-            <typeparam name="TEntity">Entity type</typeparam>
-        </member>
-        <member name="M:Abp.Events.Bus.Entities.EntityChangedEventData`1.#ctor(`0)">
-            <summary>
-            Constructor.
-            </summary>
-            <param name="entity">Changed entity in this event</param>
-        </member>
-        <member name="T:Abp.Events.Bus.Entities.EntityChangeEventHelper">
-            <summary>
-            Used to trigger entity change events.
-            </summary>
-        </member>
-        <member name="T:Abp.Events.Bus.Entities.EntityChangingEventData`1">
-            <summary>
-            Used to pass data for an event when an entity (<see cref="T:Abp.Domain.Entities.IEntity"/>) is being changed (creating, updating or deleting).
-            See <see cref="T:Abp.Events.Bus.Entities.EntityCreatingEventData`1"/>, <see cref="T:Abp.Events.Bus.Entities.EntityDeletingEventData`1"/> and <see cref="T:Abp.Events.Bus.Entities.EntityUpdatingEventData`1"/> classes.
-            </summary>
-            <typeparam name="TEntity">Entity type</typeparam>
-        </member>
-        <member name="M:Abp.Events.Bus.Entities.EntityChangingEventData`1.#ctor(`0)">
-            <summary>
-            Constructor.
-            </summary>
-            <param name="entity">Changing entity in this event</param>
-        </member>
-        <member name="T:Abp.Events.Bus.Entities.EntityCreatedEventData`1">
-            <summary>
-            This type of event can be used to notify just after creation of an Entity.
-            </summary>
-            <typeparam name="TEntity">Entity type</typeparam>
-        </member>
-        <member name="M:Abp.Events.Bus.Entities.EntityCreatedEventData`1.#ctor(`0)">
-            <summary>
-            Constructor.
-            </summary>
-            <param name="entity">The entity which is created</param>
-        </member>
-        <member name="T:Abp.Events.Bus.Entities.EntityCreatingEventData`1">
-            <summary>
-            This type of event is used to notify just before creation of an Entity.
-            </summary>
-            <typeparam name="TEntity">Entity type</typeparam>
-        </member>
-        <member name="M:Abp.Events.Bus.Entities.EntityCreatingEventData`1.#ctor(`0)">
-            <summary>
-            Constructor.
-            </summary>
-            <param name="entity">The entity which is being created</param>
-        </member>
-        <member name="T:Abp.Events.Bus.Entities.EntityDeletedEventData`1">
-            <summary>
-            This type of event can be used to notify just after deletion of an Entity.
-            </summary>
-            <typeparam name="TEntity">Entity type</typeparam>
-        </member>
-        <member name="M:Abp.Events.Bus.Entities.EntityDeletedEventData`1.#ctor(`0)">
-            <summary>
-            Constructor.
-            </summary>
-            <param name="entity">The entity which is deleted</param>
-        </member>
-        <member name="T:Abp.Events.Bus.Entities.EntityDeletingEventData`1">
-            <summary>
-            This type of event is used to notify just before deletion of an Entity.
-            </summary>
-            <typeparam name="TEntity">Entity type</typeparam>
-        </member>
-        <member name="M:Abp.Events.Bus.Entities.EntityDeletingEventData`1.#ctor(`0)">
-            <summary>
-            Constructor.
-            </summary>
-            <param name="entity">The entity which is being deleted</param>
-        </member>
-        <member name="T:Abp.Events.Bus.Entities.EntityEventData`1">
-            <summary>
-            Used to pass data for an event that is related to with an <see cref="T:Abp.Domain.Entities.IEntity"/> object.
-            </summary>
-            <typeparam name="TEntity">Entity type</typeparam>
-        </member>
-        <member name="P:Abp.Events.Bus.Entities.EntityEventData`1.Entity">
-            <summary>
-            Related entity with this event.
-            </summary>
-        </member>
-        <member name="M:Abp.Events.Bus.Entities.EntityEventData`1.#ctor(`0)">
-            <summary>
-            Constructor.
-            </summary>
-            <param name="entity">Related entity with this event</param>
-        </member>
-        <member name="T:Abp.Events.Bus.Entities.EntityUpdatedEventData`1">
-            <summary>
-            This type of event can be used to notify just after update of an Entity.
-            </summary>
-            <typeparam name="TEntity">Entity type</typeparam>
-        </member>
-        <member name="M:Abp.Events.Bus.Entities.EntityUpdatedEventData`1.#ctor(`0)">
-            <summary>
-            Constructor.
-            </summary>
-            <param name="entity">The entity which is updated</param>
-        </member>
-        <member name="T:Abp.Events.Bus.Entities.EntityUpdatingEventData`1">
-            <summary>
-            This type of event is used to notify just before update of an Entity.
-            </summary>
-            <typeparam name="TEntity">Entity type</typeparam>
-        </member>
-        <member name="M:Abp.Events.Bus.Entities.EntityUpdatingEventData`1.#ctor(`0)">
-            <summary>
-            Constructor.
-            </summary>
-            <param name="entity">The entity which is being updated</param>
-        </member>
-        <member name="T:Abp.Events.Bus.Entities.IEntityChangeEventHelper">
-            <summary>
-            Used to trigger entity change events.
-            </summary>
-        </member>
-        <member name="T:Abp.Events.Bus.Entities.NullEntityChangeEventHelper">
-            <summary>
-            Null-object implementation of <see cref="T:Abp.Events.Bus.Entities.IEntityChangeEventHelper"/>.
-            </summary>
-        </member>
-        <member name="P:Abp.Events.Bus.Entities.NullEntityChangeEventHelper.Instance">
-            <summary>
-            Gets single instance of <see cref="T:Abp.Events.Bus.NullEventBus"/> class.
-            </summary>
-        </member>
-        <member name="T:Abp.Events.Bus.Exceptions.AbpHandledExceptionData">
-            <summary>
-            This type of events are used to notify for exceptions handled by ABP infrastructure.
-            </summary>
-        </member>
-        <member name="M:Abp.Events.Bus.Exceptions.AbpHandledExceptionData.#ctor(System.Exception)">
-            <summary>
-            Constructor.
-            </summary>
-            <param name="exception">Exception object</param>
-        </member>
-        <member name="T:Abp.Events.Bus.Exceptions.ExceptionData">
-            <summary>
-            This type of events can be used to notify for an exception.
-            </summary>
-        </member>
-        <member name="P:Abp.Events.Bus.Exceptions.ExceptionData.Exception">
-            <summary>
-            Exception object.
-            </summary>
-        </member>
-        <member name="M:Abp.Events.Bus.Exceptions.ExceptionData.#ctor(System.Exception)">
-            <summary>
-            Constructor.
-            </summary>
-            <param name="exception">Exception object</param>
-        </member>
-        <member name="T:Abp.Events.Bus.Factories.IEventHandlerFactory">
-            <summary>
-            Defines an interface for factories those are responsible to create/get and release of event handlers.
-            </summary>
-        </member>
-        <member name="M:Abp.Events.Bus.Factories.IEventHandlerFactory.GetHandler">
-            <summary>
-            Gets an event handler.
-            </summary>
-            <returns>The event handler</returns>
-        </member>
-        <member name="M:Abp.Events.Bus.Factories.IEventHandlerFactory.ReleaseHandler(Abp.Events.Bus.Handlers.IEventHandler)">
-            <summary>
-            Releases an event handler.
-            </summary>
-            <param name="handler">Handle to be released</param>
-        </member>
-        <member name="T:Abp.Events.Bus.Factories.IocHandlerFactory">
-            <summary>
-            This <see cref="T:Abp.Events.Bus.Factories.IEventHandlerFactory"/> implementation is used to get/release
-            handlers using Ioc.
-            </summary>
-        </member>
-        <member name="P:Abp.Events.Bus.Factories.IocHandlerFactory.HandlerType">
-            <summary>
-            Type of the handler.
-            </summary>
-        </member>
-        <member name="M:Abp.Events.Bus.Factories.IocHandlerFactory.#ctor(Abp.Dependency.IIocResolver,System.Type)">
-            <summary>
-            Creates a new instance of <see cref="T:Abp.Events.Bus.Factories.IocHandlerFactory"/> class.
-            </summary>
-            <param name="iocResolver"></param>
-            <param name="handlerType">Type of the handler</param>
-        </member>
-        <member name="M:Abp.Events.Bus.Factories.IocHandlerFactory.GetHandler">
-            <summary>
-            Resolves handler object from Ioc container.
-            </summary>
-            <returns>Resolved handler object</returns>
-        </member>
-        <member name="M:Abp.Events.Bus.Factories.IocHandlerFactory.ReleaseHandler(Abp.Events.Bus.Handlers.IEventHandler)">
-            <summary>
-            Releases handler object using Ioc container.
-            </summary>
-            <param name="handler">Handler to be released</param>
-        </member>
-        <member name="T:Abp.Events.Bus.Factories.Internals.FactoryUnregistrar">
-            <summary>
-            Used to unregister a <see cref="T:Abp.Events.Bus.Factories.IEventHandlerFactory"/> on <see cref="M:Abp.Events.Bus.Factories.Internals.FactoryUnregistrar.Dispose"/> method.
-            </summary>
-        </member>
-        <member name="T:Abp.Events.Bus.Factories.Internals.SingleInstanceHandlerFactory">
-            <summary>
-            This <see cref="T:Abp.Events.Bus.Factories.IEventHandlerFactory"/> implementation is used to handle events
-            by a single instance object. 
-            </summary>
-            <remarks>
-            This class always gets the same single instance of handler.
-            </remarks>
-        </member>
-        <member name="P:Abp.Events.Bus.Factories.Internals.SingleInstanceHandlerFactory.HandlerInstance">
-            <summary>
-            The event handler instance.
-            </summary>
-        </member>
-        <member name="M:Abp.Events.Bus.Factories.Internals.SingleInstanceHandlerFactory.#ctor(Abp.Events.Bus.Handlers.IEventHandler)">
-            <summary>
-            
-            </summary>
-            <param name="handler"></param>
-        </member>
-        <member name="T:Abp.Events.Bus.Factories.Internals.TransientEventHandlerFactory`1">
-            <summary>
-            This <see cref="T:Abp.Events.Bus.Factories.IEventHandlerFactory"/> implementation is used to handle events
-            by a single instance object. 
-            </summary>
-            <remarks>
-            This class always gets the same single instance of handler.
-            </remarks>
-        </member>
-        <member name="M:Abp.Events.Bus.Factories.Internals.TransientEventHandlerFactory`1.GetHandler">
-            <summary>
-            Creates a new instance of the handler object.
-            </summary>
-            <returns>The handler object</returns>
-        </member>
-        <member name="M:Abp.Events.Bus.Factories.Internals.TransientEventHandlerFactory`1.ReleaseHandler(Abp.Events.Bus.Handlers.IEventHandler)">
-            <summary>
-            Disposes the handler object if it's <see cref="T:System.IDisposable"/>. Does nothing if it's not.
-            </summary>
-            <param name="handler">Handler to be released</param>
-        </member>
-        <member name="T:Abp.Events.Bus.Handlers.IEventHandler">
-            <summary>
-            Undirect base interface for all event handlers.
-            Implement <see cref="T:Abp.Events.Bus.Handlers.IEventHandler`1"/> instead of this one.
-            </summary>
-        </member>
-        <member name="T:Abp.Events.Bus.Handlers.IEventHandler`1">
-            <summary>
-            Defines an interface of a class that handles events of type <see cref="!:TEventData"/>.
-            </summary>
-            <typeparam name="TEventData">Event type to handle</typeparam>
-        </member>
-        <member name="M:Abp.Events.Bus.Handlers.IEventHandler`1.HandleEvent(`0)">
-            <summary>
-            Handler handles the event by implementing this method.
-            </summary>
-            <param name="eventData">Event data</param>
-        </member>
-        <member name="T:Abp.Events.Bus.Handlers.Internals.ActionEventHandler`1">
-            <summary>
-            This event handler is an adapter to be able to use an action as <see cref="T:Abp.Events.Bus.Handlers.IEventHandler`1"/> implementation.
-            </summary>
-            <typeparam name="TEventData">Event type</typeparam>
-        </member>
-        <member name="P:Abp.Events.Bus.Handlers.Internals.ActionEventHandler`1.Action">
-            <summary>
-            Action to handle the event.
-            </summary>
-        </member>
-        <member name="M:Abp.Events.Bus.Handlers.Internals.ActionEventHandler`1.#ctor(System.Action{`0})">
-            <summary>
-            Creates a new instance of <see cref="T:Abp.Events.Bus.Handlers.Internals.ActionEventHandler`1"/>.
-            </summary>
-            <param name="handler">Action to handle the event</param>
-        </member>
-        <member name="M:Abp.Events.Bus.Handlers.Internals.ActionEventHandler`1.HandleEvent(`0)">
-            <summary>
-            Handles the event.
-            </summary>
-            <param name="eventData"></param>
         </member>
         <member name="T:Abp.Extensions.ComparableExtensions">
             <summary>
@@ -7510,6 +7257,16 @@
             </summary>
             <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="str"/> is null</exception>
         </member>
+        <member name="T:Abp.IGuidGenerator">
+            <summary>
+            Used to generate Ids.
+            </summary>
+        </member>
+        <member name="M:Abp.IGuidGenerator.Create">
+            <summary>
+            Creates a GUID.
+            </summary>
+        </member>
         <member name="T:Abp.IO.DirectoryHelper">
             <summary>
             A helper class for Directory operations.
@@ -7531,6 +7288,28 @@
             Checks and deletes given file if it does exists.
             </summary>
             <param name="filePath">Path of the file</param>
+        </member>
+        <member name="T:Abp.IShouldInitialize">
+            <summary>
+            Defines interface for objects those should be Initialized before using it.
+            If the object resolved using dependency injection, <see cref="M:Castle.Core.IInitializable.Initialize"/>
+            method is automatically called just after creation of the object.
+            </summary>
+        </member>
+        <member name="T:Abp.IUserIdentifier">
+            <summary>
+            Interface to get a user identifier.
+            </summary>
+        </member>
+        <member name="P:Abp.IUserIdentifier.TenantId">
+            <summary>
+            Tenant Id. Can be null for host users.
+            </summary>
+        </member>
+        <member name="P:Abp.IUserIdentifier.UserId">
+            <summary>
+            Id of the user.
+            </summary>
         </member>
         <member name="M:Abp.Json.JsonExtensions.ToJsonString(System.Object,System.Boolean,System.Boolean)">
             <summary>
@@ -7563,11 +7342,6 @@
         <member name="M:Abp.Json.JsonSerializationHelper.DeserializeWithType(System.String)">
             <summary>
             Deserializes an object serialized with <see cref="M:Abp.Json.JsonSerializationHelper.SerializeWithType(System.Object)"/> methods.
-            </summary>
-        </member>
-        <member name="T:Abp.Linq.IAsyncQueryableExecuter">
-            <summary>
-            This interface is intended to be used by ABP.
             </summary>
         </member>
         <member name="T:Abp.Linq.Extensions.QueryableExtensions">
@@ -7604,6 +7378,255 @@
             <param name="condition">A boolean value</param>
             <param name="predicate">Predicate to filter the query</param>
             <returns>Filtered or not filtered query based on <paramref name="condition"/></returns>
+        </member>
+        <member name="T:Abp.Linq.IAsyncQueryableExecuter">
+            <summary>
+            This interface is intended to be used by ABP.
+            </summary>
+        </member>
+        <member name="T:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource">
+            <summary>
+            This class is used to build a localization source
+            which works on memory based dictionaries to find strings.
+            </summary>
+        </member>
+        <member name="P:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.Name">
+            <summary>
+            Unique Name of the source.
+            </summary>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.#ctor(System.String,Abp.Localization.Dictionaries.ILocalizationDictionaryProvider)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <param name="dictionaryProvider"></param>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.Initialize(Abp.Configuration.Startup.ILocalizationConfiguration,Abp.Dependency.IIocResolver)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.GetString(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.GetString(System.String,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.GetAllStrings(System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.GetAllStrings(System.Globalization.CultureInfo,System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.Extend(Abp.Localization.Dictionaries.ILocalizationDictionary)">
+            <summary>
+            Extends the source with given dictionary.
+            </summary>
+            <param name="dictionary">Dictionary to extend the source</param>
+        </member>
+        <member name="T:Abp.Localization.Dictionaries.IDictionaryBasedLocalizationSource">
+            <summary>
+            Interface for a dictionary based localization source.
+            </summary>
+        </member>
+        <member name="P:Abp.Localization.Dictionaries.IDictionaryBasedLocalizationSource.DictionaryProvider">
+            <summary>
+            Gets the dictionary provider.
+            </summary>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.IDictionaryBasedLocalizationSource.Extend(Abp.Localization.Dictionaries.ILocalizationDictionary)">
+            <summary>
+            Extends the source with given dictionary.
+            </summary>
+            <param name="dictionary">Dictionary to extend the source</param>
+        </member>
+        <member name="T:Abp.Localization.Dictionaries.ILocalizationDictionary">
+            <summary>
+            Represents a dictionary that is used to find a localized string.
+            </summary>
+        </member>
+        <member name="P:Abp.Localization.Dictionaries.ILocalizationDictionary.CultureInfo">
+            <summary>
+            Culture of the dictionary.
+            </summary>
+        </member>
+        <member name="P:Abp.Localization.Dictionaries.ILocalizationDictionary.Item(System.String)">
+            <summary>
+            Gets/sets a string for this dictionary with given name (key).
+            </summary>
+            <param name="name">Name to get/set</param>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.ILocalizationDictionary.GetOrNull(System.String)">
+            <summary>
+            Gets a <see cref="T:Abp.Localization.LocalizedString"/> for given <paramref name="name"/>.
+            </summary>
+            <param name="name">Name (key) to get localized string</param>
+            <returns>The localized string or null if not found in this dictionary</returns>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.ILocalizationDictionary.GetAllStrings">
+            <summary>
+            Gets a list of all strings in this dictionary.
+            </summary>
+            <returns>List of all <see cref="T:Abp.Localization.LocalizedString"/> object</returns>
+        </member>
+        <member name="T:Abp.Localization.Dictionaries.ILocalizationDictionaryProvider">
+            <summary>
+            Used to get localization dictionaries (<see cref="T:Abp.Localization.Dictionaries.ILocalizationDictionary"/>)
+            for a <see cref="T:Abp.Localization.Dictionaries.IDictionaryBasedLocalizationSource"/>.
+            </summary>
+        </member>
+        <member name="T:Abp.Localization.Dictionaries.Json.JsonEmbeddedFileLocalizationDictionaryProvider">
+            <summary>
+            Provides localization dictionaries from JSON files embedded into an <see cref="T:System.Reflection.Assembly"/>.
+            </summary>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.Json.JsonEmbeddedFileLocalizationDictionaryProvider.#ctor(System.Reflection.Assembly,System.String)">
+            <summary>
+            Creates a new <see cref="T:Abp.Localization.Dictionaries.Json.JsonEmbeddedFileLocalizationDictionaryProvider"/> object.
+            </summary>
+            <param name="assembly">Assembly that contains embedded json files</param>
+            <param name="rootNamespace">
+            <para>
+            Namespace of the embedded json dictionary files
+            </para>
+            <para>
+            Notice : Json folder name is different from Xml folder name.
+            </para>
+            <para>
+            You must name it like this : Json**** and Xml****; Do not name : ****Json and ****Xml
+            </para>
+            </param>
+        </member>
+        <member name="T:Abp.Localization.Dictionaries.Json.JsonFileLocalizationDictionaryProvider">
+            <summary>
+                Provides localization dictionaries from json files in a directory.
+            </summary>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.Json.JsonFileLocalizationDictionaryProvider.#ctor(System.String)">
+            <summary>
+                Creates a new <see cref="T:Abp.Localization.Dictionaries.Json.JsonFileLocalizationDictionaryProvider" />.
+            </summary>
+            <param name="directoryPath">Path of the dictionary that contains all related XML files</param>
+        </member>
+        <member name="T:Abp.Localization.Dictionaries.Json.JsonLocalizationDictionary">
+            <summary>
+                This class is used to build a localization dictionary from json.
+            </summary>
+            <remarks>
+                Use static Build methods to create instance of this class.
+            </remarks>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.Json.JsonLocalizationDictionary.#ctor(System.Globalization.CultureInfo)">
+            <summary>
+                Private constructor.
+            </summary>
+            <param name="cultureInfo">Culture of the dictionary</param>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.Json.JsonLocalizationDictionary.BuildFromFile(System.String)">
+            <summary>
+                Builds an <see cref="T:Abp.Localization.Dictionaries.Json.JsonLocalizationDictionary" /> from given file.
+            </summary>
+            <param name="filePath">Path of the file</param>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.Json.JsonLocalizationDictionary.BuildFromJsonString(System.String)">
+            <summary>
+                Builds an <see cref="T:Abp.Localization.Dictionaries.Json.JsonLocalizationDictionary" /> from given json string.
+            </summary>
+            <param name="jsonString">Json string</param>
+        </member>
+        <member name="T:Abp.Localization.Dictionaries.Json.JsonLocalizationFile">
+            <summary>
+            Use it to serialize json file
+            </summary>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.Json.JsonLocalizationFile.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:Abp.Localization.Dictionaries.Json.JsonLocalizationFile.Culture">
+            <summary>
+            get or set the culture name; eg : en , en-us, zh-CN
+            </summary>
+        </member>
+        <member name="P:Abp.Localization.Dictionaries.Json.JsonLocalizationFile.Texts">
+            <summary>
+             Key value pairs
+            </summary>
+        </member>
+        <member name="T:Abp.Localization.Dictionaries.LocalizationDictionary">
+            <summary>
+            Represents a simple implementation of <see cref="T:Abp.Localization.Dictionaries.ILocalizationDictionary"/> interface.
+            </summary>
+        </member>
+        <member name="P:Abp.Localization.Dictionaries.LocalizationDictionary.CultureInfo">
+            <inheritdoc/>
+        </member>
+        <member name="P:Abp.Localization.Dictionaries.LocalizationDictionary.Item(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.LocalizationDictionary.#ctor(System.Globalization.CultureInfo)">
+            <summary>
+            Creates a new <see cref="T:Abp.Localization.Dictionaries.LocalizationDictionary"/> object.
+            </summary>
+            <param name="cultureInfo">Culture of the dictionary</param>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.LocalizationDictionary.GetOrNull(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.LocalizationDictionary.GetAllStrings">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.LocalizationDictionary.GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="T:Abp.Localization.Dictionaries.Xml.XmlEmbeddedFileLocalizationDictionaryProvider">
+            <summary>
+            Provides localization dictionaries from XML files embedded into an <see cref="T:System.Reflection.Assembly"/>.
+            </summary>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.Xml.XmlEmbeddedFileLocalizationDictionaryProvider.#ctor(System.Reflection.Assembly,System.String)">
+            <summary>
+            Creates a new <see cref="T:Abp.Localization.Dictionaries.Xml.XmlEmbeddedFileLocalizationDictionaryProvider"/> object.
+            </summary>
+            <param name="assembly">Assembly that contains embedded xml files</param>
+            <param name="rootNamespace">Namespace of the embedded xml dictionary files</param>
+        </member>
+        <member name="T:Abp.Localization.Dictionaries.Xml.XmlFileLocalizationDictionaryProvider">
+            <summary>
+            Provides localization dictionaries from XML files in a directory.
+            </summary>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.Xml.XmlFileLocalizationDictionaryProvider.#ctor(System.String)">
+            <summary>
+            Creates a new <see cref="T:Abp.Localization.Dictionaries.Xml.XmlFileLocalizationDictionaryProvider"/>.
+            </summary>
+            <param name="directoryPath">Path of the dictionary that contains all related XML files</param>
+        </member>
+        <member name="T:Abp.Localization.Dictionaries.Xml.XmlLocalizationDictionary">
+            <summary>
+            This class is used to build a localization dictionary from XML.
+            </summary>
+            <remarks>
+            Use static Build methods to create instance of this class.
+            </remarks>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.Xml.XmlLocalizationDictionary.#ctor(System.Globalization.CultureInfo)">
+            <summary>
+            Private constructor.
+            </summary>
+            <param name="cultureInfo">Culture of the dictionary</param>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.Xml.XmlLocalizationDictionary.BuildFomFile(System.String)">
+            <summary>
+            Builds an <see cref="T:Abp.Localization.Dictionaries.Xml.XmlLocalizationDictionary"/> from given file.
+            </summary>
+            <param name="filePath">Path of the file</param>
+        </member>
+        <member name="M:Abp.Localization.Dictionaries.Xml.XmlLocalizationDictionary.BuildFomXmlString(System.String)">
+            <summary>
+            Builds an <see cref="T:Abp.Localization.Dictionaries.Xml.XmlLocalizationDictionary"/> from given xml string.
+            </summary>
+            <param name="xmlString">XML string</param>
         </member>
         <member name="T:Abp.Localization.FixedLocalizableString">
             <summary>
@@ -7878,250 +7901,6 @@
             <summary>
             Singleton instance.
             </summary>
-        </member>
-        <member name="T:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource">
-            <summary>
-            This class is used to build a localization source
-            which works on memory based dictionaries to find strings.
-            </summary>
-        </member>
-        <member name="P:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.Name">
-            <summary>
-            Unique Name of the source.
-            </summary>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.#ctor(System.String,Abp.Localization.Dictionaries.ILocalizationDictionaryProvider)">
-            <summary>
-            
-            </summary>
-            <param name="name"></param>
-            <param name="dictionaryProvider"></param>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.Initialize(Abp.Configuration.Startup.ILocalizationConfiguration,Abp.Dependency.IIocResolver)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.GetString(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.GetString(System.String,System.Globalization.CultureInfo)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.GetAllStrings(System.Boolean)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.GetAllStrings(System.Globalization.CultureInfo,System.Boolean)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource.Extend(Abp.Localization.Dictionaries.ILocalizationDictionary)">
-            <summary>
-            Extends the source with given dictionary.
-            </summary>
-            <param name="dictionary">Dictionary to extend the source</param>
-        </member>
-        <member name="T:Abp.Localization.Dictionaries.IDictionaryBasedLocalizationSource">
-            <summary>
-            Interface for a dictionary based localization source.
-            </summary>
-        </member>
-        <member name="P:Abp.Localization.Dictionaries.IDictionaryBasedLocalizationSource.DictionaryProvider">
-            <summary>
-            Gets the dictionary provider.
-            </summary>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.IDictionaryBasedLocalizationSource.Extend(Abp.Localization.Dictionaries.ILocalizationDictionary)">
-            <summary>
-            Extends the source with given dictionary.
-            </summary>
-            <param name="dictionary">Dictionary to extend the source</param>
-        </member>
-        <member name="T:Abp.Localization.Dictionaries.ILocalizationDictionary">
-            <summary>
-            Represents a dictionary that is used to find a localized string.
-            </summary>
-        </member>
-        <member name="P:Abp.Localization.Dictionaries.ILocalizationDictionary.CultureInfo">
-            <summary>
-            Culture of the dictionary.
-            </summary>
-        </member>
-        <member name="P:Abp.Localization.Dictionaries.ILocalizationDictionary.Item(System.String)">
-            <summary>
-            Gets/sets a string for this dictionary with given name (key).
-            </summary>
-            <param name="name">Name to get/set</param>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.ILocalizationDictionary.GetOrNull(System.String)">
-            <summary>
-            Gets a <see cref="T:Abp.Localization.LocalizedString"/> for given <paramref name="name"/>.
-            </summary>
-            <param name="name">Name (key) to get localized string</param>
-            <returns>The localized string or null if not found in this dictionary</returns>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.ILocalizationDictionary.GetAllStrings">
-            <summary>
-            Gets a list of all strings in this dictionary.
-            </summary>
-            <returns>List of all <see cref="T:Abp.Localization.LocalizedString"/> object</returns>
-        </member>
-        <member name="T:Abp.Localization.Dictionaries.ILocalizationDictionaryProvider">
-            <summary>
-            Used to get localization dictionaries (<see cref="T:Abp.Localization.Dictionaries.ILocalizationDictionary"/>)
-            for a <see cref="T:Abp.Localization.Dictionaries.IDictionaryBasedLocalizationSource"/>.
-            </summary>
-        </member>
-        <member name="T:Abp.Localization.Dictionaries.LocalizationDictionary">
-            <summary>
-            Represents a simple implementation of <see cref="T:Abp.Localization.Dictionaries.ILocalizationDictionary"/> interface.
-            </summary>
-        </member>
-        <member name="P:Abp.Localization.Dictionaries.LocalizationDictionary.CultureInfo">
-            <inheritdoc/>
-        </member>
-        <member name="P:Abp.Localization.Dictionaries.LocalizationDictionary.Item(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.LocalizationDictionary.#ctor(System.Globalization.CultureInfo)">
-            <summary>
-            Creates a new <see cref="T:Abp.Localization.Dictionaries.LocalizationDictionary"/> object.
-            </summary>
-            <param name="cultureInfo">Culture of the dictionary</param>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.LocalizationDictionary.GetOrNull(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.LocalizationDictionary.GetAllStrings">
-            <inheritdoc/>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.LocalizationDictionary.GetEnumerator">
-            <inheritdoc/>
-        </member>
-        <member name="T:Abp.Localization.Dictionaries.Json.JsonEmbeddedFileLocalizationDictionaryProvider">
-            <summary>
-            Provides localization dictionaries from JSON files embedded into an <see cref="T:System.Reflection.Assembly"/>.
-            </summary>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.Json.JsonEmbeddedFileLocalizationDictionaryProvider.#ctor(System.Reflection.Assembly,System.String)">
-            <summary>
-            Creates a new <see cref="T:Abp.Localization.Dictionaries.Json.JsonEmbeddedFileLocalizationDictionaryProvider"/> object.
-            </summary>
-            <param name="assembly">Assembly that contains embedded json files</param>
-            <param name="rootNamespace">
-            <para>
-            Namespace of the embedded json dictionary files
-            </para>
-            <para>
-            Notice : Json folder name is different from Xml folder name.
-            </para>
-            <para>
-            You must name it like this : Json**** and Xml****; Do not name : ****Json and ****Xml
-            </para>
-            </param>
-        </member>
-        <member name="T:Abp.Localization.Dictionaries.Json.JsonFileLocalizationDictionaryProvider">
-            <summary>
-                Provides localization dictionaries from json files in a directory.
-            </summary>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.Json.JsonFileLocalizationDictionaryProvider.#ctor(System.String)">
-            <summary>
-                Creates a new <see cref="T:Abp.Localization.Dictionaries.Json.JsonFileLocalizationDictionaryProvider" />.
-            </summary>
-            <param name="directoryPath">Path of the dictionary that contains all related XML files</param>
-        </member>
-        <member name="T:Abp.Localization.Dictionaries.Json.JsonLocalizationDictionary">
-            <summary>
-                This class is used to build a localization dictionary from json.
-            </summary>
-            <remarks>
-                Use static Build methods to create instance of this class.
-            </remarks>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.Json.JsonLocalizationDictionary.#ctor(System.Globalization.CultureInfo)">
-            <summary>
-                Private constructor.
-            </summary>
-            <param name="cultureInfo">Culture of the dictionary</param>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.Json.JsonLocalizationDictionary.BuildFromFile(System.String)">
-            <summary>
-                Builds an <see cref="T:Abp.Localization.Dictionaries.Json.JsonLocalizationDictionary" /> from given file.
-            </summary>
-            <param name="filePath">Path of the file</param>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.Json.JsonLocalizationDictionary.BuildFromJsonString(System.String)">
-            <summary>
-                Builds an <see cref="T:Abp.Localization.Dictionaries.Json.JsonLocalizationDictionary" /> from given json string.
-            </summary>
-            <param name="jsonString">Json string</param>
-        </member>
-        <member name="T:Abp.Localization.Dictionaries.Json.JsonLocalizationFile">
-            <summary>
-            Use it to serialize json file
-            </summary>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.Json.JsonLocalizationFile.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:Abp.Localization.Dictionaries.Json.JsonLocalizationFile.Culture">
-            <summary>
-            get or set the culture name; eg : en , en-us, zh-CN
-            </summary>
-        </member>
-        <member name="P:Abp.Localization.Dictionaries.Json.JsonLocalizationFile.Texts">
-            <summary>
-             Key value pairs
-            </summary>
-        </member>
-        <member name="T:Abp.Localization.Dictionaries.Xml.XmlEmbeddedFileLocalizationDictionaryProvider">
-            <summary>
-            Provides localization dictionaries from XML files embedded into an <see cref="T:System.Reflection.Assembly"/>.
-            </summary>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.Xml.XmlEmbeddedFileLocalizationDictionaryProvider.#ctor(System.Reflection.Assembly,System.String)">
-            <summary>
-            Creates a new <see cref="T:Abp.Localization.Dictionaries.Xml.XmlEmbeddedFileLocalizationDictionaryProvider"/> object.
-            </summary>
-            <param name="assembly">Assembly that contains embedded xml files</param>
-            <param name="rootNamespace">Namespace of the embedded xml dictionary files</param>
-        </member>
-        <member name="T:Abp.Localization.Dictionaries.Xml.XmlFileLocalizationDictionaryProvider">
-            <summary>
-            Provides localization dictionaries from XML files in a directory.
-            </summary>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.Xml.XmlFileLocalizationDictionaryProvider.#ctor(System.String)">
-            <summary>
-            Creates a new <see cref="T:Abp.Localization.Dictionaries.Xml.XmlFileLocalizationDictionaryProvider"/>.
-            </summary>
-            <param name="directoryPath">Path of the dictionary that contains all related XML files</param>
-        </member>
-        <member name="T:Abp.Localization.Dictionaries.Xml.XmlLocalizationDictionary">
-            <summary>
-            This class is used to build a localization dictionary from XML.
-            </summary>
-            <remarks>
-            Use static Build methods to create instance of this class.
-            </remarks>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.Xml.XmlLocalizationDictionary.#ctor(System.Globalization.CultureInfo)">
-            <summary>
-            Private constructor.
-            </summary>
-            <param name="cultureInfo">Culture of the dictionary</param>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.Xml.XmlLocalizationDictionary.BuildFomFile(System.String)">
-            <summary>
-            Builds an <see cref="T:Abp.Localization.Dictionaries.Xml.XmlLocalizationDictionary"/> from given file.
-            </summary>
-            <param name="filePath">Path of the file</param>
-        </member>
-        <member name="M:Abp.Localization.Dictionaries.Xml.XmlLocalizationDictionary.BuildFomXmlString(System.String)">
-            <summary>
-            Builds an <see cref="T:Abp.Localization.Dictionaries.Xml.XmlLocalizationDictionary"/> from given xml string.
-            </summary>
-            <param name="xmlString">XML string</param>
         </member>
         <member name="T:Abp.Localization.Sources.ILocalizationSource">
             <summary>
@@ -8520,6 +8299,68 @@
         <member name="F:Abp.MultiTenancy.MultiTenancySides.Host">
             <summary>
             Host (tenancy owner) side.
+            </summary>
+        </member>
+        <member name="T:Abp.NamedTypeSelector">
+            <summary>
+            Used to represent a named type selector.
+            </summary>
+        </member>
+        <member name="P:Abp.NamedTypeSelector.Name">
+            <summary>
+            Name of the selector.
+            </summary>
+        </member>
+        <member name="P:Abp.NamedTypeSelector.Predicate">
+            <summary>
+            Predicate.
+            </summary>
+        </member>
+        <member name="M:Abp.NamedTypeSelector.#ctor(System.String,System.Func{System.Type,System.Boolean})">
+            <summary>
+            Creates new <see cref="T:Abp.NamedTypeSelector"/> object.
+            </summary>
+            <param name="name">Name</param>
+            <param name="predicate">Predicate</param>
+        </member>
+        <member name="T:Abp.NameValue">
+            <summary>
+            Can be used to store Name/Value (or Key/Value) pairs.
+            </summary>
+        </member>
+        <member name="M:Abp.NameValue.#ctor">
+            <summary>
+            Creates a new <see cref="T:Abp.NameValue"/>.
+            </summary>
+        </member>
+        <member name="M:Abp.NameValue.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new <see cref="T:Abp.NameValue"/>.
+            </summary>
+        </member>
+        <member name="T:Abp.NameValue`1">
+            <summary>
+            Can be used to store Name/Value (or Key/Value) pairs.
+            </summary>
+        </member>
+        <member name="P:Abp.NameValue`1.Name">
+            <summary>
+            Name.
+            </summary>
+        </member>
+        <member name="P:Abp.NameValue`1.Value">
+            <summary>
+            Value.
+            </summary>
+        </member>
+        <member name="M:Abp.NameValue`1.#ctor">
+            <summary>
+            Creates a new <see cref="T:Abp.NameValue"/>.
+            </summary>
+        </member>
+        <member name="M:Abp.NameValue`1.#ctor(System.String,`0)">
+            <summary>
+            Creates a new <see cref="T:Abp.NameValue"/>.
             </summary>
         </member>
         <member name="T:Abp.Net.Mail.EmailSenderBase">
@@ -10027,6 +9868,55 @@
             Singleton instance.
             </summary>
         </member>
+        <member name="T:Abp.RandomHelper">
+            <summary>
+            A shortcut to use <see cref="T:System.Random"/> class.
+            Also provides some useful methods.
+            </summary>
+        </member>
+        <member name="M:Abp.RandomHelper.GetRandom(System.Int32,System.Int32)">
+            <summary>
+            Returns a random number within a specified range.
+            </summary>
+            <param name="minValue">The inclusive lower bound of the random number returned.</param>
+            <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+            <returns>
+            A 32-bit signed integer greater than or equal to minValue and less than maxValue; 
+            that is, the range of return values includes minValue but not maxValue. 
+            If minValue equals maxValue, minValue is returned.
+            </returns>
+        </member>
+        <member name="M:Abp.RandomHelper.GetRandom(System.Int32)">
+            <summary>
+            Returns a nonnegative random number less than the specified maximum.
+            </summary>
+            <param name="maxValue">The exclusive upper bound of the random number to be generated. maxValue must be greater than or equal to zero.</param>
+            <returns>
+            A 32-bit signed integer greater than or equal to zero, and less than maxValue; 
+            that is, the range of return values ordinarily includes zero but not maxValue. 
+            However, if maxValue equals zero, maxValue is returned.
+            </returns>
+        </member>
+        <member name="M:Abp.RandomHelper.GetRandom">
+            <summary>
+            Returns a nonnegative random number.
+            </summary>
+            <returns>A 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.</returns>
+        </member>
+        <member name="M:Abp.RandomHelper.GetRandomOf``1(``0[])">
+            <summary>
+            Gets random of given objects.
+            </summary>
+            <typeparam name="T">Type of the objects</typeparam>
+            <param name="objs">List of object to select a random one</param>
+        </member>
+        <member name="M:Abp.RandomHelper.GenerateRandomizedList``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Generates a randomized list from given enumerable.
+            </summary>
+            <typeparam name="T">Type of items in the list</typeparam>
+            <param name="items">items</param>
+        </member>
         <member name="T:Abp.RealTime.IOnlineClient">
             <summary>
             Represents an online client connected to the application.
@@ -10178,6 +10068,26 @@
             <param name="onlineClientManager">The online client manager.</param>
             <param name="user">User.</param>
         </member>
+        <member name="M:Abp.Reflection.Extensions.AssemblyExtensions.GetDirectoryPathOrNull(System.Reflection.Assembly)">
+            <summary>
+            Gets directory path of given assembly or returns null if can not find.
+            </summary>
+            <param name="assembly">The assembly.</param>
+        </member>
+        <member name="T:Abp.Reflection.Extensions.MemberInfoExtensions">
+            <summary>
+            Extensions to <see cref="T:System.Reflection.MemberInfo"/>.
+            </summary>
+        </member>
+        <member name="M:Abp.Reflection.Extensions.MemberInfoExtensions.GetSingleAttributeOrNull``1(System.Reflection.MemberInfo,System.Boolean)">
+            <summary>
+            Gets a single attribute for a member.
+            </summary>
+            <typeparam name="TAttribute">Type of the attribute</typeparam>
+            <param name="memberInfo">The member that will be checked for the attribute</param>
+            <param name="inherit">Include inherited attributes</param>
+            <returns>Returns the attribute object if found. Returns null if not found.</returns>
+        </member>
         <member name="T:Abp.Reflection.IAssemblyFinder">
             <summary>
             This interface is used to get assemblies in the application.
@@ -10260,99 +10170,48 @@
             Some simple type-checking methods used internally.
             </summary>
         </member>
-        <member name="M:Abp.Reflection.Extensions.AssemblyExtensions.GetDirectoryPathOrNull(System.Reflection.Assembly)">
+        <member name="T:Abp.RegularGuidGenerator">
             <summary>
-            Gets directory path of given assembly or returns null if can not find.
-            </summary>
-            <param name="assembly">The assembly.</param>
-        </member>
-        <member name="T:Abp.Reflection.Extensions.MemberInfoExtensions">
-            <summary>
-            Extensions to <see cref="T:System.Reflection.MemberInfo"/>.
+            Implements <see cref="T:Abp.IGuidGenerator"/> by using <see cref="M:System.Guid.NewGuid"/>.
             </summary>
         </member>
-        <member name="M:Abp.Reflection.Extensions.MemberInfoExtensions.GetSingleAttributeOrNull``1(System.Reflection.MemberInfo,System.Boolean)">
-            <summary>
-            Gets a single attribute for a member.
-            </summary>
-            <typeparam name="TAttribute">Type of the attribute</typeparam>
-            <param name="memberInfo">The member that will be checked for the attribute</param>
-            <param name="inherit">Include inherited attributes</param>
-            <returns>Returns the attribute object if found. Returns null if not found.</returns>
-        </member>
-        <member name="T:Abp.Resources.Embedded.EmbeddedResourceInfo">
+        <member name="T:Abp.Resources.Embedded.EmbeddedResourceItem">
             <summary>
             Stores needed information of an embedded resource.
             </summary>
         </member>
-        <member name="P:Abp.Resources.Embedded.EmbeddedResourceInfo.Content">
+        <member name="P:Abp.Resources.Embedded.EmbeddedResourceItem.FileName">
+            <summary>
+            File name including extension.
+            </summary>
+        </member>
+        <member name="P:Abp.Resources.Embedded.EmbeddedResourceItem.Content">
             <summary>
             Content of the resource file.
             </summary>
         </member>
-        <member name="P:Abp.Resources.Embedded.EmbeddedResourceInfo.Assembly">
+        <member name="P:Abp.Resources.Embedded.EmbeddedResourceItem.Assembly">
             <summary>
             The assembly that contains the resource.
             </summary>
         </member>
-        <member name="T:Abp.Resources.Embedded.EmbeddedResourceManager">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:Abp.Resources.Embedded.EmbeddedResourceManager.#ctor">
+        <member name="M:Abp.Resources.Embedded.EmbeddedResourceManager.#ctor(Abp.Resources.Embedded.IEmbeddedResourcesConfiguration)">
             <summary>
             Constructor.
             </summary>
         </member>
-        <member name="M:Abp.Resources.Embedded.EmbeddedResourceManager.ExposeResources(System.String,System.Reflection.Assembly,System.String)">
-            <inheritdoc/>
-        </member>
         <member name="M:Abp.Resources.Embedded.EmbeddedResourceManager.GetResource(System.String)">
             <inheritdoc/>
-        </member>
-        <member name="T:Abp.Resources.Embedded.EmbeddedResourcePathInfo">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Abp.Resources.Embedded.EmbeddedResourcePathInfo.Assembly">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Abp.Resources.Embedded.EmbeddedResourcePathInfo.ResourceNamespace">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:Abp.Resources.Embedded.EmbeddedResourcePathInfo.#ctor(System.String,System.Reflection.Assembly,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="path"></param>
-            <param name="assembly"></param>
-            <param name="resourceNamespace"></param>
         </member>
         <member name="T:Abp.Resources.Embedded.IEmbeddedResourceManager">
             <summary>
             Provides infrastructure to use any type of resources (files) embedded into assemblies.
             </summary>
         </member>
-        <member name="M:Abp.Resources.Embedded.IEmbeddedResourceManager.ExposeResources(System.String,System.Reflection.Assembly,System.String)">
-            <summary>
-            Makes possible to expose all files in a folder (and subfolders recursively).
-            </summary>
-            <param name="rootPath">
-            Root folder path to be seen by clients.
-            This is an arbitrary value with any deep.
-            </param>
-            <param name="assembly">The assembly contains resources.</param>
-            <param name="resourceNamespace">Namespace in the <paramref name="assembly"/> that matches to the root path</param>
-        </member>
         <member name="M:Abp.Resources.Embedded.IEmbeddedResourceManager.GetResource(System.String)">
             <summary>
             Used to get an embedded resource file.
+            Can return null if resource is not found!
             </summary>
             <param name="fullResourcePath">Full path of the resource</param>
             <returns>The resource</returns>
@@ -10422,6 +10281,56 @@
             <summary>
             Extension methods for <see cref="T:Abp.Runtime.Caching.ICacheManager"/>.
             </summary>
+        </member>
+        <member name="T:Abp.Runtime.Caching.Configuration.ICacheConfigurator">
+            <summary>
+            A registered cache configurator.
+            </summary>
+        </member>
+        <member name="P:Abp.Runtime.Caching.Configuration.ICacheConfigurator.CacheName">
+            <summary>
+            Name of the cache.
+            It will be null if this configurator configures all caches.
+            </summary>
+        </member>
+        <member name="P:Abp.Runtime.Caching.Configuration.ICacheConfigurator.InitAction">
+            <summary>
+            Configuration action. Called just after the cache is created.
+            </summary>
+        </member>
+        <member name="T:Abp.Runtime.Caching.Configuration.ICachingConfiguration">
+            <summary>
+            Used to configure caching system.
+            </summary>
+        </member>
+        <member name="P:Abp.Runtime.Caching.Configuration.ICachingConfiguration.AbpConfiguration">
+            <summary>
+            Gets the ABP configuration object.
+            </summary>
+        </member>
+        <member name="P:Abp.Runtime.Caching.Configuration.ICachingConfiguration.Configurators">
+            <summary>
+            List of all registered configurators.
+            </summary>
+        </member>
+        <member name="M:Abp.Runtime.Caching.Configuration.ICachingConfiguration.ConfigureAll(System.Action{Abp.Runtime.Caching.ICache})">
+            <summary>
+            Used to configure all caches.
+            </summary>
+            <param name="initAction">
+            An action to configure caches
+            This action is called for each cache just after created.
+            </param>
+        </member>
+        <member name="M:Abp.Runtime.Caching.Configuration.ICachingConfiguration.Configure(System.String,System.Action{Abp.Runtime.Caching.ICache})">
+            <summary>
+            Used to configure a specific cache. 
+            </summary>
+            <param name="cacheName">Cache name</param>
+            <param name="initAction">
+            An action to configure the cache.
+            This action is called just after the cache is created.
+            </param>
         </member>
         <member name="T:Abp.Runtime.Caching.ICache">
             <summary>
@@ -10638,74 +10547,6 @@
             Clears all items in this cache.
             </summary>
         </member>
-        <member name="T:Abp.Runtime.Caching.TypedCacheExtensions">
-            <summary>
-            Extension methods for <see cref="T:Abp.Runtime.Caching.ITypedCache`2"/>.
-            </summary>
-        </member>
-        <member name="T:Abp.Runtime.Caching.TypedCacheWrapper`2">
-            <summary>
-            Implements <see cref="T:Abp.Runtime.Caching.ITypedCache`2"/> to wrap a <see cref="T:Abp.Runtime.Caching.ICache"/>.
-            </summary>
-            <typeparam name="TKey"></typeparam>
-            <typeparam name="TValue"></typeparam>
-        </member>
-        <member name="M:Abp.Runtime.Caching.TypedCacheWrapper`2.#ctor(Abp.Runtime.Caching.ICache)">
-            <summary>
-            Creates a new <see cref="T:Abp.Runtime.Caching.TypedCacheWrapper`2"/> object.
-            </summary>
-            <param name="internalCache">The actual internal cache</param>
-        </member>
-        <member name="T:Abp.Runtime.Caching.Configuration.ICacheConfigurator">
-            <summary>
-            A registered cache configurator.
-            </summary>
-        </member>
-        <member name="P:Abp.Runtime.Caching.Configuration.ICacheConfigurator.CacheName">
-            <summary>
-            Name of the cache.
-            It will be null if this configurator configures all caches.
-            </summary>
-        </member>
-        <member name="P:Abp.Runtime.Caching.Configuration.ICacheConfigurator.InitAction">
-            <summary>
-            Configuration action. Called just after the cache is created.
-            </summary>
-        </member>
-        <member name="T:Abp.Runtime.Caching.Configuration.ICachingConfiguration">
-            <summary>
-            Used to configure caching system.
-            </summary>
-        </member>
-        <member name="P:Abp.Runtime.Caching.Configuration.ICachingConfiguration.AbpConfiguration">
-            <summary>
-            Gets the ABP configuration object.
-            </summary>
-        </member>
-        <member name="P:Abp.Runtime.Caching.Configuration.ICachingConfiguration.Configurators">
-            <summary>
-            List of all registered configurators.
-            </summary>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Configuration.ICachingConfiguration.ConfigureAll(System.Action{Abp.Runtime.Caching.ICache})">
-            <summary>
-            Used to configure all caches.
-            </summary>
-            <param name="initAction">
-            An action to configure caches
-            This action is called for each cache just after created.
-            </param>
-        </member>
-        <member name="M:Abp.Runtime.Caching.Configuration.ICachingConfiguration.Configure(System.String,System.Action{Abp.Runtime.Caching.ICache})">
-            <summary>
-            Used to configure a specific cache. 
-            </summary>
-            <param name="cacheName">Cache name</param>
-            <param name="initAction">
-            An action to configure the cache.
-            This action is called just after the cache is created.
-            </param>
-        </member>
         <member name="T:Abp.Runtime.Caching.Memory.AbpMemoryCache">
             <summary>
             Implements <see cref="T:Abp.Runtime.Caching.ICache"/> to work with <see cref="T:System.Runtime.Caching.MemoryCache"/>.
@@ -10725,6 +10566,30 @@
         <member name="M:Abp.Runtime.Caching.Memory.AbpMemoryCacheManager.#ctor(Abp.Dependency.IIocManager,Abp.Runtime.Caching.Configuration.ICachingConfiguration)">
             <summary>
             Constructor.
+            </summary>
+        </member>
+        <member name="T:Abp.Runtime.Caching.TypedCacheExtensions">
+            <summary>
+            Extension methods for <see cref="T:Abp.Runtime.Caching.ITypedCache`2"/>.
+            </summary>
+        </member>
+        <member name="T:Abp.Runtime.Caching.TypedCacheWrapper`2">
+            <summary>
+            Implements <see cref="T:Abp.Runtime.Caching.ITypedCache`2"/> to wrap a <see cref="T:Abp.Runtime.Caching.ICache"/>.
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue"></typeparam>
+        </member>
+        <member name="M:Abp.Runtime.Caching.TypedCacheWrapper`2.#ctor(Abp.Runtime.Caching.ICache)">
+            <summary>
+            Creates a new <see cref="T:Abp.Runtime.Caching.TypedCacheWrapper`2"/> object.
+            </summary>
+            <param name="internalCache">The actual internal cache</param>
+        </member>
+        <member name="T:Abp.Runtime.Remoting.DataContextAmbientScopeProvider`1">
+            <summary>
+            CallContext implementation of <see cref="T:Abp.Domain.Uow.ICurrentUnitOfWorkProvider"/>. 
+            This is the default implementation.
             </summary>
         </member>
         <member name="T:Abp.Runtime.Security.AbpClaimTypes">
@@ -10759,9 +10624,16 @@
             32 bytes long.  Using a 16 character string here gives us 32 bytes when converted to a byte array.
             </summary>
         </member>
-        <member name="F:Abp.Runtime.Security.SimpleStringCipher.DefaultPassPhrase">
+        <member name="P:Abp.Runtime.Security.SimpleStringCipher.DefaultPassPhrase">
             <summary>
             Default password to encrypt/decrypt texts.
+            It's recommented to set to another value for security.
+            Default value: "gsKnGZ041HLL4IM8"
+            </summary>
+        </member>
+        <member name="P:Abp.Runtime.Security.SimpleStringCipher.DefaultInitVectorBytes">
+            <summary>
+            Default value: Encoding.ASCII.GetBytes("jkE49230Tf093b42")
             </summary>
         </member>
         <member name="F:Abp.Runtime.Security.SimpleStringCipher.Keysize">
@@ -10897,6 +10769,14 @@
             This is filled if a user with <see cref="P:Abp.Runtime.Session.IAbpSession.ImpersonatorUserId"/> performing actions behalf of the <see cref="P:Abp.Runtime.Session.IAbpSession.UserId"/>.
             </summary>
         </member>
+        <member name="M:Abp.Runtime.Session.IAbpSession.Use(System.Nullable{System.Int32},System.Nullable{System.Int64})">
+            <summary>
+            Used to change <see cref="P:Abp.Runtime.Session.IAbpSession.TenantId"/> and <see cref="P:Abp.Runtime.Session.IAbpSession.UserId"/> for a limited scope.
+            </summary>
+            <param name="tenantId"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
         <member name="T:Abp.Runtime.Session.NullAbpSession">
             <summary>
             Implements null object pattern for <see cref="T:Abp.Runtime.Session.IAbpSession"/>.
@@ -10991,28 +10871,6 @@
             </summary>
             <param name="context">Validation context.</param>
         </member>
-        <member name="T:Abp.Runtime.Validation.IShouldNormalize">
-            <summary>
-            This interface is used to normalize inputs before method execution.
-            </summary>
-        </member>
-        <member name="M:Abp.Runtime.Validation.IShouldNormalize.Normalize">
-            <summary>
-            This method is called lastly before method execution (after validation if exists).
-            </summary>
-        </member>
-        <member name="P:Abp.Runtime.Validation.ValueValidatorBase.Item(System.String)">
-            <summary>
-            Gets/sets arbitrary objects related to this object.
-            Gets null if given key does not exists.
-            </summary>
-            <param name="key">Key</param>
-        </member>
-        <member name="P:Abp.Runtime.Validation.ValueValidatorBase.Attributes">
-            <summary>
-            Arbitrary objects related to this object.
-            </summary>
-        </member>
         <member name="T:Abp.Runtime.Validation.Interception.MethodInvocationValidator">
             <summary>
             This class is used to validate a method call (invocation) for method arguments.
@@ -11047,6 +10905,73 @@
         <member name="T:Abp.Runtime.Validation.Interception.ValidationInterceptor">
             <summary>
             This interceptor is used intercept method calls for classes which's methods must be validated.
+            </summary>
+        </member>
+        <member name="T:Abp.Runtime.Validation.IShouldNormalize">
+            <summary>
+            This interface is used to normalize inputs before method execution.
+            </summary>
+        </member>
+        <member name="M:Abp.Runtime.Validation.IShouldNormalize.Normalize">
+            <summary>
+            This method is called lastly before method execution (after validation if exists).
+            </summary>
+        </member>
+        <member name="P:Abp.Runtime.Validation.ValueValidatorBase.Item(System.String)">
+            <summary>
+            Gets/sets arbitrary objects related to this object.
+            Gets null if given key does not exists.
+            </summary>
+            <param name="key">Key</param>
+        </member>
+        <member name="P:Abp.Runtime.Validation.ValueValidatorBase.Attributes">
+            <summary>
+            Arbitrary objects related to this object.
+            </summary>
+        </member>
+        <member name="T:Abp.SequentialGuidGenerator">
+            <summary>
+            Implements <see cref="T:Abp.IGuidGenerator"/> by creating sequential Guids.
+            This code is taken from https://github.com/jhtodd/SequentialGuid/blob/master/SequentialGuid/Classes/SequentialGuid.cs
+            </summary>
+        </member>
+        <member name="P:Abp.SequentialGuidGenerator.Instance">
+            <summary>
+            Gets the singleton <see cref="T:Abp.SequentialGuidGenerator"/> instance.
+            </summary>
+        </member>
+        <member name="M:Abp.SequentialGuidGenerator.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:Abp.SequentialGuidGenerator"/> class from being created.
+            Use <see cref="P:Abp.SequentialGuidGenerator.Instance"/>.
+            </summary>
+        </member>
+        <member name="T:Abp.SequentialGuidGenerator.SequentialGuidDatabaseType">
+            <summary>
+            Database type to generate GUIDs.
+            </summary>
+        </member>
+        <member name="T:Abp.SequentialGuidGenerator.SequentialGuidType">
+            <summary>
+            Describes the type of a sequential GUID value.
+            </summary>
+        </member>
+        <member name="F:Abp.SequentialGuidGenerator.SequentialGuidType.SequentialAsString">
+            <summary>
+            The GUID should be sequential when formatted using the
+            <see cref="M:System.Guid.ToString" /> method.
+            </summary>
+        </member>
+        <member name="F:Abp.SequentialGuidGenerator.SequentialGuidType.SequentialAsBinary">
+            <summary>
+            The GUID should be sequential when formatted using the
+            <see cref="M:System.Guid.ToByteArray" /> method.
+            </summary>
+        </member>
+        <member name="F:Abp.SequentialGuidGenerator.SequentialGuidType.SequentialAtEnd">
+            <summary>
+            The sequential portion of the GUID should be located at the end
+            of the Data4 block.
             </summary>
         </member>
         <member name="T:Abp.Specifications.AndNotSpecification`1">
@@ -11418,55 +11343,6 @@
             </summary>
             <param name="action">An async action</param>
         </member>
-        <member name="T:Abp.Threading.IRunnable">
-            <summary>
-            Interface to start/stop self threaded services.
-            </summary>
-        </member>
-        <member name="M:Abp.Threading.IRunnable.Start">
-            <summary>
-            Starts the service.
-            </summary>
-        </member>
-        <member name="M:Abp.Threading.IRunnable.Stop">
-            <summary>
-            Sends stop command to the service.
-            Service may return immediately and stop asynchronously.
-            A client should then call <see cref="M:Abp.Threading.IRunnable.WaitToStop"/> method to ensure it's stopped.
-            </summary>
-        </member>
-        <member name="M:Abp.Threading.IRunnable.WaitToStop">
-            <summary>
-            Waits the service to stop.
-            </summary>
-        </member>
-        <member name="T:Abp.Threading.RunnableBase">
-            <summary>
-            Base implementation of <see cref="T:Abp.Threading.IRunnable"/>.
-            </summary>
-        </member>
-        <member name="P:Abp.Threading.RunnableBase.IsRunning">
-            <summary>
-            A boolean value to control the running.
-            </summary>
-        </member>
-        <member name="T:Abp.Threading.RunnableExtensions">
-            <summary>
-            Some extension methods for <see cref="T:Abp.Threading.IRunnable"/>.
-            </summary>
-        </member>
-        <member name="M:Abp.Threading.RunnableExtensions.StopAndWaitToStop(Abp.Threading.IRunnable)">
-            <summary>
-            Calls <see cref="M:Abp.Threading.IRunnable.Stop"/> and then <see cref="M:Abp.Threading.IRunnable.WaitToStop"/>.
-            </summary>
-        </member>
-        <member name="T:Abp.Threading.ThreadCultureSanitizer">
-            <summary>
-            This class is copied from here:
-            http://www.zpqrtbnk.net/posts/appdomains-threads-cultureinfos-and-paracetamol
-            It's a workaround for application startup problem.
-            </summary>
-        </member>
         <member name="T:Abp.Threading.BackgroundWorkers.BackgroundWorkerBase">
             <summary>
             Base class that can be used to implement <see cref="T:Abp.Threading.BackgroundWorkers.IBackgroundWorker"/>.
@@ -11633,6 +11509,55 @@
             <param name="source">Source object (to be locked)</param>
             <param name="func">Function (to be executed)</param>
             <returns>Return value of the <paramnref name="func"/></returns>
+        </member>
+        <member name="T:Abp.Threading.IRunnable">
+            <summary>
+            Interface to start/stop self threaded services.
+            </summary>
+        </member>
+        <member name="M:Abp.Threading.IRunnable.Start">
+            <summary>
+            Starts the service.
+            </summary>
+        </member>
+        <member name="M:Abp.Threading.IRunnable.Stop">
+            <summary>
+            Sends stop command to the service.
+            Service may return immediately and stop asynchronously.
+            A client should then call <see cref="M:Abp.Threading.IRunnable.WaitToStop"/> method to ensure it's stopped.
+            </summary>
+        </member>
+        <member name="M:Abp.Threading.IRunnable.WaitToStop">
+            <summary>
+            Waits the service to stop.
+            </summary>
+        </member>
+        <member name="T:Abp.Threading.RunnableBase">
+            <summary>
+            Base implementation of <see cref="T:Abp.Threading.IRunnable"/>.
+            </summary>
+        </member>
+        <member name="P:Abp.Threading.RunnableBase.IsRunning">
+            <summary>
+            A boolean value to control the running.
+            </summary>
+        </member>
+        <member name="T:Abp.Threading.RunnableExtensions">
+            <summary>
+            Some extension methods for <see cref="T:Abp.Threading.IRunnable"/>.
+            </summary>
+        </member>
+        <member name="M:Abp.Threading.RunnableExtensions.StopAndWaitToStop(Abp.Threading.IRunnable)">
+            <summary>
+            Calls <see cref="M:Abp.Threading.IRunnable.Stop"/> and then <see cref="M:Abp.Threading.IRunnable.WaitToStop"/>.
+            </summary>
+        </member>
+        <member name="T:Abp.Threading.ThreadCultureSanitizer">
+            <summary>
+            This class is copied from here:
+            http://www.zpqrtbnk.net/posts/appdomains-threads-cultureinfos-and-paracetamol
+            It's a workaround for application startup problem.
+            </summary>
         </member>
         <member name="T:Abp.Threading.Timers.AbpTimer">
             <summary>
@@ -11883,11 +11808,6 @@
             Implements <see cref="T:Abp.Timing.IClockProvider"/> to work with local times.
             </summary>
         </member>
-        <member name="T:Abp.Timing.UtcClockProvider">
-            <summary>
-            Implements <see cref="T:Abp.Timing.IClockProvider"/> to work with UTC times.
-            </summary>
-        </member>
         <member name="T:Abp.Timing.Timezone.ITimeZoneConverter">
             <summary>
             Interface for timezone converter
@@ -11953,9 +11873,31 @@
             <returns></returns>
             <exception cref="T:System.Exception"></exception>
         </member>
+        <member name="T:Abp.Timing.UtcClockProvider">
+            <summary>
+            Implements <see cref="T:Abp.Timing.IClockProvider"/> to work with UTC times.
+            </summary>
+        </member>
         <member name="M:Abp.Transactions.Extensions.IsolationLevelExtensions.ToSystemDataIsolationLevel(System.Transactions.IsolationLevel)">
             <summary>
             Converts <see cref="T:System.Transactions.IsolationLevel"/> to <see cref="T:System.Data.IsolationLevel"/>.
+            </summary>
+        </member>
+        <member name="T:Abp.UI.Inputs.ComboboxInputType">
+            <summary>
+            Combobox value UI type.
+            </summary>
+        </member>
+        <member name="P:Abp.UI.Inputs.InputTypeBase.Item(System.String)">
+            <summary>
+            Gets/sets arbitrary objects related to this object.
+            Gets null if given key does not exists.
+            </summary>
+            <param name="key">Key</param>
+        </member>
+        <member name="P:Abp.UI.Inputs.InputTypeBase.Attributes">
+            <summary>
+            Arbitrary objects related to this object.
             </summary>
         </member>
         <member name="T:Abp.UI.UserFriendlyException">
@@ -12039,22 +11981,75 @@
             <param name="details">Additional information about the exception</param>
             <param name="innerException">Inner exception</param>
         </member>
-        <member name="T:Abp.UI.Inputs.ComboboxInputType">
+        <member name="T:Abp.UserIdentifier">
             <summary>
-            Combobox value UI type.
+            Used to identify a user.
             </summary>
         </member>
-        <member name="P:Abp.UI.Inputs.InputTypeBase.Item(System.String)">
+        <member name="P:Abp.UserIdentifier.TenantId">
             <summary>
-            Gets/sets arbitrary objects related to this object.
-            Gets null if given key does not exists.
+            Tenant Id of the user.
+            Can be null for host users in a multi tenant application.
             </summary>
-            <param name="key">Key</param>
         </member>
-        <member name="P:Abp.UI.Inputs.InputTypeBase.Attributes">
+        <member name="P:Abp.UserIdentifier.UserId">
             <summary>
-            Arbitrary objects related to this object.
+            Id of the user.
             </summary>
+        </member>
+        <member name="M:Abp.UserIdentifier.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Abp.UserIdentifier"/> class.
+            </summary>
+        </member>
+        <member name="M:Abp.UserIdentifier.#ctor(System.Nullable{System.Int32},System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Abp.UserIdentifier"/> class.
+            </summary>
+            <param name="tenantId">Tenant Id of the user.</param>
+            <param name="userId">Id of the user.</param>
+        </member>
+        <member name="M:Abp.UserIdentifier.Parse(System.String)">
+            <summary>
+            Parses given string and creates a new <see cref="T:Abp.UserIdentifier"/> object.
+            </summary>
+            <param name="userIdentifierString">
+            Should be formatted one of the followings:
+            
+            - "userId@tenantId". Ex: "42@3" (for tenant users).
+            - "userId". Ex: 1 (for host users)
+            </param>
+        </member>
+        <member name="M:Abp.UserIdentifier.ToUserIdentifierString">
+            <summary>
+            Creates a string represents this <see cref="T:Abp.UserIdentifier"/> instance.
+            Formatted one of the followings:
+            
+            - "userId@tenantId". Ex: "42@3" (for tenant users).
+            - "userId". Ex: 1 (for host users)
+            
+            Returning string can be used in <see cref="M:Abp.UserIdentifier.Parse(System.String)"/> method to re-create identical <see cref="T:Abp.UserIdentifier"/> object.
+            </summary>
+        </member>
+        <member name="M:Abp.UserIdentifier.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.UserIdentifier.op_Equality(Abp.UserIdentifier,Abp.UserIdentifier)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abp.UserIdentifier.op_Inequality(Abp.UserIdentifier,Abp.UserIdentifier)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Abp.UserIdentifierExtensions">
+            <summary>
+            Extension methods for <see cref="T:Abp.UserIdentifier"/> and <see cref="T:Abp.IUserIdentifier"/>.
+            </summary>
+        </member>
+        <member name="M:Abp.UserIdentifierExtensions.ToUserIdentifier(Abp.IUserIdentifier)">
+            <summary>
+            Creates a new <see cref="T:Abp.UserIdentifier"/> object from any object implements <see cref="T:Abp.IUserIdentifier"/>.
+            </summary>
+            <param name="userIdentifier">User identifier.</param>
         </member>
         <member name="T:Abp.Utils.Etc.NullDisposable">
             <summary>

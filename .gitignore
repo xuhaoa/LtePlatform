@@ -132,3 +132,4 @@ uploads/
 /UpgradeLog.htm
 /UpgradeLog3.htm
 /LtePlatform/Scripts/service/node_modules
+*.map

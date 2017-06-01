@@ -1,3 +1,4 @@
+using System;
 using Abp.MultiTenancy;
 using Abp.Runtime.Session;
 
@@ -5,6 +6,11 @@ namespace Abp.Tests.Configuration
 {
     public class MyChangableSession : IAbpSession
     {
+        public IDisposable Use(int? tenantId, long? userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public long? UserId { get; set; }
 
         public int? TenantId { get; set; }
