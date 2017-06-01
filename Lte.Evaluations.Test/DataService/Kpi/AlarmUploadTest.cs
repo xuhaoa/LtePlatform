@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Lte.Evaluations.DataService.Basic;
 
 namespace Lte.Evaluations.DataService.Kpi
 {

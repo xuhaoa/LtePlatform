@@ -40,6 +40,9 @@
       <HintPath>..\packages\Abp.1.5.1\lib\net452\Abp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Aspose.Diagram">
+      <HintPath>..\packages\Aspose.Diagram.17.5.0.0\lib\net40\Aspose.Diagram.dll</HintPath>
+    </Reference>
     <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
@@ -125,21 +128,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CellTrace\ZteTraceRecord.cs" />
-    <Compile Include="DataService\AlarmsService.cs" />
     <Compile Include="DataService\AreaTestDateService.cs" />
-    <Compile Include="DataService\Basic\BasicImportService.cs" />
-    <Compile Include="DataService\Basic\BtsQueryService.cs" />
+    <Compile Include="DataService\Basic\BasicServices.cs" />
     <Compile Include="DataService\Basic\CdmaCellService.cs" />
-    <Compile Include="DataService\Basic\CellHuaweiMongoService.cs" />
-    <Compile Include="DataService\Basic\CellPowerService.cs" />
     <Compile Include="DataService\College\CustomerServices.cs" />
     <Compile Include="DataService\Kpi\CdmaRegionStatService.cs" />
     <Compile Include="DataService\Basic\CellService.cs" />
-    <Compile Include="DataService\College\CollegeTestService.cs" />
     <Compile Include="DataService\College\InfrastructureServices.cs" />
     <Compile Include="DataService\College\CollegeStatService.cs" />
-    <Compile Include="DataService\Dump\BtsDumpService.cs" />
-    <Compile Include="DataService\Dump\CdmaCellDumpService.cs" />
     <Compile Include="DataService\Dump\CellDumpService.cs" />
     <Compile Include="DataService\Dump\ENodebDumpService.cs" />
     <Compile Include="DataService\Dump\Containers.cs" />
@@ -174,7 +170,6 @@
     <Compile Include="DataService\Kpi\PreciseRegionStatService.cs" />
     <Compile Include="DataService\Kpi\PreciseStatService.cs" />
     <Compile Include="DataService\Kpi\TopDrop2GService.cs" />
-    <Compile Include="DataService\Basic\TownQueryService.cs" />
     <Compile Include="DataService\WorkItemService.cs" />
     <Compile Include="MapperSerive\EvalutaionMapperProfile.cs" />
     <Compile Include="MapperSerive\Kpi\KpiContainer.cs" />

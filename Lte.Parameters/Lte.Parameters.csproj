@@ -273,7 +273,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="app.config" />
     <None Include="ClassDiagram\AdministrativeRegion.cd" />
     <None Include="ClassDiagram\CdmaKpi.cd" />
     <None Include="ClassDiagram\CdmaTopKpi.cd" />

@@ -159,7 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Abstract\OldHotSpots.json" />
-    <None Include="App.config" />
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

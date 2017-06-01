@@ -12,6 +12,8 @@ using Lte.Parameters.Entities.Basic;
 using System.Collections.Generic;
 using System.Linq;
 using Lte.Domain.Common.Geo;
+using Lte.Evaluations.DataService.Switch;
+using Lte.Parameters.Abstract.Switch;
 
 namespace Lte.Evaluations.DataService.Basic
 {
@@ -198,6 +200,205 @@ namespace Lte.Evaluations.DataService.Basic
                           join c in cellSites on e.ENodebId equals c.ENodebId
                           select new GeoPoint(e.Longtitute, e.Lattitute);
             return results;
+        }
+    }
+
+    public interface ICellPowerService
+    {
+        CellPower Query(int eNodebId, byte sectorId);
+    }
+
+    public class CellPowerService : ICellPowerService
+    {
+        private readonly IEUtranCellFDDZteRepository _ztePbRepository;
+        private readonly IPowerControlDLZteRepository _ztePaRepository;
+        private readonly IPDSCHCfgRepository _huaweiPbRepository;
+        private readonly ICellDlpcPdschPaRepository _huaweiPaRepository;
+        private readonly ICellHuaweiMongoRepository _huaweiCellRepository;
+        private readonly IENodebRepository _eNodebRepository;
+
+        public CellPowerService(IEUtranCellFDDZteRepository ztePbRepository,
+            IPowerControlDLZteRepository ztePaRepository, IPDSCHCfgRepository huaweiPbRepository,
+            ICellDlpcPdschPaRepository huaweiPaRepository, ICellHuaweiMongoRepository huaweiCellRepository,
+            IENodebRepository eNodebRepository)
+        {
+            _ztePbRepository = ztePbRepository;
+            _ztePaRepository = ztePaRepository;
+            _huaweiPbRepository = huaweiPbRepository;
+            _huaweiPaRepository = huaweiPaRepository;
+            _huaweiCellRepository = huaweiCellRepository;
+            _eNodebRepository = eNodebRepository;
+        }
+
+        private IMongoQuery<CellPower> ConstructQuery(int eNodebId, byte sectorId)
+        {
+            var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
+            if (eNodeb == null) return null;
+            return eNodeb.Factory == "华为"
+                ? (IMongoQuery<CellPower>)
+                    new HuaweiCellPowerQuery(_huaweiCellRepository, _huaweiPbRepository, _huaweiPaRepository, eNodebId,
+                        sectorId)
+                : new ZteCellPowerQuery(_ztePbRepository, _ztePaRepository, eNodebId, sectorId);
+        }
+
+        public CellPower Query(int eNodebId, byte sectorId)
+        {
+            var query = ConstructQuery(eNodebId, sectorId);
+            return query?.Query();
+        }
+    }
+
+    internal class HuaweiCellPowerQuery : HuaweiCellMongoQuery<CellPower>
+    {
+        private readonly IPDSCHCfgRepository _huaweiPbRepository;
+        private readonly ICellDlpcPdschPaRepository _huaweiPaRepository;
+
+        public HuaweiCellPowerQuery(ICellHuaweiMongoRepository huaweiCellRepository,
+            IPDSCHCfgRepository huaweiPbRepository, ICellDlpcPdschPaRepository huaweiPaRepository, int eNodebId,
+            byte sectorId) : base(huaweiCellRepository, eNodebId, sectorId)
+        {
+            _huaweiPbRepository = huaweiPbRepository;
+            _huaweiPaRepository = huaweiPaRepository;
+        }
+
+        protected override CellPower QueryByLocalCellId(int localCellId)
+        {
+            var pbCfg = _huaweiPbRepository.GetRecent(ENodebId, localCellId);
+            var paCfg = _huaweiPaRepository.GetRecent(ENodebId, localCellId);
+            return pbCfg == null || paCfg == null ? null : new CellPower(pbCfg, paCfg) { SectorId = SectorId };
+        }
+    }
+
+    internal class ZteCellPowerQuery : IMongoQuery<CellPower>
+    {
+        private readonly IEUtranCellFDDZteRepository _ztePbRepository;
+        private readonly IPowerControlDLZteRepository _ztePaRepository;
+        private readonly int _eNodebId;
+        private readonly byte _sectorId;
+
+        public ZteCellPowerQuery(IEUtranCellFDDZteRepository ztePbRepository,
+            IPowerControlDLZteRepository ztePaRepository, int eNodebId, byte sectorId)
+        {
+            _ztePbRepository = ztePbRepository;
+            _ztePaRepository = ztePaRepository;
+            _eNodebId = eNodebId;
+            _sectorId = sectorId;
+        }
+
+        public CellPower Query()
+        {
+            var pbCfg = _ztePbRepository.GetRecent(_eNodebId, _sectorId);
+            var paCfg = _ztePaRepository.GetRecent(_eNodebId, _sectorId);
+            return pbCfg == null || paCfg == null ? null : new CellPower(pbCfg, paCfg) { SectorId = _sectorId };
+        }
+    }
+
+    public class CellHuaweiMongoService
+    {
+        private readonly ICellHuaweiMongoRepository _repository;
+        private readonly IEUtranCellFDDZteRepository _zteCellRepository;
+        private readonly IENodebRepository _eNodebRepository;
+        private readonly IEUtranCellMeasurementZteRepository _zteMeasRepository;
+        private readonly IPrachFDDZteRepository _ztePrachRepository;
+
+        public CellHuaweiMongoService(ICellHuaweiMongoRepository repository,
+            IEUtranCellFDDZteRepository zteCellRepository, IENodebRepository eNodebRepository,
+            IEUtranCellMeasurementZteRepository zteMeasRepository,
+            IPrachFDDZteRepository ztePrachRepository)
+        {
+            _repository = repository;
+            _zteCellRepository = zteCellRepository;
+            _eNodebRepository = eNodebRepository;
+            _zteMeasRepository = zteMeasRepository;
+            _ztePrachRepository = ztePrachRepository;
+        }
+
+        private IMongoQuery<CellHuaweiMongo> ConstructQuery(int eNodebId, byte sectorId)
+        {
+            var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
+            if (eNodeb == null) return null;
+            return eNodeb.Factory == "华为"
+                ? (IMongoQuery<CellHuaweiMongo>)new HuaweiCellQuery(_repository, eNodebId, sectorId)
+                : new ZteCellQuery(_zteCellRepository, _zteMeasRepository, _ztePrachRepository, eNodebId, sectorId);
+        }
+
+        public CellHuaweiMongo QueryRecentCellInfo(int eNodebId, byte sectorId)
+        {
+            var query = ConstructQuery(eNodebId, sectorId);
+            return query?.Query();
+        }
+
+        public HuaweiLocalCellDef QueryLocalCellDef(int eNodebId)
+        {
+            var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
+            if (eNodeb == null || eNodeb.Factory != "华为") return null;
+            var cells = _repository.GetRecentList(eNodebId);
+            return new HuaweiLocalCellDef
+            {
+                ENodebId = eNodebId,
+                LocalCellDict = cells.ToDictionary(x => x.LocalCellId, y => y.CellId)
+            };
+        }
+    }
+
+    public class HuaweiLocalCellDef
+    {
+        public int ENodebId { get; set; }
+
+        public Dictionary<int, int> LocalCellDict { get; set; }
+    }
+
+    internal class HuaweiCellQuery : IMongoQuery<CellHuaweiMongo>
+    {
+        private readonly ICellHuaweiMongoRepository _repository;
+        private readonly int _eNodebId;
+        private readonly byte _sectorId;
+
+        public HuaweiCellQuery(ICellHuaweiMongoRepository repository, int eNodebId, byte sectorId)
+        {
+            _repository = repository;
+            _eNodebId = eNodebId;
+            _sectorId = sectorId;
+        }
+
+        public CellHuaweiMongo Query()
+        {
+            return _repository.GetRecent(_eNodebId, _sectorId);
+        }
+    }
+
+    internal class ZteCellQuery : IMongoQuery<CellHuaweiMongo>
+    {
+        private readonly IEUtranCellFDDZteRepository _zteCellRepository;
+        private readonly IEUtranCellMeasurementZteRepository _zteMeasRepository;
+        private readonly IPrachFDDZteRepository _ztePrachRepository;
+        private readonly int _eNodebId;
+        private readonly byte _sectorId;
+
+        public ZteCellQuery(IEUtranCellFDDZteRepository zteCellRepository,
+            IEUtranCellMeasurementZteRepository zteMeasRepository,
+            IPrachFDDZteRepository ztePrachRepository, int eNodebId, byte sectorId)
+        {
+            _zteCellRepository = zteCellRepository;
+            _zteMeasRepository = zteMeasRepository;
+            _ztePrachRepository = ztePrachRepository;
+            _eNodebId = eNodebId;
+            _sectorId = sectorId;
+        }
+
+        public CellHuaweiMongo Query()
+        {
+            var zteCell = _zteCellRepository.GetRecent(_eNodebId, _sectorId);
+            var zteMeas = _zteMeasRepository.GetRecent(_eNodebId, _sectorId);
+            var ztePrach = _ztePrachRepository.GetRecent(_eNodebId, _sectorId);
+
+            return new CellHuaweiMongo
+            {
+                PhyCellId = zteCell?.pci ?? 0,
+                CellSpecificOffset = zteCell?.ocs ?? 15,
+                QoffsetFreq = zteMeas?.eutranMeasParas_offsetFreq ?? 15,
+                RootSequenceIdx = ztePrach?.rootSequenceIndex ?? -1
+            };
         }
     }
 }

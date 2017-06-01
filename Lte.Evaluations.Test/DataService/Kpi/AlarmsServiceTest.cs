@@ -15,6 +15,7 @@ using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Evaluations.DataService.Basic;
 using Lte.Parameters.Abstract.Kpi;
 
 namespace Lte.Evaluations.DataService.Kpi
