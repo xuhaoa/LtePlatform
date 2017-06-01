@@ -1022,6 +1022,35 @@
                 });
             },
 
+            getCommonStationByName: function(areaName, stationName, type, page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/StationCommon/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "stationName": stationName,
+                    "areaName": areaName,
+                    "type": type
+                });
+            },
+            getCommonStations: function (areaName, type, page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/StationCommon/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "areaName": areaName,
+                    "type": type
+                });
+            },
+            getAllCommonStations: function (type, page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/StationCommon/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "type": type
+                });
+            },
+            deleteCommonStation: function(stationId) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/StationCommon/delete', {
+                    "idList": stationId
+                });
+            },
             getCheckingStation: function (areaName, status, page, pageSize) {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Checking/search', {
                     "curr_page": page,

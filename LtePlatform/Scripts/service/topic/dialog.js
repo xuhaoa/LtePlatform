@@ -139,6 +139,34 @@
 					}
 				});
 			},
+			showCommonStationInfo: function (station) {
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Evaluation/Dialog/CommonStationDetails.html',
+					controller: 'map.common-station.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return "站点信息:" + station.name;
+						},
+						station: function () {
+							return station;
+						}
+					}
+				});
+			},
+			showCommonStationList: function (type) {
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Evaluation/Dialog/CommonStationListDialog.html',
+					controller: 'map.common-stationList.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return "公共列表";
+						},
+						type: function () {
+							return type;
+						}
+					}
+				});
+			},
 			showSpecialStationInfo: function (station) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
@@ -423,6 +451,83 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
+	.controller('map.common-station.dialog', function ($scope, $uibModalInstance, station, dialogTitle) {
+		$scope.station = station;
+		$scope.dialogTitle = dialogTitle;
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
+	.controller('map.common-stationList.dialog', function ($scope, $http, dialogTitle, type, $uibModalInstance, parametersDialogService,
+		downSwitchService) {
+		$scope.dialogTitle = dialogTitle;
+		$scope.distincts = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
+		$scope.stationList = [];
+		$scope.page = 1;
+		$scope.stationName = '';
+		$scope.totolPage = 1;
+		downSwitchService.getAllCommonStations(type, 0, 10).then(function(response) {
+			$scope.stationList = response.result.rows;
+			$scope.totolPage = response.result.total_pages;
+			$scope.page = response.result.curr_page;
+		});
+		$scope.details = function (stationId) {
+			downSwitchService.getCommonStationById(stationId).then(function (result) {
+				parametersDialogService.showCommonStationInfo(result.result[0]);
+			});
+		}
+
+		$scope.delete = function (stationId) {
+		    if (confirm("你确定删除该站点？")) {
+		        downSwitchService.deleteCommonStation(stationId).then(function(response) {
+		            alert(response.description);
+		            $scope.jumpPage($scope.page);
+		        });
+			}
+		}
+		$scope.edit = function (stationId) {
+			parametersDialogService.showCommonStationEdit(stationId);
+		}
+		$scope.addStation = function () {
+			parametersDialogService.showCommonStationAdd();
+		}
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		}
+		$scope.search = function () {
+			$scope.page = 1;
+			$scope.jumpPage($scope.page);
+		}
+		$scope.firstPage = function () {
+			$scope.page = 1;
+			$scope.jumpPage($scope.page);
+		}
+		$scope.lastPage = function () {
+			$scope.page = $scope.totolPage;
+			$scope.jumpPage($scope.page);
+		}
+		$scope.prevPage = function () {
+			if ($scope.page !== 1)
+				$scope.page--;
+			$scope.jumpPage($scope.page);
+		}
+		$scope.nextPage = function () {
+			if ($scope.page !== $scope.totolPage)
+				$scope.page++;
+			$scope.jumpPage($scope.page);
+		}
+		$scope.jumpPage = function (page) {
+			if (page >= $scope.totolPage)
+			    page = $scope.totolPage;
+		    downSwitchService.getCommonStationByName($scope.selectDistinct, $scope.stationName, type, page, 10).then(function(response) {
+		        $scope.stationList = response.result.rows;
+		        $scope.totolPage = response.result.total_pages;
+		        $scope.page = response.result.curr_page;
+		        $scope.records = response.dresult.records;
+		    });
+		}
+	})
+
 	.controller('map.alarmStation.dialog', function ($scope, $uibModalInstance, station, beginDate, endDate, dialogTitle,
 		appFormatService, downSwitchService, workItemDialog, mapDialogService) {
 		$scope.station = station;
