@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Lte.Evaluations.MapperSerive.Kpi;
-using Lte.Evaluations.ViewModels.Kpi;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;

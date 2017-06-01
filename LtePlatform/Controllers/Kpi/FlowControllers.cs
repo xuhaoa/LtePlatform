@@ -2,7 +2,6 @@
 using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.College;
 using Lte.Evaluations.DataService.Kpi;
-using Lte.Evaluations.ViewModels.Kpi;
 using Lte.MySqlFramework.Entities;
 using LtePlatform.Models;
 using System;

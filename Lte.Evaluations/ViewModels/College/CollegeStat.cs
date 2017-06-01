@@ -1,11 +1,8 @@
-﻿using Abp.EntityFramework.AutoMapper;
-using Lte.Domain.Regular.Attributes;
+﻿using Lte.Domain.Regular.Attributes;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Abstract.Infrastructure;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.College;
-using System;
 using System.Runtime.Serialization;
 using Lte.Domain.Common.Wireless;
 using Lte.MySqlFramework.Abstract;
@@ -99,23 +96,4 @@ namespace Lte.Evaluations.ViewModels.College
         }
     }
 
-    [AutoMapFrom(typeof(CollegeYearInfo))]
-    public class CollegeYearView
-    {
-        public string Name { get; set; }
-
-        public int TotalStudents { get; set; }
-
-        public int CurrentSubscribers { get; set; }
-
-        public int GraduateStudents { get; set; }
-
-        public int NewSubscribers { get; set; }
-
-        public DateTime OldOpenDate { get; set; }
-
-        public DateTime NewOpenDate { get; set; }
-
-        public int ExpectedSubscribers { get; set; }
-    }
 }

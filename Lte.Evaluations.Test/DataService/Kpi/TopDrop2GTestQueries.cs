@@ -1,4 +1,4 @@
-﻿using Lte.Evaluations.ViewModels.Kpi;
+﻿using Lte.MySqlFramework.Entities;
 using NUnit.Framework;
 using Shouldly;
 

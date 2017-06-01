@@ -210,6 +210,26 @@ namespace Lte.MySqlFramework.Entities
         public int ExpectedSubscribers => CurrentSubscribers + NewSubscribers - GraduateStudents;
     }
 
+    [AutoMapFrom(typeof(CollegeYearInfo))]
+    public class CollegeYearView
+    {
+        public string Name { get; set; }
+
+        public int TotalStudents { get; set; }
+
+        public int CurrentSubscribers { get; set; }
+
+        public int GraduateStudents { get; set; }
+
+        public int NewSubscribers { get; set; }
+
+        public DateTime OldOpenDate { get; set; }
+
+        public DateTime NewOpenDate { get; set; }
+
+        public int ExpectedSubscribers { get; set; }
+    }
+
     public class TownBoundary : Entity, ITownId
     {
         public int TownId { get; set; }

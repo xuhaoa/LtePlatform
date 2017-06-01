@@ -1,7 +1,8 @@
 ﻿using Lte.Evaluations.ViewModels.Basic;
+using Lte.Parameters.Entities.Basic;
 using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.TestService
+namespace Lte.Evaluations.TestService
 {
     public static class CellViewTestService
     {

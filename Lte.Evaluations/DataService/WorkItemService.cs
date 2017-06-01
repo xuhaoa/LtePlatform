@@ -4,7 +4,6 @@ using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToExcel;
 using Lte.Evaluations.Policy;
-using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;

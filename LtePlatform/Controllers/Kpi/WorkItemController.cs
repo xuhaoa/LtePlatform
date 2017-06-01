@@ -1,10 +1,10 @@
 ﻿using Lte.Evaluations.DataService;
-using Lte.Evaluations.ViewModels.Kpi;
 using LtePlatform.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Lte.Parameters.Entities.Work;
 
 namespace LtePlatform.Controllers.Kpi
 {

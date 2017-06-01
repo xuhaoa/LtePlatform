@@ -8,8 +8,6 @@ using Lte.Domain.LinqToCsv.Description;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels;
-using Lte.Evaluations.ViewModels.Channel;
-using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Entities;

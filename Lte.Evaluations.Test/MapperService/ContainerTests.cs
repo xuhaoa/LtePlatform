@@ -8,8 +8,6 @@ using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels;
-using Lte.Evaluations.ViewModels.Basic;
-using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Evaluations.ViewModels.Mr;
 using Lte.Evaluations.ViewModels.Switch;
 using Lte.MySqlFramework.Entities;

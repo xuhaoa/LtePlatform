@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Lte.Parameters.Entities;
+using Lte.Parameters.Entities.Basic;
 
 namespace LtePlatform.Controllers.College
 {

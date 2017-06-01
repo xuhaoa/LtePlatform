@@ -1,5 +1,5 @@
 ﻿using Lte.Evaluations.DataService.Switch;
-using Lte.Evaluations.ViewModels.Channel;
+using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract.Basic;
 
 namespace Lte.Evaluations.DataService.Basic

@@ -73,6 +73,40 @@ namespace Lte.Parameters.Entities.Basic
         }
     }
 
+    [AutoMapFrom(typeof(ENodeb), typeof(Town))]
+    public class ENodebView : IGeoPointReadonly<double>
+    {
+        public int ENodebId { get; set; }
+
+        public string Name { get; set; }
+
+        public string Factory { get; set; }
+
+        public IpAddress GatewayIp { get; set; }
+
+        public IpAddress Ip { get; set; }
+
+        public bool IsInUse { get; set; }
+
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        public string Address { get; set; }
+
+        public string PlanNum { get; set; }
+
+        public DateTime OpenDate { get; set; }
+
+        public string OpenDateString => OpenDate.ToShortDateString();
+
+        public string CityName { get; set; }
+
+        public string DistrictName { get; set; }
+
+        public string TownName { get; set; }
+    }
+
     [TypeDoc("定义CDMA基站的数据库对应的ORM对象")]
     public class CdmaBts : Entity
     {
@@ -102,6 +136,41 @@ namespace Lte.Parameters.Entities.Basic
             bts.TownId = town?.Id ?? -1;
             return bts;
         }
+    }
+    
+    [AutoMapFrom(typeof(CdmaBts))]
+    [TypeDoc("CDMA基站视图")]
+    public class CdmaBtsView
+    {
+        [MemberDoc("基站名称")]
+        public string Name { get; set; }
+
+        [MemberDoc("所属镇区编号")]
+        public int TownId { get; set; }
+
+        [MemberDoc("经度")]
+        public double Longtitute { get; set; }
+
+        [MemberDoc("区域")]
+        public string DistrictName { get; set; }
+
+        [MemberDoc("镇区")]
+        public string TownName { get; set; }
+
+        [MemberDoc("纬度")]
+        public double Lattitute { get; set; }
+
+        [MemberDoc("地址")]
+        public string Address { get; set; }
+
+        [MemberDoc("基站编号")]
+        public int BtsId { get; set; }
+
+        [MemberDoc("BSC编号")]
+        public int BscId { get; set; }
+
+        [MemberDoc("是否在用")]
+        public bool IsInUse { get; set; }
     }
 
     [TypeDoc("定义记录LTE基站的信息的Excel导出数据项")]

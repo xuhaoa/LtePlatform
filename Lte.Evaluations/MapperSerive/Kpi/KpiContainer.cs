@@ -1,7 +1,6 @@
 ﻿using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
-using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Entities;

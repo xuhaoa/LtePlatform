@@ -3,7 +3,6 @@ using Abp.Reflection;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
-using Lte.Evaluations.ViewModels.Channel;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
@@ -16,6 +15,7 @@ using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lte.Evaluations.ViewModels.Basic;
 
 namespace Lte.Evaluations.DataService.Mr
 {

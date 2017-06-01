@@ -1,7 +1,6 @@
 ﻿using Lte.Evaluations.DataService;
 using Lte.Evaluations.DataService.Mr;
 using Lte.Evaluations.MapperSerive.Infrastructure;
-using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.MySqlFramework.Entities;
 using LtePlatform.Models;
@@ -9,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Lte.Parameters.Entities.Work;
 
 namespace LtePlatform.Controllers.Mr
 {

@@ -1,10 +1,10 @@
 ﻿using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.Properties;
-using Lte.Evaluations.ViewModels.Kpi;
 using Lte.Parameters.Entities.Kpi;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.Policy
 {

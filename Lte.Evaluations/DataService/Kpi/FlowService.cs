@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Lte.Evaluations.ViewModels.Kpi;
 
 namespace Lte.Evaluations.DataService.Kpi
 {

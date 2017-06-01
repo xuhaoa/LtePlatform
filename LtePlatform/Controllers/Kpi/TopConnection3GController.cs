@@ -2,11 +2,11 @@
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.Policy;
-using Lte.Evaluations.ViewModels.Kpi;
 using LtePlatform.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
+using Lte.MySqlFramework.Entities;
 
 namespace LtePlatform.Controllers.Kpi
 {

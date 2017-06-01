@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Lte.Evaluations.ViewModels.Channel;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities.Channel;
 
 namespace Lte.Evaluations.DataService.Switch
 {

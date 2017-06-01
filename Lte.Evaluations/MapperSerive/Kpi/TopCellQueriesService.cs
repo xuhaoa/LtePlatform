@@ -1,5 +1,4 @@
 ﻿using Lte.Domain.Common.Wireless;
-using Lte.Evaluations.ViewModels.Kpi;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using System.Collections.Generic;
