@@ -11,19 +11,19 @@
                     </a>
                 </li>
                 <li role="presentation" class="parent">
-                    <a role="menuitem" ng-href="/#/common">
+                    <a role="menuitem" href="">
                         标准站址
                         <i class="glyphicon glyphicon-heart"></i>
                     </a>
                     <ul>
                         <li>
-                            <a role="menuitem" ng-href="/#/common">
+                            <a role="menuitem" ng-href="/#/common-station">
                                 基站站址
                                 <i class="glyphicon glyphicon-heart"></i>
                             </a>
                         </li>
                         <li>
-                            <a role="menuitem" ng-href="/#/common">
+                            <a role="menuitem" ng-href="/#/common-indoor">
                                 室分站址
                                 <i class="glyphicon glyphicon-heart"></i>
                             </a>
@@ -36,11 +36,25 @@
                         <i class="glyphicon glyphicon-star"></i>
                     </a>
                 </li>
-                <li role="presentation">
-                    <a role="menuitem" ng-href="/#/station">
+                <li role="presentation" class="parent">
+                    <a role="menuitem" ng-href="/#/">
                         维护站点
                         <i class="glyphicon glyphicon-apple"></i>
                     </a>
+                    <ul>
+                        <li>
+                            <a role="menuitem" ng-href="/#/operation-station">
+                                基站维护
+                                <i class="glyphicon glyphicon-heart"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a role="menuitem" ng-href="/#/operation-indoor">
+                                室分维护
+                                <i class="glyphicon glyphicon-heart"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li role="presentation">
                     <a role="menuitem" href="{{repeaterUrl}}">
@@ -133,16 +147,16 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-blue-azure" role="menu" aria-labelledby="maintain">
                 <li role="presentation">
-                    <a ng-href="/#/alarm">网络故障</a>
+                    <a ng-href="/#/">网络故障</a>
                     <ul>
                         <li>
-                            <a role="menuitem" ng-href="/#/alarm">
+                            <a role="menuitem" ng-href="/#/alarm-station">
                                 基站故障
                                 <i class="glyphicon glyphicon-heart"></i>
                             </a>
                         </li>
                         <li>
-                            <a role="menuitem" ng-href="/#/alarm">
+                            <a role="menuitem" ng-href="/#/alarm-indoor">
                                 室分故障
                                 <i class="glyphicon glyphicon-heart"></i>
                             </a>
@@ -151,16 +165,16 @@
                 </li>
 
                 <li role="presentation">
-                    <a ng-href="/#/checking">网络巡检</a>
+                    <a href="/#/">网络巡检</a>
                     <ul>
                         <li>
-                            <a role="menuitem" ng-href="/#/checking">
+                            <a role="menuitem" ng-href="/#/checking-station">
                                 基站巡检
                                 <i class="glyphicon glyphicon-heart"></i>
                             </a>
                         </li>
                         <li>
-                            <a role="menuitem" ng-href="/#/checking">
+                            <a role="menuitem" ng-href="/#/checking-indoor">
                                 室分巡检
                                 <i class="glyphicon glyphicon-heart"></i>
                             </a>
@@ -168,16 +182,16 @@
                     </ul>
                 </li>
                 <li role="presentation">
-                    <a ng-href="/#/fixing">网络整治</a>
+                    <a href="/#/">网络整治</a>
                     <ul>
                         <li>
-                            <a role="menuitem" ng-href="/#/fixing">
+                            <a role="menuitem" ng-href="/#/fixing-station">
                                 基站整治
                                 <i class="glyphicon glyphicon-heart"></i>
                             </a>
                         </li>
                         <li>
-                            <a role="menuitem" ng-href="/#/fixing">
+                            <a role="menuitem" ng-href="/#/fixing-indoor">
                                 室分整治
                                 <i class="glyphicon glyphicon-heart"></i>
                             </a>
@@ -186,9 +200,23 @@
                 </li>
                 <li role="presentation">
                     <a ng-href="/#/resource">资源资产</a>
+                    <ul>
+                        <li>
+                            <a role="menuitem" ng-href="/#/resource">
+                                基站
+                                <i class="glyphicon glyphicon-heart"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a role="menuitem" ng-href="/#/resource">
+                                室分
+                                <i class="glyphicon glyphicon-heart"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li role="presentation">
-                    <a ng-href="/#/special-station">网运专项</a>
+                    <a href="/#/">网运专项</a>
                     <ul>
                         <li>
                             <a role="menuitem" ng-href="/#/special-station">
@@ -205,7 +233,7 @@
                     </ul>
                 </li>
                 <li role="presentation">
-                    <a ng-href="/#/long-term">长期故障</a>
+                    <a href="/#/">长期故障</a>
                     <ul>
                         <li>
                             <a role="menuitem" ng-href="/#/long-term">
@@ -222,7 +250,7 @@
                     </ul>
                 </li>
                 <li role="presentation">
-                    <a ng-href="/#/clear-flow">清网排障</a>
+                    <a href="/#/">清网排障</a>
                     <ul>
                         <li>
                             <a role="menuitem" ng-href="/#/clear-flow">

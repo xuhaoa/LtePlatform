@@ -917,6 +917,20 @@
 			        }
 			    });
 			},
+			showFixingStationInfo: function (station) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/SpecialStationDetails.html',
+			        controller: 'map.fixingStation.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "整治信息:" + station.name;
+			            },
+			            station: function () {
+			                return station;
+			            }
+			        }
+			    });
+			},
 			showStationList: function () {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Home/StationListDialog.html',
@@ -1429,6 +1443,18 @@
 		appFormatService, networkElementService) {
 
         $scope.itemGroups = appFormatService.generateCheckingStationGroups(station);
+
+        $scope.dialogTitle = dialogTitle;
+
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller('map.fixingStation.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+		appFormatService, networkElementService) {
+
+        $scope.itemGroups = appFormatService.generateFixingStationGroups(station);
 
         $scope.dialogTitle = dialogTitle;
 

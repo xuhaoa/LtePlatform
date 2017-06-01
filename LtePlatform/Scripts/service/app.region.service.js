@@ -1685,13 +1685,14 @@
                     "status": status
                 });
             },
-            getFixingStation: function (areaName, status, page, pageSize) {
+            getFixingStation: function (areaName, status,type, page, pageSize) {
                 //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Alarm/search', {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Fixing/search', {
                     "curr_page": page,
                     "page_size": pageSize,
                     "areaName": areaName,
-                    "status": status
+                    "level": status,
+                    "type":type
                 });
             },
             getStationsByAreaName: function(areaName, page, pageSize) {
