@@ -258,7 +258,7 @@ namespace Lte.Domain.Regular
         /// <returns>手机号码合法返回true,反之不合法</returns>
         public static bool CheckMobilephoneByString(string source)
         {
-            var rg = new Regex(@"^[1]+[3,5]+\d{9}$");
+            var rg = new Regex(@"^[1]+[3,5,7,8]+\d{9}$");
             return rg.IsMatch(source);
         }
 
@@ -269,7 +269,7 @@ namespace Lte.Domain.Regular
         /// <returns>源字符串中手机号码</returns>
         public static string GetMobilephoneByString(string source)
         {
-            return Regex.Match(source, @"[1]+[3,5]+\d{9}").Groups[0].Value;
+            return Regex.Match(source, @"[1]+[3,5,7,8]+\d{9}").Groups[0].Value;
         }
 
         /// <summary>

@@ -1883,8 +1883,8 @@
                             "/Content/Images/Hotmap/site_or.png");
                         baiduMapService.addOneMarkerToScope(marker, function(item) {
                             mapDialogService.showTownENodebInfo(item, $scope.city.selected, district);
+                            parametersMapService.showTownBoundaries(item.cityName, item.districtName, item.townName, $scope.colors[$index % $scope.colors.length]);
                         }, stat);
-                        parametersMapService.showTownBoundaries(item.cityName, item.districtName, item.townName, $scope.colors[$index % $scope.colors.length]);
                     });
                 });
             });

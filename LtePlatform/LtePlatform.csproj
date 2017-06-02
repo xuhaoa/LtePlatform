@@ -893,6 +893,7 @@
     <Content Include="Scripts\fileinput.min.js" />
     <Content Include="Scripts\highcharts\highcharts-3d.src.js" />
     <Content Include="Scripts\highcharts\highcharts-more.src.js" />
+    <Content Include="Scripts\highcharts\highcharts.css" />
     <Content Include="Scripts\highcharts\highcharts.src.js" />
     <Content Include="Scripts\highcharts\readme.txt" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
