@@ -22,21 +22,8 @@ namespace LtePlatform.Models
             httpPostedFileBase.SaveAs(path);
             return path;
         }
-    }
 
-    public class FileResultMessage
-    {
-        public string Error { get; set; }
-        public string File { get; set; }
-    }
-
-    public class BtsDwgService : BtsFileSerivce
-    {
-        public BtsDwgService(string directory, string btsId) : base("~/BtsDWG", directory, btsId)
-        {
-        }
-
-        public string UrlEncode(string text)
+        public static string UrlEncode(this string text)
         {
             var urlEncode = HttpUtility.UrlEncode(text.Replace(" ", ""));
             if (urlEncode != null)
@@ -47,6 +34,20 @@ namespace LtePlatform.Models
             return "";
         }
         
+    }
+
+    public class FileResultMessage
+    {
+        public string Error { get; set; }
+        public string File { get; set; }
+    }
+
+    public class BtsDwgService : BtsFileSerivce
+    {
+        public BtsDwgService(string directory, string btsId) : base("BtsDWG", directory, btsId)
+        {
+        }
+
     }
 
 }

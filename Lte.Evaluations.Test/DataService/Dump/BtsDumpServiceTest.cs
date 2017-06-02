@@ -66,4 +66,44 @@ namespace Lte.Evaluations.DataService.Dump
             _btsRepository.Object.GetAllList()[3].ShouldBe(name, address, townId, btsId, longtitute, lattitute);
         }
     }
+
+    [TestFixture]
+    public class BtsFileSerivceTest
+    {
+        public class MyFileService : BtsFileSerivce
+        {
+            public MyFileService(string btsId) : base("", "BtsDwg", btsId)
+            {
+            }
+        }
+
+        private MyFileService _service;
+
+        [TestFixtureSetUp]
+        public void TestFixtureSetup()
+        {
+            _service = new MyFileService("0002");
+        }
+
+        [Test]
+        public void TestDirectory()
+        {
+            Assert.AreEqual(_service.DirectoryPath, "D:\\Customers\\Lte.Evaluations.Test\\bin\\Release\\BtsDwg\\0002");
+        }
+
+        [Test]
+        public void Test_SaveTwoFiles()
+        {
+            _service.Save("abc.dwg", new byte[] {0xaa, 0x01, 0x02});
+            _service.Save("cde.dwg", new byte[] { 0xab, 0xc1, 0xc2 });
+            _service.Save("abc.dwg", new byte[] { 0xaa, 0x01, 0x02 });
+        }
+
+        [Test]
+        public void Test_GetList()
+        {
+            var fileList = _service.GetList();
+            Assert.AreEqual(fileList.Count, 7);
+        }
+    }
 }

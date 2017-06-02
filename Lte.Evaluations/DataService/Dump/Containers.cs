@@ -47,9 +47,9 @@ namespace Lte.Evaluations.DataService.Dump
         protected BtsFileSerivce(string root, string directory, string btsId)
         {
             DirectoryPath =
-                Path.Combine(AppDomain.CurrentDomain.BaseDirectory + root + "/" +
-                             (string.IsNullOrEmpty(directory) ? "" : directory + "/") + btsId);
-            if (!Directory.Exists(directory))
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory.Replace("LtePlatform\\", "Customers\\") + root + "\\" +
+                             (string.IsNullOrEmpty(directory) ? "" : directory + "\\") + btsId);
+            if (!Directory.Exists(DirectoryPath))
             {
                 Directory.CreateDirectory(DirectoryPath);
             }

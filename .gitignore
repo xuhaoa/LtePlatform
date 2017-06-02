@@ -133,3 +133,4 @@ uploads/
 /UpgradeLog3.htm
 /LtePlatform/Scripts/service/node_modules
 *.map
+/Lte.Auxilary/mr
