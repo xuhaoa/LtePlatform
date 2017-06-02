@@ -517,6 +517,13 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        public string Get(string btsId)
+        {
+            var service = new BtsDwgService("Common", btsId);
+            return service.DirectoryPath;
+        }
+
+        [HttpGet]
         public HttpResponseMessage Get(string directory, string btsId, string name)
         {
 

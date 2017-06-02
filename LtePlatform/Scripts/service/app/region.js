@@ -1101,6 +1101,12 @@ angular.module('region.basic', ['app.core'])
                     "page_size": pageSize,
                     "isSolve": isSolve
                 });
+            },
+            queryDwgList: function(btsId) {
+                return generalHttpService.getApiData('DwgQuery', {
+                    directory: 'Common',
+                    btsId: btsId
+                });
             }
         };
     })

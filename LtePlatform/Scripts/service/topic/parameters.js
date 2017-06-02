@@ -309,7 +309,7 @@
 			$uibModalInstance.dismiss('cancel');
 		}
 	})
-	.controller('map.construction.dialog', function ($scope, $uibModalInstance, dialogTitle, site, appFormatService) {
+	.controller('map.construction.dialog', function ($scope, $uibModalInstance, dialogTitle, site, appFormatService, downSwitchService) {
 		$scope.dialogTitle = dialogTitle;
 		$scope.site = site;
 		$scope.upload = {
@@ -344,8 +344,12 @@
 		};
 
 		$scope.getDwgList = function() {
-
+			downSwitchService.queryDwgList(site.fslNumber).then(function(list) {
+				$scope.dwgList = list;
+			});
 		};
+
+		$scope.getDwgList();
 
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.site);
@@ -582,9 +586,9 @@
 				});
 			},
 			showCollegeENodebs: function(name, beginDate, endDate) {
-			    collegeService.queryENodebs(name).then(function(eNodebs) {
-			        showENodebsElements(eNodebs, beginDate, endDate);
-			    });
+				collegeService.queryENodebs(name).then(function(eNodebs) {
+					showENodebsElements(eNodebs, beginDate, endDate);
+				});
 			},
 			showElementsWithGeneralName: function(name, beginDate, endDate) {
 				networkElementService.queryENodebsByGeneralNameInUse(name).then(function(eNodebs) {

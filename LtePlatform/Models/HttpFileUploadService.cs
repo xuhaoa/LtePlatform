@@ -44,7 +44,7 @@ namespace LtePlatform.Models
 
     public class BtsDwgService : BtsFileSerivce
     {
-        public BtsDwgService(string directory, string btsId) : base("BtsDWG", directory, btsId)
+        public BtsDwgService(string directory, string btsId) : base("BTSDWG", directory, btsId)
         {
         }
 

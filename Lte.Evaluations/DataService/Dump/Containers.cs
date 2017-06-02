@@ -49,11 +49,6 @@ namespace Lte.Evaluations.DataService.Dump
             DirectoryPath =
                 Path.Combine(AppDomain.CurrentDomain.BaseDirectory.Replace("LtePlatform\\", "Customers\\") + root + "\\" +
                              (string.IsNullOrEmpty(directory) ? "" : directory + "\\") + btsId);
-            if (!Directory.Exists(DirectoryPath))
-            {
-                Directory.CreateDirectory(DirectoryPath);
-            }
-
         }
 
 
@@ -93,7 +88,6 @@ namespace Lte.Evaluations.DataService.Dump
         /// <returns></returns>
         public byte[] GetFile(string name)
         {
-
             var filePath = DirectoryPath + "/" + name;
             if (!File.Exists(filePath)) return null;
             byte[] content;
@@ -153,6 +147,11 @@ namespace Lte.Evaluations.DataService.Dump
         /// <param name="buffer"></param>
         public void Save(string filename, byte[] buffer)
         {
+            if (!Directory.Exists(DirectoryPath))
+            {
+                Directory.CreateDirectory(DirectoryPath);
+            }
+
             var filePath = DirectoryPath.GenerateFilePath(filename);
             using (var ms = new MemoryStream(buffer))
             {
@@ -164,12 +163,7 @@ namespace Lte.Evaluations.DataService.Dump
                 }
             }
         }
-
-        /// <summary>
-        /// 获取visio文件对应的pdf文件
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
+        
         public string GetPdfOfVisio(string file)
         {
             var newFile = file + ".pdf";
