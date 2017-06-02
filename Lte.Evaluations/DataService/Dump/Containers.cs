@@ -61,7 +61,7 @@ namespace Lte.Evaluations.DataService.Dump
         /// 获取图纸列表
         /// </summary>
         /// <returns></returns>
-        public List<DWGInfo> GetList()
+        public List<DwgInfo> GetList()
         {
             if (string.IsNullOrEmpty(DirectoryPath) || !Directory.Exists(DirectoryPath))
             {
@@ -79,7 +79,7 @@ namespace Lte.Evaluations.DataService.Dump
                                 !(t.ToLower().EndsWith(".vsd.pdf") || t.ToLower().EndsWith(".vsdx.pdf"))))
                     .Select(Path.GetFileName).ToArray();
 
-            return files.Select(f => new DWGInfo
+            return files.Select(f => new DwgInfo
             {
                 FileName = f,
                 CreateTime = File.GetCreationTime(DirectoryPath + "/" + f).ToString("yyyy-MM-dd HH:mm:ss")
@@ -206,7 +206,7 @@ namespace Lte.Evaluations.DataService.Dump
 
     }
 
-    public class DWGInfo
+    public class DwgInfo
     {
         public string FileName { get; set; }
         public string CreateTime { get; set; }

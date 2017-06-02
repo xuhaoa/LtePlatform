@@ -333,5 +333,20 @@ namespace Lte.Domain.Regular
             return directoryPath + "/" + name + Path.GetExtension(filename);
         }
 
+        public static string QueryContentType(this string extension)
+        {
+            switch (extension)
+            {
+                case ".vsd":
+                case ".vsdx":
+                    return "application/vnd.visio";
+                case ".pdf":
+                    return "application/pdf";
+                case "dwg":
+                    return "application/x-dwg";
+                default:
+                    return "application/octet-stream";
+            }
+        }
     }
 }

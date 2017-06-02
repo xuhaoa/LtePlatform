@@ -8,8 +8,10 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.Dump;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Basic;
@@ -83,6 +85,7 @@ namespace LtePlatform.Controllers.Parameters
         }
     }
 
+    [ApiControl("LTE基站查询控制器")]
     public class ENodebQueryController : ApiController
     {
         private readonly ENodebQueryService _service;
@@ -93,12 +96,16 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        [ApiDoc("根据规划编号查询基站")]
+        [ApiParameterDoc("planNum", "规划编号(FSL)")]
+        [ApiResponse("基站视图")]
         public ENodebView Get(string planNum)
         {
             return _service.GetByPlanNum(planNum);
         }
     }
 
+    [ApiControl("在用基站查询控制器")]
     public class ENodebInUseController : ApiController
     {
         private readonly ENodebQueryService _service;
@@ -130,6 +137,7 @@ namespace LtePlatform.Controllers.Parameters
 
     }
 
+    [ApiControl("基站站址查询控制器")]
     public class ENodebStationController : ApiController
     {
         private readonly ENodebQueryService _service;
@@ -140,12 +148,19 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        [ApiDoc("根据站址编码查询基站视图")]
+        [ApiParameterDoc("stationNum", "基站站址")]
+        [ApiResponse("基站视图")]
         public ENodebView Get(string stationNum)
         {
             return _service.GetByStationNum(stationNum);
         }
 
         [HttpGet]
+        [ApiDoc("根据基站编号和规划编号查询站址信息")]
+        [ApiParameterDoc("eNodebId", "基站编号")]
+        [ApiParameterDoc("planNum", "规划编号(FSL)")]
+        [ApiResponse("站址信息，站址编号和规划编号的对应关系")]
         public StationDictionary Get(int eNodebId, string planNum)
         {
             return _service.GetStationDictionary(eNodebId, planNum);
@@ -290,6 +305,7 @@ namespace LtePlatform.Controllers.Parameters
         }
     }
 
+    [ApiControl("新增基站Excel信息查询控制器")]
     public class NewENodebExcelsController : ApiController
     {
         private readonly BasicImportService _service;
@@ -302,12 +318,17 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        [ApiDoc("查询所有Excel信息")]
+        [ApiResponse("所有Excel信息")]
         public IEnumerable<ENodebExcel> Get()
         {
             return _service.GetNewENodebExcels();
         }
 
         [HttpPost]
+        [ApiDoc("批量导入基站Excel信息")]
+        [ApiParameterDoc("container", "待导入基站Excel信息")]
+        [ApiResponse("成功导入数量")]
         public int Post(NewENodebListContainer container)
         {
             return _dumpService.DumpNewEnodebExcels(container.Infos);
@@ -411,15 +432,39 @@ namespace LtePlatform.Controllers.Parameters
         }
     }
 
-    public class DwgController : ApiController
+    public class DwgViewController : ApiController
     {
         private readonly BluePrintService _service;
 
-        public DwgController(BluePrintService service)
+        public DwgViewController(BluePrintService service)
         {
             _service = service;
         }
 
+        [HttpGet]
+        public FileResultMessage View(string directory, string btsId, string filename)
+        {
+            var dwgService = new BtsDwgService(directory, btsId);
+
+            var file = filename;
+            if (file.EndsWith(".vsd") || file.EndsWith(".vsdx"))
+            {
+                file = dwgService.GetPdfOfVisio(file);
+            }
+
+            return !File.Exists(dwgService.DirectoryPath + "/" + file)
+                ? new FileResultMessage {Error = "文件不存在", File = ""}
+                : new FileResultMessage {Error = "", File = "/BtsDWG/" + directory + "/" + btsId + "/" + file};
+        }
+
+        [HttpDelete]
+        public bool Delete(DWGDeleteView dwg)
+        {
+            var dwgService = new BtsDwgService(dwg.Directory, dwg.BtsId);
+            return dwgService.Delete(dwg.FileName);
+        }
+
+        [HttpPost]
         public async Task<IHttpActionResult> Upload()
         {
             if (!Request.Content.IsMimeMultipartContent())
@@ -459,6 +504,33 @@ namespace LtePlatform.Controllers.Parameters
             }
 
             return Ok(new { Result = 1 });
+        }
+    }
+
+    public class DwgQueryController : ApiController
+    {
+        [HttpGet]
+        public IList<DwgInfo> Get(string directory, string btsId)
+        {
+            var service = new BtsDwgService(directory, btsId);
+            return service.GetList();
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Get(string directory, string btsId, string name)
+        {
+
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            var dwgService = new BtsDwgService(directory, btsId);
+            var data = dwgService.GetFile(name);
+            var ext = Path.GetExtension(name);
+            var contentType = ext?.ToLower().QueryContentType();
+
+            response.Content = new ByteArrayContent(data);
+            response.Content.Headers.Add("Content-Disposition", "attachment; filename*=UTF-8''" + name.UrlEncode());
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+
+            return response;
         }
     }
 }
