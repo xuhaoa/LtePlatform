@@ -17,6 +17,7 @@
         <div ui-view="filter"></div>
     </div>
     <div class="map-top-left">
+        <div cg-busy="page.myPromise"></div>
         <div ui-view="menu"></div>
     </div>
     <div ng-show="legend.criteria.length" coverage-legend legend-title="legend.title" criteria="legend.criteria" sign="legend.sign"></div>

@@ -29,7 +29,6 @@
 /// <reference path="../directives/workitem/workitem.module.js" />
 /// <reference path="angular.min.js" />
 /// <reference path="angular-animate.min.js" />
-/// <reference path="angular-aria.min.js" />
 /// <reference path="angular-avatar.min.js" />
 /// <reference path="angular-busy.min.js" />
 /// <reference path="angular-cookies.min.js" />

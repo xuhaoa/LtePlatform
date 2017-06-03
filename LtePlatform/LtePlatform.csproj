@@ -806,7 +806,6 @@
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Scripts\angular-animate.js" />
-    <Content Include="Scripts\angular-aria.js" />
     <Content Include="Scripts\angular-avatar.js" />
     <Content Include="Scripts\angular-avatar.min.js" />
     <Content Include="Scripts\angular-busy.js" />
@@ -858,7 +857,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\angular-animate.min.js" />
-    <Content Include="Scripts\angular-aria.min.js" />
     <Content Include="Scripts\angular-cookies.min.js" />
     <Content Include="Scripts\angular-loader.min.js" />
     <Content Include="Scripts\angular-message-format.min.js" />

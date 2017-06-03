@@ -453,7 +453,8 @@
         $rootScope.rootPath = "/#/";
 
         $rootScope.page = {
-            title: "基础数据总览"
+            title: "基础数据总览",
+            myPromise: null
         };
         appUrlService.initializeAuthorization();
         $rootScope.legend = {
@@ -968,6 +969,7 @@
                 threshold: district,
                 color: color
             });
+            
             networkElementService.queryIndoorCellSites(city, district).then(function(sites) {
                 baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
                     var xOffset = coors.x - sites[0].longtitute;
@@ -1001,7 +1003,8 @@
                 threshold: district,
                 color: color
             });
-            networkElementService.queryENodebsInOneDistrict(city, district).then(function (sites) {
+            $scope.page.myPromise = networkElementService.queryENodebsInOneDistrict(city, district);
+            $scope.page.myPromise.then(function (sites) {
                 baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
                     var xOffset = coors.x - sites[0].longtitute;
                     var yOffset = coors.y - sites[0].lattitute;
