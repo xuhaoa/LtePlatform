@@ -849,6 +849,15 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 				$scope.dwgList = list;
 			});
 		};
+		$scope.download = function (fileName) {
+		    downSwitchService.queryDwgUrl(site.fslNumber, fileName).then(function(result) {
+		        if (result.error) {
+		            console.log(error);
+		        } else {
+		            $scope.downloadUrl = "http://" + window.location.hostname + ":2015/BTSDWG/Common/" + site.fslNumber + "/" + encodeURIComponent(result.file);
+		        }
+		    });
+		};
 
 		$scope.getDwgList();
 

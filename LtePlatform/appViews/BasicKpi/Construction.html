@@ -25,19 +25,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="item in dwgList" file="{{item.fileName}}">
-                            <td>{{item.fileName}}</td>
-                            <td>{{item.createTime}}</td>
-                            <td>
-                                <a class="glyphicon glyphicon-download" uib-tooltip="下载图纸"
-                                   tooltip-placement="right" ng-click="download(item.fileName)"></a>
-                                <a class="glyphicon glyphicon-zoom-in" uib-tooltip="查看图纸,请允许浏览器弹出窗口"
-                                   tooltip-placement="right" ng-show="item.fileName.indexOf('pdf') > -1" ng-click="view(item.fileName)"></a>
-                                <a class="glyphicon glyphicon-trash" uib-tooltip="删除图纸"
-                                   tooltip-placement="right" ng-click="delete(item.fileName)"></a>
-                            </td>
-                        </tr>
+                    <tr ng-repeat="item in dwgList" file="{{item.fileName}}">
+                        <td>{{item.fileName}}</td>
+                        <td>{{item.createTime}}</td>
+                        <td>
+                            <a class="glyphicon glyphicon-download" uib-tooltip="下载图纸"
+                               tooltip-placement="right" ng-click="download(item.fileName)"></a>
+                            <a class="glyphicon glyphicon-zoom-in" uib-tooltip="查看图纸,请允许浏览器弹出窗口"
+                               tooltip-placement="right" ng-show="item.fileName.indexOf('pdf') > -1" ng-click="view(item.fileName)"></a>
+                            <a class="glyphicon glyphicon-trash" uib-tooltip="删除图纸"
+                               tooltip-placement="right" ng-click="delete(item.fileName)"></a>
+                        </td>
+                    </tr>
                     </tbody>
+                    <tfoot>
+                    <tr><td colspan="3">
+                        <a ng-show="downloadUrl" href="{{downloadUrl}}">图纸下载链接</a>
+                    </td></tr>
+                    </tfoot>
                 </table>
             </div>
             <div infotype="uploadDwg" class="bts_info_content" ng-show="upload.dwg">

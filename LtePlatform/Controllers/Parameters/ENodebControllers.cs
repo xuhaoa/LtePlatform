@@ -454,7 +454,7 @@ namespace LtePlatform.Controllers.Parameters
 
             return !File.Exists(dwgService.DirectoryPath + "/" + file)
                 ? new FileResultMessage {Error = "文件不存在", File = ""}
-                : new FileResultMessage {Error = "", File = "/BtsDWG/" + directory + "/" + btsId + "/" + file};
+                : new FileResultMessage {Error = "", File = file};
         }
 
         [HttpDelete]

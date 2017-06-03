@@ -1107,6 +1107,13 @@
                     directory: 'Common',
                     btsId: btsId
                 });
+            },
+            queryDwgUrl: function(btsId, fileName) {
+                return generalHttpService.getApiData('DwgView', {
+                    directory: 'Common',
+                    btsId: btsId,
+                    filename: fileName
+                });
             }
         };
     })
