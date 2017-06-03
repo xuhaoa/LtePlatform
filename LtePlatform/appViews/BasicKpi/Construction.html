@@ -5,7 +5,7 @@
     <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
 <div class="modal-body">
-    <div uib-tabset active="active">
+    <div uib-tabset>
         <div uib-tab index="0" heading="基站信息">
             <div plan-site-details item-groups="constructionGroups"></div>
         </div>
@@ -29,12 +29,12 @@
                             <td>{{item.fileName}}</td>
                             <td>{{item.createTime}}</td>
                             <td>
-                                <a class="glyphicon glyphicon-download bts_info_dwg_table_a" uib-tooltip="下载图纸"
-                                   tooltip-placement="bottom" ng-click="download(item.fileName)"></a>
-                                <a class="glyphicon glyphicon-zoom-in bts_info_dwg_table_a" uib-tooltip="查看图纸,请允许浏览器弹出窗口"
-                                   tooltip-placement="bottom" ng-show="item.fileName.indexOf('pdf') > -1" ng-click="view(item.fileName)"></a>
-                                <a class="glyphicon glyphicon-trash bts_info_dwg_table_a" uib-tooltip="删除图纸"
-                                   tooltip-placement="bottom" ng-click="delete(item.fileName)"></a>
+                                <a class="glyphicon glyphicon-download" uib-tooltip="下载图纸"
+                                   tooltip-placement="right" ng-click="download(item.fileName)"></a>
+                                <a class="glyphicon glyphicon-zoom-in" uib-tooltip="查看图纸,请允许浏览器弹出窗口"
+                                   tooltip-placement="right" ng-show="item.fileName.indexOf('pdf') > -1" ng-click="view(item.fileName)"></a>
+                                <a class="glyphicon glyphicon-trash" uib-tooltip="删除图纸"
+                                   tooltip-placement="right" ng-click="delete(item.fileName)"></a>
                             </td>
                         </tr>
                     </tbody>

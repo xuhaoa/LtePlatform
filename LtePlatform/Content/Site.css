@@ -77,11 +77,10 @@ textarea {
   width: 95%;
   margin: 0 auto;
   margin-top: 10px; }
-
-.bts_info_dwg_table_a {
-  cursor: pointer;
-  padding-right: 5px;
-  font-size: 15px; }
+  .bts_info_dwg_table a {
+    cursor: pointer;
+    padding-right: 5px;
+    font-size: 15px; }
 
 .bts_info_dwg_upload {
   width: 100%;
@@ -100,10 +99,6 @@ body {
   body .content {
     padding-left: 15px;
     padding-right: 15px; }
-
-.active a {
-  color: azure;
-  font-weight: bold; }
 
 .navbar-blue-azure {
   background-color: #3977d2;

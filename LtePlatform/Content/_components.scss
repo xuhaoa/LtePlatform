@@ -93,12 +93,11 @@ textarea {
 	width:95%;
 	margin:0 auto;
 	margin-top:10px;
-}
-
-.bts_info_dwg_table_a {
-	cursor:pointer;
-	padding-right:5px;
-	font-size:15px;
+	a {
+		cursor:pointer;
+		padding-right:5px;
+		font-size:15px;
+	}
 }
 
 .bts_info_dwg_upload{
