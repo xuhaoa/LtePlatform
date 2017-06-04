@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Abp.EntityFramework.Dependency;
+using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
@@ -125,7 +126,10 @@ namespace Lte.MySqlFramework.Entities
         public int RrcReleaseOther { get; set; }
         
         public int HighPriorityAccessRrcSuccess { get; set; }
-        
+
+        public int HighPriorityRrcSuccess => HighPriorityAccessRrcSuccess;
+
+
         public int HighPriorityAccessRrcFailTimer { get; set; }
         
         public int HighPriorityAccessRrcFailAllow { get; set; }
@@ -186,7 +190,47 @@ namespace Lte.MySqlFramework.Entities
 
         public int HighPriorityAccessRrcRequest { get; set; }
 
+        public int HighPriorityRrcRequest => HighPriorityAccessRrcRequest;
+
         public int EmergencyRrcRequest { get; set; }
+
+        public int TotalRrcRequest
+            =>
+                MtAccessRrcRequest + MoSignallingRrcRequest + MoDataRrcRequest + HighPriorityAccessRrcRequest +
+                EmergencyRrcRequest;
+
+        public int TotalRrcSuccess
+            =>
+                MtAccessRrcSuccess + MoSignallingRrcSuccess + MoDataRrcSuccess + HighPriorityAccessRrcSuccess +
+                EmergencyRrcSuccess;
+
+        public int RrcFailTimer
+            =>
+                MtAccessRrcFailTimer + MoSignallingRrcFailTimer + MoDataRrcFailTimer + HighPriorityAccessRrcFailTimer +
+                EmergencyRrcFailTimer;
+
+        public int RrcFailAllow
+            =>
+                MtAccessRrcFailAllow + MoSignallingRrcFailAllow + MoDataRrcFailAllow + HighPriorityAccessRrcFailAllow +
+                EmergencyRrcFailAllow;
+
+        public int RrcFailOther
+            =>
+                MtAccessRrcFailOther + MoSignallingRrcFailOther + MoDataRrcFailOther + HighPriorityAccessRrcFailOther +
+                EmergencyRrcFailOther;
+
+        public int MtAccessRrcFail => MtAccessRrcFailAllow + MtAccessRrcFailOther + MtAccessRrcFailTimer;
+
+        public int MoSignallingRrcFail => MoSignallingRrcFailAllow + MoSignallingRrcFailOther + MoSignallingRrcFailTimer;
+
+        public int MoDataRrcFail => MoDataRrcFailAllow + MoDataRrcFailOther + MoDataRrcFailTimer;
+
+        public int HighPriorityRrcFail
+            => HighPriorityAccessRrcFailAllow + HighPriorityAccessRrcFailOther + HighPriorityAccessRrcFailTimer;
+
+        public int EmergencyRrcFail => EmergencyRrcFailAllow + EmergencyRrcFailOther + EmergencyRrcFailTimer;
+
+        public int TotalRrcFail => RrcFailTimer + RrcFailAllow + RrcFailOther;
 
     }
 
@@ -689,6 +733,27 @@ namespace Lte.MySqlFramework.Entities
         
         public int RrcRejectFlowControl { get; set; }
 
+        public int TotalRrcRequest
+            =>
+                MtAccessRrcRequest + MoSignallingRrcRequest + MoDataRrcRequest + HighPriorityRrcRequest +
+                EmergencyRrcRequest;
+
+        public int TotalRrcSuccess
+            =>
+                MtAccessRrcSuccess + MoSignallingRrcSuccess + MoDataRrcSuccess + HighPriorityRrcSuccess +
+                EmergencyRrcSuccess;
+
+        public int TotalRrcFail => TotalRrcRequest - TotalRrcSuccess;
+
+        public int MtAccessRrcFail => MtAccessRrcRequest - MtAccessRrcSuccess;
+
+        public int MoSignallingRrcFail => MoSignallingRrcRequest - MoSignallingRrcSuccess;
+
+        public int MoDataRrcFail => MoDataRrcRequest - MoDataRrcSuccess;
+
+        public int HighPriorityRrcFail => HighPriorityRrcRequest - HighPriorityRrcSuccess;
+
+        public int EmergencyRrcFail => EmergencyRrcRequest - EmergencyRrcSuccess;
     }
 
     public class FlowHuaweiCsv
@@ -1038,17 +1103,21 @@ namespace Lte.MySqlFramework.Entities
 
     [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte))]
     [TypeDoc("小区单日流量统计视图")]
-    public class FlowView
+    public class FlowView : IStatTime, ILteCellQuery
     {
         [MemberDoc("统计时间")]
+        [ArraySumProtection]
         public DateTime StatTime { get; set; }
 
         [MemberDoc("基站编号")]
+        [ArraySumProtection]
         public int ENodebId { get; set; }
 
         [MemberDoc("扇区编号")]
+        [ArraySumProtection]
         public byte SectorId { get; set; }
 
+        [ArraySumProtection]
         public string ENodebName { get; set; }
 
         [AutoMapPropertyResolve("DownlinkPdcpFlow", typeof(FlowZte))]
@@ -1096,34 +1165,67 @@ namespace Lte.MySqlFramework.Entities
         public double SchedulingRank2 { get; set; }
 
         public double Rank2Rate => SchedulingTimes == 0 ? 100 : SchedulingRank2 / SchedulingTimes * 100;
+    }
 
-        public static FlowView Average(IEnumerable<FlowView> stats)
-        {
-            if (stats == null) return null;
-            var views = stats.ToList();
-            if (!views.Any()) return null;
-            var first = views.FirstOrDefault();
-            return new FlowView
-            {
-                StatTime = first.StatTime,
-                ENodebId = first.ENodebId,
-                SectorId = first.SectorId,
-                ENodebName = first.ENodebName,
-                PdcpUplinkFlow = views.Average(x => x.PdcpUplinkFlow),
-                PdcpDownlinkFlow = views.Average(x => x.PdcpDownlinkFlow),
-                AverageUsers = views.Average(x => x.AverageUsers),
-                MaxUsers = views.Max(x => x.MaxUsers),
-                AverageActiveUsers = views.Average(x => x.AverageActiveUsers),
-                MaxActiveUsers = views.Max(x => x.MaxActiveUsers),
-                DownlinkFeelingDuration = views.Average(x => x.DownlinkFeelingDuration),
-                DownlinkFeelingThroughput = views.Average(x => x.DownlinkFeelingThroughput),
-                UplinkFeelingDuration = views.Average(x => x.UplinkFeelingDuration),
-                UplinkFeelingThroughput = views.Average(x => x.UplinkFeelingThroughput),
-                RedirectCdma2000 = views.Average(x => x.RedirectCdma2000),
-                SchedulingTimes = views.Average(x => x.SchedulingTimes),
-                SchedulingRank2 = views.Average(x => x.SchedulingRank2)
-            };
-        }
+    [AutoMapFrom(typeof(RrcHuawei), typeof(RrcZte))]
+    public class RrcView : IStatTime, ILteCellQuery
+    {
+        public DateTime StatTime { get; set; }
+
+        public int ENodebId { get; set; }
+
+        public byte SectorId { get; set; }
+
+        public int MtAccessRrcRequest { get; set; }
+
+        public int MtAccessRrcSuccess { get; set; }
+
+        public double MtAccessRrcRate => MtAccessRrcRequest == 0 ? 0 : (double) MtAccessRrcSuccess/MtAccessRrcRequest;
+
+        public int MtAccessRrcFail { get; set; }
+
+        public int MoSignallingRrcRequest { get; set; }
+
+        public int MoSignallingRrcSuccess { get; set; }
+
+        public double MoSiganllingRrcRate
+            => MoSignallingRrcRequest == 0 ? 0 : (double) MoSignallingRrcSuccess/MoSignallingRrcRequest;
+
+        public int MoSignallingRrcFail { get; set; }
+
+        public int MoDataRrcRequest { get; set; }
+
+        public int MoDataRrcSuccess { get; set; }
+
+        public double MoDataRrcRate => MoDataRrcRequest == 0 ? 0 : (double) MoDataRrcSuccess/MoDataRrcRequest;
+
+        public int MoDataRrcFail { get; set; }
+
+        public int HighPriorityRrcRequest { get; set; }
+
+        public int HighPriorityRrcSuccess { get; set; }
+
+        public double HighPriorityRrcRate
+            => HighPriorityRrcRequest == 0 ? 0 : (double) HighPriorityRrcSuccess/HighPriorityRrcRequest;
+
+        public int HighPriorityRrcFail { get; set; }
+
+        public int EmergencyRrcRequest { get; set; }
+
+        public int EmergencyRrcSuccess { get; set; }
+
+        public double EmergencyRrcRate
+            => EmergencyRrcRequest == 0 ? 0 : (double) EmergencyRrcSuccess/EmergencyRrcRequest;
+
+        public int EmergencyRrcFail { get; set; }
+
+        public int TotalRrcRequest { get; set; }
+
+        public int TotalRrcSuccess { get; set; }
+
+        public double RrcSuccessRate => TotalRrcRequest == 0 ? 0 : (double) TotalRrcSuccess/TotalRrcRequest;
+
+        public int TotalRrcFail { get; set; }
     }
 
     [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte))]

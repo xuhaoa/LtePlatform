@@ -111,6 +111,7 @@ namespace Lte.Domain.Regular
         public static T Average<T>(this IEnumerable<T> sourceList)
             where T : class, new()
         {
+            if (sourceList == null) return null;
             IEnumerable<T> enumerable = sourceList as T[] ?? sourceList.ToArray();
             var result = enumerable.ArraySum();
             result.DividedBy(enumerable.Count());

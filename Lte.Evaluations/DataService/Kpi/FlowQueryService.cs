@@ -11,55 +11,17 @@ using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Abp.EntityFramework.Dependency;
+using Lte.Domain.Regular;
 
 namespace Lte.Evaluations.DataService.Kpi
 {
-    public class FlowQueryService
+    public class FlowQueryService : DateSpanQuery<FlowView, IFlowHuaweiRepository, IFlowZteRepository>
     {
-        private readonly IFlowHuaweiRepository _huaweiRepository;
-        private readonly IFlowZteRepository _zteRepository;
-        private readonly IENodebRepository _eNodebRepository;
-        private readonly ICellHuaweiMongoRepository _huaweiCellRepository;
-        private readonly ITownRepository _townRepository;
-
-        public FlowQueryService(IFlowHuaweiRepository huaweiRepository, IFlowZteRepository zteRepository,
-            IENodebRepository eNodebRepository, ICellHuaweiMongoRepository huaweiCellRepository,
-            ITownRepository townRepository)
-        {
-            _huaweiRepository = huaweiRepository;
-            _zteRepository = zteRepository;
-            _eNodebRepository = eNodebRepository;
-            _huaweiCellRepository = huaweiCellRepository;
-            _townRepository = townRepository;
-        }
-
-        private IDateSpanQuery<List<FlowView>> ConstructQuery(int eNodebId, byte sectorId)
-        {
-            var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
-            if (eNodeb == null) return null;
-            return eNodeb.Factory == "华为"
-                ? (IDateSpanQuery<List<FlowView>>)
-                    new HuaweiFlowQuery(_huaweiRepository, _huaweiCellRepository, eNodebId, sectorId)
-                : new ZteFlowQuery(_zteRepository, eNodebId, sectorId);
-        }
-
-        public List<FlowView> QueryFlow(int eNodebId, byte sectorId, DateTime begin, DateTime end)
-        {
-            var query = ConstructQuery(eNodebId, sectorId);
-            return query?.Query(begin, end);
-        }
-
-        public FlowView QueryAverageView(int eNodebId, byte sectorId, DateTime begin, DateTime end)
-        {
-            var query = ConstructQuery(eNodebId, sectorId);
-            return FlowView.Average(query?.Query(begin, end));
-        }
-
         public IEnumerable<FlowView> QueryTopDownSwitchViews(string city, string district, DateTime begin, DateTime end, int topCount)
         {
             var results = QueryDistrictFlowViews(city, district,
-                _zteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectA2 + x.RedirectB2 > 2000),
-                _huaweiRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectCdma2000 > 2000));
+                ZteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectA2 + x.RedirectB2 > 2000),
+                HuaweiRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectCdma2000 > 2000));
             return results.OrderByDescending(x => x.RedirectCdma2000).Take(topCount);
         }
 
@@ -67,8 +29,8 @@ namespace Lte.Evaluations.DataService.Kpi
             int topCount)
         {
             var results = QueryDistrictFlowViews(city, district,
-                _zteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.SchedulingTm3 > 10000000),
-                _huaweiRepository.GetAllList(
+                ZteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.SchedulingTm3 > 10000000),
+                HuaweiRepository.GetAllList(
                     x => x.StatTime >= begin && x.StatTime < end && x.SchedulingRank1 + x.SchedulingRank2 > 20000000));
             return results.OrderBy(x => x.Rank2Rate).Take(topCount);
         }
@@ -76,12 +38,12 @@ namespace Lte.Evaluations.DataService.Kpi
         private IEnumerable<FlowView> QueryDistrictFlowViews(string city, string district, 
             List<FlowZte> zteStats, List<FlowHuawei> huaweiStats)
         {
-            var towns = _townRepository.GetAllList(city, district);
+            var towns = TownRepository.GetAllList(city, district);
             if (!towns.Any())
             {
                 return new List<FlowView>();
             }
-            var eNodebs = (from eNodeb in _eNodebRepository.GetAllList()
+            var eNodebs = (from eNodeb in ENodebRepository.GetAllList()
                 join town in towns on eNodeb.TownId equals town.Id
                 select eNodeb).ToList();
             if (!eNodebs.Any())
@@ -100,7 +62,7 @@ namespace Lte.Evaluations.DataService.Kpi
 
                 if (eNodeb == null) continue;
                 var views = group.Select(g => g.MapTo<FlowView>());
-                var view = FlowView.Average(views);
+                var view = views.Average();
                 view.ENodebName = eNodeb.Name;
                 zteViews.Add(view);
             }
@@ -117,49 +79,50 @@ namespace Lte.Evaluations.DataService.Kpi
 
                 if (eNodeb == null) continue;
                 var views = group.Select(g => g.MapTo<FlowView>());
-                var view = FlowView.Average(views);
+                var view = views.Average();
                 view.ENodebName = eNodeb.Name;
-                var cell = _huaweiCellRepository.GetByLocal(group.Key.ENodebId, group.Key.LocalCellId);
-                view.SectorId = (byte)(cell?.CellId??group.Key.LocalCellId);
+                var cell =
+                    HuaweiCellRepository.FirstOrDefault(
+                        x => x.ENodebId == group.Key.ENodebId && x.LocalSectorId == group.Key.LocalCellId);
+                view.SectorId = cell?.SectorId??@group.Key.LocalCellId;
                 huaweiViews.Add(view);
             }
 
             return zteViews.Concat(huaweiViews).ToList();
         }
+
+        public FlowQueryService(IFlowHuaweiRepository huaweiRepository, IFlowZteRepository zteRepository,
+            IENodebRepository eNodebRepository, ICellRepository huaweiCellRepository, ITownRepository townRepository)
+            : base(huaweiRepository, zteRepository, eNodebRepository, huaweiCellRepository, townRepository)
+        {
+        }
+
+        protected override IDateSpanQuery<List<FlowView>> GenerateHuaweiQuery(int eNodebId, byte sectorId)
+        {
+            return new HuaweiFlowQuery(HuaweiRepository, HuaweiCellRepository, eNodebId, sectorId);
+        }
+
+        protected override IDateSpanQuery<List<FlowView>> GenerateZteQuery(int eNodebId, byte sectorId)
+        {
+            return new ZteFlowQuery(ZteRepository, eNodebId, sectorId);
+        }
     }
 
-    internal class HuaweiFlowQuery : IDateSpanQuery<List<FlowView>>
+    public class HuaweiFlowQuery : HuaweiDateSpanQuery<FlowHuawei, FlowView, IFlowHuaweiRepository>
     {
-        private readonly IFlowHuaweiRepository _huaweiRepository;
-        private readonly ICellHuaweiMongoRepository _huaweiCellRepository;
-        private readonly int _eNodebId;
-        private readonly byte _sectorId;
-
-        public HuaweiFlowQuery(IFlowHuaweiRepository huaweiRepository, ICellHuaweiMongoRepository huaweiCellRepository,
-            int eNodebId, byte sectorId)
+        public HuaweiFlowQuery(IFlowHuaweiRepository huaweiRepository, ICellRepository huaweiCellRepository,
+            int eNodebId, byte sectorId) 
+            : base(huaweiRepository, huaweiCellRepository, eNodebId, sectorId)
         {
-            _huaweiRepository = huaweiRepository;
-            _huaweiCellRepository = huaweiCellRepository;
-            _eNodebId = eNodebId;
-            _sectorId = sectorId;
         }
 
-        public List<FlowView> Query(DateTime begin, DateTime end)
+        protected override List<FlowHuawei> QueryList(DateTime begin, DateTime end, byte localCellId)
         {
-            var huaweiCell = _huaweiCellRepository.GetRecent(_eNodebId, _sectorId);
-            var localCellId = huaweiCell?.LocalCellId ?? _sectorId;
-            var views =
-                Mapper.Map<List<FlowHuawei>, List<FlowView>>(_huaweiRepository.GetAllList(begin, end, _eNodebId,
-                    (byte) localCellId));
-            foreach (var view in views)
-            {
-                view.SectorId = _sectorId;
-            }
-            return views;
+            return HuaweiRepository.GetAllList(begin, end, ENodebId, localCellId);
         }
     }
 
-    internal class ZteFlowQuery : IDateSpanQuery<List<FlowView>>
+    public class ZteFlowQuery : IDateSpanQuery<List<FlowView>>
     {
         private readonly IFlowZteRepository _zteRepository;
         private readonly int _eNodebId;

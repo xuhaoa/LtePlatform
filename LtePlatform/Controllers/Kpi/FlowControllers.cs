@@ -33,7 +33,7 @@ namespace LtePlatform.Controllers.Kpi
         [ApiResponse("流量情况，按照日期排列")]
         public List<FlowView> Get(int eNodebId, byte sectorId, DateTime begin, DateTime end)
         {
-            return _service.QueryFlow(eNodebId, sectorId, begin.Date, end.Date);
+            return _service.Query(eNodebId, sectorId, begin.Date, end.Date);
         }
 
         [HttpGet]
@@ -49,6 +49,7 @@ namespace LtePlatform.Controllers.Kpi
         }
     }
 
+    [ApiControl("TOP下切小区查询控制器")]
     public class TopDownSwitchController : ApiController
     {
         private readonly FlowQueryService _service;
@@ -148,7 +149,7 @@ namespace LtePlatform.Controllers.Kpi
         public IEnumerable<FlowView> GetDateViews(string collegeName, DateTime beginDate, DateTime endDate)
         {
             var cells = _collegeCellViewService.GetCollegeViews(collegeName);
-            var viewList = cells.Select(cell => _service.QueryFlow(cell.ENodebId, cell.SectorId, beginDate, endDate))
+            var viewList = cells.Select(cell => _service.Query(cell.ENodebId, cell.SectorId, beginDate, endDate))
                 .Where(views => views != null && views.Any())
                 .Aggregate((x, y) => x.Concat(y).ToList());
             if (!viewList.Any()) return new List<FlowView>();
