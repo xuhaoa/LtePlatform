@@ -73,6 +73,24 @@
                 },
                 url: "/station"
             })
+            .state('operation-indoor', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/Home/StationSearchMenu.html",
+                        controller: "menu.station"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/Home/Station.html",
+                        controller: "station.network"
+                    },
+                    "filter": {
+                        templateUrl: "/appViews/Home/StationFilter.html",
+                        controller: "station.filter"
+                    }
+
+                },
+                url: "/operation-indoor"
+            })
             .state('common', {
                 views: {
                     'menu': {
@@ -138,6 +156,19 @@
                     }
                 },
                 url: "/plan"
+            })
+            .state('interference', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.plan"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Plan.html",
+                        controller: "home.interference"
+                    }
+                },
+                url: "/interference"
             })
 
             .state('complain', {
@@ -224,7 +255,7 @@
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.distribution"
+                        controller: "menu.root"
                     },
                     "contents": {
                         templateUrl: viewDir + "Analysis.html",
@@ -549,6 +580,9 @@
                     displayName: "数据总览",
                     url: "/#/"
                 }, {
+                    displayName: "室内分布",
+                    url: "/#/analysis"
+                }, {
                     displayName: "数据查询",
                     url: "/#/query"
                 }, {
@@ -588,6 +622,7 @@
             });
         });
     })
+
     .controller("menu.common", function ($scope, downSwitchService, myValue, baiduMapService, workItemDialog, baiduQueryService) {
 
         $scope.stationName = "";
@@ -775,8 +810,8 @@
                     displayName: "完整准确性保障",
                     url: appUrlService.getParameterUrlHost() + 'zhunquexing2.php'
                 }, {
-                    displayName: "工程入网",
-                    url: appUrlService.getParameterUrlHost() + 'zhunquexing2.php'
+                    displayName: "干扰管理",
+                    url: '/#/interference'
                 }
             ]
         };
@@ -876,17 +911,7 @@
             ]
         };
     })
-    .controller("menu.distribution", function ($scope) {
-        $scope.menuItem = {
-            displayName: "室内分布",
-            subItems: [
-                {
-                    displayName: "基本信息",
-                    url: "/#/analysis"
-                }
-            ]
-        }
-    })
+
     .controller("menu.analysis", function($scope) {
         $scope.menuItem = {
             displayName: "四高一地",
@@ -2162,6 +2187,10 @@
             }
         });
         
+    })
+    .controller("home.interference", function ($scope, baiduMapService) {
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
     })
 
     .controller("bts.construction", function ($scope, baiduMapService, dumpPreciseService, appRegionService, flowService, collegeMapService,
