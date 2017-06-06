@@ -122,22 +122,67 @@ namespace Lte.Evaluations.DataService.Kpi
         }
     }
 
-    public class ZteFlowQuery : IDateSpanQuery<List<FlowView>>
+    public class ZteFlowQuery : ZteDateSpanQuery<FlowZte, FlowView, IFlowZteRepository>
     {
-        private readonly IFlowZteRepository _zteRepository;
-        private readonly int _eNodebId;
-        private readonly byte _sectorId;
-
         public ZteFlowQuery(IFlowZteRepository zteRepository, int eNodebId, byte sectorId)
+            : base(zteRepository, eNodebId, sectorId)
         {
-            _zteRepository = zteRepository;
-            _eNodebId = eNodebId;
-            _sectorId = sectorId;
         }
 
-        public List<FlowView> Query(DateTime begin, DateTime end)
+        protected override List<FlowZte> QueryList(DateTime begin, DateTime end)
         {
-            return Mapper.Map<List<FlowZte>, List<FlowView>>(_zteRepository.GetAllList(begin, end, _eNodebId, _sectorId));
+            return ZteRepository.GetAllList(begin, end, ENodebId, SectorId);
+        }
+    }
+
+    public class RrcQueryService : DateSpanQuery<RrcView, IRrcHuaweiRepository, IRrcZteRepository>
+    {
+        public RrcQueryService(IRrcHuaweiRepository huaweiRepository, IRrcZteRepository zteRepository,
+            IENodebRepository eNodebRepository, ICellRepository huaweiCellRepository, ITownRepository townRepository)
+            : base(huaweiRepository, zteRepository, eNodebRepository, huaweiCellRepository, townRepository)
+        {
+        }
+
+        protected override IDateSpanQuery<List<RrcView>> GenerateHuaweiQuery(int eNodebId, byte sectorId)
+        {
+            return new HuaweiRrcQuery(HuaweiRepository, HuaweiCellRepository, eNodebId, sectorId);
+        }
+
+        protected override IDateSpanQuery<List<RrcView>> GenerateZteQuery(int eNodebId, byte sectorId)
+        {
+            return new ZteRrcQuery(ZteRepository, eNodebId, sectorId);
+        }
+    }
+
+    public class HuaweiRrcQuery : HuaweiDateSpanQuery<RrcHuawei, RrcView, IRrcHuaweiRepository>
+    {
+        public HuaweiRrcQuery(IRrcHuaweiRepository huaweiRepository, ICellRepository huaweiCellRepository, int eNodebId,
+            byte sectorId) : base(huaweiRepository, huaweiCellRepository, eNodebId, sectorId)
+        {
+        }
+
+        protected override List<RrcHuawei> QueryList(DateTime begin, DateTime end, byte localCellId)
+        {
+            return
+                HuaweiRepository.GetAllList(
+                    x =>
+                        x.StatTime >= begin && x.StatTime < end && x.ENodebId == ENodebId &&
+                        x.LocalCellId == localCellId);
+        }
+    }
+
+    public class ZteRrcQuery : ZteDateSpanQuery<RrcZte, RrcView, IRrcZteRepository>
+    {
+        public ZteRrcQuery(IRrcZteRepository zteRepository, int eNodebId, byte sectorId)
+            : base(zteRepository, eNodebId, sectorId)
+        {
+        }
+
+        protected override List<RrcZte> QueryList(DateTime begin, DateTime end)
+        {
+            return
+                ZteRepository.GetAllList(
+                    x => x.StatTime >= begin && x.StatTime < end && x.ENodebId == ENodebId && x.SectorId == SectorId);
         }
     }
 

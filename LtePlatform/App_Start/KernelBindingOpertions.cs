@@ -317,6 +317,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<FlowQueryService>().ToSelf();
 
+            ninjectKernel.Bind<RrcQueryService>().ToSelf();
+
             ninjectKernel.Bind<PreciseWorkItemService>().ToSelf();
 
             ninjectKernel.Bind<DownSwitchFlowService>().ToSelf();

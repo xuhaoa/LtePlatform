@@ -53,6 +53,28 @@ namespace Lte.Evaluations.DataService.Switch
         protected abstract List<T> QueryList(DateTime begin, DateTime end, byte localCellId);
     }
 
+    public abstract class ZteDateSpanQuery<T, TView, TZteRepository> : IDateSpanQuery<List<TView>>
+        where TView : class, ILteCellQuery
+    {
+        protected readonly TZteRepository ZteRepository;
+        protected readonly int ENodebId;
+        protected readonly byte SectorId;
+
+        protected ZteDateSpanQuery(TZteRepository zteRepository, int eNodebId, byte sectorId)
+        {
+            ZteRepository = zteRepository;
+            ENodebId = eNodebId;
+            SectorId = sectorId;
+        }
+
+        public List<TView> Query(DateTime begin, DateTime end)
+        {
+            return Mapper.Map<List<T>, List<TView>>(QueryList(begin, end));
+        }
+
+        protected abstract List<T> QueryList(DateTime begin, DateTime end);
+    }
+
     public abstract class DateSpanQuery<T, THuaweiRepository, TZteRepository> 
         where T : class, new()
     {
