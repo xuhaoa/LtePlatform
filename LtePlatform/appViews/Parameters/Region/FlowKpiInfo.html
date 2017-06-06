@@ -3,7 +3,15 @@
     <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
 <div class="modal-body form-horizontal">
-    <div flow-sector-details cell="cell"></div>
+    <div uib-tabset active="active">
+        <div uib-tab index="0" heading="流量指标">
+            <div plan-site-details item-groups="itemGroups"></div>
+        </div>
+        <div uib-tab index="1" heading="RRC指标">
+            <div plan-site-details item-groups="rrcGroups"></div>
+        </div>
+    </div>
+    
     <div uib-tabset active="active">
         <div uib-tab index="0" heading="流量">
             <div id="flowChart"></div>

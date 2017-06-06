@@ -811,26 +811,6 @@
 		}
 	})
 
-	.controller('FlowSectorDetailsController', function ($scope, calculateService) {
-		$scope.$watch('cell', function (cell) {
-			if (cell) {
-				$scope.itemGroups = calculateService.generateFlowDetailsGroups($scope.cell);
-			}
-		});
-
-	})
-	.directive('flowSectorDetails', function () {
-		return {
-			controller: 'FlowSectorDetailsController',
-			restrict: 'EA',
-			replace: true,
-			scope: {
-				cell: '='
-			},
-			templateUrl: '/appViews/Home/GeneralTableDetails.html'
-		}
-	})
-
 	.controller('CellMongoController', function ($scope, cellHuaweiMongoService, calculateService) {
 		cellHuaweiMongoService.queryCellParameters($scope.eNodebId, $scope.sectorId).then(function (info) {
 			$scope.itemGroups = calculateService.generateCellMongoGroups(info);

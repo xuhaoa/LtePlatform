@@ -521,10 +521,10 @@
             $("#rightChart").highcharts(parametersChartService.getCellBandClassColumnOptions(stats));
         });
     })
-    .controller("flow.kpi.dialog", function ($scope, cell, begin, end, dialogTitle, flowService, generalChartService,
+    .controller("flow.kpi.dialog", function ($scope, cell, begin, end, dialogTitle, flowService, generalChartService, calculateService,
         $uibModalInstance) {
         $scope.dialogTitle = dialogTitle;
-        $scope.cell = cell;
+        $scope.itemGroups = calculateService.generateFlowDetailsGroups(cell);
 
         $scope.ok = function () {
             $uibModalInstance.close($scope.mongoNeighbors);

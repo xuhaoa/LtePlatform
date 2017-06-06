@@ -83,7 +83,7 @@ angular.module('app.core', [])
                 return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:8006/' : 'http://10.17.165.111:8006/';
             },
             getInterferenceHost: function() {
-                return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:8004/' : 'http://10.17.165.111:8004/';
+                return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:18080/' : 'http://10.17.165.111:18080/';
             },
             getCustomerHost: function() {
                 return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.38:8099/' : 'http://10.17.165.100:8099/';
@@ -166,7 +166,6 @@ angular.module('app.core', [])
         };
     })
     .controller('header.menu', function($scope, appUrlService) {
-        $scope.interferenceUrl = appUrlService.getInterferenceHost();
         $scope.emergencyUrl = appUrlService.getCustomerHost() + 'IndexOfEmerCom.aspx';
         $scope.marketUrl = appUrlService.getCustomerHost() + 'IndexOfTelJobs.aspx';
         $scope.rfUrl = appUrlService.getParameterUrlHost() + 'RadioFreqency.html';
