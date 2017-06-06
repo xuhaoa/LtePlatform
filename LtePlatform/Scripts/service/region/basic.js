@@ -231,8 +231,24 @@
                     end: end
                 });
             },
+            queryCellRrcByDateSpan: function (eNodebId, sectorId, begin, end) {
+                return generalHttpService.getApiData('RrcQuery', {
+                    eNodebId: eNodebId,
+                    sectorId: sectorId,
+                    begin: begin,
+                    end: end
+                });
+            },
             queryAverageFlowByDateSpan: function (eNodebId, sectorId, begin, end) {
                 return generalHttpService.getApiData('FlowQuery', {
+                    eNodebId: eNodebId,
+                    sectorId: sectorId,
+                    beginDate: begin,
+                    endDate: end
+                });
+            },
+            queryAverageRrcByDateSpan: function (eNodebId, sectorId, begin, end) {
+                return generalHttpService.getApiData('RrcQuery', {
                     eNodebId: eNodebId,
                     sectorId: sectorId,
                     beginDate: begin,

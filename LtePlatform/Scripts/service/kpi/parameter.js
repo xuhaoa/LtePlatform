@@ -525,6 +525,9 @@
         $uibModalInstance) {
         $scope.dialogTitle = dialogTitle;
         $scope.itemGroups = calculateService.generateFlowDetailsGroups(cell);
+        flowService.queryAverageRrcByDateSpan(cell.eNodebId, cell.sectorId, begin, end).then(function(result) {
+
+        });
 
         $scope.ok = function () {
             $uibModalInstance.close($scope.mongoNeighbors);
