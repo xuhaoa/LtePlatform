@@ -611,6 +611,58 @@
                     }
                 ];
             },
+            generateIndoorGroups: function(station) {
+                return [
+                     {
+                         items: [
+                             {
+                                 key: '站点名称',
+                                 value: station.name
+                             }, {
+                                 key: '区分公司',
+                                 value: station.areaName
+                             }, {
+                                 key: '镇区',
+                                 value: station.town
+                             }
+                         ]
+                     }, {
+                         items: [
+                             {
+                                 key: '站点等级',
+                                 value: station.grade
+                             }, {
+                                 key: '站点归属',
+                                 value: station.isNew
+                             }, {
+                                 key: '站点类型属性',
+                                 value: station.indoortype
+                             }
+                         ]
+                     }, {
+                         items: [
+                             {
+                                 key: '经度',
+                                 value: station.longtitute
+                             }, {
+                                 key: '纬度',
+                                 value: station.lattitute
+                             }, {
+                                 key: '主要覆盖范围',
+                                 value: station.coverage
+                             }
+                         ]
+                     }, {
+                         items: [
+                             {
+                                 key: '地址',
+                                 value: station.address
+                             }
+                         ]
+                     }
+
+                ]
+            },
             generateStationGroups: function(station) {
                 return [
                     {

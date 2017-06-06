@@ -799,6 +799,26 @@
 					}
 				});
 			},
+			showIndoorInfo: function (station, beginDate, endDate) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/IndoorDetails.html',
+			        controller: 'map.indoor.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "站点信息:" + station.name;
+			            },
+			            station: function () {
+			                return station;
+			            },
+			            beginDate: function () {
+			                return beginDate;
+			            },
+			            endDate: function () {
+			                return endDate;
+			            }
+			        }
+			    });
+			},
 			showCommonStationInfo: function (station) {
 			    menuItemService.showGeneralDialog({
 			        templateUrl: '/appViews/Home/CommonStationDetails.html',
@@ -1371,6 +1391,21 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
+	.controller('map.indoor.dialog', function ($scope, $uibModalInstance, station, dialogTitle, beginDate, endDate,
+		appFormatService, networkElementService) {
+	    $scope.beginDate = beginDate;
+	    $scope.endDate = endDate;
+	    $scope.itemGroups = appFormatService.generateIndoorGroups(station);
+	    
+	    $scope.dialogTitle = dialogTitle;
+	    $scope.ok = function () {
+	        $uibModalInstance.close($scope.site);
+	    };
+
+	    $scope.cancel = function () {
+	        $uibModalInstance.dismiss('cancel');
+	    };
+	})
     .controller('map.common-station.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
 		appFormatService, networkElementService) {
         $scope.station = station;
@@ -1483,6 +1518,12 @@
                 parametersDialogService.showStationInfo(result.result[0],beginDate, endDate);
 			});
         };
+        $scope.showIndoorInfo = function () {
+            downSwitchService.getIdById(station.id).then(function (result) {
+                parametersDialogService.showIndoorInfo(result.result[0], beginDate, endDate);
+            });
+        };
+
 
         $scope.dialogTitle = dialogTitle;
         $scope.ok = function () {

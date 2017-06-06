@@ -58,7 +58,7 @@
                         controller: "operation-indoor.network"
                     },
                     "filter": {
-                        templateUrl: viewDir + "StationFilter.html",
+                        templateUrl: viewDir + "IndoorFilter.html",
                         controller: "operation-indoor.filter"
                     }
 
@@ -357,11 +357,16 @@
 
     .value("MyValue", { "distinctIndex":0 ,
     "stationGrade": "A",
+    "indoorGrade": "",
     "netType": "L",
+    "indoorNetType": "",
     "roomAttribution": "电信",
     "towerAttribution": "电信",
     "isPower": "是",
-    "isBBU": "否"
+    "isBBU": "否",
+    "isNew": "",
+    "indoortype": "",
+    "coverage": ""
     })
     .run(function ($rootScope, appUrlService, appRegionService, geometryService) {
         $rootScope.rootPath = "/#/";
@@ -540,18 +545,17 @@
         });
     })
     .controller("menu.operation-indoor", function ($scope, downSwitchService, MyValue, baiduMapService, parametersDialogService, baiduQueryService) {
-
         $scope.stationName = "";
         $scope.stations = [];
-        $scope.areaNames = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
+        $scope.areaNames = new Array('全市', '顺德', '南海', '禅城', '三水', '高明');
         $scope.search = function () {
-            downSwitchService.getStationByName($scope.stationName, $scope.areaNames[MyValue.distinctIndex], 1, 10).then(function (response) {
+            downSwitchService.getIndoorByName($scope.stationName, $scope.areaNames[MyValue.distinctIndex], 1, 10).then(function (response) {
                 $scope.stations = response.result.rows;
             });
         }
-        $scope.showStationInfo = function (index) {
+        $scope.showIndoorInfo = function (index) {
             document.getElementById("cardlist").style.display = "none";
-            parametersDialogService.showStationInfo($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
+            parametersDialogService.showIndoorInfo($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
         }
         $scope.$watch('stations', function () {
             baiduMapService.clearOverlays();
@@ -562,7 +566,7 @@
                 var xOffset = coors.x - $scope.stations[0].longtitute;
                 var yOffset = coors.y - $scope.stations[0].lattitute;
                 baiduMapService.drawPointsUsual($scope.stations, -xOffset, -yOffset, function () {
-                    parametersDialogService.showStationInfo(this.data);
+                    parametersDialogService.showIndoorInfo(this.data);
                 });
             });
         });
@@ -724,22 +728,18 @@
         { value: 'C', name: '站点级别C' },
         { value: 'D', name: '站点级别D' }
         ];
-        $scope.roomAttributions = [
-         { value: '', name: '所有机房' },
-         { value: '电信', name: '电信机房' },
-         { value: '铁塔', name: '铁塔机房' },
-         { value: '联通', name: '联通机房' }
+        $scope.isNews = [
+         { value: '', name: '所有站点' },
+         { value: '电信新建站点', name: '电信新建站点' },
+         { value: '电信整改站点', name: '电信整改站点' },
+         { value: '联通原有站点', name: '联通原有站点' },
+         { value: '联通整改站点', name: '联通整改站点' },
         ];
-        $scope.towerAttributions = [
-         { value: '', name: '全部杆塔' },
-         { value: '电信', name: '电信杆塔' },
-         { value: '铁塔', name: '铁塔杆塔' },
-         { value: '联通', name: '联通杆塔' }
-        ];
-        $scope.isBBUs = [
-         { value: '', name: '全部BBU' },
-         { value: '是', name: 'BBU池' },
-         { value: '否', name: '非BBU池' }
+        $scope.indoortypes = [
+         { value: '', name: '所有类型' },
+         { value: '居民住宅', name: '居民住宅' },
+         { value: '餐饮娱乐', name: '餐饮娱乐' },
+         { value: '机关企业', name: '机关企业' }
         ];
         $scope.netTypes = [
         { value: '', name: '全部网络' },
@@ -750,11 +750,7 @@
          { value: 'C+VL', name: 'C+VL网络' },
          { value: 'L+VL', name: 'L+VL网络' }
         ];
-        $scope.isPowers = [
-         { value: '', name: '所有配套机房' },
-         { value: '是', name: '有配套机房' },
-         { value: '否', name: '无配套机房' }
-        ];
+
 
         $scope.stationss = [];
         $scope.stationss[1] = [];
@@ -762,19 +758,19 @@
         $scope.stationss[3] = [];
         $scope.stationss[4] = [];
         $scope.stationss[5] = [];
-        $scope.areaNames = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
+        $scope.areaNames = new Array('全市', '顺德', '南海', '禅城', '三水', '高明');
         baiduMapService.initializeMap("map", 13);
 
         $scope.getStations = function (areaName, index) {
-            downSwitchService.getStationByFilter(areaName, MyValue.stationGrade, MyValue.netType, MyValue.roomAttribution,
-                 MyValue.towerAttribution, MyValue.isPower, MyValue.isBBU, 0, 10000).then(function (response) {
+            downSwitchService.getIndoorByFilter(areaName, MyValue.indoorGrade, MyValue.indoorNetType, MyValue.isNew,
+                 MyValue.indoortype, MyValue.coverage, 0, 10000).then(function (response) {
                      $scope.stationss[index] = response.result.rows;
                      var color = $scope.colors[index];
                      baiduQueryService.transformToBaidu($scope.stationss[index][0].longtitute, $scope.stationss[index][0].lattitute).then(function (coors) {
                          var xOffset = coors.x - $scope.stationss[index][0].longtitute;
                          var yOffset = coors.y - $scope.stationss[index][0].lattitute;
                          baiduMapService.drawPointCollection($scope.stationss[index], color, -xOffset, -yOffset, function (e) {
-                             parametersDialogService.showStationInfo(e.point.data);
+                             parametersDialogService.showIndoorInfo(e.point.data);
                          });
                      });
                  });
@@ -795,12 +791,10 @@
 
         };
         $scope.change = function () {
-            MyValue.stationGrade = $scope.selectedGrade;
-            MyValue.netType = $scope.selectedNetType;
-            MyValue.roomAttribution = $scope.selectedRoomAttribution;
-            MyValue.towerAttribution = $scope.selectedTowerAttribution;
-            MyValue.isPower = $scope.selectedIsPower;
-            MyValue.isBBU = $scope.selectedIsBBU
+            MyValue.indoorGrade = $scope.selectedIndoorGrade;
+            MyValue.indoorNetType = $scope.selectedIndoorNetType;
+            MyValue.isNew = $scope.selectedIsNew;
+            MyValue.indoortype = $scope.selectedIndoortype;
             $scope.reflashMap();
         };
         $scope.reflashMap();
@@ -1242,7 +1236,7 @@
     })
     .controller("operation-indoor.network", function ($scope, downSwitchService, MyValue, baiduMapService, geometryService,
         parametersDialogService, baiduQueryService) {
-        $scope.areaNames = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
+        $scope.areaNames = new Array('全市', '顺德', '南海', '禅城', '三水', '高明');
         $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
         $scope.distinct = "佛山市";
         $scope.stationss = [];
@@ -1255,15 +1249,15 @@
         baiduMapService.setCenter(MyValue.distinctIndex);
         //获取站点
         $scope.getStations = function (areaName, index) {
-            downSwitchService.getStationByFilter(areaName, MyValue.stationGrade, MyValue.netType, MyValue.roomAttribution,
-                 MyValue.towerAttribution, MyValue.isPower, MyValue.isBBU, 0, 10000).then(function (response) {
+            downSwitchService.getIndoorByFilter(areaName, MyValue.indoorGrade, MyValue.indoorNetType, MyValue.isNew,
+                 MyValue.indoortype, MyValue.coverage, 0, 10000).then(function (response) {
                      $scope.stationss[index] = response.result.rows;
                      var color = $scope.colors[index];
                      baiduQueryService.transformToBaidu($scope.stationss[index][0].longtitute, $scope.stationss[index][0].lattitute).then(function (coors) {
                          var xOffset = coors.x - $scope.stationss[index][0].longtitute;
                          var yOffset = coors.y - $scope.stationss[index][0].lattitute;
                          baiduMapService.drawPointCollection($scope.stationss[index], color, -xOffset, -yOffset, function (e) {
-                             parametersDialogService.showStationInfo(e.point.data);
+                             parametersDialogService.showIndoorInfo(e.point.data);
                          });
                      });
                  });

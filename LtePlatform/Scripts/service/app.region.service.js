@@ -1635,6 +1635,14 @@
                     "areaName": areaName
                 });
             },
+            getIndoorByName: function (name, areaName, page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Indoor/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "name": name,
+                    "areaName": areaName
+                });
+            },
             getAlarmStationByName: function (name, page, pageSize) {
                 //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search', {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Station/search', {
@@ -1655,6 +1663,18 @@
                     "towerAttribution": towerAttribution,
                     "isBBU": isBBU,
                     "isPower": isPower
+                });
+            },
+            getIndoorByFilter: function (areaName, stationGrade, netType, isNew, indoortype, coverage, page, pageSize) {
+                //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search', {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Indoor/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "areaName": areaName,
+                    "netType": netType,
+                    "stationGrade": stationGrade,
+                    "isNew": isNew,
+                    "indoortype": indoortype
                 });
             },
             getCommonStations: function (areaName, type, page, pageSize) {

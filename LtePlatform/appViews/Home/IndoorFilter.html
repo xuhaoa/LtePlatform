@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body><style>
+    li {
+        list-style-type: none;
+    }
+
+    option {
+        width: 100px;
+    }
+
+    select {
+        font-weight: bold;
+    }
+</style>
+<ul>
+    <li>
+        <select ng-model="selectedIndoorGrade" ng-change="change()" class="btn btn-sm btn-default">
+            <option value="" style="color: #b6b6b6" disabled selected>请选择站点级别</option>
+            <option ng-repeat="x in grades" value="{{x.value}}">{{x.name}}</option>
+        </select>
+    </li>
+    <li>
+        <select ng-model="selectedIsNew" ng-change="change()" class="btn btn-sm btn-default">
+            <option value="" style="color: #b6b6b6" disabled selected>请选择机房归属</option>
+            <option ng-repeat="x in isNews" value="{{x.value}}">{{x.name}}</option>
+        </select>
+    </li>
+    <li>
+        <select ng-model="selectedIndoortype" ng-change="change()" class="btn btn-sm btn-default">
+            <option value="" style="color: #b6b6b6" disabled selected>请站点类型属性</option>
+            <option ng-repeat="x in indoortypes" value="{{x.value}}">{{x.name}}</option>
+        </select>
+    </li>
+    <li>
+        <select ng-model="selectedIndoorNetType" ng-change="change()" class="btn btn-sm btn-default">
+            <option value="" style="color: #b6b6b6" disabled selected>请选择网络类型</option>
+            <option ng-repeat="x in netTypes" value="{{x.value}}">{{x.name}}</option>
+        </select>
+    </li>
+</ul>
+
+
+
+</body>
+</html>
