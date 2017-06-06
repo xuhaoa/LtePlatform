@@ -2394,6 +2394,82 @@ angular.module('app.format', [])
                     }
                 ];
             },
+            generateRrcDetailsGroups: function (site) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '基站编号',
+                                value: site.eNodebId
+                            }, {
+                                key: '扇区编号',
+                                value: site.sectorId
+                            }, {
+                                key: '统计日期',
+                                value: site.statTime,
+                                format: 'date'
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '被叫接入RRC请求次数',
+                                value: site.mtAccessRrcRequest
+                            }, {
+                                key: '被叫接入RRC失败次数',
+                                value: site.mtAccessRrcFail
+                            }, {
+                                key: '被叫接入RRC成功率',
+                                value: 100*site.mtAccessRrcRate,
+                                format: 'percentage'
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '主叫信令RRC请求次数',
+                                value: site.moSignallingRrcRequest
+                            }, {
+                                key: '主叫信令RRC失败次数',
+                                value: site.moSignallingRrcFail
+                            }, {
+                                key: '主叫信令RRC成功率',
+                                value: 100*site.moSiganllingRrcRate,
+                                format: 'percentage'
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '主叫数据RRC请求次数',
+                                value: site.moDataRrcRequest
+                            }, {
+                                key: '主叫数据RRC失败次数',
+                                value: site.moDataRrcFail
+                            }, {
+                                key: '主叫数据RRC成功率',
+                                value: 100*site.moDataRrcRate,
+                                format: 'percentage'
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '全部RRC请求次数',
+                                value: site.totalRrcRequest
+                            }, {
+                                key: '全部RRC失败次数',
+                                value: site.totalRrcFail
+                            }, {
+                                key: '总体RRC成功率',
+                                value: 100*site.rrcSuccessRate,
+                                format: 'percentage'
+                            }
+                        ]
+                    }
+                ];
+            },
+
             generateCellMongoGroups: function (site) {
                 return [
                     {
