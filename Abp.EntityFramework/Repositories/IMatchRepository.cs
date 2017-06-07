@@ -2,11 +2,11 @@
 using Abp.Domain.Repositories;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
-using Lte.Domain.Common.Geo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lte.Domain.Common.Wireless;
 
 namespace Abp.EntityFramework.Repositories
 {

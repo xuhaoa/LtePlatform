@@ -1,7 +1,7 @@
 ﻿using Abp.EntityFramework.AutoMapper;
-using Lte.Domain.Common.Geo;
 using Lte.Parameters.Entities.Kpi;
 using System;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.ViewModels.RegionKpi
 {

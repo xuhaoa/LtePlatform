@@ -6,6 +6,7 @@ using Lte.Domain.LinqToCsv;
 using System;
 using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using MongoDB.Bson;
 

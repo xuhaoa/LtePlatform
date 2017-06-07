@@ -95,13 +95,20 @@ namespace LtePlatform.Controllers.Kpi
         }
 
         [HttpGet]
-        [ApiDoc("查询指定区域指定时间范围内")]
+        [ApiDoc("查询指定区域指定时间范围内TOP下切小区指标统计")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiParameterDoc("topCount", "TOP个数")]
+        [ApiResponse("TOP下切小区指标统计，按小区排列")]
         public IEnumerable<FlowView> Get(string city, string district, DateTime begin, DateTime end, int topCount)
         {
             return _service.QueryTopDownSwitchViews(city, district, begin, end, topCount);
         } 
     }
 
+    [ApiControl("TOP双流比查询控制器")]
     public class TopRank2Controller : ApiController
     {
         private readonly FlowQueryService _service;
@@ -112,6 +119,13 @@ namespace LtePlatform.Controllers.Kpi
         }
 
         [HttpGet]
+        [ApiDoc("查询指定区域指定时间范围内TOP双流比小区指标统计")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiParameterDoc("topCount", "TOP个数")]
+        [ApiResponse("TOP双流比小区指标统计，按小区排列")]
         public IEnumerable<FlowView> Get(string city, string district, DateTime begin, DateTime end, int topCount)
         {
             return _service.QueryTopRank2Views(city, district, begin, end, topCount);
@@ -198,6 +212,7 @@ namespace LtePlatform.Controllers.Kpi
         } 
     }
 
+    [ApiControl("基站级流量查询控制器")]
     public class ENodebFlowController : ApiController
     {
         private readonly FlowService _service;
@@ -208,6 +223,10 @@ namespace LtePlatform.Controllers.Kpi
         }
 
         [HttpGet]
+        [ApiDoc("查询指定日期范围内的基站级流量统计")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiResponse("指定日期范围内的基站级流量统计")]
         public IEnumerable<ENodebFlowView> Get(DateTime begin, DateTime end)
         {
             return _service.GetENodebFlowViews(begin, end);
@@ -305,6 +324,27 @@ namespace LtePlatform.Controllers.Kpi
         public void Delete()
         {
             _service.ClearZteStats();
+        }
+    }
+    
+    [ApiControl("区域4G用户3G流量比查询控制器")]
+    public class DownSwitchFlowController : ApiController
+    {
+        private readonly DownSwitchFlowService _service;
+
+        public DownSwitchFlowController(DownSwitchFlowService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        [ApiDoc("查询指定城市单个日期的区域4G用户3G流量比")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("statDate", "日期")]
+        [ApiResponse("区域4G用户3G流量比")]
+        public DownSwitchFlowDateView Get(string city, DateTime statDate)
+        {
+            return _service.QueryLastDateStat(statDate, city);
         }
     }
 }

@@ -5,6 +5,7 @@ using Lte.Domain.Regular.Attributes;
 using System;
 using System.Collections.Generic;
 using Lte.Domain.Common.Geo;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.MySqlFramework.Entities
 {

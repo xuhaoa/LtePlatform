@@ -5,6 +5,7 @@ using Lte.Domain.Regular.Attributes;
 using System;
 using System.ComponentModel.DataAnnotations;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.MySqlFramework.Entities
 {

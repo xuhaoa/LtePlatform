@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common.Geo;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.DataService.Kpi
 {

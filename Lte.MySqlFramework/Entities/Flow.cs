@@ -17,7 +17,7 @@ using Lte.Domain.Regular.Attributes;
 namespace Lte.MySqlFramework.Entities
 {
     [AutoMapFrom(typeof(FlowZteCsv))]
-    public class FlowZte : Entity, IENodebId
+    public class FlowZte : Entity, ILteCellQuery
     {
         public DateTime StatTime { get; set; }
 
@@ -581,7 +581,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [AutoMapFrom(typeof(FlowHuaweiCsv))]
-    public class FlowHuawei : Entity, IENodebId
+    public class FlowHuawei : Entity, ILocalCellQuery
     {
         public DateTime StatTime { get; set; }
 
@@ -1103,7 +1103,7 @@ namespace Lte.MySqlFramework.Entities
 
     [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte))]
     [TypeDoc("小区单日流量统计视图")]
-    public class FlowView : IStatTime, ILteCellQuery
+    public class FlowView : IStatTime, ILteCellQuery, IENodebName
     {
         [MemberDoc("统计时间")]
         [ArraySumProtection]

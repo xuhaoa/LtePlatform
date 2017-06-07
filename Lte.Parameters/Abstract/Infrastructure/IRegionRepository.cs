@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
+using Lte.Domain.Common.Wireless;
+using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities.Basic;
 
 namespace Lte.Parameters.Abstract.Infrastructure
 {
@@ -67,5 +70,18 @@ namespace Lte.Parameters.Abstract.Infrastructure
                     join t in townRepository.GetAll(city) on q.TownId equals t.Id
                     select q).ToList();
         }
+
+        public static List<ENodeb> QueryENodebs(this ITownRepository townRepository, IENodebRepository eNodebRepository,
+            string city, string district)
+        {
+            var towns = townRepository.GetAllList(city, district);
+            if (!towns.Any())
+            {
+                return new List<ENodeb>();
+            }
+            return (from eNodeb in eNodebRepository.GetAllList()
+                join town in towns on eNodeb.TownId equals town.Id
+                select eNodeb).ToList();
+        } 
     }
 }

@@ -11,6 +11,7 @@ using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Abp.EntityFramework.Dependency;
+using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 
 namespace Lte.Evaluations.DataService.Kpi
@@ -19,77 +20,25 @@ namespace Lte.Evaluations.DataService.Kpi
     {
         public IEnumerable<FlowView> QueryTopDownSwitchViews(string city, string district, DateTime begin, DateTime end, int topCount)
         {
-            var results = QueryDistrictFlowViews(city, district,
+            var results = HuaweiCellRepository.QueryDistrictFlowViews<FlowView, FlowZte, FlowHuawei>(city, district,
                 ZteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectA2 + x.RedirectB2 > 2000),
-                HuaweiRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectCdma2000 > 2000));
+                HuaweiRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectCdma2000 > 2000),
+                TownRepository, ENodebRepository);
             return results.OrderByDescending(x => x.RedirectCdma2000).Take(topCount);
         }
 
         public IEnumerable<FlowView> QueryTopRank2Views(string city, string district, DateTime begin, DateTime end,
             int topCount)
         {
-            var results = QueryDistrictFlowViews(city, district,
+            var results = HuaweiCellRepository.QueryDistrictFlowViews<FlowView, FlowZte, FlowHuawei>(city, district,
                 ZteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.SchedulingTm3 > 10000000),
                 HuaweiRepository.GetAllList(
-                    x => x.StatTime >= begin && x.StatTime < end && x.SchedulingRank1 + x.SchedulingRank2 > 20000000));
+                    x => x.StatTime >= begin && x.StatTime < end && x.SchedulingRank1 + x.SchedulingRank2 > 20000000),
+                TownRepository, ENodebRepository);
             return results.OrderBy(x => x.Rank2Rate).Take(topCount);
         }
 
-        private IEnumerable<FlowView> QueryDistrictFlowViews(string city, string district, 
-            List<FlowZte> zteStats, List<FlowHuawei> huaweiStats)
-        {
-            var towns = TownRepository.GetAllList(city, district);
-            if (!towns.Any())
-            {
-                return new List<FlowView>();
-            }
-            var eNodebs = (from eNodeb in ENodebRepository.GetAllList()
-                join town in towns on eNodeb.TownId equals town.Id
-                select eNodeb).ToList();
-            if (!eNodebs.Any())
-            {
-                return new List<FlowView>();
-            }
-            var zteViews = new List<FlowView>();
-            var zteGroups = zteStats.GroupBy(x => new
-            {
-                x.ENodebId,
-                x.SectorId
-            });
-            foreach (var group in zteGroups)
-            {
-                var eNodeb = eNodebs.FirstOrDefault(x => x.ENodebId == group.Key.ENodebId);
-
-                if (eNodeb == null) continue;
-                var views = group.Select(g => g.MapTo<FlowView>());
-                var view = views.Average();
-                view.ENodebName = eNodeb.Name;
-                zteViews.Add(view);
-            }
-            var huaweiViews = new List<FlowView>();
-            if (eNodebs.FirstOrDefault(x => x.Factory == "华为") == null) return zteViews;
-            var huaweiGroups = huaweiStats.GroupBy(x => new
-            {
-                x.ENodebId,
-                x.LocalCellId
-            });
-            foreach (var group in huaweiGroups)
-            {
-                var eNodeb = eNodebs.FirstOrDefault(x => x.ENodebId == group.Key.ENodebId);
-
-                if (eNodeb == null) continue;
-                var views = group.Select(g => g.MapTo<FlowView>());
-                var view = views.Average();
-                view.ENodebName = eNodeb.Name;
-                var cell =
-                    HuaweiCellRepository.FirstOrDefault(
-                        x => x.ENodebId == group.Key.ENodebId && x.LocalSectorId == group.Key.LocalCellId);
-                view.SectorId = cell?.SectorId??@group.Key.LocalCellId;
-                huaweiViews.Add(view);
-            }
-
-            return zteViews.Concat(huaweiViews).ToList();
-        }
+        
 
         public FlowQueryService(IFlowHuaweiRepository huaweiRepository, IFlowZteRepository zteRepository,
             IENodebRepository eNodebRepository, ICellRepository huaweiCellRepository, ITownRepository townRepository)

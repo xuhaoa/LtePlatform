@@ -1,12 +1,11 @@
 ﻿using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
-using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.Test.TestService;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using NUnit.Framework;
 using System.Linq;
-using Lte.Domain.Common.Geo;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.TestService
 {
