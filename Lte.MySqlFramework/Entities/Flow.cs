@@ -83,7 +83,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [AutoMapFrom(typeof(FlowZteCsv))]
-    public class RrcZte : Entity, IENodebId
+    public class RrcZte : Entity, ILteCellQuery
     {
         public DateTime StatTime { get; set; }
 
@@ -673,7 +673,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [AutoMapFrom(typeof(FlowHuaweiCsv))]
-    public class RrcHuawei : Entity, IENodebId
+    public class RrcHuawei : Entity, ILocalCellQuery
     {
         public DateTime StatTime { get; set; }
 
@@ -1168,7 +1168,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [AutoMapFrom(typeof(RrcHuawei), typeof(RrcZte))]
-    public class RrcView : IStatTime, ILteCellQuery
+    public class RrcView : IStatTime, ILteCellQuery, IENodebName
     {
         public DateTime StatTime { get; set; }
 
@@ -1226,6 +1226,8 @@ namespace Lte.MySqlFramework.Entities
         public double RrcSuccessRate => TotalRrcRequest == 0 ? 0 : (double) TotalRrcSuccess/TotalRrcRequest;
 
         public int TotalRrcFail { get; set; }
+
+        public string ENodebName { get; set; }
     }
 
     [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte))]

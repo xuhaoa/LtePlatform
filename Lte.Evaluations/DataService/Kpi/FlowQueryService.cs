@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Lte.Evaluations.DataService.Switch;
+﻿using Lte.Evaluations.DataService.Switch;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
@@ -8,11 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
-using Lte.Domain.Common.Geo;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common.Wireless;
-using Lte.Domain.Regular;
 
 namespace Lte.Evaluations.DataService.Kpi
 {
@@ -37,9 +34,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 TownRepository, ENodebRepository);
             return results.OrderBy(x => x.Rank2Rate).Take(topCount);
         }
-
         
-
         public FlowQueryService(IFlowHuaweiRepository huaweiRepository, IFlowZteRepository zteRepository,
             IENodebRepository eNodebRepository, ICellRepository huaweiCellRepository, ITownRepository townRepository)
             : base(huaweiRepository, zteRepository, eNodebRepository, huaweiCellRepository, townRepository)
@@ -100,6 +95,22 @@ namespace Lte.Evaluations.DataService.Kpi
         protected override IDateSpanQuery<List<RrcView>> GenerateZteQuery(int eNodebId, byte sectorId)
         {
             return new ZteRrcQuery(ZteRepository, eNodebId, sectorId);
+        }
+
+        public IEnumerable<RrcView> QueryTopRrcFailViews(string city, string district, DateTime begin, DateTime end,
+            int topCount)
+        {
+            var results = HuaweiCellRepository.QueryDistrictFlowViews<RrcView, RrcZte, RrcHuawei>(city, district,
+                ZteRepository.GetAllList(
+                    x =>
+                        x.StatTime >= begin && x.StatTime < end &&
+                        x.MoDataRrcRequest + x.MoSignallingRrcRequest + x.MtAccessRrcRequest > 20000),
+                HuaweiRepository.GetAllList(
+                    x =>
+                        x.StatTime >= begin && x.StatTime < end &&
+                        x.MoDataRrcRequest + x.MoSignallingRrcRequest + x.MtAccessRrcRequest > 20000),
+                TownRepository, ENodebRepository);
+            return results.OrderByDescending(x => x.TotalRrcFail).Take(topCount);
         }
     }
 
