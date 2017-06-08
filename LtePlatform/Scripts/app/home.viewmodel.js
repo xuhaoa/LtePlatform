@@ -2031,11 +2031,41 @@
                 $scope.showRank2Site(city, district, $scope.colors[$index]);
             });
         };
+        $scope.showTopRrcSite = function(city, district, color) {
+            baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
+            kpiPreciseService.queryTopRrcFailInDistrict($scope.beginDate.value, $scope.endDate.value, 10,
+                city, district).then(function (result) {
+                    angular.forEach(result, function (item) {
+                        networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function (cell) {
+                            baiduQueryService.transformToBaidu(cell.longtitute, cell.lattitute).then(function (coors) {
+                                item = angular.extend(item, cell);
+                                cell.longtitute = coors.x;
+                                cell.lattitute = coors.y;
+                                var sectorTriangle = baiduMapService.generateSector(cell, "blue", 5);
+                                baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showRrcCell, {
+                                    item: item,
+                                    beginDate: $scope.beginDate,
+                                    endDate: $scope.endDate
+                                });
+                            });
+                        });
+                    });
+
+                });
+        };
+        $scope.showTopRrc = function() {
+            $scope.currentView = "RRC连接失败";
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            var city = $scope.city.selected;
+            angular.forEach($scope.districts, function (district, $index) {
+                $scope.showTopRrcSite(city, district, $scope.colors[$index]);
+            });
+        };
         $scope.districts = [];
         dumpPreciseService.generateUsersDistrict($scope.city.selected || "佛山", $scope.districts, function(district, $index) {
             $scope.showPreciseRate($scope.city.selected || "佛山", district, $scope.colors[$index]);
         });
-
     })
 
     .controller("home.plan", function ($scope, baiduMapService, dumpPreciseService, networkElementService, geometryService,

@@ -600,6 +600,25 @@
             ], ['4G双流比', '下行感知速率', '上行感知速率'], ['column', 'line', 'line'], [0, 1, 1]));
         });
     })
+    .controller("rrc.kpi.dialog", function ($scope, cell, begin, end, dialogTitle, flowService, generalChartService, calculateService,
+        networkElementService, $uibModalInstance) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.rrcGroups = calculateService.generateRrcDetailsGroups(cell);
+        flowService.queryAverageFlowByDateSpan(cell.eNodebId, cell.sectorId, begin, end).then(function (result) {
+            networkElementService.queryCellInfo(cell.eNodebId, cell.sectorId).then(function(item) {
+                $scope.itemGroups = calculateService.generateFlowDetailsGroups(angular.extend(result, item));
+            });
+        });
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.mongoNeighbors);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+    })
     .controller('neighbors.dialog', function ($scope, $uibModalInstance, geometryService,
         dialogTitle, candidateNeighbors, currentCell) {
         $scope.pciNeighbors = [];
@@ -796,6 +815,26 @@
                             return cell.beginDate.value;
                         },
                         end: function() {
+                            return cell.endDate.value;
+                        }
+                    }
+                });
+            },
+            showRrcCell: function (cell) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Parameters/Region/RrcKpiInfo.html',
+                    controller: 'rrc.kpi.dialog',
+                    resolve: {
+                        dialogTitle: function () {
+                            return cell.item.eNodebName + "-" + cell.item.sectorId + "小区RRC连接指标信息";
+                        },
+                        cell: function () {
+                            return cell.item;
+                        },
+                        begin: function () {
+                            return cell.beginDate.value;
+                        },
+                        end: function () {
                             return cell.endDate.value;
                         }
                     }

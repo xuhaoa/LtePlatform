@@ -58,8 +58,8 @@
                     district: district
                 });
             },
-            queryTopRank2InDistrict: function(begin, end, topCount, city, district) {
-                return generalHttpService.getApiData('TopRank2', {
+            queryTopRrcFailInDistrict: function(begin, end, topCount, city, district) {
+                return generalHttpService.getApiData('TopRrcFail', {
                     begin: begin,
                     end: end,
                     topCount: topCount,
