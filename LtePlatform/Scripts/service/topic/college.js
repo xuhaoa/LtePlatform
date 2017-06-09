@@ -102,7 +102,7 @@
 			        var xOffset = coors.x - stations[0].longtitute;
 			        var yOffset = coors.y - stations[0].lattitute;
 			        baiduMapService.drawPointCollection(stations, color, -xOffset, -yOffset, function (e) {
-			            workItemDialog.showStationInfo(e.point.data);
+			            workItemDialog.showIndoorInfo(e.point.data);
 			        });
 			    });
 			},
