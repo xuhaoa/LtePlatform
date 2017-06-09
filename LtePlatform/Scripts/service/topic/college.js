@@ -97,6 +97,15 @@
 					});
 				});
 			},
+			showIndoorStations: function (stations, color) {
+			    baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function (coors) {
+			        var xOffset = coors.x - stations[0].longtitute;
+			        var yOffset = coors.y - stations[0].lattitute;
+			        baiduMapService.drawPointCollection(stations, color, -xOffset, -yOffset, function (e) {
+			            workItemDialog.showStationInfo(e.point.data);
+			        });
+			    });
+			},
 			showConstructionSites: function(stations, status, callback) {
 				baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function(coors) {
 					var xOffset = coors.x - stations[0].longtitute;

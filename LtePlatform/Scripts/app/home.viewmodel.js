@@ -473,11 +473,16 @@
     .value("myValue", {
         "distinctIndex": 0,
         "stationGrade": "A",
+        "indoorGrade": "",
         "netType": "L",
+        "indoorNetType": "",
         "roomAttribution": "电信",
         "towerAttribution": "电信",
         "isPower": "是",
-        "isBBU": "否"
+        "isBBU": "否",
+        "isNew": "",
+        "indoortype": "",
+        "coverage": ""
     })
 
     .run(function ($rootScope, appUrlService, appRegionService, geometryService) {
@@ -487,6 +492,58 @@
             title: "基础数据总览",
             myPromise: null
         };
+        $rootScope.grades = [
+            { value: '', name: '所有级别' },
+            { value: 'A', name: '站点级别A' },
+            { value: 'B', name: '站点级别B' },
+            { value: 'C', name: '站点级别C' },
+            { value: 'D', name: '站点级别D' }
+        ];
+        $rootScope.roomAttributions = [
+            { value: '', name: '所有机房' },
+            { value: '电信', name: '电信机房' },
+            { value: '铁塔', name: '铁塔机房' },
+            { value: '联通', name: '联通机房' }
+        ];
+        $rootScope.towerAttributions = [
+            { value: '', name: '全部杆塔' },
+            { value: '电信', name: '电信杆塔' },
+            { value: '铁塔', name: '铁塔杆塔' },
+            { value: '联通', name: '联通杆塔' }
+        ];
+        $rootScope.isBBUs = [
+            { value: '', name: '全部BBU' },
+            { value: '是', name: 'BBU池' },
+            { value: '否', name: '非BBU池' }
+        ];
+        $rootScope.netTypes = [
+            { value: '', name: '全部网络' },
+            { value: 'C', name: 'C网络' },
+            { value: 'L', name: 'L网络' },
+            { value: 'VL', name: 'VL网络' },
+            { value: 'C+L', name: 'C+L网络' },
+            { value: 'C+VL', name: 'C+VL网络' },
+            { value: 'L+VL', name: 'L+VL网络' }
+        ];
+        $rootScope.isPowers = [
+            { value: '', name: '所有动力配套' },
+            { value: '是', name: '有动力配套' },
+            { value: '否', name: '没有动力配套' }
+        ];
+        $rootScope.isNews = [
+            { value: '', name: '所有站点' },
+            { value: '电信新建站点', name: '电信新建站点' },
+            { value: '电信整改站点', name: '电信整改站点' },
+            { value: '联通原有站点', name: '联通原有站点' },
+            { value: '联通整改站点', name: '联通整改站点' },
+        ];
+        $rootScope.indoortypes = [
+            { value: '', name: '所有类型' },
+            { value: '居民住宅', name: '居民住宅' },
+            { value: '餐饮娱乐', name: '餐饮娱乐' },
+            { value: '机关企业', name: '机关企业' }
+        ];
+
         appUrlService.initializeAuthorization();
         $rootScope.legend = {
             criteria: [],
@@ -650,48 +707,8 @@
             });
         });
     })
-
-
+    
     .controller("station.filter", function ($scope, downSwitchService, myValue, baiduMapService, collegeMapService, dumpPreciseService) {
-        $scope.grades = [
-            { value: '', name: '所有级别' },
-            { value: 'A', name: '站点级别A' },
-            { value: 'B', name: '站点级别B' },
-            { value: 'C', name: '站点级别C' },
-            { value: 'D', name: '站点级别D' }
-        ];
-        $scope.roomAttributions = [
-            { value: '', name: '所有机房' },
-            { value: '电信', name: '电信机房' },
-            { value: '铁塔', name: '铁塔机房' },
-            { value: '联通', name: '联通机房' }
-        ];
-        $scope.towerAttributions = [
-            { value: '', name: '全部杆塔' },
-            { value: '电信', name: '电信杆塔' },
-            { value: '铁塔', name: '铁塔杆塔' },
-            { value: '联通', name: '联通杆塔' }
-        ];
-        $scope.isBBUs = [
-            { value: '', name: '全部BBU' },
-            { value: '是', name: 'BBU池' },
-            { value: '否', name: '非BBU池' }
-        ];
-        $scope.netTypes = [
-            { value: '', name: '全部网络' },
-            { value: 'C', name: 'C网络' },
-            { value: 'L', name: 'L网络' },
-            { value: 'VL', name: 'VL网络' },
-            { value: 'C+L', name: 'C+L网络' },
-            { value: 'C+VL', name: 'C+VL网络' },
-            { value: 'L+VL', name: 'L+VL网络' }
-        ];
-        $scope.isPowers = [
-            { value: '', name: '所有动力配套' },
-            { value: '是', name: '有动力配套' },
-            { value: '否', name: '没有动力配套' }
-        ];
-        
         $scope.getStations = function (areaName, index) {
             downSwitchService.getStationByFilter(areaName, myValue.stationGrade, myValue.netType, myValue.roomAttribution,
                  myValue.towerAttribution, myValue.isPower, myValue.isBBU, 0, 10000).then(function (response) {
@@ -706,7 +723,6 @@
         };
 
         $scope.reflashMap = function () {
-
             baiduMapService.clearOverlays();
             $scope.initializeLegend();
             var areaName = $scope.areaNames[myValue.distinctIndex];
@@ -728,6 +744,43 @@
             myValue.towerAttribution = $scope.selectedTowerAttribution;
             myValue.isPower = $scope.selectedIsPower;
             myValue.isBBU = $scope.selectedIsBBU;
+            $scope.reflashMap();
+        };
+    })
+    .controller("operation-indoor.filter", function($scope, downSwitchService, myValue, baiduMapService, collegeMapService, dumpPreciseService) {
+        $scope.getStations = function (areaName, index) {
+            downSwitchService.getIndoorByFilter(areaName, myValue.indoorGrade,myValue.indoorNetType, myValue.isNew,
+                 myValue.indoortype, myValue.coverage, 0, 10000).then(function (response) {
+                     var stations = response.result.rows;
+                     var color = $scope.colors[index];
+                     $scope.legend.intervals.push({
+                         threshold: areaName,
+                         color: color
+                     });
+                     collegeMapService.showIndoorStations(stations, color);
+                 });
+        };
+
+        $scope.reflashMap = function () {
+            baiduMapService.clearOverlays();
+            $scope.initializeLegend();
+            var areaName = $scope.areaNames[myValue.distinctIndex];
+            if (myValue.distinctIndex !== 0) {
+                baiduMapService.setCenter(dumpPreciseService.getDistrictIndex(areaName));
+                $scope.getStations(areaName, myValue.distinctIndex);
+            } else {
+                baiduMapService.setCenter(0);
+                angular.forEach($scope.areaNames.slice(1, $scope.areaNames.length), function (name, $index) {
+                    $scope.getStations(name, $index);
+                });
+            }
+
+        };
+        $scope.change = function () {
+            myValue.indoorGrade = $scope.selectedIndoorGrade;
+            myValue.indoorNetType = $scope.selectedIndoorNetType;
+            myValue.isNew = $scope.selectedIsNew;
+            myValue.indoortype = $scope.selectedIndoortype;
             $scope.reflashMap();
         };
     })
@@ -1154,7 +1207,9 @@
                     threshold: areaName,
                     color: color
                 });
-                collegeMapService.showIndoorInfo(stations, color);
+                if (stations.length) {
+                    collegeMapService.showIndoorStations(stations, color);
+                }
             });
         };
         $scope.reflashMap = function (areaNameIndex) {

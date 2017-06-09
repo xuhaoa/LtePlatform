@@ -1024,6 +1024,17 @@
                     "isPower": isPower
                 });
             },
+            getIndoorByFilter: function (areaName, stationGrade, netType, isNew, indoortype, coverage, page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Indoor/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "areaName": areaName,
+                    "netType": netType,
+                    "stationGrade": stationGrade,
+                    "isNew": isNew,
+                    "indoortype": indoortype
+                });
+            },
             getAlarmStations: function (areaName, levelIndex, netType, page, pageSize) {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Alarm/search', {
                     "curr_page": page,

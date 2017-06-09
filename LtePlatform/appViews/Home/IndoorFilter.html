@@ -1,4 +1,17 @@
-﻿<<ul>
+﻿<style>
+    li {
+        list-style-type: none;
+    }
+
+    option {
+        width: 100px;
+    }
+
+    select {
+        font-weight: bold;
+    }
+</style>
+<ul>
     <li>
         <select ng-model="selectedIndoorGrade" ng-change="change()" class="btn btn-sm btn-default">
             <option value="" style="color: #b6b6b6" disabled selected>请选择站点级别</option>
