@@ -58,6 +58,15 @@ angular.module('region.basic', ['app.core'])
                     district: district
                 });
             },
+            queryTopRank2InDistrict: function(begin, end, topCount, city, district) {
+                return generalHttpService.getApiData('TopRank2', {
+                    begin: begin,
+                    end: end,
+                    topCount: topCount,
+                    city: city,
+                    district: district
+                });
+            },
             queryTopRrcFailInDistrict: function(begin, end, topCount, city, district) {
                 return generalHttpService.getApiData('TopRrcFail', {
                     begin: begin,
