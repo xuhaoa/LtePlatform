@@ -1191,9 +1191,9 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 		}
 	});
 
-angular.module('topic.college', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic'])
+angular.module('topic.college', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', 'topic.dialog', 'topic.parameters'])
 	.factory('collegeMapService', function(baiduMapService, collegeService, collegeQueryService, collegeDtService,
-		baiduQueryService, workItemDialog, geometryService) {
+		baiduQueryService, workItemDialog, geometryService, networkElementService, neGeometryService, mapDialogService, parametersDialogService) {
 		return {
 			showCollegeInfos: function(showCollegeDialogs, year) {
 				collegeService.queryStats(year).then(function(colleges) {
@@ -1240,8 +1240,8 @@ angular.module('topic.college', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topi
 				collegeQueryService.queryAll().then(function(colleges) {
 					angular.forEach(colleges, function(college) {
 						
-					    collegeService.queryRegion(college.id).then(function (region) {
-					        var center = geometryService.queryRegionCenter(region);
+						collegeService.queryRegion(college.id).then(function (region) {
+							var center = geometryService.queryRegionCenter(region);
 							var info = {
 								name: college.name,
 								centerX: center.X,
@@ -1260,7 +1260,7 @@ angular.module('topic.college', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topi
 			queryCenterAndCallback: function(collegeName, callback) {
 				collegeQueryService.queryByName(collegeName).then(function(college) {
 					collegeService.queryRegion(college.id).then(function(region) {
-					    var center = geometryService.queryRegionCenter(region);
+						var center = geometryService.queryRegionCenter(region);
 						callback(center);
 					});
 				});
@@ -1291,13 +1291,13 @@ angular.module('topic.college', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topi
 				});
 			},
 			showIndoorStations: function (stations, color) {
-			    baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function (coors) {
-			        var xOffset = coors.x - stations[0].longtitute;
-			        var yOffset = coors.y - stations[0].lattitute;
-			        baiduMapService.drawPointCollection(stations, color, -xOffset, -yOffset, function (e) {
-			            workItemDialog.showIndoorInfo(e.point.data);
-			        });
-			    });
+				baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function (coors) {
+					var xOffset = coors.x - stations[0].longtitute;
+					var yOffset = coors.y - stations[0].lattitute;
+					baiduMapService.drawPointCollection(stations, color, -xOffset, -yOffset, function (e) {
+						workItemDialog.showIndoorInfo(e.point.data);
+					});
+				});
 			},
 			showConstructionSites: function(stations, status, callback) {
 				baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function(coors) {
@@ -1309,6 +1309,51 @@ angular.module('topic.college', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topi
 							icon: geometryService.queryConstructionIcon(status)
 						});
 						baiduMapService.addOneMarkerToScope(marker, callback, item);
+					});
+				});
+			},
+			showOutdoorCellSites: function(sites, color) {
+				baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
+					var xOffset = coors.x - sites[0].longtitute;
+					var yOffset = coors.y - sites[0].lattitute;
+					baiduMapService.drawMultiPoints(sites, color, -xOffset, -yOffset, function(e) {
+						var xCenter = e.point.lng - xOffset;
+						var yCenter = e.point.lat - yOffset;
+						networkElementService.queryRangeSectors(
+							neGeometryService.queryNearestRange(xCenter, yCenter), []).then(function(sectors) {
+							mapDialogService.showCellsInfo(sectors);
+						});
+					});
+				});
+			},
+			showIndoorCellSites: function(sites, color) {
+				baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
+					var xOffset = coors.x - sites[0].longtitute;
+					var yOffset = coors.y - sites[0].lattitute;
+					baiduMapService.drawMultiPoints(sites, color, -xOffset, -yOffset, function (e) {
+						var xCenter = e.point.lng - xOffset;
+						var yCenter = e.point.lat - yOffset;
+						networkElementService.queryRangeSectors(
+							neGeometryService.queryNearestRange(xCenter, yCenter), []).then(function (sectors) {
+								mapDialogService.showCellsInfo(sectors);
+							});
+					});
+				});
+			},
+			showENodebSites: function(sites, color, beginDate, endDate) {
+				baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
+					var xOffset = coors.x - sites[0].longtitute;
+					var yOffset = coors.y - sites[0].lattitute;
+					baiduMapService.drawMultiPoints(sites, color, -xOffset, -yOffset, function (e) {
+						var xCenter = e.point.lng - xOffset;
+						var yCenter = e.point.lat - yOffset;
+						var container = neGeometryService.queryNearestRange(xCenter, yCenter);
+						container.excludedIds = [];
+						networkElementService.queryRangeENodebs(container).then(function (items) {
+							if (items.length) {
+							    parametersDialogService.showENodebInfo(items[0], beginDate, endDate);
+							}
+						});
 					});
 				});
 			}

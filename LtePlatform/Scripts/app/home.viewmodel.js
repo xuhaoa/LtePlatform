@@ -358,6 +358,19 @@
                 },
                 url: "/checking"
             })
+            .state('checking-indoor', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.checking"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/Evaluation/Checking.html",
+                        controller: "checking-indoor.network"
+                    }
+                },
+                url: "/checking-indoor"
+            })
 
             .state('fixing', {
                 views: {
@@ -749,6 +762,7 @@
     })
     .controller("operation-indoor.filter", function($scope, downSwitchService, myValue, baiduMapService, collegeMapService, dumpPreciseService) {
         $scope.getStations = function (areaName, index) {
+            areaName = areaName.replace('FS', '');
             downSwitchService.getIndoorByFilter(areaName, myValue.indoorGrade,myValue.indoorNetType, myValue.isNew,
                  myValue.indoortype, myValue.coverage, 0, 10000).then(function (response) {
                      var stations = response.result.rows;
@@ -819,8 +833,12 @@
             displayName: "网络巡检",
             subItems: [
                 {
-                    displayName: "网络巡检",
+                    displayName: "基站巡检",
                     url: '/#/checking'
+                },
+                {
+                    displayName: "室分巡检",
+                    url: '/#/checking-indoor'
                 }, {
                     displayName: "长期故障",
                     url: '/#/long-term'
@@ -1004,7 +1022,7 @@
     })
 
     .controller("home.network", function ($scope, appRegionService, networkElementService, baiduMapService, coverageDialogService,
-        geometryService, parametersDialogService, mapDialogService, neGeometryService, baiduQueryService, dumpPreciseService) {
+        dumpPreciseService, collegeMapService) {
         baiduMapService.initializeMap("map", 11);
         $scope.currentView = "LTE基站";
         $scope.showDistrictOutdoor = function(district, color) {
@@ -1015,18 +1033,7 @@
                 color: color
             });
             networkElementService.queryOutdoorCellSites(city, district).then(function(sites) {
-                baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
-                    var xOffset = coors.x - sites[0].longtitute;
-                    var yOffset = coors.y - sites[0].lattitute;
-                    baiduMapService.drawMultiPoints(sites, color, -xOffset, -yOffset, function(e) {
-                        var xCenter = e.point.lng - xOffset;
-                        var yCenter = e.point.lat - yOffset;
-                        networkElementService.queryRangeSectors(
-                            neGeometryService.queryNearestRange(xCenter, yCenter), []).then(function(sectors) {
-                            mapDialogService.showCellsInfo(sectors);
-                        });
-                    });
-                });
+                collegeMapService.showOutdoorCellSites(sites, color);
             });
         };
         
@@ -1049,18 +1056,7 @@
             });
             
             networkElementService.queryIndoorCellSites(city, district).then(function(sites) {
-                baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
-                    var xOffset = coors.x - sites[0].longtitute;
-                    var yOffset = coors.y - sites[0].lattitute;
-                    baiduMapService.drawMultiPoints(sites, color, -xOffset, -yOffset, function(e) {
-                        var xCenter = e.point.lng - xOffset;
-                        var yCenter = e.point.lat - yOffset;
-                        networkElementService.queryRangeSectors(
-                            neGeometryService.queryNearestRange(xCenter, yCenter), []).then(function(sectors) {
-                            mapDialogService.showCellsInfo(sectors);
-                        });
-                    });
-                });
+                collegeMapService.showIndoorCellSites(sites, color);
             });
         };
 
@@ -1083,21 +1079,7 @@
             });
             $scope.page.myPromise = networkElementService.queryENodebsInOneDistrict(city, district);
             $scope.page.myPromise.then(function (sites) {
-                baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
-                    var xOffset = coors.x - sites[0].longtitute;
-                    var yOffset = coors.y - sites[0].lattitute;
-                    baiduMapService.drawMultiPoints(sites, color, -xOffset, -yOffset, function (e) {
-                        var xCenter = e.point.lng - xOffset;
-                        var yCenter = e.point.lat - yOffset;
-                        var container = neGeometryService.queryNearestRange(xCenter, yCenter);
-                        container.excludedIds = [];
-                        networkElementService.queryRangeENodebs(container).then(function(items) {
-                            if (items.length) {
-                                parametersDialogService.showENodebInfo(items[0], $scope.beginDate, $scope.endDate);
-                            }
-                        });
-                    });
-                });
+                collegeMapService.showENodebSites(sites, color, $scope.beginDate, $scope.endDate);
             });
         };
         $scope.showLteENodebs = function() {
@@ -1199,6 +1181,7 @@
 
         //获取站点
         $scope.getStations = function (areaName, index) {
+            areaName = areaName.replace('FS', '');
             downSwitchService.getIndoorByFilter(areaName, myValue.indoorGrade, myValue.indoorNetType, myValue.isNew,
                  myValue.indoortype, myValue.coverage, 0, 10000).then(function (response) {
                 var stations = response.result.rows;
