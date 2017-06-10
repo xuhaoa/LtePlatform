@@ -968,8 +968,10 @@ namespace Lte.MySqlFramework.Entities
     [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte))]
     public class TownFlowStat : Entity, ITownId, IStatTime
     {
+        [ArraySumProtection]
         public int TownId { get; set; }
 
+        [ArraySumProtection]
         public DateTime StatTime { get; set; }
 
         [AutoMapPropertyResolve("DownlinkPdcpFlow", typeof(FlowZte))]
@@ -1099,6 +1101,65 @@ namespace Lte.MySqlFramework.Entities
 
         public double UplinkFeelingRate
             => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput / UplinkFeelingDuration;
+    }
+
+    [AutoMapFrom(typeof(RrcHuawei), typeof(RrcZte))]
+    public class TownRrcStat : Entity, ITownId, IStatTime
+    {
+        public int TownId { get; set; }
+
+        public DateTime StatTime { get; set; }
+
+        public int MtAccessRrcRequest { get; set; }
+
+        public int MtAccessRrcSuccess { get; set; }
+
+        public double MtAccessRrcRate => MtAccessRrcRequest == 0 ? 0 : (double)MtAccessRrcSuccess / MtAccessRrcRequest;
+
+        public int MtAccessRrcFail { get; set; }
+
+        public int MoSignallingRrcRequest { get; set; }
+
+        public int MoSignallingRrcSuccess { get; set; }
+
+        public double MoSiganllingRrcRate
+            => MoSignallingRrcRequest == 0 ? 0 : (double)MoSignallingRrcSuccess / MoSignallingRrcRequest;
+
+        public int MoSignallingRrcFail { get; set; }
+
+        public int MoDataRrcRequest { get; set; }
+
+        public int MoDataRrcSuccess { get; set; }
+
+        public double MoDataRrcRate => MoDataRrcRequest == 0 ? 0 : (double)MoDataRrcSuccess / MoDataRrcRequest;
+
+        public int MoDataRrcFail { get; set; }
+
+        public int HighPriorityRrcRequest { get; set; }
+
+        public int HighPriorityRrcSuccess { get; set; }
+
+        public double HighPriorityRrcRate
+            => HighPriorityRrcRequest == 0 ? 0 : (double)HighPriorityRrcSuccess / HighPriorityRrcRequest;
+
+        public int HighPriorityRrcFail { get; set; }
+
+        public int EmergencyRrcRequest { get; set; }
+
+        public int EmergencyRrcSuccess { get; set; }
+
+        public double EmergencyRrcRate
+            => EmergencyRrcRequest == 0 ? 0 : (double)EmergencyRrcSuccess / EmergencyRrcRequest;
+
+        public int EmergencyRrcFail { get; set; }
+
+        public int TotalRrcRequest { get; set; }
+
+        public int TotalRrcSuccess { get; set; }
+
+        public double RrcSuccessRate => TotalRrcRequest == 0 ? 0 : (double)TotalRrcSuccess / TotalRrcRequest;
+
+        public int TotalRrcFail { get; set; }
     }
 
     [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte))]
@@ -1233,10 +1294,13 @@ namespace Lte.MySqlFramework.Entities
     [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte))]
     public class ENodebFlowView : IENodebId, IGeoPoint<double>
     {
+        [ArraySumProtection]
         public int ENodebId { get; set; }
 
+        [ArraySumProtection]
         public double Longtitute { get; set; }
 
+        [ArraySumProtection]
         public double Lattitute { get; set; }
 
         [AutoMapPropertyResolve("DownlinkPdcpFlow", typeof(FlowZte))]

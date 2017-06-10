@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Add_BluePrint : IMigrationMetadata
+    public sealed partial class Add_Town_Rrc : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_BluePrint));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_Town_Rrc));
         
         string IMigrationMetadata.Id
         {
-            get { return "201705240619168_Add_BluePrint"; }
+            get { return "201706100906214_Add_Town_Rrc"; }
         }
         
         string IMigrationMetadata.Source

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.DataService.Kpi
@@ -244,7 +245,7 @@ namespace Lte.Evaluations.DataService.Kpi
         public async Task<int> GenerateTownStats(DateTime statDate)
         {
             var townStatList = GetTownFlowStats(statDate);
-            foreach (var stat in townStatList.GetMergeStats(statDate))
+            foreach (var stat in townStatList.GetPositionMergeStats(statDate))
             {
                 await _townFlowRepository.InsertAsync(stat);
             }
@@ -269,7 +270,7 @@ namespace Lte.Evaluations.DataService.Kpi
             eNodebStatList.AddRange(huaweiFlows.GetENodebStats<FlowHuawei, ENodebFlowView>(_eNodebRepository));
             var zteFlows = _zteRepository.GetAllList(begin, end);
             eNodebStatList.AddRange(zteFlows.GetENodebStats<FlowZte, ENodebFlowView>(_eNodebRepository));
-            return eNodebStatList.GetMergeStats();
+            return eNodebStatList.GetPositionMergeStats();
         } 
     }
 
@@ -321,58 +322,48 @@ namespace Lte.Evaluations.DataService.Kpi
             return eNodebStats;
         }
 
-        public static IEnumerable<TownFlowStat> GetMergeStats(this IEnumerable<TownFlowStat> townStats, DateTime statTime)
+        public static IEnumerable<TTownStat> GetPositionMergeStats<TTownStat>(this IEnumerable<TTownStat> townStats, DateTime statTime)
+            where TTownStat : class, ITownId, IStatTime, new()
         {
             var mergeStats = from stat in townStats
                 group stat by stat.TownId
                 into g
-                select new TownFlowStat
+                select new
                 {
                     TownId = g.Key,
-                    PdcpDownlinkFlow = g.Sum(x => x.PdcpDownlinkFlow),
-                    PdcpUplinkFlow = g.Sum(x => x.PdcpUplinkFlow),
-                    StatTime = statTime,
-                    MaxActiveUsers = g.Sum(x => x.MaxActiveUsers),
-                    MaxUsers = g.Sum(x => x.MaxUsers),
-                    AverageActiveUsers = g.Sum(x => x.AverageActiveUsers),
-                    AverageUsers = g.Sum(x => x.AverageUsers),
-                    DownlinkFeelingDuration = g.Sum(x=>x.DownlinkFeelingDuration),
-                    DownlinkFeelingThroughput = g.Sum(x=>x.DownlinkFeelingThroughput),
-                    UplinkFeelingDuration = g.Sum(x=>x.UplinkFeelingDuration),
-                    UplinkFeelingThroughput = g.Sum(x=>x.UplinkFeelingThroughput),
-                    SchedulingTimes = g.Sum(x=>x.SchedulingTimes),
-                    SchedulingRank2 = g.Sum(x=>x.SchedulingRank2),
-                    RedirectCdma2000 = g.Sum(x=>x.RedirectCdma2000)
+                    Value = g.ArraySum()
                 };
-            return mergeStats;
+            return mergeStats.Select(x =>
+            {
+                var stat = x.Value;
+                stat.TownId = x.TownId;
+                stat.StatTime = statTime;
+                return stat;
+            });
         }
 
-        public static IEnumerable<ENodebFlowView> GetMergeStats(this IEnumerable<ENodebFlowView> eNodebStats)
+        public static IEnumerable<ENodebFlowView> GetPositionMergeStats(this IEnumerable<ENodebFlowView> eNodebStats)
         {
             var mergeStats = from stat in eNodebStats
-                             group stat by new
-                             {
-                                 stat.Longtitute,
-                                 stat.Lattitute
-                             }
+                group stat by new
+                {
+                    stat.Longtitute,
+                    stat.Lattitute
+                }
                 into g
-                             select new ENodebFlowView
-                             {
-                                 Longtitute = g.Key.Longtitute,
-                                 Lattitute = g.Key.Lattitute,
-                                 ENodebId = g.First().ENodebId,
-                                 PdcpDownlinkFlow = g.Sum(x => x.PdcpDownlinkFlow),
-                                 PdcpUplinkFlow = g.Sum(x => x.PdcpUplinkFlow),
-                                 MaxActiveUsers = g.Sum(x => x.MaxActiveUsers),
-                                 MaxUsers = g.Sum(x => x.MaxUsers),
-                                 AverageActiveUsers = g.Sum(x => x.AverageActiveUsers),
-                                 AverageUsers = g.Sum(x => x.AverageUsers),
-                                 DownlinkFeelingDuration = g.Sum(x => x.DownlinkFeelingDuration),
-                                 DownlinkFeelingThroughput = g.Sum(x => x.DownlinkFeelingThroughput),
-                                 UplinkFeelingDuration = g.Sum(x => x.UplinkFeelingDuration),
-                                 UplinkFeelingThroughput = g.Sum(x => x.UplinkFeelingThroughput)
-                             };
-            return mergeStats;
+                select new
+                {
+                    g.Key.Longtitute,
+                    g.Key.Lattitute,
+                    Value = g.ArraySum()
+                };
+            return mergeStats.Select(x =>
+            {
+                var stat = x.Value;
+                stat.Longtitute = x.Longtitute;
+                stat.Lattitute = x.Lattitute;
+                return stat;
+            });
         }
 
     }

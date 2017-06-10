@@ -43,6 +43,11 @@ namespace Lte.MySqlFramework.Abstract
         List<TownFlowStat> GetAllList(DateTime begin, DateTime end);
     }
 
+    public interface ITownRrcRepository : IRepository<TownRrcStat>, ISaveChanges
+    {
+        
+    }
+
     public interface IDownSwitchFlowRepository : IRepository<DownSwitchFlow>,
         IMatchRepository<DownSwitchFlow, DownSwitchFlowExcel>, ISaveChanges
     {
