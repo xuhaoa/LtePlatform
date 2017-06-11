@@ -9,7 +9,7 @@
                         controller: "menu.root"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Network.html",
+                        templateUrl: "/appViews/Home/Network.html",
                         controller: "home.network"
                     }
                 },
@@ -138,7 +138,7 @@
                         controller: "menu.kpi"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Kpi.html",
+                        templateUrl: "/appViews/Home/Kpi.html",
                         controller: "home.kpi"
                     }
                 },
@@ -923,7 +923,7 @@
             subItems: [
                 {
                     displayName: "指标总览",
-                    url: "/Rutrace",
+                    url: "/#/kpi",
                     tooltip: "4G总体指标"
                 }, {
                     displayName: "质量分析",
@@ -2027,7 +2027,8 @@
             }
         });
     })
-    .controller("home.kpi", function ($scope, baiduMapService, dumpPreciseService, kpiPreciseService, networkElementService, baiduQueryService,
+
+    .controller("home.kpi", function ($scope, baiduMapService, collegeMapService, dumpPreciseService, kpiPreciseService, networkElementService, baiduQueryService,
     neighborDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
@@ -2066,17 +2067,7 @@
                 city, district).then(function (result) {
                 angular.forEach(result, function(item) {
                     networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function(cell) {
-                        baiduQueryService.transformToBaidu(cell.longtitute, cell.lattitute).then(function(coors) {
-                            item = angular.extend(item, cell);
-                            cell.longtitute = coors.x;
-                            cell.lattitute = coors.y;
-                            var sectorTriangle = baiduMapService.generateSector(cell, "blue", 5);
-                            baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showFlowCell, {
-                                item: item,
-                                beginDate: $scope.beginDate,
-                                endDate: $scope.endDate
-                            });
-                        });
+                        collegeMapService.showFlowCellSector(cell, item, $scope.beginDate, $scope.endDate)
                     });
                 });
 
@@ -2097,20 +2088,9 @@
                 city, district).then(function (result) {
                     angular.forEach(result, function (item) {
                         networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function (cell) {
-                            baiduQueryService.transformToBaidu(cell.longtitute, cell.lattitute).then(function (coors) {
-                                item = angular.extend(item, cell);
-                                cell.longtitute = coors.x;
-                                cell.lattitute = coors.y;
-                                var sectorTriangle = baiduMapService.generateSector(cell, "blue", 5);
-                                baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showFlowCell, {
-                                    item: item,
-                                    beginDate: $scope.beginDate,
-                                    endDate: $scope.endDate
-                                });
-                            });
+                            collegeMapService.showFlowCellSector(cell, item, $scope.beginDate, $scope.endDate);
                         });
                     });
-
                 });
         };
         $scope.showTopScheduling = function () {
@@ -2128,20 +2108,9 @@
                 city, district).then(function (result) {
                     angular.forEach(result, function (item) {
                         networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function (cell) {
-                            baiduQueryService.transformToBaidu(cell.longtitute, cell.lattitute).then(function (coors) {
-                                item = angular.extend(item, cell);
-                                cell.longtitute = coors.x;
-                                cell.lattitute = coors.y;
-                                var sectorTriangle = baiduMapService.generateSector(cell, "blue", 5);
-                                baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showRrcCell, {
-                                    item: item,
-                                    beginDate: $scope.beginDate,
-                                    endDate: $scope.endDate
-                                });
-                            });
+                            collegeMapService.showRrcCellSector(cell, item, $scope.beginDate, $scope.endDate);
                         });
                     });
-
                 });
         };
         $scope.showTopRrc = function() {
@@ -2153,6 +2122,11 @@
                 $scope.showTopRrcSite(city, district, $scope.colors[$index]);
             });
         };
+
+        $scope.showPreciseStats = function() {
+
+        };
+
         $scope.districts = [];
         dumpPreciseService.generateUsersDistrict($scope.city.selected || "佛山", $scope.districts, function(district, $index) {
             $scope.showPreciseRate($scope.city.selected || "佛山", district, $scope.colors[$index]);
