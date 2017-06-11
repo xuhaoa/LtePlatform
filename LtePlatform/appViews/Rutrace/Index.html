@@ -1,6 +1,16 @@
-﻿<div class="row">
+﻿<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-hidden="true">
+        &times;
+    </button>
+    <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
+</div>
+<div class="row modal-body">
     <div class="col-md-{{areaItem.width}}" ng-repeat="areaItem in areaItems">
         <h4 class="text-warning">{{areaItem.title}}</h4>
         <div ng-include="areaItem.comments"></div>
     </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
 </div>

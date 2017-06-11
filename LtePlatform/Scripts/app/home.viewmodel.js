@@ -131,6 +131,7 @@
                 },
                 url: "/dt"
             })
+
             .state('kpi', {
                 views: {
                     'menu': {
@@ -144,6 +145,20 @@
                 },
                 url: "/kpi"
             })
+            .state('quality', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.kpi"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/BasicKpi/Quality.html",
+                        controller: "kpi.quality"
+                    }
+                },
+                url: "/quality"
+            })
+
             .state('plan', {
                 views: {
                     'menu': {
@@ -927,7 +942,7 @@
                     tooltip: "4G总体指标"
                 }, {
                     displayName: "质量分析",
-                    url: appUrlService.getTopnUrlHost() + '2g_home',
+                    url: '/#/quality',
                     tooltip: "4G网络质量分析与日常优化"
                 }, {
                     displayName: "专题优化",
@@ -2132,6 +2147,14 @@
             $scope.showPreciseRate($scope.city.selected || "佛山", district, $scope.colors[$index]);
         });
     })
+    .controller('kpi.quality', function ($scope, baiduMapService, workItemDialog) {
+        baiduMapService.initializeMap("map", 11);
+        baiduMapService.addCityBoundary("佛山");
+
+        $scope.showTodayKpi=function() {
+            workItemDialog.showTodayKpi($scope.city.selected);
+        }
+    })
 
     .controller("home.plan", function ($scope, baiduMapService, dumpPreciseService, networkElementService, geometryService,
         neGeometryService, mapDialogService, baiduQueryService) {
@@ -2861,9 +2884,6 @@
 
     .controller("fault-station.network", function ($scope, downSwitchService, baiduMapService, geometryService,
         mapDialogService, baiduQueryService) {
-
-
-
         $scope.stationss = [];
         $scope.stationss[1] = [];
         $scope.stationss[2] = [];
@@ -2871,12 +2891,8 @@
 
         $scope.colorFault = new Array("#FF0000", "#00FF00");
 
-
-
-
         //获取站点
         $scope.getStations = function () {
-
             downSwitchService.getFaultStations(0, 10000).then(function (response) {
 
                 $scope.stationss[1] = response.result.rows;
@@ -2890,10 +2906,6 @@
                 });
             });
         };
-
-
-
-
         $scope.reflashMap = function () {
             baiduMapService.clearOverlays();
             baiduMapService.setCenter(0);

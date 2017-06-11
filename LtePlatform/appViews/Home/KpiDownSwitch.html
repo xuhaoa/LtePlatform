@@ -1,8 +1,8 @@
-﻿<div ng-controller="home.downSwitch" ng-init="max = 5; isReadonly = true">
+﻿<div>
     <p>统计日期：{{flowDate.value | date: "yyyy年MM月dd日"}}</p>
     <p>
         4G用户3G流量比：{{flowStat | number: 2}}%
-        <div uib-rating aria-labelledby="default-rating" ng-model="downRate" max="max" read-only="isReadonly"
+        <div uib-rating aria-labelledby="default-rating" ng-model="downRate" max="5" read-only="true"
              uib-tooltip-template="'downTooltipTemplate.html'" tooltip-class="customClass" tooltip-placement="bottom"></div>
     </p>
     <div id="downSwitchConfig"></div>

@@ -1,4 +1,4 @@
-﻿angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap"])
+﻿angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.core"])
 	.controller('workitem.feedback.dialog', function($scope, $uibModalInstance, input, dialogTitle) {
 		$scope.item = input;
 		$scope.dialogTitle = dialogTitle;
@@ -317,6 +317,121 @@
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
+	.controller("rutrace.index", function ($scope, $uibModalInstance, kpiPreciseService, appFormatService, appKpiService, kpiDisplayService, 
+		kpiRatingDivisionDefs, kpi2GService, downSwitchService, workitemService, dialogTitle, city) {
+		$scope.areaItems = [{
+			title: "4G指标",
+			comments: '/appViews/Home/Kpi4G.html',
+			width: 6
+		}, {
+			title: "4G用户3G流量比",
+			comments: '/appViews/Home/KpiDownSwitch.html',
+			width: 6
+		}, {
+			title: "传统指标",
+			comments: '/appViews/Home/Kpi2G.html',
+			width: 6
+		}, {
+			title: "工单监控",
+			comments: '/appViews/Home/WorkItem.html',
+			width: 6
+		}];
+		var yesterday = new Date();
+		yesterday.setDate(yesterday.getDate() - 1);
+		$scope.dialogTitle = dialogTitle + '-' + yesterday;
+		$scope.statDate = {
+			value: yesterday,
+			opened: false
+		};
+		$scope.kpiDate = {
+			value: yesterday,
+			opened: false
+		};
+		$scope.flowDate = {
+			value: yesterday,
+			opened: false
+		};
+		$scope.preciseRating = kpiRatingDivisionDefs.precise;
+		$scope.dropRating = kpiRatingDivisionDefs.drop;
+		$scope.downSwitchRating = kpiRatingDivisionDefs.downSwitch;
+
+		$scope.queryKpi4G = function () {
+			kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value)
+				.then(function (result) {
+					$scope.statDate.value = appFormatService.getDate(result.statDate);
+					$scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, city);
+					$scope.rate = appKpiService.calculatePreciseRating($scope.cityStat.preciseRate);
+					var options = kpiDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
+						$scope.cityStat);
+					$("#preciseConfig").highcharts(options);
+				});
+		};
+		$scope.queryKpi2G = function() {
+			kpi2GService.queryDayStats(city, $scope.kpiDate.value)
+				.then(function(result) {
+					$scope.kpiDate.value = appFormatService.getDate(result.statDate);
+					var stat = result.statViews[result.statViews.length - 1];
+					$scope.dropRate = stat.drop2GRate * 100;
+					$scope.dropStar = appKpiService.calculateDropStar($scope.dropRate);
+					$scope.connectionRate = stat.connectionRate * 100;
+				});
+		};
+		$scope.queryDownSwitch = function () {
+			downSwitchService.getRecentKpi(city, $scope.flowDate.value)
+				.then(function (result) {
+					$scope.flowDate.value = appFormatService.getDate(result.statDate);
+					$scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
+					$scope.downRate = appKpiService.calculateDownSwitchRating($scope.flowStat);
+					var options = kpiDisplayService.generateDownSwitchOptions(result.downSwitchFlowViews,
+						city, $scope.flowStat);
+					$("#downSwitchConfig").highcharts(options);
+				});
+		};
+		$scope.queryWorkItem = function() {
+			workitemService.queryCurrentMonth().then(function(result) {
+				$scope.totalItems = result.item1;
+				$scope.finishedItems = result.item2;
+				$scope.lateItems = result.item3;
+				var finishedGauge = new GaugeMeter();
+				var inTimeGauge = new GaugeMeter();
+				finishedGauge.title.text = '完成工单情况';
+				finishedGauge.yAxis.max = $scope.totalItems;
+				finishedGauge.yAxis.plotBands[0].to = $scope.totalItems * 0.6;
+				finishedGauge.yAxis.plotBands[1].from = $scope.totalItems * 0.6;
+				finishedGauge.yAxis.plotBands[1].to = $scope.totalItems * 0.8;
+				finishedGauge.yAxis.plotBands[2].from = $scope.totalItems * 0.8;
+				finishedGauge.yAxis.plotBands[2].to = $scope.totalItems;
+				finishedGauge.series[0].name = '完成工单数';
+				finishedGauge.series[0].data[0] = $scope.finishedItems;
+				finishedGauge.yAxis.title.text = '工单数';
+				inTimeGauge.title.text = '工单及时性';
+				inTimeGauge.yAxis.max = $scope.totalItems;
+				inTimeGauge.yAxis.plotBands[0].to = $scope.totalItems * 0.6;
+				inTimeGauge.yAxis.plotBands[1].from = $scope.totalItems * 0.6;
+				inTimeGauge.yAxis.plotBands[1].to = $scope.totalItems * 0.8;
+				inTimeGauge.yAxis.plotBands[2].from = $scope.totalItems * 0.8;
+				inTimeGauge.yAxis.plotBands[2].to = $scope.totalItems;
+				inTimeGauge.series[0].name = '未超时工单数';
+				inTimeGauge.series[0].data[0] = $scope.totalItems - $scope.lateItems;
+				inTimeGauge.yAxis.title.text = '工单数';
+				$("#workitemFinished").highcharts(finishedGauge.options);
+				$("#workitemInTime").highcharts(inTimeGauge.options);
+			});
+		};
+
+		$scope.queryKpi4G();
+		$scope.queryKpi2G();
+		$scope.queryDownSwitch();
+		$scope.queryWorkItem();
+
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.distributionGroups);
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
 	.factory('workItemDialog', function(menuItemService, workitemService) {
 		return {
 			feedback: function(view, callbackFunc) {
@@ -544,6 +659,20 @@
 						},
 						distribution: function() {
 							return distribution;
+						}
+					}
+				});
+			},
+			showTodayKpi: function(city) {
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Rutrace/Index.html',
+					controller: 'rutrace.index',
+					resolve: {
+						dialogTitle: function () {
+							return "今日指标";
+						},
+						city: function() {
+							return city;
 						}
 					}
 				});

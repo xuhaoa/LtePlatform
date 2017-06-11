@@ -1,8 +1,8 @@
-﻿<div ng-controller="home.kpi2G" ng-init="max = 5; isReadonly = true">
-    <p>统计日期：{{statDate.value | date: "yyyy年MM月dd日"}}</p>
+﻿<div>
+    <p>统计日期：{{kpiDate.value | date: "yyyy年MM月dd日"}}</p>
     <p>
         掉话率：{{dropRate | number: 2}}%
-        <div uib-rating aria-labelledby="default-rating" ng-model="dropStar" max="max" read-only="isReadonly"
+        <div uib-rating aria-labelledby="default-rating" ng-model="dropStar" max="5" read-only="true"
              uib-tooltip-template="'dropTooltipTemplate.html'" tooltip-class="customClass" tooltip-placement="bottom"></div>
     </p>
     <p>连接成功率：{{connectionRate | number: 2}}%</p>
