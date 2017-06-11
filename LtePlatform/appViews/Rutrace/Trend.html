@@ -11,7 +11,7 @@
                 <button type="button" class="btn btn-success" ng-click="showKpi(city.selected)">
                     <i class="glyphicon glyphicon-picture" title="统计结果"></i>
                 </button>
-                <a class="btn btn-primary" ng-href="{{rootPath}}workitemCity">工单</a>
+                <a class="btn btn-primary" ng-click="showWorkitemCity()">工单</a>
                 <button class="btn btn-success" ng-click="showTrend()">趋势</button>
             </div>
         </div>
@@ -20,7 +20,7 @@
                 <a class="btn btn-primary" ng-click="showChart()">
                     <i class="glyphicon glyphicon-picture" title="统计图表"></i>
                 </a>
-                <a class="btn btn-default" ng-href="{{rootPath}}top">TOP指标</a>
+                <a class="btn btn-default" ng-click="showTopKpi()">TOP指标</a>
             </div>
         </div>
     </div>
@@ -39,6 +39,6 @@
 </div>
 
 <div class="modal-footer">
-    <button class="btn btn-warning" ng-click="ok()">生成调整建议</button>
+    <button class="btn btn-warning" ng-click="ok()">OK</button>
     <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
 </div>    

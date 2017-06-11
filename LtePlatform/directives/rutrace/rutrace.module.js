@@ -72,7 +72,7 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region'])
                     field: 'preciseRate',
                     name: '精确覆盖率',
                     cellFilter: 'number: 2',
-                    cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                    cellClass: function (grid, row, col) {
                         if (grid.getCellValue(row, col) < row.entity.objectRate) {
                             return 'text-danger';
                         }
@@ -84,11 +84,11 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region'])
                 { field: 'thirdRate', name: '第三精确覆盖率', cellFilter: 'number: 2' },
                 {
                     name: '处理',
-                    cellTemplate: '<a class="btn btn-sm btn-primary" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-href="{{grid.appScope.rootPath}}workitemDistrict/{{row.entity.district}}">工单处理</a>'
+                    cellTemplate: '<a class="btn btn-sm btn-primary" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="showWorkitemDistrict(row.entity.district)">工单处理</a>'
                 },
                 {
                     name: '分析',
-                    cellTemplate: '<a class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-href="{{grid.appScope.rootPath}}topDistrict/{{row.entity.district}}">TOP指标</a>'
+                    cellTemplate: '<a class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="showTopDistrict(row.entity.district)">TOP指标</a>'
                 }
             ],
             data: []
