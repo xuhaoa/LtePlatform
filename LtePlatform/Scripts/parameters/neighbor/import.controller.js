@@ -59,9 +59,10 @@
         flowImportService.queryDumpHistory($scope.beginDate.value, $scope.endDate.value).then(function (result) {
             $scope.dumpHistory = result;
             angular.forEach(result, function (record) {
-                if (record.huaweiItems > 6900 && record.zteItems > 12500 && record.townStats === 0) {
+                if (record.huaweiItems > 7900 && record.zteItems > 15500 && (record.townStats === 0 || record.townRrcs === 0)) {
                     flowImportService.dumpTownStats(record.dateString).then(function(count) {
-                        record.townStats = count;
+                        record.townStats = count.item1;
+                        record.townRrcs = count.item2;
                     });
                 }
             });

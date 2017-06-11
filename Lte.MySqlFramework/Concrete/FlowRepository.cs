@@ -100,4 +100,16 @@ namespace Lte.MySqlFramework.Concrete
             return Context.SaveChanges();
         }
     }
+
+    public class TownRrcRepository : EfRepositoryBase<MySqlContext, TownRrcStat>, ITownRrcRepository
+    {
+        public TownRrcRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
 }

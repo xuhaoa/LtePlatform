@@ -23,6 +23,7 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly IRrcHuaweiRepository _rrcHuaweiRepository;
         private readonly ITownFlowRepository _townFlowRepository;
         private readonly IENodebRepository _eNodebRepository;
+        private readonly ITownRrcRepository _townRrcRepository;
 
         private static Stack<Tuple<FlowHuawei, RrcHuawei>> FlowHuaweis { get; set; }
 
@@ -34,7 +35,8 @@ namespace Lte.Evaluations.DataService.Kpi
 
         public FlowService(IFlowHuaweiRepository huaweiRepositroy, IFlowZteRepository zteRepository,
             IRrcZteRepository rrcZteRepository, IRrcHuaweiRepository rrcHuaweiRepository,
-            ITownFlowRepository townFlowRepository, IENodebRepository eNodebRepository)
+            ITownFlowRepository townFlowRepository, IENodebRepository eNodebRepository,
+            ITownRrcRepository townRrcRepository)
         {
             _huaweiRepository = huaweiRepositroy;
             _zteRepository = zteRepository;
@@ -42,6 +44,7 @@ namespace Lte.Evaluations.DataService.Kpi
             _rrcHuaweiRepository = rrcHuaweiRepository;
             _townFlowRepository = townFlowRepository;
             _eNodebRepository = eNodebRepository;
+            _townRrcRepository = townRrcRepository;
             if (FlowHuaweis == null) FlowHuaweis = new Stack<Tuple<FlowHuawei, RrcHuawei>>();
             if (FlowZtes == null) FlowZtes = new Stack<Tuple<FlowZte, RrcZte>>();
         }
@@ -228,6 +231,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 var zteItems = await _zteRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
                 var zteRrcs = await _rrcZteRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
                 var townItems = await _townFlowRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
+                var townRrcs = await _townRrcRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
                 results.Add(new FlowHistory
                 {
                     DateString = begin.ToShortDateString(),
@@ -235,21 +239,39 @@ namespace Lte.Evaluations.DataService.Kpi
                     HuaweiRrcs = huaweiRrcs,
                     ZteItems = zteItems,
                     ZteRrcs = zteRrcs,
-                    TownStats = townItems
+                    TownStats = townItems,
+                    TownRrcs = townRrcs
                 });
                 begin = begin.AddDays(1);
             }
             return results;
         }
 
-        public async Task<int> GenerateTownStats(DateTime statDate)
+        public async Task<Tuple<int, int>> GenerateTownStats(DateTime statDate)
         {
-            var townStatList = GetTownFlowStats(statDate);
-            foreach (var stat in townStatList.GetPositionMergeStats(statDate))
+            var end = statDate.AddDays(1);
+            var item1 = _townFlowRepository.Count(x => x.StatTime >= statDate && x.StatTime < end);
+            if (item1 == 0)
             {
-                await _townFlowRepository.InsertAsync(stat);
+                var townStatList = GetTownFlowStats(statDate);
+                foreach (var stat in townStatList.GetPositionMergeStats(statDate))
+                {
+                    await _townFlowRepository.InsertAsync(stat);
+                }
+                item1 = _townFlowRepository.SaveChanges();
             }
-            return _townFlowRepository.SaveChanges();
+            var item2 = _townRrcRepository.Count(x => x.StatTime >= statDate && x.StatTime < end);
+            if (item2 == 0)
+            {
+                var townRrcList = GetTownRrcStats(statDate);
+                foreach (var stat in townRrcList.GetPositionMergeStats(statDate))
+                {
+                    await _townRrcRepository.InsertAsync(stat);
+                }
+                item2 = _townRrcRepository.SaveChanges();
+            }
+
+            return new Tuple<int, int>(item1, item2);
         }
 
         private List<TownFlowStat> GetTownFlowStats(DateTime statDate)
@@ -262,6 +284,17 @@ namespace Lte.Evaluations.DataService.Kpi
             townStatList.AddRange(zteFlows.GetTownStats<FlowZte, TownFlowStat>(_eNodebRepository));
             return townStatList;
         }
+
+        private List<TownRrcStat> GetTownRrcStats(DateTime statDate)
+        {
+            var end = statDate.AddDays(1);
+            var townStatList = new List<TownRrcStat>();
+            var huaweiRrcs = _rrcHuaweiRepository.GetAllList(x => x.StatTime >= statDate && x.StatTime < end);
+            townStatList.AddRange(huaweiRrcs.GetTownStats<RrcHuawei, TownRrcStat>(_eNodebRepository));
+            var zteRrcs = _rrcZteRepository.GetAllList(x => x.StatTime >= statDate && x.StatTime < end);
+            townStatList.AddRange(zteRrcs.GetTownStats<RrcZte,TownRrcStat>(_eNodebRepository));
+            return townStatList;
+        } 
 
         public IEnumerable<ENodebFlowView> GetENodebFlowViews(DateTime begin, DateTime end)
         {

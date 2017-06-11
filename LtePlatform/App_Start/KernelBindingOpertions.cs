@@ -177,6 +177,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IRrcHuaweiRepository>().To<RrcHuaweiRepository>();
 
+            ninjectKernel.Bind<ITownRrcRepository>().To<TownRrcRepository>();
+
             ninjectKernel.Bind<IAgisDtPointRepository>().To<AgisDtPointRepository>();
 
             ninjectKernel.Bind<IMrGridRepository>().To<MrGridRepository>();
