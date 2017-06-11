@@ -7,10 +7,6 @@
                     templateUrl: viewDir + "",
                     controller: ""
                 })
-                .when('/trend', {
-                    templateUrl: viewDir + "Trend.html",
-                    controller: "rutrace.trend"
-                })
                 .when('/traditional', {
                     templateUrl:  '/appViews/BasicKpi/Index.html',
                     controller: "kpi.basic"
@@ -150,21 +146,8 @@
     })
     .controller("rutrace.root", function($scope, appRegionService, menuItemService) {
         $scope.page = { title: $scope.menuItems[0].subItems[0].displayName };
-        $scope.overallStat = {
-            currentDistrict: "",
-            districtStats: [],
-            townStats: [],
-            cityStat: {},
-            dateString: ""
-        };
-        $scope.trendStat = {
-            stats: [],
-            districts: [],
-            districtStats: [],
-            townStats: [],
-            beginDateString: "",
-            endDateString: ""
-        };
+        
+        
         $scope.topStat = {
             current: {},
             cells: {},
@@ -327,39 +310,6 @@
         };
 
         $scope.query();
-    })
-    .controller("rutrace.trend", function ($scope, appRegionService, appKpiService, kpiPreciseService, appFormatService, workItemDialog) {
-        $scope.page.title = $scope.menuItems[0].subItems[1].displayName;
-
-        $scope.showKpi = function(city) {
-            kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value)
-                .then(function(result) {
-                    $scope.statDate.value = appFormatService.getDate(result.statDate);
-                    angular.forEach(result.districtPreciseViews, function(view) {
-                        view.objectRate = appKpiService.getPreciseObject(view.district);
-                    });
-                    $scope.overallStat.districtStats = result.districtPreciseViews;
-                    $scope.overallStat.townStats = result.townPreciseViews;
-                    $scope.overallStat.currentDistrict = result.districtPreciseViews[0].district;
-                    $scope.overallStat.districtStats.push(appKpiService.getCityStat($scope.overallStat.districtStats, city));
-                    $scope.overallStat.dateString = appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
-                });
-        };
-        $scope.showChart = function() {
-            workItemDialog.showPreciseChart($scope.overallStat);
-        };
-        $scope.$watch('city.selected', function(city) {
-            if (city) {
-                $scope.showKpi(city);
-            }
-        });
-        $scope.showTrend = function () {
-            workItemDialog.showPreciseTrend($scope.trendStat, $scope.city, $scope.beginDate, $scope.endDate);
-        };
-        appRegionService.queryDistricts($scope.city.selected)
-            .then(function (districts) {
-                $scope.trendStat.districts = districts;
-            });
     })
     .controller("cell.trend", function ($scope, $routeParams, appKpiService, cellPreciseService,
         kpiDisplayService, appFormatService) {

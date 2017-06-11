@@ -133,10 +133,9 @@
 			});
 		};
 	})
-	.controller("rutrace.trend.dialog", function($scope, $uibModalInstance, trendStat, city, beginDate, endDate,
+	.controller("rutrace.trend.dialog", function($scope, $uibModalInstance, city, beginDate, endDate, trendStat,
 		appKpiService, kpiPreciseService, appFormatService) {
 		$scope.trendStat = trendStat;
-		$scope.city = city;
 		$scope.beginDate = beginDate;
 		$scope.endDate = endDate;
 		$scope.dialogTitle = "精确覆盖率变化趋势";

@@ -2043,8 +2043,8 @@
         });
     })
 
-    .controller("home.kpi", function ($scope, baiduMapService, collegeMapService, dumpPreciseService, kpiPreciseService, networkElementService, baiduQueryService,
-    neighborDialogService) {
+    .controller("home.kpi", function ($scope, baiduMapService, collegeMapService, dumpPreciseService, kpiPreciseService,
+        networkElementService, baiduQueryService, neighborDialogService, mapDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.currentView = "精确覆盖率";
@@ -2139,7 +2139,7 @@
         };
 
         $scope.showPreciseStats = function() {
-
+            mapDialogService.showPreciseTrend($scope.city, $scope.beginDate, $scope.endDate);
         };
 
         $scope.districts = [];
