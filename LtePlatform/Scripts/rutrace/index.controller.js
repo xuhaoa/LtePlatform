@@ -44,8 +44,8 @@
                     controller: "workitem.district"
                 })
                 .when('/workitemCity', {
-                    templateUrl: viewDir + "WorkItem/ForCity.html",
-                    controller: "workitem.city"
+                    templateUrl: viewDir + "",
+                    controller: ""
                 })
                 .when('/cellTrend/:cellId/:sectorId/:name', {
                     templateUrl: viewDir + "WorkItem/CellTrend.html",
@@ -110,18 +110,14 @@
         $rootScope.viewData = {
             workItems: []
         };
-        var lastSeason = new Date();
-        lastSeason.setDate(lastSeason.getDate() - 100);
+        
         var lastWeek = new Date();
         lastWeek.setDate(lastWeek.getDate() - 7);
         $rootScope.beginDate = {
             value: new Date(lastWeek.getFullYear(), lastWeek.getMonth(), lastWeek.getDate(), 8),
             opened: false
         };
-        $rootScope.seasonDate = {
-            value: new Date(lastSeason.getFullYear(), lastSeason.getMonth(), lastSeason.getDate(), 8),
-            opened: false
-        };
+        
         var today = new Date();
         $rootScope.endDate = {
             value: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8),
@@ -588,21 +584,6 @@
 
         $scope.queryWorkItems();
         $scope.queryPreciseCells();
-    })
-    .controller("workitem.city", function ($scope, preciseWorkItemService, workItemDialog) {
-        $scope.page.title = "精确覆盖优化工单一览";
-        $scope.queryWorkItems = function () {
-            preciseWorkItemService.queryByDateSpan($scope.seasonDate.value, $scope.endDate.value).then(function (views) {
-                angular.forEach(views, function (view) {
-                    view.detailsPath = $scope.rootPath + "details/" + view.serialNumber;
-                });
-                $scope.viewItems = views;
-            });
-        };
-        $scope.showDetails = function (view) {
-            workItemDialog.showDetails(view, $scope.queryWorkItems);
-        };
-        $scope.queryWorkItems();
     })
     .controller("workitem.district", function ($scope, $routeParams, preciseWorkItemService, workItemDialog) {
         $scope.page.title = $routeParams.district + "精确覆盖优化工单一览";

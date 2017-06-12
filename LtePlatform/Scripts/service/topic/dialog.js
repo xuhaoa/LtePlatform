@@ -270,6 +270,17 @@
                         }
                     }
                 });
+            },
+            showPreciseWorkItem: function (endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Rutrace/WorkItem/ForCity.html',
+                    controller: 'workitem.city',
+                    resolve: {
+                        endDate: function () {
+                            return endDate;
+                        }
+                    }
+                });
             }
         };
     })
@@ -629,7 +640,7 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller("rutrace.trend", function ($scope, $uibModalInstance,
+    .controller("rutrace.trend", function ($scope, $uibModalInstance, mapDialogService,
         appRegionService, appKpiService, kpiPreciseService, appFormatService, workItemDialog,
         dialogTitle, city, beginDate, endDate) {
         var yesterday = new Date();
@@ -677,6 +688,9 @@
         $scope.showChart = function() {
             workItemDialog.showPreciseChart($scope.overallStat);
         };
+        $scope.showWorkitemCity = function() {
+            mapDialogService.showPreciseWorkItem($scope.endDate);
+        };
         $scope.showTrend = function() {
             workItemDialog.showPreciseTrend($scope.trendStat, city, $scope.beginDate, $scope.endDate);
         };
@@ -688,6 +702,37 @@
         };
 
         $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller("workitem.city", function ($scope, $uibModalInstance, endDate,
+        preciseWorkItemService, workItemDialog) {
+        $scope.dialogTitle = "精确覆盖优化工单一览";
+        var lastSeason = new Date();
+        lastSeason.setDate(lastSeason.getDate() - 100);
+        $scope.seasonDate = {
+            value: new Date(lastSeason.getFullYear(), lastSeason.getMonth(), lastSeason.getDate(), 8),
+            opened: false
+        };
+        $scope.endDate = endDate;
+        $scope.queryWorkItems = function () {
+            preciseWorkItemService.queryByDateSpan($scope.seasonDate.value, $scope.endDate.value).then(function (views) {
+                angular.forEach(views, function (view) {
+                    view.detailsPath = $scope.rootPath + "details/" + view.serialNumber;
+                });
+                $scope.viewItems = views;
+            });
+        };
+        $scope.showDetails = function (view) {
+            workItemDialog.showDetails(view, $scope.queryWorkItems);
+        };
+        $scope.queryWorkItems();
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.building);
+        };
+
+        $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
     });
