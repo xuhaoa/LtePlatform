@@ -15,17 +15,9 @@
                     templateUrl: '/appViews/BasicKpi/TopDrop2G.html',
                     controller: 'kpi.topDrop2G'
                 })
-                .when('/top', {
-                    templateUrl: viewDir + "Top.html",
-                    controller: "rutrace.top"
-                })
                 .when('/topDistrict/:district', {
                     templateUrl: viewDir + "Top.html",
                     controller: "rutrace.top.district"
-                })
-                .when('/top', {
-                    templateUrl: viewDir + "Top.html",
-                    controller: "rutrace.top"
                 })
                 .when('/baidumap/:cellId/:sectorId/:name', {
                     templateUrl: viewDir + "Map/Index.html",
@@ -115,22 +107,7 @@
             value: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8),
             opened: false
         };
-        $rootScope.orderPolicy = {
-            options: [],
-            selected: ""
-        };
-        $rootScope.topCount = {
-            options: [5, 10, 15, 20, 30],
-            selected: 15
-        };
-        kpiPreciseService.getOrderSelection().then(function (result) {
-            $rootScope.orderPolicy.options = result;
-            $rootScope.orderPolicy.selected = result[5];
-        });
-        $rootScope.closeAlert = function (messages, index) {
-            messages.splice(index, 1);
-        };
-
+        
     })
     .controller("rutrace.root", function($scope, appRegionService, menuItemService) {
         $scope.page = { title: $scope.menuItems[0].subItems[0].displayName };
@@ -224,44 +201,6 @@
 .controller("home.workitem", function ($scope, workitemService) {
     
 })
-    .controller("rutrace.top", function ($scope, $http, preciseInterferenceService, kpiPreciseService, workitemService) {
-        $scope.page.title = $scope.menuItems[2].subItems[0].displayName;
-        $scope.topCells = [];
-        $scope.updateMessages = [];
-
-        $scope.query = function () {
-            $scope.topCells = [];
-            kpiPreciseService.queryTopKpis($scope.beginDate.value, $scope.endDate.value, $scope.topCount.selected,
-                $scope.orderPolicy.selected).then(function (result) {
-                    $scope.topCells = result;
-                    angular.forEach(result, function (cell) {
-                        workitemService.queryByCellId(cell.cellId, cell.sectorId).then(function (items) {
-                            if (items.length > 0) {
-                                for (var j = 0; j < $scope.topCells.length; j++) {
-                                    if (items[0].eNodebId === $scope.topCells[j].cellId && items[0].sectorId === $scope.topCells[j].sectorId) {
-                                        $scope.topCells[j].hasWorkItems = true;
-                                        break;
-                                    }
-                                }
-                            }
-                        });
-                        preciseInterferenceService.queryMonitor(cell.cellId, cell.sectorId).then(function (monitored) {
-                            cell.isMonitored = monitored;
-                        });
-                    });
-                });
-        };
-        $scope.monitorAll = function () {
-            angular.forEach($scope.topCells, function (cell) {
-                if (cell.isMonitored === false) {
-                    preciseInterferenceService.addMonitor(cell);
-                }
-            });
-        };
-
-        $scope.query();
-
-    })
     .controller("rutrace.top.district", function ($scope, $routeParams, preciseInterferenceService, kpiPreciseService, workitemService) {
         $scope.page.title = "TOP指标分析-" + $routeParams.district;
         $scope.topCells = [];

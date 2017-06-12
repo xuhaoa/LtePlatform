@@ -1,4 +1,22 @@
 ﻿angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', "ui.bootstrap"])
+    .run(function($rootScope, kpiPreciseService) {
+        $rootScope.orderPolicy = {
+            options: [],
+            selected: ""
+        };
+        $rootScope.topCount = {
+            options: [5, 10, 15, 20, 30],
+            selected: 15
+        };
+        kpiPreciseService.getOrderSelection().then(function (result) {
+            $rootScope.orderPolicy.options = result;
+            $rootScope.orderPolicy.selected = result[5];
+        });
+        $rootScope.closeAlert = function (messages, index) {
+            messages.splice(index, 1);
+        };
+
+    })
     .factory('mapDialogService', function(menuItemService) {
         return {
             showTownENodebInfo: function(item, city, district) {
@@ -289,6 +307,23 @@
                     resolve: {
                         district: function() {
                             return district;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        }
+                    }
+                });
+            },
+            showPreciseTop: function (beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Rutrace/Top.html',
+                    controller: 'rutrace.top',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "全市精确覆盖率TOP统计";
+                        },
+                        beginDate: function () {
+                            return beginDate;
                         },
                         endDate: function () {
                             return endDate;
@@ -708,6 +743,9 @@
         $scope.showTrend = function() {
             workItemDialog.showPreciseTrend($scope.trendStat, city, $scope.beginDate, $scope.endDate);
         };
+        $scope.showTopKpi = function() {
+            mapDialogService.showPreciseTop($scope.beginDate, $scope.endDate);
+        };
 
         $scope.showKpi();
 
@@ -772,6 +810,54 @@
             workItemDialog.showDetails(view, $scope.queryWorkItems);
         };
         $scope.queryWorkItems();
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.building);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller("rutrace.top", function ($scope, $uibModalInstance, dialogTitle,
+        preciseInterferenceService, kpiPreciseService, workitemService, beginDate, endDate) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.topCells = [];
+        $scope.updateMessages = [];
+        $scope.beginDate = beginDate;
+        $scope.endDate = endDate;
+
+        $scope.query = function () {
+            $scope.topCells = [];
+            kpiPreciseService.queryTopKpis(beginDate.value, endDate.value, $scope.topCount.selected,
+                $scope.orderPolicy.selected).then(function (result) {
+                    $scope.topCells = result;
+                    angular.forEach(result, function (cell) {
+                        workitemService.queryByCellId(cell.cellId, cell.sectorId).then(function (items) {
+                            if (items.length > 0) {
+                                for (var j = 0; j < $scope.topCells.length; j++) {
+                                    if (items[0].eNodebId === $scope.topCells[j].cellId && items[0].sectorId === $scope.topCells[j].sectorId) {
+                                        $scope.topCells[j].hasWorkItems = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        });
+                        preciseInterferenceService.queryMonitor(cell.cellId, cell.sectorId).then(function (monitored) {
+                            cell.isMonitored = monitored;
+                        });
+                    });
+                });
+        };
+        $scope.monitorAll = function () {
+            angular.forEach($scope.topCells, function (cell) {
+                if (cell.isMonitored === false) {
+                    preciseInterferenceService.addMonitor(cell);
+                }
+            });
+        };
+
+        $scope.query();
 
         $scope.ok = function () {
             $uibModalInstance.close($scope.building);

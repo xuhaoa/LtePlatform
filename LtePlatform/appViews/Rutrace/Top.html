@@ -1,29 +1,43 @@
-﻿<div uib-alert ng-repeat="message in updateMessages" type="success" dismiss-on-timeout="2000" close="closeAlert(updateMessages, $index)">
-    {{message.cellName}}编号的工单已生成！
+﻿<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-hidden="true">
+        &times;
+    </button>
+    <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
-<div class="row">
-    <div class="col-md-6">
-        <div date-span-column begin-date="beginDate" end-date="endDate"></div>
+<div class="modal-body">
+    <div uib-alert ng-repeat="message in updateMessages" type="success" dismiss-on-timeout="2000" close="closeAlert(updateMessages, $index)">
+        {{message.cellName}}编号的工单已生成！
     </div>
-    <div class="col-md-6">
-        <label>排序依据：</label>
-        <div class="input-group">
-            <select class="form-control" ng-model="orderPolicy.selected" ng-options="p as p for p in orderPolicy.options"></select>
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-warning" ng-click="monitorAll()">
-                    <i class="glyphicon glyphicon-alert" title="全部监控"></i>
-                </button>
-            </span>            
+    <div class="row">
+        <div class="col-md-6">
+            <div date-span-column begin-date="beginDate" end-date="endDate"></div>
         </div>
-        <label>TOP个数：</label>
-        <div class="input-group">
-            <select class="form-control" ng-model="topCount.selected" ng-options="c as c for c in topCount.options"></select>
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-success" ng-click="query()">
-                    <i class="glyphicon glyphicon-stats" title="统计数据"></i>
-                </button>
-            </span>
+        <div class="col-md-6">
+            <label>排序依据：</label>
+            <div class="input-group">
+                <select class="form-control" ng-model="orderPolicy.selected" ng-options="p as p for p in orderPolicy.options"></select>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-warning" ng-click="monitorAll()">
+                        <i class="glyphicon glyphicon-alert" title="全部监控"></i>
+                    </button>
+                </span>
+            </div>
+            <label>TOP个数：</label>
+            <div class="input-group">
+                <select class="form-control" ng-model="topCount.selected" ng-options="c as c for c in topCount.options"></select>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-success" ng-click="query()">
+                        <i class="glyphicon glyphicon-stats" title="统计数据"></i>
+                    </button>
+                </span>
+            </div>
         </div>
     </div>
+    <div top-cell current-cells="topCells" root-path="rootPath" begin-date="beginDate" end-date="endDate" update-messages="updateMessages"></div>
+
 </div>
-<div top-cell current-cells="topCells" root-path="rootPath" begin-date="beginDate" end-date="endDate" update-messages="updateMessages"></div>
+
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>
