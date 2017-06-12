@@ -96,12 +96,16 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
         $scope.showWorkItemDistrict = function (district) {
             mapDialogService.showPreciseWorkItemDistrict(district, $scope.endDate);
         };
+        $scope.showTopDistrict = function(district) {
+            mapDialogService.showPreciseTopDistrict($scope.beginDate, $scope.endDate, district);
+        };
     })
     .directive('districtStatTable', function ($compile, calculateService) {
         return calculateService.generateGridDirective({
             controllerName: 'DistrictStatController',
             scope: {
                 overallStat: '=',
+                beginDate: '=',
                 endDate: '='
             },
             argumentName: 'overallStat.districtStats'

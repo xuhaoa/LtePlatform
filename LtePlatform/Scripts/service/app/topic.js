@@ -1713,6 +1713,23 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
                         }
                     }
                 });
+            },
+            showPreciseTopDistrict: function (beginDate, endDate, district) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Rutrace/Top.html',
+                    controller: 'rutrace.top.district',
+                    resolve: {
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        },
+                        district: function() {
+                            return district;
+                        }
+                    }
+                });
             }
         };
     })
@@ -2214,6 +2231,54 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
             $scope.topCells = [];
             kpiPreciseService.queryTopKpis(beginDate.value, endDate.value, $scope.topCount.selected,
                 $scope.orderPolicy.selected).then(function (result) {
+                    $scope.topCells = result;
+                    angular.forEach(result, function (cell) {
+                        workitemService.queryByCellId(cell.cellId, cell.sectorId).then(function (items) {
+                            if (items.length > 0) {
+                                for (var j = 0; j < $scope.topCells.length; j++) {
+                                    if (items[0].eNodebId === $scope.topCells[j].cellId && items[0].sectorId === $scope.topCells[j].sectorId) {
+                                        $scope.topCells[j].hasWorkItems = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        });
+                        preciseInterferenceService.queryMonitor(cell.cellId, cell.sectorId).then(function (monitored) {
+                            cell.isMonitored = monitored;
+                        });
+                    });
+                });
+        };
+        $scope.monitorAll = function () {
+            angular.forEach($scope.topCells, function (cell) {
+                if (cell.isMonitored === false) {
+                    preciseInterferenceService.addMonitor(cell);
+                }
+            });
+        };
+
+        $scope.query();
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.building);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller("rutrace.top.district", function ($scope, $uibModalInstance, district,
+        preciseInterferenceService, kpiPreciseService, workitemService, beginDate, endDate) {
+        $scope.dialogTitle = "TOP指标分析-" + district;
+        $scope.topCells = [];
+        $scope.updateMessages = [];
+        $scope.beginDate = beginDate;
+        $scope.endDate = endDate;
+
+        $scope.query = function () {
+            $scope.topCells = [];
+            kpiPreciseService.queryTopKpisInDistrict($scope.beginDate.value, $scope.endDate.value, $scope.topCount.selected,
+                $scope.orderPolicy.selected, $scope.city.selected, district).then(function (result) {
                     $scope.topCells = result;
                     angular.forEach(result, function (cell) {
                         workitemService.queryByCellId(cell.cellId, cell.sectorId).then(function (items) {
