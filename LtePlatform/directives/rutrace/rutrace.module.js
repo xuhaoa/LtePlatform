@@ -6,7 +6,7 @@
     ])
     .constant('htmlRoot', '/directives/rutrace/');
 
-angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region'])
+angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog'])
     .directive('topCell', function (workitemService, htmlRoot, networkElementService, neighborDialogService) {
         return {
             restrict: 'EA',
@@ -58,7 +58,7 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region'])
         };
     })
 
-    .controller('DistrictStatController', function ($scope) {
+    .controller('DistrictStatController', function ($scope, mapDialogService) {
         $scope.cityFlag = '全网';
         $scope.gridOptions = {
             columnDefs: [
@@ -84,39 +84,28 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region'])
                 { field: 'thirdRate', name: '第三精确覆盖率', cellFilter: 'number: 2' },
                 {
                     name: '处理',
-                    cellTemplate: '<a class="btn btn-sm btn-primary" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="showWorkitemDistrict(row.entity.district)">工单处理</a>'
+                    cellTemplate: '<a class="btn btn-sm btn-primary" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showWorkItemDistrict(row.entity.district)">工单处理</a>'
                 },
                 {
                     name: '分析',
-                    cellTemplate: '<a class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="showTopDistrict(row.entity.district)">TOP指标</a>'
+                    cellTemplate: '<a class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showTopDistrict(row.entity.district)">TOP指标</a>'
                 }
             ],
             data: []
         };
+        $scope.showWorkItemDistrict = function (district) {
+            mapDialogService.showPreciseWorkItemDistrict(district, $scope.endDate);
+        };
     })
-    .directive('districtStatTable', function ($compile) {
-        return {
-            controller: 'DistrictStatController',
-            restrict: 'EA',
-            replace: true,
+    .directive('districtStatTable', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'DistrictStatController',
             scope: {
                 overallStat: '=',
-                rootPath: '='
+                endDate: '='
             },
-            template: '<div></div>',
-            link: function(scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('overallStat.districtStats', function(districtStats) {
-                    scope.gridOptions.data = districtStats;
-
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div style="height: 300px" ui-grid="gridOptions"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
+            argumentName: 'overallStat.districtStats'
+        }, $compile);
     })
 
     .controller('TownStatController', function($scope) {

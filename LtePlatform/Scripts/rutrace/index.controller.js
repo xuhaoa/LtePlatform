@@ -39,14 +39,6 @@
                     templateUrl: viewDir + 'WorkItem/ForCell.html',
                     controller: "rutrace.workitems"
                 })
-                .when('/workitemDistrict/:district', {
-                    templateUrl: viewDir + "WorkItem/ForCity.html",
-                    controller: "workitem.district"
-                })
-                .when('/workitemCity', {
-                    templateUrl: viewDir + "",
-                    controller: ""
-                })
                 .when('/cellTrend/:cellId/:sectorId/:name', {
                     templateUrl: viewDir + "WorkItem/CellTrend.html",
                     controller: "cell.trend"
@@ -584,19 +576,4 @@
 
         $scope.queryWorkItems();
         $scope.queryPreciseCells();
-    })
-    .controller("workitem.district", function ($scope, $routeParams, preciseWorkItemService, workItemDialog) {
-        $scope.page.title = $routeParams.district + "精确覆盖优化工单一览";
-        $scope.queryWorkItems = function () {
-            preciseWorkItemService.queryByDateSpanDistrict($scope.seasonDate.value, $scope.endDate.value, $routeParams.district).then(function (views) {
-                angular.forEach(views, function (view) {
-                    view.detailsPath = $scope.rootPath + "details/" + view.serialNumber;
-                });
-                $scope.viewItems = views;
-            });
-        };
-        $scope.showDetails = function (view) {
-            workItemDialog.showDetails(view, $scope.queryWorkItems);
-        };
-        $scope.queryWorkItems();
     });

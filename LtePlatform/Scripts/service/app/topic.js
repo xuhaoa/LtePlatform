@@ -1664,6 +1664,20 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
                         }
                     }
                 });
+            },
+            showPreciseWorkItemDistrict: function (district, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Rutrace/WorkItem/ForCity.html',
+                    controller: 'workitem.district',
+                    resolve: {
+                        district: function() {
+                            return district;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        }
+                    }
+                });
             }
         };
     })
@@ -2100,6 +2114,37 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
         $scope.endDate = endDate;
         $scope.queryWorkItems = function () {
             preciseWorkItemService.queryByDateSpan($scope.seasonDate.value, $scope.endDate.value).then(function (views) {
+                angular.forEach(views, function (view) {
+                    view.detailsPath = $scope.rootPath + "details/" + view.serialNumber;
+                });
+                $scope.viewItems = views;
+            });
+        };
+        $scope.showDetails = function (view) {
+            workItemDialog.showDetails(view, $scope.queryWorkItems);
+        };
+        $scope.queryWorkItems();
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.building);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller("workitem.district", function ($scope, $uibModalInstance, district, endDate,
+        preciseWorkItemService, workItemDialog) {
+        $scope.dialogTitle = district + "精确覆盖优化工单一览";
+        var lastSeason = new Date();
+        lastSeason.setDate(lastSeason.getDate() - 100);
+        $scope.seasonDate = {
+            value: new Date(lastSeason.getFullYear(), lastSeason.getMonth(), lastSeason.getDate(), 8),
+            opened: false
+        };
+        $scope.endDate = endDate;
+        $scope.queryWorkItems = function () {
+            preciseWorkItemService.queryByDateSpanDistrict($scope.seasonDate.value, $scope.endDate.value, district).then(function (views) {
                 angular.forEach(views, function (view) {
                     view.detailsPath = $scope.rootPath + "details/" + view.serialNumber;
                 });
