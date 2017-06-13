@@ -7,12 +7,12 @@
     .constant('htmlRoot', '/directives/rutrace/');
 
 angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog'])
-    .directive('topCell', function (workitemService, htmlRoot, networkElementService, neighborDialogService) {
+    .directive('topCell', function (workitemService, htmlRoot, networkElementService, neighborDialogService,
+        workItemDialog) {
         return {
             restrict: 'EA',
             replace: true,
             scope: {
-                rootPath: '=',
                 topCells: '=currentCells',
                 beginDate: '=',
                 endDate: '=',
@@ -53,6 +53,9 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
                         sectorId: cell.sectorId,
                         name: cell.eNodebName
                     }, scope.beginDate.value, scope.endDate.value);
+                };
+                scope.showCellTrend = function(cell) {
+                    workItemDialog.showPreciseCellTrend(cell.eNodebName + "-" + cell.sectorId, cell.cellId, cell.sectorId);
                 };
             }
         };

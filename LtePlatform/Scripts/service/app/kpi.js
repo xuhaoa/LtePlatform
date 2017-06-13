@@ -4758,6 +4758,30 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
+	.controller("cell.trend", function ($scope, $uibModalInstance, name, cellId, sectorId,
+		appKpiService, cellPreciseService, kpiDisplayService, appFormatService) {
+		$scope.dialogTitle = "小区指标变化趋势分析" + "-" + name;
+		$scope.showTrend = function () {
+			$scope.beginDateString = appFormatService.getDateString($scope.beginDate.value, "yyyy年MM月dd日");
+			$scope.endDateString = appFormatService.getDateString($scope.endDate.value, "yyyy年MM月dd日");
+			cellPreciseService.queryDataSpanKpi($scope.beginDate.value, $scope.endDate.value, cellId,
+				sectorId).then(function (result) {
+					$scope.mrsConfig = kpiDisplayService.getMrsOptions(result,
+						$scope.beginDateString + "-" + $scope.endDateString + "MR数变化趋势");
+					$scope.preciseConfig = kpiDisplayService.getPreciseOptions(result,
+						$scope.beginDateString + "-" + $scope.endDateString + "精确覆盖率变化趋势");
+				});
+		};
+		$scope.showTrend();
+
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.distributionGroups);
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
 	.factory('workItemDialog', function(menuItemService, workitemService) {
 		return {
 			feedback: function(view, callbackFunc) {
@@ -4999,6 +5023,23 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
 						},
 						city: function() {
 							return city;
+						}
+					}
+				});
+			},
+			showPreciseCellTrend: function (name, cellId, sectorId) {
+				menuItemService.showGeneralDialog({
+				    templateUrl: '/appViews/Rutrace/WorkItem/CellTrend.html',
+				    controller: 'cell.trend',
+					resolve: {
+						name: function () {
+							return name;
+						},
+						cellId: function () {
+							return cellId;
+						},
+						sectorId: function() {
+							return sectorId;
 						}
 					}
 				});
