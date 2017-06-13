@@ -2,7 +2,6 @@
 using Abp.Reflection;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
-using Lte.Evaluations.Test.DataService.Queries;
 using Lte.Evaluations.TestService;
 using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract.Infrastructure;
@@ -14,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lte.Evaluations.DataService.Queries;
 
 namespace Lte.Evaluations.DataService.College
 {

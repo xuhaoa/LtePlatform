@@ -1,68 +1,14 @@
-﻿using Abp.Domain.Entities;
+﻿using System;
+using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
-using Lte.Parameters.MockOperations;
-using System;
-using Abp.EntityFramework.AutoMapper;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 
-namespace Lte.Parameters.Entities.Work
+namespace Lte.Evaluations.ViewModels.RegionKpi
 {
-    [TypeDoc("存储于数据库的工单信息")]
-    [AutoMapConverter(typeof(WorkItemExcel), typeof(WorkItemConverter))]
-    public class WorkItem : Entity
-    {
-        [MemberDoc("工单编号")]
-        public string SerialNumber { get; set; }
-
-        [MemberDoc("工单类型")]
-        public WorkItemType Type { get; set; }
-
-        [MemberDoc("工单子类型")]
-        public WorkItemSubtype Subtype { get; set; }
-
-        [MemberDoc("基站编号")]
-        public int ENodebId { get; set; }
-
-        [MemberDoc("扇区编号")]
-        public byte SectorId { get; set; }
-
-        [MemberDoc("派单时间")]
-        public DateTime BeginTime { get; set; }
-
-        [MemberDoc("回单期限")]
-        public DateTime Deadline { get; set; }
-
-        [MemberDoc("重复次数")]
-        public short RepeatTimes { get; set; }
-
-        [MemberDoc("驳回次数")]
-        public short RejectTimes { get; set; }
-
-        [MemberDoc("责任人")]
-        public string StaffName { get; set; }
-
-        [MemberDoc("最近反馈时间")]
-        public DateTime? FeedbackTime { get; set; }
-
-        [MemberDoc("完成时间")]
-        public DateTime? FinishTime { get; set; }
-
-        [MemberDoc("定位原因")]
-        public WorkItemCause Cause { get; set; }
-
-        [MemberDoc("工单状态")]
-        public WorkItemState State { get; set; }
-
-        [MemberDoc("省中心平台反馈信息")]
-        public string Comments { get; set; }
-
-        [MemberDoc("本平台反馈信息")]
-        public string FeedbackContents { get; set; }
-    }
-
     [TypeDoc("工单信息视图")]
     [AutoMapFrom(typeof(WorkItem))]
     public class WorkItemView
@@ -161,14 +107,6 @@ namespace Lte.Parameters.Entities.Work
         }
     }
 
-    public class WorkItemFeedbackView
-    {
-        [MemberDoc("工单编号")]
-        public string SerialNumber { get; set; }
-
-        public string Message { get; set; }
-    }
-
     [AutoMapFrom(typeof(WorkItemView))]
     public class WorkItemChartView
     {
@@ -188,12 +126,4 @@ namespace Lte.Parameters.Entities.Work
         public string WorkItemState { get; set; }
     }
 
-    public class WorkItemChartTypeView
-    {
-        public string Type { get; set; }
-
-        public string SubType { get; set; }
-
-        public int Total { get; set; }
-    }
 }

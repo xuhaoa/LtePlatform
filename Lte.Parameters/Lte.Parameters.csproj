@@ -171,10 +171,8 @@
     <Compile Include="Abstract\Infrastructure\IInfrastructureRepository.cs" />
     <Compile Include="Abstract\Infrastructure\NeighborRepositories.cs" />
     <Compile Include="Abstract\Kpi\MrMongoInterfaces.cs" />
-    <Compile Include="Abstract\IPagingRepository.cs" />
     <Compile Include="Abstract\Kpi\PreciseInterfaces.cs" />
     <Compile Include="Abstract\Infrastructure\IRegionRepository.cs" />
-    <Compile Include="Abstract\PagingRepositoryBase.cs" />
     <Compile Include="Abstract\Switch\ICellMeasGroupZteRepository.cs" />
     <Compile Include="Abstract\Switch\IInterFreqHoGroupRepository.cs" />
     <Compile Include="Abstract\Switch\IInterRatHoCommRepository.cs" />
@@ -185,7 +183,6 @@
     <Compile Include="Concrete\Basic\EUtranCellFDDZteRepository.cs" />
     <Compile Include="Concrete\Channel\CellPcRepositories.cs" />
     <Compile Include="Concrete\Channel\PDSCHCfgRepository.cs" />
-    <Compile Include="Concrete\Kpi\EFAlarmRepository.cs" />
     <Compile Include="Concrete\Basic\EFCellRepository.cs" />
     <Compile Include="Concrete\College\EFTestRepositories.cs" />
     <Compile Include="Concrete\College\EFCollegeRepository.cs" />
@@ -223,7 +220,6 @@
     <Compile Include="Entities\Basic\CellHuaweiMongo.cs" />
     <Compile Include="Entities\Basic\Cell.cs" />
     <Compile Include="Entities\College\CollegeInfo.cs" />
-    <Compile Include="Abstract\Kpi\IAlarmRepository.cs" />
     <Compile Include="Entities\Dt\DtFilesInfo.cs" />
     <Compile Include="Entities\Basic\ENodeb.cs" />
     <Compile Include="Entities\Dt\FileRecords.cs" />
@@ -245,21 +241,18 @@
     <Compile Include="Entities\Switch\IntraRatHoComm.cs" />
     <Compile Include="Entities\Switch\UeEUtranMeasurementZte.cs" />
     <Compile Include="Entities\Town.cs" />
-    <Compile Include="Entities\Work\WorkItem.cs" />
-    <Compile Include="Entities\Work\WorkItemExcel.cs" />
-    <Compile Include="Migrations\201705190053391_Change_Construction.cs" />
-    <Compile Include="Migrations\201705190053391_Change_Construction.Designer.cs">
-      <DependentUpon>201705190053391_Change_Construction.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201705190058535_Change_Construction1.cs" />
     <Compile Include="Migrations\201705190058535_Change_Construction1.Designer.cs">
       <DependentUpon>201705190058535_Change_Construction1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706131036161_Move_Work_Item.cs" />
+    <Compile Include="Migrations\201706131036161_Move_Work_Item.Designer.cs">
+      <DependentUpon>201706131036161_Move_Work_Item.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MockOperations\DbHelper.cs" />
     <Compile Include="MockOperations\MockItemsAudited.cs" />
     <Compile Include="MockOperations\MockItemsRepository.cs" />
-    <Compile Include="MockOperations\WorkItemConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -283,11 +276,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705190053391_Change_Construction.resx">
-      <DependentUpon>201705190053391_Change_Construction.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705190058535_Change_Construction1.resx">
       <DependentUpon>201705190058535_Change_Construction1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706131036161_Move_Work_Item.resx">
+      <DependentUpon>201706131036161_Move_Work_Item.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

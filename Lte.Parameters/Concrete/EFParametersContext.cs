@@ -4,7 +4,6 @@ using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.College;
 using Lte.Parameters.Entities.Kpi;
 using Lte.Parameters.Entities.Neighbor;
-using Lte.Parameters.Entities.Work;
 using System.Data.Entity;
 
 namespace Lte.Parameters.Concrete
@@ -42,8 +41,6 @@ namespace Lte.Parameters.Concrete
         public DbSet<LteNeighborCell> LteNeighborCells { get; set; }
 
         public DbSet<NearestPciCell> NearestPciCells { get; set; }
-
-        public DbSet<WorkItem> WorkItems { get; set; }
 
         public DbSet<InterferenceMatrixStat> InterferenceMatrices { get; set; }
         

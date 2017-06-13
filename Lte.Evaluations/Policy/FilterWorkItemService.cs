@@ -1,7 +1,7 @@
 ﻿using Lte.Domain.Common.Wireless;
-using Lte.Parameters.Entities.Work;
 using System;
 using System.Linq.Expressions;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.Policy
 {

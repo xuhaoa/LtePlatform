@@ -101,5 +101,8 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<MicroItem> MicroItems { get; set; }
 
         public DbSet<MicroAddress> MicroAddresses { get; set; }
+
+        public DbSet<WorkItem> WorkItems { get; set; }
+
     }
 }

@@ -8,7 +8,6 @@ using Lte.Evaluations.DataService.Mr;
 using Lte.Evaluations.DataService.Switch;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Concrete;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Abstract.Infrastructure;
@@ -89,7 +88,7 @@ namespace LtePlatform
 
             ninjectKernel.Bind<INearestPciCellRepository>().To<EFNearestPciCellRepository>();
 
-            ninjectKernel.Bind<IWorkItemRepository>().To<EFWorkItemRepository>();
+            ninjectKernel.Bind<IWorkItemRepository>().To<WorkItemRepository>();
 
             ninjectKernel.Bind<IInterferenceMatrixRepository>().To<EFInterferenceMatrixRepository>();
 
@@ -189,9 +188,9 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IStationDictionaryRepository>().To<StationDictionaryRepository>();
 
-            ninjectKernel.Bind<IConstructionInformationRepository>().To<Construction_InformationRepository>();
+            ninjectKernel.Bind<IConstructionInformationRepository>().To<ConstructionInformationRepository>();
 
-            ninjectKernel.Bind<IEnodebBaseRepository>().To<Enodeb_BaseRepository>();
+            ninjectKernel.Bind<IEnodebBaseRepository>().To<EnodebBaseRepository>();
             
             ninjectKernel.Bind<IDistributionRepository>().To<DistributionRepository>();
 

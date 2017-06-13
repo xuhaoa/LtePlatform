@@ -2,14 +2,13 @@
 using Abp.Reflection;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.Policy;
-using Lte.Evaluations.Test.DataService.Queries;
-using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Entities;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Lte.Evaluations.DataService.Queries;
 
 namespace Lte.Evaluations.ViewModel
 {

@@ -3,6 +3,10 @@ using Abp.EntityFramework.Repositories;
 using Lte.MySqlFramework.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Abp.Domain.Entities;
 using Lte.Domain.Common;
 
 namespace Lte.MySqlFramework.Abstract
@@ -85,5 +89,32 @@ namespace Lte.MySqlFramework.Abstract
     public interface ITownBoundaryRepository : IRepository<TownBoundary>, ISaveChanges
     {
         
+    }
+
+    public interface IPagingRepository<TEntity> : IRepository<TEntity>
+        where TEntity : class, IEntity<int>
+    {
+        IQueryable<TEntity> Get<TKey>(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize,
+            Expression<Func<TEntity, TKey>> sortKeySelector, bool isAsc = true);
+
+        IQueryable<TEntity> GetAll<TKey>(int pageIndex, int pageSize, Expression<Func<TEntity, TKey>> sortKeySelector,
+            bool isAsc = true);
+    }
+
+    public interface IWorkItemRepository : IPagingRepository<WorkItem>
+    {
+        Task<List<WorkItem>> GetAllListAsync(int eNodebId, byte sectorId);
+
+        Task<List<WorkItem>> GetAllListAsync(int eNodebId);
+
+        Task<List<WorkItem>> GetAllListAsync(DateTime begin, DateTime end);
+
+        Task<List<WorkItem>> GetAllKpiListAsync(DateTime begin, DateTime end);
+
+        Task<List<WorkItem>> GetUnfinishedPreciseListAsync(DateTime begin, DateTime end);
+
+        Task<WorkItem> GetPreciseExistedAsync(int eNodebId, byte sectorId);
+
+        int SaveChanges();
     }
 }

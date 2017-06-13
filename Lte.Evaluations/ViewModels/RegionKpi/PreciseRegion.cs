@@ -1,10 +1,52 @@
 ﻿using Abp.EntityFramework.AutoMapper;
-using Lte.Parameters.Entities.Kpi;
+using Lte.MySqlFramework.Entities;
 using System;
+using System.Collections.Generic;
+using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common.Wireless;
+using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.ViewModels.RegionKpi
 {
+    public class PreciseRegionDateView : IStatDate
+    {
+        public DateTime StatDate { get; set; }
+
+        public IEnumerable<DistrictPreciseView> DistrictPreciseViews { get; set; } 
+
+        public IEnumerable<TownPreciseView> TownPreciseViews { get; set; }
+    }
+
+    public class FlowRegionDateView : IStatDate
+    {
+        public DateTime StatDate { get; set; }
+
+        public IEnumerable<DistrictFlowView> DistrictFlowViews { get; set; }
+
+        public IEnumerable<TownFlowView> TownFlowViews { get; set; }
+    }
+
+    [AutoMapFrom(typeof(DownSwitchFlow))]
+    public class DownSwitchFlowView
+    {
+        public string Region { get; set; }
+
+        public double Flow4G { get; set; }
+
+        public double DownSwitchFlow3G { get; set; }
+
+        public double DownSwitchRate => 100*DownSwitchFlow3G/Flow4G;
+    }
+
+    public class DownSwitchFlowDateView
+    {
+        public DateTime StatDate { get; set; }
+
+        public string City { get; set; }
+
+        public IEnumerable<DownSwitchFlowView> DownSwitchFlowViews { get; set; }
+    }
+
     [AutoMapFrom(typeof(TownPreciseView))]
     public class DistrictPreciseView : ICityDistrict
     {
@@ -24,8 +66,8 @@ namespace Lte.Evaluations.ViewModels.RegionKpi
 
         public double FirstRate => 100 - (double)FirstNeighbors * 100 / TotalMrs;
 
-        public double ThirdRate => 100 - (double) ThirdNeighbors*100/TotalMrs;
-        
+        public double ThirdRate => 100 - (double)ThirdNeighbors * 100 / TotalMrs;
+
         public int NeighborsMore { get; set; }
 
         public int InterFirstNeighbors { get; set; }

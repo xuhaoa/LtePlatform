@@ -4,7 +4,13 @@ using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Abp.Domain.Entities;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Lte.MySqlFramework.Concrete
 {
@@ -141,10 +147,10 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class Construction_InformationRepository : EfRepositoryBase<MySqlContext, ConstructionInformation>,
+    public class ConstructionInformationRepository : EfRepositoryBase<MySqlContext, ConstructionInformation>,
         IConstructionInformationRepository
     {
-        public Construction_InformationRepository(IDbContextProvider<MySqlContext> dbContextProvider)
+        public ConstructionInformationRepository(IDbContextProvider<MySqlContext> dbContextProvider)
             : base(dbContextProvider)
         {
         }
@@ -155,9 +161,9 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class Enodeb_BaseRepository : EfRepositoryBase<MySqlContext, ENodebBase>, IEnodebBaseRepository
+    public class EnodebBaseRepository : EfRepositoryBase<MySqlContext, ENodebBase>, IEnodebBaseRepository
     {
-        public Enodeb_BaseRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        public EnodebBaseRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
         
@@ -176,6 +182,103 @@ namespace Lte.MySqlFramework.Concrete
         public int SaveChanges()
         {
             return Context.SaveChanges();
+        }
+    }
+
+    public abstract class PagingRepositoryBase<TEntity> : EfRepositoryBase<MySqlContext, TEntity>, IPagingRepository<TEntity>
+        where TEntity : class, IEntity<int>, new()
+    {
+        public IQueryable<TEntity> Get<TKey>(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize,
+            Expression<Func<TEntity, TKey>> sortKeySelector, bool isAsc = true)
+        {
+            Guard.ArgumentNotNull(predicate, "predicate");
+            Guard.ArgumentNotNull(sortKeySelector, "sortKeySelector");
+            return isAsc
+                ? GetAll().Where(predicate)
+                    .OrderBy(sortKeySelector)
+                    .Skip(pageSize * (pageIndex - 1))
+                    .Take(pageSize)
+                    .AsQueryable()
+                : GetAll().Where(predicate)
+                    .OrderByDescending(sortKeySelector)
+                    .Skip(pageSize * (pageIndex - 1))
+                    .Take(pageSize)
+                    .AsQueryable();
+        }
+
+        public IQueryable<TEntity> GetAll<TKey>(int pageIndex, int pageSize,
+            Expression<Func<TEntity, TKey>> sortKeySelector, bool isAsc = true)
+        {
+            Guard.ArgumentNotNull(sortKeySelector, "sortKeySelector");
+            return isAsc
+                ? GetAll().OrderBy(sortKeySelector)
+                    .Skip(pageSize * (pageIndex - 1))
+                    .Take(pageSize)
+                    .AsQueryable()
+                : GetAll().OrderByDescending(sortKeySelector)
+                    .Skip(pageSize * (pageIndex - 1))
+                    .Take(pageSize)
+                    .AsQueryable();
+        }
+
+        public PagingRepositoryBase(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+    }
+
+    public class WorkItemRepository : PagingRepositoryBase<WorkItem>, IWorkItemRepository
+    {
+        public async Task<List<WorkItem>> GetAllListAsync(int eNodebId)
+        {
+            return await GetAllListAsync(x => x.ENodebId == eNodebId);
+        }
+
+        public async Task<List<WorkItem>> GetAllListAsync(DateTime begin, DateTime end)
+        {
+            return await GetAllListAsync(x => x.Deadline > begin && x.Deadline <= end);
+        }
+
+        public async Task<List<WorkItem>> GetAllKpiListAsync(DateTime begin, DateTime end)
+        {
+            return
+                await
+                    GetAllListAsync(
+                        x =>
+                            x.Deadline > begin && x.Deadline <= end && (x.Type == WorkItemType.Interference4G ||
+                            x.Type == WorkItemType.Kpi2G || x.Type == WorkItemType.Kpi4G));
+        }
+
+        public async Task<List<WorkItem>> GetUnfinishedPreciseListAsync(DateTime begin, DateTime end)
+        {
+            return
+                await
+                    GetAllListAsync(
+                        x => x.BeginTime >= begin && x.BeginTime < end && x.Subtype == WorkItemSubtype.PreciseRate
+                        && x.State != WorkItemState.Finished);
+        }
+
+        public async Task<WorkItem> GetPreciseExistedAsync(int eNodebId, byte sectorId)
+        {
+            return
+                await
+                    FirstOrDefaultAsync(
+                        x =>
+                            x.ENodebId == eNodebId && x.SectorId == sectorId && x.Subtype == WorkItemSubtype.PreciseRate &&
+                            x.State != WorkItemState.Finished);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+
+        public async Task<List<WorkItem>> GetAllListAsync(int eNodebId, byte sectorId)
+        {
+            return await GetAllListAsync(x => x.ENodebId == eNodebId && x.SectorId == sectorId);
+        }
+
+        public WorkItemRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using Lte.Evaluations.ViewModels.RegionKpi;
-using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Lte.MySqlFramework.Entities;
+using NUnit.Framework;
 
-namespace Lte.Evaluations.Test.DataService.Queries
+namespace Lte.Evaluations.DataService.Queries
 {
     public static class CdmaRegionViewQueries
     {

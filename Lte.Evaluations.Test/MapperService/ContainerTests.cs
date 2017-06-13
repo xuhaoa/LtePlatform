@@ -15,12 +15,12 @@ using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Dt;
 using Lte.Parameters.Entities.Neighbor;
 using Lte.Parameters.Entities.Switch;
-using Lte.Parameters.Entities.Work;
 using NUnit.Framework;
 using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Evaluations.ViewModels.RegionKpi;
 
 namespace Lte.Evaluations.MapperService
 {
