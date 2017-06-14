@@ -148,6 +148,7 @@
     <Compile Include="Concrete\FlowRepository.cs" />
     <Compile Include="Concrete\MySqlContext.cs" />
     <Compile Include="Concrete\StatRepositroies.cs" />
+    <Compile Include="Entities\BranchDemand.cs" />
     <Compile Include="Entities\CdmaRegionStat.cs" />
     <Compile Include="Entities\CollegeTestInfos.cs" />
     <Compile Include="Entities\ComplainItem.cs" />
@@ -158,13 +159,13 @@
     <Compile Include="Entities\PreciseWorkItemCell.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
-    <Compile Include="Migrations\201706100906214_Add_Town_Rrc.cs" />
-    <Compile Include="Migrations\201706100906214_Add_Town_Rrc.Designer.cs">
-      <DependentUpon>201706100906214_Add_Town_Rrc.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201706130919364_Move_Work_Item.cs" />
     <Compile Include="Migrations\201706130919364_Move_Work_Item.Designer.cs">
       <DependentUpon>201706130919364_Move_Work_Item.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706140920399_Extend_ComplainItem.cs" />
+    <Compile Include="Migrations\201706140920399_Extend_ComplainItem.Designer.cs">
+      <DependentUpon>201706140920399_Extend_ComplainItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -175,11 +176,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706100906214_Add_Town_Rrc.resx">
-      <DependentUpon>201706100906214_Add_Town_Rrc.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706130919364_Move_Work_Item.resx">
       <DependentUpon>201706130919364_Move_Work_Item.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706140920399_Extend_ComplainItem.resx">
+      <DependentUpon>201706140920399_Extend_ComplainItem.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

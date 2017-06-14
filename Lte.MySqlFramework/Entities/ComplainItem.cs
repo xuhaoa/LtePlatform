@@ -14,6 +14,34 @@ namespace Lte.MySqlFramework.Entities
     {
         public string SerialNumber { get; set; }
 
+        public string SubscriberPhone { get; set; }
+
+        public byte RepeatTimes { get; set; }
+
+        public bool IsUrgent { get; set; }
+
+        public string SubscriberInfo { get; set; }
+
+        public string ContactPhone { get; set; }
+
+        public string ContactPerson { get; set; }
+
+        public string ContactAddress { get; set; }
+
+        public string ManagerInfo { get; set; }
+
+        public string ComplainContents { get; set; }
+
+        public DateTime BeginDate { get; set; }
+
+        public DateTime Deadline { get; set; }
+
+        public string CurrentProcessor { get; set; }
+
+        public DateTime ProcessTime { get; set; }
+        
+        public string OssSerialNumber { get; set; }
+
         public int TownId { get; set; }
 
         [AutoMapPropertyResolve("ComplainSourceDescription", typeof(ComplainDto), typeof(ComplainSourceTransform))]
@@ -29,6 +57,13 @@ namespace Lte.MySqlFramework.Entities
         public string RoadName { get; set; }
         
         public string BuildingName { get; set; }
+
+        public string CauseLocation { get; set; }
+
+        public string PreProcessContents { get; set; }
+
+        [AutoMapPropertyResolve("Subscriber4G", typeof(ComplainExcel), typeof(YesToBoolTransform))]
+        public bool IsSubscriber4G { get; set; }
 
         public double Longtitute { get; set; }
         
@@ -51,8 +86,9 @@ namespace Lte.MySqlFramework.Entities
         public string SitePosition { get; set; }
 
         [AutoMapPropertyResolve("IsIndoorDescription", typeof(ComplainDto), typeof(IndoorBoolTransform))]
-        [AutoMapPropertyResolve("IndoorDescription", typeof(ComplainExcel), typeof(IndoorBoolTransform))]
         public bool IsIndoor { get; set; }
+
+        public string IndoorDescription { get; set; }
 
         [AutoMapPropertyResolve("ComplainSceneDescription", typeof(ComplainDto), typeof(ComplainSceneTransform))]
         [AutoMapPropertyResolve("Scene", typeof(ComplainExcel), typeof(ComplainSceneTransform))]
@@ -152,15 +188,77 @@ namespace Lte.MySqlFramework.Entities
         [ExcelColumn("工单编号")]
         public string SerialNumber { get; set; }
 
+        [ExcelColumn("所属区域")]
+        public string District { get; set; }
+        
+        [ExcelColumn("产品类型")]
+        public string ProductType { get; set; }
+
+        [ExcelColumn("服务类别")]
+        public string ServiceType { get; set; }
+
+        [ExcelColumn("工单状态")]
+        public string StateDescription { get; set; }
+
+        [ExcelColumn("客户电话")]
+        public string SubscriberPhone { get; set; }
+
+        [ExcelColumn("重复次数")]
+        public byte RepeatTimes { get; set; }
+
+        [ExcelColumn("紧急程度")]
+        public string UrgentDescription { get; set; }
+
+        public bool IsUrgent => UrgentDescription == "紧急";
+
+        [ExcelColumn("工单来源")]
+        public string ComplainSource { get; set; }
+
+        [ExcelColumn("归属地")]
+        public string City { get; set; }
+
+        [ExcelColumn("客户名称")]
+        public string SubscriberInfo { get; set; }
+
+        [ExcelColumn("联系电话1")]
+        public string ContactPhone { get; set; }
+
+        [ExcelColumn("联系人")]
+        public string ContactPerson { get; set; }
+
+        [ExcelColumn("联系地址")]
+        public string ContactAddress { get; set; }
+
+        [ExcelColumn("受理内容")]
+        public string ComplainContents { get; set; }
+
+        [ExcelColumn("受理时间")]
+        public DateTime BeginDate { get; set; }
+
+        [ExcelColumn("受理人班组")]
+        public string ManagerInfo { get; set; }
+
+        [ExcelColumn("当前环节")]
+        public string StageDescription { get; set; }
+
+        [ExcelColumn("全程超时时间")]
+        public DateTime Deadline { get; set; }
+
+        [ExcelColumn("当前处理班组")]
+        public string CurrentProcessor { get; set; }
+
+        [ExcelColumn("当前班组接单时间")]
+        public DateTime ProcessTime { get; set; }
+
+        [ExcelColumn("电子运维流水号")]
+        public string OssSerialNumber { get; set; }
+
         [ExcelColumn("工单来源")]
         public string SourceDescription { get; set; }
 
         [ExcelColumn("受理时间")]
         public DateTime BeginTime { get; set; }
-
-        [ExcelColumn("申告地")]
-        public string City { get; set; }
-
+        
         [ExcelColumn("区/县")]
         public string CandidateDistrict { get; set; }
 
@@ -170,8 +268,14 @@ namespace Lte.MySqlFramework.Entities
         [ExcelColumn("楼宇名称")]
         public string BuildingName { get; set; }
 
-        [ExcelColumn("战略分群")]
-        public string CustomerTypeDescription { get; set; }
+        [ExcelColumn("原因定性")]
+        public string CauseLocation { get; set; }
+
+        [ExcelColumn("预处理内容")]
+        public string PreProcessContents { get; set; }
+
+        [ExcelColumn("4G用户")]
+        public string Subscriber4G { get; set; }
 
         [ExcelColumn("经度", TransformEnum.Longtitute, 0)]
         public double Longtitute { get; set; }
@@ -187,13 +291,7 @@ namespace Lte.MySqlFramework.Entities
 
         [ExcelColumn("归属网格")]
         public string Grid { get; set; }
-
-        public string District
-            =>
-                string.IsNullOrEmpty(Grid)
-                    ? CandidateDistrict
-                    : (Grid.StartsWith("FS") ? Grid.Substring(2) : CandidateDistrict);
-
+        
         [ExcelColumn("业务类型")]
         public string NetworkDescription { get; set; }
 
@@ -215,133 +313,6 @@ namespace Lte.MySqlFramework.Entities
         public string CategoryDescription { get; set; }
 
         public int TownId { get; set; }
-    }
-
-
-    [AutoMapFrom(typeof(BranchDemandExcel), typeof(BranchDemandDto))]
-    public class BranchDemand : Entity, ITownId
-    {
-        public DateTime BeginDate { get; set; }
-
-        public string SerialNumber { get; set; }
-
-        public int TownId { get; set; }
-
-        public string ComplainContents { get; set; }
-
-        [AutoMapPropertyResolve("FirstContents", typeof(BranchDemandExcel), typeof(DateTimeNowLabelTransform))]
-        public string ProcessContents { get; set; }
-
-        [AutoMapPropertyResolve("SolveFunctionDescription", typeof(BranchDemandExcel), typeof(SolveFunctionTransform))]
-        [AutoMapPropertyResolve("SolveFunctionDescription", typeof(BranchDemandDto), typeof(SolveFunctionTransform))]
-        public SolveFunction SolveFunction { get; set; }
-
-        [AutoMapPropertyResolve("IsSolvedDescription", typeof(BranchDemandExcel), typeof(YesToBoolTransform))]
-        [AutoMapPropertyResolve("IsSolvedDescription", typeof(BranchDemandDto), typeof(YesToBoolTransform))]
-        public bool IsSolved { get; set; }
-
-        public DateTime? EndDate { get; set; }
-
-        public double Lontitute { get; set; }
-
-        public double Lattitute { get; set; }
-
-        public string SubscriberInfo { get; set; }
-
-        public string ManagerInfo { get; set; }
-    }
-
-    [AutoMapFrom(typeof(BranchDemand))]
-    public class BranchDemandDto
-    {
-        [MemberDoc("开始日期")]
-        public DateTime BeginDate { get; set; }
-
-        [MemberDoc("工单编码")]
-        public string SerialNumber { get; set; }
-
-        [MemberDoc("镇区编号，用于定义一个镇")]
-        public int TownId { get; set; }
-
-        [MemberDoc("城市")]
-        public string City { get; set; }
-
-        [MemberDoc("区域")]
-        public string District { get; set; }
-
-        [MemberDoc("镇区")]
-        public string Town { get; set; }
-
-        [MemberDoc("申告内容")]
-        public string ComplainContents { get; set; }
-
-        [MemberDoc("过程信息")]
-        public string ProcessContents { get; set; }
-
-        [AutoMapPropertyResolve("SolveFunction", typeof(BranchDemand), typeof(SolveFunctionDescriptionTransform))]
-        [MemberDoc("解决措施")]
-        public string SolveFunctionDescription { get; set; }
-
-        [AutoMapPropertyResolve("IsSolved", typeof(BranchDemand), typeof(YesNoTransform))]
-        [MemberDoc("是否已解决")]
-        public string IsSolvedDescription { get; set; }
-
-        [MemberDoc("结单日期，如果为空，则说明该工单未解决")]
-        public DateTime? EndDate { get; set; }
-
-        [MemberDoc("经度")]
-        public double Lontitute { get; set; }
-
-        [MemberDoc("纬度")]
-        public double Lattitute { get; set; }
-
-        [MemberDoc("用户信息")]
-        public string SubscriberInfo { get; set; }
-
-        [MemberDoc("客户经理信息")]
-        public string ManagerInfo { get; set; }
-    }
-
-    public class BranchDemandExcel : IDistrictTown
-    {
-        [ExcelColumn("用户申告时间")]
-        public DateTime BeginDate { get; set; }
-
-        [ExcelColumn("序号")]
-        public string SerialNumber { get; set; }
-
-        [ExcelColumn("所属区域")]
-        public string District { get; set; }
-
-        [ExcelColumn("所属镇")]
-        public string Town { get; set; }
-
-        [ExcelColumn("用户申告内容描述")]
-        public string ComplainContents { get; set; }
-
-        [ExcelColumn("处理情况")]
-        public string FirstContents { get; set; }
-
-        [ExcelColumn("解决方式（解决措施分类）")]
-        public string SolveFunctionDescription { get; set; }
-
-        [ExcelColumn("问题是否解决")]
-        public string IsSolvedDescription { get; set; }
-
-        [ExcelColumn("解决时间")]
-        public DateTime? EndDate { get; set; }
-
-        [ExcelColumn("经度")]
-        public double Lontitute { get; set; }
-
-        [ExcelColumn("纬度")]
-        public double Lattitute { get; set; }
-
-        [ExcelColumn("用户姓名及电话号码")]
-        public string SubscriberInfo { get; set; }
-
-        [ExcelColumn("客户经理姓名")]
-        public string ManagerInfo { get; set; }
     }
 
     [AutoMapFrom(typeof(VipDemandExcel), typeof(VipDemandDto))]
