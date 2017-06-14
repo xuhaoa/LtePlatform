@@ -671,7 +671,8 @@ namespace Lte.Domain.Common.Wireless
         DailyReport,
         Yilutong,
         KeySite,
-        SelfConstruction
+        SelfConstruction,
+        Feeling
     }
 
     public class WorkItemTypeDescriptionTransform : DescriptionTransform<WorkItemType>
@@ -723,7 +724,12 @@ namespace Lte.Domain.Common.Wireless
         CapacityEvaluation,
         CustomerComplain,
         WeeklyAnalysis,
-        DailyTest
+        DailyTest,
+        BadFeeling,
+        HighFlowBadFeeling,
+        TripleNetworkCell,
+        TripleNetworkBuilding,
+        HighCqiLowRank2
     }
 
     public class WorkItemSubtypeDescriptionTransform : DescriptionTransform<WorkItemSubtype>
@@ -786,7 +792,11 @@ namespace Lte.Domain.Common.Wireless
         OverCoverage,
         InvisibleAlarm,
         MainAlarm,
-        ResouceJamming
+        ResouceJamming,
+        BaseStolen,
+        NeedPlan,
+        NothingWithNetwork,
+        UserTerminal
     }
 
     public class WorkItemCauseDescriptionTransform : DescriptionTransform<WorkItemCause>

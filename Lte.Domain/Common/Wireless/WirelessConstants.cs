@@ -391,7 +391,8 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(WorkItemType.DailyReport, "日报"),
                     new Tuple<object, string>(WorkItemType.Yilutong, "翼路通"),
                     new Tuple<object, string>(WorkItemType.KeySite, "省-集团测试保障-关键站点清单收集"),
-                    new Tuple<object, string>(WorkItemType.SelfConstruction, "自建工单")
+                    new Tuple<object, string>(WorkItemType.SelfConstruction, "自建工单"),
+                    new Tuple<object, string>(WorkItemType.Feeling, "/移动业务感知/无线/综合感知/"), 
                 }
             },
             {
@@ -431,7 +432,12 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(WorkItemSubtype.CapacityEvaluation, "容量系统评估"),
                     new Tuple<object, string>(WorkItemSubtype.CustomerComplain, "客户投诉处理"),
                     new Tuple<object, string>(WorkItemSubtype.WeeklyAnalysis, "每周质量分析"),
-                    new Tuple<object, string>(WorkItemSubtype.DailyTest, "日常测试管理")
+                    new Tuple<object, string>(WorkItemSubtype.DailyTest, "日常测试管理"),
+                    new Tuple<object, string>(WorkItemSubtype.BadFeeling, "小区连续3天感知差"), 
+                    new Tuple<object, string>(WorkItemSubtype.HighFlowBadFeeling, "高流量小区连续3天感知差"), 
+                    new Tuple<object, string>(WorkItemSubtype.TripleNetworkCell, "三网对比质差小区"), 
+                    new Tuple<object, string>(WorkItemSubtype.TripleNetworkBuilding, "三网对比质差楼群"), 
+                    new Tuple<object, string>(WorkItemSubtype.HighCqiLowRank2, "小区级高CQI低双流比异常"), 
                 }
             },
             {
@@ -440,9 +446,12 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(WorkItemState.Processing, "待处理"),
                     new Tuple<object, string>(WorkItemState.Processed, "待归档"),
                     new Tuple<object, string>(WorkItemState.Finished, "已归档"),
+                    new Tuple<object, string>(WorkItemState.Finished, "已撤销"), 
                     new Tuple<object, string>(WorkItemState.ToBeSigned, "待签单"),
                     new Tuple<object, string>(WorkItemState.Processing, "处理"),
-                    new Tuple<object, string>(WorkItemState.Processing, "任务处理"),  
+                    new Tuple<object, string>(WorkItemState.Processing, "待回单"),
+                    new Tuple<object, string>(WorkItemState.Processing, "任务处理"),
+                    new Tuple<object, string>(WorkItemState.Auditing, "待确认"),
                     new Tuple<object, string>(WorkItemState.Auditing, "审核"), 
                     new Tuple<object, string>(WorkItemState.Auditing, "回单审核"), 
                 }
@@ -452,23 +461,28 @@ namespace Lte.Domain.Common.Wireless
                 {
                     new Tuple<object, string>(WorkItemCause.Antenna, "天线问题"),
                     new Tuple<object, string>(WorkItemCause.AntennaFeedline, "天馈器件异常"),
+                    new Tuple<object, string>(WorkItemCause.AntennaFeedline, "基站天馈故障"), 
                     new Tuple<object, string>(WorkItemCause.ApplianceProblem, "设备故障"),
                     new Tuple<object, string>(WorkItemCause.FeedAppliance, "馈线链接器件问题"),
                     new Tuple<object, string>(WorkItemCause.HardSwitch, "硬切换问题"),
                     new Tuple<object, string>(WorkItemCause.ImproperPower, "功率不合理"),
                     new Tuple<object, string>(WorkItemCause.IndoorDistribution, "室分器件异常"),
+                    new Tuple<object, string>(WorkItemCause.InterferenceCoverage, "内部干扰（MOD3干扰等）"),
                     new Tuple<object, string>(WorkItemCause.InterferenceCoverage, "干扰覆盖问题"),
                     new Tuple<object, string>(WorkItemCause.InvisibleAlarm, "主设备隐性故障"),
                     new Tuple<object, string>(WorkItemCause.Jamming, "拥塞"),
                     new Tuple<object, string>(WorkItemCause.MainAlarm, "主设备障碍告警"),
+                    new Tuple<object, string>(WorkItemCause.MainAlarm, "基站设备故障"), 
                     new Tuple<object, string>(WorkItemCause.NeighborCell, "邻区漏配"),
                     new Tuple<object, string>(WorkItemCause.Others, "其他"),
                     new Tuple<object, string>(WorkItemCause.Others, "其它"),
                     new Tuple<object, string>(WorkItemCause.Others, "其它原因"),
+                    new Tuple<object, string>(WorkItemCause.OuterInterference, "外部干扰"),
                     new Tuple<object, string>(WorkItemCause.OuterInterference, "外界干扰"),
                     new Tuple<object, string>(WorkItemCause.OuterInterference, "网络外部干扰"),
                     new Tuple<object, string>(WorkItemCause.OverCoverage, "越区覆盖"),
                     new Tuple<object, string>(WorkItemCause.OverCoverage, "越区覆盖问题"),
+                    new Tuple<object, string>(WorkItemCause.Overload, "小区容量不足"), 
                     new Tuple<object, string>(WorkItemCause.Overload, "负荷过载"),
                     new Tuple<object, string>(WorkItemCause.PagingChannelBusy, "寻呼信道负荷高"),
                     new Tuple<object, string>(WorkItemCause.ParameterConfig, "参数配置错误"),
@@ -478,7 +492,11 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(WorkItemCause.TrunkProblem, "传输故障"),
                     new Tuple<object, string>(WorkItemCause.WeakCoverage, "弱覆盖"),
                     new Tuple<object, string>(WorkItemCause.WeakCoverage, "弱覆盖问题"),
-                    new Tuple<object, string>(WorkItemCause.WrongDownTilt, "下倾角错误")
+                    new Tuple<object, string>(WorkItemCause.WrongDownTilt, "下倾角错误"),
+                    new Tuple<object, string>(WorkItemCause.BaseStolen, "基站设施被盗"), 
+                    new Tuple<object, string>(WorkItemCause.NeedPlan, "需新建站未立项"), 
+                    new Tuple<object, string>(WorkItemCause.NothingWithNetwork, "未发现网络侧问题"), 
+                    new Tuple<object, string>(WorkItemCause.UserTerminal, "疑似终端或用户原因"), 
                 }
             },
             {

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using Abp.EntityFramework.Dependency;
-using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
@@ -211,16 +210,18 @@ namespace Lte.MySqlFramework.Entities
 
 
     [TypeDoc("存储于数据库的工单信息")]
-    [AutoMapConverter(typeof(WorkItemExcel), typeof(WorkItemConverter))]
+    [AutoMapFrom(typeof(WorkItemExcel))]
     public class WorkItem : Entity
     {
         [MemberDoc("工单编号")]
         public string SerialNumber { get; set; }
-
+        
         [MemberDoc("工单类型")]
+        [AutoMapPropertyResolve("TypeDescription", typeof(WorkItemExcel), typeof(WorkItemTypeTransform))]
         public WorkItemType Type { get; set; }
 
         [MemberDoc("工单子类型")]
+        [AutoMapPropertyResolve("SubTypeDescription", typeof(WorkItemExcel), typeof(WorkItemSubtypeTransform))]
         public WorkItemSubtype Subtype { get; set; }
 
         [MemberDoc("基站编号")]
@@ -251,9 +252,11 @@ namespace Lte.MySqlFramework.Entities
         public DateTime? FinishTime { get; set; }
 
         [MemberDoc("定位原因")]
+        [AutoMapPropertyResolve("CauseDescription", typeof(WorkItemExcel), typeof(WorkItemCauseTransform))]
         public WorkItemCause Cause { get; set; }
 
         [MemberDoc("工单状态")]
+        [AutoMapPropertyResolve("StateDescription", typeof(WorkItemExcel), typeof(WorkItemStateTransform))]
         public WorkItemState State { get; set; }
 
         [MemberDoc("省中心平台反馈信息")]
@@ -282,103 +285,76 @@ namespace Lte.MySqlFramework.Entities
 
     public class WorkItemExcel
     {
-        [ExcelColumn("工单编号")]
+        [ExcelColumn("故障单号")]
         public string SerialNumber { get; set; }
 
-        [ExcelColumn("工单标题")]
+        [ExcelColumn("故障标题")]
         public string Title { get; set; }
 
-        [ExcelColumn("基站编号")]
-        public int ENodebId { get; set; }
+        public string SubTypeDescription
+            => Title.Replace("集团接口", "").Replace("省接口", "").Replace("【移动业务感知/无线】", "").GetSplittedFields("/Ne=")[0];
 
-        [ExcelColumn("小区编号")]
-        public byte SectorId { get; set; }
+        [ExcelColumn("故障种类")]
+        public string TypeDescription { get; set; }
+        
+        [ExcelColumn("故障位置")]
+        public string Position { get; set; }
 
-        [ExcelColumn("派单时间")]
+        public string[] NetworkElement
+            => Position.Contains(':') ? Position.GetSplittedFields(':')[1].GetSplittedFields('_') : new[] {""};
+
+        public string ENodebPart => SplittedContents.FirstOrDefault(x => x.StartsWith("enb_id："));
+
+        public int ENodebId
+            =>
+                NetworkElement.Length > 2
+                    ? NetworkElement[1].ConvertToInt(0)
+                    : ENodebPart?.Replace("enb_id：", "").ConvertToInt(0) ?? 0;
+
+        public string SectorPart => SplittedContents.FirstOrDefault(x => x.StartsWith("cell_id："));
+
+        public byte SectorId
+            =>
+                NetworkElement.Length > 2
+                    ? NetworkElement[2].ConvertToByte(0)
+                    : SectorPart?.Replace("cell_id：", "").ConvertToByte(0) ?? 0;
+
+        [ExcelColumn("建单时间")]
         public DateTime BeginTime { get; set; }
 
-        [ExcelColumn("最迟结单时间")]
+        [ExcelColumn("应恢复时间")]
         public DateTime Deadline { get; set; }
-
-        [ExcelColumn("重复派单数")]
-        public short RepeatTimes { get; set; }
-
-        [ExcelColumn("退回次数")]
-        public short RejectTimes { get; set; }
-
-        [ExcelColumn("处理人")]
+        
+        [ExcelColumn("受理部门")]
         public string StaffName { get; set; }
-
-        [ExcelColumn("回单时间")]
-        public DateTime? FeedbackTime { get; set; }
-
-        [ExcelColumn("结单时间")]
+        
+        [ExcelColumn("故障修复时间")]
         public DateTime? FinishTime { get; set; }
-
-        [ExcelColumn("故障原因")]
-        public string CauseDescription { get; set; }
-
-        [ExcelColumn("工单状态")]
+        
+        [ExcelColumn("故障状态")]
         public string StateDescription { get; set; }
 
-        [ExcelColumn("备注")]
-        public string Comments { get; set; }
-    }
+        [ExcelColumn("故障原因")]
+        public string MalfunctionCause { get; set; }
 
-    public class WorkItemConverter : TypeConverter<WorkItemExcel, WorkItem>
-    {
-        protected override WorkItem ConvertCore(WorkItemExcel source)
-        {
-            var result = new WorkItem
-            {
-                SerialNumber = source.SerialNumber,
-                ENodebId = source.ENodebId,
-                SectorId = source.SectorId,
-                BeginTime = source.BeginTime,
-                FeedbackTime = source.FeedbackTime,
-                FinishTime = source.FinishTime,
-                Deadline = source.Deadline,
-                Cause = source.CauseDescription.GetEnumType<WorkItemCause>(),
-                State = source.StateDescription.GetEnumType<WorkItemState>(),
-                RejectTimes = source.RejectTimes,
-                StaffName = source.StaffName
-            };
+        public string CauseDescription
+            => string.IsNullOrEmpty(MalfunctionCause) ? "" : MalfunctionCause.GetSplittedFields(',')[0];
 
-            var title = source.Title ?? "";
-            var typeFields = title.Split('_');
-            var titleFields = title.GetSplittedFields("--");
-            var titleFields2 = title.GetSplittedFields("—");
-            if (typeFields.Length > 3)
-            {
-                result.Type = typeFields[1].GetEnumType<WorkItemType>();
-                result.Subtype = typeFields[2].GetEnumType<WorkItemSubtype>();
-                result.FeedbackContents = "[" + DateTime.Now + "]创建信息：" + typeFields[3];
-            }
-            else if (typeFields.Length == 3)
-            {
-                result.Type = typeFields[1].GetEnumType<WorkItemType>();
-                result.Subtype = WorkItemSubtype.Others;
-                result.FeedbackContents = "[" + DateTime.Now + "]创建信息：" + typeFields[2];
-            }
-            else if (titleFields.Length == 2)
-            {
-                result.Type = titleFields[0].GetEnumType<WorkItemType>();
-                result.Subtype = WorkItemSubtype.Others;
-                result.FeedbackContents = "[" + DateTime.Now + "]创建信息：" + titleFields[1];
-            }
-            else if (titleFields2.Length == 2)
-            {
-                result.Type = titleFields2[0].GetEnumType<WorkItemType>();
-                result.Subtype = WorkItemSubtype.Others;
-                result.FeedbackContents = "[" + DateTime.Now + "]创建信息：" + titleFields2[1];
-            }
-            else
-            {
-                result.Type = WorkItemType.Others;
-                result.Subtype = WorkItemSubtype.Others;
-                result.FeedbackContents = "[" + DateTime.Now + "]创建信息：" + title;
-            }
-            return result;
-        }
+        [ExcelColumn("故障内容")]
+        public string Contents { get; set; }
+
+        public string[] SplittedContents => Contents.GetSplittedFields("；");
+
+        public string[] Information => Contents.GetSplittedFields("<br/>");
+
+        public string DateTimeString
+            =>
+                Information.FirstOrDefault(x => x.StartsWith("【告警附件文本信息】:"))?.Replace("【告警附件文本信息】:", "") ??
+                (Information.Length > 0 ? Information[0] : DateTime.Today.ToShortDateString());
+
+        public IEnumerable<string> Condition => Information.Where(x => x.StartsWith("问题判决条件:") || x.Contains("请求次数："));
+
+        public string Comments
+            => "[" + DateTimeString + "]" + (Condition.Any() ? Condition.Aggregate((x, y) => x + y) : "");
     }
 }

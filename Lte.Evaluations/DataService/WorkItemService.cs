@@ -23,16 +23,14 @@ namespace Lte.Evaluations.DataService
         private readonly IENodebRepository _eNodebRepository;
         private readonly IBtsRepository _btsRepository;
         private readonly ITownRepository _townRepository;
-        private readonly ICellRepository _cellRepository;
 
         public WorkItemService(IWorkItemRepository repository, IENodebRepository eNodebRepository,
-            IBtsRepository btsRepository, ITownRepository townRepository, ICellRepository cellRepository)
+            IBtsRepository btsRepository, ITownRepository townRepository)
         {
             _repository = repository;
             _eNodebRepository = eNodebRepository;
             _btsRepository = btsRepository;
             _townRepository = townRepository;
-            _cellRepository = cellRepository;
         }
 
         public WorkItemView Query(string serialNumber)
@@ -45,19 +43,7 @@ namespace Lte.Evaluations.DataService
 
         public int UpdateLteSectorIds()
         {
-            var items = _repository.GetAllList(x => x.ENodebId > 10000);
-            foreach (var item in items)
-            {
-                var cell = _cellRepository.GetBySectorId(item.ENodebId, item.SectorId);
-                if (cell != null) continue;
-                cell = _cellRepository.GetBySectorId(item.ENodebId, (byte) (item.SectorId + 48));
-                if (cell != null)
-                {
-                    item.SectorId += 48;
-                    _repository.Update(item);
-                }
-            }
-            return _repository.SaveChanges();
+            return 0;
         }
 
         private static Stack<WorkItemExcel> WorkItemInfos { get; }=new Stack<WorkItemExcel>();
@@ -85,13 +71,17 @@ namespace Lte.Evaluations.DataService
             var item = _repository.FirstOrDefault(x => x.SerialNumber == info.SerialNumber);
             if (item != null)
             {
-                if (info.FeedbackTime > item.FeedbackTime)
-                    item.FeedbackTime = info.FeedbackTime;
-                item.FinishTime = info.FinishTime;
-                item.RejectTimes = info.RejectTimes;
-                item.RepeatTimes = info.RepeatTimes;
-                item.State = info.StateDescription.GetEnumType<WorkItemState>();
-                await _repository.UpdateAsync(item);
+                if (item.State == WorkItemState.Finished)
+                {
+                    item.FinishTime = info.FinishTime;
+                    item.State = info.StateDescription.GetEnumType<WorkItemState>();
+                    item.Cause = info.CauseDescription.GetEnumType<WorkItemCause>();
+                    item.ENodebId = info.ENodebId;
+                    item.SectorId = info.SectorId;
+                    item.Comments = info.Comments;
+                    await _repository.UpdateAsync(item);
+                }
+
             }
             else
             {
