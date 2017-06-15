@@ -144,6 +144,9 @@
 			showIndoorStations: function (stations, color) {
 				generalMapService.showGeneralPointCollection(stations, color, workItemDialog.showIndoorInfo);
 			},
+			showCheckingStations: function (stations, color) {
+			    generalMapService.showGeneralPointCollection(stations, color, mapDialogService.showCheckingStationInfo);
+			},
 			showConstructionSites: function(stations, status, callback) {
 				baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function(coors) {
 					var xOffset = coors.x - stations[0].longtitute;

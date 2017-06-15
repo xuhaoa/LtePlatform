@@ -1087,12 +1087,13 @@ angular.module('region.basic', ['app.core'])
                     "idList": stationId
                 });
             },
-            getCheckingStation: function (areaName, status, page, pageSize) {
+            getCheckingStation: function (areaName, status, type, page, pageSize) {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Checking/search', {
                     "curr_page": page,
                     "page_size": pageSize,
                     "areaName": areaName,
-                    "status": status
+                    "status": status,
+                    'type': type
                 });
             },
             getFixingStation: function (areaName, status, page, pageSize) {

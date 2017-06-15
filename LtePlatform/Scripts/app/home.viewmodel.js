@@ -381,7 +381,7 @@
                     },
                     "contents": {
                         templateUrl: "/appViews/Evaluation/Checking.html",
-                        controller: "checking-indoor.network"
+                        controller: "checking.network"
                     }
                 },
                 url: "/checking-indoor"
@@ -2594,8 +2594,8 @@
             }
         });
     })
-    .controller("checking.network", function ($scope, downSwitchService, baiduMapService, geometryService,
-        parametersDialogService, baiduQueryService, dumpPreciseService) {
+    .controller("checking.network", function ($scope, $location, downSwitchService, baiduMapService, geometryService,
+        collegeMapService, dumpPreciseService) {
         $scope.districts = [];
         $scope.distinct = $scope.distincts[0];
         $scope.statusNames = new Array('未巡检', '需整治', '正常', '全部');
@@ -2604,20 +2604,14 @@
         $scope.statusIndex = 0;
         $scope.status = $scope.statusNames[$scope.statusIndex];
         $scope.distinctIndex = 0;
-
-        //获取站点
+        
         $scope.getStations = function (areaIndex, status, color) {
             var areaName = $scope.areaNames[areaIndex];
-            downSwitchService.getCheckingStation(areaName, status, 0, 10000).then(function (response) {
+            var category = $location.path() === '/checking' ? 'JZ' : 'SF';
+            downSwitchService.getCheckingStation(areaName, status, category, 0, 10000).then(function (response) {
                 var stations = response.result.rows;
                 if (stations.length) {
-                    baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function(coors) {
-                        var xOffset = coors.x - stations[0].longtitute;
-                        var yOffset = coors.y - stations[0].lattitute;
-                        baiduMapService.drawPointCollection(stations, color, -xOffset, -yOffset, function(e) {
-                            parametersDialogService.showCheckingStationInfo(e.point.data);
-                        });
-                    });
+                    collegeMapService.showCheckingStations(stations, color);
                 }
             });
         };
