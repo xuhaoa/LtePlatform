@@ -113,7 +113,13 @@ namespace Lte.Evaluations.DataService.College
         {
             var begin = new DateTime(today.Year, today.Month, 1).AddMonths(-1);
             var end = new DateTime(today.Year, today.Month, 1);
-            return service.QueryItems(begin, end);
+            var result = service.QueryItems(begin, end);
+            if (!result.Any())
+            {
+                begin = begin.AddMonths(-1);
+                result= service.QueryItems(begin, end);
+            }
+            return result;
         }
 
         public static async Task<int> QueryCount<TService, TItem>(this TService service, DateTime today)

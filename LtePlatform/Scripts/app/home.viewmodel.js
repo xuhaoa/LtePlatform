@@ -1699,9 +1699,22 @@
                 });
             });
         };
+        $scope.showOssWorkItem = function () {
+            $scope.legend.title = $scope.city.selected;
+            $scope.initializeLegend();
+            baiduMapService.clearOverlays();
+            $scope.currentView = "电子运维工单";
+            angular.forEach($scope.districts, function(district, $index) {
+                $scope.showDistrictComplains(district, $scope.colors[$index]);
+            });
+        };
+
+        $scope.yesterdayItems = function() {
+
+        };
 
         $scope.districts = [];
-
+        $scope.currentView = "电子运维工单";
         $scope.$watch('city.selected', function (city) {
             if (city) {
                 $scope.legend.title = city;
