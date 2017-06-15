@@ -1140,6 +1140,25 @@ angular.module('region.basic', ['app.core'])
                     "isSolve": isSolve
                 });
             },
+            getResourceStations: function (areaName, type, page, pageSize) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Resource/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "areaName": areaName,
+                    "type": type
+                });
+            },
+            getResource: function (table, id) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Resource/single', {
+                    "table": table,
+                    "id": id
+                });
+            },
+            getResourceCounter: function (id) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Resource/counter', {
+                    "id": id
+                });
+            },
             queryDwgList: function(btsId) {
                 return generalHttpService.getApiData('DwgQuery', {
                     directory: 'Common',

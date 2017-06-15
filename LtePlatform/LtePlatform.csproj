@@ -418,6 +418,7 @@
     <Content Include="appViews\BasicKpi\CommonMenu.html" />
     <Content Include="appViews\BasicKpi\Construction.html" />
     <Content Include="appViews\BasicKpi\Quality.html" />
+    <Content Include="appViews\BasicKpi\Resource.html" />
     <Content Include="appViews\BasicKpi\TopConnection3GTrend.html" />
     <Content Include="appViews\BasicKpi\TopDrop2GTrend.html" />
     <Content Include="appViews\BasicKpi\Trend.html" />
@@ -513,6 +514,7 @@
     <Content Include="appViews\Home\WorkItem.html" />
     <Content Include="appViews\Import\ImportProgress.html" />
     <Content Include="appViews\Import\Precise\WorkItem.html" />
+    <Content Include="appViews\Import\ResoureDetails.html" />
     <Content Include="appViews\Manage\AllUsers.html" />
     <Content Include="appViews\Manage\CurrentUser.html" />
     <Content Include="appViews\Manage\ForgotPassword.html" />

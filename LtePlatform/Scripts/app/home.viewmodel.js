@@ -480,6 +480,34 @@
                 },
                 url: "/clear-voice"
             })
+            .state('resource', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.resource"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/BasicKpi/Resource.html",
+                        controller: "resource.network"
+                    }
+
+                },
+                url: "/resource"
+            })
+            .state('resource-indoor', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.resource"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/BasicKpi/Resource.html",
+                        controller: "resource.network"
+                    }
+
+                },
+                url: "/resource-indoor"
+            })
 
             .state('construction', {
                 views: {
@@ -879,7 +907,7 @@
             displayName: "网络整治",
             subItems: [
                 {
-                    displayName: "网络整治",
+                    displayName: "网络整治-基站",
                     url: '/#/fixing'
                 },{
                     displayName: "网络整治-室分",
@@ -896,6 +924,20 @@
                 }, {
                     displayName: "清网排障-零话务",
                     url: '/#/clear-voice'
+                }
+            ]
+        };
+    })
+    .controller('menu.resource', function ($scope) {
+        $scope.menuItem = {
+            displayName: "资源资产",
+            subItems: [
+                {
+                    displayName: "资源资产-基站",
+                    url: '/#/resource'
+                }, {
+                    displayName: "资源资产-室分",
+                    url: '/#/resource-indoor'
                 }
             ]
         };
@@ -2690,6 +2732,67 @@
                         }
                     });
 
+                });
+            }
+        });
+    })
+    .controller("resource.network", function ($scope, $location, downSwitchService, baiduMapService, dumpPreciseService,
+        mapDialogService, baiduQueryService) {
+        $scope.districts = [];
+        $scope.distinct = $scope.distincts[0];
+        $scope.alphabetNames = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
+        baiduMapService.initializeMap("map", 13);
+        
+        $scope.statusIndex = 0;
+        $scope.distinctIndex = 0;
+        
+        $scope.getStations = function (areaIndex, color) {
+            var areaName = $scope.alphabetNames[areaIndex];
+            var category = $location.path() === '/resource' ? 'JZ' : 'SF';
+            downSwitchService.getResourceStations(areaName, category, 0, 10000).then(function (response) {
+
+                var stations = response.result.rows;
+                if (stations.length) {
+                    baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function (coors) {
+                        var xOffset = coors.x - stations[0].longtitute;
+                        var yOffset = coors.y - stations[0].lattitute;
+                        baiduMapService.drawPointCollection(stations, color, -xOffset, -yOffset, function (e) {
+                            mapDialogService.showResourceInfo(e.point.data);
+                        });
+                    });
+                }
+
+            });
+        };
+
+        $scope.reflashMap = function () {
+            baiduMapService.clearOverlays();
+            baiduMapService.setCenter($scope.distinctIndex);
+            if ($scope.distinctIndex !== 0) {
+                $scope.getStations($scope.distinctIndex, $scope.colors[$scope.distinctIndex]);
+            } else {
+                for (var i = 1; i < 6; ++i) {
+                    $scope.getStations(i, $scope.colors[i]);
+                }
+            }
+        };
+        $scope.changeArea = function(areaNameIndex) {
+            $scope.distinctIndex = areaNameIndex;
+            $scope.reflashMap();
+        };
+        $scope.$watch('city.selected', function (city) {
+            if (city) {
+                $scope.initializeLegend();
+                baiduMapService.clearOverlays();
+                $scope.legend.title = city;
+                $scope.legend.intervals = [];
+                dumpPreciseService.generateUsersDistrict(city, $scope.districts, function (district, $index) {
+                    $scope.pushStationArea(district);
+                    $scope.getStations($index + 1, $scope.colors[$index]);
+                    $scope.legend.intervals.push({
+                        threshold: district,
+                        color: $scope.colors[$index]
+                    });
                 });
             }
         });
