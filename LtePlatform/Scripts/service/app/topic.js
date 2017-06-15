@@ -1543,6 +1543,20 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 					}
 				});
 			},
+			showFixingStationInfo: function (station) {
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Evaluation/Dialog/SpecialStationDetails.html',
+					controller: 'map.fixingStation.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return "整治信息:" + station.name;
+						},
+						station: function () {
+							return station;
+						}
+					}
+				});
+			},
 			showCommonStationInfo: function(station) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Evaluation/Dialog/CommonStationDetails.html',
@@ -1946,6 +1960,15 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 
 
 		$scope.cancel = function() {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
+	.controller('map.fixingStation.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+		appFormatService) {
+		$scope.itemGroups = appFormatService.generateFixingStationGroups(station);
+		$scope.dialogTitle = dialogTitle;
+
+		$scope.cancel = function () {
 			$uibModalInstance.dismiss('cancel');
 		};
 	})

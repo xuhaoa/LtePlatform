@@ -2585,7 +2585,7 @@
                         var xOffset = coors.x - stations[0].longtitute;
                         var yOffset = coors.y - stations[0].lattitute;
                         baiduMapService.drawPointCollection(stations, color, -xOffset, -yOffset, function(e) {
-                            mapDialogService.showCheckingStationInfo(e.point.data);
+                            mapDialogService.showFixingStationInfo(e.point.data);
                         });
                     });
                 }
