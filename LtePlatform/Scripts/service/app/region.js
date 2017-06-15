@@ -1096,12 +1096,13 @@ angular.module('region.basic', ['app.core'])
                     'type': type
                 });
             },
-            getFixingStation: function (areaName, status, page, pageSize) {
+            getFixingStation: function (areaName, status, type, page, pageSize) {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Fixing/search', {
                     "curr_page": page,
                     "page_size": pageSize,
                     "areaName": areaName,
-                    "status": status
+                    "status": status,
+                    'type': type
                 });
             },
             getSpecialStations: function (recoverName, page, pageSize) {

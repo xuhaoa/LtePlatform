@@ -400,6 +400,19 @@
                 },
                 url: "/fixing"
             })
+            .state('fixing-indoor', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.fixing"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/Evaluation/Fixing.html",
+                        controller: "fixing.network"
+                    }
+                },
+                url: "/fixing-indoor"
+            })
             .state('special-station', {
                 views: {
                     'menu': {
@@ -868,6 +881,9 @@
                 {
                     displayName: "网络整治",
                     url: '/#/fixing'
+                },{
+                    displayName: "网络整治-室分",
+                    url: '/#/fixing-indoor'
                 }, {
                     displayName: "网运专项-基站",
                     url: '/#/special-station'
@@ -2503,10 +2519,11 @@
         $scope.reflashMap();
     })
     
-    .controller("fixing.network", function ($scope, downSwitchService, baiduMapService, geometryService,
+    .controller("fixing.network", function ($scope, $location, downSwitchService, baiduMapService, geometryService,
         mapDialogService, baiduQueryService, dumpPreciseService) {
         $scope.districts = [];
         $scope.distinct = $scope.distincts[0];
+        $scope.alphabetNames = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
         $scope.statusNames = new Array('很紧急', '紧急', '极重要','重要','一般','整治完成', '全部');
         baiduMapService.initializeMap("map", 13);
 
@@ -2516,8 +2533,9 @@
 
         //获取站点
         $scope.getStations = function (areaIndex, status, color) {
-            var areaName = $scope.areaNames[areaIndex];
-            downSwitchService.getFixingStation(areaName, status, 0, 10000).then(function (response) {
+            var areaName = $scope.alphabetNames[areaIndex];
+            var category = $location.path() === '/fixing' ? 'JZ' : 'SF';
+            downSwitchService.getFixingStation(areaName, status, category, 0, 10000).then(function (response) {
 
                 var stations = response.result.rows;
                 if (stations.length) {
