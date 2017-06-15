@@ -442,6 +442,7 @@
     <Content Include="appViews\Home\AlarmHistoryListDialog.html" />
     <Content Include="appViews\Home\AlarmSearchMenu.html" />
     <Content Include="appViews\Home\AlarmStationDetails.html" />
+    <Content Include="appViews\Home\Asset.html" />
     <Content Include="appViews\Home\ButtonMenu.html" />
     <Content Include="appViews\Home\Checking.html" />
     <Content Include="appViews\Home\ClearZero.html" />
@@ -469,6 +470,9 @@
     <Content Include="appViews\Home\Network.html" />
     <Content Include="appViews\Home\Plan.html" />
     <Content Include="appViews\Home\PlanningDetails.html" />
+    <Content Include="appViews\Home\Resource.html" />
+    <Content Include="appViews\Home\ResourceStationDetails.html" />
+    <Content Include="appViews\Home\ResoureDetails.html" />
     <Content Include="appViews\Home\SpecialStationDetails.html" />
     <Content Include="appViews\Home\StationAdd.html" />
     <Content Include="appViews\Home\StationDetail.html" />

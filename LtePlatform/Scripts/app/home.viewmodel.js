@@ -167,6 +167,35 @@
                 },
                 url: "/alarm-indoor"
             })
+            //资源资产
+            .state('resource', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/Title.html",
+                        controller: "menu.resource"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Resource.html",
+                        controller: "resource.network"
+                    }
+
+                },
+                url: "/resource"
+            })
+            .state('asset', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/Title.html",
+                        controller: "menu.asset"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Asset.html",
+                        controller: "asset.network"
+                    }
+
+                },
+                url: "/asset"
+            })
 
             .state('special-station', {
                 views: {
@@ -470,6 +499,19 @@
         var rootUrl = "/#";
         $scope.menuItem = {
             displayName: "网络整治"
+        };
+    })
+
+    .controller("menu.resource", function ($scope, appUrlService) {
+        var rootUrl = "/#";
+        $scope.menuItem = {
+            displayName: "资源"
+        };
+    })
+    .controller("menu.asset", function ($scope, appUrlService) {
+        var rootUrl = "/#";
+        $scope.menuItem = {
+            displayName: "资产"
         };
     })
 
@@ -1329,7 +1371,7 @@
             };
 
             $scope.showStationList = function () {
-                parametersDialogService.showCommonStationList(JZ);
+                parametersDialogService.showCommonStationList('JZ');
             };
 
             $scope.outportData = function () {
@@ -1585,7 +1627,7 @@
         $scope.getStations = function (areaIndex, index) {
             var areaName = $scope.areaNames[areaIndex];
             var status = $scope.statusNames[index];
-            downSwitchService.getCheckingStation(areaName, status, 0, 10000).then(function (response) {
+            downSwitchService.getCheckingStation(areaName, status,'JZ', 0, 10000).then(function (response) {
 
                 $scope.stationss[areaIndex] = response.result.rows;
                 var color = $scope.colorAlarm[index];
@@ -1663,7 +1705,7 @@
         $scope.getStations = function (areaIndex, index) {
             var areaName = $scope.areaNames[areaIndex];
             var status = $scope.statusNames[index];
-            downSwitchService.getCheckingStation(areaName, status, 0, 10000).then(function (response) {
+            downSwitchService.getCheckingStation(areaName, status,'SF', 0, 10000).then(function (response) {
 
                 $scope.stationss[areaIndex] = response.result.rows;
                 var color = $scope.colorAlarm[index];
@@ -1874,6 +1916,123 @@
         };
         $scope.reflashMap();
     })
+
+    .controller("resource.network", function ($scope, downSwitchService, MyValue, baiduMapService, geometryService,
+        parametersDialogService, baiduQueryService) {
+        $scope.areaNames = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
+        $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
+        $scope.distinct = "佛山市";
+        $scope.types = new Array('JZ', 'SF');
+        $scope.typesDisplay = new Array('基站', '室分');
+        $scope.stationss = [];
+        $scope.stationss[1] = [];
+        $scope.stationss[2] = [];
+        $scope.stationss[3] = [];
+        $scope.stationss[4] = [];
+        $scope.stationss[5] = [];
+        baiduMapService.initializeMap("map", 13);
+        baiduMapService.setCenter(MyValue.distinctIndex);
+        $scope.type = 'JZ';
+        $scope.typeDisplay = '基站';
+        //获取站点
+        $scope.getStations = function (areaName, index,type) {
+            downSwitchService.getResourceStations(areaName, type, 0, 10000).then(function (response) {
+                $scope.stationss[index] = response.result.rows;
+                var color = $scope.colors[index];
+                baiduQueryService.transformToBaidu($scope.stationss[index][0].longtitute, $scope.stationss[index][0].lattitute).then(function (coors) {
+                    var xOffset = coors.x - $scope.stationss[index][0].longtitute;
+                    var yOffset = coors.y - $scope.stationss[index][0].lattitute;
+                    baiduMapService.drawPointCollection($scope.stationss[index], color, -xOffset, -yOffset, function (e) {
+                        parametersDialogService.showResourceInfo(e.point.data);
+                    });
+                });
+            });
+        };
+
+        $scope.reflashMap = function (areaNameIndex,type) {
+            baiduMapService.clearOverlays();
+            MyValue.distinctIndex = areaNameIndex;
+            var areaName = $scope.areaNames[areaNameIndex];
+            $scope.distinct = $scope.distincts[areaNameIndex];
+            baiduMapService.setCenter(areaNameIndex);
+            if (MyValue.distinctIndex !== 0) {
+                $scope.getStations(areaName, MyValue.distinctIndex,type);
+            } else {
+                for (var i = 1; i < 6; ++i) {
+                    $scope.getStations($scope.areaNames[i], i,type);
+                }
+            }
+        };
+        $scope.changeArea = function (areaNameIndex) {
+            $scope.reflashMap(areaNameIndex, $scope.type);
+        }
+        $scope.changeType = function (typeIndex) {
+            $scope.type = $scope.types[typeIndex];
+            $scope.typeDisplay = $scope.typesDisplay[typeIndex];
+            $scope.reflashMap(MyValue.distinctIndex, $scope.type);
+        }
+        $scope.reflashMap(0,$scope.type);
+
+    })
+    .controller("asset.network", function ($scope, downSwitchService, MyValue, baiduMapService, geometryService,
+        parametersDialogService, baiduQueryService) {
+        $scope.areaNames = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
+        $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
+        $scope.distinct = "佛山市";
+        $scope.types = new Array('JZ', 'SF');
+        $scope.typesDisplay = new Array('基站', '室分');
+        $scope.stationss = [];
+        $scope.stationss[1] = [];
+        $scope.stationss[2] = [];
+        $scope.stationss[3] = [];
+        $scope.stationss[4] = [];
+        $scope.stationss[5] = [];
+        baiduMapService.initializeMap("map", 13);
+        baiduMapService.setCenter(MyValue.distinctIndex);
+        $scope.type = 'JZ';
+        $scope.typeDisplay = '基站';
+        //获取站点
+        $scope.getStations = function (areaName, index, type) {
+            downSwitchService.getResourceStations(areaName, type, 0, 10000).then(function (response) {
+                $scope.stationss[index] = response.result.rows;
+                var color = $scope.colors[index];
+                baiduQueryService.transformToBaidu($scope.stationss[index][0].longtitute, $scope.stationss[index][0].lattitute).then(function (coors) {
+                    var xOffset = coors.x - $scope.stationss[index][0].longtitute;
+                    var yOffset = coors.y - $scope.stationss[index][0].lattitute;
+                    baiduMapService.drawPointCollection($scope.stationss[index], color, -xOffset, -yOffset, function (e) {
+                        parametersDialogService.showResourceInfo(e.point.data);
+                    });
+                });
+            });
+        };
+
+        $scope.reflashMap = function (areaNameIndex, type) {
+            baiduMapService.clearOverlays();
+            MyValue.distinctIndex = areaNameIndex;
+            var areaName = $scope.areaNames[areaNameIndex];
+            $scope.distinct = $scope.distincts[areaNameIndex];
+            baiduMapService.setCenter(areaNameIndex);
+            if (MyValue.distinctIndex !== 0) {
+                $scope.getStations(areaName, MyValue.distinctIndex, type);
+            } else {
+                for (var i = 1; i < 6; ++i) {
+                    $scope.getStations($scope.areaNames[i], i, type);
+                }
+            }
+        };
+        $scope.changeArea = function (areaNameIndex) {
+            $scope.reflashMap(areaNameIndex, $scope.type);
+        }
+        $scope.changeType = function (typeIndex) {
+            $scope.type = $scope.types[typeIndex];
+            $scope.typeDisplay = $scope.typesDisplay[typeIndex];
+            $scope.reflashMap(MyValue.distinctIndex, $scope.type);
+        }
+        $scope.reflashMap(0, $scope.type);
+
+    })
+
+
     .controller("special-station.network", function ($scope, downSwitchService, baiduMapService, geometryService,
         parametersDialogService, baiduQueryService) {
         

@@ -833,6 +833,34 @@
 			        }
 			    });
 			},
+			showResourceInfo: function (station) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/ResoureDetails.html',
+			        controller: 'map.resource.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "资源资产:" + station.name;
+			            },
+			            station: function () {
+			                return station;
+			            }
+			        }
+			    });
+			},
+			showResourceStationInfo: function (station) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/ResourceStationDetails.html',
+			        controller: 'map.resource-station.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "站点信息:" + station.name;
+			            },
+			            station: function () {
+			                return station;
+			            }
+			        }
+			    });
+			},
 			showZeroFlowInfo: function (station) {
 			    menuItemService.showGeneralDialog({
 			        templateUrl: '/appViews/Home/SpecialStationDetails.html',
@@ -1414,6 +1442,43 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
+    .controller('map.resource.dialog', function ($scope, $uibModalInstance, station, dialogTitle,downSwitchService,
+		appFormatService, networkElementService) {
+        $scope.station = station;
+        $scope.dialogTitle = dialogTitle;
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        $scope.tab = 1;
+        
+        $scope.selectTab = function (setTab) {
+            $scope.tab = setTab;
+            if (1 == setTab) {
+                $scope.table = "bts";
+            } else if (2 == setTab) {
+                $scope.table = "enodeb";
+            } else if (3 == setTab) {
+                $scope.table = "rru";
+            } else if (4 == setTab) {
+                $scope.table = "lrru";
+            } else if (5 == setTab) {
+                $scope.table = "sfz";
+            } else if (6 == setTab) {
+                $scope.table = "zfz";
+            } else if (7 == setTab) {
+                $scope.table = "asset";
+            }
+            downSwitchService.getResource($scope.table, station.id).then(function (response) {
+                $scope.resourceList = response.result;
+            });
+        }
+
+        $scope.isSelectTab = function (checkTab) {
+            return $scope.tab === checkTab
+        }
+        $scope.selectTab(1);
+    })
     .controller('map.special-station.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
 		appFormatService, networkElementService) {
         
@@ -1756,6 +1821,12 @@
 			});
 		}
 	})
+	.controller('map.resource-station.dialog', function ($scope, $http, dialogTitle, type, $uibModalInstance, parametersDialogService,
+		downSwitchService) {
+	    $scope.dialogTitle = dialogTitle;
+	   
+	})
+
     .controller('map.alarmHistoryList.dialog', function ($scope, $http, dialogTitle, alarmStation, $uibModalInstance, parametersDialogService,
 		downSwitchService) {
         $scope.levels = [

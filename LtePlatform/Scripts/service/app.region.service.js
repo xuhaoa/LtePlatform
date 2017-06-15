@@ -1686,6 +1686,22 @@
                     "type": type                
                 });
             },
+            getResourceStations: function (areaName, type, page, pageSize) {
+                //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search', {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Resource/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "areaName": areaName,
+                    "type": type
+                });
+            },
+            getResource: function (table, id) {
+                //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search', {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Resource/single', {
+                    "table": table,
+                    "id": id
+                });
+            },
             getAlarmStations: function (areaName, levelIndex, netType, page, pageSize) {               
                 //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Alarm/search', {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Alarm/search', {
@@ -1696,13 +1712,14 @@
                     "alarmLevel": levelIndex
                 });
             },
-            getCheckingStation: function (areaName, status, page, pageSize) {
+            getCheckingStation: function (areaName, status,type, page, pageSize) {
                 //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Alarm/search', {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Checking/search', {
                     "curr_page": page,
                     "page_size": pageSize,
                     "areaName": areaName,
-                    "status": status
+                    "status": status,
+                    'type':type
                 });
             },
             getFixingStation: function (areaName, status,type, page, pageSize) {
