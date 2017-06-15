@@ -1712,6 +1712,9 @@
         $scope.yesterdayItems = function() {
 
         };
+        $scope.showMonthlyTrend = function() {
+            mapDialogService.showMonthComplainItems();
+        };
 
         $scope.districts = [];
         $scope.currentView = "电子运维工单";

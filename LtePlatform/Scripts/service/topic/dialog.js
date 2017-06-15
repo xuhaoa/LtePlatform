@@ -347,6 +347,13 @@
                         }
                     }
                 });
+            },
+            showMonthComplainItems: function() {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Customer/Index.html',
+                    controller: 'customer.index',
+                    resolve: {}
+                });
             }
         };
     })
@@ -924,6 +931,35 @@
 
         $scope.query();
 
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.building);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller("customer.index", function ($scope, $uibModalInstance,
+    complainService, appKpiService) {
+        $scope.statDate = {
+            value: new Date(),
+            opened: false
+        };
+        $scope.monthObject = 498;
+        $scope.query = function () {
+            complainService.queryCurrentComplains($scope.statDate.value).then(function (count) {
+                $scope.count = count;
+                var objects = [];
+                complainService.queryMonthTrend($scope.statDate.value).then(function (stat) {
+                    angular.forEach(stat.item1, function (date, index) {
+                        objects.push((index + 1) / stat.item1.length * $scope.monthObject);
+                    });
+                    var options = appKpiService.generateComplainTrendOptions(stat.item1, stat.item2, objects);
+                    $('#line-chart').highcharts(options);
+                });
+            });
+        };
+        $scope.query();
         $scope.ok = function () {
             $uibModalInstance.close($scope.building);
         };

@@ -3,10 +3,6 @@
         '$routeProvider', function($routeProvider) {
             var viewDir = "/appViews/Customer/";
             $routeProvider
-                .when('/', {
-                    templateUrl: viewDir + "Index.html",
-                    controller: "customer.index"
-                })
                 .when('/emergency', {
                     templateUrl: viewDir + "EmergencyList.html",
                     controller: "emergency.list"
