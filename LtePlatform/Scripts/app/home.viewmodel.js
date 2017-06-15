@@ -168,33 +168,33 @@
                 url: "/alarm-indoor"
             })
             //资源资产
-            .state('resource', {
+            .state('resource-station', {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/Title.html",
-                        controller: "menu.resource"
+                        controller: "menu.resource-station"
                     },
                     "contents": {
                         templateUrl: viewDir + "Resource.html",
-                        controller: "resource.network"
+                        controller: "resource-station.network"
                     }
 
                 },
-                url: "/resource"
+                url: "/resource-station"
             })
-            .state('asset', {
+            .state('resource-indoor', {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/Title.html",
-                        controller: "menu.asset"
+                        controller: "menu.resource-indoor"
                     },
                     "contents": {
                         templateUrl: viewDir + "Asset.html",
-                        controller: "asset.network"
+                        controller: "resource-indoor.network"
                     }
 
                 },
-                url: "/asset"
+                url: "/resource-indoor"
             })
 
             .state('special-station', {
@@ -502,13 +502,13 @@
         };
     })
 
-    .controller("menu.resource", function ($scope, appUrlService) {
+    .controller("menu.resource-station", function ($scope, appUrlService) {
         var rootUrl = "/#";
         $scope.menuItem = {
             displayName: "资源"
         };
     })
-    .controller("menu.asset", function ($scope, appUrlService) {
+    .controller("menu.resource-indoor", function ($scope, appUrlService) {
         var rootUrl = "/#";
         $scope.menuItem = {
             displayName: "资产"
@@ -1917,7 +1917,7 @@
         $scope.reflashMap();
     })
 
-    .controller("resource.network", function ($scope, downSwitchService, MyValue, baiduMapService, geometryService,
+    .controller("resource-station.network", function ($scope, downSwitchService, MyValue, baiduMapService, geometryService,
         parametersDialogService, baiduQueryService) {
         $scope.areaNames = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
         $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
@@ -1964,17 +1964,17 @@
             }
         };
         $scope.changeArea = function (areaNameIndex) {
-            $scope.reflashMap(areaNameIndex, $scope.type);
+            $scope.reflashMap(areaNameIndex, 'JZ');
         }
         $scope.changeType = function (typeIndex) {
             $scope.type = $scope.types[typeIndex];
             $scope.typeDisplay = $scope.typesDisplay[typeIndex];
             $scope.reflashMap(MyValue.distinctIndex, $scope.type);
         }
-        $scope.reflashMap(0,$scope.type);
+        $scope.reflashMap(0,'JZ');
 
     })
-    .controller("asset.network", function ($scope, downSwitchService, MyValue, baiduMapService, geometryService,
+    .controller("resource-indoor.network", function ($scope, downSwitchService, MyValue, baiduMapService, geometryService,
         parametersDialogService, baiduQueryService) {
         $scope.areaNames = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
         $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
@@ -2021,14 +2021,14 @@
             }
         };
         $scope.changeArea = function (areaNameIndex) {
-            $scope.reflashMap(areaNameIndex, $scope.type);
+            $scope.reflashMap(areaNameIndex, 'SF');
         }
         $scope.changeType = function (typeIndex) {
             $scope.type = $scope.types[typeIndex];
             $scope.typeDisplay = $scope.typesDisplay[typeIndex];
             $scope.reflashMap(MyValue.distinctIndex, $scope.type);
         }
-        $scope.reflashMap(0, $scope.type);
+        $scope.reflashMap(0, 'SF');
 
     })
 

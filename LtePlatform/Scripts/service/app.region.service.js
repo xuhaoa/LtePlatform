@@ -1702,6 +1702,12 @@
                     "id": id
                 });
             },
+            getResourceCounter: function (id) {
+                //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search', {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Resource/counter', {
+                    "id": id
+                });
+            },
             getAlarmStations: function (areaName, levelIndex, netType, page, pageSize) {               
                 //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Alarm/search', {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Alarm/search', {

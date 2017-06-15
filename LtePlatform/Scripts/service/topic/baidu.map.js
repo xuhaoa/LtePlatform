@@ -1454,7 +1454,11 @@
         
         $scope.selectTab = function (setTab) {
             $scope.tab = setTab;
-            if (1 == setTab) {
+            if (0 == setTab) {
+                downSwitchService.getResourceCounter(station.id).then(function (response) {
+                    $scope.counter = response.result;
+                });
+            }else if (1 == setTab) {
                 $scope.table = "bts";
             } else if (2 == setTab) {
                 $scope.table = "enodeb";
@@ -1469,15 +1473,17 @@
             } else if (7 == setTab) {
                 $scope.table = "asset";
             }
-            downSwitchService.getResource($scope.table, station.id).then(function (response) {
-                $scope.resourceList = response.result;
-            });
+            if (0 != setTab) {
+                downSwitchService.getResource($scope.table, station.id).then(function (response) {
+                    $scope.resourceList = response.result;
+                });
+            }
         }
 
         $scope.isSelectTab = function (checkTab) {
             return $scope.tab === checkTab
         }
-        $scope.selectTab(1);
+        $scope.selectTab(0);
     })
     .controller('map.special-station.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
 		appFormatService, networkElementService) {
