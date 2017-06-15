@@ -389,7 +389,9 @@ namespace Lte.Domain.Common.Wireless
         Web,
         ShortMessage,
         WeakCoverage,
-        DeepCoverage
+        DeepCoverage,
+        NetworkQuality,
+        Appliance
     }
 
     public class ComplainCategoryDescriptionTransform : DescriptionTransform<ComplainCategory>

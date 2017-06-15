@@ -262,6 +262,7 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(ComplainReason.OtherMalfunction, "其他原因导致故障"),
                     new Tuple<object, string>(ComplainReason.NetworkMalfunction, "网络设备故障"),
                     new Tuple<object, string>(ComplainReason.NetworkOptimize, "网络优化调整"),
+                    new Tuple<object, string>(ComplainReason.NetworkOptimize, "网络优化解决"), 
                     new Tuple<object, string>(ComplainReason.UnConfirmed, "未确认"),
                     new Tuple<object, string>(ComplainReason.BiqianMalfunction, "物业逼迁导致故障"),
                     new Tuple<object, string>(ComplainReason.BiqianMalfunction, "基站等设备要求移拆"),
@@ -323,6 +324,7 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(ComplainSubReason.UnderConstruction, "新增资源"), 
                     new Tuple<object, string>(ComplainSubReason.UnderConstruction, "替换站建设中"),
                     new Tuple<object, string>(ComplainSubReason.UnderConstruction, "建设中已超预计时间"),
+                    new Tuple<object, string>(ComplainSubReason.UnderConstruction, "已立项待建设"), 
                     new Tuple<object, string>(ComplainSubReason.BillProblem, "计费规则争议"),
                     new Tuple<object, string>(ComplainSubReason.BillProblem, "套餐外超量使用计费规则争议"),
                     new Tuple<object, string>(ComplainSubReason.BillProblem, "客户对上网清单不认可"),
@@ -374,7 +376,9 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(ComplainCategory.ShortMessage, "短信"),  
                     new Tuple<object, string>(ComplainCategory.WeakCoverage, "弱覆盖"),
                     new Tuple<object, string>(ComplainCategory.WeakCoverage, "覆盖"),  
-                    new Tuple<object, string>(ComplainCategory.DeepCoverage, "深度覆盖"), 
+                    new Tuple<object, string>(ComplainCategory.DeepCoverage, "深度覆盖"),
+                    new Tuple<object, string>(ComplainCategory.NetworkQuality, "移动网络质量"),  
+                    new Tuple<object, string>(ComplainCategory.Appliance, "局方设备"), 
                 }
             },
             {

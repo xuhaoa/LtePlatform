@@ -550,8 +550,8 @@ namespace Lte.Evaluations.MapperService
             var info = new ComplainExcel
             {
                 SourceDescription = "分公司客服中心",
-                ReasonFirst = "物业逼迁导致故障",
-                ReasonSecond = "业务恢复但原因未知",
+                FirstReason = "物业逼迁导致故障",
+                SecondReason = "业务恢复但原因未知",
                 NetworkDescription = "3G",
                 IndoorDescription = "室内",
                 Scene = "城中村",

@@ -15,8 +15,11 @@ namespace Lte.MySqlFramework.Entities
         public string SerialNumber { get; set; }
 
         public string SubscriberPhone { get; set; }
-
+        
         public byte RepeatTimes { get; set; }
+
+        [AutoMapPropertyResolve("ServiceType1", typeof(ComplainExcel), typeof(ComplainCategoryTransform))]
+        public ComplainCategory ServiceCategory { get; set; }
 
         public bool IsUrgent { get; set; }
 
@@ -197,6 +200,14 @@ namespace Lte.MySqlFramework.Entities
         [ExcelColumn("服务类别")]
         public string ServiceType { get; set; }
 
+        public string[] ServiceTypeFields => ServiceType.GetSplittedFields('-');
+
+        public string ServiceType1 => ServiceTypeFields.Length > 0 ? ServiceTypeFields[0] : "";
+
+        public string ServiceType2 => ServiceTypeFields.Length > 1 ? ServiceTypeFields[1] : "";
+
+        public string ServiceType3 => ServiceTypeFields.Length > 2 ? ServiceTypeFields[2] : "";
+
         [ExcelColumn("工单状态")]
         public string StateDescription { get; set; }
 
@@ -284,10 +295,14 @@ namespace Lte.MySqlFramework.Entities
         public double Lattitute { get; set; }
 
         [ExcelColumn("原因定性一级")]
-        public string ReasonFirst { get; set; }
+        public string FirstReason { get; set; }
+
+        public string ReasonFirst => string.IsNullOrEmpty(FirstReason) ? ServiceType2 : FirstReason;
 
         [ExcelColumn("原因定性二级")]
-        public string ReasonSecond { get; set; }
+        public string SecondReason { get; set; }
+
+        public string ReasonSecond => string.IsNullOrEmpty(SecondReason) ? ServiceType3 : SecondReason;
 
         [ExcelColumn("归属网格")]
         public string Grid { get; set; }

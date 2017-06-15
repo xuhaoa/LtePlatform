@@ -103,7 +103,7 @@ namespace Lte.Evaluations.DataService.Kpi
         public string ImportComplain(string path)
         {
             var factory = new ExcelQueryFactory { FileName = path };
-            var stats = (from c in factory.Worksheet<ComplainExcel>("组合项目")
+            var stats = (from c in factory.Worksheet<ComplainExcel>("当月累积受理工单详单")
                          select c).ToList();
             foreach (var stat in stats)
             {

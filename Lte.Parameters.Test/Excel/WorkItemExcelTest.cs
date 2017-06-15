@@ -128,7 +128,7 @@ namespace Lte.Parameters.Test.Excel
     }
 
     [TestFixture]
-    public class ComplainExcelTest : SQLLogStatements_Helper
+    public class ComplainExcelTest2 : SQLLogStatements_Helper
     {
         ExcelQueryFactory _repo;
         string _excelFileName;
@@ -215,5 +215,81 @@ namespace Lte.Parameters.Test.Excel
             info[1].CandidateDistrict.ShouldBe("");
             info[2].SerialNumber.ShouldBe("2016040710008333");
         }
+    }
+
+    [TestFixture]
+    public class ComplainExcelTest : SQLLogStatements_Helper
+    {
+        ExcelQueryFactory _repo;
+        string _excelFileName;
+        string _worksheetName;
+        private string _excelFilesDirectory;
+
+        [TestFixtureSetUp]
+        public void fs()
+        {
+            InstantiateLogger();
+            var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            _excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
+            _worksheetName = "当月累积受理工单详单";
+        }
+
+        [Test]
+        public void Test_Read_Sheet()
+        {
+            _excelFileName = Path.Combine(_excelFilesDirectory, "6月佛山各区后端无线投诉工单受理情况（20170613）.xls");
+            _repo = new ExcelQueryFactory { FileName = _excelFileName };
+            var info = (from c in _repo.Worksheet<ComplainExcel>(_worksheetName)
+                        select c).ToList();
+
+            Assert.IsNotNull(info);
+            Assert.AreEqual(info.Count, 267);
+            info[0].Longtitute.ShouldBe(0);
+            info[4].Lattitute.ShouldBeInRange(23.0392, 23.03921);
+            info[1].CandidateDistrict.ShouldBe("");
+            info[1].District.ShouldBe("南海");
+            info[2].SerialNumber.ShouldBe("2017060310011178");
+            info[2].ServiceType1.ShouldBe("移动网络质量");
+            info[2].ServiceType1.GetEnumType<ComplainCategory>().ShouldBe(ComplainCategory.NetworkQuality);
+            info[1].ServiceType1.GetEnumType<ComplainCategory>().ShouldBe(ComplainCategory.Appliance);
+            info[3].ReasonFirst.ShouldBe("基站等设备要求安装");
+            info[3].ReasonFirst.GetEnumType<ComplainReason>().ShouldBe(ComplainReason.NeedNewSite);
+            info[4].ReasonSecond.ShouldBe("参数调整");
+            info[4].ReasonSecond.GetEnumType<ComplainSubReason>().ShouldBe(ComplainSubReason.ParameterAdjust);
+            info[5].ReasonFirst.ShouldBe("网络优化解决");
+            info[5].ReasonFirst.GetEnumType<ComplainReason>().ShouldBe(ComplainReason.NetworkOptimize);
+            info[5].ReasonSecond.ShouldBe("外部干扰");
+            info[5].ReasonSecond.GetEnumType<ComplainSubReason>().ShouldBe(ComplainSubReason.OutInterference);
+            info[6].ReasonFirst.ShouldBe("新增资源");
+            info[6].ReasonFirst.GetEnumType<ComplainReason>().ShouldBe(ComplainReason.NeedNewSite);
+            info[6].ReasonSecond.ShouldBe("已立项待建设");
+            info[6].ReasonSecond.GetEnumType<ComplainSubReason>().ShouldBe(ComplainSubReason.UnderConstruction);
+            info[7].ReasonFirst.ShouldBe("新增资源");
+            info[8].ReasonFirst.ShouldBe("网络优化解决");
+            info[8].ReasonSecond.ShouldBe("外部干扰");
+            info[9].ReasonSecond.ShouldBe("预约客户测试");
+            info[9].ReasonSecond.GetEnumType<ComplainSubReason>().ShouldBe(ComplainSubReason.ReservationTest);
+            info[10].ReasonFirst.ShouldBe("非漫游质量");
+            info[10].ReasonFirst.GetEnumType<ComplainReason>().ShouldBe(ComplainReason.NetworkQuality);
+            info[10].ReasonSecond.ShouldBe("无信号");
+            info[10].ReasonSecond.GetEnumType<ComplainSubReason>().ShouldBe(ComplainSubReason.NoCoverage);
+            info[11].ReasonFirst.ShouldBe("非漫游质量");
+            info[11].ReasonFirst.GetEnumType<ComplainReason>().ShouldBe(ComplainReason.NetworkQuality);
+            info[11].ReasonSecond.ShouldBe("信号弱/不稳定");
+            info[11].ReasonSecond.GetEnumType<ComplainSubReason>().ShouldBe(ComplainSubReason.NoCoverage);
+            info[12].ReasonFirst.ShouldBe("新增资源");
+            info[12].ReasonFirst.GetEnumType<ComplainReason>().ShouldBe(ComplainReason.NeedNewSite);
+            info[12].ReasonSecond.ShouldBe("已立项待建设");
+            info[12].ReasonSecond.GetEnumType<ComplainSubReason>().ShouldBe(ComplainSubReason.UnderConstruction);
+            info[13].ReasonFirst.ShouldBe("新增资源");
+            info[13].ReasonFirst.GetEnumType<ComplainReason>().ShouldBe(ComplainReason.NeedNewSite);
+            info[13].ReasonSecond.ShouldBe("已立项待建设");
+            info[13].ReasonSecond.GetEnumType<ComplainSubReason>().ShouldBe(ComplainSubReason.UnderConstruction);
+            info[14].ReasonFirst.ShouldBe("非漫游质量");
+            info[14].ReasonFirst.GetEnumType<ComplainReason>().ShouldBe(ComplainReason.NetworkQuality);
+            info[14].ReasonSecond.ShouldBe("信号弱/不稳定");
+            info[14].ReasonSecond.GetEnumType<ComplainSubReason>().ShouldBe(ComplainSubReason.NoCoverage);
+        }
+        
     }
 }

@@ -10,7 +10,7 @@
     </div>
     <div class="panel-body">
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-6">
                 <h4>指标文件选择</h4>
                 @using (Html.BeginForm("KpiImport", "Kpi",
                     FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal", role = "form"}))
@@ -22,34 +22,37 @@
                 {
                     <div dump-file-selector file-title="4G用户3G流量比文件选择：" tag="downSwitch"></div>
                 }
-                @using (Html.BeginForm("VipDemandImport", "Kpi",
-                    FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal", role = "form"}))
-                {
-                    <div dump-file-selector file-title="政企客户需求文件选择：" tag="vipDemand"></div>
-                }
-                @using (Html.BeginForm("ComplainImport", "Kpi",
-                    FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal", role = "form"}))
-                {
-                    <div dump-file-selector file-title="抱怨量工单文件选择：" tag="complain"></div>
-                }
-                @using (Html.BeginForm("BranchImport", "Kpi",
-                    FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal", role = "form"}))
-                {
-                    <div dump-file-selector file-title="分公司需求文件选择：" tag="branch"></div>
-                }
-                @using (Html.BeginForm("OnlineImport", "Kpi",
-                    FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal", role = "form"}))
-                {
-                    <div dump-file-selector file-title="在线支撑文件选择：" tag="online"></div>
-                }
                 @using (Html.BeginForm("PlanningImport", "Kpi",
-                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                    FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal", role = "form"}))
                 {
                     <div dump-file-selector file-title="规划信息文件选择：" tag="planning"></div>
                 }
             </div>
             <div class="col-md-5">
                 @{Html.RenderPartial("_AlertPanel");}
+            </div>
+            <div class="col-md-6">
+                <h4>客服有关文件导入</h4>
+                @using (Html.BeginForm("ComplainImport", "Kpi",
+                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                {
+                    <div dump-file-selector file-title="抱怨量工单文件选择：" tag="complain"></div>
+                }
+                @using (Html.BeginForm("VipDemandImport", "Kpi",
+                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                {
+                    <div dump-file-selector file-title="政企客户需求文件选择：" tag="vipDemand"></div>
+                }
+                @using (Html.BeginForm("BranchImport", "Kpi",
+                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                {
+                    <div dump-file-selector file-title="分公司需求文件选择：" tag="branch"></div>
+                }
+                @using (Html.BeginForm("OnlineImport", "Kpi",
+                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                {
+                    <div dump-file-selector file-title="在线支撑文件选择：" tag="online"></div>
+                }
             </div>
         </div>
     </div>
