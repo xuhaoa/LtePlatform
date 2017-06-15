@@ -1339,9 +1339,9 @@
             mapDialogService.showCommonStationList($scope.type);
         };
 
-        $scope.outportData = function () {
-            location.href = appUrlService.getPhpHost() + "LtePlatForm/lte/index.php/StationCommon/download/type/" + $scope.type;
-        };
+        $scope.$watch('type', function(type) {
+            $scope.outportHref = appUrlService.getPhpHost() + "LtePlatForm/lte/index.php/StationCommon/download/type/" + type;
+        });
         
         $scope.$watch('city.selected', function (city) {
             if (city) {
