@@ -107,10 +107,6 @@ namespace Lte.MySqlFramework.Abstract
 
         Task<List<WorkItem>> GetAllListAsync(int eNodebId);
 
-        Task<List<WorkItem>> GetAllListAsync(DateTime begin, DateTime end);
-
-        Task<List<WorkItem>> GetAllKpiListAsync(DateTime begin, DateTime end);
-
         Task<List<WorkItem>> GetUnfinishedPreciseListAsync(DateTime begin, DateTime end);
 
         Task<WorkItem> GetPreciseExistedAsync(int eNodebId, byte sectorId);

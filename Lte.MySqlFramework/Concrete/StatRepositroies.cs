@@ -233,21 +233,6 @@ namespace Lte.MySqlFramework.Concrete
             return await GetAllListAsync(x => x.ENodebId == eNodebId);
         }
 
-        public async Task<List<WorkItem>> GetAllListAsync(DateTime begin, DateTime end)
-        {
-            return await GetAllListAsync(x => x.Deadline > begin && x.Deadline <= end);
-        }
-
-        public async Task<List<WorkItem>> GetAllKpiListAsync(DateTime begin, DateTime end)
-        {
-            return
-                await
-                    GetAllListAsync(
-                        x =>
-                            x.Deadline > begin && x.Deadline <= end && (x.Type == WorkItemType.Interference4G ||
-                            x.Type == WorkItemType.Kpi2G || x.Type == WorkItemType.Kpi4G));
-        }
-
         public async Task<List<WorkItem>> GetUnfinishedPreciseListAsync(DateTime begin, DateTime end)
         {
             return
