@@ -3,11 +3,11 @@ using Abp.Reflection;
 using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.Policy;
-using Lte.MySqlFramework.Entities;
 using NUnit.Framework;
 using System;
 using System.IO;
 using System.Text;
+using Lte.Domain.Common;
 
 namespace Lte.Evaluations.DataService.Dump
 {

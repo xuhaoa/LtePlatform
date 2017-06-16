@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFramework.Dependency;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.DataService.Kpi

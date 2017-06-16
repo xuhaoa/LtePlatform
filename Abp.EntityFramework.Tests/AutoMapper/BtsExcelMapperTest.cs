@@ -5,6 +5,7 @@ using NUnit.Framework;
 using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Domain.Common;
 
 namespace Abp.EntityFramework.Tests.AutoMapper
 {

@@ -13,6 +13,7 @@ using Moq;
 using NUnit.Framework;
 using Shouldly;
 using System.Collections.Generic;
+using Lte.Domain.Common;
 
 namespace Lte.Evaluations.DataService.Dump
 {

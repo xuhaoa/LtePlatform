@@ -6,6 +6,7 @@ using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities.Basic;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Domain.Common;
 
 namespace Lte.Evaluations.DataService.Dump
 {

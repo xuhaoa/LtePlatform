@@ -1,10 +1,10 @@
 ﻿using Lte.Domain.LinqToExcel;
 using Lte.Domain.Test.LinqToExcel;
-using Lte.Parameters.Entities.Basic;
 using NUnit.Framework;
 using System;
 using System.IO;
 using System.Linq;
+using Lte.Domain.Common;
 
 namespace Lte.Parameters.Test.Excel
 {

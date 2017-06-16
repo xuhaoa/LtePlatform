@@ -2,6 +2,7 @@
 using Abp.EntityFramework.Repositories;
 using Lte.MySqlFramework.Entities;
 using System.Collections.Generic;
+using Lte.Domain.Common;
 
 namespace Lte.MySqlFramework.Abstract
 {

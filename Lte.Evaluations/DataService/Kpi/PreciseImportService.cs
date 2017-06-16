@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
+using Lte.Domain.Common;
 
 namespace Lte.Evaluations.DataService.Kpi
 {

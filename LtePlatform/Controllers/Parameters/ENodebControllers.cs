@@ -1,7 +1,6 @@
 ﻿using System;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.MapperSerive.Infrastructure;
-using Lte.Evaluations.ViewModels.Basic;
 using LtePlatform.Models;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +10,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Lte.Domain.Common;
 using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.Dump;
 using Lte.MySqlFramework.Entities;

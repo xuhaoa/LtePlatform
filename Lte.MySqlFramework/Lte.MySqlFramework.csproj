@@ -156,7 +156,6 @@
     <Compile Include="Entities\Flow.cs" />
     <Compile Include="Entities\OnlineSustain.cs" />
     <Compile Include="Entities\PlanningSite.cs" />
-    <Compile Include="Entities\PreciseWorkItemCell.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
     <Compile Include="Migrations\201706140920399_Extend_ComplainItem.cs" />
