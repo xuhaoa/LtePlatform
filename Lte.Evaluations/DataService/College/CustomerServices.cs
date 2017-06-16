@@ -130,6 +130,13 @@ namespace Lte.Evaluations.DataService.College
             return await service.QueryCount(begin, end);
         }
 
+        public static async Task<int> QueryThisMonthCount<TService, TItem>(this TService service, DateTime today)
+            where TService : IDateSpanService<TItem>
+        {
+            var begin = new DateTime(today.Year, today.Month, 1);
+            return await service.QueryCount(begin, today);
+        }
+
         public static async Task<Tuple<List<string>, List<int>>> QueryCounts<TService, TItem>(this TService service,
             DateTime today)
             where TService : IDateSpanService<TItem>

@@ -295,6 +295,7 @@ namespace LtePlatform.Controllers.College
         } 
     }
 
+    [ApiControl("后端投诉工单基本查询控制器")]
     public class ComplainQueryController : ApiController
     {
         private readonly ComplainService _service;
@@ -305,27 +306,13 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
+        [ApiDoc("查询日期范围内的投诉工单视图")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiResponse("日期范围内的投诉工单视图")]
         public List<ComplainDto> Get(DateTime begin, DateTime end)
         {
             return _service.Query(begin, end);
-        }
-
-        [HttpGet]
-        public async Task<int> GetCount(DateTime today)
-        {
-            return await _service.QueryCount<ComplainService, ComplainItem>(today);
-        }
-
-        [HttpGet]
-        public Tuple<IEnumerable<string>, IEnumerable<int>> GetTrend(DateTime date)
-        {
-            return _service.Query<ComplainService, ComplainItem>(date, x => x.BeginTime);
-        }
-
-        [HttpGet]
-        public async Task<Tuple<List<string>, List<int>>> QueryCounts(DateTime countDate)
-        {
-            return await _service.QueryCounts<ComplainService, ComplainItem>(countDate);
         }
 
         [HttpGet]
@@ -340,7 +327,38 @@ namespace LtePlatform.Controllers.College
             return await _service.UpdateAsync(dto);
         }
     }
-    
+
+    [ApiControl("后端投诉单变化趋势查询控制器")]
+    public class ComplainTrendController : ApiController
+    {
+        private readonly ComplainService _service;
+
+        public ComplainTrendController(ComplainService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        [ApiDoc("查询本月至当天为止投诉工单数量")]
+        public async Task<int> GetCount(DateTime today)
+        {
+            return await _service.QueryThisMonthCount<ComplainService, ComplainItem>(today);
+        }
+
+        [HttpGet]
+        public Tuple<IEnumerable<string>, IEnumerable<int>> GetTrend(DateTime date)
+        {
+            return _service.Query<ComplainService, ComplainItem>(date, x => x.BeginTime);
+        }
+
+        [HttpGet]
+        public async Task<Tuple<List<string>, List<int>>> QueryCounts(DateTime countDate)
+        {
+            return await _service.QueryCounts<ComplainService, ComplainItem>(countDate);
+        }
+
+    }
+
     [ApiControl("分公司需求查询控制器")]
     public class BranchDemandController : ApiController
     {

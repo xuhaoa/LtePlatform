@@ -834,12 +834,12 @@
                 return generalHttpService.postApiData('ComplainPosition', dto);
             },
             queryCurrentComplains: function (today) {
-                return generalHttpService.getApiData('ComplainQuery', {
+                return generalHttpService.getApiData('ComplainTrend', {
                     today: today
                 });
             },
             queryMonthTrend: function (date) {
-                return generalHttpService.getApiData('ComplainQuery', {
+                return generalHttpService.getApiData('ComplainTrend', {
                     date: date
                 });
             },
@@ -887,7 +887,7 @@
                 return generalHttpService.putApiData("ComplainQuery", dto);
             },
             queryComplainMonthStats: function (date) {
-                return generalHttpService.getApiData("ComplainQuery", {
+                return generalHttpService.getApiData("ComplainTrend", {
                     countDate: date
                 });
             },
