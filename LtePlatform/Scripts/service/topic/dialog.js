@@ -382,6 +382,17 @@
 					controller: 'customer.index',
 					resolve: {}
 				});
+			},
+			showYesterdayComplainItems: function(city) {
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Customer/Dialog/Yesterday.html',
+					controller: 'customer.yesterday',
+					resolve: {
+						city: function() {
+							return city;
+						}
+					}
+				});
 			}
 		};
 	})
@@ -1038,6 +1049,25 @@
 					$('#line-chart').highcharts(options);
 				});
 			});
+		};
+		$scope.query();
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.building);
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
+	.controller("customer.yesterday", function ($scope, $uibModalInstance, city,
+	complainService, appKpiService) {
+		$scope.statDate = {
+			value: new Date(),
+			opened: false
+		};
+		$scope.city = city;
+		$scope.query = function () {
+			
 		};
 		$scope.query();
 		$scope.ok = function () {

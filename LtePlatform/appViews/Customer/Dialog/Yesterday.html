@@ -1,0 +1,39 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-hidden="true">
+        &times;
+    </button>
+    <h4 class="modal-title text-primary">{{city}}{{statDate.value | date: 'yyyy-MM-dd'}}后端投诉需求工单</h4>
+</div>
+
+<div class="modal-body">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th colspan="4">
+                后端投诉单（B）
+            </th>
+            <th colspan="4">
+                后端需求单（C）
+            </th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>区域</th>
+            <th>2G</th>
+            <th>3G</th>
+            <th>4G</th>
+            <th>总数</th>
+            <th>2G</th>
+            <th>3G</th>
+            <th>4G</th>
+            <th>总数</th>
+            <th>后端总量</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>

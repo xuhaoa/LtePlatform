@@ -1767,8 +1767,8 @@
             });
         };
 
-        $scope.yesterdayItems = function() {
-
+        $scope.showYesterdayItems = function() {
+            mapDialogService.showYesterdayComplainItems($scope.city.selected);
         };
         $scope.showMonthlyTrend = function() {
             mapDialogService.showMonthComplainItems();
