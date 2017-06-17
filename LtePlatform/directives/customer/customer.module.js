@@ -178,27 +178,14 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
             data: []
         };
     })
-    .directive('emergencyProcessList', function ($compile) {
-        return {
-            restrict: 'EA',
-            controller: 'EmergencyProcessController',
-            replace: true,
+    .directive('emergencyProcessList', function ($compile, calculateService) {
+        return calculateService.generatePagingGridDirective({
+            controllerName: 'EmergencyProcessController',
             scope: {
                 items: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
+            argumentName: 'items'
+        }, $compile);
     })
 
     .controller('VipProcessController', function ($scope, emergencyService, collegeDialogService, customerDialogService) {
@@ -245,29 +232,16 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
             data: []
         };
     })
-    .directive('vipProcessList', function ($compile) {
-        return {
-            restrict: 'EA',
-            controller: 'VipProcessController',
-            replace: true,
+    .directive('vipProcessList', function ($compile, calculateService) {
+        return calculateService.generatePagingGridDirective({
+            controllerName: 'VipProcessController',
             scope: {
                 items: '=',
                 collegeName: '=',
                 query: '&'
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
+            argumentName: 'items'
+        }, $compile);
     })
 
     .controller('ComplainProcessController', function ($scope) {
@@ -283,46 +257,44 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
             data: []
         };
     })
-    .directive('complainProcessList', function ($compile) {
-        return {
-            restrict: 'EA',
-            controller: 'ComplainProcessController',
-            replace: true,
+    .directive('complainProcessList', function ($compile, calculateService) {
+        return calculateService.generatePagingGridDirective({
+            controllerName: 'ComplainProcessController',
             scope: {
                 items: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
+            argumentName: 'items'
+        }, $compile);
     })
 
-    .controller('FiberItemController', function($scope, emergencyService) {
+    .controller('FiberItemController', function ($scope, emergencyService) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'beginDate', name: '建单时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
+                { field: 'finishDate', name: '完成时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
+                { field: 'person', name: '联系人' },
+                { field: 'workItemNumber', name: '工单编号' },
+                {
+                    name: '处理',
+                    cellTemplate: '<button ng-if="!grid.appScope.finishDate" ng-click="grid.appScope.finish(row.entity)" class="btn btn-success">完成</button>'
+                }
+            ],
+            data: []
+        };
         $scope.finish = function(item) {
             emergencyService.finishFiberItem(item).then(function() {
                 item.finishDate = new Date();
             });
         };
     })
-    .directive('fiberItemList', function (customerRoot) {
-        return {
-            controller: 'FiberItemController',
-            restrict: 'ECMA',
-            replace: true,
+    .directive('fiberItemList', function ($compile, calculateService) {
+        return calculateService.generatePagingGridDirective({
+            controllerName: 'FiberItemController',
             scope: {
                 items: '='
             },
-            templateUrl: customerRoot + 'emergency/FiberList.html'
-        };
+            argumentName: 'items'
+        }, $compile);
     })
     .value('processTypeDictionay', {
         "通信车申请": 'default',
@@ -546,6 +518,20 @@ angular.module('customer.complain', ['myApp.region'])
                     }
                 });
             }
+        };
+    })
+    .controller('ComplainCountController', function($scope) {
+        
+    })
+    .directive('complainCountTable', function(customerRoot) {
+        return {
+            controller: 'ComplainCountController',
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                stats: '='
+            },
+            templateUrl: customerRoot + 'Complain.Tpl.html'
         };
     });
     
