@@ -26,6 +26,18 @@ namespace Lte.MySqlFramework.Entities
         public double DownSwitchFlow3G { get; set; }
     }
 
+    [AutoMapFrom(typeof(DownSwitchFlow))]
+    public class DownSwitchFlowView
+    {
+        public string Region { get; set; }
+
+        public double Flow4G { get; set; }
+
+        public double DownSwitchFlow3G { get; set; }
+
+        public double DownSwitchRate => 100 * DownSwitchFlow3G / Flow4G;
+    }
+
     [AutoMapTo(typeof(DownSwitchFlow))]
     public class DownSwitchFlowExcel
     {

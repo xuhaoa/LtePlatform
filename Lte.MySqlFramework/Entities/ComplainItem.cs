@@ -5,11 +5,12 @@ using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 using System;
+using Abp.EntityFramework.Dependency;
 
 namespace Lte.MySqlFramework.Entities
 {
     [AutoMapFrom(typeof(ComplainDto), typeof(ComplainExcel))]
-    public class ComplainItem : Entity
+    public class ComplainItem : Entity, IBeginDate
     {
         public string SerialNumber { get; set; }
 

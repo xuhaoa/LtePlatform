@@ -41,6 +41,11 @@ namespace Lte.Parameters.Concrete
             return GetAllList(x => x.CityName == city && x.DistrictName == district);
         }
 
+        public IEnumerable<string> GetFoshanDistricts()
+        {
+            return new[] {"顺德", "南海", "禅城", "三水", "高明"};
+        }
+
         public EFTownRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
         {
         }

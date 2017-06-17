@@ -27,6 +27,11 @@ namespace Abp.EntityFramework.Dependency
         DateTime StatDate { get; set; }
     }
 
+    public interface IBeginDate
+    {
+        DateTime BeginDate { get; set; }
+    }
+
     public interface IStatTime
     {
         DateTime StatTime { get; set; }
@@ -47,7 +52,7 @@ namespace Abp.EntityFramework.Dependency
 
     public static class StatDateCellQueries
     {
-        public static TEntity Query<TEntity>(this MongoDbRepositoryBase<TEntity, ObjectId> repository,
+        public static TEntity QueryLastDate<TEntity>(this MongoDbRepositoryBase<TEntity, ObjectId> repository,
             string cellId, DateTime statDate)
             where TEntity : class, IStatDateCell, IEntity<ObjectId>
         {
@@ -58,7 +63,7 @@ namespace Abp.EntityFramework.Dependency
             return repository.QueryOne(query);
         }
 
-        public static IEnumerable<TEntity> Query<TEntity>(this MongoDbRepositoryBase<TEntity, ObjectId> repository,
+        public static IEnumerable<TEntity> QueryLastDate<TEntity>(this MongoDbRepositoryBase<TEntity, ObjectId> repository,
             string cellId, DateTime begin, DateTime end)
             where TEntity : class, IStatDateCell, IEntity<ObjectId>
         {
@@ -73,23 +78,33 @@ namespace Abp.EntityFramework.Dependency
             where TEntity : Entity, IStatDate
             where TRepository : IRepository<TEntity>
         {
-            var beginDate = initialDate.AddDays(-100);
-            var endDate = initialDate.AddDays(1);
-            var result = await queryDateFunc(repository, beginDate, endDate);
-            var maxDate = result.Max(x => x.StatDate);
-            return result.Where(x => x.StatDate == maxDate);
+            var beginDate = initialDate;
+            while (beginDate > initialDate.AddDays(-200))
+            {
+                var endDate = initialDate.AddDays(1);
+                var result = await queryDateFunc(repository, beginDate, endDate);
+                if (result.Any()) return result;
+                beginDate = beginDate.AddDays(-1);
+            }
+
+            return new List<TEntity>();
         }
 
-        public static IEnumerable<TEntity> Query<TRepository, TEntity>(this TRepository repository,
+        public static IEnumerable<TEntity> QueryLastDate<TRepository, TEntity>(this TRepository repository,
             DateTime initialDate, Func<TRepository, DateTime, DateTime, List<TEntity>> queryDateFunc)
             where TEntity : Entity, IStatTime
             where TRepository : IRepository<TEntity>
         {
-            var beginDate = initialDate.AddDays(-100);
-            var endDate = initialDate.AddDays(1);
-            var result = queryDateFunc(repository, beginDate, endDate);
-            var maxDate = result.Max(x => x.StatTime);
-            return result.Where(x => x.StatTime == maxDate);
+            var beginDate = initialDate;
+            while (beginDate > initialDate.AddDays(-200))
+            {
+                var endDate = initialDate.AddDays(1);
+                var result = queryDateFunc(repository, beginDate, endDate);
+                if (result.Any()) return result;
+                beginDate = beginDate.AddDays(-1);
+            }
+
+            return new List<TEntity>();
         }
 
         public static IEnumerable<TEntity> QueryDate<TRepository, TEntity>(this TRepository repository,
@@ -97,18 +112,33 @@ namespace Abp.EntityFramework.Dependency
             where TEntity : Entity, IStatDate
             where TRepository : IRepository<TEntity>
         {
-            var beginDate = initialDate.AddDays(-1);
-            var endDate = initialDate.AddDays(1);
-            List<TEntity> result = new List<TEntity>();
-            while (!result.Any())
+            var beginDate = initialDate;
+            while (beginDate > initialDate.AddDays(-200))
             {
-                if (beginDate < endDate.AddMonths(-6)) return new List<TEntity>();
-                result = queryDateFunc(repository, beginDate, endDate);
+                var endDate = initialDate.AddDays(1);
+                var result = queryDateFunc(repository, beginDate, endDate);
+                if (result.Any()) return result;
                 beginDate = beginDate.AddDays(-1);
             }
-            
-            var maxDate = result.Max(x => x.StatDate);
-            return result.Where(x => x.StatDate == maxDate);
+
+            return new List<TEntity>();
+        }
+
+        public static IEnumerable<TEntity> QueryBeginDate<TRepository, TEntity>(this TRepository repository,
+            DateTime initialDate, Func<TRepository, DateTime, DateTime, List<TEntity>> queryDateFunc)
+            where TEntity : Entity, IBeginDate
+            where TRepository : IRepository<TEntity>
+        {
+            var beginDate = initialDate;
+            while (beginDate > initialDate.AddDays(-200))
+            {
+                var endDate = initialDate.AddDays(1);
+                var result = queryDateFunc(repository, beginDate, endDate);
+                if (result.Any()) return result;
+                beginDate = beginDate.AddDays(-1);
+            }
+
+            return new List<TEntity>();
         }
     }
 

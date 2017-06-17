@@ -32,6 +32,8 @@ namespace Lte.Parameters.Abstract.Infrastructure
         List<Town> GetAll(string city);
 
         List<Town> GetAllList(string city, string district);
+
+        IEnumerable<string> GetFoshanDistricts();
     }
 
     public static class TownQueries

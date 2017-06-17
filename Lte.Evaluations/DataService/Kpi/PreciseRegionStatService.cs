@@ -26,7 +26,7 @@ namespace Lte.Evaluations.DataService.Kpi
 
         public PreciseRegionDateView QueryLastDateStat(DateTime initialDate, string city)
         {
-            var stats = _statRepository.Query(initialDate, (repository, beginDate, endDate) =>
+            var stats = _statRepository.QueryLastDate(initialDate, (repository, beginDate, endDate) =>
             {
                 var query =
                     _statRepository.GetAllList(beginDate, endDate);

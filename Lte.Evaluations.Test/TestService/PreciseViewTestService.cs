@@ -1,4 +1,5 @@
 ﻿using Lte.Evaluations.ViewModels.RegionKpi;
+using Lte.Parameters.Entities.Kpi;
 using NUnit.Framework;
 
 namespace Lte.Evaluations.Test.TestService

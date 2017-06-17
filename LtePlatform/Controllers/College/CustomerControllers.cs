@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Lte.Evaluations.ViewModels.RegionKpi;
 
 namespace LtePlatform.Controllers.College
 {
@@ -316,12 +317,18 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
+        [ApiDoc("按照工单号码查询投诉工单视图")]
+        [ApiParameterDoc("serialNumber", "工单号码")]
+        [ApiResponse("投诉工单视图")]
         public ComplainDto Get(string serialNumber)
         {
             return _service.Query(serialNumber);
         }
         
         [HttpPut]
+        [ApiDoc("更新投诉工单信息")]
+        [ApiParameterDoc("dto", "投诉工单视图")]
+        [ApiResponse("更新结果")]
         public async Task<int> Put(ComplainDto dto)
         {
             return await _service.UpdateAsync(dto);
@@ -357,6 +364,22 @@ namespace LtePlatform.Controllers.College
             return await _service.QueryCounts<ComplainService, ComplainItem>(countDate);
         }
 
+    }
+
+    public class ComplainDateController : ApiController
+    {
+        private readonly ComplainService _service;
+
+        public ComplainDateController(ComplainService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public DistrictComplainDateView Get(DateTime initialDate)
+        {
+            return _service.QueryLastDateStat(initialDate);
+        }
     }
 
     [ApiControl("分公司需求查询控制器")]

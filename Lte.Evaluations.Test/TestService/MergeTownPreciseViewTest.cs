@@ -6,6 +6,7 @@ using Lte.Evaluations.ViewModels.RegionKpi;
 using NUnit.Framework;
 using System.Linq;
 using Lte.Domain.Common.Wireless;
+using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.TestService
 {

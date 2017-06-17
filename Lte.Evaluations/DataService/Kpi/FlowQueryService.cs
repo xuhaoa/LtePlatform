@@ -159,7 +159,7 @@ namespace Lte.Evaluations.DataService.Kpi
 
         public IEnumerable<TownFlowView> QueryLastDateStat(DateTime initialDate)
         {
-            var stats = _repository.Query(initialDate, (repository, beginDate, endDate) => repository.GetAllList(beginDate, endDate));
+            var stats = _repository.QueryLastDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(beginDate, endDate));
             return stats.Select(x => x.ConstructView<TownFlowStat, TownFlowView>(_townRepository));
         }
 

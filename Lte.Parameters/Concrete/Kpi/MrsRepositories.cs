@@ -23,12 +23,12 @@ namespace Lte.Parameters.Concrete.Kpi
 
         public MrsPhrStat Get(string cellId, DateTime statDate)
         {
-            return this.Query(cellId, statDate);
+            return this.QueryLastDate(cellId, statDate);
         }
 
         public IEnumerable<MrsPhrStat> GetList(string cellId, DateTime begin, DateTime end)
         {
-            return this.Query(cellId, begin, end);
+            return this.QueryLastDate(cellId, begin, end);
         }
     }
 
@@ -46,12 +46,12 @@ namespace Lte.Parameters.Concrete.Kpi
 
         public MrsRsrpStat Get(string cellId, DateTime statDate)
         {
-            return this.Query(cellId, statDate);
+            return this.QueryLastDate(cellId, statDate);
         }
 
         public IEnumerable<MrsRsrpStat> GetList(string cellId, DateTime begin, DateTime end)
         {
-            return this.Query(cellId, begin, end);
+            return this.QueryLastDate(cellId, begin, end);
         }
     }
 
@@ -68,12 +68,12 @@ namespace Lte.Parameters.Concrete.Kpi
 
         public MrsSinrUlStat Get(string cellId, DateTime statDate)
         {
-            return this.Query(cellId, statDate);
+            return this.QueryLastDate(cellId, statDate);
         }
 
         public IEnumerable<MrsSinrUlStat> GetList(string cellId, DateTime begin, DateTime end)
         {
-            return this.Query(cellId, begin, end);
+            return this.QueryLastDate(cellId, begin, end);
         }
     }
 
@@ -91,12 +91,12 @@ namespace Lte.Parameters.Concrete.Kpi
 
         public MrsTadvRsrpStat Get(string cellId, DateTime statDate)
         {
-            return this.Query(cellId, statDate);
+            return this.QueryLastDate(cellId, statDate);
         }
 
         public IEnumerable<MrsTadvRsrpStat> GetList(string cellId, DateTime begin, DateTime end)
         {
-            return this.Query(cellId, begin, end);
+            return this.QueryLastDate(cellId, begin, end);
         }
     }
 
@@ -114,12 +114,12 @@ namespace Lte.Parameters.Concrete.Kpi
 
         public MrsTadvStat Get(string cellId, DateTime statDate)
         {
-            return this.Query(cellId, statDate);
+            return this.QueryLastDate(cellId, statDate);
         }
 
         public IEnumerable<MrsTadvStat> GetList(string cellId, DateTime begin, DateTime end)
         {
-            return this.Query(cellId, begin, end);
+            return this.QueryLastDate(cellId, begin, end);
         }
     }
 
@@ -137,12 +137,12 @@ namespace Lte.Parameters.Concrete.Kpi
 
         public AgpsMongo Get(string cellId, DateTime statDate)
         {
-            return this.Query(cellId, statDate);
+            return this.QueryLastDate(cellId, statDate);
         }
 
         public IEnumerable<AgpsMongo> GetList(string cellId, DateTime begin, DateTime end)
         {
-            return this.Query(cellId, begin, end);
+            return this.QueryLastDate(cellId, begin, end);
         }
     }
 
@@ -160,12 +160,12 @@ namespace Lte.Parameters.Concrete.Kpi
 
         public AgpsMongo Get(string cellId, DateTime statDate)
         {
-            return this.Query(cellId, statDate);
+            return this.QueryLastDate(cellId, statDate);
         }
 
         public IEnumerable<AgpsMongo> GetList(string cellId, DateTime begin, DateTime end)
         {
-            return this.Query(cellId, begin, end);
+            return this.QueryLastDate(cellId, begin, end);
         }
     }
 }
