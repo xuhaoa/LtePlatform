@@ -891,6 +891,11 @@
                     countDate: date
                 });
             },
+            queryLastDateComplainStats: function(date) {
+                return generalHttpService.getApiData("ComplainDate", {
+                    initialDate: date
+                });
+            },
             queryHotSpotCells: function (name) {
                 return generalHttpService.getApiData('HotSpotCells', {
                     name: name

@@ -1067,7 +1067,9 @@
 		};
 		$scope.city = city;
 		$scope.query = function () {
-			
+		    complainService.queryLastDateComplainStats($scope.statDate.value).then(function(result) {
+		        $scope.statDate.value = result.statDate;
+		    });
 		};
 		$scope.query();
 		$scope.ok = function () {

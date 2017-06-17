@@ -463,12 +463,12 @@ namespace Lte.Evaluations.DataService.College
 
         public DistrictComplainDateView QueryLastDateStat(DateTime initialDate)
         {
-            var stats = _repository.QueryBeginDate(initialDate,
+            var stats = _repository.QueryBeginDate(initialDate.Date,
                 (repository, beginDate, endDate) => _repository.GetAllList(beginDate, endDate)).ToList();
             if (!stats.Any())
                 return new DistrictComplainDateView
                 {
-                    StatDate = initialDate,
+                    StatDate = initialDate.Date,
                     DistrictComplainViews = new List<DistrictComplainView>()
                 };
             var results = _townRepository.GetFoshanDistricts().Select(x => new DistrictComplainView
@@ -549,7 +549,7 @@ namespace Lte.Evaluations.DataService.College
             });
             return new DistrictComplainDateView
             {
-                StatDate = stats.First().BeginDate.Date,
+                StatDate = stats.First().BeginDate,
                 DistrictComplainViews = results
             };
         }
