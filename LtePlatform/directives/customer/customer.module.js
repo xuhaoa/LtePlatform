@@ -156,28 +156,15 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
             data: []
         };
     })
-    .directive('onlineList', function ($compile) {
-        return {
-            restrict: 'EA',
-            controller: 'OnlineListController',
-            replace: true,
+    .directive('onlineList', function ($compile, calculateService) {
+        return calculateService.generatePagingGridDirective({
+            controllerName: 'OnlineListController',
             scope: {
                 items: '=',
                 rootPath: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 600px"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
+            argumentName: 'items'
+        }, $compile);
     })
 
     .controller('EmergencyProcessController', function ($scope) {

@@ -70,27 +70,14 @@
 			data: []
 		};
 	})
-	.directive('eNodebTable', function ($compile) {
-		return {
-			controller: 'LteENodebController',
-			restrict: 'EA',
-			replace: true,
+	.directive('eNodebTable', function ($compile, calculateService) {
+		return calculateService.generateGridDirective({
+			controllerName: 'LteENodebController',
 			scope: {
 				items: '='
 			},
-			template: '<div></div>',
-			link: function (scope, element, attrs) {
-				scope.initialize = false;
-				scope.$watch('items', function (items) {
-					scope.gridOptions.data = items;
-					if (!scope.initialize) {
-						var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-						element.append(linkDom);
-						scope.initialize = true;
-					}
-				});
-			}
-		};
+			argumentName: 'items'
+		}, $compile);
 	})
 
 	.controller('PlanningSiteController', function ($scope) {
@@ -389,27 +376,14 @@
 			data: []
 		};
 	})
-	.directive('btsTable', function ($compile) {
-		return {
-			controller: 'CdmaBtsController',
-			restrict: 'EA',
-			replace: true,
+	.directive('btsTable', function ($compile, calculateService) {
+		return calculateService.generateSelectionGridDirective({
+			controllerName: 'CdmaBtsController',
 			scope: {
 				items: '='
 			},
-			template: '<div></div>',
-			link: function (scope, element, attrs) {
-				scope.initialize = false;
-				scope.$watch('items', function (items) {
-					scope.gridOptions.data = items;
-					if (!scope.initialize) {
-						var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-						element.append(linkDom);
-						scope.initialize = true;
-					}
-				});
-			}
-		};
+			argumentName: 'items'
+		}, $compile);
 	})
 	.controller('BtsPlainController', function ($scope) {
 		$scope.gridOptions = {
@@ -438,15 +412,15 @@
 	})
 
 	.controller('BtsSelectionController', function($scope) {
-	    $scope.gridOptions = {
-	        enableRowSelection: true,
-	        enableSelectAll: true,
-	        selectionRowHeaderWidth: 35,
-	        rowHeight: 35,
-	        showGridFooter: true
-	    };
-	    $scope.gridOptions.multiSelect = true;
-	    $scope.gridOptions.columnDefs = [
+		$scope.gridOptions = {
+			enableRowSelection: true,
+			enableSelectAll: true,
+			selectionRowHeaderWidth: 35,
+			rowHeight: 35,
+			showGridFooter: true
+		};
+		$scope.gridOptions.multiSelect = true;
+		$scope.gridOptions.columnDefs = [
 			{ field: 'btsId', name: 'CDMA基站编号' },
 			{ field: 'name', name: '基站名称', width: 120 },
 			{ field: 'btsId', name: 'BSC编号' },
@@ -455,22 +429,22 @@
 			{ field: 'address', name: '地址', width: 300, enableColumnResizing: false },
 			{ field: 'isInUse', name: '是否在用', cellFilter: 'yesNoChinese' },
 			{ name: '与中心距离', field: 'distance', cellFilter: 'number: 2' }
-	    ];
+		];
 
-	    $scope.gridOptions.data = [];
-	    $scope.gridOptions.onRegisterApi = function (gridApi) {
-	        $scope.gridApi = gridApi;
-	    };
+		$scope.gridOptions.data = [];
+		$scope.gridOptions.onRegisterApi = function (gridApi) {
+			$scope.gridApi = gridApi;
+		};
 	})
 	.directive('btsSelectionTable', function ($compile, calculateService) {
-	    return calculateService.generateSelectionGridDirective({
-	        controllerName: 'BtsSelectionController',
-	        scope: {
-	            items: '=',
-	            gridApi: '='
-	        },
-	        argumentName: 'items'
-	    }, $compile);
+		return calculateService.generateSelectionGridDirective({
+			controllerName: 'BtsSelectionController',
+			scope: {
+				items: '=',
+				gridApi: '='
+			},
+			argumentName: 'items'
+		}, $compile);
 	})
 
 	.controller('CellDialogController', function ($scope) {

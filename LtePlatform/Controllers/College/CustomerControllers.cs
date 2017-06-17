@@ -317,6 +317,13 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
+        public List<ComplainDto> Get(DateTime statDate, string district)
+        {
+            var end = statDate.AddDays(1);
+            return _service.QueryDate(statDate, end, district);
+        }
+
+        [HttpGet]
         [ApiDoc("按照工单号码查询投诉工单视图")]
         [ApiParameterDoc("serialNumber", "工单号码")]
         [ApiResponse("投诉工单视图")]
