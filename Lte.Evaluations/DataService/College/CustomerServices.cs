@@ -549,7 +549,7 @@ namespace Lte.Evaluations.DataService.College
             });
             return new DistrictComplainDateView
             {
-                StatDate = stats.First().BeginDate,
+                StatDate = stats.First().BeginDate.Date,
                 DistrictComplainViews = results
             };
         }

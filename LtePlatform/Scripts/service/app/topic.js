@@ -2455,6 +2455,7 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 		$scope.query = function () {
 		    complainService.queryLastDateComplainStats($scope.statDate.value).then(function(result) {
 		        $scope.statDate.value = result.statDate;
+		        $scope.districtStats = result.districtComplainViews;
 		    });
 		};
 		$scope.query();

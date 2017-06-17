@@ -31,6 +31,20 @@
             <th>后端总量</th>
         </tr>
         </thead>
+        <tbody>
+        <tr ng-repeat="stat in districtStats">
+            <td>{{stat.district}}</td>
+            <td>{{stat.complain2G}}</td>
+            <td>{{stat.complain3G}}</td>
+            <td>{{stat.complain4G}}</td>
+            <td>{{stat.complainAll}}</td>
+            <td>{{stat.demand2G}}</td>
+            <td>{{stat.demand3G}}</td>
+            <td>{{stat.demand4G}}</td>
+            <td>{{stat.demandAll}}</td>
+            <td>{{stat.total}}</td>
+        </tr>
+        </tbody>
     </table>
 </div>
 <div class="modal-footer">
