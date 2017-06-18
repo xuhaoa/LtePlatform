@@ -19,28 +19,15 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
             data: []
         };
     })
-    .directive('emergencyCommunicationList', function ($compile) {
-        return {
-            restrict: 'EA',
+    .directive('emergencyCommunicationList', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
             controller: 'EmergencyCommunicationController',
-            replace: true,
             scope: {
                 items: '=',
                 rootPath: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
+            argumentName: 'items'
+        }, $compile);
     })
 
     .controller('BranchListController', function ($scope) {
@@ -104,27 +91,14 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
             workItemDialog.showHotSpotCells(name);
         };
     })
-    .directive('hotSpotList', function ($compile) {
-        return {
-            restrict: 'EA',
-            controller: 'HotSpotController',
-            replace: true,
+    .directive('hotSpotList', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'HotSpotController',
             scope: {
                 items: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 600px"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
+            argumentName: 'items'
+        }, $compile);
     })
 
     .controller('OnlineListController', function ($scope) {
@@ -477,15 +451,19 @@ angular.module('customer.complain', ['myApp.region'])
                 { field: 'complainSourceDescription', name: '投诉来源' },
                 { field: 'networkTypeDescription', name: '网络类型' },
                 {
+                    name: '详细信息',
+                    cellTemplate: '<a href="" ng-click="showDetails(row.entity)" class="btn btn-sm btn-success">详细信息</a>'
+                },
+                {
                     name: '工单处理',
-                    cellTemplate: '<a ng-href="{{grid.appScope.rootPath}}complain/process/{{row.entity.serialNumber}}" class="btn btn-sm btn-success">{{row.entity.currentStateDescription}}</a>'
+                    cellTemplate: '<a href="" ng-click="complainProcess(row.entity.serialNumber)" class="btn btn-sm btn-success">{{row.entity.currentStateDescription}}</a>'
                 }
             ],
             data: []
         };
     })
     .directive('complainList', function ($compile, calculateService) {
-        return calculateService.generateGridDirective({
+        return calculateService.generatePagingGridDirective({
             controllerName: 'ComplainListController',
             scope: {
                 items: '=',

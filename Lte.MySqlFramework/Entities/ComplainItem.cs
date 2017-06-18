@@ -19,8 +19,10 @@ namespace Lte.MySqlFramework.Entities
         public byte RepeatTimes { get; set; }
 
         [AutoMapPropertyResolve("ServiceType1", typeof(ComplainExcel), typeof(ComplainCategoryTransform))]
+        [AutoMapPropertyResolve("ServiceCategoryDescription", typeof(ComplainDto), typeof(ComplainCategoryTransform))]
         public ComplainCategory ServiceCategory { get; set; }
 
+        [AutoMapPropertyResolve("IsUrgentDescription", typeof(ComplainDto), typeof(YesToBoolTransform))]
         public bool IsUrgent { get; set; }
 
         public string SubscriberInfo { get; set; }
@@ -66,6 +68,7 @@ namespace Lte.MySqlFramework.Entities
         public string PreProcessContents { get; set; }
 
         [AutoMapPropertyResolve("Subscriber4G", typeof(ComplainExcel), typeof(YesToBoolTransform))]
+        [AutoMapPropertyResolve("IsSubscriber4GDescription", typeof(ComplainDto), typeof(YesToBoolTransform))]
         public bool IsSubscriber4G { get; set; }
 
         public double Longtitute { get; set; }
@@ -110,6 +113,38 @@ namespace Lte.MySqlFramework.Entities
     {
         public string SerialNumber { get; set; }
 
+        public string SubscriberPhone { get; set; }
+
+        public byte RepeatTimes { get; set; }
+
+        [AutoMapPropertyResolve("ServiceCategory", typeof(ComplainItem), typeof(ComplainCategoryDescriptionTransform))]
+        public string ServiceCategoryDescription { get; set; }
+
+        [AutoMapPropertyResolve("IsUrgent", typeof(ComplainItem), typeof(YesNoTransform))]
+        public string IsUrgentDescription { get; set; }
+
+        public string SubscriberInfo { get; set; }
+
+        public string ContactPhone { get; set; }
+
+        public string ContactPerson { get; set; }
+
+        public string ContactAddress { get; set; }
+
+        public string ManagerInfo { get; set; }
+
+        public string ComplainContents { get; set; }
+
+        public DateTime BeginDate { get; set; }
+
+        public DateTime Deadline { get; set; }
+
+        public string CurrentProcessor { get; set; }
+
+        public DateTime ProcessTime { get; set; }
+
+        public string OssSerialNumber { get; set; }
+
         [AutoMapPropertyResolve("ComplainSource", typeof(ComplainItem), typeof(ComplainSourceDescriptionTransform))]
         public string ComplainSourceDescription { get; set; }
 
@@ -124,6 +159,13 @@ namespace Lte.MySqlFramework.Entities
         public string RoadName { get; set; }
 
         public string BuildingName { get; set; }
+
+        public string CauseLocation { get; set; }
+
+        public string PreProcessContents { get; set; }
+        
+        [AutoMapPropertyResolve("IsSubscriber4G", typeof(ComplainItem), typeof(YesNoTransform))]
+        public string IsSubscriber4GDescription { get; set; }
 
         public double Longtitute { get; set; }
 
