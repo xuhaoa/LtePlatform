@@ -58,28 +58,15 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
             data: []
         };
     })
-    .directive('branchList', function ($compile) {
-        return {
-            restrict: 'EA',
-            controller: 'BranchListController',
-            replace: true,
+    .directive('branchList', function ($compile, calculateService) {
+        return calculateService.generatePagingGridDirective({
+            controllerName: 'BranchListController',
             scope: {
                 items: '=',
                 rootPath: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function (items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 600px"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
+            argumentName: 'items'
+        }, $compile);
     })
 
     .controller('HotSpotController', function ($scope, customerDialogService, workItemDialog) {
@@ -157,7 +144,7 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
         };
     })
     .directive('onlineList', function ($compile, calculateService) {
-        return calculateService.generatePagingGridDirective({
+        return calculateService.generateGridDirective({
             controllerName: 'OnlineListController',
             scope: {
                 items: '=',
@@ -179,7 +166,7 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
         };
     })
     .directive('emergencyProcessList', function ($compile, calculateService) {
-        return calculateService.generatePagingGridDirective({
+        return calculateService.generateGridDirective({
             controllerName: 'EmergencyProcessController',
             scope: {
                 items: '='
@@ -233,7 +220,7 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
         };
     })
     .directive('vipProcessList', function ($compile, calculateService) {
-        return calculateService.generatePagingGridDirective({
+        return calculateService.generateGridDirective({
             controllerName: 'VipProcessController',
             scope: {
                 items: '=',
@@ -258,7 +245,7 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
         };
     })
     .directive('complainProcessList', function ($compile, calculateService) {
-        return calculateService.generatePagingGridDirective({
+        return calculateService.generateGridDirective({
             controllerName: 'ComplainProcessController',
             scope: {
                 items: '='
@@ -288,7 +275,7 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
         };
     })
     .directive('fiberItemList', function ($compile, calculateService) {
-        return calculateService.generatePagingGridDirective({
+        return calculateService.generateGridDirective({
             controllerName: 'FiberItemController',
             scope: {
                 items: '='
@@ -497,31 +484,22 @@ angular.module('customer.complain', ['myApp.region'])
             data: []
         };
     })
-    .directive('complainList', function($compile) {
-        return {
-            restrict: 'EA',
-            controller: 'ComplainListController',
-            replace: true,
+    .directive('complainList', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'ComplainListController',
             scope: {
                 items: '=',
                 rootPath: '='
             },
-            template: '<div></div>',
-            link: function(scope, element, attrs) {
-                scope.initialize = false;
-                scope.$watch('items', function(items) {
-                    scope.gridOptions.data = items;
-                    if (!scope.initialize) {
-                        var linkDom = $compile('<div ui-grid="gridOptions" ui-grid-pagination style="height: 600px"></div>')(scope);
-                        element.append(linkDom);
-                        scope.initialize = true;
-                    }
-                });
-            }
-        };
+            argumentName: 'items'
+        }, $compile);
     })
-    .controller('ComplainCountController', function($scope) {
-        
+    .controller('ComplainCountController', function ($scope, complainService) {
+        $scope.showComplainItems = function(district) {
+            complainService.queryLastDateDistrictComplains($scope.statDate.value, district).then(function(result) {
+                $scope.data.complainList = result;
+            });
+        };
     })
     .directive('complainCountTable', function(customerRoot) {
         return {
@@ -529,7 +507,9 @@ angular.module('customer.complain', ['myApp.region'])
             restrict: 'EA',
             replace: true,
             scope: {
-                stats: '='
+                stats: '=',
+                data: '=',
+                statDate: '='
             },
             templateUrl: customerRoot + 'Complain.Tpl.html'
         };

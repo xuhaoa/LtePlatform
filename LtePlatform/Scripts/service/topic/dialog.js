@@ -1060,17 +1060,20 @@
 		};
 	})
 	.controller("customer.yesterday", function ($scope, $uibModalInstance, city,
-	complainService, appKpiService) {
+	complainService) {
 		$scope.statDate = {
 			value: new Date(),
 			opened: false
 		};
 		$scope.city = city;
+		$scope.data = {
+			complainList: []
+		};
 		$scope.query = function () {
-		    complainService.queryLastDateComplainStats($scope.statDate.value).then(function(result) {
-		        $scope.statDate.value = result.statDate;
-		        $scope.districtStats = result.districtComplainViews;
-		    });
+			complainService.queryLastDateComplainStats($scope.statDate.value).then(function(result) {
+				$scope.statDate.value = result.statDate;
+				$scope.districtStats = result.districtComplainViews;
+			});
 		};
 		$scope.query();
 		$scope.ok = function () {

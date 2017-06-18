@@ -34,7 +34,10 @@
             <td>{{stat.demand3G}}</td>
             <td>{{stat.demand4G}}</td>
             <td>{{stat.demandAll}}</td>
-            <td>{{stat.total}}</td>
+            <td>
+                <a ng-if="stat.total>0" href="" ng-click="showComplainItems(stat.district)">{{stat.total}}</a>
+                <span ng-if="stat.total===0">0</span>
+            </td>
         </tr>
     </tbody>
 </table>

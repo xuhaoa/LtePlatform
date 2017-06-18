@@ -896,6 +896,12 @@ angular.module('region.basic', ['app.core'])
                     initialDate: date
                 });
             },
+            queryLastDateDistrictComplains: function(date, district) {
+                return generalHttpService.getApiData('ComplainQuery', {
+                    statDate: date,
+                    district: district
+                });
+            },
             queryHotSpotCells: function (name) {
                 return generalHttpService.getApiData('HotSpotCells', {
                     name: name

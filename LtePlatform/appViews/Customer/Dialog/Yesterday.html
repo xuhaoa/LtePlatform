@@ -6,7 +6,8 @@
 </div>
 
 <div class="modal-body">
-    <div complain-count-table stats="districtStats"></div>
+    <div complain-count-table stats="districtStats" stat-date="statDate" data="data"></div>
+    <div complain-list items="data.complainList"></div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-warning" ng-click="ok()">OK</button>
