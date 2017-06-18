@@ -1,17 +1,17 @@
 ﻿angular.module('app.format', [])
     .factory('appFormatService', function () {
         return {
-            getDate: function (strDate) {
+            getDate: function(strDate) {
                 var date = eval('new Date(' + strDate.replace(/\d+(?=-[^-]+$)/,
-                    function (a) { return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
+                    function(a) { return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
                 return date;
             },
-            getUTCTime: function (strDate) {
+            getUTCTime: function(strDate) {
                 var date = eval('new Date(' + strDate.replace(/\d+(?=-[^-]+$)/,
-                    function (a) { return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
+                    function(a) { return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
                 return Date.UTC(date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), 0);
             },
-            getDateString: function (dateTime, fmt) {
+            getDateString: function(dateTime, fmt) {
                 var o = {
                     "M+": dateTime.getMonth() + 1, //月份 
                     "d+": dateTime.getDate(), //日 
@@ -29,43 +29,43 @@
                             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
                 return fmt;
             },
-            lowerFirstLetter: function (str) {
+            lowerFirstLetter: function(str) {
                 return str.substring(0, 1).toLowerCase() +
                     str.substring(1);
             },
-            getId: function (name) {
+            getId: function(name) {
                 return window.document !== undefined && document.getElementById && document.getElementById(name);
             },
-            queryEscapeText: function (s) {
+            queryEscapeText: function(s) {
                 if (!s) {
                     return "";
                 }
                 s = s + "";
 
                 // Both single quotes and double quotes (for attributes)
-                return s.replace(/['"<>&]/g, function (ss) {
+                return s.replace(/['"<>&]/g, function(ss) {
                     switch (ss) {
-                        case "'":
-                            return "&#039;";
-                        case "\"":
-                            return "&quot;";
-                        case "<":
-                            return "&lt;";
-                        case ">":
-                            return "&gt;";
-                        case "&":
-                            return "&amp;";
-                        default:
-                            return "";
+                    case "'":
+                        return "&#039;";
+                    case "\"":
+                        return "&quot;";
+                    case "<":
+                        return "&lt;";
+                    case ">":
+                        return "&gt;";
+                    case "&":
+                        return "&amp;";
+                    default:
+                        return "";
                     }
                 });
             },
-            getUrlParams: function () {
+            getUrlParams: function() {
                 var urlParams = {};
                 var params = window.location.search.slice(1).split("&");
 
                 if (params[0]) {
-                    angular.forEach(params, function (param) {
+                    angular.forEach(params, function(param) {
                         var current = param.split("=");
                         current[0] = decodeURIComponent(current[0]);
 
@@ -81,7 +81,7 @@
 
                 return urlParams;
             },
-            searchText: function (options, matchFunction) {
+            searchText: function(options, matchFunction) {
                 for (var i = 0; i < options.length; i++) {
                     if (matchFunction(options[i])) {
                         return options[i];
@@ -89,7 +89,7 @@
                 }
                 return null;
             },
-            searchPattern: function (options, text) {
+            searchPattern: function(options, text) {
                 for (var i = 0; i < options.length; i++) {
                     var pattern = new RegExp(options[i]);
                     if (pattern.test(text)) {
@@ -98,16 +98,16 @@
                 }
                 return null;
             },
-            calculateAverages: function (data, queryFunctions) {
+            calculateAverages: function(data, queryFunctions) {
                 var outputs = [];
-                angular.forEach(queryFunctions, function (func) {
+                angular.forEach(queryFunctions, function(func) {
                     outputs.push({
                         sum: 0,
                         count: 0
                     });
                 });
-                angular.forEach(data, function (item) {
-                    angular.forEach(queryFunctions, function (func, index) {
+                angular.forEach(data, function(item) {
+                    angular.forEach(queryFunctions, function(func, index) {
                         var value = func(item);
                         if (value !== 0) {
                             outputs[index].sum += value;
@@ -117,10 +117,10 @@
                 });
                 return outputs;
             },
-            prefixInteger: function (num, length) {
+            prefixInteger: function(num, length) {
                 return (Array(length).join('0') + num).slice(-length);
             },
-            generateSiteGroups: function (site) {
+            generateSiteGroups: function(site) {
                 return [
                     {
                         items: [
@@ -174,7 +174,7 @@
                     }
                 ];
             },
-            generateSiteDetailsGroups: function (site) {
+            generateSiteDetailsGroups: function(site) {
                 return [
                     {
                         items: [
@@ -228,7 +228,7 @@
                     }
                 ];
             },
-            generateStationGroups: function (station) {
+            generateStationGroups: function(station) {
                 return [
                     {
                         items: [
@@ -337,7 +337,7 @@
                     }
                 ];
             },
-            generateENodebGroups: function (station) {
+            generateENodebGroups: function(station) {
                 return [
                     {
                         items: [
@@ -407,7 +407,7 @@
                     }
                 ];
             },
-            generateCellGroups: function (cell) {
+            generateCellGroups: function(cell) {
                 return [
                     {
                         items: [
@@ -477,7 +477,7 @@
                     }
                 ];
             },
-            generateSustainGroups: function (cell) {
+            generateSustainGroups: function(cell) {
                 return [
                     {
                         items: [
@@ -568,7 +568,7 @@
                     }
                 ];
             },
-            generateRruGroups: function (cell) {
+            generateRruGroups: function(cell) {
                 return [
                     {
                         items: [
@@ -599,7 +599,7 @@
                     }
                 ];
             },
-            generateSpecialStationGroups: function (station) {
+            generateSpecialStationGroups: function(station) {
                 return [
                     {
                         items: [
@@ -657,7 +657,7 @@
                     }
                 ];
             },
-            generateSpecialIndoorGroups: function (station) {
+            generateSpecialIndoorGroups: function(station) {
                 return [
                     {
                         items: [
@@ -695,7 +695,7 @@
                     }
                 ];
             },
-            generateZeroFlowGroups: function (station) {
+            generateZeroFlowGroups: function(station) {
                 return [
                     {
                         items: [
@@ -765,7 +765,7 @@
                     }
                 ];
             },
-            generateZeroVoiceGroups: function (station) {
+            generateZeroVoiceGroups: function(station) {
                 return [
                     {
                         items: [
@@ -835,7 +835,7 @@
                     }
                 ];
             },
-            generateFaultStationGroups: function (station) {
+            generateFaultStationGroups: function(station) {
                 return [
                     {
                         items: [
@@ -870,7 +870,7 @@
                     }
                 ];
             },
-            generateCheckingStationGroups: function (station) {
+            generateCheckingStationGroups: function(station) {
                 return [
                     {
                         items: [
@@ -911,7 +911,7 @@
                     }
                 ];
             },
-            generateFixingStationGroups: function (station) {
+            generateFixingStationGroups: function(station) {
                 return [
                     {
                         items: [
@@ -969,7 +969,7 @@
                 ];
             },
 
-            generateCdmaCellGroups: function (cell) {
+            generateCdmaCellGroups: function(cell) {
                 return [
                     {
                         items: [
@@ -1039,7 +1039,7 @@
                     }
                 ];
             },
-            generateDistributionGroups: function (station) {
+            generateDistributionGroups: function(station) {
                 return [
                     {
                         items: [
@@ -1148,7 +1148,7 @@
                     }
                 ];
             },
-            generateIndoorGroups: function (station) {
+            generateIndoorGroups: function(station) {
                 return [
                     {
                         items: [
@@ -1199,7 +1199,7 @@
                     }
                 ];
             },
-            generateConstructionGroups: function (station) {
+            generateConstructionGroups: function(station) {
                 return [
                     {
                         items: [
@@ -1269,7 +1269,7 @@
                     }
                 ];
             },
-            generateMicroAddressGroups: function (station) {
+            generateMicroAddressGroups: function(station) {
                 return [
                     {
                         items: [
@@ -1308,7 +1308,7 @@
                     }
                 ];
             },
-            generateMicroItemGroups: function (station) {
+            generateMicroItemGroups: function(station) {
                 return [
                     {
                         items: [
@@ -1372,8 +1372,126 @@
                         ]
                     }
                 ];
+            },
+            generateComplainItemGroups: function(item) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: '接单时间',
+                                value: item.beginDate
+                            }, {
+                                key: '时限要求',
+                                value: item.deadline
+                            }, {
+                                key: '处理时间',
+                                value: item.processTime
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '城市',
+                                value: item.city
+                            }, {
+                                key: '区域',
+                                value: item.district
+                            }, {
+                                key: '室内外',
+                                value: item.isIndoorDescription
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '楼宇名称',
+                                value: item.buildingName
+                            }, {
+                                key: '道路名称',
+                                value: item.roadName
+                            }, {
+                                key: '匹配站点',
+                                value: item.sitePosition
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '原因定位',
+                                value: item.causeLocation
+                            }, {
+                                key: '投诉分类',
+                                value: item.complainCategoryDescription
+                            }, {
+                                key: '投诉原因',
+                                value: item.complainReasonDescription
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '投诉场景',
+                                value: item.complainSceneDescription
+                            }, {
+                                key: '投诉来源',
+                                value: item.complainSourceDescription
+                            }, {
+                                key: '投诉子原因',
+                                value: item.complainSubReasonDescription
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '联系地址',
+                                value: item.contactAddress
+                            }, {
+                                key: '联系人',
+                                value: item.contactPerson
+                            }, {
+                                key: '联系电话',
+                                value: item.contactPhone
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '投诉内容',
+                                value: item.complainContents,
+                                span: 5
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '用户姓名',
+                                value: item.subscriberInfo
+                            }, {
+                                key: '用户号码',
+                                value: item.subscriberPhone
+                            }, {
+                                key: '业务类型',
+                                value: item.serviceCategoryDescription
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '室内外',
+                                value: item.isIndoorDescription
+
+                            }, {
+                                key: '经度',
+                                value: item.longtitute
+                            }, {
+                                key: '纬度',
+                                value: item.lattitute
+                            }
+                        ]
+                    }
+                ];
             }
-        }
+        };
     })
     .factory('chartCalculateService', function (appFormatService) {
         return {

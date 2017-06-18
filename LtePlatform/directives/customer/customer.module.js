@@ -439,7 +439,7 @@ angular.module('customer.complain', ['myApp.region'])
             }
         };
     })
-    .controller('ComplainListController', function($scope) {
+    .controller('ComplainListController', function ($scope, mapDialogService) {
         $scope.gridOptions = {
             paginationPageSizes: [20, 40, 60],
             paginationPageSize: 20,
@@ -452,14 +452,18 @@ angular.module('customer.complain', ['myApp.region'])
                 { field: 'networkTypeDescription', name: '网络类型' },
                 {
                     name: '详细信息',
-                    cellTemplate: '<a href="" ng-click="showDetails(row.entity)" class="btn btn-sm btn-success">详细信息</a>'
+                    cellTemplate: '<a href="" ng-click="grid.appScope.showDetails(row.entity)" class="btn btn-sm btn-success">详细信息</a>'
                 },
                 {
                     name: '工单处理',
-                    cellTemplate: '<a href="" ng-click="complainProcess(row.entity.serialNumber)" class="btn btn-sm btn-success">{{row.entity.currentStateDescription}}</a>'
+                    cellTemplate: '<a href="" ng-click="grid.appScope.complainProcess(row.entity.serialNumber)" class="btn btn-sm btn-success">\
+                        {{row.entity.currentStateDescription}}</a>'
                 }
             ],
             data: []
+        };
+        $scope.showDetails = function(item) {
+            mapDialogService.showComplainDetails(item);
         };
     })
     .directive('complainList', function ($compile, calculateService) {

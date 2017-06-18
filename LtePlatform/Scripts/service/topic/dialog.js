@@ -393,6 +393,17 @@
 						}
 					}
 				});
+			},
+			showComplainDetails: function(item) {
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/Customer/Complain/Details.html',
+					controller: 'complain.details',
+					resolve: {
+						item: function () {
+							return item;
+						}
+					}
+				});
 			}
 		};
 	})
@@ -1076,6 +1087,17 @@
 			});
 		};
 		$scope.query();
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.building);
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
+	.controller("complain.details", function ($scope, $uibModalInstance, item, appFormatService) {
+		$scope.dialogTitle = item.serialNumber + "投诉工单详细信息";
+		$scope.complainGroups = appFormatService.generateComplainItemGroups(item);
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.building);
 		};
