@@ -123,17 +123,19 @@ namespace Lte.Evaluations.DataService.Dump
             var info = BasicImportContainer.CellExcels[BasicImportContainer.LteRruIndex];
             await _rruRepository.UpdateOne<ILteRruRepository, LteRru, CellExcel>(info);
             BasicImportContainer.LteRruIndex++;
-            return BasicImportContainer.LteRruIndex < BasicImportContainer.CellExcels.Count ? BasicImportContainer.LteRruIndex : -1;
+            return BasicImportContainer.LteRruIndex < BasicImportContainer.CellExcels.Count
+                ? BasicImportContainer.LteRruIndex
+                : -1;
         }
 
-        public async Task<int> UpdateCells(IEnumerable<CellExcel> infos)
+        public async Task<int> UpdateCells()
         {
-            int count = 0;
-            foreach (var info in infos)
-            {
-                count += await _cellRepository.UpdateOnly<ICellRepository, Cell, CellExcel>(info);
-            }
-            return count;
+            var info = BasicImportContainer.CellExcels[BasicImportContainer.LteCellIndex];
+            await _cellRepository.UpdateOnly<ICellRepository, Cell, CellExcel>(info);
+            BasicImportContainer.LteCellIndex++;
+            return BasicImportContainer.LteCellIndex < BasicImportContainer.CellExcels.Count
+                ? BasicImportContainer.LteCellIndex
+                : -1;
         } 
     }
 

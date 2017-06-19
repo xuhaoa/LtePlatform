@@ -58,7 +58,7 @@ namespace LtePlatform.Controllers.Parameters
         [HttpPost]
         public async Task<int> Post()
         {
-            return await _service.UpdateCells(BasicImportContainer.CellExcels);
+            return await _service.UpdateCells();
         }
 
         [HttpGet]

@@ -86,7 +86,7 @@
                 return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:18080/' : 'http://10.17.165.111:18080/';
             },
             getCustomerHost: function() {
-                return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.38:8099/' : 'http://10.17.165.100:8099/';
+                return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.38:8018/' : 'http://10.17.165.100:8018/';
             },
             getPhpHost: function() {
                 return (window.location.hostname === '219.128.254.38') ? 'http://219.128.254.36:9000/' : 'http://10.17.165.111:9000/';

@@ -75,6 +75,7 @@ namespace LtePlatform.Controllers
                 BasicImportContainer.ENodebExcels = _basicImportService.ImportENodebExcels(ltePath);
                 BasicImportContainer.CellExcels = _basicImportService.ImportCellExcels(ltePath);
                 BasicImportContainer.LteRruIndex = 0;
+                BasicImportContainer.LteCellIndex = 0;
             }
             return RedirectToAction("BasicImport");
         }

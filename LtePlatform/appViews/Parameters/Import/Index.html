@@ -53,6 +53,7 @@
                     </button>
                     <button class="btn btn-sm btn-primary" ng-click="updateLteCells()" ng-disabled="importData.cellCount == 0">
                         更新小区
+                        <span class="badge">{{totalUpdateCells}}</span>
                     </button>
                     <button class="btn btn-sm btn-success" ng-click="importLteRrus()" ng-disabled="importData.cellCount == 0">
                         导入RRU

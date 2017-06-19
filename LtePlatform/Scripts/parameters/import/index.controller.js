@@ -115,6 +115,7 @@
         $scope.newBtssImport = true;
         $scope.newCdmaCellsImport = true;
         $scope.totalDumpRrus = 0;
+        $scope.totalUpdateCells = 0;
 
         $scope.postAllENodebs = function() {
             if ($scope.importData.newENodebs.length > 0) {
@@ -165,14 +166,12 @@
         };
 
         $scope.updateLteCells = function() {
-            if ($scope.importData.cellCount > 0) {
-                basicImportService.updateLteCells().then(function(result) {
-                    $scope.importData.updateMessages.push({
-                        contents: "完成LTE小区导入" + result + "个",
-                        type: 'success'
-                    });
-                });
-            }
+            basicImportService.updateLteCells().then(function (result) {
+                if (result > 0) {
+                    $scope.totalUpdateCells = result;
+                    $scope.updateLteCells();
+                }
+            });
         };
 
         $scope.importLteRrus = function() {
