@@ -337,7 +337,7 @@
                     }
                 ];
             },
-            generateENodebGroups: function(station) {
+            generateENodebGroups: function(station, positionColor) {
                 return [
                     {
                         items: [
@@ -382,10 +382,12 @@
                         items: [
                             {
                                 key: '经度',
-                                value: station.longtitute
+                                value: station.longtitute,
+                                color: positionColor || 'black'
                             }, {
                                 key: '纬度',
-                                value: station.lattitute
+                                value: station.lattitute,
+                                color: positionColor || 'black'
                             }, {
                                 key: '制式',
                                 value: station.divisionDuplex

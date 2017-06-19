@@ -1,7 +1,7 @@
 ﻿angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', "ui.bootstrap"])
 	.controller('map.eNodeb.dialog', function ($scope, $uibModalInstance, eNodeb, dialogTitle,
 		networkElementService, cellHuaweiMongoService, alarmImportService, intraFreqHoService, interFreqHoService, appFormatService,
-		downSwitchService, alarmsService) {
+		downSwitchService, alarmsService, appRegionService) {
 		$scope.dialogTitle = dialogTitle;
 		$scope.alarmLevel = {
 			options: ["严重告警", "重要以上告警", "所有告警"],
@@ -18,7 +18,10 @@
 		$scope.searchAlarms();
 
 		networkElementService.queryENodebInfo(eNodeb.eNodebId).then(function (result) {
-			$scope.eNodebGroups = appFormatService.generateENodebGroups(result);
+		    appRegionService.isInTownBoundary(result.longtitute, result.lattitute, result.cityName, result.districtName, result.townName).then(function(conclusion) {
+		        var color = conclusion ? 'green' : 'red';
+		        $scope.eNodebGroups = appFormatService.generateENodebGroups(result, color);
+		    });
 			networkElementService.queryStationByENodeb(eNodeb.eNodebId, eNodeb.planNum).then(function (dict) {
 				if (dict) {
 					downSwitchService.getStationById(dict.stationNum).then(function (stations) {

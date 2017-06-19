@@ -1356,6 +1356,15 @@
                     town: town
                 });
             },
+            isInTownBoundary: function(longtitute, lattitute, city, district, town) {
+                return generalHttpService.getApiData('TownBoundary', {
+                    longtitute: longtitute,
+                    lattitute: lattitute,
+                    city: city,
+                    district: district,
+                    town: town
+                });
+            },
             queryENodebTown: function (eNodebId) {
                 return generalHttpService.getApiData('Town', {
                     eNodebId: eNodebId

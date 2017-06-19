@@ -78,6 +78,7 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         }
     }
 
+    [ApiControl("镇区边界计算控制器")]
     public class TownBoundaryController : ApiController
     {
         private readonly TownQueryService _service;
@@ -91,6 +92,12 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         public IEnumerable<TownBoundaryView> Get(string city, string district, string town)
         {
             return _service.GetTownBoundaryViews(city, district, town);
+        }
+
+        [HttpGet]
+        public bool Get(double longtitute, double lattitute, string city, string district, string town)
+        {
+            return _service.IsInTownBoundaries(longtitute, lattitute, city, district, town);
         }
     }
 }
