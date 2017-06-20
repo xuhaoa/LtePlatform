@@ -212,6 +212,7 @@
                 },
                 url: "/micro"
             })
+
             .state('college', {
                 views: {
                     'menu': {
@@ -224,6 +225,19 @@
                     }
                 },
                 url: "/college"
+            })
+            .state('college-coverage', {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.college"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/College/Coverage/Index.html",
+                        controller: "college.coverage"
+                    }
+                },
+                url: "/college-coverage"
             })
 
             .state('mr', {
@@ -985,6 +999,9 @@
                 {
                     displayName: "小区分布",
                     url: '/#/college'
+                }, {
+                    displayName: "校园覆盖",
+                    url: '/#/college-coverage'
                 }
             ]
         };
@@ -1994,6 +2011,7 @@
             $scope.showView($scope.hotSpots[0]);
         });
     })
+
     .controller("home.college", function ($scope, baiduMapService, collegeQueryService, parametersMapService, collegeService,
         collegeMapService, baiduQueryService) {
         baiduMapService.initializeMap("map", 11);
@@ -2020,6 +2038,23 @@
         collegeQueryService.queryAll().then(function (spots) {
             $scope.hotSpots = spots;
             $scope.showView($scope.hotSpots[0]);
+        });
+    })
+    .controller("college.coverage", function ($scope, baiduMapService, collegeMapService, collegeDtService, collegeQueryService) {
+        baiduMapService.initializeMap("map", 11);
+        $scope.dtInfos = [];
+
+        $scope.showOverallCoverage=function() {
+            collegeMapService.showDtInfos($scope.dtInfos, $scope.beginDate.value, $scope.endDate.value);
+        }
+        $scope.query = function () {
+            angular.forEach($scope.dtInfos, function (info) {
+                collegeDtService.updateFileInfo(info, $scope.beginDate.value, $scope.endDate.value);
+            });
+        };
+        
+        collegeQueryService.queryAll().then(function (spots) {
+            $scope.hotSpots = spots;
         });
     })
 

@@ -422,6 +422,7 @@
     <Content Include="appViews\BasicKpi\TopConnection3GTrend.html" />
     <Content Include="appViews\BasicKpi\TopDrop2GTrend.html" />
     <Content Include="appViews\BasicKpi\Trend.html" />
+    <Content Include="appViews\College\Coverage\Index.html" />
     <Content Include="appViews\College\Infrastructure\BtsSupplementDialog.html" />
     <Content Include="appViews\College\Infrastructure\ENodebSupplementDialog.html" />
     <Content Include="appViews\College\Root.html" />

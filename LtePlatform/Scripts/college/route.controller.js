@@ -17,18 +17,6 @@
                     }
                 },
                 url: "/map/:name/:type"
-            }).state('root.collegeQuery', {
-                views: {
-                    "contents": {
-                        templateUrl: viewDir + "/Infrastructure/CollegeQuery.html",
-                        controller: "query.name"
-                    },
-                    'collegeList': {
-                        templateUrl: viewDir + "CollegeMenu.html",
-                        controller: "college.menu"
-                    }
-                },
-                url: "/query/:name"
             }).state('root.coverage', {
                 views: {
                     "contents": {
@@ -241,19 +229,6 @@
         }
     })
 
-    .controller("all.coverage", function ($scope, collegeMapService, collegeDtService) {
-        $scope.collegeInfo.url = $scope.rootPath + "coverage";
-        $scope.page.title = "校园覆盖";
-        $scope.dtInfos = [];
-
-        $scope.query = function () {
-            angular.forEach($scope.dtInfos, function (info) {
-                collegeDtService.updateFileInfo(info, $scope.beginDate.value, $scope.endDate.value);
-            });
-        };
-
-        collegeMapService.showDtInfos($scope.dtInfos, $scope.beginDate.value, $scope.endDate.value);
-    })
     .controller('coverage.name', function ($scope, $stateParams, baiduMapService, collegeQueryService, baiduQueryService,
         collegeMapService, collegeDtService, coverageService, kpiDisplayService, parametersMapService) {
         $scope.page.title = $stateParams.name + '覆盖情况评估';
