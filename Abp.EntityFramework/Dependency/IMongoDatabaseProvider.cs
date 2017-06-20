@@ -4,10 +4,10 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
+using Lte.Domain.Common;
 
 namespace Abp.EntityFramework.Dependency
 {
@@ -25,11 +25,6 @@ namespace Abp.EntityFramework.Dependency
     public interface IStatDate
     {
         DateTime StatDate { get; set; }
-    }
-
-    public interface IBeginDate
-    {
-        DateTime BeginDate { get; set; }
     }
 
     public interface IStatTime

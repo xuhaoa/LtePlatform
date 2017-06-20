@@ -3,16 +3,16 @@ namespace Lte.MySqlFramework.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Modify_Complain_Item : DbMigration
+    public partial class Update_Online_Sustain1 : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.ComplainItems", "ServiceCategory", c => c.Byte(nullable: false));
+            DropColumn("dbo.ComplainProcesses", "PlanStation");
         }
         
         public override void Down()
         {
-            DropColumn("dbo.ComplainItems", "ServiceCategory");
+            AddColumn("dbo.ComplainProcesses", "PlanStation", c => c.String(unicode: false));
         }
     }
 }

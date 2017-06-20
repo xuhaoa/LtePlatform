@@ -141,6 +141,15 @@ namespace Lte.MySqlFramework.Entities
         [AutoMapPropertyResolve("InfoType3", typeof(OnlineSustainExcel), typeof(CustomerTypeTransform))]
         public CustomerType CustomerType3 { get; set; }
 
+        [AutoMapPropertyResolve("ComplainStateDescription", typeof(OnlineSustainExcel), typeof(ComplainStateTransform))]
+        public ComplainState ComplainState { get; set; }
+        
+        [AutoMapPropertyResolve("WorkItemCause", typeof(OnlineSustainExcel), typeof(ComplainReasonTransform))]
+        public ComplainReason MainCause { get; set; }
+
+        [AutoMapPropertyResolve("WorkItemSubCause", typeof(OnlineSustainExcel), typeof(ComplainSubReasonTransform))]
+        public ComplainSubReason SubCause { get; set; }
+
         public string ProcessSuggestion { get; set; }
 
         public DateTime BeginDate { get; set; }
@@ -167,10 +176,9 @@ namespace Lte.MySqlFramework.Entities
         public ComplainCategory ComplainCategory { get; set; }
 
         public string ProcessPerson { get; set; }
-        
-        [AutoMapPropertyResolve("ResolveDescription", typeof(OnlineSustainExcel), typeof(YesToBoolTransform))]
+
         public bool IsResolved { get; set; }
-        
+
         public string ResolveScheme { get; set; }
         
         public string ResolveCauseDescription { get; set; }

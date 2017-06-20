@@ -158,13 +158,13 @@
     <Compile Include="Entities\PlanningSite.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
-    <Compile Include="Migrations\201706140920399_Extend_ComplainItem.cs" />
-    <Compile Include="Migrations\201706140920399_Extend_ComplainItem.Designer.cs">
-      <DependentUpon>201706140920399_Extend_ComplainItem.cs</DependentUpon>
+    <Compile Include="Migrations\201706201602171_Update_Online_Sustain.cs" />
+    <Compile Include="Migrations\201706201602171_Update_Online_Sustain.Designer.cs">
+      <DependentUpon>201706201602171_Update_Online_Sustain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201706150033271_Modify_Complain_Item.cs" />
-    <Compile Include="Migrations\201706150033271_Modify_Complain_Item.Designer.cs">
-      <DependentUpon>201706150033271_Modify_Complain_Item.cs</DependentUpon>
+    <Compile Include="Migrations\201706201624230_Update_Online_Sustain1.cs" />
+    <Compile Include="Migrations\201706201624230_Update_Online_Sustain1.Designer.cs">
+      <DependentUpon>201706201624230_Update_Online_Sustain1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -175,11 +175,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706140920399_Extend_ComplainItem.resx">
-      <DependentUpon>201706140920399_Extend_ComplainItem.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706201602171_Update_Online_Sustain.resx">
+      <DependentUpon>201706201602171_Update_Online_Sustain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706150033271_Modify_Complain_Item.resx">
-      <DependentUpon>201706150033271_Modify_Complain_Item.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706201624230_Update_Online_Sustain1.resx">
+      <DependentUpon>201706201624230_Update_Online_Sustain1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

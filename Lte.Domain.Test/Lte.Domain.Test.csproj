@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\EnumTypeDescriptionAttributeTest.cs" />
+    <Compile Include="Common\GeneralTextTest.cs" />
     <Compile Include="Common\GeoMathTest.cs" />
     <Compile Include="LinqToCsv\CsvContextWriteTests.cs" />
     <Compile Include="LinqToCsv\IAssertable.cs" />

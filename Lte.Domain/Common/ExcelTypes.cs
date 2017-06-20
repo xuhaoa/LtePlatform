@@ -14,6 +14,11 @@ using Lte.Domain.Regular;
 
 namespace Lte.Domain.Common
 {
+    public interface IBeginDate
+    {
+        DateTime BeginDate { get; set; }
+    }
+
     [TypeDoc("定义记录CDMA小区的信息的Excel导出数据项，需要定义与CdmaCell之间的映射关系")]
     public class CdmaCellExcel
     {
@@ -462,7 +467,7 @@ namespace Lte.Domain.Common
         public int Utility3GDem { get; set; }
     }
 
-    public class ComplainExcel
+    public class ComplainExcel : IBeginDate
     {
         [ExcelColumn("工单编号")]
         public string SerialNumber { get; set; }
@@ -606,7 +611,7 @@ namespace Lte.Domain.Common
         public int TownId { get; set; }
     }
 
-    public class VipDemandExcel
+    public class VipDemandExcel : IBeginDate
     {
         [ExcelColumn("编号")]
         public string SerialNumber { get; set; }
@@ -1284,7 +1289,7 @@ namespace Lte.Domain.Common
         }
     }
 
-    public class OnlineSustainExcel
+    public class OnlineSustainExcel : IBeginDate
     {
         [ExcelColumn("统计日期")]
         public DateTime BeginDate { get; set; }
@@ -1303,9 +1308,6 @@ namespace Lte.Domain.Common
 
         [ExcelColumn("申告号码")]
         public string ComplainNumber { get; set; }
-
-        [ExcelColumn("联系电话")]
-        public string ContactPhone { get; set; }
 
         [ExcelColumn("投诉地点")]
         public string Site { get; set; }
@@ -1349,11 +1351,22 @@ namespace Lte.Domain.Common
         [ExcelColumn("处理过程及建议")]//Process--
         public string ProcessSuggestion { get; set; }
 
-        [ExcelColumn("处理日期")]//Process--
+        [ExcelColumn("解决否")]//Process
+        public string ComplainStateDescription { get; set; }
+
+        public bool IsResolved => ComplainStateDescription == "已解决";
+
+        [ExcelColumn("预计解决日期（处理中的必填，要求填具体日期或“无法预计”）")]//Process--
         public DateTime? ProcessDate { get; set; }
 
-        [ExcelColumn("测试地点")]
-        public string Address { get; set; }
+        [ExcelColumn("原因定位")]
+        public string CauseLocation { get; set; }
+
+        public string[] CauseFields => string.IsNullOrEmpty(CauseLocation) ? null : CauseLocation.GetSplittedFields('/');
+
+        public string WorkItemCause => CauseFields == null ? "" : CauseFields[0];
+
+        public string WorkItemSubCause => CauseFields == null ? "" : CauseFields[1];
 
         [ExcelColumn("经度", TransformEnum.DoubleEmptyZero, 0)]
         public double Longtitute { get; set; }
@@ -1372,7 +1385,7 @@ namespace Lte.Domain.Common
 
         [ExcelColumn("ECIO")]//Process--
         public double? EcIo { get; set; }
-
+        
         [ExcelColumn("主要影响基站（名称）")]//Process--
         public string BtsName { get; set; }
 
@@ -1388,14 +1401,17 @@ namespace Lte.Domain.Common
         [ExcelColumn("覆盖类型")]//Process--
         public string CoverageTypeDescription { get; set; }
 
+        [ExcelColumn("联系电话")]
+        public string ContactPhone { get; set; }
+
+        [ExcelColumn("测试地点")]
+        public string Address { get; set; }
+
         [ExcelColumn("用户反馈情况")]
         public string FeedbackInfo { get; set; }
 
         [ExcelColumn("处理/测试人")]//Process--
         public string ProcessPerson { get; set; }
-
-        [ExcelColumn("解决否")]//Process--
-        public string ResolveDescription { get; set; }
 
         [ExcelColumn("解决方案（分类）")]//Process--
         public string ResolveScheme { get; set; }

@@ -5,7 +5,6 @@ using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 using System;
-using Abp.EntityFramework.Dependency;
 
 namespace Lte.MySqlFramework.Entities
 {
@@ -109,7 +108,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [AutoMapFrom(typeof(ComplainItem))]
-    public class ComplainDto : IStateChange
+    public class ComplainDto : IStateChange, IBeginDate
     {
         public string SerialNumber { get; set; }
 
@@ -279,7 +278,7 @@ namespace Lte.MySqlFramework.Entities
 
     [AutoMapFrom(typeof(VipDemand))]
     [TypeDoc("VIP需求信息数据单元")]
-    public class VipDemandDto : IDistrictTown, ITownId, IConstructDto<VipProcessDto>, IStateChange
+    public class VipDemandDto : IDistrictTown, ITownId, IConstructDto<VipProcessDto>, IStateChange, IBeginDate
     {
         public string SerialNumber { get; set; }
 

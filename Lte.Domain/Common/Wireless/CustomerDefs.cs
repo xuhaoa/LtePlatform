@@ -190,7 +190,10 @@ namespace Lte.Domain.Common.Wireless
         Test,
         ProcessIssues,
         Feedback,
-        Archive
+        Archive,
+        Resolved,
+        Resolving,
+        NoResolve
     }
 
     public class ComplainStateDescriptionTransform : DescriptionTransform<ComplainState>
@@ -330,7 +333,10 @@ namespace Lte.Domain.Common.Wireless
         BillProblem,
         NoCoverage,
         PoorCoverage,
-        Normal
+        Normal,
+        AntennaAdjust,
+        BscMalfunction,
+        MicroMalfunction
     }
 
     public class ComplainSubReasonDescriptionTransform : DescriptionTransform<ComplainSubReason>
