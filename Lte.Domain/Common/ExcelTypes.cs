@@ -473,7 +473,15 @@ namespace Lte.Domain.Common
         public string SerialNumber { get; set; }
 
         [ExcelColumn("所属区域")]
-        public string District { get; set; }
+        public string SelfDistrict { get; set; }
+
+        public string District
+            =>
+                string.IsNullOrEmpty(SelfDistrict)
+                    ? (string.IsNullOrEmpty(Grid)
+                        ? (string.IsNullOrEmpty(CandidateDistrict) ? "" : CandidateDistrict.Replace("区", ""))
+                        : Grid.Replace("FS", ""))
+                    : SelfDistrict;
 
         [ExcelColumn("产品类型")]
         public string ProductType { get; set; }
@@ -496,7 +504,7 @@ namespace Lte.Domain.Common
         public string SubscriberPhone { get; set; }
 
         [ExcelColumn("重复次数")]
-        public byte RepeatTimes { get; set; }
+        public byte? RepeatTimes { get; set; }
 
         [ExcelColumn("紧急程度")]
         public string UrgentDescription { get; set; }

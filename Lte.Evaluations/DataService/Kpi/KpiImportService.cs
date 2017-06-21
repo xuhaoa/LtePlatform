@@ -110,8 +110,8 @@ namespace Lte.Evaluations.DataService.Kpi
             {
                 var town =
                     _towns.FirstOrDefault(
-                        x => (stat.Grid.Contains(x.DistrictName) || stat.CandidateDistrict.Contains(x.DistrictName))
-                             && (stat.RoadName.Contains(x.TownName) || stat.BuildingName.Contains(x.TownName)));
+                        x => stat.District.Contains(x.DistrictName)
+                             && (stat.RoadName ?? "" + (stat.BuildingName ?? "")).Contains(x.TownName));
                 if (town != null)
                     stat.TownId = town.Id;
             }
