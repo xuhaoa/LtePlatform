@@ -427,7 +427,6 @@
     <Content Include="appViews\College\Infrastructure\ENodebSupplementDialog.html" />
     <Content Include="appViews\College\Root.html" />
     <Content Include="appViews\College\CollegeMap.html" />
-    <Content Include="appViews\College\CollegeMenuType.html" />
     <Content Include="appViews\College\Coverage\CollegeSupport.html" />
     <Content Include="appViews\College\Coverage\Support.html" />
     <Content Include="appViews\College\Coverage\SupportMenu.html" />

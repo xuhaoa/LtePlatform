@@ -519,10 +519,10 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 		$scope.searchAlarms();
 
 		networkElementService.queryENodebInfo(eNodeb.eNodebId).then(function (result) {
-		    appRegionService.isInTownBoundary(result.longtitute, result.lattitute, result.cityName, result.districtName, result.townName).then(function(conclusion) {
-		        var color = conclusion ? 'green' : 'red';
-		        $scope.eNodebGroups = appFormatService.generateENodebGroups(result, color);
-		    });
+			appRegionService.isInTownBoundary(result.longtitute, result.lattitute, result.cityName, result.districtName, result.townName).then(function(conclusion) {
+				var color = conclusion ? 'green' : 'red';
+				$scope.eNodebGroups = appFormatService.generateENodebGroups(result, color);
+			});
 			networkElementService.queryStationByENodeb(eNodeb.eNodebId, eNodeb.planNum).then(function (dict) {
 				if (dict) {
 					downSwitchService.getStationById(dict.stationNum).then(function (stations) {
@@ -713,7 +713,8 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
-	.controller('map.stationList.dialog', function ($scope, $http, dialogTitle, $uibModalInstance, workItemDialog,
+
+	.controller('map.stationList.dialog', function ($scope, dialogTitle, $uibModalInstance, workItemDialog,
 		downSwitchService, parametersDialogService) {
 		$scope.dialogTitle = dialogTitle;
 		$scope.distincts = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
@@ -853,13 +854,13 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 			});
 		};
 		$scope.download = function (fileName) {
-		    downSwitchService.queryDwgUrl(site.fslNumber, fileName).then(function(result) {
-		        if (result.error) {
-		            console.log(error);
-		        } else {
-		            $scope.downloadUrl = "http://" + window.location.hostname + ":2015/BTSDWG/Common/" + site.fslNumber + "/" + encodeURIComponent(result.file);
-		        }
-		    });
+			downSwitchService.queryDwgUrl(site.fslNumber, fileName).then(function(result) {
+				if (result.error) {
+					console.log(error);
+				} else {
+					$scope.downloadUrl = "http://" + window.location.hostname + ":2015/BTSDWG/Common/" + site.fslNumber + "/" + encodeURIComponent(result.file);
+				}
+			});
 		};
 
 		$scope.getDwgList();
@@ -1793,6 +1794,20 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 						}
 					}
 				});
+			},
+			showCollegeCoverageList: function(beginDate, endDate) {
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/College/Coverage/All.html',
+					controller: 'college.coverage.all',
+					resolve: {
+						beginDate: function () {
+							return beginDate;
+						},
+						endDate: function () {
+							return endDate;
+						}
+					}
+				});
 			}
 		};
 	})
@@ -2487,6 +2502,21 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 	.controller("complain.details", function ($scope, $uibModalInstance, item, appFormatService) {
 		$scope.dialogTitle = item.serialNumber + "投诉工单详细信息";
 		$scope.complainGroups = appFormatService.generateComplainItemGroups(item);
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.building);
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
+	.controller('college.coverage.all', function ($scope, beginDate, endDate, $uibModalInstance,
+		collegeDtService, collegeMapService) {
+		$scope.dialogTitle = "校园网路测数据查询";
+		$scope.dtInfos = [];
+		$scope.query = function () {
+			collegeMapService.showDtInfos($scope.dtInfos, beginDate.value, endDate.value);
+		};
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.building);
 		};

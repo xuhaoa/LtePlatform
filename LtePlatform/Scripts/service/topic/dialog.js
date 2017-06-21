@@ -404,6 +404,20 @@
 						}
 					}
 				});
+			},
+			showCollegeCoverageList: function(beginDate, endDate) {
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/College/Coverage/All.html',
+					controller: 'college.coverage.all',
+					resolve: {
+						beginDate: function () {
+							return beginDate;
+						},
+						endDate: function () {
+							return endDate;
+						}
+					}
+				});
 			}
 		};
 	})
@@ -1098,6 +1112,21 @@
 	.controller("complain.details", function ($scope, $uibModalInstance, item, appFormatService) {
 		$scope.dialogTitle = item.serialNumber + "投诉工单详细信息";
 		$scope.complainGroups = appFormatService.generateComplainItemGroups(item);
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.building);
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
+	.controller('college.coverage.all', function ($scope, beginDate, endDate, $uibModalInstance,
+		collegeDtService, collegeMapService) {
+		$scope.dialogTitle = "校园网路测数据查询";
+		$scope.dtInfos = [];
+		$scope.query = function () {
+			collegeMapService.showDtInfos($scope.dtInfos, beginDate.value, endDate.value);
+		};
 		$scope.ok = function () {
 			$uibModalInstance.close($scope.building);
 		};

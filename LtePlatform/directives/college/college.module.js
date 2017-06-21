@@ -44,21 +44,14 @@
             data: $scope.colleges
         };
     })
-    .directive('collegeDtList', function ($compile) {
-        return {
-            controller: 'CollegeDtController',
-            controllerAs: 'collegeDt',
-            restrict: 'EA',
-            replace: true,
+    .directive('collegeDtList', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'CollegeDtController',
             scope: {
                 colleges: '='
             },
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-                var linkDom = $compile('<div ui-grid="gridOptions"></div>')(scope);
-                element.append(linkDom);
-            }
-        };
+            argumentName: 'colleges'
+        }, $compile);
     })
     .controller('College3GController', function ($scope, uiGridConstants) {
         $scope.gridOptions = {
