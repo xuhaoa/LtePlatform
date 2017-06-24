@@ -145,7 +145,7 @@
 				generalMapService.showGeneralPointCollection(stations, color, workItemDialog.showIndoorInfo);
 			},
 			showCheckingStations: function (stations, color) {
-			    generalMapService.showGeneralPointCollection(stations, color, mapDialogService.showCheckingStationInfo);
+				generalMapService.showGeneralPointCollection(stations, color, mapDialogService.showCheckingStationInfo);
 			},
 			showConstructionSites: function(stations, status, callback) {
 				baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function(coors) {
@@ -175,6 +175,15 @@
 					});
 				});
 			},
+		    showComplainItems: function(sites, color) {
+		        generalMapService.showContainerSites(sites, color, function(container) {
+		            networkElementService.queryRangeComplains(container).then(function(items) {
+		                if (items.length) {
+		                    mapDialogService.showOnlineSustainInfos(items);
+		                }
+		            });
+		        });
+		    },
 			showFlowCellSector: function(cell, item, beginDate, endDate) {
 				generalMapService.showGeneralSector(cell, item, "blue", 5, neighborDialogService.showFlowCell, {
 					item: item,

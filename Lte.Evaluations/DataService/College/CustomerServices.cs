@@ -114,7 +114,7 @@ namespace Lte.Evaluations.DataService.College
             where TService : IDateSpanService<TItem>
         {
             var begin = new DateTime(today.Year, today.Month, 1).AddMonths(-1);
-            var end = new DateTime(today.Year, today.Month, 1);
+            var end = today;
             var result = service.QueryItems(begin, end);
             if (!result.Any())
             {

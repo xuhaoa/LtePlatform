@@ -1745,8 +1745,8 @@
 
     })
 
-    .controller("home.complain", function ($scope, baiduMapService, dumpPreciseService, complainService, baiduQueryService, neGeometryService,
-        networkElementService, mapDialogService) {
+    .controller("home.complain", function ($scope, baiduMapService, dumpPreciseService, complainService,
+        collegeMapService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
 
@@ -1758,20 +1758,9 @@
                 color: color
             });
             complainService.queryLastMonthOnlineListInOneDistrict($scope.endDate.value, city, district).then(function (sites) {
-                baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function (coors) {
-                    var xOffset = coors.x - sites[0].longtitute;
-                    var yOffset = coors.y - sites[0].lattitute;
-                    baiduMapService.drawMultiPoints(sites, color, -xOffset, -yOffset, function (e) {
-                        var xCenter = e.point.lng - xOffset;
-                        var yCenter = e.point.lat - yOffset;
-                        var container = neGeometryService.queryNearestRange(xCenter, yCenter);
-                        networkElementService.queryRangeComplains(container).then(function (items) {
-                            if (items.length) {
-                                mapDialogService.showOnlineSustainInfos(items);
-                            }
-                        });
-                    });
-                });
+                if (sites.length) {
+                    collegeMapService.showComplainItems(sites, color);
+                }
             });
         };
         $scope.showOssWorkItem = function () {
