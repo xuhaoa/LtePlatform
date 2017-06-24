@@ -5,7 +5,7 @@ namespace Lte.Parameters.Concrete
 {
     public class MyMongoProvider : IMongoDatabaseProvider
     {
-        private static readonly MongoClient Client = new MongoClient("mongodb://root:Abcdef9*@10.17.165.106:27017");
+        private static readonly MongoClient Client = new MongoClient("mongodb://root:Abcdef9*@132.110.71.123:27017");
 
         public MyMongoProvider(string databaseString)
         {
@@ -20,7 +20,7 @@ namespace Lte.Parameters.Concrete
 
     public class OuterMongoProvider : IMongoDatabaseProvider
     {
-        private static readonly MongoClient Client = new MongoClient("mongodb://root:Abcdef9*@219.128.254.37:27017");
+        private static readonly MongoClient Client = new MongoClient("mongodb://root:Abcdef9*@119.145.142.74:8124");
 
         public OuterMongoProvider(string databaseString)
         {
