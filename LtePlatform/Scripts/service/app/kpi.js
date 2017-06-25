@@ -530,6 +530,36 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                     }
                 });
             },
+            getDownSwitchTimesOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.redirectCdma2000;
+                }), {
+                    title: "分镇区4G下切3G次数",
+                    seriesName: "区域"
+                }, {
+                    nameFunc: function (stat) {
+                        return stat.district;
+                    },
+                    valueFunc: function (stat) {
+                        return stat.districtData;
+                    }
+                });
+            },
+            getDownSwitchRateOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.downSwitchRate * 8;
+                }), {
+                    title: "分镇区4G下切3G比例（次/GB）",
+                    seriesName: "区域"
+                }, {
+                    nameFunc: function (stat) {
+                        return stat.district;
+                    },
+                    valueFunc: function (stat) {
+                        return stat.districtData;
+                    }
+                });
+            },
             getMaxUsersOptions: function(districtStats, townStats) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
                     return stat.maxUsers;
@@ -628,6 +658,26 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                     title: "上行感知速率变化趋势图",
                     xTitle: '日期',
                     yTitle: "上行感知速率（Mbit/s）"
+                });
+            },
+            getDownSwitchTimesDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
+                    return stat.downSwitchTimes;
+                }), districts, {
+                    title: "下切次数变化趋势图",
+                    xTitle: '日期',
+                    yTitle: "下切次数"
+                });
+            },
+            getDownSwitchRateDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
+                    return stat.downSwitchRate;
+                }), districts, {
+                    title: "下切比例变化趋势图",
+                    xTitle: '日期',
+                    yTitle: "下切比例（次/GB）"
                 });
             },
             getPreciseDistrictOptions: function(stats, inputDistricts) {
@@ -741,7 +791,43 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                         return {
                             uplinkFeelingRate: generalStat.totalUplinkThroughput / generalStat.totalUplinkDuration,
                             downlinkFeelingRate: generalStat.totalDownlinkThroughput / generalStat.totalDownlinkDuration
-                        }
+                        };
+                    }
+                });
+            },
+            generateDownSwitchDistrictStats: function (districts, stats) {
+                return chartCalculateService.generateDistrictStats(districts, stats, {
+                    districtViewFunc: function (stat) {
+                        return stat.districtFlowViews;
+                    },
+                    initializeFunc: function (generalStat) {
+                        generalStat.totalDownSwitchTimes = 0;
+                        generalStat.totalUplinkThroughput = 0;
+                        generalStat.totalDownlinkThroughput = 0;
+                    },
+                    calculateFunc: function (view) {
+                        return {
+                            downSwitchTimes: view.redirectCdma2000,
+                            downSwitchRate: view.downSwitchRate * 8
+                        };
+                    },
+                    accumulateFunc: function (generalStat, view) {
+                        generalStat.totalDownSwitchTimes += view.redirectCdma2000;
+                        generalStat.totalUplinkThroughput += view.pdcpUplinkFlow;
+                        generalStat.totalDownlinkThroughput += view.pdcpDownlinkFlow;
+                    },
+                    zeroFunc: function () {
+                        return {
+                            totalDownSwitchTimes: 0,
+                            totalUplinkThroughput: 0,
+                            totalDownlinkThroughput: 0
+                        };
+                    },
+                    totalFunc: function (generalStat) {
+                        return {
+                            downSwitchTimes: generalStat.totalDownSwitchTimes,
+                            downSwitchRate: 1024 * 8 * generalStat.totalDownSwitchTimes / (generalStat.totalUplinkThroughput + generalStat.totalDownlinkThroughput)
+                        };
                     }
                 });
             },
@@ -2507,6 +2593,31 @@ angular.module('kpi.coverage', ['myApp.url', 'myApp.region', "ui.bootstrap"])
             $uibModalInstance.dismiss('cancel');
         };
     })
+    .controller('downSwitch.trend', function($scope, beginDate, endDate, city, dialogTitle, $uibModalInstance,
+        kpiPreciseService, appFormatService, appKpiService, appRegionService) {
+        $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") + '-'
+            + appFormatService.getDateString(endDate.value, "yyyy年MM月dd日")
+            + dialogTitle;
+        kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value).then(function (result) {
+            appRegionService.queryDistricts(city).then(function (districts) {
+                var stats = appKpiService.generateDownSwitchDistrictStats(districts, result);
+                var trendStat = {};
+                appKpiService.generateFlowTrendStatsForPie(trendStat, result);
+                $("#leftChart").highcharts(appKpiService.getDownSwitchTimesDistrictOptions(stats, districts));
+                $("#rightChart").highcharts(appKpiService.getDownSwitchRateDistrictOptions(stats, districts));
+                $("#thirdChart").highcharts(appKpiService.getDownSwitchTimesOptions(trendStat.districtStats, trendStat.townStats));
+                $("#fourthChart").highcharts(appKpiService.getDownSwitchRateOptions(trendStat.districtStats, trendStat.townStats));
+            });
+
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
 
      .controller("user.roles.dialog", function ($scope, $uibModalInstance, dialogTitle, userName, authorizeService) {
          $scope.dialogTitle = dialogTitle;
@@ -2816,6 +2927,26 @@ angular.module('kpi.coverage', ['myApp.url', 'myApp.region', "ui.bootstrap"])
                     resolve: {
                         dialogTitle: function () {
                             return city + "感知速率变化趋势";
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        },
+                        city: function () {
+                            return city;
+                        }
+                    }
+                });
+            },
+            showDownSwitchTrend: function (city, beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Home/FourChartDialog.html',
+                    controller: 'downSwitch.trend',
+                    resolve: {
+                        dialogTitle: function () {
+                            return city + "4G下切3G变化趋势";
                         },
                         beginDate: function () {
                             return beginDate;

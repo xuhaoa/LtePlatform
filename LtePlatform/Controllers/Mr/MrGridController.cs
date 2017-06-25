@@ -44,6 +44,7 @@ namespace LtePlatform.Controllers.Mr
         } 
     }
 
+    [ApiControl("镇区MR覆盖情况查询控制器")]
     public class TownMrGridController : ApiController
     {
         private readonly NearestPciCellService _service;
@@ -77,6 +78,7 @@ namespace LtePlatform.Controllers.Mr
         }
     }
 
+    [ApiControl("AGPS电信覆盖情况查询控制器")]
     public class AgpsTelecomController : ApiController
     {
         private readonly NearestPciCellService _service;
@@ -87,6 +89,12 @@ namespace LtePlatform.Controllers.Mr
         }
 
         [HttpGet]
+        [ApiDoc("查询指定日期范围内指定镇区AGPS覆盖情况")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiParameterDoc("town", "镇区")]
+        [ApiResponse("指定镇区AGPS覆盖情况")]
         public IEnumerable<AgpsCoverageView> Get(DateTime begin, DateTime end, string district,
             string town)
         {
@@ -94,6 +102,7 @@ namespace LtePlatform.Controllers.Mr
         }
     }
 
+    [ApiControl("AGPS移动覆盖情况查询控制器")]
     public class AgpsMobileController : ApiController
     {
         private readonly NearestPciCellService _service;
@@ -104,6 +113,12 @@ namespace LtePlatform.Controllers.Mr
         }
 
         [HttpGet]
+        [ApiDoc("查询指定日期范围内指定镇区AGPS覆盖情况")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiParameterDoc("town", "镇区")]
+        [ApiResponse("指定镇区AGPS覆盖情况")]
         public IEnumerable<AgpsCoverageView> Get(DateTime begin, DateTime end, string district,
             string town)
         {

@@ -112,7 +112,7 @@
                         controller: "menu.root"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Flow.html",
+                        templateUrl: "/appViews/Home/Flow.html",
                         controller: "home.flow"
                     }
                 },
@@ -1454,6 +1454,9 @@
         };
         $scope.showFeelingRateTrend = function () {
             coverageDialogService.showFeelingRateTrend($scope.city.selected, $scope.beginDate, $scope.endDate);
+        };
+        $scope.showDownSwitchTrend = function() {
+            coverageDialogService.showDownSwitchTrend($scope.city.selected, $scope.beginDate, $scope.endDate);
         };
         flowService.queryENodebGeoFlowByDateSpan($scope.beginDate.value, $scope.endDate.value).then(function (result) {
             $scope.flowGeoPoints = result;

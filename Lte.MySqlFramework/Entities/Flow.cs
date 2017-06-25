@@ -499,6 +499,9 @@ namespace Lte.MySqlFramework.Entities
         public double Rank2Rate => SchedulingTimes == 0 ? 100 : SchedulingRank2 / SchedulingTimes * 100;
 
         public int RedirectCdma2000 { get; set; }
+
+        public double DownSwitchRate
+            => PdcpUplinkFlow + PdcpDownlinkFlow == 0 ? 100 : 1024 * RedirectCdma2000 / (PdcpUplinkFlow + PdcpDownlinkFlow);
     }
 
     [AutoMapFrom(typeof(TownFlowView))]
@@ -539,6 +542,17 @@ namespace Lte.MySqlFramework.Entities
 
         public double UplinkFeelingRate
             => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput / UplinkFeelingDuration;
+
+        public double SchedulingRank2 { get; set; }
+
+        public double SchedulingTimes { get; set; }
+
+        public double Rank2Rate => SchedulingTimes == 0 ? 100 : SchedulingRank2 / SchedulingTimes * 100;
+
+        public int RedirectCdma2000 { get; set; }
+
+        public double DownSwitchRate
+            => PdcpUplinkFlow + PdcpDownlinkFlow == 0 ? 100 : 1024 * RedirectCdma2000 / (PdcpUplinkFlow + PdcpDownlinkFlow);
     }
 
     [AutoMapFrom(typeof(RrcHuawei), typeof(RrcZte))]

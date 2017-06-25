@@ -477,6 +477,31 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
+    .controller('downSwitch.trend', function($scope, beginDate, endDate, city, dialogTitle, $uibModalInstance,
+        kpiPreciseService, appFormatService, appKpiService, appRegionService) {
+        $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") + '-'
+            + appFormatService.getDateString(endDate.value, "yyyy年MM月dd日")
+            + dialogTitle;
+        kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value).then(function (result) {
+            appRegionService.queryDistricts(city).then(function (districts) {
+                var stats = appKpiService.generateDownSwitchDistrictStats(districts, result);
+                var trendStat = {};
+                appKpiService.generateFlowTrendStatsForPie(trendStat, result);
+                $("#leftChart").highcharts(appKpiService.getDownSwitchTimesDistrictOptions(stats, districts));
+                $("#rightChart").highcharts(appKpiService.getDownSwitchRateDistrictOptions(stats, districts));
+                $("#thirdChart").highcharts(appKpiService.getDownSwitchTimesOptions(trendStat.districtStats, trendStat.townStats));
+                $("#fourthChart").highcharts(appKpiService.getDownSwitchRateOptions(trendStat.districtStats, trendStat.townStats));
+            });
+
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
 
      .controller("user.roles.dialog", function ($scope, $uibModalInstance, dialogTitle, userName, authorizeService) {
          $scope.dialogTitle = dialogTitle;
@@ -786,6 +811,26 @@
                     resolve: {
                         dialogTitle: function () {
                             return city + "感知速率变化趋势";
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        },
+                        city: function () {
+                            return city;
+                        }
+                    }
+                });
+            },
+            showDownSwitchTrend: function (city, beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Home/FourChartDialog.html',
+                    controller: 'downSwitch.trend',
+                    resolve: {
+                        dialogTitle: function () {
+                            return city + "4G下切3G变化趋势";
                         },
                         beginDate: function () {
                             return beginDate;
