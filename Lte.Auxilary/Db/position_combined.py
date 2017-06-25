@@ -8,7 +8,7 @@ import pymongo
 from pymongo import MongoClient
 import sys
 
-db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
+db = MongoClient('mongodb://root:Abcdef9*@132.110.71.123')['ouyh']
 db_source = MongoClient('mongodb://root:Abcdef9*@'+sys.argv[1])['ouyh']
 
 time=datetime.datetime.today()
@@ -57,6 +57,26 @@ def position_combine(eNodebId,cellId):
                 item.update({'StatDate': time})
             db['position_mobile_combined'].insert_many(mobile_item)
             print('position_mobile_combined insert: (' + sectorId + ') ' + str(len(mobile_item)) + ' items.')
+
+        unicom_filter=list(filter(lambda item: True if item['UnicomEarfcn']>0 else False, Pci_List))
+        if len(unicom_filter) > 0:
+            unicom_list=list(map(lambda item: {
+                'CellId': item['CellId'],
+                'X': int((item['Lontitute']-112)/0.00049),
+                'Y': int((item['Lattitute']-22)/0.00045),
+                'Rsrp': item['MaxUnicomRsrp'],
+                'Count': 1,
+                'GoodCount': 1 if item['MaxUnicomRsrp']>=30 else 0,
+                'GoodCount105': 1 if item['MaxUnicomRsrp']>=35 else 0,
+                'GoodCount100': 1 if item['MaxUnicomRsrp']>=40 else 0
+            }, unicom_filter))
+            unicom_df=DataFrame(unicom_list)
+            unicom_stat=unicom_df.groupby(['CellId','X','Y']).sum().reset_index()
+            unicom_item=json.loads(unicom_stat.T.to_json()).values()
+            for item in unicom_item:
+                item.update({'StatDate': time})
+            db['position_unicom_combined'].insert_many(unicom_item)
+            print('position_unicom_combined insert: (' + sectorId + ') ' + str(len(unicom_item)) + ' items.')
 
 for eNodebId in range(550912, 552960):
     for cellId in range(16):
