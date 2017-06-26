@@ -1458,6 +1458,9 @@
         $scope.showDownSwitchTrend = function() {
             coverageDialogService.showDownSwitchTrend($scope.city.selected, $scope.beginDate, $scope.endDate);
         };
+        $scope.showRank2RateTrend = function() {
+            coverageDialogService.showRank2RateTrend($scope.city.selected, $scope.beginDate, $scope.endDate);
+        };
         flowService.queryENodebGeoFlowByDateSpan($scope.beginDate.value, $scope.endDate.value).then(function (result) {
             $scope.flowGeoPoints = result;
             $scope.showFeelingRate();

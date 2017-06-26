@@ -545,11 +545,41 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                     }
                 });
             },
+            getSchedulingTimesOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.schedulingTimes;
+                }), {
+                    title: "分镇区调度次数",
+                    seriesName: "区域"
+                }, {
+                    nameFunc: function (stat) {
+                        return stat.district;
+                    },
+                    valueFunc: function (stat) {
+                        return stat.districtData;
+                    }
+                });
+            },
             getDownSwitchRateOptions: function (districtStats, townStats) {
                 return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
                     return stat.downSwitchRate * 8;
                 }), {
                     title: "分镇区4G下切3G比例（次/GB）",
+                    seriesName: "区域"
+                }, {
+                    nameFunc: function (stat) {
+                        return stat.district;
+                    },
+                    valueFunc: function (stat) {
+                        return stat.districtData;
+                    }
+                });
+            },
+            getRank2RateOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.rank2Rate;
+                }), {
+                    title: "分镇区双流比（%）",
                     seriesName: "区域"
                 }, {
                     nameFunc: function (stat) {
@@ -670,6 +700,16 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                     yTitle: "下切次数"
                 });
             },
+            getSchedulingTimesDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
+                    return stat.schedulingTimes;
+                }), districts, {
+                    title: "调度次数变化趋势图",
+                    xTitle: '日期',
+                    yTitle: "调度次数"
+                });
+            },
             getDownSwitchRateDistrictOptions: function (stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
@@ -678,6 +718,16 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                     title: "下切比例变化趋势图",
                     xTitle: '日期',
                     yTitle: "下切比例（次/GB）"
+                });
+            },
+            getRank2RateDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
+                    return stat.rank2Rate;
+                }), districts, {
+                    title: "双流比变化趋势图",
+                    xTitle: '日期',
+                    yTitle: "双流比（%）"
                 });
             },
             getPreciseDistrictOptions: function(stats, inputDistricts) {
@@ -827,6 +877,39 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                         return {
                             downSwitchTimes: generalStat.totalDownSwitchTimes,
                             downSwitchRate: 1024 * 8 * generalStat.totalDownSwitchTimes / (generalStat.totalUplinkThroughput + generalStat.totalDownlinkThroughput)
+                        };
+                    }
+                });
+            },
+            generateRank2DistrictStats: function (districts, stats) {
+                return chartCalculateService.generateDistrictStats(districts, stats, {
+                    districtViewFunc: function (stat) {
+                        return stat.districtFlowViews;
+                    },
+                    initializeFunc: function (generalStat) {
+                        generalStat.totalRank2Times = 0;
+                        generalStat.totalSchedulingTimes = 0;
+                    },
+                    calculateFunc: function (view) {
+                        return {
+                            schedulingTimes: view.schedulingTimes,
+                            rank2Rate: view.rank2Rate
+                        };
+                    },
+                    accumulateFunc: function (generalStat, view) {
+                        generalStat.totalRank2Times += view.schedulingRank2;
+                        generalStat.totalSchedulingTimes += view.schedulingTimes;
+                    },
+                    zeroFunc: function () {
+                        return {
+                            totalRank2Times: 0,
+                            totalSchedulingTimes: 0
+                        };
+                    },
+                    totalFunc: function (generalStat) {
+                        return {
+                            schedulingTimes: generalStat.totalSchedulingTimes,
+                            rank2Rate: 100 * generalStat.totalRank2Times / generalStat.totalSchedulingTimes
                         };
                     }
                 });
@@ -2618,6 +2701,31 @@ angular.module('kpi.coverage', ['myApp.url', 'myApp.region', "ui.bootstrap"])
             $uibModalInstance.dismiss('cancel');
         };
     })
+    .controller('rank2Rate.trend', function ($scope, beginDate, endDate, city, dialogTitle, $uibModalInstance,
+        kpiPreciseService, appFormatService, appKpiService, appRegionService) {
+        $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") + '-'
+            + appFormatService.getDateString(endDate.value, "yyyy年MM月dd日")
+            + dialogTitle;
+        kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value).then(function (result) {
+            appRegionService.queryDistricts(city).then(function (districts) {
+                var stats = appKpiService.generateRank2DistrictStats(districts, result);
+                var trendStat = {};
+                appKpiService.generateFlowTrendStatsForPie(trendStat, result);
+                $("#leftChart").highcharts(appKpiService.getSchedulingTimesDistrictOptions(stats, districts));
+                $("#rightChart").highcharts(appKpiService.getRank2RateDistrictOptions(stats, districts));
+                $("#thirdChart").highcharts(appKpiService.getSchedulingTimesOptions(trendStat.districtStats, trendStat.townStats));
+                $("#fourthChart").highcharts(appKpiService.getRank2RateOptions(trendStat.districtStats, trendStat.townStats));
+            });
+
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
 
      .controller("user.roles.dialog", function ($scope, $uibModalInstance, dialogTitle, userName, authorizeService) {
          $scope.dialogTitle = dialogTitle;
@@ -2947,6 +3055,26 @@ angular.module('kpi.coverage', ['myApp.url', 'myApp.region', "ui.bootstrap"])
                     resolve: {
                         dialogTitle: function () {
                             return city + "4G下切3G变化趋势";
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        },
+                        city: function () {
+                            return city;
+                        }
+                    }
+                });
+            },
+            showRank2RateTrend: function (city, beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Home/FourChartDialog.html',
+                    controller: 'rank2Rate.trend',
+                    resolve: {
+                        dialogTitle: function () {
+                            return city + "4G双流比变化趋势";
                         },
                         beginDate: function () {
                             return beginDate;

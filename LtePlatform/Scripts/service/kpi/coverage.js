@@ -502,6 +502,31 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
+    .controller('rank2Rate.trend', function ($scope, beginDate, endDate, city, dialogTitle, $uibModalInstance,
+        kpiPreciseService, appFormatService, appKpiService, appRegionService) {
+        $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") + '-'
+            + appFormatService.getDateString(endDate.value, "yyyy年MM月dd日")
+            + dialogTitle;
+        kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value).then(function (result) {
+            appRegionService.queryDistricts(city).then(function (districts) {
+                var stats = appKpiService.generateRank2DistrictStats(districts, result);
+                var trendStat = {};
+                appKpiService.generateFlowTrendStatsForPie(trendStat, result);
+                $("#leftChart").highcharts(appKpiService.getSchedulingTimesDistrictOptions(stats, districts));
+                $("#rightChart").highcharts(appKpiService.getRank2RateDistrictOptions(stats, districts));
+                $("#thirdChart").highcharts(appKpiService.getSchedulingTimesOptions(trendStat.districtStats, trendStat.townStats));
+                $("#fourthChart").highcharts(appKpiService.getRank2RateOptions(trendStat.districtStats, trendStat.townStats));
+            });
+
+        });
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
 
      .controller("user.roles.dialog", function ($scope, $uibModalInstance, dialogTitle, userName, authorizeService) {
          $scope.dialogTitle = dialogTitle;
@@ -831,6 +856,26 @@
                     resolve: {
                         dialogTitle: function () {
                             return city + "4G下切3G变化趋势";
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        },
+                        city: function () {
+                            return city;
+                        }
+                    }
+                });
+            },
+            showRank2RateTrend: function (city, beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Home/FourChartDialog.html',
+                    controller: 'rank2Rate.trend',
+                    resolve: {
+                        dialogTitle: function () {
+                            return city + "4G双流比变化趋势";
                         },
                         beginDate: function () {
                             return beginDate;
