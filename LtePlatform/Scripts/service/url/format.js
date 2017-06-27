@@ -2392,6 +2392,21 @@
                         }
                     }
                 });
+            },
+            generateCoveragePointsWithOffset: function (pointDef, points, func, xOffset, yOffset) {
+                var intervals = pointDef.intervals;
+                angular.forEach(points, function (point) {
+                    var value = func(point);
+                    for (var i = 0; i < intervals.length; i++) {
+                        if ((pointDef.sign && value < intervals[i].threshold) || (!pointDef.sign && value > intervals[i].threshold)) {
+                            intervals[i].coors.push({
+                                longtitute: point.longtitute + xOffset,
+                                lattitute: point.lattitute + yOffset
+                            });
+                            break;
+                        }
+                    }
+                });
             }
         };
     })

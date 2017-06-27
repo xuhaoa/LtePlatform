@@ -1511,6 +1511,15 @@
             kpiDisplayService.generateTelecomRsrpPoints($scope.coveragePoints, $scope.data);
             parametersMapService.showIntervalPoints($scope.coveragePoints.intervals);
         };
+        $scope.displayTelecomAgps = function() {
+            $scope.currentView = "电信";
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+            baiduMapService.setCellFocus($scope.telecomAgps[0].longtitute, $scope.telecomAgps[0].lattitute, 15);
+            $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+            kpiDisplayService.generateAverageRsrpPoints($scope.coveragePoints, $scope.telecomAgps);
+            parametersMapService.showIntervalPoints($scope.coveragePoints.intervals);
+        };
         $scope.showUnicomCoverage = function () {
             $scope.currentView = "联通";
             baiduMapService.clearOverlays();

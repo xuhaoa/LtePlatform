@@ -661,6 +661,31 @@
 					});
 				});
 			},
+			showIntervalGrids: function (intervals, coverageOverlays) {
+				angular.forEach(intervals, function (interval) {
+					var coors = interval.coors;
+					var index;
+					if (coors.length === 0) {
+						return;
+					} else
+						index = parseInt(coors.length / 2);
+					baiduQueryService.transformBaiduCoors(coors[index]).then(function (newCoor) {
+						var xoffset = coors[index].longtitute - newCoor.longtitute;
+						var yoffset = coors[index].lattitute - newCoor.lattitute;
+						angular.forEach(coors, function(coor) {
+							var polygon = baiduMapService.drawRectangleWithColor([
+								coor.longtitute - xoffset,
+								coor.lattitute - yoffset,
+								coor.longtitute + 0.00049 - xoffset,
+								coor.lattitute + 0.00045 - yoffset
+							], interval.color);
+							if (coverageOverlays)
+								$scope.coverageOverlays.push(polygon);
+						});
+
+					});
+				});
+			},
 			displaySourceDistributions: function(sites, filters, colors) {
 				baiduQueryService.transformToBaidu(sites[0].longtitute, sites[0].lattitute).then(function(coors) {
 					var xOffset = coors.x - sites[0].longtitute;

@@ -409,6 +409,16 @@ angular.module('topic.basic', ['myApp.url', 'myApp.region'])
                 ], { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.2 });
                 map.addOverlay(rectangle);
             },
+            drawRectangleWithColor: function (coors, color) {
+                var rectangle = new BMap.Polygon([
+                    new BMap.Point(parseFloat(coors[0]), parseFloat(coors[1])),
+                    new BMap.Point(parseFloat(coors[2]), parseFloat(coors[1])),
+                    new BMap.Point(parseFloat(coors[2]), parseFloat(coors[3])),
+                    new BMap.Point(parseFloat(coors[0]), parseFloat(coors[3]))
+                ], { strokeColor: color, strokeWeight: 1, strokeOpacity: 0.2, fillColor: color });
+                map.addOverlay(rectangle);
+                return rectangle.getPath();
+            },
             drawCircleAndGetCenter: function(coors) {
                 var centerx = parseFloat(coors[0]);
                 var centery = parseFloat(coors[1]);
@@ -1159,6 +1169,31 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 						var points = baiduMapService.drawMultiPoints(coors, interval.color, xoffset, yoffset);
 						if (coverageOverlays)
 							$scope.coverageOverlays.push(points);
+					});
+				});
+			},
+			showIntervalGrids: function (intervals, coverageOverlays) {
+				angular.forEach(intervals, function (interval) {
+					var coors = interval.coors;
+					var index;
+					if (coors.length === 0) {
+						return;
+					} else
+						index = parseInt(coors.length / 2);
+					baiduQueryService.transformBaiduCoors(coors[index]).then(function (newCoor) {
+						var xoffset = coors[index].longtitute - newCoor.longtitute;
+						var yoffset = coors[index].lattitute - newCoor.lattitute;
+						angular.forEach(coors, function(coor) {
+							var polygon = baiduMapService.drawRectangleWithColor([
+								coor.longtitute - xoffset,
+								coor.lattitute - yoffset,
+								coor.longtitute + 0.00049 - xoffset,
+								coor.lattitute + 0.00045 - yoffset
+							], interval.color);
+							if (coverageOverlays)
+								$scope.coverageOverlays.push(polygon);
+						});
+
 					});
 				});
 			},

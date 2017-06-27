@@ -348,6 +348,11 @@
                     return point.unicomRsrp;
                 });
             },
+            generateAverageRsrpPoints: function (pointDef, points) {
+                calculateService.generateCoveragePointsWithOffset(pointDef, points, function (point) {
+                    return point.averageRsrp - 140;
+                }, 0.00049, 0.00045);
+            },
             updateCoverageKpi: function(neighbor, cell, dateSpan) {
                 topPreciseService.queryCoverage(dateSpan.begin, dateSpan.end,
                     cell.cellId, cell.sectorId).then(function(coverage) {
