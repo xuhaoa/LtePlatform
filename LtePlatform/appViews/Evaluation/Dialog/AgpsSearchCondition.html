@@ -20,11 +20,11 @@
         <button type="submit" class="btn btn-sm btn-primary" ng-click="queryAgps()">
             查询
         </button>
-    </div>
-    <div class="form-group" style="float: left">
+        <br/>
         <div ng-show="type.selected === '电信'">
             <button ng-disabled="!telecomAgps.length" ng-click="updateTelecomAgps()" class="btn btn-sm btn-warning">更新</button>
             <button ng-disabled="!telecomAgps.length" ng-click="displayTelecomAgps()" class="btn btn-sm btn-default">显示</button>
+            <button ng-click="queryAndDisplayTelecom()" class="btn btn-sm btn-success">读库并显示</button>
         </div>
         <div ng-show="type.selected === '移动'">
             <button ng-disabled="!mobileAgps.length" ng-click="updateMobileAgps()" class="btn btn-sm btn-warning">更新</button>

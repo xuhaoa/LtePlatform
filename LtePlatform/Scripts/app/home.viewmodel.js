@@ -1507,6 +1507,7 @@
             $scope.currentView = "电信";
             baiduMapService.clearOverlays();
             baiduMapService.addCityBoundary("佛山");
+            baiduMapService.setCellFocus($scope.data[0].longtitute, $scope.data[0].lattitute, 15);
             $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
             kpiDisplayService.generateTelecomRsrpPoints($scope.coveragePoints, $scope.data);
             parametersMapService.showIntervalPoints($scope.coveragePoints.intervals);
@@ -1552,6 +1553,12 @@
                 $scope.showTelecomCoverage();
             });
         };
+        $scope.queryAndDisplayTelecom = function() {
+            coverageService.queryAgisDtPointsByTopic($scope.beginDate.value, $scope.endDate.value, $scope.district.selected+$scope.town.selected).then(function (result) {
+                $scope.data = result;
+                $scope.showTelecomCoverage();
+            });
+        };
         $scope.showSmallRange = function() {
             coverageService.queryAgisDtPointsByTopic($scope.beginDate.value, $scope.endDate.value, '小范围').then(function(result) {
                 $scope.data = result;
@@ -1560,6 +1567,7 @@
                 $scope.showTelecomCoverage();
             });
         };
+
         $scope.switchData = function() {
             if ($scope.currentDataLabel === 'districtPoints') {
                 $scope.currentDataLabel = 'rangePoints';
@@ -1595,7 +1603,7 @@
         appUrlService.initializeIndexedDb($scope.indexedDB, ['districtPoints','rangePoints'], "topic", function () {
             appUrlService.fetchStoreByCursor($scope.indexedDB.db, 'districtPoints', function(items) {
                 $scope.data = items;
-                $scope.showTelecomCoverage();
+                //$scope.showTelecomCoverage();
             });
         });
         $scope.type = {

@@ -339,9 +339,9 @@
                 });
             },
             generateTelecomRsrpPoints: function(pointDef, points) {
-                calculateService.generateCoveragePointsWithFunc(pointDef, points, function(point) {
-                    return point.telecomRsrp;
-                });
+                calculateService.generateCoveragePointsWithOffset(pointDef, points, function (point) {
+                    return point.telecomRsrp - 140;
+                }, 0.00049, 0.00045);
             },
             generateUnicomRsrpPoints: function(pointDef, points) {
                 calculateService.generateCoveragePointsWithFunc(pointDef, points, function(point) {
