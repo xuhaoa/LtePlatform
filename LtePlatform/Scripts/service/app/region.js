@@ -353,6 +353,13 @@ angular.module('region.basic', ['app.core'])
                     town: town
                 });
             },
+            updateAgpsTelecomView: function(district, town, views) {
+                return generalHttpService.postApiData('AgpsTelecom', {
+                    district: district,
+                    town: town,
+                    views: views
+                });
+            },
             queryAgpsMobileByTown: function (begin, end, district, town) {
                 return generalHttpService.getApiData('AgpsMobile', {
                     begin: begin,

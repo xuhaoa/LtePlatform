@@ -1491,7 +1491,7 @@
     })
 
     .controller("home.mr", function ($scope, baiduMapService, coverageService, kpiDisplayService, parametersMapService, appUrlService,
-    coverageDialogService, dumpPreciseService, appRegionService) {
+        coverageDialogService, dumpPreciseService, appRegionService) {
         baiduMapService.initializeMap("map", 13);
         
         var legend = kpiDisplayService.queryCoverageLegend('RSRP');
@@ -1565,6 +1565,8 @@
         $scope.queryAgps = function() {
             switch ($scope.type.selected) {
                 case '电信':
+                    $scope.currentDistrict = $scope.district.selected;
+                    $scope.currentTown = $scope.town.selected;
                     coverageService.queryAgpsTelecomByTown($scope.beginDate.value, $scope.endDate.value, $scope.district.selected, $scope.town.selected).then(function(result) {
                         $scope.telecomAgps = result;
                     });
@@ -1575,6 +1577,11 @@
                     });
                     break;
             }
+        };
+        $scope.updateTelecomAgps = function() {
+            coverageService.updateAgpsTelecomView($scope.currentDistrict, $scope.currentTown, $scope.telecomAgps).then(function(result) {
+
+            });
         };
         appUrlService.initializeIndexedDb($scope.indexedDB, ['districtPoints','rangePoints'], "topic", function () {
             appUrlService.fetchStoreByCursor($scope.indexedDB.db, 'districtPoints', function(items) {
