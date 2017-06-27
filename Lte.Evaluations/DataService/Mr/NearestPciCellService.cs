@@ -63,11 +63,14 @@ namespace Lte.Evaluations.DataService.Mr
     {
         private readonly ITelecomAgpsRepository _telecomAgpsRepository;
         private readonly IMobileAgpsRepository _mobileAgpsRepository;
+        private readonly IAgisDtPointRepository _agisDtPointRepository;
 
-        public AgpsService(ITelecomAgpsRepository telecomAgpsRepository, IMobileAgpsRepository mobileAgpsRepository)
+        public AgpsService(ITelecomAgpsRepository telecomAgpsRepository, IMobileAgpsRepository mobileAgpsRepository,
+            IAgisDtPointRepository agisDtPointRepository)
         {
             _telecomAgpsRepository = telecomAgpsRepository;
             _mobileAgpsRepository = mobileAgpsRepository;
+            _agisDtPointRepository = agisDtPointRepository;
         }
 
         public IEnumerable<AgpsCoverageView> QueryTelecomCoverageViews(DateTime begin, DateTime end,
@@ -80,6 +83,39 @@ namespace Lte.Evaluations.DataService.Mr
                         x.StatDate >= begin && x.StatDate < end && x.X >= range.West && x.X < range.East &&
                         x.Y >= range.South && x.Y < range.North);
             return !stats.Any() ? new List<AgpsCoverageView>() : GenerateCoverageViews(boundaries, stats);
+        }
+
+        public int UpdateTelecomAgisPoint(AgpsCoverageView view, string district, string town)
+        {
+            var date = view.StatDate.Date;
+            var point =
+                _agisDtPointRepository.FirstOrDefault(
+                    x => x.StatDate == date && x.X == view.X && x.Y == view.Y && x.Operator == district + town);
+            if (point == null)
+            {
+                point = new AgisDtPoint
+                {
+                    X = view.X,
+                    Y = view.Y,
+                    Longtitute = view.Longtitute,
+                    Lattitute = view.Lattitute,
+                    StatDate = date,
+                    TelecomRsrp = view.AverageRsrp,
+                    TelecomRate100 = view.CoverageRate100,
+                    TelecomRate105 = view.CoverageRate105,
+                    TelecomRate110 = view.CoverageRate110,
+                    Operator = district + town
+                };
+                _agisDtPointRepository.Insert(point);
+            }
+            else
+            {
+                point.TelecomRsrp = view.AverageRsrp;
+                point.TelecomRate100 = view.CoverageRate100;
+                point.TelecomRate105 = view.CoverageRate105;
+                point.TelecomRate110 = view.CoverageRate110;
+            }
+            return _agisDtPointRepository.SaveChanges();
         }
 
         public IEnumerable<AgpsCoverageView> QueryMobileCoverageViews(DateTime begin, DateTime end,
@@ -182,6 +218,15 @@ namespace Lte.Evaluations.DataService.Mr
         }
     }
 
+    public class AgpsTownView
+    {
+        public string District { get; set; }
+
+        public string Town { get; set; }
+
+        public IEnumerable<AgpsCoverageView> Views { get; set; } 
+    }
+
     public class NearestPciCellService
     {
         private readonly INearestPciCellRepository _repository;
@@ -214,7 +259,7 @@ namespace Lte.Evaluations.DataService.Mr
             _browsingRepository = browsingRepository;
 
             _service = new TownSupportService(townRepository, boundaryRepository);
-            _agpsService = new AgpsService(telecomAgpsRepository, mobileAgpsRepository);
+            _agpsService = new AgpsService(telecomAgpsRepository, mobileAgpsRepository, _agisRepository);
             _mrGridService = new MrGridService(mrGridRepository);
             
             if (NearestCells == null)
@@ -356,6 +401,11 @@ namespace Lte.Evaluations.DataService.Mr
             return boundaries == null
                 ? new List<AgpsCoverageView>()
                 : _agpsService.QueryTelecomCoverageViews(begin, end, boundaries);
+        }
+
+        public int UpdateTelecomAgisDtPoint(AgpsTownView data)
+        {
+            return data.Views.Sum(view => _agpsService.UpdateTelecomAgisPoint(view, data.District, data.Town));
         }
 
         public IEnumerable<AgpsCoverageView> QueryMobileCoverageViews(DateTime begin, DateTime end, string district,

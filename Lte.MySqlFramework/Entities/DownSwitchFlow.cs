@@ -69,6 +69,10 @@ namespace Lte.MySqlFramework.Entities
         [MemberDoc("纬度")]
         public double Lattitute { get; set; }
 
+        public int X { get; set; }
+
+        public int Y { get; set; }
+
         [MemberDoc("联通RSRP")]
         public double UnicomRsrp { get; set; }
 
@@ -77,6 +81,24 @@ namespace Lte.MySqlFramework.Entities
 
         [MemberDoc("电信RSRP")]
         public double TelecomRsrp { get; set; }
+
+        public double TelecomRate110 { get; set; }
+
+        public double TelecomRate105 { get; set; }
+
+        public double TelecomRate100 { get; set; }
+
+        public double MobileRate110 { get; set; }
+
+        public double MobileRate105 { get; set; }
+
+        public double MobileRate100 { get; set; }
+
+        public double UnicomRate110 { get; set; }
+
+        public double UnicomRate105 { get; set; }
+
+        public double UnicomRate100 { get; set; }
 
         [MemberDoc("统计日期")]
         public DateTime StatDate { get; set; }

@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Update_Online_Sustain : IMigrationMetadata
+    public sealed partial class Extend_Agis_Dt_Point : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Update_Online_Sustain));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Extend_Agis_Dt_Point));
         
         string IMigrationMetadata.Id
         {
-            get { return "201706201602171_Update_Online_Sustain"; }
+            get { return "201706270657570_Extend_Agis_Dt_Point"; }
         }
         
         string IMigrationMetadata.Source

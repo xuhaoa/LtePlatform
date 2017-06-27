@@ -100,6 +100,12 @@ namespace LtePlatform.Controllers.Mr
         {
             return _service.QueryTelecomCoverageViews(begin, end, district, town);
         }
+
+        [HttpPost]
+        public int Post(AgpsTownView view)
+        {
+            return _service.UpdateTelecomAgisDtPoint(view);
+        }
     }
 
     [ApiControl("AGPS移动覆盖情况查询控制器")]
