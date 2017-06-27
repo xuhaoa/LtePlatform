@@ -549,6 +549,7 @@
     <Content Include="appViews\Test\Simple\GridMenu.html" />
     <Content Include="appViews\Test\Simple\GridTooltip.html" />
     <Content Include="Areas\TestPage\Scripts\angular\route.js" />
+    <Content Include="Areas\TestPage\Scripts\qunit.route.js" />
     <Content Include="Content\angular-busy.css" />
     <Content Include="Content\angular-busy.min.css" />
     <Content Include="Content\angular-toggle-switch-bootstrap.css" />

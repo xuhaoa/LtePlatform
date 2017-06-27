@@ -14,6 +14,7 @@
 /// <reference path="../areas/testpage/scripts/html5csv/qtestcsv.post.js" />
 /// <reference path="../areas/testpage/scripts/html5csv/random.data.js" />
 /// <reference path="../areas/testpage/scripts/only.js" />
+/// <reference path="../areas/testpage/scripts/qunit.route.js" />
 /// <reference path="../areas/testpage/scripts/settimeout.js" />
 /// <reference path="../areas/testpage/scripts/single-testid.js" />
 /// <reference path="../areas/testpage/scripts/stack-errors.js" />
