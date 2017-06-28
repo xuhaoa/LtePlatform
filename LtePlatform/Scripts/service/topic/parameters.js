@@ -657,7 +657,7 @@
 						var yoffset = coors[index].lattitute - newCoor.lattitute;
 						var points = baiduMapService.drawMultiPoints(coors, interval.color, xoffset, yoffset);
 						if (coverageOverlays)
-							$scope.coverageOverlays.push(points);
+							coverageOverlays.push(points);
 					});
 				});
 			},
@@ -680,7 +680,7 @@
 								coor.lattitute + 0.00045 - yoffset
 							], interval.color);
 							if (coverageOverlays)
-								$scope.coverageOverlays.push(polygon);
+								coverageOverlays.push(polygon);
 						});
 
 					});
