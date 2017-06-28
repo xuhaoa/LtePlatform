@@ -1500,8 +1500,9 @@
         $scope.legend.intervals = [];
         $scope.legend.sign = legend.sign;
         $scope.currentDataLabel = "districtPoints";
-        $scope.showStats = function() {
-            coverageDialogService.showAgpsStats($scope.data);
+
+        $scope.showStats = function () {
+            coverageDialogService.showAgpsStats($scope.data, $scope.legend.criteria);
         };
         $scope.showTelecomCoverage = function () {
             $scope.currentView = "电信";

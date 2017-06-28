@@ -306,41 +306,43 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller("agps.stats", function ($scope, dialogTitle, stats, $uibModalInstance, $timeout, generalChartService) {
+    .controller("agps.stats", function ($scope, dialogTitle, stats, legend,
+        $uibModalInstance, $timeout, generalChartService) {
         $scope.dialogTitle = dialogTitle;
-        var operatorStats = [
-        {
-            operator: '移动主导',
-            count: _.countBy(stats, function (stat) { return stat.domination === '移动主导' })['true']
-        },
-        {
-            operator: '联通主导',
-            count: _.countBy(stats, function (stat) { return stat.domination === '联通主导' })['true']
-        },
-        {
-            operator: '电信主导',
-            count: _.countBy(stats, function (stat) { return stat.domination === '电信主导' })['true']
-        }];
+        var intervalStats = [];
+        var low = -10000;
+        angular.forEach(legend, function(interval) {
+            var high = interval.threshold;
+            intervalStats.push({
+                interval: '[' + low + ', ' + high + ')dBm',
+                count: _.countBy(stats, function(stat) { return stat.telecomRsrp - 140 >= low && stat.telecomRsrp - 140 < high })['true']
+            });
+            low = high;
+        });
+        intervalStats.push({
+            interval: 'RSRP >= ' + low + 'dBm',
+            count: _.countBy(stats, function (stat) { return stat.telecomRsrp - 140 >= low && stat.telecomRsrp - 140 < 10000 })['true']
+        });
         var counts = stats.length;
-        var operators = ['移动', '联通', '电信'];
+        var operators = ['-110dBm以上', '-105dBm以上', '-100dBm以上'];
         var coverages = [
-            _.countBy(stats, function (stat) { return stat.mobileRsrp >= -110 })['true'] / counts * 100,
-            _.countBy(stats, function (stat) { return stat.unicomRsrp >= -110 })['true'] / counts * 100,
-            _.countBy(stats, function (stat) { return stat.telecomRsrp >= -110 })['true'] / counts * 100
+            _.countBy(stats, function (stat) { return stat.telecomRsrp >= 30 })['true'] / counts * 100,
+            _.countBy(stats, function (stat) { return stat.telecomRsrp >= 35 })['true'] / counts * 100,
+            _.countBy(stats, function (stat) { return stat.telecomRsrp >= 40 })['true'] / counts * 100
         ];
         $timeout(function () {
-            $("#leftChart").highcharts(generalChartService.getPieOptions(operatorStats, {
-                title: '主导运营商分布比例',
-                seriesTitle: '主导运营商'
+            $("#leftChart").highcharts(generalChartService.getPieOptions(intervalStats, {
+                title: 'RSRP区间分布',
+                seriesTitle: 'RSRP区间'
             }, function (stat) {
-                return stat.operator;
+                return stat.interval;
             }, function (stat) {
                 return stat.count;
             }));
             $("#rightChart").highcharts(generalChartService.queryColumnOptions({
-                title: '运营商覆盖率比较（RSRP>=-110dBm）',
-                ytitle: '覆盖率（%）',
-                xtitle: '运营商',
+                title: 'RSRP覆盖优良率（%）',
+                ytitle: '覆盖优良率（%）',
+                xtitle: '覆盖标准',
                 min: 80,
                 max: 100
             }, operators, coverages));
@@ -733,7 +735,7 @@
                     }
                 });
             },
-            showAgpsStats: function (stats) {
+            showAgpsStats: function (stats, legend) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Home/DoubleChartDialog.html',
                     controller: 'agps.stats',
@@ -743,6 +745,9 @@
                         },
                         stats: function () {
                             return stats;
+                        },
+                        legend: function() {
+                            return legend;
                         }
                     }
                 });
