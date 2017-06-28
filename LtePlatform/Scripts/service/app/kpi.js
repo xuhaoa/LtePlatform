@@ -2534,6 +2534,33 @@ angular.module('kpi.coverage', ['myApp.url', 'myApp.region', "ui.bootstrap"])
             _.countBy(stats, function (stat) { return stat.telecomRsrp >= 35 })['true'] / counts * 100,
             _.countBy(stats, function (stat) { return stat.telecomRsrp >= 40 })['true'] / counts * 100
         ];
+        var rate100Intervals = [];
+        var rate105Intervals = [];
+        var thresholds = [
+            {
+                low: 0,
+                high: 0.5
+            }, {
+                low: 0.5,
+                high: 0.75
+            }, {
+                low: 0.75,
+                high: 0.9
+            }, {
+                low: 0.9,
+                high: 1.01
+            }
+        ];
+        angular.forEach(thresholds, function(threshold) {
+            rate100Intervals.push({
+                interval: '[' + threshold.low + ', ' + threshold.high + ')',
+                count: _.countBy(stats, function(stat) { return stat.telecomRate100 >= threshold.low && stat.telecomRate100 < threshold.high })['true']
+            });
+            rate105Intervals.push({
+                interval: '[' + threshold.low + ', ' + threshold.high + ')',
+                count: _.countBy(stats, function (stat) { return stat.telecomRate105 >= threshold.low && stat.telecomRate105 < threshold.high })['true']
+            });
+        });
         $timeout(function () {
             $("#leftChart").highcharts(generalChartService.getPieOptions(intervalStats, {
                 title: 'RSRP区间分布',
@@ -2550,6 +2577,22 @@ angular.module('kpi.coverage', ['myApp.url', 'myApp.region', "ui.bootstrap"])
                 min: 80,
                 max: 100
             }, operators, coverages));
+            $("#thirdChart").highcharts(generalChartService.getPieOptions(rate100Intervals, {
+                title: '覆盖率区间分布（RSRP>-100dBm）',
+                seriesTitle: '覆盖率区间'
+            }, function(stat) {
+                return stat.interval;
+            }, function(stat) {
+                return stat.count;
+            }));
+            $("#fourthChart").highcharts(generalChartService.getPieOptions(rate105Intervals, {
+                title: '覆盖率区间分布（RSRP>-105dBm）',
+                seriesTitle: '覆盖率区间'
+            }, function (stat) {
+                return stat.interval;
+            }, function (stat) {
+                return stat.count;
+            }));
         }, 500);
 
         $scope.ok = function () {
@@ -2941,7 +2984,7 @@ angular.module('kpi.coverage', ['myApp.url', 'myApp.region', "ui.bootstrap"])
             },
             showAgpsStats: function (stats, legend) {
                 menuItemService.showGeneralDialog({
-                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    templateUrl: '/appViews/Home/FourChartDialog.html',
                     controller: 'agps.stats',
                     resolve: {
                         dialogTitle: function () {
