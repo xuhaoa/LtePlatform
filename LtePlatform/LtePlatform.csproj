@@ -417,6 +417,7 @@
     <Content Include="appViews\BasicKpi\Common.html" />
     <Content Include="appViews\BasicKpi\CommonMenu.html" />
     <Content Include="appViews\BasicKpi\Construction.html" />
+    <Content Include="appViews\BasicKpi\GridApp.html" />
     <Content Include="appViews\BasicKpi\Quality.html" />
     <Content Include="appViews\BasicKpi\Resource.html" />
     <Content Include="appViews\BasicKpi\TopConnection3GTrend.html" />

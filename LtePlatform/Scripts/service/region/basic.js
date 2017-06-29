@@ -302,6 +302,11 @@
             },
             queryMicroItems: function() {
                 return generalHttpService.getApiData('MicroAmplifier', {});
+            },
+            queryGridClusters: function(theme) {
+                return generalHttpService.getApiData('GridCluster', {
+                    theme: theme
+                });
             }
         };
     })

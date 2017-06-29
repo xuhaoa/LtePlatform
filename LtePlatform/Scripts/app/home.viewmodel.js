@@ -273,7 +273,7 @@
                         controller: "menu.mr"
                     },
                     "contents": {
-                        templateUrl: viewDir + "MrGrid.html",
+                        templateUrl: "/appViews/BasicKpi/GridApp.html",
                         controller: "mr.app"
                     }
                 },
@@ -1044,7 +1044,7 @@
                     displayName: "栅格分析",
                     url: rootUrl + "/grid"
                 }, {
-                    displayName: "APP分析",
+                    displayName: "智能规划",
                     url: rootUrl + "/app"
                 }, {
                     displayName: "工单管控",
@@ -1777,10 +1777,20 @@
             }
         });
     })
-    .controller("mr.app", function ($scope, baiduMapService) {
+    .controller("mr.app", function ($scope, baiduMapService, alarmsService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
 
+        $scope.showCluster500List = function() {
+            alarmsService.queryGridClusters('500').then(function(list) {
+                $scope.dataList = list;
+            });
+        };
+        $scope.showCluster1000List = function () {
+            alarmsService.queryGridClusters('1000').then(function (list) {
+                $scope.dataList = list;
+            });
+        };
     })
 
     .controller("home.complain", function ($scope, baiduMapService, dumpPreciseService, complainService,
