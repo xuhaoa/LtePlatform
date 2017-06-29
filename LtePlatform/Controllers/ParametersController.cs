@@ -135,16 +135,19 @@ namespace LtePlatform.Controllers
         }
         
         [HttpPost]
-        public ActionResult ZteNeighborPost(HttpPostedFileBase[] neighborZte)
+        public async Task<ActionResult> ZteNeighborPost(HttpPostedFileBase[] neighborZte)
         {
-            if (neighborZte != null && neighborZte.Length > 0 && !string.IsNullOrEmpty(neighborZte[0]?.FileName))
+            if (neighborZte == null || neighborZte.Length <= 0 || string.IsNullOrEmpty(neighborZte[0]?.FileName))
+                return View("NeighborImport");
+            var count = 0;
+            foreach (var file in neighborZte)
             {
-                ViewBag.Message = "共上传AGIS信息文件" + neighborZte.Length + "个！";
-                foreach (var file in neighborZte)
-                {
-                    _neighborService.UploadAgisDtPoints(new StreamReader(file.InputStream, Encoding.GetEncoding("GB2312")));
-                }
+                count +=
+                    await
+                        _neighborService.UploadMrGridKpiPoints(new StreamReader(file.InputStream,
+                            Encoding.GetEncoding("GB2312")));
             }
+            ViewBag.Message = "共上传MR指标数据文件" + neighborZte.Length + "个！数据" + count + "条";
             return View("NeighborImport");
         }
 

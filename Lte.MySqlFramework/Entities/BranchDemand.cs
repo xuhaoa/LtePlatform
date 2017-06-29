@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
+using Lte.Domain.LinqToCsv;
 using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
@@ -178,5 +180,88 @@ namespace Lte.MySqlFramework.Entities
         public DateTime? BeginDate { get; set; }
 
         public DateTime? FininshDate { get; set; }
+    }
+
+    [AutoMapFrom(typeof(MrGridKpiDto))]
+    public class MrGridKpi : Entity
+    {
+        public int X { get; set; }
+
+        public int Y { get; set; }
+
+        public int MrCount { get; set; }
+
+        public int WeakCount { get; set; }
+
+        public double Rsrp { get; set; }
+
+        public int MrCountNormalize { get; set; }
+
+        public int WeakCountNormalize { get; set; }
+
+        public int RsrpNormalize { get; set; }
+
+        public int ShortestDistance { get; set; }
+    }
+
+    [AutoMapFrom(typeof(MrGridKpi))]
+    public class MrGridKpiDto : IGeoGridPoint<double>
+    {
+        [CsvColumn(Name = "X")]
+        public int X { get; set; }
+
+        [CsvColumn(Name = "Y")]
+        public int Y { get; set; }
+
+        public double Longtitute => 112 + X*0.00049;
+
+        public double Lattitute => 22 + Y*0.00045;
+
+        [CsvColumn(Name = "MR总数")]
+        public int MrCount { get; set; }
+
+        [CsvColumn(Name = "弱覆盖数")]
+        public int WeakCount { get; set; }
+
+        public double WeakCoverageRate => MrCount == 0 ? 0 : (double) WeakCount/MrCount;
+
+        [CsvColumn(Name = "平均RSRP")]
+        public double Rsrp { get; set; }
+
+        [CsvColumn(Name = "MR总数归一")]
+        public int MrCountNormalize { get; set; }
+
+        [CsvColumn(Name = "弱覆盖数归一")]
+        public int WeakCountNormalize { get; set; }
+
+        [CsvColumn(Name = "平均RSRP归一")]
+        public int RsrpNormalize { get; set; }
+
+        [CsvColumn(Name = "最近距离")]
+        public int ShortestDistance { get; set; }
+    }
+
+    public class GridCluster : Entity, IGeoGridPoint<double>
+    {
+        public string Theme { get; set; }
+
+        public int ClusterNumber { get; set; }
+
+        public int X { get; set; }
+
+        public int Y { get; set; }
+
+        public double Longtitute => 112 + X * 0.00049;
+
+        public double Lattitute => 22 + Y * 0.00045;
+    }
+
+    public class GridClusterView
+    {
+        public string Theme { get; set; }
+
+        public int ClusterNumber { get; set; }
+
+        public IEnumerable<GeoGridPoint> GridPoints { get; set; }
     }
 }

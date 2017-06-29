@@ -171,4 +171,24 @@ namespace LtePlatform.Controllers.Mr
             return _service.QueryAppSteams(statDate);
         } 
     }
+
+    [ApiControl("栅格分簇查询控制器")]
+    public class GridClusterController : ApiController
+    {
+        private readonly GridClusterService _service;
+
+        public GridClusterController(GridClusterService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        [ApiDoc("查询某专题下的栅格分簇")]
+        [ApiParameterDoc("theme", "专题名称")]
+        [ApiResponse("栅格分簇列表")]
+        public IEnumerable<GridClusterView> Get(string theme)
+        {
+            return _service.QueryClusterViews(theme);
+        } 
+    }
 }

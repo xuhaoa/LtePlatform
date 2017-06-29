@@ -228,6 +228,10 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IMobileAgpsRepository>().To<MobileAgpsRepository>();
 
+            ninjectKernel.Bind<IMrGridKpiRepository>().To<MrGridKpiRepository>();
+
+            ninjectKernel.Bind<IGridClusterRepository>().To<GridClusterRepository>();
+
             ninjectKernel.Bind<ENodebQueryService>().ToSelf();
 
             ninjectKernel.Bind<BluePrintService>().ToSelf();
@@ -343,6 +347,8 @@ namespace LtePlatform
             ninjectKernel.Bind<TownFlowService>().ToSelf();
 
             ninjectKernel.Bind<HotSpotService>().ToSelf();
+
+            ninjectKernel.Bind<GridClusterService>().ToSelf();
         }
     }
 }

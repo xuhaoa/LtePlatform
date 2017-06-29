@@ -100,6 +100,35 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
+    public class MrGridKpiRepository : EfRepositoryBase<MySqlContext, MrGridKpi>, IMrGridKpiRepository
+    {
+        public MrGridKpiRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public MrGridKpi Match(MrGridKpiDto stat)
+        {
+            return FirstOrDefault(x => x.X == stat.X && x.Y == stat.Y);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
+    public class GridClusterRepository : EfRepositoryBase<MySqlContext, GridCluster>, IGridClusterRepository
+    {
+        public GridClusterRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
     public class StationDictionaryRepository : EfRepositoryBase<MySqlContext, StationDictionary>,
         IStationDictionaryRepository
     {

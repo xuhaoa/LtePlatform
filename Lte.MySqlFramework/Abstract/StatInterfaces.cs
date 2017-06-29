@@ -74,6 +74,16 @@ namespace Lte.MySqlFramework.Abstract
         
     }
 
+    public interface IMrGridKpiRepository : IRepository<MrGridKpi>, IMatchRepository<MrGridKpi, MrGridKpiDto>, ISaveChanges
+    {
+        
+    }
+
+    public interface IGridClusterRepository : IRepository<GridCluster>, ISaveChanges
+    {
+        
+    }
+
     public interface IStationDictionaryRepository : IRepository<StationDictionary>,
         IMatchRepository<StationDictionary, StationDictionaryExcel>, ISaveChanges
     {

@@ -58,7 +58,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [TypeDoc("AGPS数据点数据结构")]
-    public class AgisDtPoint : Entity, IStatDate
+    public class AgisDtPoint : Entity, IStatDate, IGeoGridPoint<double>
     {
         [MemberDoc("统计主题")]
         public string Operator { get; set; }

@@ -236,6 +236,7 @@ namespace Lte.Evaluations.DataService.Mr
         
         private readonly IAppStreamRepository _streamRepository;
         private readonly IWebBrowsingRepository _browsingRepository;
+        private readonly IMrGridKpiRepository _mrGridKpiRepository;
 
         private readonly TownSupportService _service;
         private readonly AgpsService _agpsService;
@@ -248,7 +249,7 @@ namespace Lte.Evaluations.DataService.Mr
             ITownRepository townRepository, IMrGridRepository mrGridRepository,
             IAppStreamRepository streamRepository, IWebBrowsingRepository browsingRepository,
             ITownBoundaryRepository boundaryRepository, ITelecomAgpsRepository telecomAgpsRepository,
-            IMobileAgpsRepository mobileAgpsRepository)
+            IMobileAgpsRepository mobileAgpsRepository, IMrGridKpiRepository mrGridKpiRepository)
         {
             _repository = repository;
             _cellRepository = cellRepository;
@@ -257,6 +258,7 @@ namespace Lte.Evaluations.DataService.Mr
             
             _streamRepository = streamRepository;
             _browsingRepository = browsingRepository;
+            _mrGridKpiRepository = mrGridKpiRepository;
 
             _service = new TownSupportService(townRepository, boundaryRepository);
             _agpsService = new AgpsService(telecomAgpsRepository, mobileAgpsRepository, _agisRepository);
@@ -324,28 +326,10 @@ namespace Lte.Evaluations.DataService.Mr
             _repository.SaveChanges();
         }
 
-        public void UploadAgisDtPoints(StreamReader reader)
+        public async Task<int> UploadMrGridKpiPoints(StreamReader reader)
         {
-            string line;
-            int count = 0;
-            while (!string.IsNullOrEmpty(line = reader.ReadLine()))
-            {
-                var fields = line.Split(',');
-                var dtPoint = new AgisDtPoint
-                {
-                    Operator = fields[0],
-                    Longtitute = fields[1].ConvertToDouble(0),
-                    Lattitute = fields[2].ConvertToDouble(0),
-                    UnicomRsrp = fields[3].ConvertToDouble(-140),
-                    MobileRsrp = fields[4].ConvertToDouble(-140),
-                    TelecomRsrp = fields[5].ConvertToDouble(-140),
-                    StatDate = DateTime.Today.AddDays(-1)
-                };
-                _agisRepository.Insert(dtPoint);
-                if (count++%1000 == 0)
-                    _agisRepository.SaveChanges();
-            }
-            _agisRepository.SaveChanges();
+            var csvs = CsvContext.Read<MrGridKpiDto>(reader);
+            return await _mrGridKpiRepository.UpdateMany<IMrGridKpiRepository, MrGridKpi, MrGridKpiDto>(csvs);
 
         }
 
@@ -475,5 +459,32 @@ namespace Lte.Evaluations.DataService.Mr
 
             return _mrGridService.QueryCompeteGridViews(initialDate, district, compete, boundaries);
         }
+    }
+
+    public class GridClusterService
+    {
+        private readonly IGridClusterRepository _repository;
+
+        public GridClusterService(IGridClusterRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public IEnumerable<GridClusterView> QueryClusterViews(string theme)
+        {
+            return
+                _repository.GetAllList(x => x.Theme == theme)
+                    .GroupBy(x => x.ClusterNumber)
+                    .Select(g => new GridClusterView
+                    {
+                        ClusterNumber = g.Key,
+                        Theme = theme,
+                        GridPoints = g.Select(x => new GeoGridPoint
+                        {
+                            X = x.X,
+                            Y = x.Y
+                        })
+                    });
+        } 
     }
 }

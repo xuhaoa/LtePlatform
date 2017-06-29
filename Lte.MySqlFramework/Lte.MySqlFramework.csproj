@@ -158,13 +158,13 @@
     <Compile Include="Entities\PlanningSite.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
-    <Compile Include="Migrations\201706201624230_Update_Online_Sustain1.cs" />
-    <Compile Include="Migrations\201706201624230_Update_Online_Sustain1.Designer.cs">
-      <DependentUpon>201706201624230_Update_Online_Sustain1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201706270657570_Extend_Agis_Dt_Point.cs" />
     <Compile Include="Migrations\201706270657570_Extend_Agis_Dt_Point.Designer.cs">
       <DependentUpon>201706270657570_Extend_Agis_Dt_Point.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706290842226_Add_MrGrid_Cluster_Kpi.cs" />
+    <Compile Include="Migrations\201706290842226_Add_MrGrid_Cluster_Kpi.Designer.cs">
+      <DependentUpon>201706290842226_Add_MrGrid_Cluster_Kpi.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -175,11 +175,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706201624230_Update_Online_Sustain1.resx">
-      <DependentUpon>201706201624230_Update_Online_Sustain1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706270657570_Extend_Agis_Dt_Point.resx">
       <DependentUpon>201706270657570_Extend_Agis_Dt_Point.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706290842226_Add_MrGrid_Cluster_Kpi.resx">
+      <DependentUpon>201706290842226_Add_MrGrid_Cluster_Kpi.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -13,7 +13,15 @@ namespace Lte.Domain.Common.Geo
     public interface IGeoPoint<T>
     {
         T Longtitute { get; set; }
+
         T Lattitute { get; set; }
+    }
+
+    public interface IGeoGridPoint<out T> : IGeoPointReadonly<T>
+    {
+        int X { get; set; }
+
+        int Y { get; set; }
     }
 
     public static class GeoPointOperations
