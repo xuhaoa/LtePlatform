@@ -20,6 +20,9 @@
         <button type="submit" class="btn btn-sm btn-primary" ng-click="queryAgps()">
             查询
         </button>
+        <button class="btn btn-sm btn-default" ng-click="showInfrasturcture()">
+            基站小区
+        </button>
         <br/>
         <div ng-show="type.selected === '电信'">
             <button ng-disabled="!telecomAgps.length" ng-click="updateTelecomAgps()" class="btn btn-sm btn-warning">更新</button>

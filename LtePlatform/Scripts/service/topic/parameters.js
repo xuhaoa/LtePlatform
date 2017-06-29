@@ -513,17 +513,20 @@
 	})
 	.factory('parametersMapService', function(baiduMapService, networkElementService, baiduQueryService, workItemDialog,
 		neGeometryService, collegeQueryService, appRegionService, parametersDialogService, collegeService) {
-		var showCellSectors = function(cells, xOffset, yOffset, beginDate, endDate) {
+		var showCellSectors = function(cells, xOffset, yOffset, beginDate, endDate, cellOverlays) {
 			angular.forEach(cells, function(cell) {
 				cell.longtitute += xOffset;
 				cell.lattitute += yOffset;
 				var cellSector = baiduMapService.generateSector(cell);
+				if (cellOverlays) {
+					cellOverlays.push(cellSector);
+				}
 				baiduMapService.addOneSectorToScope(cellSector, function(item) {
 					parametersDialogService.showCellInfo(item, beginDate, endDate);
 				}, cell);
 			});
 		};
-		var showENodebsElements = function(eNodebs, beginDate, endDate, shouldShowCells) {
+		var showENodebsElements = function(eNodebs, beginDate, endDate, shouldShowCells, siteOverlays, cellOverlays) {
 			baiduQueryService.transformToBaidu(eNodebs[0].longtitute, eNodebs[0].lattitute).then(function(coors) {
 				var xOffset = coors.x - eNodebs[0].longtitute;
 				var yOffset = coors.y - eNodebs[0].lattitute;
@@ -532,12 +535,15 @@
 					eNodeb.lattitute += yOffset;
 					var marker = baiduMapService.generateIconMarker(eNodeb.longtitute, eNodeb.lattitute,
 						"/Content/Images/Hotmap/site_or.png");
+					if (siteOverlays) {
+						siteOverlays.push(marker);
+					}
 					baiduMapService.addOneMarkerToScope(marker, function(item) {
 						parametersDialogService.showENodebInfo(item, beginDate, endDate);
 					}, eNodeb);
 					if (shouldShowCells) {
 						networkElementService.queryCellInfosInOneENodebUse(eNodeb.eNodebId).then(function(cells) {
-							showCellSectors(cells, xOffset, yOffset, beginDate, endDate);
+							showCellSectors(cells, xOffset, yOffset, beginDate, endDate, cellOverlays);
 						});
 					}
 
@@ -584,9 +590,9 @@
 			});
 		};
 		return {
-			showElementsInOneTown: function(city, district, town, beginDate, endDate) {
+			showElementsInOneTown: function(city, district, town, beginDate, endDate, siteOverlays, cellOverlays) {
 				networkElementService.queryENodebsInOneTownUse(city, district, town).then(function(eNodebs) {
-					showENodebsElements(eNodebs, beginDate, endDate, true);
+					showENodebsElements(eNodebs, beginDate, endDate, true, siteOverlays, cellOverlays);
 				});
 			},
 			showHotSpotCellSectors: function(hotSpotName, beginDate, endDate) {

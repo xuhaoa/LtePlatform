@@ -1501,7 +1501,9 @@
         $scope.legend.sign = legend.sign;
         $scope.currentDataLabel = "districtPoints";
         $scope.overlays = {
-            coverage: []
+            coverage: [],
+            sites: [],
+            cells: []
         };
         $scope.initializeMap = function() {
             $scope.overlays.coverage = [];
@@ -1512,21 +1514,33 @@
         $scope.showStats = function () {
             coverageDialogService.showAgpsStats($scope.data, $scope.legend.criteria);
         };
+        $scope.showInfrasturcture = function() {
+            angular.forEach($scope.overlays.sites, function(site) {
+                baiduMapService.removeOverlay(site);
+            });
+            $scope.overlays.sites = [];
+            angular.forEach($scope.overlays.cells, function(cell) {
+                baiduMapService.removeOverlay(cell);
+            });
+            $scope.overlays.cells = [];
+            parametersMapService.showElementsInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected,
+                $scope.beginDate, $scope.endDate, $scope.overlays.sites, $scope.overlays.cells);
+        };
 
         $scope.showTelecomCoverage = function () {
             $scope.currentView = "电信";
             $scope.initializeMap();
-            baiduMapService.setCellFocus($scope.data[0].longtitute, $scope.data[0].lattitute, 15);
+            var index = parseInt($scope.data.length / 2);
+            baiduMapService.setCellFocus($scope.data[index].longtitute, $scope.data[index].lattitute, 15);
             $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
             kpiDisplayService.generateTelecomRsrpPoints($scope.coveragePoints, $scope.data);
             parametersMapService.showIntervalPoints($scope.coveragePoints.intervals, $scope.overlays.coverage);
-            parametersMapService.showElementsInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected,
-                $scope.beginDate, $scope.endDate);
         };
         $scope.displayTelecomAgps = function() {
             $scope.currentView = "电信";
             $scope.initializeMap();
-            baiduMapService.setCellFocus($scope.telecomAgps[0].longtitute, $scope.telecomAgps[0].lattitute, 15);
+            var index = parseInt($scope.data.length);
+            baiduMapService.setCellFocus($scope.data[index].longtitute, $scope.data[index].lattitute, 15);
             $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
             kpiDisplayService.generateAverageRsrpPoints($scope.coveragePoints, $scope.telecomAgps);
             parametersMapService.showIntervalPoints($scope.coveragePoints.intervals, $scope.overlays.coverage);
