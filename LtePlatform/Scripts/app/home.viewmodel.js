@@ -1539,8 +1539,8 @@
         $scope.displayTelecomAgps = function() {
             $scope.currentView = "电信";
             $scope.initializeMap();
-            var index = parseInt($scope.data.length);
-            baiduMapService.setCellFocus($scope.data[index].longtitute, $scope.data[index].lattitute, 15);
+            var index = parseInt($scope.telecomAgps.length / 2);
+            baiduMapService.setCellFocus($scope.telecomAgps[index].longtitute, $scope.telecomAgps[index].lattitute, 15);
             $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
             kpiDisplayService.generateAverageRsrpPoints($scope.coveragePoints, $scope.telecomAgps);
             parametersMapService.showIntervalPoints($scope.coveragePoints.intervals, $scope.overlays.coverage);
@@ -1567,19 +1567,22 @@
             });
             appUrlService.refreshIndexedDb($scope.indexedDB.db, $scope.currentDataLabel, 'topic', items);
         };
-        $scope.showDistrictRange = function() {
-            coverageService.queryAgisDtPointsByTopic($scope.beginDate.value, $scope.endDate.value, '禅城').then(function (result) {
-                $scope.data = result;
-                $scope.currentDataLabel = 'districtPoints';
-                $scope.updateIndexedData();
-                $scope.showTelecomCoverage();
-            });
-        };
         $scope.queryAndDisplayTelecom = function() {
             coverageService.queryAgisDtPointsByTopic($scope.beginDate.value, $scope.endDate.value, $scope.district.selected+$scope.town.selected).then(function (result) {
                 $scope.data = result;
                 $scope.showTelecomCoverage();
             });
+        };
+        $scope.showTelecomWeakCoverage = function () {
+            $scope.currentView = "电信";
+            $scope.initializeMap();
+            var weakData = _.filter($scope.data, function (stat) { return stat.telecomRsrp < 40; });
+            if (!weakData) return;
+            var index = parseInt(weakData.length / 2);
+            baiduMapService.setCellFocus(weakData[index].longtitute, weakData[index].lattitute, 15);
+            $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+            kpiDisplayService.generateTelecomRsrpPoints($scope.coveragePoints, weakData);
+            parametersMapService.showIntervalGrids($scope.coveragePoints.intervals, $scope.overlays.coverage);
         };
         $scope.showSmallRange = function() {
             coverageService.queryAgisDtPointsByTopic($scope.beginDate.value, $scope.endDate.value, '小范围').then(function(result) {
@@ -1590,17 +1593,6 @@
             });
         };
 
-        $scope.switchData = function() {
-            if ($scope.currentDataLabel === 'districtPoints') {
-                $scope.currentDataLabel = 'rangePoints';
-            } else {
-                $scope.currentDataLabel = 'districtPoints';
-            }
-            appUrlService.fetchStoreByCursor($scope.indexedDB.db, $scope.currentDataLabel, function (items) {
-                $scope.data = items;
-                $scope.showTelecomCoverage();
-            });
-        };
         $scope.queryAgps = function() {
             switch ($scope.type.selected) {
                 case '电信':
@@ -1622,12 +1614,6 @@
 
             });
         };
-        appUrlService.initializeIndexedDb($scope.indexedDB, ['districtPoints','rangePoints'], "topic", function () {
-            appUrlService.fetchStoreByCursor($scope.indexedDB.db, 'districtPoints', function(items) {
-                $scope.data = items;
-                //$scope.showTelecomCoverage();
-            });
-        });
         $scope.type = {
             options: ['电信', '移动', '联通'],
             selected: '电信'
