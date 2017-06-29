@@ -373,7 +373,43 @@ namespace Lte.Evaluations.DataService.Mr
         public IEnumerable<AgisDtPoint> QueryAgisDtPoints(DateTime begin, DateTime end)
         {
             var points = _agisRepository.GetAllList(x => x.StatDate > begin && x.StatDate <= end);
-            return points;
+            if (!points.Any()) return new List<AgisDtPoint>();
+            return points.GroupBy(x => new {x.X, x.Y}).Select(g =>
+            {
+                var telecomGroups = g.Where(x => x.TelecomRsrp > 0).ToList();
+                var mobileGroups = g.Where(x => x.MobileRsrp > 0).ToList();
+                var unicomGroups = g.Where(x => x.UnicomRsrp > 0).ToList();
+                var stat = new AgisDtPoint
+                {
+                    X = g.Key.X,
+                    Y = g.Key.Y,
+                    Longtitute = g.First().Longtitute,
+                    Lattitute = g.First().Lattitute,
+                    StatDate = g.First().StatDate
+                };
+                if (telecomGroups.Any())
+                {
+                    stat.TelecomRsrp = telecomGroups.Average(x => x.TelecomRsrp);
+                    stat.TelecomRate100 = telecomGroups.Average(x => x.TelecomRate100);
+                    stat.TelecomRate105 = telecomGroups.Average(x => x.TelecomRate105);
+                    stat.TelecomRate110 = telecomGroups.Average(x => x.TelecomRate110);
+                }
+                if (mobileGroups.Any())
+                {
+                    stat.MobileRsrp = mobileGroups.Average(x => x.MobileRsrp);
+                    stat.MobileRate100 = mobileGroups.Average(x => x.MobileRate100);
+                    stat.MobileRate105 = mobileGroups.Average(x => x.MobileRate105);
+                    stat.MobileRate110 = mobileGroups.Average(x => x.MobileRate110);
+                }
+                if (unicomGroups.Any())
+                {
+                    stat.UnicomRsrp = unicomGroups.Average(x => x.UnicomRsrp);
+                    stat.UnicomRate100 = unicomGroups.Average(x => x.UnicomRate100);
+                    stat.UnicomRate105 = unicomGroups.Average(x => x.UnicomRate105);
+                    stat.UnicomRate110 = unicomGroups.Average(x => x.UnicomRate110);
+                }
+                return stat;
+            });
         }
 
         public IEnumerable<AgisDtPoint> QueryAgisDtPoints(DateTime begin, DateTime end, string topic)

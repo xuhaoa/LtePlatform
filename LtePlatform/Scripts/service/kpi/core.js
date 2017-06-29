@@ -341,7 +341,7 @@
             generateTelecomRsrpPoints: function(pointDef, points) {
                 calculateService.generateCoveragePointsWithOffset(pointDef, points, function (point) {
                     return point.telecomRsrp - 140;
-                }, 0.00049, 0.00045);
+                }, 0.000245, 0.000225);
             },
             generateUnicomRsrpPoints: function(pointDef, points) {
                 calculateService.generateCoveragePointsWithFunc(pointDef, points, function(point) {
@@ -351,7 +351,7 @@
             generateAverageRsrpPoints: function (pointDef, points) {
                 calculateService.generateCoveragePointsWithOffset(pointDef, points, function (point) {
                     return point.averageRsrp - 140;
-                }, 0.00049, 0.00045);
+                }, 0.000245, 0.000225);
             },
             updateCoverageKpi: function(neighbor, cell, dateSpan) {
                 topPreciseService.queryCoverage(dateSpan.begin, dateSpan.end,
