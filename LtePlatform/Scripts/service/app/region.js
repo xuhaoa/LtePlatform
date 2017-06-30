@@ -307,6 +307,12 @@ angular.module('region.basic', ['app.core'])
                 return generalHttpService.getApiData('GridCluster', {
                     theme: theme
                 });
+            },
+            queryClusterGridKpis: function(points) {
+                return generalHttpService.postApiData('GridCluster', points);
+            },
+            queryClusterKpi: function (points) {
+                return generalHttpService.putApiData('GridCluster', points);
             }
         };
     })

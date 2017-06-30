@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Lte.Domain.Common.Geo;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.DataService.Mr;
 using Lte.MySqlFramework.Entities;
@@ -189,6 +190,18 @@ namespace LtePlatform.Controllers.Mr
         public IEnumerable<GridClusterView> Get(string theme)
         {
             return _service.QueryClusterViews(theme);
-        } 
+        }
+
+        [HttpPost]
+        public IEnumerable<MrGridKpiDto> Post(IEnumerable<GeoGridPoint> points)
+        {
+            return _service.QueryKpiDtos(points);
+        }
+
+        [HttpPut]
+        public MrGridKpiDto Put(IEnumerable<GeoGridPoint> points)
+        {
+            return _service.QueryClusterKpi(points);
+        }
     }
 }

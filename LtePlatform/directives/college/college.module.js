@@ -337,7 +337,7 @@
             argumentName: 'collegeList'
         }, $compile);
     })
-    .controller('GridClusterController', function($scope) {
+    .controller('GridClusterController', function ($scope, alarmsService) {
         $scope.gridOptions = {
             columnDefs: [
                 { field: 'clusterNumber', name: '簇编号' },
@@ -352,6 +352,11 @@
                 }
             ],
             data: []
+        };
+        $scope.showDetails = function(item) {
+            alarmsService.queryClusterGridKpis(item.gridPoints).then(function(list) {
+                $scope.currentCluster.list = list;
+            });
         };
     })
     .directive('gridClusterTable', function ($compile, calculateService) {

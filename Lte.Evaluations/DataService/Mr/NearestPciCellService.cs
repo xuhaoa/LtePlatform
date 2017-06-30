@@ -464,10 +464,12 @@ namespace Lte.Evaluations.DataService.Mr
     public class GridClusterService
     {
         private readonly IGridClusterRepository _repository;
+        private readonly IMrGridKpiRepository _kpiRepository;
 
-        public GridClusterService(IGridClusterRepository repository)
+        public GridClusterService(IGridClusterRepository repository, IMrGridKpiRepository kpiRepository)
         {
             _repository = repository;
+            _kpiRepository = kpiRepository;
         }
 
         public IEnumerable<GridClusterView> QueryClusterViews(string theme)
@@ -485,6 +487,24 @@ namespace Lte.Evaluations.DataService.Mr
                             Y = x.Y
                         })
                     });
-        } 
+        }
+
+        public IEnumerable<MrGridKpiDto> QueryKpiDtos(IEnumerable<GeoGridPoint> points)
+        {
+            var stats =
+                points.Select(point => _kpiRepository.FirstOrDefault(t => t.X == point.X && t.Y == point.Y))
+                    .Where(stat => stat != null)
+                    .ToList();
+            return stats.MapTo<IEnumerable<MrGridKpiDto>>();
+        }
+
+        public MrGridKpiDto QueryClusterKpi(IEnumerable<GeoGridPoint> points)
+        {
+            var stats =
+                points.Select(point => _kpiRepository.FirstOrDefault(t => t.X == point.X && t.Y == point.Y))
+                    .Where(stat => stat != null)
+                    .ToList();
+            return stats.Average().MapTo<MrGridKpiDto>();
+        }
     }
 }

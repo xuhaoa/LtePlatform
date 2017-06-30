@@ -1783,12 +1783,25 @@
         $scope.currentCluster = {
             list: []
         };
+        $scope.calculateCoordinate = function (list) {
+            angular.forEach(list, function(item) {
+                var sum = _.reduce(item.gridPoints, function(memo, num) {
+                    return {
+                        longtitute: memo.longtitute + num.longtitute,
+                        lattitute: memo.lattitute + num.lattitute
+                    };
+                });
+                item.longtitute = sum.longtitute / item.gridPoints.length;
+                item.lattitute = sum.lattitute / item.gridPoints.length;
+            });
+        };
 
         $scope.showCluster500List = function () {
             if ($scope.cluster500List) {
                 coverageDialogService.showGridClusterStats("500个分簇结构", $scope.cluster500List, $scope.currentCluster);
             } else {
-                alarmsService.queryGridClusters('500').then(function(list) {
+                alarmsService.queryGridClusters('500').then(function (list) {
+                    $scope.calculateCoordinate(list);
                     $scope.cluster500List = list;
                     coverageDialogService.showGridClusterStats("500个分簇结构", $scope.cluster500List, $scope.currentCluster);
                 });
@@ -1799,7 +1812,8 @@
             if ($scope.cluster1000List) {
                 coverageDialogService.showGridClusterStats("1000个分簇结构", $scope.cluster1000List, $scope.currentCluster);
             } else {
-                alarmsService.queryGridClusters('1000').then(function(list) {
+                alarmsService.queryGridClusters('1000').then(function (list) {
+                    $scope.calculateCoordinate(list);
                     $scope.cluster1000List = list;
                     coverageDialogService.showGridClusterStats("1000个分簇结构", $scope.cluster1000List, $scope.currentCluster);
                 });
@@ -1808,7 +1822,7 @@
         };
     })
 
-    .controller("home.complain", function ($scope, baiduMapService, dumpPreciseService, complainService,
+    .controller("home.complain", function ($scope, baiduMapService, dumpPreciseService, complainService,mapDialogService,
         collegeMapService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
