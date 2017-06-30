@@ -336,4 +336,31 @@
             },
             argumentName: 'collegeList'
         }, $compile);
+    })
+    .controller('GridClusterController', function($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'clusterNumber', name: '簇编号' },
+                { field: 'longtitute', name: '经度' },
+                { field: 'lattitute', name: '纬度' },
+                { field: 'rsrp', name: '平均RSRP' },
+                { field: 'weakRate', name: '弱覆盖率' },
+                { field: 'gridPoints.length', name: '栅格个数' },
+                {
+                    name: '详细信息',
+                    cellTemplate: '<button class="btn btn-sm btn-success" ng-click="grid.appScope.showDetails(row.entity)">详细</button>'
+                }
+            ],
+            data: []
+        };
+    })
+    .directive('gridClusterTable', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'GridClusterController',
+            scope: {
+                clusterList: '=',
+                currentCluster: '='
+            },
+            argumentName: 'clusterList'
+        }, $compile);
     });

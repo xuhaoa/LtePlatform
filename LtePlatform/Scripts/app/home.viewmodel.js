@@ -1777,19 +1777,34 @@
             }
         });
     })
-    .controller("mr.app", function ($scope, baiduMapService, alarmsService) {
+    .controller("mr.app", function ($scope, baiduMapService, alarmsService, coverageDialogService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+        $scope.currentCluster = {
+            list: []
+        };
 
-        $scope.showCluster500List = function() {
-            alarmsService.queryGridClusters('500').then(function(list) {
-                $scope.dataList = list;
-            });
+        $scope.showCluster500List = function () {
+            if ($scope.cluster500List) {
+                coverageDialogService.showGridClusterStats("500个分簇结构", $scope.cluster500List, $scope.currentCluster);
+            } else {
+                alarmsService.queryGridClusters('500').then(function(list) {
+                    $scope.cluster500List = list;
+                    coverageDialogService.showGridClusterStats("500个分簇结构", $scope.cluster500List, $scope.currentCluster);
+                });
+            }
+
         };
         $scope.showCluster1000List = function () {
-            alarmsService.queryGridClusters('1000').then(function (list) {
-                $scope.dataList = list;
-            });
+            if ($scope.cluster1000List) {
+                coverageDialogService.showGridClusterStats("1000个分簇结构", $scope.cluster1000List, $scope.currentCluster);
+            } else {
+                alarmsService.queryGridClusters('1000').then(function(list) {
+                    $scope.cluster1000List = list;
+                    coverageDialogService.showGridClusterStats("1000个分簇结构", $scope.cluster1000List, $scope.currentCluster);
+                });
+            }
+
         };
     })
 

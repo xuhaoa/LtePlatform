@@ -306,6 +306,20 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
+    .controller("grid.cluster", function ($scope, dialogTitle, clusterList, currentCluster,
+        $uibModalInstance) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.clusterList = clusterList;
+        $scope.currentCluster = currentCluster;
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.city);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .controller("agps.stats", function ($scope, dialogTitle, stats, legend,
         $uibModalInstance, $timeout, generalChartService) {
         $scope.dialogTitle = dialogTitle;
@@ -774,6 +788,23 @@
                         },
                         stats: function () {
                             return stats;
+                        }
+                    }
+                });
+            },
+            showGridClusterStats: function (theme, clusterList, currentCluster) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/BasicKpi/GridClusterDialog.html',
+                    controller: 'grid.cluster',
+                    resolve: {
+                        dialogTitle: function () {
+                            return theme + "栅格簇信息";
+                        },
+                        clusterList: function () {
+                            return clusterList;
+                        },
+                        currentCluster: function () {
+                            return currentCluster;
                         }
                     }
                 });
