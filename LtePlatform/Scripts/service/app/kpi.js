@@ -333,6 +333,11 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                     }
                 });
             },
+            generateRealRsrpPoints: function (pointDef, points) {
+                calculateService.generateCoveragePointsWithOffset(pointDef, points, function (point) {
+                    return point.rsrp;
+                }, 0.000245, 0.000225);
+            },
             generateMobileRsrpPoints: function(pointDef, points) {
                 calculateService.generateCoveragePointsWithFunc(pointDef, points, function(point) {
                     return point.mobileRsrp;
@@ -2517,7 +2522,7 @@ angular.module('kpi.coverage', ['myApp.url', 'myApp.region', "ui.bootstrap"])
         $scope.currentCluster = currentCluster;
 
         $scope.ok = function () {
-            $uibModalInstance.close($scope.city);
+            $uibModalInstance.close($scope.currentCluster);
         };
 
         $scope.cancel = function () {
@@ -2996,8 +3001,8 @@ angular.module('kpi.coverage', ['myApp.url', 'myApp.region', "ui.bootstrap"])
                     }
                 });
             },
-            showGridClusterStats: function (theme, clusterList, currentCluster) {
-                menuItemService.showGeneralDialog({
+            showGridClusterStats: function (theme, clusterList, currentCluster, action) {
+                menuItemService.showGeneralDialogWithAction({
                     templateUrl: '/appViews/BasicKpi/GridClusterDialog.html',
                     controller: 'grid.cluster',
                     resolve: {
@@ -3011,7 +3016,7 @@ angular.module('kpi.coverage', ['myApp.url', 'myApp.region', "ui.bootstrap"])
                             return currentCluster;
                         }
                     }
-                });
+                }, action);
             },
             showAgpsStats: function (stats, legend) {
                 menuItemService.showGeneralDialog({

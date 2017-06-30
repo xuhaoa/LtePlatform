@@ -333,6 +333,11 @@
                     }
                 });
             },
+            generateRealRsrpPoints: function (pointDef, points) {
+                calculateService.generateCoveragePointsWithOffset(pointDef, points, function (point) {
+                    return point.rsrp;
+                }, 0.000245, 0.000225);
+            },
             generateMobileRsrpPoints: function(pointDef, points) {
                 calculateService.generateCoveragePointsWithFunc(pointDef, points, function(point) {
                     return point.mobileRsrp;

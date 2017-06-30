@@ -568,7 +568,7 @@
         "coverage": ""
     })
 
-    .run(function ($rootScope, appUrlService, appRegionService, geometryService) {
+    .run(function ($rootScope, appUrlService, appRegionService, geometryService, kpiDisplayService) {
         $rootScope.rootPath = "/#/";
 
         $rootScope.page = {
@@ -638,6 +638,13 @@
             $rootScope.legend.title = $rootScope.city.selected;
             $rootScope.legend.intervals = [];
             $rootScope.legend.criteria = [];
+        };
+        $rootScope.initializeRsrpLegend = function () {
+            var legend = kpiDisplayService.queryCoverageLegend('RSRP');
+            $rootScope.legend.title = 'RSRP';
+            $rootScope.legend.criteria = legend.criteria;
+            $rootScope.legend.intervals = [];
+            $rootScope.legend.sign = legend.sign;
         };
         $rootScope.initializeFaultLegend = function(colors) {
             $rootScope.legend.title = "故障状态";
@@ -1494,11 +1501,6 @@
         coverageDialogService, dumpPreciseService, appRegionService) {
         baiduMapService.initializeMap("map", 13);
         
-        var legend = kpiDisplayService.queryCoverageLegend('RSRP');
-        $scope.legend.title = 'RSRP';
-        $scope.legend.criteria = legend.criteria;
-        $scope.legend.intervals = [];
-        $scope.legend.sign = legend.sign;
         $scope.currentDataLabel = "districtPoints";
         $scope.overlays = {
             coverage: [],
@@ -1618,6 +1620,7 @@
             options: ['电信', '移动', '联通'],
             selected: '电信'
         };
+        $scope.initializeRsrpLegend();
         $scope.$watch('city.selected', function (city) {
             if (city) {
                 var districts = [];
@@ -1777,9 +1780,21 @@
             }
         });
     })
-    .controller("mr.app", function ($scope, baiduMapService, alarmsService, coverageDialogService) {
+    .controller("mr.app", function ($scope, baiduMapService, alarmsService, coverageDialogService, kpiDisplayService,
+        parametersMapService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
+        $scope.overlays = {
+            coverage: [],
+            sites: [],
+            cells: []
+        };
+        $scope.initializeMap = function () {
+            $scope.overlays.coverage = [];
+            baiduMapService.clearOverlays();
+            baiduMapService.addCityBoundary("佛山");
+        };
+        
         $scope.currentCluster = {
             list: []
         };
@@ -1795,27 +1810,42 @@
                 item.lattitute = sum.lattitute / item.gridPoints.length;
             });
         };
+        $scope.showCurrentCluster = function() {
+            $scope.initializeRsrpLegend();
+            $scope.initializeMap();
+            var gridList = $scope.currentCluster.list;
+            if (!gridList.length) return;
+            var index = parseInt(gridList.length / 2);
+            baiduMapService.setCellFocus(gridList[index].longtitute, gridList[index].lattitute, 15);
+            $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+            kpiDisplayService.generateRealRsrpPoints($scope.coveragePoints, gridList);
+            parametersMapService.showIntervalGrids($scope.coveragePoints.intervals, $scope.overlays.coverage);
+        };
 
         $scope.showCluster500List = function () {
             if ($scope.cluster500List) {
-                coverageDialogService.showGridClusterStats("500个分簇结构", $scope.cluster500List, $scope.currentCluster);
+                coverageDialogService.showGridClusterStats("500个分簇结构", $scope.cluster500List, $scope.currentCluster,
+                    $scope.showCurrentCluster);
             } else {
                 alarmsService.queryGridClusters('500').then(function (list) {
                     $scope.calculateCoordinate(list);
                     $scope.cluster500List = list;
-                    coverageDialogService.showGridClusterStats("500个分簇结构", $scope.cluster500List, $scope.currentCluster);
+                    coverageDialogService.showGridClusterStats("500个分簇结构", $scope.cluster500List, $scope.currentCluster,
+                        $scope.showCurrentCluster);
                 });
             }
 
         };
         $scope.showCluster1000List = function () {
             if ($scope.cluster1000List) {
-                coverageDialogService.showGridClusterStats("1000个分簇结构", $scope.cluster1000List, $scope.currentCluster);
+                coverageDialogService.showGridClusterStats("1000个分簇结构", $scope.cluster1000List, $scope.currentCluster,
+                    $scope.showCurrentCluster);
             } else {
                 alarmsService.queryGridClusters('1000').then(function (list) {
                     $scope.calculateCoordinate(list);
                     $scope.cluster1000List = list;
-                    coverageDialogService.showGridClusterStats("1000个分簇结构", $scope.cluster1000List, $scope.currentCluster);
+                    coverageDialogService.showGridClusterStats("1000个分簇结构", $scope.cluster1000List, $scope.currentCluster,
+                        $scope.showCurrentCluster);
                 });
             }
 

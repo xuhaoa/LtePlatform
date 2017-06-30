@@ -313,7 +313,7 @@
         $scope.currentCluster = currentCluster;
 
         $scope.ok = function () {
-            $uibModalInstance.close($scope.city);
+            $uibModalInstance.close($scope.currentCluster);
         };
 
         $scope.cancel = function () {
@@ -792,8 +792,8 @@
                     }
                 });
             },
-            showGridClusterStats: function (theme, clusterList, currentCluster) {
-                menuItemService.showGeneralDialog({
+            showGridClusterStats: function (theme, clusterList, currentCluster, action) {
+                menuItemService.showGeneralDialogWithAction({
                     templateUrl: '/appViews/BasicKpi/GridClusterDialog.html',
                     controller: 'grid.cluster',
                     resolve: {
@@ -807,7 +807,7 @@
                             return currentCluster;
                         }
                     }
-                });
+                }, action);
             },
             showAgpsStats: function (stats, legend) {
                 menuItemService.showGeneralDialog({
