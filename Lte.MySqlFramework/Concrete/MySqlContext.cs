@@ -107,5 +107,7 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<MrGridKpi> MrGridKpis { get; set; }
 
         public DbSet<GridCluster> GridClusters { get; set; }
+
+        public DbSet<DpiGridKpi> DpiGridKpis { get; set; }
     }
 }

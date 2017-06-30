@@ -241,6 +241,42 @@ namespace Lte.MySqlFramework.Entities
         public int ShortestDistance { get; set; }
     }
 
+    [AutoMapFrom(typeof(DpiGridKpiDto))]
+    public class DpiGridKpi : Entity
+    {
+        public int X { get; set; }
+
+        public int Y { get; set; }
+
+        public double FirstPacketDelay { get; set; }
+
+        public double FirstPacketDelayClass { get; set; }
+
+        public double PageOpenDelay { get; set; }
+
+        public double PageOpenDelayClass { get; set; }
+    }
+
+    [AutoMapFrom(typeof(DpiGridKpi))]
+    public class DpiGridKpiDto : IGeoGridPoint<double>
+    {
+        public int X { get; set; }
+        
+        public int Y { get; set; }
+
+        public double Longtitute => 112 + X * 0.00049;
+
+        public double Lattitute => 22 + Y * 0.00045;
+
+        public double FirstPacketDelay { get; set; }
+
+        public double FirstPacketDelayClass { get; set; }
+
+        public double PageOpenDelay { get; set; }
+
+        public double PageOpenDelayClass { get; set; }
+    }
+
     public class GridCluster : Entity, IGeoGridPoint<double>
     {
         public string Theme { get; set; }

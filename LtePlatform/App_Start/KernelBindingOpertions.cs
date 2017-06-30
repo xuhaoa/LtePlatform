@@ -232,6 +232,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IGridClusterRepository>().To<GridClusterRepository>();
 
+            ninjectKernel.Bind<IDpiGridKpiRepository>().To<DpiGridKpiRepository>();
+
             ninjectKernel.Bind<ENodebQueryService>().ToSelf();
 
             ninjectKernel.Bind<BluePrintService>().ToSelf();

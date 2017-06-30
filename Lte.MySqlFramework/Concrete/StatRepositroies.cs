@@ -129,6 +129,18 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
+    public class DpiGridKpiRepository : EfRepositoryBase<MySqlContext, DpiGridKpi>, IDpiGridKpiRepository
+    {
+        public DpiGridKpiRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
     public class StationDictionaryRepository : EfRepositoryBase<MySqlContext, StationDictionary>,
         IStationDictionaryRepository
     {

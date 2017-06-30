@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Extend_Agis_Dt_Point : IMigrationMetadata
+    public sealed partial class Add_Dpi_Grid_Kpi : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Extend_Agis_Dt_Point));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_Dpi_Grid_Kpi));
         
         string IMigrationMetadata.Id
         {
-            get { return "201706270657570_Extend_Agis_Dt_Point"; }
+            get { return "201706300928213_Add_Dpi_Grid_Kpi"; }
         }
         
         string IMigrationMetadata.Source
