@@ -1821,6 +1821,23 @@
             kpiDisplayService.generateRealRsrpPoints($scope.coveragePoints, gridList);
             parametersMapService.showIntervalGrids($scope.coveragePoints.intervals, $scope.overlays.coverage);
         };
+        $scope.showInfrasturcture = function () {
+            angular.forEach($scope.overlays.sites, function (site) {
+                baiduMapService.removeOverlay(site);
+            });
+            $scope.overlays.sites = [];
+            angular.forEach($scope.overlays.cells, function (cell) {
+                baiduMapService.removeOverlay(cell);
+            });
+            $scope.overlays.cells = [];
+            var gridList = $scope.currentCluster.list;
+            var west = _.min(gridList, 'longtitute').longtitute-0.01;
+            var east = _.max(gridList, 'longtitute').longtitute+0.01;
+            var south = _.min(gridList, 'lattitute').lattitute-0.01;
+            var north = _.max(gridList, 'lattitute').lattitute+0.01;
+            parametersMapService.showElementsInRange(west, east, south, north,
+                $scope.beginDate, $scope.endDate, $scope.overlays.sites, $scope.overlays.cells);
+        };
 
         $scope.showCluster500List = function () {
             if ($scope.cluster500List) {

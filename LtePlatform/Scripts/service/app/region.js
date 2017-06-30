@@ -1930,6 +1930,35 @@ angular.module('region.network', ['app.core'])
                     eNodebId: eNodebId
                 });
             },
+            queryENodebsInOneTown: function (city, district, town) {
+                return generalHttpService.getApiData('ENodeb', {
+                    city: city,
+                    district: district,
+                    town: town
+                });
+            },
+            queryENodebsInOneDistrict: function (city, district) {
+                return generalHttpService.getApiData('ENodeb', {
+                    city: city,
+                    district: district
+                });
+            },
+            queryRangeENodebs: function (container) {
+                return generalHttpService.postApiData('ENodeb', container);
+            },
+            queryENodebsByGeneralName: function (name) {
+                return generalHttpService.getApiData('ENodeb', {
+                    name: name
+                });
+            },
+            queryInRangeENodebs: function(west, east, south, north) {
+                return generalHttpService.getApiData('ENodeb', {
+                    west: west,
+                    east: east,
+                    south: south,
+                    north: north
+                });
+            },
             queryENodebByPlanNum: function (planNum) {
                 return generalHttpService.getApiData('ENodebQuery', {
                     planNum: planNum
@@ -1946,13 +1975,6 @@ angular.module('region.network', ['app.core'])
                     planNum: planNum
                 });
             },
-            queryENodebsInOneTown: function (city, district, town) {
-                return generalHttpService.getApiData('ENodeb', {
-                    city: city,
-                    district: district,
-                    town: town
-                });
-            },
             queryENodebsInOneTownUse: function (city, district, town) {
                 return generalHttpService.getApiData('ENodebInUse', {
                     city: city,
@@ -1960,20 +1982,9 @@ angular.module('region.network', ['app.core'])
                     town: town
                 });
             },
-            queryENodebsInOneDistrict: function (city, district) {
-                return generalHttpService.getApiData('ENodeb', {
-                    city: city,
-                    district: district
-                });
-            },
             queryDistributionsInOneDistrict: function (district) {
                 return generalHttpService.getApiData('Distribution', {
                     district: district
-                });
-            },
-            queryENodebsByGeneralName: function (name) {
-                return generalHttpService.getApiData('ENodeb', {
-                    name: name
                 });
             },
             queryENodebsByGeneralNameInUse: function (name) {
@@ -2035,9 +2046,6 @@ angular.module('region.network', ['app.core'])
                     south: range.south,
                     north: range.north
                 });
-            },
-            queryRangeENodebs: function (container) {
-                return generalHttpService.postApiData('ENodeb', container);
             },
             queryRangeComplains: function (range) {
                 return generalHttpService.getApiData('OnlineSustain', {

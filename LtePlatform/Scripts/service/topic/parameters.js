@@ -595,6 +595,11 @@
 					showENodebsElements(eNodebs, beginDate, endDate, true, siteOverlays, cellOverlays);
 				});
 			},
+			showElementsInRange: function (west, east, south, north, beginDate, endDate, siteOverlays, cellOverlays) {
+			    networkElementService.queryInRangeENodebs(west, east, south, north).then(function (eNodebs) {
+			        showENodebsElements(eNodebs, beginDate, endDate, true, siteOverlays, cellOverlays);
+			    });
+			},
 			showHotSpotCellSectors: function(hotSpotName, beginDate, endDate) {
 				collegeQueryService.queryHotSpotSectors(hotSpotName).then(function(sectors) {
 					baiduQueryService.transformToBaidu(sectors[0].longtitute, sectors[0].lattitute).then(function(coors) {
