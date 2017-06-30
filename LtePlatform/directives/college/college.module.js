@@ -368,4 +368,29 @@
             },
             argumentName: 'clusterList'
         }, $compile);
+    })
+    .controller('GridInClusterController', function($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'longtitute', name: '经度' },
+                { field: 'lattitute', name: '纬度' },
+                { field: 'rsrp', name: '平均RSRP' },
+                { field: 'rsrpNormalize', name: '平均RSRP归一化' },
+                { field: 'mrCount', name: 'MR数量' },
+                { field: 'mrCountNormalize', name: 'MR数量归一化' },
+                { field: 'weakCount', name: '弱覆盖' },
+                { field: 'weakCountNormalize', name: '弱覆盖归一化' },
+                { field: 'weakCoverageRate', name: '弱覆盖比例（%）' }
+            ],
+            data: []
+        };
+    })
+    .directive('gridInClusterTable', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'GridInClusterController',
+            scope: {
+                items: '='
+            },
+            argumentName: 'items'
+        }, $compile);
     });

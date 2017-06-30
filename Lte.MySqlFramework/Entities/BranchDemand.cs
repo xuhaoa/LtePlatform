@@ -223,7 +223,7 @@ namespace Lte.MySqlFramework.Entities
         [CsvColumn(Name = "弱覆盖数")]
         public int WeakCount { get; set; }
 
-        public double WeakCoverageRate => MrCount == 0 ? 0 : (double) WeakCount/MrCount;
+        public double WeakCoverageRate => MrCount == 0 ? 0 : (double) WeakCount/MrCount*100;
 
         [CsvColumn(Name = "平均RSRP")]
         public double Rsrp { get; set; }
