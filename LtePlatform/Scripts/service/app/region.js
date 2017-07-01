@@ -342,6 +342,8 @@ angular.module('region.basic', ['app.core'])
                     stat.weakRate = result.weakCoverageRate;
                     stat.bestLongtitute = result.longtitute;
                     stat.bestLattitute = result.lattitute;
+                    stat.x = result.x;
+                    stat.y = result.y;
                     if (callback) {
                         callback(stat);
                     }

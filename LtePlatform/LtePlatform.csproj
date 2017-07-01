@@ -414,6 +414,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="appViews\BasicKpi\ClusterPoint.html" />
     <Content Include="appViews\BasicKpi\Common.html" />
     <Content Include="appViews\BasicKpi\CommonMenu.html" />
     <Content Include="appViews\BasicKpi\Construction.html" />

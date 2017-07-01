@@ -1822,9 +1822,11 @@
             kpiDisplayService.generateRealRsrpPoints($scope.coveragePoints, gridList);
             parametersMapService.showIntervalGrids($scope.coveragePoints.intervals, $scope.overlays.coverage);
             if ($scope.currentCluster.stat) {
-                alarmImportService.updateClusterKpi($scope.currentCluster.stat, parametersMapService.displayClusterPoint);
+                alarmImportService.updateClusterKpi($scope.currentCluster.stat, function(stat) {
+                    parametersMapService.displayClusterPoint(stat, $scope.currentCluster.list);
+                });
             } else {
-                parametersMapService.displayClusterPoint($scope.currentCluster.stat);
+                parametersMapService.displayClusterPoint($scope.currentCluster.stat, $scope.currentCluster.list);
             }
                 
         };

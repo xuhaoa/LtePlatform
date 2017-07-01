@@ -887,6 +887,16 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
+	.controller('cluster.point.dialog', function ($scope, $uibModalInstance, dialogTitle, site, currentClusterList) {
+		$scope.dialogTitle = dialogTitle;
+		$scope.currentClusterList = currentClusterList;
+		$scope.ok = function () {
+			$uibModalInstance.close($scope.site);
+		};
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	})
 
 
 	.factory('parametersDialogService', function(menuItemService, baiduMapService) {
@@ -1021,6 +1031,23 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 						},
 						site: function() {
 							return site;
+						}
+					}
+				});
+			},
+			showClusterPointInfo: function(site, currentClusterList) {
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/BasicKpi/ClusterPoint.html',
+					controller: 'cluster.point.dialog',
+					resolve: {
+						dialogTitle: function () {
+							return site.theme + "主题" + site.clusterNumber + "编号簇规划选点信息";
+						},
+						site: function () {
+							return site;
+						},
+						currentClusterList: function() {
+							return currentClusterList;
 						}
 					}
 				});
@@ -1257,18 +1284,18 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 								"/Content/Images/BtsIcons/m_8_end.png");
 							overlays.push(marker);
 							baiduMapService.addOneMarkerToScope(marker, function(data) {
-								console.log(data);
+								parametersDialogService.showClusterPointInfo(data);
 							}, stat);
 						}
 
 					});
 				});
 			},
-			displayClusterPoint: function(stat) {
+			displayClusterPoint: function(stat, currentClusterList) {
 				baiduQueryService.transformToBaidu(stat.bestLongtitute, stat.bestLattitute).then(function(coors) {
-				    var marker = baiduMapService.generateIconMarker(coors.x + 0.000245, coors.y + 0.000225, "/Content/Images/BtsIcons/m_2_end.png");
+					var marker = baiduMapService.generateIconMarker(coors.x + 0.000245, coors.y + 0.000225, "/Content/Images/BtsIcons/m_2_end.png");
 					baiduMapService.addOneMarkerToScope(marker, function (data) {
-						console.log(data);
+						parametersDialogService.showClusterPointInfo(data, currentClusterList);
 					}, stat);
 				});
 			},
