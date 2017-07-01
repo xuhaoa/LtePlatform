@@ -1847,7 +1847,7 @@
             } else {
                 alarmsService.queryGridClusters('500').then(function (list) {
                     $scope.calculateCoordinate(list);
-                    $scope.cluster500List = list;
+                    $scope.cluster500List = _.filter(list, function(stat) { return stat.gridPoints.length > 50 });
                     coverageDialogService.showGridClusterStats("500个分簇结构", $scope.cluster500List, $scope.currentCluster,
                         $scope.showCurrentCluster);
                 });
@@ -1860,7 +1860,7 @@
             } else {
                 alarmsService.queryGridClusters('1000').then(function (list) {
                     $scope.calculateCoordinate(list);
-                    $scope.cluster1000List = list;
+                    $scope.cluster1000List = _.filter(list, function (stat) { return stat.gridPoints.length > 35 });
                     coverageDialogService.showGridClusterStats("1000个分簇结构", $scope.cluster1000List, $scope.currentCluster,
                         $scope.showCurrentCluster);
                 });
