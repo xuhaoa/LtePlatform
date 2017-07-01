@@ -343,6 +343,8 @@
                 { field: 'clusterNumber', name: '簇编号' },
                 { field: 'longtitute', name: '经度' },
                 { field: 'lattitute', name: '纬度' },
+                { field: 'bestLongtitute', name: '备选点经度' },
+                { field: 'bestLattitute', name: '备选点纬度' },
                 { field: 'rsrp', name: '平均RSRP' },
                 { field: 'weakRate', name: '弱覆盖率' },
                 { field: 'gridPoints.length', name: '栅格个数' },

@@ -1808,6 +1808,12 @@
                 });
                 item.longtitute = sum.longtitute / item.gridPoints.length;
                 item.lattitute = sum.lattitute / item.gridPoints.length;
+                var bestPoint = _.min(item.gridPoints, function(stat) {
+                    return (stat.longtitute - item.longtitute) * (stat.longtitute - item.longtitute)
+                        + (stat.lattitute - item.lattitute) * (stat.lattitute - item.lattitute);
+                });
+                item.bestLongtitute = bestPoint.longtitute;
+                item.bestLattitute = bestPoint.lattitute;
             });
         };
         $scope.showCurrentCluster = function() {
