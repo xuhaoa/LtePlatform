@@ -1517,14 +1517,8 @@
             coverageDialogService.showAgpsStats($scope.data, $scope.legend.criteria);
         };
         $scope.showInfrasturcture = function() {
-            angular.forEach($scope.overlays.sites, function(site) {
-                baiduMapService.removeOverlay(site);
-            });
-            $scope.overlays.sites = [];
-            angular.forEach($scope.overlays.cells, function(cell) {
-                baiduMapService.removeOverlay(cell);
-            });
-            $scope.overlays.cells = [];
+            parametersMapService.clearOverlaySites($scope.overlays.sites);
+            parametersMapService.clearOverlaySites($scope.overlays.cells);
             parametersMapService.showElementsInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected,
                 $scope.beginDate, $scope.endDate, $scope.overlays.sites, $scope.overlays.cells);
         };
@@ -1785,7 +1779,7 @@
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.overlays = {
-            coverage: [],
+            planSites: [],
             sites: [],
             cells: []
         };
@@ -1828,14 +1822,8 @@
             parametersMapService.showIntervalGrids($scope.coveragePoints.intervals, $scope.overlays.coverage);
         };
         $scope.showInfrasturcture = function () {
-            angular.forEach($scope.overlays.sites, function (site) {
-                baiduMapService.removeOverlay(site);
-            });
-            $scope.overlays.sites = [];
-            angular.forEach($scope.overlays.cells, function (cell) {
-                baiduMapService.removeOverlay(cell);
-            });
-            $scope.overlays.cells = [];
+            parametersMapService.clearOverlaySites($scope.overlays.sites);
+            parametersMapService.clearOverlaySites($scope.overlays.cells);
             var gridList = $scope.currentCluster.list;
             var west = _.min(gridList, 'longtitute').longtitute-0.01;
             var east = _.max(gridList, 'longtitute').longtitute+0.01;
@@ -1857,7 +1845,6 @@
                         $scope.showCurrentCluster);
                 });
             }
-
         };
         $scope.showCluster1000List = function () {
             if ($scope.cluster1000List) {
@@ -1871,13 +1858,14 @@
                         $scope.showCurrentCluster);
                 });
             }
-
         };
-        $scope.showCluster500Points = function() {
-            parametersMapService.displayClusterPoints($scope.cluster500List);
+        $scope.showCluster500Points = function () {
+            parametersMapService.clearOverlaySites($scope.overlays.planSites);
+            parametersMapService.displayClusterPoints($scope.cluster500List, $scope.overlays.planSites, 50, $scope.currentCluster.list[0]);
         };
         $scope.showCluster1000Points = function () {
-            parametersMapService.displayClusterPoints($scope.cluster1000List);
+            parametersMapService.clearOverlaySites($scope.overlays.planSites);
+            parametersMapService.displayClusterPoints($scope.cluster1000List, $scope.overlays.planSites, 35, $scope.currentCluster.list[0]);
         };
     })
 

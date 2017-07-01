@@ -596,9 +596,9 @@
 				});
 			},
 			showElementsInRange: function (west, east, south, north, beginDate, endDate, siteOverlays, cellOverlays) {
-			    networkElementService.queryInRangeENodebs(west, east, south, north).then(function (eNodebs) {
-			        showENodebsElements(eNodebs, beginDate, endDate, true, siteOverlays, cellOverlays);
-			    });
+				networkElementService.queryInRangeENodebs(west, east, south, north).then(function (eNodebs) {
+					showENodebsElements(eNodebs, beginDate, endDate, true, siteOverlays, cellOverlays);
+				});
 			},
 			showHotSpotCellSectors: function(hotSpotName, beginDate, endDate) {
 				collegeQueryService.queryHotSpotSectors(hotSpotName).then(function(sectors) {
@@ -727,23 +727,32 @@
 					});
 				});
 			},
-			displayClusterPoints: function (clusterList) {
-			    baiduQueryService.transformToBaidu(clusterList[0].longtitute, clusterList[0].lattitute).then(function (coors) {
-			        var xOffset = coors.x - clusterList[0].longtitute;
-			        var yOffset = coors.y - clusterList[0].lattitute;
-			        angular.forEach(clusterList, function (stat) {
-			            var centerX = stat.bestLongtitute + xOffset;
-			            var centerY = stat.bestLattitute + yOffset;
-			            if (baiduMapService.isPointInCurrentCity(centerX, centerY)) {
-			                var marker = baiduMapService.generateIconMarker(centerX, centerY,
-			                    "/Content/Images/BtsIcons/m_8_end.png");
-			                baiduMapService.addOneMarkerToScope(marker, function(data) {
-			                    console.log(data);
-			                }, stat);
-			            }
+			displayClusterPoints: function (clusterList, overlays, threshold, baseCoor) {
+			    var baseX = baseCoor ? baseCoor.longtitute : clusterList[0].longtitute;
+			    var baseY = baseCoor ? baseCoor.lattitute : clusterList[0].lattitute;
+				baiduQueryService.transformToBaidu(baseX, baseY).then(function (coors) {
+					var xOffset = coors.x - baseX;
+					var yOffset = coors.y - baseY;
+					angular.forEach(clusterList, function (stat) {
+						var centerX = stat.bestLongtitute + xOffset + 0.000245;
+						var centerY = stat.bestLattitute + yOffset + 0.000225;
+						if (baiduMapService.isPointInCurrentCity(centerX, centerY) && stat.gridPoints.length > threshold) {
+							var marker = baiduMapService.generateIconMarker(centerX, centerY,
+								"/Content/Images/BtsIcons/m_8_end.png");
+							overlays.push(marker);
+							baiduMapService.addOneMarkerToScope(marker, function(data) {
+								console.log(data);
+							}, stat);
+						}
 
-			        });
+					});
+				});
+			},
+			clearOverlaySites: function(sites) {
+			    angular.forEach(sites, function (site) {
+			        baiduMapService.removeOverlay(site);
 			    });
-		    }
+			    sites = [];
+			}
 		}
 	});
