@@ -307,10 +307,19 @@
         };
     })
     .controller("grid.cluster", function ($scope, dialogTitle, clusterList, currentCluster,
-        $uibModalInstance) {
+        $uibModalInstance, alarmsService) {
         $scope.dialogTitle = dialogTitle;
         $scope.clusterList = clusterList;
         $scope.currentCluster = currentCluster;
+
+        $scope.calculateKpis = function() {
+            angular.forEach($scope.clusterList, function(stat) {
+                alarmsService.queryClusterKpi(stat.gridPoints).then(function(result) {
+                    stat.rsrp = result.rsrp;
+                    stat.weakRate = result.weakCoverageRate;
+                });
+            });
+        };
 
         $scope.ok = function () {
             $uibModalInstance.close($scope.currentCluster);

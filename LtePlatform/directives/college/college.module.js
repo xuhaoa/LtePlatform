@@ -380,7 +380,8 @@
                 { field: 'mrCountNormalize', name: 'MR数量归一化' },
                 { field: 'weakCount', name: '弱覆盖' },
                 { field: 'weakCountNormalize', name: '弱覆盖归一化' },
-                { field: 'weakCoverageRate', name: '弱覆盖比例（%）' }
+                { field: 'weakCoverageRate', name: '弱覆盖比例（%）' },
+                { field: 'shortestDistance', name: '最近基站距离' }
             ],
             data: []
         };
