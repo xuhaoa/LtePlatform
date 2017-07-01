@@ -504,7 +504,44 @@ namespace Lte.Evaluations.DataService.Mr
                 points.Select(point => _kpiRepository.FirstOrDefault(t => t.X == point.X && t.Y == point.Y))
                     .Where(stat => stat != null)
                     .ToList();
-            return stats.Average().MapTo<MrGridKpiDto>();
+            var result = stats.Average().MapTo<MrGridKpiDto>();
+            var filter = stats.Where(x => x.Rsrp < -110).ToList();
+            if (filter.Any())
+            {
+                var distance = filter.Max(x => x.ShortestDistance);
+                var candidate = filter.FirstOrDefault(x => x.ShortestDistance == distance);
+                if (candidate != null)
+                {
+                    result.X = candidate.X;
+                    result.Y = candidate.Y;
+                    return result;
+                }
+            }
+            filter = stats.Where(x => x.Rsrp < -105).ToList();
+            if (filter.Any())
+            {
+                var distance = filter.Max(x => x.ShortestDistance);
+                var candidate = filter.FirstOrDefault(x => x.ShortestDistance == distance);
+                if (candidate != null)
+                {
+                    result.X = candidate.X;
+                    result.Y = candidate.Y;
+                    return result;
+                }
+            }
+            filter = stats;
+            if (filter.Any())
+            {
+                var distance = filter.Max(x => x.ShortestDistance);
+                var candidate = filter.FirstOrDefault(x => x.ShortestDistance == distance);
+                if (candidate != null)
+                {
+                    result.X = candidate.X;
+                    result.Y = candidate.Y;
+                    return result;
+                }
+            }
+            return result;
         }
     }
 }

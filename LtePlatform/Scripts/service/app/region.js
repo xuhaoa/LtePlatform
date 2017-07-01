@@ -316,7 +316,7 @@ angular.module('region.basic', ['app.core'])
             }
         };
     })
-    .factory('alarmImportService', function (generalHttpService) {
+    .factory('alarmImportService', function (generalHttpService, alarmsService) {
         return {
             queryDumpHistory: function (begin, end) {
                 return generalHttpService.getApiData('DumpAlarm', {
@@ -335,6 +335,18 @@ angular.module('region.basic', ['app.core'])
             },
             updateHuaweiAlarmInfos: function (cellDef) {
                 return generalHttpService.postApiData('Alarms', cellDef);
+            },
+            updateClusterKpi: function(stat, callback) {
+                alarmsService.queryClusterKpi(stat.gridPoints).then(function (result) {
+                    stat.rsrp = result.rsrp;
+                    stat.weakRate = result.weakCoverageRate;
+                    stat.bestLongtitute = result.longtitute;
+                    stat.bestLattitute = result.lattitute;
+                    if (callback) {
+                        callback(stat);
+                    }
+                    
+                });
             }
         };
     })

@@ -358,6 +358,7 @@
         $scope.showDetails = function(item) {
             alarmsService.queryClusterGridKpis(item.gridPoints).then(function(list) {
                 $scope.currentCluster.list = list;
+                $scope.currentCluster.stat = item;
             });
         };
     })

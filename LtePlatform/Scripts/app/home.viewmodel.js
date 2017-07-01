@@ -1775,7 +1775,7 @@
         });
     })
     .controller("mr.app", function ($scope, baiduMapService, alarmsService, coverageDialogService, kpiDisplayService,
-        parametersMapService) {
+        parametersMapService, alarmImportService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.overlays = {
@@ -1790,7 +1790,8 @@
         };
         
         $scope.currentCluster = {
-            list: []
+            list: [],
+            stat: {}
         };
         $scope.calculateCoordinate = function (list) {
             angular.forEach(list, function(item) {
@@ -1820,6 +1821,12 @@
             $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
             kpiDisplayService.generateRealRsrpPoints($scope.coveragePoints, gridList);
             parametersMapService.showIntervalGrids($scope.coveragePoints.intervals, $scope.overlays.coverage);
+            if ($scope.currentCluster.stat) {
+                alarmImportService.updateClusterKpi($scope.currentCluster.stat, parametersMapService.displayClusterPoint);
+            } else {
+                parametersMapService.displayClusterPoint($scope.currentCluster.stat);
+            }
+                
         };
         $scope.showInfrasturcture = function () {
             parametersMapService.clearOverlaySites($scope.overlays.sites);

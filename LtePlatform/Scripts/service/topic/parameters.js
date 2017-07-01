@@ -728,8 +728,8 @@
 				});
 			},
 			displayClusterPoints: function (clusterList, overlays, threshold, baseCoor) {
-			    var baseX = baseCoor ? baseCoor.longtitute : clusterList[0].longtitute;
-			    var baseY = baseCoor ? baseCoor.lattitute : clusterList[0].lattitute;
+				var baseX = baseCoor ? baseCoor.longtitute : clusterList[0].longtitute;
+				var baseY = baseCoor ? baseCoor.lattitute : clusterList[0].lattitute;
 				baiduQueryService.transformToBaidu(baseX, baseY).then(function (coors) {
 					var xOffset = coors.x - baseX;
 					var yOffset = coors.y - baseY;
@@ -748,11 +748,19 @@
 					});
 				});
 			},
+			displayClusterPoint: function(stat) {
+				baiduQueryService.transformToBaidu(stat.bestLongtitute, stat.bestLattitute).then(function(coors) {
+				    var marker = baiduMapService.generateIconMarker(coors.x + 0.000245, coors.y + 0.000225, "/Content/Images/BtsIcons/m_2_end.png");
+					baiduMapService.addOneMarkerToScope(marker, function (data) {
+						console.log(data);
+					}, stat);
+				});
+			},
 			clearOverlaySites: function(sites) {
-			    angular.forEach(sites, function (site) {
-			        baiduMapService.removeOverlay(site);
-			    });
-			    sites = [];
+				angular.forEach(sites, function (site) {
+					baiduMapService.removeOverlay(site);
+				});
+				sites = [];
 			}
 		}
 	});
