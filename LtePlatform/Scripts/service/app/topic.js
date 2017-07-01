@@ -43,7 +43,8 @@ angular.module('topic.basic', ['myApp.url', 'myApp.region'])
     .factory('baiduMapService', function(geometryService, networkElementService, drawingStyleOptions) {
         var mapStructure = {
             mainMap: {},
-            subMap: {}
+            subMap: {},
+            currentCityBounday: {}
         };
         var map = mapStructure.mainMap;
         var getCellCenter = function(cell, rCell) {
@@ -138,6 +139,7 @@ angular.module('topic.basic', ['myApp.url', 'myApp.region'])
                             strokeColor: "#ff0000",
                             fillOpacity: 0.1
                         }); //建立多边形覆盖物
+                        mapStructure.currentCityBounday = ply;
                         map.addOverlay(ply); //添加覆盖物
                     }
                 });
@@ -506,6 +508,9 @@ angular.module('topic.basic', ['myApp.url', 'myApp.region'])
                     pointCollection.addEventListener('click', callback);
                 map.addOverlay(pointCollection); // 添加Overlay
                 return pointCollection;
+            },
+            isPointInCurrentCity: function(longtitute, lattitute) {
+                return BMapLib.GeoUtils.isPointInPolygon(new BMap.Point(longtitute, lattitute), mapStructure.currentCityBounday);
             }
         };
     });
@@ -1237,7 +1242,25 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 						});
 					});
 				});
-			}
+			},
+			displayClusterPoints: function (clusterList) {
+			    baiduQueryService.transformToBaidu(clusterList[0].longtitute, clusterList[0].lattitute).then(function (coors) {
+			        var xOffset = coors.x - clusterList[0].longtitute;
+			        var yOffset = coors.y - clusterList[0].lattitute;
+			        angular.forEach(clusterList, function (stat) {
+			            var centerX = stat.bestLongtitute + xOffset;
+			            var centerY = stat.bestLattitute + yOffset;
+			            if (baiduMapService.isPointInCurrentCity(centerX, centerY)) {
+			                var marker = baiduMapService.generateIconMarker(centerX, centerY,
+			                    "/Content/Images/BtsIcons/m_8_end.png");
+			                baiduMapService.addOneMarkerToScope(marker, function(data) {
+			                    console.log(data);
+			                }, stat);
+			            }
+
+			        });
+			    });
+		    }
 		}
 	});
 

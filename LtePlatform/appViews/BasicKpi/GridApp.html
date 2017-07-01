@@ -36,15 +36,27 @@
     </button>
     <ul uib-dropdown-menu role="menu" aria-labelledby="view-button">
         <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showCurrentCluster()">
+            <a class="btn btn-sm btn-success" ng-click="showCurrentCluster()" ng-disabled="!currentCluster.list.length">
                 <i class="glyphicon glyphicon-fullscreen"></i>
                 当前簇显示
             </a>
         </li>
         <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showInfrasturcture()">
+            <a class="btn btn-sm btn-success" ng-click="showInfrasturcture()" ng-disabled="!currentCluster.list.length">
                 <i class="glyphicon glyphicon-tree-conifer"></i>
                 周边基站小区
+            </a>
+        </li>
+        <li role="menuitem">
+            <a class="btn btn-sm btn-default" ng-click="showCluster500Points()" ng-disabled="!cluster500List.length">
+                <i class="glyphicon glyphicon-tree-conifer"></i>
+                500分簇显示
+            </a>
+        </li>
+        <li role="menuitem">
+            <a class="btn btn-sm btn-default" ng-click="showCluster1000Points()" ng-disabled="!cluster1000List.length">
+                <i class="glyphicon glyphicon-tree-conifer"></i>
+                1000分簇显示
             </a>
         </li>
     </ul>

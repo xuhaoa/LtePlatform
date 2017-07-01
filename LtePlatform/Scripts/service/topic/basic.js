@@ -43,7 +43,8 @@
     .factory('baiduMapService', function(geometryService, networkElementService, drawingStyleOptions) {
         var mapStructure = {
             mainMap: {},
-            subMap: {}
+            subMap: {},
+            currentCityBounday: {}
         };
         var map = mapStructure.mainMap;
         var getCellCenter = function(cell, rCell) {
@@ -138,6 +139,7 @@
                             strokeColor: "#ff0000",
                             fillOpacity: 0.1
                         }); //建立多边形覆盖物
+                        mapStructure.currentCityBounday = ply;
                         map.addOverlay(ply); //添加覆盖物
                     }
                 });
@@ -506,6 +508,9 @@
                     pointCollection.addEventListener('click', callback);
                 map.addOverlay(pointCollection); // 添加Overlay
                 return pointCollection;
+            },
+            isPointInCurrentCity: function(longtitute, lattitute) {
+                return BMapLib.GeoUtils.isPointInPolygon(new BMap.Point(longtitute, lattitute), mapStructure.currentCityBounday);
             }
         };
     });

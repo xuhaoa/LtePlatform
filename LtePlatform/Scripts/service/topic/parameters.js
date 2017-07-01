@@ -726,6 +726,24 @@
 						});
 					});
 				});
-			}
+			},
+			displayClusterPoints: function (clusterList) {
+			    baiduQueryService.transformToBaidu(clusterList[0].longtitute, clusterList[0].lattitute).then(function (coors) {
+			        var xOffset = coors.x - clusterList[0].longtitute;
+			        var yOffset = coors.y - clusterList[0].lattitute;
+			        angular.forEach(clusterList, function (stat) {
+			            var centerX = stat.bestLongtitute + xOffset;
+			            var centerY = stat.bestLattitute + yOffset;
+			            if (baiduMapService.isPointInCurrentCity(centerX, centerY)) {
+			                var marker = baiduMapService.generateIconMarker(centerX, centerY,
+			                    "/Content/Images/BtsIcons/m_8_end.png");
+			                baiduMapService.addOneMarkerToScope(marker, function(data) {
+			                    console.log(data);
+			                }, stat);
+			            }
+
+			        });
+			    });
+		    }
 		}
 	});

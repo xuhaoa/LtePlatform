@@ -1873,6 +1873,12 @@
             }
 
         };
+        $scope.showCluster500Points = function() {
+            parametersMapService.displayClusterPoints($scope.cluster500List);
+        };
+        $scope.showCluster1000Points = function () {
+            parametersMapService.displayClusterPoints($scope.cluster1000List);
+        };
     })
 
     .controller("home.complain", function ($scope, baiduMapService, dumpPreciseService, complainService,mapDialogService,
