@@ -313,6 +313,12 @@
             },
             queryClusterKpi: function (points) {
                 return generalHttpService.putApiData('GridCluster', points);
+            },
+            queryDpiGridKpi: function(x, y) {
+                return generalHttpService.getApiData('DpiGridKpi', {
+                    x: x,
+                    y: y
+                });
             }
         };
     })

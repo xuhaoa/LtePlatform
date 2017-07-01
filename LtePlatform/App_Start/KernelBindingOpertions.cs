@@ -351,6 +351,8 @@ namespace LtePlatform
             ninjectKernel.Bind<HotSpotService>().ToSelf();
 
             ninjectKernel.Bind<GridClusterService>().ToSelf();
+
+            ninjectKernel.Bind<DpiGridKpiService>().ToSelf();
         }
     }
 }

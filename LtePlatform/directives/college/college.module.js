@@ -397,4 +397,30 @@
             },
             argumentName: 'items'
         }, $compile);
+    })
+    .controller('GridDpiController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'longtitute', name: '经度' },
+                { field: 'lattitute', name: '纬度' },
+                { field: 'rsrp', name: '平均RSRP' },
+                { field: 'rsrpNormalize', name: '平均RSRP归一化' },
+                { field: 'mrCount', name: 'MR数量' },
+                { field: 'weakCount', name: '弱覆盖' },
+                { field: 'weakCoverageRate', name: '弱覆盖比例（%）' },
+                { field: 'firstPacketDelay', name: '首包时延（毫秒）' },
+                { field: 'pageOpenDelay', name: '页面打开时延（毫秒）' },
+                { field: 'shortestDistance', name: '最近基站距离' }
+            ],
+            data: []
+        };
+    })
+    .directive('gridDpiTable', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'GridDpiController',
+            scope: {
+                items: '='
+            },
+            argumentName: 'items'
+        }, $compile);
     });

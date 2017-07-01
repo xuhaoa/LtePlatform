@@ -204,4 +204,20 @@ namespace LtePlatform.Controllers.Mr
             return _service.QueryClusterKpi(points);
         }
     }
+
+    public class DpiGridKpiController : ApiController
+    {
+        private readonly DpiGridKpiService _service;
+
+        public DpiGridKpiController(DpiGridKpiService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public DpiGridKpiDto Get(int x, int y)
+        {
+            return _service.QueryKpi(x, y);
+        }
+    }
 }
