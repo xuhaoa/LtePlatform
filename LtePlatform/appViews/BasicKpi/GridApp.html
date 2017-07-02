@@ -18,9 +18,9 @@
             </a>
         </li>
         <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-href="{{outportHref}}">
+            <a class="btn btn-sm btn-success" ng-click="showClusterAdvance()">
                 <i class="glyphicon glyphicon-apple"></i>
-                导出数据
+                改进分簇查询
             </a>
         </li>
     </ul>
@@ -57,6 +57,12 @@
             <a class="btn btn-sm btn-default" ng-click="showCluster1000Points()" ng-disabled="!cluster1000List.length">
                 <i class="glyphicon glyphicon-tree-conifer"></i>
                 1000分簇显示
+            </a>
+        </li>
+        <li role="menuitem">
+            <a class="btn btn-sm btn-default" ng-click="showClusterAdvancePoints()" ng-disabled="!clusterAdvanceList.length">
+                <i class="glyphicon glyphicon-tree-conifer"></i>
+                改进分簇显示
             </a>
         </li>
     </ul>

@@ -548,7 +548,7 @@
 		}
 	})
 	.factory('parametersMapService', function(baiduMapService, networkElementService, baiduQueryService, workItemDialog,
-		neGeometryService, collegeQueryService, appRegionService, parametersDialogService, collegeService) {
+		neGeometryService, collegeQueryService, appRegionService, parametersDialogService, collegeService, alarmsService) {
 		var showCellSectors = function(cells, xOffset, yOffset, beginDate, endDate, cellOverlays) {
 			angular.forEach(cells, function(cell) {
 				cell.longtitute += xOffset;
@@ -776,8 +776,10 @@
 							var marker = baiduMapService.generateIconMarker(centerX, centerY,
 								"/Content/Images/BtsIcons/m_8_end.png");
 							overlays.push(marker);
-							baiduMapService.addOneMarkerToScope(marker, function(data) {
-								parametersDialogService.showClusterPointInfo(data);
+							baiduMapService.addOneMarkerToScope(marker, function (data) {
+							    alarmsService.queryClusterGridKpis(stat.gridPoints).then(function(list) {
+							        parametersDialogService.showClusterPointInfo(data, list);
+							    });
 							}, stat);
 						}
 

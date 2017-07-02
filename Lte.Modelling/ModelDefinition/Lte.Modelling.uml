@@ -1479,6 +1479,24 @@
         </nodes>
       </activity>
     </packageHasNamedElement>
+    <packageHasNamedElement>
+      <activity
+        Id="556826f3-05d4-4e90-bc26-8f51d5fa08cb"
+        name="Activity1"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false"
+        isReentrant="false"
+        isReadOnly="false"
+        isSingleExecution="false">
+        <nodes>
+          <opaqueAction
+            Id="ac941f6e-74fc-4f2f-ac6b-da395a52e0ff"
+            name="Spark MLib机器学习KMeans算法"
+            isLeaf="false" />
+        </nodes>
+      </activity>
+    </packageHasNamedElement>
   </packagedElements>
   <primitiveType
     Id="220a3521-e091-4221-bae9-3ef9018e845c"

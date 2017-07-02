@@ -1868,6 +1868,19 @@
                 });
             }
         };
+        $scope.showClusterAdvance=function() {
+            if ($scope.clusterAdvanceList) {
+                coverageDialogService.showGridClusterStats("改进分簇结构", $scope.clusterAdvanceList, $scope.currentCluster,
+                    $scope.showCurrentCluster);
+            } else {
+                alarmsService.queryGridClusters('Advance8000').then(function (list) {
+                    $scope.calculateCoordinate(list);
+                    $scope.clusterAdvanceList = _.filter(list, function (stat) { return stat.gridPoints.length > 5 });
+                    coverageDialogService.showGridClusterStats("改进分簇结构", $scope.clusterAdvanceList, $scope.currentCluster,
+                        $scope.showCurrentCluster);
+                });
+            }
+        }
         $scope.showCluster500Points = function () {
             parametersMapService.clearOverlaySites($scope.overlays.planSites);
             parametersMapService.displayClusterPoints($scope.cluster500List, $scope.overlays.planSites, 50, $scope.currentCluster.list[0]);
@@ -1875,6 +1888,10 @@
         $scope.showCluster1000Points = function () {
             parametersMapService.clearOverlaySites($scope.overlays.planSites);
             parametersMapService.displayClusterPoints($scope.cluster1000List, $scope.overlays.planSites, 35, $scope.currentCluster.list[0]);
+        };
+        $scope.showClusterAdvancePoints = function () {
+            parametersMapService.clearOverlaySites($scope.overlays.planSites);
+            parametersMapService.displayClusterPoints($scope.clusterAdvanceList, $scope.overlays.planSites, 5, $scope.currentCluster.list[0]);
         };
     })
 
