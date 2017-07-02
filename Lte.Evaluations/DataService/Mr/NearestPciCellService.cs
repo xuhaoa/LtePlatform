@@ -489,6 +489,28 @@ namespace Lte.Evaluations.DataService.Mr
                     });
         }
 
+        public IEnumerable<GridClusterView> QueryClusterViews(string theme, double west, double east, double south, double north)
+        {
+            var westX = (int) ((west - 112)/0.00049);
+            var eastX = (int) ((east - 112)/0.00049);
+            var southY = (int) ((south - 22)/0.00045);
+            var northY = (int) ((north - 22)/0.00045);
+            return
+                _repository.GetAllList(x => x.Theme == theme
+                                            && x.X >= westX && x.X < eastX && x.Y >= southY && x.Y < northY)
+                    .GroupBy(x => x.ClusterNumber)
+                    .Select(g => new GridClusterView
+                    {
+                        ClusterNumber = g.Key,
+                        Theme = theme,
+                        GridPoints = g.Select(x => new GeoGridPoint
+                        {
+                            X = x.X,
+                            Y = x.Y
+                        })
+                    });
+        } 
+
         public IEnumerable<MrGridKpiDto> QueryKpiDtos(IEnumerable<GeoGridPoint> points)
         {
             var stats =

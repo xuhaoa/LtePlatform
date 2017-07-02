@@ -192,6 +192,12 @@ namespace LtePlatform.Controllers.Mr
             return _service.QueryClusterViews(theme);
         }
 
+        [HttpGet]
+        public IEnumerable<GridClusterView> Get(string theme, double west, double east, double south, double north)
+        {
+            return _service.QueryClusterViews(theme, west, east, south, north);
+        }
+
         [HttpPost]
         public IEnumerable<MrGridKpiDto> Post(IEnumerable<GeoGridPoint> points)
         {

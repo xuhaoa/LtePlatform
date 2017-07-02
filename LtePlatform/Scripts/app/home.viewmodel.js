@@ -1828,8 +1828,28 @@
             } else {
                 parametersMapService.displayClusterPoint($scope.currentCluster.stat, $scope.currentCluster.list);
             }
-                
         };
+        $scope.showRange500Cluster=function() {
+            $scope.initializeRsrpLegend();
+            $scope.initializeMap();
+            var range = baiduMapService.getCurrentMapRange(-0.012, -0.003);
+            alarmsService.queryGridClusterRange('500', range.west, range.east, range.south, range.north).then(function(stats) {
+                angular.forEach(stats, function(stat) {
+                    var gridList = stat.gridPoints;
+                    var index = parseInt(gridList.length / 2);
+                    baiduMapService.setCellFocus(gridList[index].longtitute, gridList[index].lattitute, 15);
+                    $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+                    alarmsService.queryClusterGridKpis(gridList).then(function (list) {
+                        stat.gridPoints = list;
+                        kpiDisplayService.generateRealRsrpPoints($scope.coveragePoints, list);
+                        parametersMapService.showIntervalGrids($scope.coveragePoints.intervals, $scope.overlays.coverage);
+                        alarmImportService.updateClusterKpi(stat, function (item) {
+                            parametersMapService.displayClusterPoint(item, list);
+                        });
+                    });
+                });
+            });
+        }
         $scope.showInfrasturcture = function () {
             parametersMapService.clearOverlaySites($scope.overlays.sites);
             parametersMapService.clearOverlaySites($scope.overlays.cells);

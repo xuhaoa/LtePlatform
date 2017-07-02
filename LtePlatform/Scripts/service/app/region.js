@@ -308,6 +308,15 @@ angular.module('region.basic', ['app.core'])
                     theme: theme
                 });
             },
+            queryGridClusterRange: function (theme, west, east, south, north) {
+                return generalHttpService.getApiData('GridCluster', {
+                    theme: theme,
+                    west: west,
+                    east: east,
+                    south: south,
+                    north: north
+                });
+            },
             queryClusterGridKpis: function(points) {
                 return generalHttpService.postApiData('GridCluster', points);
             },
