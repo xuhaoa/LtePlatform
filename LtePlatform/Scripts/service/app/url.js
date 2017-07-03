@@ -2770,9 +2770,13 @@ angular.module('app.format', [])
             },
             generateCoveragePointsWithFunc: function (pointDef, points, func) {
                 var intervals = pointDef.intervals;
+                var i;
+                for (i = 0; i < intervals.length; i++) {
+                    intervals[i].coors = [];
+                }
                 angular.forEach(points, function (point) {
                     var value = func(point);
-                    for (var i = 0; i < intervals.length; i++) {
+                    for (i = 0; i < intervals.length; i++) {
                         if ((pointDef.sign && value < intervals[i].threshold) || (!pointDef.sign && value > intervals[i].threshold)) {
                             intervals[i].coors.push({
                                 longtitute: point.longtitute,
@@ -2785,9 +2789,13 @@ angular.module('app.format', [])
             },
             generateCoveragePointsWithOffset: function (pointDef, points, func, xOffset, yOffset) {
                 var intervals = pointDef.intervals;
+                var i;
+                for (i = 0; i < intervals.length; i++) {
+                    intervals[i].coors = [];
+                }
                 angular.forEach(points, function (point) {
                     var value = func(point);
-                    for (var i = 0; i < intervals.length; i++) {
+                    for (i = 0; i < intervals.length; i++) {
                         if ((pointDef.sign && value < intervals[i].threshold) || (!pointDef.sign && value > intervals[i].threshold)) {
                             intervals[i].coors.push({
                                 longtitute: point.longtitute + xOffset,

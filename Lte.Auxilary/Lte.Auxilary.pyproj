@@ -514,6 +514,9 @@
     <Content Include="zte_download\zte_download_mrs_125_181_delay2.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="zte_download\zte_download_mrs_125_181_delay3.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="zte_download\zte_download_mrs_125_183.sh">
       <SubType>Code</SubType>
     </Content>
@@ -546,6 +549,12 @@
     <Content Include="phpApi\wandonglouyu.php" />
     <Content Include="phpApi\zonghexinxiConnection.php" />
     <Content Include="Practise\ftp_test.sh" />
+    <Content Include="zte_download\zte_download_mrs_125_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_mrs_125_delay3.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="zte_download\zte_download_mrs_delay1.sh">
       <SubType>Code</SubType>
     </Content>

@@ -499,6 +499,7 @@ namespace Lte.Evaluations.DataService.Mr
                 _repository.GetAllList(x => x.Theme == theme
                                             && x.X >= westX && x.X < eastX && x.Y >= southY && x.Y < northY)
                     .GroupBy(x => x.ClusterNumber)
+                    .Where(g => g.Count() > 4)
                     .Select(g => new GridClusterView
                     {
                         ClusterNumber = g.Key,

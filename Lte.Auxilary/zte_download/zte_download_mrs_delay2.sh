@@ -1,1 +1,1 @@
-/home/wireless/env/py3env/bin/python /home/wireless/Public/ftp_zte_mrs.py 2
+/home/wireless/env/py3env/bin/python /home/wireless/Public/ftp_zte_mrs.py 132.122.155.136 MR_ZTE_SOURCE_D 2
