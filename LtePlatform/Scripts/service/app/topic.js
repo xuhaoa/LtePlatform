@@ -906,6 +906,90 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
+	
+	.controller('college.coverage.name', function ($scope, $uibModalInstance, name, beginDate, endDate,
+		baiduMapService, collegeQueryService, baiduQueryService,
+		collegeMapService, collegeDtService, coverageService, kpiDisplayService, parametersMapService) {
+		$scope.dialogTitle = name + '覆盖情况评估';
+		$scope.includeAllFiles = false;
+		$scope.network = {
+			options: ['2G', '3G', '4G'],
+			selected: '2G'
+		};
+		$scope.dataFile = {
+			options: [],
+			selected: ''
+		};
+		$scope.data = [];
+		$scope.coverageOverlays = [];
+
+		$scope.query = function () {
+			$scope.kpi = kpiDisplayService.queryKpiOptions($scope.network.selected);
+			if ($scope.center) {
+				collegeDtService.queryRaster($scope.center, $scope.network.selected, beginDate.value, endDate.value, function(files) {
+					$scope.dataFile.options = files;
+					if (files.length) {
+						$scope.dataFile.selected = files[0];
+					}
+				});
+			}
+		};
+
+		$scope.$watch('network.selected', function() {
+			$scope.query();
+		});
+
+		$scope.showDtPoints = function () {
+			$scope.legend = kpiDisplayService.queryCoverageLegend($scope.kpi.selected);
+			$scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+			kpiDisplayService.generateCoveragePoints($scope.coveragePoints, $scope.data, $scope.kpi.selected);
+			angular.forEach($scope.coverageOverlays, function(overlay) {
+				baiduMapService.removeOverlay(overlay);
+			});
+			parametersMapService.showIntervalPoints($scope.coveragePoints.intervals, $scope.coveragePoints);
+		};
+
+		var queryRasterInfo = function(index) {
+			coverageService.queryByRasterInfo($scope.dataFile.options[index], $scope.network.selected).then(function(result) {
+				$scope.data.push.apply($scope.data, result);
+				if (index < $scope.dataFile.options.length - 1) {
+					queryRasterInfo(index + 1);
+				} else {
+					$scope.showDtPoints();
+				}
+			});
+		};
+
+		$scope.showResults = function () {
+			$scope.data = [];
+			if ($scope.includeAllFiles) {
+				queryRasterInfo(0);
+			} else {
+				coverageService.queryByRasterInfo($scope.dataFile.selected, $scope.network.selected).then(function (result) {
+					$scope.data = result;
+					$scope.showDtPoints();
+				});
+			}
+		};
+
+		collegeMapService.queryCenterAndCallback(name, function(center) {
+			baiduQueryService.transformToBaidu(center.X, center.Y).then(function (coors) {
+				$scope.center = {
+					centerX: 2 * center.X - coors.x,
+					centerY: 2 * center.Y - coors.y
+				};
+			});
+			$scope.query();
+		});
+
+		$scope.ok = function () {
+		    $scope.showResults();
+		    $uibModalInstance.close($scope.site);
+		};
+		$scope.cancel = function () {
+		    $uibModalInstance.dismiss('cancel');
+		};
+	})
 
 
 	.factory('parametersDialogService', function(menuItemService, baiduMapService) {
@@ -1057,6 +1141,23 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 						},
 						currentClusterList: function() {
 							return currentClusterList;
+						}
+					}
+				});
+			},
+			showCollegeCoverage: function (name, beginDate, endDate) {
+				menuItemService.showGeneralDialog({
+					templateUrl: '/appViews/College/Coverage/CollegeMap.html',
+					controller: 'college.coverage.name',
+					resolve: {
+						name: function () {
+							return name;
+						},
+						beginDate: function () {
+							return beginDate;
+						},
+						endDate: function () {
+							return endDate;
 						}
 					}
 				});
@@ -1293,9 +1394,9 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 								"/Content/Images/BtsIcons/m_8_end.png");
 							overlays.push(marker);
 							baiduMapService.addOneMarkerToScope(marker, function (data) {
-							    alarmsService.queryClusterGridKpis(stat.gridPoints).then(function(list) {
-							        parametersDialogService.showClusterPointInfo(data, list);
-							    });
+								alarmsService.queryClusterGridKpis(stat.gridPoints).then(function(list) {
+									parametersDialogService.showClusterPointInfo(data, list);
+								});
 							}, stat);
 						}
 

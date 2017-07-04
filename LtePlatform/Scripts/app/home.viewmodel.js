@@ -2218,15 +2218,25 @@
             $scope.showView($scope.hotSpots[0]);
         });
     })
-    .controller("college.coverage", function ($scope, baiduMapService, collegeQueryService, mapDialogService) {
+    .controller("college.coverage", function ($scope, baiduMapService, collegeQueryService, mapDialogService, collegeMapService,
+        parametersDialogService) {
         baiduMapService.initializeMap("map", 11);
 
         $scope.showOverallCoverage = function() {
             mapDialogService.showCollegeCoverageList($scope.beginDate, $scope.endDate);
         };
+
+        $scope.showCoverageView = function(name) {
+            $scope.currentView = name;
+            parametersDialogService.showCollegeCoverage(name, $scope.beginDate, $scope.endDate);
+        };
         
         collegeQueryService.queryAll().then(function (spots) {
             $scope.hotSpots = spots;
+            $scope.currentView = spots[0].name;
+            collegeQueryService.queryByName(spots[0].name).then(function (college) {
+                collegeMapService.drawCollegeArea(college.id, function () { });
+            });
         });
     })
 
