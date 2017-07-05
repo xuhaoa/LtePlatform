@@ -7,7 +7,7 @@ from customize_utilities import *
 import datetime
 import sys
 
-db = MongoClient('mongodb://root:Abcdef9*@132.110.71.123')['ouyh']
+db = MongoClient('mongodb://root:Abcdef9*@132.110.71.122')['ouyh']
   
 host_ip = '132.122.152.106'
 FOLDER_ZTE = ['/'+sys.argv[2]+'/']
@@ -18,8 +18,9 @@ if not os.path.isdir('zte_mro'):
 os.chdir('zte_mro')
 delay=-int(sys.argv[3])-2
 hour=datetime.datetime.now().hour
+minute=datetime.datetime.now().minute
 if hour>12 and int(sys.argv[3])>2:
-    delay=-(hour%6+6)
+    delay=-(hour-minute%hour)
 date_dir=generate_date_hours_shift(shift=delay)
 _DFlist = list(db['DFlist_'+date_dir].find({}, {'dfName': 1, '_id': 0}))      
 DFList = [item.get('dfName') for item in _DFlist]

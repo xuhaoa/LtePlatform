@@ -349,16 +349,25 @@
     <Content Include="huawei_download\huawei_download_mrs_124_215_delay2.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="huawei_download\huawei_download_mrs_124_215_delay3.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="huawei_download\huawei_download_mrs_124_delay1.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="huawei_download\huawei_download_mrs_124_delay2.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="huawei_download\huawei_download_mrs_124_delay3.sh">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="huawei_download\huawei_download_mrs_delay1.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="huawei_download\huawei_download_mrs_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="huawei_download\huawei_download_mrs_delay3.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="process_huawei\process_huawei_mro.sh">
@@ -536,6 +545,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mrs_125_229_delay2.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_mrs_125_229_delay3.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mrs_125_delay1.sh">
