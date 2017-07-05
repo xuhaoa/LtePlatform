@@ -37,6 +37,8 @@ class MroReader:
             print(item_dict)
 
     def read(self, item_measurement, item_id):
+        lon_dict={}
+        lat_dict={}
         for item_element in item_measurement:
             if item_element.tag == 'smr':
                 item_key = item_element.text.replace('MR.', '').split(' ')
@@ -49,6 +51,7 @@ class MroReader:
                 item_position={}
                 neighbor_list=[]
                 neighbor_stat=NeighborStat(item_id+'-'+item_element.attrib['id'], 0)
+                user_num=item_element.attrib['MmeUeS1apId']
                 for item_v in item_element:
                     item_value = item_v.text.replace('NIL', '-1').replace('N','').replace('E','').replace('HRPD', '-2').replace('BC0', '-2').replace('|', '1').split(' ')
                     _item_sub_dict = dict(zip(item_key, map(to_dec, item_value)))
@@ -68,13 +71,22 @@ class MroReader:
                         neighbor_stat.stat['Pci']=_item_sub_dict['LteScPci']
                         item_dict.update({'Earfcn': _item_sub_dict['LteScEarfcn']})
                         center_filled=True
-                        if _item_sub_dict['Longitude']!=-1 and _item_sub_dict['Latitude']!=-1:
+                        longtitute=_item_sub_dict['Longitude']
+                        lattitute=_item_sub_dict['Latitude']
+                        if longtitute==-1 or lattitute==-1:
+                            if user_num in lon_dict.keys():
+                                longtitute=lon_dict[user_num]
+                            if user_num in lat_dict.keys():
+                                lattitute=lat_dict[user_num]
+                        if longtitute!=-1 and lattitute!=-1:
                             item_position.update({'CellId': item_id+'-'+item_element.attrib['id']})
                             item_position.update({'Rsrp': _item_sub_dict['LteScRSRP']})
                             item_position.update({'Ta': _item_sub_dict['LteScTadv']})
                             has_position=True
-                            item_position.update({'Lontitute': _item_sub_dict['Longitude']})
-                            item_position.update({'Lattitute': _item_sub_dict['Latitude']})
+                            item_position.update({'Lontitute': longtitute})
+                            item_position.update({'Lattitute': lattitute})
+                            lon_dict.update({user_num: longtitute})
+                            lat_dict.update({user_num: lattitute})
                             if _item_sub_dict['LteScRSRP']>max_telecom_rsrp and _item_sub_dict['LteScEarfcn'] in (100,75,1825,1850,2452,2446,41400):
                                 max_telecom_rsrp=_item_sub_dict['LteScRSRP']
                                 telecom_earfcn=_item_sub_dict['LteScEarfcn']
@@ -117,6 +129,8 @@ class MroReader:
                 self.neighbor_stats.append(neighbor_stat.stat)
 
     def read_zte(self, item_measurement, item_id):
+        lon_dict={}
+        lat_dict={}
         for item_element in item_measurement:
             if item_element.tag == 'smr':
                 item_key = item_element.text.replace('MR.', '').split(' ')
@@ -129,6 +143,7 @@ class MroReader:
                 item_position={}
                 neighbor_list=[]
                 neighbor_stat=NeighborStat(item_id+'-'+item_element.attrib['MR.objectId'], 0)
+                user_num=item_element.attrib['MR.MmeUeS1apId']
                 for item_v in item_element:
                     item_value = item_v.text.replace('NIL', '-1').split(' ')
                     _item_sub_dict = dict(zip(item_key, map(to_dec, item_value)))
@@ -148,18 +163,26 @@ class MroReader:
                         neighbor_stat.stat['Pci']=_item_sub_dict['LteScPci']
                         item_dict.update({'Earfcn': _item_sub_dict['LteScEarfcn']})                        
                         center_filled=True
-                        if _item_sub_dict['Longitude']!=-1 and _item_sub_dict['Latitude']!=-1:
+                        longtitute=_item_sub_dict['Longitude']
+                        lattitute=_item_sub_dict['Latitude']
+                        if longtitute==-1 or lattitute==-1:
+                            if user_num in lon_dict.keys():
+                                longtitute=lon_dict[user_num]
+                            if user_num in lat_dict.keys():
+                                lattitute=lat_dict[user_num]
+                        if longtitute!=-1 and lattitute!=-1:
                             item_position.update({'CellId': item_id+'-'+item_element.attrib['MR.objectId']})
                             item_position.update({'Rsrp': _item_sub_dict['LteScRSRP']})
                             item_position.update({'Ta': _item_sub_dict['LteScTadv']})
                             has_position=True
-                            if  _item_sub_dict['Longitude']>200:
-                                item_position.update({'Lontitute': _item_sub_dict['Longitude'] * 360 *1.0/ 16777216})
-                                item_position.update({'Lattitute': _item_sub_dict['Latitude'] * 90 / 8388608})
-                            else:
-                                item_position.update({'Lontitute': _item_sub_dict['Longitude']})
-                                item_position.update({'Lattitute': _item_sub_dict['Latitude']})
-                            if _item_sub_dict['LteScRSRP']>max_telecom_rsrp and _item_sub_dict['LteScEarfcn'] in (100,75,1825,1850,2452,2446,41400):
+                            if  longtitute>200:
+                                longtitute=_item_sub_dict['Longitude'] * 360 *1.0/ 16777216
+                                lattitute=_item_sub_dict['Latitude'] * 90 / 8388608
+                            item_position.update({'Lontitute': longtitute})
+                            item_position.update({'Lattitute': lattitute})
+                            lon_dict.update({user_num: longtitute})
+                            lat_dict.update({user_num: lattitute})
+                            if _item_sub_dict['LteScRSRP']>max_telecom_rsrp and _item_sub_dict['LteScEarfcn'] in (100,75,1825,1850,2452,2446,2505,41400):
                                 max_telecom_rsrp=_item_sub_dict['LteScRSRP']
                                 telecom_earfcn=_item_sub_dict['LteScEarfcn']
                             if _item_sub_dict['LteScRSRP']>max_mobile_rsrp and _item_sub_dict['LteScEarfcn'] in (37900,38098,38400,38950):
