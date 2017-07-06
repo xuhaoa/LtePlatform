@@ -2221,6 +2221,7 @@
     .controller("college.coverage", function ($scope, baiduMapService, collegeQueryService, mapDialogService, collegeMapService,
         parametersDialogService) {
         baiduMapService.initializeMap("map", 11);
+        $scope.coverageOverlays = [];
 
         $scope.showOverallCoverage = function() {
             mapDialogService.showCollegeCoverageList($scope.beginDate, $scope.endDate);
@@ -2228,15 +2229,18 @@
 
         $scope.showCoverageView = function(name) {
             $scope.currentView = name;
-            parametersDialogService.showCollegeCoverage(name, $scope.beginDate, $scope.endDate);
+            collegeQueryService.queryByName(name).then(function (college) {
+                collegeMapService.drawCollegeArea(college.id, function () { });
+            });
+            parametersDialogService.showCollegeCoverage(name, $scope.beginDate, $scope.endDate, $scope.coverageOverlays, function(legend) {
+                $scope.legend.criteria = legend.criteria;
+                $scope.legend.title = legend.title;
+                $scope.legend.sign = legend.sign;
+            });
         };
         
         collegeQueryService.queryAll().then(function (spots) {
             $scope.hotSpots = spots;
-            $scope.currentView = spots[0].name;
-            collegeQueryService.queryByName(spots[0].name).then(function (college) {
-                collegeMapService.drawCollegeArea(college.id, function () { });
-            });
         });
     })
 

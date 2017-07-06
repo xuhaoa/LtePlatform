@@ -1,1 +1,1 @@
-/home/wireless/anaconda3/bin/python /home/wireless/Public/ftp_zte_125.py 132.122.151.228 MR_ZTE_SOURCE_E 2
+/home/wireless/env/py3env/bin/python /home/wireless/Public/ftp_zte_125.py 132.122.151.228 MR_ZTE_SOURCE_E 2

@@ -694,7 +694,7 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 			angular.forEach($scope.coverageOverlays, function (overlay) {
 				baiduMapService.removeOverlay(overlay);
 			});
-			parametersMapService.showIntervalPoints($scope.coveragePoints.intervals, $scope.coveragePoints);
+			parametersMapService.showIntervalPoints($scope.coveragePoints.intervals, $scope.coverageOverlays);
 		};
 
 		var queryRasterInfo = function (index) {
@@ -907,7 +907,7 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 		};
 	})
 	
-	.controller('college.coverage.name', function ($scope, $uibModalInstance, name, beginDate, endDate,
+	.controller('college.coverage.name', function ($scope, $uibModalInstance, name, beginDate, endDate, coverageOverlays,
 		baiduMapService, collegeQueryService, baiduQueryService,
 		collegeMapService, collegeDtService, coverageService, kpiDisplayService, parametersMapService) {
 		$scope.dialogTitle = name + '覆盖情况评估';
@@ -921,10 +921,12 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 			selected: ''
 		};
 		$scope.data = [];
-		$scope.coverageOverlays = [];
+		$scope.coverageOverlays = coverageOverlays;
 
 		$scope.query = function () {
 			$scope.kpi = kpiDisplayService.queryKpiOptions($scope.network.selected);
+			$scope.legend = kpiDisplayService.queryCoverageLegend($scope.kpi.selected);
+		    $scope.legend.title = $scope.kpi.selected;
 			if ($scope.center) {
 				collegeDtService.queryRaster($scope.center, $scope.network.selected, beginDate.value, endDate.value, function(files) {
 					$scope.dataFile.options = files;
@@ -940,13 +942,12 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 		});
 
 		$scope.showDtPoints = function () {
-			$scope.legend = kpiDisplayService.queryCoverageLegend($scope.kpi.selected);
-			$scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+		    $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
 			kpiDisplayService.generateCoveragePoints($scope.coveragePoints, $scope.data, $scope.kpi.selected);
 			angular.forEach($scope.coverageOverlays, function(overlay) {
 				baiduMapService.removeOverlay(overlay);
 			});
-			parametersMapService.showIntervalPoints($scope.coveragePoints.intervals, $scope.coveragePoints);
+			parametersMapService.showIntervalPoints($scope.coveragePoints.intervals, $scope.coverageOverlays);
 		};
 
 		var queryRasterInfo = function(index) {
@@ -983,11 +984,11 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 		});
 
 		$scope.ok = function () {
-		    $scope.showResults();
-		    $uibModalInstance.close($scope.site);
+			$scope.showResults();
+			$uibModalInstance.close($scope.legend);
 		};
 		$scope.cancel = function () {
-		    $uibModalInstance.dismiss('cancel');
+			$uibModalInstance.dismiss('cancel');
 		};
 	})
 
@@ -1145,8 +1146,8 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 					}
 				});
 			},
-			showCollegeCoverage: function (name, beginDate, endDate) {
-				menuItemService.showGeneralDialog({
+			showCollegeCoverage: function (name, beginDate, endDate, coverageOverlays, callback) {
+				menuItemService.showGeneralDialogWithAction({
 					templateUrl: '/appViews/College/Coverage/CollegeMap.html',
 					controller: 'college.coverage.name',
 					resolve: {
@@ -1158,9 +1159,12 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 						},
 						endDate: function () {
 							return endDate;
+						},
+						coverageOverlays: function() {
+							return coverageOverlays;
 						}
 					}
-				});
+				}, callback);
 			}
 		}
 	})
