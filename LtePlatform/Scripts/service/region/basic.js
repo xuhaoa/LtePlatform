@@ -400,8 +400,30 @@
                     views: views
                 });
             },
+            updateAgpsMobileView: function (district, town, views) {
+                return generalHttpService.postApiData('AgpsMobile', {
+                    district: district,
+                    town: town,
+                    views: views
+                });
+            },
+            updateAgpsUnicomView: function (district, town, views) {
+                return generalHttpService.postApiData('AgpsUnicom', {
+                    district: district,
+                    town: town,
+                    views: views
+                });
+            },
             queryAgpsMobileByTown: function (begin, end, district, town) {
                 return generalHttpService.getApiData('AgpsMobile', {
+                    begin: begin,
+                    end: end,
+                    district: district,
+                    town: town
+                });
+            },
+            queryAgpsUnicomByTown: function (begin, end, district, town) {
+                return generalHttpService.getApiData('AgpsUnicom', {
                     begin: begin,
                     end: end,
                     district: district,

@@ -168,4 +168,27 @@ namespace Lte.Parameters.Concrete.Kpi
             return this.QueryLastDate(cellId, begin, end);
         }
     }
+
+    public class UnicomAgpsRepository : MongoDbRepositoryBase<AgpsMongo, ObjectId>, IUnicomAgpsRepository
+    {
+        public UnicomAgpsRepository(IMongoDatabaseProvider databaseProvider) : base(databaseProvider)
+        {
+            CollectionName = "position_unicom_combined";
+        }
+
+        public UnicomAgpsRepository() : this(new MyMongoProvider("ouyh"))
+        {
+
+        }
+
+        public AgpsMongo Get(string cellId, DateTime statDate)
+        {
+            return this.QueryLastDate(cellId, statDate);
+        }
+
+        public IEnumerable<AgpsMongo> GetList(string cellId, DateTime begin, DateTime end)
+        {
+            return this.QueryLastDate(cellId, begin, end);
+        }
+    }
 }

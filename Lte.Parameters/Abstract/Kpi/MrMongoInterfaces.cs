@@ -57,4 +57,9 @@ namespace Lte.Parameters.Abstract.Kpi
     {
 
     }
+
+    public interface IUnicomAgpsRepository : IRepository<AgpsMongo, ObjectId>, IStatDateCellRepository<AgpsMongo>
+    {
+        
+    }
 }

@@ -25,7 +25,7 @@ using Lte.Parameters.Entities.Channel;
 
 namespace Lte.Evaluations.DataService.Mr
 {
-    internal class TownSupportService
+    public class TownSupportService
     {
         private readonly ITownRepository _townRepository;
         private readonly ITownBoundaryRepository _boundaryRepository;
@@ -59,17 +59,19 @@ namespace Lte.Evaluations.DataService.Mr
         } 
     }
 
-    internal class AgpsService
+    public class AgpsService
     {
         private readonly ITelecomAgpsRepository _telecomAgpsRepository;
         private readonly IMobileAgpsRepository _mobileAgpsRepository;
+        private readonly IUnicomAgpsRepository _unicomAgpsRepository;
         private readonly IAgisDtPointRepository _agisDtPointRepository;
 
         public AgpsService(ITelecomAgpsRepository telecomAgpsRepository, IMobileAgpsRepository mobileAgpsRepository,
-            IAgisDtPointRepository agisDtPointRepository)
+            IUnicomAgpsRepository unicomAgpsRepository, IAgisDtPointRepository agisDtPointRepository)
         {
             _telecomAgpsRepository = telecomAgpsRepository;
             _mobileAgpsRepository = mobileAgpsRepository;
+            _unicomAgpsRepository = unicomAgpsRepository;
             _agisDtPointRepository = agisDtPointRepository;
         }
 
@@ -118,12 +120,90 @@ namespace Lte.Evaluations.DataService.Mr
             return _agisDtPointRepository.SaveChanges();
         }
 
+        public int UpdateMobileAgisPoint(AgpsCoverageView view, string district, string town)
+        {
+            var date = view.StatDate.Date;
+            var point =
+                _agisDtPointRepository.FirstOrDefault(
+                    x => x.StatDate == date && x.X == view.X && x.Y == view.Y && x.Operator == district + town);
+            if (point == null)
+            {
+                point = new AgisDtPoint
+                {
+                    X = view.X,
+                    Y = view.Y,
+                    Longtitute = view.Longtitute,
+                    Lattitute = view.Lattitute,
+                    StatDate = date,
+                    MobileRsrp = view.AverageRsrp,
+                    MobileRate100 = view.CoverageRate100,
+                    MobileRate105 = view.CoverageRate105,
+                    MobileRate110 = view.CoverageRate110,
+                    Operator = district + town
+                };
+                _agisDtPointRepository.Insert(point);
+            }
+            else
+            {
+                point.MobileRsrp = view.AverageRsrp;
+                point.MobileRate100 = view.CoverageRate100;
+                point.MobileRate105 = view.CoverageRate105;
+                point.MobileRate110 = view.CoverageRate110;
+            }
+            return _agisDtPointRepository.SaveChanges();
+        }
+
+        public int UpdateUnicomAgisPoint(AgpsCoverageView view, string district, string town)
+        {
+            var date = view.StatDate.Date;
+            var point =
+                _agisDtPointRepository.FirstOrDefault(
+                    x => x.StatDate == date && x.X == view.X && x.Y == view.Y && x.Operator == district + town);
+            if (point == null)
+            {
+                point = new AgisDtPoint
+                {
+                    X = view.X,
+                    Y = view.Y,
+                    Longtitute = view.Longtitute,
+                    Lattitute = view.Lattitute,
+                    StatDate = date,
+                    UnicomRsrp = view.AverageRsrp,
+                    UnicomRate100 = view.CoverageRate100,
+                    UnicomRate105 = view.CoverageRate105,
+                    UnicomRate110 = view.CoverageRate110,
+                    Operator = district + town
+                };
+                _agisDtPointRepository.Insert(point);
+            }
+            else
+            {
+                point.UnicomRsrp = view.AverageRsrp;
+                point.UnicomRate100 = view.CoverageRate100;
+                point.UnicomRate105 = view.CoverageRate105;
+                point.UnicomRate110 = view.CoverageRate110;
+            }
+            return _agisDtPointRepository.SaveChanges();
+        }
+
         public IEnumerable<AgpsCoverageView> QueryMobileCoverageViews(DateTime begin, DateTime end,
             List<List<GeoPoint>> boundaries)
         {
             var range = new IntRangeContainer(boundaries);
             var stats =
                 _mobileAgpsRepository.GetAllList(
+                    x =>
+                        x.StatDate >= begin && x.StatDate < end && x.X >= range.West && x.X < range.East &&
+                        x.Y >= range.South && x.Y < range.North);
+            return !stats.Any() ? new List<AgpsCoverageView>() : GenerateCoverageViews(boundaries, stats);
+        }
+
+        public IEnumerable<AgpsCoverageView> QueryUnicomCoverageViews(DateTime begin, DateTime end,
+            List<List<GeoPoint>> boundaries)
+        {
+            var range = new IntRangeContainer(boundaries);
+            var stats =
+                _unicomAgpsRepository.GetAllList(
                     x =>
                         x.StatDate >= begin && x.StatDate < end && x.X >= range.West && x.X < range.East &&
                         x.Y >= range.South && x.Y < range.North);
@@ -239,7 +319,6 @@ namespace Lte.Evaluations.DataService.Mr
         private readonly IMrGridKpiRepository _mrGridKpiRepository;
 
         private readonly TownSupportService _service;
-        private readonly AgpsService _agpsService;
         private readonly MrGridService _mrGridService;
 
         private static Stack<NearestPciCell> NearestCells { get; set; }
@@ -248,8 +327,7 @@ namespace Lte.Evaluations.DataService.Mr
             IENodebRepository eNodebRepository, IAgisDtPointRepository agisRepository,
             ITownRepository townRepository, IMrGridRepository mrGridRepository,
             IAppStreamRepository streamRepository, IWebBrowsingRepository browsingRepository,
-            ITownBoundaryRepository boundaryRepository, ITelecomAgpsRepository telecomAgpsRepository,
-            IMobileAgpsRepository mobileAgpsRepository, IMrGridKpiRepository mrGridKpiRepository)
+            ITownBoundaryRepository boundaryRepository, IMrGridKpiRepository mrGridKpiRepository)
         {
             _repository = repository;
             _cellRepository = cellRepository;
@@ -261,7 +339,6 @@ namespace Lte.Evaluations.DataService.Mr
             _mrGridKpiRepository = mrGridKpiRepository;
 
             _service = new TownSupportService(townRepository, boundaryRepository);
-            _agpsService = new AgpsService(telecomAgpsRepository, mobileAgpsRepository, _agisRepository);
             _mrGridService = new MrGridService(mrGridRepository);
             
             if (NearestCells == null)
@@ -413,30 +490,7 @@ namespace Lte.Evaluations.DataService.Mr
             if (boundaries == null) return new List<MrCoverageGridView>();
             return _mrGridService.QueryCoverageGridViews(initialDate, boundaries, district);
         }
-
-        public IEnumerable<AgpsCoverageView> QueryTelecomCoverageViews(DateTime begin, DateTime end, string district,
-            string town)
-        {
-            var boundaries = _service.QueryTownBoundaries(district, town);
-            return boundaries == null
-                ? new List<AgpsCoverageView>()
-                : _agpsService.QueryTelecomCoverageViews(begin, end, boundaries);
-        }
-
-        public int UpdateTelecomAgisDtPoint(AgpsTownView data)
-        {
-            return data.Views.Sum(view => _agpsService.UpdateTelecomAgisPoint(view, data.District, data.Town));
-        }
-
-        public IEnumerable<AgpsCoverageView> QueryMobileCoverageViews(DateTime begin, DateTime end, string district,
-            string town)
-        {
-            var boundaries = _service.QueryTownBoundaries(district, town);
-            return boundaries == null
-                ? new List<AgpsCoverageView>()
-                : _agpsService.QueryMobileCoverageViews(begin, end, boundaries);
-        }
-
+        
         public IEnumerable<MrCompeteGridView> QueryCompeteGridViews(DateTime initialDate, string district,
             string competeDescription)
         {

@@ -206,10 +206,6 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IMicroAddressRepository>().To<MicroAddressRepository>();
 
-            ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
-
-            ninjectKernel.Bind<CollegeStatService>().ToSelf();
-
             ninjectKernel.Bind<IEmergencyProcessRepository>().To<EmergencyProcessRepository>();
 
             ninjectKernel.Bind<IEmergencyFiberWorkItemRepository>().To<EmergencyFiberWorkItemRepository>();
@@ -228,11 +224,17 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IMobileAgpsRepository>().To<MobileAgpsRepository>();
 
+            ninjectKernel.Bind<IUnicomAgpsRepository>().To<UnicomAgpsRepository>();
+
             ninjectKernel.Bind<IMrGridKpiRepository>().To<MrGridKpiRepository>();
 
             ninjectKernel.Bind<IGridClusterRepository>().To<GridClusterRepository>();
 
             ninjectKernel.Bind<IDpiGridKpiRepository>().To<DpiGridKpiRepository>();
+            
+            ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
+
+            ninjectKernel.Bind<CollegeStatService>().ToSelf();
 
             ninjectKernel.Bind<ENodebQueryService>().ToSelf();
 
@@ -353,6 +355,10 @@ namespace LtePlatform
             ninjectKernel.Bind<GridClusterService>().ToSelf();
 
             ninjectKernel.Bind<DpiGridKpiService>().ToSelf();
+
+            ninjectKernel.Bind<TownSupportService>().ToSelf();
+
+            ninjectKernel.Bind<AgpsService>().ToSelf();
         }
     }
 }

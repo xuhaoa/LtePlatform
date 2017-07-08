@@ -247,7 +247,7 @@
                         controller: "menu.mr"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Mr.html",
+                        templateUrl: "/appViews/Home/Mr.html",
                         controller: "home.mr"
                     }
                 },
@@ -1590,10 +1590,10 @@
         };
 
         $scope.queryAgps = function() {
+            $scope.currentDistrict = $scope.district.selected;
+            $scope.currentTown = $scope.town.selected;
             switch ($scope.type.selected) {
                 case '电信':
-                    $scope.currentDistrict = $scope.district.selected;
-                    $scope.currentTown = $scope.town.selected;
                     coverageService.queryAgpsTelecomByTown($scope.beginDate.value, $scope.endDate.value, $scope.district.selected, $scope.town.selected).then(function(result) {
                         $scope.telecomAgps = result;
                     });
@@ -1603,10 +1603,25 @@
                         $scope.mobileAgps = result;
                     });
                     break;
+                case '联通':
+                    coverageService.queryAgpsUnicomByTown($scope.beginDate.value, $scope.endDate.value, $scope.district.selected, $scope.town.selected).then(function (result) {
+                        $scope.unicomAgps = result;
+                    });
+                    break;
             }
         };
         $scope.updateTelecomAgps = function() {
             coverageService.updateAgpsTelecomView($scope.currentDistrict, $scope.currentTown, $scope.telecomAgps).then(function(result) {
+
+            });
+        };
+        $scope.updateMobileAgps = function () {
+            coverageService.updateAgpsMobileView($scope.currentDistrict, $scope.currentTown, $scope.mobileAgps).then(function (result) {
+
+            });
+        };
+        $scope.updateUnicomAgps = function() {
+            coverageService.updateAgpsUnicomView($scope.currentDistrict, $scope.currentTown, $scope.unicomAgps).then(function (result) {
 
             });
         };

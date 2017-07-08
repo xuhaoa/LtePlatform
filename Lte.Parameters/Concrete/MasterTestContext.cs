@@ -1,4 +1,5 @@
-﻿using Lte.Parameters.Entities.Dt;
+﻿using System.Configuration;
+using Lte.Parameters.Entities.Dt;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Reflection;
@@ -12,7 +13,7 @@ namespace Lte.Parameters.Concrete
 
         public MasterTestContext()
             : base(
-                "Data source=WIN-E7U0ZAGEQAQ;initial catalog=masterTest;user id=ouyanghui;password=123456;",
+                ConfigurationManager.ConnectionStrings["MasterTest"].ConnectionString,
                 _mappingSource)
         {
 

@@ -1,10 +1,10 @@
-﻿using Lte.Domain.Regular;
-using System.Data.Linq.Mapping;
+﻿using System.Data.Linq.Mapping;
+using Lte.Domain.Common.Geo;
 
 namespace Lte.Parameters.Entities.Dt
 {
     [Table(Name = "dbo.rasterInfo")]
-    public class RasterInfo
+    public class RasterInfo : IGeoPoint<double>
     {
         [System.Data.Linq.Mapping.Column(Name = "rasterNum", DbType = "Int")]
         public int? RasterNum { get; set; }
@@ -33,24 +33,10 @@ namespace Lte.Parameters.Entities.Dt
         [System.Data.Linq.Mapping.Column(Name = "area", DbType = "Char(50)")]
         public string Area { get; set; }
 
-        public double WestLongtitute =>
-            !string.IsNullOrEmpty(Coordinate0)
-                ? Coordinate0.Split(',')[0].ConvertToDouble(0)
-                : (!string.IsNullOrEmpty(Coordinate1) ? Coordinate1.Split(',')[0].ConvertToDouble(0) : 0);
-
-        public double EastLongtitute =>
-            !string.IsNullOrEmpty(Coordinate2)
-                ? Coordinate2.Split(',')[0].ConvertToDouble(0)
-                : (!string.IsNullOrEmpty(Coordinate3) ? Coordinate3.Split(',')[0].ConvertToDouble(0) : 0);
-
-        public double SouthLattitute =>
-            !string.IsNullOrEmpty(Coordinate1)
-                ? Coordinate1.Split(',')[1].ConvertToDouble(0)
-                : (!string.IsNullOrEmpty(Coordinate2) ? Coordinate2.Split(',')[1].ConvertToDouble(0) : 0);
-
-        public double NorthLattitute =>
-            !string.IsNullOrEmpty(Coordinate0)
-                ? Coordinate0.Split(',')[1].ConvertToDouble(0)
-                : (!string.IsNullOrEmpty(Coordinate3) ? Coordinate3.Split(',')[1].ConvertToDouble(0) : 0);
+        [Column(Name = "lon")]
+        public double Longtitute { get; set; }
+        
+        [Column(Name = "lat")]
+        public double Lattitute { get; set; }
     }
 }

@@ -60,8 +60,8 @@ namespace Lte.Parameters.Concrete.College
                 GetAllList(dataType)
                     .Where(
                         x =>
-                            x.WestLongtitute < east && x.EastLongtitute > west && x.SouthLattitute < north &&
-                            x.NorthLattitute > south)
+                            x.Longtitute < east && x.Longtitute > west && x.Lattitute < north &&
+                            x.Lattitute > south)
                     .ToList();
         }
     }

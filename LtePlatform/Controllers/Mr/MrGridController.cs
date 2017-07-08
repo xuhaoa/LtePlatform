@@ -54,7 +54,7 @@ namespace LtePlatform.Controllers.Mr
         {
             _service = service;
         }
-
+        
         [HttpGet]
         [ApiDoc("查询指定区域最近日期内的MR覆盖率栅格信息")]
         [ApiParameterDoc("statDate", "初始日期")]
@@ -82,11 +82,13 @@ namespace LtePlatform.Controllers.Mr
     [ApiControl("AGPS电信覆盖情况查询控制器")]
     public class AgpsTelecomController : ApiController
     {
-        private readonly NearestPciCellService _service;
+        private readonly TownSupportService _service;
+        private readonly AgpsService _agpsService;
 
-        public AgpsTelecomController(NearestPciCellService service)
+        public AgpsTelecomController(TownSupportService service, AgpsService agpsService)
         {
             _service = service;
+            _agpsService = agpsService;
         }
 
         [HttpGet]
@@ -99,24 +101,29 @@ namespace LtePlatform.Controllers.Mr
         public IEnumerable<AgpsCoverageView> Get(DateTime begin, DateTime end, string district,
             string town)
         {
-            return _service.QueryTelecomCoverageViews(begin, end, district, town);
+            var boundaries = _service.QueryTownBoundaries(district, town);
+            return boundaries == null
+                ? new List<AgpsCoverageView>()
+                : _agpsService.QueryTelecomCoverageViews(begin, end, boundaries);
         }
 
         [HttpPost]
         public int Post(AgpsTownView view)
         {
-            return _service.UpdateTelecomAgisDtPoint(view);
+            return view.Views.Sum(stat => _agpsService.UpdateTelecomAgisPoint(stat, view.District, view.Town));
         }
     }
 
     [ApiControl("AGPS移动覆盖情况查询控制器")]
     public class AgpsMobileController : ApiController
     {
-        private readonly NearestPciCellService _service;
+        private readonly TownSupportService _service;
+        private readonly AgpsService _agpsService;
 
-        public AgpsMobileController(NearestPciCellService service)
+        public AgpsMobileController(TownSupportService service, AgpsService agpsService)
         {
             _service = service;
+            _agpsService = agpsService;
         }
 
         [HttpGet]
@@ -129,7 +136,51 @@ namespace LtePlatform.Controllers.Mr
         public IEnumerable<AgpsCoverageView> Get(DateTime begin, DateTime end, string district,
             string town)
         {
-            return _service.QueryMobileCoverageViews(begin, end, district, town);
+            var boundaries = _service.QueryTownBoundaries(district, town);
+            return boundaries == null
+                ? new List<AgpsCoverageView>()
+                : _agpsService.QueryMobileCoverageViews(begin, end, boundaries);
+        }
+
+        [HttpPost]
+        public int Post(AgpsTownView view)
+        {
+            return view.Views.Sum(stat => _agpsService.UpdateMobileAgisPoint(stat, view.District, view.Town));
+        }
+    }
+
+    [ApiControl("AGPS联通覆盖情况查询控制器")]
+    public class AgpsUnicomController : ApiController
+    {
+        private readonly TownSupportService _service;
+        private readonly AgpsService _agpsService;
+
+        public AgpsUnicomController(TownSupportService service, AgpsService agpsService)
+        {
+            _service = service;
+            _agpsService = agpsService;
+        }
+
+        [HttpGet]
+        [ApiDoc("查询指定日期范围内指定镇区AGPS覆盖情况")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiParameterDoc("town", "镇区")]
+        [ApiResponse("指定镇区AGPS覆盖情况")]
+        public IEnumerable<AgpsCoverageView> Get(DateTime begin, DateTime end, string district,
+            string town)
+        {
+            var boundaries = _service.QueryTownBoundaries(district, town);
+            return boundaries == null
+                ? new List<AgpsCoverageView>()
+                : _agpsService.QueryUnicomCoverageViews(begin, end, boundaries);
+        }
+
+        [HttpPost]
+        public int Post(AgpsTownView view)
+        {
+            return view.Views.Sum(stat => _agpsService.UpdateUnicomAgisPoint(stat, view.District, view.Town));
         }
     }
 
