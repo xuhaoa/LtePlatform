@@ -8,6 +8,7 @@ using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
+using Lte.Domain.Regular;
 using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Channel
@@ -24,6 +25,8 @@ namespace Lte.Parameters.Entities.Channel
         public DateTime StatDate { get; set; }
 
         public string CellId { get; set; }
+
+        public int ENodebId => CellId.GetSplittedFields('-')[0].ConvertToInt(0);
 
         [ArraySumProtection]
         public int X { get; set; }

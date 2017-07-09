@@ -359,6 +359,8 @@ namespace LtePlatform
             ninjectKernel.Bind<TownSupportService>().ToSelf();
 
             ninjectKernel.Bind<AgpsService>().ToSelf();
+
+            ninjectKernel.Bind<MrGridService>().ToSelf();
         }
     }
 }

@@ -242,6 +242,34 @@ namespace Lte.MySqlFramework.Entities
         public string CompeteDescription { get; set; }
     }
 
+    public class AgpsCoverageTown : Entity, IStatDate, IDistrictTown
+    {
+        public DateTime StatDate { get; set; }
+
+        public string District { get; set; }
+
+        public string Town { get; set; }
+
+        public string Operator { get; set; }
+
+        public int Rsrp { get; set; }
+
+        public double AverageRsrp => (double)Rsrp / Count;
+
+        public int Count { get; set; }
+
+        public int GoodCount { get; set; }
+
+        public double CoverageRate110 => (double)GoodCount / Count;
+
+        public double CoverageRate105 => (double)GoodCount105 / Count;
+
+        public double CoverageRate100 => (double)GoodCount100 / Count;
+
+        public int GoodCount105 { get; set; }
+
+        public int GoodCount100 { get; set; }
+    }
 
     [TypeDoc("存储于数据库的工单信息")]
     [AutoMapFrom(typeof(WorkItemExcel))]

@@ -17,7 +17,6 @@ using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.Regular;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Abstract;
 using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
@@ -29,19 +28,16 @@ namespace Lte.Evaluations.DataService.Mr
     {
         private readonly ITownRepository _townRepository;
         private readonly ITownBoundaryRepository _boundaryRepository;
+        private readonly IENodebRepository _eNodebRepository;
 
-        public TownSupportService(ITownRepository townRepository, ITownBoundaryRepository boundaryRepository)
+        public TownSupportService(ITownRepository townRepository, ITownBoundaryRepository boundaryRepository,
+            IENodebRepository eNodebRepository)
         {
             _townRepository = townRepository;
             _boundaryRepository = boundaryRepository;
+            _eNodebRepository = eNodebRepository;
         }
-
-        public string QueryFileNameDistrict(string fileName)
-        {
-            var districts = _townRepository.GetAllList().Select(x => x.DistrictName).Distinct();
-            return districts.FirstOrDefault(fileName.Contains);
-        }
-
+        
         public List<List<GeoPoint>> QueryTownBoundaries(string district, string town)
         {
             var townItem = _townRepository.QueryTown(district, town);
@@ -56,7 +52,26 @@ namespace Lte.Evaluations.DataService.Mr
                 }
                 return coorList;
             }).ToList();
-        } 
+        }
+
+        public IEnumerable<AgpsCoverageTown> QueryAgpsCoverageTowns(List<AgpsMongo> stats, string type, DateTime statDate)
+        {
+            return (from town in _townRepository.GetAllList()
+                let eNodebs = _eNodebRepository.GetAllList(x => x.TownId == town.Id)
+                let townStats = (from s in stats join e in eNodebs on s.ENodebId equals e.ENodebId select s).ToList()
+                
+                select new AgpsCoverageTown
+                {
+                    District = town.DistrictName,
+                    Town = town.TownName,
+                    Operator = type,
+                    StatDate = statDate,
+                    Count = townStats.Sum(x => x.Count),
+                    GoodCount = townStats.Sum(x => x.GoodCount),
+                    GoodCount105 = townStats.Sum(x => x.GoodCount105),
+                    GoodCount100 = townStats.Sum(x => x.GoodCount100)
+                }).ToList();
+        }
     }
 
     public class AgpsService
@@ -219,9 +234,30 @@ namespace Lte.Evaluations.DataService.Mr
                         x => boundaries.Any(boundary => GeoMath.IsInPolygon(new GeoPoint(x.Longtitute, x.Lattitute), boundary)));
             return filterStats.MapTo<List<AgpsCoverageView>>();
         }
+
+        public List<AgpsMongo> QueryTelecomList(DateTime statDate)
+        {
+            var begin = statDate.AddDays(-1);
+            return _telecomAgpsRepository.GetAllList(x => x.StatDate >= begin && x.StatDate < statDate
+                                                          && x.X > 0 && x.X < 10000 && x.Y > 0 && x.Y < 10000);
+        }
+
+        public List<AgpsMongo> QueryMobileList(DateTime statDate)
+        {
+            var begin = statDate.AddDays(-1);
+            return _mobileAgpsRepository.GetAllList(x => x.StatDate >= begin && x.StatDate < statDate
+                                                          && x.X > 0 && x.X < 10000 && x.Y > 0 && x.Y < 10000);
+        }
+
+        public List<AgpsMongo> QueryUnicomList(DateTime statDate)
+        {
+            var begin = statDate.AddDays(-1);
+            return _unicomAgpsRepository.GetAllList(x => x.StatDate >= begin && x.StatDate < statDate
+                                                          && x.X > 0 && x.X < 10000 && x.Y > 0 && x.Y < 10000);
+        }
     }
 
-    internal class MrGridService
+    public class MrGridService
     {
         private readonly IMrGridRepository _repository;
 
@@ -318,7 +354,7 @@ namespace Lte.Evaluations.DataService.Mr
         private readonly IWebBrowsingRepository _browsingRepository;
         private readonly IMrGridKpiRepository _mrGridKpiRepository;
 
-        private readonly TownSupportService _service;
+        private readonly ITownRepository _townRepository;
         private readonly MrGridService _mrGridService;
 
         private static Stack<NearestPciCell> NearestCells { get; set; }
@@ -326,8 +362,7 @@ namespace Lte.Evaluations.DataService.Mr
         public NearestPciCellService(INearestPciCellRepository repository, ICellRepository cellRepository,
             IENodebRepository eNodebRepository, IAgisDtPointRepository agisRepository,
             ITownRepository townRepository, IMrGridRepository mrGridRepository,
-            IAppStreamRepository streamRepository, IWebBrowsingRepository browsingRepository,
-            ITownBoundaryRepository boundaryRepository, IMrGridKpiRepository mrGridKpiRepository)
+            IAppStreamRepository streamRepository, IWebBrowsingRepository browsingRepository, IMrGridKpiRepository mrGridKpiRepository)
         {
             _repository = repository;
             _cellRepository = cellRepository;
@@ -338,7 +373,7 @@ namespace Lte.Evaluations.DataService.Mr
             _browsingRepository = browsingRepository;
             _mrGridKpiRepository = mrGridKpiRepository;
 
-            _service = new TownSupportService(townRepository, boundaryRepository);
+            _townRepository = townRepository;
             _mrGridService = new MrGridService(mrGridRepository);
             
             if (NearestCells == null)
@@ -414,8 +449,8 @@ namespace Lte.Evaluations.DataService.Mr
         {
             var xml = new XmlDocument();
             xml.Load(reader);
-            
-            var district = _service.QueryFileNameDistrict(fileName);
+            var districts = _townRepository.GetAllList().Select(x => x.DistrictName).Distinct();
+            var district = districts.FirstOrDefault(fileName.Contains);
             _mrGridService.UploadMrGrids(xml, district, fileName);
         }
 
@@ -483,13 +518,6 @@ namespace Lte.Evaluations.DataService.Mr
         {
             return _mrGridService.QueryCoverageGridViews(initialDate, district);
         }
-
-        public IEnumerable<MrCoverageGridView> QueryCoverageGridViews(DateTime initialDate, string district, string town)
-        {
-            var boundaries = _service.QueryTownBoundaries(district, town);
-            if (boundaries == null) return new List<MrCoverageGridView>();
-            return _mrGridService.QueryCoverageGridViews(initialDate, boundaries, district);
-        }
         
         public IEnumerable<MrCompeteGridView> QueryCompeteGridViews(DateTime initialDate, string district,
             string competeDescription)
@@ -499,19 +527,6 @@ namespace Lte.Evaluations.DataService.Mr
             var compete = (AlarmCategory?)competeTuple?.Item1;
 
             return _mrGridService.QueryCompeteGridViews(initialDate, district, compete);
-        }
-
-        public IEnumerable<MrCompeteGridView> QueryCompeteGridViews(DateTime initialDate, string district, string town,
-            string competeDescription)
-        {
-
-            var boundaries = _service.QueryTownBoundaries(district, town);
-            if (boundaries == null) return new List<MrCompeteGridView>();
-            var competeTuple =
-                WirelessConstants.EnumDictionary["AlarmCategory"].FirstOrDefault(x => x.Item2 == competeDescription);
-            var compete = (AlarmCategory?)competeTuple?.Item1;
-
-            return _mrGridService.QueryCompeteGridViews(initialDate, district, compete, boundaries);
         }
     }
 

@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Lte.Domain.Common.Geo;
+using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.DataService.Mr;
 using Lte.MySqlFramework.Entities;
@@ -48,11 +49,13 @@ namespace LtePlatform.Controllers.Mr
     [ApiControl("镇区MR覆盖情况查询控制器")]
     public class TownMrGridController : ApiController
     {
-        private readonly NearestPciCellService _service;
+        private readonly MrGridService _service;
+        private readonly TownSupportService _supportService;
 
-        public TownMrGridController(NearestPciCellService service)
+        public TownMrGridController(MrGridService service, TownSupportService supportService)
         {
             _service = service;
+            _supportService = supportService;
         }
         
         [HttpGet]
@@ -63,7 +66,9 @@ namespace LtePlatform.Controllers.Mr
         [ApiResponse("指定区域最近日期内的MR覆盖率栅格信息列表")]
         public IEnumerable<MrCoverageGridView> Get(DateTime statDate, string district, string town)
         {
-            return _service.QueryCoverageGridViews(statDate, district, town);
+            var boundaries = _supportService.QueryTownBoundaries(district, town);
+            if (boundaries == null) return new List<MrCoverageGridView>();
+            return _service.QueryCoverageGridViews(statDate, boundaries, district);
         }
 
         [HttpGet]
@@ -75,7 +80,13 @@ namespace LtePlatform.Controllers.Mr
         [ApiResponse("指定区域最近日期内的栅格竞争信息列表")]
         public IEnumerable<MrCompeteGridView> Get(DateTime statDate, string district, string town, string competeDescription)
         {
-            return _service.QueryCompeteGridViews(statDate, district, town, competeDescription);
+            var boundaries = _supportService.QueryTownBoundaries(district, town);
+            if (boundaries == null) return new List<MrCompeteGridView>();
+            var competeTuple =
+                WirelessConstants.EnumDictionary["AlarmCategory"].FirstOrDefault(x => x.Item2 == competeDescription);
+            var compete = (AlarmCategory?)competeTuple?.Item1;
+
+            return _service.QueryCompeteGridViews(statDate, district, compete, boundaries);
         }
     }
 
@@ -105,6 +116,13 @@ namespace LtePlatform.Controllers.Mr
             return boundaries == null
                 ? new List<AgpsCoverageView>()
                 : _agpsService.QueryTelecomCoverageViews(begin, end, boundaries);
+        }
+
+        [HttpGet]
+        public IEnumerable<AgpsCoverageTown> Get(DateTime statDate)
+        {
+            var stats = _agpsService.QueryTelecomList(statDate);
+            return _service.QueryAgpsCoverageTowns(stats, "电信", statDate);
         }
 
         [HttpPost]
@@ -142,6 +160,13 @@ namespace LtePlatform.Controllers.Mr
                 : _agpsService.QueryMobileCoverageViews(begin, end, boundaries);
         }
 
+        [HttpGet]
+        public IEnumerable<AgpsCoverageTown> Get(DateTime statDate)
+        {
+            var stats = _agpsService.QueryMobileList(statDate);
+            return _service.QueryAgpsCoverageTowns(stats, "移动", statDate);
+        }
+
         [HttpPost]
         public int Post(AgpsTownView view)
         {
@@ -175,6 +200,13 @@ namespace LtePlatform.Controllers.Mr
             return boundaries == null
                 ? new List<AgpsCoverageView>()
                 : _agpsService.QueryUnicomCoverageViews(begin, end, boundaries);
+        }
+
+        [HttpGet]
+        public IEnumerable<AgpsCoverageTown> Get(DateTime statDate)
+        {
+            var stats = _agpsService.QueryUnicomList(statDate);
+            return _service.QueryAgpsCoverageTowns(stats, "联通", statDate);
         }
 
         [HttpPost]
