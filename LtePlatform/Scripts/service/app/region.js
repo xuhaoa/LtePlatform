@@ -1346,6 +1346,11 @@ angular.module('region.basic', ['app.core'])
                     views: views
                 });
             },
+            dumpTownAgpsItems: function (views) {
+                return generalHttpService.postApiData('MrGrid', {
+                    views: views
+                });
+            },
             dumpSingleItem: function () {
                 return generalHttpService.putApiData('PreciseImport', {});
             },
