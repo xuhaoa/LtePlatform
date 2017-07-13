@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Add_MrGrid_Cluster_Kpi : IMigrationMetadata
+    public sealed partial class Add_Agps_Coverage_Town : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_MrGrid_Cluster_Kpi));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_Agps_Coverage_Town));
         
         string IMigrationMetadata.Id
         {
-            get { return "201706290842226_Add_MrGrid_Cluster_Kpi"; }
+            get { return "201707091258353_Add_Agps_Coverage_Town"; }
         }
         
         string IMigrationMetadata.Source

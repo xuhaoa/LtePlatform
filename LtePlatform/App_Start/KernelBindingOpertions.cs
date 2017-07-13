@@ -231,6 +231,8 @@ namespace LtePlatform
             ninjectKernel.Bind<IGridClusterRepository>().To<GridClusterRepository>();
 
             ninjectKernel.Bind<IDpiGridKpiRepository>().To<DpiGridKpiRepository>();
+
+            ninjectKernel.Bind<IAgpsTownRepository>().To<AgpsTownRepository>();
             
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 

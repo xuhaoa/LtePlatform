@@ -117,6 +117,18 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
+    public class AgpsTownRepository : EfRepositoryBase<MySqlContext, AgpsCoverageTown>, IAgpsTownRepository
+    {
+        public AgpsTownRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
     public class GridClusterRepository : EfRepositoryBase<MySqlContext, GridCluster>, IGridClusterRepository
     {
         public GridClusterRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)

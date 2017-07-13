@@ -158,13 +158,13 @@
     <Compile Include="Entities\PlanningSite.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
-    <Compile Include="Migrations\201706290842226_Add_MrGrid_Cluster_Kpi.cs" />
-    <Compile Include="Migrations\201706290842226_Add_MrGrid_Cluster_Kpi.Designer.cs">
-      <DependentUpon>201706290842226_Add_MrGrid_Cluster_Kpi.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201706300928213_Add_Dpi_Grid_Kpi.cs" />
     <Compile Include="Migrations\201706300928213_Add_Dpi_Grid_Kpi.Designer.cs">
       <DependentUpon>201706300928213_Add_Dpi_Grid_Kpi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707091258353_Add_Agps_Coverage_Town.cs" />
+    <Compile Include="Migrations\201707091258353_Add_Agps_Coverage_Town.Designer.cs">
+      <DependentUpon>201707091258353_Add_Agps_Coverage_Town.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -175,11 +175,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706290842226_Add_MrGrid_Cluster_Kpi.resx">
-      <DependentUpon>201706290842226_Add_MrGrid_Cluster_Kpi.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706300928213_Add_Dpi_Grid_Kpi.resx">
       <DependentUpon>201706300928213_Add_Dpi_Grid_Kpi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707091258353_Add_Agps_Coverage_Town.resx">
+      <DependentUpon>201707091258353_Add_Agps_Coverage_Town.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

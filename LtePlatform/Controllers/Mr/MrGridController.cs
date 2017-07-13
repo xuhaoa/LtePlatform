@@ -18,10 +18,12 @@ namespace LtePlatform.Controllers.Mr
     public class MrGridController : ApiController
     {
         private readonly NearestPciCellService _service;
+        private readonly AgpsService _agpsService;
 
-        public MrGridController(NearestPciCellService service)
+        public MrGridController(NearestPciCellService service, AgpsService agpsService)
         {
             _service = service;
+            _agpsService = agpsService;
         }
 
         [HttpGet]
@@ -43,7 +45,13 @@ namespace LtePlatform.Controllers.Mr
         public IEnumerable<MrCompeteGridView> Get(DateTime statDate, string district, string competeDescription)
         {
             return _service.QueryCompeteGridViews(statDate, district, competeDescription);
-        } 
+        }
+
+        [HttpPost]
+        public int Post(AgpsCoverageTown stat)
+        {
+            return _agpsService.UpdateAgpsTownStat(stat);
+        }
     }
 
     [ApiControl("镇区MR覆盖情况查询控制器")]

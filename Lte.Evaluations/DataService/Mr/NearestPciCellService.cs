@@ -80,14 +80,17 @@ namespace Lte.Evaluations.DataService.Mr
         private readonly IMobileAgpsRepository _mobileAgpsRepository;
         private readonly IUnicomAgpsRepository _unicomAgpsRepository;
         private readonly IAgisDtPointRepository _agisDtPointRepository;
+        private readonly IAgpsTownRepository _agpsTownRepository;
 
         public AgpsService(ITelecomAgpsRepository telecomAgpsRepository, IMobileAgpsRepository mobileAgpsRepository,
-            IUnicomAgpsRepository unicomAgpsRepository, IAgisDtPointRepository agisDtPointRepository)
+            IUnicomAgpsRepository unicomAgpsRepository, IAgisDtPointRepository agisDtPointRepository,
+            IAgpsTownRepository agpsTownRepository)
         {
             _telecomAgpsRepository = telecomAgpsRepository;
             _mobileAgpsRepository = mobileAgpsRepository;
             _unicomAgpsRepository = unicomAgpsRepository;
             _agisDtPointRepository = agisDtPointRepository;
+            _agpsTownRepository = agpsTownRepository;
         }
 
         public IEnumerable<AgpsCoverageView> QueryTelecomCoverageViews(DateTime begin, DateTime end,
@@ -254,6 +257,27 @@ namespace Lte.Evaluations.DataService.Mr
             var begin = statDate.AddDays(-1);
             return _unicomAgpsRepository.GetAllList(x => x.StatDate >= begin && x.StatDate < statDate
                                                           && x.X > 0 && x.X < 10000 && x.Y > 0 && x.Y < 10000);
+        }
+
+        public int UpdateAgpsTownStat(AgpsCoverageTown stat)
+        {
+            var item =
+                _agpsTownRepository.FirstOrDefault(
+                    x =>
+                        x.StatDate == stat.StatDate && x.District == stat.District && x.Town == stat.Town &&
+                        x.Operator == stat.Operator);
+            if (item != null)
+            {
+                item.Count = stat.Count;
+                item.GoodCount = stat.GoodCount;
+                item.GoodCount100 = stat.GoodCount100;
+                item.GoodCount105 = stat.GoodCount105;
+            }
+            else
+            {
+                _agpsTownRepository.Insert(stat);
+            }
+            return _agpsTownRepository.SaveChanges();
         }
     }
 
