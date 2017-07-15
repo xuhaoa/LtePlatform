@@ -20,11 +20,7 @@ namespace Lte.Parameters.Concrete
         }
 
         public Table<AreaTestDate> AreaTestDates => GetTable<AreaTestDate>();
-
-        public Table<CsvFilesInfo> CsvFilesInfos => GetTable<CsvFilesInfo>();
-
-        public Table<RasterInfo> RasterInfos => GetTable<RasterInfo>();
-
+        
         [Function(Name = "dbo.sp_get4GFileContents")]
         public ISingleResult<FileRecord4G> Get4GFileContents([Parameter(DbType = "varchar(max)")] string tableName)
         {

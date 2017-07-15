@@ -1,18 +1,21 @@
-﻿using Abp.Domain.Repositories;
+﻿using System;
+using Abp.Domain.Repositories;
 using AutoMapper;
-using Lte.Domain.Common.Geo;
 using Lte.Parameters.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
+using Abp.EntityFramework.Repositories;
 using Lte.Domain.Common.Wireless;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
+using Lte.Parameters.Entities.College;
+using Lte.Parameters.Entities.Dt;
 
 namespace Lte.Parameters.Abstract.Infrastructure
 {
-    public interface IRegionRepository : IRepository<OptimizeRegion>
+    public interface RegionRepositories : IRepository<OptimizeRegion>
     {
         List<OptimizeRegion> GetAllList(string city);
 
@@ -85,5 +88,36 @@ namespace Lte.Parameters.Abstract.Infrastructure
                 join town in towns on eNodeb.TownId equals town.Id
                 select eNodeb).ToList();
         } 
+    }
+
+    public interface ICollegeRepository : IRepository<CollegeInfo>, ISaveChanges
+    {
+        CollegeRegion GetRegion(int id);
+
+        CollegeInfo GetByName(string name);
+
+        RectangleRange GetRange(string name);
+
+    }
+
+    public interface IAreaTestDateRepository
+    {
+        IQueryable<AreaTestDate> AreaTestDates { get; }
+    }
+
+    public interface IFileRecordRepository
+    {
+        IEnumerable<FileRecord4G> GetFileRecord4Gs(string fileName);
+
+        IEnumerable<FileRecord4G> GetFileRecord4Gs(string fileName, int rasterNum);
+
+        IEnumerable<FileRecord3G> GetFileRecord3Gs(string fileName);
+
+        IEnumerable<FileRecord3G> GetFileRecord3Gs(string fileName, int rasterNum);
+
+        IEnumerable<FileRecord2G> GetFileRecord2Gs(string fileName);
+
+        IEnumerable<FileRecord2G> GetFileRecord2Gs(string fileName, int rasterNum);
+        
     }
 }

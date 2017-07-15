@@ -111,5 +111,11 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<DpiGridKpi> DpiGridKpis { get; set; }
 
         public DbSet<AgpsCoverageTown> AgpsCoverageTowns { get; set; }
+
+        public DbSet<RasterInfo> RasterInfos { get; set; }
+
+        public DbSet<RasterTestInfo> RasterTestInfos { get; set; }
+
+        public DbSet<CsvFilesInfo> CsvFilesInfos { get; set; }
     }
 }

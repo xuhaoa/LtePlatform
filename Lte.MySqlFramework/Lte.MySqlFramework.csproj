@@ -150,7 +150,7 @@
     <Compile Include="Concrete\StatRepositroies.cs" />
     <Compile Include="Entities\BranchDemand.cs" />
     <Compile Include="Entities\CdmaRegionStat.cs" />
-    <Compile Include="Entities\CollegeTestInfos.cs" />
+    <Compile Include="Entities\TestInfos.cs" />
     <Compile Include="Entities\ComplainItem.cs" />
     <Compile Include="Entities\DownSwitchFlow.cs" />
     <Compile Include="Entities\Flow.cs" />
@@ -158,13 +158,13 @@
     <Compile Include="Entities\PlanningSite.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
-    <Compile Include="Migrations\201706300928213_Add_Dpi_Grid_Kpi.cs" />
-    <Compile Include="Migrations\201706300928213_Add_Dpi_Grid_Kpi.Designer.cs">
-      <DependentUpon>201706300928213_Add_Dpi_Grid_Kpi.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201707091258353_Add_Agps_Coverage_Town.cs" />
     <Compile Include="Migrations\201707091258353_Add_Agps_Coverage_Town.Designer.cs">
       <DependentUpon>201707091258353_Add_Agps_Coverage_Town.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707150100468_Migrate_Basic_Dt.cs" />
+    <Compile Include="Migrations\201707150100468_Migrate_Basic_Dt.Designer.cs">
+      <DependentUpon>201707150100468_Migrate_Basic_Dt.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -175,11 +175,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706300928213_Add_Dpi_Grid_Kpi.resx">
-      <DependentUpon>201706300928213_Add_Dpi_Grid_Kpi.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707091258353_Add_Agps_Coverage_Town.resx">
       <DependentUpon>201707091258353_Add_Agps_Coverage_Town.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707150100468_Migrate_Basic_Dt.resx">
+      <DependentUpon>201707150100468_Migrate_Basic_Dt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

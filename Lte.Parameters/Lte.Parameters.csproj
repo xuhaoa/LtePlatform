@@ -166,13 +166,12 @@
   <ItemGroup>
     <Compile Include="Abstract\Basic\MongoRepositories.cs" />
     <Compile Include="Abstract\Basic\CellRepositories.cs" />
-    <Compile Include="Abstract\College\ICollegeRepository.cs" />
     <Compile Include="Abstract\Basic\IENodebRepository.cs" />
     <Compile Include="Abstract\Infrastructure\IInfrastructureRepository.cs" />
+    <Compile Include="Abstract\Infrastructure\RegionRepositories.cs" />
     <Compile Include="Abstract\Infrastructure\NeighborRepositories.cs" />
     <Compile Include="Abstract\Kpi\MrMongoInterfaces.cs" />
     <Compile Include="Abstract\Kpi\PreciseInterfaces.cs" />
-    <Compile Include="Abstract\Infrastructure\IRegionRepository.cs" />
     <Compile Include="Abstract\Switch\ICellMeasGroupZteRepository.cs" />
     <Compile Include="Abstract\Switch\IInterFreqHoGroupRepository.cs" />
     <Compile Include="Abstract\Switch\IInterRatHoCommRepository.cs" />
@@ -184,7 +183,6 @@
     <Compile Include="Concrete\Channel\CellPcRepositories.cs" />
     <Compile Include="Concrete\Channel\PDSCHCfgRepository.cs" />
     <Compile Include="Concrete\Basic\EFCellRepository.cs" />
-    <Compile Include="Concrete\College\EFTestRepositories.cs" />
     <Compile Include="Concrete\College\EFCollegeRepository.cs" />
     <Compile Include="Concrete\Basic\EFENodebRepository.cs" />
     <Compile Include="Concrete\Infrastructure\EFInfrastructureRepository.cs" />
@@ -222,7 +220,6 @@
     <Compile Include="Entities\College\CollegeInfo.cs" />
     <Compile Include="Entities\Dt\DtFilesInfo.cs" />
     <Compile Include="Entities\Basic\ENodeb.cs" />
-    <Compile Include="Entities\Dt\FileRecords.cs" />
     <Compile Include="Entities\InfrastructureInfo.cs" />
     <Compile Include="Entities\Neighbor\EutranInterNFreq.cs" />
     <Compile Include="Entities\Neighbor\EutranIntraFreqNCell.cs" />
@@ -230,7 +227,6 @@
     <Compile Include="Entities\Neighbor\LteNeighborCell.cs" />
     <Compile Include="Entities\Neighbor\NearestPciCell.cs" />
     <Compile Include="Entities\Kpi\PreciseCoverage4G.cs" />
-    <Compile Include="Entities\Dt\RasterInfo.cs" />
     <Compile Include="Entities\Switch\CellMeasGroupZte.cs" />
     <Compile Include="Entities\Switch\EUtranCellMeasurementZte.cs" />
     <Compile Include="Entities\Switch\IZteMeasGroup.cs" />
@@ -282,6 +278,7 @@
       <DependentUpon>201706131036161_Move_Work_Item.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

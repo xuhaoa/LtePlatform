@@ -1,9 +1,7 @@
 ﻿using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
 using Lte.MySqlFramework.Abstract;
-using Lte.Parameters.Abstract;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
 using Moq;
@@ -145,7 +143,7 @@ namespace Lte.Evaluations.MockItems
                             .ToList());
         }
 
-        public static void MockOperation(this Mock<IRegionRepository> repository)
+        public static void MockOperation(this Mock<RegionRepositories> repository)
         {
             repository.Setup(x => x.GetAllList(It.IsAny<string>()))
                 .Returns<string>(city => repository.Object.GetAll().Where(x => x.City == city).ToList());

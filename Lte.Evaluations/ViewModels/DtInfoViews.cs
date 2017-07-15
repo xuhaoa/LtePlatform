@@ -4,6 +4,7 @@ using Lte.Domain.Regular.Attributes;
 using Lte.Parameters.Entities.Dt;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.ViewModels
 {
@@ -32,25 +33,7 @@ namespace Lte.Evaluations.ViewModels
 
         public double NorthLattitute { get; set; }
     }
-
-    public class RasterFileInfoView
-    {
-        public int RasterNum { get; set; }
-
-        public IEnumerable<string> CsvFilesNames { get; set; } = new List<string>();
-
-        public RasterFileInfoView(RasterInfo info, string dataType)
-        {
-            RasterNum = info.RasterNum ?? 0;
-            if (dataType == "2G" && !string.IsNullOrEmpty(info.CsvFilesName2G))
-                CsvFilesNames = info.CsvFilesName2G.Split(';');
-            if (dataType == "3G" && !string.IsNullOrEmpty(info.CsvFilesName3G))
-                CsvFilesNames = info.CsvFilesName3G.Split(';');
-            if (dataType == "4G" && !string.IsNullOrEmpty(info.CsvFilesName4G))
-                CsvFilesNames = info.CsvFilesName4G.Split(';');
-        }
-    }
-
+    
     [TypeDoc("测试数据文件网格视图，一个测试数据文件包含的若干个网格")]
     public class FileRasterInfoView
     {

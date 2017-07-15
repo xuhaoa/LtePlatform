@@ -49,6 +49,20 @@ namespace Lte.MySqlFramework.Abstract
 
     public interface IHotSpotCdmaCellRepository : IRepository<HotSpotCdmaCellId>, ISaveChanges
     {
+
+    }
+
+    public interface IRasterInfoRepository : IRepository<RasterInfo>, ISaveChanges
+    {
+    }
+
+    public interface IRasterTestInfoRepository : IRepository<RasterTestInfo>, ISaveChanges
+    {
+        
+    }
+
+    public interface IDtFileInfoRepository : IRepository<CsvFilesInfo>
+    {
         
     }
 }

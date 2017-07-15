@@ -603,12 +603,8 @@ namespace Lte.Evaluations.MapperService
         [Test]
         public void Test_RasterInfoView()
         {
-            var info = new RasterInfo
+            var info = new RasterTestInfo
             {
-                Area = "135",
-                CsvFilesName2G = "a;bc;def",
-                CsvFilesName3G = "abc;de",
-                CsvFilesName4G = "a;b;c;d;e",
                 RasterNum = 15
             };
             var view = info.MapTo<RasterInfoView>();

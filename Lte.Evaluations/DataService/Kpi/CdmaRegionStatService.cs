@@ -14,10 +14,10 @@ namespace Lte.Evaluations.DataService.Kpi
 {
     public class CdmaRegionStatService
     {
-        private readonly IRegionRepository _regionRepository;
+        private readonly RegionRepositories _regionRepository;
         private readonly ICdmaRegionStatRepository _statRepository;
 
-        public CdmaRegionStatService(IRegionRepository regionRepository, ICdmaRegionStatRepository statRepository)
+        public CdmaRegionStatService(RegionRepositories regionRepository, ICdmaRegionStatRepository statRepository)
         {
             _regionRepository = regionRepository;
             _statRepository = statRepository;

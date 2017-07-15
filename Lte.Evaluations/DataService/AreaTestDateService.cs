@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using Lte.Evaluations.ViewModels;
-using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Entities.Dt;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Abp.EntityFramework.AutoMapper;
+using Lte.Domain.Common;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Infrastructure;
 
 namespace Lte.Evaluations.DataService
@@ -32,48 +33,60 @@ namespace Lte.Evaluations.DataService
     public class RasterInfoService
     {
         private readonly IRasterInfoRepository _repository;
-        private readonly ICsvFileInfoRepository _fileRepository;
+        private readonly IRasterTestInfoRepository _testInfoRepository;
+        private readonly IDtFileInfoRepository _dtFileInfoRepository;
 
-        public RasterInfoService(IRasterInfoRepository repository, ICsvFileInfoRepository fileRepository)
+        public RasterInfoService(IRasterInfoRepository repository,
+            IRasterTestInfoRepository testInfoRepository, IDtFileInfoRepository dtFileInfoRepository)
         {
             _repository = repository;
-            _fileRepository = fileRepository;
+            _testInfoRepository = testInfoRepository;
+            _dtFileInfoRepository = dtFileInfoRepository;
         }
 
         public IEnumerable<RasterInfo> GetAllList()
         {
-            return _repository.RasterInfos;
+            return _repository.GetAllList();
         } 
         
         public IEnumerable<FileRasterInfoView> QueryFileNames(string dataType, double west, double east, double south,
             double north)
         {
-            var infos = _repository.GetAllList(dataType, west, east, south, north);
+            var infos =
+                _repository.GetAllList(
+                    x => x.Longtitute >= west && x.Longtitute < east && x.Lattitute >= south && x.Lattitute < north);
             return GetFileRasterInfoViews(dataType, infos);
         }
 
-        private static IEnumerable<FileRasterInfoView> GetFileRasterInfoViews(string dataType, List<RasterInfo> infos)
+        private IEnumerable<FileRasterInfoView> GetFileRasterInfoViews(string dataType, List<RasterInfo> infos)
         {
             if (!infos.Any())
                 return new List<FileRasterInfoView>();
 
-            var fileInfos = infos.Select(x => new RasterFileInfoView(x, dataType));
-            var query = fileInfos.Select(x => x.CsvFilesNames.Select(f => new Tuple<int, string>(x.RasterNum, f)));
+            var fileInfos =
+                infos.Select(
+                    info => _testInfoRepository.GetAllList(x => x.NetworkType == dataType && x.RasterNum == info.Id))
+                    .Aggregate((x, y) => x.Concat(y).ToList());
+            var query = fileInfos.Select(x => x.CsvFilesName.GetSplittedFields(';').Select(t => new
+            {
+                x.RasterNum,
+                FileName = t
+            }));
             var tuples = query.Aggregate((x, y) => x.Concat(y)).Distinct();
 
             return from tuple in tuples
-                group tuple by tuple.Item2
+                group tuple by tuple.FileName
                 into g
                 select new FileRasterInfoView
                 {
                     CsvFileName = g.Key,
-                    RasterNums = g.Select(x => x.Item1)
+                    RasterNums = g.Select(x => x.RasterNum)
                 };
         }
 
         public IEnumerable<FileRasterInfoView> QueryFileNames(string dataType, string town)
         {
-            var infos = _repository.GetAllList(dataType, town);
+            var infos = _repository.GetAllList(x=>x.Area==town);
             return GetFileRasterInfoViews(dataType, infos);
         }
 
@@ -88,7 +101,7 @@ namespace Lte.Evaluations.DataService
         {
             if (!views.Any()) return new List<FileRasterInfoView>();
 
-            var fileInfos = _fileRepository.GetAllList(begin, end);
+            var fileInfos = _dtFileInfoRepository.GetAllList(x => x.TestDate >= begin && x.TestDate < end);
             if (!fileInfos.Any()) return new List<FileRasterInfoView>();
 
             return from fileInfo in fileInfos
@@ -106,16 +119,18 @@ namespace Lte.Evaluations.DataService
 
     public class CsvFileInfoService
     {
-        private static ICsvFileInfoRepository _repository;
+        private readonly IFileRecordRepository _repository;
+        private readonly IDtFileInfoRepository _dtFileInfoRepository;
 
-        public CsvFileInfoService(ICsvFileInfoRepository repository)
+        public CsvFileInfoService(IFileRecordRepository repository, IDtFileInfoRepository dtFileInfoRepository)
         {
             _repository = repository;
+            _dtFileInfoRepository = dtFileInfoRepository;
         }
         
         public IEnumerable<CsvFilesInfo> QueryFilesInfos(DateTime begin, DateTime end)
         {
-            return _repository.GetAllList(begin, end);
+            return _dtFileInfoRepository.GetAllList(x => x.TestDate >= begin && x.TestDate < end);
         }
 
         public IEnumerable<FileRecord4G> GetFileRecord4Gs(string fileName)

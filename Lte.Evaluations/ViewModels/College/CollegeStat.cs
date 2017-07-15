@@ -1,6 +1,5 @@
 ﻿using Lte.Domain.Regular.Attributes;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities.College;
 using System.Runtime.Serialization;

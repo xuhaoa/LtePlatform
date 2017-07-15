@@ -9,7 +9,6 @@ using Lte.Evaluations.DataService.Switch;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Concrete;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Abstract.College;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Abstract.Switch;
@@ -42,7 +41,7 @@ namespace LtePlatform
 
             ninjectKernel.Bind<ICdmaRegionStatRepository>().To<EFCdmaRegionStatRepository>();
 
-            ninjectKernel.Bind<IRegionRepository>().To<EFRegionRepository>();
+            ninjectKernel.Bind<RegionRepositories>().To<EFRegionRepository>();
 
             ninjectKernel.Bind<ICollegeRepository>().To<EFCollegeRepository>();
 
@@ -80,9 +79,11 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IAreaTestDateRepository>().To<MasterAreaTestDateDateRepository>();
 
-            ninjectKernel.Bind<ICsvFileInfoRepository>().To<MasterCsvFileInfoRepository>();
+            ninjectKernel.Bind<IFileRecordRepository>().To<MasterFileRecordRepository>();
 
-            ninjectKernel.Bind<IRasterInfoRepository>().To<MasterRasterInfoRepository>();
+            ninjectKernel.Bind<IRasterInfoRepository>().To<RasterInfoRepository>();
+
+            ninjectKernel.Bind<IRasterTestInfoRepository>().To<RasterTestInfoRepository>();
 
             ninjectKernel.Bind<ILteNeighborCellRepository>().To<EFLteNeighborCellRepository>();
 
@@ -233,6 +234,8 @@ namespace LtePlatform
             ninjectKernel.Bind<IDpiGridKpiRepository>().To<DpiGridKpiRepository>();
 
             ninjectKernel.Bind<IAgpsTownRepository>().To<AgpsTownRepository>();
+
+            ninjectKernel.Bind<IDtFileInfoRepository>().To<DtFileInfoRepository>();
             
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 

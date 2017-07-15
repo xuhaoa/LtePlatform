@@ -14,10 +14,10 @@ namespace Lte.Evaluations.TestService
 {
     public class CdmaRegionStatTestService
     {
-        private readonly Mock<IRegionRepository> _regionRepository;
+        private readonly Mock<RegionRepositories> _regionRepository;
         private readonly Mock<ICdmaRegionStatRepository> _statRepository;
 
-        public CdmaRegionStatTestService(Mock<IRegionRepository> regionRepository,
+        public CdmaRegionStatTestService(Mock<RegionRepositories> regionRepository,
             Mock<ICdmaRegionStatRepository> statRepository)
         {
             _regionRepository = regionRepository;

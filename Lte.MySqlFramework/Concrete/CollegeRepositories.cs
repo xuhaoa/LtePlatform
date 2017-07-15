@@ -142,4 +142,35 @@ namespace Lte.MySqlFramework.Concrete
             return Context.SaveChanges();
         }
     }
+
+    public class RasterInfoRepository : EfRepositoryBase<MySqlContext, RasterInfo>, IRasterInfoRepository
+    {
+        public RasterInfoRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
+    public class RasterTestInfoRepository : EfRepositoryBase<MySqlContext, RasterTestInfo>, IRasterTestInfoRepository
+    {
+        public RasterTestInfoRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
+
+    public class DtFileInfoRepository : EfRepositoryBase<MySqlContext, CsvFilesInfo>, IDtFileInfoRepository
+    {
+        public DtFileInfoRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+    }
 }

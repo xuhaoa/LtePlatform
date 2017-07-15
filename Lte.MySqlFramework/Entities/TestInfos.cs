@@ -244,4 +244,32 @@ namespace Lte.MySqlFramework.Entities
 
         public List<GeoPoint> BoundaryGeoPoints { get; set; }
     }
+
+    public class RasterInfo : Entity, IGeoPoint<double>
+    {
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        public string Area { get; set; }
+    }
+
+    public class RasterTestInfo : Entity
+    {
+        public int RasterNum { get; set; }
+        
+        public string CsvFilesName { get; set; }
+        
+        public string NetworkType { get; set; }
+    }
+
+    public class CsvFilesInfo : Entity
+    {
+        public DateTime TestDate { get; set; }
+        
+        public string CsvFileName { get; set; }
+        
+        public double Distance { get; set; }
+    }
+
 }

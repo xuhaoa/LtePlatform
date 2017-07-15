@@ -10,7 +10,7 @@ using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Parameters.Concrete.Kpi
 {
-    public class EFRegionRepository : EfRepositoryBase<EFParametersContext, OptimizeRegion>, IRegionRepository
+    public class EFRegionRepository : EfRepositoryBase<EFParametersContext, OptimizeRegion>, RegionRepositories
     {
         public List<OptimizeRegion> GetAllList(string city)
         {
