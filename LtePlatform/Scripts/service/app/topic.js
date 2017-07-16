@@ -935,6 +935,7 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 					if (files.length) {
 						$scope.dataFile.selected = files[0];
 					}
+				    $scope.dtList = files;
 				});
 			}
 		};

@@ -423,4 +423,27 @@
             },
             argumentName: 'items'
         }, $compile);
+    })
+    .controller('DtFileListController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'csvFileName', name: '测试文件名称', width: 200 },
+                { field: 'rasterNums.length', name: '涉及网格数' },
+                { field: 'distance', name: '测试里程' },
+                { field: 'testDate', name: '测试日期', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'mrCount', name: 'MR数量' },
+                { field: 'weakCount', name: '弱覆盖' },
+                { field: 'weakCoverageRate', name: '弱覆盖比例（%）' }
+            ],
+            data: []
+        };
+    })
+    .directive('dtFileList', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'DtFileListController',
+            scope: {
+                items: '='
+            },
+            argumentName: 'items'
+        }, $compile);
     });

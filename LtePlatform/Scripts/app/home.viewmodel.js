@@ -2256,6 +2256,7 @@
         
         collegeQueryService.queryAll().then(function (spots) {
             $scope.hotSpots = spots;
+            $scope.currentView = spots[0].name;
         });
     })
 

@@ -419,6 +419,7 @@
 					if (files.length) {
 						$scope.dataFile.selected = files[0];
 					}
+				    $scope.dtList = files;
 				});
 			}
 		};

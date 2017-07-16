@@ -33,14 +33,7 @@
             <span class="cloudmap-city-name">{{coverageRate | number: 2}}</span>
             <span class="cloudmap-city-name">%</span>
         </div>
-        <div class="cloudmap-baiduwrapper">
-            <div id="all-map" style="width: 100%;height: 600px;overflow: hidden;margin:0;"></div>
-            <div coverage-legend legend-title="kpi.selected" criteria="legend.criteria" sign="legend.sign"></div>
-            <div class="map-top-right" ng-show="dataFile.options.length">
-                <div id="time-control-btns">
-                </div>
-            </div>
-        </div>
+        <div dt-file-list items="dtList"></div>
     </div>
 </div>
 <div class="modal-footer">
