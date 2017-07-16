@@ -1067,7 +1067,7 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 			},
 			showTownDtInfo: function (item) {
 				menuItemService.showGeneralDialogWithAction({
-					templateUrl: '/appViews/College/Coverage/CollegeMap.html',
+					templateUrl: '/appViews/College/Coverage/TownMap.html',
 					controller: 'town.dt.dialog',
 					resolve: {
 						dialogTitle: function () {

@@ -551,7 +551,7 @@
 			},
 			showTownDtInfo: function (item) {
 				menuItemService.showGeneralDialogWithAction({
-					templateUrl: '/appViews/College/Coverage/CollegeMap.html',
+					templateUrl: '/appViews/College/Coverage/TownMap.html',
 					controller: 'town.dt.dialog',
 					resolve: {
 						dialogTitle: function () {
