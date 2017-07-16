@@ -187,7 +187,6 @@
     <Compile Include="ViewModels\Precise\Precise4GView.cs" />
     <Compile Include="ViewModels\Precise\PreciseHistory.cs" />
     <Compile Include="ViewModels\RegionKpi\PreciseRegion.cs" />
-    <Compile Include="ViewModels\DtInfoViews.cs" />
     <Compile Include="ViewModels\RegionKpi\StatViews.cs" />
     <Compile Include="ViewModels\Switch\FreqHoViews.cs" />
     <Compile Include="ViewModels\Switch\InterFreqEvents.cs" />

@@ -599,22 +599,7 @@ namespace Lte.Evaluations.MapperService
             var item = info.MapTo<ComplainItem>();
             item.District.ShouldBe("分公司客服中心");
         }
-
-        [Test]
-        public void Test_RasterInfoView()
-        {
-            var info = new RasterTestInfo
-            {
-                RasterNum = 15
-            };
-            var view = info.MapTo<RasterInfoView>();
-            view.Area.ShouldBe("135");
-            view.CsvFilesName2Gs.Count().ShouldBe(3);
-            view.CsvFilesName3Gs.ElementAt(1).ShouldBe("de");
-            view.CsvFilesName4Gs.ElementAt(3).ShouldBe("d");
-            view.RasterNum.ShouldBe(15);
-        }
-
+        
         [Test]
         public void Test_TopDrop2GCellViewContainer()
         {
