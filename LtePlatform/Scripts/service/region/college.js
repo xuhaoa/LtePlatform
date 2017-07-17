@@ -65,6 +65,11 @@
                     begin: begin,
                     end: end
                 });
+            },
+            queryCsvFileInfo: function(fileName) {
+                return generalHttpService.getApiData('CsvFileInfo', {
+                    fileName: fileName
+                });
             }
         }
     })

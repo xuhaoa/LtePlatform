@@ -182,8 +182,8 @@
 		};
 
 		var queryRasterInfo = function (index) {
-		    console.log($scope.dataFile);
-		    console.log($scope.network);
+			console.log($scope.dataFile);
+			console.log($scope.network);
 			coverageService.queryByRasterInfo($scope.dataFile.options[index], $scope.network.selected).then(function (result) {
 				$scope.data.push.apply($scope.data, result);
 				if (index < $scope.dataFile.options.length - 1) {
@@ -195,7 +195,7 @@
 		};
 
 		$scope.showStat = function () {
-		    $scope.data = [];
+			$scope.data = [];
 			if ($scope.includeAllFiles) {
 				queryRasterInfo(0);
 			} else {
@@ -394,7 +394,7 @@
 	})
 	
 	.controller('college.coverage.name', function ($scope, $uibModalInstance, name, beginDate, endDate, coverageOverlays,
-		baiduMapService, collegeQueryService, baiduQueryService,
+		baiduMapService, collegeQueryService, baiduQueryService, collegeService,
 		collegeMapService, collegeDtService, coverageService, kpiDisplayService, parametersMapService) {
 		$scope.dialogTitle = name + '覆盖情况评估';
 		$scope.includeAllFiles = false;
@@ -412,24 +412,29 @@
 		$scope.query = function () {
 			$scope.kpi = kpiDisplayService.queryKpiOptions($scope.network.selected);
 			$scope.legend = kpiDisplayService.queryCoverageLegend($scope.kpi.selected);
-		    $scope.legend.title = $scope.kpi.selected;
-			if ($scope.center) {
-				collegeDtService.queryRaster($scope.center, $scope.network.selected, beginDate.value, endDate.value, function(files) {
-					$scope.dataFile.options = files;
-					if (files.length) {
-						$scope.dataFile.selected = files[0];
-					}
-				    $scope.dtList = files;
+			$scope.legend.title = $scope.kpi.selected;
+			collegeDtService.queryRaster($scope.center, $scope.network.selected, beginDate.value, endDate.value, function (files) {
+				$scope.dataFile.options = files;
+				if (files.length) {
+					$scope.dataFile.selected = files[0];
+				}
+				$scope.dtList = files;
+				angular.forEach(files, function(file) {
+					collegeService.queryCsvFileInfo(file.csvFileName).then(function(info) {
+						angular.extend(file, info);
+					});
 				});
-			}
+			});
 		};
 
-		$scope.$watch('network.selected', function() {
-			$scope.query();
+		$scope.$watch('network.selected', function () {
+			if ($scope.center) {
+			   $scope.query(); 
+			}
 		});
 
 		$scope.showDtPoints = function () {
-		    $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+			$scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
 			kpiDisplayService.generateCoveragePoints($scope.coveragePoints, $scope.data, $scope.kpi.selected);
 			angular.forEach($scope.coverageOverlays, function(overlay) {
 				baiduMapService.removeOverlay(overlay);
@@ -466,8 +471,8 @@
 					centerX: 2 * center.X - coors.x,
 					centerY: 2 * center.Y - coors.y
 				};
+				$scope.query();
 			});
-			$scope.query();
 		});
 
 		$scope.ok = function () {

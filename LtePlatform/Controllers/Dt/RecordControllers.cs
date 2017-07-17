@@ -270,6 +270,15 @@ namespace LtePlatform.Controllers.Dt
         {
             return _service.QueryFilesInfos(begin, end);
         }
+
+        [HttpGet]
+        [ApiDoc("查询指定DT测试文件名的基本信息")]
+        [ApiParameterDoc("fileName", "DT测试文件名")]
+        [ApiResponse("DT测试文件的基本信息")]
+        public CsvFilesInfo Get(string fileName)
+        {
+            return _service.QueryCsvFilesInfo(fileName);
+        }
     }
 
     [ApiControl("各区域测试日期信息的控制器")]

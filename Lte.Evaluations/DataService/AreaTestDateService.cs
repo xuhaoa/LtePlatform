@@ -133,6 +133,11 @@ namespace Lte.Evaluations.DataService
             return _dtFileInfoRepository.GetAllList(x => x.TestDate >= begin && x.TestDate < end);
         }
 
+        public CsvFilesInfo QueryCsvFilesInfo(string fileName)
+        {
+            return _dtFileInfoRepository.FirstOrDefault(x => x.CsvFileName == fileName + ".csv");
+        }
+
         public IEnumerable<FileRecord4G> GetFileRecord4Gs(string fileName)
         {
             return _repository.GetFileRecord4Gs(fileName);

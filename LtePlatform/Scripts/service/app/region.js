@@ -1758,6 +1758,11 @@ angular.module('region.college', ['app.core'])
                     begin: begin,
                     end: end
                 });
+            },
+            queryCsvFileInfo: function(fileName) {
+                return generalHttpService.getApiData('CsvFileInfo', {
+                    fileName: fileName
+                });
             }
         }
     })
