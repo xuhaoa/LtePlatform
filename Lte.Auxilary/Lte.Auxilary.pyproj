@@ -250,8 +250,17 @@
     <Content Include="Db\rasterQuery.sql">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Db\sp_get2GFileContents.sql">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Db\sp_get2GFileContentsRasterConsidered.sql" />
+    <Content Include="Db\sp_get3GFileContents.sql">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Db\sp_get3GFileContentsRasterConsidered.sql" />
+    <Content Include="Db\sp_get4GFileContents.sql">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Db\sp_get4GFileContentsRasterConsidered.sql" />
     <Content Include="Db\SQLQuery1.sql" />
     <Content Include="Db\SQLQuery2.sql" />

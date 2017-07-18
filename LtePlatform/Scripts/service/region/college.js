@@ -70,6 +70,21 @@
                 return generalHttpService.getApiData('CsvFileInfo', {
                     fileName: fileName
                 });
+            },
+            query2GFileRecords: function(fileName) {
+                return generalHttpService.getApiData("Record2G", {
+                    fileName: fileName
+                });
+            },
+            query3GFileRecords: function (fileName) {
+                return generalHttpService.getApiData("Record3G", {
+                    fileName: fileName
+                });
+            },
+            query4GFileRecords: function (fileName) {
+                return generalHttpService.getApiData("Record4G", {
+                    fileName: fileName
+                });
             }
         }
     })

@@ -424,7 +424,7 @@
             argumentName: 'items'
         }, $compile);
     })
-    .controller('DtFileListController', function ($scope) {
+    .controller('DtFileListController', function ($scope, collegeService) {
         $scope.gridOptions = {
             columnDefs: [
                 { field: 'csvFileName', name: '测试文件名称', width: 200 },
@@ -433,16 +433,41 @@
                 { field: 'testDate', name: '测试日期', cellFilter: 'date: "yyyy-MM-dd"' },
                 { field: 'mrCount', name: 'MR数量' },
                 { field: 'weakCount', name: '弱覆盖' },
-                { field: 'weakCoverageRate', name: '弱覆盖比例（%）' }
+                {
+                    name: '计算里程',
+                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="grid.appScope.calculateDistance(row.entity)">' +
+                        '计算</button>'
+                }
             ],
             data: []
+        };
+        $scope.calculateDistance = function (file) {
+            var name = file.csvFileName.replace(".csv", "");
+            switch ($scope.type) {
+                case '2G':
+                    collegeService.query2GFileRecords(name).then(function(records) {
+
+                    });
+                    break;
+                case '3G':
+                    collegeService.query3GFileRecords(name).then(function (records) {
+
+                    });
+                    break;
+                default:
+                    collegeService.query4GFileRecords(name).then(function (records) {
+
+                    });
+                    break;
+            }
         };
     })
     .directive('dtFileList', function ($compile, calculateService) {
         return calculateService.generateGridDirective({
             controllerName: 'DtFileListController',
             scope: {
-                items: '='
+                items: '=',
+                type: '='
             },
             argumentName: 'items'
         }, $compile);
