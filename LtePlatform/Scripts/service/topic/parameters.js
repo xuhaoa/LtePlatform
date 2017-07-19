@@ -182,8 +182,6 @@
 		};
 
 		var queryRasterInfo = function (index) {
-			console.log($scope.dataFile);
-			console.log($scope.network);
 			coverageService.queryByRasterInfo($scope.dataFile.options[index], $scope.network.selected).then(function (result) {
 				$scope.data.push.apply($scope.data, result);
 				if (index < $scope.dataFile.options.length - 1) {

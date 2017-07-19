@@ -424,7 +424,7 @@
             argumentName: 'items'
         }, $compile);
     })
-    .controller('DtFileListController', function ($scope, collegeService) {
+    .controller('DtFileListController', function ($scope, collegeService, generalMapService) {
         $scope.gridOptions = {
             columnDefs: [
                 { field: 'csvFileName', name: '测试文件名称', width: 200 },
@@ -434,7 +434,7 @@
                 { field: 'mrCount', name: 'MR数量' },
                 { field: 'weakCount', name: '弱覆盖' },
                 {
-                    name: '计算里程',
+                    name: '计算指标',
                     cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="grid.appScope.calculateDistance(row.entity)">' +
                         '计算</button>'
                 }
@@ -446,17 +446,17 @@
             switch ($scope.type) {
                 case '2G':
                     collegeService.query2GFileRecords(name).then(function(records) {
-
+                        file.distance = generalMapService.calculateRoadDistance(records);
                     });
                     break;
                 case '3G':
                     collegeService.query3GFileRecords(name).then(function (records) {
-
+                        file.distance = generalMapService.calculateRoadDistance(records);
                     });
                     break;
                 default:
                     collegeService.query4GFileRecords(name).then(function (records) {
-
+                        file.distance = generalMapService.calculateRoadDistance(records);
                     });
                     break;
             }

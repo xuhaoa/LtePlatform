@@ -581,19 +581,19 @@
                     color: "#ff0000"
                 }, {
                     threshold: -105,
-                    color: "#7f0808"
+                    color: "#ff08f8"
                 }, {
                     threshold: -100,
-                    color: "#3f0f0f"
+                    color: "#ffff0f"
                 }, {
                     threshold: -95,
-                    color: "#077f7f"
+                    color: "#070fff"
                 }, {
                     threshold: -85,
-                    color: "#07073f"
+                    color: "#07f7ff"
                 }, {
                     threshold: -70,
-                    color: "#073f07"
+                    color: "#07ff07"
                 }
             ],
             defaultSinr3GCriteria: [
@@ -623,19 +623,19 @@
                     color: "#ff0000"
                 }, {
                     threshold: -12,
-                    color: "#7f0808"
+                    color: "#ff08f8"
                 }, {
                     threshold: -9,
-                    color: "#3f0f0f"
+                    color: "#ffff0f"
                 }, {
                     threshold: -7,
-                    color: "#077f7f"
+                    color: "#070fff"
                 }, {
                     threshold: -5,
-                    color: "#07073f"
+                    color: "#07f7ff"
                 }, {
                     threshold: -3,
-                    color: "#073f07"
+                    color: "#07ff07"
                 }
             ],
             defaultTxCriteria: [

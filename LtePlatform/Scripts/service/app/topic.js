@@ -698,8 +698,6 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 		};
 
 		var queryRasterInfo = function (index) {
-			console.log($scope.dataFile);
-			console.log($scope.network);
 			coverageService.queryByRasterInfo($scope.dataFile.options[index], $scope.network.selected).then(function (result) {
 				$scope.data.push.apply($scope.data, result);
 				if (index < $scope.dataFile.options.length - 1) {
@@ -1433,7 +1431,8 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 	});
 
 angular.module('topic.college', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', 'topic.dialog', 'topic.parameters'])
-	.factory('generalMapService', function (baiduMapService, baiduQueryService, networkElementService, neGeometryService) {
+	.factory('generalMapService', function (baiduMapService, baiduQueryService, networkElementService, neGeometryService,
+	geometryCalculateService) {
 		return {
 			showGeneralPointCollection: function(stations, color, callback) {
 				baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute).then(function (coors) {
@@ -1479,6 +1478,21 @@ angular.module('topic.college', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topi
 					var sectorTriangle = baiduMapService.generateSector(cell, color, size);
 					baiduMapService.addOneSectorToScope(sectorTriangle, callback, data);
 				});
+			},
+			calculateRoadDistance: function(dtPoints) {
+				var xOrigin = 0;
+				var yOrigin = 0;
+				var distance = 0;
+				angular.forEach(dtPoints, function(point) {
+					if (point.longtitute > 112 && point.longtitute < 114 && point.lattitute > 22 && point.lattitute < 24) {
+						if (xOrigin > 112 && xOrigin < 114 && yOrigin > 22 && yOrigin < 24) {
+							distance += geometryCalculateService.getDistanceFunc(yOrigin, xOrigin, point.lattitute, point.longtitute) * 1000;
+						}
+						xOrigin = point.longtitute;
+						yOrigin = point.lattitute;
+					}
+				});
+				return distance;
 			}
 		};
 	})
@@ -1609,15 +1623,15 @@ angular.module('topic.college', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topi
 					});
 				});
 			},
-		    showComplainItems: function(sites, color) {
-		        generalMapService.showContainerSites(sites, color, function(container) {
-		            networkElementService.queryRangeComplains(container).then(function(items) {
-		                if (items.length) {
-		                    mapDialogService.showOnlineSustainInfos(items);
-		                }
-		            });
-		        });
-		    },
+			showComplainItems: function(sites, color) {
+				generalMapService.showContainerSites(sites, color, function(container) {
+					networkElementService.queryRangeComplains(container).then(function(items) {
+						if (items.length) {
+							mapDialogService.showOnlineSustainInfos(items);
+						}
+					});
+				});
+			},
 			showFlowCellSector: function(cell, item, beginDate, endDate) {
 				generalMapService.showGeneralSector(cell, item, "blue", 5, neighborDialogService.showFlowCell, {
 					item: item,
