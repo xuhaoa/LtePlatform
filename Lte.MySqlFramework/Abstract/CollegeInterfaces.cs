@@ -61,7 +61,7 @@ namespace Lte.MySqlFramework.Abstract
         
     }
 
-    public interface IDtFileInfoRepository : IRepository<CsvFilesInfo>
+    public interface IDtFileInfoRepository : IRepository<CsvFilesInfo>, ISaveChanges
     {
         
     }

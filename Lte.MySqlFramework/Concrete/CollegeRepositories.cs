@@ -172,5 +172,10 @@ namespace Lte.MySqlFramework.Concrete
         public DtFileInfoRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
     }
 }

@@ -1764,6 +1764,12 @@ angular.module('region.college', ['app.core'])
                     fileName: fileName
                 });
             },
+            updateCsvFileDistance: function(fileName, distance) {
+                return generalHttpService.getApiData('CsvFileInfo', {
+                    fileName: fileName,
+                    distance: distance
+                });
+            },
             query2GFileRecords: function(fileName) {
                 return generalHttpService.getApiData("Record2G", {
                     fileName: fileName

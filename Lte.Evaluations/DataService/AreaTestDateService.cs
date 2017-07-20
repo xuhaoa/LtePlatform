@@ -138,6 +138,17 @@ namespace Lte.Evaluations.DataService
             return _dtFileInfoRepository.FirstOrDefault(x => x.CsvFileName == fileName + ".csv");
         }
 
+        public int UpdateFileDistance(string csvFileName, double distance)
+        {
+            var info = _dtFileInfoRepository.FirstOrDefault(x => x.CsvFileName == csvFileName);
+            if (info != null)
+            {
+                info.Distance = distance;
+                _dtFileInfoRepository.Update(info);
+            }
+            return _dtFileInfoRepository.SaveChanges();
+        }
+
         public IEnumerable<FileRecord4G> GetFileRecord4Gs(string fileName)
         {
             return _repository.GetFileRecord4Gs(fileName);

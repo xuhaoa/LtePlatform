@@ -435,8 +435,8 @@
                 { field: 'weakCount', name: '弱覆盖' },
                 {
                     name: '计算指标',
-                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="grid.appScope.calculateDistance(row.entity)">' +
-                        '计算</button>'
+                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="grid.appScope.calculateDistance(row.entity)">计算</button>' +
+                        '<button class="btn btn-sm btn-default" ng-click="grid.appScope.updateDistance(row.entity)">更新</button>'
                 }
             ],
             data: []
@@ -460,6 +460,11 @@
                     });
                     break;
             }
+        };
+        $scope.updateDistance = function(file) {
+            collegeService.updateCsvFileDistance(file.csvFileName, file.distance).then(function (result) {
+
+            });
         };
     })
     .directive('dtFileList', function ($compile, calculateService) {

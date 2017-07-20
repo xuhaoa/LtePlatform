@@ -279,6 +279,16 @@ namespace LtePlatform.Controllers.Dt
         {
             return _service.QueryCsvFilesInfo(fileName);
         }
+
+        [HttpGet]
+        [ApiDoc("更新指定DT测试文件名的距离信息")]
+        [ApiParameterDoc("fileName", "DT测试文件名")]
+        [ApiParameterDoc("distance", "距离（米）")]
+        [ApiResponse("更新结果")]
+        public int Get(string fileName, double distance)
+        {
+            return _service.UpdateFileDistance(fileName, distance);
+        }
     }
 
     [ApiControl("各区域测试日期信息的控制器")]
