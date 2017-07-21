@@ -442,6 +442,7 @@
     <Content Include="appViews\Home\AlarmHistoryListDialog.html" />
     <Content Include="appViews\Home\AlarmSearchMenu.html" />
     <Content Include="appViews\Home\AlarmStationDetails.html" />
+    <Content Include="appViews\Home\AssessmentDialog.html" />
     <Content Include="appViews\Home\Asset.html" />
     <Content Include="appViews\Home\ButtonMenu.html" />
     <Content Include="appViews\Home\Checking.html" />

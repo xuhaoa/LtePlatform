@@ -957,7 +957,7 @@
 			        controller: 'map.checkingStation.dialog',
 			        resolve: {
 			            dialogTitle: function () {
-			                return "巡检信息:" + station.enodebName;
+			                return "巡检信息:" + station.name;
 			            },
 			            station: function () {
 			                return station;
@@ -989,6 +989,17 @@
 						}
 					}
 				});
+			},
+			showAssessmentDialog: function () {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/AssessmentDialog.html',
+			        controller: 'map.assessment.dialog',
+			        resolve: {
+			            dialogTitle: function () {
+			                return "考核评分";
+			            }
+			        }
+			    });
 			},
 			showCommonStationList: function (type) {
 			    menuItemService.showGeneralDialog({
@@ -1546,9 +1557,13 @@
          };
      })
     .controller('map.checkingStation.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
-		appFormatService, networkElementService) {
-
-        $scope.itemGroups = appFormatService.generateCheckingStationGroups(station);
+		appFormatService, networkElementService, downSwitchService) {
+        downSwitchService.getCheckDetailsById(station.id).then(function (response) {
+            station = response.result[0];
+            $scope.itemGroups = appFormatService.generateCheckingDetailsGroups(station);
+        });
+        
+        
 
         $scope.dialogTitle = dialogTitle;
 
@@ -1559,6 +1574,7 @@
     })
     .controller('map.fixingStation.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
 		appFormatService, networkElementService) {
+
 
         $scope.itemGroups = appFormatService.generateFixingStationGroups(station);
 
@@ -1605,6 +1621,78 @@
             $uibModalInstance.dismiss('cancel');
         };
     })
+	.controller('map.assessment.dialog', function ($scope, $http, dialogTitle, $uibModalInstance, parametersDialogService,
+		downSwitchService) {
+	    $scope.dialogTitle = dialogTitle;
+	    $scope.cancel = function () {
+	        $uibModalInstance.dismiss('cancel');
+	    };
+
+	    $scope.tab = 1;
+	    $scope.jqf = 0;
+	    $scope.xcccd = 100;
+	    $scope.kpid = 100;
+	    
+
+	    
+
+	    $scope.changejqf = function () {
+	        $scope.jqf = $scope.jqf1 + $scope.jqf2 + $scope.jqf3 + $scope.jqf4 + $scope.jqf5;
+	    }
+	    $scope.changecxcc = function () {
+	        $scope.xcccd = 100 + $scope.xccc1 + $scope.xccc2 + $scope.xccc3 + $scope.xccc4 + $scope.xccc5 + $scope.xccc6 + $scope.xccc7 + $scope.xccc8;
+	    }
+	    $scope.changekpi = function () {
+	        $scope.kpi = $scope.kpi1 + $scope.kpi2 + $scope.kpi3;
+	        $scope.kpid = 100 + $scope.kpi;
+	    }
+	    
+	   
+	    $scope.selectTab = function (setTab) {
+	        $scope.tab = setTab;
+	        if (0 == setTab) {
+	            $scope.zf = $scope.jqf + $scope.kpid * 0.3 + $scope.xcccd * 0.7;
+	        } else if (1 == setTab) {
+	            $scope.xccc1 = 0;
+	            $scope.xccc2 = 0;
+	            $scope.xccc3 = 0;
+	            $scope.xccc4 = 0;
+	            $scope.xccc5 = 0;
+	            $scope.xccc6 = 0;
+	            $scope.xccc7 = 0;
+	            $scope.xccc8 = 0;
+	            $scope.changecxcc();
+	        } else if (2 == setTab) {
+	            $scope.kpi1 = 0;
+	            $scope.kpi2 = 0;
+	            $scope.kpi3 = 0;
+	            $scope.changekpi();
+	        } else if (3 == setTab) {
+	            $scope.jqf1 = 0;
+	            $scope.jqf2 = 0;
+	            $scope.jqf3 = 0;
+	            $scope.jqf4 = 0;
+	            $scope.jqf5 = 0;
+	            $scope.changejqf();
+	        } else if (4 == setTab) {
+	            $scope.table = "lrru";
+	        } else if (5 == setTab) {
+	            $scope.table = "sfz";
+	        } else if (6 == setTab) {
+	            $scope.table = "zfz";
+	        } else if (7 == setTab) {
+	            $scope.table = "asset";
+	        }
+	        if (0 != setTab) {
+	           
+	        }
+	    }
+
+	    $scope.isSelectTab = function (checkTab) {
+	        return $scope.tab === checkTab
+	    }
+	    $scope.selectTab(0);
+	})
 	.controller('map.stationList.dialog', function ($scope, $http, dialogTitle, $uibModalInstance, parametersDialogService,
 		downSwitchService) {
 		$scope.dialogTitle = dialogTitle;
@@ -1615,7 +1703,7 @@
 		$scope.totolPage = 1;
 		$http({
 			method: 'get',
-			url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/search/curr_page/0/page_size/10',
+			url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/Station/search/curr_page/0/page_size/10',
 		}).then(function successCallback(response) {
 			$scope.stationList = response.data.result.rows;
 			$scope.totolPage = response.data.result.total_pages;
@@ -1633,7 +1721,7 @@
 			if (confirm("你确定删除该站点？")) {
 				$http({
 					method: 'post',
-					url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/delete',
+					url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/Station/delete',
 					data: {
 						"idList": stationId
 					},
@@ -1691,7 +1779,7 @@
 				page = $scope.totolPage;
 			$http({
 				method: 'post',
-				url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/search',
+				url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/Station/search',
 				data: {
 					"curr_page": page,
 					"page_size": 10,
@@ -1725,7 +1813,7 @@
 		$scope.totolPage = 1;
 		$http({
 			method: 'get',
-			url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/StationCommon/search/curr_page/0/page_size/10/type/'+type,
+			url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/StationCommon/search/curr_page/0/page_size/10/type/'+type,
 		}).then(function successCallback(response) {
 			$scope.stationList = response.data.result.rows;
 			$scope.totolPage = response.data.result.total_pages;
@@ -1743,7 +1831,7 @@
 			if (confirm("你确定删除该站点？")) {
 				$http({
 					method: 'post',
-					url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/StationCommon/delete',
+					url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/StationCommon/delete',
 					data: {
 						"idList": stationId
 					},
@@ -1801,7 +1889,7 @@
 				page = $scope.totolPage;
 			$http({
 				method: 'post',
-				url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/StationCommon/search',
+				url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/StationCommon/search',
 				data: {
 					"curr_page": page,
 					"page_size": 10,
@@ -1895,7 +1983,7 @@
 		$scope.station;
 		$http({
 			method: 'post',
-			url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/single',
+			url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/Station/single',
 			data: {
 				"id": stationId
 			},
@@ -1915,7 +2003,7 @@
 		$scope.ok = function () {
 			$http({
 				method: 'post',
-				url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/update',
+				url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/Station/update',
 				data: {
 					"Station": JSON.stringify($scope.station)
 				},
@@ -1942,7 +2030,7 @@
 	    $scope.station;
 	    $http({
 	        method: 'post',
-	        url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/StationCommon/single',
+	        url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/StationCommon/single',
 	        data: {
 	            "id": stationId
 	        },
@@ -1962,7 +2050,7 @@
 	    $scope.ok = function () {
 	        $http({
 	            method: 'post',
-	            url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/update',
+	            url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/Station/update',
 	            data: {
 	                "Station": JSON.stringify($scope.station)
 	            },
@@ -1990,7 +2078,7 @@
 		$scope.ok = function () {
 			$http({
 				method: 'post',
-				url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/add',
+				url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/Station/add',
 				data: {
 					"Station": JSON.stringify($scope.station)
 				},
@@ -2018,7 +2106,7 @@
         $scope.ok = function () {
             $http({
                 method: 'post',
-                url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/StationCommon/add',
+                url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/StationCommon/add',
                 data: {
                     "Station": JSON.stringify($scope.station)
                 },
@@ -2045,7 +2133,7 @@
         $scope.station;
         $http({
             method: 'post',
-            url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/single',
+            url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/Station/single',
             data: {
                 "id": stationId
             },
@@ -2071,7 +2159,7 @@
          $scope.station;
          $http({
              method: 'post',
-             url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/single',
+             url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/Station/single',
              data: {
                  "id": stationId
              },
@@ -2091,7 +2179,7 @@
          $scope.ok = function () {
              $http({
                  method: 'post',
-                 url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/update',
+                 url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/Station/update',
                  data: {
                      "Station": JSON.stringify($scope.station)
                  },
@@ -2119,7 +2207,7 @@
         $scope.ok = function () {
             $http({
                 method: 'post',
-                url: 'http://219.128.254.36:9000/LtePlatForm/lte/index.php/Station/add',
+                url: 'http://119.145.142.74:8106/LtePlatForm/lte/index.php/Station/add',
                 data: {
                     "Station": JSON.stringify($scope.station)
                 },

@@ -1720,7 +1720,7 @@
             },
             getCheckingStation: function (areaName, status,type, page, pageSize) {
                 //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Alarm/search', {
-                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Checking/search', {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Checking/check', {
                     "curr_page": page,
                     "page_size": pageSize,
                     "areaName": areaName,
@@ -1755,6 +1755,11 @@
             getCommonStationById: function(id) {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/StationCommon/single/', {
                     "id": id
+                });
+            },
+            getCheckDetailsById: function (id) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Checking/details/', {
+                    "id": "CCJZ0001"
                 });
             },
             getStationById: function (id) {

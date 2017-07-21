@@ -1274,6 +1274,12 @@
         $scope.showStationList = function() {
             parametersDialogService.showStationList();
         };
+        $scope.assessment = function () {
+            parametersDialogService.showAssessmentDialog();
+        };
+        $scope.outportData = function () {
+            location.href = "http://119.145.142.74:8106/LtePlatForm/lte/index.php/Station/download";
+        };
         
     })
     .controller("operation-indoor.network", function ($scope, downSwitchService, MyValue, baiduMapService, geometryService,
@@ -1321,6 +1327,9 @@
         };
         $scope.showStationList = function () {
             parametersDialogService.showStationList();
+        };
+        $scope.outportData = function () {
+            location.href = "http://119.145.142.74:8106/LtePlatForm/lte/index.php/Indoor/download";
         };
 
     })
@@ -1375,7 +1384,7 @@
             };
 
             $scope.outportData = function () {
-                location.href = "http://219.128.254.36:9000/LtePlatForm/lte/index.php/StationCommon/download/type/JZ";
+                location.href = "http://119.145.142.74:8106/LtePlatForm/lte/index.php/StationCommon/download/type/JZ";
             };
             $scope.reflashMap(0);
 
@@ -1430,7 +1439,7 @@
         };
 
         $scope.outportData = function () {
-            location.href = "http://219.128.254.36:9000/LtePlatForm/lte/index.php/StationCommon/download/type/SF";
+            location.href = "http://119.145.142.74:8106/LtePlatForm/lte/index.php/StationCommon/download/type/SF";
         };
         $scope.reflashMap(0);
 
@@ -1605,9 +1614,9 @@
 
     .controller("checking-station.network", function ($scope, downSwitchService, baiduMapService, geometryService,
         parametersDialogService, baiduQueryService) {
-        $scope.areaNames = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
+        $scope.areaNames = new Array('', 'SD', 'NH', 'CC', 'SS', 'GM');
         $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
-        $scope.statusNames = new Array('未巡检', '需整治', '正常', '全部');
+        $scope.statusNames = new Array('接单', '回单', '归档', '全部');
         $scope.distinct = "佛山市";
         $scope.stationss = [];
         $scope.stationss[1] = [];
