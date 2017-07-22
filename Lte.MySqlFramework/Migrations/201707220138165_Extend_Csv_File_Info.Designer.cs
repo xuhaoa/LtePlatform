@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Add_Agps_Coverage_Town : IMigrationMetadata
+    public sealed partial class Extend_Csv_File_Info : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_Agps_Coverage_Town));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Extend_Csv_File_Info));
         
         string IMigrationMetadata.Id
         {
-            get { return "201707091258353_Add_Agps_Coverage_Town"; }
+            get { return "201707220138165_Extend_Csv_File_Info"; }
         }
         
         string IMigrationMetadata.Source

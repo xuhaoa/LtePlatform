@@ -271,6 +271,12 @@ namespace Lte.MySqlFramework.Entities
         public string CsvFileName { get; set; }
         
         public double Distance { get; set; }
+
+        public int Count { get; set; }
+
+        public int CoverageCount { get; set; }
+
+        public double CoverageRate => Count == 0 ? 0 : (double)CoverageCount / Count;
     }
 
     [TypeDoc("测试数据文件网格视图，一个测试数据文件包含的若干个网格")]
