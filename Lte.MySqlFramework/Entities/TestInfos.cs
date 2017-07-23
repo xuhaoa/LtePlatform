@@ -276,7 +276,7 @@ namespace Lte.MySqlFramework.Entities
 
         public int CoverageCount { get; set; }
 
-        public double CoverageRate => Count == 0 ? 0 : (double)CoverageCount / Count;
+        public double CoverageRate => Count == 0 ? 0 : 100 * (double)CoverageCount / Count;
     }
 
     [TypeDoc("测试数据文件网格视图，一个测试数据文件包含的若干个网格")]

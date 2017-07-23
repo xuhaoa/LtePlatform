@@ -450,18 +450,31 @@
                         file.count = records.length;
                         file.coverageCount = _.countBy(records,
                             function(record) {
-                                return record.ecio > -12 && record.rxAgc > -95 && record.txAgc < 0;
-                            });
+                                return record.ecio > -12 && record.rxAgc > -90 && record.txAgc < 15;
+                            })['true'];
+                        file.coverageRate = 100 * file.coverageCount / file.count;
                     });
                     break;
                 case '3G':
                     collegeService.query3GFileRecords(name).then(function (records) {
                         file.distance = generalMapService.calculateRoadDistance(records);
+                        file.count = records.length;
+                        file.coverageCount = _.countBy(records,
+                            function (record) {
+                                return record.sinr > -6.5 && record.rxAgc0 > -90 && record.rxAgc1 > -90 && record.txAgc < 15;
+                            })['true'];
+                        file.coverageRate = 100 * file.coverageCount / file.count;
                     });
                     break;
                 default:
                     collegeService.query4GFileRecords(name).then(function (records) {
                         file.distance = generalMapService.calculateRoadDistance(records);
+                        file.count = records.length;
+                        file.coverageCount = _.countBy(records,
+                            function (record) {
+                                return record.sinr > -3 && record.rsrp > -105;
+                            })['true'];
+                        file.coverageRate = 100 * file.coverageCount / file.count;
                     });
                     break;
             }
