@@ -146,6 +146,7 @@ namespace LtePlatform.Controllers.Dt
         [ApiParameterDoc("fileName", "数据文件名")]
         [ApiParameterDoc("rasterNum", "网格编号")]
         [ApiResponse("指定数据文件的测试数据")]
+        [HttpGet]
         public IEnumerable<FileRecord4G> Get(string fileName, int rasterNum)
         {
             return _service.GetFileRecord4Gs(fileName, rasterNum);
@@ -280,14 +281,13 @@ namespace LtePlatform.Controllers.Dt
             return _service.QueryCsvFilesInfo(fileName);
         }
 
-        [HttpGet]
-        [ApiDoc("更新指定DT测试文件名的距离信息")]
-        [ApiParameterDoc("fileName", "DT测试文件名")]
-        [ApiParameterDoc("distance", "距离（米）")]
+        [HttpPost]
+        [ApiDoc("更新指定DT测试文件名的距离等信息")]
+        [ApiParameterDoc("filesInfo", "DT测试文件信息")]
         [ApiResponse("更新结果")]
-        public int Get(string fileName, double distance)
+        public int Get(CsvFilesInfo filesInfo)
         {
-            return _service.UpdateFileDistance(fileName, distance);
+            return _service.UpdateFileDistance(filesInfo);
         }
     }
 

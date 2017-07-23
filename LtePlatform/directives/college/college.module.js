@@ -431,8 +431,8 @@
                 { field: 'rasterNums.length', name: '涉及网格数' },
                 { field: 'distance', name: '测试里程' },
                 { field: 'testDate', name: '测试日期', cellFilter: 'date: "yyyy-MM-dd"' },
-                { field: 'mrCount', name: 'MR数量' },
-                { field: 'weakCount', name: '弱覆盖' },
+                { field: 'count', name: '测试点数' },
+                { field: 'coverageRate', name: '覆盖率（%）' },
                 {
                     name: '计算指标',
                     cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="grid.appScope.calculateDistance(row.entity)">计算</button>' +
@@ -447,6 +447,11 @@
                 case '2G':
                     collegeService.query2GFileRecords(name).then(function(records) {
                         file.distance = generalMapService.calculateRoadDistance(records);
+                        file.count = records.length;
+                        file.coverageCount = _.countBy(records,
+                            function(record) {
+                                return record.ecio > -12 && record.rxAgc > -95 && record.txAgc < 0;
+                            });
                     });
                     break;
                 case '3G':
@@ -462,7 +467,7 @@
             }
         };
         $scope.updateDistance = function(file) {
-            collegeService.updateCsvFileDistance(file.csvFileName, file.distance).then(function (result) {
+            collegeService.updateCsvFileDistance(file).then(function (result) {
 
             });
         };

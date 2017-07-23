@@ -138,12 +138,14 @@ namespace Lte.Evaluations.DataService
             return _dtFileInfoRepository.FirstOrDefault(x => x.CsvFileName == fileName + ".csv");
         }
 
-        public int UpdateFileDistance(string csvFileName, double distance)
+        public int UpdateFileDistance(CsvFilesInfo filesInfo)
         {
-            var info = _dtFileInfoRepository.FirstOrDefault(x => x.CsvFileName == csvFileName);
+            var info = _dtFileInfoRepository.FirstOrDefault(x => x.CsvFileName == filesInfo.CsvFileName);
             if (info != null)
             {
-                info.Distance = distance;
+                info.Distance = filesInfo.Distance;
+                info.Count = filesInfo.Count;
+                info.CoverageCount = filesInfo.CoverageCount;
                 _dtFileInfoRepository.Update(info);
             }
             return _dtFileInfoRepository.SaveChanges();

@@ -51,8 +51,7 @@ namespace Lte.MySqlFramework.Entities
         public string Issue { get; set; }
 
         public string SpecialResponse { get; set; }
-
-        [AutoMapPropertyResolve("PreProcessString", typeof(OnlineSustainExcel), typeof(YesToBoolTransform))]
+        
         [AutoMapPropertyResolve("IsPreProcessedDescription", typeof(OnlineSustainDto), typeof(YesToBoolTransform))]
         public bool IsPreProcessed { get; set; }
 
@@ -132,15 +131,6 @@ namespace Lte.MySqlFramework.Entities
         [AutoMapPropertyResolve("AreaTypeDescription", typeof(OnlineSustainExcel), typeof(ComplainSceneTransform))]
         public ComplainScene ComplainScene { get; set; }
 
-        [AutoMapPropertyResolve("InfoType1", typeof(OnlineSustainExcel), typeof(CustomerTypeTransform))]
-        public CustomerType CustomerType1 { get; set; }
-
-        [AutoMapPropertyResolve("InfoType2", typeof(OnlineSustainExcel), typeof(CustomerTypeTransform))]
-        public CustomerType CustomerType2 { get; set; }
-
-        [AutoMapPropertyResolve("InfoType3", typeof(OnlineSustainExcel), typeof(CustomerTypeTransform))]
-        public CustomerType CustomerType3 { get; set; }
-
         [AutoMapPropertyResolve("ComplainStateDescription", typeof(OnlineSustainExcel), typeof(ComplainStateTransform))]
         public ComplainState ComplainState { get; set; }
         
@@ -165,8 +155,6 @@ namespace Lte.MySqlFramework.Entities
         public double? EcIo { get; set; }
         
         public string BtsName { get; set; }
-        
-        public byte? BscId { get; set; }
         
         public int? BtsId { get; set; }
 

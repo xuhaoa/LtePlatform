@@ -1305,26 +1305,14 @@ namespace Lte.Domain.Common
         [ExcelColumn("投诉单号")]
         public string SerialNumber { get; set; }
 
-        [ExcelColumn("是否经过预处理")]
-        public string PreProcessString { get; set; }
-
-        [ExcelColumn("10000号人名/工号")]
-        public int StaffId { get; set; }
-
-        [ExcelColumn("派单原因")]
-        public string WorkItemNumber { get; set; }
-
-        [ExcelColumn("申告号码")]
-        public string ComplainNumber { get; set; }
+        [ExcelColumn("申告来源")]
+        public string ComplainSourceDescription { get; set; }
 
         [ExcelColumn("投诉地点")]
         public string Site { get; set; }
 
         [ExcelColumn("投诉内容")]
         public string Phenomenon { get; set; }
-
-        [ExcelColumn("申告一级原因")]
-        public string ComplainReason { get; set; }
 
         [ExcelColumn("投诉类型")]
         public string ComplainCategoryDescription { get; set; }
@@ -1338,28 +1326,45 @@ namespace Lte.Domain.Common
         [ExcelColumn("镇区")]
         public string Town { get; set; }
 
-        [ExcelColumn("地貌类型")]//Process--
+        [ExcelColumn("投诉点经度", TransformEnum.DoubleEmptyZero, 0)]
+        public double Longtitute { get; set; }
+
+        [ExcelColumn("投诉点纬度", TransformEnum.DoubleEmptyZero, 0)]
+        public double Lattitute { get; set; }
+
+        [ExcelColumn("测试地点")]
+        public string Address { get; set; }
+
+        [ExcelColumn("申告号码")]
+        public string ComplainNumber { get; set; }
+
+        [ExcelColumn("联系电话")]
+        public string ContactPhone { get; set; }
+
+        [ExcelColumn("用户反馈情况")]
+        public string FeedbackInfo { get; set; }
+
+        [ExcelColumn("申告一级原因")]
+        public string ComplainReason { get; set; }
+
+        public string[] ReasonGroups => string.IsNullOrEmpty(ComplainReason) ? new string[1] : ComplainReason.GetSplittedFields('-');
+
+        public string FirstReasonClass => ReasonGroups.Length > 0 ? ReasonGroups[0] : "其他";
+
+        public string SecondReasonClass => ReasonGroups.Length > 1 ? ReasonGroups[1] : "其他";
+
+        public string ThirdReasonClass => ReasonGroups.Length > 2 ? ReasonGroups[2] : "其他";
+
+        [ExcelColumn("协查单信息")]
+        public string WorkItemNumber { get; set; }
+
+        [ExcelColumn("区域类型")]//Process--
         public string AreaTypeDescription { get; set; }
-
-        [ExcelColumn("申告来源")]
-        public string ComplainSourceDescription { get; set; }
-
-        [ExcelColumn("信息点类型1")]//Process--
-        public string InfoType1 { get; set; }
-
-        [ExcelColumn("信息点类型2")]//Process--
-        public string InfoType2 { get; set; }
-
-        [ExcelColumn("信息点类型3")]//Process--
-        public string InfoType3 { get; set; }
-
-        [ExcelColumn("原因分析")]//Process--
-        public string ComplainCauseDescription { get; set; }
-
+        
         [ExcelColumn("处理过程及建议")]//Process--
         public string ProcessSuggestion { get; set; }
 
-        [ExcelColumn("解决否")]//Process
+        [ExcelColumn("当前进度（必选）")]//Process
         public string ComplainStateDescription { get; set; }
 
         public bool IsResolved => ComplainStateDescription == "已解决";
@@ -1367,20 +1372,15 @@ namespace Lte.Domain.Common
         [ExcelColumn("预计解决日期（处理中的必填，要求填具体日期或“无法预计”）")]//Process--
         public DateTime? ProcessDate { get; set; }
 
-        [ExcelColumn("原因定位")]
+        [ExcelColumn("投诉原因（按需修正）")]
         public string CauseLocation { get; set; }
 
         public string[] CauseFields => string.IsNullOrEmpty(CauseLocation) ? null : CauseLocation.GetSplittedFields('/');
 
         public string WorkItemCause => CauseFields == null ? "" : CauseFields[0];
 
-        public string WorkItemSubCause => CauseFields == null ? "" : CauseFields[1];
-
-        [ExcelColumn("经度", TransformEnum.DoubleEmptyZero, 0)]
-        public double Longtitute { get; set; }
-
-        [ExcelColumn("纬度", TransformEnum.DoubleEmptyZero, 0)]
-        public double Lattitute { get; set; }
+        public string WorkItemSubCause
+            => CauseFields == null ? "" : (CauseFields.Length > 1 ? CauseFields[1] : CauseFields[0]);
 
         [ExcelColumn("接收电平")]//Process--
         public short? ReceiveLevel { get; set; }
@@ -1394,13 +1394,10 @@ namespace Lte.Domain.Common
         [ExcelColumn("ECIO")]//Process--
         public double? EcIo { get; set; }
         
-        [ExcelColumn("主要影响基站（名称）")]//Process--
+        [ExcelColumn("主用基站名称")]//Process--
         public string BtsName { get; set; }
-
-        [ExcelColumn("主要影响基站（BSC号）")]//Process--
-        public byte? BscId { get; set; }
-
-        [ExcelColumn("主要影响基站（基站号）")]//Process--
+        
+        [ExcelColumn("主用基站编号）")]//Process--
         public int? BtsId { get; set; }
 
         [ExcelColumn("覆盖等级")]//Process--
@@ -1409,19 +1406,10 @@ namespace Lte.Domain.Common
         [ExcelColumn("覆盖类型")]//Process--
         public string CoverageTypeDescription { get; set; }
 
-        [ExcelColumn("联系电话")]
-        public string ContactPhone { get; set; }
-
-        [ExcelColumn("测试地点")]
-        public string Address { get; set; }
-
-        [ExcelColumn("用户反馈情况")]
-        public string FeedbackInfo { get; set; }
-
         [ExcelColumn("处理/测试人")]//Process--
         public string ProcessPerson { get; set; }
 
-        [ExcelColumn("解决方案（分类）")]//Process--
+        [ExcelColumn("最终解决方案（分类）")]//Process--
         public string ResolveScheme { get; set; }
 
         [ExcelColumn("原因定位")]//Process--
@@ -1433,13 +1421,6 @@ namespace Lte.Domain.Common
         [ExcelColumn("最终解决时间")]//Process--
         public DateTime? ResolveDate { get; set; }
 
-        public string[] ReasonGroups => string.IsNullOrEmpty(ComplainReason) ? new string[1] : ComplainReason.GetSplittedFields('-');
-
-        public string FirstReasonClass => ReasonGroups.Length > 0 ? ReasonGroups[0] : "其他";
-
-        public string SecondReasonClass => ReasonGroups.Length > 1 ? ReasonGroups[1] : "其他";
-
-        public string ThirdReasonClass => ReasonGroups.Length > 2 ? ReasonGroups[2] : "其他";
     }
 
     public class WebBrowsingCsv : IGeoPoint<double>
