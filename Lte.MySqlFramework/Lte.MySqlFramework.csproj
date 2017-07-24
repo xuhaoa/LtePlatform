@@ -159,13 +159,13 @@
     <Compile Include="Entities\PlanningSite.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
-    <Compile Include="Migrations\201707220138165_Extend_Csv_File_Info.cs" />
-    <Compile Include="Migrations\201707220138165_Extend_Csv_File_Info.Designer.cs">
-      <DependentUpon>201707220138165_Extend_Csv_File_Info.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201707230711442_Update_Online_Sustain.cs" />
     <Compile Include="Migrations\201707230711442_Update_Online_Sustain.Designer.cs">
       <DependentUpon>201707230711442_Update_Online_Sustain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707242008524_Extend_Dt_Tables.cs" />
+    <Compile Include="Migrations\201707242008524_Extend_Dt_Tables.Designer.cs">
+      <DependentUpon>201707242008524_Extend_Dt_Tables.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -176,11 +176,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201707220138165_Extend_Csv_File_Info.resx">
-      <DependentUpon>201707220138165_Extend_Csv_File_Info.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707230711442_Update_Online_Sustain.resx">
       <DependentUpon>201707230711442_Update_Online_Sustain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707242008524_Extend_Dt_Tables.resx">
+      <DependentUpon>201707242008524_Extend_Dt_Tables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

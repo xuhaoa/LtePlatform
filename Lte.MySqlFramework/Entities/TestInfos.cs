@@ -236,7 +236,24 @@ namespace Lte.MySqlFramework.Entities
     {
         public int TownId { get; set; }
 
+        public string AreaName { get; set; }
+
         public string Boundary { get; set; }
+    }
+
+    public class AreaTestInfo : Entity, ITownId
+    {
+        public int FileId { get; set; }
+
+        public double Distance { get; set; }
+
+        public int Count { get; set; }
+
+        public int CoverageCount { get; set; }
+
+        public double CoverageRate => Count == 0 ? 0 : 100 * (double)CoverageCount / Count;
+
+        public int TownId { get; set; }
     }
 
     public class TownBoundaryView
@@ -262,6 +279,19 @@ namespace Lte.MySqlFramework.Entities
         public string CsvFilesName { get; set; }
         
         public string NetworkType { get; set; }
+    }
+
+    public class RasterFileDtInfo : Entity
+    {
+        public int FileId { get; set; }
+
+        public int RasterNum { get; set; }
+
+        public int Count { get; set; }
+
+        public int CoverageCount { get; set; }
+
+        public double CoverageRate => Count == 0 ? 0 : 100 * (double)CoverageCount / Count;
     }
 
     public class CsvFilesInfo : Entity

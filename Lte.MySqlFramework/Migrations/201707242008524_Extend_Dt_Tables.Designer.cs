@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Extend_Csv_File_Info : IMigrationMetadata
+    public sealed partial class Extend_Dt_Tables : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Extend_Csv_File_Info));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Extend_Dt_Tables));
         
         string IMigrationMetadata.Id
         {
-            get { return "201707220138165_Extend_Csv_File_Info"; }
+            get { return "201707242008524_Extend_Dt_Tables"; }
         }
         
         string IMigrationMetadata.Source

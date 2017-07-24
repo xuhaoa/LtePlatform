@@ -92,6 +92,8 @@ namespace Lte.MySqlFramework.Concrete
 
         public DbSet<TownBoundary> TownBoundaries { get; set; }
 
+        public DbSet<AreaTestInfo> AreaTestInfos { get; set; }
+
         public DbSet<ENodebBase> Enodeb_Bases { get; set; }
 
         public DbSet<ConstructionInformation> Construction_Informations { get; set; }
@@ -115,6 +117,8 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<RasterInfo> RasterInfos { get; set; }
 
         public DbSet<RasterTestInfo> RasterTestInfos { get; set; }
+
+        public DbSet<RasterFileDtInfo> RasterFileDtInfos { get; set; }
 
         public DbSet<CsvFilesInfo> CsvFilesInfos { get; set; }
     }
