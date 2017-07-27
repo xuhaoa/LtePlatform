@@ -236,6 +236,10 @@ namespace LtePlatform
             ninjectKernel.Bind<IAgpsTownRepository>().To<AgpsTownRepository>();
 
             ninjectKernel.Bind<IDtFileInfoRepository>().To<DtFileInfoRepository>();
+
+            ninjectKernel.Bind<IAreaTestInfoRepository>().To<AreaTestInfoRepository>();
+
+            ninjectKernel.Bind<IRasterFileDtRepository>().To<RasterFileDtRepository>();
             
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
@@ -366,6 +370,8 @@ namespace LtePlatform
             ninjectKernel.Bind<AgpsService>().ToSelf();
 
             ninjectKernel.Bind<MrGridService>().ToSelf();
+
+            ninjectKernel.Bind<TownTestInfoService>().ToSelf();
         }
     }
 }

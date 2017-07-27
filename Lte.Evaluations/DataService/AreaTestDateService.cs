@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Geo;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Infrastructure;
@@ -27,6 +28,98 @@ namespace Lte.Evaluations.DataService
             return
                 _repository.AreaTestDates.ToList()
                     .Select(x => x.ConstructAreaView<AreaTestDate, AreaTestDateView>(_townRepository));
+        }
+    }
+
+    public class TownTestInfoService
+    {
+        private readonly IFileRecordRepository _repository;
+        private readonly ITownBoundaryRepository _boundaryRepository;
+        private readonly IDtFileInfoRepository _fileInfoRepository;
+
+        public TownTestInfoService(IFileRecordRepository repository, ITownBoundaryRepository boundaryRepository,
+            IDtFileInfoRepository fileInfoRepository)
+        {
+            _repository = repository;
+            _boundaryRepository = boundaryRepository;
+            _fileInfoRepository = fileInfoRepository;
+        }
+
+        public IEnumerable<AreaTestInfo> QueryAreaTestInfos(string csvFileName, string type)
+        {
+            var file = _fileInfoRepository.FirstOrDefault(x => x.CsvFileName == csvFileName + ".csv");
+            if (file == null) return new List<AreaTestInfo>();
+            var townIds =
+                _boundaryRepository.GetAllList(x => x.AreaName == null).Select(x => x.TownId).Distinct().ToList();
+            var results = new List<AreaTestInfo>();
+            var currentTownId = -1;
+            var lastLon = -1.0;
+            var lastLat = -1.0;
+            var coorsList = townIds.Select(t => new
+            {
+                TownId = t,
+                Coors = _boundaryRepository.GetAllList(x => x.TownId == t)
+            }).ToList();
+            switch (type)
+            {
+                case "2G":
+                    var data2G = _repository.GetFileRecord2Gs(csvFileName);
+                    foreach (var fileRecord2G in data2G)
+                    {
+                        if (fileRecord2G.Longtitute == null || fileRecord2G.Lattitute == null)
+                            continue;
+                        var point = new GeoPoint(fileRecord2G.Longtitute ?? 0, fileRecord2G.Lattitute ?? 0);
+                        var isCoverage = fileRecord2G.RxAgc > -90 && fileRecord2G.TxAgc < 15 && fileRecord2G.Ecio > -12;
+                        foreach (var townId in townIds)
+                        {
+                            var coors = coorsList.FirstOrDefault(x => x.TownId == townId);
+                            if (coors == null) continue;
+                            if (!coors.Coors.IsInTownRange(point)) continue;
+                            currentTownId = results.UpdateCurrentTownId(townId, currentTownId, point, file.Id, isCoverage,
+                                ref lastLon, ref lastLat);
+                            break;
+                        }
+                    }
+                    return results;
+                case "3G":
+                    var data3G = _repository.GetFileRecord3Gs(csvFileName);
+                    foreach (var fileRecord3G in data3G)
+                    {
+                        if (fileRecord3G.Longtitute == null || fileRecord3G.Lattitute == null)
+                            continue;
+                        var point = new GeoPoint(fileRecord3G.Longtitute ?? 0, fileRecord3G.Lattitute ?? 0);
+                        var isCoverage = fileRecord3G.RxAgc0 > -90 && fileRecord3G.RxAgc1 > -90 && fileRecord3G.TxAgc < 15 && fileRecord3G.Sinr > -5.5;
+                        foreach (var townId in townIds)
+                        {
+                            var coors = coorsList.FirstOrDefault(x => x.TownId == townId);
+                            if (coors == null) continue;
+                            if (!coors.Coors.IsInTownRange(point)) continue;
+                            currentTownId = results.UpdateCurrentTownId(townId, currentTownId, point, file.Id, isCoverage,
+                                ref lastLon, ref lastLat);
+                            break;
+                        }
+                    }
+                    return results;
+                default:
+                    var data4G = _repository.GetFileRecord4Gs(csvFileName);
+                    foreach (var fileRecord4G in data4G)
+                    {
+                        if (fileRecord4G.Longtitute == null || fileRecord4G.Lattitute == null)
+                            continue;
+                        var point = new GeoPoint(fileRecord4G.Longtitute ?? 0, fileRecord4G.Lattitute ?? 0);
+                        var isCoverage = fileRecord4G.Rsrp > -105 && fileRecord4G.Sinr > -3;
+                        foreach (var townId in townIds)
+                        {
+                            var coors = coorsList.FirstOrDefault(x => x.TownId == townId);
+                            if (coors == null) continue;
+                            if (!coors.Coors.IsInTownRange(point)) continue;
+                            currentTownId = results.UpdateCurrentTownId(townId, currentTownId, point, file.Id, isCoverage,
+                                ref lastLon, ref lastLat);
+                            break;
+                        }
+                    }
+                    return results;
+            }
         }
     }
 

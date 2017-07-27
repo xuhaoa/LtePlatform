@@ -394,21 +394,10 @@ namespace Lte.Evaluations.DataService.Basic
 
         public bool IsInTownBoundaries(double longtitute, double lattitute, string city, string district, string town)
         {
-            var point = new GeoPoint(longtitute, lattitute);
             var item = _repository.QueryTown(city, district, town);
             if (item == null) return false;
-            var coors = _boundaryRepository.GetAllList(x => x.TownId == item.Id);
-            foreach (var coor in coors)
-            {
-                var coorList = coor.Boundary.GetSplittedFields(' ');
-                var boundaryPoints = new List<GeoPoint>();
-                for (var i = 0; i < coorList.Length / 2; i++)
-                {
-                    boundaryPoints.Add(new GeoPoint(coorList[i * 2].ConvertToDouble(0), coorList[i * 2 + 1].ConvertToDouble(0)));
-                }
-                if (GeoMath.IsInPolygon(point, boundaryPoints)) return true;
-            }
-            return false;
+            var point = new GeoPoint(longtitute, lattitute);
+            return _boundaryRepository.GetAllList(x => x.TownId == item.Id).IsInTownRange(point);
         }
     }
 

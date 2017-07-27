@@ -5,6 +5,7 @@ using Lte.Domain.Regular.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 
@@ -256,7 +257,51 @@ namespace Lte.MySqlFramework.Entities
         public int TownId { get; set; }
     }
 
-    public class TownBoundaryView
+    public static class AreaTestInfoQuery
+    {
+        public static int UpdateCurrentTownId(this List<AreaTestInfo> results, int townId, int currentTownId, GeoPoint point, int fileId,
+            bool isCoverage, ref double lastLon, ref double lastLat)
+        {
+            var distance = 0.0;
+            if (townId == currentTownId)
+            {
+                if (lastLon > 0 && lastLat > 0)
+                {
+                    distance = point.Distance(new GeoPoint(lastLon, lastLat));
+                }
+                lastLon = point.Longtitute;
+                lastLat = point.Lattitute;
+            }
+            else
+            {
+                currentTownId = townId;
+                lastLon = -1.0;
+                lastLat = -1.0;
+            }
+            var item = results.FirstOrDefault(x => x.TownId == townId);
+            if (item == null)
+            {
+                results.Add(new AreaTestInfo
+                {
+                    FileId = fileId,
+                    TownId = townId,
+                    Distance = distance,
+                    Count = 1,
+                    CoverageCount = isCoverage ? 1 : 0
+                });
+            }
+            else
+            {
+                item.Distance += distance;
+                item.Count++;
+                if (isCoverage) item.CoverageCount++;
+            }
+            return currentTownId;
+        }
+
+}
+
+public class TownBoundaryView
     {
         public string Town { get; set; }
 

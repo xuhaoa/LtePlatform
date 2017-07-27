@@ -2,6 +2,7 @@
 using System.Data.Linq.Mapping;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 
@@ -58,7 +59,7 @@ namespace Lte.Parameters.Entities.Dt
         public int TotalDays4G => (DateTime.Today - LatestDate4G).Days;
     }
 
-    public class FileRecord2G
+    public class FileRecord2G : IGeoPoint<double?>
     {
         [Column(Name = "rasterNum", DbType = "SmallInt")]
         public short RasterNum { get; set; }
@@ -91,7 +92,7 @@ namespace Lte.Parameters.Entities.Dt
         public double? TxGain { get; set; }
     }
 
-    public class FileRecord3G
+    public class FileRecord3G : IGeoPoint<double?>
     {
         [Column(Name = "rasterNum", DbType = "SmallInt")]
         public short RasterNum { get; set; }
@@ -130,7 +131,7 @@ namespace Lte.Parameters.Entities.Dt
         public int? RlpThroughput { get; set; }
     }
 
-    public class FileRecord4G
+    public class FileRecord4G : IGeoPoint<double?>
     {
         [Column(Name = "ind", DbType = "Int")]
         public int? Ind { get; set; }

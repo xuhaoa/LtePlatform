@@ -61,7 +61,17 @@ namespace Lte.MySqlFramework.Abstract
         
     }
 
+    public interface IRasterFileDtRepository : IRepository<RasterFileDtInfo>, ISaveChanges
+    {
+        
+    }
+
     public interface IDtFileInfoRepository : IRepository<CsvFilesInfo>, ISaveChanges
+    {
+        
+    }
+
+    public interface IAreaTestInfoRepository : IRepository<AreaTestInfo>, ISaveChanges
     {
         
     }

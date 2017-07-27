@@ -5,6 +5,7 @@ using LtePlatform.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
+using Lte.Domain.Common.Geo;
 using Lte.Evaluations.DataService.Mr;
 using Lte.MySqlFramework.Entities;
 
@@ -288,6 +289,27 @@ namespace LtePlatform.Controllers.Dt
         public int Get(CsvFilesInfo filesInfo)
         {
             return _service.UpdateFileDistance(filesInfo);
+        }
+    }
+
+    [ApiControl("镇区测试文件联合信息查询控制器")]
+    public class TownTestInfoController : ApiController
+    {
+        private readonly TownTestInfoService _service;
+
+        public TownTestInfoController(TownTestInfoService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        [ApiDoc("查询指定数据文件（已知类型）在各个镇区的详细信息")]
+        [ApiParameterDoc("csvFileName", "数据文件名称")]
+        [ApiParameterDoc("type", "数据文件类型")]
+        [ApiResponse("各个镇区DT统计的详细信息")]
+        public IEnumerable<AreaTestInfo> Get(string csvFileName, string type)
+        {
+            return _service.QueryAreaTestInfos(csvFileName, type);
         }
     }
 

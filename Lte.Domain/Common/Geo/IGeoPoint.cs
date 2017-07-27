@@ -16,7 +16,7 @@ namespace Lte.Domain.Common.Geo
 
         T Lattitute { get; set; }
     }
-
+    
     public interface IGeoGridPoint<out T> : IGeoPointReadonly<T>
     {
         int X { get; set; }

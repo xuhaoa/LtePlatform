@@ -8,6 +8,8 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Geo;
+using Lte.Domain.Regular;
 
 namespace Lte.MySqlFramework.Abstract
 {
@@ -109,6 +111,24 @@ namespace Lte.MySqlFramework.Abstract
     public interface ITownBoundaryRepository : IRepository<TownBoundary>, ISaveChanges
     {
         
+    }
+
+    public static class TownBoundaryQuery
+    {
+        public static bool IsInTownRange(this List<TownBoundary> coors, GeoPoint point)
+        {
+            foreach (var coor in coors)
+            {
+                var coorList = coor.Boundary.GetSplittedFields(' ');
+                var boundaryPoints = new List<GeoPoint>();
+                for (var i = 0; i < coorList.Length / 2; i++)
+                {
+                    boundaryPoints.Add(new GeoPoint(coorList[i * 2].ConvertToDouble(0), coorList[i * 2 + 1].ConvertToDouble(0)));
+                }
+                if (GeoMath.IsInPolygon(point, boundaryPoints)) return true;
+            }
+            return false;
+        }
     }
 
     public interface IPagingRepository<TEntity> : IRepository<TEntity>
