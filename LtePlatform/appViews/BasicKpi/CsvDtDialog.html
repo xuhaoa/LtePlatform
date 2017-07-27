@@ -5,10 +5,12 @@
     <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
 <div class="modal-body">
-    <label>网络类型</label>
-    <select class="form-control" ng-model="network.selected" ng-options="n as n for n in network.options"></select>
-
-    <div dt-file-list items="dtList" type="network.selected"></div>
+    <div date-span-row begin-date="beginDate" end-date="endDate">
+        <button class="btn btn-success" ng-click="query()">
+            <div class="glyphicon glyphicon-search"></div>
+        </button>
+    </div>
+    <div dt-file-list items="fileInfos" type="network.selected"></div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-warning" ng-click="ok()">OK</button>

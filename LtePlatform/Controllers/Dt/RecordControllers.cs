@@ -246,6 +246,12 @@ namespace LtePlatform.Controllers.Dt
         }
 
         [HttpGet]
+        public IEnumerable<CsvFilesInfo> Get(DateTime begin, DateTime end)
+        {
+            return _service.QureyFileNames(begin, end);
+        }
+
+        [HttpGet]
         [ApiDoc("测试用API")]
         public IEnumerable<RasterInfo> Get()
         {

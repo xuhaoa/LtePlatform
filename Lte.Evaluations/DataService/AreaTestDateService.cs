@@ -151,6 +151,11 @@ namespace Lte.Evaluations.DataService
             return GetFileRasterInfoViews(dataType, infos);
         }
 
+        public IEnumerable<CsvFilesInfo> QureyFileNames(DateTime begin, DateTime end)
+        {
+            return _dtFileInfoRepository.GetAllList(x => x.TestDate >= begin && x.TestDate < end);
+        }
+
         private IEnumerable<FileRasterInfoView> GetFileRasterInfoViews(string dataType, List<RasterInfo> infos)
         {
             if (!infos.Any())

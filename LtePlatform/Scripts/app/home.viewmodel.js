@@ -1492,7 +1492,7 @@
             });
         });
         $scope.manageCsvFiles = function() {
-            parametersDialogService.manageCsvDtInfos();
+            parametersDialogService.manageCsvDtInfos($scope.beginDate, $scope.endDate);
         };
     })
 

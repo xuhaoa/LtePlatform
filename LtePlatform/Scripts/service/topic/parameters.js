@@ -340,12 +340,25 @@
     .controller('csv.dt.dialog',
         function ($scope,
             dialogTitle,
+            beginDate,
+            endDate,
+            collegeService,
             $uibModalInstance) {
             $scope.dialogTitle = dialogTitle;
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
             $scope.network = {
                 options: ['2G', '3G', '4G'],
                 selected: '2G'
             };
+
+            $scope.query = function () {
+                collegeService.queryCsvFileNames($scope.beginDate.value, $scope.endDate.value).then(function(infos) {
+                    $scope.fileInfos = infos;
+                });
+            };
+
+            $scope.query();
             $scope.ok = function () {
                 $uibModalInstance.close($scope.bts);
             };
@@ -767,13 +780,19 @@
                         },
                         callback);
                 },
-                manageCsvDtInfos: function() {
+                manageCsvDtInfos: function(beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/BasicKpi/CsvDtDialog.html',
                         controller: 'csv.dt.dialog',
                         resolve: {
                             dialogTitle: function() {
                                 return "全网路测数据信息管理";
+                            },
+                            beginDate: function() {
+                                return beginDate;
+                            },
+                            endDate: function() {
+                                return endDate;
                             }
                         }
                     });
