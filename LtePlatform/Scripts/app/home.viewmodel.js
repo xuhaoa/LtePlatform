@@ -125,7 +125,7 @@
                         controller: "menu.dt"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Network.html",
+                        templateUrl: "/appViews/Home/Dt.html",
                         controller: "home.dt"
                     }
                 },
@@ -1473,15 +1473,14 @@
             $scope.showFeelingRate();
         });
     })
-    .controller("home.dt", function ($scope, baiduMapService, coverageService, appFormatService, parametersDialogService,
-        parametersMapService) {
+    .controller("home.dt", function ($scope, baiduMapService, coverageService, appFormatService, parametersDialogService, parametersMapService) {
         baiduMapService.initializeMap("map", 11);
         baiduMapService.addCityBoundary("佛山");
         $scope.legend.intervals = [];
         coverageService.queryAreaTestDate().then(function (result) {
             angular.forEach(result, function(item, $index) {
                 if (item.cityName) {
-                    baiduMapService.drawCustomizeLabel(item.longtitute, item.lattitute + 0.005, item.cityName + item.districtName + item.townName,
+                    baiduMapService.drawCustomizeLabel(item.longtitute, item.lattitute + 0.005, item.districtName + item.townName,
                         '4G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate4G), 'yyyy-MM-dd')
                         + '<br/>3G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate3G), 'yyyy-MM-dd')
                         + '<br/>2G测试日期:' + appFormatService.getDateString(appFormatService.getDate(item.latestDate2G), 'yyyy-MM-dd'), 3);
@@ -1490,11 +1489,11 @@
                     baiduMapService.addOneMarkerToScope(marker, parametersDialogService.showTownDtInfo, item);
                     parametersMapService.showTownBoundaries(item.cityName, item.districtName, item.townName, $scope.colors[$index % $scope.colors.length]);
                 }
-
             });
-
         });
-
+        $scope.manageCsvFiles = function() {
+            parametersDialogService.manageCsvDtInfos();
+        };
     })
 
     .controller("home.mr", function ($scope, baiduMapService, coverageService, kpiDisplayService, parametersMapService, appUrlService,

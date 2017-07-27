@@ -418,6 +418,8 @@
     <Content Include="appViews\BasicKpi\Common.html" />
     <Content Include="appViews\BasicKpi\CommonMenu.html" />
     <Content Include="appViews\BasicKpi\Construction.html" />
+    <Content Include="appViews\BasicKpi\CsvDtDialog.html" />
+    <Content Include="appViews\Home\DT.html" />
     <Content Include="appViews\BasicKpi\GridApp.html" />
     <Content Include="appViews\BasicKpi\GridClusterDialog.html" />
     <Content Include="appViews\BasicKpi\Quality.html" />
