@@ -494,4 +494,76 @@
             },
             argumentName: 'items'
         }, $compile);
+    })
+    .controller('DtInfoListController', function ($scope, collegeService, generalMapService) {
+        $scope.gridOptions = {
+            paginationPageSizes: [20, 40, 60],
+            paginationPageSize: 20,
+            columnDefs: [
+                { field: 'csvFileName', name: '测试文件名称', width: 200 },
+                { field: 'networkType', name: '网络类型' },
+                { field: 'distance', name: '测试里程' },
+                { field: 'testDate', name: '测试日期', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'count', name: '测试点数' },
+                { field: 'coverageRate', name: '覆盖率（%）' },
+                {
+                    name: '计算指标',
+                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="grid.appScope.calculateDistance(row.entity)">计算</button>' +
+                    '<button class="btn btn-sm btn-default" ng-click="grid.appScope.updateDistance(row.entity)">更新</button>'
+                }
+            ],
+            data: []
+        };
+        $scope.calculateDistance = function (file) {
+            var name = file.csvFileName.replace(".csv", "");
+            switch (file.networkType) {
+                case '2G':
+                    collegeService.query2GFileRecords(name).then(function (records) {
+                        file.distance = generalMapService.calculateRoadDistance(records);
+                        file.count = records.length;
+                        file.coverageCount = _.countBy(records,
+                            function (record) {
+                                return record.ecio > -12 && record.rxAgc > -90 && record.txAgc < 15;
+                            })['true'];
+                        file.coverageRate = 100 * file.coverageCount / file.count;
+                    });
+                    break;
+                case '3G':
+                    collegeService.query3GFileRecords(name).then(function (records) {
+                        file.distance = generalMapService.calculateRoadDistance(records);
+                        file.count = records.length;
+                        file.coverageCount = _.countBy(records,
+                            function (record) {
+                                return record.sinr > -6.5 && record.rxAgc0 > -90 && record.rxAgc1 > -90 && record.txAgc < 15;
+                            })['true'];
+                        file.coverageRate = 100 * file.coverageCount / file.count;
+                    });
+                    break;
+                default:
+                    collegeService.query4GFileRecords(name).then(function (records) {
+                        file.distance = generalMapService.calculateRoadDistance(records);
+                        file.count = records.length;
+                        file.coverageCount = _.countBy(records,
+                            function (record) {
+                                return record.sinr > -3 && record.rsrp > -105;
+                            })['true'];
+                        file.coverageRate = 100 * file.coverageCount / file.count;
+                    });
+                    break;
+            }
+        };
+        $scope.updateDistance = function (file) {
+            collegeService.updateCsvFileDistance(file).then(function (result) {
+
+            });
+        };
+    })
+    .directive('dtInfoList', function ($compile, calculateService) {
+        return calculateService.generatePagingGridDirective({
+            controllerName: 'DtInfoListController',
+            scope: {
+                items: '='
+            },
+            argumentName: 'items'
+        }, $compile);
     });

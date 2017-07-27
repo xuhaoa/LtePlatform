@@ -224,12 +224,12 @@ namespace LtePlatform.Controllers.Dt
         }
 
         [HttpGet]
-        [ApiDoc("查询包含指定数据类型和镇区的所有网格的测试文件信息")]
+        [ApiDoc("查询包含指定数据类型和镇区的日期范围内的测试文件信息")]
         [ApiParameterDoc("dataType", "指定数据类型（2G、3G、4G）")]
         [ApiParameterDoc("townName", "镇区名称")]
         [ApiParameterDoc("begin", "开始日期")]
         [ApiParameterDoc("end", "结束日期")]
-        [ApiResponse("包含指定数据类型的所有网格的测试文件信息视图，包括测试文件编号和包含的网格编号列表")]
+        [ApiResponse("包含指定数据类型的日期范围内的测试文件信息视图，包括测试文件编号和包含的网格编号列表")]
         public IEnumerable<FileRasterInfoView> Get(string dataType, string townName, DateTime begin, DateTime end)
         {
             return _service.QueryFileNames(dataType, townName, begin, end);
@@ -246,9 +246,19 @@ namespace LtePlatform.Controllers.Dt
         }
 
         [HttpGet]
+        [ApiDoc("查询包含指定日期范围内的测试文件信息")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiResponse("包含指定日期范围内的测试文件信息")]
         public IEnumerable<CsvFilesInfo> Get(DateTime begin, DateTime end)
         {
             return _service.QureyFileNames(begin, end);
+        }
+
+        [HttpGet]
+        public string Get(string csvFileName)
+        {
+            return _service.QueryNetworkType(csvFileName);
         }
 
         [HttpGet]

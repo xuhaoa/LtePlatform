@@ -151,6 +151,12 @@ namespace Lte.Evaluations.DataService
             return GetFileRasterInfoViews(dataType, infos);
         }
 
+        public string QueryNetworkType(string csvFileName)
+        {
+            var info = _testInfoRepository.FirstOrDefault(x => x.CsvFilesName.Contains(csvFileName));
+            return info?.NetworkType;
+        }
+
         public IEnumerable<CsvFilesInfo> QureyFileNames(DateTime begin, DateTime end)
         {
             return _dtFileInfoRepository.GetAllList(x => x.TestDate >= begin && x.TestDate < end);

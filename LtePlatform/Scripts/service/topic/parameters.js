@@ -355,6 +355,12 @@
             $scope.query = function () {
                 collegeService.queryCsvFileNames($scope.beginDate.value, $scope.endDate.value).then(function(infos) {
                     $scope.fileInfos = infos;
+                    angular.forEach(infos,
+                        function(info) {
+                            collegeService.queryCsvFileType(info.csvFileName.replace('.csv', '')).then(function(type) {
+                                info.networkType = type;
+                            });
+                        });
                 });
             };
 

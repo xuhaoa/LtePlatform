@@ -1765,6 +1765,11 @@ angular.module('region.college', ['app.core'])
                     end: end
                 });
             },
+            queryCsvFileType: function (name) {
+                return generalHttpService.getApiData('RasterFile', {
+                    csvFileName: name
+                });
+            },
             queryCsvFileInfo: function(fileName) {
                 return generalHttpService.getApiData('CsvFileInfo', {
                     fileName: fileName
