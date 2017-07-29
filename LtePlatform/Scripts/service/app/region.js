@@ -1778,6 +1778,20 @@ angular.module('region.college', ['app.core'])
             updateCsvFileDistance: function(filesInfo) {
                 return generalHttpService.postApiData('CsvFileInfo', filesInfo);
             },
+            updateAreaDtInfo: function(info) {
+                return generalHttpService.putApiData('TownTestInfo', info);
+            },
+            calculateTownDtTestInfos: function(name, type) {
+                return generalHttpService.getApiData('TownTestInfo', {
+                    csvFileName: name,
+                    type: type
+                });
+            },
+            queryFileTownDtTestInfo: function(fileId) {
+                return generalHttpService.getApiData('TownTestInfo', {
+                    fileId: fileId
+                });
+            },
             query2GFileRecords: function(fileName) {
                 return generalHttpService.getApiData("Record2G", {
                     fileName: fileName

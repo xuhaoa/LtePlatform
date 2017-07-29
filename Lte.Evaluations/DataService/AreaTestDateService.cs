@@ -36,16 +36,27 @@ namespace Lte.Evaluations.DataService
         private readonly IFileRecordRepository _repository;
         private readonly ITownBoundaryRepository _boundaryRepository;
         private readonly IDtFileInfoRepository _fileInfoRepository;
+        private readonly IAreaTestInfoRepository _areaTestInfoRepository;
 
         public TownTestInfoService(IFileRecordRepository repository, ITownBoundaryRepository boundaryRepository,
-            IDtFileInfoRepository fileInfoRepository)
+            IDtFileInfoRepository fileInfoRepository, IAreaTestInfoRepository areaTestInfoRepository)
         {
             _repository = repository;
             _boundaryRepository = boundaryRepository;
             _fileInfoRepository = fileInfoRepository;
+            _areaTestInfoRepository = areaTestInfoRepository;
         }
 
-        public IEnumerable<AreaTestInfo> QueryAreaTestInfos(string csvFileName, string type)
+        public IEnumerable<AreaTestInfo> QueryAreaTestInfos(int fileId)
+        {
+            var townIds =
+                   _boundaryRepository.GetAllList(x => x.AreaName == null).Select(x => x.TownId).Distinct().ToList();
+            return from info in _areaTestInfoRepository.GetAllList(x => x.FileId == fileId)
+                join id in townIds on info.TownId equals id
+                select info;
+        }
+
+        public IEnumerable<AreaTestInfo> CalculateAreaTestInfos(string csvFileName, string type)
         {
             var file = _fileInfoRepository.FirstOrDefault(x => x.CsvFileName == csvFileName + ".csv");
             if (file == null) return new List<AreaTestInfo>();
@@ -120,6 +131,22 @@ namespace Lte.Evaluations.DataService
                     }
                     return results;
             }
+        }
+
+        public int UpdateAreaTestInfo(AreaTestInfo info)
+        {
+            var item = _areaTestInfoRepository.FirstOrDefault(x => x.TownId == info.TownId && x.FileId == info.FileId);
+            if (item != null)
+            {
+                item.Count = info.Count;
+                item.CoverageCount = info.CoverageCount;
+                item.Distance = info.Distance;
+            }
+            else
+            {
+                _areaTestInfoRepository.Insert(info);
+            }
+            return _areaTestInfoRepository.SaveChanges();
         }
     }
 

@@ -508,8 +508,14 @@
                 { field: 'coverageRate', name: '覆盖率（%）' },
                 {
                     name: '计算指标',
-                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="grid.appScope.calculateDistance(row.entity)">计算</button>' +
-                    '<button class="btn btn-sm btn-default" ng-click="grid.appScope.updateDistance(row.entity)">更新</button>'
+                    width: 100,
+                    cellTemplate: '<button class="btn btn-sm btn-primary" ng-click="grid.appScope.calculateDistance(row.entity)">计算</button>\
+                    <button class="btn btn-sm btn-default" ng-click="grid.appScope.updateDistance(row.entity)">更新</button>'
+                },
+                {
+                    name: '分镇区信息',
+                    cellTemplate: '<button class="btn btn-sm btn-success" ng-disabled="row.entity.townInfos.length" ng-click="grid.appScope.calculateTownInfo(row.entity)">\
+                        <div class="badge">{{row.entity.townInfos.length}}</div>计算</button>'
                 }
             ],
             data: []
@@ -555,6 +561,17 @@
         $scope.updateDistance = function (file) {
             collegeService.updateCsvFileDistance(file).then(function (result) {
 
+            });
+        };
+        $scope.calculateTownInfo = function(file) {
+            collegeService.calculateTownDtTestInfos(file.csvFileName.replace(".csv", ""), file.networkType).then(function(results) {
+                file.townInfos = results;
+                angular.forEach(results,
+                    function(info) {
+                        collegeService.updateAreaDtInfo(info).then(function(result) {
+
+                        });
+                    });
             });
         };
     })

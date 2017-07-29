@@ -876,6 +876,9 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                             collegeService.queryCsvFileType(info.csvFileName.replace('.csv', '')).then(function(type) {
                                 info.networkType = type;
                             });
+                            collegeService.queryFileTownDtTestInfo(info.id).then(function(items) {
+                                info.townInfos = items;
+                            });
                         });
                 });
             };

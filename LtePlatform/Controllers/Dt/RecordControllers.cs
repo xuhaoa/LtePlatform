@@ -325,7 +325,19 @@ namespace LtePlatform.Controllers.Dt
         [ApiResponse("各个镇区DT统计的详细信息")]
         public IEnumerable<AreaTestInfo> Get(string csvFileName, string type)
         {
-            return _service.QueryAreaTestInfos(csvFileName, type);
+            return _service.CalculateAreaTestInfos(csvFileName, type);
+        }
+
+        [HttpGet]
+        public IEnumerable<AreaTestInfo> Get(int fileId)
+        {
+            return _service.QueryAreaTestInfos(fileId);
+        }
+
+        [HttpPut]
+        public int Put(AreaTestInfo info)
+        {
+            return _service.UpdateAreaTestInfo(info);
         }
     }
 

@@ -360,6 +360,9 @@
                             collegeService.queryCsvFileType(info.csvFileName.replace('.csv', '')).then(function(type) {
                                 info.networkType = type;
                             });
+                            collegeService.queryFileTownDtTestInfo(info.id).then(function(items) {
+                                info.townInfos = items;
+                            });
                         });
                 });
             };
