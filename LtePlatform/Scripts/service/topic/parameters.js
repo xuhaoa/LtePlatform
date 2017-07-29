@@ -474,7 +474,26 @@
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-        })
+    })
+    .controller('map.assessment.dialog', function($scope,
+        $http,
+        dialogTitle,
+        $uibModalInstance,
+        parametersDialogService,
+        downSwitchService) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.tab = 1;
+        $scope.jqf = 0;
+        $scope.xcccd = 100;
+        $scope.kpid = 100;
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.bts);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .controller('cluster.point.dialog',
         function($scope,
             $uibModalInstance,
@@ -733,6 +752,18 @@
                         resolve: {
                             dialogTitle: function() {
                                 return "站点添加";
+                            }
+                        }
+                    });
+                },
+
+                showAssessmentDialog: function () {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Evaluation/Dialog/AssessmentDialog.html',
+                        controller: 'map.assessment.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "考核评分";
                             }
                         }
                     });

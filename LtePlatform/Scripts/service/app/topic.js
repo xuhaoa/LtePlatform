@@ -990,7 +990,26 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-        })
+    })
+    .controller('map.assessment.dialog', function($scope,
+        $http,
+        dialogTitle,
+        $uibModalInstance,
+        parametersDialogService,
+        downSwitchService) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.tab = 1;
+        $scope.jqf = 0;
+        $scope.xcccd = 100;
+        $scope.kpid = 100;
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.bts);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
     .controller('cluster.point.dialog',
         function($scope,
             $uibModalInstance,
@@ -1249,6 +1268,18 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                         resolve: {
                             dialogTitle: function() {
                                 return "站点添加";
+                            }
+                        }
+                    });
+                },
+
+                showAssessmentDialog: function () {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Evaluation/Dialog/AssessmentDialog.html',
+                        controller: 'map.assessment.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "考核评分";
                             }
                         }
                     });
@@ -2011,7 +2042,7 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 					controller: 'map.checkingStation.dialog',
 					resolve: {
 						dialogTitle: function() {
-							return "巡检信息:" + station.enodebName;
+							return "巡检信息:" + station.name;
 						},
 						station: function() {
 							return station;
@@ -2464,12 +2495,13 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 		};
 	})
 	.controller('map.checkingStation.dialog', function($scope, $uibModalInstance, station, dialogTitle,
-		appFormatService) {
-
-		$scope.itemGroups = appFormatService.generateCheckingStationGroups(station);
+        appFormatService, networkElementService, downSwitchService) {
+        downSwitchService.getCheckDetailsById(station.id).then(function(response) {
+            station = response.result[0];
+            $scope.itemGroups = appFormatService.generateCheckingDetailsGroups(station);
+        });
 
 		$scope.dialogTitle = dialogTitle;
-
 
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss('cancel');

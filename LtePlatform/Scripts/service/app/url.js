@@ -1298,6 +1298,207 @@ angular.module('app.format', [])
                             }, {
                                 key: '纬度',
                                 value: station.lattitute
+                            }, {
+                                key: '巡检问题',
+                                value: station.problem
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: '上次巡检时间',
+                                value: station.lastCheckTime
+                            }, {
+                                key: '上次巡检问题',
+                                value: station.lastProblem
+                            }
+                        ]
+                    }
+                ];
+            },
+
+            generateCheckingDetailsGroups: function (station) {
+                return [
+                    {
+                        items: [
+                            {
+                                key: "网元名称",
+                                value: station.WYMC003
+                            }, {
+                                key: "是否需求整治",
+                                value: station.SFXQZZ004
+                            }, {
+                                key: "巡检单位",
+                                value: station.XJDW005
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: "巡检人",
+                                value: station.XJR006
+                            }, {
+                                key: "网格名称",
+                                value: station.WGMC007
+                            }, {
+                                key: "开始时间",
+                                value: station.KSSJ008
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: "结束时间",
+                                value: station.JSSJ009
+                            }, {
+                                key: "基站经度",
+                                value: station.JZJD010
+                            }, {
+                                key: "基站纬度",
+                                value: station.JZWD011
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: "巡检经度",
+                                value: station.XJJD012
+                            }, {
+                                key: "巡检纬度",
+                                value: station.XJWD013
+                            }, {
+                                key: "巡检距离",
+                                value: station.XJJL014
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: "机房外_周边环境_周边环境",
+                                value: station.ZT001
+                            }, {
+                                key: "机房外_拨打测试_拨打测试",
+                                value: station.ZT002
+                            }, {
+                                key: "机房外_电表读数_电表读数",
+                                value: station.ZT003
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: "机房外_变_稳压器_变_稳压器",
+                                value: station.ZT004
+                            }, {
+                                key: "机房外_空调室外机_空调室外机",
+                                value: station.ZT005
+                            }, {
+                                key: "机房外_电光线缆_电光线缆",
+                                value: station.ZT006
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: "机房内_内部环境_环境卫生",
+                                value: station.ZT007
+                            }, {
+                                key: "机房内_内部环境_环控核查",
+                                value: station.ZT008
+                            }, {
+                                key: "机房内_内部环境_机房土建",
+                                value: station.ZT009
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: "机房内_内部环境_基站消防",
+                                value: station.ZT010
+                            }, {
+                                key: "机房内_内部环境_维护标识",
+                                value: station.ZT011
+                            }, {
+                                key: "机房内_内部环境_温湿度",
+                                value: station.ZT012
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: "机房内_主设备_CDMA机框",
+                                value: station.ZT013
+                            }, {
+                                key: "机房内_主设备_LTE机框",
+                                value: station.ZT014
+                            }, {
+                                key: "机房内_主设备_板卡状态",
+                                value: station.ZT015
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: "机房内_主设备_设备风扇",
+                                value: station.ZT016
+                            }, {
+                                key: "机房内_动力配套_UPS",
+                                value: station.ZT017
+                            }, {
+                                key: "机房内_动力配套_低压配电",
+                                value: station.ZT018
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: "机房内_动力配套_防雷与接地",
+                                value: station.ZT019
+                            }, {
+                                key: "机房内_动力配套_固定式油机",
+                                value: station.ZT020
+                            }, {
+                                key: "机房内_动力配套_开关电源",
+                                value: station.ZT021
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: "机房内_动力配套_蓄电池",
+                                value: station.ZT022
+                            }, {
+                                key: "机房内_动力配套_照明与插座",
+                                value: station.ZT023
+                            }, {
+                                key: "机房内_空调_空调",
+                                value: station.ZT024
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: "机房内_传输配套_传输配套",
+                                value: station.ZT025
+                            }, {
+                                key: "机房内_走线架_走线架",
+                                value: station.ZT026
+                            }, {
+                                key: "机房上_天馈线_馈线质量",
+                                value: station.ZT027
+                            }
+                        ]
+                    }, {
+                        items: [
+                            {
+                                key: "机房上_天馈线_天线测量",
+                                value: station.ZT028
+                            }, {
+                                key: "机房上_天馈线_GPS及性能",
+                                value: station.ZT029
+                            }, {
+                                key: "机房上_上塔RRU_上塔RRU",
+                                value: station.ZT030
                             }
                         ]
                     }

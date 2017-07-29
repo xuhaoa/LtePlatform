@@ -1220,7 +1220,7 @@
     })
 
     .controller("station.network", function ($scope, downSwitchService, baiduMapService, geometryService,
-        parametersDialogService, collegeMapService, dumpPreciseService) {
+        parametersDialogService, collegeMapService, dumpPreciseService, appUrlService) {
         $scope.districts = [];
         $scope.distinct = $scope.distincts[0];
         baiduMapService.initializeMap("map", 13);
@@ -1257,6 +1257,12 @@
         $scope.showStationList = function() {
             parametersDialogService.showStationList();
         };
+        $scope.assessment = function () {
+            parametersDialogService.showAssessmentDialog();
+        };
+        $scope.outportData = function () {
+            location.href = appUrlService.getPhpHost() + "LtePlatForm/lte/index.php/Station/download";
+        };
 
         $scope.$watch('city.selected', function (city) {
             if (city) {
@@ -1271,7 +1277,7 @@
         
     })
     .controller("operation-indoor.network", function ($scope, downSwitchService, baiduMapService, geometryService,
-        parametersDialogService, collegeMapService, dumpPreciseService, myValue) {
+        parametersDialogService, collegeMapService, dumpPreciseService, myValue, appUrlService) {
         $scope.districts = [];
         $scope.distinct = $scope.distincts[0];
         baiduMapService.initializeMap("map", 13);
@@ -1311,6 +1317,9 @@
         };
         $scope.showStationList = function () {
             parametersDialogService.showStationList();
+        };
+        $scope.outportData = function () {
+            location.href = appUrlService.getPhpHost() + "LtePlatForm/lte/index.php/Indoor/download";
         };
 
         $scope.$watch('city.selected', function (city) {

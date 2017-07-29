@@ -149,7 +149,7 @@
 					controller: 'map.checkingStation.dialog',
 					resolve: {
 						dialogTitle: function() {
-							return "巡检信息:" + station.enodebName;
+							return "巡检信息:" + station.name;
 						},
 						station: function() {
 							return station;
@@ -602,12 +602,13 @@
 		};
 	})
 	.controller('map.checkingStation.dialog', function($scope, $uibModalInstance, station, dialogTitle,
-		appFormatService) {
-
-		$scope.itemGroups = appFormatService.generateCheckingStationGroups(station);
+        appFormatService, networkElementService, downSwitchService) {
+        downSwitchService.getCheckDetailsById(station.id).then(function(response) {
+            station = response.result[0];
+            $scope.itemGroups = appFormatService.generateCheckingDetailsGroups(station);
+        });
 
 		$scope.dialogTitle = dialogTitle;
-
 
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss('cancel');
