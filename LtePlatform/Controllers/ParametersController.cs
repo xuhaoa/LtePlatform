@@ -87,7 +87,8 @@ namespace LtePlatform.Controllers
             if (cdmaFile != null && cdmaFile.FileName != "")
             {
                 var cdmaPath = cdmaFile.UploadParametersFile();
-                _basicImportService.ImportCdmaParameters(cdmaPath);
+                BasicImportContainer.CdmaCellExcels = _basicImportService.ImportCdmaParameters(cdmaPath);
+                BasicImportContainer.CdmaRruIndex = 0;
             }
             return RedirectToAction("BasicImport");
         }

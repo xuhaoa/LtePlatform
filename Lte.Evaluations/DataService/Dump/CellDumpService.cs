@@ -205,15 +205,14 @@ namespace Lte.Evaluations.DataService.Dump
             _cellRepository.SaveChanges();
         }
 
-        public async Task<int> ImportRru(IEnumerable<CdmaCellExcel> infos)
+        public async Task<int> ImportRru()
         {
-            var rruInfos = infos.Where(x => x.IsRru == "Y");
-            int count = 0;
-            foreach (var info in rruInfos)
-            {
-                count += await _rruRepository.UpdateOne<ICdmaRruRepository, CdmaRru, CdmaCellExcel>(info);
-            }
-            return count;
+            var info = BasicImportContainer.CdmaCellExcels[BasicImportContainer.CdmaRruIndex];
+            await _rruRepository.UpdateOne<ICdmaRruRepository, CdmaRru, CdmaCellExcel>(info);
+            BasicImportContainer.CdmaRruIndex++;
+            return BasicImportContainer.CdmaRruIndex < BasicImportContainer.CdmaCellExcels.Count
+                ? BasicImportContainer.CdmaRruIndex
+                : -1;
         }
     }
 }

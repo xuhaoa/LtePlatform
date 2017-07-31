@@ -34,6 +34,10 @@ namespace Lte.Evaluations.DataService.Basic
         public static int LteRruIndex { get; set; }
 
         public static int LteCellIndex { get; set; }
+
+        public static List<CdmaCellExcel> CdmaCellExcels { get; set; } = new List<CdmaCellExcel>();
+
+        public static int CdmaRruIndex { get; set; }
     }
 
     public class BasicImportService
@@ -61,9 +65,7 @@ namespace Lte.Evaluations.DataService.Basic
         }
 
         public static List<BtsExcel> BtsExcels { get; set; } = new List<BtsExcel>();
-
-        public static List<CdmaCellExcel> CdmaCellExcels { get; set; } = new List<CdmaCellExcel>();
-
+        
         public List<ENodebExcel> ImportENodebExcels(string path)
         {
             var repo = new ExcelQueryFactory { FileName = path };
@@ -76,12 +78,12 @@ namespace Lte.Evaluations.DataService.Basic
             return (from c in repo.Worksheet<CellExcel>("小区级") select c).ToList();
         } 
 
-        public void ImportCdmaParameters(string path)
+        public List<CdmaCellExcel> ImportCdmaParameters(string path)
         {
             var repo = new ExcelQueryFactory { FileName = path };
             BtsExcels = (from c in repo.Worksheet<BtsExcel>("基站级")
-                select c).ToList();
-            CdmaCellExcels = (from c in repo.Worksheet<CdmaCellExcel>("小区级")
+                select c).Where(x => x.BtsId > 0).ToList();
+            return (from c in repo.Worksheet<CdmaCellExcel>("小区级")
                 select c).ToList();
         }
 
@@ -165,9 +167,9 @@ namespace Lte.Evaluations.DataService.Basic
 
         public IEnumerable<CdmaCellIdPair> GetVanishedCdmaCellIds()
         {
-            if (!CdmaCellExcels.Any()) return new List<CdmaCellIdPair>();
+            if (!BasicImportContainer.CdmaCellExcels.Any()) return new List<CdmaCellIdPair>();
             return from cell in _cdmaCellRepository.GetAllInUseList()
-                   join info in CdmaCellExcels
+                   join info in BasicImportContainer.CdmaCellExcels
                        on new { cell.BtsId, cell.SectorId, cell.CellType } equals new { info.BtsId, info.SectorId, info.CellType }
                        into cellQuery
                    from cq in cellQuery.DefaultIfEmpty()
@@ -188,8 +190,8 @@ namespace Lte.Evaluations.DataService.Basic
 
         public IEnumerable<CdmaCellExcel> GetNewCdmaCellExcels()
         {
-            if (!CdmaCellExcels.Any()) return new List<CdmaCellExcel>();
-            return from info in CdmaCellExcels
+            if (!BasicImportContainer.CdmaCellExcels.Any()) return new List<CdmaCellExcel>();
+            return from info in BasicImportContainer.CdmaCellExcels
                 join cell in _cdmaCellRepository.GetAllList()
                     on new {info.BtsId, info.SectorId} equals new {cell.BtsId, cell.SectorId} into cellQuery
                 from cq in cellQuery.DefaultIfEmpty()

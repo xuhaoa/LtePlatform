@@ -116,6 +116,7 @@
         $scope.newCdmaCellsImport = true;
         $scope.totalDumpRrus = 0;
         $scope.totalUpdateCells = 0;
+        $scope.totalDumpCdmaRrus = 0;
 
         $scope.postAllENodebs = function() {
             if ($scope.importData.newENodebs.length > 0) {
@@ -184,14 +185,12 @@
         };
 
         $scope.importCdmaRrus = function() {
-            if ($scope.importData.cdmaCellCount > 0) {
-                basicImportService.dumpCdmaRrus().then(function(result) {
-                    $scope.importData.updateMessages.push({
-                        contents: "完成CDMA RRU导入" + result + "个",
-                        type: 'success'
-                    });
-                });
-            }
+            basicImportService.dumpCdmaRrus().then(function (result) {
+                if (result > 0) {
+                    $scope.totalDumpCdmaRrus = result;
+                    $scope.importCdmaRrus();
+                }
+            });
         };
 
         $scope.vanishENodebs = function() {

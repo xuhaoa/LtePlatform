@@ -148,7 +148,7 @@ namespace Lte.Evaluations.DataService.Dump
         public void Test_GetNewCdmaCellExcels(int[] inputBtsIds, byte[] inputSectorIds, int[] outputBtsIds,
             byte[] outputSectorIds)
         {
-            BasicImportService.CdmaCellExcels = inputBtsIds.Select((t, i) => new CdmaCellExcel
+            BasicImportContainer.CdmaCellExcels = inputBtsIds.Select((t, i) => new CdmaCellExcel
             {
                 BtsId = t,
                 SectorId = inputSectorIds[i]

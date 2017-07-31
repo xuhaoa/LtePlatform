@@ -335,6 +335,7 @@ namespace LtePlatform.Controllers.Parameters
         }
     }
 
+    [ApiControl("新增CDMA基站Excel信息查询控制器")]
     public class NewBtsExcelsController : ApiController
     {
         private readonly BasicImportService _service;
