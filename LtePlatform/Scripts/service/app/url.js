@@ -3055,10 +3055,10 @@ angular.module('app.format', [])
                                 cellTemplate:
                                 '<button class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.overallStat.currentDistrict = row.entity.district">{{row.entity.district}}</button>'
                             },
-                            { field: 'totalRrcs', name: 'RRC连接总数' },
+                            { field: 'totalRrcRequest', name: 'RRC连接请求' },
                             {
-                                field: 'preciseRate',
-                                name: '精确覆盖率',
+                                field: 'rrcSuccessRate',
+                                name: 'RRC连接成功率',
                                 cellFilter: 'number: 2',
                                 cellClass: function (grid, row, col) {
                                     if (grid.getCellValue(row, col) < row.entity.objectRate) {
@@ -3068,8 +3068,9 @@ angular.module('app.format', [])
                                 }
                             },
                             { field: 'objectRate', name: '本区目标值', cellFilter: 'number: 2' },
-                            { field: 'firstRate', name: '第一精确覆盖率', cellFilter: 'number: 2' },
-                            { field: 'thirdRate', name: '第三精确覆盖率', cellFilter: 'number: 2' },
+                            { field: 'moDataRrcRate', name: '主叫数据成功率', cellFilter: 'number: 2' },
+                            { field: 'moSiganllingRrcRate', name: '主叫信令成功率', cellFilter: 'number: 2' },
+                            { field: 'mtAccessRrcRate', name: '被叫接入成功率', cellFilter: 'number: 2' },
                             {
                                 name: '处理',
                                 cellTemplate:

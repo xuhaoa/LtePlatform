@@ -943,6 +943,8 @@
                     $scope.overallStat.dateString = appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
                 });
         };
+
+        $scope.showKpi();
         $scope.ok = function () {
             $uibModalInstance.close($scope.building);
         };
