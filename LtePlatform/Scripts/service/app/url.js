@@ -3006,6 +3006,84 @@ angular.module('app.format', [])
                         }
                     }
                 });
+            },
+            generateDistrictColumnDefs: function(kpiType) {
+                switch(kpiType) {
+                    case 'precise':
+                        return [
+                            { field: 'city', name: '城市' },
+                            {
+                                name: '区域',
+                                cellTemplate:
+                                    '<button class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.overallStat.currentDistrict = row.entity.district">{{row.entity.district}}</button>'
+                            },
+                            { field: 'totalMrs', name: 'MR总数' },
+                            {
+                                field: 'preciseRate',
+                                name: '精确覆盖率',
+                                cellFilter: 'number: 2',
+                                cellClass: function(grid, row, col) {
+                                    if (grid.getCellValue(row, col) < row.entity.objectRate) {
+                                        return 'text-danger';
+                                    }
+                                    return 'text-success';
+                                }
+                            },
+                            { field: 'objectRate', name: '本区目标值', cellFilter: 'number: 2' },
+                            { field: 'firstRate', name: '第一精确覆盖率', cellFilter: 'number: 2' },
+                            { field: 'thirdRate', name: '第三精确覆盖率', cellFilter: 'number: 2' },
+                            {
+                                name: '处理',
+                                cellTemplate:
+                                    '<a class="btn btn-sm btn-primary" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showWorkItemDistrict(row.entity.district)">工单处理</a>'
+                            },
+                            {
+                                name: '分析',
+                                cellTemplate:
+                                    '<a class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showTopDistrict(row.entity.district)">TOP指标</a>'
+                            }
+                        ];
+                    case 'downSwitch':
+                        return [];
+                    case 'doubleFlow':
+                        return [];
+                    case 'rrc':
+                        return [
+                            { field: 'city', name: '城市' },
+                            {
+                                name: '区域',
+                                cellTemplate:
+                                '<button class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.overallStat.currentDistrict = row.entity.district">{{row.entity.district}}</button>'
+                            },
+                            { field: 'totalRrcs', name: 'RRC连接总数' },
+                            {
+                                field: 'preciseRate',
+                                name: '精确覆盖率',
+                                cellFilter: 'number: 2',
+                                cellClass: function (grid, row, col) {
+                                    if (grid.getCellValue(row, col) < row.entity.objectRate) {
+                                        return 'text-danger';
+                                    }
+                                    return 'text-success';
+                                }
+                            },
+                            { field: 'objectRate', name: '本区目标值', cellFilter: 'number: 2' },
+                            { field: 'firstRate', name: '第一精确覆盖率', cellFilter: 'number: 2' },
+                            { field: 'thirdRate', name: '第三精确覆盖率', cellFilter: 'number: 2' },
+                            {
+                                name: '处理',
+                                cellTemplate:
+                                '<a class="btn btn-sm btn-primary" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showWorkItemDistrict(row.entity.district)">工单处理</a>'
+                            },
+                            {
+                                name: '分析',
+                                cellTemplate:
+                                '<a class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showTopDistrict(row.entity.district)">TOP指标</a>'
+                            }
+                        ];
+                    default:
+                        return [];
+                } 
             }
         };
     })

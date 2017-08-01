@@ -2724,23 +2724,17 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 		};
 	})
 	.controller("rutrace.trend", function ($scope, $uibModalInstance, mapDialogService,
-		appRegionService, appKpiService, kpiPreciseService, appFormatService, workItemDialog,
+		appKpiService, kpiPreciseService, appFormatService, workItemDialog,
 		dialogTitle, city, beginDate, endDate) {
 		var yesterday = new Date();
 		yesterday.setDate(yesterday.getDate() - 1);
-		$scope.dialogTitle = dialogTitle + '-' + yesterday;
+        $scope.dialogTitle = dialogTitle + '-' + yesterday;
+        $scope.kpiType = 'precise';
 		$scope.statDate = {
 			value: yesterday,
 			opened: false
 		};
-		$scope.trendStat = {
-			stats: [],
-			districts: [],
-			districtStats: [],
-			townStats: [],
-			beginDateString: "",
-			endDateString: ""
-		};
+		
 		$scope.overallStat = {
 			currentDistrict: "",
 			districtStats: [],
@@ -2763,10 +2757,6 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 					$scope.overallStat.districtStats.push(appKpiService.getCityStat($scope.overallStat.districtStats, city.selected));
 					$scope.overallStat.dateString = appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
 				});
-			appRegionService.queryDistricts(city.selected)
-				.then(function(districts) {
-					$scope.trendStat.districts = districts;
-				});
 		};
 		$scope.showChart = function() {
 			workItemDialog.showPreciseChart($scope.overallStat);
@@ -2775,7 +2765,7 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 			mapDialogService.showPreciseWorkItem($scope.endDate);
 		};
 		$scope.showTrend = function() {
-			workItemDialog.showPreciseTrend($scope.trendStat, city, $scope.beginDate, $scope.endDate);
+			workItemDialog.showPreciseTrend(city, $scope.beginDate, $scope.endDate);
 		};
 		$scope.showTopKpi = function() {
 			mapDialogService.showPreciseTop($scope.beginDate, $scope.endDate);

@@ -61,39 +61,10 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
         };
     })
 
-    .controller('DistrictStatController', function ($scope, mapDialogService) {
+    .controller('DistrictStatController', function ($scope, mapDialogService, calculateService) {
         $scope.cityFlag = '全网';
         $scope.gridOptions = {
-            columnDefs: [
-                { field: 'city', name: '城市' },
-                {
-                    name: '区域',
-                    cellTemplate: '<button class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.overallStat.currentDistrict = row.entity.district">{{row.entity.district}}</button>'
-                },
-                { field: 'totalMrs', name: 'MR总数' },
-                {
-                    field: 'preciseRate',
-                    name: '精确覆盖率',
-                    cellFilter: 'number: 2',
-                    cellClass: function (grid, row, col) {
-                        if (grid.getCellValue(row, col) < row.entity.objectRate) {
-                            return 'text-danger';
-                        }
-                        return 'text-success';
-                    }
-                },
-                { field: 'objectRate', name: '本区目标值', cellFilter: 'number: 2' },
-                { field: 'firstRate', name: '第一精确覆盖率', cellFilter: 'number: 2' },
-                { field: 'thirdRate', name: '第三精确覆盖率', cellFilter: 'number: 2' },
-                {
-                    name: '处理',
-                    cellTemplate: '<a class="btn btn-sm btn-primary" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showWorkItemDistrict(row.entity.district)">工单处理</a>'
-                },
-                {
-                    name: '分析',
-                    cellTemplate: '<a class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showTopDistrict(row.entity.district)">TOP指标</a>'
-                }
-            ],
+            columnDefs: calculateService.generateDistrictColumnDefs($scope.kpiType),
             data: []
         };
         $scope.showWorkItemDistrict = function (district) {
@@ -109,7 +80,8 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
             scope: {
                 overallStat: '=',
                 beginDate: '=',
-                endDate: '='
+                endDate: '=',
+                kpiType: '='
             },
             argumentName: 'overallStat.districtStats'
         }, $compile);

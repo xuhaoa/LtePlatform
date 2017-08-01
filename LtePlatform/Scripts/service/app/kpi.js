@@ -4814,9 +4814,20 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
 			});
 		};
 	})
-	.controller("rutrace.trend.dialog", function($scope, $uibModalInstance, city, beginDate, endDate, trendStat,
-		appKpiService, kpiPreciseService, appFormatService) {
-		$scope.trendStat = trendStat;
+    .controller("rutrace.trend.dialog", function ($scope, $uibModalInstance, city, beginDate, endDate,
+        appRegionService, appKpiService, kpiPreciseService, appFormatService) {
+        $scope.trendStat = {
+            stats: [],
+            districts: [],
+            districtStats: [],
+            townStats: [],
+            beginDateString: "",
+            endDateString: ""
+        };
+        appRegionService.queryDistricts(city.selected)
+            .then(function (districts) {
+                $scope.trendStat.districts = districts;
+            });
 		$scope.beginDate = beginDate;
 		$scope.endDate = endDate;
 		$scope.dialogTitle = "精确覆盖率变化趋势";
@@ -5236,14 +5247,11 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
 					}
 				});
 			},
-			showPreciseTrend: function(trendStat, city, beginDate, endDate) {
+			showPreciseTrend: function(city, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Rutrace/Coverage/Trend.html',
 					controller: 'rutrace.trend.dialog',
 					resolve: {
-						trendStat: function() {
-							return trendStat;
-						},
 						city: function() {
 							return city;
 						},
