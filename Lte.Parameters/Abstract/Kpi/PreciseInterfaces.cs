@@ -2,24 +2,20 @@
 using Lte.Parameters.Entities.Kpi;
 using System;
 using System.Collections.Generic;
+using Abp.EntityFramework.Repositories;
 using MongoDB.Bson;
 
 namespace Lte.Parameters.Abstract.Kpi
 {
-    public interface IPreciseCoverage4GRepository : IRepository<PreciseCoverage4G>
+    public interface IPreciseCoverage4GRepository : IRepository<PreciseCoverage4G>, ISaveChanges
     {
         List<PreciseCoverage4G> GetAllList(int cellId, byte sectorId, DateTime begin, DateTime end);
 
         List<PreciseCoverage4G> GetAllList(DateTime begin, DateTime end);
-
-        int SaveChanges();
     }
 
-    public interface ITownPreciseCoverage4GStatRepository : IRepository<TownPreciseCoverage4GStat>
+    public interface ITownPreciseCoverage4GStatRepository : IRepository<TownPreciseCoverage4GStat>, ISaveChanges
     {
-        List<TownPreciseCoverage4GStat> GetAllList(DateTime begin, DateTime end);
-
-        int SaveChanges();
     }
 
     public interface IPreciseMongoRepository : IRepository<PreciseMongo, ObjectId>

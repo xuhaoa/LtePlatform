@@ -120,15 +120,7 @@ namespace Lte.Evaluations.MockItems
                     .Select(x => x.InfrastructureId).ToList());
             
         }
-
-        public static void MockOperation(this Mock<ITownPreciseCoverage4GStatRepository> repository)
-        {
-            repository.Setup(x => x.GetAllList(It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-                .Returns<DateTime, DateTime>(
-                    (begin, end) =>
-                        repository.Object.GetAll().Where(x => x.StatTime >= begin && x.StatTime < end).ToList());
-        }
-
+        
         public static void MockOperations(this Mock<IPreciseCoverage4GRepository> repository)
         {
             repository.Setup(

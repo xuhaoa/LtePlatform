@@ -2209,7 +2209,27 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 						}
 					}
 				});
-			},
+            },
+            showRrcTrend: function(city, beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Rutrace/Trend.html',
+                    controller: 'rrc.trend',
+                    resolve: {
+                        dialogTitle: function () {
+                            return "RRC连接成功率变化趋势";
+                        },
+                        city: function () {
+                            return city;
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        }
+                    }
+                });
+            },
 			showPreciseWorkItem: function (endDate) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Rutrace/WorkItem/ForCity.html',
@@ -2780,7 +2800,50 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss('cancel');
 		};
-	})
+    })
+    .controller('rrc.trend', function ($scope, $uibModalInstance,
+        kpiPreciseService, appFormatService, appKpiService,
+        dialogTitle, city, beginDate, endDate) {
+        var yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        $scope.dialogTitle = dialogTitle + '-' + yesterday;
+        $scope.kpiType = 'rrc';
+        $scope.statDate = {
+            value: yesterday,
+            opened: false
+        };
+
+        $scope.overallStat = {
+            currentDistrict: "",
+            districtStats: [],
+            townStats: [],
+            cityStat: {},
+            dateString: ""
+        };
+        $scope.beginDate = beginDate;
+        $scope.endDate = endDate;
+        $scope.showKpi = function () {
+            kpiPreciseService.getRecentRrcRegionKpi(city.selected, $scope.statDate.value)
+                .then(function (result) {
+                    $scope.statDate.value = appFormatService.getDate(result.statDate);
+                    angular.forEach(result.districtRrcViews, function (view) {
+                        view.objectRate = appKpiService.getRrcObject(view.district);
+                    });
+                    $scope.overallStat.districtStats = result.districtRrcViews;
+                    $scope.overallStat.townStats = result.townRrcViews;
+                    $scope.overallStat.currentDistrict = result.districtRrcViews[0].district;
+                    $scope.overallStat.districtStats.push(appKpiService.getCityStat($scope.overallStat.districtStats, city.selected));
+                    $scope.overallStat.dateString = appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
+                });
+        };
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.building);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
 	.controller("workitem.city", function ($scope, $uibModalInstance, endDate,
 		preciseWorkItemService, workItemDialog) {
 		$scope.dialogTitle = "精确覆盖优化工单一览";
@@ -2940,7 +3003,7 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 		};
 	})
 	.controller("customer.index", function ($scope, $uibModalInstance,
-	complainService, appKpiService) {
+	    complainService, appKpiService) {
 		$scope.statDate = {
 			value: new Date(),
 			opened: false
@@ -2969,7 +3032,7 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 		};
 	})
 	.controller("customer.yesterday", function ($scope, $uibModalInstance, city,
-	complainService) {
+	    complainService) {
 		$scope.statDate = {
 			value: new Date(),
 			opened: false

@@ -1764,6 +1764,7 @@
     <Content Include="Scripts\service\region\authorize.js" />
     <Content Include="Scripts\service\region\basic.js" />
     <Content Include="Scripts\service\region\college.js" />
+    <Content Include="Scripts\service\region\import.js" />
     <Content Include="Scripts\service\region\network.js" />
     <Content Include="Scripts\service\topic\basic.js" />
     <Content Include="Scripts\service\topic\college.js" />

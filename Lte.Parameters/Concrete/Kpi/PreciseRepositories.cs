@@ -37,11 +37,6 @@ namespace Lte.Parameters.Concrete.Kpi
     public class EFTownPreciseCoverage4GStatRepository : EfRepositoryBase<EFParametersContext, TownPreciseCoverage4GStat>,
         ITownPreciseCoverage4GStatRepository
     {
-        public List<TownPreciseCoverage4GStat> GetAllList(DateTime begin, DateTime end)
-        {
-            return GetAllList(x => x.StatTime >= begin && x.StatTime < end);
-        }
-
         public int SaveChanges()
         {
             return Context.SaveChanges();

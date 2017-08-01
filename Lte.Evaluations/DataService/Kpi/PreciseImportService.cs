@@ -182,7 +182,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 var beginDate = begin.Date;
                 var endDate = beginDate.AddDays(1);
                 var items = _repository.GetAllList(beginDate, endDate);
-                var townItems = _regionRepository.GetAllList(beginDate, endDate);
+                var townItems = _regionRepository.GetAllList(x => x.StatTime >= beginDate && x.StatTime < endDate);
                 results.Add(new PreciseHistory
                 {
                     DateString = begin.ToShortDateString(),

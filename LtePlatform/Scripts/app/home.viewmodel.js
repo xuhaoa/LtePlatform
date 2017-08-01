@@ -2460,6 +2460,9 @@
         $scope.showPreciseStats = function() {
             mapDialogService.showPreciseTrend($scope.city, $scope.beginDate, $scope.endDate);
         };
+        $scope.showRrcStats = function() {
+            mapDialogService.showRrcTrend($scope.city, $scope.beginDate, $scope.endDate);
+        };
 
         $scope.districts = [];
         dumpPreciseService.generateUsersDistrict($scope.city.selected || "佛山", $scope.districts, function(district, $index) {

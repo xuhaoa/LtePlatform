@@ -15,6 +15,15 @@ namespace Lte.Evaluations.ViewModels.RegionKpi
         public IEnumerable<TownPreciseView> TownPreciseViews { get; set; }
     }
 
+    public class RrcRegionDateView : IStatDate
+    {
+        public DateTime StatDate { get; set; }
+
+        public IEnumerable<DistrictRrcView> DistrictRrcViews { get; set; }
+
+        public IEnumerable<TownRrcView> TownRrcViews { get; set; }
+    }
+
     public class FlowRegionDateView : IStatDate
     {
         public DateTime StatDate { get; set; }

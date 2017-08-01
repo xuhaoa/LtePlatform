@@ -372,6 +372,8 @@ namespace LtePlatform
             ninjectKernel.Bind<MrGridService>().ToSelf();
 
             ninjectKernel.Bind<TownTestInfoService>().ToSelf();
+
+            ninjectKernel.Bind<RrcRegionStatService>().ToSelf();
         }
     }
 }
