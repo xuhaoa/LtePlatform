@@ -87,16 +87,9 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
         }, $compile);
     })
 
-    .controller('TownStatController', function($scope) {
+    .controller('TownStatController', function ($scope, calculateService) {
         $scope.gridOptions = {
-            columnDefs: [
-                { field: 'district', name: '区域' },
-                { field: 'town', name: '镇区' },
-                { field: 'totalMrs', name: 'MR总数' },
-                { field: 'preciseRate', name: '精确覆盖率', cellFilter: 'number: 2' },
-                { field: 'firstRate', name: '第一精确覆盖率', cellFilter: 'number: 2' },
-                { field: 'thirdRate', name: '第三精确覆盖率', cellFilter: 'number: 2' }
-            ],
+            columnDefs: calculateService.generateTownColumnDefs($scope.kpiType),
             data: []
         };
     })
@@ -106,7 +99,8 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
             restrict: 'EA',
             replace: true,
             scope: {
-                overallStat: '='
+                overallStat: '=',
+                kpiType: '='
             },
             template: '<div></div>',
             link: function (scope, element, attrs) {

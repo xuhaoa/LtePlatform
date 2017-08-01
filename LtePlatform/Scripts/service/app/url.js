@@ -3085,6 +3085,37 @@ angular.module('app.format', [])
                     default:
                         return [];
                 } 
+            },
+            generateTownColumnDefs: function(kpiType) {
+                switch (kpiType) {
+                    case 'precise':
+                        return [
+                            { field: 'district', name: '区域' },
+                            { field: 'town', name: '镇区' },
+                            { field: 'totalMrs', name: 'MR总数' },
+                            { field: 'preciseRate', name: '精确覆盖率', cellFilter: 'number: 2' },
+                            { field: 'firstRate', name: '第一精确覆盖率', cellFilter: 'number: 2' },
+                            { field: 'thirdRate', name: '第三精确覆盖率', cellFilter: 'number: 2' }
+                        ];
+                    case 'downSwitch':
+                        return [];
+                    case 'doubleFlow':
+                        return [];
+                    case 'rrc':
+                        return [
+                            { field: 'district', name: '区域' },
+                            { field: 'town', name: '镇区' },
+                            { field: 'totalRrcRequest', name: 'RRC连接请求' },
+                            { field: 'rrcSuccessRate', name: 'RRC连接成功率', cellFilter: 'number: 2' },
+                            { field: 'moDataRrcRate', name: '主叫数据成功率', cellFilter: 'number: 2' },
+                            { field: 'moSiganllingRrcRate', name: '主叫信令成功率', cellFilter: 'number: 2' },
+                            { field: 'mtAccessRrcRate', name: '被叫接入成功率', cellFilter: 'number: 2' },
+                            { field: 'totalRrcFail', name: '接入失败总次数', cellFilter: 'number: 2' },
+                            { field: 'moSignallingRrcFail', name: '主叫信令接入失败次数', cellFilter: 'number: 2' }
+                        ];
+                    default:
+                        return [];
+                }
             }
         };
     })
