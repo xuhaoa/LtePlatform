@@ -555,6 +555,7 @@
     <Content Include="appViews\Test\Simple\GridFooter.html" />
     <Content Include="appViews\Test\Simple\GridMenu.html" />
     <Content Include="appViews\Test\Simple\GridTooltip.html" />
+    <Content Include="appViews\WorkItem\RrcTrend.html" />
     <Content Include="Areas\TestPage\Scripts\angular\route.js" />
     <Content Include="Areas\TestPage\Scripts\qunit.route.js" />
     <Content Include="Content\angular-busy.css" />

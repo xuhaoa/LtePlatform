@@ -202,7 +202,55 @@
 				$scope.showCharts();
 			});
 
-	})
+    })
+    .controller("rrc.trend.dialog", function ($scope, $uibModalInstance, city, beginDate, endDate,
+        appRegionService, appKpiService, kpiPreciseService, appFormatService) {
+        $scope.trendStat = {
+            stats: [],
+            districts: [],
+            districtStats: [],
+            townStats: [],
+            beginDateString: "",
+            endDateString: ""
+        };
+        appRegionService.queryDistricts(city.selected)
+            .then(function (districts) {
+                $scope.trendStat.districts = districts;
+            });
+        $scope.beginDate = beginDate;
+        $scope.endDate = endDate;
+        $scope.dialogTitle = "RRC连接成功率变化趋势";
+        $scope.showCharts = function () {
+            $("#mr-pie").highcharts(appKpiService.getMrPieOptions($scope.trendStat.districtStats,
+                $scope.trendStat.townStats));
+            $("#precise").highcharts(appKpiService.getPreciseRateOptions($scope.trendStat.districtStats,
+                $scope.trendStat.townStats));
+            $("#time-mr").highcharts(appKpiService.getMrsDistrictOptions($scope.trendStat.stats,
+                $scope.trendStat.districts));
+            $("#time-precise").highcharts(appKpiService.getPreciseDistrictOptions($scope.trendStat.stats,
+                $scope.trendStat.districts));
+        };
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.trendStat);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        kpiPreciseService.getDateSpanPreciseRegionKpi($scope.city.selected, $scope.beginDate.value, $scope.endDate.value)
+            .then(function (result) {
+                $scope.trendStat.stats = appKpiService.generateDistrictStats($scope.trendStat.districts, result);
+                if (result.length > 0) {
+                    appKpiService.generateTrendStatsForPie($scope.trendStat, result);
+                    $scope.trendStat.stats.push(appKpiService.calculateAverageRates($scope.trendStat.stats));
+                }
+                $scope.trendStat.beginDateString = appFormatService.getDateString($scope.beginDate.value, "yyyy年MM月dd日");
+                $scope.trendStat.endDateString = appFormatService.getDateString($scope.endDate.value, "yyyy年MM月dd日");
+                $scope.showCharts();
+            });
+
+    })
 	.controller('kpi.topConnection3G.trend', function($scope, $uibModalInstance, city, beginDate, endDate, topCount,
 		appRegionService, appFormatService, connection3GService) {
 		$scope.dialogTitle = "TOP连接变化趋势-" + city;
@@ -621,7 +669,24 @@
 						}
 					}
 				});
-			},
+            },
+            showRrcTrend: function (city, beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/WorkItem/RrcTrend.html',
+                    controller: 'rrc.trend.dialog',
+                    resolve: {
+                        city: function () {
+                            return city;
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        }
+                    }
+                });
+            },
 			showBasicTrend: function(city, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/BasicKpi/Trend.html',

@@ -2839,7 +2839,9 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
         $scope.showChart = function () {
             workItemDialog.showRrcChart($scope.overallStat);
         };
-
+        $scope.showTrend = function () {
+            workItemDialog.showRrcTrend(city, $scope.beginDate, $scope.endDate);
+        };
         $scope.showKpi();
         $scope.ok = function () {
             $uibModalInstance.close($scope.building);
