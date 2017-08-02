@@ -38,7 +38,9 @@
 
         series: self.series,
 
-        drilldown: self.drilldown
+        drilldown: self.drilldown,
+
+        yAxis: {}
     };
 }
 
@@ -61,6 +63,12 @@ DrilldownChart.prototype.initialize = function(options) {
     this.series[0].data = [];
     this.drilldown.series = [];
     this.series[0].name = options.seriesName;
+    if (options.yMin) {
+        this.options.yAxis = {
+            min: options.yMin,
+            max: options.yMax
+        };
+    }
 };
 
 var DrilldownColumn = function () {

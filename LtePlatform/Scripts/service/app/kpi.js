@@ -411,6 +411,29 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                 });
                 return calculateService.calculateDistrictRates(stat);
             },
+            getRrcCityStat: function (districtStats, currentCity) {
+                var stat = {
+                    city: currentCity,
+                    district: "全网",
+                    totalRrcRequest: 0,
+                    totalRrcSuccess: 0,
+                    moDataRrcRequest: 0,
+                    moDataRrcSuccess: 0,
+                    moSignallingRrcRequest: 0,
+                    moSignallingRrcSuccess: 0,
+                    mtAccessRrcRequest: 0,
+                    mtAccessRrcSuccess: 0,
+                    rrcSuccessRate: 0,
+                    moSiganllingRrcRate: 0,
+                    moDataRrcRate: 0,
+                    mtAccessRrcRate: 0,
+                    objectRate: 99
+                };
+                angular.forEach(districtStats, function (districtStat) {
+                    calculateService.accumulateRrcStat(stat, districtStat);
+                });
+                return calculateService.calculateDistrictRrcRates(stat);
+            },
             calculatePreciseRating: function(precise) {
                 return calculateService.getValueFromDivisionAbove(kpiRatingDivisionDefs.precise, precise);
             },
@@ -465,6 +488,21 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                     }
                 });
             },
+            getRrcRequestOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.totalRrcRequest;
+                }), {
+                        title: "分镇区RRC连接数分布图",
+                        seriesName: "区域"
+                    }, {
+                        nameFunc: function (stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function (stat) {
+                            return stat.districtData;
+                        }
+                    });
+            },
             getPreciseRateOptions: function(districtStats, townStats) {
                 return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
                     return stat.preciseRate;
@@ -479,6 +517,23 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                         return stat.districtData;
                     }
                 });
+            },
+            getRrcRateOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.rrcSuccessRate;
+                }), {
+                        title: "分镇区RRC连接成功率分布图",
+                        seriesName: "区域",
+                        yMin: 99,
+                        yMax: 100
+                    }, {
+                        nameFunc: function (stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function (stat) {
+                            return stat.districtData;
+                        }
+                    });
             },
             getDownlinkFlowOptions: function(districtStats, townStats) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
@@ -4789,7 +4844,27 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
 		$timeout(function() {
 			$scope.showCharts();
 		}, 500);
-	})
+    })
+    .controller("rrc.chart", function ($scope, $uibModalInstance, $timeout,
+        dateString, districtStats, townStats, appKpiService) {
+        $scope.dialogTitle = dateString + "RRC连接成功率指标";
+        $scope.showCharts = function () {
+            $("#leftChart").highcharts(appKpiService.getRrcRequestOptions(districtStats.slice(0, districtStats.length - 1), townStats));
+            $("#rightChart").highcharts(appKpiService.getRrcRateOptions(districtStats, townStats));
+        };
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.cellList);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        $timeout(function () {
+            $scope.showCharts();
+        }, 500);
+    })
 	.controller('basic.kpi.trend', function($scope, $uibModalInstance, city, beginDate, endDate, kpi2GService, kpiDisplayService) {
 		$scope.dialogTitle = "指标变化趋势-" + city;
 		$scope.beginDate = beginDate;
@@ -5256,7 +5331,24 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
 						}
 					}
 				});
-			},
+            },
+            showRrcChart: function (overallStat) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'rrc.chart',
+                    resolve: {
+                        dateString: function () {
+                            return overallStat.dateString;
+                        },
+                        districtStats: function () {
+                            return overallStat.districtStats;
+                        },
+                        townStats: function () {
+                            return overallStat.townStats;
+                        }
+                    }
+                });
+            },
 			showPreciseTrend: function(city, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Rutrace/Coverage/Trend.html',

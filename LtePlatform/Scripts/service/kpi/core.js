@@ -411,6 +411,29 @@
                 });
                 return calculateService.calculateDistrictRates(stat);
             },
+            getRrcCityStat: function (districtStats, currentCity) {
+                var stat = {
+                    city: currentCity,
+                    district: "全网",
+                    totalRrcRequest: 0,
+                    totalRrcSuccess: 0,
+                    moDataRrcRequest: 0,
+                    moDataRrcSuccess: 0,
+                    moSignallingRrcRequest: 0,
+                    moSignallingRrcSuccess: 0,
+                    mtAccessRrcRequest: 0,
+                    mtAccessRrcSuccess: 0,
+                    rrcSuccessRate: 0,
+                    moSiganllingRrcRate: 0,
+                    moDataRrcRate: 0,
+                    mtAccessRrcRate: 0,
+                    objectRate: 99
+                };
+                angular.forEach(districtStats, function (districtStat) {
+                    calculateService.accumulateRrcStat(stat, districtStat);
+                });
+                return calculateService.calculateDistrictRrcRates(stat);
+            },
             calculatePreciseRating: function(precise) {
                 return calculateService.getValueFromDivisionAbove(kpiRatingDivisionDefs.precise, precise);
             },
@@ -465,6 +488,21 @@
                     }
                 });
             },
+            getRrcRequestOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.totalRrcRequest;
+                }), {
+                        title: "分镇区RRC连接数分布图",
+                        seriesName: "区域"
+                    }, {
+                        nameFunc: function (stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function (stat) {
+                            return stat.districtData;
+                        }
+                    });
+            },
             getPreciseRateOptions: function(districtStats, townStats) {
                 return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
                     return stat.preciseRate;
@@ -479,6 +517,23 @@
                         return stat.districtData;
                     }
                 });
+            },
+            getRrcRateOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.rrcSuccessRate;
+                }), {
+                        title: "分镇区RRC连接成功率分布图",
+                        seriesName: "区域",
+                        yMin: 99,
+                        yMax: 100
+                    }, {
+                        nameFunc: function (stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function (stat) {
+                            return stat.districtData;
+                        }
+                    });
             },
             getDownlinkFlowOptions: function(districtStats, townStats) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {

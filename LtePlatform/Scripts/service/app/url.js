@@ -2938,6 +2938,16 @@ angular.module('app.format', [])
                 source.secondNeighbors += accumulate.secondNeighbors;
                 source.thirdNeighbors += accumulate.thirdNeighbors;
             },
+            accumulateRrcStat: function (source, accumulate) {
+                source.totalRrcRequest += accumulate.totalRrcRequest;
+                source.totalRrcSuccess += accumulate.totalRrcSuccess;
+                source.moDataRrcRequest += accumulate.moDataRrcRequest;
+                source.moDataRrcSuccess += accumulate.moDataRrcSuccess;
+                source.moSignallingRrcRequest += accumulate.moSignallingRrcRequest;
+                source.moSignallingRrcSuccess += accumulate.moSignallingRrcSuccess;
+                source.mtAccessRrcRequest += accumulate.mtAccessRrcRequest;
+                source.mtAccessRrcSuccess += accumulate.mtAccessRrcSuccess;
+            },
             accumulateFlowStat: function (source, accumulate) {
                 source.pdcpDownlinkFlow += accumulate.pdcpDownlinkFlow;
                 source.pdcpUplinkFlow += accumulate.pdcpUplinkFlow;
@@ -2946,6 +2956,13 @@ angular.module('app.format', [])
                 districtStat.firstRate = 100 - 100 * districtStat.firstNeighbors / districtStat.totalMrs;
                 districtStat.preciseRate = 100 - 100 * districtStat.secondNeighbors / districtStat.totalMrs;
                 districtStat.thirdRate = 100 - 100 * districtStat.thirdNeighbors / districtStat.totalMrs;
+                return districtStat;
+            },
+            calculateDistrictRrcRates: function (districtStat) {
+                districtStat.rrcSuccessRate = 100 * districtStat.totalRrcSuccess / districtStat.totalRrcRequest;
+                districtStat.moSiganllingRrcRate = 100 * districtStat.moDataRrcSuccess / districtStat.moDataRrcRequest;
+                districtStat.moDataRrcRate = 100 * districtStat.moDataRrcSuccess / districtStat.moDataRrcRequest;
+                districtStat.mtAccessRrcRate = 100 * districtStat.mtAccessRrcSuccess / districtStat.mtAccessRrcRequest;
                 return districtStat;
             },
             calculateTownRates: function (townStat) {

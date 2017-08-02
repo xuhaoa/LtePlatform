@@ -909,7 +909,7 @@
 		};
     })
     .controller('rrc.trend', function ($scope, $uibModalInstance,
-        kpiPreciseService, appFormatService, appKpiService,
+        kpiPreciseService, appFormatService, appKpiService, workItemDialog,
         dialogTitle, city, beginDate, endDate) {
         var yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
@@ -939,9 +939,12 @@
                     $scope.overallStat.districtStats = result.districtRrcViews;
                     $scope.overallStat.townStats = result.townRrcViews;
                     $scope.overallStat.currentDistrict = result.districtRrcViews[0].district;
-                    $scope.overallStat.districtStats.push(appKpiService.getCityStat($scope.overallStat.districtStats, city.selected));
+                    $scope.overallStat.districtStats.push(appKpiService.getRrcCityStat($scope.overallStat.districtStats, city.selected));
                     $scope.overallStat.dateString = appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
                 });
+        };
+        $scope.showChart = function () {
+            workItemDialog.showRrcChart($scope.overallStat);
         };
 
         $scope.showKpi();

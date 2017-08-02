@@ -98,7 +98,27 @@
 		$timeout(function() {
 			$scope.showCharts();
 		}, 500);
-	})
+    })
+    .controller("rrc.chart", function ($scope, $uibModalInstance, $timeout,
+        dateString, districtStats, townStats, appKpiService) {
+        $scope.dialogTitle = dateString + "RRC连接成功率指标";
+        $scope.showCharts = function () {
+            $("#leftChart").highcharts(appKpiService.getRrcRequestOptions(districtStats.slice(0, districtStats.length - 1), townStats));
+            $("#rightChart").highcharts(appKpiService.getRrcRateOptions(districtStats, townStats));
+        };
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.cellList);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        $timeout(function () {
+            $scope.showCharts();
+        }, 500);
+    })
 	.controller('basic.kpi.trend', function($scope, $uibModalInstance, city, beginDate, endDate, kpi2GService, kpiDisplayService) {
 		$scope.dialogTitle = "指标变化趋势-" + city;
 		$scope.beginDate = beginDate;
@@ -565,7 +585,24 @@
 						}
 					}
 				});
-			},
+            },
+            showRrcChart: function (overallStat) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'rrc.chart',
+                    resolve: {
+                        dateString: function () {
+                            return overallStat.dateString;
+                        },
+                        districtStats: function () {
+                            return overallStat.districtStats;
+                        },
+                        townStats: function () {
+                            return overallStat.townStats;
+                        }
+                    }
+                });
+            },
 			showPreciseTrend: function(city, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Rutrace/Coverage/Trend.html',
