@@ -238,9 +238,9 @@
             $uibModalInstance.dismiss('cancel');
         };
 
-        kpiPreciseService.getDateSpanPreciseRegionKpi($scope.city.selected, $scope.beginDate.value, $scope.endDate.value)
+        kpiPreciseService.getDateSpanRrcRegionKpi($scope.city.selected, $scope.beginDate.value, $scope.endDate.value)
             .then(function (result) {
-                $scope.trendStat.stats = appKpiService.generateDistrictStats($scope.trendStat.districts, result);
+                $scope.trendStat.stats = appKpiService.generateRrcDistrictStats($scope.trendStat.districts, result);
                 if (result.length > 0) {
                     appKpiService.generateTrendStatsForPie($scope.trendStat, result);
                     $scope.trendStat.stats.push(appKpiService.calculateAverageRates($scope.trendStat.stats));

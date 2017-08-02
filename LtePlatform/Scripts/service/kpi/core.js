@@ -1046,6 +1046,39 @@
                     }
                 });
             },
+            generateRrcDistrictStats: function (districts, stats) {
+                return chartCalculateService.generateDistrictStats(districts, stats, {
+                    districtViewFunc: function (stat) {
+                        return stat.districtPreciseViews;
+                    },
+                    initializeFunc: function (generalStat) {
+                        generalStat.totalRrcRequest = 0;
+                        generalStat.totalRrcSuccess = 0;
+                    },
+                    calculateFunc: function (view) {
+                        return {
+                            request: view.totalRrcRequest,
+                            rate: view.rrcSuccessRate
+                        };
+                    },
+                    accumulateFunc: function (generalStat, view) {
+                        generalStat.totalRrcRequest += view.totalRrcRequest;
+                        generalStat.totalRrcSuccess += view.totalRrcSuccess;
+                    },
+                    zeroFunc: function () {
+                        return {
+                            request: 0,
+                            rate: 0
+                        };
+                    },
+                    totalFunc: function (generalStat) {
+                        return {
+                            request: generalStat.totalRrcRequest,
+                            precise: 100 * generalStat.totalRrcSuccess / generalStat.totalRrcRequest
+                        }
+                    }
+                });
+            },
             calculateAverageRates: function(stats) {
                 var result = {
                     statDate: "平均值",

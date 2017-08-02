@@ -69,35 +69,46 @@ namespace Lte.MySqlFramework.Entities
         [MemberDoc("纬度")]
         public double Lattitute { get; set; }
 
+        [MemberDoc("栅格化经度坐标，关系是经度=112+X*0.00049")]
         public int X { get; set; }
 
+        [MemberDoc("栅格化纬度坐标，关系是纬度=22+X*0.00045")]
         public int Y { get; set; }
 
-        [MemberDoc("联通RSRP")]
+        [MemberDoc("联通平均RSRP")]
         public double UnicomRsrp { get; set; }
 
-        [MemberDoc("移动RSRP")]
+        [MemberDoc("移动平均RSRP")]
         public double MobileRsrp { get; set; }
 
-        [MemberDoc("电信RSRP")]
+        [MemberDoc("电信平均RSRP")]
         public double TelecomRsrp { get; set; }
 
+        [MemberDoc("电信-110dBm以上覆盖率")]
         public double TelecomRate110 { get; set; }
 
+        [MemberDoc("电信-105dBm以上覆盖率")]
         public double TelecomRate105 { get; set; }
 
+        [MemberDoc("电信-100dBm以上覆盖率")]
         public double TelecomRate100 { get; set; }
 
+        [MemberDoc("移动-110dBm以上覆盖率")]
         public double MobileRate110 { get; set; }
 
+        [MemberDoc("移动-105dBm以上覆盖率")]
         public double MobileRate105 { get; set; }
 
+        [MemberDoc("移动-100dBm以上覆盖率")]
         public double MobileRate100 { get; set; }
 
+        [MemberDoc("联通-110dBm以上覆盖率")]
         public double UnicomRate110 { get; set; }
 
+        [MemberDoc("联通-105dBm以上覆盖率")]
         public double UnicomRate105 { get; set; }
 
+        [MemberDoc("联通-100dBm以上覆盖率")]
         public double UnicomRate100 { get; set; }
 
         [MemberDoc("统计日期")]
@@ -242,32 +253,46 @@ namespace Lte.MySqlFramework.Entities
         public string CompeteDescription { get; set; }
     }
 
+    [TypeDoc("镇区级别AGPS覆盖信息")]
     public class AgpsCoverageTown : Entity, IStatDate, IDistrictTown
     {
+        [MemberDoc("统计日期")]
         public DateTime StatDate { get; set; }
 
+        [MemberDoc("区域")]
         public string District { get; set; }
 
+        [MemberDoc("镇区")]
         public string Town { get; set; }
 
+        [MemberDoc("专题信息，标明类别")]
         public string Operator { get; set; }
 
+        [MemberDoc("RSRP总和，未减140")]
         public int Rsrp { get; set; }
 
+        [MemberDoc("平均RSRP，未减140")]
         public double AverageRsrp => (double)Rsrp / Count;
 
+        [MemberDoc("记录数量")]
         public int Count { get; set; }
 
+        [MemberDoc("-110dBm以上覆盖数量")]
         public int GoodCount { get; set; }
 
+        [MemberDoc("-110dBm以上覆盖率")]
         public double CoverageRate110 => (double)GoodCount / Count;
 
+        [MemberDoc("-105dBm以上覆盖率")]
         public double CoverageRate105 => (double)GoodCount105 / Count;
 
+        [MemberDoc("-100dBm以上覆盖率")]
         public double CoverageRate100 => (double)GoodCount100 / Count;
 
+        [MemberDoc("-105dBm以上覆盖数量")]
         public int GoodCount105 { get; set; }
 
+        [MemberDoc("-100dBm以上覆盖数量")]
         public int GoodCount100 { get; set; }
     }
 

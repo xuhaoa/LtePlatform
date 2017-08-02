@@ -111,7 +111,7 @@ namespace LtePlatform.Controllers.Mr
         }
 
         [HttpGet]
-        [ApiDoc("查询指定日期范围内指定镇区AGPS覆盖情况")]
+        [ApiDoc("查询指定日期范围内指定镇区电信AGPS覆盖情况")]
         [ApiParameterDoc("begin", "开始日期")]
         [ApiParameterDoc("end", "结束日期")]
         [ApiParameterDoc("district", "区域")]
@@ -127,6 +127,9 @@ namespace LtePlatform.Controllers.Mr
         }
 
         [HttpGet]
+        [ApiDoc("查询指定日期的镇区级别电信AGPS覆盖信息列表")]
+        [ApiParameterDoc("statDate", "统计日期")]
+        [ApiResponse("镇区级别AGPS覆盖信息列表")]
         public IEnumerable<AgpsCoverageTown> Get(DateTime statDate)
         {
             var stats = _agpsService.QueryTelecomList(statDate);
@@ -134,6 +137,9 @@ namespace LtePlatform.Controllers.Mr
         }
 
         [HttpPost]
+        [ApiDoc("更新一条镇区级别电信AGPS覆盖信息")]
+        [ApiParameterDoc("view", "镇区级别电信AGPS覆盖信息")]
+        [ApiResponse("更新结果")]
         public int Post(AgpsTownView view)
         {
             return view.Views.Sum(stat => _agpsService.UpdateTelecomAgisPoint(stat, view.District, view.Town));
@@ -153,7 +159,7 @@ namespace LtePlatform.Controllers.Mr
         }
 
         [HttpGet]
-        [ApiDoc("查询指定日期范围内指定镇区AGPS覆盖情况")]
+        [ApiDoc("查询指定日期范围内指定镇区移动AGPS覆盖情况")]
         [ApiParameterDoc("begin", "开始日期")]
         [ApiParameterDoc("end", "结束日期")]
         [ApiParameterDoc("district", "区域")]
@@ -169,6 +175,9 @@ namespace LtePlatform.Controllers.Mr
         }
 
         [HttpGet]
+        [ApiDoc("查询指定日期的镇区级别移动AGPS覆盖信息列表")]
+        [ApiParameterDoc("statDate", "统计日期")]
+        [ApiResponse("镇区级别AGPS覆盖信息列表")]
         public IEnumerable<AgpsCoverageTown> Get(DateTime statDate)
         {
             var stats = _agpsService.QueryMobileList(statDate);
@@ -176,6 +185,9 @@ namespace LtePlatform.Controllers.Mr
         }
 
         [HttpPost]
+        [ApiDoc("更新一条镇区级别移动AGPS覆盖信息")]
+        [ApiParameterDoc("view", "镇区级别移动AGPS覆盖信息")]
+        [ApiResponse("更新结果")]
         public int Post(AgpsTownView view)
         {
             return view.Views.Sum(stat => _agpsService.UpdateMobileAgisPoint(stat, view.District, view.Town));
@@ -211,6 +223,9 @@ namespace LtePlatform.Controllers.Mr
         }
 
         [HttpGet]
+        [ApiDoc("查询指定日期的镇区级别联通AGPS覆盖信息列表")]
+        [ApiParameterDoc("statDate", "统计日期")]
+        [ApiResponse("镇区级别AGPS覆盖信息列表")]
         public IEnumerable<AgpsCoverageTown> Get(DateTime statDate)
         {
             var stats = _agpsService.QueryUnicomList(statDate);
@@ -218,6 +233,9 @@ namespace LtePlatform.Controllers.Mr
         }
 
         [HttpPost]
+        [ApiDoc("更新一条镇区级别联通AGPS覆盖信息")]
+        [ApiParameterDoc("view", "镇区级别联通AGPS覆盖信息")]
+        [ApiResponse("更新结果")]
         public int Post(AgpsTownView view)
         {
             return view.Views.Sum(stat => _agpsService.UpdateUnicomAgisPoint(stat, view.District, view.Town));
@@ -302,6 +320,7 @@ namespace LtePlatform.Controllers.Mr
         }
     }
 
+    [ApiControl("含有DPI指标信息的栅格查询控制器")]
     public class DpiGridKpiController : ApiController
     {
         private readonly DpiGridKpiService _service;
@@ -312,6 +331,9 @@ namespace LtePlatform.Controllers.Mr
         }
 
         [HttpGet]
+        [ApiDoc("查询指定栅格的DPI信息")]
+        [ApiParameterDoc("x", "栅格横坐标")]
+        [ApiParameterDoc("y", "栅格纵坐标")]
         public DpiGridKpiDto Get(int x, int y)
         {
             return _service.QueryKpi(x, y);

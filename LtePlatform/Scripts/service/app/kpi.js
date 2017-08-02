@@ -1046,6 +1046,39 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                     }
                 });
             },
+            generateRrcDistrictStats: function (districts, stats) {
+                return chartCalculateService.generateDistrictStats(districts, stats, {
+                    districtViewFunc: function (stat) {
+                        return stat.districtPreciseViews;
+                    },
+                    initializeFunc: function (generalStat) {
+                        generalStat.totalMrs = 0;
+                        generalStat.totalSecondNeighbors = 0;
+                    },
+                    calculateFunc: function (view) {
+                        return {
+                            mr: view.totalMrs,
+                            precise: view.preciseRate
+                        };
+                    },
+                    accumulateFunc: function (generalStat, view) {
+                        generalStat.totalMrs += view.totalMrs;
+                        generalStat.totalSecondNeighbors += view.secondNeighbors;
+                    },
+                    zeroFunc: function () {
+                        return {
+                            mr: 0,
+                            precise: 0
+                        };
+                    },
+                    totalFunc: function (generalStat) {
+                        return {
+                            mr: generalStat.totalMrs,
+                            precise: 100 - 100 * generalStat.totalSecondNeighbors / generalStat.totalMrs
+                        }
+                    }
+                });
+            },
             calculateAverageRates: function(stats) {
                 var result = {
                     statDate: "平均值",
@@ -5018,9 +5051,9 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
             $uibModalInstance.dismiss('cancel');
         };
 
-        kpiPreciseService.getDateSpanPreciseRegionKpi($scope.city.selected, $scope.beginDate.value, $scope.endDate.value)
+        kpiPreciseService.getDateSpanRrcRegionKpi($scope.city.selected, $scope.beginDate.value, $scope.endDate.value)
             .then(function (result) {
-                $scope.trendStat.stats = appKpiService.generateDistrictStats($scope.trendStat.districts, result);
+                $scope.trendStat.stats = appKpiService.generateRrcDistrictStats($scope.trendStat.districts, result);
                 if (result.length > 0) {
                     appKpiService.generateTrendStatsForPie($scope.trendStat, result);
                     $scope.trendStat.stats.push(appKpiService.calculateAverageRates($scope.trendStat.stats));
