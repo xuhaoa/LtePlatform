@@ -535,6 +535,40 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                         }
                     });
             },
+            getMoSignallingRrcRateOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.moSiganllingRrcRate;
+                }), {
+                        title: "分镇区主叫信令RRC连接成功率分布图",
+                        seriesName: "区域",
+                        yMin: 99,
+                        yMax: 100
+                    }, {
+                        nameFunc: function (stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function (stat) {
+                            return stat.districtData;
+                        }
+                    });
+            },
+            getMtAccessRrcRateOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
+                    return stat.mtAccessRrcRate;
+                }), {
+                        title: "分镇区被叫接入RRC连接成功率分布图",
+                        seriesName: "区域",
+                        yMin: 99,
+                        yMax: 100
+                    }, {
+                        nameFunc: function (stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function (stat) {
+                            return stat.districtData;
+                        }
+                    });
+            },
             getDownlinkFlowOptions: function(districtStats, townStats) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
                     return stat.pdcpDownlinkFlow / 1024 / 1024 / 8;
@@ -4851,6 +4885,8 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
         $scope.showCharts = function () {
             $("#leftChart").highcharts(appKpiService.getRrcRequestOptions(districtStats.slice(0, districtStats.length - 1), townStats));
             $("#rightChart").highcharts(appKpiService.getRrcRateOptions(districtStats, townStats));
+            $("#thirdChart").highcharts(appKpiService.getMoSignallingRrcRateOptions(districtStats, townStats));
+            $("#fourthChart").highcharts(appKpiService.getMtAccessRrcRateOptions(districtStats, townStats));
         };
 
         $scope.ok = function () {
@@ -5334,7 +5370,7 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
             },
             showRrcChart: function (overallStat) {
                 menuItemService.showGeneralDialog({
-                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    templateUrl: '/appViews/Home/FourChartDialog.html',
                     controller: 'rrc.chart',
                     resolve: {
                         dateString: function () {

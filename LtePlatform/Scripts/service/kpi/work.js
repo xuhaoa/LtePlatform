@@ -105,6 +105,8 @@
         $scope.showCharts = function () {
             $("#leftChart").highcharts(appKpiService.getRrcRequestOptions(districtStats.slice(0, districtStats.length - 1), townStats));
             $("#rightChart").highcharts(appKpiService.getRrcRateOptions(districtStats, townStats));
+            $("#thirdChart").highcharts(appKpiService.getMoSignallingRrcRateOptions(districtStats, townStats));
+            $("#fourthChart").highcharts(appKpiService.getMtAccessRrcRateOptions(districtStats, townStats));
         };
 
         $scope.ok = function () {
@@ -588,7 +590,7 @@
             },
             showRrcChart: function (overallStat) {
                 menuItemService.showGeneralDialog({
-                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    templateUrl: '/appViews/Home/FourChartDialog.html',
                     controller: 'rrc.chart',
                     resolve: {
                         dateString: function () {
