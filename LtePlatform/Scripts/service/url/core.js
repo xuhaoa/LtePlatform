@@ -173,7 +173,7 @@
             $folded: true
         };
     })
-    .factory('generalHttpService', function ($q, $http, appUrlService) {
+    .factory('generalHttpService', function ($q, $http, $sce, appUrlService) {
         return {
             getMvcData: function (topic, params) {
                 var deferred = $q.defer();
@@ -181,10 +181,10 @@
                     method: 'GET',
                     url: topic,
                     params: params
-                }).success(function (result) {
-                    deferred.resolve(result);
+                }).then(function (result) {
+                    deferred.resolve(result.data);
                 })
-                .error(function (reason) {
+                .catch(function (reason) {
                     deferred.reject(reason);
                 });
                 return deferred.promise;
@@ -195,10 +195,10 @@
                     method: 'GET',
                     url: appUrlService.getApiUrl(topic),
                     params: params
-                }).success(function (result) {
-                    deferred.resolve(result);
+                }).then(function (result) {
+                    deferred.resolve(result.data);
                 })
-                .error(function (reason) {
+                .catch(function (reason) {
                     deferred.reject(reason);
                 });
                 return deferred.promise;
@@ -212,10 +212,10 @@
                     headers: {
                         'Authorization': 'Bearer ' + appUrlService.getAccessToken()
                     }
-                }).success(function (result) {
-                    deferred.resolve(result);
+                }).then(function (result) {
+                    deferred.resolve(result.data);
                 })
-                .error(function (reason) {
+                .catch(function (reason) {
                     deferred.reject(reason);
                 });
                 return deferred.promise;
@@ -223,10 +223,10 @@
             postApiData: function (topic, data) {
                 var deferred = $q.defer();
                 $http.post(appUrlService.getApiUrl(topic), data)
-                    .success(function (result) {
-                        deferred.resolve(result);
+                    .then(function (result) {
+                        deferred.resolve(result.data);
                     })
-                    .error(function (reason) {
+                    .catch(function (reason) {
                         deferred.reject(reason);
                     });
                 return deferred.promise;
@@ -234,10 +234,10 @@
             postMvcData: function (topic, data) {
                 var deferred = $q.defer();
                 $http.post(topic, data)
-                    .success(function (result) {
-                        deferred.resolve(result);
+                    .then(function (result) {
+                        deferred.resolve(result.data);
                     })
-                    .error(function (reason) {
+                    .catch(function (reason) {
                         deferred.reject(reason);
                     });
                 return deferred.promise;
@@ -251,10 +251,10 @@
                     headers: {
                         'Authorization': 'Bearer ' + appUrlService.getAccessToken()
                     }
-                }).success(function (result) {
-                    deferred.resolve(result);
+                }).then(function (result) {
+                    deferred.resolve(result.data);
                 })
-                    .error(function (reason) {
+                    .catch(function (reason) {
                         deferred.reject(reason);
                     });
                 return deferred.promise;
@@ -269,10 +269,10 @@
                     transformRequest: function (obj) {
                         return appUrlService.getPhpUriComponent(obj);
                     }
-                }).success(function (result) {
-                    deferred.resolve(result);
+                }).then(function (result) {
+                    deferred.resolve(result.data);
                 })
-                    .error(function (reason) {
+                    .catch(function (reason) {
                         deferred.reject(reason);
                     });
                 return deferred.promise;
@@ -280,30 +280,32 @@
             putApiData: function (topic, data) {
                 var deferred = $q.defer();
                 $http.put(appUrlService.getApiUrl(topic), data)
-                    .success(function (result) {
-                        deferred.resolve(result);
+                    .then(function (result) {
+                        deferred.resolve(result.data);
                     })
-                    .error(function (reason) {
+                    .catch(function (reason) {
                         deferred.reject(reason);
                     });
                 return deferred.promise;
             },
             deleteApiData: function (topic) {
                 var deferred = $q.defer();
-                $http.delete(appUrlService.getApiUrl(topic)).success(function (result) {
-                    deferred.resolve(result);
+                $http.delete(appUrlService.getApiUrl(topic))
+                    .then(function (result) {
+                    deferred.resolve(result.data);
                 })
-                    .error(function (reason) {
+                    .catch(function (reason) {
                         deferred.reject(reason);
                     });
                 return deferred.promise;
             },
             getJsonpData: function (url, valueFunc) {
                 var deferred = $q.defer();
-                $http.jsonp(url).success(function (result) {
-                    deferred.resolve(valueFunc(result));
-                })
-                    .error(function (reason) {
+                $http.jsonp(url, { jsonpCallbackParam: 'callback' })
+                    .then(function(result) {
+                        deferred.resolve(valueFunc(result.data));
+                    })
+                    .catch(function(reason) {
                         deferred.reject(reason);
                     });
                 return deferred.promise;
@@ -314,10 +316,10 @@
                     method: 'GET',
                     url: url,
                     params: params
-                }).success(function (result) {
-                    deferred.resolve(result);
+                }).then(function (result) {
+                    deferred.resolve(result.data);
                 })
-                .error(function (reason) {
+                .catch(function (reason) {
                     deferred.reject(reason);
                 });
                 return deferred.promise;

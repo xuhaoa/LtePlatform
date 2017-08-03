@@ -1049,7 +1049,7 @@
             generateRrcDistrictStats: function (districts, stats) {
                 return chartCalculateService.generateDistrictStats(districts, stats, {
                     districtViewFunc: function (stat) {
-                        return stat.districtPreciseViews;
+                        return stat.districtRrcViews;
                     },
                     initializeFunc: function (generalStat) {
                         generalStat.totalRrcRequest = 0;
@@ -1100,6 +1100,27 @@
                 }
                 return result;
             },
+            calculateAverageRrcRates: function (stats) {
+                var result = {
+                    statDate: "平均值",
+                    values: []
+                };
+                if (stats.length === 0) return result;
+                for (var i = 0; i < stats.length; i++) {
+                    for (var j = 0; j < stats[i].values.length; j++) {
+                        if (i === 0) {
+                            result.values.push({
+                                rrcRequest: stats[i].values[j].totalRrcRequest / stats.length,
+                                rate: stats[i].values[j].rrcSuccessRate / stats.length
+                            });
+                        } else {
+                            result.values[j].rrcRequest += stats[i].values[j].totalRrcRequest / stats.length;
+                            result.values[j].rate += stats[i].values[j].rrcSuccessRate / stats.length;
+                        }
+                    }
+                }
+                return result;
+            },
             generateTrendStatsForPie: function(trendStat, result) {
                 chartCalculateService.generateStatsForPie(trendStat, result, {
                     districtViewsFunc: function(stat) {
@@ -1116,6 +1137,25 @@
                     },
                     townCalculate: function(stat) {
                         calculateService.calculateTownRates(stat);
+                    }
+                });
+            },
+            generateRrcTrendStatsForPie: function (trendStat, result) {
+                chartCalculateService.generateStatsForPie(trendStat, result, {
+                    districtViewsFunc: function (stat) {
+                        return stat.districtRrcViews;
+                    },
+                    townViewsFunc: function (stat) {
+                        return stat.townRrcViews;
+                    },
+                    accumulateFunc: function (source, accumulate) {
+                        calculateService.accumulateRrcStat(source, accumulate);
+                    },
+                    districtCalculate: function (stat) {
+                        calculateService.calculateDistrictRrcRates(stat);
+                    },
+                    townCalculate: function (stat) {
+                        calculateService.calculateTownRrcRates(stat);
                     }
                 });
             },

@@ -1,5 +1,6 @@
 ﻿angular.module("myApp", ['app.common'])
-    .config(function($stateProvider, $urlRouterProvider) {
+    .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+        $locationProvider.hashPrefix('');
         var viewDir = "/appViews/Home/";
         $stateProvider
             .state('list', {

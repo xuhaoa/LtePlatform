@@ -2580,6 +2580,12 @@
                 townStat.preciseRate = 100 - 100 * townStat.secondNeighbors / townStat.totalMrs;
                 townStat.thirdRate = 100 - 100 * townStat.thirdNeighbors / townStat.totalMrs;
             },
+            calculateTownRrcRates: function (townStat) {
+                townStat.rrcSuccessRate = 100 * townStat.totalRrcSuccess / townStat.totalRrcRequest;
+                townStat.moSiganllingRrcRate = 100 * townStat.moDataRrcSuccess / townStat.moDataRrcRequest;
+                townStat.moDataRrcRate = 100 * townStat.moDataRrcSuccess / townStat.moDataRrcRequest;
+                townStat.mtAccessRrcRate = 100 * townStat.mtAccessRrcSuccess / townStat.mtAccessRrcRequest;
+            },
             getValueFromDivisionAbove: function (division, value) {
                 for (var i = 0; i < division.length; i++) {
                     if (value > division[i]) {

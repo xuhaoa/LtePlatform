@@ -9,29 +9,45 @@ angular.module('topic.basic', ['myApp.url', 'myApp.region'])
     })
     .value('baiduMapOptions', {
         myKey: 'LlMnTd7NcCWI1ibhDAdKeVlG',
-        baiduApiUrl: '//api.map.baidu.com/geoconv/v1/?callback=JSON_CALLBACK',
-        baiduPlaceUrl: '//api.map.baidu.com/place/v2/suggestion?callback=JSON_CALLBACK'
+        baiduApiUrl: '//api.map.baidu.com/geoconv/v1/',
+        baiduPlaceUrl: '//api.map.baidu.com/place/v2/suggestion'
     })
-    .factory('baiduQueryService', function(generalHttpService, appUrlService, baiduMapOptions) {
+    .factory('baiduQueryService', function($sce, generalHttpService, appUrlService, baiduMapOptions) {
         return {
-            transformToBaidu: function(longtitute, lattitute) {
-                return generalHttpService.getJsonpData(baiduMapOptions.baiduApiUrl + '&coords=' + longtitute + ',' + lattitute
-                    + '&from=1&to=5&ak=' + baiduMapOptions.myKey, function(result) {
+            transformToBaidu: function (longtitute, lattitute) {
+                var trustedUrl = $sce.trustAsResourceUrl(baiduMapOptions.baiduApiUrl +
+                    '?coords=' +
+                    longtitute +
+                    ',' +
+                    lattitute +
+                    '&from=1&to=5&ak=' +
+                    baiduMapOptions.myKey);
+                return generalHttpService.getJsonpData(trustedUrl, function(result) {
                         return result.result[0];
                     });
             },
-            transformBaiduCoors: function(coors) {
-                return generalHttpService.getJsonpData(baiduMapOptions.baiduApiUrl + '&coords=' + coors.longtitute + ',' + coors.lattitute
-                    + '&from=1&to=5&ak=' + baiduMapOptions.myKey, function(result) {
+            transformBaiduCoors: function (coors) {
+                var trustedUrl = $sce.trustAsResourceUrl(baiduMapOptions.baiduApiUrl +
+                    '?coords=' +
+                    coors.longtitute +
+                    ',' +
+                    coors.lattitute +
+                    '&from=1&to=5&ak=' +
+                    baiduMapOptions.myKey);
+                return generalHttpService.getJsonpData(trustedUrl, function(result) {
                         return {
                             longtitute: result.result[0].x,
                             lattitute: result.result[0].y
                         }
                     });
             },
-            queryBaiduPlace: function(name) {
-                return generalHttpService.getJsonpData(baiduMapOptions.baiduPlaceUrl + '&query=' + name
-                    + '&region=佛山市&output=json&ak=' + baiduMapOptions.myKey, function(result) {
+            queryBaiduPlace: function (name) {
+                var trustedUrl = $sce.trustAsResourceUrl(baiduMapOptions.baiduPlaceUrl +
+                    '?query=' +
+                    name +
+                    '&region=佛山市&output=json&ak=' +
+                    baiduMapOptions.myKey);
+                return generalHttpService.getJsonpData(trustedUrl, function(result) {
                         return result.result;
                     });
             },

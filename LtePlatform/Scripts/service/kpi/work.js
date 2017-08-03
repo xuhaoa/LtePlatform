@@ -193,7 +193,7 @@
 		kpiPreciseService.getDateSpanPreciseRegionKpi($scope.city.selected, $scope.beginDate.value, $scope.endDate.value)
 			.then(function(result) {
 				$scope.trendStat.stats = appKpiService.generateDistrictStats($scope.trendStat.districts, result);
-				if (result.length > 0) {
+                if (result.length > 0) {
 					appKpiService.generateTrendStatsForPie($scope.trendStat, result);
 					$scope.trendStat.stats.push(appKpiService.calculateAverageRates($scope.trendStat.stats));
 				}
@@ -242,8 +242,8 @@
             .then(function (result) {
                 $scope.trendStat.stats = appKpiService.generateRrcDistrictStats($scope.trendStat.districts, result);
                 if (result.length > 0) {
-                    appKpiService.generateTrendStatsForPie($scope.trendStat, result);
-                    $scope.trendStat.stats.push(appKpiService.calculateAverageRates($scope.trendStat.stats));
+                    appKpiService.generateRrcTrendStatsForPie($scope.trendStat, result);
+                    $scope.trendStat.stats.push(appKpiService.calculateAverageRrcRates($scope.trendStat.stats));
                 }
                 $scope.trendStat.beginDateString = appFormatService.getDateString($scope.beginDate.value, "yyyy年MM月dd日");
                 $scope.trendStat.endDateString = appFormatService.getDateString($scope.endDate.value, "yyyy年MM月dd日");
