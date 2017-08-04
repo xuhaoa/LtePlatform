@@ -226,6 +226,12 @@
         $scope.beginDate = beginDate;
         $scope.endDate = endDate;
         $scope.dialogTitle = "RRC连接成功率变化趋势";
+        $scope.rateFunc = function(stat) {
+            return stat.rate;
+        };
+        $scope.requestFunc = function(stat) {
+            return stat.request;
+        };
         $scope.showCharts = function () {
             $("#mr-pie").highcharts(appKpiService.getMrPieOptions($scope.trendStat.districtStats,
                 $scope.trendStat.townStats));

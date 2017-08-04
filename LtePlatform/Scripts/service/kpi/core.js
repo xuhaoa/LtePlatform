@@ -1074,7 +1074,7 @@
                     totalFunc: function (generalStat) {
                         return {
                             request: generalStat.totalRrcRequest,
-                            precise: 100 * generalStat.totalRrcSuccess / generalStat.totalRrcRequest
+                            rate: 100 * generalStat.totalRrcSuccess / generalStat.totalRrcRequest
                         }
                     }
                 });

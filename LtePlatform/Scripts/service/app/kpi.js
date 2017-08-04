@@ -1074,7 +1074,7 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                     totalFunc: function (generalStat) {
                         return {
                             request: generalStat.totalRrcRequest,
-                            precise: 100 * generalStat.totalRrcSuccess / generalStat.totalRrcRequest
+                            rate: 100 * generalStat.totalRrcSuccess / generalStat.totalRrcRequest
                         }
                     }
                 });
@@ -5079,6 +5079,12 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
         $scope.beginDate = beginDate;
         $scope.endDate = endDate;
         $scope.dialogTitle = "RRC连接成功率变化趋势";
+        $scope.rateFunc = function(stat) {
+            return stat.rate;
+        };
+        $scope.requestFunc = function(stat) {
+            return stat.request;
+        };
         $scope.showCharts = function () {
             $("#mr-pie").highcharts(appKpiService.getMrPieOptions($scope.trendStat.districtStats,
                 $scope.trendStat.townStats));
