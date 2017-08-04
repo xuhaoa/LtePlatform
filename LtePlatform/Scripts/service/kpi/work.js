@@ -171,7 +171,13 @@
             });
 		$scope.beginDate = beginDate;
 		$scope.endDate = endDate;
-		$scope.dialogTitle = "精确覆盖率变化趋势";
+        $scope.dialogTitle = "精确覆盖率变化趋势";
+        $scope.preciseFunc = function(stat) {
+            return stat.precise;
+        };
+        $scope.mrFunc = function(stat) {
+            return stat.mr;
+        };
 		$scope.showCharts = function() {
 			$("#mr-pie").highcharts(appKpiService.getMrPieOptions($scope.trendStat.districtStats,
 				$scope.trendStat.townStats));

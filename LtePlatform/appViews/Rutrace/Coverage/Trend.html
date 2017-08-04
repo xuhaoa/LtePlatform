@@ -16,10 +16,10 @@
 
     <div uib-tabset active="active">
         <div uib-tab index="0" heading="精确覆盖率统计">
-            <div trend-precise-table trend-stat="trendStat" city="city"></div>
+            <div trend-precise-table trend-stat="trendStat" city="city" value-func="preciseFunc" dot-bit="2"></div>
         </div>
         <div uib-tab index="1" heading="测量报告数统计">
-            <div trend-mr-table trend-stat="trendStat" city="city"></div>
+            <div trend-precise-table trend-stat="trendStat" city="city" value-func="mrFunc" dot-bit="0"></div>
         </div>
     </div>
     <div class="row">

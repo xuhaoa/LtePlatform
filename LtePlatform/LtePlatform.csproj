@@ -812,7 +812,6 @@
       <DependentUpon>Player.coffee</DependentUpon>
     </Content>
     <Content Include="directives\rutrace\rutrace.module.js" />
-    <Content Include="directives\rutrace\trend\MrTable.html" />
     <Content Include="directives\rutrace\trend\PreciseTable.html" />
     <Content Include="directives\workitem\workitem.module.js" />
     <Content Include="fonts\fontawesome-webfont.svg" />

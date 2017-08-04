@@ -1925,6 +1925,13 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 			messages.splice(index, 1);
 		};
 
+        $rootScope.overallStat = {
+            currentDistrict: "",
+            districtStats: [],
+            townStats: [],
+            cityStat: {},
+            dateString: ""
+        };
 	})
 	.factory('mapDialogService', function(menuItemService) {
 		return {
@@ -2769,15 +2776,7 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 		$scope.statDate = {
 			value: yesterday,
 			opened: false
-		};
-		
-		$scope.overallStat = {
-			currentDistrict: "",
-			districtStats: [],
-			townStats: [],
-			cityStat: {},
-			dateString: ""
-		};
+        };
 		$scope.beginDate = beginDate;
 		$scope.endDate = endDate;
 		$scope.showKpi = function() {
@@ -2828,14 +2827,7 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
             value: yesterday,
             opened: false
         };
-
-        $scope.overallStat = {
-            currentDistrict: "",
-            districtStats: [],
-            townStats: [],
-            cityStat: {},
-            dateString: ""
-        };
+        
         $scope.beginDate = beginDate;
         $scope.endDate = endDate;
         $scope.showKpi = function () {

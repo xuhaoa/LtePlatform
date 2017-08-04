@@ -16,6 +16,13 @@
 			messages.splice(index, 1);
 		};
 
+        $rootScope.overallStat = {
+            currentDistrict: "",
+            districtStats: [],
+            townStats: [],
+            cityStat: {},
+            dateString: ""
+        };
 	})
 	.factory('mapDialogService', function(menuItemService) {
 		return {
@@ -860,15 +867,7 @@
 		$scope.statDate = {
 			value: yesterday,
 			opened: false
-		};
-		
-		$scope.overallStat = {
-			currentDistrict: "",
-			districtStats: [],
-			townStats: [],
-			cityStat: {},
-			dateString: ""
-		};
+        };
 		$scope.beginDate = beginDate;
 		$scope.endDate = endDate;
 		$scope.showKpi = function() {
@@ -919,14 +918,7 @@
             value: yesterday,
             opened: false
         };
-
-        $scope.overallStat = {
-            currentDistrict: "",
-            districtStats: [],
-            townStats: [],
-            cityStat: {},
-            dateString: ""
-        };
+        
         $scope.beginDate = beginDate;
         $scope.endDate = endDate;
         $scope.showKpi = function () {

@@ -331,24 +331,15 @@ angular.module('rutrace.interference', ['myApp.region'])
     });
 
 angular.module('rutrace.trend', [])
-    .directive('trendMrTable', function(htmlRoot) {
-        return {
-            restrict: 'ECMA',
-            replace: true,
-            scope: {
-                trendStat: '=',
-                city: '='
-            },
-            templateUrl: htmlRoot + 'trend/MrTable.html'
-        };
-    })
     .directive('trendPreciseTable', function(htmlRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
             scope: {
                 trendStat: '=',
-                city: '='
+                city: '=',
+                valueFunc: '=',
+                dotBit: '='
             },
             templateUrl: htmlRoot + 'trend/PreciseTable.html'
         };
