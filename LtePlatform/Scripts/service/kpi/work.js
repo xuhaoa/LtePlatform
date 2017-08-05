@@ -229,13 +229,13 @@
             return stat.request;
         };
         $scope.showCharts = function () {
-            $("#time-request").highcharts(appKpiService.getMrPieOptions($scope.trendStat.districtStats,
+            $("#time-request").highcharts(appKpiService.getRrcRequestOptions($scope.trendStat.districtStats,
                 $scope.trendStat.townStats));
-            $("#time-rate").highcharts(appKpiService.getPreciseRateOptions($scope.trendStat.districtStats,
+            $("#time-rate").highcharts(appKpiService.getRrcRateOptions($scope.trendStat.districtStats,
                 $scope.trendStat.townStats));
-            $("#request-pie").highcharts(appKpiService.getMrsDistrictOptions($scope.trendStat.stats,
+            $("#request-pie").highcharts(appKpiService.getRrcRequestDistrictOptions($scope.trendStat.stats,
                 $scope.trendStat.districts));
-            $("#rate-column").highcharts(appKpiService.getPreciseDistrictOptions($scope.trendStat.stats,
+            $("#rate-column").highcharts(appKpiService.getRrcRateDistrictOptions($scope.trendStat.stats,
                 $scope.trendStat.districts));
         };
         $scope.ok = function () {

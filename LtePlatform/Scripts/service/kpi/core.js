@@ -784,6 +784,21 @@
                         yTitle: "MR总数"
                     });
             },
+            getRrcRequestDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                    districts.length,
+                    function (stat) {
+                        return stat.request;
+                    }),
+                    districts,
+                    {
+                        title: "RRC连接请求变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "RRC连接请求数"
+                    });
+            },
             getDownlinkFlowDistrictOptions: function(stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService
@@ -947,6 +962,21 @@
                         title: "精确覆盖率变化趋势图",
                         xTitle: '日期',
                         yTitle: "精确覆盖率"
+                    });
+            },
+            getRrcRateDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                    districts.length,
+                    function (stat) {
+                        return stat.rate;
+                    }),
+                    districts,
+                    {
+                        title: "RRC连接成功率变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "RRC连接成功率"
                     });
             },
             generateFlowDistrictStats: function(districts, stats) {

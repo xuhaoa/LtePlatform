@@ -784,6 +784,21 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                         yTitle: "MR总数"
                     });
             },
+            getRrcRequestDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                    districts.length,
+                    function (stat) {
+                        return stat.request;
+                    }),
+                    districts,
+                    {
+                        title: "RRC连接请求变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "RRC连接请求数"
+                    });
+            },
             getDownlinkFlowDistrictOptions: function(stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService
@@ -947,6 +962,21 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                         title: "精确覆盖率变化趋势图",
                         xTitle: '日期',
                         yTitle: "精确覆盖率"
+                    });
+            },
+            getRrcRateDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                    districts.length,
+                    function (stat) {
+                        return stat.rate;
+                    }),
+                    districts,
+                    {
+                        title: "RRC连接成功率变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "RRC连接成功率"
                     });
             },
             generateFlowDistrictStats: function(districts, stats) {
@@ -5164,13 +5194,13 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
             return stat.request;
         };
         $scope.showCharts = function () {
-            $("#time-request").highcharts(appKpiService.getMrPieOptions($scope.trendStat.districtStats,
+            $("#time-request").highcharts(appKpiService.getRrcRequestOptions($scope.trendStat.districtStats,
                 $scope.trendStat.townStats));
-            $("#time-rate").highcharts(appKpiService.getPreciseRateOptions($scope.trendStat.districtStats,
+            $("#time-rate").highcharts(appKpiService.getRrcRateOptions($scope.trendStat.districtStats,
                 $scope.trendStat.townStats));
-            $("#request-pie").highcharts(appKpiService.getMrsDistrictOptions($scope.trendStat.stats,
+            $("#request-pie").highcharts(appKpiService.getRrcRequestDistrictOptions($scope.trendStat.stats,
                 $scope.trendStat.districts));
-            $("#rate-column").highcharts(appKpiService.getPreciseDistrictOptions($scope.trendStat.stats,
+            $("#rate-column").highcharts(appKpiService.getRrcRateDistrictOptions($scope.trendStat.stats,
                 $scope.trendStat.districts));
         };
         $scope.ok = function () {
