@@ -570,274 +570,384 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                     });
             },
             getDownlinkFlowOptions: function(districtStats, townStats) {
-                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
-                    return stat.pdcpDownlinkFlow / 1024 / 1024 / 8;
-                }), {
-                    title: "分镇区下行流量分布图（TB）",
-                    seriesName: "区域"
-                }, {
-                    nameFunc: function(stat) {
-                        return stat.district;
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.pdcpDownlinkFlow / 1024 / 1024 / 8;
+                        }),
+                    {
+                        title: "分镇区下行流量分布图（TB）",
+                        seriesName: "区域"
                     },
-                    valueFunc: function(stat) {
-                        return stat.districtData;
-                    }
-                });
+                    {
+                        nameFunc: function(stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function(stat) {
+                            return stat.districtData;
+                        }
+                    });
             },
             getUplinkFlowOptions: function(districtStats, townStats) {
-                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
-                    return stat.pdcpUplinkFlow / 1024 / 1024 / 8;
-                }), {
-                    title: "分镇区上行流量分布图（TB）",
-                    seriesName: "区域"
-                }, {
-                    nameFunc: function(stat) {
-                        return stat.district;
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.pdcpUplinkFlow / 1024 / 1024 / 8;
+                        }),
+                    {
+                        title: "分镇区上行流量分布图（TB）",
+                        seriesName: "区域"
                     },
-                    valueFunc: function(stat) {
-                        return stat.districtData;
-                    }
-                });
+                    {
+                        nameFunc: function(stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function(stat) {
+                            return stat.districtData;
+                        }
+                    });
             },
             getDownlinkRateOptions: function(districtStats, townStats) {
-                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
-                    return stat.downlinkFeelingRate;
-                }), {
-                    title: "分镇区下行感知速率分布图（Mbit/s）",
-                    seriesName: "区域"
-                }, {
-                    nameFunc: function(stat) {
-                        return stat.district;
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.downlinkFeelingRate;
+                        }),
+                    {
+                        title: "分镇区下行感知速率分布图（Mbit/s）",
+                        seriesName: "区域"
                     },
-                    valueFunc: function(stat) {
-                        return stat.districtData;
-                    }
-                });
+                    {
+                        nameFunc: function(stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function(stat) {
+                            return stat.districtData;
+                        }
+                    });
             },
             getUplinkRateOptions: function(districtStats, townStats) {
-                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
-                    return stat.uplinkFeelingRate;
-                }), {
-                    title: "分镇区上行感知速率分布图（Mbit/s）",
-                    seriesName: "区域"
-                }, {
-                    nameFunc: function(stat) {
-                        return stat.district;
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.uplinkFeelingRate;
+                        }),
+                    {
+                        title: "分镇区上行感知速率分布图（Mbit/s）",
+                        seriesName: "区域"
                     },
-                    valueFunc: function(stat) {
-                        return stat.districtData;
-                    }
-                });
+                    {
+                        nameFunc: function(stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function(stat) {
+                            return stat.districtData;
+                        }
+                    });
             },
             getDownSwitchTimesOptions: function (districtStats, townStats) {
-                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
-                    return stat.redirectCdma2000;
-                }), {
-                    title: "分镇区4G下切3G次数",
-                    seriesName: "区域"
-                }, {
-                    nameFunc: function (stat) {
-                        return stat.district;
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.redirectCdma2000;
+                        }),
+                    {
+                        title: "分镇区4G下切3G次数",
+                        seriesName: "区域"
                     },
-                    valueFunc: function (stat) {
-                        return stat.districtData;
-                    }
-                });
+                    {
+                        nameFunc: function(stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function(stat) {
+                            return stat.districtData;
+                        }
+                    });
             },
             getSchedulingTimesOptions: function (districtStats, townStats) {
-                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
-                    return stat.schedulingTimes;
-                }), {
-                    title: "分镇区调度次数",
-                    seriesName: "区域"
-                }, {
-                    nameFunc: function (stat) {
-                        return stat.district;
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.schedulingTimes;
+                        }),
+                    {
+                        title: "分镇区调度次数",
+                        seriesName: "区域"
                     },
-                    valueFunc: function (stat) {
-                        return stat.districtData;
-                    }
-                });
+                    {
+                        nameFunc: function(stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function(stat) {
+                            return stat.districtData;
+                        }
+                    });
             },
             getDownSwitchRateOptions: function (districtStats, townStats) {
-                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
-                    return stat.downSwitchRate * 8;
-                }), {
-                    title: "分镇区4G下切3G比例（次/GB）",
-                    seriesName: "区域"
-                }, {
-                    nameFunc: function (stat) {
-                        return stat.district;
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.downSwitchRate * 8;
+                        }),
+                    {
+                        title: "分镇区4G下切3G比例（次/GB）",
+                        seriesName: "区域"
                     },
-                    valueFunc: function (stat) {
-                        return stat.districtData;
-                    }
-                });
+                    {
+                        nameFunc: function(stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function(stat) {
+                            return stat.districtData;
+                        }
+                    });
             },
             getRank2RateOptions: function (districtStats, townStats) {
-                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
-                    return stat.rank2Rate;
-                }), {
-                    title: "分镇区双流比（%）",
-                    seriesName: "区域"
-                }, {
-                    nameFunc: function (stat) {
-                        return stat.district;
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.rank2Rate;
+                        }),
+                    {
+                        title: "分镇区双流比（%）",
+                        seriesName: "区域"
                     },
-                    valueFunc: function (stat) {
-                        return stat.districtData;
-                    }
-                });
+                    {
+                        nameFunc: function(stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function(stat) {
+                            return stat.districtData;
+                        }
+                    });
             },
             getMaxUsersOptions: function(districtStats, townStats) {
-                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
-                    return stat.maxUsers;
-                }), {
-                    title: "分镇区最大用户数",
-                    seriesName: "区域"
-                }, {
-                    nameFunc: function(stat) {
-                        return stat.district;
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.maxUsers;
+                        }),
+                    {
+                        title: "分镇区最大用户数",
+                        seriesName: "区域"
                     },
-                    valueFunc: function(stat) {
-                        return stat.districtData;
-                    }
-                });
+                    {
+                        nameFunc: function(stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function(stat) {
+                            return stat.districtData;
+                        }
+                    });
             },
             getMaxActiveUsersOptions: function(districtStats, townStats) {
-                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
-                    return stat.maxActiveUsers;
-                }), {
-                    title: "分镇区最大激活用户数",
-                    seriesName: "区域"
-                }, {
-                    nameFunc: function(stat) {
-                        return stat.district;
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.maxActiveUsers;
+                        }),
+                    {
+                        title: "分镇区最大激活用户数",
+                        seriesName: "区域"
                     },
-                    valueFunc: function(stat) {
-                        return stat.districtData;
-                    }
-                });
+                    {
+                        nameFunc: function(stat) {
+                            return stat.district;
+                        },
+                        valueFunc: function(stat) {
+                            return stat.districtData;
+                        }
+                    });
             },
             getMrsDistrictOptions: function(stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
-                    return stat.mr;
-                }), districts, {
-                    title: "MR总数变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "MR总数"
-                });
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                        districts.length,
+                        function(stat) {
+                            return stat.mr;
+                        }),
+                    districts,
+                    {
+                        title: "MR总数变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "MR总数"
+                    });
             },
             getDownlinkFlowDistrictOptions: function(stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
-                    return stat.pdcpDownlinkFlow;
-                }), districts, {
-                    title: "下行流量变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "下行流量(TB)"
-                });
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                        districts.length,
+                        function(stat) {
+                            return stat.pdcpDownlinkFlow;
+                        }),
+                    districts,
+                    {
+                        title: "下行流量变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "下行流量(TB)"
+                    });
             },
             getUplinkFlowDistrictOptions: function(stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
-                    return stat.pdcpUplinkFlow;
-                }), districts, {
-                    title: "上行流量变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "上行流量(TB)"
-                });
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                        districts.length,
+                        function(stat) {
+                            return stat.pdcpUplinkFlow;
+                        }),
+                    districts,
+                    {
+                        title: "上行流量变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "上行流量(TB)"
+                    });
             },
             getMaxUsersDistrictOptions: function(stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
-                    return stat.maxUsers;
-                }), districts, {
-                    title: "最大用户数变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "最大用户数"
-                });
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                        districts.length,
+                        function(stat) {
+                            return stat.maxUsers;
+                        }),
+                    districts,
+                    {
+                        title: "最大用户数变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "最大用户数"
+                    });
             },
             getMaxActiveUsersDistrictOptions: function(stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
-                    return stat.maxActiveUsers;
-                }), districts, {
-                    title: "最大激活用户数变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "最大激活用户数"
-                });
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                        districts.length,
+                        function(stat) {
+                            return stat.maxActiveUsers;
+                        }),
+                    districts,
+                    {
+                        title: "最大激活用户数变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "最大激活用户数"
+                    });
             },
             getDownlinkRateDistrictOptions: function(stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
-                    return stat.downlinkFeelingRate;
-                }), districts, {
-                    title: "下行感知速率变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "下行感知速率（Mbit/s）"
-                });
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                        districts.length,
+                        function(stat) {
+                            return stat.downlinkFeelingRate;
+                        }),
+                    districts,
+                    {
+                        title: "下行感知速率变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "下行感知速率（Mbit/s）"
+                    });
             },
             getUplinkRateDistrictOptions: function(stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
-                    return stat.uplinkFeelingRate;
-                }), districts, {
-                    title: "上行感知速率变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "上行感知速率（Mbit/s）"
-                });
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                        districts.length,
+                        function(stat) {
+                            return stat.uplinkFeelingRate;
+                        }),
+                    districts,
+                    {
+                        title: "上行感知速率变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "上行感知速率（Mbit/s）"
+                    });
             },
             getDownSwitchTimesDistrictOptions: function (stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
-                    return stat.downSwitchTimes;
-                }), districts, {
-                    title: "下切次数变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "下切次数"
-                });
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                        districts.length,
+                        function(stat) {
+                            return stat.downSwitchTimes;
+                        }),
+                    districts,
+                    {
+                        title: "下切次数变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "下切次数"
+                    });
             },
             getSchedulingTimesDistrictOptions: function (stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
-                    return stat.schedulingTimes;
-                }), districts, {
-                    title: "调度次数变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "调度次数"
-                });
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                        districts.length,
+                        function(stat) {
+                            return stat.schedulingTimes;
+                        }),
+                    districts,
+                    {
+                        title: "调度次数变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "调度次数"
+                    });
             },
             getDownSwitchRateDistrictOptions: function (stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
-                    return stat.downSwitchRate;
-                }), districts, {
-                    title: "下切比例变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "下切比例（次/GB）"
-                });
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                        districts.length,
+                        function(stat) {
+                            return stat.downSwitchRate;
+                        }),
+                    districts,
+                    {
+                        title: "下切比例变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "下切比例（次/GB）"
+                    });
             },
             getRank2RateDistrictOptions: function (stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function (stat) {
-                    return stat.rank2Rate;
-                }), districts, {
-                    title: "双流比变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "双流比（%）"
-                });
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                        districts.length,
+                        function(stat) {
+                            return stat.rank2Rate;
+                        }),
+                    districts,
+                    {
+                        title: "双流比变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "双流比（%）"
+                    });
             },
             getPreciseDistrictOptions: function(stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService.generateDateDistrictStats(stats, districts.length, function(stat) {
-                    return stat.precise;
-                }), districts, {
-                    title: "精确覆盖率变化趋势图",
-                    xTitle: '日期',
-                    yTitle: "精确覆盖率"
-                });
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                        districts.length,
+                        function(stat) {
+                            return stat.precise;
+                        }),
+                    districts,
+                    {
+                        title: "精确覆盖率变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "精确覆盖率"
+                    });
             },
             generateFlowDistrictStats: function(districts, stats) {
                 return chartCalculateService.generateDistrictStats(districts, stats, {
@@ -1082,43 +1192,15 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
             calculateAverageRates: function(stats) {
                 var result = {
                     statDate: "平均值",
-                    values: []
+                    values: calculateService.calculateAverageValues(stats,['mr', 'precise'])
                 };
-                if (stats.length === 0) return result;
-                for (var i = 0; i < stats.length; i++) {
-                    for (var j = 0; j < stats[i].values.length; j++) {
-                        if (i === 0) {
-                            result.values.push({
-                                mr: stats[i].values[j].mr / stats.length,
-                                precise: stats[i].values[j].precise / stats.length
-                            });
-                        } else {
-                            result.values[j].mr += stats[i].values[j].mr / stats.length;
-                            result.values[j].precise += stats[i].values[j].precise / stats.length;
-                        }
-                    }
-                }
                 return result;
             },
             calculateAverageRrcRates: function (stats) {
                 var result = {
                     statDate: "平均值",
-                    values: []
+                    values: calculateService.calculateAverageValues(stats, ['request', 'rate'])
                 };
-                if (stats.length === 0) return result;
-                for (var i = 0; i < stats.length; i++) {
-                    for (var j = 0; j < stats[i].values.length; j++) {
-                        if (i === 0) {
-                            result.values.push({
-                                rrcRequest: stats[i].values[j].totalRrcRequest / stats.length,
-                                rate: stats[i].values[j].rrcSuccessRate / stats.length
-                            });
-                        } else {
-                            result.values[j].rrcRequest += stats[i].values[j].totalRrcRequest / stats.length;
-                            result.values[j].rate += stats[i].values[j].rrcSuccessRate / stats.length;
-                        }
-                    }
-                }
                 return result;
             },
             generateTrendStatsForPie: function(trendStat, result) {
@@ -4852,6 +4934,16 @@ angular.module('kpi.parameter', ['myApp.url', 'myApp.region', "ui.bootstrap"])
     });
 
 angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.core"])
+    .run(function($rootScope) {
+        $rootScope.trendStat = {
+            stats: [],
+            districts: [],
+            districtStats: [],
+            townStats: [],
+            beginDateString: "",
+            endDateString: ""
+        };
+    })
 	.controller('workitem.feedback.dialog', function($scope, $uibModalInstance, input, dialogTitle) {
 		$scope.item = input;
 		$scope.dialogTitle = dialogTitle;
@@ -5010,14 +5102,7 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
 	})
     .controller("rutrace.trend.dialog", function ($scope, $uibModalInstance, city, beginDate, endDate,
         appRegionService, appKpiService, kpiPreciseService, appFormatService) {
-        $scope.trendStat = {
-            stats: [],
-            districts: [],
-            districtStats: [],
-            townStats: [],
-            beginDateString: "",
-            endDateString: ""
-        };
+        
         appRegionService.queryDistricts(city.selected)
             .then(function (districts) {
                 $scope.trendStat.districts = districts;
@@ -5064,14 +5149,7 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
     })
     .controller("rrc.trend.dialog", function ($scope, $uibModalInstance, city, beginDate, endDate,
         appRegionService, appKpiService, kpiPreciseService, appFormatService) {
-        $scope.trendStat = {
-            stats: [],
-            districts: [],
-            districtStats: [],
-            townStats: [],
-            beginDateString: "",
-            endDateString: ""
-        };
+        
         appRegionService.queryDistricts(city.selected)
             .then(function (districts) {
                 $scope.trendStat.districts = districts;
@@ -5086,13 +5164,13 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
             return stat.request;
         };
         $scope.showCharts = function () {
-            $("#mr-pie").highcharts(appKpiService.getMrPieOptions($scope.trendStat.districtStats,
+            $("#time-request").highcharts(appKpiService.getMrPieOptions($scope.trendStat.districtStats,
                 $scope.trendStat.townStats));
-            $("#precise").highcharts(appKpiService.getPreciseRateOptions($scope.trendStat.districtStats,
+            $("#time-rate").highcharts(appKpiService.getPreciseRateOptions($scope.trendStat.districtStats,
                 $scope.trendStat.townStats));
-            $("#time-mr").highcharts(appKpiService.getMrsDistrictOptions($scope.trendStat.stats,
+            $("#request-pie").highcharts(appKpiService.getMrsDistrictOptions($scope.trendStat.stats,
                 $scope.trendStat.districts));
-            $("#time-precise").highcharts(appKpiService.getPreciseDistrictOptions($scope.trendStat.stats,
+            $("#rate-column").highcharts(appKpiService.getPreciseDistrictOptions($scope.trendStat.stats,
                 $scope.trendStat.districts));
         };
         $scope.ok = function () {

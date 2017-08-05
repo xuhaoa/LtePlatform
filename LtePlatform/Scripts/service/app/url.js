@@ -3141,6 +3141,27 @@ angular.module('app.format', [])
                     default:
                         return [];
                 }
+            },
+            calculateAverageValues: function (stats, keys) {
+                var values = [];
+                if (stats.length === 0) return [];
+                for (var i = 0; i < stats.length; i++) {
+                    for (var j = 0; j < stats[i].values.length; j++) {
+                        var k;
+                        if (i === 0) {
+                            var result = {};
+                            for (k = 0; k < keys.length; k++) {
+                                result[keys[k]] = stats[0].values[j][keys[k]] / stats.length;
+                            }
+                            values.push(result);
+                        } else {
+                            for (k = 0; k < keys.length; k++) {
+                                values[j][keys[k]] += stats[i].values[j][keys[k]] / stats.length;
+                            }
+                        }
+                    }
+                }
+                return values;
             }
         };
     })

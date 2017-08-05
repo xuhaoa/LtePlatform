@@ -4,8 +4,10 @@
 /// <reference path="../../jasmine/console.js"/>
 /// <reference path="../../jasmine/jasmine.js"/>
 /// <reference path="../../jasmine/jasmine-html.js"/>
+/// <reference path="../../underscore.js"/>
 /// <reference path="../../service/url/core.js"/>
 /// <reference path="../../service/url/format.js"/>
+/// <reference path="../../service/url/calculation.js"/>
 
 describe('app.core service tests', function () {
     beforeEach(module('app.core'));
@@ -179,10 +181,17 @@ describe('app.format service tests', function () {
 
 });
 
-describe('app.calculation service tests', function() {
-    describe('test general chart service', function() {
+describe('app.calculation service tests', function () {
+    beforeEach(module('app.format'));
+    var GradientPie = function() {};
+    it('GradientPie is defined',
+        function() {
+            var pie = new GradientPie();
+            expect(pie).toBeDefined();
+        });
+    describe('test general chart service', function () {
+        beforeEach(module('app.calculation'));
         var generalChartService;
-        beforeEach(module('myApp.url'));
 
         beforeEach(inject(function(_generalChartService_) {
             generalChartService = _generalChartService_;
@@ -404,7 +413,7 @@ describe('app.calculation service tests', function() {
                     }
                 });
 
-                expect(result).toEqual({
+                expect(result).toEqual([{
                     statDate: '2017-1-1',
                     values: [
                         {
@@ -420,7 +429,7 @@ describe('app.calculation service tests', function() {
                             pdcpUplinkFlow: 2
                         }
                     ]
-                });
+                }]);
             });
         });
 
@@ -783,10 +792,14 @@ describe('app.calculation service tests', function() {
         });
     });
 
-    describe('calculate service', function() {
+    describe('calculate service', function () {
+        var appFormatService;
+        var chartCalculateService;
         var calculateService;
 
-        beforeEach(inject(function(_calculateService_) {
+        beforeEach(inject(function (_appFormatService_, _chartCalculateService_, _calculateService_) {
+            appFormatService = _appFormatService_;
+            chartCalculateService = _chartCalculateService_;
             calculateService = _calculateService_;
         }));
         describe('merge data by key', function() {
@@ -962,6 +975,49 @@ describe('app.calculation service tests', function() {
                 ]);
             });
         });
+
+        describe('calculateAverageValues',
+            function() {
+                it('test one key',
+                    function() {
+                        var stats = [
+                            {
+                                values: [
+                                    {
+                                        mr: 122
+                                    }
+                                ]
+                            }
+                        ];
+                        var keys = ['mr'];
+                        var values = calculateService.calculateAverageValues(stats, keys);
+                        expect(values).toEqual([
+                        {
+                            mr: 122
+                        }]);
+                    });
+                it('test two keys',
+                    function() {
+                        var stats = [
+                            {
+                                values: [
+                                    {
+                                        mr: 122,
+                                        precise: 0.7
+                                    }
+                                ]
+                            }
+                        ];
+                        var keys = ['mr', 'precise'];
+                        var values = calculateService.calculateAverageValues(stats, keys);
+                        expect(values).toEqual([
+                            {
+                                mr: 122,
+                                precise: 0.7
+                            }
+                        ]);
+                    });
+            });
     });
     
 })

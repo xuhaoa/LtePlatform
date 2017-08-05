@@ -1,4 +1,14 @@
 ﻿angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.core"])
+    .run(function($rootScope) {
+        $rootScope.trendStat = {
+            stats: [],
+            districts: [],
+            districtStats: [],
+            townStats: [],
+            beginDateString: "",
+            endDateString: ""
+        };
+    })
 	.controller('workitem.feedback.dialog', function($scope, $uibModalInstance, input, dialogTitle) {
 		$scope.item = input;
 		$scope.dialogTitle = dialogTitle;
@@ -157,14 +167,7 @@
 	})
     .controller("rutrace.trend.dialog", function ($scope, $uibModalInstance, city, beginDate, endDate,
         appRegionService, appKpiService, kpiPreciseService, appFormatService) {
-        $scope.trendStat = {
-            stats: [],
-            districts: [],
-            districtStats: [],
-            townStats: [],
-            beginDateString: "",
-            endDateString: ""
-        };
+        
         appRegionService.queryDistricts(city.selected)
             .then(function (districts) {
                 $scope.trendStat.districts = districts;
@@ -211,14 +214,7 @@
     })
     .controller("rrc.trend.dialog", function ($scope, $uibModalInstance, city, beginDate, endDate,
         appRegionService, appKpiService, kpiPreciseService, appFormatService) {
-        $scope.trendStat = {
-            stats: [],
-            districts: [],
-            districtStats: [],
-            townStats: [],
-            beginDateString: "",
-            endDateString: ""
-        };
+        
         appRegionService.queryDistricts(city.selected)
             .then(function (districts) {
                 $scope.trendStat.districts = districts;
@@ -233,13 +229,13 @@
             return stat.request;
         };
         $scope.showCharts = function () {
-            $("#mr-pie").highcharts(appKpiService.getMrPieOptions($scope.trendStat.districtStats,
+            $("#time-request").highcharts(appKpiService.getMrPieOptions($scope.trendStat.districtStats,
                 $scope.trendStat.townStats));
-            $("#precise").highcharts(appKpiService.getPreciseRateOptions($scope.trendStat.districtStats,
+            $("#time-rate").highcharts(appKpiService.getPreciseRateOptions($scope.trendStat.districtStats,
                 $scope.trendStat.townStats));
-            $("#time-mr").highcharts(appKpiService.getMrsDistrictOptions($scope.trendStat.stats,
+            $("#request-pie").highcharts(appKpiService.getMrsDistrictOptions($scope.trendStat.stats,
                 $scope.trendStat.districts));
-            $("#time-precise").highcharts(appKpiService.getPreciseDistrictOptions($scope.trendStat.stats,
+            $("#rate-column").highcharts(appKpiService.getPreciseDistrictOptions($scope.trendStat.stats,
                 $scope.trendStat.districts));
         };
         $scope.ok = function () {
