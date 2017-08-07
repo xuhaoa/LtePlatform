@@ -59,7 +59,7 @@ namespace Lte.Parameters.Entities.Dt
         public int TotalDays4G => (DateTime.Today - LatestDate4G).Days;
     }
 
-    public class FileRecord2G : IGeoPoint<double?>
+    public class FileRecord2G : IGeoPoint<double?>, ICoverage
     {
         [Column(Name = "rasterNum", DbType = "SmallInt")]
         public short RasterNum { get; set; }
@@ -90,9 +90,14 @@ namespace Lte.Parameters.Entities.Dt
 
         [Column(Name = "txGain", DbType = "Real")]
         public double? TxGain { get; set; }
+
+        public bool IsCoverage()
+        {
+            return RxAgc > -90 && TxAgc < 15 && Ecio > -12;
+        }
     }
 
-    public class FileRecord3G : IGeoPoint<double?>
+    public class FileRecord3G : IGeoPoint<double?>, ICoverage
     {
         [Column(Name = "rasterNum", DbType = "SmallInt")]
         public short RasterNum { get; set; }
@@ -129,9 +134,14 @@ namespace Lte.Parameters.Entities.Dt
 
         [Column(Name = "RLPThrDL", DbType = "Int")]
         public int? RlpThroughput { get; set; }
+
+        public bool IsCoverage()
+        {
+            return RxAgc0 > -90 && RxAgc1 > -90 && TxAgc < 15 && Sinr > -5.5;
+        }
     }
 
-    public class FileRecord4G : IGeoPoint<double?>
+    public class FileRecord4G : IGeoPoint<double?>, ICoverage
     {
         [Column(Name = "ind", DbType = "Int")]
         public int? Ind { get; set; }
@@ -219,6 +229,11 @@ namespace Lte.Parameters.Entities.Dt
 
         [Column(Name = "n3RSRP", DbType = "Real")]
         public double? N3Rsrp { get; set; }
+
+        public bool IsCoverage()
+        {
+            return Rsrp > -105 && Sinr > -3;
+        }
     }
 
     [AutoMapFrom(typeof(FileRecord2G))]

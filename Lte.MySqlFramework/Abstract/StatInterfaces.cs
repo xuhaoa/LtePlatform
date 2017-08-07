@@ -129,6 +129,17 @@ namespace Lte.MySqlFramework.Abstract
             }
             return false;
         }
+
+        public static bool IsInTownRange(this TownBoundary coor, GeoPoint point)
+        {
+            var coorList = coor.Boundary.GetSplittedFields(' ');
+            var boundaryPoints = new List<GeoPoint>();
+            for (var i = 0; i < coorList.Length / 2; i++)
+            {
+                boundaryPoints.Add(new GeoPoint(coorList[i * 2].ConvertToDouble(0), coorList[i * 2 + 1].ConvertToDouble(0)));
+            }
+            return GeoMath.IsInPolygon(point, boundaryPoints);
+        }
     }
 
     public interface IPagingRepository<TEntity> : IRepository<TEntity>

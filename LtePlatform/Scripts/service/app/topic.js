@@ -895,6 +895,9 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                             collegeService.queryFileTownDtTestInfo(info.id).then(function(items) {
                                 info.townInfos = items;
                             });
+                            collegeService.queryFileRoadDtTestInfo(info.id).then(function (items) {
+                                info.roadInfos = items;
+                            });
                         });
                 });
             };

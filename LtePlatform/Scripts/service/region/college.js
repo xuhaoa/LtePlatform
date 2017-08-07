@@ -94,8 +94,19 @@
                     type: type
                 });
             },
+            calculateRoadDtTestInfos: function (name, type) {
+                return generalHttpService.getApiData('RoadTestInfo', {
+                    csvFileName: name,
+                    type: type
+                });
+            },
             queryFileTownDtTestInfo: function(fileId) {
                 return generalHttpService.getApiData('TownTestInfo', {
+                    fileId: fileId
+                });
+            },
+            queryFileRoadDtTestInfo: function (fileId) {
+                return generalHttpService.getApiData('RoadTestInfo', {
                     fileId: fileId
                 });
             },

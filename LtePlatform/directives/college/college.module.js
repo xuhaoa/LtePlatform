@@ -516,6 +516,11 @@
                     name: '分镇区信息',
                     cellTemplate: '<button class="btn btn-sm btn-success" ng-disabled="row.entity.townInfos.length" ng-click="grid.appScope.calculateTownInfo(row.entity)">\
                         <div class="badge">{{row.entity.townInfos.length}}</div>计算</button>'
+                },
+                {
+                    name: '道路信息',
+                    cellTemplate: '<button class="btn btn-sm btn-success" ng-disabled="row.entity.roadInfos.length" ng-click="grid.appScope.calculateRoadInfo(row.entity)">\
+                        <div class="badge">{{row.entity.roadInfos.length}}</div>计算</button>'
                 }
             ],
             data: []
@@ -569,6 +574,17 @@
                 angular.forEach(results,
                     function(info) {
                         collegeService.updateAreaDtInfo(info).then(function(result) {
+
+                        });
+                    });
+            });
+        };
+        $scope.calculateRoadInfo = function (file) {
+            collegeService.calculateRoadDtTestInfos(file.csvFileName.replace(".csv", ""), file.networkType).then(function (results) {
+                file.roadInfos = results;
+                angular.forEach(results,
+                    function (info) {
+                        collegeService.updateAreaDtInfo(info).then(function (result) {
 
                         });
                     });

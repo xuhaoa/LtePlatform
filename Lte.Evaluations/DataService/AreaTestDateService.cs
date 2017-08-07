@@ -31,6 +31,85 @@ namespace Lte.Evaluations.DataService
         }
     }
 
+    public class AreaTestInfo2GQuery : AreaTestInfoQuery
+    {
+        private readonly IFileRecordRepository _repository;
+
+        public AreaTestInfo2GQuery(IFileRecordRepository repository, ITownBoundaryRepository boundaryRepository)
+            : base(boundaryRepository)
+        {
+            _repository = repository;
+        }
+
+        public override List<AreaTestInfo> QueryAreaTestInfos(List<int> townIds, string csvFileName, int fileId)
+        {
+            var results = new List<AreaTestInfo>();
+            var data2G = _repository.GetFileRecord2Gs(csvFileName);
+            UpdateTownRecords(townIds, fileId, data2G, results);
+            return results;
+        }
+
+        public override List<AreaTestInfo> QueryRoadTestInfos(List<int> townIds, string csvFileName, int fileId)
+        {
+            var results = new List<AreaTestInfo>();
+            var data2G = _repository.GetFileRecord2Gs(csvFileName);
+            UpdateRoadRecords(townIds, fileId, data2G, results);
+            return results;
+        }
+    }
+
+    public class AreaTestInfo3GQuery : AreaTestInfoQuery
+    {
+        private readonly IFileRecordRepository _repository;
+
+        public AreaTestInfo3GQuery(IFileRecordRepository repository, ITownBoundaryRepository boundaryRepository) : base(boundaryRepository)
+        {
+            _repository = repository;
+        }
+
+        public override List<AreaTestInfo> QueryAreaTestInfos(List<int> townIds, string csvFileName, int fileId)
+        {
+            var results = new List<AreaTestInfo>();
+            var data3G = _repository.GetFileRecord3Gs(csvFileName);
+            UpdateTownRecords(townIds, fileId, data3G, results);
+            return results;
+        }
+
+        public override List<AreaTestInfo> QueryRoadTestInfos(List<int> townIds, string csvFileName, int fileId)
+        {
+            var results = new List<AreaTestInfo>();
+            var data3G = _repository.GetFileRecord3Gs(csvFileName);
+            UpdateRoadRecords(townIds, fileId, data3G, results);
+            return results;
+        }
+    }
+
+    public class AreaTestInfo4GQuery : AreaTestInfoQuery
+    {
+        private readonly IFileRecordRepository _repository;
+
+        public AreaTestInfo4GQuery(IFileRecordRepository repository, ITownBoundaryRepository boundaryRepository) : base(boundaryRepository)
+        {
+            _repository = repository;
+        }
+
+        public override List<AreaTestInfo> QueryAreaTestInfos(List<int> townIds, string csvFileName, int fileId)
+        {
+            var results = new List<AreaTestInfo>();
+            var data4G = _repository.GetFileRecord4Gs(csvFileName);
+            UpdateTownRecords(townIds, fileId, data4G, results);
+            return results;
+        }
+
+        public override List<AreaTestInfo> QueryRoadTestInfos(List<int> townIds, string csvFileName, int fileId)
+        {
+            var results = new List<AreaTestInfo>();
+            var data4G = _repository.GetFileRecord4Gs(csvFileName);
+            UpdateRoadRecords(townIds, fileId, data4G, results);
+            return results;
+        }
+    }
+
     public class TownTestInfoService
     {
         private readonly IFileRecordRepository _repository;
@@ -56,81 +135,58 @@ namespace Lte.Evaluations.DataService
                 select info;
         }
 
+        public IEnumerable<AreaTestInfo> QueryRoadTestInfos(int fileId)
+        {
+            var townIds =
+                   _boundaryRepository.GetAllList(x => x.AreaName != null).Select(x => x.TownId).Distinct().ToList();
+            return from info in _areaTestInfoRepository.GetAllList(x => x.FileId == fileId)
+                   join id in townIds on info.TownId equals id
+                   select info;
+        }
+
         public IEnumerable<AreaTestInfo> CalculateAreaTestInfos(string csvFileName, string type)
         {
             var file = _fileInfoRepository.FirstOrDefault(x => x.CsvFileName == csvFileName + ".csv");
             if (file == null) return new List<AreaTestInfo>();
             var townIds =
                 _boundaryRepository.GetAllList(x => x.AreaName == null).Select(x => x.TownId).Distinct().ToList();
-            var results = new List<AreaTestInfo>();
-            var currentTownId = -1;
-            var lastLon = -1.0;
-            var lastLat = -1.0;
-            var coorsList = townIds.Select(t => new
-            {
-                TownId = t,
-                Coors = _boundaryRepository.GetAllList(x => x.TownId == t)
-            }).ToList();
+            AreaTestInfoQuery query;
             switch (type)
             {
                 case "2G":
-                    var data2G = _repository.GetFileRecord2Gs(csvFileName);
-                    foreach (var fileRecord2G in data2G)
-                    {
-                        if (fileRecord2G.Longtitute == null || fileRecord2G.Lattitute == null)
-                            continue;
-                        var point = new GeoPoint(fileRecord2G.Longtitute ?? 0, fileRecord2G.Lattitute ?? 0);
-                        var isCoverage = fileRecord2G.RxAgc > -90 && fileRecord2G.TxAgc < 15 && fileRecord2G.Ecio > -12;
-                        foreach (var townId in townIds)
-                        {
-                            var coors = coorsList.FirstOrDefault(x => x.TownId == townId);
-                            if (coors == null) continue;
-                            if (!coors.Coors.IsInTownRange(point)) continue;
-                            currentTownId = results.UpdateCurrentTownId(townId, currentTownId, point, file.Id, isCoverage,
-                                ref lastLon, ref lastLat);
-                            break;
-                        }
-                    }
-                    return results;
+                    query = new AreaTestInfo2GQuery(_repository, _boundaryRepository);
+                    break;
                 case "3G":
-                    var data3G = _repository.GetFileRecord3Gs(csvFileName);
-                    foreach (var fileRecord3G in data3G)
-                    {
-                        if (fileRecord3G.Longtitute == null || fileRecord3G.Lattitute == null)
-                            continue;
-                        var point = new GeoPoint(fileRecord3G.Longtitute ?? 0, fileRecord3G.Lattitute ?? 0);
-                        var isCoverage = fileRecord3G.RxAgc0 > -90 && fileRecord3G.RxAgc1 > -90 && fileRecord3G.TxAgc < 15 && fileRecord3G.Sinr > -5.5;
-                        foreach (var townId in townIds)
-                        {
-                            var coors = coorsList.FirstOrDefault(x => x.TownId == townId);
-                            if (coors == null) continue;
-                            if (!coors.Coors.IsInTownRange(point)) continue;
-                            currentTownId = results.UpdateCurrentTownId(townId, currentTownId, point, file.Id, isCoverage,
-                                ref lastLon, ref lastLat);
-                            break;
-                        }
-                    }
-                    return results;
+                    query = new AreaTestInfo3GQuery(_repository, _boundaryRepository);
+                    break;
                 default:
-                    var data4G = _repository.GetFileRecord4Gs(csvFileName);
-                    foreach (var fileRecord4G in data4G)
-                    {
-                        if (fileRecord4G.Longtitute == null || fileRecord4G.Lattitute == null)
-                            continue;
-                        var point = new GeoPoint(fileRecord4G.Longtitute ?? 0, fileRecord4G.Lattitute ?? 0);
-                        var isCoverage = fileRecord4G.Rsrp > -105 && fileRecord4G.Sinr > -3;
-                        foreach (var townId in townIds)
-                        {
-                            var coors = coorsList.FirstOrDefault(x => x.TownId == townId);
-                            if (coors == null) continue;
-                            if (!coors.Coors.IsInTownRange(point)) continue;
-                            currentTownId = results.UpdateCurrentTownId(townId, currentTownId, point, file.Id, isCoverage,
-                                ref lastLon, ref lastLat);
-                            break;
-                        }
-                    }
-                    return results;
+                    query = new AreaTestInfo4GQuery(_repository, _boundaryRepository);
+                    break;
+            }  
+            return query.QueryAreaTestInfos(townIds, csvFileName, file.Id);
+        }
+
+        public IEnumerable<AreaTestInfo> CalculateRoadTestInfos(string csvFileName, string type)
+        {
+            var file = _fileInfoRepository.FirstOrDefault(x => x.CsvFileName == csvFileName + ".csv");
+            if (file == null) return new List<AreaTestInfo>();
+            var townIds =
+                _boundaryRepository.GetAllList(x => x.AreaName != null).Select(x => x.TownId).Distinct().ToList();
+            
+            AreaTestInfoQuery query;
+            switch (type)
+            {
+                case "2G":
+                    query = new AreaTestInfo2GQuery(_repository, _boundaryRepository);
+                    break;
+                case "3G":
+                    query = new AreaTestInfo3GQuery(_repository, _boundaryRepository);
+                    break;
+                default:
+                    query = new AreaTestInfo4GQuery(_repository, _boundaryRepository);
+                    break;
             }
+            return query.QueryRoadTestInfos(townIds, csvFileName, file.Id);
         }
 
         public int UpdateAreaTestInfo(AreaTestInfo info)

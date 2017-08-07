@@ -106,4 +106,9 @@ namespace Lte.Domain.Common.Geo
             return enumerable;
         }
     }
+
+    public interface ICoverage
+    {
+        bool IsCoverage();
+    }
 }
