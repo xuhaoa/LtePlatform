@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using Lte.Evaluations.ViewModels;
 using Lte.Parameters.Entities.Dt;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Lte.Domain.Common;
-using Lte.Domain.Common.Geo;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Infrastructure;
@@ -26,7 +24,7 @@ namespace Lte.Evaluations.DataService
         public IEnumerable<AreaTestDateView> QueryAllList()
         {
             return
-                _repository.AreaTestDates.ToList()
+                _repository.GetAllList()
                     .Select(x => x.ConstructAreaView<AreaTestDate, AreaTestDateView>(_townRepository));
         }
     }

@@ -1,11 +1,9 @@
 ﻿using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
-using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Regular;
 using Lte.Domain.Regular.Attributes;
-using Lte.Parameters.Abstract.Infrastructure;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -64,47 +62,6 @@ namespace Lte.Parameters.Entities.Basic
         [MemberDoc("是否在用")]
         public bool IsInUse { get; set; } = true;
 
-        public static ENodeb ConstructENodeb(ENodebExcel info, ITownRepository repository)
-        {
-            var town = repository.QueryTown(info.CityName, info.DistrictName, info.TownName);
-            var eNodeb = Mapper.Map<ENodebExcel, ENodeb>(info);
-            eNodeb.TownId = town?.Id ?? -1;
-            return eNodeb;
-        }
-    }
-
-    [AutoMapFrom(typeof(ENodeb), typeof(Town))]
-    public class ENodebView : IGeoPointReadonly<double>
-    {
-        public int ENodebId { get; set; }
-
-        public string Name { get; set; }
-
-        public string Factory { get; set; }
-
-        public IpAddress GatewayIp { get; set; }
-
-        public IpAddress Ip { get; set; }
-
-        public bool IsInUse { get; set; }
-
-        public double Longtitute { get; set; }
-
-        public double Lattitute { get; set; }
-
-        public string Address { get; set; }
-
-        public string PlanNum { get; set; }
-
-        public DateTime OpenDate { get; set; }
-
-        public string OpenDateString => OpenDate.ToShortDateString();
-
-        public string CityName { get; set; }
-
-        public string DistrictName { get; set; }
-
-        public string TownName { get; set; }
     }
 
     [TypeDoc("定义CDMA基站的数据库对应的ORM对象")]
@@ -129,14 +86,6 @@ namespace Lte.Parameters.Entities.Basic
         public short BscId { get; set; }
 
         public bool IsInUse { get; set; } = true;
-
-        public static CdmaBts ConstructBts(BtsExcel info, ITownRepository repository)
-        {
-            var town = repository.QueryTown(info.DistrictName, info.TownName);
-            var bts = Mapper.Map<BtsExcel, CdmaBts>(info);
-            bts.TownId = town?.Id ?? -1;
-            return bts;
-        }
     }
     
     [AutoMapFrom(typeof(CdmaBts))]

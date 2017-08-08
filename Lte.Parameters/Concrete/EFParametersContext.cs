@@ -14,10 +14,6 @@ namespace Lte.Parameters.Concrete
         {
         }
 
-        public DbSet<Town> Towns { get; set; }
-
-        public DbSet<OptimizeRegion> OptimizeRegions { get; set; }
-
         public DbSet<CollegeInfo> CollegeInfos { get; set; }
 
         public DbSet<InfrastructureInfo> InfrastructureInfos { get; set; }

@@ -1,6 +1,5 @@
 ﻿using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.ViewModels.RegionKpi;
-using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Kpi;
 using Lte.Parameters.MockOperations;
@@ -8,6 +7,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.MySqlFramework.Abstract;
 
 namespace Lte.Evaluations.TestService
 {

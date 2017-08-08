@@ -38,13 +38,6 @@ namespace Lte.Parameters.Concrete.College
         }
     }
 
-    public class MasterAreaTestDateDateRepository : IAreaTestDateRepository
-    {
-        private readonly MasterTestContext _context = new MasterTestContext();
-
-        public IQueryable<AreaTestDate> AreaTestDates => _context.AreaTestDates;
-    }
-
     public class MasterFileRecordRepository : IFileRecordRepository
     {
         private readonly MasterTestContext _context = new MasterTestContext();

@@ -1,7 +1,14 @@
 ﻿using Lte.Domain.Common.Wireless;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using AutoMapper;
+using Lte.Domain.Common;
+using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
+using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities.Basic;
 
 namespace Lte.Evaluations.Policy
 {
@@ -51,6 +58,35 @@ namespace Lte.Evaluations.Policy
                 default:
                     return null;
             }
-        } 
+        }
+
+        public static List<ENodeb> QueryENodebs(this ITownRepository townRepository, IENodebRepository eNodebRepository,
+            string city, string district)
+        {
+            var towns = townRepository.GetAllList(city, district);
+            if (!towns.Any())
+            {
+                return new List<ENodeb>();
+            }
+            return (from eNodeb in eNodebRepository.GetAllList()
+                    join town in towns on eNodeb.TownId equals town.Id
+                    select eNodeb).ToList();
+        }
+
+        public static ENodeb ConstructENodeb(this ENodebExcel info, ITownRepository repository)
+        {
+            var town = repository.QueryTown(info.CityName, info.DistrictName, info.TownName);
+            var eNodeb = Mapper.Map<ENodebExcel, ENodeb>(info);
+            eNodeb.TownId = town?.Id ?? -1;
+            return eNodeb;
+        }
+
+        public static CdmaBts ConstructBts(this BtsExcel info, ITownRepository repository)
+        {
+            var town = repository.QueryTown(info.DistrictName, info.TownName);
+            var bts = Mapper.Map<BtsExcel, CdmaBts>(info);
+            bts.TownId = town?.Id ?? -1;
+            return bts;
+        }
     }
 }

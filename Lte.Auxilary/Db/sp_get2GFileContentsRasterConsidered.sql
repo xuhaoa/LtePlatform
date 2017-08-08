@@ -21,6 +21,6 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	exec('SELECT rasterNum, testTime, lon, lat, refPN, EcIo, rxAGC, txAGC, txPower, txGain from ' +@tableName
+	exec('SELECT rasterNum, testTime, lon, lat, refPN, EcIo, rxAGC, txAGC, txPower, txGain, GridNo50m from ' +@tableName
 	+ ' where rasterNum = ' + @rasterNum)
 END

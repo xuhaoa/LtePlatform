@@ -167,9 +167,7 @@
     <Compile Include="Abstract\Basic\MongoRepositories.cs" />
     <Compile Include="Abstract\Basic\CellRepositories.cs" />
     <Compile Include="Abstract\Basic\IENodebRepository.cs" />
-    <Compile Include="Abstract\Infrastructure\IInfrastructureRepository.cs" />
     <Compile Include="Abstract\Infrastructure\RegionRepositories.cs" />
-    <Compile Include="Abstract\Infrastructure\NeighborRepositories.cs" />
     <Compile Include="Abstract\Kpi\MrMongoInterfaces.cs" />
     <Compile Include="Abstract\Kpi\PreciseInterfaces.cs" />
     <Compile Include="Abstract\Switch\ICellMeasGroupZteRepository.cs" />
@@ -191,8 +189,6 @@
     <Compile Include="Concrete\Neighbor\EFLteNeighborCellRepository.cs" />
     <Compile Include="Concrete\EFParametersContext.cs" />
     <Compile Include="Concrete\Kpi\PreciseRepositories.cs" />
-    <Compile Include="Concrete\Kpi\EFRegionRepository.cs" />
-    <Compile Include="Concrete\Infrastructure\EFTownRepository.cs" />
     <Compile Include="Concrete\MasterTestContext.cs" />
     <Compile Include="Concrete\Kpi\InterferenceMongoRepository.cs" />
     <Compile Include="Concrete\MyMongoProvider.cs" />
@@ -235,14 +231,13 @@
     <Compile Include="Entities\Switch\IntraFreqHoGroup.cs" />
     <Compile Include="Entities\Switch\IntraRatHoComm.cs" />
     <Compile Include="Entities\Switch\UeEUtranMeasurementZte.cs" />
-    <Compile Include="Entities\Town.cs" />
-    <Compile Include="Migrations\201705190058535_Change_Construction1.cs" />
-    <Compile Include="Migrations\201705190058535_Change_Construction1.Designer.cs">
-      <DependentUpon>201705190058535_Change_Construction1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201706131036161_Move_Work_Item.cs" />
     <Compile Include="Migrations\201706131036161_Move_Work_Item.Designer.cs">
       <DependentUpon>201706131036161_Move_Work_Item.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708081236078_Update_Town_Position_Parameters.cs" />
+    <Compile Include="Migrations\201708081236078_Update_Town_Position_Parameters.Designer.cs">
+      <DependentUpon>201708081236078_Update_Town_Position_Parameters.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MockOperations\DbHelper.cs" />
@@ -273,11 +268,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705190058535_Change_Construction1.resx">
-      <DependentUpon>201705190058535_Change_Construction1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706131036161_Move_Work_Item.resx">
       <DependentUpon>201706131036161_Move_Work_Item.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708081236078_Update_Town_Position_Parameters.resx">
+      <DependentUpon>201708081236078_Update_Town_Position_Parameters.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

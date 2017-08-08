@@ -2,11 +2,11 @@
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Abstract.Infrastructure;
-using Lte.Parameters.Entities.Basic;
 using System.Collections.Generic;
 using System.Linq;
 using Lte.Domain.Common;
+using Lte.Evaluations.Policy;
+using Lte.MySqlFramework.Abstract;
 
 namespace Lte.Evaluations.DataService.Dump
 {
@@ -62,7 +62,7 @@ namespace Lte.Evaluations.DataService.Dump
             var eNodeb = _eNodebRepository.GetByENodebId(info.ENodebId);
             if (eNodeb == null)
             {
-                eNodeb = ENodeb.ConstructENodeb(info, _townRepository);
+                eNodeb = info.ConstructENodeb(_townRepository);
                 var result = _eNodebRepository.Insert(eNodeb);
                 if (result == null) return false;
                 var item = BasicImportContainer.ENodebExcels.FirstOrDefault(x => x.ENodebId == info.ENodebId);
@@ -133,10 +133,10 @@ namespace Lte.Evaluations.DataService.Dump
 
         public bool DumpSingleBtsExcel(BtsExcel info)
         {
-            var bts = CdmaBts.ConstructBts(info, _townRepository);
+            var bts = info.ConstructBts( _townRepository);
             if (bts == null)
             {
-                bts = CdmaBts.ConstructBts(info, _townRepository);
+                bts = info.ConstructBts(_townRepository);
                 var result = _btsRepository.Insert(bts);
                 if (result == null) return false;
                 var item = BasicImportService.BtsExcels.FirstOrDefault(x => x.BtsId == info.BtsId);

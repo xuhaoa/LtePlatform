@@ -3,62 +3,49 @@ using System.Data.Linq.Mapping;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
-using Lte.Domain.Common.Wireless;
-using Lte.Domain.Regular;
+using Lte.Domain.LinqToCsv;
 
 namespace Lte.Parameters.Entities.Dt
 {
-    [Table(Name = "dbo.areaTestDate")]
-    public class AreaTestDate : IArea
+    public class FileRecord2GCsv : IGeoPoint<double?>
     {
-        [Column(Name = "area", DbType = "Char(50)")]
-        public string Area { get; set; }
+        public DateTime ComputerTime { get; set; }
 
-        [Column(Name = "latestTestDate2G", DbType = "Char(100)")]
-        public string LatestTestDate2G { get; set; }
+        public DateTime HandsetTime { get; set; }
 
-        [Column(Name = "latestTestDate3G", DbType = "Char(100)")]
-        public string LatestTestDate3G { get; set; }
+        [CsvColumn(Name = "Longitude")]
+        public double? Longtitute { get; set; }
 
-        [Column(Name = "latestTestDate4G", DbType = "Char(100)")]
-        public string LatestTestDate4G { get; set; }
+        [CsvColumn(Name = "Latitude")]
+        public double? Lattitute { get; set; }
 
-        public DateTime LatestDate2G => LatestTestDate2G.Trim().ConvertToDateTime(DateTime.Today);
+        public string CellName { get; set; }
 
-        public DateTime LatestDate3G => LatestTestDate3G.Trim().ConvertToDateTime(DateTime.Today);
+        public string Event { get; set; }
 
-        public DateTime LatestDate4G => LatestTestDate4G.Trim().ConvertToDateTime(DateTime.Today);
+        [CsvColumn(Name = "Direction ")]
+        public string Direction { get; set; }
+
+        [CsvColumn(Name = "RxAGC")]
+        public double? RxAgc { get; set; }
+
+        [CsvColumn(Name = "TxAGC")]
+        public double? TxAgc { get; set; }
+
+        [CsvColumn(Name = "Total Ec/Io")]
+        public double? EcIo { get; set; }
+
+        [CsvColumn(Name = "Reference PN")]
+        public double? Pn { get; set; }
+
+        [CsvColumn(Name = "TxPower")]
+        public double? TxPower { get; set; }
+
+        [CsvColumn(Name = "Tx Gain Adj")]
+        public double? TxGain { get; set; }
     }
 
-    [AutoMapFrom(typeof(AreaTestDate), typeof(Town))]
-    public class AreaTestDateView
-    {
-        public string CityName { get; set; }
-
-        public string DistrictName { get; set; }
-
-        public string TownName { get; set; }
-
-        public double Longtitute { get; set; }
-
-        public double Lattitute { get; set; }
-
-        [AutoMapPropertyResolve("AreaType", typeof(Town), typeof(ComplainSceneDescriptionTransform))]
-        public string AreaTypeDescription { get; set; }
-
-        public DateTime LatestDate2G { get; set; }
-        
-        public DateTime LatestDate3G { get; set; }
-        
-        public DateTime LatestDate4G { get; set; }
-
-        public int TotalDays2G => (DateTime.Today - LatestDate2G).Days;
-
-        public int TotalDays3G => (DateTime.Today - LatestDate3G).Days;
-
-        public int TotalDays4G => (DateTime.Today - LatestDate4G).Days;
-    }
-
+    [AutoMapFrom(typeof(FileRecord2GCsv))]
     public class FileRecord2G : IGeoPoint<double?>, ICoverage
     {
         [Column(Name = "rasterNum", DbType = "SmallInt")]
@@ -90,6 +77,9 @@ namespace Lte.Parameters.Entities.Dt
 
         [Column(Name = "txGain", DbType = "Real")]
         public double? TxGain { get; set; }
+
+        [Column(Name = "GridNo50m", DbType = "Int")]
+        public int? GridNumber { get; set; }
 
         public bool IsCoverage()
         {

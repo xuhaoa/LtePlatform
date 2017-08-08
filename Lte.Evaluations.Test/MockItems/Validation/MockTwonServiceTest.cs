@@ -1,5 +1,5 @@
-﻿using Lte.Parameters.Abstract.Infrastructure;
-using Lte.Parameters.Entities;
+﻿using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Moq;
 using NUnit.Framework;
 

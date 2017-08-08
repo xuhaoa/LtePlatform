@@ -127,7 +127,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CellTrace\ZteTraceRecord.cs" />
     <Compile Include="DataService\AreaTestDateService.cs" />
     <Compile Include="DataService\Basic\BasicServices.cs" />
     <Compile Include="DataService\Basic\CdmaCellService.cs" />
@@ -183,7 +182,6 @@
     <Compile Include="ViewModels\Mr\NeighborCellMongo.cs" />
     <Compile Include="ViewModels\Precise\PreciseWorkItemDto.cs" />
     <Compile Include="ViewModels\Precise\CellPreciseKpiView.cs" />
-    <Compile Include="ViewModels\Basic\CellView.cs" />
     <Compile Include="ViewModels\Precise\Precise4GView.cs" />
     <Compile Include="ViewModels\Precise\PreciseHistory.cs" />
     <Compile Include="ViewModels\RegionKpi\PreciseRegion.cs" />

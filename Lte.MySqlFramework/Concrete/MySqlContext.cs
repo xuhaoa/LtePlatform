@@ -121,5 +121,12 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<RasterFileDtInfo> RasterFileDtInfos { get; set; }
 
         public DbSet<CsvFilesInfo> CsvFilesInfos { get; set; }
+
+        public DbSet<AreaTestDate> AreaTestDates { get; set; }
+
+        public DbSet<Town> Towns { get; set; }
+
+        public DbSet<OptimizeRegion> OptimizeRegions { get; set; }
+
     }
 }

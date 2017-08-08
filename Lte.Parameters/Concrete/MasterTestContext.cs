@@ -6,6 +6,7 @@ using System.Reflection;
 
 namespace Lte.Parameters.Concrete
 {
+    //db.ExecuteCommand("UPDATE Products SET QuantityPerUnit = {0} WHERE ProductID = {1}", "24 boxes", 5);
     [Database(Name = "masterTest")]
     public class MasterTestContext : DataContext
     {
@@ -18,8 +19,6 @@ namespace Lte.Parameters.Concrete
         {
 
         }
-
-        public Table<AreaTestDate> AreaTestDates => GetTable<AreaTestDate>();
         
         [Function(Name = "dbo.sp_get4GFileContents")]
         public ISingleResult<FileRecord4G> Get4GFileContents([Parameter(DbType = "varchar(max)")] string tableName)

@@ -2,9 +2,13 @@
 using Abp.EntityFramework.AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Geo;
+using Lte.Domain.Common.Wireless;
+using Lte.Domain.Regular;
 
 namespace Lte.MySqlFramework.Entities
 {
@@ -183,4 +187,70 @@ namespace Lte.MySqlFramework.Entities
         public List<IEnumerable<CdmaRegionStatView>> ViewList { get; set; }
     }
 
+    public class Town : Entity, ITown, IGeoPoint<double>
+    {
+        [MaxLength(20)]
+        public string CityName { get; set; }
+
+        [MaxLength(20)]
+        public string DistrictName { get; set; }
+
+        [MaxLength(20)]
+        public string TownName { get; set; }
+
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        public ComplainScene AreaType { get; set; }
+    }
+
+    public class OptimizeRegion : Entity
+    {
+        public string City { get; set; }
+
+        public string Region { get; set; }
+
+        public string District { get; set; }
+    }
+
+    public class AreaTestDate : Entity, IArea
+    {
+        public string Area { get; set; }
+
+        public DateTime LatestDate2G { get; set; }
+
+        public DateTime LatestDate3G { get; set; }
+
+        public DateTime LatestDate4G { get; set; }
+    }
+
+    [AutoMapFrom(typeof(AreaTestDate), typeof(Town))]
+    public class AreaTestDateView
+    {
+        public string CityName { get; set; }
+
+        public string DistrictName { get; set; }
+
+        public string TownName { get; set; }
+
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        [AutoMapPropertyResolve("AreaType", typeof(Town), typeof(ComplainSceneDescriptionTransform))]
+        public string AreaTypeDescription { get; set; }
+
+        public DateTime LatestDate2G { get; set; }
+
+        public DateTime LatestDate3G { get; set; }
+
+        public DateTime LatestDate4G { get; set; }
+
+        public int TotalDays2G => (DateTime.Today - LatestDate2G).Days;
+
+        public int TotalDays3G => (DateTime.Today - LatestDate3G).Days;
+
+        public int TotalDays4G => (DateTime.Today - LatestDate4G).Days;
+    }
 }

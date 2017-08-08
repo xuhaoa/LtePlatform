@@ -3,9 +3,7 @@ using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
 using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.ViewModels.Precise;
-using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Kpi;
 using System;
@@ -14,6 +12,7 @@ using System.IO;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common;
+using Lte.MySqlFramework.Abstract;
 
 namespace Lte.Evaluations.DataService.Kpi
 {

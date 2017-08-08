@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Extend_Dt_Tables : IMigrationMetadata
+    public sealed partial class Update_Town_Position_MySql1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Extend_Dt_Tables));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Update_Town_Position_MySql1));
         
         string IMigrationMetadata.Id
         {
-            get { return "201707242008524_Extend_Dt_Tables"; }
+            get { return "201708081250590_Update_Town_Position_MySql1"; }
         }
         
         string IMigrationMetadata.Source

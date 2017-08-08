@@ -4,8 +4,6 @@ using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.TestService;
 using Lte.MySqlFramework.Abstract;
-using Lte.Parameters.Abstract.Infrastructure;
-using Lte.Parameters.Entities;
 using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;
@@ -14,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Lte.Evaluations.DataService.Queries;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.DataService.College
 {

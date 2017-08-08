@@ -7,7 +7,8 @@ using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
-using Lte.Parameters.Abstract.Infrastructure;
+using Lte.Evaluations.Policy;
+using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Entities.Basic;
 
 namespace Lte.Evaluations.DataService.Switch

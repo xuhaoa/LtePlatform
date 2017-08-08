@@ -13,6 +13,7 @@ using System.Web.Http;
 using Lte.Domain.Common;
 using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.Dump;
+using Lte.Evaluations.ViewModels.Basic;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Basic;
 

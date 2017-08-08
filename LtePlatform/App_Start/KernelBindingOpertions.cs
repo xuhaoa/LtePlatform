@@ -37,11 +37,11 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IDbContextProvider<MySqlContext>>().To<SimpleDbContextProvider<MySqlContext>>();
 
-            ninjectKernel.Bind<ITownRepository>().To<EFTownRepository>();
+            ninjectKernel.Bind<ITownRepository>().To<TownRepository>();
 
-            ninjectKernel.Bind<ICdmaRegionStatRepository>().To<EFCdmaRegionStatRepository>();
+            ninjectKernel.Bind<ICdmaRegionStatRepository>().To<CdmaRegionStatRepository>();
 
-            ninjectKernel.Bind<RegionRepositories>().To<EFRegionRepository>();
+            ninjectKernel.Bind<RegionRepositories>().To<OptimizeRegionRepository>();
 
             ninjectKernel.Bind<ICollegeRepository>().To<EFCollegeRepository>();
 
@@ -69,15 +69,15 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IPreciseMongoRepository>().To<PreciseMongoRepository>();
 
-            ninjectKernel.Bind<ITopDrop2GCellRepository>().To<EFTopDrop2GCellRepository>();
+            ninjectKernel.Bind<ITopDrop2GCellRepository>().To<TopDrop2GCellRepository>();
 
-            ninjectKernel.Bind<ITopConnection3GRepository>().To<EFTopConnection3GRepository>();
+            ninjectKernel.Bind<ITopConnection3GRepository>().To<TopConnection3GRepository>();
 
-            ninjectKernel.Bind<ITopConnection2GRepository>().To<EFTopConnection2GRepository>();
+            ninjectKernel.Bind<ITopConnection2GRepository>().To<TopConnection2GRepository>();
 
             ninjectKernel.Bind<ITownPreciseCoverage4GStatRepository>().To<EFTownPreciseCoverage4GStatRepository>();
 
-            ninjectKernel.Bind<IAreaTestDateRepository>().To<MasterAreaTestDateDateRepository>();
+            ninjectKernel.Bind<IAreaTestDateRepository>().To<AreaTestDateDateRepository>();
 
             ninjectKernel.Bind<IFileRecordRepository>().To<MasterFileRecordRepository>();
 
