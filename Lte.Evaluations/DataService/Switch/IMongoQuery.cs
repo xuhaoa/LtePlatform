@@ -121,7 +121,9 @@ namespace Lte.Evaluations.DataService.Switch
         public T QueryAverageView(int eNodebId, byte sectorId, DateTime begin, DateTime end)
         {
             var query = ConstructQuery(eNodebId, sectorId);
-            return query?.Query(begin, end).Average();
+            var list = query?.Query(begin, end);
+            if (list == null) return null;
+            return list.Any() ? list.Average() : null;
         }
 
     }
