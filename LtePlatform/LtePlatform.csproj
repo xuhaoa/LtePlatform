@@ -374,7 +374,6 @@
     <Compile Include="Controllers\Parameters\ENodebControllers.cs" />
     <Compile Include="Controllers\Parameters\LteNeighborCellController.cs" />
     <Compile Include="Controllers\Parameters\NewCellControllers.cs" />
-    <Compile Include="Controllers\RutraceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2016,7 +2015,6 @@
     <Content Include="appViews\Parameters\List.html" />
     <Content Include="appViews\Parameters\QueryMap.html" />
     <Content Include="appViews\GeneralMenu.html" />
-    <None Include="Views\Rutrace\Index.cshtml" />
     <Content Include="appViews\Rutrace\Interference\MatchCellDialog.html" />
   </ItemGroup>
   <ItemGroup>

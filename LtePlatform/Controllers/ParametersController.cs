@@ -1,5 +1,4 @@
-﻿using Lte.Evaluations.DataService;
-using Lte.Evaluations.DataService.Basic;
+﻿using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.DataService.Kpi;
 using Lte.Evaluations.DataService.Mr;
 using LtePlatform.Models;
@@ -8,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Remotion.Data.Linq.Parsing.Structure.IntermediateModel;
 
 namespace LtePlatform.Controllers
 {
