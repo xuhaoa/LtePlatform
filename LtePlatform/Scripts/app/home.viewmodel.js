@@ -973,8 +973,8 @@
                     displayName: "规划辅助",
                     url: appUrlService.getPlanUrlHost() + 'guihua'
                 }, {
-                    displayName: "完整准确性保障",
-                    url: appUrlService.getParameterUrlHost() + 'zhunquexing2.php'
+                    displayName: "智能规划",
+                    url: appUrlService.getPlanUrlHost() + 'guihua'
                 }, {
                     displayName: "干扰管理",
                     url: '/#/interference'

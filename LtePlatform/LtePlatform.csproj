@@ -688,6 +688,7 @@
     <Content Include="directives\app\DistrictTownPlain.Tpl.html" />
     <Content Include="directives\app\DistrictTownSelection.Tpl.html" />
     <Content Include="directives\app\dump\FileSelector.html" />
+    <Content Include="directives\app\dump\MultipleSelector.html" />
     <Content Include="directives\college\college.module.js" />
     <Content Include="directives\customer\Complain.Tpl.html" />
     <Content Include="directives\customer\customer.module.js" />

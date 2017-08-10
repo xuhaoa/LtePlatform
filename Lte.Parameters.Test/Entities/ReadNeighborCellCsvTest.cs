@@ -3,9 +3,12 @@ using Lte.Domain.LinqToCsv.Description;
 using Lte.Parameters.Entities.Neighbor;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Abp.EntityFramework.AutoMapper;
+using AutoMapper;
 using Lte.Parameters.Entities.Dt;
 
 namespace Lte.Parameters.Test.Entities
@@ -76,10 +79,16 @@ namespace Lte.Parameters.Test.Entities
     }
 
     [TestFixture]
-    public class ReadFileRecord2GCsvTest
+    public class ReadFileRecordCsvTest
     {
+        [TestFixtureSetUp]
+        public void Ts()
+        {
+            Mapper.Initialize(cfg=>cfg.CreateMap<FileRecord3GCsv, FileRecord3G>());
+        }
+
         [Test]
-        public void Test_Read()
+        public void Test_Read_2G()
         {
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var csvFilesDirectory = Path.Combine(testDirectory, "CsvFiles");
@@ -93,6 +102,25 @@ namespace Lte.Parameters.Test.Entities
                 infos.Where(x => x.Longtitute != null && x.Lattitute != null && x.RxAgc != null && x.EcIo != null);
             Assert.AreEqual(legalInfos.Count(), 212);
             Assert.AreEqual(legalInfos.ElementAt(0).ComputerTime.Date, new DateTime(2014,1,14));
+        }
+
+        [Test]
+        public void Test_Read_3G()
+        {
+            var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var csvFilesDirectory = Path.Combine(testDirectory, "CsvFiles");
+            var path = Path.Combine(csvFilesDirectory, "CDMA_20140114_禅城区_城区_短呼_姚华海_高基街_4.csv");
+
+            var reader = new StreamReader(path);
+            var infos = CsvContext.Read<FileRecord3GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
+            Assert.AreEqual(infos.Count, 2564);
+            var legalInfos =
+                infos.Where(
+                    x =>
+                        x.Longtitute != null && x.Lattitute != null && x.Pn != null);
+            Assert.AreEqual(legalInfos.Count(), 1017);
+            var PnStats = legalInfos.MapTo<List<FileRecord3G>>();
+            Assert.AreEqual(PnStats[0].Pn, 282);
         }
     }
 }

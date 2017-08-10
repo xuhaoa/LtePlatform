@@ -1,4 +1,5 @@
-﻿using Lte.Domain.Common;
+﻿using System;
+using Lte.Domain.Common;
 using Lte.Evaluations.DataService;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.DataService.Kpi;
@@ -155,7 +156,76 @@ namespace LtePlatform.Controllers
             }
             return View("Import");
         }
-        
+
+        [HttpPost]
+        public ViewResult Dt2GImport()
+        {
+            var httpPostedFileBase = Request.Files["dt2G"];
+            if (httpPostedFileBase == null || httpPostedFileBase.FileName == "")
+            {
+                ViewBag.ErrorMessage = "上传文件为空！请先上传文件。";
+            }
+            else
+            {
+                try
+                {
+                    var path = httpPostedFileBase.UploadKpiFile();
+                    ViewBag.Message = _importService.ImportDt2GFile(path);
+                }
+                catch (Exception e)
+                {
+                    ViewBag.ErrorMessage = "读取文件出错，信息为：" + e.Message;
+                }
+            }
+            return View("Import");
+        }
+
+        [HttpPost]
+        public ViewResult Dt3GImport()
+        {
+            var httpPostedFileBase = Request.Files["dt3G"];
+            if (httpPostedFileBase == null || httpPostedFileBase.FileName == "")
+            {
+                ViewBag.ErrorMessage = "上传文件为空！请先上传文件。";
+            }
+            else
+            {
+                try
+                {
+                    var path = httpPostedFileBase.UploadKpiFile();
+                    ViewBag.Message = _importService.ImportDt3GFile(path);
+                }
+                catch (Exception e)
+                {
+                    ViewBag.ErrorMessage = "读取文件出错，信息为：" + e.Message;
+                }
+            }
+            return View("Import");
+        }
+
+        [HttpPost]
+        public ViewResult Dt4GImport()
+        {
+            var httpPostedFileBase = Request.Files["dt4G"];
+            if (httpPostedFileBase == null || httpPostedFileBase.FileName == "")
+            {
+                ViewBag.ErrorMessage = "上传文件为空！请先上传文件。";
+            }
+            else
+            {
+                try
+                {
+                    var path = httpPostedFileBase.UploadKpiFile();
+                    ViewBag.Message = _importService.ImportDt4GFile(path);
+                }
+                catch (Exception e)
+                {
+                    ViewBag.ErrorMessage = "读取文件出错，信息为：" + e.Message;
+                }
+            }
+            return View("Import");
+        }
+
         public ActionResult PreciseImport()
         {
             return View();

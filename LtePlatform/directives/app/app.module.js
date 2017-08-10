@@ -52,9 +52,23 @@ angular.module('app.directives.file', [])
             replace: true,
             scope: {
                 fileTitle: '@',
-                tag: '@'
+                tag: '@',
+                fileType: '@'
             },
             templateUrl: appRoot + 'dump/FileSelector.html',
+            transclude: true
+        };
+    })
+    .directive('multipleFileSelector', function (appRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                fileTitle: '@',
+                tag: '@',
+                fileType: '@'
+            },
+            templateUrl: appRoot + 'dump/MultipleSelector.html',
             transclude: true
         };
     });

@@ -15,17 +15,33 @@
                 @using (Html.BeginForm("KpiImport", "Kpi",
                     FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal", role = "form"}))
                 {
-                    <div dump-file-selector file-title="每日KPI Excel文件选择：" tag="dailyKpi"></div>
+                    <div dump-file-selector file-title="每日KPI Excel文件选择：" tag="dailyKpi" file-type=".xls, .xlsx"></div>
                 }
                 @using (Html.BeginForm("SwitchImport", "Kpi",
                     FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal", role = "form"}))
                 {
-                    <div dump-file-selector file-title="4G用户3G流量比文件选择：" tag="downSwitch"></div>
+                    <div dump-file-selector file-title="4G用户3G流量比文件选择：" tag="downSwitch" file-type=".xls, .xlsx"></div>
                 }
                 @using (Html.BeginForm("PlanningImport", "Kpi",
                     FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal", role = "form"}))
                 {
-                    <div dump-file-selector file-title="规划信息文件选择：" tag="planning"></div>
+                    <div dump-file-selector file-title="规划信息文件选择：" tag="planning" file-type=".xls, .xlsx"></div>
+                }
+                <h4>DT数据文件导入</h4>
+                @using (Html.BeginForm("Dt2GImport", "Kpi",
+                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                {
+                    <div dump-file-selector file-title="2G测试文件选择：" tag="dt2G" file-type=".csv"></div>
+                }
+                @using (Html.BeginForm("Dt3GImport", "Kpi",
+                    FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal", role = "form"}))
+                {
+                    <div dump-file-selector file-title="3G测试文件选择：" tag="dt3G" file-type=".csv"></div>
+                }
+                @using (Html.BeginForm("Dt4GImport", "Kpi",
+                    FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal", role = "form"}))
+                {
+                    <div dump-file-selector file-title="4G测试文件选择：" tag="dt4G" file-type=".csv"></div>
                 }
             </div>
             <div class="col-md-5">
@@ -36,22 +52,22 @@
                 @using (Html.BeginForm("ComplainImport", "Kpi",
                 FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
                 {
-                    <div dump-file-selector file-title="抱怨量工单文件选择：" tag="complain"></div>
+                    <div dump-file-selector file-title="抱怨量工单文件选择：" tag="complain" file-type=".xls, .xlsx"></div>
                 }
                 @using (Html.BeginForm("VipDemandImport", "Kpi",
                 FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
                 {
-                    <div dump-file-selector file-title="政企客户需求文件选择：" tag="vipDemand"></div>
+                    <div dump-file-selector file-title="政企客户需求文件选择：" tag="vipDemand" file-type=".xls, .xlsx"></div>
                 }
                 @using (Html.BeginForm("BranchImport", "Kpi",
                 FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
                 {
-                    <div dump-file-selector file-title="分公司需求文件选择：" tag="branch"></div>
+                    <div dump-file-selector file-title="分公司需求文件选择：" tag="branch" file-type=".xls, .xlsx"></div>
                 }
                 @using (Html.BeginForm("OnlineImport", "Kpi",
                 FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
                 {
-                    <div dump-file-selector file-title="在线支撑文件选择：" tag="online"></div>
+                    <div dump-file-selector file-title="在线支撑文件选择：" tag="online" file-type=".xls, .xlsx"></div>
                 }
             </div>
         </div>

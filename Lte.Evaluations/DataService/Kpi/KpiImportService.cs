@@ -6,9 +6,14 @@ using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using Lte.Domain.Common;
+using Lte.Domain.LinqToCsv.Context;
+using Lte.Domain.LinqToCsv.Description;
+using Lte.Parameters.Entities.Dt;
 
 namespace Lte.Evaluations.DataService.Kpi
 {
@@ -173,6 +178,40 @@ namespace Lte.Evaluations.DataService.Kpi
             var count =
                 _planningSiteRepository.Import<IPlanningSiteRepository, PlanningSite, PlanningSiteExcel, Town>(stats, _towns);
             return "完成规则站点信息导入" + count + "条";
+        }
+
+        public string ImportDt2GFile(string path)
+        {
+            var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
+            var infos = CsvContext.Read<FileRecord2GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
+            var filterInfos =
+                infos.Where(x => x.Longtitute != null && x.Lattitute != null);
+            if (!filterInfos.Any()) return "无数据或格式错误！";
+            return "完成2G路测文件导入：" + path;
+        }
+
+        public string ImportDt3GFile(string path)
+        {
+            var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
+            var infos = CsvContext.Read<FileRecord3GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
+            var filterInfos =
+                infos.Where(
+                    x =>
+                        x.Longtitute != null && x.Lattitute != null);
+            if (!filterInfos.Any()) return "无数据或格式错误！";
+            return "完成3G路测文件导入：" + path;
+        }
+
+        public string ImportDt4GFile(string path)
+        {
+            var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
+            var infos = CsvContext.Read<FileRecord4GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
+            var filterInfos =
+                infos.Where(
+                    x =>
+                        x.Longtitute != null && x.Lattitute != null);
+            if (!filterInfos.Any()) return "无数据或格式错误！";
+            return "完成4G路测文件导入：" + path;
         }
     }
 }
