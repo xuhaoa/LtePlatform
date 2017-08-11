@@ -445,6 +445,7 @@
     <Content Include="appViews\Home\AssessmentDialog.html" />
     <Content Include="appViews\Home\Asset.html" />
     <Content Include="appViews\Home\ButtonMenu.html" />
+    <Content Include="appViews\Home\CheckDetails.html" />
     <Content Include="appViews\Home\Checking.html" />
     <Content Include="appViews\Home\ClearZero.html" />
     <Content Include="appViews\Home\Common.html" />
@@ -534,6 +535,10 @@
     <Content Include="Content\Images\Hotmap\icon_search.png" />
     <Content Include="Content\Images\Hotmap\marker.png" />
     <Content Include="Content\Images\Hotmap\markers.png" />
+    <Content Include="Content\Images\icon_down.jpg" />
+    <Content Include="Content\Images\icon_down.png" />
+    <Content Include="Content\Images\icon_right.jpg" />
+    <Content Include="Content\Images\icon_right.png" />
     <Content Include="Content\Images\item-pointer-mover.gif" />
     <Content Include="Content\Images\item-pointer.gif" />
     <Content Include="Content\Images\lava.gif" />

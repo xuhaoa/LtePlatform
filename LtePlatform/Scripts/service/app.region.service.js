@@ -1686,6 +1686,13 @@
                     "type": type                
                 });
             },
+            getCommonStationIdAdd: function (distinct, type) {
+                //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search', {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/StationCommon/generateId', {
+                    "distinct": distinct,
+                    "type": type
+                });
+            },
             getResourceStations: function (areaName, type, page, pageSize) {
                 //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search', {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Resource/search', {

@@ -953,7 +953,7 @@
 			},
 			showCheckingStationInfo: function (station) {
 			    menuItemService.showGeneralDialog({
-			        templateUrl: '/appViews/Home/SpecialStationDetails.html',
+			        templateUrl: '/appViews/Home/CheckDetails.html',
 			        controller: 'map.checkingStation.dialog',
 			        resolve: {
 			            dialogTitle: function () {
@@ -1068,13 +1068,16 @@
 					}
 				});
 			},
-			showCommonStationAdd: function () {
+			showCommonStationAdd: function (type) {
 			    menuItemService.showGeneralDialog({
 			        templateUrl: '/appViews/Home/CommonStationAdd.html',
 			        controller: 'map.common-stationAdd.dialog',
 			        resolve: {
 			            dialogTitle: function () {
 			                return "站点添加";
+			            },
+			            type: function () {
+			                return type;
 			            }
 			        }
 			    });
@@ -1556,22 +1559,31 @@
              $uibModalInstance.dismiss('cancel');
          };
      })
+
     .controller('map.checkingStation.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
 		appFormatService, networkElementService, downSwitchService) {
+        $scope.station;
         downSwitchService.getCheckDetailsById(station.id).then(function (response) {
-            station = response.result[0];
-            $scope.itemGroups = appFormatService.generateCheckingDetailsGroups(station);
+            $scope.station = response.result[0];
+            //$scope.itemGroups = appFormatService.generateCheckingDetailsGroups(station);
         });
-        
-        
 
+        $scope.isHidden = function (oDiv,btn_id) {
+            var vDiv = document.getElementById(oDiv);
+            vDiv.style.display = (vDiv.style.display == 'none') ? 'block' : 'none';
+            var vBtn = document.getElementById(btn_id);
+            if (vBtn.className == 'icon_right') {
+                vBtn.setAttribute("class", "icon_down");
+            } else {
+                vBtn.setAttribute("class", "icon_right");
+            }
+        }       
         $scope.dialogTitle = dialogTitle;
-
-
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
     })
+
     .controller('map.fixingStation.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
 		appFormatService, networkElementService) {
 
@@ -1634,6 +1646,14 @@
 	    $scope.kpid = 100;
 	    
 
+
+
+	    $scope.getAssessment = function (areaName) {
+	        downSwitchService.getAssessment(areaName, cycle).then(function (result) {
+
+	            parametersDialogService.showCommonStationInfo(result.result[0]);
+	        });
+	    }
 	    
 
 	    $scope.changejqf = function () {
@@ -1857,7 +1877,7 @@
 			parametersDialogService.showCommonStationEdit(stationId);
 		}
 		$scope.addStation = function () {
-			parametersDialogService.showCommonStationAdd();
+			parametersDialogService.showCommonStationAdd(type);
 		}
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss('cancel');
@@ -2100,9 +2120,25 @@
 			$uibModalInstance.dismiss('cancel');
 		}
 	})
-    .controller('map.common-stationAdd.dialog', function ($scope, $http, dialogTitle, $uibModalInstance) {
+    .controller('map.common-stationAdd.dialog', function ($scope, $http, dialogTitle,type, $uibModalInstance,downSwitchService) {
         $scope.dialogTitle = dialogTitle;
-        $scope.station;
+        $scope.station = [];
+        $scope.distincts = [
+        { value: 'SD', name: '顺德' },
+        { value: 'NH', name: '南海' },
+        { value: 'CC', name: '禅城' },
+        { value: 'SS', name: '三水' },
+        { value: 'GM', name: '高明' }
+        ];
+
+        $scope.change = function () {
+            downSwitchService.getCommonStationIdAdd($scope.selectedDistinct, type).then(function (result) {
+                $scope.station.id = result.result;
+            });
+
+        }
+
+
         $scope.ok = function () {
             $http({
                 method: 'post',

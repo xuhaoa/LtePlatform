@@ -1141,14 +1141,15 @@
                     }, {
                         items: [
                             {
-                                key: "结束时间",
-                                value: station.JSSJ009
-                            }, {
                                 key: "基站经度",
-                                value: station.JZJD010
-                            }, {
+                                value: station.JZJD010                             
+                            }, {                               
                                 key: "基站纬度",
                                 value: station.JZWD011
+                            }, {
+                                key: "结束时间",
+                                value: station.JSSJ009
+                                
                             }
                         ]
                     }, {
