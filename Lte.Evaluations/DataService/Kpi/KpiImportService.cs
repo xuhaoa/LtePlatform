@@ -184,6 +184,7 @@ namespace Lte.Evaluations.DataService.Kpi
         {
             var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
             var infos = CsvContext.Read<FileRecord2GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
+            reader.Close();
             var filterInfos =
                 infos.Where(x => x.Longtitute != null && x.Lattitute != null);
             if (!filterInfos.Any()) return "无数据或格式错误！";

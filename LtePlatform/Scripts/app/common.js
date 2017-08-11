@@ -25,4 +25,7 @@
     ])
     .run(function($rootScope) {
         $rootScope.sideBarShown = true;
+    })
+    .config(function ($locationProvider) {
+        $locationProvider.hashPrefix('');
     });

@@ -33,7 +33,8 @@ namespace Lte.Domain.LinqToCsv.Context
             where T : class, new()
         {
             FileDataAccess dataAccess = new FileDataAccess(stream, fileDescription);
-            return dataAccess.ReadData<T>(null);
+            var result = dataAccess.ReadData<T>(null);
+            return result;
         }
 
         public static IEnumerable<T> ReadString<T>(string testInput, CsvFileDescription fileDescription) 

@@ -1,6 +1,5 @@
 ﻿angular.module("myApp", ['app.common'])
-    .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
-        $locationProvider.hashPrefix('');
+    .config(function($stateProvider, $urlRouterProvider) {
         var viewDir = "/appViews/Home/";
         $stateProvider
             .state('list', {
@@ -1557,12 +1556,30 @@
             kpiDisplayService.generateUnicomRsrpPoints($scope.coveragePoints, $scope.data);
             parametersMapService.showIntervalPoints($scope.coveragePoints.intervals);
         };
+        $scope.displayUnicomAgps = function () {
+            $scope.currentView = "联通";
+            $scope.initializeMap();
+            var index = parseInt($scope.unicomAgps.length / 2);
+            baiduMapService.setCellFocus($scope.unicomAgps[index].longtitute, $scope.unicomAgps[index].lattitute, 15);
+            $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+            kpiDisplayService.generateAverageRsrpPoints($scope.coveragePoints, $scope.uniAgps);
+            parametersMapService.showIntervalPoints($scope.coveragePoints.intervals, $scope.overlays.coverage);
+        };
         $scope.showMobileCoverage = function () {
             $scope.currentView = "移动";
             $scope.initializeMap();
             $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
             kpiDisplayService.generateMobileRsrpPoints($scope.coveragePoints, $scope.data);
             parametersMapService.showIntervalPoints($scope.coveragePoints.intervals);
+        };
+        $scope.displayMobileAgps = function () {
+            $scope.currentView = "移动";
+            $scope.initializeMap();
+            var index = parseInt($scope.mobileAgps.length / 2);
+            baiduMapService.setCellFocus($scope.mobileAgps[index].longtitute, $scope.mobileAgps[index].lattitute, 15);
+            $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
+            kpiDisplayService.generateAverageRsrpPoints($scope.coveragePoints, $scope.mobileAgps);
+            parametersMapService.showIntervalPoints($scope.coveragePoints.intervals, $scope.overlays.coverage);
         };
         $scope.updateIndexedData = function() {
             var items = [];
