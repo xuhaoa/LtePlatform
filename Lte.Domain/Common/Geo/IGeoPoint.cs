@@ -24,6 +24,11 @@ namespace Lte.Domain.Common.Geo
         int Y { get; set; }
     }
 
+    public interface IPn
+    {
+        double? Pn { get; set; }
+    }
+    
     public static class GeoPointOperations
     {
         public static IGeoPoint<double> GetLeftBottomOffsetPoint(

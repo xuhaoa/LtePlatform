@@ -182,19 +182,23 @@ namespace Lte.Evaluations.DataService.Kpi
 
         public string ImportDt2GFile(string path)
         {
+            var fields = path.Replace(".csv", "").GetSplittedFields('\\');
+            var tableName = fields[fields.Length - 1];
             var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
             var infos = CsvContext.Read<FileRecord2GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
             reader.Close();
             var filterInfos =
-                infos.Where(x => x.Longtitute != null && x.Lattitute != null);
+                infos.Where(x => x.Longtitute != null && x.Lattitute != null).ToList();
             if (!filterInfos.Any()) return "无数据或格式错误！";
-            return "完成2G路测文件导入：" + path;
+            var stats = filterInfos.MergeRecords();
+            return "完成2G路测文件导入：" + path + "(" + tableName + ")";
         }
 
         public string ImportDt3GFile(string path)
         {
             var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
             var infos = CsvContext.Read<FileRecord3GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
+            reader.Close();
             var filterInfos =
                 infos.Where(
                     x =>
@@ -207,6 +211,7 @@ namespace Lte.Evaluations.DataService.Kpi
         {
             var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
             var infos = CsvContext.Read<FileRecord4GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
+            reader.Close();
             var filterInfos =
                 infos.Where(
                     x =>
