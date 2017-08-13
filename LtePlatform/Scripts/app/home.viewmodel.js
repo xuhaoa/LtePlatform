@@ -575,57 +575,14 @@
             title: "基础数据总览",
             myPromise: null
         };
-        $rootScope.grades = [
-            { value: '', name: '所有级别' },
-            { value: 'A', name: '站点级别A' },
-            { value: 'B', name: '站点级别B' },
-            { value: 'C', name: '站点级别C' },
-            { value: 'D', name: '站点级别D' }
-        ];
-        $rootScope.roomAttributions = [
-            { value: '', name: '所有机房' },
-            { value: '电信', name: '电信机房' },
-            { value: '铁塔', name: '铁塔机房' },
-            { value: '联通', name: '联通机房' }
-        ];
-        $rootScope.towerAttributions = [
-            { value: '', name: '全部杆塔' },
-            { value: '电信', name: '电信杆塔' },
-            { value: '铁塔', name: '铁塔杆塔' },
-            { value: '联通', name: '联通杆塔' }
-        ];
-        $rootScope.isBBUs = [
-            { value: '', name: '全部BBU' },
-            { value: '是', name: 'BBU池' },
-            { value: '否', name: '非BBU池' }
-        ];
-        $rootScope.netTypes = [
-            { value: '', name: '全部网络' },
-            { value: 'C', name: 'C网络' },
-            { value: 'L', name: 'L网络' },
-            { value: 'VL', name: 'VL网络' },
-            { value: 'C+L', name: 'C+L网络' },
-            { value: 'C+VL', name: 'C+VL网络' },
-            { value: 'L+VL', name: 'L+VL网络' }
-        ];
-        $rootScope.isPowers = [
-            { value: '', name: '所有动力配套' },
-            { value: '是', name: '有动力配套' },
-            { value: '否', name: '没有动力配套' }
-        ];
-        $rootScope.isNews = [
-            { value: '', name: '所有站点' },
-            { value: '电信新建站点', name: '电信新建站点' },
-            { value: '电信整改站点', name: '电信整改站点' },
-            { value: '联通原有站点', name: '联通原有站点' },
-            { value: '联通整改站点', name: '联通整改站点' },
-        ];
-        $rootScope.indoortypes = [
-            { value: '', name: '所有类型' },
-            { value: '居民住宅', name: '居民住宅' },
-            { value: '餐饮娱乐', name: '餐饮娱乐' },
-            { value: '机关企业', name: '机关企业' }
-        ];
+        $rootScope.grades = appUrlService.stationGradeOptions;
+        $rootScope.roomAttributions = appUrlService.stationRoomOptions;
+        $rootScope.towerAttributions = appUrlService.stationTowerOptions;
+        $rootScope.isBBUs = appUrlService.stationBbuOptions;
+        $rootScope.netTypes = appUrlService.stationNetworkOptions;
+        $rootScope.isPowers = appUrlService.stationPowerOptions;
+        $rootScope.isNews = appUrlService.stationConstructionOptions;
+        $rootScope.indoortypes = appUrlService.stationIndoorOptions;
 
         appUrlService.initializeAuthorization();
         $rootScope.legend = {
@@ -670,7 +627,12 @@
                 }
             ];
         };
-
+        var longAgo = new Date();
+        longAgo.setDate(longAgo.getDate() - 180);
+        $rootScope.longBeginDate = {
+            value: new Date(longAgo.getFullYear(), longAgo.getMonth(), longAgo.getDate(), 8),
+            opened: false
+        };
         var lastWeek = new Date();
         lastWeek.setDate(lastWeek.getDate() - 7);
         $rootScope.beginDate = {

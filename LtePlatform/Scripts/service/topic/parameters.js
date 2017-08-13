@@ -182,7 +182,7 @@
                 $scope.kpi = kpiDisplayService.queryKpiOptions($scope.network.selected);
                 collegeService.queryTownRaster($scope.network.selected,
                     item.townName,
-                    $scope.beginDate.value,
+                    $scope.longBeginDate.value,
                     $scope.endDate.value).then(function(results) {
                     baiduMapService.switchSubMap();
                     baiduMapService.initializeMap("all-map", 14);
