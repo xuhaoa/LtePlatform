@@ -206,9 +206,9 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class OptimizeRegionRepository : EfRepositoryBase<MySqlContext, OptimizeRegion>, RegionRepositories
+    public class OptimizeOptimzeRegionRepository : EfRepositoryBase<MySqlContext, OptimizeRegion>, IOptimzeRegionRepository
     {
-        public OptimizeRegionRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        public OptimizeOptimzeRegionRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
 

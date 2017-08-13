@@ -430,7 +430,8 @@ namespace Lte.Parameters.Entities.Dt
                         TxAgc = subList.Where(x => x.TxAgc != null).Average(x => x.TxAgc),
                         TestTimeString = subList[0].StatTime.ToString("yyyy-M-d HH:mm:ss.fff"),
                         TxGain = subList.Where(x => x.TxGain != null).Average(x => x.TxGain),
-                        TxPower = subList.Where(x => x.TxPower != null).Average(x => x.TxPower)
+                        TxPower = subList.Where(x => x.TxPower != null).Average(x => x.TxPower),
+                        RasterNum = (short)((short)((lat - 22.64409) / 0.00895) * 104 + (short)((lon - 112.387654) / 0.0098))
                     }, (csv, stat) =>
                     {
                         if (csv.RxAgc != null) stat.RxAgc = csv.RxAgc;
@@ -455,7 +456,8 @@ namespace Lte.Parameters.Entities.Dt
                         TestTimeString = subList[0].StatTime.ToString("yyyy-M-d HH:mm:ss.fff"),
                         TotalCi = subList.Where(x => x.TotalCi != null).Average(x => x.TotalCi),
                         DrcValue = (int?) subList.Where(x => x.DrcValue != null).Average(x => x.DrcValue),
-                        Sinr = subList.Where(x => x.Sinr != null).Average(x => x.Sinr)
+                        Sinr = subList.Where(x => x.Sinr != null).Average(x => x.Sinr),
+                        RasterNum = (short)((short)((lat-22.64409)/0.00895)*104+(short)((lon-112.387654)/0.0098))
                     }, (csv, stat) =>
                     {
                         if (csv.RxAgc0 != null) stat.RxAgc0 = csv.RxAgc0;
@@ -522,6 +524,22 @@ namespace Lte.Parameters.Entities.Dt
                 results.Add(generateFunc(subList, lon, lat));
             }
             return results;
+        }
+
+        public static string GenerateInsertSql(this FileRecord2G stat, string tableName)
+        {
+            return "INSERT INTO [" + tableName
+                   + "] ( [rasterNum],[testTime],[lon],[lat],[refPN],[EcIo],[rxAGC],[txAGC],[txPower],[txGain]) VALUES("
+                   + stat.RasterNum
+                   + ",'" + stat.TestTimeString
+                   + "'," + stat.Longtitute
+                   + "," + stat.Lattitute
+                   + "," + (stat.Pn == null ? "NULL" : stat.Pn.ToString())
+                   + "," + (stat.Ecio == null ? "NULL" : stat.Ecio.ToString())
+                   + "," + (stat.RxAgc == null ? "NULL" : stat.RxAgc.ToString())
+                   + "," + (stat.TxAgc == null ? "NULL" : stat.TxAgc.ToString())
+                   + "," + (stat.TxPower == null ? "NULL" : stat.TxPower.ToString())
+                   + "," + (stat.TxGain == null ? "NULL" : stat.TxGain.ToString()) + ")";
         }
     }
 }

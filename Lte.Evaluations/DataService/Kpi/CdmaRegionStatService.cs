@@ -14,12 +14,12 @@ namespace Lte.Evaluations.DataService.Kpi
 {
     public class CdmaRegionStatService
     {
-        private readonly RegionRepositories _regionRepository;
+        private readonly IOptimzeRegionRepository _optimzeRegionRepository;
         private readonly ICdmaRegionStatRepository _statRepository;
 
-        public CdmaRegionStatService(RegionRepositories regionRepository, ICdmaRegionStatRepository statRepository)
+        public CdmaRegionStatService(IOptimzeRegionRepository optimzeRegionRepository, ICdmaRegionStatRepository statRepository)
         {
-            _regionRepository = regionRepository;
+            _optimzeRegionRepository = optimzeRegionRepository;
             _statRepository = statRepository;
         }
 
@@ -29,7 +29,7 @@ namespace Lte.Evaluations.DataService.Kpi
             {
                 var query = await statRepository.GetAllListAsync(beginDate, endDate);
                 var regions
-                    = (await _regionRepository.GetAllListAsync(city)).Select(x => x.Region).Distinct().OrderBy(x => x);
+                    = (await _optimzeRegionRepository.GetAllListAsync(city)).Select(x => x.Region).Distinct().OrderBy(x => x);
                 var result = (from q in query
                     join r in regions
                         on q.Region equals r
@@ -57,7 +57,7 @@ namespace Lte.Evaluations.DataService.Kpi
             var endDate = end.AddDays(1);
             var query = await _statRepository.GetAllListAsync(begin, endDate);
             var regions
-                = (await _regionRepository.GetAllListAsync(city)).Select(x => x.Region).Distinct().OrderBy(x => x);
+                = (await _optimzeRegionRepository.GetAllListAsync(city)).Select(x => x.Region).Distinct().OrderBy(x => x);
             var result = (from q in query
                           join r in regions
                               on q.Region equals r

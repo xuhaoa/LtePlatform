@@ -71,5 +71,23 @@ namespace Lte.Parameters.Concrete.College
         {
             return _context.Get2GFileContents(fileName, rasterNum);
         }
+
+        public IEnumerable<string> GetTables()
+        {
+            return _context.GetTables();
+        }
+
+        public int InsertFileRecord2Gs(IEnumerable<FileRecord2G> stats, string tableName)
+        {
+            _context.ExecuteCommand("CREATE TABLE [" + tableName + "](rasterNum SMALLINT," +
+                                    "testTime CHAR(50), lon float, lat float, refPN SMALLINT,EcIo REAL, rxAGC REAL, txAGC REAL, txPower REAL, txGain REAL, GridNo50m INT)");
+            var index = 0;
+            foreach (var stat in stats)
+            {
+                index += _context.ExecuteCommand(stat.GenerateInsertSql(tableName));
+            }
+            return index;
+        }
+
     }
 }

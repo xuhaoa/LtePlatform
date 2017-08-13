@@ -237,10 +237,13 @@ namespace Lte.Parameters.Test.Entities
             var stats = filterInfos.MergeRecords();
             Assert.AreEqual(stats.Count, 121);
             Assert.AreEqual(stats[0].TestTimeString, "2014-1-14 14:39:39.999");
+            Assert.AreEqual(stats[0].GenerateInsertSql("CDMA_0601-110248锦龙医药dt_2_All"),
+                "INSERT INTO [CDMA_0601-110248锦龙医药dt_2_All] ( [rasterNum],[testTime],[lon],[lat],[refPN],[EcIo],[rxAGC],[txAGC],[txPower],[txGain]) VALUES(4649,'2014-1-14 14:39:39.999',113.108658666667,23.0380863333333,282,-7.04,-71.58,NULL,NULL,NULL)");
             Assert.AreEqual(stats[0].RxAgc ?? 0, -71.58, 1e-6);
             Assert.AreEqual(stats[0].Ecio ?? 0, -7.04, 1e-6);
             Assert.AreEqual(stats[0].TxAgc, null);
             Assert.AreEqual(stats[0].Pn, 282);
+            Assert.AreEqual(stats[0].RasterNum, 4649);
             Assert.AreEqual(stats[1].TestTimeString, "2014-1-14 14:39:42.559");
             Assert.AreEqual(stats[1].RxAgc ?? 0, -69.91, 1e-6);
             Assert.AreEqual(stats[1].Ecio ?? 0, -7.12, 1e-6);

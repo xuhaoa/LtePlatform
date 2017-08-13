@@ -36,7 +36,10 @@ namespace Lte.Parameters.Abstract.Infrastructure
         IEnumerable<FileRecord2G> GetFileRecord2Gs(string fileName);
 
         IEnumerable<FileRecord2G> GetFileRecord2Gs(string fileName, int rasterNum);
-        
+
+        int InsertFileRecord2Gs(IEnumerable<FileRecord2G> stats, string tableName);
+
+        IEnumerable<string> GetTables();
     }
 
     public interface IInfrastructureRepository : IRepository<InfrastructureInfo>, ISaveChanges

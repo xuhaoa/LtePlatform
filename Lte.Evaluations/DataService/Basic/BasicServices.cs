@@ -203,19 +203,19 @@ namespace Lte.Evaluations.DataService.Basic
     public class TownQueryService
     {
         private readonly ITownRepository _repository;
-        private readonly RegionRepositories _regionRepository;
+        private readonly IOptimzeRegionRepository _optimzeRegionRepository;
         private readonly IENodebRepository _eNodebRepository;
         private readonly IBtsRepository _btsRepository;
         private readonly ICellRepository _cellRepository;
         private readonly ICdmaCellRepository _cdmaCellRepository;
         private readonly ITownBoundaryRepository _boundaryRepository;
 
-        public TownQueryService(ITownRepository repository, RegionRepositories regionRepository,
+        public TownQueryService(ITownRepository repository, IOptimzeRegionRepository optimzeRegionRepository,
             IENodebRepository eNodebRepositroy, IBtsRepository btsRepository,
             ICellRepository cellRepository, ICdmaCellRepository cdmaCellRepository, ITownBoundaryRepository boundaryRepository)
         {
             _repository = repository;
-            _regionRepository = regionRepository;
+            _optimzeRegionRepository = optimzeRegionRepository;
             _eNodebRepository = eNodebRepositroy;
             _btsRepository = btsRepository;
             _cellRepository = cellRepository;
@@ -230,7 +230,7 @@ namespace Lte.Evaluations.DataService.Basic
 
         public IEnumerable<string> GetRegions(string city)
         {
-            return _regionRepository.GetAllList().Where(x => x.City == city)
+            return _optimzeRegionRepository.GetAllList().Where(x => x.City == city)
                 .Select(x => x.Region).Distinct().OrderBy(x => x);
         }
 

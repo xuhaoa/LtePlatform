@@ -21,8 +21,8 @@ namespace Lte.Evaluations.DataService.College
     {
         private AbpAutoMapperModule _module;
         private TypeFinder _typeFinder;
-        private readonly Mock<RegionRepositories> _regionRepository
-            = new Mock<RegionRepositories>();
+        private readonly Mock<IOptimzeRegionRepository> _regionRepository
+            = new Mock<IOptimzeRegionRepository>();
         private readonly Mock<ICdmaRegionStatRepository> _statRepository
             = new Mock<ICdmaRegionStatRepository>();
         private CdmaRegionStatTestService _testService;

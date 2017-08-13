@@ -135,7 +135,7 @@ namespace Lte.Evaluations.MockItems
                             .ToList());
         }
 
-        public static void MockOperation(this Mock<RegionRepositories> repository)
+        public static void MockOperation(this Mock<IOptimzeRegionRepository> repository)
         {
             repository.Setup(x => x.GetAllList(It.IsAny<string>()))
                 .Returns<string>(city => repository.Object.GetAll().Where(x => x.City == city).ToList());

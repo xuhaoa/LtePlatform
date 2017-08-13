@@ -136,7 +136,7 @@ namespace Lte.MySqlFramework.Abstract
 
     }
 
-    public interface RegionRepositories : IRepository<OptimizeRegion>
+    public interface IOptimzeRegionRepository : IRepository<OptimizeRegion>
     {
         List<OptimizeRegion> GetAllList(string city);
 

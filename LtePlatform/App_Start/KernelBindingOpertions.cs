@@ -41,7 +41,7 @@ namespace LtePlatform
 
             ninjectKernel.Bind<ICdmaRegionStatRepository>().To<CdmaRegionStatRepository>();
 
-            ninjectKernel.Bind<RegionRepositories>().To<OptimizeRegionRepository>();
+            ninjectKernel.Bind<IOptimzeRegionRepository>().To<OptimizeOptimzeRegionRepository>();
 
             ninjectKernel.Bind<ICollegeRepository>().To<EFCollegeRepository>();
 

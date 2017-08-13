@@ -30,6 +30,9 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly IOnlineSustainRepository _onlineSustainRepository;
         private readonly IPlanningSiteRepository _planningSiteRepository;
         private readonly IComplainProcessRepository _processRepository;
+        private readonly IFileRecordRepository _fileRecordRepository;
+        private readonly IDtFileInfoRepository _dtFileInfoRepository;
+        private readonly IRasterTestInfoRepository _rasterTestInfoRepository;
         private readonly List<Town> _towns; 
 
         public KpiImportService(ICdmaRegionStatRepository regionStatRepository,
@@ -38,7 +41,9 @@ namespace Lte.Evaluations.DataService.Kpi
             IDownSwitchFlowRepository downSwitchRepository, IVipDemandRepository vipDemandRepository,
             IComplainItemRepository complainItemRepository, IBranchDemandRepository branchDemandRepository,
             IOnlineSustainRepository onlineSustainRepository, IPlanningSiteRepository planningSiteRepository, 
-            IComplainProcessRepository processRepository, ITownRepository townRepository)
+            IComplainProcessRepository processRepository, ITownRepository townRepository,
+            IFileRecordRepository fileRecordRepository, IDtFileInfoRepository dtFileInfoRepository,
+            IRasterTestInfoRepository rasterTestInfoRepository)
         {
             _regionStatRepository = regionStatRepository;
             _top2GRepository = top2GRepository;
@@ -51,6 +56,9 @@ namespace Lte.Evaluations.DataService.Kpi
             _onlineSustainRepository = onlineSustainRepository;
             _planningSiteRepository = planningSiteRepository;
             _processRepository = processRepository;
+            _fileRecordRepository = fileRecordRepository;
+            _dtFileInfoRepository = dtFileInfoRepository;
+            _rasterTestInfoRepository = rasterTestInfoRepository;
             _towns = townRepository.GetAllList();
         }
         public List<string> Import(string path, IEnumerable<string> regions)
@@ -182,16 +190,59 @@ namespace Lte.Evaluations.DataService.Kpi
 
         public string ImportDt2GFile(string path)
         {
-            var fields = path.Replace(".csv", "").GetSplittedFields('\\');
-            var tableName = fields[fields.Length - 1];
+            bool fileExisted;
+            var tableName = GetFileNameExisted(path, out fileExisted);
+            if (fileExisted) return "数据文件已存在于数据库中。请确认是否正确。";
             var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
             var infos = CsvContext.Read<FileRecord2GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
             reader.Close();
             var filterInfos =
                 infos.Where(x => x.Longtitute != null && x.Lattitute != null).ToList();
             if (!filterInfos.Any()) return "无数据或格式错误！";
+            UpdateCsvFileInfo(tableName, filterInfos);
             var stats = filterInfos.MergeRecords();
-            return "完成2G路测文件导入：" + path + "(" + tableName + ")";
+            UpdateRasterInfo(stats, tableName, "2G");
+            var count = _fileRecordRepository.InsertFileRecord2Gs(stats, tableName);
+            return "完成2G路测文件导入：" + path + "(" + tableName + ")" + count + "条";
+        }
+
+        private void UpdateRasterInfo(List<FileRecord2G> stats, string tableName, string networkType)
+        {
+            var rasterNumbers = stats.Select(x => x.RasterNum).Distinct();
+            foreach (var rasterNumber in rasterNumbers)
+            {
+                var raster =
+                    _rasterTestInfoRepository.FirstOrDefault(x => x.RasterNum == rasterNumber && x.NetworkType == networkType);
+                if (raster == null) continue;
+                if (!raster.CsvFilesName.Contains(tableName))
+                {
+                    raster.CsvFilesName += ";" + tableName;
+                    _rasterTestInfoRepository.SaveChanges();
+                }
+            }
+        }
+
+        private void UpdateCsvFileInfo(string tableName, List<FileRecord2GCsv> filterInfos)
+        {
+            var csvFileInfo = _dtFileInfoRepository.FirstOrDefault(x => x.CsvFileName == tableName + ".csv");
+            if (csvFileInfo == null)
+            {
+                _dtFileInfoRepository.Insert(new CsvFilesInfo
+                {
+                    CsvFileName = tableName + ".csv",
+                    TestDate = filterInfos[0].StatTime
+                });
+                _dtFileInfoRepository.SaveChanges();
+            }
+        }
+
+        private string GetFileNameExisted(string path, out bool fileExisted)
+        {
+            var fields = path.Replace(".csv", "").GetSplittedFields('\\');
+            var tableName = fields[fields.Length - 1];
+            var tableNames = _fileRecordRepository.GetTables();
+            fileExisted = tableNames.FirstOrDefault(x => x == tableName) != null;
+            return tableName;
         }
 
         public string ImportDt3GFile(string path)
