@@ -1463,7 +1463,7 @@
             });
         });
         $scope.manageCsvFiles = function() {
-            parametersDialogService.manageCsvDtInfos($scope.beginDate, $scope.endDate);
+            parametersDialogService.manageCsvDtInfos($scope.longBeginDate, $scope.endDate);
         };
     })
 
@@ -3025,7 +3025,6 @@
             }
         });
     })
-
 
     .controller("special-station.network", function ($scope, downSwitchService, baiduMapService, geometryService,
         mapDialogService, baiduQueryService) {

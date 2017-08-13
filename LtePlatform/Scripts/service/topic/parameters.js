@@ -317,12 +317,12 @@
                 $scope.jumpPage($scope.page);
             }
             $scope.prevPage = function() {
-                if ($scope.page != 1)
+                if ($scope.page !== 1)
                     $scope.page--;
                 $scope.jumpPage($scope.page);
             }
             $scope.nextPage = function() {
-                if ($scope.page != $scope.totolPage)
+                if ($scope.page !== $scope.totolPage)
                     $scope.page++;
                 $scope.jumpPage($scope.page);
             }
@@ -411,7 +411,30 @@
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             }
-        })
+    })
+    .controller('map.common-stationAdd.dialog', function ($scope, $http, dialogTitle, type, $uibModalInstance,
+        downSwitchService, appUrlService) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.station = [];
+        $scope.distincts = appUrlService.stationDistincts;
+
+        $scope.change = function() {
+            downSwitchService.getCommonStationIdAdd($scope.selectedDistinct, type).then(function(result) {
+                $scope.station.id = result.result;
+            });
+        };
+
+        $scope.ok = function () {
+            downSwitchService.addCommonStation({
+                "Station": JSON.stringify($scope.station)
+            }).then(function(result) {
+                alert(result.description);
+            });
+        }
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        }
+    })
     .controller('map.construction.dialog',
         function($scope, $uibModalInstance, dialogTitle, site, appFormatService, downSwitchService) {
             $scope.dialogTitle = dialogTitle;
@@ -481,14 +504,37 @@
     .controller('map.assessment.dialog', function($scope,
         $http,
         dialogTitle,
-        $uibModalInstance,
+        downSwitchService,
         parametersDialogService,
-        downSwitchService) {
+        $uibModalInstance) {
         $scope.dialogTitle = dialogTitle;
         $scope.tab = 1;
         $scope.jqf = 0;
         $scope.xcccd = 100;
         $scope.kpid = 100;
+        $scope.getAssessment = function(areaName) {
+            downSwitchService.getAssessment(areaName, cycle).then(function(result) {
+                parametersDialogService.showCommonStationInfo(result.result[0]);
+            });
+        };
+        $scope.changejqf = function() {
+            $scope.jqf = $scope.jqf1 + $scope.jqf2 + $scope.jqf3 + $scope.jqf4 + $scope.jqf5;
+        };
+        $scope.changecxcc = function() {
+            $scope.xcccd = 100 +
+                $scope.xccc1 +
+                $scope.xccc2 +
+                $scope.xccc3 +
+                $scope.xccc4 +
+                $scope.xccc5 +
+                $scope.xccc6 +
+                $scope.xccc7 +
+                $scope.xccc8;
+        };
+        $scope.changekpi = function() {
+            $scope.kpi = $scope.kpi1 + $scope.kpi2 + $scope.kpi3;
+            $scope.kpid = 100 + $scope.kpi;
+        };
         $scope.ok = function () {
             $uibModalInstance.close($scope.bts);
         };
@@ -759,7 +805,20 @@
                         }
                     });
                 },
-
+                showCommonStationAdd: function (type) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/BasicKpi/CommonStationAdd.html',
+                        controller: 'map.common-stationAdd.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "站点添加";
+                            },
+                            type: function () {
+                                return type;
+                            }
+                        }
+                    });
+                },
                 showAssessmentDialog: function () {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Evaluation/Dialog/AssessmentDialog.html',

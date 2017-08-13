@@ -39,6 +39,23 @@
 	margin: 0;
 }
 
+.icon_right {
+    background:url(/Content/Images/icon_right.jpg) no-repeat center center;
+    width:28px;
+    height:28px;
+    float:left;
+    left:60px;
+    position:absolute;
+}
+
+.icon_down {
+    background:url(/Content/Images/icon_down.jpg) no-repeat center center;
+    width:28px;
+    height:28px;
+    float:left;
+    left:60px;
+    position:absolute;
+}
 /**
  *********************************************
  * Prototype of styles for horizontal CSS-menu

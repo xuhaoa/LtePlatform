@@ -631,8 +631,7 @@
 	.controller('map.checkingStation.dialog', function($scope, $uibModalInstance, station, dialogTitle,
         appFormatService, networkElementService, downSwitchService) {
         downSwitchService.getCheckDetailsById(station.id).then(function(response) {
-            station = response.result[0];
-            $scope.itemGroups = appFormatService.generateCheckingDetailsGroups(station);
+            $scope.station = response.result[0];
         });
 
 		$scope.dialogTitle = dialogTitle;

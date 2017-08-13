@@ -213,6 +213,13 @@
                 { value: '居民住宅', name: '居民住宅' },
                 { value: '餐饮娱乐', name: '餐饮娱乐' },
                 { value: '机关企业', name: '机关企业' }
+            ],
+            stationDistincts: [
+                { value: 'SD', name: '顺德' },
+                { value: 'NH', name: '南海' },
+                { value: 'CC', name: '禅城' },
+                { value: 'SS', name: '三水' },
+                { value: 'GM', name: '高明' }
             ]
         };
     })

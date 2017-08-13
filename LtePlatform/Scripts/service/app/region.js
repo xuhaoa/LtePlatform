@@ -905,6 +905,10 @@ angular.module('region.basic', ['app.core'])
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/add', station);
                 },
+                addCommonStation: function(station) {
+                    return postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/StationCommon/add',
+                        station);
+                },
                 getAlarmStationByName: function(name, page, pageSize) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search',
@@ -920,7 +924,7 @@ angular.module('region.basic', ['app.core'])
                     roomAttribution,
                     towerAttribution,
                     isPower,
-                    isBBU,
+                    isBbu,
                     page,
                     pageSize) {
                     return generalHttpService
@@ -933,7 +937,7 @@ angular.module('region.basic', ['app.core'])
                             "stationGrade": stationGrade,
                             "roomAttribution": roomAttribution,
                             "towerAttribution": towerAttribution,
-                            "isBBU": isBBU,
+                            "isBBU": isBbu,
                             "isPower": isPower
                         });
                 },
@@ -1006,6 +1010,12 @@ angular.module('region.basic', ['app.core'])
                             "areaName": areaName,
                             "type": type
                         });
+                },
+                getCommonStationIdAdd: function (distinct, type) {
+                    return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/StationCommon/generateId', {
+                        "distinct": distinct,
+                        "type": type
+                    });
                 },
                 getAllCommonStations: function(type, page, pageSize) {
                     return generalHttpService
