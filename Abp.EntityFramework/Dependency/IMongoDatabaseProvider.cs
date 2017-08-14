@@ -32,6 +32,11 @@ namespace Abp.EntityFramework.Dependency
         DateTime StatTime { get; set; }
     }
 
+    public interface IRasterNum
+    {
+        short RasterNum { get; set; }
+    }
+
     public interface IStatDateCell : IStatDate
     {
         string CellId { get; set; }

@@ -50,7 +50,7 @@ namespace Lte.Parameters.Entities.Dt
     }
 
     [AutoMapFrom(typeof(FileRecord2GCsv))]
-    public class FileRecord2G : IGeoPoint<double?>, ICoverage
+    public class FileRecord2G : IGeoPoint<double?>, ICoverage, IRasterNum
     {
         [Column(Name = "rasterNum", DbType = "SmallInt")]
         public short RasterNum { get; set; }
@@ -132,7 +132,7 @@ namespace Lte.Parameters.Entities.Dt
     }
 
     [AutoMapFrom(typeof(FileRecord3GCsv))]
-    public class FileRecord3G : IGeoPoint<double?>, ICoverage
+    public class FileRecord3G : IGeoPoint<double?>, ICoverage, IRasterNum
     {
         [Column(Name = "rasterNum", DbType = "SmallInt")]
         public short RasterNum { get; set; }
@@ -264,7 +264,7 @@ namespace Lte.Parameters.Entities.Dt
     }
 
     [AutoMapFrom(typeof(FileRecord4GCsv))]
-    public class FileRecord4G : IGeoPoint<double?>, ICoverage
+    public class FileRecord4G : IGeoPoint<double?>, ICoverage, IRasterNum
     {
         [Column(Name = "ind", DbType = "Int")]
         public int? Ind { get; set; }
@@ -467,6 +467,48 @@ namespace Lte.Parameters.Entities.Dt
                     })).Aggregate((x, y) => x.Concat(y)).ToList();
         }
 
+        public static List<FileRecord4G> MergeRecords(this IEnumerable<FileRecord4GCsv> csvs)
+        {
+            return
+                csvs.MergeRecordList()
+                    .Select(list => list.MergeSubRecords((subList, lon, lat) => new FileRecord4G
+                    {
+                        Longtitute = lon,
+                        Lattitute = lat,
+                        Pci = (short?)subList.FirstOrDefault(x => x.Pn != null)?.Pn,
+                        ENodebId = subList.FirstOrDefault(x => x.ENodebId != null)?.ENodebId,
+                        SectorId = subList.FirstOrDefault(x => x.SectorId != null)?.SectorId,
+                        Frequency = subList.FirstOrDefault(x => x.Frequency != null)?.Frequency,
+                        Rsrp = subList.Where(x => x.Rsrp != null).Average(x => x.Rsrp),
+                        DlBler = (byte?)subList.Where(x => x.DlBler != null).Average(x => x.DlBler),
+                        N1Pci = subList.FirstOrDefault(x => x.N1Pci != null)?.N1Pci,
+                        N1Rsrp = subList.FirstOrDefault(x => x.N1Rsrp != null)?.N1Rsrp,
+                        N2Pci = subList.FirstOrDefault(x => x.N2Pci != null)?.N2Pci,
+                        N2Rsrp = subList.FirstOrDefault(x => x.N2Rsrp != null)?.N2Rsrp,
+                        N3Pci = subList.FirstOrDefault(x => x.N3Pci != null)?.N3Pci,
+                        N3Rsrp = subList.FirstOrDefault(x => x.N3Rsrp != null)?.N3Rsrp,
+                        PdcpThroughputDl = subList.Where(x => x.PdcpThroughputDl != null).Average(x => x.PdcpThroughputDl),
+                        PdcpThroughputUl = subList.Where(x => x.PdcpThroughputUl != null).Average(x => x.PdcpThroughputUl),
+                        MacThroughputDl = subList.Where(x => x.MacThroughputDl != null).Average(x => x.MacThroughputDl),
+                        PhyThroughputDl = subList.Where(x => x.PhyThroughputDl != null).Average(x => x.PhyThroughputDl),
+                        DlMcs = (byte?)subList.Where(x => x.DlMcs != null).Average(x => x.DlMcs),
+                        UlMcs = (byte?)subList.Where(x => x.UlMcs != null).Average(x => x.UlMcs),
+                        TestTimeString = subList[0].StatTime.ToString("yyyy-M-d HH:mm:ss.fff"),
+                        CqiAverage = subList.Where(x => x.CqiAverage != null).Average(x => x.CqiAverage),
+                        PdschRbSizeAverage = (int?)subList.Where(x => x.PdschRbSizeAverage != null).Average(x => x.PdschRbSizeAverage),
+                        PuschRbSizeAverage = (int?)subList.Where(x => x.PuschRbSizeAverage != null).Average(x => x.PuschRbSizeAverage),
+                        PuschRbNum = (int?)subList.Where(x => x.PuschRbNum != null).Average(x => x.PuschRbNum),
+                        PdschRbNum = (int?)subList.Where(x => x.PdschRbNum != null).Average(x => x.PdschRbNum),
+                        Sinr = subList.Where(x => x.Sinr != null).Average(x => x.Sinr),
+                        RasterNum = (short)((short)((lat - 22.64409) / 0.00895) * 104 + (short)((lon - 112.387654) / 0.0098))
+                    }, (csv, stat) =>
+                    {
+                        if (csv.Rsrp != null) stat.Rsrp = csv.Rsrp;
+                        if (csv.Sinr != null) stat.Sinr = csv.Sinr;
+                        return stat.Rsrp != null && stat.Sinr != null;
+                    })).Aggregate((x, y) => x.Concat(y)).ToList();
+        }
+
         public static List<List<TCsv>> MergeRecordList<TCsv>(this IEnumerable<TCsv> csvs)
             where TCsv : IPn
         {
@@ -540,6 +582,43 @@ namespace Lte.Parameters.Entities.Dt
                    + "," + (stat.TxAgc == null ? "NULL" : stat.TxAgc.ToString())
                    + "," + (stat.TxPower == null ? "NULL" : stat.TxPower.ToString())
                    + "," + (stat.TxGain == null ? "NULL" : stat.TxGain.ToString()) + ")";
+        }
+
+        public static string GenerateInsertSql(this FileRecord4G stat, string tableName, int index)
+        {
+            return "INSERT INTO [" + tableName
+                   + "] ( [ind],[rasterNum],[testTime],[lon],[lat],[eNodeBID],[cellID],[freq],[PCI],"
+                   + "[RSRP],[SINR],[DLBler],[CQIave],[ULMCS],[DLMCS],[PDCPThrUL],[PDCPThrDL],[PHYThrDL],[MACThrDL],"
+                   + "[PUSCHRbNum],[PDSCHRbNum],[PUSCHTBSizeAve],[PDSCHTBSizeAve],[n1PCI],[n1RSRP],[n2PCI],[n2RSRP],[n3PCI],[n3RSRP]) VALUES("
+                   + index
+                   + stat.RasterNum
+                   + ",'" + stat.TestTimeString
+                   + "'," + stat.Longtitute
+                   + "," + stat.Lattitute
+                   + "," + (stat.ENodebId == null ? "NULL" : stat.ENodebId.ToString())
+                   + "," + (stat.SectorId == null ? "NULL" : stat.SectorId.ToString())
+                   + "," + (stat.Frequency == null ? "NULL" : stat.Frequency.ToString())
+                   + "," + (stat.Pci == null ? "NULL" : stat.Pci.ToString())
+                   + "," + (stat.Rsrp == null ? "NULL" : stat.Rsrp.ToString())
+                   + "," + (stat.Sinr == null ? "NULL" : stat.Sinr.ToString())
+                   + "," + (stat.DlBler == null ? "NULL" : stat.DlBler.ToString())
+                   + "," + (stat.CqiAverage == null ? "NULL" : stat.CqiAverage.ToString())
+                   + "," + (stat.UlMcs == null ? "NULL" : stat.UlMcs.ToString())
+                   + "," + (stat.DlMcs == null ? "NULL" : stat.DlMcs.ToString())
+                   + "," + (stat.PdcpThroughputUl == null ? "NULL" : stat.PdcpThroughputUl.ToString())
+                   + "," + (stat.PdcpThroughputDl == null ? "NULL" : stat.PdcpThroughputDl.ToString())
+                   + "," + (stat.PhyThroughputDl == null ? "NULL" : stat.PhyThroughputDl.ToString())
+                   + "," + (stat.MacThroughputDl == null ? "NULL" : stat.MacThroughputDl.ToString())
+                   + "," + (stat.PuschRbNum == null ? "NULL" : stat.PuschRbNum.ToString())
+                   + "," + (stat.PdschRbNum == null ? "NULL" : stat.PdschRbNum.ToString())
+                   + "," + (stat.PuschRbSizeAverage == null ? "NULL" : stat.PuschRbSizeAverage.ToString())
+                   + "," + (stat.PdschRbSizeAverage == null ? "NULL" : stat.PdschRbSizeAverage.ToString())
+                   + "," + (stat.N1Pci == null ? "NULL" : stat.N1Pci.ToString())
+                   + "," + (stat.N1Rsrp == null ? "NULL" : stat.N1Rsrp.ToString())
+                   + "," + (stat.N2Pci == null ? "NULL" : stat.N2Pci.ToString())
+                   + "," + (stat.N2Rsrp == null ? "NULL" : stat.N2Rsrp.ToString())
+                   + "," + (stat.N3Pci == null ? "NULL" : stat.N3Pci.ToString())
+                   + "," + (stat.N3Rsrp == null ? "NULL" : stat.N3Rsrp.ToString()) + ")";
         }
     }
 }

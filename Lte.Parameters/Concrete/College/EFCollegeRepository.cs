@@ -77,6 +77,21 @@ namespace Lte.Parameters.Concrete.College
             return _context.GetTables();
         }
 
+        public int InsertFileRecord4Gs(IEnumerable<FileRecord4G> stats, string tableName)
+        {
+            _context.ExecuteCommand("CREATE TABLE [" + tableName + "](ind INTEGER, " +
+                                    "rasterNum SMALLINT,testTime CHAR(50),lon float, lat float,eNodeBID INT,cellID TINYINT,freq REAL," +
+                                    "PCI SMALLINT, RSRP REAL, SINR REAL, DLBler TINYINT, CQIave REAL, ULMCS TINYINT,DLMCS TINYINT,PDCPThrUL REAL," +
+                                    "PDCPThrDL REAL,PHYThrDL REAL,MACThrDL REAL,PUSCHRbNum INT,PDSCHRbNum INT,PUSCHTBSizeAve INT," +
+                                    "PDSCHTBSizeAve INT,n1PCI SMALLINT,n1RSRP REAL,n2PCI SMALLINT,n2RSRP REAL,n3PCI SMALLINT,n3RSRP REAL)");
+            var index = 0;
+            foreach (var stat in stats)
+            {
+                index += _context.ExecuteCommand(stat.GenerateInsertSql(tableName, index));
+            }
+            return index;
+        }
+
         public int InsertFileRecord2Gs(IEnumerable<FileRecord2G> stats, string tableName)
         {
             _context.ExecuteCommand("CREATE TABLE [" + tableName + "](rasterNum SMALLINT," +
@@ -88,6 +103,5 @@ namespace Lte.Parameters.Concrete.College
             }
             return index;
         }
-
     }
 }

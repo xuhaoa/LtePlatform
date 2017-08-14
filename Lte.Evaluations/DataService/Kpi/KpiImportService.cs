@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
@@ -191,7 +192,7 @@ namespace Lte.Evaluations.DataService.Kpi
         public string ImportDt2GFile(string path)
         {
             bool fileExisted;
-            var tableName = GetFileNameExisted(path, out fileExisted);
+            var tableName = _fileRecordRepository.GetFileNameExisted(path, out fileExisted);
             if (fileExisted) return "数据文件已存在于数据库中。请确认是否正确。";
             var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
             var infos = CsvContext.Read<FileRecord2GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
@@ -199,50 +200,11 @@ namespace Lte.Evaluations.DataService.Kpi
             var filterInfos =
                 infos.Where(x => x.Longtitute != null && x.Lattitute != null).ToList();
             if (!filterInfos.Any()) return "无数据或格式错误！";
-            UpdateCsvFileInfo(tableName, filterInfos);
+            _dtFileInfoRepository.UpdateCsvFileInfo(tableName, filterInfos[0].StatTime);
             var stats = filterInfos.MergeRecords();
-            UpdateRasterInfo(stats, tableName, "2G");
+            _rasterTestInfoRepository.UpdateRasterInfo(stats, tableName, "2G");
             var count = _fileRecordRepository.InsertFileRecord2Gs(stats, tableName);
             return "完成2G路测文件导入：" + path + "(" + tableName + ")" + count + "条";
-        }
-
-        private void UpdateRasterInfo(List<FileRecord2G> stats, string tableName, string networkType)
-        {
-            var rasterNumbers = stats.Select(x => x.RasterNum).Distinct();
-            foreach (var rasterNumber in rasterNumbers)
-            {
-                var raster =
-                    _rasterTestInfoRepository.FirstOrDefault(x => x.RasterNum == rasterNumber && x.NetworkType == networkType);
-                if (raster == null) continue;
-                if (!raster.CsvFilesName.Contains(tableName))
-                {
-                    raster.CsvFilesName += ";" + tableName;
-                    _rasterTestInfoRepository.SaveChanges();
-                }
-            }
-        }
-
-        private void UpdateCsvFileInfo(string tableName, List<FileRecord2GCsv> filterInfos)
-        {
-            var csvFileInfo = _dtFileInfoRepository.FirstOrDefault(x => x.CsvFileName == tableName + ".csv");
-            if (csvFileInfo == null)
-            {
-                _dtFileInfoRepository.Insert(new CsvFilesInfo
-                {
-                    CsvFileName = tableName + ".csv",
-                    TestDate = filterInfos[0].StatTime
-                });
-                _dtFileInfoRepository.SaveChanges();
-            }
-        }
-
-        private string GetFileNameExisted(string path, out bool fileExisted)
-        {
-            var fields = path.Replace(".csv", "").GetSplittedFields('\\');
-            var tableName = fields[fields.Length - 1];
-            var tableNames = _fileRecordRepository.GetTables();
-            fileExisted = tableNames.FirstOrDefault(x => x == tableName) != null;
-            return tableName;
         }
 
         public string ImportDt3GFile(string path)
@@ -260,15 +222,66 @@ namespace Lte.Evaluations.DataService.Kpi
 
         public string ImportDt4GFile(string path)
         {
+            bool fileExisted;
+            var tableName = _fileRecordRepository.GetFileNameExisted(path, out fileExisted);
+            if (fileExisted) return "数据文件已存在于数据库中。请确认是否正确。";
             var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
             var infos = CsvContext.Read<FileRecord4GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
-            reader.Close();
             var filterInfos =
-                infos.Where(
-                    x =>
-                        x.Longtitute != null && x.Lattitute != null);
+                infos.Where(x => x.Longtitute != null && x.Lattitute != null).ToList();
             if (!filterInfos.Any()) return "无数据或格式错误！";
-            return "完成4G路测文件导入：" + path;
+            _dtFileInfoRepository.UpdateCsvFileInfo(tableName, filterInfos[0].StatTime);
+            var stats = filterInfos.MergeRecords();
+            _rasterTestInfoRepository.UpdateRasterInfo(stats, tableName, "4G");
+            var count = _fileRecordRepository.InsertFileRecord4Gs(stats, tableName);
+            return "完成2G路测文件导入：" + path + "(" + tableName + ")" + count + "条";
         }
+    }
+
+    public static class DtQuery
+    {
+        public static void UpdateRasterInfo<TStat>(this IRasterTestInfoRepository rasterTestInfoRepository,
+            IEnumerable<TStat> stats, string tableName, string networkType)
+            where TStat : IRasterNum
+        {
+            var rasterNumbers = stats.Select(x => x.RasterNum).Distinct();
+            foreach (var rasterNumber in rasterNumbers)
+            {
+                var raster =
+                    rasterTestInfoRepository.FirstOrDefault(x => x.RasterNum == rasterNumber && x.NetworkType == networkType);
+                if (raster == null) continue;
+                if (!raster.CsvFilesName.Contains(tableName))
+                {
+                    raster.CsvFilesName += ";" + tableName;
+                    rasterTestInfoRepository.SaveChanges();
+                }
+            }
+        }
+
+        public static void UpdateCsvFileInfo(this IDtFileInfoRepository dtFileInfoRepository,
+            string tableName, DateTime testDate)
+        {
+            var csvFileInfo = dtFileInfoRepository.FirstOrDefault(x => x.CsvFileName == tableName + ".csv");
+            if (csvFileInfo == null)
+            {
+                dtFileInfoRepository.Insert(new CsvFilesInfo
+                {
+                    CsvFileName = tableName + ".csv",
+                    TestDate = testDate
+                });
+                dtFileInfoRepository.SaveChanges();
+            }
+        }
+
+        public static string GetFileNameExisted(this IFileRecordRepository fileRecordRepository,
+            string path, out bool fileExisted)
+        {
+            var fields = path.Replace(".csv", "").GetSplittedFields('\\');
+            var tableName = fields[fields.Length - 1].DtFileNameEncode();
+            var tableNames = fileRecordRepository.GetTables();
+            fileExisted = tableNames.FirstOrDefault(x => x == tableName) != null;
+            return tableName;
+        }
+
     }
 }

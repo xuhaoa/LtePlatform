@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Lte.Domain.Common
@@ -40,6 +41,20 @@ namespace Lte.Domain.Common
             if (index2 == -1) { index2 = line.Length; }
             string ipData = line.Substring(index1 + 1, index2 - index1 - 1);
             return ipData;
+        }
+
+        public static string DtFileNameEncode(this string source)
+        {
+            var dicts = new []
+            {
+                new Tuple<string, string>("/", "%2f"),
+                new Tuple<string, string>(":", "%3a"), 
+                new Tuple<string, string>(";", "%3a"), 
+                new Tuple<string, string>(" ", "%5a"),
+                new Tuple<string, string>("[", "%5b"),
+                new Tuple<string, string>("]", "%5d"), 
+            };
+            return dicts.Aggregate(source, (current, dict) => current.Replace(dict.Item1, dict.Item2));
         }
     }
 }
