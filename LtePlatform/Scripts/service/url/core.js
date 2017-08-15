@@ -65,10 +65,10 @@
             },
             initializeAuthorization: initializeAuthorization,
             getPlanUrlHost: function () {
-                return (window.location.hostname === '119.145.142.74') ? 'http://119.145.142.74:8108/' : 'http://132.110.71.122:8070/';
+                return (window.location.hostname !== '119.145.142.74') ? 'http://119.145.142.74:8108/' : 'http://132.110.71.122:8070/';
             },
             getDtUrlHost: function () {
-                return (window.location.hostname === '119.145.142.74') ? 'http://119.145.142.74:8101/' : 'http://132.110.71.121:2888/';
+                return (window.location.hostname === '119.145.142.74') ? '/' : 'http://132.110.71.121:2889/';
             },
             getDistributionHost: function () {
                 return (window.location.hostname === '119.145.142.74') ? 'http://119.145.142.74:8109/' : 'http://132.110.71.122:8086/';

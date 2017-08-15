@@ -14,6 +14,7 @@ using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
+using Lte.Domain.Regular;
 using Lte.Parameters.Entities.Dt;
 
 namespace Lte.Evaluations.DataService.Kpi
@@ -230,11 +231,15 @@ namespace Lte.Evaluations.DataService.Kpi
             var filterInfos =
                 infos.Where(x => x.Longtitute != null && x.Lattitute != null).ToList();
             if (!filterInfos.Any()) return "无数据或格式错误！";
-            _dtFileInfoRepository.UpdateCsvFileInfo(tableName, filterInfos[0].StatTime);
+            var fields = path.GetSplittedFields('\\');
+            var dir = fields[fields.Length - 2];
+            var date = dir.GetDateFromFileName() ?? DateTime.Today;
+            var statTime = filterInfos[0].StatTime.AddDays((date - DateTime.Today).Days);
+            _dtFileInfoRepository.UpdateCsvFileInfo(tableName, statTime);
             var stats = filterInfos.MergeRecords();
             _rasterTestInfoRepository.UpdateRasterInfo(stats, tableName, "4G");
             var count = _fileRecordRepository.InsertFileRecord4Gs(stats, tableName);
-            return "完成2G路测文件导入：" + path + "(" + tableName + ")" + count + "条";
+            return "完成4G路测文件导入：" + path + "(" + tableName + ")" + count + "条";
         }
     }
 

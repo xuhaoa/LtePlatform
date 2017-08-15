@@ -467,7 +467,7 @@ namespace Lte.Parameters.Entities.Dt
                     })).Aggregate((x, y) => x.Concat(y)).ToList();
         }
 
-        public static List<FileRecord4G> MergeRecords(this IEnumerable<FileRecord4GCsv> csvs)
+        public static List<FileRecord4G> MergeRecords(this IEnumerable<FileRecord4GCsv> csvs, DateTime? statDate = null)
         {
             return
                 csvs.MergeRecordList()
@@ -493,7 +493,7 @@ namespace Lte.Parameters.Entities.Dt
                         PhyThroughputDl = subList.Where(x => x.PhyThroughputDl != null).Average(x => x.PhyThroughputDl),
                         DlMcs = (byte?)subList.Where(x => x.DlMcs != null).Average(x => x.DlMcs),
                         UlMcs = (byte?)subList.Where(x => x.UlMcs != null).Average(x => x.UlMcs),
-                        TestTimeString = subList[0].StatTime.ToString("yyyy-M-d HH:mm:ss.fff"),
+                        TestTimeString = (statDate ?? subList[0].StatTime).ToString("yyyy-M-d HH:mm:ss.fff"),
                         CqiAverage = subList.Where(x => x.CqiAverage != null).Average(x => x.CqiAverage),
                         PdschRbSizeAverage = (int?)subList.Where(x => x.PdschRbSizeAverage != null).Average(x => x.PdschRbSizeAverage),
                         PuschRbSizeAverage = (int?)subList.Where(x => x.PuschRbSizeAverage != null).Average(x => x.PuschRbSizeAverage),

@@ -1,4 +1,5 @@
-﻿angular.module('app.common', [
+﻿angular.module('app.common',
+    [
         'app.filters',
         'app.module',
         'baidu.map',
@@ -26,11 +27,12 @@
     .run(function($rootScope) {
         $rootScope.sideBarShown = true;
     })
-    .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         $locationProvider.hashPrefix('');
         var viewDir = "/appViews/Home/";
         $stateProvider
-            .state('list', {
+            .state('list',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -43,7 +45,8 @@
                 },
                 url: "/"
             })
-            .state('query', {
+            .state('query',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -56,7 +59,8 @@
                 },
                 url: "/query"
             })
-            .state('building', {
+            .state('building',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -69,7 +73,8 @@
                 },
                 url: "/building"
             })
-            .state('topic', {
+            .state('topic',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -82,8 +87,8 @@
                 },
                 url: "/topic"
             })
-
-            .state('station', {
+            .state('station',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/Home/StationSearchMenu.html",
@@ -101,7 +106,8 @@
                 },
                 url: "/station"
             })
-            .state('operation-indoor', {
+            .state('operation-indoor',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/Home/StationSearchMenu.html",
@@ -119,7 +125,8 @@
                 },
                 url: "/operation-indoor"
             })
-            .state('common', {
+            .state('common',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/BasicKpi/CommonMenu.html",
@@ -132,8 +139,8 @@
                 },
                 url: "/common"
             })
-
-            .state('flow', {
+            .state('flow',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -146,7 +153,8 @@
                 },
                 url: "/flow"
             })
-            .state('dt', {
+            .state('dt',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -159,8 +167,8 @@
                 },
                 url: "/dt"
             })
-
-            .state('kpi', {
+            .state('kpi',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -173,7 +181,8 @@
                 },
                 url: "/kpi"
             })
-            .state('quality', {
+            .state('quality',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -186,8 +195,8 @@
                 },
                 url: "/quality"
             })
-
-            .state('plan', {
+            .state('plan',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -200,7 +209,8 @@
                 },
                 url: "/plan"
             })
-            .state('interference', {
+            .state('interference',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -213,8 +223,8 @@
                 },
                 url: "/interference"
             })
-
-            .state('complain', {
+            .state('complain',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -227,7 +237,8 @@
                 },
                 url: "/complain"
             })
-            .state('micro', {
+            .state('micro',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -240,8 +251,8 @@
                 },
                 url: "/micro"
             })
-
-            .state('college', {
+            .state('college',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -254,7 +265,8 @@
                 },
                 url: "/college"
             })
-            .state('college-coverage', {
+            .state('college-coverage',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -267,8 +279,8 @@
                 },
                 url: "/college-coverage"
             })
-
-            .state('mr', {
+            .state('mr',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -281,7 +293,8 @@
                 },
                 url: "/mr"
             })
-            .state('grid', {
+            .state('grid',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -294,7 +307,8 @@
                 },
                 url: "/grid"
             })
-            .state('app', {
+            .state('app',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -307,8 +321,8 @@
                 },
                 url: "/app"
             })
-
-            .state('analysis', {
+            .state('analysis',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -321,7 +335,8 @@
                 },
                 url: "/analysis"
             })
-            .state('collegeMap', {
+            .state('collegeMap',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -334,7 +349,8 @@
                 },
                 url: "/collegeMap"
             })
-            .state('highway', {
+            .state('highway',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -347,7 +363,8 @@
                 },
                 url: "/highway"
             })
-            .state('railway', {
+            .state('railway',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -360,7 +377,8 @@
                 },
                 url: "/railway"
             })
-            .state('subway', {
+            .state('subway',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -373,7 +391,8 @@
                 },
                 url: "/subway"
             })
-            .state('highvalue', {
+            .state('highvalue',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -386,8 +405,8 @@
                 },
                 url: "/highvalue"
             })
-
-            .state('alarm', {
+            .state('alarm',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/Evaluation/AlarmSearchMenu.html",
@@ -401,8 +420,8 @@
                 },
                 url: "/alarm"
             })
-
-            .state('checking', {
+            .state('checking',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -415,7 +434,8 @@
                 },
                 url: "/checking"
             })
-            .state('checking-indoor', {
+            .state('checking-indoor',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -428,8 +448,8 @@
                 },
                 url: "/checking-indoor"
             })
-
-            .state('fixing', {
+            .state('fixing',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -442,7 +462,8 @@
                 },
                 url: "/fixing"
             })
-            .state('fixing-indoor', {
+            .state('fixing-indoor',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -455,7 +476,8 @@
                 },
                 url: "/fixing-indoor"
             })
-            .state('special-station', {
+            .state('special-station',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -469,7 +491,22 @@
                 },
                 url: "/special-station"
             })
-            .state('special-indoor', {
+            .state('long-term',
+            {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.fixing"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/Evaluation/FaultStation.html",
+                        controller: "fault-station.network"
+                    }
+                },
+                url: "/long-term"
+            })
+            .state('special-indoor',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -483,20 +520,8 @@
                 },
                 url: "/special-indoor"
             })
-            .state('long-term', {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.fixing"
-                    },
-                    "contents": {
-                        templateUrl: "/appViews/Evaluation/FaultStation.html",
-                        controller: "fault-station.network"
-                    }
-                },
-                url: "/long-term"
-            })
-            .state('clear-flow', {
+            .state('clear-flow',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -509,7 +534,8 @@
                 },
                 url: "/clear-flow"
             })
-            .state('clear-voice', {
+            .state('clear-voice',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -522,7 +548,8 @@
                 },
                 url: "/clear-voice"
             })
-            .state('resource', {
+            .state('resource',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -536,7 +563,8 @@
                 },
                 url: "/resource"
             })
-            .state('resource-indoor', {
+            .state('resource-indoor',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -550,8 +578,8 @@
                 },
                 url: "/resource-indoor"
             })
-
-            .state('construction', {
+            .state('construction',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -564,7 +592,8 @@
                 },
                 url: "/construction"
             })
-            .state('blueprint', {
+            .state('blueprint',
+            {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
@@ -578,4 +607,4 @@
                 url: "/blueprint"
             });
         $urlRouterProvider.otherwise('/');
-    })
+    });

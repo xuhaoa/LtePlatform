@@ -254,6 +254,22 @@ namespace Lte.Parameters.Test.Entities
         }
 
         [Test]
+        public void Test_Merge_4G()
+        {
+            var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var csvFilesDirectory = Path.Combine(testDirectory, "CsvFiles");
+            var path = Path.Combine(csvFilesDirectory, "桂城城区_南海区_PBM20151110205026.csv");
+
+            var reader = new StreamReader(path);
+            var infos = CsvContext.Read<FileRecord4GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
+            var filterInfos =
+                infos.Where(x => x.Longtitute != null && x.Lattitute != null).ToList();
+            var stats = filterInfos.MergeRecords(new DateTime(2017, 4, 3));
+            Assert.AreEqual(stats.Count, 759);
+            Assert.AreEqual(stats[0].TestTimeString, "2017-4-3 00:00:00.000");
+        }
+
+        [Test]
         public void BasicTest()
         {
             var list = new List<FileRecord2GCsv>();
