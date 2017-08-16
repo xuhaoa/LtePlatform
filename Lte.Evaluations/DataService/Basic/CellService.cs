@@ -389,14 +389,14 @@ namespace Lte.Evaluations.DataService.Basic
         public CellHuaweiMongo Query()
         {
             var zteCell = _zteCellRepository.GetRecent(_eNodebId, _sectorId);
-            var zteMeas = _zteMeasRepository.GetRecent(_eNodebId, _sectorId);
+            var zteMeas = _zteMeasRepository.GetRecentList(_eNodebId, _sectorId);
             var ztePrach = _ztePrachRepository.GetRecent(_eNodebId, _sectorId);
 
             return new CellHuaweiMongo
             {
                 PhyCellId = zteCell?.pci ?? 0,
                 CellSpecificOffset = zteCell?.ocs ?? 15,
-                QoffsetFreq = zteMeas?.eutranMeasParas_offsetFreq ?? 15,
+                QoffsetFreq = zteMeas[0]?.eutranMeasParas_offsetFreq ?? 15,
                 RootSequenceIdx = ztePrach?.rootSequenceIndex ?? -1
             };
         }

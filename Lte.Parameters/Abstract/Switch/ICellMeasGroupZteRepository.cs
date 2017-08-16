@@ -1,4 +1,5 @@
-﻿using Abp.Domain.Repositories;
+﻿using System.Collections.Generic;
+using Abp.Domain.Repositories;
 using Lte.Parameters.Entities.Switch;
 using MongoDB.Bson;
 
@@ -11,6 +12,6 @@ namespace Lte.Parameters.Abstract.Switch
 
     public interface IEUtranCellMeasurementZteRepository : IRepository<EUtranCellMeasurementZte, ObjectId>
     {
-        EUtranCellMeasurementZte GetRecent(int eNodebId, byte sectorId);
+        List<EUtranCellMeasurementZte> GetRecentList(int eNodebId, byte sectorId);
     }
 }

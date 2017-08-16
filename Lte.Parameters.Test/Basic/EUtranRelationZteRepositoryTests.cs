@@ -105,11 +105,11 @@ namespace Lte.Parameters.Test.Basic
         [Test]
         public void Test_GetRecentBySectorId()
         {
-            var results = _repository.GetRecent(501777, 49);
+            var results = _repository.GetRecentList(501777, 49);
             Assert.IsNotNull(results);
-            Assert.AreEqual(results.eNodeB_Id, 501777);
-            Assert.AreEqual(results.description, "cellLocalId=49");
-            Assert.AreEqual(results.CDMA2000MeasParas_cdmaType, 0);
+            Assert.AreEqual(results[0].eNodeB_Id, 501777);
+            Assert.AreEqual(results[0].description, "cellLocalId=49");
+            Assert.AreEqual(results[0].CDMA2000MeasParas_cdmaType, 0);
         }
     }
 }

@@ -136,10 +136,10 @@ namespace Lte.Evaluations.DataService.Switch
 
         public CellIntraFreqHoView Query()
         {
-            var zteCellGroup = _zteCellGroupRepository.GetRecent(_eNodebId, _sectorId);
+            var zteCellGroup = _zteCellGroupRepository.GetRecentList(_eNodebId, _sectorId);
             int configId;
             if (zteCellGroup != null)
-                configId = int.Parse(zteCellGroup.intraFHOMeasCfg.Split(',')[0]);
+                configId = int.Parse(zteCellGroup[0].intraFHOMeasCfg.Split(',')[0]);
             else
             {
                 var zteGroup = _zteGroupRepository.GetRecent(_eNodebId);

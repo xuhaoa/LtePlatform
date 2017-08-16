@@ -1,4 +1,5 @@
-﻿using Abp.EntityFramework.Dependency;
+﻿using System.Collections.Generic;
+using Abp.EntityFramework.Dependency;
 using Abp.EntityFramework.Repositories;
 using Lte.Parameters.Abstract.Switch;
 using Lte.Parameters.Entities.Switch;
@@ -18,9 +19,9 @@ namespace Lte.Parameters.Concrete.Switch
 
         }
 
-        public EUtranCellMeasurementZte GetRecent(int eNodebId, byte sectorId)
+        public List<EUtranCellMeasurementZte> GetRecentList(int eNodebId, byte sectorId)
         {
-            return this.QueryRecent(eNodebId, sectorId);
+            return this.QueryZteRecentList(eNodebId, sectorId);
         }
     }
 }

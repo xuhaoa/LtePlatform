@@ -40,9 +40,9 @@ namespace Lte.Parameters.Test.Switch
         [Test]
         public void Test_GetBySectorId()
         {
-            var result = _repository.GetRecent(502776, 48);
+            var result = _repository.GetRecentList(502776, 48);
             Assert.IsNotNull(result);
-            Assert.AreEqual(result.iDate, "20160408");
+            Assert.AreEqual(result[0].iDate, "20160408");
         }
     }
 }
