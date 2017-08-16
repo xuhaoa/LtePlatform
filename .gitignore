@@ -134,3 +134,4 @@ uploads/
 /LtePlatform/Scripts/service/node_modules
 *.map
 /Lte.Auxilary/mr
+/LtePlatform/Scripts/app/node_modules

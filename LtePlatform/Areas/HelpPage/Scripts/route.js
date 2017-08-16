@@ -1,6 +1,7 @@
 ﻿angular.module('myApp', ['app.common'])
     .config([
-        '$routeProvider', function($routeProvider) {
+        '$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+            $locationProvider.hashPrefix('');
             var viewDir = "/appViews/Test/Help/";
             $routeProvider
                 .when('/', {
