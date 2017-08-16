@@ -97,8 +97,7 @@
             $scope.endDate = endDate;
             $scope.parameter = {
                 options: [
-                    '基本参数', '同频切换', 'A1异频切换',
-                    'A2异频切换', 'A3异频切换', 'A4异频切换', 'A5异频切换'
+                    '基本参数', '同频切换', '异频切换'
                 ],
                 selected: '基本参数'
             };

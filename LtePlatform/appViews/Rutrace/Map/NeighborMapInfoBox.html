@@ -8,11 +8,28 @@
     <div class="infoBoxContent col-md-4">
         <div lte-cell-basic-info neighbor="neighbor" ng-show="parameter.selected==='基本参数'"></div>
         <div cell-intra-freq e-nodeb-id="eNodebId" sector-id="sectorId" ng-show="parameter.selected==='同频切换'"></div>
-        <div a1-inter-freq inter-freq-ho="interFreqHo" ng-show="parameter.selected==='A1异频切换'"></div>
-        <div a2-inter-freq inter-freq-ho="interFreqHo" ng-show="parameter.selected==='A2异频切换'"></div>
-        <div a3-inter-freq inter-freq-ho="interFreqHo" ng-show="parameter.selected==='A3异频切换'"></div>
-        <div a4-inter-freq inter-freq-ho="interFreqHo" ng-show="parameter.selected==='A4异频切换'"></div>
-        <div a5-inter-freq inter-freq-ho="interFreqHo" ng-show="parameter.selected==='A5异频切换'"></div>
+        <div ng-show="parameter.selected==='异频切换'">
+            <div class="title">
+                <strong>异频切换参数: </strong>
+            </div>
+            <div class="list" ng-repeat="ho in interFreqHo">
+                <ul>
+                    <li>
+                        <div class="left">频点号</div>
+                        <div class="rmb">{{ho.earfcn>0?ho.earfcn:'中兴小区'}}</div>
+                    </li>
+                    <li>
+                        <div class="left">异频切换采用的切换事件</div>
+                        <div class="rmb">{{ho.interFreqHoEventType | huaweiEvent}}</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div a1-inter-freq inter-freq-ho="interFreqHo" ng-show="parameter.selected==='异频切换'"></div>
+        <div a2-inter-freq inter-freq-ho="interFreqHo" ng-show="parameter.selected==='异频切换'"></div>
+        <div a3-inter-freq inter-freq-ho="interFreqHo" ng-show="parameter.selected==='异频切换'"></div>
+        <div a4-inter-freq inter-freq-ho="interFreqHo" ng-show="parameter.selected==='异频切换'"></div>
+        <div a5-inter-freq inter-freq-ho="interFreqHo" ng-show="parameter.selected==='异频切换'"></div>
     </div>
     <div class="col-md-8">
         <div date-span-row begin-date="beginDate" end-date="endDate">
