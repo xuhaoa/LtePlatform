@@ -241,6 +241,23 @@ namespace Lte.Evaluations.DataService.Kpi
             var count = _fileRecordRepository.InsertFileRecord4Gs(stats, tableName);
             return "完成4G路测文件导入：" + path + "(" + tableName + ")" + count + "条";
         }
+
+        public string ImportDt4GDingli(string path)
+        {
+            bool fileExisted;
+            var tableName = _fileRecordRepository.GetFileNameExisted(path, out fileExisted);
+            if (fileExisted) return "数据文件已存在于数据库中。请确认是否正确。";
+            var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
+            var infos = CsvContext.Read<FileRecord4GDingli>(reader, CsvFileDescription.CommaDescription).ToList();
+            var filterInfos =
+                infos.Where(x => x.Longtitute != null && x.Lattitute != null).ToList();
+            if (!filterInfos.Any()) return "无数据或格式错误！";
+            _dtFileInfoRepository.UpdateCsvFileInfo(tableName, filterInfos[0].StatTime);
+            var stats = filterInfos.MergeRecords();
+            _rasterTestInfoRepository.UpdateRasterInfo(stats, tableName, "4G");
+            var count = _fileRecordRepository.InsertFileRecord4Gs(stats, tableName);
+            return "完成4G路测文件导入：" + path + "(" + tableName + ")" + count + "条";
+        }
     }
 
     public static class DtQuery

@@ -148,5 +148,33 @@ namespace Lte.Parameters.Entities.Switch
         public int? homePLMNeasCfg { get; set; }
 
         public int? periodCdmaMeasCfg { get; set; }
+
+        public int? wcdmaSRVCCBasVoLTECongMeasCfg { get; set; }
+
+        public int? magicRadioWCDMAMeasCfg4movUE { get; set; }
+
+        public int? magicRadioGERANMeasCfg4movUE { get; set; }
+
+        public int? tdsSRVCCBasedVoLTECongMeasCfg { get; set; }
+
+        public int? geranSRVCCBasVoLTECongMeasCfg { get; set; }
+
+        public int? crsICMeasCfg { get; set; }
+
+        public int? overlapInterFPeriodMeasCfg { get; set; }
+
+        public int? interFMeasCfgBaseService { get; set; }
+
+        public string opeInterFVoiceMeasCfg { get; set; }
+
+        public int? caEICICMeasCfg { get; set; }
+
+        public int? deactiveLWACMeasCfg { get; set; }
+
+        public int? activeLWACMeasCfg { get; set; }
+
+        public string clsInterFVoiceMeasCfg { get; set; }
+
+        public int? geranPRBUsageRatioMeasCfg { get; set; }
     }
 }

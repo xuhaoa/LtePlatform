@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Linq.Mapping;
+using System.Globalization;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.LinqToCsv;
+using Lte.Domain.Regular;
 
 namespace Lte.Parameters.Entities.Dt
 {
@@ -263,7 +265,104 @@ namespace Lte.Parameters.Entities.Dt
         public double? N3Rsrp { get; set; }
     }
 
-    [AutoMapFrom(typeof(FileRecord4GCsv))]
+    public class FileRecord4GDingli : IGeoPoint<double?>, IPn, IStatTime
+    {
+        public string ComputerTime { get; set; }
+
+        public DateTime StatTime
+        {
+            get { return ("20" + ComputerTime).ConvertToDateTime(DateTime.Now); }
+            set { ComputerTime = value.ToString(CultureInfo.InvariantCulture); }
+        }
+
+        [CsvColumn(Name = "Longitude")]
+        public double? Longtitute { get; set; }
+
+        [CsvColumn(Name = "Latitude")]
+        public double? Lattitute { get; set; }
+
+        [CsvColumn(Name = "LTE eNodeB ID")]
+        public int? ENodebId { get; set; }
+
+        [CsvColumn(Name = "LTE SectorID")]
+        public byte? SectorId { get; set; }
+
+        [CsvColumn(Name = "LTE Frequency DL")]
+        public double? Frequency { get; set; }
+
+        [CsvColumn(Name = "LTE PCI")]
+        public double? Pn { get; set; }
+
+        [CsvColumn(Name = "LTE RSRP")]
+        public double? Rsrp { get; set; }
+
+        [CsvColumn(Name = "LTE SINR")]
+        public double? Sinr { get; set; }
+
+        [CsvColumn(Name = "LTE PDSCH BLER")]
+        public double? DlBler { get; set; }
+
+        [CsvColumn(Name = "LTE WideBand CQI")]
+        public double? CqiAverage { get; set; }
+
+        [CsvColumn(Name = "LTE MCS Average UL /s")]
+        public byte? UlMcs { get; set; }
+
+        [CsvColumn(Name = "LTE MCS Average DL /s")]
+        public byte? DlMcs { get; set; }
+
+        [CsvColumn(Name = "LTE PDCP Throughput UL")]
+        public double? PdcpBpsUl { get; set; }
+
+        public double? PdcpThroughputUl => PdcpBpsUl / 1024;
+
+        [CsvColumn(Name = "LTE PDCP Throughput DL")]
+        public double? PdcpBpsDl { get; set; }
+
+        public double? PdcpThroughputDl => PdcpBpsDl / 1024;
+
+        [CsvColumn(Name = "LTE PHY Throughput DL")]
+        public double? PhyBpsDl { get; set; }
+
+        public double? PhyThroughputDl => PhyBpsDl / 1024;
+
+        [CsvColumn(Name = "LTE MAC Throughput DL")]
+        public double? MacBpsDl { get; set; }
+
+        public double? MacThroughputDl => MacBpsDl / 1024;
+
+        [CsvColumn(Name = "LTE PUSCH RB Count /s")]
+        public int? PuschRbNum { get; set; }
+
+        [CsvColumn(Name = "LTE PDSCH RB Count /s")]
+        public int? PdschRbNum { get; set; }
+
+        [CsvColumn(Name = "UL LTE RB Count Per TB")]
+        public double? PuschRbSizeAverage { get; set; }
+
+        [CsvColumn(Name = "DL LTE RB Count Per TB")]
+        public double? PdschRbSizeAverage { get; set; }
+
+        [CsvColumn(Name = "LTE Cell 1st PCI")]
+        public short? N1Pci { get; set; }
+
+        [CsvColumn(Name = "LTE Cell 1st RSRP")]
+        public double? N1Rsrp { get; set; }
+
+        [CsvColumn(Name = "LTE Cell 2nd PCI")]
+        public short? N2Pci { get; set; }
+
+        [CsvColumn(Name = "LTE Cell 2nd RSRP")]
+        public double? N2Rsrp { get; set; }
+
+        [CsvColumn(Name = "LTE Cell 3rd PCI")]
+        public short? N3Pci { get; set; }
+
+        [CsvColumn(Name = "LTE Cell 3rd RSRP")]
+        public double? N3Rsrp { get; set; }
+    }
+
+    [AutoMapFrom(typeof(FileRecord4GCsv), typeof(FileRecord4GDingli))]
     public class FileRecord4G : IGeoPoint<double?>, ICoverage, IRasterNum
     {
         [Column(Name = "ind", DbType = "Int")]
@@ -509,6 +608,48 @@ namespace Lte.Parameters.Entities.Dt
                     })).Aggregate((x, y) => x.Concat(y)).ToList();
         }
 
+        public static List<FileRecord4G> MergeRecords(this IEnumerable<FileRecord4GDingli> csvs, DateTime? statDate = null)
+        {
+            return
+                csvs.MergeRecordList()
+                    .Select(list => list.MergeSubRecords((subList, lon, lat) => new FileRecord4G
+                    {
+                        Longtitute = lon,
+                        Lattitute = lat,
+                        Pci = (short?)subList.FirstOrDefault(x => x.Pn != null)?.Pn,
+                        ENodebId = subList.FirstOrDefault(x => x.ENodebId != null)?.ENodebId,
+                        SectorId = subList.FirstOrDefault(x => x.SectorId != null)?.SectorId,
+                        Frequency = subList.FirstOrDefault(x => x.Frequency != null)?.Frequency,
+                        Rsrp = subList.Where(x => x.Rsrp != null).Average(x => x.Rsrp),
+                        DlBler = (byte?)subList.Where(x => x.DlBler != null).Average(x => x.DlBler),
+                        N1Pci = subList.FirstOrDefault(x => x.N1Pci != null)?.N1Pci,
+                        N1Rsrp = subList.FirstOrDefault(x => x.N1Rsrp != null)?.N1Rsrp,
+                        N2Pci = subList.FirstOrDefault(x => x.N2Pci != null)?.N2Pci,
+                        N2Rsrp = subList.FirstOrDefault(x => x.N2Rsrp != null)?.N2Rsrp,
+                        N3Pci = subList.FirstOrDefault(x => x.N3Pci != null)?.N3Pci,
+                        N3Rsrp = subList.FirstOrDefault(x => x.N3Rsrp != null)?.N3Rsrp,
+                        PdcpThroughputDl = subList.Where(x => x.PdcpThroughputDl != null).Average(x => x.PdcpThroughputDl),
+                        PdcpThroughputUl = subList.Where(x => x.PdcpThroughputUl != null).Average(x => x.PdcpThroughputUl),
+                        MacThroughputDl = subList.Where(x => x.MacThroughputDl != null).Average(x => x.MacThroughputDl),
+                        PhyThroughputDl = subList.Where(x => x.PhyThroughputDl != null).Average(x => x.PhyThroughputDl),
+                        DlMcs = (byte?)subList.Where(x => x.DlMcs != null).Average(x => x.DlMcs),
+                        UlMcs = (byte?)subList.Where(x => x.UlMcs != null).Average(x => x.UlMcs),
+                        TestTimeString = (statDate ?? subList[0].StatTime).ToString("yyyy-M-d HH:mm:ss.fff"),
+                        CqiAverage = subList.Where(x => x.CqiAverage != null).Average(x => x.CqiAverage),
+                        PdschRbSizeAverage = (int?)subList.Where(x => x.PdschRbSizeAverage != null).Average(x => x.PdschRbSizeAverage),
+                        PuschRbSizeAverage = (int?)subList.Where(x => x.PuschRbSizeAverage != null).Average(x => x.PuschRbSizeAverage),
+                        PuschRbNum = (int?)subList.Where(x => x.PuschRbNum != null).Average(x => x.PuschRbNum),
+                        PdschRbNum = (int?)subList.Where(x => x.PdschRbNum != null).Average(x => x.PdschRbNum),
+                        Sinr = subList.Where(x => x.Sinr != null).Average(x => x.Sinr),
+                        RasterNum = (short)((short)((lat - 22.64409) / 0.00895) * 104 + (short)((lon - 112.387654) / 0.0098))
+                    }, (csv, stat) =>
+                    {
+                        if (csv.Rsrp != null) stat.Rsrp = csv.Rsrp;
+                        if (csv.Sinr != null) stat.Sinr = csv.Sinr;
+                        return stat.Rsrp != null && stat.Sinr != null;
+                    })).Aggregate((x, y) => x.Concat(y)).ToList();
+        }
+
         public static List<List<TCsv>> MergeRecordList<TCsv>(this IEnumerable<TCsv> csvs)
             where TCsv : IPn
         {
@@ -590,9 +731,9 @@ namespace Lte.Parameters.Entities.Dt
                    + "] ( [ind],[rasterNum],[testTime],[lon],[lat],[eNodeBID],[cellID],[freq],[PCI],"
                    + "[RSRP],[SINR],[DLBler],[CQIave],[ULMCS],[DLMCS],[PDCPThrUL],[PDCPThrDL],[PHYThrDL],[MACThrDL],"
                    + "[PUSCHRbNum],[PDSCHRbNum],[PUSCHTBSizeAve],[PDSCHTBSizeAve],[n1PCI],[n1RSRP],[n2PCI],[n2RSRP],[n3PCI],[n3RSRP]) VALUES("
-                   + index
-                   + stat.RasterNum
-                   + ",'" + stat.TestTimeString
+                   + index  //[ind]
+                   + "," + stat.RasterNum  //[rasterNum]
+                   + ",'" + stat.TestTimeString //[testTime]
                    + "'," + stat.Longtitute
                    + "," + stat.Lattitute
                    + "," + (stat.ENodebId == null ? "NULL" : stat.ENodebId.ToString())

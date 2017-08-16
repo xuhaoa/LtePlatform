@@ -338,5 +338,65 @@ namespace Lte.Parameters.Entities.Switch
         public int? geranAnrArfcnNum { get; set; }
 
         public string geranAnrArfcn { get; set; }
+
+        public int? eutranMeasParas_clbInterFreqPriority { get; set; }
+
+        public int? qosCfgBySpeedIndSwchUl { get; set; }
+
+        public int? eutranMeasParas_interFreqCASCInd { get; set; }
+
+        public int? eutranMeasParas_scellFreqPriority { get; set; }
+
+        public int? eutranMeasParas_interFreqANRDelInd { get; set; }
+
+        public int? eutranMeasParas_caReselInterFreqPriority { get; set; }
+
+        public int? eutranMeasParas_overlapDifferRSRPThd { get; set; }
+
+        public int? intraRATPingPongHOSwch { get; set; }
+
+        public int? maxUserNum4Overlap { get; set; }
+
+        public int? srvccPingPongHODetTimeLen { get; set; }
+
+        public int? maxSRVCCPingPongHONum { get; set; }
+
+        public int? srvccInterFMeasStrategy { get; set; }
+
+        public int? srvccMeasStrategy { get; set; }
+
+        public int? gsmSRVCCMeasStrategy { get; set; }
+
+        public int? srvccPingPongHOSwch { get; set; }
+
+        public int? perQCIStrategyGrpCfg { get; set; }
+
+        public int? overlapSrvRSRPThr { get; set; }
+
+        public int? trainOutjudgeThr { get; set; }
+
+        public int? intraRATPingPongHODetTimeLen { get; set; }
+
+        public int? maxIntraRATPingPongHONum { get; set; }
+
+        public int? lowSpeedThr { get; set; }
+
+        public int? qosCfgBySpeedIndSwchDl { get; set; }
+
+        public int? speedJudgeSwch { get; set; }
+
+        public int? interRatCdmaPeriodMeasSwch { get; set; }
+
+        public int? trainInjudgeThr { get; set; }
+
+        public int? hoBaseServiceSwch { get; set; }
+
+        public int? caReselIntraFreqPriority { get; set; }
+
+        public int? highSpeedThr { get; set; }
+
+        public int? intraRATUnkPCIRedSwch { get; set; }
+
+        public int? crsRsrp6RBSwch { get; set; }
     }
 }

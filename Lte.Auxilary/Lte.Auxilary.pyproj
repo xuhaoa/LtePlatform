@@ -259,6 +259,7 @@
     <Content Include="Db\sp_get4GFileContentsRasterConsidered.sql" />
     <Content Include="Db\SQLQuery1.sql" />
     <Content Include="Db\SQLQuery2.sql" />
+    <Content Include="Db\SQLQuery3.sql" />
     <Content Include="huawei_download\huawei_download_mre.sh">
       <SubType>Code</SubType>
     </Content>

@@ -1,6 +1,6 @@
-﻿--DROP TABLE [CDMA_0601-110248锦龙医药dt_2_All]
+﻿DROP TABLE [佰德广场卜蜂莲花室外4G-1_0712-153103660_UE1_port1_0815110103]
 
-SELECT * FROM [CDMA_0601-143131-1222_2_All]
+SELECT * FROM [佰德广场卜蜂莲花室外4G-1_0712-153103660_UE1_port1_0815110103]
 
 INSERT INTO [CDMA_0601-110248锦龙医药dt_2_All] 
 ( [rasterNum],[testTime],[lon],[lat],[refPN],[EcIo],[rxAGC],[txAGC],[txPower],[txGain]) 

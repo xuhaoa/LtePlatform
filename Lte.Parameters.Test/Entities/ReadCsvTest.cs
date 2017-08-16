@@ -270,6 +270,30 @@ namespace Lte.Parameters.Test.Entities
         }
 
         [Test]
+        public void Test_Merge_4G_Dingli()
+        {
+            var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var csvFilesDirectory = Path.Combine(testDirectory, "CsvFiles");
+            var path = Path.Combine(csvFilesDirectory, "佰德广场卜蜂莲花室外4G-1_0712-153103660_UE1_port1_0815110103.csv");
+
+            var reader = new StreamReader(path);
+            var infos = CsvContext.Read<FileRecord4GDingli>(reader, CsvFileDescription.CommaDescription).ToList();
+            var filterInfos =
+                infos.Where(x => x.Longtitute != null && x.Lattitute != null).ToList();
+            var stats = filterInfos.MergeRecords();
+            Assert.AreEqual(stats.Count, 143);
+            Assert.AreEqual(stats[0].TestTimeString, "2017-7-12 15:31:28.970");
+            Assert.AreEqual((double)stats[1].Rsrp, -85.859247311828, 1e-6);
+            Assert.AreEqual((double)stats[1].Sinr, 3.7878064516129029, 1e-6);
+            Assert.AreEqual((double)stats[2].Rsrp, -91.965, 1e-6);
+            Assert.AreEqual((double)stats[2].Sinr, 2.2245, 1e-6);
+            Assert.AreEqual((double)stats[3].Rsrp, -92.06, 1e-6);
+            Assert.AreEqual((double)stats[3].Sinr, 0.6, 1e-6);
+            Assert.AreEqual((double)stats[3].PdcpThroughputDl, 9578.875, 1e-6);
+            Assert.AreEqual((double)stats[6].PdcpThroughputDl, 24741.0078125, 1e-6);
+        }
+
+        [Test]
         public void BasicTest()
         {
             var list = new List<FileRecord2GCsv>();
