@@ -1,1 +1,1 @@
-﻿angular.module("myApp", ['home.root', 'home.route', 'home.station', 'home.menu', 'home.network']);
+﻿angular.module("myApp", ['home.root', 'home.route', 'home.station', 'home.menu', 'home.network', 'home.mr']);

@@ -901,6 +901,7 @@
     <Content Include="Scripts\app\Gruntfile.js" />
     <Content Include="Scripts\app\home.combined.js" />
     <Content Include="Scripts\app\home.menu.js" />
+    <Content Include="Scripts\app\home.mr.js" />
     <Content Include="Scripts\app\home.network.js" />
     <Content Include="Scripts\app\home.root.js" />
     <Content Include="Scripts\app\home.route.js" />
@@ -1852,10 +1853,6 @@
     <Content Include="Scripts\angular-ui\ui-utils-ieshiv.min.js" />
     <Content Include="Scripts\angular-ui\ui-utils.js" />
     <Content Include="Scripts\angular-ui\ui-utils.min.js" />
-    <Content Include="Scripts\app\base64-string.js" />
-    <Content Include="Scripts\app\html5csv.js" />
-    <Content Include="Scripts\app\lz-string.js" />
-    <Content Include="Scripts\app\lz-string.min.js" />
     <Content Include="Scripts\baidu\plugins\baidu.tangram.js" />
     <Content Include="Scripts\baidu\plugins\InfoBox.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
