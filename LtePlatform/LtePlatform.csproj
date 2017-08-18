@@ -2022,6 +2022,7 @@
     <Content Include="appViews\Parameters\QueryMap.html" />
     <Content Include="appViews\GeneralMenu.html" />
     <Content Include="appViews\Rutrace\Interference\MatchCellDialog.html" />
+    <None Include="Web.20170818.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
