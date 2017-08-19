@@ -77,6 +77,9 @@ namespace Lte.Evaluations.ViewModels.Basic
         [MemberDoc("LTE小区总数")]
         public int TotalLteCells { get; set; }
 
+        [MemberDoc("NB-IoT小区总数")]
+        public int TotalNbIotCells { get; set; }
+
         [MemberDoc("CDMA基站总数")]
         public int TotalCdmaBts { get; set; }
 

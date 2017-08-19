@@ -338,18 +338,19 @@ namespace Lte.Evaluations.DataService.Basic
                 x.TownId,
                 x.BtsId
             });
-            var cellENodebIds = _cellRepository.GetAllInUseList().Select(x => x.ENodebId);
+            var cellENodebs = _cellRepository.GetAllInUseList();
             var cdmaCellBtsIds = _cdmaCellRepository.GetAllInUseList().Select(x => x.BtsId);
             return (from town in _repository.GetAllList(city, district)
                     let eNodebs = eNodebTownIds.Where(x => x.TownId == town.Id)
                     let btss = btsTownIds.Where(x => x.TownId == town.Id)
-                    let cells = (from e in eNodebs join c in cellENodebIds on e.ENodebId equals c select c)
+                    let cells = (from e in eNodebs join c in cellENodebs on e.ENodebId equals c.ENodebId select c)
                     let cdmaCells = (from b in btss join c in cdmaCellBtsIds on b.BtsId equals c select c)
                     select new TownStat
                     {
                         Town = town.TownName,
                         TotalLteENodebs = eNodebs.Count(),
-                        TotalLteCells = cells.Count(),
+                        TotalLteCells = cells.Count(x => x.SectorId < 80),
+                        TotalNbIotCells = cells.Count(x => x.SectorId >= 80),
                         TotalCdmaBts = btss.Count(),
                         TotalCdmaCells = cdmaCells.Count()
                     }).ToList();

@@ -545,16 +545,18 @@
                                 angular.extend(stat, town);
                                 baiduMapService.drawCustomizeLabel(stat.longtitute,
                                     stat.lattitute + 0.005,
-                                    stat.cityName + stat.districtName + stat.townName,
+                                    stat.districtName + stat.townName,
                                     'LTE基站个数:' +
                                     stat.totalLteENodebs +
                                     '<br/>LTE小区个数:' +
                                     stat.totalLteCells +
+                                    '<br/>NB-IoT小区个数:' +
+                                    stat.totalNbIotCells +
                                     '<br/>CDMA基站个数:' +
                                     stat.totalCdmaBts +
                                     '<br/>CDMA小区个数:' +
                                     stat.totalCdmaCells,
-                                    4);
+                                    5);
                                 var marker = baiduMapService.generateIconMarker(stat.longtitute,
                                     stat.lattitute,
                                     "/Content/Images/Hotmap/site_or.png");
