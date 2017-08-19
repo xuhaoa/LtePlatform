@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common;
 using Lte.Domain.LinqToCsv.Context;
@@ -197,10 +198,17 @@ namespace Lte.Evaluations.DataService.Kpi
             if (fileExisted) return "数据文件已存在于数据库中。请确认是否正确。";
             var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
             var infos = CsvContext.Read<FileRecord2GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
+            if (infos.FirstOrDefault(x => x.EcIo != null) == null)
+            {
+                var dingliInfos= CsvContext.Read<FileRecord2GDingli>(reader, CsvFileDescription.CommaDescription).ToList();
+                if (dingliInfos.FirstOrDefault(x => x.EcIo != null) == null)
+                    throw new Exception("不是有效的2G数据文件！");
+                infos = dingliInfos.MapTo<List<FileRecord2GCsv>>();
+            }
             reader.Close();
             var filterInfos =
                 infos.Where(x => x.Longtitute != null && x.Lattitute != null).ToList();
-            if (!filterInfos.Any()) return "无数据或格式错误！";
+            if (!filterInfos.Any()) throw new Exception("无数据或格式错误！");
             _dtFileInfoRepository.UpdateCsvFileInfo(tableName, filterInfos[0].StatTime);
             var stats = filterInfos.MergeRecords();
             _rasterTestInfoRepository.UpdateRasterInfo(stats, tableName, "2G");

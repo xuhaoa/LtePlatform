@@ -403,6 +403,29 @@ describe('underscore collection tests', function() {
         it('found the first "2" and broke the loop', function() {
             var result = _.find([1, 2, 3], function(num) { return num * 2 === 4; });
             expect(result).toEqual(2);
+            result = _.find([
+                    {
+                        longtitute: null,
+                        lattitute: 1
+                    }, {
+                        longtitute: 2,
+                        lattitute: null
+                    }, {
+                        longtitute: 3,
+                        lattitute: 4
+                    }, {
+                        longtitute: null,
+                        lattitute: null
+                    }, {
+                        longtitute: 5,
+                        lattitute: 6
+                    }
+                ],
+                function (stat) { return stat.longtitute && stat.lattitute; });
+            expect(result).toEqual({
+                longtitute: 3,
+                lattitute: 4
+            });
         });
 
         it('works on objects', function() {

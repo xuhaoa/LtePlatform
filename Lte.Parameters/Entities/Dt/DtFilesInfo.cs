@@ -12,12 +12,18 @@ using Lte.Domain.Regular;
 
 namespace Lte.Parameters.Entities.Dt
 {
+    [AutoMapFrom(typeof(FileRecord2GDingli))]
     public class FileRecord2GCsv : IGeoPoint<double?>, IPn, IStatTime
     {
-        public DateTime ComputerTime { get; set; }
+        public string ComputerTime { get; set; }
 
-        [CsvColumn(Name = "HandsetTime")]
-        public DateTime StatTime { get; set; }
+        public DateTime StatTime
+        {
+            get { return ComputerTime.ConvertToDateTime(DateTime.Now); }
+            set { ComputerTime = value.ToString(CultureInfo.InvariantCulture); }
+        }
+
+        public string TestTimeString => StatTime.ToString("yyyy-M-d HH:mm:ss.fff");
 
         [CsvColumn(Name = "Longitude")]
         public double? Longtitute { get; set; }
@@ -48,6 +54,43 @@ namespace Lte.Parameters.Entities.Dt
         public double? TxPower { get; set; }
 
         [CsvColumn(Name = "Tx Gain Adj")]
+        public double? TxGain { get; set; }
+    }
+
+    public class FileRecord2GDingli : IGeoPoint<double?>, IPn, IStatTime
+    {
+        public string ComputerTime { get; set; }
+
+        public DateTime StatTime
+        {
+            get { return ComputerTime.ConvertToDateTime(DateTime.Now); }
+            set { ComputerTime = value.ToString(CultureInfo.InvariantCulture); }
+        }
+
+        public string TestTimeString => StatTime.ToString("yyyy-M-d HH:mm:ss.fff");
+
+        [CsvColumn(Name = "Longitude")]
+        public double? Longtitute { get; set; }
+
+        [CsvColumn(Name = "Latitude")]
+        public double? Lattitute { get; set; }
+        
+        [CsvColumn(Name = "CDMA RxAGC")]
+        public double? RxAgc { get; set; }
+
+        [CsvColumn(Name = "CDMA TxAGC")]
+        public double? TxAgc { get; set; }
+
+        [CsvColumn(Name = "CDMA Total Ec/Io")]
+        public double? EcIo { get; set; }
+
+        [CsvColumn(Name = "CDMA Reference PN")]
+        public double? Pn { get; set; }
+
+        [CsvColumn(Name = "CDMA TxPower")]
+        public double? TxPower { get; set; }
+
+        [CsvColumn(Name = "CDMA Tx Gain Adj")]
         public double? TxGain { get; set; }
     }
 
@@ -95,10 +138,15 @@ namespace Lte.Parameters.Entities.Dt
 
     public class FileRecord3GCsv : IGeoPoint<double?>, IPn, IStatTime
     {
-        public DateTime ComputerTime { get; set; }
+        public string ComputerTime { get; set; }
+        
+        public DateTime StatTime
+        {
+            get { return ComputerTime.ConvertToDateTime(DateTime.Now); }
+            set { ComputerTime = value.ToString(CultureInfo.InvariantCulture); }
+        }
 
-        [CsvColumn(Name = "HandsetTime")]
-        public DateTime StatTime { get; set; }
+        public string TestTimeString => StatTime.ToString("yyyy-M-d HH:mm:ss.fff");
 
         [CsvColumn(Name = "Longitude")]
         public double? Longtitute { get; set; }
@@ -271,7 +319,7 @@ namespace Lte.Parameters.Entities.Dt
 
         public DateTime StatTime
         {
-            get { return ("20" + ComputerTime).ConvertToDateTime(DateTime.Now); }
+            get { return ComputerTime.ConvertToDateTime(DateTime.Now); }
             set { ComputerTime = value.ToString(CultureInfo.InvariantCulture); }
         }
 
@@ -527,7 +575,7 @@ namespace Lte.Parameters.Entities.Dt
                         Pn = (short?) subList.FirstOrDefault(x => x.Pn != null)?.Pn,
                         RxAgc = subList.Where(x => x.RxAgc != null).Average(x => x.RxAgc),
                         TxAgc = subList.Where(x => x.TxAgc != null).Average(x => x.TxAgc),
-                        TestTimeString = subList[0].StatTime.ToString("yyyy-M-d HH:mm:ss.fff"),
+                        TestTimeString = subList[0].TestTimeString,
                         TxGain = subList.Where(x => x.TxGain != null).Average(x => x.TxGain),
                         TxPower = subList.Where(x => x.TxPower != null).Average(x => x.TxPower),
                         RasterNum = (short)((short)((lat - 22.64409) / 0.00895) * 104 + (short)((lon - 112.387654) / 0.0098))
@@ -552,7 +600,7 @@ namespace Lte.Parameters.Entities.Dt
                         RxAgc1 = subList.Where(x => x.RxAgc1 != null).Average(x => x.RxAgc1),
                         RlpThroughput = (int?) subList.Where(x => x.RlpThroughput != null).Average(x => x.RlpThroughput),
                         TxAgc = subList.Where(x => x.TxAgc != null).Average(x => x.TxAgc),
-                        TestTimeString = subList[0].StatTime.ToString("yyyy-M-d HH:mm:ss.fff"),
+                        TestTimeString = subList[0].TestTimeString,
                         TotalCi = subList.Where(x => x.TotalCi != null).Average(x => x.TotalCi),
                         DrcValue = (int?) subList.Where(x => x.DrcValue != null).Average(x => x.DrcValue),
                         Sinr = subList.Where(x => x.Sinr != null).Average(x => x.Sinr),

@@ -1,4 +1,5 @@
-﻿using Lte.Domain.Regular;
+﻿using System;
+using Lte.Domain.Regular;
 using NUnit.Framework;
 
 namespace Lte.Domain.Test.Regular
@@ -27,6 +28,13 @@ namespace Lte.Domain.Test.Regular
         public void Test_GetFirstDateByString(string source, string result)
         {
             Assert.AreEqual(source.GetFirstDateByString(), result);
+        }
+
+        [TestCase("17-07-19 11:04:06.507", "2017-7-19 11:04:06.507")]
+        [TestCase("2017-07-02 15:00:49.140", "2017-7-2 15:00:49.140")]
+        public void Test_ConvertToDateTime(string source, string dest)
+        {
+            Assert.AreEqual(source.ConvertToDateTime(DateTime.Now).ToString("yyyy-M-d HH:mm:ss.fff"), dest);
         }
 
         [TestCase("2012-12-12", "2012-12-12")]

@@ -101,7 +101,6 @@ namespace Lte.Parameters.Test.Entities
             var legalInfos =
                 infos.Where(x => x.Longtitute != null && x.Lattitute != null && x.RxAgc != null && x.EcIo != null);
             Assert.AreEqual(legalInfos.Count(), 212);
-            Assert.AreEqual(legalInfos.ElementAt(0).ComputerTime.Date, new DateTime(2014,1,14));
         }
 
         [Test]

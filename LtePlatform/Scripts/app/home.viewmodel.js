@@ -2601,11 +2601,12 @@ angular.module('home.network', ['app.common'])
                     '按照精确覆盖率升序',
                     city,
                     district).then(function(result) {
-                    networkElementService.queryCellSectors(result).then(function(cells) {
-                        baiduQueryService.transformToBaidu(cells[0].longtitute, cells[0].lattitute)
+                        networkElementService.queryCellSectors(result).then(function (cells) {
+                            var validCoor = _.find(cells, function(stat) { return stat.longtitute && stat.lattitute; });
+                            baiduQueryService.transformToBaidu(validCoor.longtitute, validCoor.lattitute)
                             .then(function(coors) {
-                                var xOffset = coors.x - cells[0].longtitute;
-                                var yOffset = coors.y - cells[0].lattitute;
+                                var xOffset = coors.x - validCoor.longtitute;
+                                var yOffset = coors.y - validCoor.lattitute;
                                 angular.forEach(cells,
                                     function(cell) {
                                         cell.longtitute += xOffset;
