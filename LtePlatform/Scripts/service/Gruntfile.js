@@ -1,13 +1,6 @@
 ﻿module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        uglify: {
-            "bar": {
-                "files": {
-                    'url/core.min.js': ['url/core.js']
-                }
-            }
-        },
         concat: {
             "foo": {
                 "files": {
@@ -16,7 +9,8 @@
                         'url/app.url.js'
                     ],
                     'app/region.js': [
-                        'region/basic.js', 'region/import.js', 'region/authorize.js', 'region/college.js',
+                        'region/basic.js', 'region/mongo.js', 'region/kpi.js', 'region/import.js',
+                        'region/authorize.js', 'region/college.js',
                         'region/network.js', 'region/app.region.js'
                     ],
                     'app/kpi.js': [
@@ -34,7 +28,6 @@
             }
         }
     });
-    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.registerTask('default', ['uglify', 'concat']);
+    grunt.registerTask('default', ['concat']);
 };

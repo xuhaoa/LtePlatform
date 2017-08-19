@@ -1,11 +1,9 @@
 ﻿using Lte.Evaluations.DataService;
-using Lte.Evaluations.ViewModels;
 using Lte.Parameters.Entities.Dt;
 using LtePlatform.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
-using Lte.Domain.Common.Geo;
 using Lte.Evaluations.DataService.Mr;
 using Lte.MySqlFramework.Entities;
 
@@ -341,6 +339,7 @@ namespace LtePlatform.Controllers.Dt
         }
     }
 
+    [ApiControl("道路测试文件联合信息查询控制器")]
     public class RoadTestInfoController : ApiController
     {
         private readonly TownTestInfoService _service;
@@ -383,6 +382,12 @@ namespace LtePlatform.Controllers.Dt
         public IEnumerable<AreaTestDateView> Get()
         {
             return _service.QueryAllList();
+        }
+
+        [HttpGet]
+        public int Get(DateTime testDate, string networkType, int townId)
+        {
+            return _service.UpdateLastDate(testDate, networkType, townId);
         }
     }
 

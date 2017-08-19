@@ -1,1 +1,5 @@
-﻿angular.module('myApp.region', ['region.basic', 'region.import', 'region.authorize', 'region.college', 'region.network']);
+﻿angular.module('myApp.region',
+[
+    'region.basic', 'region.mongo', 'region.kpi', 'region.import', 'region.authorize', 'region.college',
+    'region.network'
+]);

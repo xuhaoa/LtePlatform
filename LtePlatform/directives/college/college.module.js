@@ -481,7 +481,6 @@
         };
         $scope.updateDistance = function(file) {
             collegeService.updateCsvFileDistance(file).then(function (result) {
-
             });
         };
     })
@@ -495,7 +494,7 @@
             argumentName: 'items'
         }, $compile);
     })
-    .controller('DtInfoListController', function ($scope, collegeService, generalMapService) {
+    .controller('DtInfoListController', function ($scope, collegeService, generalMapService, coverageService) {
         $scope.gridOptions = {
             paginationPageSizes: [20, 40, 60],
             paginationPageSize: 20,
@@ -574,7 +573,10 @@
                 angular.forEach(results,
                     function(info) {
                         collegeService.updateAreaDtInfo(info).then(function(result) {
+                            coverageService.updateTownTestDate(file.testDate, file.networkType, info.townId)
+                                .then(function(count) {
 
+                                });
                         });
                     });
             });

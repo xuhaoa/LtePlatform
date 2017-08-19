@@ -1760,7 +1760,6 @@
     <Content Include="Scripts\service\kpi\app.kpi.js" />
     <Content Include="Scripts\service\app\region.js" />
     <Content Include="Scripts\service\app\url.js" />
-    <Content Include="Scripts\service\app\url.min.js" />
     <Content Include="Scripts\service\kpi\college.js" />
     <Content Include="Scripts\service\kpi\core.js" />
     <Content Include="Scripts\service\kpi\coverage.js" />
@@ -1771,6 +1770,8 @@
     <Content Include="Scripts\service\region\basic.js" />
     <Content Include="Scripts\service\region\college.js" />
     <Content Include="Scripts\service\region\import.js" />
+    <Content Include="Scripts\service\region\kpi.js" />
+    <Content Include="Scripts\service\region\mongo.js" />
     <Content Include="Scripts\service\region\network.js" />
     <Content Include="Scripts\service\topic\basic.js" />
     <Content Include="Scripts\service\topic\college.js" />

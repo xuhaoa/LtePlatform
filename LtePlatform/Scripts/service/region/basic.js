@@ -1,114 +1,17 @@
 ﻿angular.module('region.basic', ['app.core'])
-    .factory('kpiPreciseService',
-        function(generalHttpService) {
-            return {
-                getRecentPreciseRegionKpi: function(city, initialDate) {
-                    return generalHttpService.getApiData('PreciseRegion',
-                    {
-                        city: city,
-                        statDate: initialDate
-                    });
-                },
-                getDateSpanPreciseRegionKpi: function(city, beginDate, endDate) {
-                    return generalHttpService.getApiData('PreciseRegion',
-                    {
-                        city: city,
-                        begin: beginDate,
-                        end: endDate
-                    });
-                },
-                getRecentRrcRegionKpi: function (city, initialDate) {
-                    return generalHttpService.getApiData('RrcRegion',
-                        {
-                            city: city,
-                            statDate: initialDate
-                        });
-                },
-                getDateSpanRrcRegionKpi: function (city, beginDate, endDate) {
-                    return generalHttpService.getApiData('RrcRegion',
-                        {
-                            city: city,
-                            begin: beginDate,
-                            end: endDate
-                        });
-                },
-                getDateSpanFlowRegionKpi: function(city, beginDate, endDate) {
-                    return generalHttpService.getApiData('TownFlow',
-                    {
-                        city: city,
-                        begin: beginDate,
-                        end: endDate
-                    });
-                },
-                getOrderSelection: function() {
-                    return generalHttpService.getApiData('KpiOptions',
-                    {
-                        key: "OrderPreciseStatPolicy"
-                    });
-                },
-                getHotSpotTypeSelection: function() {
-                    return generalHttpService.getApiData('KpiOptions',
-                    {
-                        key: "HotspotType"
-                    });
-                },
-                queryTopKpis: function(begin, end, topCount, orderSelection) {
-                    return generalHttpService.getApiData('PreciseStat',
-                    {
-                        'begin': begin,
-                        'end': end,
-                        'topCount': topCount,
-                        'orderSelection': orderSelection
-                    });
-                },
-                queryTopKpisInDistrict: function(begin, end, topCount, orderSelection, city, district) {
-                    return generalHttpService.getApiData('PreciseStat',
-                    {
-                        'begin': begin,
-                        'end': end,
-                        'topCount': topCount,
-                        'orderSelection': orderSelection,
-                        city: city,
-                        district: district
-                    });
-                },
-                queryTopDownSwitchInDistrict: function(begin, end, topCount, city, district) {
-                    return generalHttpService.getApiData('TopDownSwitch',
-                    {
-                        begin: begin,
-                        end: end,
-                        topCount: topCount,
-                        city: city,
-                        district: district
-                    });
-                },
-                queryTopRank2InDistrict: function(begin, end, topCount, city, district) {
-                    return generalHttpService.getApiData('TopRank2',
-                    {
-                        begin: begin,
-                        end: end,
-                        topCount: topCount,
-                        city: city,
-                        district: district
-                    });
-                },
-                queryTopRrcFailInDistrict: function(begin, end, topCount, city, district) {
-                    return generalHttpService.getApiData('TopRrcFail',
-                    {
-                        begin: begin,
-                        end: end,
-                        topCount: topCount,
-                        city: city,
-                        district: district
-                    });
-                }
-            };
-        })
     .factory('coverageService',
         function(generalHttpService) {
             return {
                 queryAreaTestDate: function() {
                     return generalHttpService.getApiData('AreaTestDate', {});
+                },
+                updateTownTestDate: function(testDate, networkType, townId) {
+                    return generalHttpService.getApiData('AreaTestDate',
+                    {
+                        testDate: testDate,
+                        networkType: networkType,
+                        townId: townId
+                    });
                 },
                 queryAgisDtPoints: function(begin, end) {
                     return generalHttpService.getApiData('AgisDtPoints',
@@ -411,25 +314,6 @@
                     }
                 ]
             }
-        })
-    .factory('neighborMongoService',
-        function(generalHttpService) {
-            return {
-                queryNeighbors: function(eNodebId, sectorId) {
-                    return generalHttpService.getApiData('NeighborCellMongo',
-                    {
-                        eNodebId: eNodebId,
-                        sectorId: sectorId
-                    });
-                },
-                queryReverseNeighbors: function(destENodebId, destSectorId) {
-                    return generalHttpService.getApiData('NeighborCellMongo',
-                    {
-                        destENodebId: destENodebId,
-                        destSectorId: destSectorId
-                    });
-                }
-            };
         })
     .factory('preciseInterferenceService',
         function(generalHttpService) {
@@ -772,79 +656,6 @@
                 }
             }
         })
-    .factory('cellHuaweiMongoService',
-        function(generalHttpService) {
-            return {
-                queryCellParameters: function(eNodebId, sectorId) {
-                    return generalHttpService.getApiData('CellHuaweiMongo',
-                    {
-                        eNodebId: eNodebId,
-                        sectorId: sectorId
-                    });
-                },
-                queryLocalCellDef: function(eNodebId) {
-                    return generalHttpService.getApiData('CellHuaweiMongo',
-                    {
-                        eNodebId: eNodebId
-                    });
-                }
-            };
-        })
-    .factory('cellPowerService',
-        function(generalHttpService) {
-            return {
-                queryCellParameters: function(eNodebId, sectorId) {
-                    return generalHttpService.getApiData('CellPower',
-                    {
-                        eNodebId: eNodebId,
-                        sectorId: sectorId
-                    });
-                },
-                queryUlOpenLoopPowerControll: function(eNodebId, sectorId) {
-                    return generalHttpService.getApiData('UplinkOpenLoopPowerControl',
-                    {
-                        eNodebId: eNodebId,
-                        sectorId: sectorId
-                    });
-                }
-            };
-        })
-    .factory('intraFreqHoService',
-        function(generalHttpService) {
-            return {
-                queryENodebParameters: function(eNodebId) {
-                    return generalHttpService.getApiData('IntraFreqHo',
-                    {
-                        eNodebId: eNodebId
-                    });
-                },
-                queryCellParameters: function(eNodebId, sectorId) {
-                    return generalHttpService.getApiData('IntraFreqHo',
-                    {
-                        eNodebId: eNodebId,
-                        sectorId: sectorId
-                    });
-                }
-            };
-        })
-    .factory('interFreqHoService',
-        function(generalHttpService) {
-            return {
-                queryENodebParameters: function(eNodebId) {
-                    return generalHttpService.getApiData('InterFreqHo',
-                    {
-                        eNodebId: eNodebId
-                    });
-                },
-                queryCellParameters: function(eNodebId, sectorId) {
-                    return generalHttpService.getApiData('InterFreqHo',
-                    {
-                        eNodebId: eNodebId,
-                        sectorId: sectorId
-                    });
-                }
-            };
-        })
     .factory('downSwitchService',
         function(generalHttpService, appUrlService) {
             return {
@@ -1141,83 +952,4 @@
                     });
                 }
             };
-        })
-    .factory('kpi2GService',
-        function(generalHttpService) {
-            return {
-                queryDayStats: function(city, initialDate) {
-                    return generalHttpService.getApiData('KpiDataList',
-                    {
-                        city: city,
-                        statDate: initialDate
-                    });
-                },
-                queryKpiOptions: function() {
-                    return generalHttpService.getApiData('KpiDataList', {});
-                },
-                queryKpiTrend: function(city, begin, end) {
-                    return generalHttpService.getApiData('KpiDataList',
-                    {
-                        city: city,
-                        beginDate: begin,
-                        endDate: end
-                    });
-                }
-            };
-        })
-    .factory('drop2GService',
-        function(generalHttpService) {
-            return {
-                queryDayStats: function(city, initialDate) {
-                    return generalHttpService.getApiData('TopDrop2G',
-                    {
-                        city: city,
-                        statDate: initialDate
-                    });
-                },
-                queryOrderPolicy: function() {
-                    return generalHttpService.getApiData('KpiOptions',
-                    {
-                        key: "OrderTopDrop2GPolicy"
-                    });
-                },
-                queryCellTrend: function(begin, end, city, policy, topCount) {
-                    return generalHttpService.getApiData('TopDrop2G',
-                    {
-                        begin: begin,
-                        end: end,
-                        city: city,
-                        policy: policy,
-                        topCount: topCount
-                    });
-                }
-            }
-        })
-    .factory('connection3GService',
-        function(generalHttpService) {
-            return {
-                queryDayStats: function(city, initialDate) {
-                    return generalHttpService.getApiData('TopConnection3G',
-                    {
-                        city: city,
-                        statDate: initialDate
-                    });
-                },
-                queryOrderPolicy: function() {
-                    return generalHttpService.getApiData('KpiOptions',
-                    {
-                        key: "OrderTopConnection3GPolicy"
-                    });
-                },
-                queryCellTrend: function(begin, end, city, policy, topCount) {
-                    return generalHttpService.getApiData('TopConnection3G',
-                    {
-                        begin: begin,
-                        end: end,
-                        city: city,
-                        policy: policy,
-                        topCount: topCount
-                    });
-                }
-            }
         });
