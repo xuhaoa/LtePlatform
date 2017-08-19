@@ -1,1 +1,5 @@
-﻿angular.module("myApp", ['home.root', 'home.route', 'home.station', 'home.menu', 'home.network', 'home.mr', 'network.theme']);
+﻿angular.module("myApp",
+[
+    'home.root', 'home.route', 'home.station', 'home.menu', 'home.complain', 'home.network', 'home.mr', 'home.kpi',
+    'network.theme'
+]);

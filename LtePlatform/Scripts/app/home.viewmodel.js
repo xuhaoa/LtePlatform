@@ -1730,24 +1730,6 @@ angular.module('home.menu', ['app.common'])
                 ]
             };
         })
-    .controller('menu.complain',
-        function($scope, appUrlService) {
-            $scope.menuItem = {
-                displayName: "投诉管理",
-                subItems: [
-                    {
-                        displayName: "统计分析",
-                        url: '/#/complain'
-                    }, {
-                        displayName: "手机伴侣",
-                        url: '/#/micro'
-                    }, {
-                        displayName: "在线支撑",
-                        url: appUrlService.getCustomerHost() + 'IndexOfComplaints.aspx'
-                    }
-                ]
-            };
-        })
     .controller('menu.college',
         function($scope) {
             $scope.menuItem = {
@@ -1759,32 +1741,6 @@ angular.module('home.menu', ['app.common'])
                     }, {
                         displayName: "校园覆盖",
                         url: '/#/college-coverage'
-                    }
-                ]
-            };
-        })
-    .controller('menu.kpi',
-        function($scope, appUrlService) {
-            $scope.menuItem = {
-                displayName: "指标优化",
-                subItems: [
-                    {
-                        displayName: "指标总览",
-                        url: "/#/kpi",
-                        tooltip: "4G总体指标"
-                    }, {
-                        displayName: "质量分析",
-                        url: '/#/quality',
-                        tooltip: "4G网络质量分析与日常优化"
-                    }, {
-                        displayName: "专题优化",
-                        url: '/#/topic'
-                    }, {
-                        displayName: "容量优化",
-                        url: appUrlService.getPlanUrlHost() + 'erab'
-                    }, {
-                        displayName: "室分专项",
-                        url: appUrlService.getDistributionHost()
                     }
                 ]
             };
@@ -2177,97 +2133,6 @@ angular.module('home.network', ['app.common'])
                 parametersDialogService.manageCsvDtInfos($scope.longBeginDate, $scope.endDate);
             };
         })
-    .controller("home.complain",
-        function($scope,
-            baiduMapService,
-            dumpPreciseService,
-            complainService,
-            mapDialogService,
-            collegeMapService) {
-            baiduMapService.initializeMap("map", 11);
-            baiduMapService.addCityBoundary("佛山");
-
-            $scope.showDistrictComplains = function(district, color) {
-                var city = $scope.city.selected;
-                baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
-                $scope.legend.intervals.push({
-                    threshold: district,
-                    color: color
-                });
-                complainService.queryLastMonthOnlineListInOneDistrict($scope.endDate.value, city, district)
-                    .then(function(sites) {
-                        if (sites.length) {
-                            collegeMapService.showComplainItems(sites, color);
-                        }
-                    });
-            };
-            $scope.showOssWorkItem = function() {
-                $scope.legend.title = $scope.city.selected;
-                $scope.initializeLegend();
-                baiduMapService.clearOverlays();
-                $scope.currentView = "电子运维工单";
-                angular.forEach($scope.districts,
-                    function(district, $index) {
-                        $scope.showDistrictComplains(district, $scope.colors[$index]);
-                    });
-            };
-
-            $scope.showYesterdayItems = function() {
-                mapDialogService.showYesterdayComplainItems($scope.city.selected);
-            };
-            $scope.showMonthlyTrend = function() {
-                mapDialogService.showMonthComplainItems();
-            };
-
-            $scope.districts = [];
-            $scope.currentView = "电子运维工单";
-            $scope.$watch('city.selected',
-                function(city) {
-                    if (city) {
-                        $scope.legend.title = city;
-                        $scope.initializeLegend();
-                        dumpPreciseService.generateUsersDistrict(city,
-                            $scope.districts,
-                            function(district, $index) {
-                                $scope.showDistrictComplains(district, $scope.colors[$index]);
-                            });
-                    }
-                });
-
-        })
-    .controller("complain.micro",
-        function($scope, baiduMapService, alarmsService, dumpPreciseService, mapDialogService) {
-            baiduMapService.initializeMap("map", 11);
-            baiduMapService.addCityBoundary("佛山");
-
-            alarmsService.queryMicroItems().then(function(items) {
-                angular.forEach(items,
-                    function(item) {
-                        var marker = baiduMapService
-                            .generateIconMarker(item.longtitute, item.lattitute, "/Content/themes/baidu/address.png");
-                        baiduMapService.addOneMarkerToScope(marker,
-                            function(stat) {
-                                mapDialogService.showMicroAmpliferInfos(stat);
-                            },
-                            item);
-                    });
-            });
-
-            $scope.districts = [];
-
-            $scope.$watch('city.selected',
-                function(city) {
-                    if (city) {
-                        $scope.legend.title = city;
-                        $scope.initializeLegend();
-                        dumpPreciseService.generateUsersDistrict(city,
-                            $scope.districts,
-                            function(district, $index) {
-                                baiduMapService.addDistrictBoundary(district, $scope.colors[$index]);
-                            });
-                    }
-                });
-        })
     .controller("network.analysis",
         function($scope,
             baiduMapService,
@@ -2452,51 +2317,6 @@ angular.module('home.network', ['app.common'])
                 $scope.currentView = spots[0].name;
             });
         })
-    .controller("query.topic",
-        function($scope, baiduMapService, customerDialogService, basicImportService, mapDialogService) {
-            baiduMapService.initializeMap("map", 11);
-            baiduMapService.addCityBoundary("佛山");
-            $scope.query = function() {
-                mapDialogService.showHotSpotsInfo($scope.hotSpotList);
-            };
-
-            $scope.updateMap = function() {
-                basicImportService.queryAllHotSpots().then(function(result) {
-                    $scope.hotSpotList = result;
-                    angular.forEach(result,
-                        function(item) {
-                            baiduMapService.drawCustomizeLabel(item.longtitute,
-                                item.lattitute + 0.005,
-                                item.hotspotName,
-                                '地址:' + item.address + '<br/>类型:' + item.typeDescription + '<br/>说明:' + item.sourceName,
-                                3);
-                            var marker = baiduMapService.generateIconMarker(item.longtitute,
-                                item.lattitute,
-                                "/Content/Images/Hotmap/site_or.png");
-                            baiduMapService.addOneMarkerToScope(marker,
-                                function(stat) {
-                                    customerDialogService.modifyHotSpot(stat,
-                                        function() {
-                                            baiduMapService.switchMainMap();
-                                            baiduMapService.clearOverlays();
-                                            $scope.updateMap();
-                                        },
-                                        baiduMapService.switchMainMap);
-                                },
-                                item);
-                        });
-                });
-            };
-            $scope.addHotSpot = function() {
-                customerDialogService.constructHotSpot(function() {
-                        baiduMapService.switchMainMap();
-                        baiduMapService.clearOverlays();
-                        $scope.updateMap();
-                    },
-                    baiduMapService.switchMainMap);
-            };
-            $scope.updateMap();
-        })
     .controller("home.query",
         function($scope,
             baiduMapService,
@@ -2578,158 +2398,6 @@ angular.module('home.network', ['app.common'])
 
                     }
                 });
-        })
-    .controller("home.kpi",
-        function($scope,
-            baiduMapService,
-            collegeMapService,
-            dumpPreciseService,
-            kpiPreciseService,
-            networkElementService,
-            baiduQueryService,
-            neighborDialogService,
-            mapDialogService) {
-            baiduMapService.initializeMap("map", 11);
-            baiduMapService.addCityBoundary("佛山");
-            $scope.currentView = "精确覆盖率";
-
-            $scope.showPreciseRate = function(city, district, color) {
-                baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
-                kpiPreciseService.queryTopKpisInDistrict($scope.beginDate.value,
-                    $scope.endDate.value,
-                    10,
-                    '按照精确覆盖率升序',
-                    city,
-                    district).then(function(result) {
-                        networkElementService.queryCellSectors(result).then(function (cells) {
-                            var validCoor = _.find(cells, function(stat) { return stat.longtitute && stat.lattitute; });
-                            baiduQueryService.transformToBaidu(validCoor.longtitute, validCoor.lattitute)
-                            .then(function(coors) {
-                                var xOffset = coors.x - validCoor.longtitute;
-                                var yOffset = coors.y - validCoor.lattitute;
-                                angular.forEach(cells,
-                                    function(cell) {
-                                        cell.longtitute += xOffset;
-                                        cell.lattitute += yOffset;
-                                        var sectorTriangle = baiduMapService.generateSector(cell, "blue", 5);
-                                        baiduMapService
-                                            .addOneSectorToScope(sectorTriangle,
-                                                neighborDialogService.showPrecise,
-                                                cell);
-                                    });
-                            });
-                    });
-                });
-            };
-            $scope.showTopPrecise = function() {
-                $scope.currentView = "精确覆盖率";
-                baiduMapService.clearOverlays();
-                baiduMapService.addCityBoundary("佛山");
-                var city = $scope.city.selected;
-                angular.forEach($scope.districts,
-                    function(district, $index) {
-                        $scope.showPreciseRate(city, district, $scope.colors[$index]);
-                    });
-            };
-            $scope.showDownSwitchSite = function(city, district, color) {
-                baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
-                kpiPreciseService.queryTopDownSwitchInDistrict($scope.beginDate.value,
-                    $scope.endDate.value,
-                    10,
-                    city,
-                    district).then(function(result) {
-                    angular.forEach(result,
-                        function(item) {
-                            networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function(cell) {
-                                collegeMapService.showFlowCellSector(cell, item, $scope.beginDate, $scope.endDate)
-                            });
-                        });
-
-                });
-            };
-            $scope.showTopDownSwitch = function() {
-                $scope.currentView = "4G下切3G";
-                baiduMapService.clearOverlays();
-                baiduMapService.addCityBoundary("佛山");
-                var city = $scope.city.selected;
-                angular.forEach($scope.districts,
-                    function(district, $index) {
-                        $scope.showDownSwitchSite(city, district, $scope.colors[$index]);
-                    });
-            };
-            $scope.showRank2Site = function(city, district, color) {
-                baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
-                kpiPreciseService.queryTopRank2InDistrict($scope.beginDate.value,
-                    $scope.endDate.value,
-                    10,
-                    city,
-                    district).then(function(result) {
-                    angular.forEach(result,
-                        function(item) {
-                            networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function(cell) {
-                                collegeMapService.showFlowCellSector(cell, item, $scope.beginDate, $scope.endDate);
-                            });
-                        });
-                });
-            };
-            $scope.showTopScheduling = function() {
-                $scope.currentView = "4G双流比";
-                baiduMapService.clearOverlays();
-                baiduMapService.addCityBoundary("佛山");
-                var city = $scope.city.selected;
-                angular.forEach($scope.districts,
-                    function(district, $index) {
-                        $scope.showRank2Site(city, district, $scope.colors[$index]);
-                    });
-            };
-            $scope.showTopRrcSite = function(city, district, color) {
-                baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
-                kpiPreciseService.queryTopRrcFailInDistrict($scope.beginDate.value,
-                    $scope.endDate.value,
-                    10,
-                    city,
-                    district).then(function(result) {
-                    angular.forEach(result,
-                        function(item) {
-                            networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function(cell) {
-                                collegeMapService.showRrcCellSector(cell, item, $scope.beginDate, $scope.endDate);
-                            });
-                        });
-                });
-            };
-            $scope.showTopRrc = function() {
-                $scope.currentView = "RRC连接失败";
-                baiduMapService.clearOverlays();
-                baiduMapService.addCityBoundary("佛山");
-                var city = $scope.city.selected;
-                angular.forEach($scope.districts,
-                    function(district, $index) {
-                        $scope.showTopRrcSite(city, district, $scope.colors[$index]);
-                    });
-            };
-
-            $scope.showPreciseStats = function() {
-                mapDialogService.showPreciseTrend($scope.city, $scope.beginDate, $scope.endDate);
-            };
-            $scope.showRrcStats = function() {
-                mapDialogService.showRrcTrend($scope.city, $scope.beginDate, $scope.endDate);
-            };
-
-            $scope.districts = [];
-            dumpPreciseService.generateUsersDistrict($scope.city.selected || "佛山",
-                $scope.districts,
-                function(district, $index) {
-                    $scope.showPreciseRate($scope.city.selected || "佛山", district, $scope.colors[$index]);
-                });
-        })
-    .controller('kpi.quality',
-        function($scope, baiduMapService, workItemDialog) {
-            baiduMapService.initializeMap("map", 11);
-            baiduMapService.addCityBoundary("佛山");
-
-            $scope.showTodayKpi = function() {
-                workItemDialog.showTodayKpi($scope.city.selected);
-            }
         })
     .controller("home.plan",
         function($scope,
@@ -3031,6 +2699,340 @@ angular.module('home.network', ['app.common'])
                         });
                     }
                 });
+        });
+angular.module('home.complain', ['app.common'])
+    .controller('menu.complain',
+        function($scope, appUrlService) {
+            $scope.menuItem = {
+                displayName: "投诉管理",
+                subItems: [
+                    {
+                        displayName: "统计分析",
+                        url: '/#/complain'
+                    }, {
+                        displayName: "手机伴侣",
+                        url: '/#/micro'
+                    }, {
+                        displayName: "在线支撑",
+                        url: appUrlService.getCustomerHost() + 'IndexOfComplaints.aspx'
+                    }
+                ]
+            };
+        })
+    .controller("home.complain",
+        function($scope,
+            baiduMapService,
+            dumpPreciseService,
+            complainService,
+            mapDialogService,
+            collegeMapService) {
+            baiduMapService.initializeMap("map", 11);
+            baiduMapService.addCityBoundary("佛山");
+
+            $scope.showDistrictComplains = function(district, color) {
+                var city = $scope.city.selected;
+                baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
+                $scope.legend.intervals.push({
+                    threshold: district,
+                    color: color
+                });
+                complainService.queryLastMonthOnlineListInOneDistrict($scope.endDate.value, city, district)
+                    .then(function(sites) {
+                        if (sites.length) {
+                            collegeMapService.showComplainItems(sites, color);
+                        }
+                    });
+            };
+            $scope.showOssWorkItem = function() {
+                $scope.legend.title = $scope.city.selected;
+                $scope.initializeLegend();
+                baiduMapService.clearOverlays();
+                $scope.currentView = "电子运维工单";
+                angular.forEach($scope.districts,
+                    function(district, $index) {
+                        $scope.showDistrictComplains(district, $scope.colors[$index]);
+                    });
+            };
+
+            $scope.showYesterdayItems = function() {
+                mapDialogService.showYesterdayComplainItems($scope.city.selected);
+            };
+            $scope.showMonthlyTrend = function() {
+                mapDialogService.showMonthComplainItems();
+            };
+
+            $scope.districts = [];
+            $scope.currentView = "电子运维工单";
+            $scope.$watch('city.selected',
+                function(city) {
+                    if (city) {
+                        $scope.legend.title = city;
+                        $scope.initializeLegend();
+                        dumpPreciseService.generateUsersDistrict(city,
+                            $scope.districts,
+                            function(district, $index) {
+                                $scope.showDistrictComplains(district, $scope.colors[$index]);
+                            });
+                    }
+                });
+
+        })
+    .controller("complain.micro",
+        function($scope, baiduMapService, alarmsService, dumpPreciseService, mapDialogService) {
+            baiduMapService.initializeMap("map", 11);
+            baiduMapService.addCityBoundary("佛山");
+
+            alarmsService.queryMicroItems().then(function(items) {
+                angular.forEach(items,
+                    function(item) {
+                        var marker = baiduMapService
+                            .generateIconMarker(item.longtitute, item.lattitute, "/Content/themes/baidu/address.png");
+                        baiduMapService.addOneMarkerToScope(marker,
+                            function(stat) {
+                                mapDialogService.showMicroAmpliferInfos(stat);
+                            },
+                            item);
+                    });
+            });
+
+            $scope.districts = [];
+
+            $scope.$watch('city.selected',
+                function(city) {
+                    if (city) {
+                        $scope.legend.title = city;
+                        $scope.initializeLegend();
+                        dumpPreciseService.generateUsersDistrict(city,
+                            $scope.districts,
+                            function(district, $index) {
+                                baiduMapService.addDistrictBoundary(district, $scope.colors[$index]);
+                            });
+                    }
+                });
+        });
+angular.module('home.kpi', ['app.common'])
+    .controller('menu.kpi',
+        function($scope, appUrlService) {
+            $scope.menuItem = {
+                displayName: "指标优化",
+                subItems: [
+                    {
+                        displayName: "指标总览",
+                        url: "/#/kpi",
+                        tooltip: "4G总体指标"
+                    }, {
+                        displayName: "质量分析",
+                        url: '/#/quality',
+                        tooltip: "4G网络质量分析与日常优化"
+                    }, {
+                        displayName: "专题优化",
+                        url: '/#/topic'
+                    }, {
+                        displayName: "容量优化",
+                        url: appUrlService.getPlanUrlHost() + 'erab'
+                    }, {
+                        displayName: "室分专项",
+                        url: appUrlService.getDistributionHost()
+                    }
+                ]
+            };
+        })
+    .controller("home.kpi",
+        function($scope,
+            baiduMapService,
+            collegeMapService,
+            dumpPreciseService,
+            kpiPreciseService,
+            networkElementService,
+            baiduQueryService,
+            neighborDialogService,
+            mapDialogService) {
+            baiduMapService.initializeMap("map", 11);
+            baiduMapService.addCityBoundary("佛山");
+            $scope.currentView = "精确覆盖率";
+
+            $scope.showPreciseRate = function(city, district, color) {
+                baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
+                kpiPreciseService.queryTopKpisInDistrict($scope.beginDate.value,
+                    $scope.endDate.value,
+                    10,
+                    '按照精确覆盖率升序',
+                    city,
+                    district).then(function(result) {
+                    networkElementService.queryCellSectors(result).then(function(cells) {
+                        var validCoor = _.find(cells, function(stat) { return stat.longtitute && stat.lattitute; });
+                        baiduQueryService.transformToBaidu(validCoor.longtitute, validCoor.lattitute)
+                            .then(function(coors) {
+                                var xOffset = coors.x - validCoor.longtitute;
+                                var yOffset = coors.y - validCoor.lattitute;
+                                angular.forEach(cells,
+                                    function(cell) {
+                                        cell.longtitute += xOffset;
+                                        cell.lattitute += yOffset;
+                                        var sectorTriangle = baiduMapService.generateSector(cell, "blue", 5);
+                                        baiduMapService
+                                            .addOneSectorToScope(sectorTriangle,
+                                                neighborDialogService.showPrecise,
+                                                cell);
+                                    });
+                            });
+                    });
+                });
+            };
+            $scope.showTopPrecise = function() {
+                $scope.currentView = "精确覆盖率";
+                baiduMapService.clearOverlays();
+                baiduMapService.addCityBoundary("佛山");
+                var city = $scope.city.selected;
+                angular.forEach($scope.districts,
+                    function(district, $index) {
+                        $scope.showPreciseRate(city, district, $scope.colors[$index]);
+                    });
+            };
+            $scope.showDownSwitchSite = function(city, district, color) {
+                baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
+                kpiPreciseService.queryTopDownSwitchInDistrict($scope.beginDate.value,
+                    $scope.endDate.value,
+                    10,
+                    city,
+                    district).then(function(result) {
+                    angular.forEach(result,
+                        function(item) {
+                            networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function(cell) {
+                                collegeMapService.showFlowCellSector(cell, item, $scope.beginDate, $scope.endDate)
+                            });
+                        });
+
+                });
+            };
+            $scope.showTopDownSwitch = function() {
+                $scope.currentView = "4G下切3G";
+                baiduMapService.clearOverlays();
+                baiduMapService.addCityBoundary("佛山");
+                var city = $scope.city.selected;
+                angular.forEach($scope.districts,
+                    function(district, $index) {
+                        $scope.showDownSwitchSite(city, district, $scope.colors[$index]);
+                    });
+            };
+            $scope.showRank2Site = function(city, district, color) {
+                baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
+                kpiPreciseService.queryTopRank2InDistrict($scope.beginDate.value,
+                    $scope.endDate.value,
+                    10,
+                    city,
+                    district).then(function(result) {
+                    angular.forEach(result,
+                        function(item) {
+                            networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function(cell) {
+                                collegeMapService.showFlowCellSector(cell, item, $scope.beginDate, $scope.endDate);
+                            });
+                        });
+                });
+            };
+            $scope.showTopScheduling = function() {
+                $scope.currentView = "4G双流比";
+                baiduMapService.clearOverlays();
+                baiduMapService.addCityBoundary("佛山");
+                var city = $scope.city.selected;
+                angular.forEach($scope.districts,
+                    function(district, $index) {
+                        $scope.showRank2Site(city, district, $scope.colors[$index]);
+                    });
+            };
+            $scope.showTopRrcSite = function(city, district, color) {
+                baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
+                kpiPreciseService.queryTopRrcFailInDistrict($scope.beginDate.value,
+                    $scope.endDate.value,
+                    10,
+                    city,
+                    district).then(function(result) {
+                    angular.forEach(result,
+                        function(item) {
+                            networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function(cell) {
+                                collegeMapService.showRrcCellSector(cell, item, $scope.beginDate, $scope.endDate);
+                            });
+                        });
+                });
+            };
+            $scope.showTopRrc = function() {
+                $scope.currentView = "RRC连接失败";
+                baiduMapService.clearOverlays();
+                baiduMapService.addCityBoundary("佛山");
+                var city = $scope.city.selected;
+                angular.forEach($scope.districts,
+                    function(district, $index) {
+                        $scope.showTopRrcSite(city, district, $scope.colors[$index]);
+                    });
+            };
+
+            $scope.showPreciseStats = function() {
+                mapDialogService.showPreciseTrend($scope.city, $scope.beginDate, $scope.endDate);
+            };
+            $scope.showRrcStats = function() {
+                mapDialogService.showRrcTrend($scope.city, $scope.beginDate, $scope.endDate);
+            };
+
+            $scope.districts = [];
+            dumpPreciseService.generateUsersDistrict($scope.city.selected || "佛山",
+                $scope.districts,
+                function(district, $index) {
+                    $scope.showPreciseRate($scope.city.selected || "佛山", district, $scope.colors[$index]);
+                });
+        })
+    .controller('kpi.quality',
+        function($scope, baiduMapService, workItemDialog) {
+            baiduMapService.initializeMap("map", 11);
+            baiduMapService.addCityBoundary("佛山");
+
+            $scope.showTodayKpi = function() {
+                workItemDialog.showTodayKpi($scope.city.selected);
+            }
+        })
+    .controller("query.topic",
+        function($scope, baiduMapService, customerDialogService, basicImportService, mapDialogService) {
+            baiduMapService.initializeMap("map", 11);
+            baiduMapService.addCityBoundary("佛山");
+            $scope.query = function() {
+                mapDialogService.showHotSpotsInfo($scope.hotSpotList);
+            };
+
+            $scope.updateMap = function() {
+                basicImportService.queryAllHotSpots().then(function(result) {
+                    $scope.hotSpotList = result;
+                    angular.forEach(result,
+                        function(item) {
+                            baiduMapService.drawCustomizeLabel(item.longtitute,
+                                item.lattitute + 0.005,
+                                item.hotspotName,
+                                '地址:' + item.address + '<br/>类型:' + item.typeDescription + '<br/>说明:' + item.sourceName,
+                                3);
+                            var marker = baiduMapService.generateIconMarker(item.longtitute,
+                                item.lattitute,
+                                "/Content/Images/Hotmap/site_or.png");
+                            baiduMapService.addOneMarkerToScope(marker,
+                                function(stat) {
+                                    customerDialogService.modifyHotSpot(stat,
+                                        function() {
+                                            baiduMapService.switchMainMap();
+                                            baiduMapService.clearOverlays();
+                                            $scope.updateMap();
+                                        },
+                                        baiduMapService.switchMainMap);
+                                },
+                                item);
+                        });
+                });
+            };
+            $scope.addHotSpot = function() {
+                customerDialogService.constructHotSpot(function() {
+                        baiduMapService.switchMainMap();
+                        baiduMapService.clearOverlays();
+                        $scope.updateMap();
+                    },
+                    baiduMapService.switchMainMap);
+            };
+            $scope.updateMap();
         });
 angular.module('home.mr', ['app.common'])
     .controller("home.mr",
@@ -3754,4 +3756,8 @@ angular.module('network.theme', ['app.common'])
                 $scope.showView($scope.hotSpots[0]);
             });
         });
-angular.module("myApp", ['home.root', 'home.route', 'home.station', 'home.menu', 'home.network', 'home.mr', 'network.theme']);
+angular.module("myApp",
+[
+    'home.root', 'home.route', 'home.station', 'home.menu', 'home.complain', 'home.network', 'home.mr', 'home.kpi',
+    'network.theme'
+]);

@@ -136,24 +136,6 @@
                 ]
             };
         })
-    .controller('menu.complain',
-        function($scope, appUrlService) {
-            $scope.menuItem = {
-                displayName: "投诉管理",
-                subItems: [
-                    {
-                        displayName: "统计分析",
-                        url: '/#/complain'
-                    }, {
-                        displayName: "手机伴侣",
-                        url: '/#/micro'
-                    }, {
-                        displayName: "在线支撑",
-                        url: appUrlService.getCustomerHost() + 'IndexOfComplaints.aspx'
-                    }
-                ]
-            };
-        })
     .controller('menu.college',
         function($scope) {
             $scope.menuItem = {
@@ -165,32 +147,6 @@
                     }, {
                         displayName: "校园覆盖",
                         url: '/#/college-coverage'
-                    }
-                ]
-            };
-        })
-    .controller('menu.kpi',
-        function($scope, appUrlService) {
-            $scope.menuItem = {
-                displayName: "指标优化",
-                subItems: [
-                    {
-                        displayName: "指标总览",
-                        url: "/#/kpi",
-                        tooltip: "4G总体指标"
-                    }, {
-                        displayName: "质量分析",
-                        url: '/#/quality',
-                        tooltip: "4G网络质量分析与日常优化"
-                    }, {
-                        displayName: "专题优化",
-                        url: '/#/topic'
-                    }, {
-                        displayName: "容量优化",
-                        url: appUrlService.getPlanUrlHost() + 'erab'
-                    }, {
-                        displayName: "室分专项",
-                        url: appUrlService.getDistributionHost()
                     }
                 ]
             };

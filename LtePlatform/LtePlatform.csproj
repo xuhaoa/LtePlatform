@@ -900,6 +900,8 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\Gruntfile.js" />
     <Content Include="Scripts\app\home.combined.js" />
+    <Content Include="Scripts\app\home.complain.js" />
+    <Content Include="Scripts\app\home.kpi.js" />
     <Content Include="Scripts\app\home.menu.js" />
     <Content Include="Scripts\app\home.mr.js" />
     <Content Include="Scripts\app\home.network.js" />
