@@ -1,5 +1,6 @@
 ﻿angular.module('app.core', [])
-    .factory('appUrlService', function() {
+    .value('publicNetworkIp', '218.13.12.242')
+    .factory('appUrlService', function(publicNetworkIp) {
         var parseQueryString = function(queryString) {
             var data = {}, pair, separatorIndex, escapedKey, escapedValue, key, value;
 
@@ -65,31 +66,31 @@
             },
             initializeAuthorization: initializeAuthorization,
             getPlanUrlHost: function () {
-                return (window.location.hostname !== '119.145.142.74') ? 'http://119.145.142.74:8108/' : 'http://132.110.71.122:8070/';
+                return (window.location.hostname !== publicNetworkIp) ? 'http://119.145.142.74:8108/' : 'http://132.110.71.122:8070/';
             },
             getDtUrlHost: function () {
-                return (window.location.hostname === '119.145.142.74') ? '/' : 'http://132.110.71.121:2889/';
+                return (window.location.hostname === publicNetworkIp) ? '/' : 'http://132.110.71.121:2889/';
             },
             getDistributionHost: function () {
-                return (window.location.hostname === '119.145.142.74') ? 'http://119.145.142.74:8109/' : 'http://132.110.71.122:8086/';
+                return (window.location.hostname === publicNetworkIp) ? 'http://119.145.142.74:8109/' : 'http://132.110.71.122:8086/';
             },
             getParameterUrlHost: function () {
-                return (window.location.hostname === '119.145.142.74') ? 'http://119.145.142.74:8110/' : 'http://132.110.71.122:8001/';
+                return (window.location.hostname === publicNetworkIp) ? 'http://119.145.142.74:8110/' : 'http://132.110.71.122:8001/';
             },
             getBuildingUrlHost: function () {
-                return (window.location.hostname === '119.145.142.74') ? 'http://119.145.142.74:8111/' : 'http://132.110.71.122:8002/';
+                return (window.location.hostname === publicNetworkIp) ? 'http://119.145.142.74:8111/' : 'http://132.110.71.122:8002/';
             },
             getTopnUrlHost: function () {
-                return (window.location.hostname === '119.145.142.74') ? 'http://119.145.142.74:8112/' : 'http://132.110.71.122:8006/';
+                return (window.location.hostname === publicNetworkIp) ? 'http://119.145.142.74:8112/' : 'http://132.110.71.122:8006/';
             },
             getInterferenceHost: function () {
-                return (window.location.hostname === '119.145.142.74') ? 'http://119.145.142.74:8113/' : 'http://132.110.71.122:18080/';
+                return (window.location.hostname === publicNetworkIp) ? 'http://119.145.142.74:8113/' : 'http://132.110.71.122:18080/';
             },
             getCustomerHost: function () {
-                return (window.location.hostname === '119.145.142.74') ? 'http://119.145.142.74:8102/' : 'http://132.110.71.121:8018/';
+                return (window.location.hostname === publicNetworkIp) ? 'http://119.145.142.74:8102/' : 'http://132.110.71.121:8018/';
             },
             getPhpHost: function () {
-                return (window.location.hostname === '119.145.142.74') ? 'http://119.145.142.74:8106/' : 'http://132.110.71.122:9000/';
+                return (window.location.hostname === publicNetworkIp) ? 'http://119.145.142.74:8106/' : 'http://132.110.71.122:9000/';
             },
             getPhpUriComponent: function(obj) {
                 var str = [];

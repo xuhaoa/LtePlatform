@@ -237,30 +237,6 @@
                 ]
             };
         })
-    .controller("menu.analysis",
-        function($scope) {
-            $scope.menuItem = {
-                displayName: "四高一地",
-                subItems: [
-                    {
-                        displayName: "高校专题",
-                        url: "/#/collegeMap"
-                    }, {
-                        displayName: "高速专题",
-                        url: "/#/highway"
-                    }, {
-                        displayName: "高铁专题",
-                        url: "/#/railway"
-                    }, {
-                        displayName: "高价值区域",
-                        url: "/#/highvalue"
-                    }, {
-                        displayName: "地铁专题",
-                        url: "/#/subway"
-                    }
-                ]
-            }
-        })
     .controller('menu.construction',
         function($scope) {
             $scope.menuItem = {

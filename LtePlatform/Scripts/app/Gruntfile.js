@@ -6,7 +6,7 @@
                 "files": {
                     'home.viewmodel.js': [
                         'home.root.js', 'home.route.js', 'home.station.js', 'home.menu.js', 'home.network.js',
-                        'home.mr.js', 'home.combined.js'
+                        'home.mr.js', 'network.theme.js', 'home.combined.js'
                     ]
                 }
             }
