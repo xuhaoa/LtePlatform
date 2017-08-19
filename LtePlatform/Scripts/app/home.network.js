@@ -529,8 +529,6 @@
                 neighborDialogService.setQueryConditions($scope.city, $scope.beginDate, $scope.endDate);
             };
             $scope.queryByTowns = function() {
-                baiduMapService.clearOverlays();
-                baiduMapService.addCityBoundary("佛山");
                 neighborDialogService.queryList($scope.city);
             };
             $scope.queryType = function() {

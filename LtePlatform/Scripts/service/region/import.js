@@ -605,6 +605,7 @@
                         district: cityName,
                         totalLteENodebs: 0,
                         totalLteCells: 0,
+                        totalNbIotCells: 0,
                         totalCdmaBts: 0,
                         totalCdmaCells: 0
                     };
@@ -612,6 +613,7 @@
                         function(stat) {
                             cityStat.totalLteENodebs += stat.totalLteENodebs;
                             cityStat.totalLteCells += stat.totalLteCells;
+                            cityStat.totalNbIotCells += stat.totalNbIotCells;
                             cityStat.totalCdmaBts += stat.totalCdmaBts;
                             cityStat.totalCdmaCells += stat.totalCdmaCells;
                         });

@@ -298,19 +298,20 @@ namespace Lte.Evaluations.DataService.Basic
                 x.TownId,
                 x.BtsId
             });
-            var cellENodebIds = _cellRepository.GetAllInUseList().Select(x => x.ENodebId);
+            var cellENodebs = _cellRepository.GetAllInUseList();
             var cdmaCellBtsIds = _cdmaCellRepository.GetAllInUseList().Select(x => x.BtsId);
             return (from district in GetDistricts(city)
                     let townList = _repository.GetAllList(city, district)
                     let eNodebs = (from t in townList join e in eNodebTownIds on t.Id equals e.TownId select e)
                     let btss = (from t in townList join b in btsTownIds on t.Id equals b.TownId select b)
-                    let cells = (from t in townList join e in eNodebTownIds on t.Id equals e.TownId join c in cellENodebIds on e.ENodebId equals c select c)
+                    let cells = (from t in townList join e in eNodebTownIds on t.Id equals e.TownId join c in cellENodebs on e.ENodebId equals c.ENodebId select c)
                     let cdmaCells = (from t in townList join b in btsTownIds on t.Id equals b.TownId join c in cdmaCellBtsIds on b.BtsId equals c select c)
                     select new DistrictStat
                     {
                         District = district,
                         TotalLteENodebs = eNodebs.Count(),
-                        TotalLteCells = cells.Count(),
+                        TotalLteCells = cells.Count(x => x.SectorId < 80),
+                        TotalNbIotCells = cells.Count(x => x.SectorId >= 80),
                         TotalCdmaBts = btss.Count(),
                         TotalCdmaCells = cdmaCells.Count()
                     }).ToList();
