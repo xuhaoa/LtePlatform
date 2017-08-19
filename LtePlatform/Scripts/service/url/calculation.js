@@ -413,6 +413,16 @@
                     return subData.totalLteCells;
                 });
             },
+            getDistrictNbIotCellPieOptions: function (data, city) {
+                return generalChartService.getPieOptions(data, {
+                    title: city + "各区NB-IoT小区数分布",
+                    seriesTitle: "区域"
+                }, function (subData) {
+                    return subData.district;
+                }, function (subData) {
+                    return subData.totalNbIotCells;
+                });
+            },
             getDistrictCdmaBtsPieOptions: function(data, city) {
                 return generalChartService.getPieOptions(data, {
                     title: city + "各区CDMA基站数分布",
@@ -451,6 +461,16 @@
                     return subData.town;
                 }, function(subData) {
                     return subData.totalLteCells;
+                });
+            },
+            getTownNbIotCellPieOptions: function (data, district) {
+                return generalChartService.getPieOptions(data, {
+                    title: district + "各镇NB-IoT小区数分布",
+                    seriesTitle: "镇"
+                }, function (subData) {
+                    return subData.town;
+                }, function (subData) {
+                    return subData.totalNbIotCells;
                 });
             },
             getTownCdmaBtsPieOptions: function(data, district) {
