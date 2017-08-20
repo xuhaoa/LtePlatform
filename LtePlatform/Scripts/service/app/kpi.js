@@ -2023,7 +2023,10 @@ angular.module('kpi.college', ['myApp.url', 'myApp.region', "ui.bootstrap", 'top
 			$uibModalInstance.dismiss('cancel');
 		};
 	})
-	.controller('college.new.dialog', function($scope, $uibModalInstance, baiduMapService, geometryService, baiduQueryService, appRegionService, $timeout) {
+    .controller('college.new.dialog',
+    function ($scope, $uibModalInstance,
+        baiduMapService, geometryService, baiduQueryService, appRegionService,
+        $timeout) {
 		$scope.dialogTitle = "新建校园信息";
 		$scope.collegeRegion = {
 			area: 0,
@@ -2064,7 +2067,19 @@ angular.module('kpi.college', ['myApp.url', 'myApp.region', "ui.bootstrap", 'top
 					baiduMapService.drawLabel(place.name, place.location.lng, place.location.lat);
 				});
 			});
-		};
+        };
+        appRegionService.queryDistricts($scope.city.selected).then(function (districts) {
+            $scope.district = {
+                options: districts,
+                selected: districts[0]
+            };
+            appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function (towns) {
+                $scope.town = {
+                    options: towns,
+                    selected: towns[0]
+                };
+            });
+        });
 		$scope.ok = function() {
 			$scope.college = {
 				name: $scope.collegeName,
