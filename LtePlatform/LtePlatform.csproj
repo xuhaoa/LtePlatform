@@ -910,8 +910,6 @@
     <Content Include="Scripts\app\home.station.js" />
     <Content Include="Scripts\app\network.theme.js" />
     <Content Include="Scripts\baidu\plugins\ComplexCustomOverlay.js" />
-    <Content Include="Scripts\baidu\plugins\GeoUtils.js" />
-    <Content Include="Scripts\baidu\plugins\Heatmap_min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\customer\index.controller.js" />
