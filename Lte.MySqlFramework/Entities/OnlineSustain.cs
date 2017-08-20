@@ -139,10 +139,16 @@ namespace Lte.MySqlFramework.Entities
 
         [AutoMapPropertyResolve("WorkItemSubCause", typeof(OnlineSustainExcel), typeof(ComplainSubReasonTransform))]
         public ComplainSubReason SubCause { get; set; }
-
+        
         public string ProcessSuggestion { get; set; }
 
+        public string WorkItemInfo { get; set; }
+
         public DateTime BeginDate { get; set; }
+
+        public DateTime? ComplainTime { get; set; }
+
+        public DateTime? ReceiveTime { get; set; }
 
         public DateTime? ProcessDate { get; set; }
 

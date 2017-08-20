@@ -293,7 +293,8 @@ namespace Lte.Domain.Common.Wireless
         CustomerSuggestion,
         ProvinceRoam,
         CityRoam,
-        Service
+        Service,
+        ShortMessage,
     }
 
     public class ComplainReasonDescriptionTransform : DescriptionTransform<ComplainReason>
@@ -366,7 +367,8 @@ namespace Lte.Domain.Common.Wireless
         DenseUrban,
         Urban,
         Suburban,
-        Rural
+        Rural,
+        IndustrialArea
     }
 
     public class ComplainSceneDescriptionTransform : DescriptionTransform<ComplainScene>
@@ -397,7 +399,11 @@ namespace Lte.Domain.Common.Wireless
         WeakCoverage,
         DeepCoverage,
         NetworkQuality,
-        Appliance
+        Appliance,
+        LowFloor,
+        MiddleFloor,
+        HighFloor,
+        Outdoor
     }
 
     public class ComplainCategoryDescriptionTransform : DescriptionTransform<ComplainCategory>
