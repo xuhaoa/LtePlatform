@@ -213,7 +213,6 @@
     <Compile Include="Entities\Kpi\AlarmStat.cs" />
     <Compile Include="Entities\Basic\CellHuaweiMongo.cs" />
     <Compile Include="Entities\Basic\Cell.cs" />
-    <Compile Include="Entities\College\CollegeInfo.cs" />
     <Compile Include="Entities\Dt\DtFilesInfo.cs" />
     <Compile Include="Entities\Basic\ENodeb.cs" />
     <Compile Include="Entities\InfrastructureInfo.cs" />
@@ -231,13 +230,13 @@
     <Compile Include="Entities\Switch\IntraFreqHoGroup.cs" />
     <Compile Include="Entities\Switch\IntraRatHoComm.cs" />
     <Compile Include="Entities\Switch\UeEUtranMeasurementZte.cs" />
-    <Compile Include="Migrations\201706131036161_Move_Work_Item.cs" />
-    <Compile Include="Migrations\201706131036161_Move_Work_Item.Designer.cs">
-      <DependentUpon>201706131036161_Move_Work_Item.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201708081236078_Update_Town_Position_Parameters.cs" />
     <Compile Include="Migrations\201708081236078_Update_Town_Position_Parameters.Designer.cs">
       <DependentUpon>201708081236078_Update_Town_Position_Parameters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708210700428_Change_College.cs" />
+    <Compile Include="Migrations\201708210700428_Change_College.Designer.cs">
+      <DependentUpon>201708210700428_Change_College.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MockOperations\DbHelper.cs" />
@@ -268,11 +267,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706131036161_Move_Work_Item.resx">
-      <DependentUpon>201706131036161_Move_Work_Item.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708081236078_Update_Town_Position_Parameters.resx">
       <DependentUpon>201708081236078_Update_Town_Position_Parameters.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708210700428_Change_College.resx">
+      <DependentUpon>201708210700428_Change_College.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

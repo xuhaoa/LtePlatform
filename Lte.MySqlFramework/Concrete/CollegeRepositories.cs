@@ -4,12 +4,41 @@ using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Abp.Extensions;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 
 namespace Lte.MySqlFramework.Concrete
 {
+    public class CollegeRepository : EfRepositoryBase<MySqlContext, CollegeInfo>, ICollegeRepository
+    {
+        public CollegeRegion GetRegion(int id)
+        {
+            return GetAll().Select(x => new { x.Id, x.CollegeRegion }).FirstOrDefault(x => x.Id == id)?.CollegeRegion;
+        }
+
+        public CollegeInfo GetByName(string name)
+        {
+            return FirstOrDefault(x => x.Name == name);
+        }
+
+        public RectangleRange GetRange(string name)
+        {
+            var college = GetByName(name);
+            return college == null ? null : GetRegion(college.Id)?.RectangleRange;
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+
+        public CollegeRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+    }
+
     public class CollegeYearRepository : EfRepositoryBase<MySqlContext, CollegeYearInfo>, ICollegeYearRepository
     {
         public CollegeYearRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)

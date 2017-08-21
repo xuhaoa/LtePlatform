@@ -1,13 +1,12 @@
 ﻿using Lte.Evaluations.DataService.College;
 using Lte.Evaluations.ViewModels.College;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Entities.College;
 using LtePlatform.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Lte.Domain.Common.Wireless;
-using Lte.Parameters.Abstract.Infrastructure;
+using Lte.MySqlFramework.Abstract;
 
 namespace LtePlatform.Controllers.College
 {

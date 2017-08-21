@@ -12,6 +12,16 @@ using Lte.Domain.Common.Wireless;
 
 namespace Lte.MySqlFramework.Abstract
 {
+    public interface ICollegeRepository : IRepository<CollegeInfo>, ISaveChanges
+    {
+        CollegeRegion GetRegion(int id);
+
+        CollegeInfo GetByName(string name);
+
+        RectangleRange GetRange(string name);
+
+    }
+
     public interface ICollegeYearRepository : IRepository<CollegeYearInfo>, ISaveChanges
     {
         CollegeYearInfo GetByCollegeAndYear(int collegeId, int year);

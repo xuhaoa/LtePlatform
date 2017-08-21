@@ -2,7 +2,6 @@
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
-using Lte.Parameters.Entities.College;
 using Lte.Parameters.MockOperations;
 using Moq;
 using System.Collections.Generic;

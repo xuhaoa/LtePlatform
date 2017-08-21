@@ -7,7 +7,6 @@ using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
-using Lte.Parameters.Entities.College;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -127,7 +126,7 @@ namespace Lte.Evaluations.DataService.College
                 : infos.Select(x =>
                 {
                     var stat = Mapper.Map<CollegeYearView>(x);
-                    stat.Name = _repository.Get(x.CollegeId).Name;
+                    stat.Name = _repository.FirstOrDefault(c => c.Id == x.CollegeId)?.Name;
                     return stat;
                 });
         } 

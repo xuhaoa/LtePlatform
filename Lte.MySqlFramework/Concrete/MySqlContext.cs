@@ -128,5 +128,7 @@ namespace Lte.MySqlFramework.Concrete
 
         public DbSet<OptimizeRegion> OptimizeRegions { get; set; }
 
+        public DbSet<CollegeInfo> CollegeInfos { get; set; }
+
     }
 }

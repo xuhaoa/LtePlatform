@@ -43,7 +43,7 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IOptimzeRegionRepository>().To<OptimizeOptimzeRegionRepository>();
 
-            ninjectKernel.Bind<ICollegeRepository>().To<EFCollegeRepository>();
+            ninjectKernel.Bind<ICollegeRepository>().To<CollegeRepository>();
 
             ninjectKernel.Bind<IInfrastructureRepository>().To<EFInfrastructureRepository>();
 

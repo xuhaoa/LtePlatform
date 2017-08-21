@@ -3,11 +3,11 @@ using Abp.Reflection;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
 using Lte.MySqlFramework.Abstract;
-using Lte.Parameters.Entities.College;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Linq;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Infrastructure;
 
 namespace Lte.Evaluations.DataService.College

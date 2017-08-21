@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Abp.EntityFramework.Repositories;
 using Lte.Domain.Common.Wireless;
 using Lte.Parameters.Entities;
-using Lte.Parameters.Entities.College;
 using Lte.Parameters.Entities.Dt;
 using Lte.Parameters.Entities.Kpi;
 using Lte.Parameters.Entities.Neighbor;
@@ -13,16 +12,6 @@ using MongoDB.Bson;
 
 namespace Lte.Parameters.Abstract.Infrastructure
 {
-    public interface ICollegeRepository : IRepository<CollegeInfo>, ISaveChanges
-    {
-        CollegeRegion GetRegion(int id);
-
-        CollegeInfo GetByName(string name);
-
-        RectangleRange GetRange(string name);
-
-    }
-
     public interface IFileRecordRepository
     {
         IEnumerable<FileRecord4G> GetFileRecord4Gs(string fileName);
