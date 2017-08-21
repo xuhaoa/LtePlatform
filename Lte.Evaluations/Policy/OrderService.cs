@@ -1,5 +1,4 @@
 ﻿using Lte.Domain.Common.Wireless;
-using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.Properties;
 using Lte.Parameters.Entities.Kpi;
 using System.Collections.Generic;

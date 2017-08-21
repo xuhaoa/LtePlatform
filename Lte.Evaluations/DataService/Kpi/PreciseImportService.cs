@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
-using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Kpi;

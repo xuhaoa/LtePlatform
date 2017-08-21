@@ -1,5 +1,7 @@
 ﻿using Abp.Domain.Entities;
+using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Dependency;
+using Lte.Domain.Common;
 using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Switch
@@ -45,4 +47,58 @@ namespace Lte.Parameters.Entities.Switch
 
         public int IntraFreqHoA3RprtQuan { get; set; }
     }
+
+    [AutoMapFrom(typeof(IntraRatHoComm), typeof(UeEUtranMeasurementZte))]
+    public class ENodebIntraFreqHoView
+    {
+        [AutoMapPropertyResolve("eNodeB_Id", typeof(IntraRatHoComm))]
+        [AutoMapPropertyResolve("eNodeB_Id", typeof(UeEUtranMeasurementZte))]
+        public int ENodebId { get; set; }
+
+        [AutoMapPropertyResolve("IntraFreqHoRprtInterval", typeof(IntraRatHoComm))]
+        [AutoMapPropertyResolve("reportInterval", typeof(UeEUtranMeasurementZte))]
+        public int ReportInterval { get; set; }
+
+        [AutoMapPropertyResolve("IntraRatHoRprtAmount", typeof(IntraRatHoComm))]
+        [AutoMapPropertyResolve("reportAmount", typeof(UeEUtranMeasurementZte))]
+        public int ReportAmount { get; set; }
+
+        [AutoMapPropertyResolve("IntraRatHoMaxRprtCell", typeof(IntraRatHoComm))]
+        [AutoMapPropertyResolve("maxReportCellNum", typeof(UeEUtranMeasurementZte))]
+        public int MaxReportCellNum { get; set; }
+
+        [AutoMapPropertyResolve("IntraFreqHoA3TrigQuan", typeof(IntraRatHoComm))]
+        [AutoMapPropertyResolve("triggerQuantity", typeof(UeEUtranMeasurementZte))]
+        public int TriggerQuantity { get; set; }
+
+        [AutoMapPropertyResolve("IntraFreqHoA3RprtQuan", typeof(IntraRatHoComm))]
+        [AutoMapPropertyResolve("reportQuantity", typeof(UeEUtranMeasurementZte))]
+        public int ReportQuantity { get; set; }
+    }
+
+    [AutoMapFrom(typeof(IntraRatHoComm))]
+    public class ENodebInterFreqHoView
+    {
+        [AutoMapPropertyResolve("eNodeB_Id", typeof(IntraRatHoComm))]
+        public int ENodebId { get; set; }
+
+        public int InterFreqHoA4RprtQuan { get; set; }
+
+        public int InterFreqHoA4TrigQuan { get; set; }
+
+        [AutoMapPropertyResolve("InterFreqHoA1A2TrigQuan", typeof(IntraRatHoComm))]
+        public int InterFreqHoA1TrigQuan { get; set; }
+
+        [AutoMapPropertyResolve("InterFreqHoA1A2TrigQuan", typeof(IntraRatHoComm))]
+        public int InterFreqHoA2TrigQuan { get; set; }
+
+        public int InterFreqHoRprtInterval { get; set; }
+
+        [AutoMapPropertyResolve("A3InterFreqHoA1A2TrigQuan", typeof(IntraRatHoComm))]
+        public int A3InterFreqHoA1TrigQuan { get; set; }
+
+        [AutoMapPropertyResolve("A3InterFreqHoA1A2TrigQuan", typeof(IntraRatHoComm))]
+        public int A3InterFreqHoA2TrigQuan { get; set; }
+    }
+
 }

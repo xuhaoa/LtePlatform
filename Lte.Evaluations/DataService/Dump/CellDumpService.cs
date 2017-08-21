@@ -3,7 +3,6 @@ using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.Basic;
-using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
@@ -11,6 +10,7 @@ using Lte.Parameters.Entities.Basic;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lte.Domain.Common.Geo;
 
 namespace Lte.Evaluations.DataService.Dump
 {

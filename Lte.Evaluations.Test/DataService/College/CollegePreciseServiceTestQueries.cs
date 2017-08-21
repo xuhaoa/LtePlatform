@@ -1,4 +1,4 @@
-﻿using Lte.Evaluations.ViewModels.Precise;
+﻿using Lte.Parameters.Entities.Basic;
 using NUnit.Framework;
 
 namespace Lte.Evaluations.DataService.College

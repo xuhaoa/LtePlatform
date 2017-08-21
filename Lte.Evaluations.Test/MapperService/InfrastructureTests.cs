@@ -1,7 +1,6 @@
 ﻿using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
 using Lte.Evaluations.DataService.Basic;
-using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.ViewModels.Basic;
@@ -16,6 +15,7 @@ using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Lte.Domain.Common.Geo;
 
 namespace Lte.Evaluations.MapperService
 {

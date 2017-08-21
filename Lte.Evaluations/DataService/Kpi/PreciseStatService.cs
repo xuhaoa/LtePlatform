@@ -1,8 +1,6 @@
 ﻿using Lte.Domain.Common.Wireless;
-using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.Properties;
-using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Basic;

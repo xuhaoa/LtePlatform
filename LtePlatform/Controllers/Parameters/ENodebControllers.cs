@@ -1,6 +1,5 @@
 ﻿using System;
 using Lte.Evaluations.DataService.Basic;
-using Lte.Evaluations.MapperSerive.Infrastructure;
 using LtePlatform.Models;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +10,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Geo;
 using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.Dump;
 using Lte.Evaluations.ViewModels.Basic;
@@ -528,7 +528,6 @@ namespace LtePlatform.Controllers.Parameters
         [HttpGet]
         public HttpResponseMessage Get(string directory, string btsId, string name)
         {
-
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             var dwgService = new BtsDwgService(directory, btsId);
             var data = dwgService.GetFile(name);

@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
+using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.DataService.Kpi
 {

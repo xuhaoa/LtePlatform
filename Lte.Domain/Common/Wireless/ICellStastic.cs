@@ -97,6 +97,16 @@ namespace Lte.Domain.Common.Wireless
         int BtsId { get; set; }
     }
 
+    public class TopCellContainer<TTopCell>
+        where TTopCell : IBtsIdQuery
+    {
+        public TTopCell TopCell { get; set; }
+
+        public string CdmaName { get; set; }
+
+        public string LteName { get; set; }
+    }
+
     public interface ILteCellQuery : IENodebId
     {
         byte SectorId { get; set; }

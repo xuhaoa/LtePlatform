@@ -1,7 +1,7 @@
 ﻿using Lte.Evaluations.DataService.Switch;
-using Lte.Evaluations.ViewModels.Switch;
 using System.Collections.Generic;
 using System.Web.Http;
+using Lte.Parameters.Entities.Switch;
 
 namespace LtePlatform.Controllers.Mongo
 {

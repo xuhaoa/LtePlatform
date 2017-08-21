@@ -1,11 +1,10 @@
 ﻿using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.DataService.Dump;
-using Lte.Evaluations.MapperSerive.Infrastructure;
-using Lte.Parameters.Entities.Basic;
 using LtePlatform.Models;
 using System.Collections.Generic;
 using System.Web.Http;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Geo;
 
 namespace LtePlatform.Controllers.Parameters
 {

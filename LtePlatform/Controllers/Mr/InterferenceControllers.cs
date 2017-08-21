@@ -1,5 +1,4 @@
 ﻿using Lte.Evaluations.DataService.Mr;
-using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Evaluations.ViewModels.Mr;
 using Lte.Parameters.Entities.Kpi;
 using LtePlatform.Models;
@@ -7,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Lte.Parameters.Entities.Basic;
 
 namespace LtePlatform.Controllers.Mr
 {

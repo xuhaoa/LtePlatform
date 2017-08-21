@@ -15,7 +15,6 @@ using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.Regular;
-using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.MySqlFramework.Entities;
 using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract.Infrastructure;

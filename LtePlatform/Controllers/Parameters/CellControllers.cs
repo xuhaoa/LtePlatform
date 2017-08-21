@@ -1,14 +1,12 @@
 ﻿using Lte.Evaluations.DataService.Basic;
-using Lte.Evaluations.MapperSerive.Infrastructure;
-using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.ViewModels.Basic;
-using Lte.Evaluations.ViewModels.Precise;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Basic;
 using LtePlatform.Models;
 using System.Collections.Generic;
 using System.Web.Http;
 using Lte.Domain.Common.Geo;
+using Lte.Parameters.Entities.Kpi;
 
 namespace LtePlatform.Controllers.Parameters
 {

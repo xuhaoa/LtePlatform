@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
-using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Domain.Common.Wireless;
+using Lte.Evaluations.MapperSerive;
 
 namespace Lte.Evaluations.DataService.Kpi
 {

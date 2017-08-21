@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Net.Http.Headers;
 using System.Web;
-using Lte.Evaluations.DataService.Dump;
+using System.Web.Http.Description;
+using LtePlatform.Areas.HelpPage.ModelDescriptions;
 
 namespace LtePlatform.Models
 {
@@ -42,12 +46,64 @@ namespace LtePlatform.Models
         public string File { get; set; }
     }
 
-    public class BtsDwgService : BtsFileSerivce
+    public class HelpPageApiModel
     {
-        public BtsDwgService(string directory, string btsId) : base("BTSDWG", directory, btsId)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HelpPageApiModel"/> class.
+        /// </summary>
+        public HelpPageApiModel()
         {
+            SampleRequests = new Dictionary<MediaTypeHeaderValue, object>();
+            SampleResponses = new Dictionary<MediaTypeHeaderValue, object>();
+            ErrorMessages = new Collection<string>();
         }
 
-    }
+        public ApiDescription ApiDescription { get; set; }
 
+        /// <summary>
+        /// Gets or sets the <see cref="ParameterDescription"/> collection that describes the URI parameters for the API.
+        /// </summary>
+        public Collection<ParameterDescription> UriParameters { get; set; }
+
+        /// <summary>
+        /// Gets or sets the documentation for the request.
+        /// </summary>
+        public string RequestDocumentation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="ModelDescription"/> that describes the request body.
+        /// </summary>
+        public ModelDescription RequestModelDescription { get; set; }
+
+        /// <summary>
+        /// Gets the request body parameter descriptions.
+        /// </summary>
+        public IList<ParameterDescription> RequestBodyParameters => RequestModelDescription.GetParameterDescriptions();
+
+        /// <summary>
+        /// Gets or sets the <see cref="ModelDescription"/> that describes the resource.
+        /// </summary>
+        public ModelDescription ResourceDescription { get; set; }
+
+        /// <summary>
+        /// Gets the resource property descriptions.
+        /// </summary>
+        public IList<ParameterDescription> ResourceProperties => ResourceDescription.GetParameterDescriptions();
+
+        /// <summary>
+        /// Gets the sample requests associated with the API.
+        /// </summary>
+        public IDictionary<MediaTypeHeaderValue, object> SampleRequests { get; private set; }
+
+        /// <summary>
+        /// Gets the sample responses associated with the API.
+        /// </summary>
+        public IDictionary<MediaTypeHeaderValue, object> SampleResponses { get; private set; }
+
+        /// <summary>
+        /// Gets the error messages associated with this model.
+        /// </summary>
+        public Collection<string> ErrorMessages { get; private set; }
+
+    }
 }

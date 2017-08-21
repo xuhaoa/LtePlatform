@@ -35,6 +35,17 @@ namespace Lte.MySqlFramework.Entities
         public int CallAttempts { get; set; }
     }
 
+    [AutoMapFrom(typeof(TopCellContainer<TopDrop2GCell>))]
+    public class TopDrop2GCellViewContainer
+    {
+        [AutoMapPropertyResolve("TopCell", typeof(TopCellContainer<TopDrop2GCell>))]
+        public TopDrop2GCellView TopDrop2GCellView { get; set; }
+
+        public string LteName { get; set; }
+
+        public string CdmaName { get; set; }
+    }
+
     [TypeDoc("TOP掉话小区视图")]
     [AutoMapFrom(typeof(TopDrop2GCell))]
     public class TopDrop2GCellView
@@ -104,6 +115,20 @@ namespace Lte.MySqlFramework.Entities
 
         public int MtAssignmentSuccess { get; set; }
 
+    }
+
+    [AutoMapFrom(typeof(TopCellContainer<TopDrop2GTrend>))]
+    public class TopDrop2GTrendViewContainer
+    {
+        [AutoMapPropertyResolve("TopCell", typeof(TopCellContainer<TopDrop2GTrend>))]
+        public TopDrop2GTrendView TopDrop2GTrendView { get; set; }
+
+        [AutoMapPropertyResolve("LteName", typeof(TopCellContainer<TopDrop2GTrend>))]
+        public string ENodebName { get; set; }
+
+        public string CdmaName { get; set; }
+
+        public string CellName => CdmaName + "-" + TopDrop2GTrendView.SectorId;
     }
 
     [TypeDoc("TOP掉话小区指标趋势视图")]
@@ -191,6 +216,17 @@ namespace Lte.MySqlFramework.Entities
         public double LinkBusyRate { get; set; }
     }
 
+    [AutoMapFrom(typeof(TopCellContainer<TopConnection3GCell>))]
+    public class TopConnection3GCellViewContainer
+    {
+        [AutoMapPropertyResolve("TopCell", typeof(TopCellContainer<TopConnection3GCell>))]
+        public TopConnection3GCellView TopConnection3GCellView { get; set; }
+
+        public string LteName { get; set; }
+
+        public string CdmaName { get; set; }
+    }
+
     [AutoMapFrom(typeof(TopConnection3GCell))]
     public class TopConnection3GCellView
     {
@@ -256,6 +292,20 @@ namespace Lte.MySqlFramework.Entities
         public int ConnectionFails { get; set; }
 
         public double LinkBusyRate { get; set; }
+    }
+
+    [AutoMapFrom(typeof(TopCellContainer<TopConnection3GTrend>))]
+    public class TopConnection3GTrendViewContainer
+    {
+        [AutoMapPropertyResolve("TopCell", typeof(TopCellContainer<TopConnection3GTrend>))]
+        public TopConnection3GTrendView TopConnection3GTrendView { get; set; }
+
+        [AutoMapPropertyResolve("LteName", typeof(TopCellContainer<TopConnection3GTrend>))]
+        public string ENodebName { get; set; }
+
+        public string CdmaName { get; set; }
+
+        public string CellName => CdmaName + "-" + TopConnection3GTrendView.SectorId;
     }
 
     [AutoMapFrom(typeof(TopConnection3GTrend))]

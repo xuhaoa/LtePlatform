@@ -1,19 +1,17 @@
 ﻿using System;
-using Lte.Domain.Common;
-using Lte.Domain.Regular.Attributes;
-using Lte.Parameters.Entities.Basic;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Text;
 using Aspose.Diagram;
 using Lte.Domain.Regular;
+using Lte.Domain.Regular.Attributes;
 
-namespace Lte.Evaluations.DataService.Dump
+namespace Lte.Domain.Common
 {
     public class NewBtsListContainer
     {
-        public IEnumerable<BtsExcel> Infos { get; set; } 
+        public IEnumerable<BtsExcel> Infos { get; set; }
     }
 
     [TypeDoc("新的小区信息列表容器")]
@@ -50,7 +48,6 @@ namespace Lte.Evaluations.DataService.Dump
                 Path.Combine(AppDomain.CurrentDomain.BaseDirectory.Replace("LtePlatform\\", "Customers\\") + root + "\\" +
                              (string.IsNullOrEmpty(directory) ? "" : directory + "\\") + btsId);
         }
-
 
         /// <summary>
         /// 获取图纸列表
@@ -163,7 +160,7 @@ namespace Lte.Evaluations.DataService.Dump
                 }
             }
         }
-        
+
         public string GetPdfOfVisio(string file)
         {
             var newFile = file + ".pdf";
@@ -196,6 +193,14 @@ namespace Lte.Evaluations.DataService.Dump
             }
 
             return newFile;
+        }
+
+    }
+
+    public class BtsDwgService : BtsFileSerivce
+    {
+        public BtsDwgService(string directory, string btsId) : base("BTSDWG", directory, btsId)
+        {
         }
 
     }

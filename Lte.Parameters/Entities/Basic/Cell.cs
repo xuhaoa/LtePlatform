@@ -1,11 +1,15 @@
-﻿using Abp.Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular.Attributes;
 using System.Globalization;
+using System.Linq;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Abstract.Kpi;
 
 namespace Lte.Parameters.Entities.Basic
 {
@@ -71,6 +75,39 @@ namespace Lte.Parameters.Entities.Basic
 
         [MemberDoc("是否在用")]
         public bool IsInUse { get; set; } = true;
+    }
+
+    [AutoMapFrom(typeof(Cell))]
+    public class PciCell
+    {
+        public int ENodebId { get; set; }
+
+        public byte SectorId { get; set; }
+
+        public short Pci { get; set; }
+
+        public int Frequency { get; set; }
+    }
+
+    [AutoMapFrom(typeof(PciCell))]
+    public class PciCellPair
+    {
+        public int ENodebId { get; set; }
+
+        public short Pci { get; set; }
+    }
+
+    public class PciCellPairComparer : IEqualityComparer<PciCellPair>
+    {
+        public bool Equals(PciCellPair x, PciCellPair y)
+        {
+            return x.ENodebId == y.ENodebId && x.Pci == y.Pci;
+        }
+
+        public int GetHashCode(PciCellPair obj)
+        {
+            return obj.ENodebId * 839 + obj.Pci;
+        }
     }
 
     [AutoMapFrom(typeof(Cell))]
@@ -472,5 +509,55 @@ namespace Lte.Parameters.Entities.Basic
 
         [MemberDoc("其他信息")]
         public string OtherInfos { get; set; }
+    }
+
+    [AutoMapFrom(typeof(Cell))]
+    public class CellPreciseKpiView
+    {
+        public string ENodebName { get; private set; }
+
+        public int ENodebId { get; set; }
+
+        public byte SectorId { get; set; }
+
+        public int Frequency { get; set; }
+
+        public double RsPower { get; set; }
+
+        public double Height { get; set; }
+
+        public double Azimuth { get; set; }
+
+        [AutoMapPropertyResolve("IsOutdoor", typeof(Cell), typeof(OutdoorDescriptionTransform))]
+        public string Indoor { get; set; }
+
+        public double ETilt { get; set; }
+
+        public double MTilt { get; set; }
+
+        public double DownTilt => ETilt + MTilt;
+
+        public double AntennaGain { get; set; }
+
+        public double PreciseRate { get; set; } = 100.0;
+
+        public static CellPreciseKpiView ConstructView(Cell cell, IENodebRepository repository)
+        {
+            var view = Mapper.Map<Cell, CellPreciseKpiView>(cell);
+            var eNodeb = repository.GetByENodebId(cell.ENodebId);
+            view.ENodebName = eNodeb?.Name;
+            return view;
+        }
+
+        public void UpdateKpi(IPreciseCoverage4GRepository repository, DateTime begin, DateTime end)
+        {
+            var query = repository.GetAll().Where(x => x.StatTime >= begin && x.StatTime < end
+                                                       && x.CellId == ENodebId && x.SectorId == SectorId).ToList();
+            if (query.Count > 0)
+            {
+                var sum = query.Sum(x => x.TotalMrs);
+                PreciseRate = sum == 0 ? 100 : 100 - (double)query.Sum(x => x.SecondNeighbors) / sum * 100;
+            }
+        }
     }
 }

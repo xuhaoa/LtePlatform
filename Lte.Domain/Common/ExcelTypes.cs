@@ -328,6 +328,13 @@ namespace Lte.Domain.Common
         public DateTime OpenDate { get; set; }
     }
 
+    public class ENodebExcelWithTownIdContainer
+    {
+        public ENodebExcel ENodebExcel { get; set; }
+
+        public int TownId { get; set; }
+    }
+
     [TypeDoc("定义记录CDMA基站信息的Excel导出数据项，需要定义与CdmaBts之间的映射关系。")]
     public class BtsExcel
     {
@@ -354,6 +361,22 @@ namespace Lte.Domain.Common
 
         [ExcelColumn("BSC编号")]
         public short BscId { get; set; }
+    }
+
+    public class BtsExcelWithTownIdContainer
+    {
+        public BtsExcel BtsExcel { get; set; }
+
+        public int TownId { get; set; }
+    }
+
+    public class SharedBtsIdTransform : ValueResolver<string, int>
+    {
+        protected override int ResolveCore(string source)
+        {
+            if (string.IsNullOrEmpty(source)) return 0;
+            return source.Split('_').Length > 2 ? source.Split('_')[1].ConvertToInt(-1) : -1;
+        }
     }
 
     public class PreciseCoverage4GCsv

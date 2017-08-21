@@ -1,9 +1,7 @@
 ﻿using System;
 using Lte.Domain.Common;
 using Lte.Domain.LinqToExcel;
-using Lte.Evaluations.MapperSerive.Infrastructure;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Entities.Basic;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,9 +16,7 @@ using Lte.Evaluations.ViewModels;
 using Lte.Evaluations.ViewModels.Basic;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
-using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.DataService.Basic

@@ -1,7 +1,6 @@
 ﻿using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Evaluations.ViewModels.College;
-using Lte.Evaluations.ViewModels.Precise;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
@@ -14,6 +13,7 @@ using System.Threading.Tasks;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
+using Lte.Parameters.Entities.Basic;
 
 namespace Lte.Evaluations.DataService.College
 {

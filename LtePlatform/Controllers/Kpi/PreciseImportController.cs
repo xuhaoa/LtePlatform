@@ -4,7 +4,6 @@ using LtePlatform.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
-using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Parameters.Entities.Kpi;
 
 namespace LtePlatform.Controllers.Kpi

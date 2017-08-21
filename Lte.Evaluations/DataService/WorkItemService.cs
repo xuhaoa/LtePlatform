@@ -4,9 +4,7 @@ using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToExcel;
 using Lte.Evaluations.Policy;
-using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Abstract.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +12,7 @@ using System.Threading.Tasks;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
+using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.DataService
 {

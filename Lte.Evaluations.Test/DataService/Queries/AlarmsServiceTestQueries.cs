@@ -1,6 +1,6 @@
 ﻿using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
-using Lte.Evaluations.ViewModels;
+using Lte.Parameters.Entities.Kpi;
 using NUnit.Framework;
 
 namespace Lte.Evaluations.DataService.Queries

@@ -6,6 +6,7 @@ using Lte.Domain.Regular;
 using Lte.Domain.Regular.Attributes;
 using System;
 using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 
 namespace Lte.Parameters.Entities.Basic
 {
@@ -62,6 +63,32 @@ namespace Lte.Parameters.Entities.Basic
         [MemberDoc("是否在用")]
         public bool IsInUse { get; set; } = true;
 
+    }
+
+    public class ENodebExcelTransform : ValueResolver<ENodebExcel, ENodeb>
+    {
+        protected override ENodeb ResolveCore(ENodebExcel source)
+        {
+            return source.MapTo<ENodeb>();
+        }
+    }
+
+    [AutoMapFrom(typeof(CellExcel))]
+    public class ENodebBtsIdPair
+    {
+        public int ENodebId { get; set; }
+
+        [AutoMapPropertyResolve("ShareCdmaInfo", typeof(CellExcel), typeof(SharedBtsIdTransform))]
+        public int BtsId { get; set; }
+    }
+
+    [AutoMapFrom(typeof(ENodebExcelWithTownIdContainer))]
+    public class ENodebWithTownIdContainer
+    {
+        [AutoMapPropertyResolve("ENodebExcel", typeof(ENodebExcelWithTownIdContainer), typeof(ENodebExcelTransform))]
+        public ENodeb ENodeb { get; set; }
+
+        public int TownId { get; set; }
     }
 
     [TypeDoc("定义CDMA基站的数据库对应的ORM对象")]
@@ -122,5 +149,22 @@ namespace Lte.Parameters.Entities.Basic
         [MemberDoc("是否在用")]
         public bool IsInUse { get; set; }
     }
-    
+
+    public class CdmaBtsTransform : ValueResolver<BtsExcel, CdmaBts>
+    {
+        protected override CdmaBts ResolveCore(BtsExcel source)
+        {
+            return source.MapTo<CdmaBts>();
+        }
+    }
+
+    [AutoMapFrom(typeof(BtsExcelWithTownIdContainer))]
+    public class BtsWithTownIdContainer
+    {
+        [AutoMapPropertyResolve("BtsExcel", typeof(BtsExcelWithTownIdContainer), typeof(CdmaBtsTransform))]
+        public CdmaBts CdmaBts { get; set; }
+
+        public int TownId { get; set; }
+    }
+
 }

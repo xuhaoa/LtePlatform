@@ -5,11 +5,7 @@ using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
-using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.Policy;
-using Lte.Evaluations.ViewModels;
-using Lte.Evaluations.ViewModels.Precise;
-using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Channel;
@@ -23,6 +19,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using Lte.Evaluations.MapperSerive;
 
 namespace Lte.Evaluations.MapperService
 {

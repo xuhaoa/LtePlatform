@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Regular;
-using Lte.Evaluations.MapperSerive.Infrastructure;
-using Lte.Evaluations.MapperSerive.Kpi;
 using Lte.Evaluations.ViewModels.Basic;
-using Lte.Evaluations.ViewModels.Precise;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
@@ -14,6 +11,7 @@ using System.Linq;
 using Lte.Domain.Common.Geo;
 using Lte.Evaluations.DataService.Switch;
 using Lte.Parameters.Abstract.Switch;
+using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.DataService.Basic
 {
