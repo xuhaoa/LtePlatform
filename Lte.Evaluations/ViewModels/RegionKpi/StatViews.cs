@@ -1,11 +1,14 @@
 ﻿using System;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
+using Lte.Domain.Regular;
 using Lte.Domain.Regular.Attributes;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
+using Lte.Parameters.Entities.Basic;
 
 namespace Lte.Evaluations.ViewModels.RegionKpi
 {
@@ -124,6 +127,40 @@ namespace Lte.Evaluations.ViewModels.RegionKpi
 
         [MemberDoc("工单状态")]
         public string WorkItemState { get; set; }
+    }
+
+    [AutoMapFrom(typeof(ENodeb), typeof(Town))]
+    public class ENodebView : IGeoPointReadonly<double>
+    {
+        public int ENodebId { get; set; }
+
+        public string Name { get; set; }
+
+        public string Factory { get; set; }
+
+        public IpAddress GatewayIp { get; set; }
+
+        public IpAddress Ip { get; set; }
+
+        public bool IsInUse { get; set; }
+
+        public double Longtitute { get; set; }
+
+        public double Lattitute { get; set; }
+
+        public string Address { get; set; }
+
+        public string PlanNum { get; set; }
+
+        public DateTime OpenDate { get; set; }
+
+        public string OpenDateString => OpenDate.ToShortDateString();
+
+        public string CityName { get; set; }
+
+        public string DistrictName { get; set; }
+
+        public string TownName { get; set; }
     }
 
 }

@@ -2,7 +2,6 @@
 using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Regular;
-using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
@@ -13,7 +12,9 @@ using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
+using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.ViewModels.Precise;
+using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Kpi;
@@ -138,7 +139,7 @@ namespace Lte.Evaluations.DataService.College
                     .Where(cell => cell != null)
                     .ToList();
             return cells.Any()
-                ? cells.Select(x => CellRruView.ConstructView(x, _eNodebRepository, _rruRepository))
+                ? cells.Select(x => x.ConstructCellRruView(_eNodebRepository, _rruRepository))
                 : new List<CellRruView>();
         }
 
@@ -149,7 +150,7 @@ namespace Lte.Evaluations.DataService.College
                         x.HotspotName == name && x.InfrastructureType == InfrastructureType.Cell);
             var query = ids.Select(x => _cellRepository.GetBySectorId(x.ENodebId, x.SectorId)).Where(cell => cell != null).ToList();
             return query.Any()
-                ? query.Select(x => CellRruView.ConstructView(x, _eNodebRepository, _rruRepository))
+                ? query.Select(x => x.ConstructCellRruView(_eNodebRepository, _rruRepository))
                 : new List<CellRruView>();
         }
 

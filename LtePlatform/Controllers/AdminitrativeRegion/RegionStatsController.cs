@@ -1,8 +1,8 @@
 ﻿using Lte.Evaluations.DataService.Basic;
-using Lte.Evaluations.ViewModels.Basic;
 using LtePlatform.Models;
 using System.Collections.Generic;
 using System.Web.Http;
+using Lte.Domain.Common.Wireless;
 
 namespace LtePlatform.Controllers.AdminitrativeRegion
 {

@@ -1,18 +1,17 @@
 ﻿using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Regular;
-using Lte.Evaluations.ViewModels.Basic;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using System.Collections.Generic;
 using System.Linq;
+using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Evaluations.DataService.Switch;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Abstract.Switch;
-using Lte.Parameters.Entities.Neighbor;
 
 namespace Lte.Evaluations.DataService.Basic
 {
@@ -47,7 +46,7 @@ namespace Lte.Evaluations.DataService.Basic
         {
             var cells = _repository.GetAllList(eNodebId);
             return cells.Any()
-                ? cells.Select(x => CellRruView.ConstructView(x, _eNodebRepository, _rruRepository))
+                ? cells.Select(x => x.ConstructCellRruView(_eNodebRepository, _rruRepository))
                 : new List<CellRruView>();
         }
 
@@ -70,7 +69,7 @@ namespace Lte.Evaluations.DataService.Basic
             {
                 var cell =
                     _repository.FirstOrDefault(x => x.ENodebId == rru.ENodebId && x.LocalSectorId == rru.LocalSectorId);
-                return cell == null ? null : CellRruView.ConstructView(cell, _eNodebRepository, rru);
+                return cell == null ? null : cell.ConstructCellRruView(_eNodebRepository, rru);
             }).Where(rru => rru != null);
         } 
 
@@ -199,6 +198,30 @@ namespace Lte.Evaluations.DataService.Basic
                           join c in cellSites on e.ENodebId equals c.ENodebId
                           select new GeoPoint(e.Longtitute, e.Lattitute);
             return results;
+        }
+    }
+
+    public static class CellQueries
+    {
+
+        public static CellRruView ConstructCellRruView(this Cell cell, IENodebRepository repository, ILteRruRepository rruRepository)
+        {
+            var view = Mapper.Map<Cell, CellRruView>(cell);
+            var eNodeb = repository.GetByENodebId(cell.ENodebId);
+            view.ENodebName = eNodeb?.Name;
+            var rru =
+                rruRepository.FirstOrDefault(x => x.ENodebId == cell.ENodebId && x.LocalSectorId == cell.LocalSectorId);
+            rru?.MapTo(view);
+            return view;
+        }
+
+        public static CellRruView ConstructCellRruView(this Cell cell, IENodebRepository repository, LteRru rru)
+        {
+            var view = Mapper.Map<Cell, CellRruView>(cell);
+            var eNodeb = repository.GetByENodebId(cell.ENodebId);
+            view.ENodebName = eNodeb?.Name;
+            rru?.MapTo(view);
+            return view;
         }
     }
 
@@ -397,45 +420,6 @@ namespace Lte.Evaluations.DataService.Basic
                 CellSpecificOffset = zteCell?.ocs ?? 15,
                 QoffsetFreq = zteMeas[0]?.eutranMeasParas_offsetFreq ?? 15,
                 RootSequenceIdx = ztePrach?.rootSequenceIndex ?? -1
-            };
-        }
-    }
-
-    public static class CellNeighborQueries
-    {
-        public static NearestPciCell ConstructCell(this NeighborCellHwCsv info, ICellRepository cellRepository)
-        {
-            var fields = info.CellRelation.GetSplittedFields();
-            var cellId = fields[13].ConvertToInt(0);
-            var sectorId = fields[5].ConvertToByte(0);
-            var neighborCellId = fields[11].ConvertToInt(0);
-            var neighborSectorId = fields[3].ConvertToByte(0);
-            var neiborCell = neighborCellId > 10000 ? cellRepository.GetBySectorId(neighborCellId, neighborSectorId) : null;
-            return new NearestPciCell
-            {
-                CellId = cellId,
-                SectorId = (neighborSectorId > 30 && sectorId < 30) ? (byte)(sectorId + 48) : sectorId,
-                NearestCellId = neighborCellId,
-                NearestSectorId = neighborSectorId,
-                Pci = neiborCell?.Pci ?? -1,
-                TotalTimes = info.TotalTimes
-            };
-        }
-
-        public static NearestPciCell ConstructCell(this NeighborCellZteCsv info, ICellRepository cellRepository)
-        {
-            var fields = info.NeighborRelation.GetSplittedFields(':');
-            var neighborCellId = fields[3].ConvertToInt(0);
-            var neighborSectorId = fields[4].ConvertToByte(0);
-            var neiborCell = neighborCellId > 10000 ? cellRepository.GetBySectorId(neighborCellId, neighborSectorId) : null;
-            return new NearestPciCell
-            {
-                CellId = info.ENodebId,
-                SectorId = info.SectorId,
-                NearestCellId = neighborCellId,
-                NearestSectorId = neighborSectorId,
-                Pci = neiborCell?.Pci ?? (short)-1,
-                TotalTimes = info.IntraSystemTimes + info.InterSystemTimes
             };
         }
     }

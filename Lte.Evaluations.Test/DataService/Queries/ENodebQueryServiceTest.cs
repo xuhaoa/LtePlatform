@@ -3,13 +3,13 @@ using Abp.Reflection;
 using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
-using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 

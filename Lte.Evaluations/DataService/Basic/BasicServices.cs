@@ -12,8 +12,6 @@ using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
 using Lte.Domain.Regular;
-using Lte.Evaluations.ViewModels;
-using Lte.Evaluations.ViewModels.Basic;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Kpi;

@@ -155,7 +155,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Basic\RegionStat.cs" />
     <Compile Include="ViewModels\College\CollegeStat.cs" />
     <Compile Include="ViewModels\Mr\CellStasticView.cs" />
     <Compile Include="ViewModels\Mr\InterferenceMatrixView.cs" />

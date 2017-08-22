@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Lte.Evaluations.ViewModels.Basic;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using System.Collections.Generic;

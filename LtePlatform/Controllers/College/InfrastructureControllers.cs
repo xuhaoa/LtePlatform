@@ -1,10 +1,11 @@
 ﻿using Lte.Evaluations.DataService.College;
-using Lte.Evaluations.ViewModels.Basic;
 using LtePlatform.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Lte.Domain.Common.Geo;
+using Lte.Evaluations.ViewModels.RegionKpi;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities;
 using Lte.Parameters.Entities.Basic;
 

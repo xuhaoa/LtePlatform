@@ -77,7 +77,7 @@
     <Compile Include="Common\Wireless\AntennaDefs.cs" />
     <Compile Include="Common\Wireless\CustomerDefs.cs" />
     <Compile Include="Common\Wireless\FrequencyBandQueries.cs" />
-    <Compile Include="Common\Wireless\ICellStastic.cs" />
+    <Compile Include="Common\Wireless\CommonStructures.cs" />
     <Compile Include="Common\Wireless\WirelessConstants.cs" />
     <Compile Include="LinqToCsv\Context\CsvContext.cs" />
     <Compile Include="LinqToCsv\Context\FileDataAccess.cs" />

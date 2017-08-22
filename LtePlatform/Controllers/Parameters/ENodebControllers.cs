@@ -13,7 +13,7 @@ using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.Dump;
-using Lte.Evaluations.ViewModels.Basic;
+using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Basic;
 

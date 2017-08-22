@@ -2,7 +2,7 @@
 using Lte.Evaluations.DataService.Switch;
 using LtePlatform.Models;
 using System.Web.Http;
-using Lte.Evaluations.ViewModels.Basic;
+using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Channel;
 
 namespace LtePlatform.Controllers.Mongo

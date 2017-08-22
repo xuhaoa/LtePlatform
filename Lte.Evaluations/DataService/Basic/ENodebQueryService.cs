@@ -1,7 +1,6 @@
 ﻿using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Domain.Regular;
-using Lte.Evaluations.ViewModels.Basic;
 using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
@@ -9,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Lte.Domain.Common.Geo;
+using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.DataService.Basic
