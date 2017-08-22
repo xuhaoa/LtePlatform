@@ -21,8 +21,6 @@ namespace Lte.Parameters.Concrete
 
         public DbSet<CdmaBts> Btss { get; set; }
 
-        public DbSet<Cell> Cells { get; set; }
-
         public DbSet<CdmaCell> CdmaCells { get; set; }
 
         public DbSet<IndoorDistribution> IndoorDistributions { get; set; }

@@ -1,13 +1,13 @@
-using Lte.Domain.Common;
 using Lte.Domain.LinqToCsv;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
-using Lte.Domain.Regular;
-using Lte.Parameters.Abstract.Basic;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using Abp.Domain.Entities;
+using Lte.Domain.Regular.Attributes;
 
 namespace Lte.Parameters.Entities.Neighbor
 {
@@ -18,41 +18,6 @@ namespace Lte.Parameters.Entities.Neighbor
         
         public int TotalTimes { get; set; }
 
-        public static NearestPciCell ConstructCell(NeighborCellHwCsv info, ICellRepository cellRepository)
-        {
-            var fields = info.CellRelation.GetSplittedFields();
-            var cellId = fields[13].ConvertToInt(0);
-            var sectorId = fields[5].ConvertToByte(0);
-            var neighborCellId = fields[11].ConvertToInt(0);
-            var neighborSectorId = fields[3].ConvertToByte(0);
-            var neiborCell = neighborCellId > 10000 ? cellRepository.GetBySectorId(neighborCellId, neighborSectorId) : null;
-            return new NearestPciCell
-            {
-                CellId = cellId,
-                SectorId = (neighborSectorId > 30 && sectorId < 30) ? (byte)(sectorId + 48) : sectorId,
-                NearestCellId = neighborCellId,
-                NearestSectorId = neighborSectorId,
-                Pci = neiborCell?.Pci ?? -1,
-                TotalTimes = info.TotalTimes
-            };
-        }
-
-        public static NearestPciCell ConstructCell(NeighborCellZteCsv info, ICellRepository cellRepository)
-        {
-            var fields = info.NeighborRelation.GetSplittedFields(':');
-            var neighborCellId = fields[3].ConvertToInt(0);
-            var neighborSectorId = fields[4].ConvertToByte(0);
-            var neiborCell = neighborCellId > 10000 ? cellRepository.GetBySectorId(neighborCellId, neighborSectorId) : null;
-            return new NearestPciCell
-            {
-                CellId = info.ENodebId,
-                SectorId = info.SectorId,
-                NearestCellId = neighborCellId,
-                NearestSectorId = neighborSectorId,
-                Pci = neiborCell?.Pci ?? (short) -1,
-                TotalTimes = info.IntraSystemTimes + info.InterSystemTimes
-            };
-        }
     }
 
     public class NeighborCellZteCsv
@@ -112,6 +77,23 @@ namespace Lte.Parameters.Entities.Neighbor
                               }).ToList();
             return groupInfos;
         }
+    }
 
+    [Table("dbo.LteNeighborCells")]
+    [KnownType(typeof(NearestPciCell))]
+    [TypeDoc("LTE邻区关系定义")]
+    public class LteNeighborCell : Entity
+    {
+        [MemberDoc("小区编号（对于LTE来说就是基站编号）")]
+        public int CellId { get; set; }
+
+        [MemberDoc("扇区编号")]
+        public byte SectorId { get; set; }
+
+        [MemberDoc("邻区小区编号")]
+        public int NearestCellId { get; set; }
+
+        [MemberDoc("邻区扇区编号")]
+        public byte NearestSectorId { get; set; }
     }
 }

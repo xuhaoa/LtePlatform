@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
+using Lte.Evaluations.ViewModels.Precise;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Kpi;

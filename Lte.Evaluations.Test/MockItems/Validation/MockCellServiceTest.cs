@@ -1,5 +1,5 @@
-﻿using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Entities.Basic;
+﻿using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Moq;
 using NUnit.Framework;
 using Shouldly;

@@ -10,8 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Lte.Domain.Common.Geo;
 using Lte.Evaluations.DataService.Switch;
+using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Abstract.Switch;
-using Lte.Parameters.Entities.Kpi;
+using Lte.Parameters.Entities.Neighbor;
 
 namespace Lte.Evaluations.DataService.Basic
 {
@@ -147,7 +148,7 @@ namespace Lte.Evaluations.DataService.Basic
 
         public IEnumerable<Precise4GSector> QuerySectors(TopPreciseViewContainer container)
         {
-            return container.Views.Select(x => Precise4GSector.ConstructSector(x, _repository));
+            return container.Views.Select(x => x.ConstructSector(_repository));
         }
 
         public LteRru QueryRru(string cellName)
@@ -396,6 +397,45 @@ namespace Lte.Evaluations.DataService.Basic
                 CellSpecificOffset = zteCell?.ocs ?? 15,
                 QoffsetFreq = zteMeas[0]?.eutranMeasParas_offsetFreq ?? 15,
                 RootSequenceIdx = ztePrach?.rootSequenceIndex ?? -1
+            };
+        }
+    }
+
+    public static class CellNeighborQueries
+    {
+        public static NearestPciCell ConstructCell(this NeighborCellHwCsv info, ICellRepository cellRepository)
+        {
+            var fields = info.CellRelation.GetSplittedFields();
+            var cellId = fields[13].ConvertToInt(0);
+            var sectorId = fields[5].ConvertToByte(0);
+            var neighborCellId = fields[11].ConvertToInt(0);
+            var neighborSectorId = fields[3].ConvertToByte(0);
+            var neiborCell = neighborCellId > 10000 ? cellRepository.GetBySectorId(neighborCellId, neighborSectorId) : null;
+            return new NearestPciCell
+            {
+                CellId = cellId,
+                SectorId = (neighborSectorId > 30 && sectorId < 30) ? (byte)(sectorId + 48) : sectorId,
+                NearestCellId = neighborCellId,
+                NearestSectorId = neighborSectorId,
+                Pci = neiborCell?.Pci ?? -1,
+                TotalTimes = info.TotalTimes
+            };
+        }
+
+        public static NearestPciCell ConstructCell(this NeighborCellZteCsv info, ICellRepository cellRepository)
+        {
+            var fields = info.NeighborRelation.GetSplittedFields(':');
+            var neighborCellId = fields[3].ConvertToInt(0);
+            var neighborSectorId = fields[4].ConvertToByte(0);
+            var neiborCell = neighborCellId > 10000 ? cellRepository.GetBySectorId(neighborCellId, neighborSectorId) : null;
+            return new NearestPciCell
+            {
+                CellId = info.ENodebId,
+                SectorId = info.SectorId,
+                NearestCellId = neighborCellId,
+                NearestSectorId = neighborSectorId,
+                Pci = neiborCell?.Pci ?? (short)-1,
+                TotalTimes = info.IntraSystemTimes + info.InterSystemTimes
             };
         }
     }

@@ -13,6 +13,8 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.DataService.College
 {

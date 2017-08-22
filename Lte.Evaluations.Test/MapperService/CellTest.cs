@@ -20,6 +20,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 using Lte.Evaluations.MapperSerive;
+using Lte.Evaluations.ViewModels.Precise;
 
 namespace Lte.Evaluations.MapperService
 {

@@ -10,6 +10,8 @@ using NUnit.Framework;
 using Shouldly;
 using System.Linq;
 using Lte.Domain.LinqToExcel;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.DataService.Dump
 {

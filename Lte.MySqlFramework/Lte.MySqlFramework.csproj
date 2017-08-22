@@ -158,13 +158,13 @@
     <Compile Include="Entities\PlanningSite.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
-    <Compile Include="Migrations\201708200819425_Update_Online_Sustain.cs" />
-    <Compile Include="Migrations\201708200819425_Update_Online_Sustain.Designer.cs">
-      <DependentUpon>201708200819425_Update_Online_Sustain.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201708210637022_Change_College_Boundary.cs" />
     <Compile Include="Migrations\201708210637022_Change_College_Boundary.Designer.cs">
       <DependentUpon>201708210637022_Change_College_Boundary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708220824489_Migrate_Cells.cs" />
+    <Compile Include="Migrations\201708220824489_Migrate_Cells.Designer.cs">
+      <DependentUpon>201708220824489_Migrate_Cells.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -175,11 +175,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201708200819425_Update_Online_Sustain.resx">
-      <DependentUpon>201708200819425_Update_Online_Sustain.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708210637022_Change_College_Boundary.resx">
       <DependentUpon>201708210637022_Change_College_Boundary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708220824489_Migrate_Cells.resx">
+      <DependentUpon>201708220824489_Migrate_Cells.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

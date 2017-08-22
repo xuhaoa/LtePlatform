@@ -5,7 +5,7 @@ using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Neighbor;
 using System.Collections.Generic;
 using System.Linq;
-using Lte.Parameters.Abstract;
+using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract.Infrastructure;
 
 namespace Lte.Evaluations.DataService.Mr

@@ -1,5 +1,5 @@
 ﻿using Lte.Domain.Common.Wireless;
-using Lte.Parameters.Abstract.Basic;
+using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Entities;
 

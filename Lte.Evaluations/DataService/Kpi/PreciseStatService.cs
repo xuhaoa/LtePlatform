@@ -8,6 +8,7 @@ using Lte.Parameters.Entities.Kpi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Evaluations.ViewModels.Precise;
 
 namespace Lte.Evaluations.DataService.Kpi
 {

@@ -4,7 +4,7 @@ using LtePlatform.Models;
 using System.Collections.Generic;
 using System.Web.Http;
 using Lte.Evaluations.ViewModels.Mr;
-using Lte.Parameters.Entities.Kpi;
+using Lte.Evaluations.ViewModels.Precise;
 
 namespace LtePlatform.Controllers.Parameters
 {

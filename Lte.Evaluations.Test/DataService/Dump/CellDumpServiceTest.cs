@@ -1,10 +1,10 @@
 ﻿using Lte.Domain.Common;
 using Lte.Evaluations.MockItems;
-using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Entities.Basic;
 using NUnit.Framework;
 using Shouldly;
 using System.Collections.Generic;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.DataService.Dump
 {

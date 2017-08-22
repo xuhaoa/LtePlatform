@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
-using Lte.Parameters.Entities.Basic;
+using Lte.Evaluations.ViewModels.Precise;
 
 namespace Lte.Evaluations.DataService.College
 {

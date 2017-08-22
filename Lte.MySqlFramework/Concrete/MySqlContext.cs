@@ -130,5 +130,7 @@ namespace Lte.MySqlFramework.Concrete
 
         public DbSet<CollegeInfo> CollegeInfos { get; set; }
 
+        public DbSet<Cell> Cells { get; set; }
+
     }
 }

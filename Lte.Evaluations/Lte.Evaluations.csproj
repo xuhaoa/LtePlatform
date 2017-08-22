@@ -175,8 +175,7 @@
     <Compile Include="ViewModels\Mr\InterferenceVictimView.cs" />
     <Compile Include="ViewModels\Mr\NearestPciCellView.cs" />
     <Compile Include="ViewModels\Mr\NeighborCellMongo.cs" />
-    <Compile Include="ViewModels\Precise\PreciseWorkItemDto.cs" />
-    <Compile Include="ViewModels\Precise\PreciseHistory.cs" />
+    <Compile Include="ViewModels\Precise\PreciseViews.cs" />
     <Compile Include="ViewModels\RegionKpi\PreciseRegion.cs" />
     <Compile Include="ViewModels\RegionKpi\StatViews.cs" />
   </ItemGroup>

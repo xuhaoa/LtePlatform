@@ -2,6 +2,8 @@
 using Abp.Reflection;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.MockOperations;

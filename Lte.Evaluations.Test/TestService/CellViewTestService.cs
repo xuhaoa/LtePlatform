@@ -1,4 +1,5 @@
 ﻿using Lte.Evaluations.ViewModels.Basic;
+using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Entities.Basic;
 using NUnit.Framework;
 

@@ -152,7 +152,7 @@ namespace Lte.MySqlFramework.Abstract
             bool isAsc = true);
     }
 
-    public interface IWorkItemRepository : IPagingRepository<WorkItem>
+    public interface IWorkItemRepository : IPagingRepository<WorkItem>, ISaveChanges
     {
         Task<List<WorkItem>> GetAllListAsync(int eNodebId, byte sectorId);
 
@@ -161,7 +161,21 @@ namespace Lte.MySqlFramework.Abstract
         Task<List<WorkItem>> GetUnfinishedPreciseListAsync(DateTime begin, DateTime end);
 
         Task<WorkItem> GetPreciseExistedAsync(int eNodebId, byte sectorId);
-
-        int SaveChanges();
     }
+
+    public interface ICellRepository : IRepository<Cell>, IMatchRepository<Cell, CellExcel>, ISaveChanges
+    {
+        void AddCells(IEnumerable<Cell> cells);
+
+        Cell GetBySectorId(int eNodebId, byte sectorId);
+
+        Cell GetByFrequency(int eNodebId, int frequency);
+
+        List<Cell> GetAllList(int eNodebId);
+
+        List<Cell> GetAllList(double west, double east, double south, double north);
+
+        List<Cell> GetAllInUseList();
+    }
+
 }

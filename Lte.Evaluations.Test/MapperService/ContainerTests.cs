@@ -15,6 +15,7 @@ using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.Evaluations.ViewModels.Precise;
 using Lte.Evaluations.ViewModels.RegionKpi;
 
 namespace Lte.Evaluations.MapperService
