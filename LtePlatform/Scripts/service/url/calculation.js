@@ -598,7 +598,7 @@
                     title: '各区小区频段分布',
                     xtitle: '区域',
                     ytitle: '小区数',
-                    seriesTitles: ['2.1G频段', '1.8G频段', '800M频段', 'TDD频段']
+                    seriesTitles: ['2.1G频段', '1.8G频段', '800M频段-非NB-IoT', '800M频段-NB-IoT', 'TDD频段']
                 }, function(stat) {
                     return stat.district;
                 }, [
@@ -608,6 +608,8 @@
                         return stat.band3Cells;
                     }, function(stat) {
                         return stat.band5Cells;
+                    }, function (stat) {
+                        return stat.nbIotCells;
                     }, function(stat) {
                         return stat.band41Cells;
                     }
