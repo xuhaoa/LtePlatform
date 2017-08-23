@@ -178,4 +178,14 @@ namespace Lte.MySqlFramework.Abstract
         List<Cell> GetAllInUseList();
     }
 
+    public interface ICdmaCellRepository : IRepository<CdmaCell>, ISaveChanges
+    {
+        CdmaCell GetBySectorId(int btsId, byte sectorId);
+
+        CdmaCell GetBySectorIdAndCellType(int btsId, byte sectorId, string cellType);
+
+        List<CdmaCell> GetAllList(int btsId);
+
+        List<CdmaCell> GetAllInUseList();
+    }
 }

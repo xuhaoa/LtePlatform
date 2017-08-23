@@ -165,7 +165,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\Basic\MongoRepositories.cs" />
-    <Compile Include="Abstract\Basic\CellRepositories.cs" />
     <Compile Include="Abstract\Basic\IENodebRepository.cs" />
     <Compile Include="Abstract\Infrastructure\RegionRepositories.cs" />
     <Compile Include="Abstract\Kpi\MrMongoInterfaces.cs" />
@@ -180,7 +179,6 @@
     <Compile Include="Concrete\Basic\EUtranCellFDDZteRepository.cs" />
     <Compile Include="Concrete\Channel\CellPcRepositories.cs" />
     <Compile Include="Concrete\Channel\PDSCHCfgRepository.cs" />
-    <Compile Include="Concrete\Basic\EFCellRepository.cs" />
     <Compile Include="Concrete\College\EFCollegeRepository.cs" />
     <Compile Include="Concrete\Basic\EFENodebRepository.cs" />
     <Compile Include="Concrete\Infrastructure\EFInfrastructureRepository.cs" />
@@ -197,7 +195,6 @@
     <Compile Include="Concrete\Neighbor\EUtranRelationZteRepository.cs" />
     <Compile Include="Concrete\Neighbor\ExternalEUtranCellFDDZteRepository.cs" />
     <Compile Include="Concrete\Switch\EUtranCellMeasurementZteRepository.cs" />
-    <Compile Include="Entities\Basic\PrachFDDZte.cs" />
     <Compile Include="Entities\Channel\AgpsMongo.cs" />
     <Compile Include="Entities\Channel\Pdsch.cs" />
     <Compile Include="Entities\Channel\PowerControl.cs" />
@@ -210,8 +207,7 @@
     <Compile Include="Concrete\Switch\IntraRatHoCommRepository.cs" />
     <Compile Include="Concrete\Switch\UeEUtranMeasurementRepository.cs" />
     <Compile Include="Entities\Kpi\AlarmStat.cs" />
-    <Compile Include="Entities\Basic\CellHuaweiMongo.cs" />
-    <Compile Include="Entities\Basic\Cell.cs" />
+    <Compile Include="Entities\Basic\CellMongos.cs" />
     <Compile Include="Entities\Dt\DtFilesInfo.cs" />
     <Compile Include="Entities\Basic\ENodeb.cs" />
     <Compile Include="Entities\InfrastructureInfo.cs" />
@@ -228,13 +224,13 @@
     <Compile Include="Entities\Switch\IntraFreqHoGroup.cs" />
     <Compile Include="Entities\Switch\IntraRatHoComm.cs" />
     <Compile Include="Entities\Switch\UeEUtranMeasurementZte.cs" />
-    <Compile Include="Migrations\201708210700428_Change_College.cs" />
-    <Compile Include="Migrations\201708210700428_Change_College.Designer.cs">
-      <DependentUpon>201708210700428_Change_College.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201708220834537_Migrate_Cells.cs" />
     <Compile Include="Migrations\201708220834537_Migrate_Cells.Designer.cs">
       <DependentUpon>201708220834537_Migrate_Cells.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708230554239_Change_CdmaCell.cs" />
+    <Compile Include="Migrations\201708230554239_Change_CdmaCell.Designer.cs">
+      <DependentUpon>201708230554239_Change_CdmaCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MockOperations\DbHelper.cs" />
@@ -265,11 +261,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201708210700428_Change_College.resx">
-      <DependentUpon>201708210700428_Change_College.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708220834537_Migrate_Cells.resx">
       <DependentUpon>201708220834537_Migrate_Cells.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708230554239_Change_CdmaCell.resx">
+      <DependentUpon>201708230554239_Change_CdmaCell.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

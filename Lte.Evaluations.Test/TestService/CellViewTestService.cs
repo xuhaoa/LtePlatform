@@ -1,5 +1,5 @@
 ﻿using Lte.Evaluations.ViewModels.Precise;
-using Lte.Parameters.Entities.Basic;
+using Lte.MySqlFramework.Entities;
 using NUnit.Framework;
 
 namespace Lte.Evaluations.TestService

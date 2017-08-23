@@ -234,7 +234,7 @@ namespace Lte.Evaluations.DataService.College
             var query =
                 ids.Select(x => _cellRepository.GetBySectorId(x.BtsId, x.SectorId)).Where(cell => cell != null).ToList();
             return query.Any()
-                ? query.Select(x => CdmaCellView.ConstructView(x, _btsRepository))
+                ? query.Select(x => CellQueries.ConstructView(x, _btsRepository))
                 : null;
         }
 
@@ -249,7 +249,7 @@ namespace Lte.Evaluations.DataService.College
                 ids.Select(x => _cellRepository.GetBySectorId(x.BtsId, x.SectorId)).Where(cell => cell != null).ToList();
             return query.Any()
                 ? Mapper.Map<IEnumerable<CdmaCellView>, IEnumerable<SectorView>>(
-                    query.Select(x => CdmaCellView.ConstructView(x, _btsRepository)))
+                    query.Select(x => CellQueries.ConstructView(x, _btsRepository)))
                 : null;
         }
 

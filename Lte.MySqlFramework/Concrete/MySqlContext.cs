@@ -132,5 +132,7 @@ namespace Lte.MySqlFramework.Concrete
 
         public DbSet<Cell> Cells { get; set; }
 
+        public DbSet<CdmaCell> CdmaCells { get; set; }
+
     }
 }

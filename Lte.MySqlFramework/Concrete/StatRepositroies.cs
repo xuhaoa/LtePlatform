@@ -374,4 +374,35 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
+    public class EFCdmaCellRepository : EfRepositoryBase<MySqlContext, CdmaCell>, ICdmaCellRepository
+    {
+        public List<CdmaCell> GetAllList(int btsId)
+        {
+            return GetAll().Where(x => x.BtsId == btsId).ToList();
+        }
+
+        public List<CdmaCell> GetAllInUseList()
+        {
+            return GetAll().Where(x => x.IsInUse).ToList();
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+
+        public CdmaCell GetBySectorId(int btsId, byte sectorId)
+        {
+            return FirstOrDefault(x => x.BtsId == btsId && x.SectorId == sectorId);
+        }
+
+        public CdmaCell GetBySectorIdAndCellType(int btsId, byte sectorId, string cellType)
+        {
+            return FirstOrDefault(x => x.BtsId == btsId && x.SectorId == sectorId && x.CellType == cellType);
+        }
+
+        public EFCdmaCellRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+    }
 }

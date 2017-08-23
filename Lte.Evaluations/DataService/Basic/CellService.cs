@@ -229,6 +229,90 @@ namespace Lte.Evaluations.DataService.Basic
             rru?.MapTo(view);
             return view;
         }
+
+        public static CdmaCellView ConstructView(this CdmaCell cell, IBtsRepository repository)
+        {
+            var view = Mapper.Map<CdmaCell, CdmaCellView>(cell);
+            var bts = repository.GetByBtsId(cell.BtsId);
+            view.BtsName = bts?.Name;
+            return view;
+        }
+
+        public static CdmaCompoundCellView ConstructView(this CdmaCell onexCell, CdmaCell evdoCell, IBtsRepository repository)
+        {
+            CdmaCompoundCellView view = null;
+            if (onexCell != null)
+            {
+                view = Mapper.Map<CdmaCell, CdmaCompoundCellView>(onexCell);
+                view.OnexFrequencyList = onexCell.FrequencyList;
+                if (evdoCell != null) view.EvdoFrequencyList = evdoCell.FrequencyList;
+            }
+            else if (evdoCell != null)
+            {
+                view = Mapper.Map<CdmaCell, CdmaCompoundCellView>(evdoCell);
+                view.EvdoFrequencyList = evdoCell.FrequencyList;
+            }
+
+            if (view != null)
+            {
+                var bts = repository.GetByBtsId(view.BtsId);
+                view.BtsName = bts?.Name;
+            }
+
+            return view;
+        }
+    }
+
+    public class CdmaCellService
+    {
+        private readonly ICdmaCellRepository _repository;
+        private readonly IBtsRepository _btsRepository;
+
+        public CdmaCellService(ICdmaCellRepository repository, IBtsRepository btsRepository)
+        {
+            _repository = repository;
+            _btsRepository = btsRepository;
+        }
+
+        public CdmaCompoundCellView QueryCell(int btsId, byte sectorId)
+        {
+            var onexCell = _repository.GetBySectorIdAndCellType(btsId, sectorId, "1X");
+            var evdoCell = _repository.GetBySectorIdAndCellType(btsId, sectorId, "DO");
+            return CellQueries.ConstructView(onexCell, evdoCell, _btsRepository);
+        }
+
+        public CdmaCellView QueryCell(int btsId, byte sectorId, string cellType)
+        {
+            var item = _repository.GetBySectorIdAndCellType(btsId, sectorId, cellType);
+            return item == null ? null : Mapper.Map<CdmaCell, CdmaCellView>(item);
+        }
+
+        public List<byte> GetSectorIds(string btsName)
+        {
+            var bts = _btsRepository.GetByName(btsName);
+            return bts == null
+                ? null
+                : _repository.GetAll().Where(x => x.BtsId == bts.BtsId).Select(x => x.SectorId).Distinct().ToList();
+        }
+
+        public List<CdmaCellView> GetCellViews(string name)
+        {
+            var bts = _btsRepository.GetByName(name);
+            var results = bts == null
+                ? null
+                : Mapper.Map<IEnumerable<CdmaCell>, List<CdmaCellView>>(_repository.GetAll().Where(x => x.BtsId == bts.BtsId));
+            results?.ForEach(x => x.BtsName = name);
+            return results;
+        }
+
+        public IEnumerable<SectorView> QuerySectors(int btsId)
+        {
+            var cells = _repository.GetAllList(btsId);
+            return cells.Any()
+                ? Mapper.Map<IEnumerable<CdmaCellView>, IEnumerable<SectorView>>(
+                    cells.Select(x => CellQueries.ConstructView(x, _btsRepository)))
+                : new List<SectorView>();
+        }
     }
 
     public interface ICellPowerService

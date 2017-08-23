@@ -1,7 +1,9 @@
 ﻿using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
+using Lte.Evaluations.DataService.Basic;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Basic;
 using Moq;
@@ -43,7 +45,7 @@ namespace Lte.Evaluations.ViewModel
                 MTilt = mTilt,
                 Lac = lac
             };
-            var view = CdmaCellView.ConstructView(cell, _repository.Object);
+            var view = cell.ConstructView(_repository.Object);
             if (btsId > 0 && btsId <= 3)
                 Assert.AreEqual(view.BtsName, "Bts-" + btsId);
             else

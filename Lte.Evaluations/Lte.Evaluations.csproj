@@ -129,7 +129,6 @@
   <ItemGroup>
     <Compile Include="DataService\AreaTestDateService.cs" />
     <Compile Include="DataService\Basic\BasicServices.cs" />
-    <Compile Include="DataService\Basic\CdmaCellService.cs" />
     <Compile Include="DataService\College\CustomerServices.cs" />
     <Compile Include="DataService\Kpi\CdmaRegionStatService.cs" />
     <Compile Include="DataService\Basic\CellService.cs" />
