@@ -247,6 +247,18 @@
                     district: district
                 });
             },
+            queryVolteCellSites: function (city, district) {
+                return generalHttpService.getApiData('VoLteCellSite', {
+                    city: city,
+                    district: district
+                });
+            },
+            queryNbIotCellSites: function (city, district) {
+                return generalHttpService.getApiData('NbIotCellSite', {
+                    city: city,
+                    district: district
+                });
+            },
             queryIndoorCellSites: function (city, district) {
                 return generalHttpService.getApiData('IndoorCellSite', {
                     city: city,

@@ -92,7 +92,9 @@ namespace Lte.Domain.Common.Wireless
         With2G3G,
         With2G,
         With3G,
-        With2G3G4G4GPlus
+        With2G3G4G4GPlus,
+        Volte,
+        NbIot
     }
 
     public class NetworkTypeDescritionTransform : DescriptionTransform<NetworkType>

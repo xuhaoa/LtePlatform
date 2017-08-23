@@ -136,21 +136,6 @@
                 ]
             };
         })
-    .controller('menu.college',
-        function($scope) {
-            $scope.menuItem = {
-                displayName: "校园网专题",
-                subItems: [
-                    {
-                        displayName: "小区分布",
-                        url: '/#/college'
-                    }, {
-                        displayName: "校园覆盖",
-                        url: '/#/college-coverage'
-                    }
-                ]
-            };
-        })
     .controller('menu.mr',
         function($scope) {
             var rootUrl = "/#";

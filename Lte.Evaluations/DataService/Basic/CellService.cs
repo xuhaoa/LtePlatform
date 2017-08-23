@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Geo;
+using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.DataService.Switch;
 using Lte.Evaluations.ViewModels.Precise;
 using Lte.Parameters.Abstract.Switch;
@@ -172,9 +173,14 @@ namespace Lte.Evaluations.DataService.Basic
                    select CellView.ConstructView(cell, _eNodebRepository);
         }
 
-        public IEnumerable<GeoPoint> QueryOutdoorCellSites(IEnumerable<ENodeb> eNodebs)
+        public IEnumerable<GeoPoint> QueryOutdoorCellSites(IEnumerable<ENodeb> eNodebs, NetworkType type = NetworkType.With4G)
         {
-            var cellSites = _repository.GetAllList(x => x.IsOutdoor).Select(x => new
+            var cellList = type == NetworkType.With4G
+                ? _repository.GetAllList(x => x.IsOutdoor && (x.SectorId < 16 || (x.SectorId >= 48 && x.SectorId < 64)))
+                : (type == NetworkType.NbIot
+                    ? _repository.GetAllList(x => x.IsOutdoor && x.SectorId >= 80)
+                    : _repository.GetAllList(x => x.IsOutdoor && (x.SectorId >= 16 && x.SectorId < 32)));
+            var cellSites = cellList.Select(x => new
             {
                 x.Longtitute,
                 x.Lattitute,
