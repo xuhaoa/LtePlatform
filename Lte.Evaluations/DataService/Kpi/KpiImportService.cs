@@ -207,7 +207,10 @@ namespace Lte.Evaluations.DataService.Kpi
             }
             reader.Close();
             var filterInfos =
-                infos.Where(x => x.Longtitute != null && x.Lattitute != null).ToList();
+                infos.Where(
+                    x =>
+                        x.Longtitute != null && x.Lattitute != null && x.Longtitute > 111 && x.Longtitute < 114 &&
+                        x.Lattitute > 21 && x.Lattitute < 24).ToList();
             if (!filterInfos.Any()) throw new Exception("无数据或格式错误！");
             _dtFileInfoRepository.UpdateCsvFileInfo(tableName, filterInfos[0].StatTime);
             var stats = filterInfos.MergeRecords();
@@ -224,7 +227,8 @@ namespace Lte.Evaluations.DataService.Kpi
             var filterInfos =
                 infos.Where(
                     x =>
-                        x.Longtitute != null && x.Lattitute != null);
+                        x.Longtitute != null && x.Lattitute != null && x.Longtitute > 111 && x.Longtitute < 114 &&
+                        x.Lattitute > 21 && x.Lattitute < 24).ToList();
             if (!filterInfos.Any()) return "无数据或格式错误！";
             return "完成3G路测文件导入：" + path;
         }
@@ -237,7 +241,10 @@ namespace Lte.Evaluations.DataService.Kpi
             var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
             var infos = CsvContext.Read<FileRecord4GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
             var filterInfos =
-                infos.Where(x => x.Longtitute != null && x.Lattitute != null).ToList();
+                infos.Where(
+                    x =>
+                        x.Longtitute != null && x.Lattitute != null && x.Longtitute > 111 && x.Longtitute < 114 &&
+                        x.Lattitute > 21 && x.Lattitute < 24).ToList();
             if (!filterInfos.Any()) return "无数据或格式错误！";
             var fields = path.GetSplittedFields('\\');
             var dir = fields[fields.Length - 2];
@@ -258,7 +265,10 @@ namespace Lte.Evaluations.DataService.Kpi
             var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
             var infos = CsvContext.Read<FileRecord4GDingli>(reader, CsvFileDescription.CommaDescription).ToList();
             var filterInfos =
-                infos.Where(x => x.Longtitute != null && x.Lattitute != null).ToList();
+                infos.Where(
+                    x =>
+                        x.Longtitute != null && x.Lattitute != null && x.Longtitute > 111 && x.Longtitute < 24 &&
+                        x.Lattitute > 21 && x.Lattitute < 24).ToList();
             if (!filterInfos.Any()) return "无数据或格式错误！";
             _dtFileInfoRepository.UpdateCsvFileInfo(tableName, filterInfos[0].StatTime);
             var stats = filterInfos.MergeRecords();

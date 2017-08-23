@@ -1,13 +1,13 @@
-using Lte.Domain.LinqToCsv;
-using Lte.Domain.LinqToCsv.Context;
-using Lte.Domain.LinqToCsv.Description;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
 using Abp.Domain.Entities;
+using Abp.EntityFramework.AutoMapper;
+using Abp.EntityFramework.Dependency;
+using AutoMapper;
+using Lte.Domain.Common;
 using Lte.Domain.Regular.Attributes;
+using Lte.Parameters.Abstract.Basic;
+using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Neighbor
 {
@@ -18,65 +18,6 @@ namespace Lte.Parameters.Entities.Neighbor
         
         public int TotalTimes { get; set; }
 
-    }
-
-    public class NeighborCellZteCsv
-    {
-        [CsvColumn(Name = "网元")]
-        public int ENodebId { get; set; }
-
-        [CsvColumn(Name = "小区")]
-        public byte SectorId { get; set; }
-
-        [CsvColumn(Name = "邻区关系")]
-        public string NeighborRelation { get; set; }
-
-        [CsvColumn(Name = "[FDD]系统内同频切换出请求次数（小区对）")]
-        public int IntraSystemTimes { get; set; }
-
-        [CsvColumn(Name = "[FDD]系统内异频切换出请求次数(小区对)")]
-        public int InterSystemTimes { get; set; }
-
-        public static List<NeighborCellZteCsv> ReadNeighborCellZteCsvs(StreamReader reader)
-        {
-            var infos = CsvContext.Read<NeighborCellZteCsv>(reader, CsvFileDescription.CommaDescription);
-            var groupInfos = (from info in infos
-                              group info by new { info.ENodebId, info.SectorId, info.NeighborRelation }
-                into g
-                              select new NeighborCellZteCsv
-                              {
-                                  ENodebId = g.Key.ENodebId,
-                                  SectorId = g.Key.SectorId,
-                                  NeighborRelation = g.Key.NeighborRelation,
-                                  IntraSystemTimes = g.Sum(x => x.IntraSystemTimes),
-                                  InterSystemTimes = g.Sum(x => x.InterSystemTimes)
-                              }).ToList();
-            return groupInfos;
-        }
-
-    }
-
-    public class NeighborCellHwCsv
-    {
-        [CsvColumn(Name = "邻小区")]
-        public string CellRelation { get; set; }
-
-        [CsvColumn(Name = "特定两小区间切换出尝试次数 (无)")]
-        public int TotalTimes { get; set; }
-
-        public static List<NeighborCellHwCsv> ReadNeighborCellHwCsvs(StreamReader reader)
-        {
-            var infos = CsvContext.Read<NeighborCellHwCsv>(reader, CsvFileDescription.CommaDescription);
-            var groupInfos = (from info in infos
-                              group info by info.CellRelation
-                into g
-                              select new NeighborCellHwCsv
-                              {
-                                  CellRelation = g.Key,
-                                  TotalTimes = g.Sum(x => x.TotalTimes)
-                              }).ToList();
-            return groupInfos;
-        }
     }
 
     [Table("dbo.LteNeighborCells")]
@@ -95,5 +36,468 @@ namespace Lte.Parameters.Entities.Neighbor
 
         [MemberDoc("邻区扇区编号")]
         public byte NearestSectorId { get; set; }
+    }
+
+    [TypeDoc("包含PCI的LTE邻区关系视图")]
+    [AutoMapFrom(typeof(NearestPciCell))]
+    public class NearestPciCellView
+    {
+        [MemberDoc("小区编号（对于LTE来说就是基站编号）")]
+        public int CellId { get; set; }
+
+        [MemberDoc("扇区编号")]
+        public byte SectorId { get; set; }
+
+        [MemberDoc("邻区小区编号")]
+        public int NearestCellId { get; set; }
+
+        [MemberDoc("邻区扇区编号")]
+        public byte NearestSectorId { get; set; }
+
+        [MemberDoc("PCI，便于查询邻区")]
+        public short Pci { get; set; }
+
+        [MemberDoc("切换次数，仅供参考")]
+        public int TotalTimes { get; set; }
+
+        [MemberDoc("邻区基站名称")]
+        public string NearestENodebName { get; set; }
+
+        public static NearestPciCellView ConstructView(NearestPciCell stat, IENodebRepository repository)
+        {
+            var view = Mapper.Map<NearestPciCell, NearestPciCellView>(stat);
+            var eNodeb = repository.GetByENodebId(stat.NearestCellId);
+            view.NearestENodebName = eNodeb == null ? "Undefined" : eNodeb.Name;
+            return view;
+        }
+    }
+
+    public class EUtranRelationZte : IEntity<ObjectId>, IZteMongo
+    {
+        public int eNodeB_Id { get; set; }
+
+        public string eNodeB_Name { get; set; }
+
+        public string lastModifedTime { get; set; }
+
+        public string iDate { get; set; }
+
+        public string parentLDN { get; set; }
+
+        public string description { get; set; }
+
+        public int resPRBDown { get; set; }
+
+        public int resPRBUp { get; set; }
+
+        public int overlapCoverage { get; set; }
+
+        public int shareCover { get; set; }
+
+        public int numRRCCntNumCov { get; set; }
+
+        public int lbIntraMeasureOffset { get; set; }
+
+        public int isX2HOAllowed { get; set; }
+
+        public string userLabel { get; set; }
+
+        public int coperType { get; set; }
+
+        public int isAnrCreated { get; set; }
+
+        public int s1DataFwdFlag { get; set; }
+
+        public int isHOAllowed { get; set; }
+
+        public int switchonTimeWindow { get; set; }
+
+        public int nCelPriority { get; set; }
+
+        public int EUtranRelation { get; set; }
+
+        public int isESCoveredBy { get; set; }
+
+        public int stateInd { get; set; }
+
+        public string refEUtranCellFDD { get; set; }
+
+        public int cellIndivOffset { get; set; }
+
+        public int isRemoveAllowed { get; set; }
+
+        public int qofStCell { get; set; }
+
+        public int esSwitch { get; set; }
+
+        public int coverESCell { get; set; }
+
+        public string refExternalEUtranCellFDD { get; set; }
+
+        public string supercellFlag { get; set; }
+
+        public string refExternalEUtranCellTDD { get; set; }
+
+        public ObjectId Id { get; set; }
+
+        public bool IsTransient()
+        {
+            return false;
+        }
+    }
+
+    [TypeDoc("来自MongoDB的LTE邻区关系视图")]
+    [AutoMapFrom(typeof(EUtranRelationZte), typeof(ExternalEUtranCellFDDZte), typeof(EutranIntraFreqNCell), typeof(EutranInterFreqNCell))]
+    public class NeighborCellMongo
+    {
+        [MemberDoc("小区编号（对于LTE来说就是基站编号）")]
+        [AutoMapPropertyResolve("eNodeB_Id", typeof(EUtranRelationZte))]
+        [AutoMapPropertyResolve("eNodeB_Id", typeof(ExternalEUtranCellFDDZte))]
+        [AutoMapPropertyResolve("eNodeB_Id", typeof(EutranIntraFreqNCell))]
+        [AutoMapPropertyResolve("eNodeB_Id", typeof(EutranInterFreqNCell))]
+        public int CellId { get; set; }
+
+        [MemberDoc("扇区编号")]
+        public byte SectorId { get; set; }
+
+        [MemberDoc("邻区小区编号")]
+        [AutoMapPropertyResolve("eNBId", typeof(ExternalEUtranCellFDDZte))]
+        [AutoMapPropertyResolve("eNodeBId", typeof(EutranIntraFreqNCell))]
+        [AutoMapPropertyResolve("eNodeBId", typeof(EutranInterFreqNCell))]
+        public int NeighborCellId { get; set; }
+
+        [MemberDoc("邻区扇区编号")]
+        [AutoMapPropertyResolve("cellLocalId", typeof(ExternalEUtranCellFDDZte))]
+        [AutoMapPropertyResolve("CellId", typeof(EutranIntraFreqNCell))]
+        [AutoMapPropertyResolve("CellId", typeof(EutranInterFreqNCell))]
+        public byte NeighborSectorId { get; set; }
+
+        [MemberDoc("邻区名称")]
+        [AutoMapPropertyResolve("userLabel", typeof(ExternalEUtranCellFDDZte))]
+        [AutoMapPropertyResolve("NeighbourCellName", typeof(EutranIntraFreqNCell))]
+        [AutoMapPropertyResolve("NeighbourCellName", typeof(EutranInterFreqNCell))]
+        public string NeighborCellName { get; set; }
+
+        [MemberDoc("PCI，便于查询邻区")]
+        [AutoMapPropertyResolve("pci", typeof(ExternalEUtranCellFDDZte))]
+        public short NeighborPci { get; set; }
+
+        [MemberDoc("是否为ANR创建")]
+        [AutoMapPropertyResolve("isAnrCreated", typeof(EUtranRelationZte), typeof(IntToBoolTransform))]
+        [AutoMapPropertyResolve("AnrFlag", typeof(EutranIntraFreqNCell), typeof(PositiveBoolTransform))]
+        [AutoMapPropertyResolve("AnrFlag", typeof(EutranInterFreqNCell), typeof(PositiveBoolTransform))]
+        public bool IsAnrCreated { get; set; }
+
+        [MemberDoc("是否允许切换")]
+        [AutoMapPropertyResolve("isHOAllowed", typeof(EUtranRelationZte), typeof(IntToBoolTransform))]
+        [AutoMapPropertyResolve("NoHoFlag", typeof(EutranIntraFreqNCell), typeof(ZeroBoolTransform))]
+        [AutoMapPropertyResolve("NoHoFlag", typeof(EutranInterFreqNCell), typeof(ZeroBoolTransform))]
+        public bool HandoffAllowed { get; set; }
+
+        [MemberDoc("是否可以被ANR删除")]
+        [AutoMapPropertyResolve("isRemoveAllowed", typeof(EUtranRelationZte), typeof(IntToBoolTransform))]
+        [AutoMapPropertyResolve("NoRmvFlag", typeof(EutranIntraFreqNCell), typeof(ZeroBoolTransform))]
+        [AutoMapPropertyResolve("NoRmvFlag", typeof(EutranInterFreqNCell), typeof(ZeroBoolTransform))]
+        public bool RemovedAllowed { get; set; }
+
+        [MemberDoc("小区测量优先级是否为高")]
+        [AutoMapPropertyResolve("CellMeasPriority", typeof(EutranIntraFreqNCell))]
+        [AutoMapPropertyResolve("CellMeasPriority", typeof(EutranInterFreqNCell))]
+        [AutoMapPropertyResolve("nCelPriority", typeof(EUtranRelationZte))]
+        public int CellPriority { get; set; }
+    }
+
+    public class ExternalEUtranCellFDDZte : IEntity<ObjectId>, IZteMongo
+    {
+        public ObjectId Id { get; set; }
+
+        public bool IsTransient()
+        {
+            return false;
+        }
+
+        public int eNodeB_Id { get; set; }
+
+        public string eNodeB_Name { get; set; }
+
+        public string lastModifedTime { get; set; }
+
+        public string iDate { get; set; }
+
+        public string parentLDN { get; set; }
+
+        public string description { get; set; }
+
+        public int? esCellNum { get; set; }
+
+        public double earfcnDl { get; set; }
+
+        public int cellType { get; set; }
+
+        public int pci { get; set; }
+
+        public string userLabel { get; set; }
+
+        public int antPort1 { get; set; }
+
+        public int cellLocalId { get; set; }
+
+        public int plmnIdList_mcc { get; set; }
+
+        public int switchSurportTrunking { get; set; }
+
+        public int tac { get; set; }
+
+        public int plmnIdList_mnc { get; set; }
+
+        public string reservedByEUtranRelation { get; set; }
+
+        public int bandWidthUl { get; set; }
+
+        public int mcc { get; set; }
+
+        public int eNBId { get; set; }
+
+        public double earfcnUl { get; set; }
+
+        public int freqBandInd { get; set; }
+
+        public int voLTESwch { get; set; }
+
+        public int coMPFlagUl { get; set; }
+
+        public int bandWidthDl { get; set; }
+
+        public int mnc { get; set; }
+
+        public string addiFreqBand { get; set; }
+
+        public int ExternalEUtranCellFDD { get; set; }
+    }
+
+    public class EutranIntraFreqNCell : IEntity<ObjectId>, IHuaweiNeighborMongo
+    {
+        public ObjectId Id { get; set; }
+
+        public bool IsTransient()
+        {
+            return false;
+        }
+
+        public string iDate { get; set; }
+
+        public int eNodeB_Id { get; set; }
+
+        public string eNodeBId_Name { get; set; }
+
+        public int CtrlMode { get; set; }
+
+        public int CellMeasPriority { get; set; }
+
+        public string NeighbourCellName { get; set; }
+
+        public int LocalCellId { get; set; }
+
+        public int AttachCellSwitch { get; set; }
+
+        public int NoHoFlag { get; set; }
+
+        public int CellId { get; set; }
+
+        public string LocalCellName { get; set; }
+
+        public int CellRangeExpansion { get; set; }
+
+        public int Mnc { get; set; }
+
+        public int Mcc { get; set; }
+
+        public int NCellClassLabel { get; set; }
+
+        public int CellQoffset { get; set; }
+
+        public int NoRmvFlag { get; set; }
+
+        public int eNodeBId { get; set; }
+
+        public int CellIndividualOffset { get; set; }
+
+        public int AnrFlag { get; set; }
+
+        public int? VectorCellFlag { get; set; }
+
+        public int? HighSpeedCellIndOffset { get; set; }
+    }
+
+    public class EutranInterFreqNCell : IEntity<ObjectId>, IHuaweiNeighborMongo
+    {
+        public bool IsTransient()
+        {
+            return false;
+        }
+
+        public ObjectId Id { get; set; }
+
+        public string iDate { get; set; }
+
+        public int eNodeB_Id { get; set; }
+
+        public string eNodeBId_Name { get; set; }
+
+        public int LocalCellId { get; set; }
+
+        public int Mnc { get; set; }
+
+        public int NoRmvFlag { get; set; }
+
+        public int Mcc { get; set; }
+
+        public int CellMeasPriority { get; set; }
+
+        public int CtrlMode { get; set; }
+
+        public int eNodeBId { get; set; }
+
+        public int CellId { get; set; }
+
+        public int AnrFlag { get; set; }
+
+        public int BlindHoPriority { get; set; }
+
+        public int NCellClassLabel { get; set; }
+
+        public int CellQoffset { get; set; }
+
+        public int CellIndividualOffset { get; set; }
+
+        public int OverlapRange { get; set; }
+
+        public string LocalCellName { get; set; }
+
+        public int OverlapInd { get; set; }
+
+        public int NoHoFlag { get; set; }
+
+        public string NeighbourCellName { get; set; }
+    }
+
+    public class EutranInterNFreq : IEntity<ObjectId>, IHuaweiCellMongo
+    {
+        public string iDate { get; set; }
+
+        public int eNodeB_Id { get; set; }
+
+        public string eNodeBId_Name { get; set; }
+
+        public int ThreshXlow { get; set; }
+
+        public int MeasFreqPriority { get; set; }
+
+        public int EutranReselTime { get; set; }
+
+        public int LocalCellId { get; set; }
+
+        public int FreqPriBasedHoMeasFlag { get; set; }
+
+        public int MasterBandFlag { get; set; }
+
+        public int CtrlMode { get; set; }
+
+        public int PmaxCfgInd { get; set; }
+
+        public int UlTrafficMlbTargetInd { get; set; }
+
+        public int FreqPriorityForAnr { get; set; }
+
+        public int MlbTargetInd { get; set; }
+
+        public int InterFreqHighSpeedFlag { get; set; }
+
+        public int ConnFreqPriority { get; set; }
+
+        public int CellReselPriorityCfgInd { get; set; }
+
+        public int VoipPriority { get; set; }
+
+        public int SpeedDependSPCfgInd { get; set; }
+
+        public int QqualMinCfgInd { get; set; }
+
+        public int MlbFreqPriority { get; set; }
+
+        public int DlEarfcn { get; set; }
+
+        public int UlTrafficMlbPriority { get; set; }
+
+        public int AnrInd { get; set; }
+
+        public int ThreshXlowQ { get; set; }
+
+        public int InterFreqHoEventType { get; set; }
+
+        public int IdleMlbUEReleaseRatio { get; set; }
+
+        public int QRxLevMin { get; set; }
+
+        public int UlEarfcnCfgInd { get; set; }
+
+        public int NeighCellConfig { get; set; }
+
+        public int QoffsetFreqConn { get; set; }
+
+        public int MeasBandWidth { get; set; }
+
+        public int PresenceAntennaPort1 { get; set; }
+
+        public int BackoffTargetInd { get; set; }
+
+        public int ThreshXhigh { get; set; }
+
+        public int MlbInterFreqHoEventType { get; set; }
+
+        public int ThreshXhighQ { get; set; }
+
+        public int IfHoThdRsrpOffset { get; set; }
+
+        public int InterFreqRanSharingInd { get; set; }
+
+        public int IfMlbThdRsrpOffset { get; set; }
+
+        public int QoffsetFreq { get; set; }
+
+        public int? CellReselPriority { get; set; }
+
+        public ObjectId Id { get; set; }
+
+        public bool IsTransient()
+        {
+            return false;
+        }
+
+        public int? InterFreqMlbDlPrbOffset { get; set; }
+
+        public int? IfSrvHoThdRsrqOffset { get; set; }
+
+        public int? MeasPerformanceDemand { get; set; }
+
+        public int? InterFreqMlbUlPrbOffset { get; set; }
+
+        public int? MlbInterFreqHoA3Offset { get; set; }
+
+        public int? IfSrvHoThdRsrpOffset { get; set; }
+
+        public int? PsPriority { get; set; }
+
+        public int? NcellNumForAnr { get; set; }
+
+        public int? MlbFreqUlPriority { get; set; }
+
+        public int? SnrBasedUeSelectionMode { get; set; }
+
+        public int? VolteHoTargetInd { get; set; }
+
+        public int? MlbInterFreqEffiRatio { get; set; }
+
+        public int? MobilityTargetInd { get; set; }
     }
 }

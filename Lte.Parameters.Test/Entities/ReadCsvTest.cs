@@ -1,6 +1,5 @@
 ﻿using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
-using Lte.Parameters.Entities.Neighbor;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Text;
 using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
+using Lte.Domain.Common;
 using Lte.Parameters.Entities.Dt;
 
 namespace Lte.Parameters.Test.Entities

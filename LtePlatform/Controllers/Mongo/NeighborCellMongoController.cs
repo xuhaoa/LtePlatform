@@ -1,5 +1,4 @@
 ﻿using Lte.Evaluations.DataService.Mr;
-using Lte.Evaluations.ViewModels.Mr;
 using Lte.Parameters.Entities.Neighbor;
 using System.Collections.Generic;
 using System.Web.Http;

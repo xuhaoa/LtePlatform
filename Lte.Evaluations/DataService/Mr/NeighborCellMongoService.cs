@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Lte.Evaluations.DataService.Switch;
-using Lte.Evaluations.ViewModels.Mr;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Neighbor;
 using System.Collections.Generic;

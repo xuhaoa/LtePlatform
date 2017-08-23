@@ -5,7 +5,6 @@ using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using Lte.Evaluations.Policy;
-using Lte.Evaluations.ViewModels.Mr;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Neighbor;

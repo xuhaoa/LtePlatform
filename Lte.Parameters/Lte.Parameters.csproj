@@ -199,7 +199,6 @@
     <Compile Include="Entities\Channel\Pdsch.cs" />
     <Compile Include="Entities\Channel\PowerControl.cs" />
     <Compile Include="Entities\Kpi\MrsStats.cs" />
-    <Compile Include="Entities\Neighbor\ExternalEUtranCellFDDZte.cs" />
     <Compile Include="Concrete\Switch\CellMeasGroupZteRepository.cs" />
     <Compile Include="Concrete\Switch\InterFreqHoGroupRepository.cs" />
     <Compile Include="Concrete\Switch\InterRatHoCommRepository.cs" />
@@ -211,9 +210,6 @@
     <Compile Include="Entities\Dt\DtFilesInfo.cs" />
     <Compile Include="Entities\Basic\ENodeb.cs" />
     <Compile Include="Entities\InfrastructureInfo.cs" />
-    <Compile Include="Entities\Neighbor\EutranInterNFreq.cs" />
-    <Compile Include="Entities\Neighbor\EutranIntraFreqNCell.cs" />
-    <Compile Include="Entities\Neighbor\EUtranRelationZte.cs" />
     <Compile Include="Entities\Neighbor\NearestPciCell.cs" />
     <Compile Include="Entities\Kpi\PreciseCoverage4G.cs" />
     <Compile Include="Entities\Switch\CellMeasGroupZte.cs" />

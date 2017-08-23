@@ -1,7 +1,6 @@
 ﻿using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
 using Lte.Domain.Regular;
-using Lte.Evaluations.ViewModels.Mr;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
@@ -10,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lte.Domain.Common.Wireless;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 
