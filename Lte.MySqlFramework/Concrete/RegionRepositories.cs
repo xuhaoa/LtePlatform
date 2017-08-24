@@ -228,4 +228,37 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
+    public class EFLteNeighborCellRepository : EfRepositoryBase<MySqlContext, LteNeighborCell>, ILteNeighborCellRepository
+    {
+        public List<LteNeighborCell> GetAllList(int cellId, byte sectorId)
+        {
+            return GetAllList(x => x.CellId == cellId && x.SectorId == sectorId);
+        }
+
+        public EFLteNeighborCellRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+    }
+
+    public class EFNearestPciCellRepository : EfRepositoryBase<MySqlContext, NearestPciCell>, INearestPciCellRepository
+    {
+        public List<NearestPciCell> GetAllList(int cellId, byte sectorId)
+        {
+            return GetAllList(x => x.CellId == cellId && x.SectorId == sectorId);
+        }
+
+        public NearestPciCell GetNearestPciCell(int cellId, byte sectorId, short pci)
+        {
+            return FirstOrDefault(x => x.CellId == cellId && x.SectorId == sectorId && x.Pci == pci);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+
+        public EFNearestPciCellRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+    }
 }

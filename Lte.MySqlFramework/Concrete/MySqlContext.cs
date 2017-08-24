@@ -134,5 +134,9 @@ namespace Lte.MySqlFramework.Concrete
 
         public DbSet<CdmaCell> CdmaCells { get; set; }
 
+        public DbSet<LteNeighborCell> LteNeighborCells { get; set; }
+
+        public DbSet<NearestPciCell> NearestPciCells { get; set; }
+
     }
 }

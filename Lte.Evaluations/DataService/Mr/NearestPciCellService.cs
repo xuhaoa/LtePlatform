@@ -1,6 +1,5 @@
 ﻿using System;
 using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Entities.Neighbor;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,9 +13,9 @@ using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.Regular;
+using Lte.Evaluations.DataService.Basic;
 using Lte.MySqlFramework.Entities;
 using Lte.MySqlFramework.Abstract;
-using Lte.Parameters.Abstract.Infrastructure;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Channel;
 
@@ -408,7 +407,7 @@ namespace Lte.Evaluations.DataService.Mr
                 _repository.GetAllList(cellId, sectorId)
                     .Select(
                         x =>
-                            NearestPciCellView.ConstructView(x, _eNodebRepository))
+                            ((NearestPciCell) x).ConstructView(_eNodebRepository))
                     .ToList();
         }
 
@@ -549,6 +548,21 @@ namespace Lte.Evaluations.DataService.Mr
             var compete = (AlarmCategory?)competeTuple?.Item1;
 
             return _mrGridService.QueryCompeteGridViews(initialDate, district, compete);
+        }
+    }
+
+    public class LteNeighborCellService
+    {
+        private readonly ILteNeighborCellRepository _repository;
+
+        public LteNeighborCellService(ILteNeighborCellRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public List<LteNeighborCell> QueryCells(int cellId, byte sectorId)
+        {
+            return _repository.GetAllList(x => x.CellId == cellId && x.SectorId == sectorId);
         }
     }
 

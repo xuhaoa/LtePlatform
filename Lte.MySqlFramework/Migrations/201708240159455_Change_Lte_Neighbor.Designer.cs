@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Migrate_Cells : IMigrationMetadata
+    public sealed partial class Change_Lte_Neighbor : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Migrate_Cells));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Change_Lte_Neighbor));
         
         string IMigrationMetadata.Id
         {
-            get { return "201708220824489_Migrate_Cells"; }
+            get { return "201708240159455_Change_Lte_Neighbor"; }
         }
         
         string IMigrationMetadata.Source

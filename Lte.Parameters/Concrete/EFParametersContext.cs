@@ -27,10 +27,6 @@ namespace Lte.Parameters.Concrete
 
         public DbSet<TownPreciseCoverage4GStat> TownPreciseCoverage4GStats { get; set; }
 
-        public DbSet<LteNeighborCell> LteNeighborCells { get; set; }
-
-        public DbSet<NearestPciCell> NearestPciCells { get; set; }
-
         public DbSet<InterferenceMatrixStat> InterferenceMatrices { get; set; }
         
 

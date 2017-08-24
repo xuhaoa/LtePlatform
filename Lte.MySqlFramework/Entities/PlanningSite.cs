@@ -3,8 +3,11 @@ using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Geo;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
+using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
 {
@@ -278,4 +281,58 @@ namespace Lte.MySqlFramework.Entities
 
         public string DesignBrief { get; set; }
     }
+
+    [Table("dbo.LteNeighborCells")]
+    public class NearestPciCell : LteNeighborCell
+    {
+        public short Pci { get; set; }
+
+        public int TotalTimes { get; set; }
+
+    }
+
+    [Table("dbo.LteNeighborCells")]
+    [KnownType(typeof(NearestPciCell))]
+    [TypeDoc("LTE邻区关系定义")]
+    public class LteNeighborCell : Entity
+    {
+        [MemberDoc("小区编号（对于LTE来说就是基站编号）")]
+        public int CellId { get; set; }
+
+        [MemberDoc("扇区编号")]
+        public byte SectorId { get; set; }
+
+        [MemberDoc("邻区小区编号")]
+        public int NearestCellId { get; set; }
+
+        [MemberDoc("邻区扇区编号")]
+        public byte NearestSectorId { get; set; }
+    }
+
+    [TypeDoc("包含PCI的LTE邻区关系视图")]
+    [AutoMapFrom(typeof(NearestPciCell))]
+    public class NearestPciCellView
+    {
+        [MemberDoc("小区编号（对于LTE来说就是基站编号）")]
+        public int CellId { get; set; }
+
+        [MemberDoc("扇区编号")]
+        public byte SectorId { get; set; }
+
+        [MemberDoc("邻区小区编号")]
+        public int NearestCellId { get; set; }
+
+        [MemberDoc("邻区扇区编号")]
+        public byte NearestSectorId { get; set; }
+
+        [MemberDoc("PCI，便于查询邻区")]
+        public short Pci { get; set; }
+
+        [MemberDoc("切换次数，仅供参考")]
+        public int TotalTimes { get; set; }
+
+        [MemberDoc("邻区基站名称")]
+        public string NearestENodebName { get; set; }
+    }
+
 }

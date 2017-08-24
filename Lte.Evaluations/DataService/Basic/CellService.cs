@@ -261,6 +261,14 @@ namespace Lte.Evaluations.DataService.Basic
 
             return view;
         }
+
+        public static NearestPciCellView ConstructView(this NearestPciCell stat, IENodebRepository repository)
+        {
+            var view = Mapper.Map<NearestPciCell, NearestPciCellView>(stat);
+            var eNodeb = repository.GetByENodebId(stat.NearestCellId);
+            view.NearestENodebName = eNodeb == null ? "Undefined" : eNodeb.Name;
+            return view;
+        }
     }
 
     public class CdmaCellService

@@ -11,67 +11,6 @@ using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Neighbor
 {
-    [Table("dbo.LteNeighborCells")]
-    public class NearestPciCell : LteNeighborCell
-    {
-        public short Pci { get; set; }
-        
-        public int TotalTimes { get; set; }
-
-    }
-
-    [Table("dbo.LteNeighborCells")]
-    [KnownType(typeof(NearestPciCell))]
-    [TypeDoc("LTE邻区关系定义")]
-    public class LteNeighborCell : Entity
-    {
-        [MemberDoc("小区编号（对于LTE来说就是基站编号）")]
-        public int CellId { get; set; }
-
-        [MemberDoc("扇区编号")]
-        public byte SectorId { get; set; }
-
-        [MemberDoc("邻区小区编号")]
-        public int NearestCellId { get; set; }
-
-        [MemberDoc("邻区扇区编号")]
-        public byte NearestSectorId { get; set; }
-    }
-
-    [TypeDoc("包含PCI的LTE邻区关系视图")]
-    [AutoMapFrom(typeof(NearestPciCell))]
-    public class NearestPciCellView
-    {
-        [MemberDoc("小区编号（对于LTE来说就是基站编号）")]
-        public int CellId { get; set; }
-
-        [MemberDoc("扇区编号")]
-        public byte SectorId { get; set; }
-
-        [MemberDoc("邻区小区编号")]
-        public int NearestCellId { get; set; }
-
-        [MemberDoc("邻区扇区编号")]
-        public byte NearestSectorId { get; set; }
-
-        [MemberDoc("PCI，便于查询邻区")]
-        public short Pci { get; set; }
-
-        [MemberDoc("切换次数，仅供参考")]
-        public int TotalTimes { get; set; }
-
-        [MemberDoc("邻区基站名称")]
-        public string NearestENodebName { get; set; }
-
-        public static NearestPciCellView ConstructView(NearestPciCell stat, IENodebRepository repository)
-        {
-            var view = Mapper.Map<NearestPciCell, NearestPciCellView>(stat);
-            var eNodeb = repository.GetByENodebId(stat.NearestCellId);
-            view.NearestENodebName = eNodeb == null ? "Undefined" : eNodeb.Name;
-            return view;
-        }
-    }
-
     public class EUtranRelationZte : IEntity<ObjectId>, IZteMongo
     {
         public int eNodeB_Id { get; set; }

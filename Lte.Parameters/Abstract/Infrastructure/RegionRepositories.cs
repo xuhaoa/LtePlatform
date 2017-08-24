@@ -81,19 +81,6 @@ namespace Lte.Parameters.Abstract.Infrastructure
         List<ExternalEUtranCellFDDZte> GetReverseList(int destENodebId, byte destSectorId);
     }
 
-    public interface ILteNeighborCellRepository : IRepository<LteNeighborCell>
-    {
-    }
-
-    public interface INearestPciCellRepository : IRepository<NearestPciCell>
-    {
-        List<NearestPciCell> GetAllList(int cellId, byte sectorId);
-
-        NearestPciCell GetNearestPciCell(int cellId, byte sectorId, short pci);
-
-        int SaveChanges();
-    }
-
     public interface IEutranIntraFreqNCellRepository : IRepository<EutranIntraFreqNCell, ObjectId>
     {
         List<EutranIntraFreqNCell> GetRecentList(int eNodebId, byte localCellId);
