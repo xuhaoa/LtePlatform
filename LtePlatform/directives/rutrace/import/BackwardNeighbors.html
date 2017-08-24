@@ -7,7 +7,6 @@
             <th>允许切换</th>
             <th>ANR生成</th>
             <th>基站名称</th>
-            <th>是否监控</th>
             <th>导入情况</th>
             <th>操作</th>
         </tr>
@@ -20,10 +19,6 @@
             <td>{{neighbor.handoffAllowed ? '是' : '否'}}</td>
             <td>{{neighbor.isAnrCreated ? '是' : '否'}}</td>
             <td>{{neighbor.eNodebName}}</td>
-            <td>
-                <span ng-if="neighbor.isMonitored">已监控</span>
-                <span ng-if="!neighbor.isMonitored" style="color: red">未监控</span>
-            </td>
             <td>
                 <span ng-if="neighbor.finished">已完成</span>
             </td>

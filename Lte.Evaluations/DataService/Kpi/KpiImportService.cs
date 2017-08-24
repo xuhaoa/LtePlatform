@@ -13,6 +13,7 @@ using System.Text;
 using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Geo;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
 using Lte.Domain.Regular;
@@ -207,10 +208,7 @@ namespace Lte.Evaluations.DataService.Kpi
             }
             reader.Close();
             var filterInfos =
-                infos.Where(
-                    x =>
-                        x.Longtitute != null && x.Lattitute != null && x.Longtitute > 111 && x.Longtitute < 114 &&
-                        x.Lattitute > 21 && x.Lattitute < 24).ToList();
+                infos.GetFoshanGeoPoints().ToList();
             if (!filterInfos.Any()) throw new Exception("无数据或格式错误！");
             _dtFileInfoRepository.UpdateCsvFileInfo(tableName, filterInfos[0].StatTime);
             var stats = filterInfos.MergeRecords();
@@ -221,15 +219,18 @@ namespace Lte.Evaluations.DataService.Kpi
 
         public string ImportDt3GFile(string path)
         {
+            bool fileExisted;
+            var tableName = _fileRecordRepository.GetFileNameExisted(path, out fileExisted);
+            if (fileExisted) return "数据文件已存在于数据库中。请确认是否正确。";
             var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
             var infos = CsvContext.Read<FileRecord3GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
             reader.Close();
             var filterInfos =
-                infos.Where(
-                    x =>
-                        x.Longtitute != null && x.Lattitute != null && x.Longtitute > 111 && x.Longtitute < 114 &&
-                        x.Lattitute > 21 && x.Lattitute < 24).ToList();
-            if (!filterInfos.Any()) return "无数据或格式错误！";
+                infos.GetFoshanGeoPoints().ToList();
+            if (!filterInfos.Any()) throw new Exception("无数据或格式错误！");
+            var stats = filterInfos.MergeRecords();
+            _rasterTestInfoRepository.UpdateRasterInfo(stats, tableName, "3G");
+            var count = _fileRecordRepository.InsertFileRecord3Gs(stats, tableName);
             return "完成3G路测文件导入：" + path;
         }
 
@@ -241,10 +242,7 @@ namespace Lte.Evaluations.DataService.Kpi
             var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
             var infos = CsvContext.Read<FileRecord4GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
             var filterInfos =
-                infos.Where(
-                    x =>
-                        x.Longtitute != null && x.Lattitute != null && x.Longtitute > 111 && x.Longtitute < 114 &&
-                        x.Lattitute > 21 && x.Lattitute < 24).ToList();
+                infos.GetFoshanGeoPoints().ToList();
             if (!filterInfos.Any()) return "无数据或格式错误！";
             var fields = path.GetSplittedFields('\\');
             var dir = fields[fields.Length - 2];
@@ -265,10 +263,7 @@ namespace Lte.Evaluations.DataService.Kpi
             var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
             var infos = CsvContext.Read<FileRecord4GDingli>(reader, CsvFileDescription.CommaDescription).ToList();
             var filterInfos =
-                infos.Where(
-                    x =>
-                        x.Longtitute != null && x.Lattitute != null && x.Longtitute > 111 && x.Longtitute < 24 &&
-                        x.Lattitute > 21 && x.Lattitute < 24).ToList();
+                infos.GetFoshanGeoPoints().ToList();
             if (!filterInfos.Any()) return "无数据或格式错误！";
             _dtFileInfoRepository.UpdateCsvFileInfo(tableName, filterInfos[0].StatTime);
             var stats = filterInfos.MergeRecords();

@@ -342,13 +342,25 @@ namespace Lte.Parameters.Entities.Dt
         public double? Pn { get; set; }
 
         [CsvColumn(Name = "LTE RSRP")]
-        public double? Rsrp { get; set; }
+        public double? SelfRsrp { get; set; }
+
+        public double? Rsrp => SelfRsrp ?? N1Rsrp;
 
         [CsvColumn(Name = "LTE SINR")]
-        public double? Sinr { get; set; }
+        public double? Sinr1 { get; set; }
+
+        [CsvColumn(Name = "LTE CRS SINR")]
+        public double? Sinr2 { get; set; }
+
+        public double? Sinr => Sinr1 ?? Sinr2;
 
         [CsvColumn(Name = "LTE PDSCH BLER")]
-        public double? DlBler { get; set; }
+        public double? DlBler1 { get; set; }
+
+        [CsvColumn(Name = "LTE PDSCH Residual BLER")]
+        public double? DlBler2 { get; set; }
+
+        public double? DlBler => DlBler1 ?? DlBler2;
 
         [CsvColumn(Name = "LTE WideBand CQI")]
         public double? CqiAverage { get; set; }
@@ -771,6 +783,24 @@ namespace Lte.Parameters.Entities.Dt
                    + "," + (stat.TxAgc == null ? "NULL" : stat.TxAgc.ToString())
                    + "," + (stat.TxPower == null ? "NULL" : stat.TxPower.ToString())
                    + "," + (stat.TxGain == null ? "NULL" : stat.TxGain.ToString()) + ")";
+        }
+
+        public static string GenerateInsertSql(this FileRecord3G stat, string tableName)
+        {
+            return "INSERT INTO [" + tableName
+                   + "] ( [rasterNum],[testTime],[lon],[lat],[refPN],[SINR],[rxAGC0],[rxAGC1],[txAGC],[totalC2I],[DRCValue],[RLPThrDL]) VALUES("
+                   + stat.RasterNum
+                   + ",'" + stat.TestTimeString
+                   + "'," + stat.Longtitute
+                   + "," + stat.Lattitute
+                   + "," + (stat.Pn == null ? "NULL" : stat.Pn.ToString())
+                   + "," + (stat.Sinr == null ? "NULL" : stat.Sinr.ToString())
+                   + "," + (stat.RxAgc0 == null ? "NULL" : stat.RxAgc0.ToString())
+                   + "," + (stat.RxAgc0 == null ? "NULL" : stat.RxAgc0.ToString())
+                   + "," + (stat.TxAgc == null ? "NULL" : stat.TxAgc.ToString())
+                   + "," + (stat.TotalCi == null ? "NULL" : stat.TotalCi.ToString())
+                   + "," + (stat.DrcValue == null ? "NULL" : stat.DrcValue.ToString())
+                   + "," + (stat.RlpThroughput == null ? "NULL" : stat.RlpThroughput.ToString()) + ")";
         }
 
         public static string GenerateInsertSql(this FileRecord4G stat, string tableName, int index)

@@ -1,12 +1,8 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
 using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Dependency;
-using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Regular.Attributes;
-using Lte.Parameters.Abstract.Basic;
 using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Neighbor

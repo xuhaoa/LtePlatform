@@ -7,7 +7,6 @@
             <th>邻区小区名称</th>
             <th>PCI</th>
             <th>切换次数</th>
-            <th>是否监控</th>
             <th>导入情况</th>
         </tr>
     </thead>
@@ -19,10 +18,6 @@
             <td>{{neighbor.nearestENodebName}}-{{neighbor.nearestSectorId}}</td>
             <td>{{neighbor.pci}}</td>
             <td>{{neighbor.totalTimes}}</td>
-            <td>
-                <span ng-if="neighbor.isMonitored">已监控</span>
-                <span ng-if="!neighbor.isMonitored" style="color: red">未监控</span>
-            </td>
             <td>
                 <button class="btn btn-sm btn-default" ng-click="dumpMongo(neighbor)">导入数据</button>
             </td>

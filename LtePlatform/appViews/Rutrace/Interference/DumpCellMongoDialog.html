@@ -19,12 +19,6 @@
         <button class="btn btn-sm btn-default" ng-click="synchronizeNeighbors()">
             同步邻区
         </button>
-        <button class="btn btn-sm btn-warning" ng-if="!cellMonitored" ng-click="addMonitor()">
-            加入监控
-        </button>
-        <button class="btn btn-sm btn-info" ng-if="neighborCells.length" ng-click="monitorNeighbors()">
-            监控邻区
-        </button>
     </h5>
     <div uib-tabset active="active">
         <div uib-tab index="0" heading="列表">

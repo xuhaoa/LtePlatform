@@ -3005,18 +3005,8 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 								}
 							}
 						});
-						preciseInterferenceService.queryMonitor(cell.cellId, cell.sectorId).then(function (monitored) {
-							cell.isMonitored = monitored;
-						});
 					});
 				});
-		};
-		$scope.monitorAll = function () {
-			angular.forEach($scope.topCells, function (cell) {
-				if (cell.isMonitored === false) {
-					preciseInterferenceService.addMonitor(cell);
-				}
-			});
 		};
 
 		$scope.query();
@@ -3053,18 +3043,8 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 								}
 							}
 						});
-						preciseInterferenceService.queryMonitor(cell.cellId, cell.sectorId).then(function (monitored) {
-							cell.isMonitored = monitored;
-						});
 					});
 				});
-		};
-		$scope.monitorAll = function () {
-			angular.forEach($scope.topCells, function (cell) {
-				if (cell.isMonitored === false) {
-					preciseInterferenceService.addMonitor(cell);
-				}
-			});
 		};
 
 		$scope.query();

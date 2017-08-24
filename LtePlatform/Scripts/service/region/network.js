@@ -219,12 +219,6 @@
             updateCellPci: function (cell) {
                 return generalHttpService.postApiData('NearestPciCell', cell);
             },
-            monitorNeighbors: function (cell) {
-                return generalHttpService.postApiData('NeighborMonitor', {
-                    cellId: cell.nearestCellId,
-                    sectorId: cell.nearestSectorId
-                });
-            },
             queryNearestCells: function (eNodebId, sectorId, pci) {
                 return generalHttpService.getApiData('Cell', {
                     'eNodebId': eNodebId,

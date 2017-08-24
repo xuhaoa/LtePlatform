@@ -28,6 +28,8 @@ namespace Lte.Parameters.Abstract.Infrastructure
 
         int InsertFileRecord2Gs(IEnumerable<FileRecord2G> stats, string tableName);
 
+        int InsertFileRecord3Gs(IEnumerable<FileRecord3G> stats, string tableName);
+
         int InsertFileRecord4Gs(IEnumerable<FileRecord4G> stats, string tableName);
 
         IEnumerable<string> GetTables();

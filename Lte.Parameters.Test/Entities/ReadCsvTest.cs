@@ -293,6 +293,22 @@ namespace Lte.Parameters.Test.Entities
         }
 
         [Test]
+        public void Test_Merge_4G_Dingli_2()
+        {
+            var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var csvFilesDirectory = Path.Combine(testDirectory, "CsvFiles");
+            var path = Path.Combine(csvFilesDirectory, "徐工集团4G室外-01_0706-151838135_UE1_port1_0814090333.csv");
+
+            var reader = new StreamReader(path);
+            var infos = CsvContext.Read<FileRecord4GDingli>(reader, CsvFileDescription.CommaDescription).ToList();
+            Assert.AreEqual(infos.Count,736);
+            var filterInfos =
+                infos.Where(x => x.Longtitute != null && x.Lattitute != null).ToList();
+            var stats = filterInfos.MergeRecords();
+            Assert.AreEqual(stats.Count, 145);
+        }
+
+        [Test]
         public void BasicTest()
         {
             var list = new List<FileRecord2GCsv>();

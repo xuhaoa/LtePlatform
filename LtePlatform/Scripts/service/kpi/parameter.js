@@ -74,11 +74,6 @@
             $scope.neighborCells = [];
             networkElementService.queryCellNeighbors(cell.eNodebId, cell.sectorId).then(function (result) {
                 $scope.neighborCells = result;
-                angular.forEach(result, function (neighbor) {
-                    preciseInterferenceService.queryMonitor(neighbor.cellId, neighbor.sectorId).then(function (monitored) {
-                        neighbor.isMonitored = monitored;
-                    });
-                });
             });
 
         };
@@ -88,9 +83,6 @@
                 angular.forEach(result, function (neighbor) {
                     networkElementService.queryENodebInfo(neighbor.cellId).then(function (info) {
                         neighbor.eNodebName = info.name;
-                    });
-                    preciseInterferenceService.queryMonitor(neighbor.cellId, neighbor.sectorId).then(function (monitored) {
-                        neighbor.isMonitored = monitored;
                     });
                 });
             });
@@ -133,31 +125,6 @@
                 });
             });
         };
-        $scope.addMonitor = function () {
-            preciseInterferenceService.addMonitor({
-                cellId: cell.eNodebId,
-                sectorId: cell.sectorId
-            });
-        };
-        $scope.monitorNeighbors = function () {
-            angular.forEach($scope.neighborCells, function (neighbor) {
-                if (neighbor.isMonitored === false) {
-                    networkElementService.monitorNeighbors(neighbor).then(function () {
-                        neighbor.isMonitored = true;
-                    });
-                }
-            });
-            angular.forEach($scope.reverseCells, function (reverse) {
-                if (reverse.isMonitored === false) {
-                    networkElementService.monitorNeighbors({
-                        nearestCellId: reverse.cellId,
-                        nearestSectorId: reverse.sectorId
-                    }).then(function () {
-                        reverse.isMonitored = true;
-                    });
-                }
-            });
-        };
 
         var startDate = new Date(begin);
         while (startDate < end) {
@@ -171,9 +138,6 @@
         }
         $scope.neighborCells = [];
         $scope.updateMessages = [];
-        preciseInterferenceService.queryMonitor(cell.eNodebId, cell.sectorId).then(function (result) {
-            $scope.cellMonitored = result;
-        });
 
         $scope.queryRecords();
         $scope.showReverseNeighbors();

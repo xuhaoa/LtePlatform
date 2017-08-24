@@ -316,9 +316,7 @@ namespace LtePlatform
             ninjectKernel.Bind<WorkItemService>().ToSelf();
 
             ninjectKernel.Bind<InterferenceMatrixService>().ToSelf();
-
-            ninjectKernel.Bind<NeighborMonitorService>().ToSelf();
-
+            
             ninjectKernel.Bind<InterferenceNeighborService>().ToSelf();
 
             ninjectKernel.Bind<InterferenceMongoService>().ToSelf();

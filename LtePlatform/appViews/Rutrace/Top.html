@@ -16,11 +16,6 @@
             <label>排序依据：</label>
             <div class="input-group">
                 <select class="form-control" ng-model="orderPolicy.selected" ng-options="p as p for p in orderPolicy.options"></select>
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-warning" ng-click="monitorAll()">
-                        <i class="glyphicon glyphicon-alert" title="全部监控"></i>
-                    </button>
-                </span>
             </div>
             <label>TOP个数：</label>
             <div class="input-group">

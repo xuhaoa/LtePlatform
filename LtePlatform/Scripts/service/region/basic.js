@@ -318,22 +318,6 @@
     .factory('preciseInterferenceService',
         function(generalHttpService) {
             return {
-                addMonitor: function(cell) {
-                    generalHttpService.postApiData('NeighborMonitor',
-                    {
-                        cellId: cell.cellId,
-                        sectorId: cell.sectorId
-                    }).then(function() {
-                        cell.isMonitored = true;
-                    });
-                },
-                queryMonitor: function(cellId, sectorId) {
-                    return generalHttpService.getApiData('NeighborMonitor',
-                    {
-                        'cellId': cellId,
-                        'sectorId': sectorId
-                    });
-                },
                 updateInterferenceNeighbor: function(cellId, sectorId) {
                     return generalHttpService.getApiData('InterferenceNeighbor',
                     {

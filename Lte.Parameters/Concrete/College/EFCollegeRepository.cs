@@ -74,5 +74,17 @@ namespace Lte.Parameters.Concrete.College
             }
             return index;
         }
+
+        public int InsertFileRecord3Gs(IEnumerable<FileRecord3G> stats, string tableName)
+        {
+            _context.ExecuteCommand("CREATE TABLE [" + tableName + "](rasterNum SMALLINT ," +
+                                    "testTime CHAR(50), lon float, lat float,refPN SMALLINT, SINR REAL, RxAGC0 REAL,RxAGC1 REAL, txAGC REAL,totalC2I REAL, DRCValue int, RLPThrDL int)");
+            var index = 0;
+            foreach (var stat in stats)
+            {
+                index += _context.ExecuteCommand(stat.GenerateInsertSql(tableName));
+            }
+            return index;
+        }
     }
 }

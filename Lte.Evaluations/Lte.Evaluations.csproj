@@ -157,7 +157,6 @@
     <Compile Include="ViewModels\College\CollegeStat.cs" />
     <Compile Include="DataService\Kpi\KpiImportService.cs" />
     <Compile Include="DataService\Mr\NearestPciCellService.cs" />
-    <Compile Include="DataService\Mr\NeighborMonitorService.cs" />
     <Compile Include="DataService\Kpi\PreciseImportService.cs" />
     <Compile Include="DataService\Kpi\PreciseRegionStatService.cs" />
     <Compile Include="DataService\Kpi\PreciseStatService.cs" />
