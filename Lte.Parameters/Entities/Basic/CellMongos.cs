@@ -156,7 +156,12 @@ namespace Lte.Parameters.Entities.Basic
 
         [MemberDoc("该参数用于指示本小区是否属于专有小区。 根据运营商策略进行配置。当取值为SPECSERCELL时，表示该小区是专有业务小区，会将“未识别SPID的用户”或者“已识别SPID用户并且用户SPID配置的专有用户标识配置为NONE的用户”迁移到普通小区，同时该功能受License控制；当取值为NONE时，表示该小区是普通小区")]
         public int? SpecifiedCellFlag { get; set; }
+
+        public int? NbCellFlag { get; set; }
+
+        public int? CoverageLevelType { get; set; }
     }
+
     public class EUtranCellFDDZte : IEntity<ObjectId>, IZteMongo
     {
         public ObjectId Id { get; set; }

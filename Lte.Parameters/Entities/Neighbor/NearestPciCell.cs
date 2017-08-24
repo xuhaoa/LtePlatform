@@ -73,6 +73,12 @@ namespace Lte.Parameters.Entities.Neighbor
 
         public string refExternalEUtranCellTDD { get; set; }
 
+        public int? coperModSwch { get; set; }
+
+        public int? noSupMobilitySwch { get; set; }
+
+        public int? supportMRO { get; set; }
+
         public ObjectId Id { get; set; }
 
         public bool IsTransient()
@@ -208,6 +214,10 @@ namespace Lte.Parameters.Entities.Neighbor
         public string addiFreqBand { get; set; }
 
         public int ExternalEUtranCellFDD { get; set; }
+
+        public int? freqBandPriInd { get; set; }
+
+        public int? freqBandPriSwch { get; set; }
     }
 
     public class EutranIntraFreqNCell : IEntity<ObjectId>, IHuaweiNeighborMongo
