@@ -156,15 +156,25 @@ namespace Lte.Evaluations.DataService.Kpi
             _townRepository = townRepository;
         }
 
-        public IEnumerable<TownFlowView> QueryLastDateStat(DateTime initialDate)
+        public IEnumerable<TownFlowView> QueryLastDateStat(DateTime initialDate,
+            FrequencyBandType frequency = FrequencyBandType.All)
         {
-            var stats = _repository.QueryLastDate(initialDate, (repository, beginDate, endDate) => repository.GetAllList(beginDate, endDate));
+            var stats = _repository.QueryLastDate(initialDate,
+                (repository, beginDate, endDate) =>
+                    repository.GetAllList(
+                            x => x.StatTime >= beginDate && x.StatTime < endDate && x.FrequencyBandType == frequency)
+                        .OrderBy(x => x.StatTime)
+                        .ToList());
             return stats.Select(x => x.ConstructView<TownFlowStat, TownFlowView>(_townRepository));
         }
 
-        public IEnumerable<FlowRegionDateView> QueryDateSpanStats(DateTime begin, DateTime end, string city)
+        public IEnumerable<FlowRegionDateView> QueryDateSpanStats(DateTime begin, DateTime end, string city,
+            FrequencyBandType frequency = FrequencyBandType.All)
         {
-            var query = _repository.GetAllList(begin, end);
+            var query =
+                _repository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.FrequencyBandType == frequency)
+                    .OrderBy(x => x.StatTime)
+                    .ToList();
             var result = query.QueryTownStat(_townRepository, city);
             var townViews = result.Select(x => x.ConstructView<TownFlowStat, TownFlowView>(_townRepository)).ToList();
             return from view in townViews

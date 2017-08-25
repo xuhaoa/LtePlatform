@@ -159,13 +159,13 @@
     <Compile Include="Entities\PlanningSite.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
-    <Compile Include="Migrations\201708230545179_Change_CdmaCell.cs" />
-    <Compile Include="Migrations\201708230545179_Change_CdmaCell.Designer.cs">
-      <DependentUpon>201708230545179_Change_CdmaCell.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201708240159455_Change_Lte_Neighbor.cs" />
     <Compile Include="Migrations\201708240159455_Change_Lte_Neighbor.Designer.cs">
       <DependentUpon>201708240159455_Change_Lte_Neighbor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708250019150_Town_Flow_Stat.cs" />
+    <Compile Include="Migrations\201708250019150_Town_Flow_Stat.Designer.cs">
+      <DependentUpon>201708250019150_Town_Flow_Stat.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -176,11 +176,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201708230545179_Change_CdmaCell.resx">
-      <DependentUpon>201708230545179_Change_CdmaCell.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708240159455_Change_Lte_Neighbor.resx">
       <DependentUpon>201708240159455_Change_Lte_Neighbor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708250019150_Town_Flow_Stat.resx">
+      <DependentUpon>201708250019150_Town_Flow_Stat.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

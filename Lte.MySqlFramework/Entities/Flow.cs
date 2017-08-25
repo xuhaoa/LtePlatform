@@ -412,6 +412,9 @@ namespace Lte.MySqlFramework.Entities
         [ArraySumProtection]
         public DateTime StatTime { get; set; }
 
+        [ArraySumProtection]
+        public FrequencyBandType FrequencyBandType { get; set; } = FrequencyBandType.All;
+
         [AutoMapPropertyResolve("DownlinkPdcpFlow", typeof(FlowZte))]
         public double PdcpDownlinkFlow { get; set; }
 

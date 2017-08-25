@@ -190,6 +190,12 @@ namespace Lte.Parameters.Entities.Kpi
 
         public int TownStats { get; set; }
 
+        public int TownStats2100 { get; set; }
+
+        public int TownStats1800 { get; set; }
+
+        public int TownStats800VoLte { get; set; }
+        
         public int TownRrcs { get; set; }
     }
 }

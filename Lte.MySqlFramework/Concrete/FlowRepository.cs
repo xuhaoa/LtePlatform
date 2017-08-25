@@ -89,12 +89,7 @@ namespace Lte.MySqlFramework.Concrete
         public TownFlowRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public List<TownFlowStat> GetAllList(DateTime begin, DateTime end)
-        {
-            return GetAllList(x => x.StatTime >= begin && x.StatTime < end).OrderBy(x => x.StatTime).ToList();
-        }
-
+        
         public int SaveChanges()
         {
             return Context.SaveChanges();
