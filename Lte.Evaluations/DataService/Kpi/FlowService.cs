@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Regular;
-using Lte.Evaluations.ViewModels;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;

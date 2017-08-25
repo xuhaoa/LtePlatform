@@ -168,16 +168,12 @@
     <Compile Include="MapperService\PreciseMongoMappingTest.cs" />
     <Compile Include="MockItems\MockItemsOperations.cs" />
     <Compile Include="MockItems\MockInstanceService.cs" />
-    <Compile Include="MockItems\Validation\MockInfrastructureServiceTest.cs" />
     <Compile Include="MockItems\Validation\MockBtsServiceTest.cs" />
     <Compile Include="MockItems\Validation\MockCellServiceTest.cs" />
     <Compile Include="MockItems\Validation\MockTwonServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestService\CdmaRegionStatTestService.cs" />
     <Compile Include="TestService\CellViewTestService.cs" />
-    <Compile Include="TestService\CollegeBtsTestService.cs" />
-    <Compile Include="TestService\CollegeDistributionTestService.cs" />
-    <Compile Include="TestService\CollegeENodebTestService.cs" />
     <Compile Include="TestService\MergeTownPreciseViewTest.cs" />
     <Compile Include="TestService\PreciseRegionStatTestService.cs" />
     <Compile Include="TestService\PreciseViewTestService.cs" />

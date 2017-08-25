@@ -2,7 +2,9 @@
 using Abp.EntityFramework.Repositories;
 using Lte.MySqlFramework.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 
 namespace Lte.MySqlFramework.Abstract
 {
@@ -112,6 +114,23 @@ namespace Lte.MySqlFramework.Abstract
         NearestPciCell GetNearestPciCell(int cellId, byte sectorId, short pci);
 
         int SaveChanges();
+    }
+
+    public interface IInfrastructureRepository : IRepository<InfrastructureInfo>, ISaveChanges
+    {
+        IEnumerable<int> GetCollegeInfrastructureIds(string collegeName, InfrastructureType type);
+
+        IEnumerable<int> GetHotSpotInfrastructureIds(string name, InfrastructureType type, HotspotType hotspotType);
+        
+        Task InsertHotSpotCell(string hotSpotName, HotspotType hotspotType, int id);
+
+        Task InsertCollegeENodeb(string collegeName, int id);
+
+        Task InsertCollegeBts(string collegeName, int id);
+    }
+
+    public interface IIndoorDistributionRepository : IRepository<IndoorDistribution>, ISaveChanges
+    {
     }
 
 }

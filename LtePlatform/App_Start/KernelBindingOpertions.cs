@@ -16,7 +16,6 @@ using Lte.Parameters.Concrete;
 using Lte.Parameters.Concrete.Basic;
 using Lte.Parameters.Concrete.Channel;
 using Lte.Parameters.Concrete.College;
-using Lte.Parameters.Concrete.Infrastructure;
 using Lte.Parameters.Concrete.Kpi;
 using Lte.Parameters.Concrete.Neighbor;
 using Lte.Parameters.Concrete.Switch;

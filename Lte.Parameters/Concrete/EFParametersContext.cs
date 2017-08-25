@@ -13,15 +13,11 @@ namespace Lte.Parameters.Concrete
         {
         }
 
-        public DbSet<InfrastructureInfo> InfrastructureInfos { get; set; }
-
         public DbSet<AlarmStat> AlarmStats { get; set; }
 
         public DbSet<ENodeb> ENodebs { get; set; }
 
         public DbSet<CdmaBts> Btss { get; set; }
-
-        public DbSet<IndoorDistribution> IndoorDistributions { get; set; }
 
         public DbSet<PreciseCoverage4G> PrecisCoverage4Gs { get; set; }
 

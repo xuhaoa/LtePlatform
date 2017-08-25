@@ -138,5 +138,9 @@ namespace Lte.MySqlFramework.Concrete
 
         public DbSet<NearestPciCell> NearestPciCells { get; set; }
 
+        public DbSet<InfrastructureInfo> InfrastructureInfos { get; set; }
+
+        public DbSet<IndoorDistribution> IndoorDistributions { get; set; }
+
     }
 }

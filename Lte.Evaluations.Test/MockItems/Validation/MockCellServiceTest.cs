@@ -1,4 +1,6 @@
-﻿using Lte.MySqlFramework.Abstract;
+﻿using System.Linq;
+using Lte.Domain.Common.Wireless;
+using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 using Moq;
 using NUnit.Framework;
@@ -37,6 +39,29 @@ namespace Lte.Evaluations.MockItems.Validation
         {
             var inuseList = _cellRepository.Object.GetAllInUseList();
             Assert.AreEqual(inuseList.Count, 6);
+        }
+    }
+
+    [TestFixture]
+    public class MockInfrastructureServiceTest
+    {
+        private readonly Mock<IInfrastructureRepository> _repository = new Mock<IInfrastructureRepository>();
+
+        [TestFixtureSetUp]
+        public void TestFixtureSetup()
+        {
+            _repository.MockThreeCollegeENodebs();
+            _repository.MockOperations();
+        }
+
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        public void Test_GetENodebIds(int id)
+        {
+            var ids = _repository.Object.GetCollegeInfrastructureIds("College-" + id, InfrastructureType.ENodeb);
+            Assert.AreEqual(ids.Count(), 1);
+            Assert.AreEqual(ids.ElementAt(0), id);
         }
     }
 }

@@ -1,13 +1,56 @@
-﻿using Lte.Evaluations.MockItems;
+﻿using System.Collections.Generic;
+using Lte.Evaluations.MockItems;
 using Lte.Evaluations.TestService;
-using Lte.Parameters.Abstract.Infrastructure;
-using Lte.Parameters.Entities;
 using Moq;
 using NUnit.Framework;
 using System.Linq;
+using Lte.Domain.Common.Wireless;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
+using Lte.Parameters.MockOperations;
 
 namespace Lte.Evaluations.DataService.College
 {
+    public class CollegeDistributionTestService
+    {
+        private readonly Mock<IInfrastructureRepository> _repository;
+
+        public CollegeDistributionTestService(Mock<IInfrastructureRepository> repository)
+        {
+            _repository = repository;
+        }
+
+        public void MockOneLteDistribution(int id)
+        {
+            var infrastructures = new List<InfrastructureInfo>
+            {
+                new InfrastructureInfo
+                {
+                    HotspotName = "College-"+id,
+                    HotspotType = HotspotType.College,
+                    InfrastructureType = InfrastructureType.LteIndoor,
+                    InfrastructureId = id
+                }
+            };
+            _repository.MockQueryItems(infrastructures.AsQueryable());
+        }
+
+        public void MockOneCdmaDistribution(int id)
+        {
+            var infrastructures = new List<InfrastructureInfo>
+            {
+                new InfrastructureInfo
+                {
+                    HotspotName = "College-"+id,
+                    HotspotType = HotspotType.College,
+                    InfrastructureType = InfrastructureType.CdmaIndoor,
+                    InfrastructureId = id
+                }
+            };
+            _repository.MockQueryItems(infrastructures.AsQueryable());
+        }
+    }
+
     public class CollegeDistributionServiceTest
     {
         private readonly Mock<IInfrastructureRepository> _repository = new Mock<IInfrastructureRepository>();
@@ -27,7 +70,7 @@ namespace Lte.Evaluations.DataService.College
             _indoorRepository.MockThreeDistributions();
             _service = new CollegeLteDistributionService(_repository.Object, _indoorRepository.Object);
             _cdmaService = new CollegeCdmaDistributionService(_repository.Object, _indoorRepository.Object);
-            _testService = new CollegeDistributionTestService(_repository, _indoorRepository);
+            _testService = new CollegeDistributionTestService(_repository);
         }
 
         [TestCase(1)]

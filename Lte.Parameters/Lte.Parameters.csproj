@@ -180,7 +180,6 @@
     <Compile Include="Concrete\Channel\PDSCHCfgRepository.cs" />
     <Compile Include="Concrete\College\EFCollegeRepository.cs" />
     <Compile Include="Concrete\Basic\EFENodebRepository.cs" />
-    <Compile Include="Concrete\Infrastructure\EFInfrastructureRepository.cs" />
     <Compile Include="Concrete\Kpi\EFInterferenceMatrixRepository.cs" />
     <Compile Include="Concrete\Kpi\MrsRepositories.cs" />
     <Compile Include="Concrete\EFParametersContext.cs" />
@@ -207,7 +206,6 @@
     <Compile Include="Entities\Basic\CellMongos.cs" />
     <Compile Include="Entities\Dt\DtFilesInfo.cs" />
     <Compile Include="Entities\Basic\ENodeb.cs" />
-    <Compile Include="Entities\InfrastructureInfo.cs" />
     <Compile Include="Entities\Neighbor\NearestPciCell.cs" />
     <Compile Include="Entities\Kpi\PreciseCoverage4G.cs" />
     <Compile Include="Entities\Switch\CellMeasGroupZte.cs" />
@@ -225,6 +223,10 @@
     <Compile Include="Migrations\201708240226119_Change_Lte_Neighbor.cs" />
     <Compile Include="Migrations\201708240226119_Change_Lte_Neighbor.Designer.cs">
       <DependentUpon>201708240226119_Change_Lte_Neighbor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708250351322_Infrastructure_Change.cs" />
+    <Compile Include="Migrations\201708250351322_Infrastructure_Change.Designer.cs">
+      <DependentUpon>201708250351322_Infrastructure_Change.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MockOperations\DbHelper.cs" />
@@ -260,6 +262,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708240226119_Change_Lte_Neighbor.resx">
       <DependentUpon>201708240226119_Change_Lte_Neighbor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708250351322_Infrastructure_Change.resx">
+      <DependentUpon>201708250351322_Infrastructure_Change.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

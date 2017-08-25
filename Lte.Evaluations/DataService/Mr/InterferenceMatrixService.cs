@@ -23,19 +23,14 @@ namespace Lte.Evaluations.DataService.Mr
 
         public static List<PciCell> PciCellList { get; private set; }
         
-        public InterferenceMatrixService(IInterferenceMatrixRepository repository, ICellRepository cellRepository,
-            IInfrastructureRepository infrastructureRepository)
+        public InterferenceMatrixService(IInterferenceMatrixRepository repository, ICellRepository cellRepository)
         {
             _repository = repository;
             if (InterferenceMatrixStats == null)
                 InterferenceMatrixStats = new Stack<InterferenceMatrixStat>();
             if (PciCellList == null)
             {
-                var cells = from cell in cellRepository.GetAllList()
-                    join moinitor in infrastructureRepository.GetAllPreciseMonitor() on cell.Id equals
-                        moinitor.InfrastructureId
-                    select cell;
-                PciCellList = cells.MapTo<List<PciCell>>();
+                PciCellList = cellRepository.GetAllList().MapTo<List<PciCell>>();
             }
         }
 
