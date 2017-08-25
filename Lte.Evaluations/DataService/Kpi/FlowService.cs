@@ -234,7 +234,11 @@ namespace Lte.Evaluations.DataService.Kpi
                     await _rrcHuaweiRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
                 var zteItems = await _zteRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
                 var zteRrcs = await _rrcZteRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
-                var townItems = await _townFlowRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
+                var townItems =
+                    await _townFlowRepository.CountAsync(
+                        x =>
+                            x.StatTime >= beginDate && x.StatTime < endDate &&
+                            x.FrequencyBandType == FrequencyBandType.All); ;
                 var townItems2100 =
                     await _townFlowRepository.CountAsync(
                         x =>
@@ -300,6 +304,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 var townStatList = GetTownFlowStats(statDate, FrequencyBandType.Band2100);
                 foreach (var stat in townStatList.GetPositionMergeStats(statDate))
                 {
+                    stat.FrequencyBandType = FrequencyBandType.Band2100;
                     await _townFlowRepository.InsertAsync(stat);
                 }
                 item3 = _townFlowRepository.SaveChanges();
@@ -312,6 +317,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 var townStatList = GetTownFlowStats(statDate, FrequencyBandType.Band1800);
                 foreach (var stat in townStatList.GetPositionMergeStats(statDate))
                 {
+                    stat.FrequencyBandType = FrequencyBandType.Band1800;
                     await _townFlowRepository.InsertAsync(stat);
                 }
                 item4 = _townFlowRepository.SaveChanges();
@@ -324,6 +330,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 var townStatList = GetTownFlowStats(statDate, FrequencyBandType.Band800VoLte);
                 foreach (var stat in townStatList.GetPositionMergeStats(statDate))
                 {
+                    stat.FrequencyBandType = FrequencyBandType.Band800VoLte;
                     await _townFlowRepository.InsertAsync(stat);
                 }
                 item5 = _townFlowRepository.SaveChanges();

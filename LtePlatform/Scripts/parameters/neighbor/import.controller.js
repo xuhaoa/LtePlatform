@@ -58,14 +58,24 @@
         });
         flowImportService.queryDumpHistory($scope.beginDate.value, $scope.endDate.value).then(function (result) {
             $scope.dumpHistory = result;
-            angular.forEach(result, function (record) {
-                if (record.huaweiItems > 7900 && record.zteItems > 15500 && (record.townStats === 0 || record.townRrcs === 0)) {
-                    flowImportService.dumpTownStats(record.dateString).then(function(count) {
-                        record.townStats = count.item1;
-                        record.townRrcs = count.item2;
-                    });
-                }
-            });
+            angular.forEach(result,
+                function(record) {
+                    if (record.huaweiItems > 7900 &&
+                        record.zteItems > 15500 &&
+                        (record.townStats === 0 ||
+                            record.townRrcs === 0 ||
+                            record.townStats2100 === 0 ||
+                            record.townStats1800 === 0 ||
+                            record.townStats800VoLte === 0)) {
+                        flowImportService.dumpTownStats(record.dateString).then(function(count) {
+                            record.townStats = count.item1;
+                            record.townRrcs = count.item2;
+                            record.townStats2100 = count.item3;
+                            record.townStats1800 = count.item4;
+                            record.townStats800VoLte = count.item5;
+                        });
+                    }
+                });
         });
     };
 

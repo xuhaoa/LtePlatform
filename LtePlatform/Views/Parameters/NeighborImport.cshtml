@@ -95,7 +95,8 @@
                     <th>华为RRC数量</th>
                     <th>中兴数量</th>
                     <th>中兴RRC记录</th>
-                    <th>镇区统计</th>
+                    <th>镇区统计-全部</th>
+                    <th>镇区统计-分频率</th>
                     <th>镇区RRC统计</th>
                 </tr>
             </thead>
@@ -107,6 +108,7 @@
                     <td>{{stat.zteItems}}</td>
                     <td>{{stat.zteRrcs}}</td>
                     <td>{{stat.townStats}}</td>
+                    <td>{{stat.townStats2100+stat.townStats1800+stat.townStats800VoLte}}</td>
                     <td>{{stat.townRrcs}}</td>
                 </tr>
             </tbody>
