@@ -189,6 +189,29 @@
         }, $compile);
     })
 
+    .controller('HotSpotFlowController', function ($scope) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'hotspotName', name: '热点名称', width: 200, enableColumnResizing: false },
+                { field: 'cellCount', name: '小区数' },
+                { field: 'pdcpDownlinkFlow', name: '平均下行流量(MB)', cellFilter: 'number: 1' },
+                { field: 'pdcpUplinkFlow', name: '平均上行流量(MB)', cellFilter: 'number: 1' },
+                { field: 'averageUsers', name: '平均用户数', cellFilter: 'number: 1' },
+                { field: 'maxActiveUsers', name: '最大激活用户数', cellFilter: 'number: 1' }
+            ],
+            data: []
+        };
+    })
+    .directive('hotSpotFlowList', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'HotSpotFlowController',
+            scope: {
+                hotSpots: '='
+            },
+            argumentName: 'hotSpots'
+        }, $compile);
+    })
+
     .controller('CollegeSupportController', function ($scope, emergencyService, customerDialogService, appRegionService) {
         $scope.gridOptions = {
             columnDefs: [

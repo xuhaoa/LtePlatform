@@ -2101,41 +2101,84 @@ angular.module('kpi.college', ['myApp.url', 'myApp.region', "ui.bootstrap", 'top
 	.controller("college.flow", function ($scope, $uibModalInstance, dialogTitle, year, collegeQueryService, parametersChartService) {
 		$scope.dialogTitle = dialogTitle;
 		$scope.collegeStatCount = 0;
-		$scope.query = function () {
-			angular.forEach($scope.collegeList, function (college) {
-				collegeQueryService.queryCollegeFlow(college.name, $scope.beginDate.value, $scope.endDate.value).then(function (stat) {
-					college.pdcpDownlinkFlow = stat.pdcpDownlinkFlow;
-					college.pdcpUplinkFlow = stat.pdcpUplinkFlow;
-					college.averageUsers = stat.averageUsers;
-					college.cellCount = stat.cellCount;
-					college.maxActiveUsers = stat.maxActiveUsers;
-					$scope.collegeStatCount += 1;
-					});
-					});
-					};
-			$scope.$watch('collegeStatCount', function (count) {
-			if ($scope.collegeList && count === $scope.collegeList.length && count > 0) {
-				$("#downloadFlowConfig").highcharts(parametersChartService.getCollegeDistributionForDownlinkFlow($scope.collegeList));
-				$("#uploadFlowConfig").highcharts(parametersChartService.getCollegeDistributionForUplinkFlow($scope.collegeList));
-				$("#averageUsersConfig").highcharts(parametersChartService.getCollegeDistributionForAverageUsers($scope.collegeList));
-				$("#activeUsersConfig").highcharts(parametersChartService.getCollegeDistributionForActiveUsers($scope.collegeList));
-				$scope.collegeStatCount = 0;
-				}
-				});
-		collegeQueryService.queryYearList(year).then(function (colleges) {
-			$scope.collegeList = colleges;
-			$scope.query();
-				});
+        $scope.query = function() {
+            angular.forEach($scope.collegeList,
+                function(college) {
+                    collegeQueryService.queryCollegeFlow(college.name, $scope.beginDate.value, $scope.endDate.value)
+                        .then(function(stat) {
+                            angular.extend(college, stat);
+                            $scope.collegeStatCount += 1;
+                        });
+                });
+        };
+        $scope.$watch('collegeStatCount',
+            function(count) {
+                if ($scope.collegeList && count === $scope.collegeList.length && count > 0) {
+                    $("#downloadFlowConfig").highcharts(parametersChartService
+                        .getCollegeDistributionForDownlinkFlow($scope.collegeList));
+                    $("#uploadFlowConfig").highcharts(parametersChartService
+                        .getCollegeDistributionForUplinkFlow($scope.collegeList));
+                    $("#averageUsersConfig").highcharts(parametersChartService
+                        .getCollegeDistributionForAverageUsers($scope.collegeList));
+                    $("#activeUsersConfig").highcharts(parametersChartService
+                        .getCollegeDistributionForActiveUsers($scope.collegeList));
+                    $scope.collegeStatCount = 0;
+                }
+            });
+        collegeQueryService.queryYearList(year).then(function(colleges) {
+            $scope.collegeList = colleges;
+            $scope.query();
+        });
 
-		$scope.ok = function () {
-			$uibModalInstance.close($scope.cell);
-			};
+        $scope.ok = function() {
+            $uibModalInstance.close($scope.cell);
+        };
 
-		$scope.cancel = function () {
-			$uibModalInstance.dismiss('cancel');
-			};
+        $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
 
-	})
+    })
+    .controller("hotSpot.flow", function ($scope, $uibModalInstance, dialogTitle, hotSpots, theme,
+        collegeQueryService, parametersChartService) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.hotSpotList = hotSpots;
+        $scope.statCount = 0;
+        $scope.query = function () {
+            angular.forEach($scope.hotSpotList,
+                function (spot) {
+                    collegeQueryService.queryHotSpotFlow(spot.hotspotName, $scope.beginDate.value, $scope.endDate.value)
+                        .then(function (stat) {
+                            angular.extend(spot, stat);
+                            $scope.statCount += 1;
+                        });
+                });
+        };
+        $scope.$watch('statCount',
+            function (count) {
+                if (count === $scope.hotSpotList.length && count > 0) {
+                    $("#downloadFlowConfig").highcharts(parametersChartService
+                        .getCollegeDistributionForDownlinkFlow($scope.hotSpotList, theme));
+                    $("#uploadFlowConfig").highcharts(parametersChartService
+                        .getCollegeDistributionForUplinkFlow($scope.hotSpotList, theme));
+                    $("#averageUsersConfig").highcharts(parametersChartService
+                        .getCollegeDistributionForAverageUsers($scope.hotSpotList, theme));
+                    $("#activeUsersConfig").highcharts(parametersChartService
+                        .getCollegeDistributionForActiveUsers($scope.hotSpotList, theme));
+                    $scope.statCount = 0;
+                }
+            });
+        $scope.query();
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.cell);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+    })
 	.controller("maintain.college.dialog", function ($scope, $uibModalInstance, dialogTitle, year,
 		collegeService, collegeQueryService, collegeDialogService, appFormatService) {
 		$scope.dialogTitle = dialogTitle;
@@ -2489,7 +2532,24 @@ angular.module('kpi.college', ['myApp.url', 'myApp.region', "ui.bootstrap", 'top
 						}
 					}
 				});
-			},
+            },
+            showHotSpotFlow: function (hotSpots, theme) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/College/Test/Flow.html',
+                    controller: 'hotSpot.flow',
+                    resolve: {
+                        dialogTitle: function () {
+                            return theme + "热点流量分析";
+                        },
+                        hotSpots: function () {
+                            return hotSpots;
+                        },
+                        theme: function() {
+                            return theme;
+                        }
+                    }
+                });
+            },
 			maintainCollegeInfo: function (year) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/College/Stat.html',
@@ -5100,7 +5160,7 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
 			$scope.queryFlow();
 		});
 	})
-	.controller("hotSpot.flow", function($scope, $uibModalInstance, hotSpot, beginDate, endDate,
+	.controller("hotSpot.cell.flow", function($scope, $uibModalInstance, hotSpot, beginDate, endDate,
 		complainService, appKpiService, kpiChartService) {
 		$scope.eNodebName = hotSpot.hotspotName;
 		$scope.flowStats = [];
@@ -5633,10 +5693,10 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
 					}
 				});
 			},
-			showHotSpotFlow: function(hotSpot, beginDate, endDate) {
+			showHotSpotCellFlow: function(hotSpot, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Parameters/Region/ENodebFlow.html',
-					controller: 'hotSpot.flow',
+					controller: 'hotSpot.cell.flow',
 					resolve: {
 						hotSpot: function() {
 							return hotSpot;

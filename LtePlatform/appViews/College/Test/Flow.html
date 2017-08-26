@@ -9,7 +9,8 @@
         </button>
     </div>
 
-    <div college-flow-list colleges="collegeList"></div>
+    <div ng-if="collegeList" college-flow-list colleges="collegeList"></div>
+    <div ng-if="hotSpotList" hot-spot-flow-list hot-spots="hotSpotList"></div>
     <div class="row">
         <div class="col-md-6" style="min-height: 300px" id="downloadFlowConfig"></div>
         <div class="col-md-6" style="min-height: 300px" id="uploadFlowConfig"></div>

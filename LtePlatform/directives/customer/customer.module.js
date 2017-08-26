@@ -85,7 +85,7 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
             });
         };
         $scope.showFlow = function (hotSpot) {
-            workItemDialog.showHotSpotFlow(hotSpot, $scope.beginDate, $scope.endDate);
+            workItemDialog.showHotSpotCellFlow(hotSpot, $scope.beginDate, $scope.endDate);
         };
         $scope.showCells = function(name) {
             workItemDialog.showHotSpotCells(name);

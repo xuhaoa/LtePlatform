@@ -167,7 +167,7 @@ namespace LtePlatform.Controllers.Kpi
         }
 
         [HttpGet]
-        [ApiDoc("查询指定日期前镇级天流量")]
+        [ApiDoc("查询指定日期前最近一天有记录的镇级天流量")]
         [ApiParameterDoc("statDate", "统计日期")]
         [ApiResponse("镇级天流量，每个镇一条记录")]
         public IEnumerable<TownFlowView> Get(DateTime statDate)
@@ -176,6 +176,11 @@ namespace LtePlatform.Controllers.Kpi
         }
 
         [HttpGet]
+        [ApiDoc("查询时间段内区域天流量统计")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiParameterDoc("city", "城市名称")]
+        [ApiResponse("天流量统计列表")]
         public IEnumerable<FlowRegionDateView> Get(DateTime begin, DateTime end, string city)
         {
             return _service.QueryDateSpanStats(begin, end, city);
@@ -234,6 +239,60 @@ namespace LtePlatform.Controllers.Kpi
                 return stat;
             }).OrderBy(x=>x.StatTime);
         } 
+    }
+
+    [ApiControl("校园网流量查询控制器")]
+    public class HotSpotFlowController : ApiController
+    {
+        private readonly FlowQueryService _service;
+        private readonly CollegeCellViewService _viewService;
+
+        public HotSpotFlowController(FlowQueryService service, CollegeCellViewService viewService)
+        {
+            _service = service;
+            _viewService = viewService;
+        }
+
+        [HttpGet]
+        [ApiDoc("查询指定热点指定日期范围内流量情况")]
+        [ApiParameterDoc("name", "热点名称")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiResponse("天平均流量统计")]
+        public AggregateFlowView Get(string name, DateTime begin, DateTime end)
+        {
+            var cells = _viewService.GetHotSpotViews(name);
+            var stats =
+                cells.Select(cell => _service.QueryAverageView(cell.ENodebId, cell.SectorId, begin, end))
+                    .Where(view => view != null)
+                    .ToList();
+            var result = stats.Any()
+                ? stats.ArraySum().MapTo<AggregateFlowView>()
+                : new AggregateFlowView();
+            result.CellCount = stats.Count;
+            return result;
+        }
+
+        [HttpGet]
+        [ApiDoc("查询指定热点指定日期范围内流量情况，按照日期排列")]
+        [ApiParameterDoc("name", "热点名称")]
+        [ApiParameterDoc("beginDate", "开始日期")]
+        [ApiParameterDoc("endDate", "结束日期")]
+        [ApiResponse("流量情况，按照日期排列，每天一条记录")]
+        public IEnumerable<FlowView> GetDateViews(string name, DateTime beginDate, DateTime endDate)
+        {
+            var cells = _viewService.GetHotSpotViews(name);
+            var viewList = cells.Select(cell => _service.Query(cell.ENodebId, cell.SectorId, beginDate, endDate))
+                .Where(views => views != null && views.Any())
+                .Aggregate((x, y) => x.Concat(y).ToList());
+            if (!viewList.Any()) return new List<FlowView>();
+            return viewList.GroupBy(x => x.StatTime).Select(x =>
+            {
+                var stat = x.ArraySum();
+                stat.StatTime = x.Key;
+                return stat;
+            }).OrderBy(x => x.StatTime);
+        }
     }
 
     [ApiControl("基站级流量查询控制器")]

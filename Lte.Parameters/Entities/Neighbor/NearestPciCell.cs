@@ -324,6 +324,8 @@ namespace Lte.Parameters.Entities.Neighbor
         public int NoHoFlag { get; set; }
 
         public string NeighbourCellName { get; set; }
+
+        public int? AggregationProperty { get; set; }
     }
 
     public class EutranInterNFreq : IEntity<ObjectId>, IHuaweiCellMongo

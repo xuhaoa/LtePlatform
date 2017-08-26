@@ -63,7 +63,7 @@
 			$scope.queryFlow();
 		});
 	})
-	.controller("hotSpot.flow", function($scope, $uibModalInstance, hotSpot, beginDate, endDate,
+	.controller("hotSpot.cell.flow", function($scope, $uibModalInstance, hotSpot, beginDate, endDate,
 		complainService, appKpiService, kpiChartService) {
 		$scope.eNodebName = hotSpot.hotspotName;
 		$scope.flowStats = [];
@@ -596,10 +596,10 @@
 					}
 				});
 			},
-			showHotSpotFlow: function(hotSpot, beginDate, endDate) {
+			showHotSpotCellFlow: function(hotSpot, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Parameters/Region/ENodebFlow.html',
-					controller: 'hotSpot.flow',
+					controller: 'hotSpot.cell.flow',
 					resolve: {
 						hotSpot: function() {
 							return hotSpot;

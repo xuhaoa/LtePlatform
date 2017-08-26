@@ -493,42 +493,46 @@
                     return subData.totalCdmaCells;
                 });
             },
-            getCollegeDistributionForDownlinkFlow: function(data) {
+            getCollegeDistributionForDownlinkFlow: function (data, theme) {
+                theme = theme || "校园网";
                 return generalChartService.getPieOptions(data, {
-                    title: "校园网下行流量分布",
+                    title: theme + "下行流量分布",
                     seriesTitle: "下行流量(MB)"
                 }, function(subData) {
-                    return subData.name;
+                    return subData.name || subData.hotspotName;
                 }, function(subData) {
                     return subData.pdcpDownlinkFlow;
                 });
             },
-            getCollegeDistributionForUplinkFlow: function(data) {
+            getCollegeDistributionForUplinkFlow: function (data, theme) {
+                theme = theme || "校园网";
                 return generalChartService.getPieOptions(data, {
-                    title: "校园网上行流量分布",
+                    title: theme + "上行流量分布",
                     seriesTitle: "上行流量(MB)"
                 }, function(subData) {
-                    return subData.name;
+                    return subData.name || subData.hotspotName;
                 }, function(subData) {
                     return subData.pdcpUplinkFlow;
                 });
             },
-            getCollegeDistributionForAverageUsers: function(data) {
+            getCollegeDistributionForAverageUsers: function (data, theme) {
+                theme = theme || "校园网";
                 return generalChartService.getPieOptions(data, {
-                    title: "校园网平均用户数分布",
+                    title: theme + "平均用户数分布",
                     seriesTitle: "平均用户数"
                 }, function(subData) {
-                    return subData.name;
+                    return subData.name || subData.hotspotName;
                 }, function(subData) {
                     return subData.averageUsers;
                 });
             },
-            getCollegeDistributionForActiveUsers: function(data) {
+            getCollegeDistributionForActiveUsers: function (data, theme) {
+                theme = theme || "校园网";
                 return generalChartService.getPieOptions(data, {
-                    title: "校园网最大激活用户数分布",
+                    title: theme + "最大激活用户数分布",
                     seriesTitle: "最大激活用户数"
                 }, function(subData) {
-                    return subData.name;
+                    return subData.name || subData.hotspotName;
                 }, function(subData) {
                     return subData.maxActiveUsers;
                 });

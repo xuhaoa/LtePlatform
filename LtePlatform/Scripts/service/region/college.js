@@ -208,6 +208,13 @@
                     end: end
                 });
             },
+            queryHotSpotFlow: function (name, begin, end) {
+                return generalHttpService.getApiData('HotSpotFlow', {
+                    name: name,
+                    begin: begin,
+                    end: end
+                });
+            },
             queryCollegeDateFlows: function(collegeName, begin, end) {
                 return generalHttpService.getApiData('CollegeFlow', {
                     collegeName: collegeName,

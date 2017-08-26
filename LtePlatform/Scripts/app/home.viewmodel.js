@@ -3737,7 +3737,7 @@ angular.module('network.theme', ['app.common'])
                 });
         })
     .controller("analysis.highway",
-        function($scope, baiduMapService, basicImportService, parametersMapService) {
+    function ($scope, baiduMapService, basicImportService, parametersMapService, collegeDialogService) {
             baiduMapService.initializeMap("map", 11);
             $scope.showView = function(hotSpot) {
                 $scope.currentView = hotSpot.hotspotName;
@@ -3745,6 +3745,9 @@ angular.module('network.theme', ['app.common'])
                 baiduMapService.addCityBoundary("佛山");
                 parametersMapService.showHotSpotCellSectors(hotSpot.hotspotName, $scope.beginDate, $scope.endDate);
                 baiduMapService.setCellFocus(hotSpot.longtitute, hotSpot.lattitute, 13);
+            };
+            $scope.showFlow = function () {
+                collegeDialogService.showHotSpotFlow($scope.hotSpots, "高速公路");
             };
             basicImportService.queryHotSpotsByType("高速公路").then(function(spots) {
                 $scope.hotSpots = spots;
