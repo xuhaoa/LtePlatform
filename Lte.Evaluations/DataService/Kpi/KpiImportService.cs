@@ -234,20 +234,24 @@ namespace Lte.Evaluations.DataService.Kpi
             return "完成3G路测文件导入：" + path;
         }
 
-        public string ImportDt4GFile(string path)
+        public string ImportDt4GFile(string path, DateTime statDate)
         {
             bool fileExisted;
             var tableName = _fileRecordRepository.GetFileNameExisted(path, out fileExisted);
             if (fileExisted) return "数据文件已存在于数据库中。请确认是否正确。";
             var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
             var infos = CsvContext.Read<FileRecord4GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
+            if (infos.FirstOrDefault(x => x.Rsrp != null) == null)
+            {
+                var zteInfos = CsvContext.Read<FileRecord4GZte>(reader, CsvFileDescription.CommaDescription).ToList();
+                if (zteInfos.FirstOrDefault(x => x.Rsrp != null) == null)
+                    throw new Exception("不是有效的4G数据文件！");
+                infos = zteInfos.MapTo<List<FileRecord4GCsv>>();
+            }
             var filterInfos =
                 infos.GetFoshanGeoPoints().ToList();
             if (!filterInfos.Any()) return "无数据或格式错误！";
-            var fields = path.GetSplittedFields('\\');
-            var dir = fields[fields.Length - 2];
-            var date = dir.GetDateFromFileName() ?? DateTime.Today;
-            var statTime = filterInfos[0].StatTime.AddDays((date - DateTime.Today).Days);
+            var statTime = filterInfos[0].StatTime.AddDays((statDate - DateTime.Today).Days);
             _dtFileInfoRepository.UpdateCsvFileInfo(tableName, statTime);
             var stats = filterInfos.MergeRecords();
             _rasterTestInfoRepository.UpdateRasterInfo(stats, tableName, "4G");

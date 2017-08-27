@@ -269,6 +269,24 @@ namespace Lte.Parameters.Test.Entities
         }
 
         [Test]
+        public void Test_Merge_4G_3()
+        {
+            var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var csvFilesDirectory = Path.Combine(testDirectory, "CsvFiles");
+            var path = Path.Combine(csvFilesDirectory, "Z20170710_112329.csv");
+
+            var reader = new StreamReader(path);
+            var infos = CsvContext.Read<FileRecord4GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
+            Assert.AreEqual(infos.Count, 14122);
+            var zteInfos =
+                CsvContext.Read<FileRecord4GZte>(reader, CsvFileDescription.CommaDescription)
+                    .ToList();
+            var filterInfos =
+                zteInfos.Where(x => x.Longtitute != null && x.Lattitute != null).ToList();
+            Assert.AreEqual(zteInfos.Count, 14122);
+        }
+
+        [Test]
         public void Test_Merge_4G_Dingli()
         {
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;

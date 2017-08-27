@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using Lte.Domain.Regular;
 
 namespace LtePlatform.Controllers
 {
@@ -216,7 +217,10 @@ namespace LtePlatform.Controllers
                 try
                 {
                     var path = httpPostedFileBase.UploadKpiFile();
-                    ViewBag.Message = _importService.ImportDt4GFile(path);
+                    var fields = path.GetSplittedFields('\\');
+                    var dir = fields[fields.Length - 1];
+                    var date = dir.GetDateFromFileName() ?? DateTime.Today;
+                    ViewBag.Message = _importService.ImportDt4GFile(path, date);
                 }
                 catch (Exception e)
                 {
