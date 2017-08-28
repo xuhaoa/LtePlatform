@@ -363,12 +363,36 @@ namespace Lte.Evaluations.DataService.Kpi
                     new {c.ENodebId, LocalCellId = c.LocalSectorId}
                     select f).ToList();
                 zteFlows = (from f in zteFlows
-                               join c in cells on f.ENodebId equals c.ENodebId
-                               select f).ToList();
+                    join c in cells on new {f.ENodebId, f.SectorId} equals
+                    new {c.ENodebId, c.SectorId}
+                    select f).ToList();
             }
             townStatList.AddRange(huaweiFlows.GetTownStats<FlowHuawei, TownFlowStat>(_eNodebRepository));
             townStatList.AddRange(zteFlows.GetTownStats<FlowZte, TownFlowStat>(_eNodebRepository));
             return townStatList;
+        }
+
+        public IEnumerable<CellIdPair> QueryUnmatchedHuaweis(int townId, DateTime date)
+        {
+            var eNodebs = _eNodebRepository.GetAllList(x => x.TownId == townId);
+            var cells = from cell in _cellRepository.GetAllList()
+                        join eNodeb in eNodebs on cell.ENodebId equals eNodeb.ENodebId
+                        select cell;
+            var stats = _huaweiRepository.GetAllList(x => x.StatTime >= date);
+            var townStats = from stat in stats
+                join eNodeb in eNodebs on stat.ENodebId equals eNodeb.ENodebId
+                select stat;
+            return from stat in townStats
+                join cell in cells on new {stat.ENodebId, stat.LocalCellId} equals
+                new {cell.ENodebId, LocalCellId = cell.LocalSectorId}
+                into match
+                from m in match.DefaultIfEmpty()
+                   where m == null
+                select new CellIdPair
+                {
+                    CellId = stat.ENodebId,
+                    SectorId = stat.LocalCellId
+                };
         }
 
         private List<TownRrcStat> GetTownRrcStats(DateTime statDate)
@@ -487,3 +511,4 @@ namespace Lte.Evaluations.DataService.Kpi
 
     }
 }
+

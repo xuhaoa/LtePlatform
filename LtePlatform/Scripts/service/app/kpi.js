@@ -3021,11 +3021,12 @@ angular.module('kpi.coverage', ['myApp.url', 'myApp.region', "ui.bootstrap"])
             $uibModalInstance.dismiss('cancel');
         };
     })
-    .controller("flow.stats", function ($scope, today, dialogTitle, $uibModalInstance, appRegionService, preciseChartService) {
+    .controller("flow.stats", function ($scope, today, dialogTitle, frequency,
+        $uibModalInstance, appRegionService, preciseChartService) {
         $scope.dialogTitle = dialogTitle;
-        appRegionService.getTownFlowStats(today).then(function (result) {
-            $("#leftChart").highcharts(preciseChartService.getTownFlowOption(result));
-            $("#rightChart").highcharts(preciseChartService.getTownUsersOption(result));
+        appRegionService.getTownFlowStats(today, frequency).then(function (result) {
+            $("#leftChart").highcharts(preciseChartService.getTownFlowOption(result, frequency));
+            $("#rightChart").highcharts(preciseChartService.getTownUsersOption(result, frequency));
         });
         $scope.ok = function () {
             $uibModalInstance.close($scope.city);
@@ -3428,7 +3429,7 @@ angular.module('kpi.coverage', ['myApp.url', 'myApp.region', "ui.bootstrap"])
                     }
                 });
             },
-            showFlowStats: function (today) {
+            showFlowStats: function (today, frequency) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Home/DoubleChartDialog.html',
                     controller: 'flow.stats',
@@ -3438,6 +3439,9 @@ angular.module('kpi.coverage', ['myApp.url', 'myApp.region', "ui.bootstrap"])
                         },
                         today: function () {
                             return today;
+                        },
+                        frequency: function() {
+                            return frequency;
                         }
                     }
                 });

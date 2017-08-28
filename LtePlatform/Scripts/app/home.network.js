@@ -229,7 +229,9 @@
             flowService,
             chartCalculateService) {
             baiduMapService.initializeMap("map", 11);
-            $scope.showFeelingRate = function() {
+            $scope.frequencyOption = 'all';
+
+            $scope.showFeelingRate = function () {
                 if (!$scope.flowGeoPoints) {
                     alert("计算未完成！请稍后点击。");
                     return;
@@ -300,9 +302,33 @@
 
             };
 
-
+            $scope.displayAllFrequency = function() {
+                if ($scope.frequencyOption !== 'all') {
+                    $scope.frequencyOption = 'all';
+                    flowService.queryENodebGeoFlowByDateSpan($scope.beginDate.value, $scope.endDate.value)
+                        .then(function (result) {
+                            $scope.flowGeoPoints = result;
+                            $scope.showFeelingRate();
+                        });
+                }
+            };
+            $scope.display1800Frequency = function() {
+                if ($scope.frequencyOption !== '1800') {
+                    $scope.frequencyOption = '1800';
+                }
+            };
+            $scope.display2100Frequency = function () {
+                if ($scope.frequencyOption !== '2100') {
+                    $scope.frequencyOption = '2100';
+                }
+            };
+            $scope.display800Frequency = function () {
+                if ($scope.frequencyOption !== '800') {
+                    $scope.frequencyOption = '800';
+                }
+            };
             $scope.showFlow = function() {
-                coverageDialogService.showFlowStats($scope.statDate.value || new Date());
+                coverageDialogService.showFlowStats($scope.statDate.value || new Date(), $scope.frequencyOption);
             };
             $scope.showFlowTrend = function() {
                 coverageDialogService.showFlowTrend($scope.city.selected, $scope.beginDate, $scope.endDate);

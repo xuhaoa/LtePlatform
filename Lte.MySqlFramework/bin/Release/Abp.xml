@@ -958,6 +958,12 @@
             Optional.
             </summary>
         </member>
+        <member name="P:Abp.Application.Navigation.MenuItemDefinition.PermissionDependency">
+            <summary>
+            A permission dependency. Only users that can satisfy this permission dependency can see this menu item.
+            Optional.
+            </summary>
+        </member>
         <member name="P:Abp.Application.Navigation.MenuItemDefinition.FeatureDependency">
             <summary>
             A feature dependency.
@@ -999,10 +1005,20 @@
             Sub items of this menu item. Optional.
             </summary>
         </member>
-        <member name="M:Abp.Application.Navigation.MenuItemDefinition.#ctor(System.String,Abp.Localization.ILocalizableString,System.String,System.String,System.Boolean,System.String,System.Int32,System.Object,Abp.Application.Features.IFeatureDependency,System.String,System.Boolean,System.Boolean)">
-            <summary>
-            Creates a new <see cref="T:Abp.Application.Navigation.MenuItemDefinition"/> object.
-            </summary>
+        <member name="M:Abp.Application.Navigation.MenuItemDefinition.#ctor(System.String,Abp.Localization.ILocalizableString,System.String,System.String,System.Boolean,System.String,System.Int32,System.Object,Abp.Application.Features.IFeatureDependency,System.String,System.Boolean,System.Boolean,Abp.Authorization.IPermissionDependency)">
+            <param name="name"></param>
+            <param name="displayName"></param>
+            <param name="icon"></param>
+            <param name="url"></param>
+            <param name="requiresAuthentication"></param>
+            <param name="requiredPermissionName">This parameter is obsolete. Use <paramref name="permissionDependency"/> instead!</param>
+            <param name="order"></param>
+            <param name="customData"></param>
+            <param name="featureDependency"></param>
+            <param name="target"></param>
+            <param name="isEnabled"></param>
+            <param name="isVisible"></param>
+            <param name="permissionDependency"></param>
         </member>
         <member name="M:Abp.Application.Navigation.MenuItemDefinition.AddItem(Abp.Application.Navigation.MenuItemDefinition)">
             <summary>
@@ -2290,7 +2306,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:Abp.Authorization.SimplePermissionDependency"/> class.
             </summary>
-            <param name="permissions">The features.</param>
+            <param name="permissions">The permissions.</param>
         </member>
         <member name="M:Abp.Authorization.SimplePermissionDependency.#ctor(System.Boolean,System.String[])">
             <summary>
@@ -2300,7 +2316,7 @@
             If this is set to true, all of the <see cref="P:Abp.Authorization.SimplePermissionDependency.Permissions"/> must be granted.
             If it's false, at least one of the <see cref="P:Abp.Authorization.SimplePermissionDependency.Permissions"/> must be granted.
             </param>
-            <param name="features">The features.</param>
+            <param name="permissions">The permissions.</param>
         </member>
         <member name="M:Abp.Authorization.SimplePermissionDependency.IsSatisfiedAsync(Abp.Authorization.IPermissionDependencyContext)">
             <inheritdoc/>
@@ -3085,7 +3101,7 @@
         <member name="M:Abp.Configuration.ISettingManager.GetSettingValueForApplicationAsync(System.String,System.Boolean)">
             <summary>
             Gets current value of a setting for the application level.
-            If fallbackToDefault is false, it just gets value from tenant and returns null if application has not defined a value for the setting.
+            If fallbackToDefault is false, it just gets value from application and returns null if application has not defined a value for the setting.
             </summary>
             <param name="name">Unique name of the setting</param>
             <param name="fallbackToDefault"></param>
@@ -3562,6 +3578,18 @@
             <param name="name">Unique name of the setting</param>
             <param name="tenantId">Tenant id</param>
             <param name="userId">User id</param>
+            <returns>Current value of the setting for the user</returns>
+        </member>
+        <member name="M:Abp.Configuration.SettingManagerExtensions.GetSettingValueForUser(Abp.Configuration.ISettingManager,System.String,System.Nullable{System.Int32},System.Int64,System.Boolean)">
+            <summary>
+            Gets current value of a setting for a user level.
+            It gets the setting value, overwritten by given tenant and user.
+            </summary>
+            <param name="settingManager">Setting manager</param>
+            <param name="name">Unique name of the setting</param>
+            <param name="tenantId">Tenant id</param>
+            <param name="userId">User id</param>
+            <param name="fallbackToDefault"></param>
             <returns>Current value of the setting for the user</returns>
         </member>
         <member name="M:Abp.Configuration.SettingManagerExtensions.GetSettingValue``1(Abp.Configuration.ISettingManager,System.String)">
@@ -10329,12 +10357,29 @@
             <param name="inherit">Inherit attribute from base classes</param>
             <param name="memberInfo">MemberInfo</param>
         </member>
+        <member name="M:Abp.Reflection.ReflectionHelper.GetAttributesOfMemberAndType(System.Reflection.MemberInfo,System.Type,System.Boolean)">
+            <summary>
+            Gets a list of attributes defined for a class member and type including inherited attributes.
+            </summary>
+            <param name="memberInfo">MemberInfo</param>
+            <param name="type">Type</param>
+            <param name="inherit">Inherit attribute from base classes</param>
+        </member>
         <member name="M:Abp.Reflection.ReflectionHelper.GetAttributesOfMemberAndDeclaringType``1(System.Reflection.MemberInfo,System.Boolean)">
             <summary>
             Gets a list of attributes defined for a class member and it's declaring type including inherited attributes.
             </summary>
             <typeparam name="TAttribute">Type of the attribute</typeparam>
             <param name="memberInfo">MemberInfo</param>
+            <param name="inherit">Inherit attribute from base classes</param>
+        </member>
+        <member name="M:Abp.Reflection.ReflectionHelper.GetAttributesOfMemberAndType``1(System.Reflection.MemberInfo,System.Type,System.Boolean)">
+            <summary>
+            Gets a list of attributes defined for a class member and type including inherited attributes.
+            </summary>
+            <typeparam name="TAttribute">Type of the attribute</typeparam>
+            <param name="memberInfo">MemberInfo</param>
+            <param name="type">Type</param>
             <param name="inherit">Inherit attribute from base classes</param>
         </member>
         <member name="M:Abp.Reflection.ReflectionHelper.GetSingleAttributeOfMemberOrDeclaringTypeOrDefault``1(System.Reflection.MemberInfo,``0,System.Boolean)">

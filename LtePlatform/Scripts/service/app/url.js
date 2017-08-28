@@ -3060,30 +3060,40 @@ angular.module('app.format', [])
                 });
             },
 
-            getTownFlowOption: function(views) {
-                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views, function(view) {
-                    return view.district;
-                }, function(view) {
-                    return view.town;
-                }, function(view) {
-                    return (view.pdcpDownlinkFlow + view.pdcpUplinkFlow) / 1024 / 1024 / 8;
-                }), {
-                    title: "流量镇区分布图(TB)",
-                    seriesName: "区域"
-                });
+            getTownFlowOption: function(views, frequency) {
+                return chartCalculateService.generateDrillDownPieOptions(generalChartService
+                    .generateCompoundStats(views,
+                        function(view) {
+                            return view.district;
+                        },
+                        function(view) {
+                            return view.town;
+                        },
+                        function(view) {
+                            return (view.pdcpDownlinkFlow + view.pdcpUplinkFlow) / 1024 / 1024 / 8;
+                        }),
+                    {
+                        title: "流量镇区分布图(TB)-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                        seriesName: "区域"
+                    });
             },
 
-            getTownUsersOption: function(views) {
-                return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views, function(view) {
-                    return view.district;
-                }, function(view) {
-                    return view.town;
-                }, function(view) {
-                    return view.maxUsers;
-                }), {
-                    title: "最大在线用户数镇区分布图(TB)",
-                    seriesName: "区域"
-                });
+            getTownUsersOption: function(views, frequency) {
+                return chartCalculateService.generateDrillDownPieOptions(generalChartService
+                    .generateCompoundStats(views,
+                        function(view) {
+                            return view.district;
+                        },
+                        function(view) {
+                            return view.town;
+                        },
+                        function(view) {
+                            return view.maxUsers;
+                        }),
+                    {
+                        title: "最大在线用户数镇区分布图(TB)-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                        seriesName: "区域"
+                    });
             },
 
             getCoverageOptions: function(stats) {

@@ -619,10 +619,11 @@
                         });
                     stats.push(cityStat);
                 },
-                getTownFlowStats: function(statDate) {
+                getTownFlowStats: function(statDate, frequency) {
                     return generalHttpService.getApiData('TownFlow',
                     {
-                        statDate: statDate
+                        statDate: statDate,
+                        frequency: frequency
                     });
                 }
             };

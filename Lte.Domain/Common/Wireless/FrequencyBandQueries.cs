@@ -46,28 +46,19 @@ namespace Lte.Domain.Common.Wireless
             return def?.FrequencyBandType ?? FrequencyBandType.Undefined;
         }
 
-        public static FrequencyBandType GetBandFromFcn(this int fcn)
+        public static FrequencyBandType GetBandFromFcn(this string frequency)
         {
-            var def = frequencyBands.FirstOrDefault(
-                x => fcn >= x.FcnStart && fcn <= x.FcnEnd);
-
-            return def?.FrequencyBandType ?? FrequencyBandType.Undefined;
-        }
-
-        public static int GetEarfcn(this double frequency)
-        {
-            var def = frequencyBands.FirstOrDefault(
-                x => x.FrequencyBandType == frequency.GetBandFromFrequency());
-            return (def != null) ?
-                (int)(def.FcnStart + 10 * (frequency - def.FrequencyStart)) :
-                int.MinValue;
-        }
-
-        public static double GetFrequency(this int fcn)
-        {
-            var def = frequencyBands.FirstOrDefault(
-                x => x.FrequencyBandType == fcn.GetBandFromFcn());
-            return def?.FrequencyStart + 0.1 * (fcn - def?.FcnStart ?? 0) ?? double.MinValue;
+            switch (frequency)
+            {
+                case "all":
+                    return FrequencyBandType.All;
+                case "2100":
+                    return FrequencyBandType.Band2100;
+                case "1800":
+                    return FrequencyBandType.Band1800;
+                default:
+                    return FrequencyBandType.Band800VoLte;
+            }
         }
 
         public static bool IsCdmaFrequency(this short frequency)

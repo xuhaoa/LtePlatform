@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Lte.Domain.Common.Geo;
+using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.Parameters.Entities.Kpi;
 
@@ -170,9 +172,9 @@ namespace LtePlatform.Controllers.Kpi
         [ApiDoc("查询指定日期前最近一天有记录的镇级天流量")]
         [ApiParameterDoc("statDate", "统计日期")]
         [ApiResponse("镇级天流量，每个镇一条记录")]
-        public IEnumerable<TownFlowView> Get(DateTime statDate)
+        public IEnumerable<TownFlowView> Get(DateTime statDate, string frequency)
         {
-            return _service.QueryLastDateStat(statDate);
+            return _service.QueryLastDateStat(statDate, frequency.GetBandFromFcn());
         }
 
         [HttpGet]
@@ -340,6 +342,12 @@ namespace LtePlatform.Controllers.Kpi
         public async Task<Tuple<int, int, int, int, int>> Get(DateTime statDate)
         {
             return await _service.GenerateTownStats(statDate);
+        }
+
+        [HttpGet]
+        public IEnumerable<CellIdPair> Get(DateTime statDate, int townId)
+        {
+            return _service.QueryUnmatchedHuaweis(townId, statDate);
         }
     }
 
