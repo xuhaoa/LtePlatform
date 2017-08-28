@@ -47,7 +47,7 @@
 <div class="btn-group-sm col-md-4" uib-dropdown dropdown-append-to-body>
     <button id="view-button" type="button" class="btn btn-sm btn-default"
             uib-dropdown-toggle ng-disabled="disabled">
-        <strong>视图-{{currentView}}</strong>
+        <strong>{{frequencyOption=='all'?'全部':frequencyOption+'M'}}-{{currentView}}</strong>
         <span class="caret"></span>
     </button>
     <ul uib-dropdown-menu role="menu" aria-labelledby="view-button">

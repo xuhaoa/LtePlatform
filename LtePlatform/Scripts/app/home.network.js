@@ -331,19 +331,19 @@
                 coverageDialogService.showFlowStats($scope.statDate.value || new Date(), $scope.frequencyOption);
             };
             $scope.showFlowTrend = function() {
-                coverageDialogService.showFlowTrend($scope.city.selected, $scope.beginDate, $scope.endDate);
+                coverageDialogService.showFlowTrend($scope.city.selected, $scope.beginDate, $scope.endDate, $scope.frequencyOption);
             };
             $scope.showUsersTrend = function() {
-                coverageDialogService.showUsersTrend($scope.city.selected, $scope.beginDate, $scope.endDate);
+                coverageDialogService.showUsersTrend($scope.city.selected, $scope.beginDate, $scope.endDate, $scope.frequencyOption);
             };
             $scope.showFeelingRateTrend = function() {
-                coverageDialogService.showFeelingRateTrend($scope.city.selected, $scope.beginDate, $scope.endDate);
+                coverageDialogService.showFeelingRateTrend($scope.city.selected, $scope.beginDate, $scope.endDate, $scope.frequencyOption);
             };
             $scope.showDownSwitchTrend = function() {
-                coverageDialogService.showDownSwitchTrend($scope.city.selected, $scope.beginDate, $scope.endDate);
+                coverageDialogService.showDownSwitchTrend($scope.city.selected, $scope.beginDate, $scope.endDate, $scope.frequencyOption);
             };
             $scope.showRank2RateTrend = function() {
-                coverageDialogService.showRank2RateTrend($scope.city.selected, $scope.beginDate, $scope.endDate);
+                coverageDialogService.showRank2RateTrend($scope.city.selected, $scope.beginDate, $scope.endDate, $scope.frequencyOption);
             };
             flowService.queryENodebGeoFlowByDateSpan($scope.beginDate.value, $scope.endDate.value)
                 .then(function(result) {

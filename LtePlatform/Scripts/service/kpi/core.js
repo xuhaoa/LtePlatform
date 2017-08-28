@@ -569,7 +569,7 @@
                         }
                     });
             },
-            getDownlinkFlowOptions: function(districtStats, townStats) {
+            getDownlinkFlowOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
                     .generateDrillDownData(districtStats,
                         townStats,
@@ -577,7 +577,7 @@
                             return stat.pdcpDownlinkFlow / 1024 / 1024 / 8;
                         }),
                     {
-                        title: "分镇区下行流量分布图（TB）",
+                        title: "分镇区下行流量分布图（TB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
                     {
@@ -589,7 +589,7 @@
                         }
                     });
             },
-            getUplinkFlowOptions: function(districtStats, townStats) {
+            getUplinkFlowOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
                     .generateDrillDownData(districtStats,
                         townStats,
@@ -597,7 +597,7 @@
                             return stat.pdcpUplinkFlow / 1024 / 1024 / 8;
                         }),
                     {
-                        title: "分镇区上行流量分布图（TB）",
+                        title: "分镇区上行流量分布图（TB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
                     {
@@ -609,7 +609,7 @@
                         }
                     });
             },
-            getDownlinkRateOptions: function(districtStats, townStats) {
+            getDownlinkRateOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
                     .generateDrillDownData(districtStats,
                         townStats,
@@ -617,7 +617,7 @@
                             return stat.downlinkFeelingRate;
                         }),
                     {
-                        title: "分镇区下行感知速率分布图（Mbit/s）",
+                        title: "分镇区下行感知速率分布图（Mbit/s）-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
                     {
@@ -629,7 +629,7 @@
                         }
                     });
             },
-            getUplinkRateOptions: function(districtStats, townStats) {
+            getUplinkRateOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
                     .generateDrillDownData(districtStats,
                         townStats,
@@ -637,7 +637,7 @@
                             return stat.uplinkFeelingRate;
                         }),
                     {
-                        title: "分镇区上行感知速率分布图（Mbit/s）",
+                        title: "分镇区上行感知速率分布图（Mbit/s）-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
                     {
@@ -649,7 +649,7 @@
                         }
                     });
             },
-            getDownSwitchTimesOptions: function (districtStats, townStats) {
+            getDownSwitchTimesOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
                     .generateDrillDownData(districtStats,
                         townStats,
@@ -657,7 +657,7 @@
                             return stat.redirectCdma2000;
                         }),
                     {
-                        title: "分镇区4G下切3G次数",
+                        title: "分镇区4G下切3G次数-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
                     {
@@ -669,7 +669,7 @@
                         }
                     });
             },
-            getSchedulingTimesOptions: function (districtStats, townStats) {
+            getSchedulingTimesOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
                     .generateDrillDownData(districtStats,
                         townStats,
@@ -677,7 +677,7 @@
                             return stat.schedulingTimes;
                         }),
                     {
-                        title: "分镇区调度次数",
+                        title: "分镇区调度次数-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
                     {
@@ -689,7 +689,7 @@
                         }
                     });
             },
-            getDownSwitchRateOptions: function (districtStats, townStats) {
+            getDownSwitchRateOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
                     .generateDrillDownData(districtStats,
                         townStats,
@@ -697,7 +697,7 @@
                             return stat.downSwitchRate * 8;
                         }),
                     {
-                        title: "分镇区4G下切3G比例（次/GB）",
+                        title: "分镇区4G下切3G比例（次/GB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
                     {
@@ -709,7 +709,7 @@
                         }
                     });
             },
-            getRank2RateOptions: function (districtStats, townStats) {
+            getRank2RateOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
                     .generateDrillDownData(districtStats,
                         townStats,
@@ -717,7 +717,7 @@
                             return stat.rank2Rate;
                         }),
                     {
-                        title: "分镇区双流比（%）",
+                        title: "分镇区双流比（%）-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
                     {
@@ -729,7 +729,7 @@
                         }
                     });
             },
-            getMaxUsersOptions: function(districtStats, townStats) {
+            getMaxUsersOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
                     .generateDrillDownData(districtStats,
                         townStats,
@@ -737,7 +737,7 @@
                             return stat.maxUsers;
                         }),
                     {
-                        title: "分镇区最大用户数",
+                        title: "分镇区最大用户数-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
                     {
@@ -749,7 +749,7 @@
                         }
                     });
             },
-            getMaxActiveUsersOptions: function(districtStats, townStats) {
+            getMaxActiveUsersOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
                     .generateDrillDownData(districtStats,
                         townStats,
@@ -757,7 +757,7 @@
                             return stat.maxActiveUsers;
                         }),
                     {
-                        title: "分镇区最大激活用户数",
+                        title: "分镇区最大激活用户数-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
                     {
@@ -799,7 +799,7 @@
                         yTitle: "RRC连接请求数"
                     });
             },
-            getDownlinkFlowDistrictOptions: function(stats, inputDistricts) {
+            getDownlinkFlowDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService
                     .generateDateDistrictStats(stats,
@@ -809,12 +809,12 @@
                         }),
                     districts,
                     {
-                        title: "下行流量变化趋势图",
+                        title: "下行流量变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
                         yTitle: "下行流量(TB)"
                     });
             },
-            getUplinkFlowDistrictOptions: function(stats, inputDistricts) {
+            getUplinkFlowDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService
                     .generateDateDistrictStats(stats,
@@ -824,12 +824,12 @@
                         }),
                     districts,
                     {
-                        title: "上行流量变化趋势图",
+                        title: "上行流量变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
                         yTitle: "上行流量(TB)"
                     });
             },
-            getMaxUsersDistrictOptions: function(stats, inputDistricts) {
+            getMaxUsersDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService
                     .generateDateDistrictStats(stats,
@@ -839,12 +839,12 @@
                         }),
                     districts,
                     {
-                        title: "最大用户数变化趋势图",
+                        title: "最大用户数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
                         yTitle: "最大用户数"
                     });
             },
-            getMaxActiveUsersDistrictOptions: function(stats, inputDistricts) {
+            getMaxActiveUsersDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService
                     .generateDateDistrictStats(stats,
@@ -854,12 +854,12 @@
                         }),
                     districts,
                     {
-                        title: "最大激活用户数变化趋势图",
+                        title: "最大激活用户数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
                         yTitle: "最大激活用户数"
                     });
             },
-            getDownlinkRateDistrictOptions: function(stats, inputDistricts) {
+            getDownlinkRateDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService
                     .generateDateDistrictStats(stats,
@@ -869,12 +869,12 @@
                         }),
                     districts,
                     {
-                        title: "下行感知速率变化趋势图",
+                        title: "下行感知速率变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
                         yTitle: "下行感知速率（Mbit/s）"
                     });
             },
-            getUplinkRateDistrictOptions: function(stats, inputDistricts) {
+            getUplinkRateDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService
                     .generateDateDistrictStats(stats,
@@ -884,12 +884,12 @@
                         }),
                     districts,
                     {
-                        title: "上行感知速率变化趋势图",
+                        title: "上行感知速率变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
                         yTitle: "上行感知速率（Mbit/s）"
                     });
             },
-            getDownSwitchTimesDistrictOptions: function (stats, inputDistricts) {
+            getDownSwitchTimesDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService
                     .generateDateDistrictStats(stats,
@@ -899,12 +899,12 @@
                         }),
                     districts,
                     {
-                        title: "下切次数变化趋势图",
+                        title: "下切次数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
                         yTitle: "下切次数"
                     });
             },
-            getSchedulingTimesDistrictOptions: function (stats, inputDistricts) {
+            getSchedulingTimesDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService
                     .generateDateDistrictStats(stats,
@@ -914,12 +914,12 @@
                         }),
                     districts,
                     {
-                        title: "调度次数变化趋势图",
+                        title: "调度次数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
                         yTitle: "调度次数"
                     });
             },
-            getDownSwitchRateDistrictOptions: function (stats, inputDistricts) {
+            getDownSwitchRateDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService
                     .generateDateDistrictStats(stats,
@@ -929,12 +929,12 @@
                         }),
                     districts,
                     {
-                        title: "下切比例变化趋势图",
+                        title: "下切比例变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
                         yTitle: "下切比例（次/GB）"
                     });
             },
-            getRank2RateDistrictOptions: function (stats, inputDistricts) {
+            getRank2RateDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService
                     .generateDateDistrictStats(stats,
@@ -944,7 +944,7 @@
                         }),
                     districts,
                     {
-                        title: "双流比变化趋势图",
+                        title: "双流比变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
                         yTitle: "双流比（%）"
                     });

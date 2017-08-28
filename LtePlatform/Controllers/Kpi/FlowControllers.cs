@@ -171,6 +171,7 @@ namespace LtePlatform.Controllers.Kpi
         [HttpGet]
         [ApiDoc("查询指定日期前最近一天有记录的镇级天流量")]
         [ApiParameterDoc("statDate", "统计日期")]
+        [ApiParameterDoc("frequency", "频段描述")]
         [ApiResponse("镇级天流量，每个镇一条记录")]
         public IEnumerable<TownFlowView> Get(DateTime statDate, string frequency)
         {
@@ -182,10 +183,11 @@ namespace LtePlatform.Controllers.Kpi
         [ApiParameterDoc("begin", "开始日期")]
         [ApiParameterDoc("end", "结束日期")]
         [ApiParameterDoc("city", "城市名称")]
+        [ApiParameterDoc("frequency", "频段描述")]
         [ApiResponse("天流量统计列表")]
-        public IEnumerable<FlowRegionDateView> Get(DateTime begin, DateTime end, string city)
+        public IEnumerable<FlowRegionDateView> Get(DateTime begin, DateTime end, string city, string frequency)
         {
-            return _service.QueryDateSpanStats(begin, end, city);
+            return _service.QueryDateSpanStats(begin, end, city, frequency.GetBandFromFcn());
         } 
     }
 

@@ -1064,12 +1064,13 @@ angular.module('region.kpi', ['app.core'])
                         end: endDate
                     });
                 },
-                getDateSpanFlowRegionKpi: function(city, beginDate, endDate) {
+                getDateSpanFlowRegionKpi: function(city, beginDate, endDate, frequency) {
                     return generalHttpService.getApiData('TownFlow',
                     {
                         city: city,
                         begin: beginDate,
-                        end: endDate
+                        end: endDate, 
+                        frequency: frequency
                     });
                 },
                 getOrderSelection: function() {
