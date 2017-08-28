@@ -51,10 +51,7 @@ namespace Abp.Tests.Application.Navigation
                 );
             
             //Create user navigation manager to test
-            UserNavigationManager = new UserNavigationManager(NavigationManager, Substitute.For<ILocalizationContext>(), _iocManager)
-                                    {
-                                        PermissionChecker = CreateMockPermissionChecker()
-                                    };
+            UserNavigationManager = new UserNavigationManager(NavigationManager, Substitute.For<ILocalizationContext>(), _iocManager);
         }
 
         private static IPermissionChecker CreateMockPermissionChecker()
