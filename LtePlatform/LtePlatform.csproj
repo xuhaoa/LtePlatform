@@ -1764,12 +1764,6 @@
     <Content Include="Scripts\service\topic\college.js" />
     <Content Include="Scripts\service\topic\dialog.js" />
     <Content Include="Scripts\service\topic\parameters.js" />
-    <Content Include="Scripts\service\url\app.url.es5.js">
-      <DependentUpon>app.url.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\service\url\app.url.es5.min.js">
-      <DependentUpon>app.url.es5.js</DependentUpon>
-    </Content>
     <Content Include="Scripts\service\url\app.url.js" />
     <Content Include="Scripts\service\filters\basic.js" />
     <Content Include="Scripts\service\filters\cell.js" />

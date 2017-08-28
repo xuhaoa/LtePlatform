@@ -1,6 +1,8 @@
 ﻿angular.module('myApp', ['app.common'])
 .config([
-        '$routeProvider', function($routeProvider) {
+    '$routeProvider', '$locationProvider',
+    function ($routeProvider, $locationProvider) {
+        $locationProvider.hashPrefix('');
             $routeProvider
                 .when('/', {
                     templateUrl: '/appViews/Manage/CurrentUser.html',
