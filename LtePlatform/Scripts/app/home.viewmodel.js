@@ -2091,29 +2091,40 @@ angular.module('home.network', ['app.common'])
 
             };
 
+            $scope.showHotMap = function() {
+                $scope.calculating = true;
+                flowService.queryENodebGeoFlowByDateSpan($scope.beginDate.value,
+                        $scope.endDate.value,
+                        $scope.frequencyOption)
+                    .then(function(result) {
+                        $scope.flowGeoPoints = result;
+                        $scope.showFeelingRate();
+                        $scope.calculating = false;
+                    });
+            };
+
             $scope.displayAllFrequency = function() {
                 if ($scope.frequencyOption !== 'all') {
                     $scope.frequencyOption = 'all';
-                    flowService.queryENodebGeoFlowByDateSpan($scope.beginDate.value, $scope.endDate.value)
-                        .then(function (result) {
-                            $scope.flowGeoPoints = result;
-                            $scope.showFeelingRate();
-                        });
+                    $scope.showHotMap();
                 }
             };
             $scope.display1800Frequency = function() {
                 if ($scope.frequencyOption !== '1800') {
                     $scope.frequencyOption = '1800';
+                    $scope.showHotMap();
                 }
             };
             $scope.display2100Frequency = function () {
                 if ($scope.frequencyOption !== '2100') {
                     $scope.frequencyOption = '2100';
+                    $scope.showHotMap();
                 }
             };
             $scope.display800Frequency = function () {
                 if ($scope.frequencyOption !== '800') {
                     $scope.frequencyOption = '800';
+                    $scope.showHotMap();
                 }
             };
             $scope.showFlow = function() {
@@ -2134,11 +2145,7 @@ angular.module('home.network', ['app.common'])
             $scope.showRank2RateTrend = function() {
                 coverageDialogService.showRank2RateTrend($scope.city.selected, $scope.beginDate, $scope.endDate, $scope.frequencyOption);
             };
-            flowService.queryENodebGeoFlowByDateSpan($scope.beginDate.value, $scope.endDate.value)
-                .then(function(result) {
-                    $scope.flowGeoPoints = result;
-                    $scope.showFeelingRate();
-                });
+            $scope.showHotMap();
         })
     .controller("home.dt",
         function($scope,

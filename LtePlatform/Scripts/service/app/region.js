@@ -1423,11 +1423,12 @@ angular.module('region.import', ['app.core'])
                         endDate: end
                     });
                 },
-                queryENodebGeoFlowByDateSpan: function(begin, end) {
+                queryENodebGeoFlowByDateSpan: function(begin, end, frequency) {
                     return generalHttpService.getApiData('ENodebFlow',
                     {
                         begin: begin,
-                        end: end
+                        end: end,
+                        frequency: frequency
                     });
                 },
                 queryConstructionByTownAndName: function(district, town, name) {

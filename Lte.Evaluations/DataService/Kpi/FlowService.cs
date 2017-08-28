@@ -337,7 +337,8 @@ namespace Lte.Evaluations.DataService.Kpi
             return new Tuple<int, int, int, int, int>(item1, item2, item3, item4, item5);
         }
 
-        private List<TownFlowStat> GetTownFlowStats(DateTime statDate, FrequencyBandType frequency = FrequencyBandType.All)
+        private List<TownFlowStat> GetTownFlowStats(DateTime statDate,
+            FrequencyBandType frequency = FrequencyBandType.All)
         {
             var end = statDate.AddDays(1);
             var townStatList = new List<TownFlowStat>();
@@ -345,19 +346,7 @@ namespace Lte.Evaluations.DataService.Kpi
             var zteFlows = _zteRepository.GetAllList(statDate, end);
             if (frequency != FrequencyBandType.All)
             {
-                List<Cell> cells;
-                switch (frequency)
-                {
-                    case FrequencyBandType.Band2100:
-                        cells = _cellRepository.GetAllList(x => x.BandClass == 1);
-                        break;
-                    case FrequencyBandType.Band1800:
-                        cells = _cellRepository.GetAllList(x => x.BandClass == 3);
-                        break;
-                    default:
-                        cells = _cellRepository.GetAllList(x => x.BandClass == 5);
-                        break;
-                }
+                var cells = GetCellsByBandType(frequency);
                 huaweiFlows = (from f in huaweiFlows
                     join c in cells on new {f.ENodebId, f.LocalCellId} equals
                     new {c.ENodebId, LocalCellId = c.LocalSectorId}
@@ -370,6 +359,24 @@ namespace Lte.Evaluations.DataService.Kpi
             townStatList.AddRange(huaweiFlows.GetTownStats<FlowHuawei, TownFlowStat>(_eNodebRepository));
             townStatList.AddRange(zteFlows.GetTownStats<FlowZte, TownFlowStat>(_eNodebRepository));
             return townStatList;
+        }
+
+        private List<Cell> GetCellsByBandType(FrequencyBandType frequency)
+        {
+            List<Cell> cells;
+            switch (frequency)
+            {
+                case FrequencyBandType.Band2100:
+                    cells = _cellRepository.GetAllList(x => x.BandClass == 1);
+                    break;
+                case FrequencyBandType.Band1800:
+                    cells = _cellRepository.GetAllList(x => x.BandClass == 3);
+                    break;
+                default:
+                    cells = _cellRepository.GetAllList(x => x.BandClass == 5);
+                    break;
+            }
+            return cells;
         }
 
         public IEnumerable<CellIdPair> QueryUnmatchedHuaweis(int townId, DateTime date)
@@ -404,17 +411,30 @@ namespace Lte.Evaluations.DataService.Kpi
             var zteRrcs = _rrcZteRepository.GetAllList(x => x.StatTime >= statDate && x.StatTime < end);
             townStatList.AddRange(zteRrcs.GetTownStats<RrcZte,TownRrcStat>(_eNodebRepository));
             return townStatList;
-        } 
+        }
 
-        public IEnumerable<ENodebFlowView> GetENodebFlowViews(DateTime begin, DateTime end)
+        public IEnumerable<ENodebFlowView> GetENodebFlowViews(DateTime begin, DateTime end,
+            FrequencyBandType frequency = FrequencyBandType.All)
         {
             var eNodebStatList = new List<ENodebFlowView>();
             var huaweiFlows = _huaweiRepository.GetAllList(begin, end);
-            eNodebStatList.AddRange(huaweiFlows.GetENodebStats<FlowHuawei, ENodebFlowView>(_eNodebRepository));
             var zteFlows = _zteRepository.GetAllList(begin, end);
+            if (frequency != FrequencyBandType.All)
+            {
+                var cells = GetCellsByBandType(frequency);
+                huaweiFlows = (from f in huaweiFlows
+                               join c in cells on new { f.ENodebId, f.LocalCellId } equals
+                               new { c.ENodebId, LocalCellId = c.LocalSectorId }
+                               select f).ToList();
+                zteFlows = (from f in zteFlows
+                            join c in cells on new { f.ENodebId, f.SectorId } equals
+                            new { c.ENodebId, c.SectorId }
+                            select f).ToList();
+            }
+            eNodebStatList.AddRange(huaweiFlows.GetENodebStats<FlowHuawei, ENodebFlowView>(_eNodebRepository));
             eNodebStatList.AddRange(zteFlows.GetENodebStats<FlowZte, ENodebFlowView>(_eNodebRepository));
             return eNodebStatList.GetPositionMergeStats();
-        } 
+        }
     }
 
     public static class TownStatQueries
