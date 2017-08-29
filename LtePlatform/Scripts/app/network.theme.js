@@ -1,28 +1,28 @@
 ﻿angular.module('network.theme', ['app.common'])
     .controller("menu.analysis",
-    function ($scope) {
-        $scope.menuItem = {
-            displayName: "四高一地",
-            subItems: [
-                {
-                    displayName: "高校专题",
-                    url: "/#/collegeMap"
-                }, {
-                    displayName: "高速专题",
-                    url: "/#/highway"
-                }, {
-                    displayName: "高铁专题",
-                    url: "/#/railway"
-                }, {
-                    displayName: "高价值区域",
-                    url: "/#/highvalue"
-                }, {
-                    displayName: "地铁专题",
-                    url: "/#/subway"
-                }
-            ]
-        }
-    })
+        function($scope) {
+            $scope.menuItem = {
+                displayName: "四高一地",
+                subItems: [
+                    {
+                        displayName: "高校专题",
+                        url: "/#/collegeMap"
+                    }, {
+                        displayName: "高速专题",
+                        url: "/#/highway"
+                    }, {
+                        displayName: "高铁专题",
+                        url: "/#/railway"
+                    }, {
+                        displayName: "高价值区域",
+                        url: "/#/highvalue"
+                    }, {
+                        displayName: "地铁专题",
+                        url: "/#/subway"
+                    }
+                ]
+            }
+        })
     .controller("college.map",
         function($scope, collegeDialogService, baiduMapService, collegeMapService) {
             $scope.collegeInfo = {
@@ -57,7 +57,8 @@
                 });
         })
     .controller("analysis.highway",
-    function ($scope, baiduMapService, basicImportService, parametersMapService, collegeDialogService) {
+    function ($scope, baiduMapService, basicImportService, parametersMapService,
+        collegeDialogService, parametersDialogService) {
             baiduMapService.initializeMap("map", 11);
             $scope.showView = function(hotSpot) {
                 $scope.currentView = hotSpot.hotspotName;
@@ -66,8 +67,20 @@
                 parametersMapService.showHotSpotCellSectors(hotSpot.hotspotName, $scope.beginDate, $scope.endDate);
                 baiduMapService.setCellFocus(hotSpot.longtitute, hotSpot.lattitute, 13);
             };
-            $scope.showFlow = function () {
+            $scope.showFlow = function() {
                 collegeDialogService.showHotSpotFlow($scope.hotSpots, "高速公路");
+            };
+            $scope.showFlowTrend = function() {
+
+            };
+            $scope.showUsersTrend = function() {
+
+            };
+            $scope.showFeelingRateTrend = function() {
+
+            };
+            $scope.showCoverageDt = function() {
+                parametersDialogService.showHighwayDtInfos($scope.longBeginDate, $scope.endDate, $scope.currentView);
             };
             basicImportService.queryHotSpotsByType("高速公路").then(function(spots) {
                 $scope.hotSpots = spots;

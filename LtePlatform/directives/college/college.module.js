@@ -624,4 +624,25 @@
             },
             argumentName: 'items'
         }, $compile);
+    })
+    .controller('HotspotDtInfoController', function ($scope, collegeService, generalMapService) {
+        $scope.gridOptions = {
+            columnDefs: [
+                { field: 'csvFileName', name: '测试文件名称', width: 200 },
+                { field: 'distance', name: '测试里程' },
+                { field: 'testDate', name: '测试日期', cellFilter: 'date: "yyyy-MM-dd"' },
+                { field: 'count', name: '测试点数' },
+                { field: 'coverageRate', name: '覆盖率（%）' }
+            ],
+            data: []
+        };
+    })
+    .directive('hotspotDtInfoList', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+            controllerName: 'HotspotDtInfoController',
+            scope: {
+                items: '='
+            },
+            argumentName: 'items'
+        }, $compile);
     });

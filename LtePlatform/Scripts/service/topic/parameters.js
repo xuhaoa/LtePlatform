@@ -377,6 +377,31 @@
             $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
+    })
+    .controller('highway.dt.dialog',
+        function ($scope,
+            dialogTitle,
+            beginDate,
+            endDate,
+            collegeService,
+            $uibModalInstance) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+
+            $scope.query = function() {
+
+            };
+
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.bts);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            $scope.query();
         })
     .controller('map.stationEdit.dialog',
         function($scope, stationId, dialogTitle, $uibModalInstance, downSwitchService) {
@@ -894,6 +919,26 @@
                             },
                             endDate: function() {
                                 return endDate;
+                            }
+                        }
+                    });
+                },
+                showHighwayDtInfos: function (beginDate, endDate, name) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/BasicKpi/HotspotDtDialog.html',
+                        controller: 'highway.dt.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return name + "路测数据信息查询";
+                            },
+                            beginDate: function () {
+                                return beginDate;
+                            },
+                            endDate: function () {
+                                return endDate;
+                            },
+                            name: function() {
+                                return name;
                             }
                         }
                     });
