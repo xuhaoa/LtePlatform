@@ -135,3 +135,4 @@ uploads/
 *.map
 /Lte.Auxilary/mr
 /LtePlatform/Scripts/app/node_modules
+/UpgradeLog6.htm
