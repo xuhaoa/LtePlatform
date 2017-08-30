@@ -332,6 +332,8 @@ namespace Lte.MySqlFramework.Entities
 
         public double Distance { get; set; }
 
+        public double DistanceInMeter => Distance * 1000;
+
         public int Count { get; set; }
 
         public int CoverageCount { get; set; }

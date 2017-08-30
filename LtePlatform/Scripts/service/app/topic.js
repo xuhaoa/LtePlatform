@@ -915,6 +915,7 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             dialogTitle,
             beginDate,
             endDate,
+            name,
             collegeService,
             $uibModalInstance) {
             $scope.dialogTitle = dialogTitle;
@@ -922,7 +923,15 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             $scope.endDate = endDate;
 
             $scope.query = function() {
-
+                collegeService.queryRoadDtFileInfos(name, $scope.beginDate.value, $scope.endDate.value).then(function (infos) {
+                    $scope.fileInfos = infos;
+                    angular.forEach(infos,
+                        function (info) {
+                            collegeService.queryCsvFileType(info.csvFileName.replace('.csv', '')).then(function (type) {
+                                info.networkType = type;
+                            });
+                        });
+                });
             };
 
             $scope.ok = function () {

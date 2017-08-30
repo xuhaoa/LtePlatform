@@ -625,11 +625,12 @@
             argumentName: 'items'
         }, $compile);
     })
-    .controller('HotspotDtInfoController', function ($scope, collegeService, generalMapService) {
+    .controller('HotspotDtInfoController', function ($scope) {
         $scope.gridOptions = {
             columnDefs: [
                 { field: 'csvFileName', name: '测试文件名称', width: 200 },
-                { field: 'distance', name: '测试里程' },
+                { field: 'networkType', name: '网络类型' },
+                { field: 'distanceInMeter', name: '测试里程（米）', cellFilter: 'number: 2' },
                 { field: 'testDate', name: '测试日期', cellFilter: 'date: "yyyy-MM-dd"' },
                 { field: 'count', name: '测试点数' },
                 { field: 'coverageRate', name: '覆盖率（%）' }

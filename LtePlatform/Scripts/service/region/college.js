@@ -110,6 +110,13 @@
                     fileId: fileId
                 });
             },
+            queryRoadDtFileInfos: function (name, begin, end) {
+                return generalHttpService.getApiData('RoadTestInfo', {
+                    roadName: name,
+                    begin: begin,
+                    end: end
+                });
+            },
             query2GFileRecords: function(fileName) {
                 return generalHttpService.getApiData("Record2G", {
                     fileName: fileName
