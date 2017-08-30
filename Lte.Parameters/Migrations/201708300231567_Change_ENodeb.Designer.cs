@@ -7,13 +7,13 @@ namespace Lte.Parameters.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Change_CdmaCell : IMigrationMetadata
+    public sealed partial class Change_ENodeb : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Change_CdmaCell));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Change_ENodeb));
         
         string IMigrationMetadata.Id
         {
-            get { return "201708230554239_Change_CdmaCell"; }
+            get { return "201708300231567_Change_ENodeb"; }
         }
         
         string IMigrationMetadata.Source
