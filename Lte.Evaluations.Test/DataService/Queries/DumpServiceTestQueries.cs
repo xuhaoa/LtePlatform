@@ -1,4 +1,4 @@
-﻿using Lte.Parameters.Entities.Basic;
+﻿using Lte.MySqlFramework.Entities;
 using Shouldly;
 
 namespace Lte.Evaluations.DataService.Queries

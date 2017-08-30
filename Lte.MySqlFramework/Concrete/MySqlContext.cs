@@ -142,5 +142,9 @@ namespace Lte.MySqlFramework.Concrete
 
         public DbSet<IndoorDistribution> IndoorDistributions { get; set; }
 
+        public DbSet<ENodeb> ENodebs { get; set; }
+
+        public DbSet<CdmaBts> Btss { get; set; }
+
     }
 }

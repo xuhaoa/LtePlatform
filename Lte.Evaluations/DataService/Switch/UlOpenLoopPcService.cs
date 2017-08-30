@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Entities.Channel;
 

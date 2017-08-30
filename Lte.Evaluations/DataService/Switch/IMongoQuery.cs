@@ -9,7 +9,7 @@ using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 using Lte.Evaluations.Policy;
 using Lte.MySqlFramework.Abstract;
-using Lte.Parameters.Entities.Basic;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.DataService.Switch
 {

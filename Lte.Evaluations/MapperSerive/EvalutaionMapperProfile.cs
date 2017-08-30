@@ -5,8 +5,8 @@ using Abp.Reflection;
 using AutoMapper;
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.Policy;
+using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Abstract.Basic;
 
 namespace Lte.Evaluations.MapperSerive
 {

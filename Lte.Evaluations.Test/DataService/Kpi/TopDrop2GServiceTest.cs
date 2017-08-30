@@ -4,13 +4,12 @@ using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
 using Lte.Evaluations.TestService;
 using Lte.MySqlFramework.Abstract;
-using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Entities.Basic;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
 using System;
 using System.Linq;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.DataService.Kpi
 {

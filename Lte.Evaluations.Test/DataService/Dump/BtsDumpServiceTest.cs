@@ -3,8 +3,6 @@ using Abp.Reflection;
 using Lte.Evaluations.DataService.Queries;
 using Lte.Evaluations.MockItems;
 using Lte.Evaluations.Policy;
-using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.MockOperations;
 using Moq;
 using NUnit.Framework;

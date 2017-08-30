@@ -21,7 +21,7 @@
                         url: "/#/subway"
                     }
                 ]
-            }
+            };
         })
     .controller("college.map",
         function($scope, collegeDialogService, baiduMapService, collegeMapService) {

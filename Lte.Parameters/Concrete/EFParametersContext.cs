@@ -15,10 +15,6 @@ namespace Lte.Parameters.Concrete
 
         public DbSet<AlarmStat> AlarmStats { get; set; }
 
-        public DbSet<ENodeb> ENodebs { get; set; }
-
-        public DbSet<CdmaBts> Btss { get; set; }
-
         public DbSet<PreciseCoverage4G> PrecisCoverage4Gs { get; set; }
 
         public DbSet<TownPreciseCoverage4GStat> TownPreciseCoverage4GStats { get; set; }

@@ -4,6 +4,7 @@ using Lte.Parameters.Abstract.Switch;
 using Lte.Parameters.Entities.Switch;
 using System.Collections.Generic;
 using System.Linq;
+using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract.Infrastructure;
 
 namespace Lte.Evaluations.DataService.Switch

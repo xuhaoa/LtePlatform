@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Abstract.Basic;
 using System;
 using System.Collections.Generic;
 using System.Linq;

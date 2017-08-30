@@ -164,7 +164,6 @@
     <Compile Include="MapperService\PreciseMongoMappingTest.cs" />
     <Compile Include="MockItems\MockItemsOperations.cs" />
     <Compile Include="MockItems\MockInstanceService.cs" />
-    <Compile Include="MockItems\Validation\MockBtsServiceTest.cs" />
     <Compile Include="MockItems\Validation\MockCellServiceTest.cs" />
     <Compile Include="MockItems\Validation\MockTwonServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -174,9 +173,7 @@
     <Compile Include="TestService\PreciseRegionStatTestService.cs" />
     <Compile Include="TestService\PreciseViewTestService.cs" />
     <Compile Include="TestService\TopDrop2GTestService.cs" />
-    <Compile Include="ViewModel\CdmaCellViewTest.cs" />
     <Compile Include="ViewModel\CdmaRegionStatViewTest.cs" />
-    <Compile Include="ViewModel\CellPreciseKpiViewTest.cs" />
     <Compile Include="ViewModel\CellViewTest.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,11 @@
 ﻿using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
-using Lte.Parameters.Entities.Basic;
 using NUnit.Framework;
 using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
 using Lte.Domain.Common;
+using Lte.MySqlFramework.Entities;
 
 namespace Abp.EntityFramework.Tests.AutoMapper
 {

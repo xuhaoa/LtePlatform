@@ -1,11 +1,12 @@
 ﻿using Abp.EntityFramework.AutoMapper;
 using Abp.Reflection;
 using Lte.Evaluations.Policy;
+using Lte.MySqlFramework.Abstract;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Switch;
 using Lte.Parameters.Concrete.Basic;
 using Lte.Parameters.Concrete.Switch;
-using Lte.Parameters.Entities.Basic;
 using Lte.Parameters.Entities.Switch;
 using Moq;
 using NUnit.Framework;

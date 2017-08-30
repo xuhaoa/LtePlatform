@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using Lte.Evaluations.DataService.Basic;
-using Lte.Parameters.Abstract.Basic;
 using System.Collections.Generic;
 using System.Linq;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Evaluations.Policy;
 using Lte.MySqlFramework.Abstract;
-using Lte.Parameters.Entities.Basic;
+using Lte.MySqlFramework.Entities;
 
 namespace Lte.Evaluations.DataService.Dump
 {

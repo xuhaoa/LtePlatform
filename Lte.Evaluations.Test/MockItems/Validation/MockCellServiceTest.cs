@@ -64,4 +64,32 @@ namespace Lte.Evaluations.MockItems.Validation
             Assert.AreEqual(ids.ElementAt(0), id);
         }
     }
+
+    [TestFixture]
+    public class MockBtsServiceTest
+    {
+        private readonly Mock<IBtsRepository> _btsRepository = new Mock<IBtsRepository>();
+
+        [TestFixtureSetUp]
+        public void TestFixtureSetup()
+        {
+            _btsRepository.MockOperation();
+            _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
+        }
+
+        [SetUp]
+        public void Setup()
+        {
+            _btsRepository.MockThreeBtss();
+        }
+
+        [TestCase("kdjowi")]
+        [TestCase("kjow3iu4et09wi")]
+        [TestCase("kokwu43982ui")]
+        public void TestUpdateFirstItem(string name)
+        {
+            _btsRepository.Object.GetByBtsId(1).Name = name;
+            Assert.AreEqual(_btsRepository.Object.GetByBtsId(1).Name, name);
+        }
+    }
 }

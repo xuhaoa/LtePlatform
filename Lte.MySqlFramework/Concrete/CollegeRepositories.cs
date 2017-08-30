@@ -231,4 +231,65 @@ namespace Lte.MySqlFramework.Concrete
             return Context.SaveChanges();
         }
     }
+
+    public class EFENodebRepository : EfRepositoryBase<MySqlContext, ENodeb>, IENodebRepository
+    {
+        public ENodeb GetByENodebId(int eNodebId)
+        {
+            return FirstOrDefault(x => x.ENodebId == eNodebId);
+        }
+
+        public ENodeb GetByName(string name)
+        {
+            return FirstOrDefault(x => x.Name == name);
+        }
+
+        public List<ENodeb> GetAllInUseList()
+        {
+            return GetAll().Where(x => x.IsInUse).ToList();
+        }
+
+        public EFENodebRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+
+    }
+
+    public class EFBtsRepository : EfRepositoryBase<MySqlContext, CdmaBts>, IBtsRepository
+    {
+        public CdmaBts GetByBtsId(int btsId)
+        {
+            return FirstOrDefault(x => x.BtsId == btsId);
+        }
+
+        public CdmaBts GetByName(string name)
+        {
+            return FirstOrDefault(x => x.Name == name);
+        }
+
+        public List<CdmaBts> GetAllInUseList()
+        {
+            return GetAll().Where(x => x.IsInUse).ToList();
+        }
+
+        public List<CdmaBts> GetAllList(double west, double east, double south, double north)
+        {
+            return GetAllList(x => x.Longtitute >= west && x.Longtitute <= east
+                && x.Lattitute >= south && x.Lattitute <= north);
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+
+        public EFBtsRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+    }
 }
