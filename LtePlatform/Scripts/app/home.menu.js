@@ -57,52 +57,6 @@
                         });
                 });
         })
-    .controller('menu.checking',
-        function($scope) {
-            $scope.menuItem = {
-                displayName: "网络巡检",
-                subItems: [
-                    {
-                        displayName: "基站巡检",
-                        url: '/#/checking'
-                    },
-                    {
-                        displayName: "室分巡检",
-                        url: '/#/checking-indoor'
-                    }, {
-                        displayName: "长期故障",
-                        url: '/#/long-term'
-                    }
-                ]
-            };
-        })
-    .controller('menu.fixing',
-        function($scope) {
-            $scope.menuItem = {
-                displayName: "网络整治",
-                subItems: [
-                    {
-                        displayName: "网络整治-基站",
-                        url: '/#/fixing'
-                    }, {
-                        displayName: "网络整治-室分",
-                        url: '/#/fixing-indoor'
-                    }, {
-                        displayName: "网运专项-基站",
-                        url: '/#/special-station'
-                    }, {
-                        displayName: "网运专项-室分",
-                        url: '/#/special-indoor'
-                    }, {
-                        displayName: "清网排障-零流量",
-                        url: '/#/clear-flow'
-                    }, {
-                        displayName: "清网排障-零话务",
-                        url: '/#/clear-voice'
-                    }
-                ]
-            };
-        })
     .controller('menu.resource',
         function($scope) {
             $scope.menuItem = {
