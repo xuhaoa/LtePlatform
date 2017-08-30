@@ -778,7 +778,8 @@ angular.module('home.station', ['app.common'])
                 });
         })
     .controller("station.filter",
-        function($scope, downSwitchService, myValue, baiduMapService, collegeMapService, dumpPreciseService) {
+    function ($scope, downSwitchService, myValue, baiduMapService, collegeMapService, dumpPreciseService) {
+        $scope.changeTimes = 0;
             $scope.getStations = function(areaName, index) {
                 downSwitchService.getStationByFilter(areaName,
                     myValue.stationGrade,
@@ -790,12 +791,15 @@ angular.module('home.station', ['app.common'])
                     0,
                     10000).then(function(response) {
                     var stations = response.result.rows;
-                    var color = $scope.colors[index];
-                    $scope.legend.intervals.push({
-                        threshold: areaName,
-                        color: color
-                    });
-                    collegeMapService.showMaintainStations(stations, color);
+                    if (stations.length) {
+                        var color = $scope.colors[index];
+                        $scope.legend.intervals.push({
+                            threshold: areaName,
+                            color: color
+                        });
+                        collegeMapService.showMaintainStations(stations, color);
+                    }
+
                 });
             };
 
@@ -815,14 +819,16 @@ angular.module('home.station', ['app.common'])
                 }
 
             };
-            $scope.change = function() {
-                myValue.stationGrade = $scope.selectedGrade;
-                myValue.netType = $scope.selectedNetType;
-                myValue.roomAttribution = $scope.selectedRoomAttribution;
-                myValue.towerAttribution = $scope.selectedTowerAttribution;
-                myValue.isPower = $scope.selectedIsPower;
-                myValue.isBBU = $scope.selectedIsBBU;
-                $scope.reflashMap();
+            $scope.change = function () {
+                $scope.changeTimes += 1;
+                myValue.stationGrade = $scope.selectedGrade || "";
+                myValue.netType = $scope.selectedNetType || "";
+                myValue.roomAttribution = $scope.selectedRoomAttribution || "";
+                myValue.towerAttribution = $scope.selectedTowerAttribution || "";
+                myValue.isPower = $scope.selectedIsPower || "";
+                myValue.isBBU = $scope.selectedIsBBU || "";
+                if ($scope.changeTimes > 6)
+                    $scope.reflashMap();
             };
         })
     .controller("operation-indoor.filter",
@@ -880,7 +886,6 @@ angular.module('home.station', ['app.common'])
             collegeMapService,
             dumpPreciseService,
             appUrlService) {
-            $scope.districts = [];
             $scope.distinct = $scope.distincts[0];
             baiduMapService.initializeMap("map", 13);
 
@@ -923,7 +928,7 @@ angular.module('home.station', ['app.common'])
             $scope.outportData = function() {
                 location.href = appUrlService.getPhpHost() + "LtePlatForm/lte/index.php/Station/download";
             };
-
+            $scope.districts = [];
             $scope.$watch('city.selected',
                 function(city) {
                     if (city) {
@@ -949,7 +954,6 @@ angular.module('home.station', ['app.common'])
             dumpPreciseService,
             myValue,
             appUrlService) {
-            $scope.districts = [];
             $scope.distinct = $scope.distincts[0];
             baiduMapService.initializeMap("map", 13);
 
@@ -1000,6 +1004,7 @@ angular.module('home.station', ['app.common'])
                 location.href = appUrlService.getPhpHost() + "LtePlatForm/lte/index.php/Indoor/download";
             };
 
+            $scope.districts = [];
             $scope.$watch('city.selected',
                 function(city) {
                     if (city) {
@@ -1103,7 +1108,6 @@ angular.module('home.station', ['app.common'])
             mapDialogService,
             baiduQueryService) {
             $scope.areaNames = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
-            $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
             $scope.levelNames = new Array('紧急', '重要', '一般', '全部');
             $scope.distinct = "佛山市";
             $scope.stationss = [];
@@ -1292,7 +1296,6 @@ angular.module('station.checking', ['app.common'])
             geometryService,
             collegeMapService,
             dumpPreciseService) {
-            $scope.districts = [];
             $scope.distinct = $scope.distincts[0];
             $scope.statusNames = new Array('未巡检', '需整治', '正常', '全部');
             baiduMapService.initializeMap("map", 13);

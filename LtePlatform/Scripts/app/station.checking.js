@@ -26,7 +26,6 @@
             geometryService,
             collegeMapService,
             dumpPreciseService) {
-            $scope.districts = [];
             $scope.distinct = $scope.distincts[0];
             $scope.statusNames = new Array('未巡检', '需整治', '正常', '全部');
             baiduMapService.initializeMap("map", 13);
