@@ -4,6 +4,8 @@ using LtePlatform.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
+using Lte.Domain.Common.Wireless;
+using Lte.Evaluations.DataService.College;
 using Lte.Evaluations.DataService.Mr;
 using Lte.MySqlFramework.Entities;
 
@@ -343,10 +345,12 @@ namespace LtePlatform.Controllers.Dt
     public class RoadTestInfoController : ApiController
     {
         private readonly TownTestInfoService _service;
+        private readonly HotSpotService _hotSpotService;
 
-        public RoadTestInfoController(TownTestInfoService service)
+        public RoadTestInfoController(TownTestInfoService service, HotSpotService hotSpotService)
         {
             _service = service;
+            _hotSpotService = hotSpotService;
         }
 
         [HttpGet]
@@ -363,6 +367,14 @@ namespace LtePlatform.Controllers.Dt
         public IEnumerable<AreaTestInfo> Get(int fileId)
         {
             return _service.QueryRoadTestInfos(fileId);
+        }
+
+        [HttpGet]
+        public IEnumerable<AreaTestFileView> Get(string roadName, DateTime begin, DateTime end)
+        {
+            var road = _hotSpotService.QueryHotSpot(roadName, HotspotType.Highway);
+            if (road == null) return new List<AreaTestFileView>();
+            return _service.QueryRoadTestInfos(begin, end, road);
         }
     }
 

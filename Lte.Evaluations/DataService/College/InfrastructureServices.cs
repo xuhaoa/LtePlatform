@@ -362,7 +362,16 @@ namespace Lte.Evaluations.DataService.College
                     x =>
                         x.InfrastructureType == InfrastructureType.HotSpot &&
                         x.HotspotType == type).MapTo<IEnumerable<HotSpotView>>();
-        } 
+        }
+
+        public InfrastructureInfo QueryHotSpot(string name, HotspotType type)
+        {
+            return
+                _repository.FirstOrDefault(
+                    x =>
+                        x.InfrastructureType == InfrastructureType.HotSpot && x.HotspotName == name &&
+                        x.HotspotType == type);
+        }
     }
 
     public class CollegeAlarmService

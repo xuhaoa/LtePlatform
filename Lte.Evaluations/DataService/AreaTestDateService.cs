@@ -3,6 +3,7 @@ using Lte.Parameters.Entities.Dt;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
@@ -161,6 +162,28 @@ namespace Lte.Evaluations.DataService
             return from info in _areaTestInfoRepository.GetAllList(x => x.FileId == fileId)
                    join id in townIds on info.TownId equals id
                    select info;
+        }
+
+        public IEnumerable<AreaTestFileView> QueryRoadTestInfos(DateTime begin, DateTime end, InfrastructureInfo road)
+        {
+            var allInfos =
+                _areaTestInfoRepository.GetAllList(x => x.TownId == road.Id);
+            var views = from info in allInfos
+                join file in _fileInfoRepository.GetAllList() on info.FileId equals file.Id
+                where file.TestDate >= begin && file.TestDate < end
+                select new
+                {
+                    Info = info,
+                    File = file
+                };
+            return views.Select(v =>
+            {
+                var view = v.Info.MapTo<AreaTestFileView>();
+                view.AreaName = road.HotspotName;
+                view.CsvFileName = v.File.CsvFileName;
+                view.TestDate = v.File.TestDate;
+                return view;
+            });
         }
 
         public IEnumerable<AreaTestInfo> CalculateAreaTestInfos(string csvFileName, string type)
