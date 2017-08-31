@@ -205,6 +205,8 @@ namespace Lte.Parameters.Entities.Basic
 
         public int tm34T4RSwch { get; set; }
 
+        public int? tm44T4RSwch { get; set; }
+
         public int ocs { get; set; }
 
         public int switchUlPRBRandom { get; set; }
@@ -486,6 +488,162 @@ namespace Lte.Parameters.Entities.Basic
         public int? atmosphericSwch { get; set; }
 
         public int? earfcn { get; set; }
+
+        public int? oneRBAllocateSwch { get; set; }
+
+        public int? laaCarrierPriSwch { get; set; }
+
+        public int? laaDFSSwch { get; set; }
+
+        public int? cellLAACarrierAtt { get; set; }
+
+        public int? taLimitedReleaseSwch { get; set; }
+
+        public int? configDRXTimerForConnect { get; set; }
+
+        public int? configDRXTimerForHO { get; set; }
+
+        public int? configDRXTimerForRA { get; set; }
+
+        public int? tm83TestMcsThr8TX { get; set; }
+
+        public int? atmosphericQuitPerid { get; set; }
+
+        public int? atmosphericSupresEnterPerid { get; set; }
+
+        public int? atmosphericSeqDemAntNum { get; set; }
+
+        public int? atmosphericLocationSwch { get; set; }
+
+        public int? atmosphericSymBackSwch { get; set; }
+
+        public int? atmosphericSeqDemParaThres { get; set; }
+
+        public int? atmosphericPAPRThres { get; set; }
+
+        public int? atmosphericSupresThres { get; set; }
+
+        public int? atmosphericDecPowrThres { get; set; }
+
+        public int? atmosphericDetecWaySwch { get; set; }
+
+        public int? atmosphericSupresQuitPerid { get; set; }
+
+        public string reservedPara11 { get; set; }
+
+        public string reservedPara12 { get; set; }
+
+        public string reservedPara13 { get; set; }
+
+        public string reservedPara14 { get; set; }
+
+        public string reservedPara15 { get; set; }
+
+        public string reservedPara16 { get; set; }
+
+        public string reservedPara17 { get; set; }
+
+        public string reservedPara18 { get; set; }
+
+        public string reservedPara19 { get; set; }
+
+        public string reservedPara20 { get; set; }
+
+        public string reservedPara21 { get; set; }
+
+        public string reservedPara22 { get; set; }
+
+        public string reservedPara23 { get; set; }
+
+        public string reservedPara24 { get; set; }
+
+        public string reservedPara25 { get; set; }
+
+        public string reservedPara26 { get; set; }
+
+        public string reservedPara27 { get; set; }
+
+        public string reservedPara28 { get; set; }
+
+        public string reservedPara29 { get; set; }
+
+        public string reservedPara30 { get; set; }
+
+        public int? the256QAMCATLimitSwch { get; set; }
+
+        public int? qcellPosiSwch { get; set; }
+
+        public int? mmModeSwch { get; set; }
+
+        public int? pubAndHwPriOvlpRbNumDL { get; set; }
+
+        public int? pubAndHwPriOvlpRbNumUL { get; set; }
+
+        public int? acSendPowdeltaDL { get; set; }
+
+        public int? acSendPowdeltaUL { get; set; }
+
+        public int? tm38McsThr8TX { get; set; }
+
+        public int? ringCoverSwch { get; set; }
+
+        public int? distributedMIMOSwch { get; set; }
+
+        public int? tddCfg0MUMIMOSwchUL { get; set; }
+
+        public int? ringCoverAdjustQuantity { get; set; }
+
+        public int? muMIMO4MultiUESwchUl { get; set; }
+
+        public int? type1RBAllocEnableSwchDl { get; set; }
+
+        public int? highBllrCntThrUL { get; set; }
+
+        public int? highBllrCntThrDL { get; set; }
+
+        public int? highBllrCntThr4VOIPDl { get; set; }
+
+        public int? highBllrCntThr4VOIPUl { get; set; }
+
+        public int? srRBNumAuthMode { get; set; }
+
+        public string rbNumMultiFactor4Mod1 { get; set; }
+
+        public int? freqOffCompenSwchDl { get; set; }
+
+        public int? freqOffRptValidThr { get; set; }
+
+        public int? puschChEstType { get; set; }
+
+        public int? ambrLimtSwch { get; set; }
+
+        public int? speedInd { get; set; }
+
+        public int? filteWndLen4SRMode1 { get; set; }
+
+        public int? iCo4PubAndHwPriSwch { get; set; }
+
+        public int? shortDrxSwch { get; set; }
+
+        public int? crcMergeSwch { get; set; }
+
+        public int? pubAndHwPriOvlpRbStartPosDL { get; set; }
+
+        public int? pubAndHwPriOvlpRbStartPosUL { get; set; }
+
+        public int? magicRadioMaxBandWidth { get; set; }
+
+        public int? tm9EnhancedSDMASwch { get; set; }
+        
+        public double? rbRatioHighThr4Mod1 { get; set; }
+
+        public double? rbRatioLowThr4Mod1 { get; set; }
+
+        public double? stopPreCompenRatioThr { get; set; }
+
+        public double? startPreCompenRatioThr { get; set; }
+
+        public double? filteFactor4SRMode1 { get; set; }
     }
 
     public class CellPower
