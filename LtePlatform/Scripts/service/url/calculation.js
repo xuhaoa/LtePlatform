@@ -493,6 +493,16 @@
                     return subData.totalCdmaCells;
                 });
             },
+            getHotSpotDtDistancePieOptions: function(name, stats) {
+                return generalChartService.getPieOptions(stats, {
+                    title: name + "测试里程分布",
+                    seriesTitle: "测试文件"
+                }, function (subData) {
+                    return subData.csvFileName;
+                }, function (subData) {
+                    return subData.distanceInMeter;
+                });
+            },
             getCollegeDistributionForDownlinkFlow: function (data, theme) {
                 theme = theme || "校园网";
                 return generalChartService.getPieOptions(data, {

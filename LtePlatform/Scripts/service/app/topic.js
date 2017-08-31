@@ -917,6 +917,7 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             endDate,
             name,
             collegeService,
+            parametersChartService,
             $uibModalInstance) {
             $scope.dialogTitle = dialogTitle;
             $scope.beginDate = beginDate;
@@ -931,6 +932,8 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                                 info.networkType = type;
                             });
                         });
+                    $("#distanceDistribution").highcharts(parametersChartService
+                        .getHotSpotDtDistancePieOptions(name, infos));
                 });
             };
 

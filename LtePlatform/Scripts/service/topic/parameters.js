@@ -385,6 +385,7 @@
             endDate,
             name,
             collegeService,
+            parametersChartService,
             $uibModalInstance) {
             $scope.dialogTitle = dialogTitle;
             $scope.beginDate = beginDate;
@@ -399,6 +400,8 @@
                                 info.networkType = type;
                             });
                         });
+                    $("#distanceDistribution").highcharts(parametersChartService
+                        .getHotSpotDtDistancePieOptions(name, infos));
                 });
             };
 
