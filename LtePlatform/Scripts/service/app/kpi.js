@@ -4692,7 +4692,8 @@ angular.module('kpi.parameter', ['myApp.url', 'myApp.region', "ui.bootstrap"])
             $("#rank2Chart").highcharts(parametersChartService.getCellRank2Options(dates, result));
         });
     })
-    .controller("rrc.kpi.dialog", function ($scope, cell, begin, end, dialogTitle, flowService, generalChartService, calculateService,
+    .controller("rrc.kpi.dialog", function ($scope, cell, begin, end, dialogTitle,
+        flowService, generalChartService, calculateService, parametersChartService,
         networkElementService, $uibModalInstance) {
         $scope.dialogTitle = dialogTitle;
         $scope.rrcGroups = calculateService.generateRrcDetailsGroups(cell);
@@ -4706,91 +4707,16 @@ angular.module('kpi.parameter', ['myApp.url', 'myApp.region', "ui.bootstrap"])
             var dates = _.map(result, function (stat) {
                 return stat.statTime;
             });
-            $("#rrcRequestChart").highcharts(generalChartService.queryMultipleColumnOptions({
-                title: '连接请求数统计',
-                xtitle: '日期',
-                ytitle: 'RRC连接请求数'
-            }, dates, [
-                    _.map(result, function (stat) {
-                        return stat.totalRrcRequest;
-                    }),
-                    _.map(result, function (stat) {
-                        return stat.moDataRrcRequest;
-                    }),
-                    _.map(result, function (stat) {
-                        return stat.moSignallingRrcRequest;
-                    }),
-                    _.map(result, function (stat) {
-                        return stat.mtAccessRrcRequest;
-                    })
-            ], ['总连接次数', '主叫数据连接次数', '主叫信令连接次数', '被叫连接次数']));
-            $("#rrcFailChart").highcharts(generalChartService.queryMultipleColumnOptions({
-                title: '连接失败数统计',
-                xtitle: '日期',
-                ytitle: 'RRC连接失败次数'
-            }, dates, [
-                    _.map(result, function (stat) {
-                        return stat.totalRrcFail;
-                    }),
-                    _.map(result, function (stat) {
-                        return stat.moDataRrcFail;
-                    }),
-                    _.map(result, function (stat) {
-                        return stat.moSignallingRrcFail;
-                    }),
-                    _.map(result, function (stat) {
-                        return stat.mtAccessRrcFail;
-                    })
-            ], ['总连接失败次数', '主叫数据连接失败次数', '主叫信令连接失败次数', '被叫连接失败次数']));
-            $("#rrcRateChart").highcharts(generalChartService.queryMultipleComboOptionsWithDoubleAxes({
-                title: 'RRC连接成功率统计',
-                xtitle: '日期',
-                ytitles: ['连接成功率（%）', '连接次数']
-            }, dates, [
-                    _.map(result, function (stat) {
-                        return stat.rrcSuccessRate * 100;
-                    }),
-                    _.map(result, function (stat) {
-                        return stat.moSiganllingRrcRate * 100;
-                    }),
-                    _.map(result, function (stat) {
-                        return stat.totalRrcRequest;
-                    }),
-                    _.map(result, function (stat) {
-                        return stat.moSignallingRrcRequest;
-                    })
-            ], ['总体成功率', '主叫信令成功率', '总连接次数', '主叫信令连接次数'], ['line', 'line', 'column', 'column'], [0, 0, 1, 1]));
+            $("#rrcRequestChart").highcharts(parametersChartService.getCellRrcRequestOptions(dates, result));
+            $("#rrcFailChart").highcharts(parametersChartService.getCellRrcFailOptions(dates, result));
+            $("#rrcRateChart").highcharts(parametersChartService.getCellRrcRateOptions(dates, result));
         });
         flowService.queryCellFlowByDateSpan(cell.eNodebId, cell.sectorId, begin, end).then(function(result) {
             var dates = _.map(result,
                 function(stat) {
                     return stat.statTime;
                 });
-            $("#flowChart").highcharts(generalChartService.queryMultipleComboOptionsWithDoubleAxes({
-                    title: '流量和用户数统计',
-                    xtitle: '日期',
-                    ytitles: ['流量（MB）', '感知速率（Mbit/s）']
-                },
-                dates,
-                [
-                    _.map(result,
-                        function(stat) {
-                            return stat.downlinkFeelingRate;
-                        }),
-                    _.map(result,
-                        function(stat) {
-                            return stat.uplinkFeelingRate;
-                        }),
-                    _.map(result, function (stat) {
-                        return stat.pdcpDownlinkFlow;
-                    }),
-                    _.map(result, function (stat) {
-                        return stat.pdcpUplinkFlow;
-                    })
-                ],
-                ['下行感知速率', '上行感知速率', '下行流量', '上行流量'],
-                ['line', 'line', 'column', 'column'],
-                [1, 1, 0, 0]));
+            $("#flowChart").highcharts(parametersChartService.getCellFlowUsersOptions(dates, result));
         });
         $scope.ok = function () {
             $uibModalInstance.close($scope.mongoNeighbors);

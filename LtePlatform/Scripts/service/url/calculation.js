@@ -620,6 +620,118 @@
                     ['column', 'line', 'line'],
                     [0, 1, 1]);
             },
+            getCellRrcRequestOptions: function(dates, result) {
+                return generalChartService.queryMultipleColumnOptions({
+                        title: '连接请求数统计',
+                        xtitle: '日期',
+                        ytitle: 'RRC连接请求数'
+                    },
+                    dates,
+                    [
+                        _.map(result,
+                            function(stat) {
+                                return stat.totalRrcRequest;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.moDataRrcRequest;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.moSignallingRrcRequest;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.mtAccessRrcRequest;
+                            })
+                    ],
+                    ['总连接次数', '主叫数据连接次数', '主叫信令连接次数', '被叫连接次数']);
+            },
+            getCellRrcFailOptions: function(dates, result) {
+                return generalChartService.queryMultipleColumnOptions({
+                        title: '连接失败数统计',
+                        xtitle: '日期',
+                        ytitle: 'RRC连接失败次数'
+                    },
+                    dates,
+                    [
+                        _.map(result,
+                            function(stat) {
+                                return stat.totalRrcFail;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.moDataRrcFail;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.moSignallingRrcFail;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.mtAccessRrcFail;
+                            })
+                    ],
+                    ['总连接失败次数', '主叫数据连接失败次数', '主叫信令连接失败次数', '被叫连接失败次数']);
+            },
+            getCellRrcRateOptions: function(dates, result) {
+                return generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                        title: 'RRC连接成功率统计',
+                        xtitle: '日期',
+                        ytitles: ['连接成功率（%）', '连接次数']
+                    },
+                    dates,
+                    [
+                        _.map(result,
+                            function(stat) {
+                                return stat.rrcSuccessRate * 100;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.moSiganllingRrcRate * 100;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.totalRrcRequest;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.moSignallingRrcRequest;
+                            })
+                    ],
+                    ['总体成功率', '主叫信令成功率', '总连接次数', '主叫信令连接次数'],
+                    ['line', 'line', 'column', 'column'],
+                    [0, 0, 1, 1]);
+            },
+            getCellFlowUsersOptions: function(dates, result) {
+                return generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                        title: '流量和用户数统计',
+                        xtitle: '日期',
+                        ytitles: ['流量（MB）', '感知速率（Mbit/s）']
+                    },
+                    dates,
+                    [
+                        _.map(result,
+                            function(stat) {
+                                return stat.downlinkFeelingRate;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.uplinkFeelingRate;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.pdcpDownlinkFlow;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.pdcpUplinkFlow;
+                            })
+                    ],
+                    ['下行感知速率', '上行感知速率', '下行流量', '上行流量'],
+                    ['line', 'line', 'column', 'column'],
+                    [1, 1, 0, 0]);
+            },
             getCollegeDistributionForDownlinkFlow: function (data, theme) {
                 theme = theme || "校园网";
                 return generalChartService.getPieOptions(data, {
