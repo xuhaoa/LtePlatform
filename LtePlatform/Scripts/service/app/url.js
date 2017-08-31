@@ -3898,6 +3898,29 @@ angular.module('app.calculation', [])
                     return subData.distanceInMeter;
                 });
             },
+            getHotSpotDtCoverageRateOptions: function (name, stats) {
+                return generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                    title: name + "测试覆盖指标分布",
+                    xtitle: '测试日期',
+                    ytitles: ['覆盖率（%）', '测试点数']
+                },
+                    _.map(stats, function (stat) {
+                        return stat.testDate;
+                    }),
+                    [
+                        _.map(stats,
+                            function (stat) {
+                                return stat.coverageRate;
+                            }),
+                        _.map(stats,
+                            function (stat) {
+                                return stat.count;
+                            })
+                    ],
+                    ['覆盖率（%）', '测试点数'],
+                    ['line', 'column'],
+                    [0, 1]);
+            },
             getCollegeDistributionForDownlinkFlow: function (data, theme) {
                 theme = theme || "校园网";
                 return generalChartService.getPieOptions(data, {

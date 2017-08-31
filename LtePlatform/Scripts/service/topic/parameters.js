@@ -402,6 +402,7 @@
                         });
                     $("#distanceDistribution").highcharts(parametersChartService
                         .getHotSpotDtDistancePieOptions(name, infos));
+                    $("#coverageRate").highcharts(parametersChartService.getHotSpotDtCoverageRateOptions(name, infos));
                 });
             };
 

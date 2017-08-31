@@ -934,6 +934,7 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                         });
                     $("#distanceDistribution").highcharts(parametersChartService
                         .getHotSpotDtDistancePieOptions(name, infos));
+                    $("#coverageRate").highcharts(parametersChartService.getHotSpotDtCoverageRateOptions(name, infos));
                 });
             };
 
