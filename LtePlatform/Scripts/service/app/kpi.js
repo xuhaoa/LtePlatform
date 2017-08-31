@@ -4665,7 +4665,8 @@ angular.module('kpi.parameter', ['myApp.url', 'myApp.region', "ui.bootstrap"])
             $("#rightChart").highcharts(parametersChartService.getCellBandClassColumnOptions(stats));
         });
     })
-    .controller("flow.kpi.dialog", function ($scope, cell, begin, end, dialogTitle, flowService, generalChartService, calculateService,
+    .controller("flow.kpi.dialog", function ($scope, cell, begin, end, dialogTitle,
+        flowService, generalChartService, calculateService, parametersChartService,
         $uibModalInstance) {
         $scope.dialogTitle = dialogTitle;
         $scope.itemGroups = calculateService.generateFlowDetailsGroups(cell);
@@ -4685,63 +4686,10 @@ angular.module('kpi.parameter', ['myApp.url', 'myApp.region', "ui.bootstrap"])
             var dates = _.map(result, function (stat) {
                 return stat.statTime;
             });
-            $("#flowChart").highcharts(generalChartService.queryMultipleColumnOptions({
-                title: '流量统计',
-                xtitle: '日期',
-                ytitle: '流量（MB）'
-            }, dates, [
-                _.map(result, function (stat) {
-                    return stat.pdcpDownlinkFlow;
-                }),
-                _.map(result, function (stat) {
-                    return stat.pdcpUplinkFlow;
-                })
-            ], ['下行流量', '上行流量']));
-            $("#feelingRateChart").highcharts(generalChartService.queryMultipleComboOptionsWithDoubleAxes({
-                title: '感知速率',
-                xtitle: '日期',
-                ytitles: ['感知速率（Mbit/s）', '用户数']
-            }, dates, [
-                _.map(result, function (stat) {
-                    return stat.downlinkFeelingRate;
-                }),
-                _.map(result, function (stat) {
-                    return stat.uplinkFeelingRate;
-                }),
-                _.map(result, function (stat) {
-                    return stat.maxUsers;
-                })
-            ], ['下行感知速率', '上行感知速率', '用户数'], ['line', 'line', 'column'], [0, 0, 1]));
-            $("#downSwitchChart").highcharts(generalChartService.queryMultipleComboOptionsWithDoubleAxes({
-                title: '4G下切3G次数统计',
-                xtitle: '日期',
-                ytitles: ['4G下切3G次数', '流量（MB）']
-            }, dates, [
-                _.map(result, function (stat) {
-                    return stat.redirectCdma2000;
-                }),
-                _.map(result, function (stat) {
-                    return stat.pdcpDownlinkFlow;
-                }),
-                _.map(result, function (stat) {
-                    return stat.pdcpUplinkFlow;
-                })
-            ], ['4G下切3G次数', '下行流量', '上行流量'], ['column', 'line', 'line'], [0, 1, 1]));
-            $("#rank2Chart").highcharts(generalChartService.queryMultipleComboOptionsWithDoubleAxes({
-                title: '4G双流比统计',
-                xtitle: '日期',
-                ytitles: ['4G双流比（%）', '感知速率（Mbit/s）']
-            }, dates, [
-                _.map(result, function (stat) {
-                    return stat.rank2Rate;
-                }),
-                _.map(result, function (stat) {
-                    return stat.downlinkFeelingRate;
-                }),
-                _.map(result, function (stat) {
-                    return stat.uplinkFeelingRate;
-                })
-            ], ['4G双流比', '下行感知速率', '上行感知速率'], ['column', 'line', 'line'], [0, 1, 1]));
+            $("#flowChart").highcharts(parametersChartService.getCellFlowOptions(dates, result));
+            $("#feelingRateChart").highcharts(parametersChartService.getCellFeelingRateOptions(dates, result));
+            $("#downSwitchChart").highcharts(parametersChartService.getCellDownSwitchOptions(dates, result));
+            $("#rank2Chart").highcharts(parametersChartService.getCellRank2Options(dates, result));
         });
     })
     .controller("rrc.kpi.dialog", function ($scope, cell, begin, end, dialogTitle, flowService, generalChartService, calculateService,

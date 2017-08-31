@@ -526,6 +526,100 @@
                     ['line', 'column'],
                     [0, 1]);
             },
+            getCellFlowOptions: function(dates, result) {
+                return generalChartService.queryMultipleColumnOptions({
+                        title: '流量统计',
+                        xtitle: '日期',
+                        ytitle: '流量（MB）'
+                    },
+                    dates,
+                    [
+                        _.map(result,
+                            function(stat) {
+                                return stat.pdcpDownlinkFlow;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.pdcpUplinkFlow;
+                            })
+                    ],
+                    ['下行流量', '上行流量']);
+            },
+            getCellFeelingRateOptions: function(dates, result) {
+                return generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                        title: '感知速率',
+                        xtitle: '日期',
+                        ytitles: ['感知速率（Mbit/s）', '用户数']
+                    },
+                    dates,
+                    [
+                        _.map(result,
+                            function(stat) {
+                                return stat.downlinkFeelingRate;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.uplinkFeelingRate;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.maxUsers;
+                            })
+                    ],
+                    ['下行感知速率', '上行感知速率', '用户数'],
+                    ['line', 'line', 'column'],
+                    [0, 0, 1]);
+            },
+            getCellDownSwitchOptions: function(dates, result) {
+                return generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                        title: '4G下切3G次数统计',
+                        xtitle: '日期',
+                        ytitles: ['4G下切3G次数', '流量（MB）']
+                    },
+                    dates,
+                    [
+                        _.map(result,
+                            function(stat) {
+                                return stat.redirectCdma2000;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.pdcpDownlinkFlow;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.pdcpUplinkFlow;
+                            })
+                    ],
+                    ['4G下切3G次数', '下行流量', '上行流量'],
+                    ['column', 'line', 'line'],
+                    [0, 1, 1]);
+            },
+            getCellRank2Options: function(dates, result) {
+                return generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                        title: '4G双流比统计',
+                        xtitle: '日期',
+                        ytitles: ['4G双流比（%）', '感知速率（Mbit/s）']
+                    },
+                    dates,
+                    [
+                        _.map(result,
+                            function(stat) {
+                                return stat.rank2Rate;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.downlinkFeelingRate;
+                            }),
+                        _.map(result,
+                            function(stat) {
+                                return stat.uplinkFeelingRate;
+                            })
+                    ],
+                    ['4G双流比', '下行感知速率', '上行感知速率'],
+                    ['column', 'line', 'line'],
+                    [0, 1, 1]);
+            },
             getCollegeDistributionForDownlinkFlow: function (data, theme) {
                 theme = theme || "校园网";
                 return generalChartService.getPieOptions(data, {
