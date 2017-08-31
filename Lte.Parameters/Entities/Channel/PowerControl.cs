@@ -69,6 +69,34 @@ namespace Lte.Parameters.Entities.Channel
         public int paForDCCH { get; set; }
 
         public int csiRSPwrOfst { get; set; }
+
+        public int? adjustPwr4CrsCtrl1 { get; set; }
+
+        public int? adjustPwr4CrsCtrl2 { get; set; }
+
+        public int? adjustPwr4PwrCtrl { get; set; }
+
+        public int? adjustPwr4TM3PwrCtrl { get; set; }
+
+        public string mcsThr4PwrCtrl { get; set; }
+
+        public string mcsThres4PwrCtrl { get; set; }
+
+        public double? rbRatioThr4PwrCtrl { get; set; }
+
+        public double? rbRatioThr4CrsCtrl { get; set; }
+
+        public string qamMcsThr4PwrCtrl { get; set; }
+
+        public string qam256MCSThr4PwrCtrl { get; set; }
+
+        public double? cellRBRatioThr4PwrCtrl { get; set; }
+
+        public int? pwrCtlSwchDl { get; set; }
+
+        public int? crsPwrCtlSwch { get; set; }
+
+        public int? uenumThr4CrsCtrl { get; set; }
     }
 
     public class PowerControlULZte : IEntity<ObjectId>, IZteMongo
@@ -171,6 +199,34 @@ namespace Lte.Parameters.Entities.Channel
         public int? deltaFPucchFormat3 { get; set; }
 
         public int? tarSinrPucchUl { get; set; }
+
+        public int? fiMarginforMU { get; set; }
+
+        public int? deltaFiMarginforVoLTE { get; set; }
+
+        public int? fiMarginfor64Qam { get; set; }
+
+        public int? puschPwrFiUpMargin { get; set; }
+
+        public int? puschPwrNiThr { get; set; }
+
+        public int? pucchFmt2InPowCtrlSwch { get; set; }
+
+        public double? targetBler4A0 { get; set; }
+
+        public double? targetBler4A1 { get; set; }
+
+        public double? targetBler4A2 { get; set; }
+
+        public int? deltaPL { get; set; }
+
+        public int? phrThpThrInAtmosduct { get; set; }
+
+        public int? difofPucchPsandNi { get; set; }
+
+        public int? pmaxforPuschPowCtrl { get; set; }
+
+        public int? pucchPsTargetAdapSwch { get; set; }
     }
 
     public class ECellEquipmentFunctionZte : IEntity<ObjectId>, IZteMongo
