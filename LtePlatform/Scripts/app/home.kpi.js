@@ -87,7 +87,9 @@
                     angular.forEach(result,
                         function(item) {
                             networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function(cell) {
-                                collegeMapService.showFlowCellSector(cell, item, $scope.beginDate, $scope.endDate)
+                                if (cell) {
+                                    collegeMapService.showFlowCellSector(cell, item, $scope.beginDate, $scope.endDate);
+                                }
                             });
                         });
 
