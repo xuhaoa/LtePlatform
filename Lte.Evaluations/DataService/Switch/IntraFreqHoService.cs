@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Lte.Domain.Regular;
 using Lte.MySqlFramework.Abstract;
 using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Switch;
@@ -138,12 +139,16 @@ namespace Lte.Evaluations.DataService.Switch
         {
             var zteCellGroup = _zteCellGroupRepository.GetRecentList(_eNodebId, _sectorId);
             int configId;
-            if (zteCellGroup != null)
-                configId = int.Parse(zteCellGroup[0].intraFHOMeasCfg.Split(',')[0]);
+            if (zteCellGroup != null && zteCellGroup.Count > 0)
+            {
+                var fields = zteCellGroup[0].intraFHOMeasCfg.Split(',');
+                configId = fields.Length > 0 ? fields[0].ConvertToInt(0) : 0;
+            }
             else
             {
                 var zteGroup = _zteGroupRepository.GetRecent(_eNodebId);
-                configId = zteGroup == null ? 50 : int.Parse(zteGroup.intraFHOMeasCfg.Split(',')[0]);
+                var fields = zteGroup?.intraFHOMeasCfg.Split(',');
+                configId = fields != null && fields.Length > 0 ? fields[0].ConvertToInt(0) : 0;
             }
 
             var ztePara = _zteMeasurementRepository.GetRecent(_eNodebId, configId);

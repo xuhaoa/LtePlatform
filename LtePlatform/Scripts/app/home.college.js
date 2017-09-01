@@ -55,13 +55,16 @@
             collegeQueryService,
             mapDialogService,
             collegeMapService,
-            parametersDialogService) {
+            parametersDialogService,
+            parametersMapService) {
             baiduMapService.initializeMap("map", 11);
             $scope.coverageOverlays = [];
 
             $scope.showOverallCoverage = function() {
                 mapDialogService.showCollegeCoverageList($scope.beginDate, $scope.endDate);
             };
+            $scope.siteOverlays = [];
+            $scope.sectorOverlays = [];
 
             $scope.showCoverageView = function(name) {
                 $scope.currentView = name;
@@ -76,6 +79,15 @@
                         $scope.legend.criteria = legend.criteria;
                         $scope.legend.title = legend.title;
                         $scope.legend.sign = legend.sign;
+                        var range = baiduMapService.getRange();
+                        parametersMapService.showElementsInRange(range.west,
+                            range.east,
+                            range.south,
+                            range.north,
+                            $scope.beginDate,
+                            $scope.endDate,
+                            $scope.siteOverlays,
+                            $scope.sectorOverlays);
                     });
             };
 

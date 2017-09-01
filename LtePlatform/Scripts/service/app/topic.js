@@ -731,7 +731,7 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                     $scope.query();
                 });
 
-            $scope.showDtPoints = function() {
+            $scope.showDtPoints = function () {
                 $scope.legend = kpiDisplayService.queryCoverageLegend($scope.kpi.selected);
                 $scope.coveragePoints = kpiDisplayService.initializeCoveragePoints($scope.legend);
                 kpiDisplayService.generateCoveragePoints($scope.coveragePoints, $scope.data, $scope.kpi.selected);
@@ -1233,6 +1233,21 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                 }
             };
 
+            $scope.showStat = function () {
+                if ($scope.includeAllFiles) {
+                    var combined = _.reduce($scope.dataFile.options,
+                        function(memo, num) {
+                            return {
+                                count: memo.count + num.count,
+                                coverageCount: memo.coverageCount + num.coverageCount
+                            }
+                        });
+                    $scope.coverageRate = 100 * combined.coverageCount / combined.count;
+                } else {
+                    $scope.coverageRate = $scope.dataFile.selected.coverageRate;
+                }
+            };
+
             collegeMapService.queryCenterAndCallback(name,
                 function(center) {
                     baiduQueryService.transformToBaidu(center.X, center.Y).then(function(coors) {
@@ -1674,7 +1689,7 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                 showPhpElements: function(elements, showElementInfo) {
                     return showPhpElements(elements, showElementInfo);
                 },
-                showIntervalPoints: function(intervals, coverageOverlays) {
+                showIntervalPoints: function (intervals, coverageOverlays) {
                     angular.forEach(intervals,
                         function(interval) {
                             var coors = interval.coors;

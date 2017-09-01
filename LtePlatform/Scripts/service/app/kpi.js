@@ -311,7 +311,7 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                 });
                 return pointDef;
             },
-            generateCoveragePoints: function(pointDef, points, kpi) {
+            generateCoveragePoints: function (pointDef, points, kpi) {
                 calculateService.generateCoveragePointsWithFunc(pointDef, points, function(point) {
                     switch (kpi) {
                     case 'Ec/Io':
