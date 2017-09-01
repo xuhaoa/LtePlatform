@@ -1207,7 +1207,8 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             };
 
             var queryRasterInfo = function(index) {
-                coverageService.queryByRasterInfo($scope.dataFile.options[index], $scope.network.selected)
+                coverageService.queryByRasterInfo($scope.dataFile.options[index],
+                        $scope.network.selected)
                     .then(function(result) {
                         $scope.data.push.apply($scope.data, result);
                         if (index < $scope.dataFile.options.length - 1) {
@@ -1223,7 +1224,8 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                 if ($scope.includeAllFiles) {
                     queryRasterInfo(0);
                 } else {
-                    coverageService.queryByRasterInfo($scope.dataFile.selected, $scope.network.selected)
+                    coverageService.queryByRasterInfo($scope.dataFile.selected,
+                            $scope.network.selected)
                         .then(function(result) {
                             $scope.data = result;
                             $scope.showDtPoints();

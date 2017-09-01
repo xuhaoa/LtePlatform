@@ -113,6 +113,7 @@ angular.module('region.basic', ['app.core'])
                 },
                 queryByRasterInfo: function(info, type) {
                     var api;
+                    info.csvFileName = info.csvFileName.replace(".csv", "");
                     switch (type) {
                     case '2G':
                         api = "Record2G";
