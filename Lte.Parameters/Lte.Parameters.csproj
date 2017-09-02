@@ -185,6 +185,7 @@
     <Compile Include="Concrete\Neighbor\EUtranRelationZteRepository.cs" />
     <Compile Include="Concrete\Neighbor\ExternalEUtranCellFDDZteRepository.cs" />
     <Compile Include="Concrete\Switch\EUtranCellMeasurementZteRepository.cs" />
+    <Compile Include="Entities\Basic\CellPower.cs" />
     <Compile Include="Entities\Channel\AgpsMongo.cs" />
     <Compile Include="Entities\Channel\Pdsch.cs" />
     <Compile Include="Entities\Channel\PowerControl.cs" />
@@ -203,10 +204,7 @@
     <Compile Include="Entities\Switch\CellMeasGroupZte.cs" />
     <Compile Include="Entities\Switch\EUtranCellMeasurementZte.cs" />
     <Compile Include="Entities\Switch\IZteMeasGroup.cs" />
-    <Compile Include="Entities\Switch\InterFreqHoGroup.cs" />
-    <Compile Include="Entities\Switch\InterRatHoComm.cs" />
-    <Compile Include="Entities\Switch\IntraFreqHoGroup.cs" />
-    <Compile Include="Entities\Switch\IntraRatHoComm.cs" />
+    <Compile Include="Entities\Switch\HoEntities.cs" />
     <Compile Include="Entities\Switch\UeEUtranMeasurementZte.cs" />
     <Compile Include="Migrations\201708240226119_Change_Lte_Neighbor.cs" />
     <Compile Include="Migrations\201708240226119_Change_Lte_Neighbor.Designer.cs">

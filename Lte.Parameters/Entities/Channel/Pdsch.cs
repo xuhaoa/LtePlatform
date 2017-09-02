@@ -49,6 +49,8 @@ namespace Lte.Parameters.Entities.Channel
 
         public int ReferenceSignalPwr { get; set; }
 
+        public double RsPower => ReferenceSignalPwr * 0.1;
+
         public int? TxPowerOffsetAnt0 { get; set; }
 
         public int? TxPowerOffsetAnt1 { get; set; }

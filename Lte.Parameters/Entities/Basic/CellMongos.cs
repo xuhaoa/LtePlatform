@@ -1,7 +1,6 @@
 ﻿using Abp.Domain.Entities;
 using Abp.EntityFramework.Dependency;
 using Lte.Domain.Regular.Attributes;
-using Lte.Parameters.Entities.Channel;
 using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Basic
@@ -644,37 +643,6 @@ namespace Lte.Parameters.Entities.Basic
         public double? startPreCompenRatioThr { get; set; }
 
         public double? filteFactor4SRMode1 { get; set; }
-    }
-
-    public class CellPower
-    {
-        public int ENodebId { get; set; }
-
-        public byte SectorId { get; set; }
-
-        public double RsPower { get; set; }
-
-        public int Pa { get; set; }
-
-        public int Pb { get; set; }
-
-        public CellPower(EUtranCellFDDZte cellFdd, PowerControlDLZte pcDl)
-        {
-            ENodebId = cellFdd.eNodeB_Id;
-            RsPower = cellFdd.cellReferenceSignalPower;
-            Pb = cellFdd.pb;
-            Pa = pcDl.paForDTCH;
-        }
-
-        public CellPower(PDSCHCfg cfg, CellDlpcPdschPa paCfg)
-        {
-            ENodebId = cfg.eNodeB_Id;
-            RsPower = cfg.ReferenceSignalPwr * 0.1;
-            Pb = cfg.Pb;
-            Pa = paCfg.PaPcOff;
-        }
-
-        public CellPower() { }
     }
 
     public class PrachFDDZte : IEntity<ObjectId>, IZteMongo
