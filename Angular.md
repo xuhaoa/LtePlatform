@@ -37,6 +37,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.registerTask('default', ['concat']);
 ```
+### 基础路由层
+主要包括url目录下的各个脚本文件。
+合并脚本app.url.js内容如下：
+```javascript
+angular.module('myApp.url', ['app.core', 'app.menu', 'app.format', 'app.geometry', 'app.calculation']);
+```
+基础路由层的说明详见[这里](https://github.com/ouyh18/LtePlatform/blob/master/AngularUrlFactory.md)
 ## 指令系统
 ## 控制器模块
 ## 过滤器
