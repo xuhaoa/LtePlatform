@@ -10,7 +10,7 @@ namespace ZipLib.Bzip
         {
             if ((inStream == null) || (outStream == null))
             {
-                throw new Exception("Null Stream");
+                throw new Exception("Null Stream。请把输入文件和输出文件准备好！");
             }
             try
             {

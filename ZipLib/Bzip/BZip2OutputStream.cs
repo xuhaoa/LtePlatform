@@ -7,41 +7,39 @@ namespace ZipLib.Bzip
 {
     public class BZip2OutputStream : Stream
     {
-        private int allowableBlockSize;
-        private Stream baseStream;
-        private byte[] block;
-        private uint blockCRC;
-        private bool blockRandomised;
-        private readonly int blockSize100k;
-        private int bsBuff;
-        private int bsLive;
-        private int bytesOut;
-        private uint combinedCRC;
-        private int currentChar;
-        private bool disposed_;
-        private bool firstAttempt;
-        private int[] ftab;
-        private readonly int[] increments;
-        private readonly bool[] inUse;
-        private bool isStreamOwner;
-        private int last;
-        private readonly IChecksum mCrc;
-        private readonly int[] mtfFreq;
-        private int nBlocksRandomised;
-        private int nInUse;
-        private int nMTF;
-        private int origPtr;
-        private int[] quadrant;
-        private int runLength;
-        private readonly char[] selector;
-        private readonly char[] selectorMtf;
-        private readonly char[] seqToUnseq;
-        private short[] szptr;
-        private readonly char[] unseqToSeq;
-        private int workDone;
-        private readonly int workFactor;
-        private int workLimit;
-        private int[] zptr;
+        private int _allowableBlockSize;
+        private Stream _baseStream;
+        private byte[] _block;
+        private uint _blockCrc;
+        private bool _blockRandomised;
+        private readonly int _blockSize100K;
+        private int _bsBuff;
+        private int _bsLive;
+        private uint _combinedCrc;
+        private int _currentChar;
+        private bool _disposed;
+        private bool _firstAttempt;
+        private int[] _ftab;
+        private readonly int[] _increments;
+        private readonly bool[] _inUse;
+        private int _last;
+        private readonly IChecksum _mCrc;
+        private readonly int[] _mtfFreq;
+        private int _nBlocksRandomised;
+        private int _nInUse;
+        private int _nMtf;
+        private int _origPtr;
+        private int[] _quadrant;
+        private int _runLength;
+        private readonly char[] _selector;
+        private readonly char[] _selectorMtf;
+        private readonly char[] _seqToUnseq;
+        private short[] _szptr;
+        private readonly char[] _unseqToSeq;
+        private int _workDone;
+        private readonly int _workFactor;
+        private int _workLimit;
+        private int[] _zptr;
 
         public BZip2OutputStream(Stream stream)
             : this(stream, 9)
@@ -50,19 +48,19 @@ namespace ZipLib.Bzip
 
         public BZip2OutputStream(Stream stream, int blockSize)
         {
-            increments 
+            _increments 
                 = new[] { 1, 4, 13, 40, 0x79, 0x16c, 0x445, 0xcd0, 0x2671, 0x7354, 0x159fd, 0x40df8, 0xc29e9, 0x247dbc };
-            isStreamOwner = true;
-            mCrc = new StrangeCRC();
-            inUse = new bool[0x100];
-            seqToUnseq = new char[0x100];
-            unseqToSeq = new char[0x100];
-            selector = new char[0x4652];
-            selectorMtf = new char[0x4652];
-            mtfFreq = new int[0x102];
-            currentChar = -1;
+            IsStreamOwner = true;
+            _mCrc = new StrangeCRC();
+            _inUse = new bool[0x100];
+            _seqToUnseq = new char[0x100];
+            _unseqToSeq = new char[0x100];
+            _selector = new char[0x4652];
+            _selectorMtf = new char[0x4652];
+            _mtfFreq = new int[0x102];
+            _currentChar = -1;
             BsSetStream(stream);
-            workFactor = 50;
+            _workFactor = 50;
             if (blockSize > 9)
             {
                 blockSize = 9;
@@ -71,7 +69,7 @@ namespace ZipLib.Bzip
             {
                 blockSize = 1;
             }
-            blockSize100k = blockSize;
+            _blockSize100K = blockSize;
             AllocateCompressStructures();
             Initialize();
             InitBlock();
@@ -79,23 +77,23 @@ namespace ZipLib.Bzip
 
         private void AllocateCompressStructures()
         {
-            var num = BZip2Constants.BaseBlockSize * blockSize100k;
-            block = new byte[(num + 1) + 20];
-            quadrant = new int[num + 20];
-            zptr = new int[num];
-            ftab = new int[0x10001];
-            szptr = new short[2 * num];
+            var num = BZip2Constants.BaseBlockSize * _blockSize100K;
+            _block = new byte[(num + 1) + 20];
+            _quadrant = new int[num + 20];
+            _zptr = new int[num];
+            _ftab = new int[0x10001];
+            _szptr = new short[2 * num];
         }
 
         private void BsFinishedWithStream()
         {
-            while (bsLive > 0)
+            while (_bsLive > 0)
             {
-                var num = bsBuff >> 0x18;
-                baseStream.WriteByte((byte)num);
-                bsBuff = bsBuff << 8;
-                bsLive -= 8;
-                bytesOut++;
+                var num = _bsBuff >> 0x18;
+                _baseStream.WriteByte((byte)num);
+                _bsBuff = _bsBuff << 8;
+                _bsLive -= 8;
+                BytesWritten++;
             }
         }
 
@@ -107,7 +105,7 @@ namespace ZipLib.Bzip
             BsW(8, u & 0xff);
         }
 
-        private void BsPutIntVS(int numBits, int c)
+        private void BsPutIntVs(int numBits, int c)
         {
             BsW(numBits, c);
         }
@@ -119,24 +117,24 @@ namespace ZipLib.Bzip
 
         private void BsSetStream(Stream stream)
         {
-            baseStream = stream;
-            bsLive = 0;
-            bsBuff = 0;
-            bytesOut = 0;
+            _baseStream = stream;
+            _bsLive = 0;
+            _bsBuff = 0;
+            BytesWritten = 0;
         }
 
         private void BsW(int n, int v)
         {
-            while (bsLive >= 8)
+            while (_bsLive >= 8)
             {
-                var num = bsBuff >> 0x18;
-                baseStream.WriteByte((byte)num);
-                bsBuff = bsBuff << 8;
-                bsLive -= 8;
-                bytesOut++;
+                var num = _bsBuff >> 0x18;
+                _baseStream.WriteByte((byte)num);
+                _bsBuff = _bsBuff << 8;
+                _bsLive -= 8;
+                BytesWritten++;
             }
-            bsBuff |= v << ((0x20 - bsLive) - n);
-            bsLive += n;
+            _bsBuff |= v << ((0x20 - _bsLive) - n);
+            _bsLive += n;
         }
 
         public override void Close()
@@ -150,14 +148,14 @@ namespace ZipLib.Bzip
             try
             {
                 base.Dispose(disposing);
-                if (!disposed_)
+                if (!_disposed)
                 {
-                    disposed_ = true;
-                    if (runLength > 0)
+                    _disposed = true;
+                    if (_runLength > 0)
                     {
                         WriteRun();
                     }
-                    currentChar = -1;
+                    _currentChar = -1;
                     EndBlock();
                     EndCompression();
                     Flush();
@@ -167,36 +165,36 @@ namespace ZipLib.Bzip
             {
                 if (disposing && IsStreamOwner)
                 {
-                    baseStream.Close();
+                    _baseStream.Close();
                 }
             }
         }
 
         private void DoReversibleTransformation()
         {
-            workLimit = workFactor * last;
-            workDone = 0;
-            blockRandomised = false;
-            firstAttempt = true;
+            _workLimit = _workFactor * _last;
+            _workDone = 0;
+            _blockRandomised = false;
+            _firstAttempt = true;
             MainSort();
-            if ((workDone > workLimit) && firstAttempt)
+            if ((_workDone > _workLimit) && _firstAttempt)
             {
                 RandomiseBlock();
-                workLimit = workDone = 0;
-                blockRandomised = true;
-                firstAttempt = false;
+                _workLimit = _workDone = 0;
+                _blockRandomised = true;
+                _firstAttempt = false;
                 MainSort();
             }
-            origPtr = -1;
-            for (var i = 0; i <= last; i++)
+            _origPtr = -1;
+            for (var i = 0; i <= _last; i++)
             {
-                if (zptr[i] == 0)
+                if (_zptr[i] == 0)
                 {
-                    origPtr = i;
+                    _origPtr = i;
                     break;
                 }
             }
-            if (origPtr == -1)
+            if (_origPtr == -1)
             {
                 Panic();
             }
@@ -204,11 +202,11 @@ namespace ZipLib.Bzip
 
         private void EndBlock()
         {
-            if (last >= 0)
+            if (_last >= 0)
             {
-                blockCRC = (uint)mCrc.Value;
-                combinedCRC = (combinedCRC << 1) | (combinedCRC >> 0x1f);
-                combinedCRC ^= blockCRC;
+                _blockCrc = (uint)_mCrc.Value;
+                _combinedCrc = (_combinedCrc << 1) | (_combinedCrc >> 0x1f);
+                _combinedCrc ^= _blockCrc;
                 DoReversibleTransformation();
                 BsPutUChar(0x31);
                 BsPutUChar(0x41);
@@ -216,11 +214,11 @@ namespace ZipLib.Bzip
                 BsPutUChar(0x26);
                 BsPutUChar(0x53);
                 BsPutUChar(0x59);
-                BsPutint((int)blockCRC);
-                if (blockRandomised)
+                BsPutint((int)_blockCrc);
+                if (_blockRandomised)
                 {
                     BsW(1, 1);
-                    nBlocksRandomised++;
+                    _nBlocksRandomised++;
                 }
                 else
                 {
@@ -238,7 +236,7 @@ namespace ZipLib.Bzip
             BsPutUChar(0x38);
             BsPutUChar(80);
             BsPutUChar(0x90);
-            BsPutint((int)combinedCRC);
+            BsPutint((int)_combinedCrc);
             BsFinishedWithStream();
         }
 
@@ -249,156 +247,156 @@ namespace ZipLib.Bzip
 
         public override void Flush()
         {
-            baseStream.Flush();
+            _baseStream.Flush();
         }
 
         private bool FullGtU(int i1, int i2)
         {
-            var num2 = block[i1 + 1];
-            var num3 = block[i2 + 1];
+            var num2 = _block[i1 + 1];
+            var num3 = _block[i2 + 1];
             if (num2 != num3)
             {
                 return (num2 > num3);
             }
             i1++;
             i2++;
-            num2 = block[i1 + 1];
-            num3 = block[i2 + 1];
+            num2 = _block[i1 + 1];
+            num3 = _block[i2 + 1];
             if (num2 != num3)
             {
                 return (num2 > num3);
             }
             i1++;
             i2++;
-            num2 = block[i1 + 1];
-            num3 = block[i2 + 1];
+            num2 = _block[i1 + 1];
+            num3 = _block[i2 + 1];
             if (num2 != num3)
             {
                 return (num2 > num3);
             }
             i1++;
             i2++;
-            num2 = block[i1 + 1];
-            num3 = block[i2 + 1];
+            num2 = _block[i1 + 1];
+            num3 = _block[i2 + 1];
             if (num2 != num3)
             {
                 return (num2 > num3);
             }
             i1++;
             i2++;
-            num2 = block[i1 + 1];
-            num3 = block[i2 + 1];
+            num2 = _block[i1 + 1];
+            num3 = _block[i2 + 1];
             if (num2 != num3)
             {
                 return (num2 > num3);
             }
             i1++;
             i2++;
-            num2 = block[i1 + 1];
-            num3 = block[i2 + 1];
+            num2 = _block[i1 + 1];
+            num3 = _block[i2 + 1];
             if (num2 != num3)
             {
                 return (num2 > num3);
             }
             i1++;
             i2++;
-            var num = last + 1;
+            var num = _last + 1;
             do
             {
-                num2 = block[i1 + 1];
-                num3 = block[i2 + 1];
+                num2 = _block[i1 + 1];
+                num3 = _block[i2 + 1];
                 if (num2 != num3)
                 {
                     return (num2 > num3);
                 }
-                var num4 = quadrant[i1];
-                var num5 = quadrant[i2];
+                var num4 = _quadrant[i1];
+                var num5 = _quadrant[i2];
                 if (num4 != num5)
                 {
                     return (num4 > num5);
                 }
                 i1++;
                 i2++;
-                num2 = block[i1 + 1];
-                num3 = block[i2 + 1];
+                num2 = _block[i1 + 1];
+                num3 = _block[i2 + 1];
                 if (num2 != num3)
                 {
                     return (num2 > num3);
                 }
-                num4 = quadrant[i1];
-                num5 = quadrant[i2];
+                num4 = _quadrant[i1];
+                num5 = _quadrant[i2];
                 if (num4 != num5)
                 {
                     return (num4 > num5);
                 }
                 i1++;
                 i2++;
-                num2 = block[i1 + 1];
-                num3 = block[i2 + 1];
+                num2 = _block[i1 + 1];
+                num3 = _block[i2 + 1];
                 if (num2 != num3)
                 {
                     return (num2 > num3);
                 }
-                num4 = quadrant[i1];
-                num5 = quadrant[i2];
+                num4 = _quadrant[i1];
+                num5 = _quadrant[i2];
                 if (num4 != num5)
                 {
                     return (num4 > num5);
                 }
                 i1++;
                 i2++;
-                num2 = block[i1 + 1];
-                num3 = block[i2 + 1];
+                num2 = _block[i1 + 1];
+                num3 = _block[i2 + 1];
                 if (num2 != num3)
                 {
                     return (num2 > num3);
                 }
-                num4 = quadrant[i1];
-                num5 = quadrant[i2];
+                num4 = _quadrant[i1];
+                num5 = _quadrant[i2];
                 if (num4 != num5)
                 {
                     return (num4 > num5);
                 }
                 i1++;
                 i2++;
-                if (i1 > last)
+                if (i1 > _last)
                 {
-                    i1 -= last;
+                    i1 -= _last;
                     i1--;
                 }
-                if (i2 > last)
+                if (i2 > _last)
                 {
-                    i2 -= last;
+                    i2 -= _last;
                     i2--;
                 }
                 num -= 4;
-                workDone++;
+                _workDone++;
             }
             while (num >= 0);
             return false;
         }
 
-        private void GenerateMTFValues()
+        private void GenerateMtfValues()
         {
             int num;
             var chArray = new char[0x100];
             MakeMaps();
-            var index = nInUse + 1;
+            var index = _nInUse + 1;
             for (num = 0; num <= index; num++)
             {
-                mtfFreq[num] = 0;
+                _mtfFreq[num] = 0;
             }
             var num4 = 0;
             var num3 = 0;
-            for (num = 0; num < nInUse; num++)
+            for (num = 0; num < _nInUse; num++)
             {
                 chArray[num] = (char)num;
             }
-            for (num = 0; num <= last; num++)
+            for (num = 0; num <= _last; num++)
             {
                 var num2 = 0;
                 var ch = chArray[num2];
-                while (unseqToSeq[block[zptr[num]]] != ch)
+                while (_unseqToSeq[_block[_zptr[num]]] != ch)
                 {
                     num2++;
                     var ch2 = ch;
@@ -420,15 +418,15 @@ namespace ZipLib.Bzip
                 switch ((num3 % 2))
                 {
                     case 0:
-                        szptr[num4] = 0;
+                        _szptr[num4] = 0;
                         num4++;
-                        mtfFreq[0]++;
+                        _mtfFreq[0]++;
                         break;
 
                     case 1:
-                        szptr[num4] = 1;
+                        _szptr[num4] = 1;
                         num4++;
-                        mtfFreq[1]++;
+                        _mtfFreq[1]++;
                         break;
                 }
                 if (num3 >= 2)
@@ -438,9 +436,9 @@ namespace ZipLib.Bzip
                 }
                 num3 = 0;
             Label_0126:
-                szptr[num4] = (short)(num2 + 1);
+                _szptr[num4] = (short)(num2 + 1);
                 num4++;
-                mtfFreq[num2 + 1]++;
+                _mtfFreq[num2 + 1]++;
             }
             if (num3 <= 0)
             {
@@ -451,15 +449,15 @@ namespace ZipLib.Bzip
             switch ((num3 % 2))
             {
                 case 0:
-                    szptr[num4] = 0;
+                    _szptr[num4] = 0;
                     num4++;
-                    mtfFreq[0]++;
+                    _mtfFreq[0]++;
                     break;
 
                 case 1:
-                    szptr[num4] = 1;
+                    _szptr[num4] = 1;
                     num4++;
-                    mtfFreq[1]++;
+                    _mtfFreq[1]++;
                     break;
             }
             if (num3 >= 2)
@@ -468,10 +466,10 @@ namespace ZipLib.Bzip
                 goto Label_0172;
             }
         Label_01EC:
-            szptr[num4] = (short)index;
+            _szptr[num4] = (short)index;
             num4++;
-            mtfFreq[index]++;
-            nMTF = num4;
+            _mtfFreq[index]++;
+            _nMtf = num4;
         }
 
         private static void HbAssignCodes(int[] code, char[] length, int minLen, int maxLen, int alphaSize)
@@ -620,24 +618,24 @@ namespace ZipLib.Bzip
 
         private void InitBlock()
         {
-            mCrc.Reset();
-            last = -1;
+            _mCrc.Reset();
+            _last = -1;
             for (var i = 0; i < 0x100; i++)
             {
-                inUse[i] = false;
+                _inUse[i] = false;
             }
-            allowableBlockSize = (BZip2Constants.BaseBlockSize * blockSize100k) - 20;
+            _allowableBlockSize = (BZip2Constants.BaseBlockSize * _blockSize100K) - 20;
         }
 
         private void Initialize()
         {
-            bytesOut = 0;
-            nBlocksRandomised = 0;
+            BytesWritten = 0;
+            _nBlocksRandomised = 0;
             BsPutUChar(0x42);
             BsPutUChar(90);
             BsPutUChar(0x68);
-            BsPutUChar(0x30 + blockSize100k);
-            combinedCRC = 0;
+            BsPutUChar(0x30 + _blockSize100K);
+            _combinedCrc = 0;
         }
 
         private void MainSort()
@@ -648,22 +646,22 @@ namespace ZipLib.Bzip
             var flagArray = new bool[0x100];
             for (num = 0; num < 20; num++)
             {
-                block[(last + num) + 2] = block[(num % (last + 1)) + 1];
+                _block[(_last + num) + 2] = _block[(num % (_last + 1)) + 1];
             }
-            for (num = 0; num <= (last + 20); num++)
+            for (num = 0; num <= (_last + 20); num++)
             {
-                quadrant[num] = 0;
+                _quadrant[num] = 0;
             }
-            block[0] = block[last + 1];
-            if (last < 0xfa0)
+            _block[0] = _block[_last + 1];
+            if (_last < 0xfa0)
             {
-                for (num = 0; num <= last; num++)
+                for (num = 0; num <= _last; num++)
                 {
-                    zptr[num] = num;
+                    _zptr[num] = num;
                 }
-                firstAttempt = false;
-                workDone = workLimit = 0;
-                SimpleSort(0, last, 0);
+                _firstAttempt = false;
+                _workDone = _workLimit = 0;
+                SimpleSort(0, _last, 0);
             }
             else
             {
@@ -675,31 +673,31 @@ namespace ZipLib.Bzip
                 }
                 for (num = 0; num <= 0x10000; num++)
                 {
-                    ftab[num] = 0;
+                    _ftab[num] = 0;
                 }
-                int index = block[0];
-                for (num = 0; num <= last; num++)
+                int index = _block[0];
+                for (num = 0; num <= _last; num++)
                 {
-                    num6 = block[num + 1];
-                    ftab[(index << 8) + num6]++;
+                    num6 = _block[num + 1];
+                    _ftab[(index << 8) + num6]++;
                     index = num6;
                 }
                 for (num = 1; num <= 0x10000; num++)
                 {
-                    ftab[num] += ftab[num - 1];
+                    _ftab[num] += _ftab[num - 1];
                 }
-                index = block[1];
-                for (num = 0; num < last; num++)
+                index = _block[1];
+                for (num = 0; num < _last; num++)
                 {
-                    num6 = block[num + 2];
+                    num6 = _block[num + 2];
                     num2 = (index << 8) + num6;
                     index = num6;
-                    ftab[num2]--;
-                    zptr[ftab[num2]] = num;
+                    _ftab[num2]--;
+                    _zptr[_ftab[num2]] = num;
                 }
-                num2 = (block[last + 1] << 8) + block[1];
-                ftab[num2]--;
-                zptr[ftab[num2]] = last;
+                num2 = (_block[_last + 1] << 8) + _block[1];
+                _ftab[num2]--;
+                _zptr[_ftab[num2]] = _last;
                 num = 0;
                 while (num <= 0xff)
                 {
@@ -720,7 +718,7 @@ namespace ZipLib.Bzip
                     {
                         var num8 = numArray[num];
                         num2 = num;
-                        while ((ftab[(numArray[num2 - num9] + 1) << 8] - ftab[numArray[num2 - num9] << 8]) > (ftab[(num8 + 1) << 8] - ftab[num8 << 8]))
+                        while ((_ftab[(numArray[num2 - num9] + 1) << 8] - _ftab[numArray[num2 - num9] << 8]) > (_ftab[(num8 + 1) << 8] - _ftab[num8 << 8]))
                         {
                             numArray[num2] = numArray[num2 - num9];
                             num2 -= num9;
@@ -741,27 +739,27 @@ namespace ZipLib.Bzip
                     while (num2 <= 0xff)
                     {
                         var num4 = (num3 << 8) + num2;
-                        if ((ftab[num4] & 0x200000) != 0x200000)
+                        if ((_ftab[num4] & 0x200000) != 0x200000)
                         {
-                            var loSt = ftab[num4] & -2097153;
-                            var hiSt = (ftab[num4 + 1] & -2097153) - 1;
+                            var loSt = _ftab[num4] & -2097153;
+                            var hiSt = (_ftab[num4 + 1] & -2097153) - 1;
                             if (hiSt > loSt)
                             {
                                 QSort3(loSt, hiSt, 2);
-                                if ((workDone > workLimit) && firstAttempt)
+                                if ((_workDone > _workLimit) && _firstAttempt)
                                 {
                                     return;
                                 }
                             }
-                            ftab[num4] |= 0x200000;
+                            _ftab[num4] |= 0x200000;
                         }
                         num2++;
                     }
                     flagArray[num3] = true;
                     if (num < 0xff)
                     {
-                        var num12 = ftab[num3 << 8] & -2097153;
-                        var num13 = (ftab[(num3 + 1) << 8] & -2097153) - num12;
+                        var num12 = _ftab[num3 << 8] & -2097153;
+                        var num13 = (_ftab[(num3 + 1) << 8] & -2097153) - num12;
                         var num14 = 0;
                         while ((num13 >> num14) > 0xfffe)
                         {
@@ -770,12 +768,12 @@ namespace ZipLib.Bzip
                         num2 = 0;
                         while (num2 < num13)
                         {
-                            var num15 = zptr[num12 + num2];
+                            var num15 = _zptr[num12 + num2];
                             var num16 = num2 >> num14;
-                            quadrant[num15] = num16;
+                            _quadrant[num15] = num16;
                             if (num15 < 20)
                             {
-                                quadrant[(num15 + last) + 1] = num16;
+                                _quadrant[(num15 + _last) + 1] = num16;
                             }
                             num2++;
                         }
@@ -787,23 +785,23 @@ namespace ZipLib.Bzip
                     num2 = 0;
                     while (num2 <= 0xff)
                     {
-                        numArray2[num2] = ftab[(num2 << 8) + num3] & -2097153;
+                        numArray2[num2] = _ftab[(num2 << 8) + num3] & -2097153;
                         num2++;
                     }
-                    num2 = ftab[num3 << 8] & -2097153;
-                    while (num2 < (ftab[(num3 + 1) << 8] & -2097153))
+                    num2 = _ftab[num3 << 8] & -2097153;
+                    while (num2 < (_ftab[(num3 + 1) << 8] & -2097153))
                     {
-                        index = block[zptr[num2]];
+                        index = _block[_zptr[num2]];
                         if (!flagArray[index])
                         {
-                            zptr[numArray2[index]] = (zptr[num2] == 0) ? last : (zptr[num2] - 1);
+                            _zptr[numArray2[index]] = (_zptr[num2] == 0) ? _last : (_zptr[num2] - 1);
                             numArray2[index]++;
                         }
                         num2++;
                     }
                     for (num2 = 0; num2 <= 0xff; num2++)
                     {
-                        ftab[(num2 << 8) + num3] |= 0x200000;
+                        _ftab[(num2 << 8) + num3] |= 0x200000;
                     }
                 }
             }
@@ -811,14 +809,14 @@ namespace ZipLib.Bzip
 
         private void MakeMaps()
         {
-            nInUse = 0;
+            _nInUse = 0;
             for (var i = 0; i < 0x100; i++)
             {
-                if (inUse[i])
+                if (_inUse[i])
                 {
-                    seqToUnseq[nInUse] = (char)i;
-                    unseqToSeq[i] = (char)nInUse;
-                    nInUse++;
+                    _seqToUnseq[_nInUse] = (char)i;
+                    _unseqToSeq[i] = (char)_nInUse;
+                    _nInUse++;
                 }
             }
         }
@@ -845,9 +843,9 @@ namespace ZipLib.Bzip
 
         private void MoveToFrontCodeAndSend()
         {
-            BsPutIntVS(0x18, origPtr);
-            GenerateMTFValues();
-            SendMTFValues();
+            BsPutIntVs(0x18, _origPtr);
+            GenerateMtfValues();
+            SendMtfValues();
         }
 
         private static void Panic()
@@ -879,24 +877,24 @@ namespace ZipLib.Bzip
                 if (((hh - ll) < 20) || (dd > 10))
                 {
                     SimpleSort(ll, hh, dd);
-                    if ((workDone > workLimit) && firstAttempt)
+                    if ((_workDone > _workLimit) && _firstAttempt)
                     {
                         return;
                     }
                     continue;
                 }
-                int num5 = Med3(block[(zptr[ll] + dd) + 1], block[(zptr[hh] + dd) + 1], block[(zptr[(ll + hh) >> 1] + dd) + 1]);
+                int num5 = Med3(_block[(_zptr[ll] + dd) + 1], _block[(_zptr[hh] + dd) + 1], _block[(_zptr[(ll + hh) >> 1] + dd) + 1]);
                 var num = num3 = ll;
                 var num2 = num4 = hh;
             Label_0118:
                 if (num <= num2)
                 {
-                    num6 = block[(zptr[num] + dd) + 1] - num5;
+                    num6 = _block[(_zptr[num] + dd) + 1] - num5;
                     if (num6 == 0)
                     {
-                        var num12 = zptr[num];
-                        zptr[num] = zptr[num3];
-                        zptr[num3] = num12;
+                        var num12 = _zptr[num];
+                        _zptr[num] = _zptr[num3];
+                        _zptr[num3] = num12;
                         num3++;
                         num++;
                         goto Label_0118;
@@ -910,12 +908,12 @@ namespace ZipLib.Bzip
             Label_0172:
                 if (num <= num2)
                 {
-                    num6 = block[(zptr[num2] + dd) + 1] - num5;
+                    num6 = _block[(_zptr[num2] + dd) + 1] - num5;
                     if (num6 == 0)
                     {
-                        var num13 = zptr[num2];
-                        zptr[num2] = zptr[num4];
-                        zptr[num4] = num13;
+                        var num13 = _zptr[num2];
+                        _zptr[num2] = _zptr[num4];
+                        _zptr[num4] = num13;
                         num4--;
                         num2--;
                         goto Label_0172;
@@ -928,9 +926,9 @@ namespace ZipLib.Bzip
                 }
                 if (num <= num2)
                 {
-                    var num14 = zptr[num];
-                    zptr[num] = zptr[num2];
-                    zptr[num2] = num14;
+                    var num14 = _zptr[num];
+                    _zptr[num] = _zptr[num2];
+                    _zptr[num2] = num14;
                     num++;
                     num2--;
                     goto Label_0118;
@@ -973,9 +971,9 @@ namespace ZipLib.Bzip
             var index = 0;
             for (num = 0; num < 0x100; num++)
             {
-                inUse[num] = false;
+                _inUse[num] = false;
             }
-            for (num = 0; num <= last; num++)
+            for (num = 0; num <= _last; num++)
             {
                 if (num2 == 0)
                 {
@@ -987,9 +985,9 @@ namespace ZipLib.Bzip
                     }
                 }
                 num2--;
-                block[num + 1] = (byte)(block[num + 1] ^ ((num2 == 1) ? 1 : 0));
-                block[num + 1] = (byte)(block[num + 1] & 0xff);
-                inUse[block[num + 1]] = true;
+                _block[num + 1] = (byte)(_block[num + 1] ^ ((num2 == 1) ? 1 : 0));
+                _block[num + 1] = (byte)(_block[num + 1] & 0xff);
+                _inUse[_block[num + 1]] = true;
             }
         }
 
@@ -1008,7 +1006,7 @@ namespace ZipLib.Bzip
             throw new NotSupportedException("BZip2OutputStream Seek not supported");
         }
 
-        private void SendMTFValues()
+        private void SendMtfValues()
         {
             int num3;
             int num13;
@@ -1018,7 +1016,7 @@ namespace ZipLib.Bzip
                 chArray[i] = new char[0x102];
             }
             var index = 0;
-            var alphaSize = nInUse + 2;
+            var alphaSize = _nInUse + 2;
             for (var j = 0; j < 6; j++)
             {
                 for (var num15 = 0; num15 < alphaSize; num15++)
@@ -1026,23 +1024,23 @@ namespace ZipLib.Bzip
                     chArray[j][num15] = '\x000f';
                 }
             }
-            if (nMTF <= 0)
+            if (_nMtf <= 0)
             {
                 Panic();
             }
-            if (nMTF < 200)
+            if (_nMtf < 200)
             {
                 num13 = 2;
             }
-            else if (nMTF < 600)
+            else if (_nMtf < 600)
             {
                 num13 = 3;
             }
-            else if (nMTF < 0x4b0)
+            else if (_nMtf < 0x4b0)
             {
                 num13 = 4;
             }
-            else if (nMTF < 0x960)
+            else if (_nMtf < 0x960)
             {
                 num13 = 5;
             }
@@ -1054,17 +1052,17 @@ namespace ZipLib.Bzip
             var num2 = 0;
             while (num16 > 0)
             {
-                var num18 = nMTF / num16;
+                var num18 = _nMtf / num16;
                 var num19 = 0;
                 num3 = num2 - 1;
                 while ((num19 < num18) && (num3 < (alphaSize - 1)))
                 {
                     num3++;
-                    num19 += mtfFreq[num3];
+                    num19 += _mtfFreq[num3];
                 }
                 if (((num3 > num2) && (num16 != num13)) && ((num16 != 1) && (((num13 - num16) % 2) == 1)))
                 {
-                    num19 -= mtfFreq[num3];
+                    num19 -= _mtfFreq[num3];
                     num3--;
                 }
                 for (var num20 = 0; num20 < alphaSize; num20++)
@@ -1080,7 +1078,7 @@ namespace ZipLib.Bzip
                 }
                 num16--;
                 num2 = num3 + 1;
-                nMTF -= num19;
+                _nMtf -= num19;
             }
             var numArray = new int[6][];
             for (var k = 0; k < 6; k++)
@@ -1106,14 +1104,14 @@ namespace ZipLib.Bzip
                 num2 = 0;
                 while (true)
                 {
-                    if (num2 >= nMTF)
+                    if (num2 >= _nMtf)
                     {
                         break;
                     }
                     num3 = (num2 + 50) - 1;
-                    if (num3 >= nMTF)
+                    if (num3 >= _nMtf)
                     {
-                        num3 = nMTF - 1;
+                        num3 = _nMtf - 1;
                     }
                     for (var num25 = 0; num25 < num13; num25++)
                     {
@@ -1129,7 +1127,7 @@ namespace ZipLib.Bzip
                         var num26 = num27 = num28 = num29 = num30 = num31 = 0;
                         for (var num32 = num2; num32 <= num3; num32++)
                         {
-                            var num33 = szptr[num32];
+                            var num33 = _szptr[num32];
                             num26 = (short)(num26 + ((short)chArray[0][num33]));
                             num27 = (short)(num27 + ((short)chArray[1][num33]));
                             num28 = (short)(num28 + ((short)chArray[2][num33]));
@@ -1148,7 +1146,7 @@ namespace ZipLib.Bzip
                     {
                         for (var num34 = num2; num34 <= num3; num34++)
                         {
-                            var num35 = szptr[num34];
+                            var num35 = _szptr[num34];
                             for (var num36 = 0; num36 < num13; num36++)
                             {
                                 numArray3[num36] = (short)(numArray3[num36] + ((short)chArray[num36][num35]));
@@ -1166,11 +1164,11 @@ namespace ZipLib.Bzip
                         }
                     }
                     numArray2[num5]++;
-                    selector[index] = (char)num5;
+                    _selector[index] = (char)num5;
                     index++;
                     for (var num38 = num2; num38 <= num3; num38++)
                     {
-                        numArray[num5][szptr[num38]]++;
+                        numArray[num5][_szptr[num38]]++;
                     }
                     num2 = num3 + 1;
                 }
@@ -1196,7 +1194,7 @@ namespace ZipLib.Bzip
             {
                 var num42 = 0;
                 var ch3 = chArray2[num42];
-                while (selector[num41] != ch3)
+                while (_selector[num41] != ch3)
                 {
                     num42++;
                     var ch2 = ch3;
@@ -1204,7 +1202,7 @@ namespace ZipLib.Bzip
                     chArray2[num42] = ch2;
                 }
                 chArray2[0] = ch3;
-                selectorMtf[num41] = (char)num42;
+                _selectorMtf[num41] = (char)num42;
             }
             var numArray4 = new int[6][];
             for (var num43 = 0; num43 < 6; num43++)
@@ -1242,7 +1240,7 @@ namespace ZipLib.Bzip
                 flagArray[num46] = false;
                 for (var num47 = 0; num47 < 0x10; num47++)
                 {
-                    if (inUse[(num46 * 0x10) + num47])
+                    if (_inUse[(num46 * 0x10) + num47])
                     {
                         flagArray[num46] = true;
                     }
@@ -1265,7 +1263,7 @@ namespace ZipLib.Bzip
                 {
                     for (var num50 = 0; num50 < 0x10; num50++)
                     {
-                        if (inUse[(num49 * 0x10) + num50])
+                        if (_inUse[(num49 * 0x10) + num50])
                         {
                             BsW(1, 1);
                         }
@@ -1280,7 +1278,7 @@ namespace ZipLib.Bzip
             BsW(15, index);
             for (var num51 = 0; num51 < index; num51++)
             {
-                for (var num52 = 0; num52 < selectorMtf[num51]; num52++)
+                for (var num52 = 0; num52 < _selectorMtf[num51]; num52++)
                 {
                     BsW(1, 1);
                 }
@@ -1317,18 +1315,18 @@ namespace ZipLib.Bzip
             num2 = 0;
             while (true)
             {
-                if (num2 >= nMTF)
+                if (num2 >= _nMtf)
                 {
                     break;
                 }
                 num3 = (num2 + 50) - 1;
-                if (num3 >= nMTF)
+                if (num3 >= _nMtf)
                 {
-                    num3 = nMTF - 1;
+                    num3 = _nMtf - 1;
                 }
                 for (var num56 = num2; num56 <= num3; num56++)
                 {
-                    BsW(chArray[selector[num12]][szptr[num56]], numArray4[selector[num12]][szptr[num56]]);
+                    BsW(chArray[_selector[num12]][_szptr[num56]], numArray4[_selector[num12]][_szptr[num56]]);
                 }
                 num2 = num3 + 1;
                 num12++;
@@ -1350,14 +1348,14 @@ namespace ZipLib.Bzip
             if (num4 >= 2)
             {
                 var index = 0;
-                while (increments[index] < num4)
+                while (_increments[index] < num4)
                 {
                     index++;
                 }
                 index--;
                 while (index >= 0)
                 {
-                    var num3 = increments[index];
+                    var num3 = _increments[index];
                     var num = lo + num3;
                     do
                     {
@@ -1365,55 +1363,55 @@ namespace ZipLib.Bzip
                         {
                             goto Label_0160;
                         }
-                        var num6 = zptr[num];
+                        var num6 = _zptr[num];
                         var num2 = num;
-                        while (FullGtU(zptr[num2 - num3] + d, num6 + d))
+                        while (FullGtU(_zptr[num2 - num3] + d, num6 + d))
                         {
-                            zptr[num2] = zptr[num2 - num3];
+                            _zptr[num2] = _zptr[num2 - num3];
                             num2 -= num3;
                             if (num2 <= ((lo + num3) - 1))
                             {
                                 break;
                             }
                         }
-                        zptr[num2] = num6;
+                        _zptr[num2] = num6;
                         num++;
                         if (num > hi)
                         {
                             goto Label_0160;
                         }
-                        num6 = zptr[num];
+                        num6 = _zptr[num];
                         num2 = num;
-                        while (FullGtU(zptr[num2 - num3] + d, num6 + d))
+                        while (FullGtU(_zptr[num2 - num3] + d, num6 + d))
                         {
-                            zptr[num2] = zptr[num2 - num3];
+                            _zptr[num2] = _zptr[num2 - num3];
                             num2 -= num3;
                             if (num2 <= ((lo + num3) - 1))
                             {
                                 break;
                             }
                         }
-                        zptr[num2] = num6;
+                        _zptr[num2] = num6;
                         num++;
                         if (num > hi)
                         {
                             goto Label_0160;
                         }
-                        num6 = zptr[num];
+                        num6 = _zptr[num];
                         num2 = num;
-                        while (FullGtU(zptr[num2 - num3] + d, num6 + d))
+                        while (FullGtU(_zptr[num2 - num3] + d, num6 + d))
                         {
-                            zptr[num2] = zptr[num2 - num3];
+                            _zptr[num2] = _zptr[num2 - num3];
                             num2 -= num3;
                             if (num2 <= ((lo + num3) - 1))
                             {
                                 break;
                             }
                         }
-                        zptr[num2] = num6;
+                        _zptr[num2] = num6;
                         num++;
                     }
-                    while ((workDone <= workLimit) || !firstAttempt);
+                    while ((_workDone <= _workLimit) || !_firstAttempt);
                     return;
                 Label_0160:
                     index--;
@@ -1425,9 +1423,9 @@ namespace ZipLib.Bzip
         {
             while (n > 0)
             {
-                var num = zptr[p1];
-                zptr[p1] = zptr[p2];
-                zptr[p2] = num;
+                var num = _zptr[p1];
+                _zptr[p1] = _zptr[p2];
+                _zptr[p2] = num;
                 p1++;
                 p2++;
                 n--;
@@ -1461,75 +1459,75 @@ namespace ZipLib.Bzip
         public override void WriteByte(byte value)
         {
             var num = (0x100 + value) % 0x100;
-            if (currentChar != -1)
+            if (_currentChar != -1)
             {
-                if (currentChar != num)
+                if (_currentChar != num)
                 {
                     WriteRun();
-                    runLength = 1;
-                    currentChar = num;
+                    _runLength = 1;
+                    _currentChar = num;
                 }
                 else
                 {
-                    runLength++;
-                    if (runLength > 0xfe)
+                    _runLength++;
+                    if (_runLength > 0xfe)
                     {
                         WriteRun();
-                        currentChar = -1;
-                        runLength = 0;
+                        _currentChar = -1;
+                        _runLength = 0;
                     }
                 }
             }
             else
             {
-                currentChar = num;
-                runLength++;
+                _currentChar = num;
+                _runLength++;
             }
         }
 
         private void WriteRun()
         {
-            if (last < allowableBlockSize)
+            if (_last < _allowableBlockSize)
             {
-                inUse[currentChar] = true;
-                for (var i = 0; i < runLength; i++)
+                _inUse[_currentChar] = true;
+                for (var i = 0; i < _runLength; i++)
                 {
-                    mCrc.Update(currentChar);
+                    _mCrc.Update(_currentChar);
                 }
-                switch (runLength)
+                switch (_runLength)
                 {
                     case 1:
-                        last++;
-                        block[last + 1] = (byte)currentChar;
+                        _last++;
+                        _block[_last + 1] = (byte)_currentChar;
                         return;
 
                     case 2:
-                        last++;
-                        block[last + 1] = (byte)currentChar;
-                        last++;
-                        block[last + 1] = (byte)currentChar;
+                        _last++;
+                        _block[_last + 1] = (byte)_currentChar;
+                        _last++;
+                        _block[_last + 1] = (byte)_currentChar;
                         return;
 
                     case 3:
-                        last++;
-                        block[last + 1] = (byte)currentChar;
-                        last++;
-                        block[last + 1] = (byte)currentChar;
-                        last++;
-                        block[last + 1] = (byte)currentChar;
+                        _last++;
+                        _block[_last + 1] = (byte)_currentChar;
+                        _last++;
+                        _block[_last + 1] = (byte)_currentChar;
+                        _last++;
+                        _block[_last + 1] = (byte)_currentChar;
                         return;
                 }
-                inUse[runLength - 4] = true;
-                last++;
-                block[last + 1] = (byte)currentChar;
-                last++;
-                block[last + 1] = (byte)currentChar;
-                last++;
-                block[last + 1] = (byte)currentChar;
-                last++;
-                block[last + 1] = (byte)currentChar;
-                last++;
-                block[last + 1] = (byte)(runLength - 4);
+                _inUse[_runLength - 4] = true;
+                _last++;
+                _block[_last + 1] = (byte)_currentChar;
+                _last++;
+                _block[_last + 1] = (byte)_currentChar;
+                _last++;
+                _block[_last + 1] = (byte)_currentChar;
+                _last++;
+                _block[_last + 1] = (byte)_currentChar;
+                _last++;
+                _block[_last + 1] = (byte)(_runLength - 4);
             }
             else
             {
@@ -1539,63 +1537,23 @@ namespace ZipLib.Bzip
             }
         }
 
-        public int BytesWritten
-        {
-            get
-            {
-                return bytesOut;
-            }
-        }
+        public int BytesWritten { get; private set; }
 
-        public override bool CanRead
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool CanRead => false;
 
-        public override bool CanSeek
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool CanSeek => false;
 
-        public override bool CanWrite
-        {
-            get
-            {
-                return baseStream.CanWrite;
-            }
-        }
+        public override bool CanWrite => _baseStream.CanWrite;
 
-        public bool IsStreamOwner
-        {
-            get
-            {
-                return isStreamOwner;
-            }
-            set
-            {
-                isStreamOwner = value;
-            }
-        }
+        public bool IsStreamOwner { get; set; }
 
-        public override long Length
-        {
-            get
-            {
-                return baseStream.Length;
-            }
-        }
+        public override long Length => _baseStream.Length;
 
         public override long Position
         {
             get
             {
-                return baseStream.Position;
+                return _baseStream.Position;
             }
             set
             {

@@ -18,14 +18,12 @@ namespace TraceParser.Common
 
             protected override void ProcessConfig(ENB_ID config, BitArrayInputStream input)
             {
-                InitDefaults();
                 input.ReadBit();
                 switch (input.ReadBits(1))
                 {
                     case 0:
                         config.macro_eNB_ID = input.ReadBitString(20);
                         break;
-
                     case 1:
                         config.home_eNB_ID = input.ReadBitString(0x1c);
                         break;
@@ -50,8 +48,8 @@ namespace TraceParser.Common
 
             protected override void ProcessConfig(Global_ENB_ID config, BitArrayInputStream input)
             {
-                InitDefaults();
-                var stream = (input.ReadBit() != 0) ? new BitMaskStream(input, 1) : new BitMaskStream(input, 1);
+                input.ReadBit();
+                var stream = new BitMaskStream(input, 1);
                 input.skipUnreadedBits();
                 config.pLMNidentity = input.readOctetString(3);
                 config.eNB_ID = ENB_ID.PerDecoder.Instance.Decode(input);
