@@ -149,6 +149,9 @@ namespace Lte.Domain.Common.Wireless
         [MemberDoc("LTE小区总数")]
         public int TotalLteCells { get; set; }
 
+        [MemberDoc("800M 小区数（不含NB-IoT）")]
+        public int Lte800Cells { get; set; }
+
         [MemberDoc("NB-IoT小区总数")]
         public int TotalNbIotCells { get; set; }
 
@@ -205,6 +208,9 @@ namespace Lte.Domain.Common.Wireless
 
         [MemberDoc("LTE小区总数")]
         public int TotalLteCells { get; set; }
+
+        [MemberDoc("800M 小区数（不含NB-IoT）")]
+        public int Lte800Cells { get; set; }
 
         [MemberDoc("NB-IoT小区总数")]
         public int TotalNbIotCells { get; set; }

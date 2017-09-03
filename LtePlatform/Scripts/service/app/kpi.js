@@ -2995,6 +2995,10 @@ angular.module('kpi.coverage', ['myApp.url', 'myApp.region', "ui.bootstrap"])
                 parametersChartService.getDistrictLteENodebPieOptions(result.slice(0, result.length - 1), cityName));
             $("#rightChart").highcharts(
                 parametersChartService.getDistrictLteCellPieOptions(result.slice(0, result.length - 1), cityName));
+            $("#thirdChart").highcharts(
+                parametersChartService.getDistrictLte800PieOptions(result.slice(0, result.length - 1), cityName));
+            $("#fourthChart").highcharts(
+                parametersChartService.getDistrictNbIotCellPieOptions(result.slice(0, result.length - 1), cityName));
         });
         $scope.ok = function () {
             $uibModalInstance.close($scope.city);
@@ -3413,7 +3417,7 @@ angular.module('kpi.coverage', ['myApp.url', 'myApp.region', "ui.bootstrap"])
             },
             showTownStats: function (cityName) {
                 menuItemService.showGeneralDialog({
-                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    templateUrl: '/appViews/Home/FourChartDialog.html',
                     controller: 'town.stats',
                     resolve: {
                         dialogTitle: function () {

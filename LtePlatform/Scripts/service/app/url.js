@@ -3808,6 +3808,16 @@ angular.module('app.calculation', [])
                     return subData.totalLteCells;
                 });
             },
+            getDistrictLte800PieOptions: function (data, city) {
+                return generalChartService.getPieOptions(data, {
+                    title: city + "各区LTE 800M（不含NB-IoT）小区数分布",
+                    seriesTitle: "区域"
+                }, function (subData) {
+                    return subData.district;
+                }, function (subData) {
+                    return subData.lte800Cells;
+                });
+            },
             getDistrictNbIotCellPieOptions: function (data, city) {
                 return generalChartService.getPieOptions(data, {
                     title: city + "各区NB-IoT小区数分布",
