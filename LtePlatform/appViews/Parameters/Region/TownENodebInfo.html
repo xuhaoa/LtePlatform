@@ -6,12 +6,25 @@
     <div uib-accordion>
         <div uib-accordion-group class="panel panel-primary" is-open="true">
             <div uib-accordion-heading>
+                LTE小区频段统计
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div style="min-height: 400px" id="indoorChart"></div>
+                </div>
+                <div class="col-md-6">
+                    <div style="min-height: 400px" id="outdoorChart"></div>
+                </div>
+            </div>
+        </div>
+        <div uib-accordion-group class="panel panel-success">
+            <div uib-accordion-heading>
                 LTE基站列表
                 <div class="badge">{{eNodebList.length}}</div>
             </div>
             <div e-nodeb-plain-table items="eNodebList" begin-date="beginDate" end-date="endDate"></div>
         </div>
-        <div uib-accordion-group class="panel panel-success">
+        <div uib-accordion-group class="panel panel-default">
             <div uib-accordion-heading>
                 CDMA基站列表
                 <div class="badge">{{btsList.length}}</div>

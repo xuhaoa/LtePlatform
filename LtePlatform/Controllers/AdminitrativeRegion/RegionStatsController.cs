@@ -34,6 +34,17 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         {
             return _service.QueryTownStats(city, district);
         }
+
+        [HttpGet]
+        [ApiDoc("查询分镇区LTE扇区数量")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiParameterDoc("town", "镇")]
+        [ApiResponse("分镇区LTE扇区数量")]
+        public LteCellStat Get(string city, string district, string town, bool isIndoor)
+        {
+            return _service.QueryLteCellStat(city, district, town, isIndoor);
+        }
     }
 
     [ApiControl("区域室内小区查询控制器")]

@@ -216,6 +216,19 @@
                 });
                 return chart.options;
             },
+            getPieOptionsByArrays: function(setting, nameArray, dataArray) {
+                var chart = new GradientPie();
+                chart.title.text = setting.title;
+                chart.series[0].name = setting.seriesTitle;
+                angular.forEach(nameArray,
+                    function(name, index) {
+                        chart.series[0].data.push({
+                            name: name,
+                            y: dataArray[index]
+                        });
+                    });
+                return chart.options;
+            },
             getColumnOptions: function(stat, setting, categoriesFunc, dataFunc) {
                 var chart = new ComboChart();
                 chart.title.text = setting.title;
@@ -785,6 +798,18 @@
                 }, function(subData) {
                     return subData.maxActiveUsers;
                 });
+            },
+            getLteCellCountOptions: function(theme, stat) {
+                return generalChartService.getPieOptionsByArrays({
+                        title: theme + "小区数分布",
+                        seriesTitle: "频段"
+                    },
+                    [
+                        '2.1G', '1.8G', '800M', 'NB-IoT', '2.6G'
+                    ],
+                    [
+                        stat.lte2100Cells, stat.lte1800Cells, stat.lte800Cells, stat.totalNbIotCells, stat.lte2600Cells
+                    ]);
             },
             getCellDistributionForDownlinkFlow: function(data, index) {
                 return generalChartService.queryColumnOptions({

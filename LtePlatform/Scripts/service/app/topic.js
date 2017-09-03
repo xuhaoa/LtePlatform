@@ -2526,14 +2526,22 @@ angular.module('topic.dialog', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic
 		});
 	})
 	.controller('town.eNodeb.dialog', function($scope, $uibModalInstance, dialogTitle, city, district, town,
-		networkElementService) {
+        networkElementService, appRegionService, parametersChartService) {
 		$scope.dialogTitle = dialogTitle;
 		networkElementService.queryENodebsInOneTown(city, district, town).then(function(eNodebs) {
 			$scope.eNodebList = eNodebs;
 		});
 		networkElementService.queryBtssInOneTown(city, district, town).then(function(btss) {
 			$scope.btsList = btss;
-		});
+        });
+        appRegionService.queryTownLteCount(city, district, town, true).then(function(stat) {
+            $("#indoorChart").highcharts(parametersChartService
+                .getLteCellCountOptions(city + district + town + '室内', stat));
+        });
+        appRegionService.queryTownLteCount(city, district, town, false).then(function (stat) {
+            $("#outdoorChart").highcharts(parametersChartService
+                .getLteCellCountOptions(city + district + town + '室外', stat));
+        });
 
 		$scope.ok = function() {
 			$uibModalInstance.close($scope.eNodeb);

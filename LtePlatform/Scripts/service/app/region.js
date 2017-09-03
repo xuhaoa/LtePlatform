@@ -1788,6 +1788,15 @@ angular.module('region.import', ['app.core'])
                         district: districtName
                     });
                 },
+                queryTownLteCount: function (cityName, districtName, townName, isIndoor) {
+                    return generalHttpService.getApiData('RegionStats',
+                        {
+                            city: cityName,
+                            district: districtName,
+                            town: townName,
+                            isIndoor: isIndoor
+                        });
+                },
                 queryTown: function(city, district, town) {
                     return generalHttpService.getApiData('Town',
                     {

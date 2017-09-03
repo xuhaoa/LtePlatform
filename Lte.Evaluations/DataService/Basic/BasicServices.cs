@@ -361,6 +361,25 @@ namespace Lte.Evaluations.DataService.Basic
                     }).ToList();
         }
 
+        public LteCellStat QueryLteCellStat(string city, string district, string town, bool isIndoor)
+        {
+            var townId = GetTown(city, district, town)?.Id;
+            if (townId == null) return null;
+            var eNodebs = _eNodebRepository.GetAllList(x => x.TownId == townId);
+            var cells =
+            (from cell in _cellRepository.GetAllList(x => x.IsOutdoor != isIndoor)
+                join eNodeb in eNodebs on cell.ENodebId equals eNodeb.ENodebId
+                select cell).ToList();
+            return new LteCellStat
+            {
+                Lte1800Cells = cells.Count(x => x.BandClass == 3),
+                Lte2100Cells = cells.Count(x => x.BandClass == 1),
+                Lte800Cells = cells.Count(x => x.BandClass == 5 && x.Frequency != 2506),
+                TotalNbIotCells = cells.Count(x => x.Frequency == 2506),
+                Lte2600Cells = cells.Count(x => x.BandClass == 41)
+            };
+        }
+
         public Town GetTown(string city, string district, string town)
         {
             return
