@@ -231,22 +231,25 @@ namespace Lte.Evaluations.DataService.Kpi
             var stats = filterInfos.MergeRecords();
             _rasterTestInfoRepository.UpdateRasterInfo(stats, tableName, "3G");
             var count = _fileRecordRepository.InsertFileRecord3Gs(stats, tableName);
-            return "完成3G路测文件导入：" + path;
+            return "完成3G路测文件导入：" + path + "(" + tableName + ")" + count + "条";
         }
-
+        
         public string ImportDt4GFile(string path, DateTime statDate)
         {
             bool fileExisted;
             var tableName = _fileRecordRepository.GetFileNameExisted(path, out fileExisted);
             if (fileExisted) return "数据文件已存在于数据库中。请确认是否正确。";
             var reader = new StreamReader(path, Encoding.GetEncoding("GB2312"));
-            var infos = CsvContext.Read<FileRecord4GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
-            if (infos.FirstOrDefault(x => x.Rsrp != null) == null)
+            var infos = GetFileRecord4GCsvs(reader);
+            if (infos == null)
             {
-                var zteInfos = CsvContext.Read<FileRecord4GZte>(reader, CsvFileDescription.CommaDescription).ToList();
-                if (zteInfos.FirstOrDefault(x => x.Rsrp != null) == null)
-                    throw new Exception("不是有效的4G数据文件！");
-                infos = zteInfos.MapTo<List<FileRecord4GCsv>>();
+                infos = GetFileRecord4GByZte(reader);
+                if (infos == null)
+                {
+                    infos = GetFileRecord4GByHuawei(reader);
+                    if (infos == null)
+                        throw new Exception("不是有效的4G数据文件！");
+                }
             }
             var filterInfos =
                 infos.GetFoshanGeoPoints().ToList();
@@ -257,6 +260,42 @@ namespace Lte.Evaluations.DataService.Kpi
             _rasterTestInfoRepository.UpdateRasterInfo(stats, tableName, "4G");
             var count = _fileRecordRepository.InsertFileRecord4Gs(stats, tableName);
             return "完成4G路测文件导入：" + path + "(" + tableName + ")" + count + "条";
+        }
+
+        private static List<FileRecord4GCsv> GetFileRecord4GByHuawei(StreamReader reader)
+        {
+            var huaweiInfos = CsvContext.Read<FileRecord4GHuawei>(reader, CsvFileDescription.CommaDescription).ToList();
+            return huaweiInfos.FirstOrDefault(x => x.Rsrp != null) == null
+                ? null
+                : huaweiInfos.MapTo<List<FileRecord4GCsv>>();
+        }
+
+        private static List<FileRecord4GCsv> GetFileRecord4GByZte(StreamReader reader)
+        {
+            try
+            {
+                var zteInfos = CsvContext.Read<FileRecord4GZte>(reader, CsvFileDescription.CommaDescription).ToList();
+                return zteInfos.FirstOrDefault(x => x.Rsrp != null) == null
+                    ? null
+                    : zteInfos.MapTo<List<FileRecord4GCsv>>();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private static List<FileRecord4GCsv> GetFileRecord4GCsvs(StreamReader reader)
+        {
+            try
+            {
+                var infos = CsvContext.Read<FileRecord4GCsv>(reader, CsvFileDescription.CommaDescription).ToList();
+                return infos.FirstOrDefault(x => x.Rsrp != null) == null ? null : infos;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public string ImportDt4GDingli(string path)
