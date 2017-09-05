@@ -445,7 +445,24 @@
 						}
 					}
 				});
-			}
+            },
+            showCollegeFlowTrend: function (beginDate, endDate, name) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/College/Test/CollegeFlow.html',
+                    controller: 'college.flow.name',
+                    resolve: {
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        },
+                        name: function() {
+                            return name;
+                        }
+                    }
+                });
+            }
 		};
 	})
 	.controller('online.sustain.dialog', function($scope, $uibModalInstance, items, dialogTitle,
@@ -505,7 +522,34 @@
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss('cancel');
 		};
-	})
+    })
+
+    .controller("college.flow.name", function ($scope, $uibModalInstance, name, beginDate, endDate,
+        collegeService, appKpiService, kpiChartService) {
+        $scope.dialogTitle = name + "流量分析";
+        $scope.beginDate = beginDate;
+        $scope.endDate = endDate;
+        $scope.flowStats = [];
+        $scope.mergeStats = [];
+        $scope.query = function () {
+            appKpiService.calculateFlowStats($scope.cellList, $scope.flowStats, $scope.mergeStats, $scope.beginDate, $scope.endDate);
+        };
+        $scope.showCharts = function () {
+            kpiChartService.showFlowCharts($scope.flowStats, name, $scope.mergeStats);
+        };
+        collegeService.queryCells(name).then(function (cells) {
+            $scope.cellList = cells;
+            $scope.query();
+        });
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.eNodeb);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
 	.controller('hot.spot.info.dialog', function($scope, $uibModalInstance, dialogTitle, hotSpotList) {
 		$scope.dialogTitle = dialogTitle;
 		$scope.hotSpotList = hotSpotList;

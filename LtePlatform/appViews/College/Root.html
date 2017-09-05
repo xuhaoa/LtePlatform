@@ -9,21 +9,9 @@
     </button>
     <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
         <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="addENodebs()">
-                <i class="glyphicon glyphicon-flag"></i>
-                新增LTE基站
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="addBts()">
-                <i class="glyphicon glyphicon-apple"></i>
-                新增CDMA基站
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="showUsersTrend()">
+            <a class="btn btn-sm btn-success" ng-click="showFlowTrend()">
                 <i class="glyphicon glyphicon-barcode"></i>
-                用户数趋势
+                流量用户数变化趋势
             </a>
         </li>
         <li role="menuitem">
@@ -44,7 +32,7 @@
     <ul uib-dropdown-menu role="menu" aria-labelledby="view-button">
         <li role="menuitem" ng-repeat="hotSpot in hotSpots">
             <a class="btn btn-sm btn-default" ng-click="showView(hotSpot)">
-                <i class="glyphicon glyphicon-flag"></i>
+                <i class="glyphicon glyphicon-flag" ng-if="hotSpot.name === currentView"></i>
                 {{hotSpot.name}}小区分布
             </a>
         </li>

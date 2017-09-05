@@ -65,18 +65,6 @@
                     }
                 },
                 url: "/support/:number"
-            }).state('root.flow', {
-                views: {
-                    "contents": {
-                        templateUrl: viewDir + "/Test/Flow.html",
-                        controller: "all.flow"
-                    },
-                    'collegeList': {
-                        templateUrl: viewDir + "CollegeMenu.html",
-                        controller: "college.menu"
-                    }
-                },
-                url: "/flow"
             }).state('root.collegeFlow', {
                 views: {
                     "contents": {
@@ -229,22 +217,6 @@
         }
     })
 
-
-    .controller("flow.name", function ($scope, $stateParams, collegeService, appKpiService, kpiChartService) {
-        $scope.page.title = $stateParams.name + "流量分析";
-        $scope.flowStats = [];
-        $scope.mergeStats = [];
-        $scope.query = function() {
-            appKpiService.calculateFlowStats($scope.cellList, $scope.flowStats, $scope.mergeStats, $scope.beginDate, $scope.endDate);
-        };
-        $scope.showCharts = function() {
-            kpiChartService.showFlowCharts($scope.flowStats, $stateParams.name, $scope.mergeStats);
-        };
-        collegeService.queryCells($stateParams.name).then(function(cells) {
-            $scope.cellList = cells;
-            $scope.query();
-        });
-    })
     .controller("all.support", function ($scope, collegeQueryService, emergencyService) {
         $scope.page.title = "支撑任务";
         $scope.updateInfos = function (year) {

@@ -21,6 +21,7 @@
             parametersMapService,
             collegeService,
             collegeMapService,
+            mapDialogService,
             baiduQueryService) {
             baiduMapService.initializeMap("map", 11);
             $scope.year = new Date().getYear() + 1900;
@@ -42,6 +43,9 @@
 
                 parametersMapService.showHotSpotCellSectors(college.name, $scope.beginDate, $scope.endDate);
                 parametersMapService.showCollegeENodebs(college.name, $scope.beginDate, $scope.endDate);
+            };
+            $scope.showFlowTrend = function() {
+                mapDialogService.showCollegeFlowTrend($scope.beginDate, $scope.endDate, $scope.currentView);
             };
 
             collegeQueryService.queryAll().then(function(spots) {
