@@ -81,8 +81,8 @@
                 });
         })
     .controller("station.filter",
-    function ($scope, downSwitchService, myValue, baiduMapService, collegeMapService, dumpPreciseService) {
-        $scope.changeTimes = 0;
+        function ($scope, downSwitchService, myValue, baiduMapService, collegeMapService, dumpPreciseService) {
+            $scope.changeTimes = 0;
             $scope.getStations = function(areaName, index) {
                 downSwitchService.getStationByFilter(areaName,
                     myValue.stationGrade,
@@ -135,7 +135,8 @@
             };
         })
     .controller("operation-indoor.filter",
-        function($scope, downSwitchService, myValue, baiduMapService, collegeMapService, dumpPreciseService) {
+        function ($scope, downSwitchService, myValue, baiduMapService, collegeMapService, dumpPreciseService) {
+            $scope.changeTimes = 0;
             $scope.getStations = function(areaName, index) {
                 areaName = areaName.replace('FS', '');
                 downSwitchService.getIndoorByFilter(areaName,
@@ -172,12 +173,14 @@
                 }
 
             };
-            $scope.change = function() {
-                myValue.indoorGrade = $scope.selectedIndoorGrade;
-                myValue.indoorNetType = $scope.selectedIndoorNetType;
-                myValue.isNew = $scope.selectedIsNew;
-                myValue.indoortype = $scope.selectedIndoortype;
-                $scope.reflashMap();
+            $scope.change = function () {
+                $scope.changeTimes += 1;
+                myValue.indoorGrade = $scope.selectedIndoorGrade || "";
+                myValue.indoorNetType = $scope.selectedIndoorNetType || "";
+                myValue.isNew = $scope.selectedIsNew || "";
+                myValue.indoortype = $scope.selectedIndoortype || "";
+                if ($scope.changeTimes > 6)
+                    $scope.reflashMap();
             };
         })
     .controller("station.network",
