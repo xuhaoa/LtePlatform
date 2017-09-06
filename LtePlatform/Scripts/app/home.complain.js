@@ -51,6 +51,12 @@
                         $scope.showDistrictComplains(district, $scope.colors[$index]);
                     });
             };
+            $scope.showBackWorkItem = function() {
+                $scope.legend.title = $scope.city.selected;
+                $scope.initializeLegend();
+                baiduMapService.clearOverlays();
+                $scope.currentView = "后端工单";
+            };
 
             $scope.showYesterdayItems = function() {
                 mapDialogService.showYesterdayComplainItems($scope.city.selected);

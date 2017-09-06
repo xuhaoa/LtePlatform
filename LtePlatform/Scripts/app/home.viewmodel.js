@@ -108,10 +108,6 @@ angular.module('home.root', ['app.common'])
 
         $rootScope.areaNames = ['全市'];
         $rootScope.distincts = ['佛山市'];
-        $rootScope.pushStationArea = function(district) {
-            $rootScope.areaNames.push('FS' + district);
-            $rootScope.distincts.push(district + '区');
-        };
     });
 angular.module('home.route', ['app.common'])
     .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -885,7 +881,8 @@ angular.module('home.station', ['app.common'])
             parametersDialogService,
             collegeMapService,
             dumpPreciseService,
-            appUrlService) {
+            appUrlService,
+            generalMapService) {
             $scope.distinct = $scope.distincts[0];
             baiduMapService.initializeMap("map", 13);
 
@@ -934,12 +931,22 @@ angular.module('home.station', ['app.common'])
                     if (city) {
                         $scope.initializeLegend();
                         baiduMapService.clearOverlays();
-                        dumpPreciseService.generateUsersDistrict(city,
-                            $scope.districts,
-                            function(district, $index) {
-                                $scope.pushStationArea(district);
-                                $scope.getStations('FS' + district, $index + 1);
-                            });
+                        if ($scope.distincts.length === 1) {
+                            generalMapService
+                                .generateUsersDistrictsAndDistincts(city,
+                                    $scope.districts,
+                                    $scope.distincts,
+                                    $scope.areaNames,
+                                    function(district, $index) {
+                                        $scope.getStations('FS' + district, $index + 1);
+                                    });
+                        } else {
+                            generalMapService.generateUsersDistrictsOnly(city,
+                                $scope.districts,
+                                function(district, $index) {
+                                    $scope.getStations('FS' + district, $index + 1);
+                                });
+                        }
                     }
                 });
 
@@ -953,7 +960,8 @@ angular.module('home.station', ['app.common'])
             collegeMapService,
             dumpPreciseService,
             myValue,
-            appUrlService) {
+            appUrlService,
+            generalMapService) {
             $scope.distinct = $scope.distincts[0];
             baiduMapService.initializeMap("map", 13);
 
@@ -1010,12 +1018,22 @@ angular.module('home.station', ['app.common'])
                     if (city) {
                         $scope.initializeLegend();
                         baiduMapService.clearOverlays();
-                        dumpPreciseService.generateUsersDistrict(city,
-                            $scope.districts,
-                            function(district, $index) {
-                                $scope.pushStationArea(district);
-                                $scope.getStations(district, $index + 1);
-                            });
+                        if ($scope.distincts.length === 1) {
+                            generalMapService
+                                .generateUsersDistrictsAndDistincts(city,
+                                    $scope.districts,
+                                    $scope.distincts,
+                                    $scope.areaNames,
+                                    function(district, $index) {
+                                        $scope.getStations('FS' + district, $index + 1);
+                                    });
+                        } else {
+                            generalMapService.generateUsersDistrictsOnly(city,
+                                $scope.districts,
+                                function(district, $index) {
+                                    $scope.getStations('FS' + district, $index + 1);
+                                });
+                        }
                     }
                 });
 
@@ -1029,7 +1047,7 @@ angular.module('home.station', ['app.common'])
             mapDialogService,
             baiduQueryService,
             appUrlService,
-            dumpPreciseService) {
+            generalMapService) {
             $scope.districts = [];
             $scope.alphabetNames = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
             $scope.types = new Array('JZ', 'SF');
@@ -1081,11 +1099,14 @@ angular.module('home.station', ['app.common'])
                 function(city) {
                     if (city) {
                         $scope.initializeLegend();
-                        dumpPreciseService.generateUsersDistrict(city,
-                            $scope.districts,
-                            function(district) {
-                                $scope.pushStationArea(district);
-                            });
+                        if ($scope.distincts.length === 1) {
+                            generalMapService
+                                .generateUsersDistrictsAndDistincts($scope.districts,
+                                    $scope.distincts,
+                                    $scope.areaNames);
+                        } else {
+                            generalMapService.generateUsersDistrictsOnly($scope.districts);
+                        }
                         $scope.type = $scope.types[0];
                         myValue.distinctIndex = 0;
                         $scope.legend.title = "区域";
@@ -2849,6 +2870,12 @@ angular.module('home.complain', ['app.common'])
                     function(district, $index) {
                         $scope.showDistrictComplains(district, $scope.colors[$index]);
                     });
+            };
+            $scope.showBackWorkItem = function() {
+                $scope.legend.title = $scope.city.selected;
+                $scope.initializeLegend();
+                baiduMapService.clearOverlays();
+                $scope.currentView = "后端工单";
             };
 
             $scope.showYesterdayItems = function() {

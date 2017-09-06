@@ -108,8 +108,4 @@
 
         $rootScope.areaNames = ['全市'];
         $rootScope.distincts = ['佛山市'];
-        $rootScope.pushStationArea = function(district) {
-            $rootScope.areaNames.push('FS' + district);
-            $rootScope.distincts.push(district + '区');
-        };
     });

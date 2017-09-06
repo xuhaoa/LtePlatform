@@ -44,7 +44,35 @@ module.exports = function (grunt) {
 angular.module('myApp.url', ['app.core', 'app.menu', 'app.format', 'app.geometry', 'app.calculation']);
 ```
 基础路由层的说明详见[这里](https://github.com/ouyh18/LtePlatform/blob/master/AngularUrlFactory.md)
+### 数据服务层
+主要包含region目录下的各个脚本文件。
+合并脚本app.region.js内容如下；
+```javascript
+angular.module('myApp.region',
+[
+    'region.basic', 'region.mongo', 'region.kpi', 'region.import', 'region.authorize', 'region.college',
+    'region.network'
+]);
+```
+### 数据应用层
+主要包括kpi和topic两个目录下的各个脚本文件。
+app.kpi.js合并文件内容如下：
+```javascript
+angular.module('myApp.kpi', ['kpi.core', 'kpi.college', "kpi.coverage", 'kpi.customer', 'kpi.parameter', 'kpi.work']);
+```
+baidu.map.js合并文件内容如下：
+```javascript
+angular.module('baidu.map', ['topic.basic', 'topic.college', "topic.parameters", 'topic.dialog']);
+```
 ## 指令系统
+指令是Html代码段及其绑定的响应逻辑的封装。
+按目录可以分为基础应用、校园网、客户服务、基础数据、指标优化、工单系统6个模块。
+按类别可以分为基础指令、格式化指令和Html绑定指令。
+### 基础指令
+### 格式化指令
+### Html绑定指令
 ## 控制器模块
+本解决方案的业务描述部分，提供对前端各模块访问的入口。
+以
 ## 过滤器
 ## 测试系统
