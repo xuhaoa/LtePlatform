@@ -33,7 +33,7 @@
                     <div id="uplinkFlowChart"></div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" ng-if="cell.flowList">
                 <div class="col-md-6">
                     <div id="maxUsersChart"></div>
                 </div>
@@ -41,7 +41,7 @@
                     <div id="averageUsersChart"></div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" ng-if="cell.flowList">
                 <div class="col-md-6">
                     <div id="maxActiveUsersChart"></div>
                 </div>
@@ -53,6 +53,7 @@
         <div uib-accordion-group heading="变化趋势" class="panel panel-default">
             <div id="flowDate"></div>
             <div id="usersDate"></div>
+            <div id="feelingDate" ng-if="cell.feelingList"></div>
         </div>
     </div>
 </div>

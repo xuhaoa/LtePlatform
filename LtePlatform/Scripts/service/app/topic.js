@@ -2519,7 +2519,7 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
                     $scope.endDate);
             };
             $scope.showCharts = function () {
-                kpiChartService.showFlowCharts($scope.flowStats, name, $scope.mergeStats);
+                kpiChartService.showFeelingCharts($scope.flowStats, name, $scope.mergeStats);
             };
             collegeService.queryCells(name).then(function (cells) {
                 $scope.cellList = cells;
