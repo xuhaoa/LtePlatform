@@ -438,6 +438,23 @@
                             }
                         }
                     });
+                },
+                showCollegeFeelingTrend: function (beginDate, endDate, name) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/College/Test/CollegeFlow.html',
+                        controller: 'college.feeling.name',
+                        resolve: {
+                            beginDate: function () {
+                                return beginDate;
+                            },
+                            endDate: function () {
+                                return endDate;
+                            },
+                            name: function () {
+                                return name;
+                            }
+                        }
+                    });
                 }
             };
         });

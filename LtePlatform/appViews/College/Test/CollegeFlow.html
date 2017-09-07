@@ -19,7 +19,7 @@
             </div>
             <div uib-tabset active="active">
                 <div ng-repeat="cell in cellList" uib-tab index="$index" heading="{{cell.eNodebName}}-{{cell.sectorId}}">
-                    <div flow-table flow-list="cell.flowList"></div>
+                    <div flow-table flow-list="cell.flowList" ng-if="cell.flowList"></div>
                 </div>
             </div>
         </div>

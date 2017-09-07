@@ -47,7 +47,9 @@
             $scope.showFlowTrend = function() {
                 mapDialogService.showCollegeFlowTrend($scope.beginDate, $scope.endDate, $scope.currentView);
             };
-
+            $scope.showFeelingRateTrend = function() {
+                mapDialogService.showCollegeFeelingTrend($scope.beginDate, $scope.endDate, $scope.currentView);
+            };
             collegeQueryService.queryAll().then(function(spots) {
                 $scope.hotSpots = spots;
                 $scope.showView($scope.hotSpots[0]);

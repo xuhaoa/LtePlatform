@@ -473,6 +473,47 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                     });
                 });
             },
+            calculateFeelingStats: function (cellList, flowStats, mergeStats, beginDate, endDate) {
+                flowStats.length = 0;
+                mergeStats.length = 0;
+                angular.forEach(cellList, function (cell) {
+                    flowService.queryCellFlowByDateSpan(cell.eNodebId, cell.sectorId,
+                        beginDate.value, endDate.value).then(function (flowList) {
+                            cell.feelingList = flowList;
+                            if (flowList.length > 0) {
+                                flowStats.push(chartCalculateService.calculateMemberSum(flowList, [
+                                    'downlinkFeelingThroughput',
+                                    'downlinkFeelingDuration',
+                                    'uplinkFeelingThroughput',
+                                    'uplinkFeelingDuration',
+                                    'pdcpDownlinkFlow',
+                                    'pdcpUplinkFlow',
+                                    'schedulingRank2',
+                                    'schedulingTimes',
+                                    'redirectCdma2000'
+                                ], function (stat) {
+                                    stat.cellName = cell.eNodebName + '-' + cell.sectorId;
+                                    stat
+                                        .downlinkFeelingRate =
+                                        cell.downlinkFeelingThroughput / cell.downlinkFeelingDuration;
+                                    stat.uplinkFeelingRate = cell.uplinkFeelingThroughput / cell.uplinkFeelingDuration;
+                                    stat.rank2Rate = cell.schedulingRank2 * 100 / cell.schedulingTimes;
+                                }));
+                                calculateService.mergeDataByKey(mergeStats, flowList, 'statTime', [
+                                    'downlinkFeelingThroughput',
+                                    'downlinkFeelingDuration',
+                                    'uplinkFeelingThroughput',
+                                    'uplinkFeelingDuration',
+                                    'pdcpDownlinkFlow',
+                                    'pdcpUplinkFlow',
+                                    'schedulingRank2',
+                                    'schedulingTimes',
+                                    'redirectCdma2000'
+                                ]);
+                            }
+                        });
+                });
+            },
             getMrPieOptions: function(districtStats, townStats) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
                     return stat.totalMrs;
