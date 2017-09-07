@@ -5,43 +5,43 @@
     <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
     
     <button class="btn btn-default" type="button" ng-click="showStationInfo()">站点信息</button>
+    <button class="btn btn-default" type="button" ng-click="showHistory()">历史告警</button>
 </div>
 <div class="modal-body form-horizontal">
-    <ul>
-        <li ng-repeat="alarmStation in alarmStations">
             <div class="form-group">
-                <label class="col-sm-2 control-label" style="text-align:center">网管名称</label>
-                <div class="col-sm-4">
-                    <span class="form-control">{{alarmStation.NetAdminName}}</span>
+                <div class="col-sm-1">
                 </div>
-                <label class="col-sm-2 control-label" style="text-align:center">网络类型</label>
-                <div class="col-sm-2">
-                    <span class="form-control">{{alarmStation.NetType}}</span>
+                    <table class="table table-striped" style="max-width:80%;">
+                        <thead>
+                            <tr>
+                                <td>网管站名</td>
+                                <td>行政区</td>
+                                <td>归属</td>
+                                <td>故障内容</td>
+                                <td>故障等级</td>
+                                <td>故障原因</td>
+                                <td>故障分类</td>
+                                <td>责任部门</td>
+                                <td>发生时间</td>
+                                <td>是否修复超时</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="alarm in alarmStations">
+                                <td>{{alarm.wgzm01}}</td>
+                                <td>{{alarm.xzq02}}</td>
+                                <td>{{alarm.gs03}}</td>
+                                <td>{{alarm.gznr05}}</td>
+                                <td>{{alarm.gzdj06}}</td>
+                                <td>{{alarm.gzyy07}}</td>
+                                <td>{{alarm.gzfl08}}</td>
+                                <td>{{alarm.zrbm09}}</td>
+                                <td>{{alarm.fssj10}}</td>
+                                <td>{{alarm.sfxfcs12}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="col-sm-2">
-                    <button  ng-click="showHistory(alarmStation)">历史告警</button>
-                </div>
-            <table class="table table-striped" style="max-width:95%;">
-                <thead>
-                    <tr>
-                        <td>告警级别</td>
-                        <td>告警码</td>
-                        <td>告警时间</td>
-                        <td align="center">定位</td>                       
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="alarm in alarmStation.AlarmList">
-                        <td>{{levels[alarm.AlarmLevel].name}}</td>
-                        <td>{{alarm.AlarmId}}</td>
-                        <td>{{alarm.HappenTime}}</td>
-                        <td align="center">{{alarm.Details}}</td>                       
-                    </tr>
-                </tbody>
-            </table>
-            </div>
-        </li>
-    </ul>
 </div>
 <div class="modal-footer">
     <button class="btn btn-default" type="button" ng-click="cancel()">关闭窗口</button>

@@ -9,22 +9,22 @@
                 <a href ng-click="selectTab(0)">站址</a>
             </li>
             <li ng-class="{ active:isSelectTab(1)}">
-                <a href ng-click="selectTab(1)">BTS</a>
+                <a href ng-click="selectTab(1)">CRRU</a>
             </li>
             <li ng-class="{ active:isSelectTab(2)}">
-                <a href ng-click="selectTab(2)">Enodeb</a>
+                <a href ng-click="selectTab(2)">C基站</a>
             </li>
             <li ng-class="{ active:isSelectTab(3)}">
-                <a href ng-click="selectTab(3)">RRU</a>
+                <a href ng-click="selectTab(3)">C室分站</a>
             </li>
             <li ng-class="{ active:isSelectTab(4)}">
-                <a href ng-click="selectTab(4)">LRRU</a>
+                <a href ng-click="selectTab(4)">C直放站</a>
             </li>
             <li ng-class="{ active:isSelectTab(5)}">
-                <a href ng-click="selectTab(5)">室分站</a>
+                <a href ng-click="selectTab(5)">LRRU</a>
             </li>
             <li ng-class="{ active:isSelectTab(6)}">
-                <a href ng-click="selectTab(6)">直放站</a>
+                <a href ng-click="selectTab(6)">L基站</a>
             </li>
             <li ng-class="{ active:isSelectTab(7)}">
                 <a href ng-click="selectTab(7)">资产</a>
@@ -33,10 +33,10 @@
             <div class="panel" ng-show="isSelectTab(0)">
                 <table class="table table-striped">
                 <thead>
-                    <tr><td>资源</td><td>BTS</td><td>ENODEB</td><td>RRU</td><td>LRRU</td><td>室分站</td><td>直放站</td></tr>
+                    <tr><td>资源</td><td>CRRU</td><td>C基站</td><td>C室分站</td><td>C直放站</td><td>LRRU</td><td>L基站</td></tr>
                 </thead>
                 <tbody>
-                    <tr><td>数量</td><td>{{counter.bts}}</td><td>{{counter.enodeb}}</td><td>{{counter.rru}}</td><td>{{counter.lrru}}</td><td>{{counter.sfz}}</td><td>{{counter.zfz}}</td></tr>
+                    <tr><td>数量</td><td>{{counter.crru}}</td><td>{{counter.cjz}}</td><td>{{counter.csf}}</td><td>{{counter.czf}}</td><td>{{counter.lrru}}</td><td>{{counter.ljz}}</td></tr>
                 </tbody>
                 </table>
             </div>
@@ -65,19 +65,19 @@
             <div class="panel" ng-show="isSelectTab(2)">
                 <table class="table table-striped">
                     <thead>
-                        <tr><td>父网元种类</td><td>所属本地网</td><td>所属行政区域</td><td>所属站点</td><td>所属机房</td><td>安装点</td><td>名称</td><td>编码</td><td>设备标识</td></tr>
+                        <tr><td>名称</td><td>编码</td><td>设备标识</td><td>设备ID</td><td>归属扇区</td><td>归属扇区的PN</td><td>集团名称</td><td>集团编码</td><td>所属机房</td></tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="res in resourceList">
-                            <td>{{res.PARENT_METACATEGORY}}</td>
-                            <td>{{res.NE2MAPREGION_AREANAME}}</td>
-                            <td>{{res.ME2MANAGEMENTAREA_NAME}}</td>
-                            <td>{{res.ME2SITE_NAME}}</td>
-                            <td>{{res.ME2ROOM_NAME}}</td>
-                            <td>{{res.ME2OUTDOORADDR_NAME}}</td>
                             <td>{{res.NAME}}</td>
                             <td>{{res.CODE}}</td>
-                            <td>{{res.NEMARK}}</td>
+                            <td>{{res.CODEINEMS}}</td>
+                            <td>{{res.IDENTIFIER}}</td>
+                            <td>{{res.CUS_CDMARRU_RELY_CDMASECTOR_NAME}}</td>
+                            <td>{{res.CUS_CDMARRU_RELY_CDMASECTOR_PN_CODE}}</td>
+                            <td>{{res.STANDARD_NAME}}</td>
+                            <td>{{res.STANDARD_CODE}}</td>
+                            <td>{{res.CUS_ENTITY_ROOM}}</td>
                         </tr>
 
                     </tbody>
@@ -86,19 +86,19 @@
             <div class="panel" ng-show="isSelectTab(3)">
                 <table class="table table-striped">
                     <thead>
-                        <tr><td>父网元种类</td><td>CellID</td><td>接入服务器IP(163域)</td><td>所属本地网</td><td>所属行政区域</td><td>所属站点</td><td>所属机房</td><td>安装点</td><td>名称</td></tr>
+                        <tr><td>名称</td><td>编码</td><td>设备标识</td><td>设备ID</td><td>归属扇区</td><td>归属扇区的PN</td><td>集团名称</td><td>集团编码</td><td>所属机房</td></tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="res in resourceList">
-                            <td>{{res.PARENT_METACATEGORY}}</td>
-                            <td>{{res.LTECELL2LTEENODEB_IDSUFFIX}}</td>
-                            <td>{{res.BASSERVERIPADDR}}</td>
-                            <td>{{res.NE2MAPREGION_AREANAME}}</td>
-                            <td>{{res.ME2MANAGEMENTAREA_NAME}}</td>
-                            <td>{{res.ME2SITE_NAME}}</td>
-                            <td>{{res.ME2ROOM_NAME}}</td>
-                            <td>{{res.ME2OUTDOORADDR_NAME}}</td>
                             <td>{{res.NAME}}</td>
+                            <td>{{res.CODE}}</td>
+                            <td>{{res.CODEINEMS}}</td>
+                            <td>{{res.IDENTIFIER}}</td>
+                            <td>{{res.CUS_CDMARRU_RELY_CDMASECTOR_NAME}}</td>
+                            <td>{{res.CUS_CDMARRU_RELY_CDMASECTOR_PN_CODE}}</td>
+                            <td>{{res.STANDARD_NAME}}</td>
+                            <td>{{res.STANDARD_CODE}}</td>
+                            <td>{{res.CUS_ENTITY_ROOM}}</td>
                         </tr>
 
                     </tbody>
@@ -107,19 +107,19 @@
             <div class="panel" ng-show="isSelectTab(4)">
                 <table class="table table-striped">
                     <thead>
-                        <tr><td>父网元种类</td><td>所属本地网</td><td>名称</td><td>编码</td><td>拼装名称</td><td>拼装编码</td><td>所属机房</td><td>安装点</td><td>种类</td></tr>
+                        <tr><td>名称</td><td>编码</td><td>设备标识</td><td>设备ID</td><td>归属扇区</td><td>归属扇区的PN</td><td>集团名称</td><td>集团编码</td><td>所属机房</td></tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="res in resourceList">
-                            <td>{{res.PARENT_METACATEGORY}}</td>
-                            <td>{{res.NE2MAPREGION_AREANAME}}</td>
                             <td>{{res.NAME}}</td>
                             <td>{{res.CODE}}</td>
-                            <td>{{res.ASSEMBLENAME}}</td>
-                            <td>{{res.ASSEMBLECODE}}</td>
-                            <td>{{res.ME2ROOM_NAME}}</td>
-                            <td>{{res.ME2OUTDOORADDR_NAME}}</td>
-                            <td>{{res.METACATEGORY}}</td>
+                            <td>{{res.CODEINEMS}}</td>
+                            <td>{{res.IDENTIFIER}}</td>
+                            <td>{{res.CUS_CDMARRU_RELY_CDMASECTOR_NAME}}</td>
+                            <td>{{res.CUS_CDMARRU_RELY_CDMASECTOR_PN_CODE}}</td>
+                            <td>{{res.STANDARD_NAME}}</td>
+                            <td>{{res.STANDARD_CODE}}</td>
+                            <td>{{res.CUS_ENTITY_ROOM}}</td>
                         </tr>
 
                     </tbody>
@@ -128,19 +128,19 @@
             <div class="panel" ng-show="isSelectTab(5)">
                 <table class="table table-striped">
                     <thead>
-                        <tr><td>父网元种类</td><td>所属本地网</td><td>名称</td><td>编码</td><td>拼装编码</td><td>拼装名称</td><td>所属机房</td><td>安装点</td><td>种类</td></tr>
+                        <tr><td>名称</td><td>编码</td><td>设备标识</td><td>设备ID</td><td>归属扇区</td><td>归属扇区的PN</td><td>集团名称</td><td>集团编码</td><td>所属机房</td></tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="res in resourceList">
-                            <td>{{res.PARENT_METACATEGORY}}</td>
-                            <td>{{res.NE2MAPREGION_AREANAME}}</td>
                             <td>{{res.NAME}}</td>
                             <td>{{res.CODE}}</td>
-                            <td>{{res.ASSEMBLECODE}}</td>
-                            <td>{{res.ASSEMBLENAME}}</td>
-                            <td>{{res.ME2ROOM_NAME}}</td>
-                            <td>{{res.ME2OUTDOORADDR_NAME}}</td>
-                            <td>{{res.METACATEGORY}}</td>
+                            <td>{{res.CODEINEMS}}</td>
+                            <td>{{res.IDENTIFIER}}</td>
+                            <td>{{res.CUS_CDMARRU_RELY_CDMASECTOR_NAME}}</td>
+                            <td>{{res.CUS_CDMARRU_RELY_CDMASECTOR_PN_CODE}}</td>
+                            <td>{{res.STANDARD_NAME}}</td>
+                            <td>{{res.STANDARD_CODE}}</td>
+                            <td>{{res.CUS_ENTITY_ROOM}}</td>
                         </tr>
 
                     </tbody>
@@ -149,19 +149,19 @@
             <div class="panel" ng-show="isSelectTab(6)">
                 <table class="table table-striped">
                     <thead>
-                        <tr><td>父网元种类</td><td>所属本地网</td><td>名称</td><td>编码</td><td>拼装名称</td><td>拼装编码</td><td>所属机房</td><td>安装点</td><td>种类</td></tr>
+                        <tr><td>名称</td><td>编码</td><td>设备标识</td><td>设备ID</td><td>归属扇区</td><td>归属扇区的PN</td><td>集团名称</td><td>集团编码</td><td>所属机房</td></tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="res in resourceList">
-                            <td>{{res.PARENT_METACATEGORY}}</td>
-                            <td>{{res.NE2MAPREGION_AREANAME}}</td>
                             <td>{{res.NAME}}</td>
                             <td>{{res.CODE}}</td>
-                            <td>{{res.ASSEMBLENAME}}</td>
-                            <td>{{res.ASSEMBLECODE}}</td>
-                            <td>{{res.ME2ROOM_NAME}}</td>
-                            <td>{{res.ME2OUTDOORADDR_NAME}}</td>
-                            <td>{{res.METACATEGORY}}</td>
+                            <td>{{res.CODEINEMS}}</td>
+                            <td>{{res.IDENTIFIER}}</td>
+                            <td>{{res.CUS_CDMARRU_RELY_CDMASECTOR_NAME}}</td>
+                            <td>{{res.CUS_CDMARRU_RELY_CDMASECTOR_PN_CODE}}</td>
+                            <td>{{res.STANDARD_NAME}}</td>
+                            <td>{{res.STANDARD_CODE}}</td>
+                            <td>{{res.CUS_ENTITY_ROOM}}</td>
                         </tr>
 
                     </tbody>

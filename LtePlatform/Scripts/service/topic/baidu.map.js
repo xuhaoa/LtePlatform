@@ -473,7 +473,7 @@
 
 				var points = [];  // 添加海量点数据
 				angular.forEach(coors, function (data) {
-					var p = new BMap.Point(data.longtitute - xoffset, data.lattitute - yoffset);
+				    var p = new BMap.Point(data.longtitute - xoffset, data.lattitute - yoffset);
 					p.data = data;
 					points.push(p);
 				});
@@ -937,7 +937,7 @@
 			        controller: 'map.alarmStation.dialog',
 			        resolve: {
 			            dialogTitle: function () {
-			                return "告警信息:" + station.StationName;
+			                return "告警信息:" + station.name;
 			            },
 			            station: function () {
 			                return station;
@@ -1021,7 +1021,7 @@
 			        controller: 'map.alarmHistoryList.dialog',
 			        resolve: {
 			            dialogTitle: function () {
-			                return "告警历史：" + alarmStation.NetAdminName;
+			                return "告警历史：" + alarmStation.name;
 			            },
 			            alarmStation: function () {
 			                return alarmStation;
@@ -1473,17 +1473,17 @@
                     $scope.counter = response.result;
                 });
             }else if (1 == setTab) {
-                $scope.table = "bts";
+                $scope.table = "crru";
             } else if (2 == setTab) {
-                $scope.table = "enodeb";
+                $scope.table = "cjz";
             } else if (3 == setTab) {
-                $scope.table = "rru";
+                $scope.table = "csf";
             } else if (4 == setTab) {
-                $scope.table = "lrru";
+                $scope.table = "czf";
             } else if (5 == setTab) {
-                $scope.table = "sfz";
+                $scope.table = "lrru";
             } else if (6 == setTab) {
-                $scope.table = "zfz";
+                $scope.table = "ljz";
             } else if (7 == setTab) {
                 $scope.table = "asset";
             }
@@ -1599,18 +1599,13 @@
     })
     .controller('map.alarmStation.dialog', function ($scope, $uibModalInstance, station, beginDate, endDate, dialogTitle,
         appFormatService, downSwitchService, parametersDialogService) {
-        $scope.levels = [
-       { value: '0', name: '紧急' },
-       { value: '1', name: '重要' },
-       { value: '2', name: '一般' },
-       { value: '', name: '全部' }
-        ];
+
         $scope.station = station;
         downSwitchService.getAlarmStationById(station.StationId, 0, 10000).then(function (response) {
             $scope.alarmStations = response.result;
         });
-        $scope.showHistory = function (NetAdminId) {
-            parametersDialogService.showAlarmHistoryList(NetAdminId);
+        $scope.showHistory = function () {
+            parametersDialogService.showAlarmHistoryList(station);
         };
         $scope.showStationInfo = function () {
             downSwitchService.getStationById(station.StationId).then(function (result) {               
@@ -1944,9 +1939,8 @@
     .controller('map.alarmHistoryList.dialog', function ($scope, $http, dialogTitle, alarmStation, $uibModalInstance, parametersDialogService,
 		downSwitchService) {
         $scope.levels = [
-       { value: '0', name: '紧急' },
-       { value: '1', name: '重要' },
-       { value: '2', name: '一般' },
+       { value: 'C', name: 'C' },
+       { value: 'D', name: 'D' },
        { value: '' , name: '全部' }
         ];
         $scope.alarmStation = alarmStation;
@@ -1988,9 +1982,9 @@
         $scope.jumpPage = function (page) {
             if (page >= $scope.totolPage)
                 page = $scope.totolPage;
-            downSwitchService.getAlarmHistorybyFilter($scope.alarmStation.NetAdminId, page, 10, $scope.selectLevel.value,
+            downSwitchService.getAlarmHistorybyFilter($scope.alarmStation.StationId, page, 10, $scope.selectLevel.value,
             $scope.starttime,$scope.endtime).then(function (response) {
-                $scope.alarmList = response.result.rows;
+                $scope.alarmStations = response.result.rows;
                 $scope.totolPage = response.result.total_pages;
                 $scope.page = response.result.curr_page;
                 $scope.records = response.result.records;
@@ -2064,6 +2058,8 @@
 	        }
 	    }).then(function successCallback(response) {
 	        $scope.station = response.data.result[0];
+	        $scope.station.longtitute = parseFloat($scope.station.longtitute);
+	        $scope.station.lattitute = parseFloat($scope.station.lattitute);
 	    }, function errorCallback(response) {
 	        // 请求失败执行代码
 	    });

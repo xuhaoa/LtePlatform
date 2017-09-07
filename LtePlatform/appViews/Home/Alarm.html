@@ -8,23 +8,17 @@
         <li role="menuitem">
             <a class="btn btn-sm btn-success" ng-click="changeLevel(0)">
                 <i class="glyphicon glyphicon-fullscreen"></i>
-                紧急
+                C
             </a>
         </li>
         <li role="menuitem">
             <a class="btn btn-sm btn-success" ng-click="changeLevel(1)">
                 <i class="glyphicon glyphicon-tree-conifer"></i>
-                重要
+                D
             </a>
         </li>
         <li role="menuitem">
             <a class="btn btn-sm btn-success" ng-click="changeLevel(2)">
-                <i class="glyphicon glyphicon-flag"></i>
-                一般
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="changeLevel(3)">
                 <i class="glyphicon glyphicon-flag"></i>
                 全部
             </a>
@@ -32,36 +26,9 @@
     </ul>
 </div>
 
-<div class="btn-group-sm col-md-4" uib-dropdown dropdown-append-to-body>
-    <button id="nettype-button" type="button" class="btn btn-sm btn-default"
-            uib-dropdown-toggle ng-disabled="disabled">
-        <strong>网络-{{netType}}</strong>
-        <span class="caret"></span>
-    </button>
-    <ul uib-dropdown-menu role="menu" aria-labelledby="view-button">
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="changeNetType('L')">
-                <i class="glyphicon glyphicon-fullscreen"></i>
-                L
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="changeNetType('C')">
-                <i class="glyphicon glyphicon-tree-conifer"></i>
-                C
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="changeNetType('VL')">
-                <i class="glyphicon glyphicon-flag"></i>
-                VL
-            </a>
-        </li>
-    </ul>
-</div>
 
 
-<!--
+
 <div class="btn-group-sm col-md-4" uib-dropdown dropdown-append-to-body>
     <button id="distinct-button" type="button" class="btn btn-sm btn-default"
             uib-dropdown-toggle ng-disabled="disabled">
@@ -107,4 +74,3 @@
         </li>
     </ul>
 </div>
-    -->

@@ -7,13 +7,14 @@
 </div>
 <div class="modal-body">
     <div style="min-height: 400px" id="rightChart">
+        <!--
         <label style="width:60px;">告警名称：</label>
         <input style="width:80px;" type="text" ng-model="alarmName"  placeholder="告警名称">
         <label style="width:60px;">告警码：</label>
-        <input style="width:80px;" type="text" ng-model="alarmCode" placeholder="告警码">
+        <input style="width:80px;" type="text" ng-model="alarmCode" placeholder="告警码">-->
         <label style="width:60px;">告警级别：</label>
         <select style="width:50px;" ng-init="selectLevel=levels[0]" ng-model="selectLevel" ng-options="level.name for level in levels"></select>
-        
+     
         <label style="width:90px;">告警发生区间：</label>
         <input placeholder="请输入日期" class="laydate-icon" onclick="laydate()" ng-model="starttime">-
         <input placeholder="请输入日期" class="laydate-icon" onclick="laydate()" ng-model="endtime">
@@ -25,21 +26,34 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <td>告警级别</td>
-                    <td>告警ID</td>
+                    <td>网管站名</td>
+                    <td>行政区</td>
+                    <td>归属</td>
+                    <td>故障内容</td>
+                    <td>故障等级</td>
+                    <td>故障原因</td>
+                    <td>故障分类</td>
+                    <td>责任部门</td>
                     <td>发生时间</td>
-                    <td>恢复时间</td>
-                    <td align="center">定位</td>
+                    <td>清除时间</td>
+                    <td>是否修复超时</td>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="alarm in alarmList">
-                    <td>{{levels[alarm.AlarmLevel].name}}</td>
-                    <td>{{alarm.AlarmId}}</td>
-                    <td>{{alarm.HappenTime}}</td>
-                    <td>{{alarm.RecoverTime}}</td>
-                    <td align="center">{{alarm.Details}}</td>
+                <tr ng-repeat="alarm in alarmStations">
+                    <td>{{alarm.wgzm01}}</td>
+                    <td>{{alarm.xzq02}}</td>
+                    <td>{{alarm.gs03}}</td>
+                    <td>{{alarm.gznr05}}</td>
+                    <td>{{alarm.gzdj06}}</td>
+                    <td>{{alarm.gzyy07}}</td>
+                    <td>{{alarm.gzfl08}}</td>
+                    <td>{{alarm.zrbm09}}</td>
+                    <td>{{alarm.fssj10}}</td>
+                    <td>{{alarm.gzqcsj11}}</td>
+                    <td>{{alarm.sfxfcs12}}</td>
                 </tr>
+            </tbody>
             </tbody>
         </table>
         <button ng-click="firstPage()">首页</button>

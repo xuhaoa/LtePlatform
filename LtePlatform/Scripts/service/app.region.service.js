@@ -1643,12 +1643,14 @@
                     "areaName": areaName
                 });
             },
-            getAlarmStationByName: function (name, page, pageSize) {
+            getCommonStations: function (name, type, areaName, page, pageSize) {
                 //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search', {
-                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Station/search', {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/StationCommon/search', {
                     "curr_page": page,
                     "page_size": pageSize,
-                    "stationName": name
+                    "stationName": name,
+                    "type":type,
+                    "areaName": areaName
                 });
             },
             getStationByFilter: function (areaName, stationGrade, netType, roomAttribution, towerAttribution,isPower, isBBU, page, pageSize) {               
@@ -1676,7 +1678,7 @@
                     "isNew": isNew,
                     "indoortype": indoortype
                 });
-            },
+            },/*
             getCommonStations: function (areaName, type, page, pageSize) {
                 //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search', {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/StationCommon/search', {
@@ -1685,7 +1687,7 @@
                     "areaName": areaName,
                     "type": type                
                 });
-            },
+            },*/
             getCommonStationIdAdd: function (distinct, type) {
                 //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search', {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/StationCommon/generateId', {
@@ -1715,14 +1717,14 @@
                     "id": id
                 });
             },
-            getAlarmStations: function (areaName, levelIndex, netType, page, pageSize) {               
+            getAlarmStations: function (areaName, alarmLevel,type, page, pageSize) {
                 //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Alarm/search', {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Alarm/search', {
                     "curr_page": page,
                     "page_size": pageSize,
-                    "area_id": areaName,
-                    "net_type": netType,
-                    "alarmLevel": levelIndex
+                    "areaName": areaName,
+                    "type":type,
+                    "alarmLevel": alarmLevel
                 });
             },
             getCheckingStation: function (areaName, status,type, page, pageSize) {
@@ -1756,7 +1758,7 @@
             getAlarmStationById: function (id) {
                 //return generalHttpService.getMvcData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search/', {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Alarm/single/', {
-                    station_id: id
+                    "id": id
                 });
             },
             getCommonStationById: function(id) {
