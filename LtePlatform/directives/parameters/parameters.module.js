@@ -54,7 +54,17 @@
 			},
 			templateUrl: parametersRoot + 'kpi/FlowTable.html'
 		}
-	})
+    })
+    .directive('feelingTable', function (parametersRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                feelingList: '='
+            },
+            templateUrl: parametersRoot + 'kpi/FeelingTable.html'
+        }
+    })
 
 	.controller('LteENodebController', function ($scope) {
 		$scope.gridOptions = {

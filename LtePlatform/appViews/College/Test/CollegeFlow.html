@@ -20,6 +20,7 @@
             <div uib-tabset active="active">
                 <div ng-repeat="cell in cellList" uib-tab index="$index" heading="{{cell.eNodebName}}-{{cell.sectorId}}">
                     <div flow-table flow-list="cell.flowList" ng-if="cell.flowList"></div>
+                    <div feeling-table feeling-list="cell.feelingList" ng-if="cell.feelingList"></div>
                 </div>
             </div>
         </div>

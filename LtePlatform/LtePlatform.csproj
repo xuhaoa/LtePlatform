@@ -703,6 +703,7 @@
     <Content Include="directives\parameters\DistrictInfrastructure.Tpl.html" />
     <Content Include="appViews\Rutrace\Coverage\Index.html" />
     <Content Include="directives\parameters\kpi\AlarmTable.html" />
+    <Content Include="directives\parameters\kpi\FeelingTable.html" />
     <Content Include="directives\parameters\kpi\FlowTable.html" />
     <Content Include="directives\parameters\parameters.module.js" />
     <Content Include="directives\rutrace\AnalyzeTable.Tpl.html" />
