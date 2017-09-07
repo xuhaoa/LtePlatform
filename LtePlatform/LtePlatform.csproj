@@ -992,8 +992,12 @@
     <Content Include="Scripts\service\region\network.js" />
     <Content Include="Scripts\service\topic\basic.js" />
     <Content Include="Scripts\service\topic\college.js" />
+    <Content Include="Scripts\service\topic\dialog.college.js" />
+    <Content Include="Scripts\service\topic\dialog.customer.js" />
     <Content Include="Scripts\service\topic\dialog.js" />
+    <Content Include="Scripts\service\topic\dialog.parameters.js" />
     <Content Include="Scripts\service\topic\parameters.js" />
+    <Content Include="Scripts\service\topic\dialog.station.js" />
     <Content Include="Scripts\service\url\app.url.js" />
     <Content Include="Scripts\service\filters\basic.js" />
     <Content Include="Scripts\service\filters\cell.js" />
