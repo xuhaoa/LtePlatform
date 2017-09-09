@@ -996,6 +996,7 @@
     <Content Include="Scripts\service\topic\dialog.college.js" />
     <Content Include="Scripts\service\topic\dialog.customer.js" />
     <Content Include="Scripts\service\topic\dialog.js" />
+    <Content Include="Scripts\service\topic\dialog.kpi.js" />
     <Content Include="Scripts\service\topic\dialog.parameters.js" />
     <Content Include="Scripts\service\topic\parameters.js" />
     <Content Include="Scripts\service\topic\dialog.station.js" />

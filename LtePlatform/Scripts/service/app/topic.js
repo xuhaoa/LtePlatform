@@ -2435,29 +2435,9 @@ angular.module('topic.dialog.parameters', ['myApp.url', 'myApp.region', 'myApp.k
             };
         });
 angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', "ui.bootstrap"])
-    .run(function ($rootScope, kpiPreciseService) {
-        $rootScope.orderPolicy = {
-            options: [],
-            selected: ""
-        };
-        $rootScope.topCount = {
-            options: [5, 10, 15, 20, 30],
-            selected: 15
-        };
-        kpiPreciseService.getOrderSelection().then(function (result) {
-            $rootScope.orderPolicy.options = result;
-            $rootScope.orderPolicy.selected = result[5];
-        });
+    .run(function ($rootScope) {
         $rootScope.closeAlert = function (messages, index) {
             messages.splice(index, 1);
-        };
-
-        $rootScope.overallStat = {
-            currentDistrict: "",
-            districtStats: [],
-            townStats: [],
-            cityStat: {},
-            dateString: ""
         };
     })
     .controller("college.flow.name",
@@ -2534,6 +2514,52 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
                 $uibModalInstance.dismiss('cancel');
             };
         })
+    .controller('college.coverage.all',
+        function($scope,
+            beginDate,
+            endDate,
+            $uibModalInstance,
+            collegeDtService,
+            collegeMapService) {
+            $scope.dialogTitle = "校园网路测数据查询";
+            $scope.dtInfos = [];
+            $scope.query = function() {
+                collegeMapService.showDtInfos($scope.dtInfos, beginDate.value, endDate.value);
+            };
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        });
+angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', "ui.bootstrap"])
+    .run(function($rootScope, kpiPreciseService) {
+        $rootScope.orderPolicy = {
+            options: [],
+            selected: ""
+        };
+        $rootScope.topCount = {
+            options: [5, 10, 15, 20, 30],
+            selected: 15
+        };
+        kpiPreciseService.getOrderSelection().then(function(result) {
+            $rootScope.orderPolicy.options = result;
+            $rootScope.orderPolicy.selected = result[5];
+        });
+        $rootScope.closeAlert = function(messages, index) {
+            messages.splice(index, 1);
+        };
+
+        $rootScope.overallStat = {
+            currentDistrict: "",
+            districtStats: [],
+            townStats: [],
+            cityStat: {},
+            dateString: ""
+        };
+    })
     .controller("rutrace.trend",
         function($scope,
             $uibModalInstance,
@@ -2742,26 +2768,6 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
 
             $scope.query();
 
-            $scope.ok = function() {
-                $uibModalInstance.close($scope.building);
-            };
-
-            $scope.cancel = function() {
-                $uibModalInstance.dismiss('cancel');
-            };
-        })
-    .controller('college.coverage.all',
-        function($scope,
-            beginDate,
-            endDate,
-            $uibModalInstance,
-            collegeDtService,
-            collegeMapService) {
-            $scope.dialogTitle = "校园网路测数据查询";
-            $scope.dtInfos = [];
-            $scope.query = function() {
-                collegeMapService.showDtInfos($scope.dtInfos, beginDate.value, endDate.value);
-            };
             $scope.ok = function() {
                 $uibModalInstance.close($scope.building);
             };
@@ -3565,5 +3571,6 @@ angular.module('topic.dialog',[ 'app.menu' ])
 angular.module('baidu.map',
 [
     'topic.basic', 'topic.college', "topic.parameters",
-    'topic.dialog', 'topic.dialog.college', 'topic.dialog.customer', 'topic.dialog.parameters', 'topic.dialog.station'
+    'topic.dialog', 'topic.dialog.college', 'topic.dialog.kpi', 'topic.dialog.customer', 'topic.dialog.parameters',
+    'topic.dialog.station'
 ]);
