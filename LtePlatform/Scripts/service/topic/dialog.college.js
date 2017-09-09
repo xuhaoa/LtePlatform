@@ -41,6 +41,43 @@
                 $uibModalInstance.dismiss('cancel');
             };
     })
+    .controller("hotSpot.flow.name",
+        function ($scope,
+            $uibModalInstance,
+            name,
+            beginDate,
+            endDate,
+            complainService,
+            appKpiService,
+            kpiChartService) {
+            $scope.dialogTitle = name + "流量分析";
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.flowStats = [];
+            $scope.mergeStats = [];
+            $scope.query = function () {
+                appKpiService.calculateFlowStats($scope.cellList,
+                    $scope.flowStats,
+                    $scope.mergeStats,
+                    $scope.beginDate,
+                    $scope.endDate);
+            };
+            $scope.showCharts = function () {
+                kpiChartService.showFlowCharts($scope.flowStats, name, $scope.mergeStats);
+            };
+            complainService.queryHotSpotCells(name).then(function (cells) {
+                $scope.cellList = cells;
+                $scope.query();
+            });
+
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.eNodeb);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
     .controller("college.feeling.name",
         function ($scope,
             $uibModalInstance,

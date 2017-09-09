@@ -2477,6 +2477,43 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
                 $uibModalInstance.dismiss('cancel');
             };
     })
+    .controller("hotSpot.flow.name",
+        function ($scope,
+            $uibModalInstance,
+            name,
+            beginDate,
+            endDate,
+            complainService,
+            appKpiService,
+            kpiChartService) {
+            $scope.dialogTitle = name + "流量分析";
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.flowStats = [];
+            $scope.mergeStats = [];
+            $scope.query = function () {
+                appKpiService.calculateFlowStats($scope.cellList,
+                    $scope.flowStats,
+                    $scope.mergeStats,
+                    $scope.beginDate,
+                    $scope.endDate);
+            };
+            $scope.showCharts = function () {
+                kpiChartService.showFlowCharts($scope.flowStats, name, $scope.mergeStats);
+            };
+            complainService.queryHotSpotCells(name).then(function (cells) {
+                $scope.cellList = cells;
+                $scope.query();
+            });
+
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.eNodeb);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
     .controller("college.feeling.name",
         function ($scope,
             $uibModalInstance,
@@ -3544,6 +3581,23 @@ angular.module('topic.dialog',[ 'app.menu' ])
                                 return endDate;
                             },
                             name: function() {
+                                return name;
+                            }
+                        }
+                    });
+                },
+                showHotSpotFlowTrend: function (beginDate, endDate, name) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/College/Test/CollegeFlow.html',
+                        controller: 'hotSpot.flow.name',
+                        resolve: {
+                            beginDate: function () {
+                                return beginDate;
+                            },
+                            endDate: function () {
+                                return endDate;
+                            },
+                            name: function () {
                                 return name;
                             }
                         }

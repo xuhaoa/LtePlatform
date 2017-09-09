@@ -177,7 +177,8 @@
         };
     })
     .config([
-        '$routeProvider', function($routeProvider) {
+        '$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+            $locationProvider.hashPrefix('');
             var viewDir = "/appViews/Test/Angular/";
             var simpleDir = "/appViews/Test/Simple/";
             var chap10Dir = "/appViews/Test/Chapter10/";

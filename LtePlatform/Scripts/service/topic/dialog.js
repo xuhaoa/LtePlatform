@@ -439,6 +439,23 @@
                         }
                     });
                 },
+                showHotSpotFlowTrend: function (beginDate, endDate, name) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/College/Test/CollegeFlow.html',
+                        controller: 'hotSpot.flow.name',
+                        resolve: {
+                            beginDate: function () {
+                                return beginDate;
+                            },
+                            endDate: function () {
+                                return endDate;
+                            },
+                            name: function () {
+                                return name;
+                            }
+                        }
+                    });
+                },
                 showCollegeFeelingTrend: function (beginDate, endDate, name) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/College/Test/CollegeFlow.html',

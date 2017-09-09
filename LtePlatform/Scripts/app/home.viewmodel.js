@@ -3949,7 +3949,7 @@ angular.module('network.theme', ['app.common'])
                 collegeDialogService.showHotSpotFlow($scope.hotSpots, "高速公路");
             };
             $scope.showFlowTrend = function() {
-                mapDialogService.showCollegeFlowTrend($scope.beginDate, $scope.endDate, $scope.currentView);
+                mapDialogService.showHotSpotFlowTrend($scope.beginDate, $scope.endDate, $scope.currentView);
             };
             $scope.showFeelingRateTrend = function() {
                 mapDialogService.showCollegeFeelingTrend($scope.beginDate, $scope.endDate, $scope.currentView);
