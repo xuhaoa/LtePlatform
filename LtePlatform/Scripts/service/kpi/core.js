@@ -1406,6 +1406,26 @@
                     return stat.maxUsers;
                 });
             },
+            generateSchedulingTimeOptions: function (stats, topic) {
+                return generalChartService.getPieOptions(stats, {
+                    title: topic + '调度次数',
+                    seriesTitle: '调度次数'
+                }, function (stat) {
+                    return stat.cellName;
+                }, function (stat) {
+                    return stat.schedulingTimes;
+                });
+            },
+            generateDownSwitchTimeOptions: function (stats, topic) {
+                return generalChartService.getPieOptions(stats, {
+                    title: topic + '下切3G次数',
+                    seriesTitle: '4G下切3G次数'
+                }, function (stat) {
+                    return stat.cellName;
+                }, function (stat) {
+                    return stat.redirectCdma2000;
+                });
+            },
             generateAverageUsersOptions: function(stats, topic) {
                 return generalChartService.getPieOptions(stats, {
                     title: topic + '平均连接用户数',
@@ -1447,6 +1467,24 @@
                     title: topic + '流量统计'
                 }, flowData.categories, flowData.dataList, ['下行流量', '上行流量']);
             },
+            generateMergeFeelingOptions: function (stats, topic) {
+                var flowData = generalChartService.generateColumnDataByKeys(stats, 'statTime', [
+                    'pdcpDownlinkFlow',
+                    'pdcpUplinkFlow',
+                    'downlinkFeelingRate',
+                    'uplinkFeelingRate'
+                ]);
+                return generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                        xtitle: '日期',
+                        ytitles: ['流量（MB）', '感知速率（Mbit/s）'],
+                        title: topic + '流量/感知速率'
+                    },
+                    flowData.categories,
+                    flowData.dataList,
+                    ['下行流量', '上行流量', '下行感知速率', '上行感知速率'],
+                    ['column', 'column', 'line', 'line'],
+                    [0, 0, 1, 1]);
+            },
             generateMergeUsersOptions: function(stats, topic) {
                 var usersData = generalChartService.generateColumnDataByKeys(stats, 'statTime', [
                     'averageActiveUsers',
@@ -1459,6 +1497,27 @@
                     ytitle: '用户数',
                     title: topic + '用户数'
                 }, usersData.categories, usersData.dataList, ['平均激活用户数', '平均连接用户数', '最大激活用户数', '最大连接用户数']);
+            },
+            generateMergeDownSwitchOptions: function (stats, topic) {
+                angular.forEach(stats,
+                    function(stat) {
+                        stat.schedulingTimes /= 10000;
+                    });
+                var usersData = generalChartService.generateColumnDataByKeys(stats, 'statTime', [
+                    'redirectCdma2000',
+                    'schedulingTimes',
+                    'rank2Rate'
+                ]);
+                return generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                        xtitle: '日期',
+                        ytitles: ['下切次数', '双流比（%）'],
+                        title: topic + '下切次数/调度次数/双流比'
+                    },
+                    usersData.categories,
+                    usersData.dataList,
+                    ['4G下切3G次数', '调度次数（万次）', '双流比（%）'],
+                    ['column', 'column', 'line'],
+                    [0, 0, 1]);
             }
         }
     })
@@ -1502,14 +1561,12 @@
                     });
                 $("#downlinkFlowChart").highcharts(appKpiService.generateDownlinkFlowOptions(flowStats, topic));
                 $("#uplinkFlowChart").highcharts(appKpiService.generateUplinkFlowOptions(flowStats, topic));
-                $("#maxUsersChart").highcharts(appKpiService.generateMaxUsersOptions(flowStats, topic));
-                $("#averageUsersChart").highcharts(appKpiService.generateAverageUsersOptions(flowStats, topic));
-                $("#maxActiveUsersChart").highcharts(appKpiService.generateMaxActiveUsersOptions(flowStats, topic));
-                $("#averageActiveUsersChart").highcharts(appKpiService.generateAverageActiveUsersOptions(flowStats, topic));
+                $("#maxUsersChart").highcharts(appKpiService.generateSchedulingTimeOptions(flowStats, topic));
+                $("#averageUsersChart").highcharts(appKpiService.generateDownSwitchTimeOptions(flowStats, topic));
 
-                $("#flowDate").highcharts(appKpiService.generateMergeFlowOptions(mergeStats, topic));
+                $("#flowDate").highcharts(appKpiService.generateMergeFeelingOptions(mergeStats, topic));
 
-                $("#usersDate").highcharts(appKpiService.generateMergeUsersOptions(mergeStats, topic));
+                $("#usersDate").highcharts(appKpiService.generateMergeDownSwitchOptions(mergeStats, topic));
             }
         };
     });
