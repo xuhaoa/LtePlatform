@@ -343,7 +343,7 @@
                         controller: "menu.analysis"
                     },
                     "contents": {
-                        templateUrl: '/appViews/Evaluation/Railway.html',
+                        templateUrl: '/appViews/Evaluation/Highway.html',
                         controller: "analysis.railway"
                     }
                 },

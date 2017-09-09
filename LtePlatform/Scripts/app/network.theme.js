@@ -90,7 +90,13 @@
             });
         })
     .controller("analysis.railway",
-        function($scope, baiduMapService, basicImportService, parametersMapService) {
+        function ($scope,
+            baiduMapService,
+            basicImportService,
+            parametersMapService,
+            collegeDialogService,
+            parametersDialogService,
+            mapDialogService) {
             baiduMapService.initializeMap("map", 11);
             $scope.showView = function(hotSpot) {
                 $scope.currentView = hotSpot.hotspotName;
@@ -98,6 +104,18 @@
                 baiduMapService.addCityBoundary("佛山");
                 parametersMapService.showHotSpotCellSectors(hotSpot.hotspotName, $scope.beginDate, $scope.endDate);
                 baiduMapService.setCellFocus(hotSpot.longtitute, hotSpot.lattitute, 13);
+            };
+            $scope.showFlow = function () {
+                collegeDialogService.showHotSpotFlow($scope.hotSpots, "高速铁路");
+            };
+            $scope.showFlowTrend = function () {
+                mapDialogService.showHotSpotFlowTrend($scope.beginDate, $scope.endDate, $scope.currentView);
+            };
+            $scope.showFeelingRateTrend = function () {
+                mapDialogService.showHotSpotFeelingTrend($scope.beginDate, $scope.endDate, $scope.currentView);
+            };
+            $scope.showCoverageDt = function () {
+                parametersDialogService.showHighwayDtInfos($scope.longBeginDate, $scope.endDate, $scope.currentView);
             };
             basicImportService.queryHotSpotsByType("高速铁路").then(function(spots) {
                 $scope.hotSpots = spots;
