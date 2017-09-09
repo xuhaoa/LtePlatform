@@ -21,8 +21,11 @@ This is a .net solution for LTE wireless network optimization when I work in Chi
 包括前端模块和后端模块中的用户认证模块和各类ASP.Net Web API2控制器的定义。
 ### 辅助项目
 #### TraceParser
+LTE信令数据的解析库，目前没有应用到主项目中。
 #### ZipLib
+压缩文件处理库，由于是C#项目，目前暂时没有应用。
 #### Lte.Auxilary
+辅助项目，主要是python脚本，目前用于后台数据的预处理。
 ### 测试项目
 
 ## 后端模块
