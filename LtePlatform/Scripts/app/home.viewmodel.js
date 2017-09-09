@@ -3930,8 +3930,13 @@ angular.module('network.theme', ['app.common'])
                 });
         })
     .controller("analysis.highway",
-    function ($scope, baiduMapService, basicImportService, parametersMapService,
-        collegeDialogService, parametersDialogService) {
+        function($scope,
+            baiduMapService,
+            basicImportService,
+            parametersMapService,
+            collegeDialogService,
+            parametersDialogService,
+            mapDialogService) {
             baiduMapService.initializeMap("map", 11);
             $scope.showView = function(hotSpot) {
                 $scope.currentView = hotSpot.hotspotName;
@@ -3944,13 +3949,10 @@ angular.module('network.theme', ['app.common'])
                 collegeDialogService.showHotSpotFlow($scope.hotSpots, "高速公路");
             };
             $scope.showFlowTrend = function() {
-
-            };
-            $scope.showUsersTrend = function() {
-
+                mapDialogService.showCollegeFlowTrend($scope.beginDate, $scope.endDate, $scope.currentView);
             };
             $scope.showFeelingRateTrend = function() {
-
+                mapDialogService.showCollegeFeelingTrend($scope.beginDate, $scope.endDate, $scope.currentView);
             };
             $scope.showCoverageDt = function() {
                 parametersDialogService.showHighwayDtInfos($scope.longBeginDate, $scope.endDate, $scope.currentView);
