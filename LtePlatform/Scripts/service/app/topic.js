@@ -2550,6 +2550,43 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
             $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
+    })
+    .controller("hotSpot.feeling.name",
+        function ($scope,
+            $uibModalInstance,
+            name,
+            beginDate,
+            endDate,
+            complainService,
+            appKpiService,
+            kpiChartService) {
+            $scope.dialogTitle = name + "感知速率分析";
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.flowStats = [];
+            $scope.mergeStats = [];
+            $scope.query = function () {
+                appKpiService.calculateFeelingStats($scope.cellList,
+                    $scope.flowStats,
+                    $scope.mergeStats,
+                    $scope.beginDate,
+                    $scope.endDate);
+            };
+            $scope.showCharts = function () {
+                kpiChartService.showFeelingCharts($scope.flowStats, name, $scope.mergeStats);
+            };
+            complainService.queryHotSpotCells(name).then(function (cells) {
+                $scope.cellList = cells;
+                $scope.query();
+            });
+
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.eNodeb);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
         })
     .controller('college.coverage.all',
         function($scope,
@@ -3607,6 +3644,23 @@ angular.module('topic.dialog',[ 'app.menu' ])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/College/Test/CollegeFlow.html',
                         controller: 'college.feeling.name',
+                        resolve: {
+                            beginDate: function () {
+                                return beginDate;
+                            },
+                            endDate: function () {
+                                return endDate;
+                            },
+                            name: function () {
+                                return name;
+                            }
+                        }
+                    });
+                },
+                showHotSpotFeelingTrend: function (beginDate, endDate, name) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/College/Test/CollegeFlow.html',
+                        controller: 'hotSpot.feeling.name',
                         resolve: {
                             beginDate: function () {
                                 return beginDate;

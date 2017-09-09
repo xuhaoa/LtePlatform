@@ -3952,7 +3952,7 @@ angular.module('network.theme', ['app.common'])
                 mapDialogService.showHotSpotFlowTrend($scope.beginDate, $scope.endDate, $scope.currentView);
             };
             $scope.showFeelingRateTrend = function() {
-                mapDialogService.showCollegeFeelingTrend($scope.beginDate, $scope.endDate, $scope.currentView);
+                mapDialogService.showHotSpotFeelingTrend($scope.beginDate, $scope.endDate, $scope.currentView);
             };
             $scope.showCoverageDt = function() {
                 parametersDialogService.showHighwayDtInfos($scope.longBeginDate, $scope.endDate, $scope.currentView);
