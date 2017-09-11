@@ -14,7 +14,9 @@
                         'region/network.js', 'region/app.region.js'
                     ],
                     'app/kpi.js': [
-                        'kpi/core.js', 'kpi/college.js', 'kpi/coverage.js', 'kpi/customer.js', 'kpi/parameter.js',
+                        'kpi/core.js', 'kpi/college.infrastructure.js', 'kpi/college.basic.js', 'kpi/college.maintain.js',
+                        'kpi/college.work.js', 'kpi/college.flow.js',
+                        'kpi/college.js', 'kpi/coverage.js', 'kpi/customer.js', 'kpi/parameter.js',
                         'kpi/work.js', 'kpi/app.kpi.js'
                     ],
                     'app/topic.js': [
