@@ -44,7 +44,7 @@ namespace LtePlatform
 
             ninjectKernel.Bind<ICollegeRepository>().To<CollegeRepository>();
 
-            ninjectKernel.Bind<IInfrastructureRepository>().To<EFInfrastructureRepository>();
+            ninjectKernel.Bind<IInfrastructureRepository>().To<InfrastructureRepository>();
 
             ninjectKernel.Bind<IAlarmRepository>().To<EFAlarmRepository>();
 
@@ -54,13 +54,13 @@ namespace LtePlatform
 
             ninjectKernel.Bind<ICollegeKpiRepository>().To<EFCollegeKpiRepository>();
 
-            ninjectKernel.Bind<IENodebRepository>().To<EFENodebRepository>();
+            ninjectKernel.Bind<IENodebRepository>().To<ENodebRepository>();
 
-            ninjectKernel.Bind<IBtsRepository>().To<EFBtsRepository>();
+            ninjectKernel.Bind<IBtsRepository>().To<BtsRepository>();
 
-            ninjectKernel.Bind<ICellRepository>().To<EFCellRepository>();
+            ninjectKernel.Bind<ICellRepository>().To<CellRepository>();
 
-            ninjectKernel.Bind<ICdmaCellRepository>().To<EFCdmaCellRepository>();
+            ninjectKernel.Bind<ICdmaCellRepository>().To<CdmaCellRepository>();
 
             ninjectKernel.Bind<IIndoorDistributionRepository>().To<EFIndoorDistributionRepository>();
 
@@ -84,9 +84,9 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IRasterTestInfoRepository>().To<RasterTestInfoRepository>();
 
-            ninjectKernel.Bind<ILteNeighborCellRepository>().To<EFLteNeighborCellRepository>();
+            ninjectKernel.Bind<ILteNeighborCellRepository>().To<LteNeighborCellRepository>();
 
-            ninjectKernel.Bind<INearestPciCellRepository>().To<EFNearestPciCellRepository>();
+            ninjectKernel.Bind<INearestPciCellRepository>().To<NearestPciCellRepository>();
 
             ninjectKernel.Bind<IWorkItemRepository>().To<WorkItemRepository>();
 

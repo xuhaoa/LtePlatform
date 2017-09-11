@@ -210,4 +210,19 @@ namespace Abp.EntityFramework.Repositories
         {
         }
     }
+
+    public class EfRepositorySave<TDbContext, TEntity> : EfRepositoryBase<TDbContext, TEntity, int>, IRepository<TEntity>, ISaveChanges
+        where TEntity : class, IEntity<int>
+        where TDbContext : DbContext
+    {
+        public EfRepositorySave(IDbContextProvider<TDbContext> dbContextProvider)
+            : base(dbContextProvider)
+        {
+        }
+
+        public int SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
 }

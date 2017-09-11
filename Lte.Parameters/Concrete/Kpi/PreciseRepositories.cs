@@ -10,19 +10,14 @@ using MongoDB.Bson;
 
 namespace Lte.Parameters.Concrete.Kpi
 {
-    public class EFPreciseCoverage4GRepository : EfRepositoryBase<EFParametersContext, PreciseCoverage4G>,
+    public class EFPreciseCoverage4GRepository : EfRepositorySave<EFParametersContext, PreciseCoverage4G>,
         IPreciseCoverage4GRepository
     {
         public List<PreciseCoverage4G> GetAllList(DateTime begin, DateTime end)
         {
             return GetAllList(x => x.StatTime >= begin && x.StatTime < end);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public List<PreciseCoverage4G> GetAllList(int cellId, byte sectorId, DateTime begin, DateTime end)
         {
             return GetAllList(x =>
@@ -34,14 +29,9 @@ namespace Lte.Parameters.Concrete.Kpi
         }
     }
 
-    public class EFTownPreciseCoverage4GStatRepository : EfRepositoryBase<EFParametersContext, TownPreciseCoverage4GStat>,
+    public class EFTownPreciseCoverage4GStatRepository : EfRepositorySave<EFParametersContext, TownPreciseCoverage4GStat>,
         ITownPreciseCoverage4GStatRepository
     {
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
         public EFTownPreciseCoverage4GStatRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
         {
         }
@@ -69,7 +59,7 @@ namespace Lte.Parameters.Concrete.Kpi
         }
     }
 
-    public class EFAlarmRepository : EfRepositoryBase<EFParametersContext, AlarmStat>, IAlarmRepository
+    public class EFAlarmRepository : EfRepositorySave<EFParametersContext, AlarmStat>, IAlarmRepository
     {
         public List<AlarmStat> GetAllList(DateTime begin, DateTime end)
         {
@@ -92,12 +82,7 @@ namespace Lte.Parameters.Concrete.Kpi
         {
             return Count(x => x.HappenTime >= begin && x.HappenTime < end && x.ENodebId == eNodebId);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public EFAlarmRepository(IDbContextProvider<EFParametersContext> dbContextProvider) : base(dbContextProvider)
         {
         }

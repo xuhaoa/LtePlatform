@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Lte.MySqlFramework.Concrete
 {
-    public class CdmaRegionStatRepository : EfRepositoryBase<MySqlContext, CdmaRegionStat>, ICdmaRegionStatRepository
+    public class CdmaRegionStatRepository : EfRepositorySave<MySqlContext, CdmaRegionStat>, ICdmaRegionStatRepository
     {
         public List<CdmaRegionStat> GetAllList(DateTime begin, DateTime end)
         {
@@ -20,11 +20,6 @@ namespace Lte.MySqlFramework.Concrete
         public async Task<List<CdmaRegionStat>> GetAllListAsync(DateTime begin, DateTime end)
         {
             return await GetAllListAsync(x => x.StatDate >= begin && x.StatDate < end);
-        }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
         }
 
         public CdmaRegionStatRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
@@ -37,18 +32,13 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class TopDrop2GCellRepository : EfRepositoryBase<MySqlContext, TopDrop2GCell>, ITopDrop2GCellRepository
+    public class TopDrop2GCellRepository : EfRepositorySave<MySqlContext, TopDrop2GCell>, ITopDrop2GCellRepository
     {
         public List<TopDrop2GCell> GetAllList(string city, DateTime begin, DateTime end)
         {
             return GetAll().Where(x => x.StatTime >= begin && x.StatTime < end && x.City == city).ToList();
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public TopDrop2GCellRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
@@ -60,18 +50,13 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class TopConnection3GRepository : EfRepositoryBase<MySqlContext, TopConnection3GCell>, ITopConnection3GRepository
+    public class TopConnection3GRepository : EfRepositorySave<MySqlContext, TopConnection3GCell>, ITopConnection3GRepository
     {
         public List<TopConnection3GCell> GetAllList(string city, DateTime begin, DateTime end)
         {
             return GetAll().Where(x => x.StatTime >= begin && x.StatTime < end && x.City == city).ToList();
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public TopConnection3GRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
@@ -83,16 +68,11 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class TopConnection2GRepository : EfRepositoryBase<MySqlContext, TopConnection2GCell>, ITopConnection2GRepository
+    public class TopConnection2GRepository : EfRepositorySave<MySqlContext, TopConnection2GCell>, ITopConnection2GRepository
     {
         public List<TopConnection2GCell> GetAllList(string city, DateTime begin, DateTime end)
         {
             return GetAll().Where(x => x.StatTime >= begin && x.StatTime < end && x.City == city).ToList();
-        }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
         }
 
         public TopConnection2GRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
@@ -106,7 +86,7 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class CdmaRruRepository : EfRepositoryBase<MySqlContext, CdmaRru>, ICdmaRruRepository
+    public class CdmaRruRepository : EfRepositorySave<MySqlContext, CdmaRru>, ICdmaRruRepository
     {
         public CdmaRruRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
@@ -116,19 +96,14 @@ namespace Lte.MySqlFramework.Concrete
         {
             return Get(stat.BtsId, stat.SectorId);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public CdmaRru Get(int btsId, byte sectorId)
         {
             return FirstOrDefault(x => x.BtsId == btsId && x.SectorId == sectorId);
         }
     }
 
-    public class LteRruRepository : EfRepositoryBase<MySqlContext, LteRru>, ILteRruRepository
+    public class LteRruRepository : EfRepositorySave<MySqlContext, LteRru>, ILteRruRepository
     {
         public LteRruRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
@@ -138,27 +113,17 @@ namespace Lte.MySqlFramework.Concrete
         {
             return Get(stat.ENodebId, stat.LocalSectorId);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public LteRru Get(int eNodebId, byte localSectorId)
         {
             return FirstOrDefault(x => x.ENodebId == eNodebId && x.LocalSectorId == localSectorId);
         }
     }
 
-    public class AreaTestDateDateRepository : EfRepositoryBase<MySqlContext, AreaTestDate>, IAreaTestDateRepository
+    public class AreaTestDateDateRepository : EfRepositorySave<MySqlContext, AreaTestDate>, IAreaTestDateRepository
     {
         public AreaTestDateDateRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
-        }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
         }
     }
 
@@ -206,7 +171,7 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class OptimizeOptimzeRegionRepository : EfRepositoryBase<MySqlContext, OptimizeRegion>, IOptimzeRegionRepository
+    public class OptimizeOptimzeRegionRepository : EfRepositorySave<MySqlContext, OptimizeRegion>, IOptimzeRegionRepository
     {
         public OptimizeOptimzeRegionRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
@@ -221,26 +186,16 @@ namespace Lte.MySqlFramework.Concrete
         {
             return await GetAllListAsync(x => x.City == city);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class EFLteNeighborCellRepository : EfRepositoryBase<MySqlContext, LteNeighborCell>, ILteNeighborCellRepository
+    public class LteNeighborCellRepository : EfRepositoryBase<MySqlContext, LteNeighborCell>, ILteNeighborCellRepository
     {
-        public List<LteNeighborCell> GetAllList(int cellId, byte sectorId)
-        {
-            return GetAllList(x => x.CellId == cellId && x.SectorId == sectorId);
-        }
-
-        public EFLteNeighborCellRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        public LteNeighborCellRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }
 
-    public class EFNearestPciCellRepository : EfRepositoryBase<MySqlContext, NearestPciCell>, INearestPciCellRepository
+    public class NearestPciCellRepository : EfRepositorySave<MySqlContext, NearestPciCell>, INearestPciCellRepository
     {
         public List<NearestPciCell> GetAllList(int cellId, byte sectorId)
         {
@@ -251,13 +206,8 @@ namespace Lte.MySqlFramework.Concrete
         {
             return FirstOrDefault(x => x.CellId == cellId && x.SectorId == sectorId && x.Pci == pci);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
-        public EFNearestPciCellRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        
+        public NearestPciCellRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }

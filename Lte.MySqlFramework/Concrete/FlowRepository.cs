@@ -10,7 +10,7 @@ using Lte.Domain.Common.Wireless;
 
 namespace Lte.MySqlFramework.Concrete
 {
-    public class FlowZteRepository : EfRepositoryBase<MySqlContext, FlowZte>, IFlowZteRepository
+    public class FlowZteRepository : EfRepositorySave<MySqlContext, FlowZte>, IFlowZteRepository
     {
         public FlowZteRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
@@ -29,26 +29,16 @@ namespace Lte.MySqlFramework.Concrete
                         x.StatTime >= begin && x.StatTime < end && x.ENodebId == eNodebId &&
                         x.SectorId == sectorId);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class RrcZteRepository : EfRepositoryBase<MySqlContext, RrcZte>, IRrcZteRepository
+    public class RrcZteRepository : EfRepositorySave<MySqlContext, RrcZte>, IRrcZteRepository
     {
         public RrcZteRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class FlowHuaweiRepository : EfRepositoryBase<MySqlContext, FlowHuawei>, IFlowHuaweiRepository
+    public class FlowHuaweiRepository : EfRepositorySave<MySqlContext, FlowHuawei>, IFlowHuaweiRepository
     {
         public FlowHuaweiRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
@@ -67,50 +57,30 @@ namespace Lte.MySqlFramework.Concrete
                         x.StatTime >= begin && x.StatTime < end && x.ENodebId == eNodebId &&
                         x.LocalCellId == localCellId);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class RrcHuaweiRepository : EfRepositoryBase<MySqlContext, RrcHuawei>, IRrcHuaweiRepository
+    public class RrcHuaweiRepository : EfRepositorySave<MySqlContext, RrcHuawei>, IRrcHuaweiRepository
     {
         public RrcHuaweiRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class TownFlowRepository : EfRepositoryBase<MySqlContext, TownFlowStat>, ITownFlowRepository
+    public class TownFlowRepository : EfRepositorySave<MySqlContext, TownFlowStat>, ITownFlowRepository
     {
         public TownFlowRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-        
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class TownRrcRepository : EfRepositoryBase<MySqlContext, TownRrcStat>, ITownRrcRepository
+    public class TownRrcRepository : EfRepositorySave<MySqlContext, TownRrcStat>, ITownRrcRepository
     {
         public TownRrcRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class EFInfrastructureRepository : EfRepositoryBase<MySqlContext, InfrastructureInfo>, IInfrastructureRepository
+    public class InfrastructureRepository : EfRepositorySave<MySqlContext, InfrastructureInfo>, IInfrastructureRepository
     {
         public IEnumerable<int> GetCollegeInfrastructureIds(string collegeName, InfrastructureType type)
         {
@@ -176,26 +146,17 @@ namespace Lte.MySqlFramework.Concrete
                 });
             }
         }
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
 
-        public EFInfrastructureRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        public InfrastructureRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }
 
     public class EFIndoorDistributionRepository
-        : EfRepositoryBase<MySqlContext, IndoorDistribution>, IIndoorDistributionRepository
+        : EfRepositorySave<MySqlContext, IndoorDistribution>, IIndoorDistributionRepository
     {
         public EFIndoorDistributionRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
-        }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
         }
     }
 }

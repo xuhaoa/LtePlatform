@@ -11,11 +11,11 @@ using Lte.Domain.Common.Wireless;
 
 namespace Lte.MySqlFramework.Concrete
 {
-    public class CollegeRepository : EfRepositoryBase<MySqlContext, CollegeInfo>, ICollegeRepository
+    public class CollegeRepository : EfRepositorySave<MySqlContext, CollegeInfo>, ICollegeRepository
     {
         public CollegeRegion GetRegion(int id)
         {
-            return GetAll().Select(x => new { x.Id, x.CollegeRegion }).FirstOrDefault(x => x.Id == id)?.CollegeRegion;
+            return GetAll().Select(x => new {x.Id, x.CollegeRegion}).FirstOrDefault(x => x.Id == id)?.CollegeRegion;
         }
 
         public CollegeInfo GetByName(string name)
@@ -28,26 +28,16 @@ namespace Lte.MySqlFramework.Concrete
             var college = GetByName(name);
             return college == null ? null : GetRegion(college.Id)?.RectangleRange;
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public CollegeRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }
 
-    public class CollegeYearRepository : EfRepositoryBase<MySqlContext, CollegeYearInfo>, ICollegeYearRepository
+    public class CollegeYearRepository : EfRepositorySave<MySqlContext, CollegeYearInfo>, ICollegeYearRepository
     {
         public CollegeYearRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
-        }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
         }
 
         public CollegeYearInfo GetByCollegeAndYear(int collegeId, int year)
@@ -61,7 +51,7 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class EFCollegeKpiRepository : EfRepositoryBase<MySqlContext, CollegeKpi>, ICollegeKpiRepository
+    public class EFCollegeKpiRepository : EfRepositorySave<MySqlContext, CollegeKpi>, ICollegeKpiRepository
     {
         public List<CollegeKpi> GetAllList(DateTime time)
         {
@@ -77,69 +67,44 @@ namespace Lte.MySqlFramework.Concrete
         {
             return GetAllList(x => x.TestTime >= begin && x.TestTime < end);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public EFCollegeKpiRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }
 
-    public class EFCollege3GTestRepository : EfRepositoryBase<MySqlContext, College3GTestResults>, ICollege3GTestRepository
+    public class EFCollege3GTestRepository : EfRepositorySave<MySqlContext, College3GTestResults>, ICollege3GTestRepository
     {
         public List<College3GTestResults> GetAllList(DateTime begin, DateTime end)
         {
             return GetAllList(x => x.TestTime >= begin && x.TestTime < end);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public EFCollege3GTestRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }
 
-    public class EFCollege4GTestRepository : EfRepositoryBase<MySqlContext, College4GTestResults>, ICollege4GTestRepository
+    public class EFCollege4GTestRepository : EfRepositorySave<MySqlContext, College4GTestResults>, ICollege4GTestRepository
     {
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
         public EFCollege4GTestRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }
 
-    public class HotSpotENodebRepository : EfRepositoryBase<MySqlContext, HotSpotENodebId>, IHotSpotENodebRepository
+    public class HotSpotENodebRepository : EfRepositorySave<MySqlContext, HotSpotENodebId>, IHotSpotENodebRepository
     {
         public HotSpotENodebRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class HotSpotCellRepository : EfRepositoryBase<MySqlContext, HotSpotCellId>, IHotSpotCellRepository
+    public class HotSpotCellRepository : EfRepositorySave<MySqlContext, HotSpotCellId>, IHotSpotCellRepository
     {
         public HotSpotCellRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public HotSpotCellId Match(HotSpotCellExcel stat)
         {
             var type = stat.HotSpotTypeDescription.GetEnumType<HotspotType>();
@@ -147,92 +112,57 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class HotSpotBtsRepository : EfRepositoryBase<MySqlContext, HotSpotBtsId>, IHotSpotBtsRepository
+    public class HotSpotBtsRepository : EfRepositorySave<MySqlContext, HotSpotBtsId>, IHotSpotBtsRepository
     {
         public HotSpotBtsRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class HotSpotCdmaCellRepository : EfRepositoryBase<MySqlContext, HotSpotCdmaCellId>,
+    public class HotSpotCdmaCellRepository : EfRepositorySave<MySqlContext, HotSpotCdmaCellId>,
         IHotSpotCdmaCellRepository
     {
         public HotSpotCdmaCellRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class RasterInfoRepository : EfRepositoryBase<MySqlContext, RasterInfo>, IRasterInfoRepository
+    public class RasterInfoRepository : EfRepositorySave<MySqlContext, RasterInfo>, IRasterInfoRepository
     {
         public RasterInfoRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class RasterTestInfoRepository : EfRepositoryBase<MySqlContext, RasterTestInfo>, IRasterTestInfoRepository
+    public class RasterTestInfoRepository : EfRepositorySave<MySqlContext, RasterTestInfo>, IRasterTestInfoRepository
     {
         public RasterTestInfoRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class RasterFileDtRepository : EfRepositoryBase<MySqlContext, RasterFileDtInfo>, IRasterFileDtRepository
+    public class RasterFileDtRepository : EfRepositorySave<MySqlContext, RasterFileDtInfo>, IRasterFileDtRepository
     {
         public RasterFileDtRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class DtFileInfoRepository : EfRepositoryBase<MySqlContext, CsvFilesInfo>, IDtFileInfoRepository
+    public class DtFileInfoRepository : EfRepositorySave<MySqlContext, CsvFilesInfo>, IDtFileInfoRepository
     {
         public DtFileInfoRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class AreaTestInfoRepository : EfRepositoryBase<MySqlContext, AreaTestInfo>, IAreaTestInfoRepository
+    public class AreaTestInfoRepository : EfRepositorySave<MySqlContext, AreaTestInfo>, IAreaTestInfoRepository
     {
         public AreaTestInfoRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class EFENodebRepository : EfRepositoryBase<MySqlContext, ENodeb>, IENodebRepository
+    public class ENodebRepository : EfRepositorySave<MySqlContext, ENodeb>, IENodebRepository
     {
         public ENodeb GetByENodebId(int eNodebId)
         {
@@ -249,18 +179,12 @@ namespace Lte.MySqlFramework.Concrete
             return GetAll().Where(x => x.IsInUse).ToList();
         }
 
-        public EFENodebRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        public ENodebRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
     }
 
-    public class EFBtsRepository : EfRepositoryBase<MySqlContext, CdmaBts>, IBtsRepository
+    public class BtsRepository : EfRepositorySave<MySqlContext, CdmaBts>, IBtsRepository
     {
         public CdmaBts GetByBtsId(int btsId)
         {
@@ -282,13 +206,8 @@ namespace Lte.MySqlFramework.Concrete
             return GetAllList(x => x.Longtitute >= west && x.Longtitute <= east
                 && x.Lattitute >= south && x.Lattitute <= north);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
-        public EFBtsRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        
+        public BtsRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }

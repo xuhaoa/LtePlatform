@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Lte.MySqlFramework.Concrete
 {
-    public class EmergencyCommunicationRepository : EfRepositoryBase<MySqlContext, EmergencyCommunication>,
+    public class EmergencyCommunicationRepository : EfRepositorySave<MySqlContext, EmergencyCommunication>,
         IEmergencyCommunicationRepository
     {
         public EmergencyCommunicationRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
@@ -25,19 +25,14 @@ namespace Lte.MySqlFramework.Concrete
         {
             return GetAllList(x => x.BeginDate >= begin && x.BeginDate < end && x.TownId == townId);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public EmergencyCommunication Match(EmergencyCommunicationDto stat)
         {
             return stat.Id <= 0 ? FirstOrDefault(x => x.ProjectName == stat.ProjectName) : Get(stat.Id);
         }
     }
 
-    public class VipDemandRepository : EfRepositoryBase<MySqlContext, VipDemand>, IVipDemandRepository
+    public class VipDemandRepository : EfRepositorySave<MySqlContext, VipDemand>, IVipDemandRepository
     {
         public VipDemandRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
@@ -47,12 +42,7 @@ namespace Lte.MySqlFramework.Concrete
         {
             return FirstOrDefault(x => x.SerialNumber == stat.SerialNumber);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public List<VipDemand> GetAllList(DateTime begin, DateTime end)
         {
             return GetAllList(x => x.BeginDate >= begin && x.BeginDate <= end);
@@ -69,7 +59,7 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class EmergencyProcessRepository : EfRepositoryBase<MySqlContext, EmergencyProcess>,
+    public class EmergencyProcessRepository : EfRepositorySave<MySqlContext, EmergencyProcess>,
         IEmergencyProcessRepository
     {
         public EmergencyProcessRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
@@ -81,19 +71,14 @@ namespace Lte.MySqlFramework.Concrete
             var state = stat.ProcessStateDescription.GetEnumType<EmergencyState>();
             return FirstOrDefault(x => x.EmergencyId == stat.EmergencyId && x.ProcessState == state);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public List<EmergencyProcess> GetAllList(int emergencyId)
         {
             return GetAllList(x => x.EmergencyId == emergencyId);
         }
     }
 
-    public class VipProcessRepository : EfRepositoryBase<MySqlContext, VipProcess>, IVipProcessRepository
+    public class VipProcessRepository : EfRepositorySave<MySqlContext, VipProcess>, IVipProcessRepository
     {
         public VipProcessRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
@@ -104,19 +89,14 @@ namespace Lte.MySqlFramework.Concrete
             var state = stat.VipStateDescription.GetEnumType<VipState>();
             return FirstOrDefault(x => x.SerialNumber == stat.SerialNumber && x.VipState == state);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public List<VipProcess> GetAllList(string serialNumber)
         {
             return GetAllList(x => x.SerialNumber == serialNumber);
         }
     }
 
-    public class ComplainProcessRepository : EfRepositoryBase<MySqlContext, ComplainProcess>, IComplainProcessRepository
+    public class ComplainProcessRepository : EfRepositorySave<MySqlContext, ComplainProcess>, IComplainProcessRepository
     {
         public ComplainProcessRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
@@ -126,19 +106,14 @@ namespace Lte.MySqlFramework.Concrete
         {
             return FirstOrDefault(x => x.SerialNumber == stat.SerialNumber);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public List<ComplainProcess> GetAllList(string serialNumber)
         {
             return GetAllList(x => x.SerialNumber == serialNumber);
         }
     }
 
-    public class EmergencyFiberWorkItemRepository : EfRepositoryBase<MySqlContext, EmergencyFiberWorkItem>,
+    public class EmergencyFiberWorkItemRepository : EfRepositorySave<MySqlContext, EmergencyFiberWorkItem>,
         IEmergencyFiberWorkItemRepository
     {
         public EmergencyFiberWorkItemRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
@@ -149,19 +124,14 @@ namespace Lte.MySqlFramework.Concrete
         {
             return FirstOrDefault(x => x.EmergencyId == stat.EmergencyId && x.WorkItemNumber == stat.WorkItemNumber);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public List<EmergencyFiberWorkItem> GetAllList(int emergencyId)
         {
             return GetAllList(x => x.EmergencyId == emergencyId);
         }
     }
 
-    public class ComplainItemRepository : EfRepositoryBase<MySqlContext, ComplainItem>,
+    public class ComplainItemRepository : EfRepositorySave<MySqlContext, ComplainItem>,
         IComplainItemRepository
     {
         public ComplainItemRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
@@ -182,12 +152,7 @@ namespace Lte.MySqlFramework.Concrete
         {
             return GetAllList(x => x.BeginTime >= begin && x.BeginTime < end && x.TownId == townId);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public ComplainItem Get(string serialNumber)
         {
             return FirstOrDefault(x => x.SerialNumber == serialNumber);
@@ -199,7 +164,7 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class BranchDemandRepository : EfRepositoryBase<MySqlContext, BranchDemand>,IBranchDemandRepository
+    public class BranchDemandRepository : EfRepositorySave<MySqlContext, BranchDemand>,IBranchDemandRepository
     {
         public BranchDemandRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
@@ -214,19 +179,14 @@ namespace Lte.MySqlFramework.Concrete
         {
             return GetAllList(x => x.BeginDate >= begin && x.BeginDate < end && x.TownId == townId);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
-
+        
         public BranchDemand Match(BranchDemandExcel stat)
         {
             return FirstOrDefault(x => x.SerialNumber == stat.SerialNumber);
         }
     }
 
-    public class OnlineSustainRepository : EfRepositoryBase<MySqlContext, OnlineSustain>, IOnlineSustainRepository
+    public class OnlineSustainRepository : EfRepositorySave<MySqlContext, OnlineSustain>, IOnlineSustainRepository
     {
         public OnlineSustainRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
@@ -246,14 +206,9 @@ namespace Lte.MySqlFramework.Concrete
         {
             return GetAllList(x => x.BeginDate >= begin && x.BeginDate < end && x.TownId == townId);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class WebBrowsingRepository : EfRepositoryBase<MySqlContext, WebBrowsing>, IWebBrowsingRepository
+    public class WebBrowsingRepository : EfRepositorySave<MySqlContext, WebBrowsing>, IWebBrowsingRepository
     {
         public WebBrowsingRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
@@ -263,14 +218,9 @@ namespace Lte.MySqlFramework.Concrete
         {
             return FirstOrDefault(x => x.Meid == stat.Meid && x.StatDate == stat.PageSurfTime);
         }
-        
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class AppStreamRepository : EfRepositoryBase<MySqlContext, AppSteam>, IAppStreamRepository
+    public class AppStreamRepository : EfRepositorySave<MySqlContext, AppSteam>, IAppStreamRepository
     {
         public AppStreamRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
@@ -280,34 +230,19 @@ namespace Lte.MySqlFramework.Concrete
         {
             return FirstOrDefault(x => x.Meid == stat.Meid && x.StatDate == stat.VideoTestTime);
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class MicroItemRepository : EfRepositoryBase<MySqlContext, MicroItem>, IMicroItemRepository
+    public class MicroItemRepository : EfRepositorySave<MySqlContext, MicroItem>, IMicroItemRepository
     {
         public MicroItemRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
-        }
     }
 
-    public class MicroAddressRepository : EfRepositoryBase<MySqlContext, MicroAddress>, IMicroAddressRepository
+    public class MicroAddressRepository : EfRepositorySave<MySqlContext, MicroAddress>, IMicroAddressRepository
     {
         public MicroAddressRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
-        }
-
-        public int SaveChanges()
-        {
-            return Context.SaveChanges();
         }
     }
 }

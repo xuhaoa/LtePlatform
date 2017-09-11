@@ -27,7 +27,18 @@ LTE信令数据的解析库，目前没有应用到主项目中。
 #### Lte.Auxilary
 辅助项目，主要是python脚本，目前用于后台数据的预处理。
 ### 测试项目
-
+这部分主要是对各个后端模块的工程的单元测试，而对前端的测试模块在主工程中。
+包括以下测试项目：
+#### Abp.EntityFramework.Tests
+#### Abp.Tests
+#### AutoMapper.Test
+#### Lte.Domain.Test
+#### Lte.Evaluation.Test
+#### Lte.Parameters.Test
+#### LtePlatform.Tests
+#### MongoDB.Driver.Legacy.Tests
+#### Moq.Tests
+#### TraceParser.Test
 ## 后端模块
 ### 数据库接口模块
 本平台采用了SQLServer、MySQL、MongoDB等数据库引擎。
