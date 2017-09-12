@@ -72,30 +72,16 @@
             dialogTitle,
             collegeQueryService,
             generalChartService,
-            parametersChartService,
+            appKpiService,
             emergencyService) {
             $scope.college = college;
             $scope.dialogTitle = dialogTitle;
             $scope.query = function() {
                 collegeQueryService.queryCollegeDateFlows(college.name, $scope.beginDate.value, $scope.endDate.value)
                     .then(function(stats) {
-                        var result = generalChartService.generateColumnData(stats,
-                            function(stat) {
-                                return stat.statTime;
-                            },
-                            [
-                                function(stat) {
-                                    return stat.pdcpDownlinkFlow;
-                                }, function(stat) {
-                                    return stat.pdcpUplinkFlow;
-                                }, function(stat) {
-                                    return stat.averageUsers;
-                                }, function(stat) {
-                                    return stat.maxActiveUsers;
-                                }
-                            ]);
-                        $("#flowConfig").highcharts(parametersChartService.getDateFlowOptions(result, 0, 1));
-                        $("#usersConfig").highcharts(parametersChartService.getDateUsersOptions(result, 2, 3));
+                        $("#flowConfig").highcharts(appKpiService.generateMergeFeelingOptions(stats, college.name));
+                        $("#usersConfig").highcharts(appKpiService.generateMergeUsersOptions(stats, college.name));
+                        $("#downSwitchConfig").highcharts(appKpiService.generateMergeDownSwitchOptions(stats, college.name));
                     });
             };
             $scope.query();

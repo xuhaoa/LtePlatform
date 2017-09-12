@@ -839,22 +839,6 @@
                     ytitle: "最大激活用户数"
                 }, data.categories, data.dataList[index]);
             },
-            getDateFlowOptions: function(data, index1, index2) {
-                return generalChartService.queryDoubleColumnOptions({
-                    title: "流量变化趋势",
-                    xtitle: "日期",
-                    ytitle1: "下行流量(MB)",
-                    ytitle2: "上行流量(MB)"
-                }, data.categories, data.dataList[index1], data.dataList[index2]);
-            },
-            getDateUsersOptions: function(data, index1, index2) {
-                return generalChartService.queryDoubleColumnOptions({
-                    title: "用户数变化趋势",
-                    xtitle: "日期",
-                    ytitle1: "平均用户数",
-                    ytitle2: "最大激活用户数"
-                }, data.categories, data.dataList[index1], data.dataList[index2]);
-            },
             getCellIndoorTypeColumnOptions: function(stats) {
                 return generalChartService.getStackColumnOptions(stats, {
                     title: '各区室内外小区分布',
