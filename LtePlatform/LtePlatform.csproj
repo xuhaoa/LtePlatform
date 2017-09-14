@@ -986,7 +986,10 @@
     <Content Include="Scripts\service\kpi\core.js" />
     <Content Include="Scripts\service\kpi\coverage.js" />
     <Content Include="Scripts\service\kpi\customer.js" />
+    <Content Include="Scripts\service\kpi\parameter.dump.js" />
     <Content Include="Scripts\service\kpi\parameter.js" />
+    <Content Include="Scripts\service\kpi\parameter.query.js" />
+    <Content Include="Scripts\service\kpi\parameter.rutrace.js" />
     <Content Include="Scripts\service\kpi\work.js" />
     <Content Include="Scripts\service\region\authorize.js" />
     <Content Include="Scripts\service\region\basic.js" />

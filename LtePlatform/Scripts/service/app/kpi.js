@@ -4459,111 +4459,143 @@ angular.module('kpi.customer', ['myApp.url', 'myApp.region', "ui.bootstrap"])
             }
         };
     });
-angular.module('kpi.parameter', ['myApp.url', 'myApp.region', "ui.bootstrap"])
-    .controller('dump.cell.mongo', function ($scope, $uibModalInstance,
-        dumpProgress, appFormatService, dumpPreciseService, neighborMongoService,
-        preciseInterferenceService, networkElementService,
-        dialogTitle, cell, begin, end) {
-        $scope.dialogTitle = dialogTitle;
+angular.module('kpi.parameter.dump', ['myApp.url', 'myApp.region', "ui.bootstrap"])
+    .controller('dump.cell.mongo',
+        function($scope,
+            $uibModalInstance,
+            dumpProgress,
+            appFormatService,
+            dumpPreciseService,
+            neighborMongoService,
+            preciseInterferenceService,
+            networkElementService,
+            dialogTitle,
+            cell,
+            begin,
+            end) {
+            $scope.dialogTitle = dialogTitle;
 
-        $scope.dateRecords = [];
-        $scope.currentDetails = [];
-        $scope.currentIndex = 0;
+            $scope.dateRecords = [];
+            $scope.currentDetails = [];
+            $scope.currentIndex = 0;
 
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.dateRecords);
-        };
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.dateRecords);
+            };
 
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
 
-        $scope.queryRecords = function () {
-            $scope.mrsRsrpStats = [];
-            $scope.mrsTaStats = [];
-            angular.forEach($scope.dateRecords, function (record) {
-                dumpProgress.queryExistedItems(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
-                    record.existedRecords = result;
-                });
-                dumpProgress.queryMongoItems(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
-                    record.mongoRecords = result;
-                });
-                dumpProgress.queryMrsRsrpItem(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
-                    record.mrsRsrpStats = result;
-                    if (result) {
-                        $scope.mrsRsrpStats.push({
-                            statDate: result.statDate,
-                            data: _.map(_.range(48), function (index) {
-                                return result['rsrP_' + appFormatService.prefixInteger(index, 2)];
-                            })
+            $scope.queryRecords = function() {
+                $scope.mrsRsrpStats = [];
+                $scope.mrsTaStats = [];
+                angular.forEach($scope.dateRecords,
+                    function(record) {
+                        dumpProgress.queryExistedItems(cell.eNodebId, cell.sectorId, record.date)
+                            .then(function(result) {
+                                record.existedRecords = result;
+                            });
+                        dumpProgress.queryMongoItems(cell.eNodebId, cell.sectorId, record.date).then(function(result) {
+                            record.mongoRecords = result;
                         });
-                    }
+                        dumpProgress.queryMrsRsrpItem(cell.eNodebId, cell.sectorId, record.date).then(function(result) {
+                            record.mrsRsrpStats = result;
+                            if (result) {
+                                $scope.mrsRsrpStats.push({
+                                    statDate: result.statDate,
+                                    data: _.map(_.range(48),
+                                        function(index) {
+                                            return result['rsrP_' + appFormatService.prefixInteger(index, 2)];
+                                        })
+                                });
+                            }
 
-                });
-                dumpProgress.queryMrsTadvItem(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
-                    record.mrsTaStats = result;
-                    if (result) {
-                        $scope.mrsTaStats.push({
-                            statDate: result.statDate,
-                            data: _.map(_.range(44), function (index) {
-                                return result['tadv_' + appFormatService.prefixInteger(index, 2)];
-                            })
                         });
-                    }
+                        dumpProgress.queryMrsTadvItem(cell.eNodebId, cell.sectorId, record.date).then(function(result) {
+                            record.mrsTaStats = result;
+                            if (result) {
+                                $scope.mrsTaStats.push({
+                                    statDate: result.statDate,
+                                    data: _.map(_.range(44),
+                                        function(index) {
+                                            return result['tadv_' + appFormatService.prefixInteger(index, 2)];
+                                        })
+                                });
+                            }
 
-                });
-                dumpProgress.queryMrsPhrItem(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
-                    //console.log(result['powerHeadRoom_00']);
-                    record.mrsPhrStats = result;
-                });
-                dumpProgress.queryMrsTadvRsrpItem(cell.eNodebId, cell.sectorId, record.date).then(function (result) {
-                    //console.log(result['tadv00Rsrp00']);
-                    record.mrsTaRsrpStats = result;
-                });
-            });
-        };
-
-        $scope.updateDetails = function (index) {
-            $scope.currentIndex = index % $scope.dateRecords.length;
-        };
-
-        $scope.dumpAllRecords = function () {
-            dumpPreciseService.dumpAllRecords($scope.dateRecords, 0, 0, cell.eNodebId, cell.sectorId, $scope.queryRecords);
-        };
-
-        $scope.showNeighbors = function () {
-            $scope.neighborCells = [];
-            networkElementService.queryCellNeighbors(cell.eNodebId, cell.sectorId).then(function (result) {
-                $scope.neighborCells = result;
-            });
-
-        };
-        $scope.showReverseNeighbors = function () {
-            neighborMongoService.queryReverseNeighbors(cell.eNodebId, cell.sectorId).then(function (result) {
-                $scope.reverseCells = result;
-                angular.forEach(result, function (neighbor) {
-                    networkElementService.queryENodebInfo(neighbor.cellId).then(function (info) {
-                        neighbor.eNodebName = info.name;
+                        });
+                        dumpProgress.queryMrsPhrItem(cell.eNodebId, cell.sectorId, record.date).then(function(result) {
+                            record.mrsPhrStats = result;
+                        });
+                        dumpProgress.queryMrsTadvRsrpItem(cell.eNodebId, cell.sectorId, record.date)
+                            .then(function(result) {
+                                record.mrsTaRsrpStats = result;
+                            });
                     });
+            };
+
+            $scope.updateDetails = function(index) {
+                $scope.currentIndex = index % $scope.dateRecords.length;
+            };
+
+            $scope.dumpAllRecords = function() {
+                dumpPreciseService.dumpAllRecords($scope.dateRecords,
+                    0,
+                    0,
+                    cell.eNodebId,
+                    cell.sectorId,
+                    $scope.queryRecords);
+            };
+
+            $scope.showNeighbors = function() {
+                $scope.neighborCells = [];
+                networkElementService.queryCellNeighbors(cell.eNodebId, cell.sectorId).then(function(result) {
+                    $scope.neighborCells = result;
                 });
-            });
-        }
-        $scope.updatePci = function () {
-            networkElementService.updateCellPci(cell).then(function (result) {
-                $scope.updateMessages.push({
-                    cellName: cell.name + '-' + cell.sectorId,
-                    counts: result
+
+            };
+            $scope.showReverseNeighbors = function() {
+                neighborMongoService.queryReverseNeighbors(cell.eNodebId, cell.sectorId).then(function(result) {
+                    $scope.reverseCells = result;
+                    angular.forEach(result,
+                        function(neighbor) {
+                            networkElementService.queryENodebInfo(neighbor.cellId).then(function(info) {
+                                neighbor.eNodebName = info.name;
+                            });
+                        });
                 });
-                $scope.showNeighbors();
-            });
-        };
-        $scope.synchronizeNeighbors = function () {
-            var count = 0;
-            neighborMongoService.queryNeighbors(cell.eNodebId, cell.sectorId).then(function (neighbors) {
-                angular.forEach(neighbors, function (neighbor) {
-                    if (neighbor.neighborCellId > 0 && neighbor.neighborPci > 0) {
-                        networkElementService.updateNeighbors(neighbor.cellId, neighbor.sectorId, neighbor.neighborPci,
-                            neighbor.neighborCellId, neighbor.neighborSectorId).then(function () {
+            }
+            $scope.updatePci = function() {
+                networkElementService.updateCellPci(cell).then(function(result) {
+                    $scope.updateMessages.push({
+                        cellName: cell.name + '-' + cell.sectorId,
+                        counts: result
+                    });
+                    $scope.showNeighbors();
+                });
+            };
+            $scope.synchronizeNeighbors = function() {
+                var count = 0;
+                neighborMongoService.queryNeighbors(cell.eNodebId, cell.sectorId).then(function(neighbors) {
+                    angular.forEach(neighbors,
+                        function(neighbor) {
+                            if (neighbor.neighborCellId > 0 && neighbor.neighborPci > 0) {
+                                networkElementService.updateNeighbors(neighbor.cellId,
+                                    neighbor.sectorId,
+                                    neighbor.neighborPci,
+                                    neighbor.neighborCellId,
+                                    neighbor.neighborSectorId).then(function() {
+                                    count += 1;
+                                    if (count === neighbors.length) {
+                                        $scope.updateMessages.push({
+                                            cellName: $scope.currentCellName,
+                                            counts: count
+                                        });
+                                        $scope.showNeighbors();
+                                    }
+                                });
+                            } else {
                                 count += 1;
                                 if (count === neighbors.length) {
                                     $scope.updateMessages.push({
@@ -4572,481 +4604,572 @@ angular.module('kpi.parameter', ['myApp.url', 'myApp.region', "ui.bootstrap"])
                                     });
                                     $scope.showNeighbors();
                                 }
-                            });
-                    } else {
-                        count += 1;
-                        if (count === neighbors.length) {
-                            $scope.updateMessages.push({
-                                cellName: $scope.currentCellName,
-                                counts: count
-                            });
-                            $scope.showNeighbors();
-                        }
-                    }
-                });
-            });
-        };
-
-        var startDate = new Date(begin);
-        while (startDate < end) {
-            var date = new Date(startDate);
-            $scope.dateRecords.push({
-                date: date,
-                existedRecords: 0,
-                existedStat: false
-            });
-            startDate.setDate(date.getDate() + 1);
-        }
-        $scope.neighborCells = [];
-        $scope.updateMessages = [];
-
-        $scope.queryRecords();
-        $scope.showReverseNeighbors();
-        $scope.showNeighbors();
-    })
-    .controller("rutrace.interference", function ($scope, $uibModalInstance, cell,
-        topPreciseService, kpiDisplayService, preciseInterferenceService, neighborMongoService, networkElementService) {
-        $scope.currentCellName = cell.name + "-" + cell.sectorId;
-        $scope.dialogTitle = "TOP指标干扰分析: " + $scope.currentCellName;
-        $scope.oneAtATime = false;
-        $scope.orderPolicy = topPreciseService.getOrderPolicySelection();
-        $scope.updateMessages = [];
-
-        networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function (info) {
-            $scope.current = {
-                cellId: cell.cellId,
-                sectorId: cell.sectorId,
-                eNodebName: cell.name,
-                longtitute: info.longtitute,
-                lattitute: info.lattitute
-            };
-        });
-
-        $scope.showInterference = function () {
-            $scope.interferenceCells = [];
-            $scope.victimCells = [];
-
-            preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
-                cell.cellId, cell.sectorId).then(function (result) {
-                    angular.forEach(result, function (interference) {
-                        for (var i = 0; i < $scope.mongoNeighbors.length; i++) {
-                            var neighbor = $scope.mongoNeighbors[i];
-                            if (neighbor.neighborPci === interference.destPci) {
-                                interference.isMongoNeighbor = true;
-                                break;
                             }
+                        });
+                });
+            };
+
+            var startDate = new Date(begin);
+            while (startDate < end) {
+                var date = new Date(startDate);
+                $scope.dateRecords.push({
+                    date: date,
+                    existedRecords: 0,
+                    existedStat: false
+                });
+                startDate.setDate(date.getDate() + 1);
+            }
+            $scope.neighborCells = [];
+            $scope.updateMessages = [];
+
+            $scope.queryRecords();
+            $scope.showReverseNeighbors();
+            $scope.showNeighbors();
+        })
+    .controller('neighbors.dialog',
+        function($scope,
+            $uibModalInstance,
+            geometryService,
+            dialogTitle,
+            candidateNeighbors,
+            currentCell) {
+            $scope.pciNeighbors = [];
+            $scope.indoorConsidered = false;
+            $scope.distanceOrder = "distance";
+            $scope.dialogTitle = dialogTitle;
+            $scope.candidateNeighbors = candidateNeighbors;
+            $scope.currentCell = currentCell;
+
+            angular.forEach($scope.candidateNeighbors,
+                function(neighbor) {
+                    neighbor.distance = geometryService.getDistance($scope.currentCell.lattitute,
+                        $scope.currentCell.longtitute,
+                        neighbor.lattitute,
+                        neighbor.longtitute);
+
+                    $scope.pciNeighbors.push(neighbor);
+                });
+
+            $scope.updateNearestCell = function() {
+                var minDistance = 10000;
+                angular.forEach($scope.candidateNeighbors,
+                    function(neighbor) {
+                        if (neighbor.distance < minDistance && (neighbor.indoor === '室外' || $scope.indoorConsidered)) {
+                            minDistance = neighbor.distance;
+                            $scope.nearestCell = neighbor;
                         }
                     });
+
+            };
+
+            $scope.ok = function() {
+                $scope.updateNearestCell();
+                $uibModalInstance.close($scope.nearestCell);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        });
+angular.module('kpi.parameter.rutrace', ['myApp.url', 'myApp.region', "ui.bootstrap"])
+    .controller("rutrace.interference",
+        function($scope,
+            $uibModalInstance,
+            cell,
+            topPreciseService,
+            kpiDisplayService,
+            preciseInterferenceService,
+            neighborMongoService,
+            networkElementService) {
+            $scope.currentCellName = cell.name + "-" + cell.sectorId;
+            $scope.dialogTitle = "TOP指标干扰分析: " + $scope.currentCellName;
+            $scope.oneAtATime = false;
+            $scope.orderPolicy = topPreciseService.getOrderPolicySelection();
+            $scope.updateMessages = [];
+
+            networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function(info) {
+                $scope.current = {
+                    cellId: cell.cellId,
+                    sectorId: cell.sectorId,
+                    eNodebName: cell.name,
+                    longtitute: info.longtitute,
+                    lattitute: info.lattitute
+                };
+            });
+
+            $scope.showInterference = function() {
+                $scope.interferenceCells = [];
+                $scope.victimCells = [];
+
+                preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value,
+                    $scope.endDate.value,
+                    cell.cellId,
+                    cell.sectorId).then(function(result) {
+                    angular.forEach(result,
+                        function(interference) {
+                            for (var i = 0; i < $scope.mongoNeighbors.length; i++) {
+                                var neighbor = $scope.mongoNeighbors[i];
+                                if (neighbor.neighborPci === interference.destPci) {
+                                    interference.isMongoNeighbor = true;
+                                    break;
+                                }
+                            }
+                        });
                     $scope.interferenceCells = result;
-                    preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
-                        cell.cellId, cell.sectorId).then(function (victims) {
-                            angular.forEach(victims, function (victim) {
+                    preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value,
+                        $scope.endDate.value,
+                        cell.cellId,
+                        cell.sectorId).then(function(victims) {
+                        angular.forEach(victims,
+                            function(victim) {
                                 for (var j = 0; j < result.length; j++) {
-                                    if (result[j].destENodebId === victim.victimENodebId
-                                        && result[j].destSectorId === victim.victimSectorId) {
+                                    if (result[j].destENodebId === victim.victimENodebId &&
+                                        result[j].destSectorId === victim.victimSectorId) {
                                         victim.forwardInterferences6Db = result[j].overInterferences6Db;
                                         victim.forwardInterferences10Db = result[j].overInterferences10Db;
                                         break;
                                     }
                                 }
                             });
-                            $scope.victimCells = victims;
-                        });
+                        $scope.victimCells = victims;
+                    });
                     var pieOptions = kpiDisplayService.getInterferencePieOptions(result, $scope.currentCellName);
                     $("#interference-over6db").highcharts(pieOptions.over6DbOption);
                     $("#interference-over10db").highcharts(pieOptions.over10DbOption);
                     $("#interference-mod3").highcharts(pieOptions.mod3Option);
                     $("#interference-mod6").highcharts(pieOptions.mod6Option);
-                    topPreciseService.queryRsrpTa($scope.beginDate.value, $scope.endDate.value,
-                        cell.cellId, cell.sectorId).then(function (info) {
+                    topPreciseService.queryRsrpTa($scope.beginDate.value,
+                        $scope.endDate.value,
+                        cell.cellId,
+                        cell.sectorId).then(function(info) {
+                    });
+                });
+            };
+
+            $scope.updateNeighborInfos = function() {
+                preciseInterferenceService.updateInterferenceNeighbor(cell.cellId, cell.sectorId)
+                    .then(function(result) {
+                        $scope.updateMessages.push({
+                            cellName: $scope.currentCellName,
+                            counts: result,
+                            type: "干扰"
                         });
-                });
-        };
+                    });
 
-        $scope.updateNeighborInfos = function () {
-            preciseInterferenceService.updateInterferenceNeighbor(cell.cellId, cell.sectorId).then(function (result) {
-                $scope.updateMessages.push({
-                    cellName: $scope.currentCellName,
-                    counts: result,
-                    type: "干扰"
+                preciseInterferenceService.updateInterferenceVictim(cell.cellId, cell.sectorId).then(function(result) {
+                    $scope.updateMessages.push({
+                        cellName: $scope.currentCellName,
+                        counts: result,
+                        type: "被干扰"
+                    });
                 });
+            }
+
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.mongoNeighbors);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            neighborMongoService.queryNeighbors(cell.cellId, cell.sectorId).then(function(result) {
+                $scope.mongoNeighbors = result;
+                $scope.showInterference();
+                $scope.updateNeighborInfos();
             });
-
-            preciseInterferenceService.updateInterferenceVictim(cell.cellId, cell.sectorId).then(function (result) {
-                $scope.updateMessages.push({
-                    cellName: $scope.currentCellName,
-                    counts: result,
-                    type: "被干扰"
-                });
-            });
-        }
-
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.mongoNeighbors);
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-
-        neighborMongoService.queryNeighbors(cell.cellId, cell.sectorId).then(function (result) {
-            $scope.mongoNeighbors = result;
-            $scope.showInterference();
-            $scope.updateNeighborInfos();
-        });
-    })
-    .controller("rutrace.coverage", function ($scope, cell, $uibModalInstance,
-        topPreciseService, preciseInterferenceService,
-        preciseChartService, coverageService, kpiDisplayService) {
-        $scope.currentCellName = cell.name + "-" + cell.sectorId;
-        $scope.dialogTitle = "TOP指标覆盖分析: " + $scope.currentCellName;
-        $scope.orderPolicy = topPreciseService.getOrderPolicySelection();
-        $scope.detailsDialogTitle = cell.name + "-" + cell.sectorId + "详细小区统计";
-        $scope.cellId = cell.cellId;
-        $scope.sectorId = cell.sectorId;
-        $scope.showCoverage = function () {
-            topPreciseService.queryRsrpTa($scope.beginDate.value, $scope.endDate.value,
-                cell.cellId, cell.sectorId).then(function (result) {
+        })
+    .controller("rutrace.coverage",
+        function($scope,
+            cell,
+            $uibModalInstance,
+            topPreciseService,
+            preciseInterferenceService,
+            preciseChartService,
+            coverageService,
+            kpiDisplayService) {
+            $scope.currentCellName = cell.name + "-" + cell.sectorId;
+            $scope.dialogTitle = "TOP指标覆盖分析: " + $scope.currentCellName;
+            $scope.orderPolicy = topPreciseService.getOrderPolicySelection();
+            $scope.detailsDialogTitle = cell.name + "-" + cell.sectorId + "详细小区统计";
+            $scope.cellId = cell.cellId;
+            $scope.sectorId = cell.sectorId;
+            $scope.showCoverage = function() {
+                topPreciseService.queryRsrpTa($scope.beginDate.value,
+                    $scope.endDate.value,
+                    cell.cellId,
+                    cell.sectorId).then(function(result) {
                     for (var rsrpIndex = 0; rsrpIndex < 12; rsrpIndex++) {
                         var options = preciseChartService.getRsrpTaOptions(result, rsrpIndex);
                         $("#rsrp-ta-" + rsrpIndex).highcharts(options);
                     }
                 });
-            topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
-                cell.cellId, cell.sectorId).then(function (result) {
+                topPreciseService.queryCoverage($scope.beginDate.value,
+                    $scope.endDate.value,
+                    cell.cellId,
+                    cell.sectorId).then(function(result) {
                     var options = preciseChartService.getCoverageOptions(result);
                     $("#coverage-chart").highcharts(options);
                 });
-            topPreciseService.queryTa($scope.beginDate.value, $scope.endDate.value,
-                cell.cellId, cell.sectorId).then(function (result) {
+                topPreciseService.queryTa($scope.beginDate.value,
+                    $scope.endDate.value,
+                    cell.cellId,
+                    cell.sectorId).then(function(result) {
                     var options = preciseChartService.getTaOptions(result);
                     $("#ta-chart").highcharts(options);
                 });
-            preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
-                cell.cellId, cell.sectorId).then(function (result) {
+                preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value,
+                    $scope.endDate.value,
+                    cell.cellId,
+                    cell.sectorId).then(function(result) {
                     $scope.interferenceCells = result;
-                    angular.forEach($scope.interferenceCells, function (neighbor) {
-                        if (neighbor.destENodebId > 0) {
-                            kpiDisplayService.updateCoverageKpi(neighbor, {
-                                cellId: neighbor.destENodebId,
-                                sectorId: neighbor.destSectorId
-                            }, {
-                                begin: $scope.beginDate.value,
-                                end: $scope.endDate.value
-                            });
-                        }
-                    });
+                    angular.forEach($scope.interferenceCells,
+                        function(neighbor) {
+                            if (neighbor.destENodebId > 0) {
+                                kpiDisplayService.updateCoverageKpi(neighbor,
+                                    {
+                                        cellId: neighbor.destENodebId,
+                                        sectorId: neighbor.destSectorId
+                                    },
+                                    {
+                                        begin: $scope.beginDate.value,
+                                        end: $scope.endDate.value
+                                    });
+                            }
+                        });
                 });
-            preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
-                cell.cellId, cell.sectorId).then(function (result) {
+                preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value,
+                    $scope.endDate.value,
+                    cell.cellId,
+                    cell.sectorId).then(function(result) {
                     $scope.interferenceVictims = result;
-                    angular.forEach($scope.interferenceVictims, function (victim) {
-                        if (victim.victimENodebId > 0) {
-                            kpiDisplayService.updateCoverageKpi(victim, {
-                                cellId: victim.victimENodebId,
-                                sectorId: victim.victimSectorId
-                            }, {
-                                begin: $scope.beginDate.value,
-                                end: $scope.endDate.value
-                            });
-                        }
-                    });
+                    angular.forEach($scope.interferenceVictims,
+                        function(victim) {
+                            if (victim.victimENodebId > 0) {
+                                kpiDisplayService.updateCoverageKpi(victim,
+                                    {
+                                        cellId: victim.victimENodebId,
+                                        sectorId: victim.victimSectorId
+                                    },
+                                    {
+                                        begin: $scope.beginDate.value,
+                                        end: $scope.endDate.value
+                                    });
+                            }
+                        });
                 });
-        };
+            };
 
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.interferenceCells);
-        };
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.interferenceCells);
+            };
 
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
 
-        $scope.showCoverage();
-    })
-
-    .controller('map.source.dialog', function ($scope, $uibModalInstance, neighbor, dialogTitle, topPreciseService, preciseChartService) {
-        $scope.neighbor = neighbor;
-        $scope.dialogTitle = dialogTitle;
-        if (neighbor.cellId !== undefined) {
-            $scope.cellId = neighbor.cellId;
-            $scope.sectorId = neighbor.sectorId;
-        } else {
-            $scope.cellId = neighbor.destENodebId;
-            $scope.sectorId = neighbor.destSectorId;
-        }
-        topPreciseService.queryCoverage($scope.beginDate.value, $scope.endDate.value,
-            $scope.cellId, $scope.sectorId).then(function (result) {
+            $scope.showCoverage();
+        })
+    .controller('map.source.dialog',
+        function($scope, $uibModalInstance, neighbor, dialogTitle, topPreciseService, preciseChartService) {
+            $scope.neighbor = neighbor;
+            $scope.dialogTitle = dialogTitle;
+            if (neighbor.cellId !== undefined) {
+                $scope.cellId = neighbor.cellId;
+                $scope.sectorId = neighbor.sectorId;
+            } else {
+                $scope.cellId = neighbor.destENodebId;
+                $scope.sectorId = neighbor.destSectorId;
+            }
+            topPreciseService.queryCoverage($scope.beginDate.value,
+                $scope.endDate.value,
+                $scope.cellId,
+                $scope.sectorId).then(function(result) {
                 var options = preciseChartService.getCoverageOptions(result);
                 $("#coverage-chart").highcharts(options);
             });
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.neighbor);
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    })
-    .controller("cell.info.dialog", function ($scope, cell, dialogTitle, neighborMongoService, $uibModalInstance) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.isHuaweiCell = false;
-        $scope.eNodebId = cell.eNodebId;
-        $scope.sectorId = cell.sectorId;
-
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.mongoNeighbors);
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-
-        neighborMongoService.queryNeighbors(cell.eNodebId, cell.sectorId).then(function (result) {
-            $scope.mongoNeighbors = result;
-        });
-
-    })
-
-    .controller('query.setting.dialog', function ($scope, $uibModalInstance, city, dialogTitle, beginDate, endDate,
-    appRegionService, parametersMapService, parametersDialogService, networkElementService) {
-        $scope.network = {
-            options: ["LTE", "CDMA"],
-            selected: "LTE"
-        };
-        $scope.queryText = "";
-        $scope.city = city;
-        $scope.dialogTitle = dialogTitle;
-        $scope.beginDate = beginDate;
-        $scope.endDate = endDate;
-        $scope.eNodebList = [];
-        $scope.btsList = [];
-
-        $scope.updateDistricts = function () {
-            appRegionService.queryDistricts($scope.city.selected).then(function (result) {
-                $scope.district.options = result;
-                $scope.district.selected = result[0];
-            });
-        };
-        $scope.updateTowns = function () {
-            appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function (result) {
-                $scope.town.options = result;
-                $scope.town.selected = result[0];
-            });
-        };
-
-        $scope.queryItems = function () {
-            if ($scope.network.selected === "LTE") {
-                if ($scope.queryText.trim() === "") {
-                    networkElementService.queryENodebsInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected).then(function (eNodebs) {
-                        $scope.eNodebList = eNodebs;
-                    });
-                } else {
-                    networkElementService.queryENodebsByGeneralName($scope.queryText).then(function (eNodebs) {
-                        $scope.eNodebList = eNodebs;
-                    });
-                }
-            } else {
-                if ($scope.queryText.trim() === "") {
-                    networkElementService.queryBtssInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected).then(function (btss) {
-                        $scope.btsList = btss;
-                    });
-                } else {
-                    networkElementService.queryBtssByGeneralName($scope.queryText).then(function (btss) {
-                        $scope.btsList = btss;
-                    });
-                }
-            }
-        };
-        appRegionService.queryDistricts($scope.city.selected).then(function (districts) {
-            $scope.district = {
-                options: districts,
-                selected: districts[0]
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.neighbor);
             };
-            appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function (towns) {
-                $scope.town = {
-                    options: towns,
-                    selected: towns[0]
-                };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller("cell.info.dialog",
+        function($scope, cell, dialogTitle, neighborMongoService, $uibModalInstance) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.isHuaweiCell = false;
+            $scope.eNodebId = cell.eNodebId;
+            $scope.sectorId = cell.sectorId;
+
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.mongoNeighbors);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            neighborMongoService.queryNeighbors(cell.eNodebId, cell.sectorId).then(function(result) {
+                $scope.mongoNeighbors = result;
             });
+
         });
-        $scope.ok = function () {
-            if ($scope.network.selected === "LTE") {
-                if ($scope.queryText.trim() === "") {
-                    parametersMapService.showElementsInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected,
-                        $scope.beginDate, $scope.endDate);
-                } else {
-                    parametersMapService.showElementsWithGeneralName($scope.queryText, $scope.beginDate, $scope.endDate);
-                }
-            } else {
-                if ($scope.queryText.trim() === "") {
-                    parametersMapService.showCdmaInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected);
-                } else {
-                    parametersMapService.showCdmaWithGeneralName($scope.queryText);
-                }
-            }
-            $uibModalInstance.close($scope.neighbor);
-        };
+angular.module('kpi.parameter.query', ['myApp.url', 'myApp.region', "ui.bootstrap"])
+    .controller('query.setting.dialog',
+        function($scope,
+            $uibModalInstance,
+            city,
+            dialogTitle,
+            beginDate,
+            endDate,
+            appRegionService,
+            parametersMapService,
+            parametersDialogService,
+            networkElementService) {
+            $scope.network = {
+                options: ["LTE", "CDMA"],
+                selected: "LTE"
+            };
+            $scope.queryText = "";
+            $scope.city = city;
+            $scope.dialogTitle = dialogTitle;
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.eNodebList = [];
+            $scope.btsList = [];
 
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    })
-    .controller("parameters.list", function ($scope, $uibModalInstance, city, dialogTitle, appRegionService, parametersChartService) {
-        $scope.city = city;
-        $scope.dialogTitle = dialogTitle;
-        $scope.showCityStats = function () {
-            appRegionService.queryDistrictInfrastructures($scope.city.selected).then(function (result) {
-                appRegionService.accumulateCityStat(result, $scope.city.selected);
-                $scope.districtStats = result;
-
-                $("#cityLteENodebConfig").highcharts(parametersChartService.getDistrictLteENodebPieOptions(result.slice(0, result.length - 1),
-                    $scope.city.selected));
-                $("#cityLteCellConfig").highcharts(parametersChartService.getDistrictLteCellPieOptions(result.slice(0, result.length - 1),
-                    $scope.city.selected));
-                $("#cityNbIotCellConfig").highcharts(parametersChartService.getDistrictNbIotCellPieOptions(result.slice(0, result.length - 1),
-                    $scope.city.selected));
-                $("#cityCdmaENodebConfig").highcharts(parametersChartService.getDistrictCdmaBtsPieOptions(result.slice(0, result.length - 1),
-                    $scope.city.selected));
-                $("#cityCdmaCellConfig").highcharts(parametersChartService.getDistrictCdmaCellPieOptions(result.slice(0, result.length - 1),
-                    $scope.city.selected));
-            });
-        };
-        $scope.$watch('currentDistrict', function (district) {
-            appRegionService.queryTownInfrastructures($scope.city.selected, district).then(function (result) {
-                $scope.townStats = result;
-                $("#districtLteENodebConfig").highcharts(parametersChartService.getTownLteENodebPieOptions(result, district));
-                $("#districtLteCellConfig").highcharts(parametersChartService.getTownLteCellPieOptions(result, district));
-                $("#districtNbIotCellConfig").highcharts(parametersChartService.getTownNbIotCellPieOptions(result, district));
-                $("#districtCdmaENodebConfig").highcharts(parametersChartService.getTownCdmaBtsPieOptions(result, district));
-                $("#districtCdmaCellConfig").highcharts(parametersChartService.getTownCdmaCellPieOptions(result, district));
-            });
-        });
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.neighbor);
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-
-        $scope.showCityStats();
-    })
-
-    .controller('cell.type.chart', function ($scope, $uibModalInstance, city, dialogTitle, appRegionService, parametersChartService) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.neighbor);
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-        appRegionService.queryDistrictIndoorCells(city.selected).then(function (stats) {
-            $("#leftChart").highcharts(parametersChartService.getCellIndoorTypeColumnOptions(stats));
-        });
-        appRegionService.queryDistrictBandCells(city.selected).then(function (stats) {
-            $("#rightChart").highcharts(parametersChartService.getCellBandClassColumnOptions(stats));
-        });
-    })
-    .controller("flow.kpi.dialog", function ($scope, cell, begin, end, dialogTitle,
-        flowService, generalChartService, calculateService, parametersChartService,
-        $uibModalInstance) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.itemGroups = calculateService.generateFlowDetailsGroups(cell);
-        flowService.queryAverageRrcByDateSpan(cell.eNodebId, cell.sectorId, begin, end).then(function(result) {
-            $scope.rrcGroups = calculateService.generateRrcDetailsGroups(result);
-        });
-
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.mongoNeighbors);
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-
-        flowService.queryCellFlowByDateSpan(cell.eNodebId, cell.sectorId, begin, end).then(function (result) {
-            var dates = _.map(result, function (stat) {
-                return stat.statTime;
-            });
-            $("#flowChart").highcharts(parametersChartService.getCellFlowOptions(dates, result));
-            $("#feelingRateChart").highcharts(parametersChartService.getCellFeelingRateOptions(dates, result));
-            $("#downSwitchChart").highcharts(parametersChartService.getCellDownSwitchOptions(dates, result));
-            $("#rank2Chart").highcharts(parametersChartService.getCellRank2Options(dates, result));
-        });
-    })
-    .controller("rrc.kpi.dialog", function ($scope, cell, begin, end, dialogTitle,
-        flowService, generalChartService, calculateService, parametersChartService,
-        networkElementService, $uibModalInstance) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.rrcGroups = calculateService.generateRrcDetailsGroups(cell);
-        flowService.queryAverageFlowByDateSpan(cell.eNodebId, cell.sectorId, begin, end).then(function (result) {
-            networkElementService.queryCellInfo(cell.eNodebId, cell.sectorId).then(function(item) {
-                $scope.itemGroups = calculateService.generateFlowDetailsGroups(angular.extend(result, item));
-            });
-        });
-
-        flowService.queryCellRrcByDateSpan(cell.eNodebId, cell.sectorId, begin, end).then(function(result) {
-            var dates = _.map(result, function (stat) {
-                return stat.statTime;
-            });
-            $("#rrcRequestChart").highcharts(parametersChartService.getCellRrcRequestOptions(dates, result));
-            $("#rrcFailChart").highcharts(parametersChartService.getCellRrcFailOptions(dates, result));
-            $("#rrcRateChart").highcharts(parametersChartService.getCellRrcRateOptions(dates, result));
-        });
-        flowService.queryCellFlowByDateSpan(cell.eNodebId, cell.sectorId, begin, end).then(function(result) {
-            var dates = _.map(result,
-                function(stat) {
-                    return stat.statTime;
+            $scope.updateDistricts = function() {
+                appRegionService.queryDistricts($scope.city.selected).then(function(result) {
+                    $scope.district.options = result;
+                    $scope.district.selected = result[0];
                 });
-            $("#flowChart").highcharts(parametersChartService.getCellFlowUsersOptions(dates, result));
-        });
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.mongoNeighbors);
-        };
+            };
+            $scope.updateTowns = function() {
+                appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function(result) {
+                    $scope.town.options = result;
+                    $scope.town.selected = result[0];
+                });
+            };
 
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-
-    })
-    .controller('neighbors.dialog', function ($scope, $uibModalInstance, geometryService,
-        dialogTitle, candidateNeighbors, currentCell) {
-        $scope.pciNeighbors = [];
-        $scope.indoorConsidered = false;
-        $scope.distanceOrder = "distance";
-        $scope.dialogTitle = dialogTitle;
-        $scope.candidateNeighbors = candidateNeighbors;
-        $scope.currentCell = currentCell;
-
-        angular.forEach($scope.candidateNeighbors, function (neighbor) {
-            neighbor.distance = geometryService.getDistance($scope.currentCell.lattitute, $scope.currentCell.longtitute,
-                neighbor.lattitute, neighbor.longtitute);
-
-            $scope.pciNeighbors.push(neighbor);
-        });
-
-        $scope.updateNearestCell = function () {
-            var minDistance = 10000;
-            angular.forEach($scope.candidateNeighbors, function (neighbor) {
-                if (neighbor.distance < minDistance && (neighbor.indoor === '室外' || $scope.indoorConsidered)) {
-                    minDistance = neighbor.distance;
-                    $scope.nearestCell = neighbor;
+            $scope.queryItems = function() {
+                if ($scope.network.selected === "LTE") {
+                    if ($scope.queryText.trim() === "") {
+                        networkElementService
+                            .queryENodebsInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected)
+                            .then(function(eNodebs) {
+                                $scope.eNodebList = eNodebs;
+                            });
+                    } else {
+                        networkElementService.queryENodebsByGeneralName($scope.queryText).then(function(eNodebs) {
+                            $scope.eNodebList = eNodebs;
+                        });
+                    }
+                } else {
+                    if ($scope.queryText.trim() === "") {
+                        networkElementService
+                            .queryBtssInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected)
+                            .then(function(btss) {
+                                $scope.btsList = btss;
+                            });
+                    } else {
+                        networkElementService.queryBtssByGeneralName($scope.queryText).then(function(btss) {
+                            $scope.btsList = btss;
+                        });
+                    }
                 }
+            };
+            appRegionService.queryDistricts($scope.city.selected).then(function(districts) {
+                $scope.district = {
+                    options: districts,
+                    selected: districts[0]
+                };
+                appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function(towns) {
+                    $scope.town = {
+                        options: towns,
+                        selected: towns[0]
+                    };
+                });
+            });
+            $scope.ok = function() {
+                if ($scope.network.selected === "LTE") {
+                    if ($scope.queryText.trim() === "") {
+                        parametersMapService.showElementsInOneTown($scope.city.selected,
+                            $scope.district.selected,
+                            $scope.town.selected,
+                            $scope.beginDate,
+                            $scope.endDate);
+                    } else {
+                        parametersMapService
+                            .showElementsWithGeneralName($scope.queryText, $scope.beginDate, $scope.endDate);
+                    }
+                } else {
+                    if ($scope.queryText.trim() === "") {
+                        parametersMapService
+                            .showCdmaInOneTown($scope.city.selected, $scope.district.selected, $scope.town.selected);
+                    } else {
+                        parametersMapService.showCdmaWithGeneralName($scope.queryText);
+                    }
+                }
+                $uibModalInstance.close($scope.neighbor);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller("parameters.list",
+        function($scope, $uibModalInstance, city, dialogTitle, appRegionService, parametersChartService) {
+            $scope.city = city;
+            $scope.dialogTitle = dialogTitle;
+            $scope.showCityStats = function() {
+                appRegionService.queryDistrictInfrastructures($scope.city.selected).then(function(result) {
+                    appRegionService.accumulateCityStat(result, $scope.city.selected);
+                    $scope.districtStats = result;
+
+                    $("#cityLteENodebConfig").highcharts(parametersChartService.getDistrictLteENodebPieOptions(result
+                        .slice(0, result.length - 1),
+                        $scope.city.selected));
+                    $("#cityLteCellConfig").highcharts(parametersChartService.getDistrictLteCellPieOptions(result
+                        .slice(0, result.length - 1),
+                        $scope.city.selected));
+                    $("#cityNbIotCellConfig").highcharts(parametersChartService.getDistrictNbIotCellPieOptions(result
+                        .slice(0, result.length - 1),
+                        $scope.city.selected));
+                    $("#cityCdmaENodebConfig").highcharts(parametersChartService.getDistrictCdmaBtsPieOptions(result
+                        .slice(0, result.length - 1),
+                        $scope.city.selected));
+                    $("#cityCdmaCellConfig").highcharts(parametersChartService.getDistrictCdmaCellPieOptions(result
+                        .slice(0, result.length - 1),
+                        $scope.city.selected));
+                });
+            };
+            $scope.$watch('currentDistrict',
+                function(district) {
+                    appRegionService.queryTownInfrastructures($scope.city.selected, district).then(function(result) {
+                        $scope.townStats = result;
+                        $("#districtLteENodebConfig")
+                            .highcharts(parametersChartService.getTownLteENodebPieOptions(result, district));
+                        $("#districtLteCellConfig")
+                            .highcharts(parametersChartService.getTownLteCellPieOptions(result, district));
+                        $("#districtNbIotCellConfig")
+                            .highcharts(parametersChartService.getTownNbIotCellPieOptions(result, district));
+                        $("#districtCdmaENodebConfig")
+                            .highcharts(parametersChartService.getTownCdmaBtsPieOptions(result, district));
+                        $("#districtCdmaCellConfig")
+                            .highcharts(parametersChartService.getTownCdmaCellPieOptions(result, district));
+                    });
+                });
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.neighbor);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            $scope.showCityStats();
+        })
+    .controller('cell.type.chart',
+        function($scope, $uibModalInstance, city, dialogTitle, appRegionService, parametersChartService) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.neighbor);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+            appRegionService.queryDistrictIndoorCells(city.selected).then(function(stats) {
+                $("#leftChart").highcharts(parametersChartService.getCellIndoorTypeColumnOptions(stats));
+            });
+            appRegionService.queryDistrictBandCells(city.selected).then(function(stats) {
+                $("#rightChart").highcharts(parametersChartService.getCellBandClassColumnOptions(stats));
+            });
+        })
+    .controller("flow.kpi.dialog",
+        function($scope,
+            cell,
+            begin,
+            end,
+            dialogTitle,
+            flowService,
+            generalChartService,
+            calculateService,
+            parametersChartService,
+            $uibModalInstance) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.itemGroups = calculateService.generateFlowDetailsGroups(cell);
+            flowService.queryAverageRrcByDateSpan(cell.eNodebId, cell.sectorId, begin, end).then(function(result) {
+                $scope.rrcGroups = calculateService.generateRrcDetailsGroups(result);
             });
 
-        };
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.mongoNeighbors);
+            };
 
-        $scope.ok = function () {
-            $scope.updateNearestCell();
-            $uibModalInstance.close($scope.nearestCell);
-        };
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
 
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    })
+            flowService.queryCellFlowByDateSpan(cell.eNodebId, cell.sectorId, begin, end).then(function(result) {
+                var dates = _.map(result,
+                    function(stat) {
+                        return stat.statTime;
+                    });
+                $("#flowChart").highcharts(parametersChartService.getCellFlowOptions(dates, result));
+                $("#feelingRateChart").highcharts(parametersChartService.getCellFeelingRateOptions(dates, result));
+                $("#downSwitchChart").highcharts(parametersChartService.getCellDownSwitchOptions(dates, result));
+                $("#rank2Chart").highcharts(parametersChartService.getCellRank2Options(dates, result));
+            });
+        })
+    .controller("rrc.kpi.dialog",
+        function($scope,
+            cell,
+            begin,
+            end,
+            dialogTitle,
+            flowService,
+            generalChartService,
+            calculateService,
+            parametersChartService,
+            networkElementService,
+            $uibModalInstance) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.rrcGroups = calculateService.generateRrcDetailsGroups(cell);
+            flowService.queryAverageFlowByDateSpan(cell.eNodebId, cell.sectorId, begin, end).then(function(result) {
+                networkElementService.queryCellInfo(cell.eNodebId, cell.sectorId).then(function(item) {
+                    $scope.itemGroups = calculateService.generateFlowDetailsGroups(angular.extend(result, item));
+                });
+            });
+
+            flowService.queryCellRrcByDateSpan(cell.eNodebId, cell.sectorId, begin, end).then(function(result) {
+                var dates = _.map(result,
+                    function(stat) {
+                        return stat.statTime;
+                    });
+                $("#rrcRequestChart").highcharts(parametersChartService.getCellRrcRequestOptions(dates, result));
+                $("#rrcFailChart").highcharts(parametersChartService.getCellRrcFailOptions(dates, result));
+                $("#rrcRateChart").highcharts(parametersChartService.getCellRrcRateOptions(dates, result));
+            });
+            flowService.queryCellFlowByDateSpan(cell.eNodebId, cell.sectorId, begin, end).then(function(result) {
+                var dates = _.map(result,
+                    function(stat) {
+                        return stat.statTime;
+                    });
+                $("#flowChart").highcharts(parametersChartService.getCellFlowUsersOptions(dates, result));
+            });
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.mongoNeighbors);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+        });
+angular.module('kpi.parameter', ['app.menu', 'region.network'])
 
     .factory('neighborDialogService', function(menuItemService, networkElementService) {
         var matchNearest = function(nearestCell, currentNeighbor, center) {
@@ -5266,7 +5389,14 @@ angular.module('kpi.parameter', ['myApp.url', 'myApp.region', "ui.bootstrap"])
                     controller: 'neighbors.dialog',
                     resolve: {
                         dialogTitle: function() {
-                            return center.eNodebName + "-" + center.sectorId + "的邻区PCI=" + candidate.destPci + "的可能小区";
+                            return center.eNodebName +
+                                "-" +
+                                center.sectorId +
+                                "的邻区PCI=" +
+                                candidate.destPci +
+                                "，频点=" +
+                                candidate.neighborEarfcn +
+                                "的可能小区";
                         },
                         candidateNeighbors: function() {
                             return neighbors;
@@ -6127,4 +6257,6 @@ angular.module('kpi.work', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.co
 angular.module('myApp.kpi', ['kpi.core',
     'kpi.college.infrastructure', 'kpi.college.basic', 'kpi.college.maintain',
     'kpi.college.work', 'kpi.college.flow',
-    'kpi.college', "kpi.coverage", 'kpi.customer', 'kpi.parameter', 'kpi.work']);
+    'kpi.college', "kpi.coverage", 'kpi.customer',
+    'kpi.parameter.dump', 'kpi.parameter.rutrace', 'kpi.parameter.query',
+    'kpi.parameter', 'kpi.work']);
