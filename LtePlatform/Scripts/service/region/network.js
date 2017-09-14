@@ -226,6 +226,14 @@
                     'pci': pci
                 });
             },
+            queryNearestCellsWithFrequency: function (eNodebId, sectorId, pci, frequency) {
+                return generalHttpService.getApiData('Cell', {
+                    'eNodebId': eNodebId,
+                    'sectorId': sectorId,
+                    'pci': pci,
+                    'frequency': frequency
+                });
+            },
             updateNeighbors: function (cellId, sectorId, pci, nearestCellId, nearestSectorId) {
                 return generalHttpService.putApiData('NearestPciCell', {
                     cellId: cellId,

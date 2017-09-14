@@ -224,9 +224,13 @@ angular.module('rutrace.interference', ['myApp.region'])
             link: function(scope, element, attrs) {
                 scope.match = function(candidate) {
                     var center = scope.current;
-                    networkElementService.queryNearestCells(center.cellId, center.sectorId, candidate.destPci).then(function (neighbors) {
-                        neighborDialogService.matchNeighbor(center, candidate, neighbors);
-                    });
+                    networkElementService
+                        .queryNearestCellsWithFrequency(center.cellId,
+                            center.sectorId,
+                            candidate.destPci,
+                            candidate.neighborEarfcn).then(function(neighbors) {
+                            neighborDialogService.matchNeighbor(center, candidate, neighbors);
+                        });
                 };
             }
         };

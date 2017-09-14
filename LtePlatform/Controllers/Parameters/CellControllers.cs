@@ -54,6 +54,18 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        [ApiDoc("给定基站编号和扇区编号、邻区PCI查询LTE可能的邻区")]
+        [ApiParameterDoc("eNodebId", "基站编号")]
+        [ApiParameterDoc("sectorId", "扇区编号")]
+        [ApiParameterDoc("pci", "邻区PCI")]
+        [ApiParameterDoc("frequency", "邻区频点")]
+        [ApiResponse("LTE可能的邻区")]
+        public IEnumerable<CellView> Get(int eNodebId, byte sectorId, short pci, int frequency)
+        {
+            return _service.GetNearbyCellsWithPci(eNodebId, sectorId, pci, frequency);
+        }
+
+        [HttpGet]
         [ApiDoc("给定基站编号和扇区编号查询LTE小区")]
         [ApiParameterDoc("eNodebId", "基站编号")]
         [ApiParameterDoc("sectorId", "扇区编号（模糊匹配）")]

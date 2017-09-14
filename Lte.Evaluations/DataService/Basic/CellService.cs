@@ -77,10 +77,20 @@ namespace Lte.Evaluations.DataService.Basic
         public IEnumerable<CellView> GetNearbyCellsWithPci(int eNodebId, byte sectorId, short pci)
         {
             var cell = _repository.GetBySectorId(eNodebId, sectorId);
-            if (cell==null) return new List<CellView>();
+            if (cell == null) return new List<CellView>();
             return
                 GetCells(cell.Longtitute - 0.2, cell.Longtitute + 0.2, cell.Lattitute - 0.2, cell.Lattitute + 0.2)
                     .Where(x => x.Pci == pci)
+                    .Select(x => CellView.ConstructView(x, _eNodebRepository));
+        }
+
+        public IEnumerable<CellView> GetNearbyCellsWithPci(int eNodebId, byte sectorId, short pci, int frequency)
+        {
+            var cell = _repository.GetBySectorId(eNodebId, sectorId);
+            if (cell == null) return new List<CellView>();
+            return
+                GetCells(cell.Longtitute - 0.2, cell.Longtitute + 0.2, cell.Lattitute - 0.2, cell.Lattitute + 0.2)
+                    .Where(x => x.Pci == pci && x.Frequency == frequency)
                     .Select(x => CellView.ConstructView(x, _eNodebRepository));
         }
 
