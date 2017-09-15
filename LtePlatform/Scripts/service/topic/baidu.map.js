@@ -785,7 +785,7 @@
 					controller: 'map.station.dialog',
 					resolve: {
 						dialogTitle: function() {
-							return "站点信息:" + station.StationName;
+							return "站点信息:" + station.name;
 						},
 						station: function() {
 							return station;
@@ -1410,18 +1410,21 @@
 	})
 
 	.controller('map.station.dialog', function ($scope, $uibModalInstance, station, dialogTitle, beginDate, endDate,
-		appFormatService, networkElementService) {
-		$scope.beginDate = beginDate;
-		$scope.endDate = endDate;
-		$scope.itemGroups = appFormatService.generateStationGroups(station);
+		appFormatService, networkElementService,downSwitchService) {
+	    $scope.beginDate = beginDate;
+	    $scope.endDate = endDate;
+	    downSwitchService.getStationById(station.id).then(function (response) {
+	        $scope.itemGroups = appFormatService.generateStationGroups(response.result[0]);
+	    });
+	    
 		$scope.cellList = [];
-		networkElementService.queryENodebStationInfo(station.StationId).then(function (eNodeb) {
+		networkElementService.queryENodebStationInfo(station.id).then(function (eNodeb) {
 			if (eNodeb) {
 				$scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
 			}
 			
 		});
-		networkElementService.queryCellStationInfo(station.StationId).then(function(cellList) {
+		networkElementService.queryCellStationInfo(station.id).then(function (cellList) {
 			$scope.cellList = cellList;
 		});
 		$scope.dialogTitle = dialogTitle;
@@ -1585,10 +1588,15 @@
     })
 
     .controller('map.fixingStation.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
-		appFormatService, networkElementService) {
+		appFormatService, networkElementService,downSwitchService) {
 
-
-        $scope.itemGroups = appFormatService.generateFixingStationGroups(station);
+        downSwitchService.getFixingStationById(station.id).then(function (response) {
+            $scope.fixingStations = response.result[0];
+            $scope.fixingStations.longtitute = station.longtitute;
+            $scope.fixingStations.lattitute = station.lattitute;
+            $scope.itemGroups = appFormatService.generateFixingStationGroups($scope.fixingStations);
+        });
+       
 
         $scope.dialogTitle = dialogTitle;
 
