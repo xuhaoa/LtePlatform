@@ -20,36 +20,36 @@ namespace Lte.MySqlFramework.Abstract
         PreciseWorkItemCell Get(string serialNumber, int eNodebId, byte sectorId);
     }
 
-    public interface IFlowHuaweiRepository : IRepository<FlowHuawei>, ISaveChanges
+    public interface IFlowHuaweiRepository : IRepository<FlowHuawei>, ISaveChanges, IMatchRepository<FlowHuawei>
     {
         List<FlowHuawei> GetAllList(DateTime begin, DateTime end);
 
         List<FlowHuawei> GetAllList(DateTime begin, DateTime end, int eNodebId, byte localCellId);
     }
 
-    public interface IFlowZteRepository : IRepository<FlowZte>, ISaveChanges
+    public interface IFlowZteRepository : IRepository<FlowZte>, ISaveChanges, IMatchRepository<FlowZte>
     {
         List<FlowZte> GetAllList(DateTime begin, DateTime end);
 
         List<FlowZte> GetAllList(DateTime begin, DateTime end, int eNodebId, byte sectorId);
     }
 
-    public interface IRrcHuaweiRepository : IRepository<RrcHuawei>, ISaveChanges
+    public interface IRrcHuaweiRepository : IRepository<RrcHuawei>, ISaveChanges, IMatchRepository<RrcHuawei>
     {
         
     }
 
-    public interface IRrcZteRepository : IRepository<RrcZte>, ISaveChanges
+    public interface IRrcZteRepository : IRepository<RrcZte>, ISaveChanges, IMatchRepository<RrcZte>
     {
         
     }
 
-    public interface IQciHuaweiRepository : IRepository<QciHuawei>, ISaveChanges
+    public interface IQciHuaweiRepository : IRepository<QciHuawei>, ISaveChanges, IMatchRepository<QciHuawei>
     {
         
     }
 
-    public interface IQciZteRepository : IRepository<QciZte>, ISaveChanges
+    public interface IQciZteRepository : IRepository<QciZte>, ISaveChanges, IMatchRepository<QciZte>
     {
         
     }

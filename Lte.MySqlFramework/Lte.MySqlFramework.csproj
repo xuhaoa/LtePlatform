@@ -157,13 +157,13 @@
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
     <Compile Include="Entities\TownFlow.cs" />
-    <Compile Include="Migrations\201708300202389_Change_ENodeb.cs" />
-    <Compile Include="Migrations\201708300202389_Change_ENodeb.Designer.cs">
-      <DependentUpon>201708300202389_Change_ENodeb.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201709160823343_Add_Qci.cs" />
     <Compile Include="Migrations\201709160823343_Add_Qci.Designer.cs">
       <DependentUpon>201709160823343_Add_Qci.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709160927047_Update_Town_Qci_Long.cs" />
+    <Compile Include="Migrations\201709160927047_Update_Town_Qci_Long.Designer.cs">
+      <DependentUpon>201709160927047_Update_Town_Qci_Long.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -174,11 +174,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201708300202389_Change_ENodeb.resx">
-      <DependentUpon>201708300202389_Change_ENodeb.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709160823343_Add_Qci.resx">
       <DependentUpon>201709160823343_Add_Qci.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709160927047_Update_Town_Qci_Long.resx">
+      <DependentUpon>201709160927047_Update_Town_Qci_Long.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

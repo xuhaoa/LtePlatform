@@ -343,37 +343,37 @@ namespace Lte.MySqlFramework.Entities
 
         public DateTime StatTime { get; set; }
 
-        public int Cqi0Times { get; set; }
+        public long Cqi0Times { get; set; }
 
-        public int Cqi1Times { get; set; }
+        public long Cqi1Times { get; set; }
 
-        public int Cqi2Times { get; set; }
+        public long Cqi2Times { get; set; }
 
-        public int Cqi3Times { get; set; }
+        public long Cqi3Times { get; set; }
 
-        public int Cqi4Times { get; set; }
+        public long Cqi4Times { get; set; }
 
-        public int Cqi5Times { get; set; }
+        public long Cqi5Times { get; set; }
 
-        public int Cqi6Times { get; set; }
+        public long Cqi6Times { get; set; }
 
-        public int Cqi7Times { get; set; }
+        public long Cqi7Times { get; set; }
 
-        public int Cqi8Times { get; set; }
+        public long Cqi8Times { get; set; }
 
-        public int Cqi9Times { get; set; }
+        public long Cqi9Times { get; set; }
 
-        public int Cqi10Times { get; set; }
+        public long Cqi10Times { get; set; }
 
-        public int Cqi11Times { get; set; }
+        public long Cqi11Times { get; set; }
 
-        public int Cqi12Times { get; set; }
+        public long Cqi12Times { get; set; }
 
-        public int Cqi13Times { get; set; }
+        public long Cqi13Times { get; set; }
 
-        public int Cqi14Times { get; set; }
+        public long Cqi14Times { get; set; }
 
-        public int Cqi15Times { get; set; }
+        public long Cqi15Times { get; set; }
     }
 
     [AutoMapFrom(typeof(TownQciStat))]
@@ -387,37 +387,37 @@ namespace Lte.MySqlFramework.Entities
 
         public DateTime StatTime { get; set; }
 
-        public int Cqi0Times { get; set; }
+        public long Cqi0Times { get; set; }
 
-        public int Cqi1Times { get; set; }
+        public long Cqi1Times { get; set; }
 
-        public int Cqi2Times { get; set; }
+        public long Cqi2Times { get; set; }
 
-        public int Cqi3Times { get; set; }
+        public long Cqi3Times { get; set; }
 
-        public int Cqi4Times { get; set; }
+        public long Cqi4Times { get; set; }
 
-        public int Cqi5Times { get; set; }
+        public long Cqi5Times { get; set; }
 
-        public int Cqi6Times { get; set; }
+        public long Cqi6Times { get; set; }
 
-        public int Cqi7Times { get; set; }
+        public long Cqi7Times { get; set; }
 
-        public int Cqi8Times { get; set; }
+        public long Cqi8Times { get; set; }
 
-        public int Cqi9Times { get; set; }
+        public long Cqi9Times { get; set; }
 
-        public int Cqi10Times { get; set; }
+        public long Cqi10Times { get; set; }
 
-        public int Cqi11Times { get; set; }
+        public long Cqi11Times { get; set; }
 
-        public int Cqi12Times { get; set; }
+        public long Cqi12Times { get; set; }
 
-        public int Cqi13Times { get; set; }
+        public long Cqi13Times { get; set; }
 
-        public int Cqi14Times { get; set; }
+        public long Cqi14Times { get; set; }
 
-        public int Cqi15Times { get; set; }
+        public long Cqi15Times { get; set; }
     }
 
     [AutoMapFrom(typeof(TownQciView))]
@@ -429,36 +429,36 @@ namespace Lte.MySqlFramework.Entities
 
         public DateTime StatTime { get; set; }
 
-        public int Cqi0Times { get; set; }
+        public long Cqi0Times { get; set; }
 
-        public int Cqi1Times { get; set; }
+        public long Cqi1Times { get; set; }
 
-        public int Cqi2Times { get; set; }
+        public long Cqi2Times { get; set; }
 
-        public int Cqi3Times { get; set; }
+        public long Cqi3Times { get; set; }
 
-        public int Cqi4Times { get; set; }
+        public long Cqi4Times { get; set; }
 
-        public int Cqi5Times { get; set; }
+        public long Cqi5Times { get; set; }
 
-        public int Cqi6Times { get; set; }
+        public long Cqi6Times { get; set; }
 
-        public int Cqi7Times { get; set; }
+        public long Cqi7Times { get; set; }
 
-        public int Cqi8Times { get; set; }
+        public long Cqi8Times { get; set; }
 
-        public int Cqi9Times { get; set; }
+        public long Cqi9Times { get; set; }
 
-        public int Cqi10Times { get; set; }
+        public long Cqi10Times { get; set; }
 
-        public int Cqi11Times { get; set; }
+        public long Cqi11Times { get; set; }
 
-        public int Cqi12Times { get; set; }
+        public long Cqi12Times { get; set; }
 
-        public int Cqi13Times { get; set; }
+        public long Cqi13Times { get; set; }
 
-        public int Cqi14Times { get; set; }
+        public long Cqi14Times { get; set; }
 
-        public int Cqi15Times { get; set; }
+        public long Cqi15Times { get; set; }
     }
 }

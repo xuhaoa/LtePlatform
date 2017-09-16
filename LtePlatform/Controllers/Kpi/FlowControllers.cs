@@ -342,7 +342,7 @@ namespace LtePlatform.Controllers.Kpi
         }
 
         [HttpGet]
-        public async Task<Tuple<int, int, int, int, int>> Get(DateTime statDate)
+        public async Task<Tuple<int, int, int, int, int, int>> Get(DateTime statDate)
         {
             return await _service.GenerateTownStats(statDate);
         }

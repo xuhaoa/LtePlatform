@@ -145,6 +145,19 @@ namespace Abp.EntityFramework.Repositories
             return null;
         }
 
+        public static async Task<int> ImportOneAsync<TRepository, TEntity>(this TRepository repository, TEntity stat)
+            where TRepository : IRepository<TEntity>, IMatchRepository<TEntity>, ISaveChanges
+            where TEntity : Entity
+        {
+            var info = repository.Match(stat);
+            if (info == null)
+            {
+                await repository.InsertAsync(stat);
+                return repository.SaveChanges();
+            }
+            return 0;
+        }
+
         public static async Task<int> UpdateOne<TRepository, TEntity, TDto>(this TRepository repository, TDto stat)
             where TRepository : IRepository<TEntity>, IMatchRepository<TEntity, TDto>, ISaveChanges
             where TEntity : Entity, new()
@@ -214,7 +227,7 @@ namespace Abp.EntityFramework.Repositories
             var stat = repository.Match(dto);
             if (stat != null)
             {
-                Mapper.Map<TDto, TEntity>(dto, stat);
+                Mapper.Map(dto, stat);
                 await repository.UpdateAsync(stat);
                 repository.SaveChanges();
             }

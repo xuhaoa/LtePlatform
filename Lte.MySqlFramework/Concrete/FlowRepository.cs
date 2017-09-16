@@ -29,6 +29,13 @@ namespace Lte.MySqlFramework.Concrete
                         x.StatTime >= begin && x.StatTime < end && x.ENodebId == eNodebId &&
                         x.SectorId == sectorId);
         }
+
+        public FlowZte Match(FlowZte stat)
+        {
+            return FirstOrDefault(x =>
+                x.StatTime == stat.StatTime && x.ENodebId == stat.ENodebId &&
+                x.SectorId == stat.SectorId);
+        }
     }
 
     public class RrcZteRepository : EfRepositorySave<MySqlContext, RrcZte>, IRrcZteRepository
@@ -36,12 +43,26 @@ namespace Lte.MySqlFramework.Concrete
         public RrcZteRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
+
+        public RrcZte Match(RrcZte stat)
+        {
+            return FirstOrDefault(x =>
+                x.StatTime == stat.StatTime && x.ENodebId == stat.ENodebId &&
+                x.SectorId == stat.SectorId);
+        }
     }
 
     public class QciZteRepository : EfRepositorySave<MySqlContext, QciZte>, IQciZteRepository
     {
         public QciZteRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
+        }
+
+        public QciZte Match(QciZte stat)
+        {
+            return FirstOrDefault(x =>
+                x.StatTime == stat.StatTime && x.ENodebId == stat.ENodebId &&
+                x.SectorId == stat.SectorId);
         }
     }
 
@@ -64,6 +85,13 @@ namespace Lte.MySqlFramework.Concrete
                         x.StatTime >= begin && x.StatTime < end && x.ENodebId == eNodebId &&
                         x.LocalCellId == localCellId);
         }
+
+        public FlowHuawei Match(FlowHuawei stat)
+        {
+            return FirstOrDefault(x =>
+                x.StatTime == stat.StatTime && x.ENodebId == stat.ENodebId &&
+                x.LocalCellId == stat.LocalCellId);
+        }
     }
 
     public class RrcHuaweiRepository : EfRepositorySave<MySqlContext, RrcHuawei>, IRrcHuaweiRepository
@@ -71,12 +99,26 @@ namespace Lte.MySqlFramework.Concrete
         public RrcHuaweiRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
+
+        public RrcHuawei Match(RrcHuawei stat)
+        {
+            return FirstOrDefault(x =>
+                x.StatTime == stat.StatTime && x.ENodebId == stat.ENodebId &&
+                x.LocalCellId == stat.LocalCellId);
+        }
     }
 
     public class QciHuaweiRepository : EfRepositorySave<MySqlContext, QciHuawei>, IQciHuaweiRepository
     {
         public QciHuaweiRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
+        }
+
+        public QciHuawei Match(QciHuawei stat)
+        {
+            return FirstOrDefault(x =>
+                x.StatTime == stat.StatTime && x.ENodebId == stat.ENodebId &&
+                x.LocalCellId == stat.LocalCellId);
         }
     }
 

@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Change_ENodeb : IMigrationMetadata
+    public sealed partial class Update_Town_Qci_Long : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Change_ENodeb));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Update_Town_Qci_Long));
         
         string IMigrationMetadata.Id
         {
-            get { return "201708300202389_Change_ENodeb"; }
+            get { return "201709160927047_Update_Town_Qci_Long"; }
         }
         
         string IMigrationMetadata.Source
