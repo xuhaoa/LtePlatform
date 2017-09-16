@@ -1,6 +1,8 @@
 import datetime
 import os
+import ftplib
 import ftputil
+import ftputil.session
 import pymongo
 from pymongo import MongoClient
 
@@ -67,6 +69,11 @@ def is_mrs_filename_zte(name):
     '''判断是否为中兴MRS文件名，例如FDD-LTE_MRS_ZTE_OMC1_502599_20161128044500.zip'''
     type=name.split('_')[-5]
     return type=='MRS'
+
+class FTP_IgnoreHost(ftplib.FTP):
+    def makepasv(self):
+        _, port = super().makepasv()
+        return self.host, port
 
 class MrDownloader:
     '''通用MR下载对象，调用此对象的方法，可完成各种数据的下载'''
