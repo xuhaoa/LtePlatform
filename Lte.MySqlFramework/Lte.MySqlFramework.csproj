@@ -156,13 +156,14 @@
     <Compile Include="Entities\PlanningSite.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
-    <Compile Include="Migrations\201708250343576_Infrastructure_Change.cs" />
-    <Compile Include="Migrations\201708250343576_Infrastructure_Change.Designer.cs">
-      <DependentUpon>201708250343576_Infrastructure_Change.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Entities\TownFlow.cs" />
     <Compile Include="Migrations\201708300202389_Change_ENodeb.cs" />
     <Compile Include="Migrations\201708300202389_Change_ENodeb.Designer.cs">
       <DependentUpon>201708300202389_Change_ENodeb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709160823343_Add_Qci.cs" />
+    <Compile Include="Migrations\201709160823343_Add_Qci.Designer.cs">
+      <DependentUpon>201709160823343_Add_Qci.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -173,11 +174,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201708250343576_Infrastructure_Change.resx">
-      <DependentUpon>201708250343576_Infrastructure_Change.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708300202389_Change_ENodeb.resx">
       <DependentUpon>201708300202389_Change_ENodeb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709160823343_Add_Qci.resx">
+      <DependentUpon>201709160823343_Add_Qci.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -27,11 +27,6 @@ namespace Lte.MySqlFramework.Abstract
         List<FlowHuawei> GetAllList(DateTime begin, DateTime end, int eNodebId, byte localCellId);
     }
 
-    public interface IRrcHuaweiRepository : IRepository<RrcHuawei>, ISaveChanges
-    {
-        
-    }
-
     public interface IFlowZteRepository : IRepository<FlowZte>, ISaveChanges
     {
         List<FlowZte> GetAllList(DateTime begin, DateTime end);
@@ -39,7 +34,22 @@ namespace Lte.MySqlFramework.Abstract
         List<FlowZte> GetAllList(DateTime begin, DateTime end, int eNodebId, byte sectorId);
     }
 
+    public interface IRrcHuaweiRepository : IRepository<RrcHuawei>, ISaveChanges
+    {
+        
+    }
+
     public interface IRrcZteRepository : IRepository<RrcZte>, ISaveChanges
+    {
+        
+    }
+
+    public interface IQciHuaweiRepository : IRepository<QciHuawei>, ISaveChanges
+    {
+        
+    }
+
+    public interface IQciZteRepository : IRepository<QciZte>, ISaveChanges
     {
         
     }
@@ -49,6 +59,11 @@ namespace Lte.MySqlFramework.Abstract
     }
 
     public interface ITownRrcRepository : IRepository<TownRrcStat>, ISaveChanges
+    {
+        
+    }
+
+    public interface ITownQciRepository : IRepository<TownQciStat>, ISaveChanges
     {
         
     }

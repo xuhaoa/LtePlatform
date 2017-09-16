@@ -38,6 +38,13 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
+    public class QciZteRepository : EfRepositorySave<MySqlContext, QciZte>, IQciZteRepository
+    {
+        public QciZteRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+    }
+
     public class FlowHuaweiRepository : EfRepositorySave<MySqlContext, FlowHuawei>, IFlowHuaweiRepository
     {
         public FlowHuaweiRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
@@ -66,6 +73,13 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
+    public class QciHuaweiRepository : EfRepositorySave<MySqlContext, QciHuawei>, IQciHuaweiRepository
+    {
+        public QciHuaweiRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+    }
+
     public class TownFlowRepository : EfRepositorySave<MySqlContext, TownFlowStat>, ITownFlowRepository
     {
         public TownFlowRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
@@ -76,6 +90,13 @@ namespace Lte.MySqlFramework.Concrete
     public class TownRrcRepository : EfRepositorySave<MySqlContext, TownRrcStat>, ITownRrcRepository
     {
         public TownRrcRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+    }
+
+    public class TownQciRepository : EfRepositorySave<MySqlContext, TownQciStat>, ITownQciRepository
+    {
+        public TownQciRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }

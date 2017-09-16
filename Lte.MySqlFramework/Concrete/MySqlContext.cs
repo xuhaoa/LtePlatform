@@ -146,5 +146,10 @@ namespace Lte.MySqlFramework.Concrete
 
         public DbSet<CdmaBts> Btss { get; set; }
 
+        public DbSet<QciHuawei> QciHuaweis { get; set; }
+
+        public DbSet<QciZte> QciZtes { get; set; }
+
+        public DbSet<TownQciStat> TownQciStats { get; set; }
     }
 }

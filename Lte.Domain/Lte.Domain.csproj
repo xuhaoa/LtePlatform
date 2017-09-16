@@ -66,6 +66,8 @@
     <Compile Include="Common\BigEndianBinaryReader.cs" />
     <Compile Include="Common\Containers.cs" />
     <Compile Include="Common\BitMaskStream.cs" />
+    <Compile Include="Common\FlowHuaweiCsv.cs" />
+    <Compile Include="Common\FlowZteCsv.cs" />
     <Compile Include="Common\Geo\GeoMath.cs" />
     <Compile Include="Common\Geo\GeoPoint.cs" />
     <Compile Include="Common\Geo\IGeoPoint.cs" />

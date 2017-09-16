@@ -5,24 +5,27 @@ import pymongo
 from pymongo import MongoClient
 
 def generate_time_dir(now=datetime.datetime.now(), prefix = "/MR_HW_SOURCE_D/"):
+    '''生成时间段字符串目录，当前时间的2个小时前'''
     time_delta=datetime.timedelta(hours=-2)
     past=now+time_delta
     past=past.replace(minute=int(past.minute/15)*15,second=0)
     return prefix+past.strftime("%Y%m%d")+"/"+past.strftime("%Y%m%d%H%M")
 
 def generate_time_dir_shift(now=datetime.datetime.now(), prefix = "/MR_HW_SOURCE_D/", shift=-2):
-    '''生成时间段字符串目录'''
+    '''生成时间段字符串目录，提前的时间可以调节'''
     time_delta=datetime.timedelta(hours=shift)
     past=now+time_delta
     past=past.replace(minute=int(past.minute/15)*15,second=0)
     return prefix+past.strftime("%Y%m%d")+"/"+past.strftime("%Y%m%d%H%M")
 
 def generate_date_twohours_ago(now=datetime.datetime.now()):
+    '''生成日期字符串目录，当前时间的2个小时前'''
     date_delta=datetime.timedelta(hours=-2)
     past=now+date_delta
     return past.strftime("%Y%m%d")
 
 def generate_date_hours_shift(now=datetime.datetime.now(),shift=-2):
+    '''生成日期字符串目录，提前的时间可以调节'''
     date_delta=datetime.timedelta(hours=shift)
     past=now+date_delta
     return past.strftime("%Y%m%d")
