@@ -31,11 +31,11 @@ print(host_ip)
 try:
     print("######")
     host = ftputil.FTPHost(host_ip, 'ouyh18', 'O123#')
-    downloader=MrDownloader(host,sub_ips,DFList,db,host_ip)
+    downloader=HuaweiMrDownloader(host,sub_ips,DFList,db,host_ip)
     for folder in FOLDER_HW:
         ftpdir=generate_time_dir_shift(prefix = folder, shift=delay)
         print(ftpdir)
-        downloader.download(ftpdir)
+        downloader.download_mro(ftpdir)
     host.close()
 except:
     print('Cannot connect to', host_ip)

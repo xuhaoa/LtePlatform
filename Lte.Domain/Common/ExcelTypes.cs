@@ -1320,6 +1320,7 @@ namespace Lte.Domain.Common
         }
     }
 
+    [TypeDoc("电子运维投诉工单Excel表结构")]
     public class OnlineSustainExcel : IBeginDate
     {
         [ExcelColumn("接单日期")]
@@ -1351,7 +1352,7 @@ namespace Lte.Domain.Common
         [ExcelColumn("投诉地点")]
         public string Site { get; set; }
 
-        [ExcelColumn("投诉类型")]
+        [ExcelColumn("故障种类（申告种类）")]
         public string ComplainCategoryDescription { get; set; }
 
         [ExcelColumn("申告级别")]

@@ -63,8 +63,8 @@
     <Compile Include="demo\sortvisu.py" />
     <Compile Include="demo\ss1.py" />
     <Compile Include="demo\vector.py" />
-    <Compile Include="mr\final.py" />
-    <Compile Include="mr\first_ftp.py">
+    <Compile Include="mr\backup\final.py" />
+    <Compile Include="mr\backup\first_ftp.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ftp_modules\ftp_huawei.py">
@@ -109,7 +109,7 @@
     <Compile Include="mr\huawei_test_ftp.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="mr\hwMrDownloadAndAnalysis.py" />
+    <Compile Include="mr\backup\hwMrDownloadAndAnalysis.py" />
     <Compile Include="mr\map_neighbor_stats_test.py">
       <SubType>Code</SubType>
     </Compile>
@@ -122,8 +122,11 @@
     <Compile Include="mr\mrs_reader_test.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="mr\mr_script.py" />
+    <Compile Include="mr\backup\mr_script.py" />
     <Compile Include="mr\mr_service.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mr\util_unittest.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="process_huawei\process_huawei_mro.py">
@@ -209,6 +212,7 @@
     <Folder Include="demo\" />
     <Folder Include="ftp_modules\" />
     <Folder Include="huawei_download\" />
+    <Folder Include="mr\backup\" />
     <Folder Include="zte_download\" />
     <Folder Include="process_zte\" />
     <Folder Include="process_huawei\" />

@@ -1,11 +1,11 @@
-#MR数据采集模块
+# MR数据采集模块
 
-##FTP数据下载
+## FTP数据下载
     下载模块的主要目的是从已知FTP指定目录下下载MR数据文件（实际为**压缩文件**），暂存到数据处理服务器指定目录中，以备后续解压和处理。
     
-###总体过程
+### 总体过程
 
-####华为服务器代码
+#### 华为服务器代码
 ```python
     print("######")
     host = ftputil.FTPHost(host_ip, '___', '___')
@@ -19,7 +19,7 @@
         downloader.download(ftpdir)
     host.close()
 ```
-####中兴服务器代码
+#### 中兴服务器代码
 ```python
     print("######")
     host = ftputil.FTPHost(host_ip, '___', '___')
@@ -33,12 +33,13 @@
         downloader.download_zte(ftpdir)
     host.close()
 ```
-####主要说明
-    下载遵循以下原则：    
+#### 主要说明
+下载遵循以下原则：    
 * 下载两次，第一次是当前小时，第二次是三个小时之前
 * 华为和中兴的代码大部分相同，只是文件后缀名有所不同
 ###通用处理流程
-    以下代码段为下载处理代码段，可见下载之前需要作一个过滤，包括以下几个条件才真正下载：
+以下代码段为下载处理代码段。
+可见下载之前需要作一个过滤，包括以下几个条件才真正下载：
 * 后缀名是对应厂家的压缩文件后缀
 * 是对应类型（MRO、MRS或MRE）的文件名格式
 * 是佛山基站编号段的数据（因为不同地市的基站MR数据可能混入同一文件夹）
@@ -72,9 +73,9 @@
                                 print('Times: '+ times)
                                 continue
 ```
-##数据解压
-###华为数据
-    后缀名为xml.gz
+## 数据解压
+### 华为数据
+华为的MR数据的后缀名为xml.gz
 ```python
     for name in files:
         if not name.endswith('0000.xml.gz'):
@@ -88,7 +89,7 @@
             print('Unzip failed. Continue to unzip other files')
             continue
 ```
-###中兴数据
+### 中兴数据
     后缀名为zip
 ```python
     for name in files:
@@ -103,10 +104,10 @@
             print('Unzip failed. Continue to unzip other files')
             continue
 ```
-##MRO数据解析
-###数据文件格式
-####华为数据文件格式（2016年）
-    华为的MRO文件是一个fileHeader节加上一个eNB节，eNB节下有3个measurement节。
+## MRO数据解析
+### 数据文件格式
+#### 华为数据文件格式（2016年）
+华为的MRO文件是一个fileHeader节加上一个eNB节，eNB节下有3个measurement节。
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <bulkPmMrDataFile>
@@ -119,7 +120,7 @@
 </bulkPmMrDataFile>
 ```
     各节具体内容及解析过程详见[MRO数据文件格式及处理](https://github.com/ouyh18/LtePlatform/blob/master/MroProcess.md)    
-####中兴数据文件格式（2016年）
+#### 中兴数据文件格式（2016年）
     中兴的MRO文件格式基本与华为相同，只是eNB节属性有所简化。
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -132,9 +133,9 @@
   </eNB>
 </bulkPmMrDataFile>
 ```
-    各节具体内容及解析过程详见[MRO数据文件格式及处理](https://github.com/ouyh18/LtePlatform/blob/master/MroProcess.md)
-##MRS数据解析
-###华为数据文件格式
+各节具体内容及解析过程详见[MRO数据文件格式及处理](https://github.com/ouyh18/LtePlatform/blob/master/MroProcess.md)
+## MRS数据解析
+### 华为数据文件格式
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <bulkPmMrDataFile>
@@ -147,7 +148,7 @@
   </eNB>
 </bulkPmMrDataFile>
 ```
-###中兴数据文件格式
+### 中兴数据文件格式
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <bulkPmMrDataFile>
@@ -160,6 +161,6 @@
   </eNB>
 </bulkPmMrDataFile>
 ```
-###重要测量数据节解析
+### 重要测量数据节解析
     各节具体内容及解析过程详见[MRS数据文件格式及处理](https://github.com/ouyh18/LtePlatform/blob/master/MrsProcess.md)
-##MRE数据解析
+## MRE数据解析
