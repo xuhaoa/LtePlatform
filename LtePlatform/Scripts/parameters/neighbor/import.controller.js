@@ -64,6 +64,7 @@
                         record.zteItems > 15500 &&
                         (record.townStats === 0 ||
                             record.townRrcs === 0 ||
+                            record.townQcis === 0 ||
                             record.townStats2100 === 0 ||
                             record.townStats1800 === 0 ||
                             record.townStats800VoLte === 0)) {
@@ -73,6 +74,7 @@
                             record.townStats2100 = count.item3;
                             record.townStats1800 = count.item4;
                             record.townStats800VoLte = count.item5;
+                            record.townQcis = count.item6;
                         });
                     }
                 });

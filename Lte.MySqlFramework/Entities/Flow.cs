@@ -445,6 +445,7 @@ namespace Lte.MySqlFramework.Entities
         public int EmergencyRrcFail => EmergencyRrcRequest - EmergencyRrcSuccess;
     }
 
+    [AutoMapFrom(typeof(FlowHuaweiCsv))]
     public class QciHuawei : Entity, ILocalCellQuery, IStatTime
     {
         public DateTime StatTime { get; set; }

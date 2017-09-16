@@ -270,7 +270,9 @@ namespace Lte.Evaluations.DataService.Kpi
         public async Task<Tuple<int, int, int, int, int, int>> GenerateTownStats(DateTime statDate)
         {
             var end = statDate.AddDays(1);
-            var item1 = _townFlowRepository.Count(x => x.StatTime >= statDate && x.StatTime < end);
+            var item1 =
+                _townFlowRepository.Count(
+                    x => x.StatTime >= statDate && x.StatTime < end && x.FrequencyBandType == FrequencyBandType.All);
             if (item1 == 0)
             {
                 var townStatList = GetTownFlowStats(statDate);
