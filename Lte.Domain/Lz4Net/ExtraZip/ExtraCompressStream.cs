@@ -1,6 +1,7 @@
 ﻿using Lte.Domain.Common;
 using System;
 using System.IO;
+using Lte.Domain.Regular.Attributes;
 
 namespace Lte.Domain.Lz4Net.ExtraZip
 {

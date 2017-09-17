@@ -4,6 +4,7 @@ using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
+using Lte.Domain.Regular;
 using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
@@ -377,6 +378,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [AutoMapFrom(typeof(TownQciStat))]
+    [IncreaseNumberKpi(KpiPrefix = "Cqi", KpiAffix = "Times", IndexRange = 16)]
     public class TownQciView : ICityDistrictTown, IStatTime
     {
         public string District { get; set; }
@@ -418,9 +420,14 @@ namespace Lte.MySqlFramework.Entities
         public long Cqi14Times { get; set; }
 
         public long Cqi15Times { get; set; }
+
+        public Tuple<long, long> CqiCounts => this.GetDivsionLongTuple(7);
+
+        public double CqiRate => (double)CqiCounts.Item2 * 100 / CqiCounts.Item1;
     }
 
     [AutoMapFrom(typeof(TownQciView))]
+    [IncreaseNumberKpi(KpiPrefix = "Cqi", KpiAffix = "Times", IndexRange = 16)]
     public class DistrictQciView : ICityDistrict, IStatTime
     {
         public string City { get; set; }
@@ -460,5 +467,9 @@ namespace Lte.MySqlFramework.Entities
         public long Cqi14Times { get; set; }
 
         public long Cqi15Times { get; set; }
+
+        public Tuple<long, long> CqiCounts => this.GetDivsionLongTuple(7);
+
+        public double CqiRate => (double) CqiCounts.Item2 * 100 / CqiCounts.Item1;
     }
 }

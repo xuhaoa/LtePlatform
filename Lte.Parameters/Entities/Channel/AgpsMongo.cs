@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Regular;
+using Lte.Domain.Regular.Attributes;
 using MongoDB.Bson;
 
 namespace Lte.Parameters.Entities.Channel

@@ -1,46 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Reflection;
-using Lte.Domain.Common;
+using Aspose.Diagram;
+using Lte.Domain.Regular.Attributes;
 
 namespace Lte.Domain.Regular
 {
     public static class SecureValue
     {
-        public static string GetField(this IDataReader dataReader, string fieldName)
+        public static Tuple<int, int> GetDivsionIntTuple<TObject>(this TObject kpiObject, int division)
         {
-            for (var i = 0; i < dataReader.FieldCount; i++)
+            var kpiProperty = (typeof(TObject)).GetCustomAttribute<IncreaseNumberKpiAttribute>();
+            if (kpiProperty == null) return new Tuple<int, int>(0, 0);
+            var range = kpiProperty.IndexRange;
+            division = Math.Max(0, Math.Min(range, division));
+            var low = 0;
+            var high = 0;
+            for (var i = 0; i < range; i++)
             {
-                if (dataReader.GetName(i).Trim() == fieldName)
+                var property = (typeof(TObject)).GetProperty(kpiProperty.KpiPrefix + i + kpiProperty.KpiAffix);
+                if (property==null) continue;
+                var value = (int) property.GetValue(kpiObject, null);
+                if (i < division)
+                    low += value;
+                else
                 {
-                    return dataReader.GetValue(i).ToString().Trim();
+                    high += value;
                 }
             }
-            return "";
+            return new Tuple<int, int>(low, high);
         }
 
-        public static void ResetProperties<T>(this T source)
+        public static Tuple<long, long> GetDivsionLongTuple<TObject>(this TObject kpiObject, int division)
         {
-            var properties = (typeof(T)).GetProperties();
-            foreach (var property in properties.Where(property => property.CanWrite))
+            var kpiProperty = (typeof(TObject)).GetCustomAttribute<IncreaseNumberKpiAttribute>();
+            if (kpiProperty == null) return new Tuple<long, long>(0, 0);
+            var range = kpiProperty.IndexRange;
+            division = Math.Max(0, Math.Min(range, division));
+            var low = 0L;
+            var high = 0L;
+            for (var i = 0; i < range; i++)
             {
-                const int zero32 = 0;
-                const short zero16 = 0;
-                switch (property.PropertyType.Name)
+                var property = (typeof(TObject)).GetProperty(kpiProperty.KpiPrefix + i + kpiProperty.KpiAffix);
+                if (property == null) continue;
+                var value = (long)property.GetValue(kpiObject, null);
+                if (i < division)
+                    low += value;
+                else
                 {
-                    case "DateTime":
-                        property.SetValue(source, DateTime.Now, null);
-                        break;
-                    case "Int16":
-                        property.SetValue(source, zero16, null);
-                        break;
-                    default:
-                        property.SetValue(source, zero32, null);
-                        break;
+                    high += value;
                 }
             }
+            return new Tuple<long, long>(low, high);
         }
 
         public static void Increase<T>(this T source, T increment)

@@ -116,15 +116,15 @@ namespace Lte.Domain.Regular
         {
             if (value == null)
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
             if (startIndex < 0)
             {
-                throw new ArgumentOutOfRangeException("startIndex", "ArgumentOutOfRange_NeedNonNegNum");
+                throw new ArgumentOutOfRangeException(nameof(startIndex), "ArgumentOutOfRange_NeedNonNegNum");
             }
             if (startIndex > (value.Length - 1))
             {
-                throw new ArgumentOutOfRangeException("startIndex", "ArgumentOutOfRange_Index");
+                throw new ArgumentOutOfRangeException(nameof(startIndex), "ArgumentOutOfRange_Index");
             }
             return (value[startIndex] != 0);
         }
@@ -146,15 +146,15 @@ namespace Lte.Domain.Regular
         {
             if (value == null)
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
             if (startIndex >= value.Length)
             {
-                throw new ArgumentOutOfRangeException("startIndex");
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
             }
             if (startIndex > (value.Length - 2))
             {
-                throw new ArgumentException("TooSmall", "startIndex");
+                throw new ArgumentException("TooSmall", nameof(startIndex));
             }
             fixed (byte* numRef = &(value[startIndex]))
             {
@@ -167,15 +167,15 @@ namespace Lte.Domain.Regular
         {
             if (value == null)
             {
-                throw new ArgumentOutOfRangeException("value");
+                throw new ArgumentOutOfRangeException(nameof(value));
             }
             if (startIndex >= value.Length)
             {
-                throw new ArgumentOutOfRangeException("startIndex");
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
             }
             if (startIndex > (value.Length - 4))
             {
-                throw new ArgumentException("TooSmall", "startIndex");
+                throw new ArgumentException("TooSmall", nameof(startIndex));
             }
             fixed (byte* numRef = &(value[startIndex]))
             {
@@ -188,15 +188,15 @@ namespace Lte.Domain.Regular
         {
             if (value == null)
             {
-                throw new ArgumentOutOfRangeException("value");
+                throw new ArgumentOutOfRangeException(nameof(value));
             }
             if (startIndex >= value.Length)
             {
-                throw new ArgumentOutOfRangeException("startIndex");
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
             }
             if (startIndex > (value.Length - 8))
             {
-                throw new ArgumentException("TooSmall", "startIndex");
+                throw new ArgumentException("TooSmall", nameof(startIndex));
             }
             fixed (byte* numRef = &(value[startIndex]))
             {
@@ -216,7 +216,7 @@ namespace Lte.Domain.Regular
         {
             if (value == null)
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
             return ToString(value, 0, value.Length);
         }
@@ -225,7 +225,7 @@ namespace Lte.Domain.Regular
         {
             if (value == null)
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
             return ToString(value, startIndex, value.Length - startIndex);
         }
@@ -234,21 +234,21 @@ namespace Lte.Domain.Regular
         {
             if (value == null)
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
             int num = value.Length;
             if ((startIndex < 0) || ((startIndex >= num) && (startIndex > 0)))
             {
-                throw new ArgumentOutOfRangeException("startIndex");
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
             }
             int num2 = length;
             if (num2 < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
             if (startIndex > (num - num2))
             {
-                throw new ArgumentException("Arg_ArrayPlusOffTooSmall", "startIndex");
+                throw new ArgumentException("Arg_ArrayPlusOffTooSmall", nameof(startIndex));
             }
             if (num2 == 0)
             {
@@ -256,7 +256,7 @@ namespace Lte.Domain.Regular
             }
             if (num2 > 0x2aaaaaaa)
             {
-                throw new ArgumentOutOfRangeException("length", "ArgumentOutOfRange_LengthTooLarge");
+                throw new ArgumentOutOfRangeException(nameof(length), "ArgumentOutOfRange_LengthTooLarge");
             }
             int num3 = num2 * 3;
             char[] chArray = new char[num3];

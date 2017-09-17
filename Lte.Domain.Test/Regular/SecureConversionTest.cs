@@ -1,6 +1,6 @@
 ﻿using System;
-using Lte.Domain.Common;
 using Lte.Domain.Regular;
+using Lte.Domain.Regular.Attributes;
 using NUnit.Framework;
 
 namespace Lte.Domain.Test.Regular

@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.IO.Compression;
+using Lte.Domain.Regular.Attributes;
 
 namespace Lte.Domain.Lz4Net.ExtraZip
 {
@@ -15,11 +16,11 @@ namespace Lte.Domain.Lz4Net.ExtraZip
             long position;
             if (inputFile == null)
             {
-                throw new ArgumentNullException("inputFile");
+                throw new ArgumentNullException(nameof(inputFile));
             }
             if (compressFile == null)
             {
-                throw new ArgumentNullException("compressFile");
+                throw new ArgumentNullException(nameof(compressFile));
             }
             CompressResult result = new CompressResult();
             byte[] buffer = new byte[blockSize];
@@ -63,7 +64,7 @@ namespace Lte.Domain.Lz4Net.ExtraZip
             CompressResult result;
             if (inputFile == null)
             {
-                throw new ArgumentNullException("inputFile");
+                throw new ArgumentNullException(nameof(inputFile));
             }
             compressFile = compressFile ?? GetCompressFilename(inputFile);
             using (Stream stream = OpenUncompressedStream(inputFile))
@@ -82,11 +83,11 @@ namespace Lte.Domain.Lz4Net.ExtraZip
             long position;
             if (compressedFile == null)
             {
-                throw new ArgumentNullException("compressedFile");
+                throw new ArgumentNullException(nameof(compressedFile));
             }
             if (outputFile == null)
             {
-                throw new ArgumentNullException("outputFile");
+                throw new ArgumentNullException(nameof(outputFile));
             }
             byte[] buffer = new byte[bufferSize];
             CompressResult result = new CompressResult();
@@ -126,7 +127,7 @@ namespace Lte.Domain.Lz4Net.ExtraZip
             CompressResult result;
             if (compressFile == null)
             {
-                throw new ArgumentNullException("compressFile");
+                throw new ArgumentNullException(nameof(compressFile));
             }
             outputFile = outputFile ?? Path.ChangeExtension(compressFile, null);
             using (FileStream stream = new FileStream(compressFile, FileMode.Open, FileAccess.Read, FileShare.Read, 0x100000))

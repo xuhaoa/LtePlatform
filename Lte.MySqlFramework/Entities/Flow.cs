@@ -5,6 +5,7 @@ using Lte.Domain.Common.Geo;
 using System;
 using Abp.EntityFramework.Dependency;
 using Lte.Domain.Common.Wireless;
+using Lte.Domain.Regular;
 using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
@@ -617,6 +618,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [AutoMapFrom(typeof(QciHuawei), typeof(QciZte))]
+    [IncreaseNumberKpi(KpiPrefix = "Cqi", KpiAffix = "Times", IndexRange = 16)]
     public class QciView : IStatTime, ILteCellQuery, IENodebName
     {
         public DateTime StatTime { get; set; }
@@ -658,6 +660,10 @@ namespace Lte.MySqlFramework.Entities
         public int Cqi14Times { get; set; }
 
         public int Cqi15Times { get; set; }
+
+        public Tuple<int, int> CqiCounts => this.GetDivsionIntTuple(7);
+
+        public double CqiRate => (double)CqiCounts.Item2 * 100 / CqiCounts.Item1;
     }
 
     [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte))]

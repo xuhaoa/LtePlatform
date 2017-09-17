@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AssertionConditionType.cs" />
     <Compile Include="Common\BigEndianBinaryReader.cs" />
     <Compile Include="Common\Containers.cs" />
     <Compile Include="Common\BitMaskStream.cs" />
@@ -71,7 +72,6 @@
     <Compile Include="Common\Geo\GeoMath.cs" />
     <Compile Include="Common\Geo\GeoPoint.cs" />
     <Compile Include="Common\Geo\IGeoPoint.cs" />
-    <Compile Include="Common\Lz4Attributes.cs" />
     <Compile Include="Common\ExcelTypes.cs" />
     <Compile Include="Common\TextOperations.cs" />
     <Compile Include="Common\TypeOperations.cs" />
@@ -133,7 +133,7 @@
     <Compile Include="Lz4Net\Lz4DecompressionStream.cs" />
     <Compile Include="Lz4Net\Lz4Mode.cs" />
     <Compile Include="Regular\BigEndianBitConverter.cs" />
-    <Compile Include="Regular\Attributes\ColumnAttribute.cs" />
+    <Compile Include="Regular\Attributes\CommonAttributes.cs" />
     <Compile Include="Regular\Attributes\ExcelColumnAttribute.cs" />
     <Compile Include="LinqToExcel\Entities\ExcelDomain.cs" />
     <Compile Include="LinqToExcel\Entities\ExcelQuery.cs" />
@@ -147,7 +147,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Regular\HexOperations.cs" />
     <Compile Include="Regular\LittleEndianBitConverter.cs" />
-    <Compile Include="Regular\Attributes\RowAttribute.cs" />
     <Compile Include="Regular\SecureConversion.cs" />
     <Compile Include="Regular\SecureValue.cs" />
     <Compile Include="Regular\Attributes\TypeDocAttribute.cs" />
