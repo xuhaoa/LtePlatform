@@ -1,1 +1,1 @@
-/home/wireless/env/py3env/bin/python /home/wireless/Public/process_zte_mrs.py 45
+/home/wireless/anaconda3/bin/python /home/wireless/Public/process_zte_mrs.py 45

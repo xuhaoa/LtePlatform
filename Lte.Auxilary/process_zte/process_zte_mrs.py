@@ -13,7 +13,7 @@ import sys
 os.chdir('/home/wireless/zte_mrs')
 date_dir=generate_date_hours_shift(shift=-5)
 mrNames=['RSRP','Tadv','PowerHeadRoom','SinrUL','TadvRsrp']
-db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
+db = MongoClient('mongodb://root:Abcdef9*@132.110.71.123')['ouyh']
 for mrName in mrNames:
     try:
         if db['mrs_'+mrName+'_'+date_dir].index_information().get('CellId_1')==None:
@@ -21,7 +21,7 @@ for mrName in mrNames:
     except:
         print('The colletion is initialized')
 
-_DFlist = list(db['Mrs_DFlist_'+date_dir].find({}, {'dfName': 1, '_id': 0}))      
+_DFlist = list(db['Mrs_DFlist_'+date_dir].find({}, {'dfName': 1, '_id': 0}))
 DFList = [item.get('dfName') for item in _DFlist]
 
 for root, dirs_no, files in os.walk('/home/wireless/zte_mrs/'+date_dir):

@@ -63,6 +63,9 @@
     <Compile Include="demo\sortvisu.py" />
     <Compile Include="demo\ss1.py" />
     <Compile Include="demo\vector.py" />
+    <Compile Include="ftp_modules\north_zte.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\backup\final.py" />
     <Compile Include="mr\backup\first_ftp.py">
       <SubType>Code</SubType>
@@ -591,6 +594,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_mrs_delay3.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_north.sh">
       <SubType>Code</SubType>
     </Content>
   </ItemGroup>

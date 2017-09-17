@@ -5,6 +5,8 @@ import ftputil
 import ftputil.session
 import pymongo
 from pymongo import MongoClient
+import zipfile
+import shutil
 
 def generate_time_dir(now=datetime.datetime.now(), prefix = "/MR_HW_SOURCE_D/"):
     '''生成时间段字符串目录，当前时间的2个小时前'''
@@ -31,6 +33,12 @@ def generate_date_hours_shift(now=datetime.datetime.now(),shift=-2):
     date_delta=datetime.timedelta(hours=shift)
     past=now+date_delta
     return past.strftime("%Y%m%d")
+
+def generate_date_hours_shift_with_line(now=datetime.datetime.now(),shift=-2):
+    '''生成日期字符串目录2017-09-18，提前的时间可以调节'''
+    date_delta=datetime.timedelta(hours=shift)
+    past=now+date_delta
+    return past.strftime("%Y-%m-%d")
 
 def is_foshan_filename(name):
     '''根据基站编号判断文件名是否属于佛山。目前佛山4G基站编号范围是16进制（7A000-7AFFF，86800-86FFF，D4000-D47FF）'''
@@ -74,6 +82,39 @@ class FTP_IgnoreHost(ftplib.FTP):
     def makepasv(self):
         _, port = super().makepasv()
         return self.host, port
+
+def generate_zte_north_host(ip, username, password):
+    my_session = ftputil.session.session_factory(base_class=FTP_IgnoreHost, port=211)
+    return ftputil.FTPHost(ip, username, password, session_factory=my_session)
+
+class NorthDownloader:
+    def __init__(self, host, DFList, db):
+        self.host=host
+        self.DFList=DFList
+        self.db=db
+
+    def download(self, ftpdir, osdir, mrodir, mrsdir):
+        for root, dirs, files in self.host.walk(ftpdir):
+            print('The root directory:', root)
+            self.host.chdir(root)
+            for name in files:
+                print(name)
+                if name.endswith('.zip') and name in self.DFList:
+                    pass
+                else:
+                    self.host.download(name, name)
+                    self.DFList.append(name)
+                    self.db['DFlist_North'].insert({'dfName': name})
+                    with zipfile.ZipFile(os.path.join(osdir, name), 'r') as zfile:
+                        for sub_name in zfile.namelist():
+                                print(sub_name)
+                                zfile.extract(sub_name,osdir)
+                                if is_mro_filename_zte(sub_name):
+                                    shutil.move(sub_name,os.path.join(mrodir,sub_name))
+                                elif is_mrs_filename_zte(sub_name):
+                                    shutil.move(sub_name,os.path.join(mrsdir,sub_name))
+                                else:
+                                    os.remove(sub_name)
 
 class MrDownloader:
     '''通用MR下载对象，调用此对象的方法，可完成各种数据的下载'''
