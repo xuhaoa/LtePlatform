@@ -659,7 +659,9 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                         }),
                     {
                         title: "分镇区下行感知速率分布图（Mbit/s）-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                        seriesName: "区域"
+                        seriesName: "区域",
+                        yMin: 5,
+                        yMax: 40
                     },
                     {
                         nameFunc: function(stat) {
@@ -679,7 +681,9 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                         }),
                     {
                         title: "分镇区上行感知速率分布图（Mbit/s）-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                        seriesName: "区域"
+                        seriesName: "区域",
+                        yMin: 0,
+                        yMax: 15
                     },
                     {
                         nameFunc: function(stat) {
