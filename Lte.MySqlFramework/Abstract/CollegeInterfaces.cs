@@ -184,6 +184,13 @@ namespace Lte.MySqlFramework.Abstract
             return view;
         }
 
+        public static List<TView> ConstructViews<TStat, TView>(this IEnumerable<TStat> stats, ITownRepository townRepository)
+            where TStat : ITownId
+            where TView : ICityDistrictTown
+        {
+            return stats.Select(x => x.ConstructView<TStat, TView>(townRepository)).ToList();
+        }
+
         public static TView ConstructAreaView<TStat, TView>(this TStat stat, ITownRepository repository)
             where TStat : IArea
         {

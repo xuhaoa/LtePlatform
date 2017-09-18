@@ -320,6 +320,26 @@
                         }
                     });
                 },
+                showCqiTrend: function (city, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Rutrace/Trend.html',
+                        controller: 'cqi.trend',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "CQI优良比变化趋势";
+                            },
+                            city: function () {
+                                return city;
+                            },
+                            beginDate: function () {
+                                return beginDate;
+                            },
+                            endDate: function () {
+                                return endDate;
+                            }
+                        }
+                    });
+                },
                 showPreciseWorkItem: function(endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/WorkItem/ForCity.html',

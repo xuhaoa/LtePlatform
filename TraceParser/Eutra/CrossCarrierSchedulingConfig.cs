@@ -1,107 +1,80 @@
 ﻿using Lte.Domain.Common;
 using System;
+using TraceParser.Common;
 
 namespace TraceParser.Eutra
 {
     [Serializable]
-    public class CrossCarrierSchedulingConfig_r10
+    public class CrossCarrierSchedulingConfig_r10 : TraceConfig
     {
-        public void InitDefaults()
-        {
-        }
-
         public schedulingCellInfo_r10_Type schedulingCellInfo_r10 { get; set; }
 
-        public class PerDecoder
+        public class PerDecoder : DecoderBase<CrossCarrierSchedulingConfig_r10>
         {
             public static readonly PerDecoder Instance = new PerDecoder();
-
-            public CrossCarrierSchedulingConfig_r10 Decode(BitArrayInputStream input)
+            
+            protected override void ProcessConfig(CrossCarrierSchedulingConfig_r10 config, BitArrayInputStream input)
             {
-                CrossCarrierSchedulingConfig_r10 _r = new CrossCarrierSchedulingConfig_r10();
-                _r.InitDefaults();
-                _r.schedulingCellInfo_r10 = schedulingCellInfo_r10_Type.PerDecoder.Instance.Decode(input);
-                return _r;
+                config.schedulingCellInfo_r10 = schedulingCellInfo_r10_Type.PerDecoder.Instance.Decode(input);
             }
         }
 
         [Serializable]
-        public class schedulingCellInfo_r10_Type
+        public class schedulingCellInfo_r10_Type : TraceConfig
         {
-            public void InitDefaults()
-            {
-            }
-
             public other_r10_Type other_r10 { get; set; }
 
             public own_r10_Type own_r10 { get; set; }
 
             [Serializable]
-            public class other_r10_Type
+            public class other_r10_Type : TraceConfig
             {
-                public void InitDefaults()
-                {
-                }
-
                 public long pdsch_Start_r10 { get; set; }
 
                 public long schedulingCellId_r10 { get; set; }
 
-                public class PerDecoder
+                public class PerDecoder : DecoderBase<other_r10_Type>
                 {
                     public static readonly PerDecoder Instance = new PerDecoder();
-
-                    public other_r10_Type Decode(BitArrayInputStream input)
+                    
+                    protected override void ProcessConfig(other_r10_Type config, BitArrayInputStream input)
                     {
-                        other_r10_Type type = new other_r10_Type();
-                        type.InitDefaults();
-                        type.schedulingCellId_r10 = input.ReadBits(3);
-                        type.pdsch_Start_r10 = input.ReadBits(2) + 1;
-                        return type;
+                        config.schedulingCellId_r10 = input.ReadBits(3);
+                        config.pdsch_Start_r10 = input.ReadBits(2) + 1;
                     }
                 }
             }
 
             [Serializable]
-            public class own_r10_Type
+            public class own_r10_Type : TraceConfig
             {
-                public void InitDefaults()
-                {
-                }
-
                 public bool cif_Presence_r10 { get; set; }
 
-                public class PerDecoder
+                public class PerDecoder : DecoderBase<own_r10_Type>
                 {
                     public static readonly PerDecoder Instance = new PerDecoder();
-
-                    public own_r10_Type Decode(BitArrayInputStream input)
+                    
+                    protected override void ProcessConfig(own_r10_Type config, BitArrayInputStream input)
                     {
-                        own_r10_Type type = new own_r10_Type();
-                        type.InitDefaults();
-                        type.cif_Presence_r10 = input.ReadBit() == 1;
-                        return type;
+                        config.cif_Presence_r10 = input.ReadBit() == 1;
                     }
                 }
             }
 
-            public class PerDecoder
+            public class PerDecoder : DecoderBase<schedulingCellInfo_r10_Type>
             {
                 public static readonly PerDecoder Instance = new PerDecoder();
-
-                public schedulingCellInfo_r10_Type Decode(BitArrayInputStream input)
+                
+                protected override void ProcessConfig(schedulingCellInfo_r10_Type config, BitArrayInputStream input)
                 {
-                    schedulingCellInfo_r10_Type type = new schedulingCellInfo_r10_Type();
-                    type.InitDefaults();
                     switch (input.ReadBits(1))
                     {
                         case 0:
-                            type.own_r10 = own_r10_Type.PerDecoder.Instance.Decode(input);
-                            return type;
-
+                            config.own_r10 = own_r10_Type.PerDecoder.Instance.Decode(input);
+                            return;
                         case 1:
-                            type.other_r10 = other_r10_Type.PerDecoder.Instance.Decode(input);
-                            return type;
+                            config.other_r10 = other_r10_Type.PerDecoder.Instance.Decode(input);
+                            return;
                     }
                     throw new Exception(GetType().Name + ":NoChoice had been choose");
                 }

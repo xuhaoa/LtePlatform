@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.Dependency;
+using Abp.EntityFramework.Extensions;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.MySqlFramework.Abstract;
@@ -32,14 +33,9 @@ namespace Lte.Evaluations.DataService.Kpi
             {
                 var query =
                     _statRepository.GetAllList(x => x.StatTime >= beginDate & x.StatTime < endDate);
-                return
-                    (from q in query
-                        join t in _townRepository.GetAll(city) on q.TownId equals t.Id
-                        select q).ToList();
+                return query.FilterTownList(_townRepository.GetAll(city));
             });
-            var townViews = stats
-                    .Select(x => x.ConstructView<TownPreciseCoverage4GStat, TownPreciseView>(_townRepository))
-                    .ToList();
+            var townViews = stats.ConstructViews<TownPreciseCoverage4GStat, TownPreciseView>(_townRepository);
 
             return new PreciseRegionDateView
             {
@@ -82,14 +78,9 @@ namespace Lte.Evaluations.DataService.Kpi
             {
                 var query =
                     _statRepository.GetAllList(x => x.StatTime >= beginDate & x.StatTime < endDate);
-                return
-                    (from q in query
-                     join t in _townRepository.GetAll(city) on q.TownId equals t.Id
-                     select q).ToList();
+                return query.FilterTownList(_townRepository.GetAll(city));
             });
-            var townViews = stats
-                    .Select(x => x.ConstructView<TownRrcStat, TownRrcView>(_townRepository))
-                    .ToList();
+            var townViews = stats.ConstructViews<TownRrcStat, TownRrcView>(_townRepository);
 
             return new RrcRegionDateView
             {
