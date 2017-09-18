@@ -1755,6 +1755,24 @@
                     'type': type
                 });
             },
+            getStationByName: function (name, type, page, pageSize) {
+                //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Alarm/search', {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Station/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "stationName": name,
+                    'type': type
+                });
+            },
+            getIndoorByName: function (name, type, page, pageSize) {
+                //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Alarm/search', {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Indoor/search', {
+                    "curr_page": page,
+                    "page_size": pageSize,
+                    "stationName": name,
+                    'type': type
+                });
+            },
             getFixingStationByName: function (name, type, page, pageSize) {
                 //return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Alarm/search', {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Fixing/search', {
@@ -1815,6 +1833,11 @@
             },
             getStationById: function (id) {
                 return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Station/single', {
+                    "id": id
+                });
+            },
+            getIndoorById: function (id) {
+                return generalHttpService.postPhpUrlData(appUrlService.getPhpLocalhost() + 'LtePlatForm/lte/index.php/Indoor/single', {
                     "id": id
                 });
             },

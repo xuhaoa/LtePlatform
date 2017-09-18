@@ -642,11 +642,11 @@
                      }, {
                          items: [
                              {
-                                 key: '经度',
-                                 value: station.longtitute
+                                 key: '设备类型',
+                                 value: station.deviceType
                              }, {
-                                 key: '纬度',
-                                 value: station.lattitute
+                                 key: '设备数目',
+                                 value: station.deviceNum
                              }, {
                                  key: '主要覆盖范围',
                                  value: station.coverage

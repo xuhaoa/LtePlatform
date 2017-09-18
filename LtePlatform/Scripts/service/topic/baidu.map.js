@@ -1437,10 +1437,13 @@
 		};
 	})
 	.controller('map.indoor.dialog', function ($scope, $uibModalInstance, station, dialogTitle, beginDate, endDate,
-		appFormatService, networkElementService) {
+		appFormatService, networkElementService,downSwitchService) {
 	    $scope.beginDate = beginDate;
 	    $scope.endDate = endDate;
-	    $scope.itemGroups = appFormatService.generateIndoorGroups(station);
+	    downSwitchService.getIndoorById(station.id).then(function (response) {
+	        $scope.itemGroups = appFormatService.generateIndoorGroups(response.result[0]);
+	    });
+
 	    
 	    $scope.dialogTitle = dialogTitle;
 	    $scope.ok = function () {
