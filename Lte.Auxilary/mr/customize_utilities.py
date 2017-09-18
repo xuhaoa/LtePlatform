@@ -7,6 +7,7 @@ import pymongo
 from pymongo import MongoClient
 import zipfile
 import shutil
+import tarfile
 
 def generate_time_dir(now=datetime.datetime.now(), prefix = "/MR_HW_SOURCE_D/"):
     '''生成时间段字符串目录，当前时间的2个小时前'''
@@ -102,7 +103,7 @@ class NorthDownloader:
                 print(tablename)
                 if name.endswith('.zip') and tablename in self.DFList:
                     pass
-                else:
+                elif name.endswith('.zip'):
                     self.host.download(name, name)
                     self.DFList.append(name)
                     self.db['DFlist_North'].insert({'dfName': tablename})
@@ -116,6 +117,23 @@ class NorthDownloader:
                                     shutil.move(sub_name,os.path.join(mrsdir,sub_name))
                                 else:
                                     os.remove(sub_name)
+                                    
+    def download_huawei(self, ftpdir, osdir, mrodir, mrsdir,hostip):
+        for root, dirs, files in self.host.walk(ftpdir):
+            print('The root directory:', root)
+            self.host.chdir(root)
+            for name in files:
+                tablename = hostip[0:15]+'_' +name
+                print(tablename)
+                if name.endswith('.tar.gz') and tablename in self.DFList:
+                    pass
+                elif name.endswith('.tar.gz'):
+                    self.host.download(name, name)
+                    self.DFList.append(name)
+                    self.db['DFlist_North'].insert({'dfName': tablename})
+                    with tarfile.open(os.path.join(osdir, name), 'r') as zfile:
+                        for sub_name in zfile.namelist():
+                            print(sub_name)
 
 class MrDownloader:
     '''通用MR下载对象，调用此对象的方法，可完成各种数据的下载'''

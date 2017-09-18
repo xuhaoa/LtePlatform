@@ -85,24 +85,6 @@
     <Compile Include="ftp_modules\ftp_huawei_mrs.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ftp_modules\ftp_zte.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ftp_modules\ftp_zte_125.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ftp_modules\ftp_zte_mre.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ftp_modules\ftp_zte_mre_125.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ftp_modules\ftp_zte_mrs.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ftp_modules\ftp_zte_mrs_125.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="mr\gzip_test.py">
       <SubType>Code</SubType>
     </Compile>
@@ -139,6 +121,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="process_zte2\process_zte_mro.py" />
+    <Compile Include="process_zte2\process_zte_mrs.py" />
     <Compile Include="process_zte\process_zte_mro.py">
       <SubType>Code</SubType>
     </Compile>
@@ -269,15 +252,6 @@
     <Content Include="Db\SQLQuery1.sql" />
     <Content Include="Db\SQLQuery2.sql" />
     <Content Include="Db\SQLQuery3.sql" />
-    <Content Include="huawei_download\huawei_download_mre.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mre_112.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mre_124.sh">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="huawei_download\huawei_download_mro_112_216.sh">
       <SubType>Code</SubType>
     </Content>
@@ -444,141 +418,6 @@
     <Content Include="process_zte\process_zte_mrs_45.sh">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="zte_download\zte_download_mre.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mre_125.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_138.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_138_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_138_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_138_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_181.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_181_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_181_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_181_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_183.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_183_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_183_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_183_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_229.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_229_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_229_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_229_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_125_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mro_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_138.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_138_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_138_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_138_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_181.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_181_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_181_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_181_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_183.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_183_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_183_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_183_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_229.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_229_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_229_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_229_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="para\zx.sh" />
     <Content Include="Practise\ftp_test.py" />
     <Content Include="huawei_download\huawei_download_mro.sh" />
@@ -587,21 +426,6 @@
     <Content Include="phpApi\wandonglouyu.php" />
     <Content Include="phpApi\zonghexinxiConnection.php" />
     <Content Include="Practise\ftp_test.sh" />
-    <Content Include="zte_download\zte_download_mrs_125_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_125_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_mrs_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="zte_download\zte_download_north.sh">
       <SubType>Code</SubType>
     </Content>

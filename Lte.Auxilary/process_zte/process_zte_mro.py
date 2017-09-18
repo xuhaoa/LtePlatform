@@ -10,10 +10,10 @@ import pymongo
 from pymongo import MongoClient
 import sys
 
-os.chdir('/home/wireless/zte_mro')
-date_dir=generate_date_hours_shift(shift=-5)
+os.chdir('/home/wireless/huawei_mro')
+date_dir=generate_date_hours_shift(shift=-3)
 afilter = ['CDMA']
-db = MongoClient('mongodb://root:Abcdef9*@132.110.71.123')['ouyh']
+db = MongoClient('mongodb://root:Abcdef9*@132.110.71.122')['ouyh']
 begin=datetime.datetime.now()
 
 _DFlist = list(db['Mro_DFlist_'+date_dir].find({}, {'dfName': 1, '_id': 0}))      
