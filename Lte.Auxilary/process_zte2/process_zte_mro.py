@@ -16,7 +16,25 @@ afilter = ['CDMA']
 db = MongoClient('mongodb://root:Abcdef9*@132.110.71.123')['ouyh']
 begin=datetime.datetime.now()
 
-_DFlist = list(db['Mro_DFlist_'+date_dir].find({}, {'dfName': 1, '_id': 0}))      
+try:
+    if db['mro_'+date_dir].index_information().get('Pci_1_NeighborPci_1')==None:
+        db['mro_'+date_dir].create_index([("Pci", pymongo.ASCENDING), ("NeighborPci", pymongo.ASCENDING)],background=True)
+except:
+    print('The colletion is initialized')
+
+try:
+    if db['position_'+date_dir].index_information().get('CellId_1')==None:
+        db['position_'+date_dir].create_index([("CellId", pymongo.ASCENDING)],background=True)
+except:
+    print('The colletion is initialized')
+
+try:
+    if db['precise_'+date_dir].index_information().get('CellId_1_Pci_1')==None:
+        db['precise_'+date_dir].create_index([("CellId", pymongo.ASCENDING), ("Pci", pymongo.ASCENDING)],background=True)
+except:
+    print('The colletion is initialized')
+
+_DFlist = list(db['Mro_DFlist_'+date_dir].find({}, {'dfName': 1, '_id': 0}))
 DFList = [item.get('dfName') for item in _DFlist]
 
 for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
@@ -68,21 +86,3 @@ for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
             os.remove(currrent_dir + name)
         except:
             print('Unable to delete this file: ' + name)
-
-try:
-    if db['mro_'+date_dir].index_information().get('Pci_1_NeighborPci_1')==None:
-        db['mro_'+date_dir].create_index([("Pci", pymongo.ASCENDING), ("NeighborPci", pymongo.ASCENDING)],background=True)
-except:
-    print('The colletion is initialized')
-
-try:
-    if db['position_'+date_dir].index_information().get('CellId_1')==None:
-        db['position_'+date_dir].create_index([("CellId", pymongo.ASCENDING)],background=True)
-except:
-    print('The colletion is initialized')
-
-try:
-    if db['precise_'+date_dir].index_information().get('CellId_1_Pci_1')==None:
-        db['precise_'+date_dir].create_index([("CellId", pymongo.ASCENDING), ("Pci", pymongo.ASCENDING)],background=True)
-except:
-    print('The colletion is initialized')

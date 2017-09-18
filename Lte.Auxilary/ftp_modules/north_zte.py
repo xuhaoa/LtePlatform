@@ -39,7 +39,8 @@ try:
     downloader=NorthDownloader(host,DFList,db)
     ftpdir='/MR/FDD-LTE/'+date_dir_line+'/'
     print(ftpdir)
-    downloader.download(ftpdir, os_dir, mro_dir, mrs_dir)
+    print(host_ip)
+    downloader.download(ftpdir, os_dir, mro_dir, mrs_dir, host_ip)
     host.close()
 except:
     print('Something wrong with', host_ip)

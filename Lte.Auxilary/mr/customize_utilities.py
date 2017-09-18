@@ -93,18 +93,19 @@ class NorthDownloader:
         self.DFList=DFList
         self.db=db
 
-    def download(self, ftpdir, osdir, mrodir, mrsdir):
+    def download(self, ftpdir, osdir, mrodir, mrsdir,hostip):
         for root, dirs, files in self.host.walk(ftpdir):
             print('The root directory:', root)
             self.host.chdir(root)
             for name in files:
-                print(name)
-                if name.endswith('.zip') and name in self.DFList:
+                tablename = hostip[0:15]+'_' +name
+                print(tablename)
+                if name.endswith('.zip') and tablename in self.DFList:
                     pass
                 else:
                     self.host.download(name, name)
                     self.DFList.append(name)
-                    self.db['DFlist_North'].insert({'dfName': name})
+                    self.db['DFlist_North'].insert({'dfName': tablename})
                     with zipfile.ZipFile(os.path.join(osdir, name), 'r') as zfile:
                         for sub_name in zfile.namelist():
                                 print(sub_name)

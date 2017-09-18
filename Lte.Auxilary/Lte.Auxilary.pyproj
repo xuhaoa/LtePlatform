@@ -138,6 +138,7 @@
     <Compile Include="process_huawei\process_huawei_mrs.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="process_zte2\process_zte_mro.py" />
     <Compile Include="process_zte\process_zte_mro.py">
       <SubType>Code</SubType>
     </Compile>
@@ -216,6 +217,7 @@
     <Folder Include="ftp_modules\" />
     <Folder Include="huawei_download\" />
     <Folder Include="mr\backup\" />
+    <Folder Include="process_zte2\" />
     <Folder Include="zte_download\" />
     <Folder Include="process_zte\" />
     <Folder Include="process_huawei\" />
@@ -414,6 +416,10 @@
     <Content Include="process_huawei\process_huawei_mrs_45.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="process_zte2\process_zte_mro.sh" />
+    <Content Include="process_zte2\process_zte_mro_15.sh" />
+    <Content Include="process_zte2\process_zte_mro_30.sh" />
+    <Content Include="process_zte2\process_zte_mro_45.sh" />
     <Content Include="process_zte\process_zte_mro.sh">
       <SubType>Code</SubType>
     </Content>
@@ -597,6 +603,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_north.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="zte_download\zte_download_north_main.sh">
       <SubType>Code</SubType>
     </Content>
   </ItemGroup>
