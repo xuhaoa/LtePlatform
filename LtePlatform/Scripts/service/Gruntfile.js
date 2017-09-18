@@ -18,6 +18,7 @@
                         'kpi/college.work.js', 'kpi/college.flow.js',
                         'kpi/college.js', 'kpi/coverage.js', 'kpi/customer.js',
                         'kpi/parameter.dump.js', 'kpi/parameter.rutrace.js', 'kpi/parameter.query.js', 'kpi/parameter.js',
+                        'kpi/work.dialog.js', 'kpi/work.flow.js', 'kpi/work.chart.js', 'kpi/work.trend.js',
                         'kpi/work.js', 'kpi/app.kpi.js'
                     ],
                     'app/topic.js': [

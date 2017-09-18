@@ -2,5 +2,5 @@
     'kpi.college.infrastructure', 'kpi.college.basic', 'kpi.college.maintain',
     'kpi.college.work', 'kpi.college.flow',
     'kpi.college', "kpi.coverage", 'kpi.customer',
-    'kpi.parameter.dump', 'kpi.parameter.rutrace', 'kpi.parameter.query',
-    'kpi.parameter', 'kpi.work']);
+    'kpi.parameter.dump', 'kpi.parameter.rutrace', 'kpi.parameter.query', 'kpi.parameter', 
+    'kpi.work.dialog', 'kpi.work.flow', 'kpi.work.chart', 'kpi.work.trend', 'kpi.work']);
