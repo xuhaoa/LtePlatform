@@ -2660,13 +2660,13 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                 kpiPreciseService.getRecentPreciseRegionKpi(city.selected, $scope.statDate.value)
                     .then(function(result) {
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
-                        angular.forEach(result.districtPreciseViews,
+                        angular.forEach(result.districtViews,
                             function(view) {
                                 view.objectRate = appKpiService.getPreciseObject(view.district);
                             });
-                        $scope.overallStat.districtStats = result.districtPreciseViews;
-                        $scope.overallStat.townStats = result.townPreciseViews;
-                        $scope.overallStat.currentDistrict = result.districtPreciseViews[0].district;
+                        $scope.overallStat.districtStats = result.districtViews;
+                        $scope.overallStat.townStats = result.townViews;
+                        $scope.overallStat.currentDistrict = result.districtViews[0].district;
                         $scope.overallStat.districtStats
                             .push(appKpiService.getCityStat($scope.overallStat.districtStats, city.selected));
                         $scope.overallStat.dateString = appFormatService
@@ -2722,13 +2722,13 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                 kpiPreciseService.getRecentRrcRegionKpi(city.selected, $scope.statDate.value)
                     .then(function(result) {
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
-                        angular.forEach(result.districtRrcViews,
+                        angular.forEach(result.districtViews,
                             function(view) {
                                 view.objectRate = appKpiService.getRrcObject(view.district);
                             });
-                        $scope.overallStat.districtStats = result.districtRrcViews;
-                        $scope.overallStat.townStats = result.townRrcViews;
-                        $scope.overallStat.currentDistrict = result.districtRrcViews[0].district;
+                        $scope.overallStat.districtStats = result.districtViews;
+                        $scope.overallStat.townStats = result.townViews;
+                        $scope.overallStat.currentDistrict = result.districtViews[0].district;
                         $scope.overallStat.districtStats
                             .push(appKpiService.getRrcCityStat($scope.overallStat.districtStats, city.selected));
                         $scope.overallStat.dateString = appFormatService
@@ -2747,6 +2747,60 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             };
 
             $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+    })
+    .controller('cqi.trend',
+        function ($scope,
+            $uibModalInstance,
+            kpiPreciseService,
+            appFormatService,
+            appKpiService,
+            workItemDialog,
+            dialogTitle,
+            city,
+            beginDate,
+            endDate) {
+            var yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            $scope.dialogTitle = dialogTitle + '-' + yesterday;
+            $scope.kpiType = 'cqi';
+            $scope.statDate = {
+                value: yesterday,
+                opened: false
+            };
+
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.showKpi = function () {
+                kpiPreciseService.getRecentCqiRegionKpi(city.selected, $scope.statDate.value)
+                    .then(function (result) {
+                        $scope.statDate.value = appFormatService.getDate(result.statDate);
+                        angular.forEach(result.districtViews,
+                            function (view) {
+                                view.objectRate = appKpiService.getCqiObject(view.district);
+                            });
+                        $scope.overallStat.districtStats = result.districtViews;
+                        $scope.overallStat.townStats = result.townViews;
+                        $scope.overallStat.currentDistrict = result.districtViews[0].district;
+                        $scope.overallStat.districtStats
+                            .push(appKpiService.getRrcCityStat($scope.overallStat.districtStats, city.selected));
+                        $scope.overallStat.dateString = appFormatService
+                            .getDateString($scope.statDate.value, "yyyy年MM月dd日");
+                    });
+            };
+            $scope.showChart = function () {
+                workItemDialog.showRrcChart($scope.overallStat);
+            };
+            $scope.showTrend = function () {
+                workItemDialog.showRrcTrend(city, $scope.beginDate, $scope.endDate);
+            };
+            $scope.showKpi();
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
         })
@@ -3499,6 +3553,26 @@ angular.module('topic.dialog',[ 'app.menu' ])
                                 return beginDate;
                             },
                             endDate: function() {
+                                return endDate;
+                            }
+                        }
+                    });
+                },
+                showCqiTrend: function (city, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Rutrace/Trend.html',
+                        controller: 'cqi.trend',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "CQI优良比变化趋势";
+                            },
+                            city: function () {
+                                return city;
+                            },
+                            beginDate: function () {
+                                return beginDate;
+                            },
+                            endDate: function () {
                                 return endDate;
                             }
                         }

@@ -182,8 +182,8 @@ namespace Lte.Evaluations.DataService.Kpi
                    select new FlowRegionDateView
                    {
                        StatDate = g.Key,
-                       TownFlowViews = g.Select(x => x),
-                       DistrictFlowViews = g.Select(x => x).Merge(v =>v.MapTo<DistrictFlowView>())
+                       TownViews = g.Select(x => x),
+                       DistrictViews = g.Select(x => x).Merge(v =>v.MapTo<DistrictFlowView>())
                    };
         } 
     }

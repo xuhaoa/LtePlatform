@@ -1065,6 +1065,21 @@ angular.module('region.kpi', ['app.core'])
                         end: endDate
                     });
                 },
+                getRecentCqiRegionKpi: function (city, initialDate) {
+                    return generalHttpService.getApiData('CqiRegion',
+                        {
+                            city: city,
+                            statDate: initialDate
+                        });
+                },
+                getDateSpanCqiRegionKpi: function (city, beginDate, endDate) {
+                    return generalHttpService.getApiData('CqiRegion',
+                        {
+                            city: city,
+                            begin: beginDate,
+                            end: endDate
+                        });
+                },
                 getDateSpanFlowRegionKpi: function(city, beginDate, endDate, frequency) {
                     return generalHttpService.getApiData('TownFlow',
                     {

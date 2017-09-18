@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Lte.Domain.Common;
+using Lte.Domain.Common.Wireless;
 
 namespace Abp.EntityFramework.Dependency
 {
@@ -42,6 +43,15 @@ namespace Abp.EntityFramework.Dependency
         string CellId { get; set; }
     }
 
+    public interface IRegionDateSpanView<TDistrictView, TTownView> : IStatDate
+        where TDistrictView : ICityDistrict
+        where TTownView : ICityDistrictTown
+    {
+        IEnumerable<TDistrictView> DistrictViews { get; set; }
+
+        IEnumerable<TTownView> TownViews { get; set; }
+    }
+
     public interface IStatDateCellRepository<out TEntity>
             where TEntity : class, IStatDateCell, IEntity<ObjectId>
     {
@@ -52,6 +62,38 @@ namespace Abp.EntityFramework.Dependency
 
     public static class StatDateCellQueries
     {
+        public static IEnumerable<TRegionDateSpanView> QueryDateSpanViews<TRegionDateSpanView, TDistrictView, TTownView>
+            (this IEnumerable<TTownView> townViews, Func<TTownView, TDistrictView> generateDistrictViewFunc)
+            where TRegionDateSpanView : class, IRegionDateSpanView<TDistrictView, TTownView>, new()
+            where TDistrictView : ICityDistrict
+            where TTownView : class, ICityDistrictTown, IStatTime, new()
+        {
+            return from view in townViews
+                group view by view.StatTime
+                into g
+                select new TRegionDateSpanView
+                {
+                    StatDate = g.Key,
+                    TownViews = g.Select(x => x),
+                    DistrictViews = g.Select(x => x).Merge(generateDistrictViewFunc)
+                };
+        }
+        
+        public static TRegionDateView QueryRegionDateView<TRegionDateView, TDistrictView, TTownView>(
+            this List<TTownView> townViews, DateTime initialDate,
+            Func<TTownView, TDistrictView> generateDistrictViewFunc)
+            where TRegionDateView : class, IRegionDateSpanView<TDistrictView, TTownView>, new()
+            where TDistrictView : ICityDistrict
+            where TTownView : class, ICityDistrictTown, IStatTime, new()
+        {
+            return new TRegionDateView
+            {
+                StatDate = townViews.Any() ? townViews.First().StatTime : initialDate,
+                TownViews = townViews,
+                DistrictViews = townViews.Merge(generateDistrictViewFunc)
+            };
+        }
+
         public static TEntity QueryLastDate<TEntity>(this MongoDbRepositoryBase<TEntity, ObjectId> repository,
             string cellId, DateTime statDate)
             where TEntity : class, IStatDateCell, IEntity<ObjectId>

@@ -1349,6 +1349,16 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                 };
                 return objectTable[district] === undefined ? 99 : objectTable[district];
             },
+            getCqiObject: function (district) {
+                var objectTable = {
+                    "禅城": 93,
+                    "南海": 93,
+                    "三水": 93,
+                    "高明": 93,
+                    "顺德": 93
+                };
+                return objectTable[district] === undefined ? 99 : objectTable[district];
+            },
             generateComplainTrendOptions: function(dates, counts, objects) {
                 var chart = new TimeSeriesLine();
                 chart.title.text = '月度抱怨量变化趋势图';

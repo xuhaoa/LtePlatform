@@ -471,5 +471,10 @@ namespace Lte.MySqlFramework.Entities
         public Tuple<long, long> CqiCounts => this.GetDivsionLongTuple(7);
 
         public double CqiRate => (double) CqiCounts.Item2 * 100 / CqiCounts.Item1;
+
+        public static DistrictQciView ConstructView(TownQciView townView)
+        {
+            return townView.MapTo<DistrictQciView>();
+        }
     }
 }

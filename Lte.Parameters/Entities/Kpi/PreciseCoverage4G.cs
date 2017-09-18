@@ -177,7 +177,7 @@ namespace Lte.Parameters.Entities.Kpi
     }
 
     [AutoMap(typeof(TownPreciseCoverage4GStat))]
-    public class TownPreciseView : ICityDistrictTown
+    public class TownPreciseView : ICityDistrictTown, IStatTime
     {
         public DateTime StatTime { get; set; }
 

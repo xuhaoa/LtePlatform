@@ -50,13 +50,13 @@
                 kpiPreciseService.getRecentPreciseRegionKpi(city.selected, $scope.statDate.value)
                     .then(function(result) {
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
-                        angular.forEach(result.districtPreciseViews,
+                        angular.forEach(result.districtViews,
                             function(view) {
                                 view.objectRate = appKpiService.getPreciseObject(view.district);
                             });
-                        $scope.overallStat.districtStats = result.districtPreciseViews;
-                        $scope.overallStat.townStats = result.townPreciseViews;
-                        $scope.overallStat.currentDistrict = result.districtPreciseViews[0].district;
+                        $scope.overallStat.districtStats = result.districtViews;
+                        $scope.overallStat.townStats = result.townViews;
+                        $scope.overallStat.currentDistrict = result.districtViews[0].district;
                         $scope.overallStat.districtStats
                             .push(appKpiService.getCityStat($scope.overallStat.districtStats, city.selected));
                         $scope.overallStat.dateString = appFormatService
@@ -112,13 +112,13 @@
                 kpiPreciseService.getRecentRrcRegionKpi(city.selected, $scope.statDate.value)
                     .then(function(result) {
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
-                        angular.forEach(result.districtRrcViews,
+                        angular.forEach(result.districtViews,
                             function(view) {
                                 view.objectRate = appKpiService.getRrcObject(view.district);
                             });
-                        $scope.overallStat.districtStats = result.districtRrcViews;
-                        $scope.overallStat.townStats = result.townRrcViews;
-                        $scope.overallStat.currentDistrict = result.districtRrcViews[0].district;
+                        $scope.overallStat.districtStats = result.districtViews;
+                        $scope.overallStat.townStats = result.townViews;
+                        $scope.overallStat.currentDistrict = result.districtViews[0].district;
                         $scope.overallStat.districtStats
                             .push(appKpiService.getRrcCityStat($scope.overallStat.districtStats, city.selected));
                         $scope.overallStat.dateString = appFormatService
@@ -163,16 +163,16 @@
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
             $scope.showKpi = function () {
-                kpiPreciseService.getRecentRrcRegionKpi(city.selected, $scope.statDate.value)
+                kpiPreciseService.getRecentCqiRegionKpi(city.selected, $scope.statDate.value)
                     .then(function (result) {
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
-                        angular.forEach(result.districtRrcViews,
+                        angular.forEach(result.districtViews,
                             function (view) {
-                                view.objectRate = appKpiService.getRrcObject(view.district);
+                                view.objectRate = appKpiService.getCqiObject(view.district);
                             });
-                        $scope.overallStat.districtStats = result.districtRrcViews;
-                        $scope.overallStat.townStats = result.townRrcViews;
-                        $scope.overallStat.currentDistrict = result.districtRrcViews[0].district;
+                        $scope.overallStat.districtStats = result.districtViews;
+                        $scope.overallStat.townStats = result.townViews;
+                        $scope.overallStat.currentDistrict = result.districtViews[0].district;
                         $scope.overallStat.districtStats
                             .push(appKpiService.getRrcCityStat($scope.overallStat.districtStats, city.selected));
                         $scope.overallStat.dateString = appFormatService

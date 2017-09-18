@@ -2,35 +2,45 @@
 using System;
 using System.Collections.Generic;
 using Abp.EntityFramework.Dependency;
+using Lte.Domain.Common.Wireless;
 using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.ViewModels.RegionKpi
 {
-    public class PreciseRegionDateView : IStatDate
+    public class PreciseRegionDateView : IRegionDateSpanView<DistrictPreciseView, TownPreciseView>
     {
         public DateTime StatDate { get; set; }
 
-        public IEnumerable<DistrictPreciseView> DistrictPreciseViews { get; set; } 
+        public IEnumerable<DistrictPreciseView> DistrictViews { get; set; } 
 
-        public IEnumerable<TownPreciseView> TownPreciseViews { get; set; }
+        public IEnumerable<TownPreciseView> TownViews { get; set; }
     }
 
-    public class RrcRegionDateView : IStatDate
+    public class RrcRegionDateView : IRegionDateSpanView<DistrictRrcView, TownRrcView>
     {
         public DateTime StatDate { get; set; }
 
-        public IEnumerable<DistrictRrcView> DistrictRrcViews { get; set; }
+        public IEnumerable<DistrictRrcView> DistrictViews { get; set; }
 
-        public IEnumerable<TownRrcView> TownRrcViews { get; set; }
+        public IEnumerable<TownRrcView> TownViews { get; set; }
     }
 
-    public class FlowRegionDateView : IStatDate
+    public class QciRegionDateView : IRegionDateSpanView<DistrictQciView, TownQciView>
     {
         public DateTime StatDate { get; set; }
 
-        public IEnumerable<DistrictFlowView> DistrictFlowViews { get; set; }
+        public IEnumerable<DistrictQciView> DistrictViews { get; set; }
 
-        public IEnumerable<TownFlowView> TownFlowViews { get; set; }
+        public IEnumerable<TownQciView> TownViews { get; set; }
+    }
+
+    public class FlowRegionDateView : IRegionDateSpanView<DistrictFlowView, TownFlowView>
+    {
+        public DateTime StatDate { get; set; }
+
+        public IEnumerable<DistrictFlowView> DistrictViews { get; set; }
+
+        public IEnumerable<TownFlowView> TownViews { get; set; }
     }
 
     public class DownSwitchFlowDateView : IStatDate

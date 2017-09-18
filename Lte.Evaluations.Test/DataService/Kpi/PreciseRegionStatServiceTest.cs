@@ -58,8 +58,8 @@ namespace Lte.Evaluations.DataService.Kpi
             var result = _testService.QueryLastDateStat(initialDate, "city");
             Assert.IsNotNull(result);
             Assert.AreEqual(result.StatDate, DateTime.Parse(statDate));
-            Assert.AreEqual(result.TownPreciseViews.Count(), 1);
-            PreciseViewTestService.AssertEqual(result.TownPreciseViews.ElementAt(0), new TownPreciseView
+            Assert.AreEqual(result.TownViews.Count(), 1);
+            PreciseViewTestService.AssertEqual(result.TownViews.ElementAt(0), new TownPreciseView
             {
                 City = "city",
                 District = "district" + (townId == 1 ? 1 : 2),
@@ -69,8 +69,8 @@ namespace Lte.Evaluations.DataService.Kpi
                 ThirdNeighbors = thirdNeighbors,
                 TotalMrs = totalMrs
             });
-            Assert.AreEqual(result.DistrictPreciseViews.Count(), 1);
-            PreciseViewTestService.AssertEqual(result.DistrictPreciseViews.ElementAt(0), new DistrictPreciseView
+            Assert.AreEqual(result.DistrictViews.Count(), 1);
+            PreciseViewTestService.AssertEqual(result.DistrictViews.ElementAt(0), new DistrictPreciseView
             {
                 City = "city",
                 District = "district" + (townId == 1 ? 1 : 2),
@@ -96,8 +96,8 @@ namespace Lte.Evaluations.DataService.Kpi
             var result = _testService.QueryLastDateStat(initialDate, "city");
             Assert.IsNotNull(result);
             Assert.AreEqual(result.StatDate, DateTime.Parse(resultDate));
-            Assert.AreEqual(result.TownPreciseViews.Count(), 1);
-            PreciseViewTestService.AssertEqual(result.TownPreciseViews.ElementAt(0), new TownPreciseView
+            Assert.AreEqual(result.TownViews.Count(), 1);
+            PreciseViewTestService.AssertEqual(result.TownViews.ElementAt(0), new TownPreciseView
             {
                 City = "city",
                 District = "district" + (townId == 1 ? 1 : 2),
@@ -107,8 +107,8 @@ namespace Lte.Evaluations.DataService.Kpi
                 ThirdNeighbors = resultThird,
                 TotalMrs = resultTotal
             });
-            Assert.AreEqual(result.DistrictPreciseViews.Count(), 1);
-            PreciseViewTestService.AssertEqual(result.DistrictPreciseViews.ElementAt(0), new DistrictPreciseView
+            Assert.AreEqual(result.DistrictViews.Count(), 1);
+            PreciseViewTestService.AssertEqual(result.DistrictViews.ElementAt(0), new DistrictPreciseView
             {
                 City = "city",
                 District = "district" + (townId == 1 ? 1 : 2),
@@ -142,7 +142,7 @@ namespace Lte.Evaluations.DataService.Kpi
             Assert.AreEqual(result.StatDate, DateTime.Parse(resultDate));
             for (var i = 0; i < resultTownId.Length; i++)
             {
-                PreciseViewTestService.AssertEqual(result.TownPreciseViews.ElementAt(i), new TownPreciseView
+                PreciseViewTestService.AssertEqual(result.TownViews.ElementAt(i), new TownPreciseView
                 {
                     City = "city",
                     District = "district" + (resultTownId[i] == 1 ? 1 : 2),
@@ -155,7 +155,7 @@ namespace Lte.Evaluations.DataService.Kpi
             }
             for (var i = 0; i < resultDistrictId.Length; i++)
             {
-                PreciseViewTestService.AssertEqual(result.DistrictPreciseViews.ElementAt(i), new DistrictPreciseView
+                PreciseViewTestService.AssertEqual(result.DistrictViews.ElementAt(i), new DistrictPreciseView
             {
                 City = "city",
                 District = "district" + resultDistrictId[i],
