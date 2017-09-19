@@ -1967,6 +1967,12 @@ angular.module('app.format', [])
             },
             generateAnalyzeButtonTemplate: function() {
                 return '<a class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showTopDistrict(row.entity.district)">TOP指标</a>';
+            },
+            generateDistrictTownKpiDefs: function(kpiFields) {
+                return [
+                    { field: 'district', name: '区域' },
+                    { field: 'town', name: '镇区' }
+                ].concat(kpiFields);
             }
         };
     })
@@ -2434,6 +2440,24 @@ angular.module('app.format', [])
                     });
                 });
                 return gradient;
+            },
+            generateDistrictKpiDefs: function(kpiFields) {
+                return [
+                    { field: 'city', name: '城市' },
+                    {
+                        name: '区域',
+                        cellTemplate: appFormatService.generateDistrictButtonTemplate()
+                    }
+                ].concat(kpiFields).concat([
+                    {
+                        name: '处理',
+                        cellTemplate: appFormatService.generateProcessButtonTemplate()
+                    },
+                    {
+                        name: '分析',
+                        cellTemplate: appFormatService.generateAnalyzeButtonTemplate()
+                    }
+                ]);
             }
         };
     })
@@ -2928,12 +2952,7 @@ angular.module('app.format', [])
             generateDistrictColumnDefs: function(kpiType) {
                 switch(kpiType) {
                     case 'precise':
-                        return [
-                            { field: 'city', name: '城市' },
-                            {
-                                name: '区域',
-                                cellTemplate: appFormatService.generateDistrictButtonTemplate()
-                            },
+                        return chartCalculateService.generateDistrictKpiDefs([
                             { field: 'totalMrs', name: 'MR总数' },
                             {
                                 field: 'preciseRate',
@@ -2948,33 +2967,20 @@ angular.module('app.format', [])
                             },
                             { field: 'objectRate', name: '本区目标值', cellFilter: 'number: 2' },
                             { field: 'firstRate', name: '第一精确覆盖率', cellFilter: 'number: 2' },
-                            { field: 'thirdRate', name: '第三精确覆盖率', cellFilter: 'number: 2' },
-                            {
-                                name: '处理',
-                                cellTemplate: appFormatService.generateProcessButtonTemplate()
-                            },
-                            {
-                                name: '分析',
-                                cellTemplate: appFormatService.generateAnalyzeButtonTemplate()
-                            }
-                        ];
+                            { field: 'thirdRate', name: '第三精确覆盖率', cellFilter: 'number: 2' }
+                        ]);
                     case 'downSwitch':
                         return [];
                     case 'doubleFlow':
                         return [];
                     case 'rrc':
-                        return [
-                            { field: 'city', name: '城市' },
-                            {
-                                name: '区域',
-                                cellTemplate: appFormatService.generateDistrictButtonTemplate()
-                            },
+                        return chartCalculateService.generateDistrictKpiDefs([
                             { field: 'totalRrcRequest', name: 'RRC连接请求' },
                             {
                                 field: 'rrcSuccessRate',
                                 name: 'RRC连接成功率',
                                 cellFilter: 'number: 2',
-                                cellClass: function (grid, row, col) {
+                                cellClass: function(grid, row, col) {
                                     if (grid.getCellValue(row, col) < row.entity.objectRate) {
                                         return 'text-danger';
                                     }
@@ -2984,45 +2990,24 @@ angular.module('app.format', [])
                             { field: 'objectRate', name: '本区目标值', cellFilter: 'number: 2' },
                             { field: 'moDataRrcRate', name: '主叫数据成功率', cellFilter: 'number: 2' },
                             { field: 'moSiganllingRrcRate', name: '主叫信令成功率', cellFilter: 'number: 2' },
-                            { field: 'mtAccessRrcRate', name: '被叫接入成功率', cellFilter: 'number: 2' },
-                            {
-                                name: '处理',
-                                cellTemplate: appFormatService.generateProcessButtonTemplate()
-                            },
-                            {
-                                name: '分析',
-                                cellTemplate: appFormatService.generateAnalyzeButtonTemplate()
-                            }
-                        ];
+                            { field: 'mtAccessRrcRate', name: '被叫接入成功率', cellFilter: 'number: 2' }
+                        ]);
                     case 'cqi':
-                        return [
-                            { field: 'city', name: '城市' },
-                            {
-                                name: '区域',
-                                cellTemplate: appFormatService.generateDistrictButtonTemplate()
-                            },
+                        return chartCalculateService.generateDistrictKpiDefs([
                             { field: 'goodCounts', name: 'CQI优良调度次数' },
                             { field: 'totalCounts', name: '总调度次数' },
                             {
                                 field: 'cqiRate',
                                 name: 'CQI优良率(CQI>=7)(%)',
                                 cellFilter: 'number: 2',
-                                cellClass: function (grid, row, col) {
+                                cellClass: function(grid, row, col) {
                                     if (grid.getCellValue(row, col) < row.entity.objectRate) {
                                         return 'text-danger';
                                     }
                                     return 'text-success';
                                 }
-                            },
-                            {
-                                name: '处理',
-                                cellTemplate: appFormatService.generateProcessButtonTemplate()
-                            },
-                            {
-                                name: '分析',
-                                cellTemplate: appFormatService.generateAnalyzeButtonTemplate()
                             }
-                        ];
+                        ]);
                     default:
                         return [];
                 } 
@@ -3030,22 +3015,18 @@ angular.module('app.format', [])
             generateTownColumnDefs: function(kpiType) {
                 switch (kpiType) {
                     case 'precise':
-                        return [
-                            { field: 'district', name: '区域' },
-                            { field: 'town', name: '镇区' },
+                        return appFormatService.generateDistrictTownKpiDefs([
                             { field: 'totalMrs', name: 'MR总数' },
                             { field: 'preciseRate', name: '精确覆盖率', cellFilter: 'number: 2' },
                             { field: 'firstRate', name: '第一精确覆盖率', cellFilter: 'number: 2' },
                             { field: 'thirdRate', name: '第三精确覆盖率', cellFilter: 'number: 2' }
-                        ];
+                        ]);
                     case 'downSwitch':
                         return [];
                     case 'doubleFlow':
                         return [];
                     case 'rrc':
-                        return [
-                            { field: 'district', name: '区域' },
-                            { field: 'town', name: '镇区' },
+                        return appFormatService.generateDistrictTownKpiDefs([
                             { field: 'totalRrcRequest', name: 'RRC连接请求' },
                             { field: 'rrcSuccessRate', name: 'RRC连接成功率', cellFilter: 'number: 2' },
                             { field: 'moDataRrcRate', name: '主叫数据成功率', cellFilter: 'number: 2' },
@@ -3053,7 +3034,13 @@ angular.module('app.format', [])
                             { field: 'mtAccessRrcRate', name: '被叫接入成功率', cellFilter: 'number: 2' },
                             { field: 'totalRrcFail', name: '接入失败总次数', cellFilter: 'number: 2' },
                             { field: 'moSignallingRrcFail', name: '主叫信令接入失败次数', cellFilter: 'number: 2' }
-                        ];
+                        ]);
+                    case 'cqi':
+                        return appFormatService.generateDistrictTownKpiDefs([
+                            { field: 'cqiCounts.item2', name: 'CQI优良调度次数' },
+                            { field: 'cqiCounts.item1', name: 'CQI质差调度次数' },
+                            { field: 'cqiRate', name: 'CQI优良率(CQI>=7)(%)' }
+                        ]);
                     default:
                         return [];
                 }
