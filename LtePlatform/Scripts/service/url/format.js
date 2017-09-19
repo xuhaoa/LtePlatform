@@ -1506,6 +1506,16 @@
                         ]
                     }
                 ];
+            },
+
+            generateDistrictButtonTemplate: function() {
+                return '<button class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.overallStat.currentDistrict = row.entity.district">{{row.entity.district}}</button>';
+            },
+            generateProcessButtonTemplate: function() {
+                return '<a class="btn btn-sm btn-primary" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showWorkItemDistrict(row.entity.district)">工单处理</a>';
+            },
+            generateAnalyzeButtonTemplate: function() {
+                return '<a class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showTopDistrict(row.entity.district)">TOP指标</a>';
             }
         };
     })
@@ -1976,7 +1986,7 @@
             }
         };
     })
-    .factory('calculateService', function (chartCalculateService) {
+    .factory('calculateService', function (chartCalculateService, appFormatService) {
         return {
             calculateOverCoverageRate: function (taList) {
                 var sum = 0;
@@ -2106,6 +2116,7 @@
                 });
                 return _.sortBy(list, function (num) { return num[key]; });
             },
+
             generateCellDetailsGroups: function (site) {
                 return [
                     {
@@ -2321,7 +2332,6 @@
                     }
                 ];
             },
-
             generateCellMongoGroups: function (site) {
                 return [
                     {
@@ -2355,6 +2365,7 @@
                     }
                 ];
             },
+
             accumulatePreciseStat: function (source, accumulate) {
                 source.totalMrs += accumulate.totalMrs;
                 source.firstNeighbors += accumulate.firstNeighbors;
@@ -2370,6 +2381,10 @@
                 source.moSignallingRrcSuccess += accumulate.moSignallingRrcSuccess;
                 source.mtAccessRrcRequest += accumulate.mtAccessRrcRequest;
                 source.mtAccessRrcSuccess += accumulate.mtAccessRrcSuccess;
+            },
+            accumulateCqiStat: function (source, accumulate) {
+                source.goodCounts += accumulate.goodCounts;
+                source.totalCounts += accumulate.totalCounts;
             },
             accumulateFlowStat: function (source, accumulate) {
                 source.pdcpDownlinkFlow += accumulate.pdcpDownlinkFlow;
@@ -2388,6 +2403,11 @@
                 districtStat.mtAccessRrcRate = 100 * districtStat.mtAccessRrcSuccess / districtStat.mtAccessRrcRequest;
                 return districtStat;
             },
+            calculateDistrictCqiRates: function (districtStat) {
+                districtStat.cqiRate = 100 * districtStat.goodCounts / districtStat.totalCounts;
+                return districtStat;
+            },
+
             calculateTownRates: function (townStat) {
                 townStat.firstRate = 100 - 100 * townStat.firstNeighbors / townStat.totalMrs;
                 townStat.preciseRate = 100 - 100 * townStat.secondNeighbors / townStat.totalMrs;
@@ -2453,6 +2473,7 @@
                     }
                 });
             },
+
             generateDistrictColumnDefs: function(kpiType) {
                 switch(kpiType) {
                     case 'precise':
@@ -2460,8 +2481,7 @@
                             { field: 'city', name: '城市' },
                             {
                                 name: '区域',
-                                cellTemplate:
-                                    '<button class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.overallStat.currentDistrict = row.entity.district">{{row.entity.district}}</button>'
+                                cellTemplate: appFormatService.generateDistrictButtonTemplate()
                             },
                             { field: 'totalMrs', name: 'MR总数' },
                             {
@@ -2480,13 +2500,11 @@
                             { field: 'thirdRate', name: '第三精确覆盖率', cellFilter: 'number: 2' },
                             {
                                 name: '处理',
-                                cellTemplate:
-                                    '<a class="btn btn-sm btn-primary" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showWorkItemDistrict(row.entity.district)">工单处理</a>'
+                                cellTemplate: appFormatService.generateProcessButtonTemplate()
                             },
                             {
                                 name: '分析',
-                                cellTemplate:
-                                    '<a class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showTopDistrict(row.entity.district)">TOP指标</a>'
+                                cellTemplate: appFormatService.generateAnalyzeButtonTemplate()
                             }
                         ];
                     case 'downSwitch':
@@ -2498,8 +2516,7 @@
                             { field: 'city', name: '城市' },
                             {
                                 name: '区域',
-                                cellTemplate:
-                                '<button class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.overallStat.currentDistrict = row.entity.district">{{row.entity.district}}</button>'
+                                cellTemplate: appFormatService.generateDistrictButtonTemplate()
                             },
                             { field: 'totalRrcRequest', name: 'RRC连接请求' },
                             {
@@ -2519,13 +2536,40 @@
                             { field: 'mtAccessRrcRate', name: '被叫接入成功率', cellFilter: 'number: 2' },
                             {
                                 name: '处理',
-                                cellTemplate:
-                                '<a class="btn btn-sm btn-primary" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showWorkItemDistrict(row.entity.district)">工单处理</a>'
+                                cellTemplate: appFormatService.generateProcessButtonTemplate()
                             },
                             {
                                 name: '分析',
-                                cellTemplate:
-                                '<a class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showTopDistrict(row.entity.district)">TOP指标</a>'
+                                cellTemplate: appFormatService.generateAnalyzeButtonTemplate()
+                            }
+                        ];
+                    case 'cqi':
+                        return [
+                            { field: 'city', name: '城市' },
+                            {
+                                name: '区域',
+                                cellTemplate: appFormatService.generateDistrictButtonTemplate()
+                            },
+                            { field: 'goodCounts', name: 'CQI优良调度次数' },
+                            { field: 'totalCounts', name: '总调度次数' },
+                            {
+                                field: 'cqiRate',
+                                name: 'CQI优良率(CQI>=7)(%)',
+                                cellFilter: 'number: 2',
+                                cellClass: function (grid, row, col) {
+                                    if (grid.getCellValue(row, col) < row.entity.objectRate) {
+                                        return 'text-danger';
+                                    }
+                                    return 'text-success';
+                                }
+                            },
+                            {
+                                name: '处理',
+                                cellTemplate: appFormatService.generateProcessButtonTemplate()
+                            },
+                            {
+                                name: '分析',
+                                cellTemplate: appFormatService.generateAnalyzeButtonTemplate()
                             }
                         ];
                     default:
@@ -2583,6 +2627,48 @@
                     }
                 }
                 return values;
+            },
+            initializePreciseCityStat: function(currentCity) {
+                return {
+                    city: currentCity,
+                    district: "全网",
+                    totalMrs: 0,
+                    firstNeighbors: 0,
+                    secondNeighbors: 0,
+                    thirdNeighbors: 0,
+                    firstRate: 0,
+                    preciseRate: 0,
+                    objectRate: 90
+                };
+            },
+            initializeRrcCityStat: function(currentCity) {
+                return {
+                    city: currentCity,
+                    district: "全网",
+                    totalRrcRequest: 0,
+                    totalRrcSuccess: 0,
+                    moDataRrcRequest: 0,
+                    moDataRrcSuccess: 0,
+                    moSignallingRrcRequest: 0,
+                    moSignallingRrcSuccess: 0,
+                    mtAccessRrcRequest: 0,
+                    mtAccessRrcSuccess: 0,
+                    rrcSuccessRate: 0,
+                    moSiganllingRrcRate: 0,
+                    moDataRrcRate: 0,
+                    mtAccessRrcRate: 0,
+                    objectRate: 99
+                };
+            },
+            initializeCqiCityStat: function(currentCity) {
+                return {
+                    city: currentCity,
+                    district: "全网",
+                    goodCounts: 0,
+                    totalCounts: 0,
+                    cqiRate: 0,
+                    objectRate: 93
+                };
             }
         };
     })

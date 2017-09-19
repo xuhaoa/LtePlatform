@@ -169,12 +169,14 @@
                         angular.forEach(result.districtViews,
                             function (view) {
                                 view.objectRate = appKpiService.getCqiObject(view.district);
+                                view.goodCounts = view.cqiCounts.item2;
+                                view.totalCounts = view.cqiCounts.item1 + view.cqiCounts.item2;
                             });
                         $scope.overallStat.districtStats = result.districtViews;
                         $scope.overallStat.townStats = result.townViews;
                         $scope.overallStat.currentDistrict = result.districtViews[0].district;
                         $scope.overallStat.districtStats
-                            .push(appKpiService.getRrcCityStat($scope.overallStat.districtStats, city.selected));
+                            .push(appKpiService.getCqiCityStat($scope.overallStat.districtStats, city.selected));
                         $scope.overallStat.dateString = appFormatService
                             .getDateString($scope.statDate.value, "yyyy年MM月dd日");
                     });

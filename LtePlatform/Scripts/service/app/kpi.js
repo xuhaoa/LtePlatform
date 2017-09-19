@@ -395,44 +395,25 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                 return 100 * flow3G / flow4G;
             },
             getCityStat: function(districtStats, currentCity) {
-                var stat = {
-                    city: currentCity,
-                    district: "全网",
-                    totalMrs: 0,
-                    firstNeighbors: 0,
-                    secondNeighbors: 0,
-                    thirdNeighbors: 0,
-                    firstRate: 0,
-                    preciseRate: 0,
-                    objectRate: 90
-                };
+                var stat = calculateService.initializePreciseCityStat(currentCity);
                 angular.forEach(districtStats, function(districtStat) {
                     calculateService.accumulatePreciseStat(stat, districtStat);
                 });
                 return calculateService.calculateDistrictRates(stat);
             },
             getRrcCityStat: function (districtStats, currentCity) {
-                var stat = {
-                    city: currentCity,
-                    district: "全网",
-                    totalRrcRequest: 0,
-                    totalRrcSuccess: 0,
-                    moDataRrcRequest: 0,
-                    moDataRrcSuccess: 0,
-                    moSignallingRrcRequest: 0,
-                    moSignallingRrcSuccess: 0,
-                    mtAccessRrcRequest: 0,
-                    mtAccessRrcSuccess: 0,
-                    rrcSuccessRate: 0,
-                    moSiganllingRrcRate: 0,
-                    moDataRrcRate: 0,
-                    mtAccessRrcRate: 0,
-                    objectRate: 99
-                };
+                var stat = calculateService.initializeRrcCityStat(currentCity);
                 angular.forEach(districtStats, function (districtStat) {
                     calculateService.accumulateRrcStat(stat, districtStat);
                 });
                 return calculateService.calculateDistrictRrcRates(stat);
+            },
+            getCqiCityStat: function (districtStats, currentCity) {
+                var stat = calculateService.initializeCqiCityStat(currentCity);
+                angular.forEach(districtStats, function (districtStat) {
+                    calculateService.accumulateCqiStat(stat, districtStat);
+                });
+                return calculateService.calculateDistrictCqiRates(stat);
             },
             calculatePreciseRating: function(precise) {
                 return calculateService.getValueFromDivisionAbove(kpiRatingDivisionDefs.precise, precise);
