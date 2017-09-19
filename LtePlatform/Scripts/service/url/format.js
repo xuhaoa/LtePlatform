@@ -2677,21 +2677,18 @@
                     seriesName: "工单类型"
                 });
             },
-
             getStateOption: function(views) {
                 return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views), {
                     title: "工单状态分布图",
                     seriesName: "工单状态"
                 });
             },
-
             getDistrictOption: function(views) {
                 return chartCalculateService.generateDrillDownPieOptions(generalChartService.generateCompoundStats(views), {
                     title: "工单镇区分布图",
                     seriesName: "镇区"
                 });
             },
-
             getTownFlowOption: function(views, frequency) {
                 return chartCalculateService.generateDrillDownPieOptions(generalChartService
                     .generateCompoundStats(views,
@@ -2709,7 +2706,6 @@
                         seriesName: "区域"
                     });
             },
-
             getTownUsersOption: function(views, frequency) {
                 return chartCalculateService.generateDrillDownPieOptions(generalChartService
                     .generateCompoundStats(views,
@@ -2727,7 +2723,6 @@
                         seriesName: "区域"
                     });
             },
-
             getCoverageOptions: function(stats) {
                 var chart = new ComboChart();
                 chart.initialize({
@@ -2749,7 +2744,6 @@
 
                 return chart.options;
             },
-
             getTaOptions: function(stats) {
                 var chart = new ComboChart();
                 chart.initialize({
@@ -2771,7 +2765,6 @@
 
                 return chart.options;
             },
-
             getRsrpTaOptions: function(stats, rsrpIndex) {
                 var chart = new ComboChart();
                 chart.initialize({
@@ -2794,6 +2787,15 @@
                 });
 
                 return chart.options;
+            },
+
+            generateDistrictTrendOptions: function(stats, districts, kpiFunc, titleSettings) {
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                    districts.length,
+                    kpiFunc),
+                    districts,
+                    titleSettings);
             }
         }
     });

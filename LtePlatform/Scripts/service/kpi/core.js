@@ -389,7 +389,8 @@
         kpiRatingDivisionDefs,
         flowService,
         calculateService,
-        appFormatService) {
+        appFormatService,
+        preciseChartService) {
         return {
             getDownSwitchRate: function(stats) {
                 var flow3G = 0;
@@ -747,13 +748,11 @@
             },
             getMrsDistrictOptions: function(stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                        districts.length,
-                        function(stat) {
-                            return stat.mr;
-                        }),
+                return preciseChartService.generateDistrictTrendOptions(stats,
                     districts,
+                    function(stat) {
+                        return stat.mr;
+                    },
                     {
                         title: "MR总数变化趋势图",
                         xTitle: '日期',
@@ -762,13 +761,11 @@
             },
             getRrcRequestDistrictOptions: function (stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                    districts.length,
+                return preciseChartService.generateDistrictTrendOptions(stats,
+                    districts,
                     function (stat) {
                         return stat.request;
-                    }),
-                    districts,
+                    },
                     {
                         title: "RRC连接请求变化趋势图",
                         xTitle: '日期',
@@ -777,13 +774,11 @@
             },
             getCqiCountsDistrictOptions: function (stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                    districts.length,
+                return preciseChartService.generateDistrictTrendOptions(stats,
+                    districts,
                     function (stat) {
                         return stat.request;
-                    }),
-                    districts,
+                    },
                     {
                         title: "调度次数变化趋势图",
                         xTitle: '日期',
@@ -792,13 +787,11 @@
             },
             getDownlinkFlowDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                        districts.length,
-                        function(stat) {
-                            return stat.pdcpDownlinkFlow;
-                        }),
+                return preciseChartService.generateDistrictTrendOptions(stats,
                     districts,
+                    function (stat) {
+                        return stat.pdcpDownlinkFlow;
+                    },
                     {
                         title: "下行流量变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
@@ -807,13 +800,11 @@
             },
             getUplinkFlowDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                        districts.length,
-                        function(stat) {
-                            return stat.pdcpUplinkFlow;
-                        }),
+                return preciseChartService.generateDistrictTrendOptions(stats,
                     districts,
+                    function(stat) {
+                        return stat.pdcpUplinkFlow;
+                    },
                     {
                         title: "上行流量变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
@@ -822,13 +813,11 @@
             },
             getMaxUsersDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                        districts.length,
-                        function(stat) {
-                            return stat.maxUsers;
-                        }),
+                return preciseChartService.generateDistrictTrendOptions(stats,
                     districts,
+                    function (stat) {
+                        return stat.maxUsers;
+                    },
                     {
                         title: "最大用户数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
@@ -837,13 +826,11 @@
             },
             getMaxActiveUsersDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                        districts.length,
-                        function(stat) {
-                            return stat.maxActiveUsers;
-                        }),
+                return preciseChartService.generateDistrictTrendOptions(stats,
                     districts,
+                    function (stat) {
+                        return stat.maxActiveUsers;
+                    },
                     {
                         title: "最大激活用户数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
@@ -852,13 +839,11 @@
             },
             getDownlinkRateDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                        districts.length,
-                        function(stat) {
-                            return stat.downlinkFeelingRate;
-                        }),
+                return preciseChartService.generateDistrictTrendOptions(stats,
                     districts,
+                    function (stat) {
+                        return stat.downlinkFeelingRate;
+                    },
                     {
                         title: "下行感知速率变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
@@ -867,13 +852,11 @@
             },
             getUplinkRateDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                        districts.length,
-                        function(stat) {
-                            return stat.uplinkFeelingRate;
-                        }),
+                return preciseChartService.generateDistrictTrendOptions(stats,
                     districts,
+                    function (stat) {
+                        return stat.uplinkFeelingRate;
+                    },
                     {
                         title: "上行感知速率变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
@@ -882,13 +865,11 @@
             },
             getDownSwitchTimesDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                        districts.length,
-                        function(stat) {
-                            return stat.downSwitchTimes;
-                        }),
+                return preciseChartService.generateDistrictTrendOptions(stats,
                     districts,
+                    function (stat) {
+                        return stat.downSwitchTimes;
+                    },
                     {
                         title: "下切次数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
@@ -897,13 +878,11 @@
             },
             getSchedulingTimesDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                        districts.length,
-                        function(stat) {
-                            return stat.schedulingTimes;
-                        }),
+                return preciseChartService.generateDistrictTrendOptions(stats,
                     districts,
+                    function (stat) {
+                        return stat.schedulingTimes;
+                    },
                     {
                         title: "调度次数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
@@ -912,13 +891,11 @@
             },
             getDownSwitchRateDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                        districts.length,
-                        function(stat) {
-                            return stat.downSwitchRate;
-                        }),
+                return preciseChartService.generateDistrictTrendOptions(stats,
                     districts,
+                    function (stat) {
+                        return stat.downSwitchRate;
+                    },
                     {
                         title: "下切比例变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
@@ -927,13 +904,11 @@
             },
             getRank2RateDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                        districts.length,
-                        function(stat) {
-                            return stat.rank2Rate;
-                        }),
+                return preciseChartService.generateDistrictTrendOptions(stats,
                     districts,
+                    function (stat) {
+                        return stat.rank2Rate;
+                    },
                     {
                         title: "双流比变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         xTitle: '日期',
@@ -942,13 +917,11 @@
             },
             getPreciseDistrictOptions: function(stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                        districts.length,
-                        function(stat) {
-                            return stat.precise;
-                        }),
+                return preciseChartService.generateDistrictTrendOptions(stats,
                     districts,
+                    function (stat) {
+                        return stat.precise;
+                    },
                     {
                         title: "精确覆盖率变化趋势图",
                         xTitle: '日期',
@@ -957,13 +930,11 @@
             },
             getRrcRateDistrictOptions: function (stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                    districts.length,
+                return preciseChartService.generateDistrictTrendOptions(stats,
+                    districts,
                     function (stat) {
                         return stat.rate;
-                    }),
-                    districts,
+                    },
                     {
                         title: "RRC连接成功率变化趋势图",
                         xTitle: '日期',
@@ -972,13 +943,11 @@
             },
             getCqiRateDistrictOptions: function (stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");
-                return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                    .generateDateDistrictStats(stats,
-                    districts.length,
+                return preciseChartService.generateDistrictTrendOptions(stats,
+                    districts,
                     function (stat) {
                         return stat.rate;
-                    }),
-                    districts,
+                    },
                     {
                         title: "CQI优良比变化趋势图",
                         xTitle: '日期',
@@ -988,7 +957,7 @@
             generateFlowDistrictStats: function(districts, stats) {
                 return chartCalculateService.generateDistrictStats(districts, stats, {
                     districtViewFunc: function(stat) {
-                        return stat.districtFlowViews;
+                        return stat.districtViews;
                     },
                     initializeFunc: function(generalStat) {
                         generalStat.pdcpDownlinkFlow = 0;
@@ -1021,7 +990,7 @@
             generateUsersDistrictStats: function(districts, stats) {
                 return chartCalculateService.generateDistrictStats(districts, stats, {
                     districtViewFunc: function(stat) {
-                        return stat.districtFlowViews;
+                        return stat.districtViews;
                     },
                     initializeFunc: function(generalStat) {
                         generalStat.maxUsers = 0;
@@ -1054,7 +1023,7 @@
             generateFeelingRateDistrictStats: function(districts, stats) {
                 return chartCalculateService.generateDistrictStats(districts, stats, {
                     districtViewFunc: function(stat) {
-                        return stat.districtFlowViews;
+                        return stat.districtViews;
                     },
                     initializeFunc: function(generalStat) {
                         generalStat.totalUplinkDuration = 0;
@@ -1093,7 +1062,7 @@
             generateDownSwitchDistrictStats: function (districts, stats) {
                 return chartCalculateService.generateDistrictStats(districts, stats, {
                     districtViewFunc: function (stat) {
-                        return stat.districtFlowViews;
+                        return stat.districtViews;
                     },
                     initializeFunc: function (generalStat) {
                         generalStat.totalDownSwitchTimes = 0;
@@ -1129,7 +1098,7 @@
             generateRank2DistrictStats: function (districts, stats) {
                 return chartCalculateService.generateDistrictStats(districts, stats, {
                     districtViewFunc: function (stat) {
-                        return stat.districtFlowViews;
+                        return stat.districtViews;
                     },
                     initializeFunc: function (generalStat) {
                         generalStat.totalRank2Times = 0;
@@ -1332,10 +1301,10 @@
             generateFlowTrendStatsForPie: function(trendStat, result) {
                 chartCalculateService.generateStatsForPie(trendStat, result, {
                     districtViewsFunc: function(stat) {
-                        return stat.districtFlowViews;
+                        return stat.districtViews;
                     },
                     townViewsFunc: function(stat) {
-                        return stat.townFlowViews;
+                        return stat.townViews;
                     },
                     accumulateFunc: function(source, accumulate) {
                         calculateService.accumulateFlowStat(source, accumulate);
