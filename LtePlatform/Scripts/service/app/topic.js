@@ -2792,7 +2792,7 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                     });
             };
             $scope.showChart = function () {
-                workItemDialog.showRrcChart($scope.overallStat);
+                workItemDialog.showCqiChart($scope.overallStat);
             };
             $scope.showTrend = function () {
                 workItemDialog.showRrcTrend(city, $scope.beginDate, $scope.endDate);

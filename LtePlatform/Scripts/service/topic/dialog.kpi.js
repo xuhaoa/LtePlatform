@@ -182,7 +182,7 @@
                     });
             };
             $scope.showChart = function () {
-                workItemDialog.showRrcChart($scope.overallStat);
+                workItemDialog.showCqiChart($scope.overallStat);
             };
             $scope.showTrend = function () {
                 workItemDialog.showRrcTrend(city, $scope.beginDate, $scope.endDate);

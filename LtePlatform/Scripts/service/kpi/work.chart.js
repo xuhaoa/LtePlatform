@@ -56,6 +56,34 @@
                     $scope.showCharts();
                 },
                 500);
+    })
+    .controller("cqi.chart",
+        function ($scope,
+            $uibModalInstance,
+            $timeout,
+            dateString,
+            districtStats,
+            townStats,
+            appKpiService) {
+            $scope.dialogTitle = dateString + "CQI优良比指标";
+            $scope.showCharts = function () {
+                $("#leftChart").highcharts(appKpiService
+                    .getCqiCountsOptions(districtStats.slice(0, districtStats.length - 1), townStats));
+                $("#rightChart").highcharts(appKpiService.getPreciseRateOptions(districtStats, townStats));
+            };
+
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.cellList);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            $timeout(function () {
+                $scope.showCharts();
+            },
+                500);
         })
     .controller("rutrace.index",
         function($scope,

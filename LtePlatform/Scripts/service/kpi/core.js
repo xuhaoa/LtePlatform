@@ -383,7 +383,13 @@
         downSwitch: [3, 5, 8, 10, 15],
         drop: [0.2, 0.3, 0.35, 0.4, 0.5]
     })
-    .factory('appKpiService', function(chartCalculateService, generalChartService, kpiRatingDivisionDefs, flowService, calculateService) {
+    .factory('appKpiService', function (
+        chartCalculateService,
+        generalChartService,
+        kpiRatingDivisionDefs,
+        flowService,
+        calculateService,
+        appFormatService) {
         return {
             getDownSwitchRate: function(stats) {
                 var flow3G = 0;
@@ -496,100 +502,101 @@
                 });
             },
             getMrPieOptions: function(districtStats, townStats) {
-                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
-                    return stat.totalMrs;
-                }), {
-                    title: "分镇区测量报告数分布图",
-                    seriesName: "区域"
-                }, {
-                    nameFunc: function(stat) {
-                        return stat.district;
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.totalMrs;
+                        }),
+                    {
+                        title: "分镇区测量报告数分布图",
+                        seriesName: "区域"
                     },
-                    valueFunc: function(stat) {
-                        return stat.districtData;
-                    }
-                });
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getRrcRequestOptions: function (districtStats, townStats) {
-                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
-                    return stat.totalRrcRequest;
-                }), {
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.totalRrcRequest;
+                        }),
+                    {
                         title: "分镇区RRC连接数分布图",
                         seriesName: "区域"
-                    }, {
-                        nameFunc: function (stat) {
-                            return stat.district;
-                        },
-                        valueFunc: function (stat) {
-                            return stat.districtData;
-                        }
-                    });
+                    },
+                    appFormatService.generateDistrictPieNameValueFuncs());
+            },
+            getCqiCountsOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                    townStats,
+                    function (stat) {
+                        return stat.cqiCounts.item1 + stat.cqiCounts.item2;
+                    }),
+                    {
+                        title: "分镇区CQI调度数分布图",
+                        seriesName: "区域"
+                    },
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getPreciseRateOptions: function(districtStats, townStats) {
-                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function(stat) {
-                    return stat.preciseRate;
-                }), {
-                    title: "分镇区精确覆盖率分布图",
-                    seriesName: "区域"
-                }, {
-                    nameFunc: function(stat) {
-                        return stat.district;
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.preciseRate;
+                        }),
+                    {
+                        title: "分镇区精确覆盖率分布图",
+                        seriesName: "区域"
                     },
-                    valueFunc: function(stat) {
-                        return stat.districtData;
-                    }
-                });
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getRrcRateOptions: function (districtStats, townStats) {
-                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
-                    return stat.rrcSuccessRate;
-                }), {
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.rrcSuccessRate;
+                        }),
+                    {
                         title: "分镇区RRC连接成功率分布图",
                         seriesName: "区域",
                         yMin: 99,
                         yMax: 100
-                    }, {
-                        nameFunc: function (stat) {
-                            return stat.district;
-                        },
-                        valueFunc: function (stat) {
-                            return stat.districtData;
-                        }
-                    });
+                    },
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getMoSignallingRrcRateOptions: function (districtStats, townStats) {
-                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
-                    return stat.moSiganllingRrcRate;
-                }), {
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.moSiganllingRrcRate;
+                        }),
+                    {
                         title: "分镇区主叫信令RRC连接成功率分布图",
                         seriesName: "区域",
                         yMin: 99,
                         yMax: 100
-                    }, {
-                        nameFunc: function (stat) {
-                            return stat.district;
-                        },
-                        valueFunc: function (stat) {
-                            return stat.districtData;
-                        }
-                    });
+                    },
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getMtAccessRrcRateOptions: function (districtStats, townStats) {
-                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService.generateDrillDownData(districtStats, townStats, function (stat) {
-                    return stat.mtAccessRrcRate;
-                }), {
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                        townStats,
+                        function(stat) {
+                            return stat.mtAccessRrcRate;
+                        }),
+                    {
                         title: "分镇区被叫接入RRC连接成功率分布图",
                         seriesName: "区域",
                         yMin: 99,
                         yMax: 100
-                    }, {
-                        nameFunc: function (stat) {
-                            return stat.district;
-                        },
-                        valueFunc: function (stat) {
-                            return stat.districtData;
-                        }
-                    });
+                    },
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getDownlinkFlowOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
@@ -602,14 +609,7 @@
                         title: "分镇区下行流量分布图（TB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
-                    {
-                        nameFunc: function(stat) {
-                            return stat.district;
-                        },
-                        valueFunc: function(stat) {
-                            return stat.districtData;
-                        }
-                    });
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getUplinkFlowOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
@@ -622,14 +622,7 @@
                         title: "分镇区上行流量分布图（TB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
-                    {
-                        nameFunc: function(stat) {
-                            return stat.district;
-                        },
-                        valueFunc: function(stat) {
-                            return stat.districtData;
-                        }
-                    });
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getDownlinkRateOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
@@ -644,14 +637,7 @@
                         yMin: 5,
                         yMax: 40
                     },
-                    {
-                        nameFunc: function(stat) {
-                            return stat.district;
-                        },
-                        valueFunc: function(stat) {
-                            return stat.districtData;
-                        }
-                    });
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getUplinkRateOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
@@ -666,14 +652,7 @@
                         yMin: 0,
                         yMax: 15
                     },
-                    {
-                        nameFunc: function(stat) {
-                            return stat.district;
-                        },
-                        valueFunc: function(stat) {
-                            return stat.districtData;
-                        }
-                    });
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getDownSwitchTimesOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
@@ -686,14 +665,7 @@
                         title: "分镇区4G下切3G次数-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
-                    {
-                        nameFunc: function(stat) {
-                            return stat.district;
-                        },
-                        valueFunc: function(stat) {
-                            return stat.districtData;
-                        }
-                    });
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getSchedulingTimesOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
@@ -706,14 +678,7 @@
                         title: "分镇区调度次数-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
-                    {
-                        nameFunc: function(stat) {
-                            return stat.district;
-                        },
-                        valueFunc: function(stat) {
-                            return stat.districtData;
-                        }
-                    });
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getDownSwitchRateOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
@@ -726,14 +691,7 @@
                         title: "分镇区4G下切3G比例（次/GB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
-                    {
-                        nameFunc: function(stat) {
-                            return stat.district;
-                        },
-                        valueFunc: function(stat) {
-                            return stat.districtData;
-                        }
-                    });
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getRank2RateOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
@@ -746,14 +704,7 @@
                         title: "分镇区双流比（%）-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
-                    {
-                        nameFunc: function(stat) {
-                            return stat.district;
-                        },
-                        valueFunc: function(stat) {
-                            return stat.districtData;
-                        }
-                    });
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getMaxUsersOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
@@ -766,14 +717,7 @@
                         title: "分镇区最大用户数-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
-                    {
-                        nameFunc: function(stat) {
-                            return stat.district;
-                        },
-                        valueFunc: function(stat) {
-                            return stat.districtData;
-                        }
-                    });
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getMaxActiveUsersOptions: function (districtStats, townStats, frequency) {
                 return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
@@ -786,14 +730,7 @@
                         title: "分镇区最大激活用户数-" + (frequency === 'all' ? frequency : frequency + 'M'),
                         seriesName: "区域"
                     },
-                    {
-                        nameFunc: function(stat) {
-                            return stat.district;
-                        },
-                        valueFunc: function(stat) {
-                            return stat.districtData;
-                        }
-                    });
+                    appFormatService.generateDistrictPieNameValueFuncs());
             },
             getMrsDistrictOptions: function(stats, inputDistricts) {
                 var districts = inputDistricts.concat("全网");

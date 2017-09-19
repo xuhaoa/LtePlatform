@@ -1973,6 +1973,16 @@ angular.module('app.format', [])
                     { field: 'district', name: '区域' },
                     { field: 'town', name: '镇区' }
                 ].concat(kpiFields);
+            },
+            generateDistrictPieNameValueFuncs: function() {
+                return {
+                    nameFunc: function(stat) {
+                        return stat.district;
+                    },
+                    valueFunc: function(stat) {
+                        return stat.districtData;
+                    }
+                };
             }
         };
     })
