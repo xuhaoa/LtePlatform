@@ -568,6 +568,19 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                     },
                     appFormatService.generateDistrictPieNameValueFuncs());
             },
+            getCqiRateOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                    townStats,
+                    function (stat) {
+                        return stat.cqiRate;
+                    }),
+                    {
+                        title: "分镇区CQI优良比分布图",
+                        seriesName: "区域"
+                    },
+                    appFormatService.generateDistrictPieNameValueFuncs());
+            },
             getMoSignallingRrcRateOptions: function (districtStats, townStats) {
                 return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
                     .generateDrillDownData(districtStats,
@@ -5635,7 +5648,7 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
             $scope.showCharts = function () {
                 $("#leftChart").highcharts(appKpiService
                     .getCqiCountsOptions(districtStats.slice(0, districtStats.length - 1), townStats));
-                $("#rightChart").highcharts(appKpiService.getPreciseRateOptions(districtStats, townStats));
+                $("#rightChart").highcharts(appKpiService.getCqiRateOptions(districtStats, townStats));
             };
 
             $scope.ok = function () {

@@ -69,7 +69,7 @@
             $scope.showCharts = function () {
                 $("#leftChart").highcharts(appKpiService
                     .getCqiCountsOptions(districtStats.slice(0, districtStats.length - 1), townStats));
-                $("#rightChart").highcharts(appKpiService.getPreciseRateOptions(districtStats, townStats));
+                $("#rightChart").highcharts(appKpiService.getCqiRateOptions(districtStats, townStats));
             };
 
             $scope.ok = function () {

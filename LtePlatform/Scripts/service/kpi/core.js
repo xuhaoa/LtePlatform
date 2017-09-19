@@ -568,6 +568,19 @@
                     },
                     appFormatService.generateDistrictPieNameValueFuncs());
             },
+            getCqiRateOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                    townStats,
+                    function (stat) {
+                        return stat.cqiRate;
+                    }),
+                    {
+                        title: "分镇区CQI优良比分布图",
+                        seriesName: "区域"
+                    },
+                    appFormatService.generateDistrictPieNameValueFuncs());
+            },
             getMoSignallingRrcRateOptions: function (districtStats, townStats) {
                 return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
                     .generateDrillDownData(districtStats,
