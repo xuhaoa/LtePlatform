@@ -775,6 +775,21 @@
                         yTitle: "RRC连接请求数"
                     });
             },
+            getCqiCountsDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                    districts.length,
+                    function (stat) {
+                        return stat.request;
+                    }),
+                    districts,
+                    {
+                        title: "调度次数变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "调度次数"
+                    });
+            },
             getDownlinkFlowDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService
@@ -955,6 +970,21 @@
                         yTitle: "RRC连接成功率"
                     });
             },
+            getCqiRateDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                    districts.length,
+                    function (stat) {
+                        return stat.rate;
+                    }),
+                    districts,
+                    {
+                        title: "CQI优良比变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "CQI优良比"
+                    });
+            },
             generateFlowDistrictStats: function(districts, stats) {
                 return chartCalculateService.generateDistrictStats(districts, stats, {
                     districtViewFunc: function(stat) {
@@ -1132,7 +1162,7 @@
             generateDistrictStats: function(districts, stats) {
                 return chartCalculateService.generateDistrictStats(districts, stats, {
                     districtViewFunc: function(stat) {
-                        return stat.districtPreciseViews;
+                        return stat.districtViews;
                     },
                     initializeFunc: function(generalStat) {
                         generalStat.totalMrs = 0;
@@ -1165,7 +1195,7 @@
             generateRrcDistrictStats: function (districts, stats) {
                 return chartCalculateService.generateDistrictStats(districts, stats, {
                     districtViewFunc: function (stat) {
-                        return stat.districtRrcViews;
+                        return stat.districtViews;
                     },
                     initializeFunc: function (generalStat) {
                         generalStat.totalRrcRequest = 0;
@@ -1195,6 +1225,39 @@
                     }
                 });
             },
+            generateCqiDistrictStats: function (districts, stats) {
+                return chartCalculateService.generateDistrictStats(districts, stats, {
+                    districtViewFunc: function (stat) {
+                        return stat.districtViews;
+                    },
+                    initializeFunc: function (generalStat) {
+                        generalStat.goodCounts = 0;
+                        generalStat.totalCounts = 0;
+                    },
+                    calculateFunc: function (view) {
+                        return {
+                            request: view.cqiCounts.item1 + view.cqiCounts.item2,
+                            rate: view.cqiRate
+                        };
+                    },
+                    accumulateFunc: function (generalStat, view) {
+                        generalStat.goodCounts += view.cqiCounts.item2;
+                        generalStat.totalCounts += view.cqiCounts.item1 + view.cqiCounts.item2;
+                    },
+                    zeroFunc: function () {
+                        return {
+                            request: 0,
+                            rate: 0
+                        };
+                    },
+                    totalFunc: function (generalStat) {
+                        return {
+                            request: generalStat.totalCounts,
+                            rate: 100 * generalStat.goodCounts / generalStat.totalCounts
+                        }
+                    }
+                });
+            },
             calculateAverageRates: function(stats) {
                 var result = {
                     statDate: "平均值",
@@ -1212,10 +1275,10 @@
             generateTrendStatsForPie: function(trendStat, result) {
                 chartCalculateService.generateStatsForPie(trendStat, result, {
                     districtViewsFunc: function(stat) {
-                        return stat.districtPreciseViews;
+                        return stat.districtViews;
                     },
                     townViewsFunc: function(stat) {
-                        return stat.townPreciseViews;
+                        return stat.townViews;
                     },
                     accumulateFunc: function(source, accumulate) {
                         calculateService.accumulatePreciseStat(source, accumulate);
@@ -1231,13 +1294,32 @@
             generateRrcTrendStatsForPie: function (trendStat, result) {
                 chartCalculateService.generateStatsForPie(trendStat, result, {
                     districtViewsFunc: function (stat) {
-                        return stat.districtRrcViews;
+                        return stat.districtViews;
                     },
                     townViewsFunc: function (stat) {
-                        return stat.townRrcViews;
+                        return stat.townViews;
                     },
                     accumulateFunc: function (source, accumulate) {
                         calculateService.accumulateRrcStat(source, accumulate);
+                    },
+                    districtCalculate: function (stat) {
+                        calculateService.calculateDistrictRrcRates(stat);
+                    },
+                    townCalculate: function (stat) {
+                        calculateService.calculateTownRrcRates(stat);
+                    }
+                });
+            },
+            generateCqiTrendStatsForPie: function (trendStat, result) {
+                chartCalculateService.generateStatsForPie(trendStat, result, {
+                    districtViewsFunc: function (stat) {
+                        return stat.districtViews;
+                    },
+                    townViewsFunc: function (stat) {
+                        return stat.townViews;
+                    },
+                    accumulateFunc: function (source, accumulate) {
+                        calculateService.accumulateCqiStat(source, accumulate);
                     },
                     districtCalculate: function (stat) {
                         calculateService.calculateDistrictRrcRates(stat);

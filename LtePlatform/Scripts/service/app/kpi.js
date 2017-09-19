@@ -775,6 +775,21 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                         yTitle: "RRC连接请求数"
                     });
             },
+            getCqiCountsDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                    districts.length,
+                    function (stat) {
+                        return stat.request;
+                    }),
+                    districts,
+                    {
+                        title: "调度次数变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "调度次数"
+                    });
+            },
             getDownlinkFlowDistrictOptions: function (stats, inputDistricts, frequency) {
                 var districts = inputDistricts.concat("全网");
                 return chartCalculateService.generateSplineChartOptions(chartCalculateService
@@ -955,6 +970,21 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                         yTitle: "RRC连接成功率"
                     });
             },
+            getCqiRateDistrictOptions: function (stats, inputDistricts) {
+                var districts = inputDistricts.concat("全网");
+                return chartCalculateService.generateSplineChartOptions(chartCalculateService
+                    .generateDateDistrictStats(stats,
+                    districts.length,
+                    function (stat) {
+                        return stat.rate;
+                    }),
+                    districts,
+                    {
+                        title: "CQI优良比变化趋势图",
+                        xTitle: '日期',
+                        yTitle: "CQI优良比"
+                    });
+            },
             generateFlowDistrictStats: function(districts, stats) {
                 return chartCalculateService.generateDistrictStats(districts, stats, {
                     districtViewFunc: function(stat) {
@@ -1132,7 +1162,7 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
             generateDistrictStats: function(districts, stats) {
                 return chartCalculateService.generateDistrictStats(districts, stats, {
                     districtViewFunc: function(stat) {
-                        return stat.districtPreciseViews;
+                        return stat.districtViews;
                     },
                     initializeFunc: function(generalStat) {
                         generalStat.totalMrs = 0;
@@ -1165,7 +1195,7 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
             generateRrcDistrictStats: function (districts, stats) {
                 return chartCalculateService.generateDistrictStats(districts, stats, {
                     districtViewFunc: function (stat) {
-                        return stat.districtRrcViews;
+                        return stat.districtViews;
                     },
                     initializeFunc: function (generalStat) {
                         generalStat.totalRrcRequest = 0;
@@ -1195,6 +1225,39 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                     }
                 });
             },
+            generateCqiDistrictStats: function (districts, stats) {
+                return chartCalculateService.generateDistrictStats(districts, stats, {
+                    districtViewFunc: function (stat) {
+                        return stat.districtViews;
+                    },
+                    initializeFunc: function (generalStat) {
+                        generalStat.goodCounts = 0;
+                        generalStat.totalCounts = 0;
+                    },
+                    calculateFunc: function (view) {
+                        return {
+                            request: view.cqiCounts.item1 + view.cqiCounts.item2,
+                            rate: view.cqiRate
+                        };
+                    },
+                    accumulateFunc: function (generalStat, view) {
+                        generalStat.goodCounts += view.cqiCounts.item2;
+                        generalStat.totalCounts += view.cqiCounts.item1 + view.cqiCounts.item2;
+                    },
+                    zeroFunc: function () {
+                        return {
+                            request: 0,
+                            rate: 0
+                        };
+                    },
+                    totalFunc: function (generalStat) {
+                        return {
+                            request: generalStat.totalCounts,
+                            rate: 100 * generalStat.goodCounts / generalStat.totalCounts
+                        }
+                    }
+                });
+            },
             calculateAverageRates: function(stats) {
                 var result = {
                     statDate: "平均值",
@@ -1212,10 +1275,10 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
             generateTrendStatsForPie: function(trendStat, result) {
                 chartCalculateService.generateStatsForPie(trendStat, result, {
                     districtViewsFunc: function(stat) {
-                        return stat.districtPreciseViews;
+                        return stat.districtViews;
                     },
                     townViewsFunc: function(stat) {
-                        return stat.townPreciseViews;
+                        return stat.townViews;
                     },
                     accumulateFunc: function(source, accumulate) {
                         calculateService.accumulatePreciseStat(source, accumulate);
@@ -1231,13 +1294,32 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
             generateRrcTrendStatsForPie: function (trendStat, result) {
                 chartCalculateService.generateStatsForPie(trendStat, result, {
                     districtViewsFunc: function (stat) {
-                        return stat.districtRrcViews;
+                        return stat.districtViews;
                     },
                     townViewsFunc: function (stat) {
-                        return stat.townRrcViews;
+                        return stat.townViews;
                     },
                     accumulateFunc: function (source, accumulate) {
                         calculateService.accumulateRrcStat(source, accumulate);
+                    },
+                    districtCalculate: function (stat) {
+                        calculateService.calculateDistrictRrcRates(stat);
+                    },
+                    townCalculate: function (stat) {
+                        calculateService.calculateTownRrcRates(stat);
+                    }
+                });
+            },
+            generateCqiTrendStatsForPie: function (trendStat, result) {
+                chartCalculateService.generateStatsForPie(trendStat, result, {
+                    districtViewsFunc: function (stat) {
+                        return stat.districtViews;
+                    },
+                    townViewsFunc: function (stat) {
+                        return stat.townViews;
+                    },
+                    accumulateFunc: function (source, accumulate) {
+                        calculateService.accumulateCqiStat(source, accumulate);
                     },
                     districtCalculate: function (stat) {
                         calculateService.calculateDistrictRrcRates(stat);
@@ -5952,6 +6034,8 @@ angular.module('kpi.work.trend', ['myApp.url', 'myApp.region', "ui.bootstrap", "
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
             $scope.dialogTitle = "RRC连接成功率变化趋势";
+            $scope.rateTitle = "整体成功率";
+            $scope.countTitle = "RRC连接数";
             $scope.rateFunc = function(stat) {
                 return stat.rate;
             };
@@ -5991,7 +6075,66 @@ angular.module('kpi.work.trend', ['myApp.url', 'myApp.region', "ui.bootstrap", "
                         .getDateString($scope.endDate.value, "yyyy年MM月dd日");
                     $scope.showCharts();
                 });
+    })
+    .controller("cqi.trend.dialog",
+        function ($scope,
+            $uibModalInstance,
+            city,
+            beginDate,
+            endDate,
+            appRegionService,
+            appKpiService,
+            kpiPreciseService,
+            appFormatService) {
 
+            appRegionService.queryDistricts(city.selected)
+                .then(function (districts) {
+                    $scope.trendStat.districts = districts;
+                });
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.dialogTitle = "CQI优良比变化趋势";
+            $scope.rateTitle = "CQI优良比";
+            $scope.countTitle = "总调度次数";
+            $scope.rateFunc = function (stat) {
+                return stat.rate;
+            };
+            $scope.requestFunc = function (stat) {
+                return stat.request;
+            };
+            $scope.showCharts = function () {
+                $("#time-request").highcharts(appKpiService.getCqiCountsOptions($scope.trendStat.districtStats,
+                    $scope.trendStat.townStats));
+                $("#time-rate").highcharts(appKpiService.getCqiRateOptions($scope.trendStat.districtStats,
+                    $scope.trendStat.townStats));
+                $("#request-pie").highcharts(appKpiService.getCqiCountsDistrictOptions($scope.trendStat.stats,
+                    $scope.trendStat.districts));
+                $("#rate-column").highcharts(appKpiService.getCqiRateDistrictOptions($scope.trendStat.stats,
+                    $scope.trendStat.districts));
+            };
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.trendStat);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            kpiPreciseService.getDateSpanCqiRegionKpi($scope.city.selected,
+                $scope.beginDate.value,
+                $scope.endDate.value)
+                .then(function (result) {
+                    $scope.trendStat.stats = appKpiService.generateCqiDistrictStats($scope.trendStat.districts, result);
+                    if (result.length > 0) {
+                        appKpiService.generateCqiTrendStatsForPie($scope.trendStat, result);
+                        $scope.trendStat.stats.push(appKpiService.calculateAverageRrcRates($scope.trendStat.stats));
+                    }
+                    $scope.trendStat.beginDateString = appFormatService
+                        .getDateString($scope.beginDate.value, "yyyy年MM月dd日");
+                    $scope.trendStat.endDateString = appFormatService
+                        .getDateString($scope.endDate.value, "yyyy年MM月dd日");
+                    $scope.showCharts();
+                });
         })
     .controller('kpi.topConnection3G.trend',
         function($scope,
@@ -6227,6 +6370,23 @@ angular.module('kpi.work', ['app.menu', 'myApp.region'])
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/WorkItem/RrcTrend.html',
                     controller: 'rrc.trend.dialog',
+                    resolve: {
+                        city: function () {
+                            return city;
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        }
+                    }
+                });
+            },
+            showCqiTrend: function (city, beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/WorkItem/RrcTrend.html',
+                    controller: 'cqi.trend.dialog',
                     resolve: {
                         city: function () {
                             return city;

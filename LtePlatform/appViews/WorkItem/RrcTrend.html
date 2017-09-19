@@ -15,10 +15,10 @@
     </div>
 
     <div uib-tabset active="active">
-        <div uib-tab index="0" heading="整体成功率">
+        <div uib-tab index="0" heading="{{rateTitle}}">
             <div trend-precise-table trend-stat="trendStat" city="city" value-func="rateFunc" dot-bit="2"></div>
         </div>
-        <div uib-tab index="1" heading="RRC连接数">
+        <div uib-tab index="1" heading="{{countTitle}}">
             <div trend-precise-table trend-stat="trendStat" city="city" value-func="requestFunc" dot-bit="2"></div>
         </div>
     </div>

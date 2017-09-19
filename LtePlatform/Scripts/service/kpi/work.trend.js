@@ -123,6 +123,8 @@
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
             $scope.dialogTitle = "RRC连接成功率变化趋势";
+            $scope.rateTitle = "整体成功率";
+            $scope.countTitle = "RRC连接数";
             $scope.rateFunc = function(stat) {
                 return stat.rate;
             };
@@ -162,7 +164,66 @@
                         .getDateString($scope.endDate.value, "yyyy年MM月dd日");
                     $scope.showCharts();
                 });
+    })
+    .controller("cqi.trend.dialog",
+        function ($scope,
+            $uibModalInstance,
+            city,
+            beginDate,
+            endDate,
+            appRegionService,
+            appKpiService,
+            kpiPreciseService,
+            appFormatService) {
 
+            appRegionService.queryDistricts(city.selected)
+                .then(function (districts) {
+                    $scope.trendStat.districts = districts;
+                });
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.dialogTitle = "CQI优良比变化趋势";
+            $scope.rateTitle = "CQI优良比";
+            $scope.countTitle = "总调度次数";
+            $scope.rateFunc = function (stat) {
+                return stat.rate;
+            };
+            $scope.requestFunc = function (stat) {
+                return stat.request;
+            };
+            $scope.showCharts = function () {
+                $("#time-request").highcharts(appKpiService.getCqiCountsOptions($scope.trendStat.districtStats,
+                    $scope.trendStat.townStats));
+                $("#time-rate").highcharts(appKpiService.getCqiRateOptions($scope.trendStat.districtStats,
+                    $scope.trendStat.townStats));
+                $("#request-pie").highcharts(appKpiService.getCqiCountsDistrictOptions($scope.trendStat.stats,
+                    $scope.trendStat.districts));
+                $("#rate-column").highcharts(appKpiService.getCqiRateDistrictOptions($scope.trendStat.stats,
+                    $scope.trendStat.districts));
+            };
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.trendStat);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            kpiPreciseService.getDateSpanCqiRegionKpi($scope.city.selected,
+                $scope.beginDate.value,
+                $scope.endDate.value)
+                .then(function (result) {
+                    $scope.trendStat.stats = appKpiService.generateCqiDistrictStats($scope.trendStat.districts, result);
+                    if (result.length > 0) {
+                        appKpiService.generateCqiTrendStatsForPie($scope.trendStat, result);
+                        $scope.trendStat.stats.push(appKpiService.calculateAverageRrcRates($scope.trendStat.stats));
+                    }
+                    $scope.trendStat.beginDateString = appFormatService
+                        .getDateString($scope.beginDate.value, "yyyy年MM月dd日");
+                    $scope.trendStat.endDateString = appFormatService
+                        .getDateString($scope.endDate.value, "yyyy年MM月dd日");
+                    $scope.showCharts();
+                });
         })
     .controller('kpi.topConnection3G.trend',
         function($scope,
