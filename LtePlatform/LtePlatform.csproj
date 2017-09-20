@@ -984,7 +984,11 @@
     <Content Include="Scripts\service\kpi\college.maintain.js" />
     <Content Include="Scripts\service\kpi\college.work.js" />
     <Content Include="Scripts\service\kpi\core.js" />
+    <Content Include="Scripts\service\kpi\coverage.flow.js" />
+    <Content Include="Scripts\service\kpi\coverage.interference.js" />
     <Content Include="Scripts\service\kpi\coverage.js" />
+    <Content Include="Scripts\service\kpi\coverage.mr.js" />
+    <Content Include="Scripts\service\kpi\coverage.stats.js" />
     <Content Include="Scripts\service\kpi\customer.js" />
     <Content Include="Scripts\service\kpi\parameter.dump.js" />
     <Content Include="Scripts\service\kpi\parameter.js" />
