@@ -7,13 +7,13 @@ namespace Lte.Parameters.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Change_Lte_Neighbor : IMigrationMetadata
+    public sealed partial class Change_InterferenceMatrix : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Change_Lte_Neighbor));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Change_InterferenceMatrix));
         
         string IMigrationMetadata.Id
         {
-            get { return "201708240226119_Change_Lte_Neighbor"; }
+            get { return "201709200949261_Change_InterferenceMatrix"; }
         }
         
         string IMigrationMetadata.Source

@@ -212,10 +212,6 @@
     <Compile Include="Entities\Switch\IZteMeasGroup.cs" />
     <Compile Include="Entities\Switch\HoEntities.cs" />
     <Compile Include="Entities\Switch\UeEUtranMeasurementZte.cs" />
-    <Compile Include="Migrations\201708240226119_Change_Lte_Neighbor.cs" />
-    <Compile Include="Migrations\201708240226119_Change_Lte_Neighbor.Designer.cs">
-      <DependentUpon>201708240226119_Change_Lte_Neighbor.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201708250351322_Infrastructure_Change.cs" />
     <Compile Include="Migrations\201708250351322_Infrastructure_Change.Designer.cs">
       <DependentUpon>201708250351322_Infrastructure_Change.cs</DependentUpon>
@@ -223,6 +219,10 @@
     <Compile Include="Migrations\201708300231567_Change_ENodeb.cs" />
     <Compile Include="Migrations\201708300231567_Change_ENodeb.Designer.cs">
       <DependentUpon>201708300231567_Change_ENodeb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709200949261_Change_InterferenceMatrix.cs" />
+    <Compile Include="Migrations\201709200949261_Change_InterferenceMatrix.Designer.cs">
+      <DependentUpon>201709200949261_Change_InterferenceMatrix.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MockOperations\DbHelper.cs" />
@@ -232,7 +232,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Abp.EntityFramework\Abp.EntityFramework.Customize.csproj">
-      <Project>{8e0c8a21-369e-4d30-8e1d-a51ec5ca934f}</Project>
+      <Project>{79f4f2b7-d8e2-4ec7-bd18-6a0741ae9a9c}</Project>
       <Name>Abp.EntityFramework.Customize</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lte.Domain\Lte.Domain.csproj">
@@ -253,14 +253,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201708240226119_Change_Lte_Neighbor.resx">
-      <DependentUpon>201708240226119_Change_Lte_Neighbor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708250351322_Infrastructure_Change.resx">
       <DependentUpon>201708250351322_Infrastructure_Change.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708300231567_Change_ENodeb.resx">
       <DependentUpon>201708300231567_Change_ENodeb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709200949261_Change_InterferenceMatrix.resx">
+      <DependentUpon>201709200949261_Change_InterferenceMatrix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

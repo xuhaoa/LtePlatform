@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8E0C8A21-369E-4D30-8E1D-A51EC5CA934F}</ProjectGuid>
+    <ProjectGuid>{79F4F2B7-D8E2-4EC7-BD18-6A0741AE9A9C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Abp.EntityFramework</RootNamespace>
