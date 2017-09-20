@@ -139,7 +139,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Navigation\Menu_Tests.cs" />
     <Compile Include="Application\Navigation\NavigationTestCase.cs" />
+    <Compile Include="Auditing\AuditingHelper_Tests.cs" />
     <Compile Include="Authorization\AuthorizationHelper_Tests.cs" />
     <Compile Include="Authorization\AuthorizationInterceptor_Tests.cs" />
     <Compile Include="BackgroundJobs\InMemoryBackgroundJobStore_Tests.cs" />

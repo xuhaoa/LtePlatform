@@ -201,9 +201,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Abp.EntityFramework\Abp.EntityFramework.csproj">
+    <ProjectReference Include="..\Abp.EntityFramework\Abp.EntityFramework.Customize.csproj">
       <Project>{8e0c8a21-369e-4d30-8e1d-a51ec5ca934f}</Project>
-      <Name>Abp.EntityFramework</Name>
+      <Name>Abp.EntityFramework.Customize</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lte.Domain.Test\Lte.Domain.Test.csproj">
       <Project>{d9c3ee9a-14ef-4964-a731-12cebbdfb693}</Project>

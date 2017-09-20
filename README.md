@@ -4,8 +4,8 @@
 该平台的程序是一个用`Visual Studio`开发的解决方案。
 
 ## 解决方案总体结构
-解决方案共分20个项目，
-其中程序项目9个（主项目6个，辅助项目3个），测试项目11个。
+解决方案共分19个项目，
+其中程序项目9个（主项目6个，辅助项目3个），测试项目10个。
 程序项目分为`后端模块`、`前端模块`和`辅助模块`三部分。
 ### 主项目
 #### Abp.EntityFramework
@@ -42,12 +42,16 @@ LTE信令数据的解析库，采用C#语言对16进制信令内容进行解码�
 `Abp.EntityFramework`对应的测试项目，采用NUnit。
 #### Abp.Tests
 `ABP`库配置的测试文件，采用XUnit。
-#### AutoMapper.Test
 #### Lte.Domain.Test
+`Lte.Domain`对应的测试项目，采用NUnit。
 #### Lte.Evaluation.Test
+`Lte.Evaluation`对应的测试项目，采用NUnit。
 #### Lte.Parameters.Test
+`Lte.Parameters`和`Lte.MySqlFramework`对应的测试项目，采用NUnit。
 #### LtePlatform.Tests
+`LtePlatform`对应的测试项目，采用NUnit。
 #### MongoDB.Driver.Legacy.Tests
+`MongoDB.Driver.Legacy`库配置的测试文件，采用XUnit。
 #### Moq.Tests
 #### TraceParser.Test
 ## 后端模块

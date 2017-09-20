@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Abp.Application.Features;
 using Abp.Application.Navigation;
 using Abp.Authorization;
@@ -6,7 +7,6 @@ using Abp.Dependency;
 using Abp.Localization;
 using Castle.MicroKernel.Registration;
 using NSubstitute;
-using System.Threading.Tasks;
 
 namespace Abp.Tests.Application.Navigation
 {
@@ -45,11 +45,20 @@ namespace Abp.Tests.Application.Navigation
             NavigationManager.Initialize();
 
             _iocManager.IocContainer.Register(
+                Component.For<IPermissionDependencyContext, PermissionDependencyContext>()
+                    .UsingFactoryMethod(
+                        () => new PermissionDependencyContext(_iocManager)
+                        {
+                            PermissionChecker = CreateMockPermissionChecker()
+                        })
+                );
+
+            _iocManager.IocContainer.Register(
                 Component.For<IFeatureDependencyContext, FeatureDependencyContext>()
                     .UsingFactoryMethod(
                         () => new FeatureDependencyContext(_iocManager, Substitute.For<IFeatureChecker>()))
                 );
-            
+
             //Create user navigation manager to test
             UserNavigationManager = new UserNavigationManager(NavigationManager, Substitute.For<ILocalizationContext>(), _iocManager);
         }
@@ -57,10 +66,8 @@ namespace Abp.Tests.Application.Navigation
         private static IPermissionChecker CreateMockPermissionChecker()
         {
             var permissionChecker = Substitute.For<IPermissionChecker>();
-            permissionChecker.IsGrantedAsync(new UserIdentifier(0, 1), "Abp.Zero.UserManagement")
-                .Returns(Task.FromResult(true));
-            permissionChecker.IsGrantedAsync(new UserIdentifier(0, 1), "Abp.Zero.RoleManagement")
-                .Returns(Task.FromResult(false));
+            permissionChecker.IsGrantedAsync(new UserIdentifier(1, 1), "Abp.Zero.UserManagement").Returns(Task.FromResult(true));
+            permissionChecker.IsGrantedAsync(new UserIdentifier(1, 1), "Abp.Zero.RoleManagement").Returns(Task.FromResult(false));
             return permissionChecker;
         }
 
@@ -80,7 +87,7 @@ namespace Abp.Tests.Application.Navigation
                                 new FixedLocalizableString("User management"),
                                 "fa fa-users",
                                 "#/admin/users",
-                                requiredPermissionName: "Abp.Zero.UserManagement",
+                                permissionDependency: new SimplePermissionDependency("Abp.Zero.UserManagement"),
                                 customData: "A simple test data"
                                 )
                         ).AddItem(
@@ -89,7 +96,7 @@ namespace Abp.Tests.Application.Navigation
                                 new FixedLocalizableString("Role management"),
                                 "fa fa-star-o",
                                 "#/admin/roles",
-                                requiredPermissionName: "Abp.Zero.RoleManagement"
+                                permissionDependency: new SimplePermissionDependency("Abp.Zero.RoleManagement")
                                 )
                         )
                     );
