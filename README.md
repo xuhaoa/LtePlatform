@@ -41,6 +41,7 @@ LTE信令数据的解析库，采用C#语言对16进制信令内容进行解码�
 #### Abp.EntityFramework.Tests
 `Abp.EntityFramework`对应的测试项目，采用NUnit。
 #### Abp.Tests
+`ABP`库配置的测试文件，采用XUnit。
 #### AutoMapper.Test
 #### Lte.Domain.Test
 #### Lte.Evaluation.Test
