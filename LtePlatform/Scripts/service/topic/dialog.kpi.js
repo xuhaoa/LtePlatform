@@ -206,9 +206,10 @@
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
                         angular.forEach(result.districtViews,
                             function (view) {
-                                view.objectRate = appKpiService.getCqiObject(view.district);
-                                view.goodCounts = view.cqiCounts.item2;
-                                view.totalCounts = view.cqiCounts.item1 + view.cqiCounts.item2;
+                                view.objectRate = appKpiService.getDownSwitchObject(view.district);
+                                view.redirectCdma2000 = view.redirectCdma2000;
+                                view.pdcpDownlinkFlow = view.pdcpDownlinkFlow;
+                                view.pdcpUplinkFlow = view.pdcpUplinkFlow;
                             });
                         $scope.overallStat.districtStats = result.districtViews;
                         $scope.overallStat.townStats = result.townViews;

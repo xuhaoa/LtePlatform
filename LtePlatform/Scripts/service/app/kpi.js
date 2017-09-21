@@ -1333,11 +1333,21 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
             },
             getCqiObject: function (district) {
                 var objectTable = {
-                    "禅城": 93,
-                    "南海": 93,
+                    "禅城": 92,
+                    "南海": 92,
                     "三水": 93,
-                    "高明": 93,
-                    "顺德": 93
+                    "高明": 94,
+                    "顺德": 92
+                };
+                return objectTable[district] === undefined ? 99 : objectTable[district];
+            },
+            getDownSwitchObject: function (district) {
+                var objectTable = {
+                    "禅城": 5,
+                    "南海": 5,
+                    "三水": 5,
+                    "高明": 5,
+                    "顺德": 5
                 };
                 return objectTable[district] === undefined ? 99 : objectTable[district];
             },
@@ -1520,16 +1530,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
     .factory('kpiChartService', function(appKpiService) {
         return {
             showFlowCharts: function (flowStats, topic, mergeStats) {
-                angular.forEach(flowStats,
-                    function(stat) {
-                        stat.pdcpDownlinkFlow /= 8;
-                        stat.pdcpUplinkFlow /= 8;
-                    });
-                angular.forEach(mergeStats,
-                    function(stat) {
-                        stat.pdcpUplinkFlow /= 8;
-                        stat.pdcpDownlinkFlow /= 8;
-                    });
                 $("#downlinkFlowChart").highcharts(appKpiService.generateDownlinkFlowOptions(flowStats, topic));
                 $("#uplinkFlowChart").highcharts(appKpiService.generateUplinkFlowOptions(flowStats, topic));
                 $("#maxUsersChart").highcharts(appKpiService.generateMaxUsersOptions(flowStats, topic));
@@ -1542,15 +1542,8 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                 $("#usersDate").highcharts(appKpiService.generateMergeUsersOptions(mergeStats, topic));
             },
             showFeelingCharts: function (flowStats, topic, mergeStats) {
-                angular.forEach(flowStats,
-                    function (stat) {
-                        stat.pdcpDownlinkFlow /= 8;
-                        stat.pdcpUplinkFlow /= 8;
-                    });
                 angular.forEach(mergeStats,
                     function (stat) {
-                        stat.pdcpUplinkFlow /= 8;
-                        stat.pdcpDownlinkFlow /= 8;
                         stat.downlinkFeelingRate = stat.downlinkFeelingThroughput / stat.downlinkFeelingDuration;
                         stat.uplinkFeelingRate = stat.uplinkFeelingThroughput / stat.uplinkFeelingDuration;
                         stat.rank2Rate = stat.schedulingRank2 * 100 / stat.schedulingTimes;
