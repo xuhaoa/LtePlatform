@@ -92,25 +92,28 @@ namespace Lte.MySqlFramework.Entities
         public double DownlinkFeelingDuration { get; set; }
 
         public double DownlinkFeelingRate
-            => DownlinkFeelingDuration == 0 ? 0 : DownlinkFeelingThroughput / DownlinkFeelingDuration;
+            => DownlinkFeelingDuration == 0 ? 0 : (DownlinkFeelingThroughput / DownlinkFeelingDuration);
 
         public double UplinkFeelingThroughput { get; set; }
 
         public double UplinkFeelingDuration { get; set; }
 
         public double UplinkFeelingRate
-            => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput / UplinkFeelingDuration;
+            => UplinkFeelingDuration == 0 ? 0 : (UplinkFeelingThroughput / UplinkFeelingDuration);
 
         public double SchedulingRank2 { get; set; }
 
         public double SchedulingTimes { get; set; }
 
-        public double Rank2Rate => SchedulingTimes == 0 ? 100 : SchedulingRank2 / SchedulingTimes * 100;
+        public double Rank2Rate => SchedulingTimes == 0 ? 100 : (SchedulingRank2 / SchedulingTimes * 100);
 
         public int RedirectCdma2000 { get; set; }
 
         public double DownSwitchRate
-            => PdcpUplinkFlow + PdcpDownlinkFlow == 0 ? 100 : 1024 * RedirectCdma2000 / (PdcpUplinkFlow + PdcpDownlinkFlow);
+            =>
+                PdcpUplinkFlow + PdcpDownlinkFlow == 0
+                    ? 100
+                    : (8 * (double)RedirectCdma2000 / (PdcpUplinkFlow/1024 + PdcpDownlinkFlow/1024));
     }
 
     [AutoMapFrom(typeof(TownFlowView))]
@@ -143,25 +146,33 @@ namespace Lte.MySqlFramework.Entities
         public double DownlinkFeelingDuration { get; set; }
 
         public double DownlinkFeelingRate
-            => DownlinkFeelingDuration == 0 ? 0 : DownlinkFeelingThroughput / DownlinkFeelingDuration;
+            => DownlinkFeelingDuration == 0 ? 0 : (DownlinkFeelingThroughput / DownlinkFeelingDuration);
 
         public double UplinkFeelingThroughput { get; set; }
 
         public double UplinkFeelingDuration { get; set; }
 
         public double UplinkFeelingRate
-            => UplinkFeelingDuration == 0 ? 0 : UplinkFeelingThroughput / UplinkFeelingDuration;
+            => UplinkFeelingDuration == 0 ? 0 : (UplinkFeelingThroughput / UplinkFeelingDuration);
 
         public double SchedulingRank2 { get; set; }
 
         public double SchedulingTimes { get; set; }
 
-        public double Rank2Rate => SchedulingTimes == 0 ? 100 : SchedulingRank2 / SchedulingTimes * 100;
+        public double Rank2Rate => SchedulingTimes == 0 ? 100 : (SchedulingRank2 / SchedulingTimes * 100);
 
         public int RedirectCdma2000 { get; set; }
 
         public double DownSwitchRate
-            => PdcpUplinkFlow + PdcpDownlinkFlow == 0 ? 100 : 1024 * RedirectCdma2000 / (PdcpUplinkFlow + PdcpDownlinkFlow);
+            =>
+                PdcpUplinkFlow + PdcpDownlinkFlow == 0
+                    ? 100
+                    : (8 * (double)RedirectCdma2000 / (PdcpUplinkFlow/1024 + PdcpDownlinkFlow/1024));
+
+        public static DistrictFlowView ConstructView(TownFlowView townView)
+        {
+            return townView.MapTo<DistrictFlowView>();
+        }
     }
 
     [AutoMapFrom(typeof(RrcHuawei), typeof(RrcZte))]
@@ -223,7 +234,7 @@ namespace Lte.MySqlFramework.Entities
 
         public int MtAccessRrcSuccess { get; set; }
 
-        public double MtAccessRrcRate => MtAccessRrcRequest == 0 ? 0 : 100 * (double)MtAccessRrcSuccess / MtAccessRrcRequest;
+        public double MtAccessRrcRate => MtAccessRrcRequest == 0 ? 0 : (100 * (double)MtAccessRrcSuccess / MtAccessRrcRequest);
 
         public int MtAccessRrcFail { get; set; }
 
@@ -232,7 +243,7 @@ namespace Lte.MySqlFramework.Entities
         public int MoSignallingRrcSuccess { get; set; }
 
         public double MoSiganllingRrcRate
-            => MoSignallingRrcRequest == 0 ? 0 : 100 * (double)MoSignallingRrcSuccess / MoSignallingRrcRequest;
+            => MoSignallingRrcRequest == 0 ? 0 : (100 * (double)MoSignallingRrcSuccess / MoSignallingRrcRequest);
 
         public int MoSignallingRrcFail { get; set; }
 
@@ -240,7 +251,7 @@ namespace Lte.MySqlFramework.Entities
 
         public int MoDataRrcSuccess { get; set; }
 
-        public double MoDataRrcRate => MoDataRrcRequest == 0 ? 0 : 100 * (double)MoDataRrcSuccess / MoDataRrcRequest;
+        public double MoDataRrcRate => MoDataRrcRequest == 0 ? 0 : (100 * (double)MoDataRrcSuccess / MoDataRrcRequest);
 
         public int MoDataRrcFail { get; set; }
 
@@ -249,7 +260,7 @@ namespace Lte.MySqlFramework.Entities
         public int HighPriorityRrcSuccess { get; set; }
 
         public double HighPriorityRrcRate
-            => HighPriorityRrcRequest == 0 ? 0 : 100 * (double)HighPriorityRrcSuccess / HighPriorityRrcRequest;
+            => HighPriorityRrcRequest == 0 ? 0 : (100 * (double)HighPriorityRrcSuccess / HighPriorityRrcRequest);
 
         public int HighPriorityRrcFail { get; set; }
 
@@ -258,7 +269,7 @@ namespace Lte.MySqlFramework.Entities
         public int EmergencyRrcSuccess { get; set; }
 
         public double EmergencyRrcRate
-            => EmergencyRrcRequest == 0 ? 0 : 100 * (double)EmergencyRrcSuccess / EmergencyRrcRequest;
+            => EmergencyRrcRequest == 0 ? 0 : (100 * (double)EmergencyRrcSuccess / EmergencyRrcRequest);
 
         public int EmergencyRrcFail { get; set; }
 
@@ -266,7 +277,7 @@ namespace Lte.MySqlFramework.Entities
 
         public int TotalRrcSuccess { get; set; }
 
-        public double RrcSuccessRate => TotalRrcRequest == 0 ? 0 : 100 * (double)TotalRrcSuccess / TotalRrcRequest;
+        public double RrcSuccessRate => TotalRrcRequest == 0 ? 0 : (100 * (double)TotalRrcSuccess / TotalRrcRequest);
 
         public int TotalRrcFail { get; set; }
     }
@@ -284,7 +295,8 @@ namespace Lte.MySqlFramework.Entities
 
         public int MtAccessRrcSuccess { get; set; }
 
-        public double MtAccessRrcRate => MtAccessRrcRequest == 0 ? 0 : 100 * (double)MtAccessRrcSuccess / MtAccessRrcRequest;
+        public double MtAccessRrcRate
+            => MtAccessRrcRequest == 0 ? 0 : (100 * (double) MtAccessRrcSuccess / MtAccessRrcRequest);
 
         public int MtAccessRrcFail { get; set; }
 
@@ -293,7 +305,7 @@ namespace Lte.MySqlFramework.Entities
         public int MoSignallingRrcSuccess { get; set; }
 
         public double MoSiganllingRrcRate
-            => MoSignallingRrcRequest == 0 ? 0 : 100 * (double)MoSignallingRrcSuccess / MoSignallingRrcRequest;
+            => MoSignallingRrcRequest == 0 ? 0 : (100 * (double) MoSignallingRrcSuccess / MoSignallingRrcRequest);
 
         public int MoSignallingRrcFail { get; set; }
 
@@ -301,7 +313,7 @@ namespace Lte.MySqlFramework.Entities
 
         public int MoDataRrcSuccess { get; set; }
 
-        public double MoDataRrcRate => MoDataRrcRequest == 0 ? 0 : 100 * (double)MoDataRrcSuccess / MoDataRrcRequest;
+        public double MoDataRrcRate => MoDataRrcRequest == 0 ? 0 : (100 * (double)MoDataRrcSuccess / MoDataRrcRequest);
 
         public int MoDataRrcFail { get; set; }
 
@@ -310,7 +322,7 @@ namespace Lte.MySqlFramework.Entities
         public int HighPriorityRrcSuccess { get; set; }
 
         public double HighPriorityRrcRate
-            => HighPriorityRrcRequest == 0 ? 0 : 100 * (double)HighPriorityRrcSuccess / HighPriorityRrcRequest;
+            => HighPriorityRrcRequest == 0 ? 0 : (100 * (double)HighPriorityRrcSuccess / HighPriorityRrcRequest);
 
         public int HighPriorityRrcFail { get; set; }
 
@@ -319,7 +331,7 @@ namespace Lte.MySqlFramework.Entities
         public int EmergencyRrcSuccess { get; set; }
 
         public double EmergencyRrcRate
-            => EmergencyRrcRequest == 0 ? 0 : 100 * (double)EmergencyRrcSuccess / EmergencyRrcRequest;
+            => EmergencyRrcRequest == 0 ? 0 : (100 * (double)EmergencyRrcSuccess / EmergencyRrcRequest);
 
         public int EmergencyRrcFail { get; set; }
 
@@ -327,7 +339,7 @@ namespace Lte.MySqlFramework.Entities
 
         public int TotalRrcSuccess { get; set; }
 
-        public double RrcSuccessRate => TotalRrcRequest == 0 ? 0 : 100 * (double)TotalRrcSuccess / TotalRrcRequest;
+        public double RrcSuccessRate => TotalRrcRequest == 0 ? 0 : (100 * (double)TotalRrcSuccess / TotalRrcRequest);
 
         public int TotalRrcFail { get; set; }
 

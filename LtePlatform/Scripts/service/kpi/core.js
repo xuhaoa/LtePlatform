@@ -422,6 +422,13 @@
                 });
                 return calculateService.calculateDistrictCqiRates(stat);
             },
+            getFlowCityStat: function (districtStats, currentCity) {
+                var stat = calculateService.initializeFlowCityStat(currentCity);
+                angular.forEach(districtStats, function (districtStat) {
+                    calculateService.accumulateFlowStat(stat, districtStat);
+                });
+                return calculateService.calculateDistrictFlowRates(stat);
+            },
             calculatePreciseRating: function(precise) {
                 return calculateService.getValueFromDivisionAbove(kpiRatingDivisionDefs.precise, precise);
             },
@@ -1072,7 +1079,7 @@
                     calculateFunc: function (view) {
                         return {
                             downSwitchTimes: view.redirectCdma2000,
-                            downSwitchRate: view.downSwitchRate * 8
+                            downSwitchRate: view.downSwitchRate
                         };
                     },
                     accumulateFunc: function (generalStat, view) {
@@ -1343,11 +1350,11 @@
             },
             getDownSwitchObject: function (district) {
                 var objectTable = {
-                    "禅城": 5,
-                    "南海": 5,
-                    "三水": 5,
-                    "高明": 5,
-                    "顺德": 5
+                    "禅城": 25,
+                    "南海": 25,
+                    "三水": 15,
+                    "高明": 15,
+                    "顺德": 25
                 };
                 return objectTable[district] === undefined ? 99 : objectTable[district];
             },

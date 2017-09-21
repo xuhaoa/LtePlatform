@@ -175,7 +175,7 @@ namespace LtePlatform.Controllers.Kpi
         [ApiResponse("镇级天流量，每个镇一条记录")]
         public IEnumerable<TownFlowView> Get(DateTime statDate, string frequency)
         {
-            return _service.QueryLastDateStat(statDate, frequency.GetBandFromFcn());
+            return _service.QueryLastDateView(statDate, frequency.GetBandFromFcn());
         }
 
         [HttpGet]

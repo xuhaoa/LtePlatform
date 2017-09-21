@@ -8,6 +8,7 @@ using System.Linq;
 using Abp.EntityFramework.AutoMapper;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Abp.EntityFramework.Dependency;
+using Abp.EntityFramework.Extensions;
 using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.DataService.Kpi
@@ -156,7 +157,7 @@ namespace Lte.Evaluations.DataService.Kpi
             _townRepository = townRepository;
         }
 
-        public IEnumerable<TownFlowView> QueryLastDateStat(DateTime initialDate,
+        public IEnumerable<TownFlowView> QueryLastDateView(DateTime initialDate,
             FrequencyBandType frequency = FrequencyBandType.All)
         {
             var stats = _repository.QueryLastDate(initialDate,
@@ -166,6 +167,19 @@ namespace Lte.Evaluations.DataService.Kpi
                         .OrderBy(x => x.StatTime)
                         .ToList());
             return stats.Select(x => x.ConstructView<TownFlowStat, TownFlowView>(_townRepository));
+        }
+
+        public FlowRegionDateView QueryLastDateStat(DateTime initialDate, string city)
+        {
+            var stats = _repository.QueryLastDate(initialDate, (repository, beginDate, endDate) =>
+            {
+                var query =
+                    _repository.GetAllList(x => x.StatTime >= beginDate & x.StatTime < endDate);
+                return query.FilterTownList(_townRepository.GetAll(city));
+            });
+            var townViews = stats.ConstructViews<TownFlowStat, TownFlowView>(_townRepository);
+            return townViews.QueryRegionDateView<FlowRegionDateView, DistrictFlowView, TownFlowView>(initialDate,
+                DistrictFlowView.ConstructView);
         }
 
         public IEnumerable<FlowRegionDateView> QueryDateSpanStats(DateTime begin, DateTime end, string city,

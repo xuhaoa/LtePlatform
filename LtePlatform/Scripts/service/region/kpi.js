@@ -39,6 +39,13 @@
                             statDate: initialDate
                         });
                 },
+                getRecentFlowRegionKpi: function (city, initialDate) {
+                    return generalHttpService.getApiData('FlowRegion',
+                        {
+                            city: city,
+                            statDate: initialDate
+                        });
+                },
                 getDateSpanCqiRegionKpi: function (city, beginDate, endDate) {
                     return generalHttpService.getApiData('CqiRegion',
                         {

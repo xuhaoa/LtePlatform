@@ -193,7 +193,7 @@
     .controller('down.switch.trend',
         function ($scope,
             $uibModalInstance,
-            appRegionService,
+            kpiPreciseService,
             appFormatService,
             appKpiService,
             workItemDialog,
@@ -204,32 +204,30 @@
             $scope.dialogTitle = dialogTitle +
                 '-' +
                 appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
-            $scope.kpiType = 'cqi';
+            $scope.kpiType = 'downSwitch';
 
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
             $scope.showKpi = function () {
-                appRegionService.getTownFlowStats($scope.statDate.value, 'all')
+                kpiPreciseService.getRecentFlowRegionKpi(city.selected, $scope.statDate.value)
                     .then(function (result) {
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
                         angular.forEach(result.districtViews,
                             function (view) {
                                 view.objectRate = appKpiService.getDownSwitchObject(view.district);
-                                view.redirectCdma2000 = view.redirectCdma2000;
-                                view.pdcpDownlinkFlow = view.pdcpDownlinkFlow;
-                                view.pdcpUplinkFlow = view.pdcpUplinkFlow;
+                                view.totalFlowMByte = (view.pdcpDownlinkFlow + view.pdcpUplinkFlow) / 8;
                             });
                         $scope.overallStat.districtStats = result.districtViews;
                         $scope.overallStat.townStats = result.townViews;
                         $scope.overallStat.currentDistrict = result.districtViews[0].district;
                         $scope.overallStat.districtStats
-                            .push(appKpiService.getCqiCityStat($scope.overallStat.districtStats, city.selected));
+                            .push(appKpiService.getFlowCityStat($scope.overallStat.districtStats, city.selected));
                         $scope.overallStat.dateString = appFormatService
                             .getDateString($scope.statDate.value, "yyyy年MM月dd日");
                     });
             };
             $scope.showChart = function () {
-                workItemDialog.showCqiChart($scope.overallStat);
+                workItemDialog.showFlowChart($scope.overallStat);
             };
             $scope.showTrend = function () {
                 workItemDialog.showCqiTrend(city, $scope.beginDate, $scope.endDate);

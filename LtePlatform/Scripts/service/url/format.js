@@ -2423,6 +2423,7 @@
             accumulateFlowStat: function (source, accumulate) {
                 source.pdcpDownlinkFlow += accumulate.pdcpDownlinkFlow;
                 source.pdcpUplinkFlow += accumulate.pdcpUplinkFlow;
+                source.redirectCdma2000 += accumulate.redirectCdma2000;
             },
             calculateDistrictRates: function (districtStat) {
                 districtStat.firstRate = 100 - 100 * districtStat.firstNeighbors / districtStat.totalMrs;
@@ -2439,6 +2440,11 @@
             },
             calculateDistrictCqiRates: function (districtStat) {
                 districtStat.cqiRate = 100 * districtStat.goodCounts / districtStat.totalCounts;
+                return districtStat;
+            },
+            calculateDistrictFlowRates: function (districtStat) {
+                districtStat.totalFlowMByte = (districtStat.pdcpDownlinkFlow + districtStat.pdcpUplinkFlow) / 8;
+                districtStat.downSwitchRate = 1024 * districtStat.redirectCdma2000 / districtStat.totalFlowMByte;
                 return districtStat;
             },
 
@@ -2529,7 +2535,21 @@
                             { field: 'thirdRate', name: '第三精确覆盖率', cellFilter: 'number: 2' }
                         ]);
                     case 'downSwitch':
-                        return [];
+                        return chartCalculateService.generateDistrictKpiDefs([
+                            { field: 'redirectCdma2000', name: '4G下切3G次数' },
+                            { field: 'totalFlowMByte', name: '总流量(MByte)' },
+                            {
+                                field: 'downSwitchRate',
+                                name: '4G下切3G比例(次/GByte)',
+                                cellFilter: 'number: 2',
+                                cellClass: function (grid, row, col) {
+                                    if (grid.getCellValue(row, col) > row.entity.objectRate) {
+                                        return 'text-danger';
+                                    }
+                                    return 'text-success';
+                                }
+                            }
+                        ]);;
                     case 'doubleFlow':
                         return [];
                     case 'rrc':
@@ -2664,7 +2684,19 @@
                     goodCounts: 0,
                     totalCounts: 0,
                     cqiRate: 0,
-                    objectRate: 93
+                    objectRate: 92
+                };
+            },
+            initializeFlowCityStat: function (currentCity) {
+                return {
+                    city: currentCity,
+                    district: "全网",
+                    redirectCdma2000: 0,
+                    pdcpDownlinkFlow: 0,
+                    pdcpUplinkFlow: 0,
+                    totalFlowMByte: 0,
+                    downSwitchRate: 0,
+                    objectRate: 24
                 };
             }
         };
