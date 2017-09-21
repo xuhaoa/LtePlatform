@@ -78,7 +78,12 @@
             $scope.dialogTitle = dialogTitle;
             $scope.query = function() {
                 collegeQueryService.queryCollegeDateFlows(college.name, $scope.beginDate.value, $scope.endDate.value)
-                    .then(function(stats) {
+                    .then(function (stats) {
+                        angular.forEach(stats,
+                            function (stat) {
+                                stat.pdcpDownlinkFlow /= 8;
+                                stat.pdcpUplinkFlow /= 8;
+                            });
                         $("#flowConfig").highcharts(appKpiService.generateMergeFeelingOptions(stats, college.name));
                         $("#usersConfig").highcharts(appKpiService.generateMergeUsersOptions(stats, college.name));
                         $("#downSwitchConfig").highcharts(appKpiService.generateMergeDownSwitchOptions(stats, college.name));

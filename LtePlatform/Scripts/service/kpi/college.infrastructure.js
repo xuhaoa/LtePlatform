@@ -1,4 +1,12 @@
 ﻿angular.module('kpi.college.infrastructure', ['myApp.url', 'myApp.region', "ui.bootstrap", 'topic.basic'])
+    .run(function($rootScope) {
+        $rootScope.page = {
+            messages: []
+        };
+        $rootScope.closeAlert = function(messages, $index) {
+            messages.splice($index, 1);
+        };
+    })
     .controller('eNodeb.dialog',
         function($scope,
             $uibModalInstance,
@@ -14,12 +22,6 @@
                 collegeService.queryENodebs(name).then(function(result) {
                     $scope.eNodebList = result;
                 });
-            };
-            $scope.page = {
-                messages: []
-            };
-            $scope.closeAlert = function(messages, $index) {
-                messages.splice($index, 1);
             };
             collegeQueryService.queryByName(name).then(function(college) {
                 collegeService.queryRegion(college.id).then(function(region) {
@@ -67,12 +69,6 @@
             name,
             dialogTitle) {
             $scope.dialogTitle = dialogTitle;
-            $scope.page = {
-                messages: []
-            };
-            $scope.closeAlert = function(messages, $index) {
-                messages.splice($index, 1);
-            };
             collegeQueryService.queryByName(name).then(function(college) {
                 collegeService.queryRegion(college.id).then(function(region) {
                     var center = geometryService.queryRegionCenter(region);

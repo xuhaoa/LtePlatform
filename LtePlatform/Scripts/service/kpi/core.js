@@ -1530,6 +1530,26 @@
     .factory('kpiChartService', function(appKpiService) {
         return {
             showFlowCharts: function (flowStats, topic, mergeStats) {
+                angular.forEach(flowStats,
+                    function(stat) {
+                        stat.pdcpDownlinkFlow /= 8;
+                        stat.pdcpUplinkFlow /= 8;
+                    });
+                angular.forEach(mergeStats,
+                    function(stat) {
+                        stat.pdcpUplinkFlow /= 8;
+                        stat.pdcpDownlinkFlow /= 8;
+                    });
+                angular.forEach(flowStats,
+                    function(stat) {
+                        stat.pdcpDownlinkFlow /= 8;
+                        stat.pdcpUplinkFlow /= 8;
+                    });
+                angular.forEach(mergeStats,
+                    function(stat) {
+                        stat.pdcpUplinkFlow /= 8;
+                        stat.pdcpDownlinkFlow /= 8;
+                    });
                 $("#downlinkFlowChart").highcharts(appKpiService.generateDownlinkFlowOptions(flowStats, topic));
                 $("#uplinkFlowChart").highcharts(appKpiService.generateUplinkFlowOptions(flowStats, topic));
                 $("#maxUsersChart").highcharts(appKpiService.generateMaxUsersOptions(flowStats, topic));
@@ -1542,8 +1562,15 @@
                 $("#usersDate").highcharts(appKpiService.generateMergeUsersOptions(mergeStats, topic));
             },
             showFeelingCharts: function (flowStats, topic, mergeStats) {
+                angular.forEach(flowStats,
+                    function (stat) {
+                        stat.pdcpDownlinkFlow /= 8;
+                        stat.pdcpUplinkFlow /= 8;
+                    });
                 angular.forEach(mergeStats,
                     function (stat) {
+                        stat.pdcpDownlinkFlow /= 8;
+                        stat.pdcpUplinkFlow /= 8;
                         stat.downlinkFeelingRate = stat.downlinkFeelingThroughput / stat.downlinkFeelingDuration;
                         stat.uplinkFeelingRate = stat.uplinkFeelingThroughput / stat.uplinkFeelingDuration;
                         stat.rank2Rate = stat.schedulingRank2 * 100 / stat.schedulingTimes;

@@ -1530,6 +1530,26 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
     .factory('kpiChartService', function(appKpiService) {
         return {
             showFlowCharts: function (flowStats, topic, mergeStats) {
+                angular.forEach(flowStats,
+                    function(stat) {
+                        stat.pdcpDownlinkFlow /= 8;
+                        stat.pdcpUplinkFlow /= 8;
+                    });
+                angular.forEach(mergeStats,
+                    function(stat) {
+                        stat.pdcpUplinkFlow /= 8;
+                        stat.pdcpDownlinkFlow /= 8;
+                    });
+                angular.forEach(flowStats,
+                    function(stat) {
+                        stat.pdcpDownlinkFlow /= 8;
+                        stat.pdcpUplinkFlow /= 8;
+                    });
+                angular.forEach(mergeStats,
+                    function(stat) {
+                        stat.pdcpUplinkFlow /= 8;
+                        stat.pdcpDownlinkFlow /= 8;
+                    });
                 $("#downlinkFlowChart").highcharts(appKpiService.generateDownlinkFlowOptions(flowStats, topic));
                 $("#uplinkFlowChart").highcharts(appKpiService.generateUplinkFlowOptions(flowStats, topic));
                 $("#maxUsersChart").highcharts(appKpiService.generateMaxUsersOptions(flowStats, topic));
@@ -1542,8 +1562,15 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                 $("#usersDate").highcharts(appKpiService.generateMergeUsersOptions(mergeStats, topic));
             },
             showFeelingCharts: function (flowStats, topic, mergeStats) {
+                angular.forEach(flowStats,
+                    function (stat) {
+                        stat.pdcpDownlinkFlow /= 8;
+                        stat.pdcpUplinkFlow /= 8;
+                    });
                 angular.forEach(mergeStats,
                     function (stat) {
+                        stat.pdcpDownlinkFlow /= 8;
+                        stat.pdcpUplinkFlow /= 8;
                         stat.downlinkFeelingRate = stat.downlinkFeelingThroughput / stat.downlinkFeelingDuration;
                         stat.uplinkFeelingRate = stat.uplinkFeelingThroughput / stat.uplinkFeelingDuration;
                         stat.rank2Rate = stat.schedulingRank2 * 100 / stat.schedulingTimes;
@@ -1560,6 +1587,14 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
         };
     });
 angular.module('kpi.college.infrastructure', ['myApp.url', 'myApp.region', "ui.bootstrap", 'topic.basic'])
+    .run(function($rootScope) {
+        $rootScope.page = {
+            messages: []
+        };
+        $rootScope.closeAlert = function(messages, $index) {
+            messages.splice($index, 1);
+        };
+    })
     .controller('eNodeb.dialog',
         function($scope,
             $uibModalInstance,
@@ -1575,12 +1610,6 @@ angular.module('kpi.college.infrastructure', ['myApp.url', 'myApp.region', "ui.b
                 collegeService.queryENodebs(name).then(function(result) {
                     $scope.eNodebList = result;
                 });
-            };
-            $scope.page = {
-                messages: []
-            };
-            $scope.closeAlert = function(messages, $index) {
-                messages.splice($index, 1);
             };
             collegeQueryService.queryByName(name).then(function(college) {
                 collegeService.queryRegion(college.id).then(function(region) {
@@ -1628,12 +1657,6 @@ angular.module('kpi.college.infrastructure', ['myApp.url', 'myApp.region', "ui.b
             name,
             dialogTitle) {
             $scope.dialogTitle = dialogTitle;
-            $scope.page = {
-                messages: []
-            };
-            $scope.closeAlert = function(messages, $index) {
-                messages.splice($index, 1);
-            };
             collegeQueryService.queryByName(name).then(function(college) {
                 collegeService.queryRegion(college.id).then(function(region) {
                     var center = geometryService.queryRegionCenter(region);
@@ -1835,7 +1858,12 @@ angular.module('kpi.college.basic', ['myApp.url', 'myApp.region', "ui.bootstrap"
             $scope.dialogTitle = dialogTitle;
             $scope.query = function() {
                 collegeQueryService.queryCollegeDateFlows(college.name, $scope.beginDate.value, $scope.endDate.value)
-                    .then(function(stats) {
+                    .then(function (stats) {
+                        angular.forEach(stats,
+                            function (stat) {
+                                stat.pdcpDownlinkFlow /= 8;
+                                stat.pdcpUplinkFlow /= 8;
+                            });
                         $("#flowConfig").highcharts(appKpiService.generateMergeFeelingOptions(stats, college.name));
                         $("#usersConfig").highcharts(appKpiService.generateMergeUsersOptions(stats, college.name));
                         $("#downSwitchConfig").highcharts(appKpiService.generateMergeDownSwitchOptions(stats, college.name));
