@@ -133,6 +133,23 @@
                     }
                 });
             },
+            showDownSwitchChart: function (overallStat) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'down.switch.chart',
+                    resolve: {
+                        dateString: function () {
+                            return overallStat.dateString;
+                        },
+                        districtStats: function () {
+                            return overallStat.districtStats;
+                        },
+                        townStats: function () {
+                            return overallStat.townStats;
+                        }
+                    }
+                });
+            },
 			showPreciseTrend: function(city, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Rutrace/Coverage/Trend.html',

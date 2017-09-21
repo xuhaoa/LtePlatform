@@ -227,7 +227,7 @@
                     });
             };
             $scope.showChart = function () {
-                workItemDialog.showFlowChart($scope.overallStat);
+                workItemDialog.showDownSwitchChart($scope.overallStat);
             };
             $scope.showTrend = function () {
                 workItemDialog.showCqiTrend(city, $scope.beginDate, $scope.endDate);

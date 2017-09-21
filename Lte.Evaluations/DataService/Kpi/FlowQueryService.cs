@@ -174,7 +174,7 @@ namespace Lte.Evaluations.DataService.Kpi
             var stats = _repository.QueryLastDate(initialDate, (repository, beginDate, endDate) =>
             {
                 var query =
-                    _repository.GetAllList(x => x.StatTime >= beginDate & x.StatTime < endDate);
+                    _repository.GetAllList(x => x.StatTime >= beginDate & x.StatTime < endDate && x.FrequencyBandType == FrequencyBandType.All);
                 return query.FilterTownList(_townRepository.GetAll(city));
             });
             var townViews = stats.ConstructViews<TownFlowStat, TownFlowView>(_townRepository);

@@ -548,6 +548,19 @@
                     },
                     appFormatService.generateDistrictPieNameValueFuncs());
             },
+            getDownSwitchCountsOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                    townStats,
+                    function (stat) {
+                        return stat.redirectCdma2000;
+                    }),
+                    {
+                        title: "4G下切3G次数分布图",
+                        seriesName: "区域"
+                    },
+                    appFormatService.generateDistrictPieNameValueFuncs());
+            },
             getPreciseRateOptions: function(districtStats, townStats) {
                 return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
                     .generateDrillDownData(districtStats,
@@ -706,7 +719,7 @@
                     .generateDrillDownData(districtStats,
                         townStats,
                         function(stat) {
-                            return stat.downSwitchRate * 8;
+                            return stat.downSwitchRate;
                         }),
                     {
                         title: "分镇区4G下切3G比例（次/GB）-" + (frequency === 'all' ? frequency : frequency + 'M'),

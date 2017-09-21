@@ -84,6 +84,34 @@
                 $scope.showCharts();
             },
                 500);
+    })
+    .controller("down.switch.chart",
+        function ($scope,
+            $uibModalInstance,
+            $timeout,
+            dateString,
+            districtStats,
+            townStats,
+            appKpiService) {
+            $scope.dialogTitle = dateString + "4G下切3G指标";
+            $scope.showCharts = function () {
+                $("#leftChart").highcharts(appKpiService
+                    .getDownSwitchCountsOptions(districtStats.slice(0, districtStats.length - 1), townStats));
+                $("#rightChart").highcharts(appKpiService.getDownSwitchRateOptions(districtStats, townStats, 'all'));
+            };
+
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.cellList);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            $timeout(function () {
+                $scope.showCharts();
+            },
+                500);
         })
     .controller("rutrace.index",
         function($scope,

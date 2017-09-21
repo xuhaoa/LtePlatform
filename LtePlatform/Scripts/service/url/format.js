@@ -2537,7 +2537,7 @@
                     case 'downSwitch':
                         return chartCalculateService.generateDistrictKpiDefs([
                             { field: 'redirectCdma2000', name: '4G下切3G次数' },
-                            { field: 'totalFlowMByte', name: '总流量(MByte)' },
+                            { field: 'totalFlowMByte', name: '总流量(MByte)', cellFilter: 'number: 2' },
                             {
                                 field: 'downSwitchRate',
                                 name: '4G下切3G比例(次/GByte)',
@@ -2601,7 +2601,12 @@
                             { field: 'thirdRate', name: '第三精确覆盖率', cellFilter: 'number: 2' }
                         ]);
                     case 'downSwitch':
-                        return [];
+                        return appFormatService.generateDistrictTownKpiDefs([
+                            { field: 'redirectCdma2000', name: '4G下切3G次数' },
+                            { field: 'pdcpDownlinkFlow', name: '下行流量(Mbit)', cellFilter: 'number: 2' },
+                            { field: 'pdcpUplinkFlow', name: '上行流量(Mbit)', cellFilter: 'number: 2' },
+                            { field: 'downSwitchRate', name: '4G下切3G比例(次/GByte)', cellFilter: 'number: 2' }
+                        ]);
                     case 'doubleFlow':
                         return [];
                     case 'rrc':

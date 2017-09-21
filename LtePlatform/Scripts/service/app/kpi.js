@@ -548,6 +548,19 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                     },
                     appFormatService.generateDistrictPieNameValueFuncs());
             },
+            getDownSwitchCountsOptions: function (districtStats, townStats) {
+                return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                    .generateDrillDownData(districtStats,
+                    townStats,
+                    function (stat) {
+                        return stat.redirectCdma2000;
+                    }),
+                    {
+                        title: "4G下切3G次数分布图",
+                        seriesName: "区域"
+                    },
+                    appFormatService.generateDistrictPieNameValueFuncs());
+            },
             getPreciseRateOptions: function(districtStats, townStats) {
                 return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
                     .generateDrillDownData(districtStats,
@@ -706,7 +719,7 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                     .generateDrillDownData(districtStats,
                         townStats,
                         function(stat) {
-                            return stat.downSwitchRate * 8;
+                            return stat.downSwitchRate;
                         }),
                     {
                         title: "分镇区4G下切3G比例（次/GB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
@@ -5934,6 +5947,34 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
                 $scope.showCharts();
             },
                 500);
+    })
+    .controller("down.switch.chart",
+        function ($scope,
+            $uibModalInstance,
+            $timeout,
+            dateString,
+            districtStats,
+            townStats,
+            appKpiService) {
+            $scope.dialogTitle = dateString + "4G下切3G指标";
+            $scope.showCharts = function () {
+                $("#leftChart").highcharts(appKpiService
+                    .getDownSwitchCountsOptions(districtStats.slice(0, districtStats.length - 1), townStats));
+                $("#rightChart").highcharts(appKpiService.getDownSwitchRateOptions(districtStats, townStats, 'all'));
+            };
+
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.cellList);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            $timeout(function () {
+                $scope.showCharts();
+            },
+                500);
         })
     .controller("rutrace.index",
         function($scope,
@@ -6525,6 +6566,23 @@ angular.module('kpi.work', ['app.menu', 'myApp.region'])
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Home/DoubleChartDialog.html',
                     controller: 'cqi.chart',
+                    resolve: {
+                        dateString: function () {
+                            return overallStat.dateString;
+                        },
+                        districtStats: function () {
+                            return overallStat.districtStats;
+                        },
+                        townStats: function () {
+                            return overallStat.townStats;
+                        }
+                    }
+                });
+            },
+            showDownSwitchChart: function (overallStat) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Home/DoubleChartDialog.html',
+                    controller: 'down.switch.chart',
                     resolve: {
                         dateString: function () {
                             return overallStat.dateString;
