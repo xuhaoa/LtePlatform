@@ -42,7 +42,9 @@
             city,
             beginDate,
             endDate) {
-            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
+            $scope.dialogTitle = dialogTitle +
+                '-' +
+                appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
             $scope.kpiType = 'precise';
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
@@ -97,7 +99,9 @@
             city,
             beginDate,
             endDate) {
-            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
+            $scope.dialogTitle = dialogTitle +
+                '-' +
+                appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
             $scope.kpiType = 'rrc';
 
             $scope.beginDate = beginDate;
@@ -145,7 +149,9 @@
             city,
             beginDate,
             endDate) {
-            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
+            $scope.dialogTitle = dialogTitle +
+                '-' +
+                appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
             $scope.kpiType = 'cqi';
 
             $scope.beginDate = beginDate;
@@ -184,7 +190,7 @@
                 $uibModalInstance.dismiss('cancel');
             };
     })
-    .controller('downSwitch.trend',
+    .controller('down.switch.trend',
         function ($scope,
             $uibModalInstance,
             appRegionService,
@@ -195,7 +201,9 @@
             city,
             beginDate,
             endDate) {
-            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
+            $scope.dialogTitle = dialogTitle +
+                '-' +
+                appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
             $scope.kpiType = 'cqi';
 
             $scope.beginDate = beginDate;

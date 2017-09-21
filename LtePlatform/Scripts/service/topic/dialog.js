@@ -343,7 +343,7 @@
                 showDownSwitchTrend: function (city, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Trend.html',
-                        controller: 'downSwitch.trend',
+                        controller: 'down.switch.trend',
                         resolve: {
                             dialogTitle: function () {
                                 return "4G下切3G变化趋势";

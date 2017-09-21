@@ -2652,7 +2652,9 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             city,
             beginDate,
             endDate) {
-            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
+            $scope.dialogTitle = dialogTitle +
+                '-' +
+                appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
             $scope.kpiType = 'precise';
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
@@ -2707,7 +2709,9 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             city,
             beginDate,
             endDate) {
-            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
+            $scope.dialogTitle = dialogTitle +
+                '-' +
+                appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
             $scope.kpiType = 'rrc';
 
             $scope.beginDate = beginDate;
@@ -2755,7 +2759,9 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             city,
             beginDate,
             endDate) {
-            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
+            $scope.dialogTitle = dialogTitle +
+                '-' +
+                appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
             $scope.kpiType = 'cqi';
 
             $scope.beginDate = beginDate;
@@ -2794,7 +2800,7 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                 $uibModalInstance.dismiss('cancel');
             };
     })
-    .controller('downSwitch.trend',
+    .controller('down.switch.trend',
         function ($scope,
             $uibModalInstance,
             appRegionService,
@@ -2805,7 +2811,9 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             city,
             beginDate,
             endDate) {
-            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
+            $scope.dialogTitle = dialogTitle +
+                '-' +
+                appFormatService.getDateString($scope.statDate.value, "yyyy年MM月dd日");
             $scope.kpiType = 'cqi';
 
             $scope.beginDate = beginDate;
@@ -3622,7 +3630,7 @@ angular.module('topic.dialog',[ 'app.menu' ])
                 showDownSwitchTrend: function (city, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Trend.html',
-                        controller: 'downSwitch.trend',
+                        controller: 'down.switch.trend',
                         resolve: {
                             dialogTitle: function () {
                                 return "4G下切3G变化趋势";
