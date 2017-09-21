@@ -2633,6 +2633,12 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             cityStat: {},
             dateString: ""
         };
+        var yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        $rootScope.statDate = {
+            value: yesterday,
+            opened: false
+        };
     })
     .controller("rutrace.trend",
         function($scope,
@@ -2646,14 +2652,8 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             city,
             beginDate,
             endDate) {
-            var yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            $scope.dialogTitle = dialogTitle + '-' + yesterday;
+            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
             $scope.kpiType = 'precise';
-            $scope.statDate = {
-                value: yesterday,
-                opened: false
-            };
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
             $scope.showKpi = function() {
@@ -2707,14 +2707,8 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             city,
             beginDate,
             endDate) {
-            var yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            $scope.dialogTitle = dialogTitle + '-' + yesterday;
+            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
             $scope.kpiType = 'rrc';
-            $scope.statDate = {
-                value: yesterday,
-                opened: false
-            };
 
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
@@ -2761,19 +2755,63 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             city,
             beginDate,
             endDate) {
-            var yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            $scope.dialogTitle = dialogTitle + '-' + yesterday;
+            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
             $scope.kpiType = 'cqi';
-            $scope.statDate = {
-                value: yesterday,
-                opened: false
-            };
 
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
             $scope.showKpi = function () {
                 kpiPreciseService.getRecentCqiRegionKpi(city.selected, $scope.statDate.value)
+                    .then(function (result) {
+                        $scope.statDate.value = appFormatService.getDate(result.statDate);
+                        angular.forEach(result.districtViews,
+                            function (view) {
+                                view.objectRate = appKpiService.getCqiObject(view.district);
+                                view.goodCounts = view.cqiCounts.item2;
+                                view.totalCounts = view.cqiCounts.item1 + view.cqiCounts.item2;
+                            });
+                        $scope.overallStat.districtStats = result.districtViews;
+                        $scope.overallStat.townStats = result.townViews;
+                        $scope.overallStat.currentDistrict = result.districtViews[0].district;
+                        $scope.overallStat.districtStats
+                            .push(appKpiService.getCqiCityStat($scope.overallStat.districtStats, city.selected));
+                        $scope.overallStat.dateString = appFormatService
+                            .getDateString($scope.statDate.value, "yyyy年MM月dd日");
+                    });
+            };
+            $scope.showChart = function () {
+                workItemDialog.showCqiChart($scope.overallStat);
+            };
+            $scope.showTrend = function () {
+                workItemDialog.showCqiTrend(city, $scope.beginDate, $scope.endDate);
+            };
+            $scope.showKpi();
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+    })
+    .controller('downSwitch.trend',
+        function ($scope,
+            $uibModalInstance,
+            appRegionService,
+            appFormatService,
+            appKpiService,
+            workItemDialog,
+            dialogTitle,
+            city,
+            beginDate,
+            endDate) {
+            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
+            $scope.kpiType = 'cqi';
+
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.showKpi = function () {
+                appRegionService.getTownFlowStats($scope.statDate.value, 'all')
                     .then(function (result) {
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
                         angular.forEach(result.districtViews,
@@ -3567,6 +3605,26 @@ angular.module('topic.dialog',[ 'app.menu' ])
                         resolve: {
                             dialogTitle: function () {
                                 return "CQI优良比变化趋势";
+                            },
+                            city: function () {
+                                return city;
+                            },
+                            beginDate: function () {
+                                return beginDate;
+                            },
+                            endDate: function () {
+                                return endDate;
+                            }
+                        }
+                    });
+                },
+                showDownSwitchTrend: function (city, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Rutrace/Trend.html',
+                        controller: 'downSwitch.trend',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "4G下切3G变化趋势";
                             },
                             city: function () {
                                 return city;

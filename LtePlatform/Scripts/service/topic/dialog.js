@@ -340,6 +340,26 @@
                         }
                     });
                 },
+                showDownSwitchTrend: function (city, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Rutrace/Trend.html',
+                        controller: 'downSwitch.trend',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "4G下切3G变化趋势";
+                            },
+                            city: function () {
+                                return city;
+                            },
+                            beginDate: function () {
+                                return beginDate;
+                            },
+                            endDate: function () {
+                                return endDate;
+                            }
+                        }
+                    });
+                },
                 showPreciseWorkItem: function(endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/WorkItem/ForCity.html',

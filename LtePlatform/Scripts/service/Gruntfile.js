@@ -10,7 +10,7 @@
                     ],
                     'app/region.js': [
                         'region/basic.js', 'region/mongo.js', 'region/kpi.js', 'region/import.js',
-                        'region/authorize.js', 'region/college.js',
+                        'region/authorize.js', 'region/college.js', 'region/precise.js',
                         'region/network.js', 'region/app.region.js'
                     ],
                     'app/kpi.js': [

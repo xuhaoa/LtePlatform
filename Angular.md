@@ -11,24 +11,19 @@ module.exports = function (grunt) {
             "foo": {
                 "files": {
                     'app/url.js': [
-                        'url/core.js', 'url/menu.js', 'url/format.js', 'url/geometry.js', 'url/calculation.js',
-                        'url/app.url.js'
+                        ..., 'url/app.url.js'
                     ],
                     'app/region.js': [
-                        'region/basic.js', 'region/mongo.js', 'region/kpi.js', 'region/import.js',
-                        'region/authorize.js', 'region/college.js',
-                        'region/network.js', 'region/app.region.js'
+                        ..., 'region/app.region.js'
                     ],
                     'app/kpi.js': [
-                        'kpi/core.js', 'kpi/college.js', 'kpi/coverage.js', 'kpi/customer.js', 'kpi/parameter.js',
-                        'kpi/work.js', 'kpi/app.kpi.js'
+                        ..., 'kpi/app.kpi.js'
                     ],
                     'app/topic.js': [
-                        'topic/basic.js', 'topic/parameters.js', 'topic/college.js', 'topic/dialog.js',
-                        'topic/baidu.map.js'
+                        ..., 'topic/baidu.map.js'
                     ],
                     'app/filters.js': [
-                        'filters/basic.js', 'filters/cell.js', 'filters/handoff.js', 'filters/combined.js'
+                        'filters/basic.js', ...
                     ]
                 }
             }
@@ -37,11 +32,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.registerTask('default', ['concat']);
 ```
+>这里我们对5个目录下的js文件进行合并，分别合成为app/url.js、app/region.js、app/kpi.js、app/topic.js和app/filters.js。
 ### 基础路由层
 主要包括url目录下的各个脚本文件。
 合并脚本app.url.js内容如下：
 ```javascript
-angular.module('myApp.url', ['app.core', 'app.menu', 'app.format', 'app.geometry', 'app.calculation']);
+angular.module('myApp.url', ['app.core', ...]);
 ```
 基础路由层的说明详见[这里](https://github.com/ouyh18/LtePlatform/blob/master/AngularUrlFactory.md)
 ### 数据服务层
@@ -80,14 +76,7 @@ angular.module('baidu.map', ['topic.basic', 'topic.college', "topic.parameters",
 <body ng-app="myApp">
     <div class="navbar navbar-blue-azure navbar-fixed-top">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <img width="60" src="~/Content/Images/Logo_new_version.png" ng-click="sideBarShown=!sideBarShown" />
-            </div>
+            ...
             <div class="navbar-collapse collapse">
                 <div ng-include="'/appViews/HeaderMenu.html'" ng-controller="header.menu"></div>
                 @Html.Partial("_LoginPartial")
@@ -98,54 +87,12 @@ angular.module('baidu.map', ['topic.basic', 'topic.college', "topic.parameters",
         @RenderBody()
         <hr />
         <footer>
-            <p>
-                &copy; 2004 &nbsp;-&nbsp; @DateTime.Now.Year - 中国电信佛山分公司欧阳晖
-                <em>运营智慧化</em>
-            </p>
+            ...
         </footer>
     </div>
 
 <script src="~/Scripts/jquery-3.1.0.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
-<script src="~/Scripts/respond.min.js"></script>
-<script src="~/Scripts/fileinput.min.js"></script>
-<link href="~/Content/ui-bootstrap-csp.css" rel="stylesheet"/>
-    <script src="~/Scripts/locales/zh.js"></script>
-<link href="~/Content/ui-grid.min.css" rel="stylesheet"/>
-    <script src="~/Scripts/angular.min.js"></script>
-    <script src="~/Scripts/angular-route.min.js"></script>
-<script src="~/Scripts/angular-ui-router.min.js"></script>
-<script src="~/Scripts/angular-animate.min.js"></script>
-<script src="~/Scripts/angular-touch.min.js"></script>
-<script src="~/Scripts/angular-busy.min.js"></script>
-<script src="~/Scripts/underscore.min.js"></script>
-<script src="~/Scripts/angular-ui/csv.js"></script>
-<script src="~/Scripts/angular-ui/pdfmake.js"></script>
-<script src="~/Scripts/angular-ui/vfs_fonts.js"></script>
-<script src="~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
-<script src="~/Scripts/ui-grid.min.js"></script>
-
-<script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
-<script src="https://img.hcharts.cn/highcharts/highcharts-3d.js"></script>
-<script src="https://img.hcharts.cn/highcharts/highcharts-more.js"></script>
-<script src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
-<script src="https://img.hcharts.cn/highcharts/modules/drilldown.js"></script>
-<script src="https://img.hcharts.cn/highcharts/modules/data.js"></script>
-    <script src="https://cdn.bootcss.com/highcharts-ng/1.1.0/highcharts-ng.js"></script>
-    <script src="~/Scripts/mycharts/comboChart.js"></script>
-    <script src="~/Scripts/mycharts/drilldown.chart.js"></script>
-<script src="~/Scripts/service/app/url.js"></script>
-    <script src="~/Scripts/service/app/region.js"></script>
-    <script src="~/Scripts/service/app/kpi.js"></script>
-<script src="~/Scripts/service/app/topic.js"></script>
-<script src="~/Scripts/service/app/filters.js"></script>
-<script src="~/directives/app/app.module.js"></script>
-<script src="~/directives/rutrace/rutrace.module.js"></script>
-<script src="~/directives/parameters/parameters.module.js"></script>
-<script src="~/directives/workitem/workitem.module.js"></script>
-<script src="~/directives/customer/customer.module.js"></script>
-<script src="~/directives/college/college.module.js"></script>
-<script src="~/Scripts/app/common.js"></script>
+...
 <script src="~/Scripts/laydate/laydate.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
@@ -157,7 +104,7 @@ angular.module('baidu.map', ['topic.basic', 'topic.college', "topic.parameters",
 ...
 </body>
 ```
-应用的名称是myApp。
+>应用的名称是myApp。
 #### 模块的装载
 主应用模块实际上是12个子模块组合而成，代码如下：
 ```javascript
@@ -168,6 +115,7 @@ angular.module("myApp",
     'home.college', 'network.theme'
 ]);
 ```
+>以上定义在home.combined.js文件中，通过grunt工具与包含的文件合并。
 #### 通过公共模块将服务和指令模块纳入
 各个子模块均需要调用服务工厂和指令，通过模块包含的方式实现，代码如下：
 ```javascript

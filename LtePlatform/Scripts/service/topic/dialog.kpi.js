@@ -23,6 +23,12 @@
             cityStat: {},
             dateString: ""
         };
+        var yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        $rootScope.statDate = {
+            value: yesterday,
+            opened: false
+        };
     })
     .controller("rutrace.trend",
         function($scope,
@@ -36,14 +42,8 @@
             city,
             beginDate,
             endDate) {
-            var yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            $scope.dialogTitle = dialogTitle + '-' + yesterday;
+            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
             $scope.kpiType = 'precise';
-            $scope.statDate = {
-                value: yesterday,
-                opened: false
-            };
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
             $scope.showKpi = function() {
@@ -97,14 +97,8 @@
             city,
             beginDate,
             endDate) {
-            var yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            $scope.dialogTitle = dialogTitle + '-' + yesterday;
+            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
             $scope.kpiType = 'rrc';
-            $scope.statDate = {
-                value: yesterday,
-                opened: false
-            };
 
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
@@ -151,19 +145,63 @@
             city,
             beginDate,
             endDate) {
-            var yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            $scope.dialogTitle = dialogTitle + '-' + yesterday;
+            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
             $scope.kpiType = 'cqi';
-            $scope.statDate = {
-                value: yesterday,
-                opened: false
-            };
 
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
             $scope.showKpi = function () {
                 kpiPreciseService.getRecentCqiRegionKpi(city.selected, $scope.statDate.value)
+                    .then(function (result) {
+                        $scope.statDate.value = appFormatService.getDate(result.statDate);
+                        angular.forEach(result.districtViews,
+                            function (view) {
+                                view.objectRate = appKpiService.getCqiObject(view.district);
+                                view.goodCounts = view.cqiCounts.item2;
+                                view.totalCounts = view.cqiCounts.item1 + view.cqiCounts.item2;
+                            });
+                        $scope.overallStat.districtStats = result.districtViews;
+                        $scope.overallStat.townStats = result.townViews;
+                        $scope.overallStat.currentDistrict = result.districtViews[0].district;
+                        $scope.overallStat.districtStats
+                            .push(appKpiService.getCqiCityStat($scope.overallStat.districtStats, city.selected));
+                        $scope.overallStat.dateString = appFormatService
+                            .getDateString($scope.statDate.value, "yyyy年MM月dd日");
+                    });
+            };
+            $scope.showChart = function () {
+                workItemDialog.showCqiChart($scope.overallStat);
+            };
+            $scope.showTrend = function () {
+                workItemDialog.showCqiTrend(city, $scope.beginDate, $scope.endDate);
+            };
+            $scope.showKpi();
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+    })
+    .controller('downSwitch.trend',
+        function ($scope,
+            $uibModalInstance,
+            appRegionService,
+            appFormatService,
+            appKpiService,
+            workItemDialog,
+            dialogTitle,
+            city,
+            beginDate,
+            endDate) {
+            $scope.dialogTitle = dialogTitle + '-' + $scope.statDate.value;
+            $scope.kpiType = 'cqi';
+
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.showKpi = function () {
+                appRegionService.getTownFlowStats($scope.statDate.value, 'all')
                     .then(function (result) {
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
                         angular.forEach(result.districtViews,

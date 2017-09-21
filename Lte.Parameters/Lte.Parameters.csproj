@@ -220,10 +220,6 @@
     <Compile Include="Migrations\201708300231567_Change_ENodeb.Designer.cs">
       <DependentUpon>201708300231567_Change_ENodeb.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709200949261_Change_InterferenceMatrix.cs" />
-    <Compile Include="Migrations\201709200949261_Change_InterferenceMatrix.Designer.cs">
-      <DependentUpon>201709200949261_Change_InterferenceMatrix.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MockOperations\DbHelper.cs" />
     <Compile Include="MockOperations\MockItemsAudited.cs" />
@@ -232,7 +228,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Abp.EntityFramework\Abp.EntityFramework.Customize.csproj">
-      <Project>{79f4f2b7-d8e2-4ec7-bd18-6a0741ae9a9c}</Project>
+      <Project>{8e0c8a21-369e-4d30-8e1d-a51ec5ca934f}</Project>
       <Name>Abp.EntityFramework.Customize</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lte.Domain\Lte.Domain.csproj">
@@ -258,9 +254,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708300231567_Change_ENodeb.resx">
       <DependentUpon>201708300231567_Change_ENodeb.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709200949261_Change_InterferenceMatrix.resx">
-      <DependentUpon>201709200949261_Change_InterferenceMatrix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

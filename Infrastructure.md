@@ -36,6 +36,10 @@
         }
     }
 ```
+>这里定义了3个属性
+>>public Type EnumType { get; }//对应的枚举类型
+>>public object DefaultValue { get; }//默认的枚举取值
+>>public Tuple<object, string>[] TupleList { get; }//生成枚举值和描述的对应关系，从WirelessConstants.EnumDictionary中查询
 ## CSV访问模块
 ## EXCEL访问模块
 ## ABP数据访问模块改写

@@ -8,11 +8,9 @@
 其中程序项目9个（主项目6个，辅助项目3个），测试项目10个。
 程序项目分为`后端模块`、`前端模块`和`辅助模块`三部分。
 ### 主项目
-#### Abp.EntityFramework
-该项目原本是`ABP`模块的一个部分。
-本解决方案只是利用ABP的基础模块，
-`Abp.EntityFramework`采用了原有的大部分源代码，
-然后加上自己的一部分内容。
+#### Abp.EntityFramework.Customize
+该项目在`ABP`模块库的一个工程`Abp.EntityFramework`的一个部分。
+本解决方案利用ABP的基础模块，加上自己的一部分内容，扩充数据库访问的通用功能。
 #### Lte.Domain
 定义了公共的数据结构和基础数据设施。
 #### Lte.MySqlFramework
@@ -51,8 +49,9 @@ LTE信令数据的解析库，采用C#语言对16进制信令内容进行解码�
 #### LtePlatform.Tests
 `LtePlatform`对应的测试项目，采用NUnit。
 #### MongoDB.Driver.Legacy.Tests
-`MongoDB.Driver.Legacy`库配置的测试文件，采用XUnit。
+`MongoDB.Driver.Legacy`库配置的测试文件，采用NUnit。
 #### Moq.Tests
+`Moq.Tests`库配置的测试文件，采用XUnit。
 #### TraceParser.Test
 ## 后端模块
 ### 数据库接口模块

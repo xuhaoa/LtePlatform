@@ -165,6 +165,9 @@
             $scope.showCqiStats = function () {
                 mapDialogService.showCqiTrend($scope.city, $scope.beginDate, $scope.endDate);
             };
+            $scope.showDownSwitchStats = function() {
+                mapDialogService.showDownSwitchTrend($scope.city, $scope.beginDate, $scope.endDate);
+            };
 
             $scope.districts = [];
             dumpPreciseService.generateUsersDistrict($scope.city.selected || "佛山",
