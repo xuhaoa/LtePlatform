@@ -201,6 +201,23 @@
                     }
                 });
             },
+            showDownSwitchTrend: function (city, beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/WorkItem/RrcTrend.html',
+                    controller: 'down.switch.trend.dialog',
+                    resolve: {
+                        city: function () {
+                            return city;
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        }
+                    }
+                });
+            },
 			showBasicTrend: function(city, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/BasicKpi/Trend.html',

@@ -1261,6 +1261,13 @@
                 };
                 return result;
             },
+            calculateAverageDownSwitchRates: function (stats) {
+                var result = {
+                    statDate: "平均值",
+                    values: calculateService.calculateAverageValues(stats, ['downSwitchTimes', 'downSwitchRate'])
+                };
+                return result;
+            },
             generateTrendStatsForPie: function(trendStat, result) {
                 chartCalculateService.generateStatsForPie(trendStat, result, {
                     districtViewsFunc: function(stat) {

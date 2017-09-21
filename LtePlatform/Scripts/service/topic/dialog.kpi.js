@@ -230,7 +230,7 @@
                 workItemDialog.showDownSwitchChart($scope.overallStat);
             };
             $scope.showTrend = function () {
-                workItemDialog.showCqiTrend(city, $scope.beginDate, $scope.endDate);
+                workItemDialog.showDownSwitchTrend(city, $scope.beginDate, $scope.endDate);
             };
             $scope.showKpi();
             $scope.ok = function () {

@@ -1261,6 +1261,13 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                 };
                 return result;
             },
+            calculateAverageDownSwitchRates: function (stats) {
+                var result = {
+                    statDate: "平均值",
+                    values: calculateService.calculateAverageValues(stats, ['downSwitchTimes', 'downSwitchRate'])
+                };
+                return result;
+            },
             generateTrendStatsForPie: function(trendStat, result) {
                 chartCalculateService.generateStatsForPie(trendStat, result, {
                     districtViewsFunc: function(stat) {
@@ -6365,6 +6372,76 @@ angular.module('kpi.work.trend', ['myApp.url', 'myApp.region', "ui.bootstrap", "
                         .getDateString($scope.endDate.value, "yyyy年MM月dd日");
                     $scope.showCharts();
                 });
+    })
+    .controller("down.switch.trend.dialog",
+        function ($scope,
+            $uibModalInstance,
+            city,
+            beginDate,
+            endDate,
+            appRegionService,
+            appKpiService,
+            kpiPreciseService,
+            appFormatService) {
+
+            appRegionService.queryDistricts(city.selected)
+                .then(function (districts) {
+                    $scope.trendStat.districts = districts;
+                });
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.dialogTitle = "4G下切3G变化趋势";
+            $scope.rateTitle = "下切比例";
+            $scope.countTitle = "总下切次数";
+            $scope.rateFunc = function (stat) {
+                return stat.downSwitchRate;
+            };
+            $scope.requestFunc = function (stat) {
+                return stat.downSwitchTimes;
+            };
+            $scope.showCharts = function () {
+                $("#time-request").highcharts(appKpiService
+                    .getDownSwitchTimesOptions($scope.trendStat.districtStats,
+                        $scope.trendStat.townStats,
+                        'all'));
+                $("#time-rate").highcharts(appKpiService
+                    .getDownSwitchRateOptions($scope.trendStat.districtStats,
+                        $scope.trendStat.townStats,
+                        'all'));
+                $("#request-pie").highcharts(appKpiService
+                    .getDownSwitchTimesDistrictOptions($scope.trendStat.stats,
+                        $scope.trendStat.districts,
+                        'all'));
+                $("#rate-column").highcharts(appKpiService
+                    .getDownSwitchRateDistrictOptions($scope.trendStat.stats,
+                        $scope.trendStat.districts,
+                        'all'));
+            };
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.trendStat);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            kpiPreciseService.getDateSpanFlowRegionKpi($scope.city.selected,
+                $scope.beginDate.value,
+                $scope.endDate.value,
+                'all')
+                .then(function (result) {
+                    $scope.trendStat.stats = appKpiService
+                        .generateDownSwitchDistrictStats($scope.trendStat.districts, result);
+                    if (result.length > 0) {
+                        appKpiService.generateFlowTrendStatsForPie($scope.trendStat, result);
+                        $scope.trendStat.stats.push(appKpiService.calculateAverageDownSwitchRates($scope.trendStat.stats));
+                    }
+                    $scope.trendStat.beginDateString = appFormatService
+                        .getDateString($scope.beginDate.value, "yyyy年MM月dd日");
+                    $scope.trendStat.endDateString = appFormatService
+                        .getDateString($scope.endDate.value, "yyyy年MM月dd日");
+                    $scope.showCharts();
+                });
         })
     .controller('kpi.topConnection3G.trend',
         function($scope,
@@ -6634,6 +6711,23 @@ angular.module('kpi.work', ['app.menu', 'myApp.region'])
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/WorkItem/RrcTrend.html',
                     controller: 'cqi.trend.dialog',
+                    resolve: {
+                        city: function () {
+                            return city;
+                        },
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        }
+                    }
+                });
+            },
+            showDownSwitchTrend: function (city, beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/WorkItem/RrcTrend.html',
+                    controller: 'down.switch.trend.dialog',
                     resolve: {
                         city: function () {
                             return city;
