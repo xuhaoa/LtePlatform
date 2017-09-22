@@ -6,6 +6,12 @@
         $rootScope.closeAlert = function(messages, $index) {
             messages.splice($index, 1);
         };
+        $rootScope.addSuccessMessage = function(message) {
+            $rootScope.page.messages.push({
+                type: 'success',
+                contents: message
+            });
+        };
     })
     .controller('eNodeb.dialog',
         function($scope,
@@ -39,10 +45,7 @@
                 collegeDialogService.addENodeb(name,
                     $scope.center,
                     function(count) {
-                        $scope.page.messages.push({
-                            type: 'success',
-                            contents: '增加ENodeb' + count + '个'
-                        });
+                        $scope.addSuccessMessage('增加ENodeb' + count + '个');
                         $scope.query();
                     });
             };
@@ -91,10 +94,7 @@
                 collegeDialogService.addBts(name,
                     $scope.center,
                     function(count) {
-                        $scope.page.messages.push({
-                            type: 'success',
-                            contents: '增加Bts' + count + '个'
-                        });
+                        $scope.addSuccessMessage('增加Bts' + count + '个');
                         $scope.query();
                     });
             };

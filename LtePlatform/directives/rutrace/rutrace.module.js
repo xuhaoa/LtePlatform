@@ -350,7 +350,64 @@ angular.module('rutrace.trend', [])
     });
 
 angular.module('rutrace.analyze', ['myApp.kpi', 'myApp.region'])
-    .directive('analyzeTable', function (htmlRoot, preciseWorkItemGenerator, preciseWorkItemService, coverageDialogService) {
+    .controller('analyzeTableController', function($scope,
+        preciseWorkItemGenerator,
+        preciseWorkItemService,
+        coverageDialogService) {
+        $scope.analyzeInterferenceSource = function() {
+            coverageDialogService.showSource($scope.currentView,
+                $scope.serialNumber,
+                $scope.beginDate,
+                $scope.endDate,
+                function(info) {
+                    scope.interferenceSourceComments = '已完成干扰源分析';
+                    var dtos = preciseWorkItemGenerator.generatePreciseInterferenceNeighborDtos(info);
+                    preciseWorkItemService.updateInterferenceNeighbor($scope.serialNumber, dtos).then(function(result) {
+                        $scope.interferenceSourceComments += ";已导入干扰源分析结果" ;
+                        $scope.queryPreciseCells();
+                    });
+                });
+        };
+        $scope.showSourceDbChart = function() {
+            coverageDialogService.showSourceDbChart($scope.currentView);
+        };
+        $scope.showSourceModChart = function() {
+            coverageDialogService.showSourceModChart($scope.currentView,
+                function(info) {
+                    $scope.interferenceSourceComments = info;
+                });
+        };
+        $scope.showSourceStrengthChart = function() {
+            coverageDialogService.showSourceStrengthChart($scope.currentView,
+                function(info) {
+                    $scope.interferenceSourceComments = info;
+                });
+        };
+        $scope.analyzeInterferenceVictim = function() {
+            coverageDialogService.showInterferenceVictim($scope.currentView,
+                $scope.serialNumber,
+                function(info) {
+                    scope.interferenceVictimComments = '已完成被干扰小区分析';
+                    var dtos = preciseWorkItemGenerator.generatePreciseInterferenceVictimDtos(info);
+                    preciseWorkItemService.updateInterferenceVictim($scope.serialNumber, dtos).then(function(result) {
+                        $scope.interferenceVictimComments += ";已导入被干扰小区分析结果";
+                        $scope.queryPreciseCells();
+                    });
+                });
+        };
+        $scope.analyzeCoverage = function() {
+            coverageDialogService.showCoverage($scope.currentView,
+                $scope.preciseCells,
+                function(info) {
+                    $scope.coverageComments = '已完成覆盖分析';
+                    preciseWorkItemService.updateCoverage($scope.serialNumber, info).then(function(result) {
+                        $scope.coverageComments += ";已导入覆盖分析结果";
+                        $scope.queryPreciseCells();
+                    });
+                });
+        };
+    })
+    .directive('analyzeTable', function (htmlRoot) {
         return {
             restrict: 'ECMA',
             replace: true,
@@ -358,52 +415,10 @@ angular.module('rutrace.analyze', ['myApp.kpi', 'myApp.region'])
                 currentView: '=',
                 serialNumber: '=',
                 queryPreciseCells: '&',
-                preciseCells: '='
+                preciseCells: '=',
+                beginDate: '=',
+                endDate: '='
             },
-            templateUrl: htmlRoot + 'AnalyzeTable.Tpl.html',
-            link: function (scope, element, attrs) {
-                scope.analyzeInterferenceSource = function () {
-                    coverageDialogService.showSource(scope.currentView, scope.serialNumber, function(info) {
-                        scope.interferenceSourceComments = '已完成干扰源分析';
-                        var dtos = preciseWorkItemGenerator.generatePreciseInterferenceNeighborDtos(info);
-                        preciseWorkItemService.updateInterferenceNeighbor(scope.serialNumber, dtos).then(function(result) {
-                            scope.interferenceSourceComments += ";已导入干扰源分析结果";
-                            scope.queryPreciseCells();
-                        });
-                    });
-                };
-                scope.showSourceDbChart = function () {
-                    coverageDialogService.showSourceDbChart(scope.currentView);
-                };
-                scope.showSourceModChart = function () {
-                    coverageDialogService.showSourceModChart(scope.currentView, function(info) {
-                        scope.interferenceSourceComments = info;
-                    });
-                };
-                scope.showSourceStrengthChart = function () {
-                    coverageDialogService.showSourceStrengthChart(scope.currentView, function(info) {
-                        scope.interferenceSourceComments = info;
-                    });
-                };
-                scope.analyzeInterferenceVictim = function () {
-                    coverageDialogService.showInterferenceVictim(scope.currentView, scope.serialNumber, function(info) {
-                        scope.interferenceVictimComments = '已完成被干扰小区分析';
-                        var dtos = preciseWorkItemGenerator.generatePreciseInterferenceVictimDtos(info);
-                        preciseWorkItemService.updateInterferenceVictim(scope.serialNumber, dtos).then(function(result) {
-                            scope.interferenceVictimComments += ";已导入被干扰小区分析结果";
-                            scope.queryPreciseCells();
-                        });
-                    });
-                };
-                scope.analyzeCoverage = function () {
-                    coverageDialogService.showCoverage(scope.currentView, scope.preciseCells, function(info) {
-                        scope.coverageComments = '已完成覆盖分析';
-                        preciseWorkItemService.updateCoverage(scope.serialNumber, info).then(function(result) {
-                            scope.coverageComments += ";已导入覆盖分析结果";
-                            scope.queryPreciseCells();
-                        });
-                    });
-                };
-            }
+            templateUrl: htmlRoot + 'AnalyzeTable.Tpl.html'
         };
     });

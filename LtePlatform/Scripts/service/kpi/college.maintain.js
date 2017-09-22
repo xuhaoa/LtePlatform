@@ -50,20 +50,17 @@
                     collegeService.queryCells(collegeName).then(function(cells) {
                         baiduQueryService.transformToBaidu(center.X, center.Y).then(function(coors) {
                             collegeService.queryRange(collegeName).then(function(range) {
-                                networkElementService.queryRangeCells({
-                                    west: range.west + center.X - coors.x,
-                                    east: range.east + center.X - coors.x,
-                                    south: range.south + center.Y - coors.y,
-                                    north: range.north + center.Y - coors.y
-                                }).then(function(results) {
-                                    neighborImportService.updateENodebRruInfo($scope.supplementCells,
-                                    {
-                                        dstCells: results,
-                                        cells: cells,
-                                        longtitute: center.X,
-                                        lattitute: center.Y
+                                networkElementService
+                                    .queryRangeCells(neighborImportService.generateRange(range, center, coors))
+                                    .then(function(results) {
+                                        neighborImportService.updateENodebRruInfo($scope.supplementCells,
+                                        {
+                                            dstCells: results,
+                                            cells: cells,
+                                            longtitute: center.X,
+                                            lattitute: center.Y
+                                        });
                                     });
-                                });
                             });
                         });
                     });
@@ -81,6 +78,7 @@
         function($scope,
             $uibModalInstance,
             networkElementService,
+            neighborImportService,
             geometryService,
             baiduQueryService,
             collegeService,
@@ -99,20 +97,16 @@
                                 function(eNodeb) {
                                     ids.push(eNodeb.eNodebId);
                                 });
-                            networkElementService.queryRangeENodebs({
-                                west: range.west + center.X - coors.x,
-                                east: range.east + center.X - coors.x,
-                                south: range.south + center.Y - coors.y,
-                                north: range.north + center.Y - coors.y,
-                                excludedIds: ids
-                            }).then(function(results) {
-                                angular.forEach(results,
-                                    function(item) {
-                                        item.distance = geometryService
-                                            .getDistance(item.lattitute, item.longtitute, coors.y, coors.x);
-                                    });
-                                $scope.supplementENodebs = results;
-                            });
+                            networkElementService
+                                .queryRangeENodebs(neighborImportService
+                                    .generateRangeWithExcludedIds(range, center, coors, ids)).then(function(results) {
+                                    angular.forEach(results,
+                                        function(item) {
+                                            item.distance = geometryService
+                                                .getDistance(item.lattitute, item.longtitute, coors.y, coors.x);
+                                        });
+                                    $scope.supplementENodebs = results;
+                                });
                         });
                     });
                 });
@@ -132,6 +126,7 @@
         function($scope,
             $uibModalInstance,
             networkElementService,
+            neighborImportService,
             geometryService,
             baiduQueryService,
             collegeService,
@@ -149,20 +144,16 @@
                             function(bts) {
                                 ids.push(bts.btsId);
                             });
-                        networkElementService.queryRangeBtss({
-                            west: range.west + center.X - coors.x,
-                            east: range.east + center.X - coors.x,
-                            south: range.south + center.Y - coors.y,
-                            north: range.north + center.Y - coors.y,
-                            excludedIds: ids
-                        }).then(function(results) {
-                            angular.forEach(results,
-                                function(item) {
-                                    item.distance = geometryService
-                                        .getDistance(item.lattitute, item.longtitute, coors.y, coors.x);
-                                });
-                            $scope.supplementBts = results;
-                        });
+                        networkElementService
+                            .queryRangeBtss(neighborImportService
+                                .generateRangeWithExcludedIds(range, center, coors, ids)).then(function(results) {
+                                angular.forEach(results,
+                                    function(item) {
+                                        item.distance = geometryService
+                                            .getDistance(item.lattitute, item.longtitute, coors.y, coors.x);
+                                    });
+                                $scope.supplementBts = results;
+                            });
                     });
                 });
             });

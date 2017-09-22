@@ -2639,6 +2639,23 @@ angular.module('region.network', ['app.core'])
                         });
                     }
                 });
+            },
+            generateRange: function(range, center, coors) {
+                return {
+                    west: range.west + center.X - coors.x,
+                    east: range.east + center.X - coors.x,
+                    south: range.south + center.Y - coors.y,
+                    north: range.north + center.Y - coors.y
+                };
+            },
+            generateRangeWithExcludedIds: function(range, center, coors, ids) {
+                return {
+                    west: range.west + center.X - coors.x,
+                    east: range.east + center.X - coors.x,
+                    south: range.south + center.Y - coors.y,
+                    north: range.north + center.Y - coors.y,
+                    excludedIds: ids
+                };
             }
         }
     })

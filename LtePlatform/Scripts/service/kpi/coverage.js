@@ -19,7 +19,7 @@
                     }
                 });
             },
-            showSource: function (currentView, serialNumber, callback) {
+            showSource: function (currentView, serialNumber, beginDate, endDate, callback) {
                 menuItemService.showGeneralDialogWithAction({
                     templateUrl: '/appViews/Rutrace/Interference/SourceDialog.html',
                     controller: 'interference.source.dialog',
@@ -35,6 +35,12 @@
                         },
                         serialNumber: function () {
                             return serialNumber;
+                        },
+                        beginDate: function() {
+                            return beginDate;
+                        },
+                        endDate: function() {
+                            return endDate;
                         }
                     }
                 }, function (info) {

@@ -1621,6 +1621,12 @@ angular.module('kpi.college.infrastructure', ['myApp.url', 'myApp.region', "ui.b
         $rootScope.closeAlert = function(messages, $index) {
             messages.splice($index, 1);
         };
+        $rootScope.addSuccessMessage = function(message) {
+            $rootScope.page.messages.push({
+                type: 'success',
+                contents: message
+            });
+        };
     })
     .controller('eNodeb.dialog',
         function($scope,
@@ -1654,10 +1660,7 @@ angular.module('kpi.college.infrastructure', ['myApp.url', 'myApp.region', "ui.b
                 collegeDialogService.addENodeb(name,
                     $scope.center,
                     function(count) {
-                        $scope.page.messages.push({
-                            type: 'success',
-                            contents: '增加ENodeb' + count + '个'
-                        });
+                        $scope.addSuccessMessage('增加ENodeb' + count + '个');
                         $scope.query();
                     });
             };
@@ -1706,10 +1709,7 @@ angular.module('kpi.college.infrastructure', ['myApp.url', 'myApp.region', "ui.b
                 collegeDialogService.addBts(name,
                     $scope.center,
                     function(count) {
-                        $scope.page.messages.push({
-                            type: 'success',
-                            contents: '增加Bts' + count + '个'
-                        });
+                        $scope.addSuccessMessage('增加Bts' + count + '个');
                         $scope.query();
                     });
             };
@@ -1844,6 +1844,7 @@ angular.module('kpi.college.basic', ['myApp.url', 'myApp.region', "ui.bootstrap"
             baiduQueryService,
             collegeService,
             networkElementService,
+            neighborImportService,
             collegeMapService) {
             $scope.dialogTitle = collegeName + "校园网规划站点跟踪";
 
@@ -1851,14 +1852,11 @@ angular.module('kpi.college.basic', ['myApp.url', 'myApp.region', "ui.bootstrap"
                 function(center) {
                     baiduQueryService.transformToBaidu(center.X, center.Y).then(function(coors) {
                         collegeService.queryRange(collegeName).then(function(range) {
-                            networkElementService.queryRangePlanningSites({
-                                west: range.west + center.X - coors.x,
-                                east: range.east + center.X - coors.x,
-                                south: range.south + center.Y - coors.y,
-                                north: range.north + center.Y - coors.y
-                            }).then(function(results) {
-                                $scope.items = results;
-                            });
+                            networkElementService
+                                .queryRangePlanningSites(neighborImportService.generateRange(range, center, coors))
+                                .then(function(results) {
+                                    $scope.items = results;
+                                });
                         });
                     });
                 });
@@ -1999,20 +1997,17 @@ angular.module('kpi.college.maintain', ['myApp.url', 'myApp.region', "ui.bootstr
                     collegeService.queryCells(collegeName).then(function(cells) {
                         baiduQueryService.transformToBaidu(center.X, center.Y).then(function(coors) {
                             collegeService.queryRange(collegeName).then(function(range) {
-                                networkElementService.queryRangeCells({
-                                    west: range.west + center.X - coors.x,
-                                    east: range.east + center.X - coors.x,
-                                    south: range.south + center.Y - coors.y,
-                                    north: range.north + center.Y - coors.y
-                                }).then(function(results) {
-                                    neighborImportService.updateENodebRruInfo($scope.supplementCells,
-                                    {
-                                        dstCells: results,
-                                        cells: cells,
-                                        longtitute: center.X,
-                                        lattitute: center.Y
+                                networkElementService
+                                    .queryRangeCells(neighborImportService.generateRange(range, center, coors))
+                                    .then(function(results) {
+                                        neighborImportService.updateENodebRruInfo($scope.supplementCells,
+                                        {
+                                            dstCells: results,
+                                            cells: cells,
+                                            longtitute: center.X,
+                                            lattitute: center.Y
+                                        });
                                     });
-                                });
                             });
                         });
                     });
@@ -2030,6 +2025,7 @@ angular.module('kpi.college.maintain', ['myApp.url', 'myApp.region', "ui.bootstr
         function($scope,
             $uibModalInstance,
             networkElementService,
+            neighborImportService,
             geometryService,
             baiduQueryService,
             collegeService,
@@ -2048,20 +2044,16 @@ angular.module('kpi.college.maintain', ['myApp.url', 'myApp.region', "ui.bootstr
                                 function(eNodeb) {
                                     ids.push(eNodeb.eNodebId);
                                 });
-                            networkElementService.queryRangeENodebs({
-                                west: range.west + center.X - coors.x,
-                                east: range.east + center.X - coors.x,
-                                south: range.south + center.Y - coors.y,
-                                north: range.north + center.Y - coors.y,
-                                excludedIds: ids
-                            }).then(function(results) {
-                                angular.forEach(results,
-                                    function(item) {
-                                        item.distance = geometryService
-                                            .getDistance(item.lattitute, item.longtitute, coors.y, coors.x);
-                                    });
-                                $scope.supplementENodebs = results;
-                            });
+                            networkElementService
+                                .queryRangeENodebs(neighborImportService
+                                    .generateRangeWithExcludedIds(range, center, coors, ids)).then(function(results) {
+                                    angular.forEach(results,
+                                        function(item) {
+                                            item.distance = geometryService
+                                                .getDistance(item.lattitute, item.longtitute, coors.y, coors.x);
+                                        });
+                                    $scope.supplementENodebs = results;
+                                });
                         });
                     });
                 });
@@ -2081,6 +2073,7 @@ angular.module('kpi.college.maintain', ['myApp.url', 'myApp.region', "ui.bootstr
         function($scope,
             $uibModalInstance,
             networkElementService,
+            neighborImportService,
             geometryService,
             baiduQueryService,
             collegeService,
@@ -2098,20 +2091,16 @@ angular.module('kpi.college.maintain', ['myApp.url', 'myApp.region', "ui.bootstr
                             function(bts) {
                                 ids.push(bts.btsId);
                             });
-                        networkElementService.queryRangeBtss({
-                            west: range.west + center.X - coors.x,
-                            east: range.east + center.X - coors.x,
-                            south: range.south + center.Y - coors.y,
-                            north: range.north + center.Y - coors.y,
-                            excludedIds: ids
-                        }).then(function(results) {
-                            angular.forEach(results,
-                                function(item) {
-                                    item.distance = geometryService
-                                        .getDistance(item.lattitute, item.longtitute, coors.y, coors.x);
-                                });
-                            $scope.supplementBts = results;
-                        });
+                        networkElementService
+                            .queryRangeBtss(neighborImportService
+                                .generateRangeWithExcludedIds(range, center, coors, ids)).then(function(results) {
+                                angular.forEach(results,
+                                    function(item) {
+                                        item.distance = geometryService
+                                            .getDistance(item.lattitute, item.longtitute, coors.y, coors.x);
+                                    });
+                                $scope.supplementBts = results;
+                            });
                     });
                 });
             });
@@ -3749,7 +3738,7 @@ angular.module('kpi.coverage', ['app.menu'])
                     }
                 });
             },
-            showSource: function (currentView, serialNumber, callback) {
+            showSource: function (currentView, serialNumber, beginDate, endDate, callback) {
                 menuItemService.showGeneralDialogWithAction({
                     templateUrl: '/appViews/Rutrace/Interference/SourceDialog.html',
                     controller: 'interference.source.dialog',
@@ -3765,6 +3754,12 @@ angular.module('kpi.coverage', ['app.menu'])
                         },
                         serialNumber: function () {
                             return serialNumber;
+                        },
+                        beginDate: function() {
+                            return beginDate;
+                        },
+                        endDate: function() {
+                            return endDate;
                         }
                     }
                 }, function (info) {

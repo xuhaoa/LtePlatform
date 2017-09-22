@@ -37,6 +37,7 @@
             baiduQueryService,
             collegeService,
             networkElementService,
+            neighborImportService,
             collegeMapService) {
             $scope.dialogTitle = collegeName + "校园网规划站点跟踪";
 
@@ -44,14 +45,11 @@
                 function(center) {
                     baiduQueryService.transformToBaidu(center.X, center.Y).then(function(coors) {
                         collegeService.queryRange(collegeName).then(function(range) {
-                            networkElementService.queryRangePlanningSites({
-                                west: range.west + center.X - coors.x,
-                                east: range.east + center.X - coors.x,
-                                south: range.south + center.Y - coors.y,
-                                north: range.north + center.Y - coors.y
-                            }).then(function(results) {
-                                $scope.items = results;
-                            });
+                            networkElementService
+                                .queryRangePlanningSites(neighborImportService.generateRange(range, center, coors))
+                                .then(function(results) {
+                                    $scope.items = results;
+                                });
                         });
                     });
                 });
