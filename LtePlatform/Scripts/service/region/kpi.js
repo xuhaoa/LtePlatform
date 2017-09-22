@@ -111,6 +111,15 @@
                         district: district
                     });
                 },
+                queryTopDownSwitchByPolicy: function (begin, end, topCount, policy) {
+                    return generalHttpService.getApiData('TopDownSwitch',
+                        {
+                            begin: begin,
+                            end: end,
+                            topCount: topCount,
+                            orderSelection: policy
+                        });
+                },
                 queryTopRank2InDistrict: function(begin, end, topCount, city, district) {
                     return generalHttpService.getApiData('TopRank2',
                     {

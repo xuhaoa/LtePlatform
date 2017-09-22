@@ -24,6 +24,26 @@ namespace Lte.Evaluations.DataService.Kpi
             return results.OrderByDescending(x => x.RedirectCdma2000).Take(topCount);
         }
 
+        public IEnumerable<FlowView> QueryTopDownSwitchViews(DateTime begin, DateTime end, int topCount, OrderDownSwitchPolicy policy)
+        {
+            var zteViews =
+                ZteRepository.GetAllList(
+                        x => x.StatTime >= begin && x.StatTime < end && x.RedirectA2 + x.RedirectB2 > 2000)
+                    .MapTo<IEnumerable<FlowView>>();
+            var huaweiViews =
+                HuaweiRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectCdma2000 > 2000)
+                    .MapTo<IEnumerable<FlowView>>();
+            var joinViews = zteViews.Concat(huaweiViews);
+            switch (policy)
+            {
+                case OrderDownSwitchPolicy.OrderByDownSwitchCountsDescendings:
+                    return joinViews.OrderByDescending(x => x.RedirectCdma2000).Take(topCount);
+                case OrderDownSwitchPolicy.OrderByDownSwitchRateDescending:
+                    return joinViews.OrderByDescending(x => x.DownSwitchRate).Take(topCount);
+            }
+            return new List<FlowView>();
+        }
+
         public IEnumerable<FlowView> QueryTopRank2Views(string city, string district, DateTime begin, DateTime end,
             int topCount)
         {

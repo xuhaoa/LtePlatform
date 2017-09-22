@@ -545,6 +545,12 @@ namespace Lte.MySqlFramework.Entities
 
         public double RedirectCdma2000 { get; set; }
 
+        public double DownSwitchRate
+            =>
+                PdcpUplinkFlow + PdcpDownlinkFlow == 0
+                    ? 100
+                    : (8 * (double)RedirectCdma2000 / (PdcpUplinkFlow / 1024 + PdcpDownlinkFlow / 1024));
+
         [AutoMapPropertyResolve("SchedulingTm3", typeof(FlowZte))]
         public double SchedulingTimes { get; set; }
 

@@ -326,7 +326,7 @@
 
             $scope.query = function () {
                 $scope.topCells = [];
-                kpiPreciseService.queryTopKpis(beginDate.value,
+                kpiPreciseService.queryTopDownSwitchByPolicy(beginDate.value,
                     endDate.value,
                     $scope.topCount.selected,
                     $scope.orderPolicy.selected).then(function (result) {

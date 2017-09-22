@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.ViewModels.RegionKpi;
@@ -107,7 +108,20 @@ namespace LtePlatform.Controllers.Kpi
         public IEnumerable<FlowView> Get(string city, string district, DateTime begin, DateTime end, int topCount)
         {
             return _service.QueryTopDownSwitchViews(city, district, begin, end, topCount);
-        } 
+        }
+
+        [HttpGet]
+        [ApiDoc("指定日期范围、TOP个数和排序标准，获得TOP下切小区列表")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiParameterDoc("topCount", "TOP个数")]
+        [ApiParameterDoc("orderSelection", "排序标准")]
+        [ApiResponse("TOP下切小区列表")]
+        public IEnumerable<FlowView> Get(DateTime begin, DateTime end, int topCount, string orderSelection)
+        {
+            return _service.QueryTopDownSwitchViews(begin, end, topCount, orderSelection.GetEnumType<OrderDownSwitchPolicy>());
+        }
+
     }
 
     [ApiControl("TOP双流比查询控制器")]
