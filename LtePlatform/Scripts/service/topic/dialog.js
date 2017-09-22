@@ -402,6 +402,23 @@
                         }
                     });
                 },
+                showDownSwitchTop: function (beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Rutrace/Top.html',
+                        controller: 'down.switch.top',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "全市4G下切3GTOP统计";
+                            },
+                            beginDate: function () {
+                                return beginDate;
+                            },
+                            endDate: function () {
+                                return endDate;
+                            }
+                        }
+                    });
+                },
                 showPreciseTopDistrict: function(beginDate, endDate, district) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Top.html',

@@ -8,10 +8,19 @@
             options: [5, 10, 15, 20, 30],
             selected: 15
         };
-        kpiPreciseService.getOrderSelection().then(function(result) {
-            $rootScope.orderPolicy.options = result;
-            $rootScope.orderPolicy.selected = result[5];
-        });
+        $rootScope.initializeOrderPolicy = function() {
+            kpiPreciseService.getOrderSelection().then(function(result) {
+                $rootScope.orderPolicy.options = result;
+                $rootScope.orderPolicy.selected = result[5];
+            });
+        };
+        $rootScope.initializeDownSwitchOrderPolicy = function() {
+            kpiPreciseService.getDownSwitchOrderSelection().then(function(result) {
+                $rootScope.orderPolicy.options = result;
+                $rootScope.orderPolicy.selected = result[1];
+            });
+        };
+        
         $rootScope.closeAlert = function(messages, index) {
             messages.splice(index, 1);
         };
@@ -197,6 +206,7 @@
             appFormatService,
             appKpiService,
             workItemDialog,
+            mapDialogService,
             dialogTitle,
             city,
             beginDate,
@@ -232,6 +242,10 @@
             $scope.showTrend = function () {
                 workItemDialog.showDownSwitchTrend(city, $scope.beginDate, $scope.endDate);
             };
+            $scope.showTopKpi = function () {
+                mapDialogService.showDownSwitchTop($scope.beginDate, $scope.endDate);
+            };
+
             $scope.showKpi();
             $scope.ok = function () {
                 $uibModalInstance.close($scope.building);
@@ -279,14 +293,60 @@
                         });
                 });
             };
-
-            $scope.query();
+            $scope.initializeOrderPolicy();
+            $scope.$watch('orderPolicy.selected',
+                function (selection) {
+                    if (selection) {
+                        $scope.query();
+                    }
+                });
 
             $scope.ok = function() {
                 $uibModalInstance.close($scope.building);
             };
 
             $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+    })
+    .controller("down.switch.top",
+        function ($scope,
+            $uibModalInstance,
+            dialogTitle,
+            preciseInterferenceService,
+            kpiPreciseService,
+            workitemService,
+            beginDate,
+            endDate) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.topCells = [];
+            $scope.updateMessages = [];
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+
+            $scope.query = function () {
+                $scope.topCells = [];
+                kpiPreciseService.queryTopKpis(beginDate.value,
+                    endDate.value,
+                    $scope.topCount.selected,
+                    $scope.orderPolicy.selected).then(function (result) {
+                        $scope.topCells = result;
+                    });
+            };
+            $scope.initializeDownSwitchOrderPolicy();
+            $scope.$watch('orderPolicy.selected',
+                function (selection) {
+                    if (selection) {
+                        $scope.query();
+                    }
+                });
+            
+
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
         })
@@ -330,8 +390,13 @@
                         });
                 });
             };
-
-            $scope.query();
+            $scope.initializeOrderPolicy();
+            $scope.$watch('orderPolicy.selected',
+                function (selection) {
+                    if (selection) {
+                        $scope.query();
+                    }
+                });
 
             $scope.ok = function() {
                 $uibModalInstance.close($scope.building);

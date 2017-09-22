@@ -633,6 +633,25 @@ namespace Lte.Domain.Common.Wireless
         }
     }
 
+    [EnumTypeDescription(typeof(OrderDownSwitchPolicy), OrderByDownSwitchCountsDescendings)]
+    public enum OrderDownSwitchPolicy : byte
+    {
+        OrderByDownSwitchRateDescending,
+        OrderByDownSwitchCountsDescendings
+    }
+
+    public class OrderDownSwitchPolicyDescriptionTransform : DescriptionTransform<OrderDownSwitchPolicy>
+    {
+        
+    }
+
+    public class OrderDownSwitchPolicyTransform : EnumTransform<OrderDownSwitchPolicy>
+    {
+        public OrderDownSwitchPolicyTransform() : base(OrderDownSwitchPolicy.OrderByDownSwitchCountsDescendings)
+        {
+        }
+    }
+
     [EnumTypeDescription(typeof(OrderTopConnection3GPolicy), OrderByConnectionRate)]
     public enum OrderTopConnection3GPolicy
     {

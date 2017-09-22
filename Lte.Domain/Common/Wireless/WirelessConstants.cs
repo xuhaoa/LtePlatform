@@ -158,6 +158,13 @@ namespace Lte.Domain.Common.Wireless
                 }
             },
             {
+                "OrderDownSwitchPolicy", new []
+                {
+                    new Tuple<object, string>(OrderDownSwitchPolicy.OrderByDownSwitchCountsDescendings, "按照下切次数降序"),
+                    new Tuple<object, string>(OrderDownSwitchPolicy.OrderByDownSwitchRateDescending, "按照下切比例降序"), 
+                }
+            },
+            {
                 "OrderTopConnection3GPolicy", new[]
                 {
                     new Tuple<object, string>(OrderTopConnection3GPolicy.OrderByConnectionFailsDescending,

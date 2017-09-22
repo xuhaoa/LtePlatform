@@ -69,6 +69,12 @@
                         key: "OrderPreciseStatPolicy"
                     });
                 },
+                getDownSwitchOrderSelection: function () {
+                    return generalHttpService.getApiData('KpiOptions',
+                        {
+                            key: "OrderDownSwitchPolicy"
+                        });
+                },
                 getHotSpotTypeSelection: function() {
                     return generalHttpService.getApiData('KpiOptions',
                     {
