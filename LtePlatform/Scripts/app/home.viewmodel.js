@@ -2967,6 +2967,7 @@ angular.module('home.kpi', ['app.common'])
     .controller("home.kpi",
         function($scope,
             baiduMapService,
+            generalMapService,
             collegeMapService,
             dumpPreciseService,
             kpiPreciseService,
@@ -2992,16 +2993,8 @@ angular.module('home.kpi', ['app.common'])
                             .then(function(coors) {
                                 var xOffset = coors.x - validCoor.longtitute;
                                 var yOffset = coors.y - validCoor.lattitute;
-                                angular.forEach(cells,
-                                    function(cell) {
-                                        cell.longtitute += xOffset;
-                                        cell.lattitute += yOffset;
-                                        var sectorTriangle = baiduMapService.generateSector(cell, "blue", 5);
-                                        baiduMapService
-                                            .addOneSectorToScope(sectorTriangle,
-                                                neighborDialogService.showPrecise,
-                                                cell);
-                                    });
+                                generalMapService
+                                    .showGeneralCells(cells, xOffset, yOffset, neighborDialogService.showPrecise);
                             });
                     });
                 });
@@ -3053,8 +3046,10 @@ angular.module('home.kpi', ['app.common'])
                     district).then(function(result) {
                     angular.forEach(result,
                         function(item) {
-                            networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function(cell) {
-                                collegeMapService.showFlowCellSector(cell, item, $scope.beginDate, $scope.endDate);
+                            networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function (cell) {
+                                if (cell) {
+                                    collegeMapService.showFlowCellSector(cell, item, $scope.beginDate, $scope.endDate);
+                                }
                             });
                         });
                 });

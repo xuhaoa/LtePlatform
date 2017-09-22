@@ -103,6 +103,18 @@
                         function(district, $index) {
                             callback(district, $index);
                         });
+                },
+                showGeneralCells: function(cells, xOffset, yOffset, callback) {
+                    angular.forEach(cells,
+                        function (cell) {
+                            cell.longtitute += xOffset;
+                            cell.lattitute += yOffset;
+                            var sectorTriangle = baiduMapService.generateSector(cell, "blue", 5);
+                            baiduMapService
+                                .addOneSectorToScope(sectorTriangle,
+                                callback,
+                                cell);
+                        });
                 }
             };
         })

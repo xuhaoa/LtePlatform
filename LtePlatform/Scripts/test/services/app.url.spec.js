@@ -7,6 +7,8 @@
 /// <reference path="../../underscore.js"/>
 /// <reference path="../../service/url/core.js"/>
 /// <reference path="../../service/url/format.js"/>
+/// <reference path="../mock/highcharts.mock.js"/>
+/// <reference path="../../mycharts/comboChart.js"/>
 /// <reference path="../../service/url/calculation.js"/>
 
 describe('app.core service tests', function () {
@@ -114,35 +116,41 @@ describe('app.format service tests', function () {
                 expect(item).toEqual('顺德');
             });
         });
-        
 
-        it('Can get one date from the string like "2016-07-13"', function() {
-            var dateString = "2016-04-12";
-            var date = appFormatService.getDate(dateString);
-            expect(date.getFullYear()).toEqual(2016);
-            expect(date.getMonth()).toEqual(3);
-            expect(date.getDate()).toEqual(12);
-        });
+        describe('date time tests',
+            function() {
+                it('Can get one date from the string like "2016-07-13"',
+                    function() {
+                        var dateString = "2016-04-12";
+                        var date = appFormatService.getDate(dateString);
+                        expect(date.getFullYear()).toEqual(2016);
+                        expect(date.getMonth()).toEqual(3);
+                        expect(date.getDate()).toEqual(12);
+                    });
 
-        it('Can get one date from the string like "2016/7/5"', function() {
-            var dateString = "2016/7/5";
-            var date = appFormatService.getDate(dateString);
-            expect(date.getFullYear()).toEqual(2016);
-            expect(date.getMonth()).toEqual(7);
-            expect(date.getDate()).toEqual(5);
-        });
+                it('Can get one date from the string like "2016/7/5"',
+                    function() {
+                        var dateString = "2016/7/5";
+                        var date = appFormatService.getDate(dateString);
+                        expect(date.getFullYear()).toEqual(2016);
+                        expect(date.getMonth()).toEqual(7);
+                        expect(date.getDate()).toEqual(5);
+                    });
 
-        it('Can get UTC time', function() {
-            var dateString = "2016/7/5 15:22:18";
-            var date = appFormatService.getUTCTime(dateString);
-            expect(date).toEqual(1473088938000);
-        });
+                it('Can get UTC time',
+                    function() {
+                        var dateString = "2016/7/5 15:22:18";
+                        var date = appFormatService.getUTCTime(dateString);
+                        expect(date).toEqual(1473088938000);
+                    });
 
-        it('Can get date string', function() {
-            var date = new Date(2016, 4, 28);
-            var dateString1 = appFormatService.getDateString(date, "yyyy-MM-dd");
-            expect(dateString1).toEqual("2016-05-28");
-        });
+                it('Can get date string',
+                    function() {
+                        var date = new Date(2016, 4, 28);
+                        var dateString1 = appFormatService.getDateString(date, "yyyy-MM-dd");
+                        expect(dateString1).toEqual("2016-05-28");
+                    });
+            });
 
         it('should be able to calculate Averages', function() {
             var data = [
@@ -177,18 +185,40 @@ describe('app.format service tests', function () {
                 count: 3
             });
         });
+
+        describe('prefixInteger function',
+            function() {
+                it('0 number',
+                    function() {
+                        expect(appFormatService.prefixInteger(2, 0)).toEqual('2');
+                        expect(appFormatService.prefixInteger(32, 0)).toEqual('32');
+                        expect(appFormatService.prefixInteger(412, 0)).toEqual('412');
+                    });
+                it('1 numbers',
+                    function() {
+                        expect(appFormatService.prefixInteger(2, 1)).toEqual('2');
+                        expect(appFormatService.prefixInteger(32, 1)).toEqual('2');
+                        expect(appFormatService.prefixInteger(412, 1)).toEqual('2');
+                    });
+                it('2 numbers',
+                    function () {
+                        expect(appFormatService.prefixInteger(2, 2)).toEqual('02');
+                        expect(appFormatService.prefixInteger(32, 2)).toEqual('32');
+                        expect(appFormatService.prefixInteger(412, 2)).toEqual('12');
+                    });
+                it('3 numbers',
+                    function () {
+                        expect(appFormatService.prefixInteger(2, 3)).toEqual('002');
+                        expect(appFormatService.prefixInteger(32, 3)).toEqual('032');
+                        expect(appFormatService.prefixInteger(412, 3)).toEqual('412');
+                    });
+            });
     });
 
 });
 
 describe('app.calculation service tests', function () {
     beforeEach(module('app.format'));
-    var GradientPie = function() {};
-    it('GradientPie is defined',
-        function() {
-            var pie = new GradientPie();
-            expect(pie).toBeDefined();
-        });
     describe('test general chart service', function () {
         beforeEach(module('app.calculation'));
         var generalChartService;
@@ -196,6 +226,13 @@ describe('app.calculation service tests', function () {
         beforeEach(inject(function(_generalChartService_) {
             generalChartService = _generalChartService_;
         }));
+
+        it('GradientPie is defined',
+            function() {
+                var chart = new GeneralChart();
+                chart = new ComboChart();
+                chart = new GradientPie();
+            });
 
         it('test get pie options', function() {
             var data = [

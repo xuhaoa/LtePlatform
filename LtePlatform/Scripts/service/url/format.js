@@ -1509,13 +1509,16 @@
             },
 
             generateDistrictButtonTemplate: function() {
-                return '<button class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.overallStat.currentDistrict = row.entity.district">{{row.entity.district}}</button>';
+                return '<button class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ' +
+                    'ng-click="grid.appScope.overallStat.currentDistrict = row.entity.district">{{row.entity.district}}</button>';
             },
             generateProcessButtonTemplate: function() {
-                return '<a class="btn btn-sm btn-primary" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showWorkItemDistrict(row.entity.district)">工单处理</a>';
+                return '<a class="btn btn-sm btn-primary" ng-hide="row.entity.district===grid.appScope.cityFlag" ' +
+                    'ng-click="grid.appScope.showWorkItemDistrict(row.entity.district)">工单处理</a>';
             },
             generateAnalyzeButtonTemplate: function() {
-                return '<a class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ng-click="grid.appScope.showTopDistrict(row.entity.district)">TOP指标</a>';
+                return '<a class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ' +
+                    'ng-click="grid.appScope.showTopDistrict(row.entity.district)">TOP指标</a>';
             },
             generateDistrictTownKpiDefs: function(kpiFields) {
                 return [
