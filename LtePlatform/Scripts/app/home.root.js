@@ -1,5 +1,5 @@
 ﻿angular.module('home.root', ['app.common'])
-    .run(function ($rootScope, appUrlService, appRegionService, geometryService, kpiDisplayService) {
+    .run(function ($rootScope, appUrlService, stationFactory, appRegionService, geometryService, kpiDisplayService) {
         $rootScope.sideBarShown = true;
         $rootScope.rootPath = "/#/";
 
@@ -7,14 +7,14 @@
             title: "基础数据总览",
             myPromise: null
         };
-        $rootScope.grades = appUrlService.stationGradeOptions;
-        $rootScope.roomAttributions = appUrlService.stationRoomOptions;
-        $rootScope.towerAttributions = appUrlService.stationTowerOptions;
-        $rootScope.isBBUs = appUrlService.stationBbuOptions;
-        $rootScope.netTypes = appUrlService.stationNetworkOptions;
-        $rootScope.isPowers = appUrlService.stationPowerOptions;
-        $rootScope.isNews = appUrlService.stationConstructionOptions;
-        $rootScope.indoortypes = appUrlService.stationIndoorOptions;
+        $rootScope.grades = stationFactory.stationGradeOptions;
+        $rootScope.roomAttributions = stationFactory.stationRoomOptions;
+        $rootScope.towerAttributions = stationFactory.stationTowerOptions;
+        $rootScope.isBBUs = stationFactory.stationBbuOptions;
+        $rootScope.netTypes = stationFactory.stationNetworkOptions;
+        $rootScope.isPowers = stationFactory.stationPowerOptions;
+        $rootScope.isNews = stationFactory.stationConstructionOptions;
+        $rootScope.indoortypes = stationFactory.stationIndoorOptions;
 
         appUrlService.initializeAuthorization();
         $rootScope.legend = {

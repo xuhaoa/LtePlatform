@@ -982,10 +982,10 @@ angular.module('topic.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             }
     })
     .controller('map.common-stationAdd.dialog', function ($scope, $http, dialogTitle, type, $uibModalInstance,
-        downSwitchService, appUrlService) {
+        downSwitchService, stationFactory) {
         $scope.dialogTitle = dialogTitle;
         $scope.station = [];
-        $scope.distincts = appUrlService.stationDistincts;
+        $scope.distincts = stationFactory.stationDistincts;
 
         $scope.change = function() {
             downSwitchService.getCommonStationIdAdd($scope.selectedDistinct, type).then(function(result) {

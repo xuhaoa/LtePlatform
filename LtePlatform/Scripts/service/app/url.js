@@ -163,7 +163,11 @@ angular.module('app.core', [])
                         callback(data);
                     }
                 };
-            },
+            }
+        };
+    })
+    .factory('stationFactory', function() {
+        return {
             stationGradeOptions: [
                 { value: '', name: '所有级别' },
                 { value: 'A', name: '站点级别A' },
@@ -222,7 +226,7 @@ angular.module('app.core', [])
                 { value: 'SS', name: '三水' },
                 { value: 'GM', name: '高明' }
             ]
-        };
+        }
     })
     .controller('header.menu', function($scope, appUrlService) {
         $scope.emergencyUrl = appUrlService.getCustomerHost() + 'IndexOfEmerCom.aspx';
