@@ -1986,6 +1986,18 @@ angular.module('app.format', [])
                         return stat.districtData;
                     }
                 };
+            },
+            generateLowThresholdClassFunc: function (grid, row, col) {
+                if (grid.getCellValue(row, col) < row.entity.objectRate) {
+                    return 'text-danger';
+                }
+                return 'text-success';
+            },
+            generateHighThresholdClassFunc: function (grid, row, col) {
+                if (grid.getCellValue(row, col) > row.entity.objectRate) {
+                    return 'text-danger';
+                }
+                return 'text-success';
             }
         };
     })
@@ -2977,12 +2989,7 @@ angular.module('app.format', [])
                                 field: 'preciseRate',
                                 name: '精确覆盖率',
                                 cellFilter: 'number: 2',
-                                cellClass: function(grid, row, col) {
-                                    if (grid.getCellValue(row, col) < row.entity.objectRate) {
-                                        return 'text-danger';
-                                    }
-                                    return 'text-success';
-                                }
+                                cellClass: appFormatService.generateLowThresholdClassFunc
                             },
                             { field: 'objectRate', name: '本区目标值', cellFilter: 'number: 2' },
                             { field: 'firstRate', name: '第一精确覆盖率', cellFilter: 'number: 2' },
@@ -2996,13 +3003,9 @@ angular.module('app.format', [])
                                 field: 'downSwitchRate',
                                 name: '4G下切3G比例(次/GByte)',
                                 cellFilter: 'number: 2',
-                                cellClass: function (grid, row, col) {
-                                    if (grid.getCellValue(row, col) > row.entity.objectRate) {
-                                        return 'text-danger';
-                                    }
-                                    return 'text-success';
-                                }
-                            }
+                                cellClass: appFormatService.generateHighThresholdClassFunc
+                            },
+                            { field: 'objectRate', name: '本区目标值', cellFilter: 'number: 2' }
                         ]);;
                     case 'doubleFlow':
                         return [];
@@ -3013,12 +3016,7 @@ angular.module('app.format', [])
                                 field: 'rrcSuccessRate',
                                 name: 'RRC连接成功率',
                                 cellFilter: 'number: 2',
-                                cellClass: function(grid, row, col) {
-                                    if (grid.getCellValue(row, col) < row.entity.objectRate) {
-                                        return 'text-danger';
-                                    }
-                                    return 'text-success';
-                                }
+                                cellClass: appFormatService.generateLowThresholdClassFunc
                             },
                             { field: 'objectRate', name: '本区目标值', cellFilter: 'number: 2' },
                             { field: 'moDataRrcRate', name: '主叫数据成功率', cellFilter: 'number: 2' },
@@ -3033,13 +3031,9 @@ angular.module('app.format', [])
                                 field: 'cqiRate',
                                 name: 'CQI优良率(CQI>=7)(%)',
                                 cellFilter: 'number: 2',
-                                cellClass: function(grid, row, col) {
-                                    if (grid.getCellValue(row, col) < row.entity.objectRate) {
-                                        return 'text-danger';
-                                    }
-                                    return 'text-success';
-                                }
-                            }
+                                cellClass: appFormatService.generateLowThresholdClassFunc
+                            },
+                            { field: 'objectRate', name: '本区目标值', cellFilter: 'number: 2' }
                         ]);
                     default:
                         return [];
