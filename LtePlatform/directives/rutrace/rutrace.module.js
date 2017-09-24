@@ -7,58 +7,149 @@
     .constant('htmlRoot', '/directives/rutrace/');
 
 angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog'])
-    .directive('topCell', function (workitemService, htmlRoot, networkElementService, neighborDialogService,
+    .controller('topCellController', function($scope,
+        workitemService,
+        networkElementService,
+        neighborDialogService,
         workItemDialog) {
-        return {
-            restrict: 'EA',
-            replace: true,
-            scope: {
-                topCells: '=currentCells',
-                beginDate: '=',
-                endDate: '=',
-                updateMessages: '='
-            },
-            templateUrl: htmlRoot + 'TopCell.Tpl.html',
-            link: function(scope, element, attrs) {
-                scope.createWorkitem = function(cell) {
-                    workitemService.constructPreciseItem(cell, scope.beginDate.value, scope.endDate.value).then(function(result) {
-                        if (result) {
-                            scope.updateMessages.push({
-                                cellName: result
-                            });
-                            cell.hasWorkItems = true;
-                        }
-                    });
-                };
-                scope.dump = function (cell) {
-                    networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function (info) {
-                        neighborDialogService.dumpMongo({
-                            eNodebId: cell.cellId,
-                            sectorId: cell.sectorId,
-                            pci: info.pci,
-                            name: cell.eNodebName
-                        }, scope.beginDate.value, scope.endDate.value);
-                    });
-                };
-                scope.showInterference = function(cell) {
-                    neighborDialogService.showInterference({
-                        cellId: cell.cellId,
-                        sectorId: cell.sectorId,
-                        name: cell.eNodebName
-                    }, scope.beginDate.value, scope.endDate.value);
-                };
-                scope.showCoverage = function (cell) {
-                    neighborDialogService.showCoverage({
-                        cellId: cell.cellId,
-                        sectorId: cell.sectorId,
-                        name: cell.eNodebName
-                    }, scope.beginDate.value, scope.endDate.value);
-                };
-                scope.showCellTrend = function(cell) {
-                    workItemDialog.showPreciseCellTrend(cell.eNodebName + "-" + cell.sectorId, cell.cellId, cell.sectorId);
-                };
-            }
+        $scope.gridOptions = {
+            columnDefs: [
+                {
+                    cellTemplate: '<span class="text-primary">{{row.entity.eNodebName}}-{{row.entity.sectorId}}</span>',
+                    name: '小区名称'
+                },
+                {
+                    field: 'totalMrs',
+                    name: 'MRO总数'
+                },
+                {
+                    cellTemplate: '<span class="text-primary">{{100 - row.entity.firstRate | number:2}}</span>',
+                    name: '第一邻区精确覆盖率',
+                    cellTooltip: function (row) {
+                        return '第一邻区与主服务小区RSRP的差值小于6dB的比例是: ' + row.entity.firstRate;
+                    }
+                },
+                {
+                    cellTemplate: '<span class="text-primary">{{100 - row.entity.secondRate | number:2}}</span>',
+                    name: '第二邻区精确覆盖率',
+                    cellTooltip: function (row) {
+                        return '第二邻区与主服务小区RSRP的差值小于6dB的比例是: ' + row.entity.secondRate;
+                    }
+                },
+                {
+                    cellTemplate: '<span class="text-primary">{{100 - row.entity.thirdRate | number:2}}</span>',
+                    name: '第三邻区精确覆盖率',
+                    cellTooltip: function (row) {
+                        return '第三邻区与主服务小区RSRP的差值小于6dB的比例是: ' + row.entity.thirdRate;
+                    }
+                },
+                { field: 'topDates', name: 'TOP天数' },
+                {
+                    name: '分析',
+                    width: 150,
+                    cellTemplate: '<div class="btn-group-xs">\
+                            <button class="btn btn-default btn-xs" ng-click="grid.appScope.showCellTrend(row.entity)">\
+                                <i class="glyphicon glyphicon-stats" title="单小区按日期的变化趋势"></i>\
+                                趋势\
+                            </button>\
+                            <button class="btn btn-default btn-xs" ng-click="grid.appScope.dump(row.entity)">\
+                                <i class="glyphicon glyphicon-cloud-download" title="监控导入"></i>\
+                                导入\
+                            </button>\
+                        </div>'
+                },
+                {
+                    name: '指标',
+                    width: 150,
+                    cellTemplate: '<div class="btn-group-xs">\
+                            <button class="btn btn-warning btn-xs" ng-click="grid.appScope.showInterference(row.entity)">\
+                                <i class="glyphicon glyphicon-fullscreen" title="干扰信息"></i>\
+                                干扰\
+                            </button>\
+                            <button class="btn btn-success btn-xs" ng-click="grid.appScope.showCoverage(row.entity)">\
+                                <i class="glyphicon glyphicon-tree-conifer" title="覆盖信息"></i>\
+                                覆盖\
+                            </button>\
+                        </div>'
+                },
+                {
+                    name: '处理',
+                    width: 150,
+                    cellTemplate: '<div class="btn-group-xs">\
+                            <button class="btn btn-default btn-xs" ng-href="{{rootPath}}baidumap/{{cell.cellId}}/{{cell.sectorId}}/{{cell.eNodebName}}">\
+                                <i class="glyphicon glyphicon-globe"></i>\
+                                地理化\
+                            </button>\
+                            <button class="btn btn-primary btn-xs" ng-click="grid.appScope.createWorkitem(row.entity)">\
+                                建单\
+                            </button>\
+                            <button class="btn btn-default" ng-show="row.entity.hasWorkItems === true"\
+                                ng-href="{{rootPath}}workItems/{{cell.cellId}}/{{cell.sectorId}}/{{cell.eNodebName}}">\
+                                <i class="glyphicon glyphicon-dashboard" title="工单查看"></i>\
+                                处理\
+                            </button>\
+                        </div>'
+                }
+            ],
+            data: []
         };
+        $scope.createWorkitem = function(cell) {
+            workitemService.constructPreciseItem(cell, $scope.beginDate.value, $scope.endDate.value)
+                .then(function(result) {
+                    if (result) {
+                        $scope.updateMessages.push({
+                            cellName: result
+                        });
+                        cell.hasWorkItems = true;
+                    }
+                });
+        };
+        $scope.dump = function(cell) {
+            networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function(info) {
+                neighborDialogService.dumpMongo({
+                        eNodebId: cell.cellId,
+                        sectorId: cell.sectorId,
+                        pci: info.pci,
+                        name: cell.eNodebName
+                    },
+                    $scope.beginDate.value,
+                    $scope.endDate.value);
+            });
+        };
+        $scope.showInterference = function(cell) {
+            neighborDialogService.showInterference({
+                    cellId: cell.cellId,
+                    sectorId: cell.sectorId,
+                    name: cell.eNodebName
+                },
+                $scope.beginDate.value,
+                $scope.endDate.value);
+        };
+        $scope.showCoverage = function(cell) {
+            neighborDialogService.showCoverage({
+                    cellId: cell.cellId,
+                    sectorId: cell.sectorId,
+                    name: cell.eNodebName
+                },
+                $scope.beginDate.value,
+                $scope.endDate.value);
+        };
+        $scope.showCellTrend = function(cell) {
+            workItemDialog.showPreciseCellTrend(cell.eNodebName + "-" + cell.sectorId, cell.cellId, cell.sectorId);
+        };
+    })
+    .directive('topCell', function ($compile, calculateService) {
+        return calculateService.generateGridDirective({
+                controllerName: 'topCellController',
+                scope: {
+                    topCells: '=',
+                    beginDate: '=',
+                    endDate: '=',
+                    updateMessages: '='
+                },
+                argumentName: 'topCells'
+            },
+            $compile);
     })
 
     .controller('DistrictStatController', function ($scope, mapDialogService, calculateService) {
