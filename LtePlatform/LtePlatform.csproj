@@ -1024,8 +1024,11 @@
     <Content Include="Scripts\service\topic\dialog.js" />
     <Content Include="Scripts\service\topic\dialog.kpi.js" />
     <Content Include="Scripts\service\topic\dialog.parameters.js" />
+    <Content Include="Scripts\service\topic\parameters.basic.js" />
+    <Content Include="Scripts\service\topic\parameters.coverage.js" />
     <Content Include="Scripts\service\topic\parameters.js" />
     <Content Include="Scripts\service\topic\dialog.station.js" />
+    <Content Include="Scripts\service\topic\parameters.station.js" />
     <Content Include="Scripts\service\url\app.url.js" />
     <Content Include="Scripts\service\filters\basic.js" />
     <Content Include="Scripts\service\filters\cell.js" />

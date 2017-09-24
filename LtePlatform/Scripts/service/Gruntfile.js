@@ -23,7 +23,8 @@
                         'kpi/work.js', 'kpi/app.kpi.js'
                     ],
                     'app/topic.js': [
-                        'topic/basic.js', 'topic/parameters.js', 'topic/college.js',
+                        'topic/basic.js', 'topic/college.js',
+                        'topic/parameters.basic.js', 'topic/parameters.coverage.js', 'topic/parameters.station.js', 'topic/parameters.js',
                         'topic/dialog.customer.js', 'topic/dialog.parameters.js', "topic/dialog.college.js",
                         'topic/dialog.kpi.js', 'topic/dialog.station.js', 'topic/dialog.js',
                         'topic/baidu.map.js'

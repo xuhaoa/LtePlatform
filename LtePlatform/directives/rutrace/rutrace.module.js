@@ -74,7 +74,7 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
                 },
                 {
                     name: '处理',
-                    width: 150,
+                    width: 160,
                     cellTemplate: '<div class="btn-group-xs">\
                             <button class="btn btn-default btn-xs" ng-href="{{rootPath}}baidumap/{{cell.cellId}}/{{cell.sectorId}}/{{cell.eNodebName}}">\
                                 <i class="glyphicon glyphicon-globe"></i>\

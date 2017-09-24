@@ -225,7 +225,31 @@ angular.module('app.core', [])
                 { value: 'CC', name: '禅城' },
                 { value: 'SS', name: '三水' },
                 { value: 'GM', name: '高明' }
-            ]
+            ],
+            dateSpanResolve: function(basicFields, beginDate, endDate) {
+                angular.extend(basicFields,
+                {
+                    begin: function() {
+                        return beginDate;
+                    },
+                    end: function() {
+                        return endDate;
+                    }
+                });
+                return basicFields;
+            },
+            dateSpanDateResolve: function (basicFields, beginDate, endDate) {
+                angular.extend(basicFields,
+                    {
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        }
+                    });
+                return basicFields;
+            }
         }
     })
     .controller('header.menu', function($scope, appUrlService) {

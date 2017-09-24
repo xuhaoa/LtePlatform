@@ -39,6 +39,43 @@ describe('app.core service tests', function () {
         });
     });
 
+    describe('stationFactory tests',
+        function() {
+            var stationFactory;
+            beforeEach(inject(function(_stationFactory_) {
+                stationFactory = _stationFactory_;
+            }));
+
+            it('test stationGradeOptions',
+                function() {
+                    expect(stationFactory.stationGradeOptions).toEqual([
+                        { value: '', name: '所有级别' },
+                        { value: 'A', name: '站点级别A' },
+                        { value: 'B', name: '站点级别B' },
+                        { value: 'C', name: '站点级别C' },
+                        { value: 'D', name: '站点级别D' }
+                    ]);
+                });
+
+            it('test dateSpanResolve',
+                function() {
+                    var funcDefs = stationFactory.dateSpanResolve({
+                            firstFunc: function() {
+                                return 1;
+                            },
+                            secondFunc: function() {
+                                return 2;
+                            }
+                        },
+                        3,
+                        4);
+                    expect(funcDefs.firstFunc()).toBe(1);
+                    expect(funcDefs.secondFunc()).toBe(2);
+                    expect(funcDefs.begin()).toBe(3);
+                    expect(funcDefs.end()).toBe(4);
+                });
+        });
+
     describe('generalHttpService tests', function() {
         var $httpBackend, $rootScope, appUrlService, generalHttpService;
 

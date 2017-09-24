@@ -1,5 +1,5 @@
 ﻿angular.module('kpi.parameter.rutrace', ['myApp.url', 'myApp.region', "ui.bootstrap"])
-    .controller("rutrace.interference",
+    .controller("rutrace.interference.analysis",
         function($scope,
             $uibModalInstance,
             cell,
@@ -105,8 +105,141 @@
                 $scope.showInterference();
                 $scope.updateNeighborInfos();
             });
-        })
-    .controller("rutrace.coverage",
+    })
+    .controller("rutrace.map.analysis", function ($scope, $timeout, cell, dialogTitle, beginDate, endDate,
+        baiduQueryService, baiduMapService, networkElementService, neighborDialogService, parametersDialogService,
+        menuItemService, cellPreciseService, neighborMongoService, preciseInterferenceService) {
+        $scope.page.title = dialogTitle;
+        $scope.beginDate = beginDate;
+        $scope.endDate = endDate;
+
+        $scope.neighborLines = [];
+        $scope.displayNeighbors = false;
+        $scope.reverseNeighborLines = [];
+        $scope.displayReverseNeighbors = false;
+        $scope.interferenceLines = [];
+        $scope.interferenceCircles = [];
+        $scope.displayInterference = false;
+        $scope.victimLines = [];
+        $scope.victimCircles = [];
+        $scope.displayVictims = false;
+
+        baiduMapService.initializeMap("all-map", 12);
+        cellPreciseService.queryOneWeekKpi(cell.cellId, cell.sectorId).then(function (cellView) {
+            networkElementService.queryCellSectors([cellView]).then(function (result) {
+                baiduQueryService.transformToBaidu(result[0].longtitute, result[0].lattitute).then(function (coors) {
+                    var xOffset = coors.x - result[0].longtitute;
+                    var yOffset = coors.y - result[0].lattitute;
+                    result[0].longtitute = coors.x;
+                    result[0].lattitute = coors.y;
+
+                    var sectorTriangle = baiduMapService.generateSector(result[0], "blue", 1.25);
+                    baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showPrecise, result[0]);
+
+                    baiduMapService.setCellFocus(result[0].longtitute, result[0].lattitute, 15);
+                    var range = baiduMapService.getCurrentMapRange(-xOffset, -yOffset);
+
+                    networkElementService.queryRangeSectors(range, []).then(function (sectors) {
+                        angular.forEach(sectors, function (sector) {
+                            sector.longtitute += xOffset;
+                            sector.lattitute += yOffset;
+                            baiduMapService.addOneSectorToScope(
+                                baiduMapService.generateSector(sector, "green"),
+                                parametersDialogService.showCellInfo, sector);
+                        });
+                    });
+                });
+
+            });
+        });
+
+        networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function (item) {
+            if (item) {
+                $scope.generateComponents(item);
+            }
+        });
+
+        $scope.generateComponents = function (item) {
+            baiduQueryService.transformToBaidu(item.longtitute, item.lattitute).then(function (coors) {
+                var xOffset = coors.x - item.longtitute;
+                var yOffset = coors.y - item.lattitute;
+                neighborMongoService.queryNeighbors(cell.cellId, cell.sectorId).then(function (neighbors) {
+                    baiduMapService.generateNeighborLines($scope.neighborLines, {
+                        cell: item,
+                        neighbors: neighbors,
+                        xOffset: xOffset,
+                        yOffset: yOffset
+                    });
+                });
+                neighborMongoService.queryReverseNeighbors(cell.cellId, cell.sectorId).then(function (neighbors) {
+                    baiduMapService.generateReverseNeighborLines($scope.reverseNeighborLines, {
+                        cell: item,
+                        neighbors: neighbors,
+                        xOffset: xOffset,
+                        yOffset: yOffset
+                    });
+                });
+                preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
+                    cell.cellId, cell.sectorId).then(function (interference) {
+                        baiduMapService.generateInterferenceComponents(
+                            $scope.interferenceLines, $scope.interferenceCircles, item,
+                            interference, xOffset, yOffset, "orange",
+                            neighborDialogService.showInterferenceSource);
+                    });
+                preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
+                    cell.cellId, cell.sectorId).then(function (victims) {
+                        baiduMapService.generateVictimComponents($scope.victimLines, $scope.victimCircles, item,
+                            victims, xOffset, yOffset, "green",
+                            neighborDialogService.showInterferenceVictim);
+                    });
+            });
+        };
+
+        $scope.toggleNeighbors = function () {
+            if ($scope.displayNeighbors) {
+                baiduMapService.removeOverlays($scope.neighborLines);
+                $scope.displayNeighbors = false;
+            } else {
+                baiduMapService.addOverlays($scope.neighborLines);
+                $scope.displayNeighbors = true;
+            }
+        };
+
+        $scope.toggleReverseNeighbers = function () {
+            if ($scope.displayReverseNeighbors) {
+                baiduMapService.removeOverlays($scope.reverseNeighborLines);
+                $scope.displayReverseNeighbors = false;
+            } else {
+                baiduMapService.addOverlays($scope.reverseNeighborLines);
+                $scope.displayReverseNeighbors = true;
+            }
+        };
+
+        $scope.toggleInterference = function () {
+            if ($scope.displayInterference) {
+                baiduMapService.removeOverlays($scope.interferenceLines);
+                baiduMapService.removeOverlays($scope.interferenceCircles);
+                $scope.displayInterference = false;
+            } else {
+                baiduMapService.addOverlays($scope.interferenceLines);
+                baiduMapService.addOverlays($scope.interferenceCircles);
+                $scope.displayInterference = true;
+            }
+        };
+
+        $scope.toggleVictims = function () {
+            if ($scope.displayVictims) {
+                baiduMapService.removeOverlays($scope.victimLines);
+                baiduMapService.removeOverlays($scope.victimCircles);
+                $scope.displayVictims = false;
+            } else {
+                baiduMapService.addOverlays($scope.victimLines);
+                baiduMapService.addOverlays($scope.victimCircles);
+                $scope.displayVictims = true;
+            }
+        };
+    })
+    .controller("rutrace.coverage.analysis",
         function($scope,
             cell,
             $uibModalInstance,
