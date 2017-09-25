@@ -76,7 +76,7 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
                     name: '处理',
                     width: 160,
                     cellTemplate: '<div class="btn-group-xs">\
-                            <button class="btn btn-default btn-xs" ng-href="{{rootPath}}baidumap/{{cell.cellId}}/{{cell.sectorId}}/{{cell.eNodebName}}">\
+                            <button class="btn btn-default btn-xs" ng-click="showMap(row.entity)">\
                                 <i class="glyphicon glyphicon-globe"></i>\
                                 地理化\
                             </button>\
@@ -117,7 +117,7 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
             });
         };
         $scope.showInterference = function(cell) {
-            neighborDialogService.showInterference({
+            neighborDialogService.showRutraceInterference({
                     cellId: cell.cellId,
                     sectorId: cell.sectorId,
                     name: cell.eNodebName
@@ -126,7 +126,16 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
                 $scope.endDate.value);
         };
         $scope.showCoverage = function(cell) {
-            neighborDialogService.showCoverage({
+            neighborDialogService.showRutraceCoverage({
+                    cellId: cell.cellId,
+                    sectorId: cell.sectorId,
+                    name: cell.eNodebName
+                },
+                $scope.beginDate.value,
+                $scope.endDate.value);
+        };
+        $scope.showMap = function(cell) {
+            neighborDialogService.showRutraceInterferenceMap({
                     cellId: cell.cellId,
                     sectorId: cell.sectorId,
                     name: cell.eNodebName

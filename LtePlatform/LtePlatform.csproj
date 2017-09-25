@@ -1035,6 +1035,7 @@
     <Content Include="Scripts\service\filters\handoff.js" />
     <Content Include="Scripts\service\Gruntfile.js" />
     <Content Include="Scripts\service\url\calculation.js" />
+    <Content Include="Scripts\service\url\chart.js" />
     <Content Include="Scripts\service\url\core.js" />
     <Content Include="Scripts\service\url\format.js" />
     <Content Include="Scripts\service\url\geometry.js" />

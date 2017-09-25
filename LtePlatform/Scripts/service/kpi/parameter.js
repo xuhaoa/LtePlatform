@@ -18,7 +18,7 @@
                             endDate)
                     });
                 },
-                showInterference: function(cell, beginDate, endDate) {
+                showRutraceInterference: function(cell, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Interference/Index.html',
                         controller: 'rutrace.interference.analysis',
@@ -34,7 +34,7 @@
                             endDate)
                     });
                 },
-                showInterferenceMap: function (cell, beginDate, endDate) {
+                showRutraceInterferenceMap: function (cell, beginDate, endDate) {
                     menuItemService.showGeneralDialogWithAction({
                             templateUrl: '/appViews/Rutrace/Map/Index.html',
                             controller: 'rutrace.map.analysis',
@@ -53,7 +53,7 @@
                             baiduMapService.switchMainMap();
                         });
                 },
-                showCoverage: function(cell, beginDate, endDate) {
+                showRutraceCoverage: function(cell, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Coverage/Index.html',
                         controller: 'rutrace.coverage.analysis',
