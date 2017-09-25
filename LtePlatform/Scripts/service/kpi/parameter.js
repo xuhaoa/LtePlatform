@@ -38,7 +38,7 @@
                     menuItemService.showGeneralDialogWithAction({
                             templateUrl: '/appViews/Rutrace/Map/Index.html',
                             controller: 'rutrace.map.analysis',
-                            resolve: stationFactory.dateSpanResolve({
+                            resolve: stationFactory.dateSpanDateResolve({
                                     dialogTitle: function() {
                                         return "小区地理化分析" + ": " + cell.name + "-" + cell.sectorId;
                                     },

@@ -5144,10 +5144,17 @@ angular.module('kpi.parameter.rutrace', ['myApp.url', 'myApp.region', "ui.bootst
                 $scope.updateNeighborInfos();
             });
     })
-    .controller("rutrace.map.analysis", function ($scope, $timeout, cell, dialogTitle, beginDate, endDate,
-        baiduQueryService, baiduMapService, networkElementService, neighborDialogService, parametersDialogService,
-        menuItemService, cellPreciseService, neighborMongoService, preciseInterferenceService) {
-        $scope.page.title = dialogTitle;
+    .controller("rutrace.map.analysis", function ($scope,
+        $uibModalInstance,
+        cell, dialogTitle, beginDate, endDate,
+        baiduQueryService,
+        baiduMapService, networkElementService,
+        neighborDialogService,
+        parametersDialogService,
+        menuItemService, cellPreciseService,
+        neighborMongoService,
+        preciseInterferenceService) {
+        $scope.dialogTitle = dialogTitle;
         $scope.beginDate = beginDate;
         $scope.endDate = endDate;
 
@@ -5162,40 +5169,50 @@ angular.module('kpi.parameter.rutrace', ['myApp.url', 'myApp.region', "ui.bootst
         $scope.victimCircles = [];
         $scope.displayVictims = false;
 
-        baiduMapService.initializeMap("all-map", 12);
-        cellPreciseService.queryOneWeekKpi(cell.cellId, cell.sectorId).then(function (cellView) {
-            networkElementService.queryCellSectors([cellView]).then(function (result) {
-                baiduQueryService.transformToBaidu(result[0].longtitute, result[0].lattitute).then(function (coors) {
-                    var xOffset = coors.x - result[0].longtitute;
-                    var yOffset = coors.y - result[0].lattitute;
-                    result[0].longtitute = coors.x;
-                    result[0].lattitute = coors.y;
+        $scope.initializeMap = function() {
+            cellPreciseService.queryOneWeekKpi(cell.cellId, cell.sectorId).then(function(cellView) {
+                baiduMapService.switchSubMap();
+                baiduMapService.initializeMap("all-map", 12);
+                networkElementService.queryCellSectors([cellView]).then(function(result) {
+                    baiduQueryService.transformToBaidu(result[0].longtitute, result[0].lattitute).then(function(coors) {
+                        var xOffset = coors.x - result[0].longtitute;
+                        var yOffset = coors.y - result[0].lattitute;
+                        result[0].longtitute = coors.x;
+                        result[0].lattitute = coors.y;
 
-                    var sectorTriangle = baiduMapService.generateSector(result[0], "blue", 1.25);
-                    baiduMapService.addOneSectorToScope(sectorTriangle, neighborDialogService.showPrecise, result[0]);
+                        var sectorTriangle = baiduMapService.generateSector(result[0], "blue", 1.25);
+                        baiduMapService.addOneSectorToScope(sectorTriangle,
+                            neighborDialogService.showPrecise,
+                            result[0]);
 
-                    baiduMapService.setCellFocus(result[0].longtitute, result[0].lattitute, 15);
-                    var range = baiduMapService.getCurrentMapRange(-xOffset, -yOffset);
+                        baiduMapService.setCellFocus(result[0].longtitute, result[0].lattitute, 15);
+                        var range = baiduMapService.getCurrentMapRange(-xOffset, -yOffset);
 
-                    networkElementService.queryRangeSectors(range, []).then(function (sectors) {
-                        angular.forEach(sectors, function (sector) {
-                            sector.longtitute += xOffset;
-                            sector.lattitute += yOffset;
-                            baiduMapService.addOneSectorToScope(
-                                baiduMapService.generateSector(sector, "green"),
-                                parametersDialogService.showCellInfo, sector);
+                        networkElementService.queryRangeSectors(range, []).then(function(sectors) {
+                            angular.forEach(sectors,
+                                function(sector) {
+                                    sector.longtitute += xOffset;
+                                    sector.lattitute += yOffset;
+                                    baiduMapService.addOneSectorToScope(
+                                        baiduMapService.generateSector(sector, "green"),
+                                        function() {
+                                            parametersDialogService
+                                                .showCellInfo(sector, $scope.beginDate, $scope.endDate);
+                                        },
+                                        sector);
+                                });
                         });
                     });
+
                 });
-
+                networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function(item) {
+                    if (item) {
+                        $scope.generateComponents(item);
+                    }
+                });
             });
-        });
-
-        networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function (item) {
-            if (item) {
-                $scope.generateComponents(item);
-            }
-        });
+        };
+        
 
         $scope.generateComponents = function (item) {
             baiduQueryService.transformToBaidu(item.longtitute, item.lattitute).then(function (coors) {
@@ -5276,6 +5293,16 @@ angular.module('kpi.parameter.rutrace', ['myApp.url', 'myApp.region', "ui.bootst
                 $scope.displayVictims = true;
             }
         };
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.interferenceCells);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        $scope.initializeMap();
     })
     .controller("rutrace.coverage.analysis",
         function($scope,
@@ -5707,7 +5734,7 @@ angular.module('kpi.parameter', ['app.menu', 'app.core', 'region.network'])
                     menuItemService.showGeneralDialogWithAction({
                             templateUrl: '/appViews/Rutrace/Map/Index.html',
                             controller: 'rutrace.map.analysis',
-                            resolve: stationFactory.dateSpanResolve({
+                            resolve: stationFactory.dateSpanDateResolve({
                                     dialogTitle: function() {
                                         return "小区地理化分析" + ": " + cell.name + "-" + cell.sectorId;
                                     },

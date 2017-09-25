@@ -76,7 +76,7 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
                     name: '处理',
                     width: 160,
                     cellTemplate: '<div class="btn-group-xs">\
-                            <button class="btn btn-default btn-xs" ng-click="showMap(row.entity)">\
+                            <button class="btn btn-default btn-xs" ng-click="grid.appScope.showMap(row.entity)">\
                                 <i class="glyphicon glyphicon-globe"></i>\
                                 地理化\
                             </button>\
@@ -140,8 +140,8 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
                     sectorId: cell.sectorId,
                     name: cell.eNodebName
                 },
-                $scope.beginDate.value,
-                $scope.endDate.value);
+                $scope.beginDate,
+                $scope.endDate);
         };
         $scope.showCellTrend = function(cell) {
             workItemDialog.showPreciseCellTrend(cell.eNodebName + "-" + cell.sectorId, cell.cellId, cell.sectorId);
