@@ -346,7 +346,7 @@
 			showPreciseCellTrend: function (name, cellId, sectorId) {
 				menuItemService.showGeneralDialog({
 				    templateUrl: '/appViews/Rutrace/WorkItem/CellTrend.html',
-				    controller: 'cell.trend',
+				    controller: 'rutrace.cell.trend',
 					resolve: {
 						name: function () {
 							return name;

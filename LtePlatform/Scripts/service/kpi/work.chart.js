@@ -242,7 +242,7 @@
                 $uibModalInstance.dismiss('cancel');
             };
         })
-    .controller("cell.trend",
+    .controller("rutrace.cell.trend",
         function($scope,
             $uibModalInstance,
             name,
@@ -259,11 +259,11 @@
                 cellPreciseService.queryDataSpanKpi($scope.beginDate.value,
                     $scope.endDate.value,
                     cellId,
-                    sectorId).then(function(result) {
-                    $scope.mrsConfig = kpiDisplayService.getMrsOptions(result,
-                        $scope.beginDateString + "-" + $scope.endDateString + "MR数变化趋势");
-                    $scope.preciseConfig = kpiDisplayService.getPreciseOptions(result,
-                        $scope.beginDateString + "-" + $scope.endDateString + "精确覆盖率变化趋势");
+                    sectorId).then(function (result) {
+                    $("#mrsConfig").highcharts(kpiDisplayService.getMrsOptions(result,
+                            $scope.beginDateString + "-" + $scope.endDateString + "MR数变化趋势"));
+                    $("#preciseConfig").highcharts(kpiDisplayService.getPreciseOptions(result,
+                        $scope.beginDateString + "-" + $scope.endDateString + "精确覆盖率变化趋势"));
                 });
             };
             $scope.showTrend();
